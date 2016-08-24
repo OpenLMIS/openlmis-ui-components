@@ -1,0 +1,11 @@
+version: "2"
+services:
+  builder:
+    image: openlmis/requisition-refui
+    volumes:
+      - '.:/app'
+    command:
+      - 'grunt'
+  image:
+    build: .
+    image: openlmis/requisition-refui

@@ -1,0 +1,66 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2013 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ */
+
+.header {
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid #E5EBE2;
+  color: #4a4a4a;
+  min-height: 66px;
+  position: relative;
+  z-index: 3;
+  background: #DDD; /* Old browsers */
+  background: -moz-linear-gradient(top, #ffffff 0%, #fafafa 35%, #cfcfcf 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top, #ffffff 0%, #fafafa 35%,#cfcfcf 100%); /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(top, #ffffff 0%, #fafafa 35%,#cfcfcf 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 35%,#cfcfcf 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#cfcfcf',GradientType=0 ); /* IE6-9 */
+}
+.logo {
+  padding: 8px 0 0;
+  img {
+    float: left;
+    margin: 0 0 0 10px;
+  }
+  h1 {
+    float: left;
+    font-size: 2em;
+    font-weight: normal;
+    font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
+    line-height: 29px;
+    margin: 10px 0 0 10px;
+    color: #747474;
+    text-shadow: 0 1px 0 #FFF;
+  }
+}
+.user-info {
+  text-align: right;
+  padding: 24px 12px 0 0;
+  font-size: 0.9em;
+  text-shadow: 0 1px 0 #FFF;
+  a {
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 960px){
+  .logo {
+    h1{
+      width: 75%;
+    }
+  }
+}
+
+@media screen and (max-width: 840px){
+  .logo {
+    h1{
+      width: 50%;
+    }
+  }
+}

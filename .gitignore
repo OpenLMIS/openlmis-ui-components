@@ -1,0 +1,14 @@
+*.iml
+*.ipr
+*.iws
+.gradle/
+build/
+out/
+.idea/
+gradle/
+node_modules/
+gradlew*
+.tx/
+src/test/coverage
+src/test/karma
+src/main/webapp/public/messages

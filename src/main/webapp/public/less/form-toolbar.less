@@ -1,0 +1,227 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2013 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ */
+
+@import url("mixins.less");
+
+@heading-green: #17888F;
+
+//Buttons
+
+.action-buttons {
+  border: 1px solid #CCC;
+  border-top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 12px;
+  min-height: 50px;
+  z-index: 15;
+  .save-button {
+    float: left;
+    margin-left: 10px;
+    margin-top: 4px;
+  }
+  .submit-button {
+    float: left;
+    margin-left: 10px;
+    margin-top: 4px;
+  }
+  .delete-button {
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+  }
+  .enable-button {
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+  }
+  .comments-button {
+    float: right;
+    margin-right: 10px;
+    margin-top: 4px;
+  }
+  .total-cost-container {
+    position: absolute;
+    width: 100%;
+    top: -38px;
+    .cost-values {
+      background: #d3f2f4;
+      text-align: right;
+      font-size: 1.1em;
+      border: 1px solid #bfe1e3;
+      color: #005c61;
+      text-shadow: 0 1px 0 white;
+      height: 20px;
+      padding: 6px 8px;
+      margin: 0 14px;
+    }
+    .comments-popup {
+      width: 190px;
+      bottom: 96px;
+      text-align: left;
+      color: #504D4D;
+      h4 {
+        border-bottom: none;
+        font-size: 1em;
+        color: #005c61;
+      }
+      small {
+        div {
+          padding: 5px 0;
+          border-bottom: 1px solid #ccc;
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+      .beak-down {
+        right: 16px;
+        bottom: -10px;
+      }
+    }
+    .list-icon-container {
+      padding: 3px 4px;
+      text-shadow: none;
+    }
+    .is-icon-ul-selected {
+      font-size: 1em;
+      border-radius: 3px;
+      background: #005c61;
+      color: white;
+    }
+  }
+}
+
+#dividedCost {
+  &:hover {
+    font-size: 1em;
+    border-radius: 3px;
+    background: #005c61;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+//Messages
+
+.toolbar-success,
+.toolbar-error {
+  font-weight: bold;
+  float: left;
+  padding: 0px 0px 10px 10px;
+}
+
+.toolbar-success {
+  color: #86D186;
+}
+
+.toolbar-error {
+  color: #EB7272;
+}
+
+//Comments
+
+.comments-popup {
+  background: #f9f9f9;
+  padding: 5px 15px 10px;
+  position: fixed;
+  bottom: 54px;
+  right: 19px;
+  border: 1px solid #999;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  width: 280px;
+  &.view {
+    padding-bottom: 30px;
+  }
+  h4 {
+    color: @heading-green;
+    font-size: 1.15em;
+    border-bottom: 1px solid #CCC;
+    padding-bottom: 5px;
+    margin: 5px 0 0;
+  }
+  .comments-list {
+    max-height: 210px;
+    overflow: auto;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85em;
+    word-wrap: break-word;
+    li {
+      border-bottom: 1px solid #DDD;
+      padding: 10px 0;
+      line-height: 18px;
+      .comment-info {
+        font-size: .90em;
+        .comment-date {
+          color: #a9a9a9;
+        }
+      }
+    }
+  }
+  textarea {
+    margin-top: 10px;
+    width: 95%;
+    border-radius: 0;
+    height: 50px;
+    font-size: 0.85em;
+    line-height: 15px;
+  }
+  .link-minimize {
+    display: inline-block;
+    padding: 0 0 0 6px;
+    color: #aaa;
+    line-height: 18px;
+    float: right;
+    &:hover {
+      text-decoration: none;
+      .icon-remove {
+        color: #666;
+      }
+    }
+  }
+  .beak-down {
+    display: inline-block;
+    border: 11px solid #F9F9F9;
+    border-bottom: 0;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    right: 23px;
+    bottom: -11px;
+  }
+  .comment-length {
+    color: #999;
+    font-size: 0.9em;
+  }
+}
+
+.toolbar-loader {
+  color: #FFF;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  text-indent: 15px;
+  line-height: 47px;
+}
+
+.budget-exceeds-detailed {
+  float: left;
+  color: #CE8726;
+  text-shadow: none;
+}
