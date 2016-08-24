@@ -1,3 +1,7 @@
 {
-"requisitionServerURL": "http://localhost:8080/requisition"
+  "app": {
+    "src": "./src/main",
+    "dest": "./build"
+  },
+  "requisitionServerURL": "http://localhost:8080/requisition"
 }

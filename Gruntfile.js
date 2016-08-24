@@ -1,104 +1,155 @@
-
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-   var config = require('./config');
+  var config = require('./config');
 
-   grunt.initConfig({
-      pkg: grunt.file.readJSON('package.json'),
-      clean: ['src/main/webapp/public/minJs/', 'src/main/webapp/public/css/' ,'quality'],
-      jshint: {
-        options: {
-          undef: false,
-          strict: false,
-          '-W030': true,
-          unused: false,
-          passfail: true,
-          reporter: 'checkstyle',
-          reporterOutput: 'quality/js/checkstyle-results.xml'
-        },
-        all: ['src/main/webapp/public/js/**/*.js']
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    clean: ['build', 'quality'],
+    jshint: {
+      options: {
+        undef: false,
+        strict: false,
+        '-W030': true,
+        unused: false,
+        passfail: true,
+        reporter: 'checkstyle',
+        reporterOutput: 'quality/js/checkstyle-results.xml'
       },
-      lesslint: {
-        src: ['src/main/webapp/public/less/*.less', '!**/ng-grid.less'],
-        options: {
-          quiet: true,
-          formatters: [
-            {id: 'checkstyle-xml', dest: 'quality/less/checkstyle-results.xml'}
-          ],
-          csslint: {
-            ids: false,
-            "bulletproof-font-face": false,
-            "box-model": false,
-            "box-sizing": false
-          }
+      all: [config.app.src + '/webapp/public/js/**/*.js']
+    },
+    lesslint: {
+      src: [config.app.src + '/webapp/public/less/*.less', '!**/ng-grid.less'],
+      options: {
+        quiet: true,
+        formatters: [{
+          id: 'checkstyle-xml',
+          dest: 'quality/less/checkstyle-results.xml'
+        }],
+        csslint: {
+          ids: false,
+          "bulletproof-font-face": false,
+          "box-model": false,
+          "box-sizing": false
         }
+      }
+    },
+    less: {
+      compile: {
+        files: [{
+          expand: true,
+          cwd: config.app.src + '/webapp/public/less/',
+          src: ["**/*.less"],
+          dest: config.app.dest + '/public/css',
+          ext: ".css",
+          flatten: false
+        }]
+      }
+    },
+    watch: {
+      files: config.app.src + '/webapp/public/less/*.less',
+      tasks: ["less"],
+      options: {
+        spawn: false
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false,
+        beautify: true,
+        report: 'min',
+        preserveComments: false
       },
-      less: {
-        compile: {
-          files: [
-            {
-              expand: true,
-              cwd: "src/main/webapp/public/less/",
-              src: ["**/*.less"],
-              dest: "src/main/webapp/public/css/",
-              ext: ".css",
-              flatten: false
-            }
-          ]
+      files: {
+        cwd: config.app.src + '/webapp/public/js/',
+        src: ['**/*.js'],
+        dest: config.app.dest + '/public/js',
+        expand: true,
+        flatten: false
+      }
+    },
+    serve: {
+      options: {
+        port: 9000,
+        serve: {
+          path: config.app.dest
         }
-      },
-      watch: {
-        files: "src/main/webapp/public/less/*.less",
-        tasks: ["less"],
-        options: {
-          spawn: false
-        }
-      },
-      uglify: {
-        options: {
-          mangle: false,
-          beautify: true,
-          report: 'min',
-          preserveComments: false
-        },
-        files: {
-            cwd: 'src/main/webapp/public/js/',
-            src: ['**/*.js'],
-            dest: 'src/main/webapp/public/minJs/',
-            expand: true,
-            flatten: false
-        }
-      },
-      serve: {
-        options: {
-              port: 9000,
-              serve: {
-                path: './src/main/webapp/'
-                }
-              }
-          },
-   propertiesToJSON: {
-          main: {
-              src: ['src/main/resources/messages_*.properties'],
-              dest: 'src/main/webapp/messages'
-          }
-      },
-   karma: {
+      }
+    },
+    propertiesToJSON: {
+      main: {
+        src: [config.app.src + '/resources/messages_*.properties'],
+        dest: config.app.dest + '/public/messages'
+      }
+    },
+    karma: {
       unit: {
-      configFile: 'karma.config.js'
+        configFile: 'karma.config.js'
       }
     },
     replace: {
       serverurl: {
-        src: ['src/main/webapp/public/**/*.js'],
+        src: [config.app.dest + '/public/**/*.js'],
         overwrite: true,
         replacements: [{
-            from: 'REQUISITION_SERVER_URL',
-            to:grunt.option('requisitionServerURL') || config.openlmisServerURL
+          from: 'REQUISITION_SERVER_URL',
+          to: grunt.option('requisitionServerURL') || config.requisitionServerURL
         }]
       }
+    },
+    copy: {
+      main: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/',
+            src: ['*'],
+            dest: config.app.dest + '/public',
+            filter: 'isFile'
+          }
+        ],
+      },
+      images: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/public/images/',
+            src: ['**'],
+            dest: config.app.dest + '/public/images'
+          }
+        ],
+      },
+      fonts: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/public/fonts/',
+            src: ['**'],
+            dest: config.app.dest + '/public/fonts'
+          }
+        ],
+      },
+      pages: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/public/pages/',
+            src: ['**'],
+            dest: config.app.dest + '/public/pages'
+          }
+        ],
+      },
+      lib: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/public/lib/',
+            src: ['**'],
+            dest: config.app.dest + '/public/lib'
+          }
+        ],
+      },
     }
   });
-  grunt.registerTask('build', ['clean', 'propertiesToJSON', 'less', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'propertiesToJSON', 'less', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
 };
