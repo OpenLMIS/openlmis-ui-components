@@ -1,6 +1,11 @@
 {
   "name": "openlmis-requisition-refUI",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenLMIS/openlmis-requisition-refUI"
+  },
+  "license": "AGPL-3.0",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",

@@ -12,5 +12,6 @@ RUN apk update && \
 WORKDIR /app
 VOLUME ["/app"]
 
+ENV FIREFOX_BIN /usr/bin/firefox
 EXPOSE 9000
-CMD npm install &&  bash
+CMD npm install --no-optional &&  bash
