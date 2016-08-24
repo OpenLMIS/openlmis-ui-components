@@ -1,0 +1,59 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<div ng-controller="ViewRegimenLineItemController">
+
+  <div id="viewRnr" class="rnr-table">
+    <table id="regimenTable" fixed-table-header class="table table-bordered scrollable">
+      <thead>
+      <tr>
+        <th class="col-{{regimenColumn.name}}" ng-repeat="regimenColumn in visibleRegimenColumns">
+          <ng-switch on="regimenColumn.label">
+            <div ng-switch-when="header.name">
+              <div class="regimen-heading" openlmis-message="header.name"></div>
+            </div>
+            <div class="regimen-heading" ng-switch-when="header.code">
+              <span openlmis-message="header.code"></span>
+            </div>
+            <div class="regimen-heading" ng-switch-default>
+              <span ng-bind="regimenColumn.label"/>
+            </div>
+          </ng-switch>
+        </th>
+      </tr>
+      </thead>
+      <tbody ng-repeat="regimenLineItem in rnr.regimenLineItems">
+      <tr>
+        <td class="productCategory" colspan="{{visibleRegimenColumns.length}}" ng-show="showCategory($index)"
+            ng-bind="regimenLineItem.category.name"></td>
+      </tr>
+      <tr>
+        <td class="cell-input col-{{regimenColumn.name}}" ng-repeat="regimenColumn in visibleRegimenColumns">
+          <ng-switch on="regimenColumn.name">
+              <span ng-switch-when="name">
+                <span ng-bind="regimenLineItem.name" class="cell-text"></span>
+              </span>
+              <span ng-switch-when="code">
+                <span ng-bind="regimenLineItem.code" class="cell-text"></span>
+              </span>
+               <span style="text-align: center;width: 100%;" ng-switch-when="skipped">
+                <input ng-model="regimenLineItem.skipped" ng-disabled="true" type="checkbox" />
+              </span>
+              <span ng-switch-default>
+                <span ng-bind="regimenLineItem[regimenColumn.name]" class="cell-text"></span>
+              </span>
+          </ng-switch>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,71 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<ng-include src="'/public/pages/logistics/rnr/partials/header.html'"></ng-include>
+<div class="rnr-tabs clearfix">
+  <ul class="clearfix">
+    <li ng-class="{'selected': (visibleTab == 'fullSupply' || visibleTab == undefined)}">
+      <a href="" ng-click="switchSupplyType('fullSupply')" id="fullSupplyTab"
+         openlmis-message="label.full.supply.products"></a></li>
+    <li  ng-show="rnr.program.showNonFullSupplyTab" ng-class="{'selected': visibleTab == 'nonFullSupply'}">
+      <a href="" ng-click="switchSupplyType('nonFullSupply')" id="nonFullSupplyTab"
+         openlmis-message="label.non.full.supply.products"></a></li>
+    <li ng-class="{'selected': visibleTab == 'regimen'}" ng-show="regimenCount">
+      <a href="" ng-click="switchSupplyType('regimen')" id="regimenTab" openlmis-message="label.regimens"></a>
+    </li>
+    <li ng-class="{'selected': visibleTab == 'equipment'}" ng-show="equipmentCount">
+      <a href="" ng-click="switchSupplyType('equipment')" id="equipmentTab" openlmis-message="label.equipments"></a>
+    </li>
+  </ul>
+  <span class="pull-right">
+    <a id="resizeViewButton" full-screen href="" class="btn">
+      <i class="icon-resize-full"></i>
+    </a>
+  </span>
+  <span class="pull-right print-button">
+    <a id="printButton" class="btn btn-primary" ng-href="/requisitions/{{rnr.id}}/print.pdf"
+       openlmis-message="button.print"
+       target="_blank"></a>
+  </span>
+</div>
+
+
+<span ng-show="visibleTab === 'nonFullSupply'">
+  <ng-include src="'/public/pages/logistics/rnr/partials/view/view-non-full-supply.html'"></ng-include>
+</span>
+<span ng-show="visibleTab === 'equipment'">
+  <ng-include src="'/public/pages/logistics/rnr/partials/view/view-equipment-line-item.html'"></ng-include>
+</span>
+<span ng-show="visibleTab === 'regimen'">
+  <ng-include src="'/public/pages/logistics/rnr/partials/view/view-regimen-line-item.html'"></ng-include>
+</span>
+<span ng-show="visibleTab === 'fullSupply'">
+  <ng-include src="'/public/pages/logistics/rnr/partials/view/view-full-supply.html'"></ng-include>
+</span>
+
+<openlmis-pagination num-pages="numberOfPages" current-page="currentPage" max-size="10"
+                     check-error-on-page="checkErrorOnPage(page)"></openlmis-pagination>
+
+<br><br>
+
+<div form-toolbar id="action_buttons" class="action-buttons">
+  <ng-include src="'/public/pages/logistics/rnr/partials/total-cost.html'"></ng-include>
+
+  <div class="form-cell button-row">
+    <input id="comments" type="button" ng-click="showCommentBox=!showCommentBox" class="btn comments-button"
+           openlmis-message="comments.header"/>
+
+    <input ng-show="rnr.status == 'SKIPPED'" type="button" class="btn btn-primary submit-button" ng-click="reOpenRnR();" openlmis-message="button.reopen.period" />
+    <input ng-show="rnr.status != 'SKIPPED' && rnr.status != 'RELEASED' && hasPermission('APPROVE_REQUISITION')"
+           type="button" class="btn btn-primary submit-button" ng-click="rejectRnR();"
+           openlmis-message="button.rnr.undo.approvals"/>
+    <comment-box updatable="false" show="showCommentBox"></comment-box>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<div id="lossesAndAdjustments" modal="lossesAndAdjustmentsModal" options="{'backdrop':'static', 'escape':true}">
+    <div class="modal-header"><h3 openlmis-message="label.losses.adjustments"></h3></div>
+    <div class="modal-body">
+
+      <div class="alert alert-info" ng-show="currentRnrLineItem.lossesAndAdjustments.length === 0" openlmis-message="label.no.losses.adjustment"></div>
+        <div class="adjustment-list" ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0">
+            <ul>
+                <li ng-repeat="adjustment in currentRnrLineItem.lossesAndAdjustments" class="clearfix">
+                    <span class="tpl-adjustment-type" ng-bind="adjustment.type.description"></span>
+                    <span class="tpl-adjustment-qty" ng-bind="adjustment.quantity"></span>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="adjustment-total clearfix alert alert-warning"
+             ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0">
+            <span class="pull-left" openlmis-message="label.losses.total"></span><span
+                ng-bind="currentRnrLineItem.totalLossesAndAdjustments"></span>
+        </div>
+
+        <div class="modal-footer">
+            <input type="button" ng-click="closeLossesAndAdjustmentModal()"
+                   class="btn btn-primary" openlmis-message="button.close"/>
+        </div>
+    </div>
+</div>

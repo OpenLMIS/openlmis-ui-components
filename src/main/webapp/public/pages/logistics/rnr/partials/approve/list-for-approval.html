@@ -1,0 +1,40 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<h2 openlmis-message="label.approve.requisitions"></h2>
+
+<div class="alert alert-success" id="saveSuccessMsgDiv" ng-show="message" ng-bind="$parent.message"></div>
+
+<div class="app-form">
+    <div class="form-group">
+        <h3 id='requisitionListLabel' openlmis-message="label.requisition.list"></h3>
+
+        <div class="alert alert-info" id="NoRequisitionsPendingMessage" ng-hide="requisitions.length"
+             openlmis-message="message.no.rnr.pending.approval">
+        </div>
+        <div ng-show="requisitions.length">
+            <div class="row-fluid">
+                <div class="span6 offset6 grid-filters">
+                    <input id="searchRequisition" class="search-query" ng-change="filterRequisitions()" type="text"
+                           ng-model="query" openlmis-message="placeholder.search"/>
+                    <span openlmis-message="label.in"></span>
+                    <select ng-model="searchField" ng-change="filterRequisitions()">
+                        <option value="" openlmis-message="option.value.all"></option>
+                        <option value="programName" openlmis-message="option.value.program"></option>
+                        <option value="facilityCode" openlmis-message="option.value.facility.code"></option>
+                        <option value="facilityName" openlmis-message="option.value.facility.name"></option>
+                    </select>
+                </div>
+            </div>
+            <div id="approveReqList" class="gridStyle" ng-grid="gridOptions" ng-show="requisitions.length"></div>
+        </div>
+    </div>
+</div>
+
