@@ -4,7 +4,6 @@ WORKDIR /root
 RUN apt-get update && apt-get install -y xvfb chromium bash nodejs npm transifex-client
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g grunt-cli
-RUN apt-get update
 
 ADD xvfb-chromium /usr/bin/xvfb-chromium
 RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome
