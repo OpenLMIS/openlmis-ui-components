@@ -22,6 +22,7 @@ describe("LocaleController", function () {
     var messageService = _messageService_;
 
     var messagesReturned = {"messages": {"key": "message"}};
+    $httpBackend.expectGET('../messages/messages_en.json').respond(messagesReturned);
     $httpBackend.expectGET('../messages/messages_pt.json').respond(messagesReturned);
 
 

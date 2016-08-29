@@ -13,7 +13,7 @@
 rm -rf .tx
 tx init --host=https://www.transifex.com --user=$TRANSIFEX_USER --pass=$TRANSIFEX_PASSWORD
 tx set --auto-local -r openlmis-requisition-ui.messages \
-    'src/main/resources/messages_<lang>.properties' --source-lang en --type UNICODEPROPERTIES \
-    --source-file src/main/resources/messages_en.properties --execute
+    'src/main/resources/messages_<lang>.json' --source-lang en --type KEYVALUEJSON \
+    --source-file src/main/resources/messages_en.json --execute
 tx push -s
 tx pull -a -f

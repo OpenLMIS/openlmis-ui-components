@@ -75,12 +75,6 @@ module.exports = function(grunt) {
         }
       }
     },
-    propertiesToJSON: {
-      main: {
-        src: [config.app.src + '/resources/messages_*.properties'],
-        dest: config.app.dest + '/public/messages'
-      }
-    },
     karma: {
       unit: {
         configFile: 'karma.config.js'
@@ -91,7 +85,7 @@ module.exports = function(grunt) {
         src: [config.app.dest + '/public/**/*.js'],
         overwrite: true,
         replacements: [{
-          from: 'REQUISITION_SERVER_URL',
+          from: '@@REQUISITION_SERVER_URL',
           to: grunt.option('requisitionServerURL') || config.requisitionServerURL
         }]
       }
@@ -148,8 +142,18 @@ module.exports = function(grunt) {
           }
         ],
       },
+      messages: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/resources',
+            src: ['messages_*.json'],
+            dest: config.app.dest + '/public/messages'
+          }
+        ]
+      }
     }
   });
-  grunt.registerTask('build', ['clean', 'copy', 'propertiesToJSON', 'less', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
 };

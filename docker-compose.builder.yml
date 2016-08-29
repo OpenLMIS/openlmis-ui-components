@@ -5,7 +5,7 @@ services:
     volumes:
       - '.:/app'
     command:
-      - 'grunt build'
+      - './build.sh'
   image:
     build: .
     image: openlmis/requisition-refui

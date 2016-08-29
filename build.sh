@@ -4,4 +4,4 @@
 ./sync_transifex.sh
 
 # Run Grunt build
-grunt
+grunt build

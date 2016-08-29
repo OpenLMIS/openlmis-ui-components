@@ -56,7 +56,7 @@ module.exports = function (config) {
       'karma-jasmine',
       'karma-coverage',
       'karma-htmlfile-reporter',
-      'karma-firefox-launcher'
+      'karma-chrome-launcher'
     ],
 
     // test results reporter to use
@@ -97,7 +97,7 @@ module.exports = function (config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Firefox'],
+    browsers: ['Chrome'],
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 30000,
