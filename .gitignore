@@ -6,6 +6,3 @@ out/
 .idea/
 node_modules/
 .tx/
-src/test/coverage
-src/test/karma
-src/test/test-results

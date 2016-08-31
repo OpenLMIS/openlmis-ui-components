@@ -65,16 +65,16 @@ module.exports = function (config) {
     reporters: ['progress', 'coverage', 'html', 'junit'],
 
     junitReporter: {
-      outputDir: '../../../test/test-results'
+      outputDir: '../../../../build/test/test-results'
     },
 
     coverageReporter: {
       type: 'html',
-      dir: '../../../test/coverage/'
+      dir: '../../../../build/test/coverage/'
     },
 
     htmlReporter: {
-	outputFile: '../../../test/karma/units.html'
+	outputFile: '../../../../build/test/karma/units.html'
     },
 
     preprocessors: {
