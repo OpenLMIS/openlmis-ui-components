@@ -11,11 +11,9 @@ This repository holds the files for the OpenLMIS Requisition Reference UI Module
  ```shell
  git clone https://github.com/OpenLMIS/openlmis-requisition-refUI.git
  ```
-2. Build the deployment image by running `docker-compose -f docker-compose.builder.yml build image`.
-3. Develop w/ Docker by running `docker-compose run --service-ports requisition-refui`.
-4. You should now be in an interactive shell inside the newly created development 
-environment, build the project with: `grunt build` and then you can start it with `grunt serve`.
-5. Go to `http://<yourDockerIPAddress>:9000/public/pages/login.html` to see the login page. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
+2. Develop w/ Docker by running `docker-compose run --service-ports requisition-refui`.
+3. You should now be in an interactive shell inside the newly created development environment, build the project with: `grunt build` and then you can start it with `grunt serve`.
+4. Go to `http://<yourDockerIPAddress>:9000/public/pages/login.html` to see the login page. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
 
 ## Building & Testing
 Grunt is our build tool. Grunt tasks available:
