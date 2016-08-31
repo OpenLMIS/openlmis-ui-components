@@ -56,12 +56,17 @@ module.exports = function (config) {
       'karma-jasmine',
       'karma-coverage',
       'karma-htmlfile-reporter',
-      'karma-chrome-launcher'
+      'karma-chrome-launcher',
+      'karma-junit-reporter'
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress', 'coverage', 'html'],
+    reporters: ['progress', 'coverage', 'html', 'junit'],
+
+    junitReporter: {
+      outputDir: '../../../test/test-results'
+    },
 
     coverageReporter: {
       type: 'html',
