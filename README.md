@@ -23,10 +23,10 @@ Grunt is our build tool. Grunt tasks available:
 - `grunt karma` to run Jasmine unit tests.
 - `grunt check` to run JSHint and LessLint tasks that perform code quality check.
 
-If your openlmis-requisition service is located at anything other than http://localhost:8080/requisition/:
-- `grunt build --requisitionServerURL=http://where-openlmis-requisition.is/located`
+If your OpenLMIS server is located at anything other than http://localhost:
+- `grunt build --openlmisServerURL=http://where-openlmis.is/located`
 
-You can also change requisitionServerURL in `config.json` file to be able to run just `grunt build`.
+You can also change openlmisServerURL in `config.json` file to be able to run just `grunt build`.
 
 
 ### Development Environment

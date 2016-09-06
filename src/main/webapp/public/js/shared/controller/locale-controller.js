@@ -16,7 +16,7 @@ function LocaleController($scope, $rootScope, $cookies, $http, messageService, l
 
   $scope.changeLocale = function (localeKey) {
     $scope.selectedLocale = localeKey;
-    $http.get('../messages/messages_' + $scope.selectedLocale + '.json').success(function (data) {
+    $http.get('/public/messages/messages_' + $scope.selectedLocale + '.json').success(function (data) {
       for (var attr in data) {
         localStorageService.add('message.' + attr, data[attr]);
       }

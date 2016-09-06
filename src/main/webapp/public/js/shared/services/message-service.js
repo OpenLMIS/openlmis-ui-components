@@ -13,7 +13,7 @@ services.factory('messageService', function (localStorageService, $rootScope, ve
   var populate = function (selectedLocale) {
     if (localStorageService.get('version') != version) {
       localStorageService.add('version', version);
-      $http.get('../messages/messages_' + selectedLocale + '.json').success(function (data) {
+      $http.get('/public/messages/messages_' + selectedLocale + '.json').success(function (data) {
         for (var attr in data) {
           localStorageService.add('message.' + attr, data[attr]);
         }

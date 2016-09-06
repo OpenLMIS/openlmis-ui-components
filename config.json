@@ -3,5 +3,5 @@
     "src": "./src/main",
     "dest": "./build"
   },
-  "requisitionServerURL": "http://localhost:8080/requisition"
+  "openlmisServerURL": "http://localhost"
 }

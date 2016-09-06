@@ -7,9 +7,9 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 var services = angular.module('openlmis.services', ['ngResource']);
 var update = {update: {method: 'PUT'}};
+var post = {post: {method: 'POST'}};
 
 services.value('version', '@version@');
 
@@ -426,15 +426,16 @@ services.factory('ProductCategories', function ($resource) {
 
 
 services.factory('EquipmentOperationalStatus', function ($resource) {
-  return $resource('/equipment/type/operational-status.json',{},  {});
+  return $resource('/equipment/type/operational-status.json', {}, {});
 });
 
 services.factory('FacilityImages', function($resource){
-  return $resource('/facility-images.json', {},{});
+  return $resource('/facility-images.json', {}, {});
 });
 
-services.factory('ConfigSettingsByKey',function($resource){
-  return $resource('/settings/:key.json',{},{});
+//TODO: Make OpenLMIS server URL a global variable (look at task'replace' in Gruntfile.js and README) and modify all services + add access tokens to services.
+services.factory('ConfigSettingsByKey',function(localStorageService, $resource){
+  return $resource('/requisition/api/settings/:key.json?access_token=' + localStorageService.get(localStorageKeys.ACCESS_TOKEN), {}, {});
 });
 
 services.factory('Supplylines', function ($resource) {
