@@ -1,10 +1,12 @@
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
+  var gulp = require('gulp'),
+    styleguide = require('sc5-styleguide');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clean: ['build', 'quality'],
+    clean: ['build', 'quality', 'docs'],
     jshint: {
       options: {
         undef: false,
@@ -152,8 +154,32 @@ module.exports = function(grunt) {
           }
         ]
       }
+    },
+    gulp: {
+      'styleguide-generate': function() {
+        var outputPath = 'docs';
+        return gulp.src([ config.app.src + "/resources/scss/*.scss",
+                          config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
+                          config.app.dest + "/public/css/app.css",
+                          config.app.dest + "/public/lib/select2/select2.css",
+                          config.app.dest + "/public/lib/select2/select2.png" ])
+          .pipe(styleguide.generate({
+            title: 'OpenLMIS Styleguide',
+            rootPath: config.app.src + "/resources/scss",
+            extraHead: '<link rel="stylesheet" type="text/css" href="/body.css"/>',
+            overviewPath: config.app.src + '/resources/scss/overview.md'
+          }))
+          .pipe(gulp.dest(outputPath));
+      },
+      'styleguide-applystyles': function() {
+        gulp.src(config.app.dest + "/public/css/app.css")
+          .pipe(styleguide.applyStyles())
+          .pipe(gulp.dest('docs'));
+      }
     }
   });
+
   grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
+  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-applystyles']);
 };
