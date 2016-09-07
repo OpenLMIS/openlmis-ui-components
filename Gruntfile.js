@@ -87,8 +87,8 @@ module.exports = function(grunt) {
         src: [config.app.dest + '/public/**/*.js'],
         overwrite: true,
         replacements: [{
-          from: '@@REQUISITION_SERVER_URL',
-          to: grunt.option('requisitionServerURL') || config.requisitionServerURL
+          from: '@@OPENLMIS_SERVER_URL',
+          to: grunt.option('openlmisServerURL') || config.openlmisServerURL
         }]
       }
     },

@@ -23,10 +23,10 @@ Grunt is our build tool. Grunt tasks available:
 - `grunt karma` to run Jasmine unit tests.
 - `grunt check` to run JSHint and LessLint tasks that perform code quality check.
 
-If your openlmis-requisition service is located at anything other than http://localhost:8080/requisition/:
-- `grunt build --requisitionServerURL=http://where-openlmis-requisition.is/located`
+If your OpenLMIS server is located at anything other than http://localhost:
+- `grunt build --openlmisServerURL=http://where-openlmis.is/located`
 
-You can also change requisitionServerURL in `config.json` file to be able to run just `grunt build`.
+You can also change openlmisServerURL in `config.json` file to be able to run just `grunt build`.
 
 
 ### Development Environment
@@ -39,6 +39,18 @@ If you run the UI module, it should be available on port 9000.
 $ grunt build
 $ grunt serve
 ```
+
+### Running complete application with nginx
+To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, run the commands below:
+
+```shell
+> docker-compose run --service-ports requisition-refui
+$ grunt build
+$ exit
+> docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+```
+
+When the application is up and running, you should be able to access UI with http://localhost, requisition service with http://localhost/requisition and the auth service with http://localhost/auth.
 
 ### Build Deployment Image
 The specialized docker-compose.builder.yml is geared toward CI and build
