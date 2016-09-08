@@ -157,7 +157,7 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        var outputPath = '';
+        var outputPath = 'docs';
         return gulp.src([ config.app.src + "/resources/scss/*.scss",
                           config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
                           config.app.dest + "/public/css/app.css",
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
       'styleguide-applystyles': function() {
         gulp.src(config.app.dest + "/public/css/app.css")
           .pipe(styleguide.applyStyles())
-          .pipe(gulp.dest(''));
+          .pipe(gulp.dest('docs'));
       }
     }
   });
