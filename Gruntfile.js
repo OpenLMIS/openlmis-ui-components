@@ -3,10 +3,11 @@ module.exports = function(grunt) {
   var config = require('./config');
   var gulp = require('gulp'),
     styleguide = require('sc5-styleguide');
+  var outputPath = 'docs';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clean: ['build', 'quality'],
+    clean: ['build', 'quality', 'docs'],
     jshint: {
       options: {
         undef: false,
@@ -157,7 +158,6 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        var outputPath = '';
         return gulp.src([ config.app.src + "/resources/scss/*.scss",
                           config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
                           config.app.dest + "/public/css/app.css",
@@ -174,9 +174,9 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        gulp.src(config.app.dest + "/public/css/app.css")
+        gulp.src(outputPath + "/*.css")
           .pipe(styleguide.applyStyles())
-          .pipe(gulp.dest(''));
+          .pipe(gulp.dest(outputPath));
       }
     }
   });
