@@ -165,7 +165,7 @@ module.exports = function(grunt) {
                           config.app.dest + "/public/lib/select2/select2.png" ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
-            rootPath: config.app.src + "/resources/scss",
+            rootPath: outputPath,
             extraHead: '<link rel="stylesheet" type="text/css" href="/body.css"/>',
             overviewPath: config.app.src + '/resources/scss/overview.md'
           }))
