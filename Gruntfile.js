@@ -174,7 +174,7 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        gulp.src(outputPath + "/*.css")
+        gulp.src("*.css")
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
       }
