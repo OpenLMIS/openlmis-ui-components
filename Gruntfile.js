@@ -3,11 +3,11 @@ module.exports = function(grunt) {
   var config = require('./config');
   var gulp = require('gulp'),
     styleguide = require('sc5-styleguide');
-  var outputPath = 'docs';
+  var outputPath = '';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clean: ['build', 'quality', 'docs'],
+    clean: ['build', 'quality'],
     jshint: {
       options: {
         undef: false,
