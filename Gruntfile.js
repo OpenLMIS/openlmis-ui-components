@@ -158,11 +158,7 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        return gulp.src([ config.app.src + "/resources/scss/*.scss",
-                          config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
-                          config.app.dest + "/public/css/app.css",
-                          config.app.dest + "/public/lib/select2/select2.css",
-                          config.app.dest + "/public/lib/select2/select2.png" ])
+        return gulp.src(config.app.src + "/resources/scss/*.scss")
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
@@ -174,7 +170,10 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        gulp.src([ "bootstrap.min.css", "app.css", "select2.css", "select2.png" ])
+        gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
+                   config.app.dest + "/public/css/app.css",
+                   config.app.dest + "/public/lib/select2/select2.css",
+                   config.app.dest + "/public/lib/select2/select2.png" ])
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
       }
