@@ -158,12 +158,13 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        return gulp.src(config.app.src + "/resources/scss/*.scss")
+        return gulp.src([ config.app.src + "/resources/scss/*.scss",
+                          config.app.src + "/resources/scss/body.css" ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
             appRoot: '/openlmis-requisition-refUI',
-            extraHead: '<link rel="stylesheet" type="text/css" href="/body.css"/>',
+            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/body.css"/>',
             disableHtml5Mode: true,
             overviewPath: config.app.src + '/resources/scss/overview.md'
           }))
