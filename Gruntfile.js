@@ -174,7 +174,10 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        gulp.src("*.css")
+        gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
+                   config.app.dest + "/public/css/app.css",
+                   config.app.dest + "/public/lib/select2/select2.css",
+                   config.app.dest + "/public/lib/select2/select2.png" ])
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
       }
