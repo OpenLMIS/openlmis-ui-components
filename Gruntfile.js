@@ -1,8 +1,8 @@
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
-  var gulp = require('gulp'),
-    styleguide = require('sc5-styleguide');
+  var gulp = require('gulp');
+  var styleguide = require('sc5-styleguide');
   var outputPath = '';
 
   grunt.initConfig({
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
+        return gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
                    config.app.dest + "/public/css/app.css",
                    config.app.dest + "/public/lib/select2/select2.css",
                    config.app.dest + "/public/lib/select2/select2.png" ])
