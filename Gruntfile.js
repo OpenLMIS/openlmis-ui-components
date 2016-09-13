@@ -174,7 +174,9 @@ module.exports = function(grunt) {
         return gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
                    config.app.dest + "/public/css/app.css",
                    config.app.dest + "/public/lib/select2/select2.css",
-                   config.app.dest + "/public/lib/select2/select2.png" ])
+                   config.app.dest + "/public/lib/select2/select2.png",
+                   config.app.dest + "/public/images/close-icon.png",
+                   config.app.dest + "/public/images/tab-error.png" ])
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
       }
