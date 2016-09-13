@@ -2,6 +2,7 @@
 *.ipr
 *.iws
 build/
+images/
 out/
 .idea/
 node_modules/

@@ -115,6 +115,16 @@ module.exports = function(grunt) {
           }
         ],
       },
+      images_styleguide: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/webapp/public/images/',
+            src: ['close-icon.png', 'tab-error.png'],
+            dest: 'images'
+          }
+        ],
+      },
       fonts: {
         files: [
           {
@@ -183,5 +193,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
-  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-applystyles']);
+  grunt.registerTask('styleguide', ['copy:images_styleguide', 'gulp:styleguide-generate', 'gulp:styleguide-applystyles']);
 };
