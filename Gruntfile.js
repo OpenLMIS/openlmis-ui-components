@@ -115,16 +115,6 @@ module.exports = function(grunt) {
           }
         ],
       },
-      images_styleguide: {
-        files: [
-          {
-            expand: true,
-            cwd: config.app.src + '/webapp/public/images/',
-            src: ['close-icon.png', 'tab-error.png'],
-            dest: 'images'
-          }
-        ],
-      },
       fonts: {
         files: [
           {
@@ -187,11 +177,17 @@ module.exports = function(grunt) {
                    config.app.dest + "/public/lib/select2/select2.png" ])
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
+      },
+      'styleguide-png': function() {
+        return gulp.src([ config.app.dest + "/public/images/tab-error.png",
+                   config.app.dest + "/public/images/close-icon.png" ])
+          .pipe(styleguide.applyStyles())
+          .pipe(gulp.dest("images"));
       }
     }
   });
 
   grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
-  grunt.registerTask('styleguide', ['copy:images_styleguide', 'gulp:styleguide-generate', 'gulp:styleguide-applystyles']);
+  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
 };
