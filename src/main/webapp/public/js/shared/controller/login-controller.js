@@ -10,10 +10,10 @@
 function LoginController($scope, $http, localStorageService, messageService, authServerClientFactory) {
   var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
-    authServerClientFactory.getCredentials().then(function(data) {
-         $scope.clientId = data["auth.server.clientId"];
-         $scope.clientSecret = data["auth.server.clientSecret"];
-    });
+  authServerClientFactory.getCredentials().then(function(data) {
+    $scope.clientId = data["auth.server.clientId"];
+    $scope.clientSecret = data["auth.server.clientSecret"];
+  });
 
   var validateLoginForm = function() {
     if ($scope.username === undefined || $scope.username.trim() === '') {

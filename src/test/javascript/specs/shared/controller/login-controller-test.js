@@ -25,7 +25,10 @@ describe("LoginController", function() {
       messageService: messageService
     });
 
-    httpBackend.when( 'GET', '/public/credentials/auth_server_client.json').respond(200, {"clientId": "trusted-client", "clientSecret": "secret"});
+    httpBackend.when('GET', '/public/credentials/auth_server_client.json').respond(200, {
+      "clientId": "trusted-client",
+      "clientSecret": "secret"
+    });
 
   }));
 
