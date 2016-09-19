@@ -18,7 +18,6 @@ function LoginController($scope, $http, localStorageService, messageService, aut
   var validateLoginForm = function() {
     if ($scope.username === undefined || $scope.username.trim() === '') {
       $scope.loginError = messageService.get("error.login.username");
-      $scope.password = undefined;
       return false;
     }
     if ($scope.password === undefined) {
@@ -38,7 +37,7 @@ function LoginController($scope, $http, localStorageService, messageService, aut
 
     $http({
       method: 'POST',
-      url: '/auth/oauth/token?grant_type=password&username='+$scope.username+'&password='+$scope.password,
+      url: '/auth/oauth/token?grant_type=password&username=' + $scope.username + '&password=' + $scope.password,
       headers: {
         "Authorization": "Basic " + data
       }

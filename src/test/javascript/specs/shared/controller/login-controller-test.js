@@ -40,7 +40,7 @@ describe("LoginController", function() {
 
     spyOn(messageService, 'populate');
     spyOn(location, 'reload');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username='+scope.username+'&password='+scope.password).respond(401);
+    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
 
     scope.doLogin();
     httpBackend.flush();
@@ -72,7 +72,7 @@ describe("LoginController", function() {
     scope.password = "john-password";
 
     spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username='+scope.username+'&password='+scope.password).respond(401);
+    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
 
     scope.doLogin();
     httpBackend.flush();
@@ -89,7 +89,7 @@ describe("LoginController", function() {
     };
 
     spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username='+scope.username+'&password='+scope.password).respond(200, {
+    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(200, {
       "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
       "token_type": "bearer",
       "expires_in": 1733,
