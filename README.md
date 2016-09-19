@@ -53,8 +53,10 @@ $ exit
 When the application is up and running, you should be able to access UI with http://localhost, requisition service with http://localhost/requisition and the auth service with http://localhost/auth.
 
 To log into the UI you can use following credentials:
+```
 login: admin
 password: password
+```
 
 ### Build Deployment Image
 The specialized docker-compose.builder.yml is geared toward CI and build
