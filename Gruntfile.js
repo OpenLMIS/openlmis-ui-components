@@ -191,7 +191,7 @@ module.exports = function(grunt) {
       'styleguide-png': function() {
         return gulp.src([ config.app.dest + "/public/images/tab-error.png",
                    config.app.dest + "/public/images/close-icon.png" ])
-          .pipe(gulp.dest("images"));
+          .pipe(gulp.dest(outputPath + "/images"));
       }
     }
   });
