@@ -18,6 +18,7 @@ function LoginController($scope, $http, localStorageService, messageService, aut
   var validateLoginForm = function() {
     if ($scope.username === undefined || $scope.username.trim() === '') {
       $scope.loginError = messageService.get("error.login.username");
+      $scope.password = undefined;
       return false;
     }
     if ($scope.password === undefined) {
@@ -34,11 +35,10 @@ function LoginController($scope, $http, localStorageService, messageService, aut
 
     $scope.disableSignInButton = true;
     var data = btoa($scope.clientId + ":" + $scope.clientSecret);
-    $scope.password = undefined;
 
     $http({
       method: 'POST',
-      url: '/auth/oauth/token?grant_type=password&username=admin&password=password',
+      url: '/auth/oauth/token?grant_type=password&username='+$scope.username+'&password='+$scope.password,
       headers: {
         "Authorization": "Basic " + data
       }
@@ -46,10 +46,12 @@ function LoginController($scope, $http, localStorageService, messageService, aut
       localStorageService.add(localStorageKeys.ACCESS_TOKEN, data.access_token);
       localStorageService.add(localStorageKeys.USER_ID, data.referenceDataUserId);
       $scope.disableSignInButton = false;
+      $scope.password = undefined;
       $scope.getUserInfo();
     }).error(function(data) {
       $scope.disableSignInButton = false;
       $scope.loginError = messageService.get("user.login.error");
+      $scope.password = undefined;
     });
   };
 

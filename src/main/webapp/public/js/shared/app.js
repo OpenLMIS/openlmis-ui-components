@@ -59,14 +59,15 @@ var app = angular.module('openlmis', ['openlmis.services', 'angular-google-analy
 app.value("loginConfig", {modalShown: false, preventReload: false});
 
 app.factory('authServerClientFactory', function($http) {
-     return {
-     getCredentials: function() {
-     return $http.get('/public/credentials/auth_server_client.json')
-    .then(function(response){
-      return response.data;
-    });
+  return {
+    getCredentials: function() {
+      return $http.get('/public/credentials/auth_server_client.json')
+      .then(function(response){
+        return response.data;
+      });
     }
-}});
+  }
+});
 
 app.directive('dateValidator', function () {
   return {
