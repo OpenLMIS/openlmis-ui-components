@@ -154,6 +154,16 @@ module.exports = function(grunt) {
             dest: config.app.dest + '/public/messages'
           }
         ]
+      },
+      credentials: {
+        files: [
+          {
+            expand: true,
+            cwd: config.app.src + '/resources',
+            src: ['auth_server_client.json'],
+            dest: config.app.dest + '/public/credentials'
+          }
+        ]
       }
     },
     gulp: {

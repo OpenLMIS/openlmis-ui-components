@@ -25,6 +25,8 @@ describe("LoginController", function() {
       messageService: messageService
     });
 
+    httpBackend.when( 'GET', '/public/credentials/auth_server_client.json').respond(200, {"clientId": "trusted-client", "clientSecret": "secret"});
+
   }));
 
   it('should not login and show error when server returns error', function() {

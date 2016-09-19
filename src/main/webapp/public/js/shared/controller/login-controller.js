@@ -7,8 +7,13 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-function LoginController($scope, $http, localStorageService, messageService) {
+function LoginController($scope, $http, localStorageService, messageService, authServerClientFactory) {
   var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
+
+    authServerClientFactory.getCredentials().then(function(data) {
+         $scope.clientId = data["auth.server.clientId"];
+         $scope.clientSecret = data["auth.server.clientSecret"];
+    });
 
   var validateLoginForm = function() {
     if ($scope.username === undefined || $scope.username.trim() === '') {
@@ -28,7 +33,7 @@ function LoginController($scope, $http, localStorageService, messageService) {
     }
 
     $scope.disableSignInButton = true;
-    var data = btoa($scope.username + ":" + $scope.password);
+    var data = btoa($scope.clientId + ":" + $scope.clientSecret);
     $scope.password = undefined;
 
     $http({
