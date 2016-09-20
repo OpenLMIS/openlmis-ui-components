@@ -1,0 +1,735 @@
+// Variables
+// --------------------------
+
+$FontAwesomePath:    "../fonts" !default;
+//$FontAwesomePath:    "//netdna.bootstrapcdn.com/font-awesome/3.2.1/font" !default; // for referencing Bootstrap CDN font files directly
+$FontAwesomeVersion: "3.2.1" !default;
+$borderColor:        #eee !default;
+$iconMuted:          #eee !default;
+$iconLight:          #fff !default;
+$iconDark:           #333 !default;
+$icons-li-width:     2.142857142857143em !default;
+
+
+  $glass: "\f000" !default;
+
+  $music: "\f001" !default;
+
+  $search: "\f002" !default;
+
+  $envelope-alt: "\f003" !default;
+
+  $heart: "\f004" !default;
+
+  $star: "\f005" !default;
+
+  $star-empty: "\f006" !default;
+
+  $user: "\f007" !default;
+
+  $film: "\f008" !default;
+
+  $th-large: "\f009" !default;
+
+  $th: "\f00a" !default;
+
+  $th-list: "\f00b" !default;
+
+  $ok: "\f00c" !default;
+
+  $remove: "\f00d" !default;
+
+  $zoom-in: "\f00e" !default;
+
+  $zoom-out: "\f010" !default;
+
+  $off: "\f011" !default;
+
+  $signal: "\f012" !default;
+
+  $cog: "\f013" !default;
+
+  $trash: "\f014" !default;
+
+  $home: "\f015" !default;
+
+  $file-alt: "\f016" !default;
+
+  $time: "\f017" !default;
+
+  $road: "\f018" !default;
+
+  $download-alt: "\f019" !default;
+
+  $download: "\f01a" !default;
+
+  $upload: "\f01b" !default;
+
+  $inbox: "\f01c" !default;
+
+  $play-circle: "\f01d" !default;
+
+  $repeat: "\f01e" !default;
+
+  $refresh: "\f021" !default;
+
+  $list-alt: "\f022" !default;
+
+  $lock: "\f023" !default;
+
+  $flag: "\f024" !default;
+
+  $headphones: "\f025" !default;
+
+  $volume-off: "\f026" !default;
+
+  $volume-down: "\f027" !default;
+
+  $volume-up: "\f028" !default;
+
+  $qrcode: "\f029" !default;
+
+  $barcode: "\f02a" !default;
+
+  $tag: "\f02b" !default;
+
+  $tags: "\f02c" !default;
+
+  $book: "\f02d" !default;
+
+  $bookmark: "\f02e" !default;
+
+  $print: "\f02f" !default;
+
+  $camera: "\f030" !default;
+
+  $font: "\f031" !default;
+
+  $bold: "\f032" !default;
+
+  $italic: "\f033" !default;
+
+  $text-height: "\f034" !default;
+
+  $text-width: "\f035" !default;
+
+  $align-left: "\f036" !default;
+
+  $align-center: "\f037" !default;
+
+  $align-right: "\f038" !default;
+
+  $align-justify: "\f039" !default;
+
+  $list: "\f03a" !default;
+
+  $indent-left: "\f03b" !default;
+
+  $indent-right: "\f03c" !default;
+
+  $facetime-video: "\f03d" !default;
+
+  $picture: "\f03e" !default;
+
+  $pencil: "\f040" !default;
+
+  $map-marker: "\f041" !default;
+
+  $adjust: "\f042" !default;
+
+  $tint: "\f043" !default;
+
+  $edit: "\f044" !default;
+
+  $share: "\f045" !default;
+
+  $check: "\f046" !default;
+
+  $move: "\f047" !default;
+
+  $step-backward: "\f048" !default;
+
+  $fast-backward: "\f049" !default;
+
+  $backward: "\f04a" !default;
+
+  $play: "\f04b" !default;
+
+  $pause: "\f04c" !default;
+
+  $stop: "\f04d" !default;
+
+  $forward: "\f04e" !default;
+
+  $fast-forward: "\f050" !default;
+
+  $step-forward: "\f051" !default;
+
+  $eject: "\f052" !default;
+
+  $chevron-left: "\f053" !default;
+
+  $chevron-right: "\f054" !default;
+
+  $plus-sign: "\f055" !default;
+
+  $minus-sign: "\f056" !default;
+
+  $remove-sign: "\f057" !default;
+
+  $ok-sign: "\f058" !default;
+
+  $question-sign: "\f059" !default;
+
+  $info-sign: "\f05a" !default;
+
+  $screenshot: "\f05b" !default;
+
+  $remove-circle: "\f05c" !default;
+
+  $ok-circle: "\f05d" !default;
+
+  $ban-circle: "\f05e" !default;
+
+  $arrow-left: "\f060" !default;
+
+  $arrow-right: "\f061" !default;
+
+  $arrow-up: "\f062" !default;
+
+  $arrow-down: "\f063" !default;
+
+  $share-alt: "\f064" !default;
+
+  $resize-full: "\f065" !default;
+
+  $resize-small: "\f066" !default;
+
+  $plus: "\f067" !default;
+
+  $minus: "\f068" !default;
+
+  $asterisk: "\f069" !default;
+
+  $exclamation-sign: "\f06a" !default;
+
+  $gift: "\f06b" !default;
+
+  $leaf: "\f06c" !default;
+
+  $fire: "\f06d" !default;
+
+  $eye-open: "\f06e" !default;
+
+  $eye-close: "\f070" !default;
+
+  $warning-sign: "\f071" !default;
+
+  $plane: "\f072" !default;
+
+  $calendar: "\f073" !default;
+
+  $random: "\f074" !default;
+
+  $comment: "\f075" !default;
+
+  $magnet: "\f076" !default;
+
+  $chevron-up: "\f077" !default;
+
+  $chevron-down: "\f078" !default;
+
+  $retweet: "\f079" !default;
+
+  $shopping-cart: "\f07a" !default;
+
+  $folder-close: "\f07b" !default;
+
+  $folder-open: "\f07c" !default;
+
+  $resize-vertical: "\f07d" !default;
+
+  $resize-horizontal: "\f07e" !default;
+
+  $bar-chart: "\f080" !default;
+
+  $twitter-sign: "\f081" !default;
+
+  $facebook-sign: "\f082" !default;
+
+  $camera-retro: "\f083" !default;
+
+  $key: "\f084" !default;
+
+  $cogs: "\f085" !default;
+
+  $comments: "\f086" !default;
+
+  $thumbs-up-alt: "\f087" !default;
+
+  $thumbs-down-alt: "\f088" !default;
+
+  $star-half: "\f089" !default;
+
+  $heart-empty: "\f08a" !default;
+
+  $signout: "\f08b" !default;
+
+  $linkedin-sign: "\f08c" !default;
+
+  $pushpin: "\f08d" !default;
+
+  $external-link: "\f08e" !default;
+
+  $signin: "\f090" !default;
+
+  $trophy: "\f091" !default;
+
+  $github-sign: "\f092" !default;
+
+  $upload-alt: "\f093" !default;
+
+  $lemon: "\f094" !default;
+
+  $phone: "\f095" !default;
+
+  $check-empty: "\f096" !default;
+
+  $bookmark-empty: "\f097" !default;
+
+  $phone-sign: "\f098" !default;
+
+  $twitter: "\f099" !default;
+
+  $facebook: "\f09a" !default;
+
+  $github: "\f09b" !default;
+
+  $unlock: "\f09c" !default;
+
+  $credit-card: "\f09d" !default;
+
+  $rss: "\f09e" !default;
+
+  $hdd: "\f0a0" !default;
+
+  $bullhorn: "\f0a1" !default;
+
+  $bell: "\f0a2" !default;
+
+  $certificate: "\f0a3" !default;
+
+  $hand-right: "\f0a4" !default;
+
+  $hand-left: "\f0a5" !default;
+
+  $hand-up: "\f0a6" !default;
+
+  $hand-down: "\f0a7" !default;
+
+  $circle-arrow-left: "\f0a8" !default;
+
+  $circle-arrow-right: "\f0a9" !default;
+
+  $circle-arrow-up: "\f0aa" !default;
+
+  $circle-arrow-down: "\f0ab" !default;
+
+  $globe: "\f0ac" !default;
+
+  $wrench: "\f0ad" !default;
+
+  $tasks: "\f0ae" !default;
+
+  $filter: "\f0b0" !default;
+
+  $briefcase: "\f0b1" !default;
+
+  $fullscreen: "\f0b2" !default;
+
+  $group: "\f0c0" !default;
+
+  $link: "\f0c1" !default;
+
+  $cloud: "\f0c2" !default;
+
+  $beaker: "\f0c3" !default;
+
+  $cut: "\f0c4" !default;
+
+  $copy: "\f0c5" !default;
+
+  $paper-clip: "\f0c6" !default;
+
+  $save: "\f0c7" !default;
+
+  $sign-blank: "\f0c8" !default;
+
+  $reorder: "\f0c9" !default;
+
+  $list-ul: "\f0ca" !default;
+
+  $list-ol: "\f0cb" !default;
+
+  $strikethrough: "\f0cc" !default;
+
+  $underline: "\f0cd" !default;
+
+  $table: "\f0ce" !default;
+
+  $magic: "\f0d0" !default;
+
+  $truck: "\f0d1" !default;
+
+  $pinterest: "\f0d2" !default;
+
+  $pinterest-sign: "\f0d3" !default;
+
+  $google-plus-sign: "\f0d4" !default;
+
+  $google-plus: "\f0d5" !default;
+
+  $money: "\f0d6" !default;
+
+  $caret-down: "\f0d7" !default;
+
+  $caret-up: "\f0d8" !default;
+
+  $caret-left: "\f0d9" !default;
+
+  $caret-right: "\f0da" !default;
+
+  $columns: "\f0db" !default;
+
+  $sort: "\f0dc" !default;
+
+  $sort-down: "\f0dd" !default;
+
+  $sort-up: "\f0de" !default;
+
+  $envelope: "\f0e0" !default;
+
+  $linkedin: "\f0e1" !default;
+
+  $undo: "\f0e2" !default;
+
+  $legal: "\f0e3" !default;
+
+  $dashboard: "\f0e4" !default;
+
+  $comment-alt: "\f0e5" !default;
+
+  $comments-alt: "\f0e6" !default;
+
+  $bolt: "\f0e7" !default;
+
+  $sitemap: "\f0e8" !default;
+
+  $umbrella: "\f0e9" !default;
+
+  $paste: "\f0ea" !default;
+
+  $lightbulb: "\f0eb" !default;
+
+  $exchange: "\f0ec" !default;
+
+  $cloud-download: "\f0ed" !default;
+
+  $cloud-upload: "\f0ee" !default;
+
+  $user-md: "\f0f0" !default;
+
+  $stethoscope: "\f0f1" !default;
+
+  $suitcase: "\f0f2" !default;
+
+  $bell-alt: "\f0f3" !default;
+
+  $coffee: "\f0f4" !default;
+
+  $food: "\f0f5" !default;
+
+  $file-text-alt: "\f0f6" !default;
+
+  $building: "\f0f7" !default;
+
+  $hospital: "\f0f8" !default;
+
+  $ambulance: "\f0f9" !default;
+
+  $medkit: "\f0fa" !default;
+
+  $fighter-jet: "\f0fb" !default;
+
+  $beer: "\f0fc" !default;
+
+  $h-sign: "\f0fd" !default;
+
+  $plus-sign-alt: "\f0fe" !default;
+
+  $double-angle-left: "\f100" !default;
+
+  $double-angle-right: "\f101" !default;
+
+  $double-angle-up: "\f102" !default;
+
+  $double-angle-down: "\f103" !default;
+
+  $angle-left: "\f104" !default;
+
+  $angle-right: "\f105" !default;
+
+  $angle-up: "\f106" !default;
+
+  $angle-down: "\f107" !default;
+
+  $desktop: "\f108" !default;
+
+  $laptop: "\f109" !default;
+
+  $tablet: "\f10a" !default;
+
+  $mobile-phone: "\f10b" !default;
+
+  $circle-blank: "\f10c" !default;
+
+  $quote-left: "\f10d" !default;
+
+  $quote-right: "\f10e" !default;
+
+  $spinner: "\f110" !default;
+
+  $circle: "\f111" !default;
+
+  $reply: "\f112" !default;
+
+  $github-alt: "\f113" !default;
+
+  $folder-close-alt: "\f114" !default;
+
+  $folder-open-alt: "\f115" !default;
+
+  $expand-alt: "\f116" !default;
+
+  $collapse-alt: "\f117" !default;
+
+  $smile: "\f118" !default;
+
+  $frown: "\f119" !default;
+
+  $meh: "\f11a" !default;
+
+  $gamepad: "\f11b" !default;
+
+  $keyboard: "\f11c" !default;
+
+  $flag-alt: "\f11d" !default;
+
+  $flag-checkered: "\f11e" !default;
+
+  $terminal: "\f120" !default;
+
+  $code: "\f121" !default;
+
+  $reply-all: "\f122" !default;
+
+  $mail-reply-all: "\f122" !default;
+
+  $star-half-empty: "\f123" !default;
+
+  $location-arrow: "\f124" !default;
+
+  $crop: "\f125" !default;
+
+  $code-fork: "\f126" !default;
+
+  $unlink: "\f127" !default;
+
+  $question: "\f128" !default;
+
+  $info: "\f129" !default;
+
+  $exclamation: "\f12a" !default;
+
+  $superscript: "\f12b" !default;
+
+  $subscript: "\f12c" !default;
+
+  $eraser: "\f12d" !default;
+
+  $puzzle-piece: "\f12e" !default;
+
+  $microphone: "\f130" !default;
+
+  $microphone-off: "\f131" !default;
+
+  $shield: "\f132" !default;
+
+  $calendar-empty: "\f133" !default;
+
+  $fire-extinguisher: "\f134" !default;
+
+  $rocket: "\f135" !default;
+
+  $maxcdn: "\f136" !default;
+
+  $chevron-sign-left: "\f137" !default;
+
+  $chevron-sign-right: "\f138" !default;
+
+  $chevron-sign-up: "\f139" !default;
+
+  $chevron-sign-down: "\f13a" !default;
+
+  $html5: "\f13b" !default;
+
+  $css3: "\f13c" !default;
+
+  $anchor: "\f13d" !default;
+
+  $unlock-alt: "\f13e" !default;
+
+  $bullseye: "\f140" !default;
+
+  $ellipsis-horizontal: "\f141" !default;
+
+  $ellipsis-vertical: "\f142" !default;
+
+  $rss-sign: "\f143" !default;
+
+  $play-sign: "\f144" !default;
+
+  $ticket: "\f145" !default;
+
+  $minus-sign-alt: "\f146" !default;
+
+  $check-minus: "\f147" !default;
+
+  $level-up: "\f148" !default;
+
+  $level-down: "\f149" !default;
+
+  $check-sign: "\f14a" !default;
+
+  $edit-sign: "\f14b" !default;
+
+  $external-link-sign: "\f14c" !default;
+
+  $share-sign: "\f14d" !default;
+
+  $compass: "\f14e" !default;
+
+  $collapse: "\f150" !default;
+
+  $collapse-top: "\f151" !default;
+
+  $expand: "\f152" !default;
+
+  $eur: "\f153" !default;
+
+  $gbp: "\f154" !default;
+
+  $usd: "\f155" !default;
+
+  $inr: "\f156" !default;
+
+  $jpy: "\f157" !default;
+
+  $cny: "\f158" !default;
+
+  $krw: "\f159" !default;
+
+  $btc: "\f15a" !default;
+
+  $file: "\f15b" !default;
+
+  $file-text: "\f15c" !default;
+
+  $sort-by-alphabet: "\f15d" !default;
+
+  $sort-by-alphabet-alt: "\f15e" !default;
+
+  $sort-by-attributes: "\f160" !default;
+
+  $sort-by-attributes-alt: "\f161" !default;
+
+  $sort-by-order: "\f162" !default;
+
+  $sort-by-order-alt: "\f163" !default;
+
+  $thumbs-up: "\f164" !default;
+
+  $thumbs-down: "\f165" !default;
+
+  $youtube-sign: "\f166" !default;
+
+  $youtube: "\f167" !default;
+
+  $xing: "\f168" !default;
+
+  $xing-sign: "\f169" !default;
+
+  $youtube-play: "\f16a" !default;
+
+  $dropbox: "\f16b" !default;
+
+  $stackexchange: "\f16c" !default;
+
+  $instagram: "\f16d" !default;
+
+  $flickr: "\f16e" !default;
+
+  $adn: "\f170" !default;
+
+  $bitbucket: "\f171" !default;
+
+  $bitbucket-sign: "\f172" !default;
+
+  $tumblr: "\f173" !default;
+
+  $tumblr-sign: "\f174" !default;
+
+  $long-arrow-down: "\f175" !default;
+
+  $long-arrow-up: "\f176" !default;
+
+  $long-arrow-left: "\f177" !default;
+
+  $long-arrow-right: "\f178" !default;
+
+  $apple: "\f179" !default;
+
+  $windows: "\f17a" !default;
+
+  $android: "\f17b" !default;
+
+  $linux: "\f17c" !default;
+
+  $dribbble: "\f17d" !default;
+
+  $skype: "\f17e" !default;
+
+  $foursquare: "\f180" !default;
+
+  $trello: "\f181" !default;
+
+  $female: "\f182" !default;
+
+  $male: "\f183" !default;
+
+  $gittip: "\f184" !default;
+
+  $sun: "\f185" !default;
+
+  $moon: "\f186" !default;
+
+  $archive: "\f187" !default;
+
+  $bug: "\f188" !default;
+
+  $vk: "\f189" !default;
+
+  $weibo: "\f18a" !default;
+
+  $renren: "\f18b" !default;
+

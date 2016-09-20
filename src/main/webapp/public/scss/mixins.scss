@@ -1,0 +1,66 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2013 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
+ */
+
+@mixin size($height, $width){
+  height: $height;
+  width: $width;
+}
+
+@mixin square($side){
+  @include size($side, $side);
+}
+
+@mixin box-shadow($shadow){
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+@mixin border-top-radius($radius){
+  border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+@mixin border-right-radius($radius){
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin border-left-radius($radius){
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin right-arrow($color){
+  position: relative;
+  background: $color;
+  padding:25px 15px;
+  text-align: center;
+  font-weight:bold;
+  min-width:50px;
+  margin-right: 15px;
+  text-shadow: none;
+}
+@mixin right-arrow-after($color){
+  border-color: rgba(136, 183, 213, 0);
+  border-left-color: $color;
+  border-width: 35px 0 35px 15px;
+  top: 50%;
+  margin-top: -35px;
+}
+@mixin right-arrow-after-before(){
+  left: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}

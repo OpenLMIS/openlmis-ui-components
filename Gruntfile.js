@@ -20,13 +20,13 @@ module.exports = function(grunt) {
       },
       all: [config.app.src + '/webapp/public/js/**/*.js']
     },
-    lesslint: {
-      src: [config.app.src + '/webapp/public/less/*.less', '!**/ng-grid.less'],
+    sasslint: {
+      src: [config.app.src + '/webapp/public/scss/*.scss', '!**/ng-grid.scss'],
       options: {
         quiet: true,
         formatters: [{
           id: 'checkstyle-xml',
-          dest: 'quality/less/checkstyle-results.xml'
+          dest: 'quality/scss/checkstyle-results.xml'
         }],
         csslint: {
           ids: false,
@@ -36,12 +36,12 @@ module.exports = function(grunt) {
         }
       }
     },
-    less: {
+    sass: {
       compile: {
         files: [{
           expand: true,
-          cwd: config.app.src + '/webapp/public/less/',
-          src: ["**/*.less"],
+          cwd: config.app.src + '/webapp/public/scss/',
+          src: ["**/mixins.scss", "**/*.scss"],
           dest: config.app.dest + '/public/css',
           ext: ".css",
           flatten: false
@@ -49,8 +49,8 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: config.app.src + '/webapp/public/less/*.less',
-      tasks: ["less"],
+      files: config.app.src + '/webapp/public/scss/*.scss',
+      tasks: ["sass"],
       options: {
         spawn: false
       }
@@ -196,7 +196,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
-  grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
+  grunt.registerTask('build', ['clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
 };

@@ -17,6 +17,8 @@
     "grunt-gulp": "^1.0.1",
     "grunt-karma": "~2.0.0",
     "grunt-lesslint": "~0.15.0",
+    "grunt-sass": "^1.2.1",
+    "grunt-sasslint": "0.0.6",
     "grunt-serve": "~0.1.6",
     "grunt-text-replace": "~0.4.0",
     "gulp": "^3.9.1",
