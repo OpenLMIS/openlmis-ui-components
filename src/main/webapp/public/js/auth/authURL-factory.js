@@ -12,10 +12,47 @@
  	"use strict";
 
  	angular.module("openlmis")
+		.constant("OpenlmisServerURL", function(){
+			// The serverURL can be set with a grunt build argument
+			// --serverURL=http://openlmis.server:location
+			var serverURL = "@@OpenlmisServerURL";
+			if(serverURL.substr(0,2) == "@@"){
+				return false;
+			} else {
+				return serverURL;
+			}
+	}());
+
+ 	angular.module("openlmis")
+ 		.constant("AuthServiceURL", function(){
+ 			// The authUrl can be set with a grunt build argument
+ 			// --AuthServiceURL=http://auth.service:location
+ 			var authUrl = "@@AuthServiceURL";
+ 			if(authUrl.substr(0,2) == "@@"){
+ 				return false;
+ 			} else {
+ 				return authUrl;
+ 			}
+ 		}());
+
+ 	angular.module("openlmis")
  		.factory("AuthURL", AuthURL);
 
- 	function AuthURL(){
+ 	function AuthURL(AuthServiceURL, OpenlmisServerURL){
  		var rootUrl = "";
+
+ 		if(OpenlmisServerURL){
+ 			rootUrl = OpenlmisServerURL;
+ 		}
+ 		if(AuthServiceURL){
+ 			rootUrl = AuthServiceURL;
+ 		}
+
+ 		// remove trailing slash if entered into server...
+ 		if(rootUrl.substr(-1) == "/"){
+ 			rootUrl = rootUrl.substr(0, rootUrl.length-1);
+ 		}
+
  		return function(url){
  			if(url[0] == "/"){
  				url = url.substr(1);

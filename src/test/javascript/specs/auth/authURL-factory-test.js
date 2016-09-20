@@ -10,36 +10,69 @@
 
 describe("AuthURL", function () {
 
-  beforeEach(module('openlmis'));
+  var AuthURL, AuthServiceURL;
 
-  var AuthURL;
+  function setupAuthURL(OpenlmisServerURL, AuthServiceURL){
+    module('openlmis', function($provide){
+      if(OpenlmisServerURL == undefined){
+        OpenlmisServerURL = false;
+      }
+      $provide.constant("OpenlmisServerURL", OpenlmisServerURL);
 
-  beforeEach(inject(function (_AuthURL_) {
-    AuthURL = _AuthURL_;
-  }));
+      if(AuthServiceURL == undefined){
+        AuthServiceURL = false;
+      }    
+      $provide.constant("AuthServiceURL", AuthServiceURL);
+    });
+
+    inject(function (_AuthURL_, _AuthServiceURL_) {
+      AuthURL = _AuthURL_;
+      AuthServiceURL = _AuthServiceURL_;
+    });
+  }
 
   it('should return string', function () {
-    var url = AuthURL("/someURL");
+    setupAuthURL();
 
+    var url = AuthURL("/someURL");
     expect(typeof(url)).toBe("string");
   });
 
   it("should format relative and absolute urls the same", function(){
+    setupAuthURL();
+
     var relativeURL = AuthURL("someURL");
     var absoluteURL = AuthURL("/someURL");
 
     expect(relativeURL).toEqual(absoluteURL);
   });
 
-  it("should use AuthService URL, if set", function(){
+  it("should remove trailing slash from URL", function(){
+    setupAuthURL("my.url/");
 
+    url = AuthURL("/someURL");
+    expect(url).toEqual("my.url/someURL");
+  });
+
+  it("should return an absolute URL, if OpenLMIS URL or AuthService URL are not set", function(){
+    setupAuthURL(false, false);
+
+    var url = AuthURL("someURL");
+    expect(url).toEqual("/someURL");
   });
 
   it("should use OpenLMIS URL, if AuthService URL not set", function(){
+    setupAuthURL("OpenlmisServerURL");
 
+    var url = AuthURL("someURL");
+    expect(url).toEqual("OpenlmisServerURL/someURL");
   });
 
-  it("should use fallback to absolute URL, if OpenLMIS URL or AuthService URL are not set", function(){
+  it("should use AuthService URL, if set", function(){
+    setupAuthURL("OpenLMISServerURL", "AuthServiceURL");
+
+    var url = AuthURL("someURL");
+    expect(url).toEqual("AuthServiceURL/someURL");
 
   });
 });
