@@ -20,7 +20,7 @@ describe("LoginController", function() {
     spyOn(messageService, 'get');
     controller = $controller;
 
-    ctrl = controller(LoginController, {
+    ctrl = controller("LoginController", {
       $scope: scope,
       messageService: messageService
     });
@@ -36,7 +36,7 @@ describe("LoginController", function() {
     scope.username = "john";
     scope.password = "openLmis";
 
-    ctrl = controller(LoginController, {
+    ctrl = controller("LoginController", {
       $scope: scope,
       messageService: messageService
     });
