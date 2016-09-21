@@ -37,7 +37,11 @@ function LoginController($scope, $http, localStorageService, messageService, aut
 
     $http({
       method: 'POST',
-      url: '/auth/oauth/token?grant_type=password&username=' + $scope.username + '&password=' + $scope.password,
+      url: '/auth/oauth/token?grant_type=password',
+      data:{
+        'username': $scope.username,
+        'password': $scope.password
+      },
       headers: {
         "Authorization": "Basic " + data
       }
