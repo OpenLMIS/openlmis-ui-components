@@ -3,6 +3,7 @@
 *.iws
 build/
 images/
+docs/
 out/
 .idea/
 node_modules/
