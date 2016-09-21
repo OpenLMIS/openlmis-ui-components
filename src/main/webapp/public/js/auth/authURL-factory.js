@@ -15,7 +15,7 @@
 		.constant("OpenlmisServerURL", function(){
 			// The serverURL can be set with a grunt build argument
 			// --serverURL=http://openlmis.server:location
-			var serverURL = "@@OpenlmisServerURL";
+			var serverURL = "@@OPENLMIS_SERVER_URL";
 			if(serverURL.substr(0,2) == "@@"){
 				return false;
 			} else {
@@ -27,7 +27,7 @@
  		.constant("AuthServiceURL", function(){
  			// The authUrl can be set with a grunt build argument
  			// --AuthServiceURL=http://auth.service:location
- 			var authUrl = "@@AuthServiceURL";
+ 			var authUrl = "@@AUTH_SERVICE_URL";
  			if(authUrl.substr(0,2) == "@@"){
  				return false;
  			} else {
