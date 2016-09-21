@@ -23,17 +23,8 @@ module.exports = function(grunt) {
     sasslint: {
       src: [config.app.src + '/webapp/public/scss/*.scss', '!**/ng-grid.scss'],
       options: {
-        quiet: true,
-        formatters: [{
-          id: 'checkstyle-xml',
-          dest: 'quality/scss/checkstyle-results.xml'
-        }],
-        csslint: {
-          ids: false,
-          "bulletproof-font-face": false,
-          "box-model": false,
-          "box-sizing": false
-        }
+        bench: false,
+        config: '.sasslint.json'
       }
     },
     sass: {
