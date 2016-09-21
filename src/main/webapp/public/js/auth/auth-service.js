@@ -25,14 +25,14 @@
         service.getUserInfo = getUserInfo; 
 
         var clientId, clientSecret;
-        authServerClientFactory.getCredentials().then(function(data) {
-            clientId = data["auth.server.clientId"];
-            clientSecret = data["auth.server.clientSecret"];
-        });
+        service.setClient = setClient
+        function setClient(id, secret){
+          clientId = id;
+          clientSecret = secret;
+        }
 
         function isAuthenticated(){
             var access_token = localStorageService.get(localStorageKeys.ACCESS_TOKEN);
-
             if(access_token){
                 return true;
             } else {
@@ -42,6 +42,12 @@
 
         function login(username, password){
             var deferred = $q.defer();
+
+            if(!clientId || !clientSecret){
+              authServerClientFactory.getCredentials().then(function(data) {
+                  setClient(data["auth.server.clientId"], data["auth.server.clientSecret"]);
+              });
+            }
 
             $http({
                 method: 'POST',
@@ -56,7 +62,7 @@
             }).success(function(data) {
                 localStorageService.add(localStorageKeys.ACCESS_TOKEN, data.access_token);
                 localStorageService.add(localStorageKeys.USER_ID, data.referenceDataUserId);
-
+                
                 deferred.resolve();
             }).error(function(data) {
                 deferred.reject();

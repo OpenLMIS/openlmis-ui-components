@@ -20,10 +20,7 @@ describe("AuthService", function() {
 
     localStorageService.clearAll();
 
-    httpBackend.when('GET', '/public/credentials/auth_server_client.json').respond(200, {
-      "clientId": "trusted-client",
-      "clientSecret": "secret"
-    });
+    AuthService.setClient('trusted-client', 'secret');
 
     httpBackend.when('POST', '/oauth/token?grant_type=password')
     .respond(function(method, url, data){
@@ -81,30 +78,30 @@ describe("AuthService", function() {
   });
 
   it('will get user data only when authenticated', function(){
-    var getUserInfo = function(){
-      var success = false;
+    var success = false;
 
-      AuthService.getUserInfo()
-      .then(function(){
-        success = true;
-      });
+    AuthService.getUserInfo()
+    .then(function(){
+      success = true;
+    });
 
-      httpBackend.flush();
-      $rootScope.$apply();
+    $rootScope.$apply();
 
-      return success;
-    }
-
-    var result;
-
-    result = getUserInfo();
-    expect(result).toBe(false);
+    expect(success).toBe(false);
 
     AuthService.login("john", "john-password");
     httpBackend.flush();
     $rootScope.$apply();
-    result = getUserInfo();
-    expect(result).toBe(true); 
+
+    AuthService.getUserInfo()
+    .then(function(){
+      success = true;
+    });
+
+    httpBackend.flush();
+    $rootScope.$apply();
+
+    expect(success).toBe(true); 
 
   });
 });
