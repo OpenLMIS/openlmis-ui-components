@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "BorderZero": {
+      "enabled": true,
+      "convention": "0"
+    },
+    "SpaceAfterPropertyColon": {
+      "enabled": true
+    },
+    "Comment": {
+      "enabled": false
+    },
+    "DuplicateProperty": {
+      "enabled": false
+    }
+  }
+}
