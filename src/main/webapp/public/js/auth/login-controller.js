@@ -14,15 +14,10 @@
   angular.module("openlmis")
     .controller("LoginController", LoginController);
 
-  LoginController.$inject = ['$scope', '$http', 'AuthURL', 'localStorageService', 'messageService', 'authServerClientFactory'];
+  LoginController.$inject = ['$scope', 'AuthService', 'localStorageService', 'messageService'];
 
-  function LoginController($scope, $http, AuthURL, localStorageService, messageService, authServerClientFactory) {
+  function LoginController($scope, AuthService, localStorageService, messageService) {
     var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
-
-    authServerClientFactory.getCredentials().then(function(data) {
-      $scope.clientId = data["auth.server.clientId"];
-      $scope.clientSecret = data["auth.server.clientSecret"];
-    });
 
     var validateLoginForm = function() {
       if ($scope.username === undefined || $scope.username.trim() === '') {
@@ -42,99 +37,36 @@
       }
 
       $scope.disableSignInButton = true;
-      var data = btoa($scope.clientId + ":" + $scope.clientSecret);
-
-      $http({
-        method: 'POST',
-        url: AuthURL('/oauth/token?grant_type=password&username=' + $scope.username + '&password=' + $scope.password),
-        headers: {
-          "Authorization": "Basic " + data
-        }
-      }).success(function(data) {
-        localStorageService.add(localStorageKeys.ACCESS_TOKEN, data.access_token);
-        localStorageService.add(localStorageKeys.USER_ID, data.referenceDataUserId);
-        $scope.disableSignInButton = false;
-        $scope.password = undefined;
+      AuthService.login($scope.username, $scope.password)
+      .then(function(){
         $scope.getUserInfo();
-      }).error(function(data) {
-        $scope.disableSignInButton = false;
+      })
+      .catch(function(){
         $scope.loginError = messageService.get("user.login.error");
+      })
+      .finally(function(){
+        $scope.disableSignInButton = false;
         $scope.password = undefined;
       });
     };
 
     $scope.getUserInfo = function(userId, token) {
-      $http({
-        method: 'GET',
-        url: AuthURL('/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' +
-          localStorageService.get(localStorageKeys.USER_ID) + '&access_token=' +
-          localStorageService.get(localStorageKeys.ACCESS_TOKEN)),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }).success(function(data) {
-        localStorageService.add(localStorageKeys.USERNAME, data.username);
-        //TODO: Get user's rights. For now they are hardcoded.
-        //localStorageService.add(localStorageKeys.RIGHT, getRights(data.rights));
-        var rights = [{
-          "name": "DELETE_REQUISITION",
-          "type": "REQUISITION"
-        }, {
-          "name": "MANAGE_DISTRIBUTION",
-          "type": "ALLOCATION"
-        }, {
-          "name": "CREATE_REQUISITION",
-          "type": "REQUISITION"
-        }, {
-          "name": "VIEW_ORDER",
-          "type": "FULFILLMENT"
-        }, {
-          "name": "MANAGE_EQUIPMENT_INVENTORY",
-          "type": "REQUISITION"
-        }, {
-          "name": "MANAGE_STOCK",
-          "type": "REQUISITION"
-        }, {
-          "name": "AUTHORIZE_REQUISITION",
-          "type": "REQUISITION"
-        }, {
-          "name": "VIEW_REQUISITION",
-          "type": "REQUISITION"
-        }, {
-          "name": "APPROVE_REQUISITION",
-          "type": "REQUISITION"
-        }, {
-          "name": "FACILITY_FILL_SHIPMENT",
-          "type": "FULFILLMENT"
-        }, {
-          "name": "MANAGE_POD",
-          "type": "FULFILLMENT"
-        }, {
-          "name": "VIEW_STOCK_ON_HAND",
-          "type": "REQUISITION"
-        }, {
-          "name": "MANAGE_SUPERVISED_EQUIPMENTS",
-          "type": "REQUISITION"
-        }, {
-          "name": "CONVERT_TO_ORDER",
-          "type": "FULFILLMENT"
-        }];
-        var rightsJson = JSON.stringify(rights);
-        localStorageService.add(localStorageKeys.RIGHT, rightsJson);
-
+      AuthService.getUserInfo()
+      .then(function(){
         if (window.location.href.indexOf("login.html") != -1) {
           window.location = "/public/pages/index.html";
           return;
         }
-
+        
+        //TODO: Figure out where these are used
         if (!$scope.loginConfig.preventReload) {
           location.reload();
           return;
         }
         $scope.loginConfig.modalShown = false;
         $scope.loginConfig.preventReload = false;
-
-      }).error(function(data) {
+      })
+      .catch(function(){
         $scope.loginError = messageService.get("user.authentication.error");
       });
     };
