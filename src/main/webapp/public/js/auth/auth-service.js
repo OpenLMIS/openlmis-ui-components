@@ -45,7 +45,11 @@
 
             $http({
                 method: 'POST',
-                url: AuthURL('/oauth/token?grant_type=password&username=' + username + '&password=' + password),
+                url: AuthURL('/oauth/token?grant_type=password'),
+                data: {
+                  'username': username,
+                  'password': password
+                },
                 headers: {
                   "Authorization": "Basic " + btoa(clientId + ":" + clientSecret)
                 }

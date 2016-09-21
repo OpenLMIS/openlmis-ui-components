@@ -25,14 +25,20 @@ describe("AuthService", function() {
       "clientSecret": "secret"
     });
 
-    httpBackend.when('POST', '/oauth/token?grant_type=password&username=john&password=bad-password').respond(401);
-
-    httpBackend.when('POST', '/oauth/token?grant_type=password&username=john&password=john-password').respond(200, {
-      "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
-      "token_type": "bearer",
-      "expires_in": 1733,
-      "scope": "read write",
-      "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462"
+    httpBackend.when('POST', '/oauth/token?grant_type=password')
+    .respond(function(method, url, data){
+      data = JSON.parse(data);
+      if(data['password'] == 'bad-password'){
+        return [401];
+      } else {
+        return [200,{
+          "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
+          "token_type": "bearer",
+          "expires_in": 1733,
+          "scope": "read write",
+          "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462"
+        }];
+      }
     });
 
     httpBackend.when('GET',
@@ -48,7 +54,6 @@ describe("AuthService", function() {
   }));
 
   it('should reject bad logins', function() {
-
     var error = false;
     AuthService.login("john", "bad-password")
     .catch(function(){

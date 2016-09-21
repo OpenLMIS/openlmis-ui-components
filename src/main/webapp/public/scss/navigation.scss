@@ -5,9 +5,9 @@
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  *  
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
  */
-@import url("mixins.less");
+@import "mixins";
 
 .navigation {
   background: #42a7ad;
@@ -205,14 +205,14 @@
 
 .is-nav-link-selected {
   background: #19565A;
-  .box-shadow(inset 1px 1px 1px rgba(0, 0, 0, 0.2));
+  @include box-shadow(inset 1px 1px 1px rgba(0, 0, 0, 0.2));
   border-radius: 3px;
 }
 
 #networkWarningPopup {
   background: white;
   color: black;
-  .box-shadow(0 0 15px rgba(0, 0, 0, 0.98));
+  @include box-shadow(0 0 15px rgba(0, 0, 0, 0.98));
   top: 33px;
   bottom: auto;
   left: auto;

@@ -5,7 +5,7 @@
 * Bootstrap version: 2.3.0
 * Copyright 2012 creativeLabs
 * www: http://clabs.co
-* mail: lukasz@clabs.co
+* mail: lukasz$clabs.co
 * You can buy this theme on WrapBootstrap: https://wrapbootstrap.com/theme/perfectum-dashboard-admin-template-WB0PHMG9K
 */
 
@@ -1947,11 +1947,11 @@ div.uploader{
 .ui-slider-handle {
 	position: absolute !important;
 	background: url("../img/i_16_radio.png") no-repeat center center scroll #F7F7F7 !important;
-	background: url("../img/i_16_radio.png") no-repeat center center scroll, -webkit-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100%) !important;
-	background: url("../img/i_16_radio.png") no-repeat center center scroll, -moz-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100%) !important;
-	background: url("../img/i_16_radio.png") no-repeat center center scroll, -o-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100%) !important;
-	background: url("../img/i_16_radio.png") no-repeat center center scroll, -ms-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100%) !important;
-	background: url("../img/i_16_radio.png") no-repeat center center scroll, linear-gradient(top , #FCFCFC 0%, #F7F7F7 100%) !important;
+	background: url("../img/i_16_radio.png") no-repeat center center scroll, -webkit-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100% !important);
+	background: url("../img/i_16_radio.png") no-repeat center center scroll, -moz-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100% !important);
+	background: url("../img/i_16_radio.png") no-repeat center center scroll, -o-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100% !important);
+	background: url("../img/i_16_radio.png") no-repeat center center scroll, -ms-linear-gradient(top , #FCFCFC 0%, #F7F7F7 100% !important);
+	background: url("../img/i_16_radio.png") no-repeat center center scroll, linear-gradient(top , #FCFCFC 0%, #F7F7F7 100% !important);
 	margin: -3px -3px -3px -3px !important;
 	-webkit-box-shadow: 0 1px 0 #FFFFFF inset !important;
 	box-shadow: 0 1px 0 #FFFFFF inset !important;

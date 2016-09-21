@@ -217,7 +217,7 @@ Close icon used for modal dialog and other UI element close buttons
   background-repeat: no-repeat !important;
   text-indent: -10000px;
   outline: none;
-  background-image: url("../images/remove-icon-small.png") !important;
+  background-image: url("../images/remove-icon-small.png" !important);
 }
 
 /***
@@ -2075,7 +2075,7 @@ Item block with details shown on hover
   .details {
     display: block;
     opacity: 0.7;
-    filter: ~"alpha(opacity = 70)";
+    filter: unquote("alpha(opacity = 70)");
   }
 }
 
@@ -2083,7 +2083,7 @@ Item block with details shown on hover
 .item:hover {
   .zoom-icon {
     opacity:0.5;
-    filter: ~"alpha(opacity = 50)";
+    filter: unquote("alpha(opacity = 50)");
   }
 }
 
@@ -2108,7 +2108,7 @@ Zoom icon overlay on images
   width: inherit;
   height: inherit;
   opacity: 0;
-  filter: ~"alpha(opacity = 0)";
+  filter: unquote("alpha(opacity = 0)");
   z-index: 6;
   top:0;
 }
@@ -2758,13 +2758,13 @@ Dashboard stats
   font-size: 11px;
   color: #fff;
   opacity: 0.7;
-  filter: ~"alpha(opacity=70)";
+  filter: unquote("alpha(opacity=70)");
 }
 
 .dashboard-stat .more:hover {
   text-decoration: none;
   opacity: 1;
-  filter: ~"alpha(opacity=100)";
+  filter: unquote("alpha(opacity=100)");
 }
 
 .dashboard-stat .more > i {
@@ -3289,7 +3289,7 @@ Horezantal Menu(new in v1.2)
 
 .header .hor-menu .hor-menu-search-form-toggler:hover {
   opacity: 0.8;
-  filter: ~"alpha(opacity=80)";
+  filter: unquote("alpha(opacity=80)");
 }
 
 .header .hor-menu a.hor-menu-search-form-toggler-close {
@@ -3315,7 +3315,7 @@ Horezantal Menu(new in v1.2)
 
 .header .hor-menu .search-form .btn:hover {
   opacity: 0.8;
-  filter: ~"alpha(opacity=80)";
+  filter: unquote("alpha(opacity=80)");
 }
 
 .header .hor-menu .search-form form {
@@ -3355,7 +3355,7 @@ Top News Blocks(new in v1.2.2)
   opacity:0.3;
   font-size: 35px;
   position: absolute;
-  filter: ~"alpha(opacity=30)"; /*For IE8*/
+  filter: unquote("alpha(opacity=30)"); /*For IE8*/
 }
 
 .top-news em {

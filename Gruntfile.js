@@ -3,11 +3,11 @@ module.exports = function(grunt) {
   var config = require('./config');
   var gulp = require('gulp');
   var styleguide = require('sc5-styleguide');
-  var outputPath = '';
+  var outputPath = 'docs';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clean: ['build', 'quality'],
+    clean: ['build', 'quality', 'docs', 'images'],
     jshint: {
       options: {
         undef: false,
@@ -20,28 +20,19 @@ module.exports = function(grunt) {
       },
       all: [config.app.src + '/webapp/public/js/**/*.js']
     },
-    lesslint: {
-      src: [config.app.src + '/webapp/public/less/*.less', '!**/ng-grid.less'],
+    sasslint: {
+      src: [config.app.src + '/webapp/public/scss/*.scss', '!**/ng-grid.scss'],
       options: {
-        quiet: true,
-        formatters: [{
-          id: 'checkstyle-xml',
-          dest: 'quality/less/checkstyle-results.xml'
-        }],
-        csslint: {
-          ids: false,
-          "bulletproof-font-face": false,
-          "box-model": false,
-          "box-sizing": false
-        }
+        bench: false,
+        config: '.sasslint.json'
       }
     },
-    less: {
+    sass: {
       compile: {
         files: [{
           expand: true,
-          cwd: config.app.src + '/webapp/public/less/',
-          src: ["**/*.less"],
+          cwd: config.app.src + '/webapp/public/scss/',
+          src: ["**/mixins.scss", "**/*.scss"],
           dest: config.app.dest + '/public/css',
           ext: ".css",
           flatten: false
@@ -49,8 +40,8 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: config.app.src + '/webapp/public/less/*.less',
-      tasks: ["less"],
+      files: config.app.src + '/webapp/public/scss/*.scss',
+      tasks: ["sass"],
       options: {
         spawn: false
       }
@@ -176,8 +167,8 @@ module.exports = function(grunt) {
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
-            appRoot: '/openlmis-requisition-refUI',
-            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/body.css"/>',
+            appRoot: '/openlmis-requisition-refUI/docs',
+            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
             disableHtml5Mode: true,
             overviewPath: config.app.src + '/resources/scss/overview.md'
           }))
@@ -194,12 +185,12 @@ module.exports = function(grunt) {
       'styleguide-png': function() {
         return gulp.src([ config.app.dest + "/public/images/tab-error.png",
                    config.app.dest + "/public/images/close-icon.png" ])
-          .pipe(gulp.dest(outputPath + "/images"));
+          .pipe(gulp.dest("images"));
       }
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'less', 'uglify', 'replace', 'karma']);
-  grunt.registerTask('check', ['clean', 'jshint', 'lesslint']);
+  grunt.registerTask('build', ['clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
 };
