@@ -14,9 +14,9 @@
   angular.module("openlmis")
     .controller("LoginController", LoginController);
 
-  LoginController.$inject = ['$scope', '$http', 'localStorageService', 'messageService', 'authServerClientFactory'];
+  LoginController.$inject = ['$scope', '$http', 'AuthURL', 'localStorageService', 'messageService', 'authServerClientFactory'];
 
-  function LoginController($scope, $http, localStorageService, messageService, authServerClientFactory) {
+  function LoginController($scope, $http, AuthURL, localStorageService, messageService, authServerClientFactory) {
     var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
     authServerClientFactory.getCredentials().then(function(data) {
@@ -46,7 +46,7 @@
 
       $http({
         method: 'POST',
-        url: '/auth/oauth/token?grant_type=password&username=' + $scope.username + '&password=' + $scope.password,
+        url: AuthURL('/oauth/token?grant_type=password&username=' + $scope.username + '&password=' + $scope.password),
         headers: {
           "Authorization": "Basic " + data
         }
@@ -66,9 +66,9 @@
     $scope.getUserInfo = function(userId, token) {
       $http({
         method: 'GET',
-        url: '/auth/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' +
+        url: AuthURL('/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' +
           localStorageService.get(localStorageKeys.USER_ID) + '&access_token=' +
-          localStorageService.get(localStorageKeys.ACCESS_TOKEN),
+          localStorageService.get(localStorageKeys.ACCESS_TOKEN)),
         headers: {
           "Content-Type": "application/json"
         }

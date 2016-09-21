@@ -43,7 +43,7 @@ describe("LoginController", function() {
 
     spyOn(messageService, 'populate');
     spyOn(location, 'reload');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
+    httpBackend.when('POST', '/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
 
     scope.doLogin();
     httpBackend.flush();
@@ -75,7 +75,7 @@ describe("LoginController", function() {
     scope.password = "john-password";
 
     spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
+    httpBackend.when('POST', '/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(401);
 
     scope.doLogin();
     httpBackend.flush();
@@ -92,7 +92,7 @@ describe("LoginController", function() {
     };
 
     spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(200, {
+    httpBackend.when('POST', '/oauth/token?grant_type=password&username=' + scope.username + '&password=' + scope.password).respond(200, {
       "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
       "token_type": "bearer",
       "expires_in": 1733,
@@ -101,7 +101,7 @@ describe("LoginController", function() {
     });
 
     httpBackend.when('GET',
-        '/auth/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
+        '/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
       .respond(200, {
         "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
         "username": "admin",
