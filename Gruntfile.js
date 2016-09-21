@@ -165,7 +165,7 @@ module.exports = function(grunt) {
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
             appRoot: '/openlmis-requisition-refUI/docs',
-            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/body.css"/>',
+            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
             disableHtml5Mode: true,
             overviewPath: config.app.src + '/resources/scss/overview.md'
           }))
