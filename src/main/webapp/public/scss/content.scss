@@ -1498,7 +1498,10 @@ table td.delete-button {
     border-radius: 0;
     background-color: transparent;
     &:focus {
-      @include box-shadow(none !important);
+      /*
+        removed !important from box-shadow mixin because it broke SC5
+      */
+      @include box-shadow(none);
       border-color: transparent !important;
     }
   }
