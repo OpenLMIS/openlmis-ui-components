@@ -62,25 +62,6 @@ $heading-green: #17888F !default;
   }
 }
 
-.content {
-  min-height: 200px;
-  padding: 10px 15px 40px;
-  margin: 12px 12px 0;
-  @include box-shadow(0 0 5px rgba(0, 0, 0, 0.6));
-  background: white;
-  &.rnr-content {
-    min-height: 600px;
-    padding-bottom: 70px;
-  }
-  h2 {
-    margin-top: 0;
-    border-bottom: 1px solid #d6d6d6;
-    font-size: 1.4em;
-    font-weight: normal;
-    color: $heading-green;
-  }
-}
-
 /* TODO: Split into separate screen */
 /* RnR Template config */
 .rnr-template-head {
@@ -125,14 +106,6 @@ $heading-green: #17888F !default;
 .form-row input,
 .form-row select {
   margin-bottom: 0;
-}
-
-.form-row input[type='radio'] {
-  margin: -3px 5px 0 0;
-}
-
-.form-row input[type='text'] {
-  width: 306px;
 }
 
 .form-row select {
@@ -419,60 +392,6 @@ span[class^="tpl-"] {
   }
 }
 
-.rnr-tabs {
-  margin: 5px 0 20px;
-  border-bottom: 2px solid #307579;
-  font-size: 0.9em;
-  font-weight: bold;
-  ul {
-    margin: 0;
-    float: left;
-    list-style: none;
-  }
-  li {
-    margin: 0 3px;
-    float: left;
-    border-radius: 4px 4px 0 0;
-    background: #b8b8b8;
-    a {
-      display: block;
-      padding: 8px 16px 6px;
-      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-      color: #FFF;
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    &:first-child {
-      margin-left: 7px;
-    }
-    &:hover {
-      background: #999;
-    }
-    &.selected {
-      background: #307579;
-    }
-    &.has-error {
-      a {
-        padding-left: 33px;
-        background-image: url("../images/tab-error.png");
-        background-position: 9px center;
-        background-repeat: no-repeat;
-      }
-    }
-  }
-  span.pull-right {
-    margin-left: 5px;
-    a {
-      font-weight: normal;
-    }
-  }
-  .print-button {
-    display: none;
-    opacity: 0.0;
-  }
-}
-
 #sortable .ui-sortable-helper {
   $shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6) !default;
   @include box-shadow($shadow);
@@ -751,14 +670,6 @@ table .productCategory,
   color: #FFF;
   .ngAggregateText {
     left: 12px;
-  }
-}
-
-input[ui-date] {
-  background: #FFF url(../images/calendar-icon.png) no-repeat 98% center;
-  cursor: pointer;
-  &[disabled] {
-    background-color: #EEE;
   }
 }
 
@@ -1131,25 +1042,6 @@ h3 {
 
 .button-row {
   padding: 7px 0;
-}
-
-.gradient-header {
-  th {
-    min-width: 93px;
-    background: #EEE;
-    background: #f9f9f9; /* Old browsers */
-    background: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9f9f9), color-stop(100%, #e0e0e0)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e0e0e0', GradientType=0); /* IE6-9 */
-    font-size: 0.9em;
-    font-weight: bold;
-    text-shadow: 0 1px 0 #FFF;
-    color: #444;
-  }
 }
 
 .total-cost {
@@ -1527,16 +1419,6 @@ table td.delete-button {
   }
 }
 
-.search-in-category {
-  margin-bottom: 10px;
-  .dropdown-menu {
-    text-align: left;
-  }
-  .btn-group {
-    display: inline-block;
-  }
-}
-
 #searchControl {
   .search-in-category {
     margin-bottom: 0;
@@ -1809,13 +1691,6 @@ td .close {
     .status-icon {
       @include box-shadow(0px 0px 1px 1px whitesmoke);
     }
-  }
-}
-
-.row-fluid [class*="span"].select2-container {
-  margin-left: 0;
-  &.bottom-spacer {
-    margin-bottom: 15px;
   }
 }
 
@@ -2438,10 +2313,6 @@ input[placeholder].placeholder {
   }
 }
 
-input[rnr-validator="positiveInteger"] {
-  text-align: right;
-}
-
 .cell-input {
   input[type="text"].small-width-ie {
     width: 86%;
@@ -2626,11 +2497,6 @@ input[rnr-validator="positiveInteger"] {
     padding: 0;
     font-size: 14px;
   }
-}
-
-table.search-list {
-  border: 1px solid #ddd;
-  border-left: 0;
 }
 
 .clear-top {
@@ -2926,60 +2792,8 @@ input[type="checkbox"].facilityCheckbox {
   }
 }
 
-.table-container {
-  overflow: auto;
-  table {
-    max-width: 100%;
-    word-wrap: break-word;
-  }
-}
-
-.col-icon-ok {
-  max-width: 50px;
-  min-width: 50px;
-}
-
 .col-name {
   min-width: 250px;
-}
-
-#facilityApprovedProductTable {
-  th, td {
-    line-height: 15px;
-  }
-  .col-full-supply {
-    max-width: 50px;
-    min-width: 50px;
-  }
-  .col-product-code {
-    min-width: 100px;
-    max-width: 125px;
-  }
-  .col-strength, .col-unit-measure {
-    min-width: 80px;
-    max-width: 100px;
-  }
-  .col-action {
-    min-width: 125px;
-  }
-  .col-max-months-stock, .col-min-months-stock, .col-eop {
-    min-width: 60px;
-    max-width: 125px;
-    input[type="text"] {
-      margin-bottom: 0;
-      width: 85%;
-    }
-  }
-  td .rnr-form-error {
-    bottom: 22px;
-    line-height: 20px;
-  }
-  .toolbar-error {
-    color: #CA0000;
-  }
-  input.btn-danger {
-    margin-left: 3px;
-  }
 }
 
 #facilityApprovedProductsModal {
@@ -3193,10 +3007,6 @@ input[type="checkbox"].facilityCheckbox {
   .gradient-header th {
     min-width: 0px;
   }
-  /*.flot-y-axis > .flot-tick-label{
-    left:20px !important;
-
-  }*/
 }
 .vaccine-report-popover{
   .table th, .table td {
@@ -3211,4 +3021,437 @@ input[type="checkbox"].facilityCheckbox {
 
 .text-row, tr.text-row{
   height: 35px;
+}
+
+/*
+Content style
+
+This is content style used in OpenLMIS.
+
+markup:
+<div class="logo clearfix">
+  <h1>OpenLMIS</h1>
+</div>
+<div class="content">
+  <h2>Content style title</h2>
+  <p>This is a sample paragraph</p>
+  <ul>
+    <li>List item</li>
+    <li>Another list item</li>
+  </ul>
+</div>
+
+Styleguide 1.1
+*/
+
+.content {
+  min-height: 200px;
+  padding: 10px 15px 40px;
+  margin: 12px 12px 0;
+  @include box-shadow(0 0 5px rgba(0, 0, 0, 0.6));
+  background: white;
+  &.rnr-content {
+    min-height: 600px;
+    padding-bottom: 70px;
+  }
+  h2 {
+    margin-top: 0;
+    border-bottom: 1px solid #d6d6d6;
+    font-size: 1.4em;
+    font-weight: normal;
+    color: $heading-green;
+  }
+}
+
+/*
+Tables
+
+Tables in OpenLMIS are used to present data retrieved from the database. They can include not only text, but also icons and buttons.
+
+markup:
+<div class="table-container">
+  <table id="facilityApprovedProductTable" class="table table-bordered search-list">
+    <thead>
+      <tr class="gradient-header resultCountHeader">
+        <th colspan="11">
+            <h3>4 record(s) found</h3>
+        </th>
+      </tr>
+      <tr class="gradient-header">
+        <th class="col-full-supply">Fully Supply</th>
+        <th class="col-product-code">Code</th>
+        <th class="col-name">Name</th>
+        <th class="col-strength">Strenght</th>
+        <th class="col-unit-measure">Unit of measure</th>
+        <th class="col-max-months-stock">
+          <span>Max months of stock</span>
+          <span class="label-required">*</span>
+        </th>
+        <th class="col-min-months-stock">Min months of stock</th>
+        <th class="col-eop">Emergency Order Point</th>
+        <th class="col-icon-ok">Global active</th>
+        <th class="col-icon-ok">Active at program</th>
+        <th class="col-action"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="productCategory" colspan="11">Anti-malarials</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>P00833</td>
+        <td>Quinine Sulphate</td>
+        <td>300</td>
+        <td>mg</td>
+        <td class="right-justified col-max-months-stock">6</td>
+        <td class="right-justified position-relative col-min-months-stock"></td>
+        <td class="right-justified position-relative col-eop"></td>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Anti-pyretics</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>N-378013</td>
+        <td>Tramedol</td>
+        <td>50mg/ml</td>
+        <td>mg</td>
+        <td class="right-justified col-max-months-stock">6</td>
+        <td class="right-justified position-relative col-min-months-stock"></td>
+        <td class="right-justified position-relative col-eop"></td>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Malaria-Prophylaxis</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>A41099</td>
+        <td>Doxycycline</td>
+        <td>100</td>
+        <td>mg</td>
+        <td class="right-justified col-max-months-stock">6</td>
+        <td class="right-justified position-relative col-min-months-stock"></td>
+        <td class="right-justified position-relative col-eop"></td>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Test Kits</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>KM3375-2</td>
+        <td>Malaria Rapid Diagnostic Test</td>
+        <td>1</td>
+        <td>each</td>
+        <td class="right-justified col-max-months-stock">6</td>
+        <td class="right-justified position-relative col-min-months-stock"></td>
+        <td class="right-justified position-relative col-eop"></td>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+Styleguide 1.6
+*/
+
+.table-container {
+  overflow: auto;
+  table {
+    max-width: 100%;
+    word-wrap: break-word;
+  }
+}
+
+table.search-list {
+  border: 1px solid #ddd;
+  border-left: 0;
+}
+
+.col-icon-ok {
+  max-width: 50px;
+  min-width: 50px;
+}
+
+.gradient-header {
+  th {
+    min-width: 93px;
+    background: #EEE;
+    background: #f9f9f9; /* Old browsers */
+    background: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9f9f9), color-stop(100%, #e0e0e0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f9f9f9 0%, #e0e0e0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e0e0e0', GradientType=0); /* IE6-9 */
+    font-size: 0.9em;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFF;
+    color: #444;
+  }
+}
+
+#facilityApprovedProductTable {
+  th, td {
+    line-height: 15px;
+  }
+  .col-full-supply {
+    max-width: 50px;
+    min-width: 50px;
+  }
+  .col-product-code {
+    min-width: 100px;
+    max-width: 125px;
+  }
+  .col-strength, .col-unit-measure {
+    min-width: 80px;
+    max-width: 100px;
+  }
+  .col-action {
+    min-width: 125px;
+  }
+  .col-max-months-stock, .col-min-months-stock, .col-eop {
+    min-width: 60px;
+    max-width: 125px;
+    input[type="text"] {
+      margin-bottom: 0;
+      width: 85%;
+    }
+  }
+  td .rnr-form-error {
+    bottom: 22px;
+    line-height: 20px;
+  }
+  .toolbar-error {
+    color: #CA0000;
+  }
+  input.btn-danger {
+    margin-left: 3px;
+  }
+}
+
+/*
+Rnr navigation tabs
+
+This is example of error visible at navigation tab after incorrect requisition submission.
+
+markup:
+<div class="rnr-tabs clearfix">
+  <ul class="clearfix" set-focus="">
+    <li class="selected has-error">
+      <a id=fullSupplyTab" href="">Full Supply Product(s)</a>
+    </li>
+    <li>
+      <a id="nonFullSupplyTab" href="">Non Full Supply Product(s)</a>
+    </li>
+  </ul>
+</div>
+
+Styleguide 2.3
+*/
+
+.rnr-tabs {
+  margin: 5px 0 20px;
+  border-bottom: 2px solid #307579;
+  font-size: 0.9em;
+  font-weight: bold;
+  ul {
+    margin: 0;
+    float: left;
+    list-style: none;
+  }
+  li {
+    margin: 0 3px;
+    float: left;
+    border-radius: 4px 4px 0 0;
+    background: #b8b8b8;
+    a {
+      display: block;
+      padding: 8px 16px 6px;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+      color: #FFF;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    &:first-child {
+      margin-left: 7px;
+    }
+    &:hover {
+      background: #999;
+    }
+    &.selected {
+      background: #307579;
+    }
+    &.has-error {
+      a {
+        padding-left: 33px;
+        background-image: url("../images/tab-error.png");
+        background-position: 9px center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  span.pull-right {
+    margin-left: 5px;
+    a {
+      font-weight: normal;
+    }
+  }
+  .print-button {
+    display: none;
+    opacity: 0.0;
+  }
+}
+
+/*
+Forms
+
+Base form elements which are used in OpenLMIS are presented below.
+
+markup:
+<form>
+	<legend>Example form elements</legend>
+		<label for="exampleTextInput" style="font-size:18px">Example text input elements</label>
+		<div id="exampleTextInput">
+			<p>Text input 1:
+			<input type="text" /></p>
+			<p>Text input 2:
+			<input type="text" rnr-validator="positiveInteger" maxlength="8"/></p>
+		</div>
+		<label for="exampleCombobox" style="font-size:18px">Example combo box element</label>
+		<div id="exampleCombobox">
+			<select style="border-radius: 3px !important;">
+				<option value="1">--Select Option-</option>
+				<option value="0">EPI</option><option value="1">ART</option>
+				<option value="2">Essential Medicines</option>
+				<option value="3">Family Planning</option>
+				<option value="4">Malaria</option>
+			</select>
+		<label for="exampleCheckBox" style="font-size:18px">Example check box elements</label>
+		<div id="exampleCheckBox">
+			<p><input type="checkbox" value="0" />Option 1</p>
+			<p><input type="checkbox" value="1" />Option 2</p>
+		</div>
+		<label for="radioInput" style="margin-top:10px;font-size:18px">Example radio elements</label>
+		<div id="radioInput" >
+			<p><input type="radio" name="radioExample" value="0" />Option 1</p>
+			<p><input type="radio" name="radioExample" value="1" />Option 2</p>
+		</div>
+		<label for="multiInputControl" style="margin-top:10px;font-size:18px">Example button group element</label>
+		<div id="multiInputControl" >
+			<div id="searchControl" class="row-fluid" >
+				<div class="span5 search-in-category">
+				      	<div class="input-append input-prepend">
+						<div class="btn-group">
+							<button style="border-radius: 3px !important;" class="btn dropdown-toggle" onclick="if(this.parentNode.className==='btn-group'){this.parentNode.className='btn-group open';}else{this.parentNode.className='btn-group';};">
+								<span id="selectedSearchOption" openlmis-message="selectedSearchOption.name"> 										Option 1
+								</span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" style="border-radius: 6px !important;">
+								<li class="ng-scope" onclick="this.parentNode.parentNode.childNodes[1].childNodes[1].innerHTML='Option 1';this.parentNode.parentNode.className='btn-group'">
+									<a id="searchOption0">
+										Option 1
+									</a>
+								</li>
+								<li class="ng-scope" onclick="this.parentNode.parentNode.childNodes[1].childNodes[1].innerHTML='Option 2';this.parentNode.parentNode.className='btn-group'">
+									<a id="searchOption1">
+										Option 2
+									</a>
+								</li>
+							</ul>
+						</div>
+						<input type="text" class="span5" />
+						<button style="border-radius: 3px !important;" class="btn">
+							  <i id="searchIcon" class="icon-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<label for="dataField" style="margin-top:10px;font-size:18px">Example data field element</label>
+		<div id="dataField" class="form-field">
+                            <input value="11/11/11" type="text" ui-date="{dateFormat: 'dd/mm/yy', changeYear: true}" ui-date-format="yy-mm-dd" class="ng-pristine ng-invalid ng-invalid-required hasDatepicker">
+                 </div>
+</form>
+
+Styleguide 3.0
+*/
+
+input[ui-date] {
+  background: #FFF url(../images/calendar-icon.png) no-repeat 98% center;
+  cursor: pointer;
+  &[disabled] {
+    background-color: #EEE;
+  }
+}
+
+input[rnr-validator="positiveInteger"] {
+  text-align: right;
+}
+
+.form-row input[type='radio'] {
+  margin: -3px 5px 0 0;
+}
+
+.form-row input[type='text'] {
+  width: 306px;
+}
+
+.row-fluid [class*="span"].select2-container {
+  margin-left: 0;
+  &.bottom-spacer {
+    margin-bottom: 15px;
+  }
+}
+
+.search-in-category {
+  margin-bottom: 10px;
+  .dropdown-menu {
+    text-align: left;
+  }
+  .btn-group {
+    display: inline-block;
+  }
 }

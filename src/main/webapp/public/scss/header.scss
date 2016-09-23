@@ -39,15 +39,6 @@
     text-shadow: 0 1px 0 #FFF;
   }
 }
-.user-info {
-  text-align: right;
-  padding: 24px 12px 0 0;
-  font-size: 0.9em;
-  text-shadow: 0 1px 0 #FFF;
-  a {
-    text-decoration: underline;
-  }
-}
 
 @media screen and (max-width: 960px){
   .logo {
@@ -62,5 +53,35 @@
     h1{
       width: 50%;
     }
+  }
+}
+
+/*
+Links
+
+This is an example of links style in OpenLMIS.
+
+markup:
+<div class="user-info">
+  <span>Logged is as</span>
+  <strong>admin</strong>
+  <a href="">
+    <span>Profile</span>
+  </a>
+  |
+  <a href="">Logout</a>
+</div>
+
+
+Styleguide 1.4
+*/
+
+.user-info {
+  text-align: right;
+  padding: 24px 12px 0 0;
+  font-size: 0.9em;
+  text-shadow: 0 1px 0 #FFF;
+  a {
+    text-decoration: underline;
   }
 }

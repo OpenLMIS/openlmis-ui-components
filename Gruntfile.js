@@ -159,15 +159,19 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        return gulp.src([ config.app.src + "/resources/scss/*.scss",
-                          config.app.src + "/resources/scss/body.css" ])
+        return gulp.src([ config.app.dest + "/public/css/base.css",
+                          config.app.dest + "/public/css/content.css",
+                          config.app.dest + "/public/css/header.css",
+                          config.app.dest + "/public/css/navigation.css",
+                          config.app.dest + "/public/css/font-awesome/icons.css",
+                          config.app.dest + "/public/body.css"])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
             appRoot: '/openlmis-requisition-refUI/docs',
             extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
             disableHtml5Mode: true,
-            overviewPath: config.app.src + '/resources/scss/overview.md'
+            overviewPath: config.app.dest + '/public/overview.md'
           }))
           .pipe(gulp.dest(outputPath));
       },

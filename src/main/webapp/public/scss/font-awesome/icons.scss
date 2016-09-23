@@ -4,7 +4,6 @@
 
 .icon-glass:before { content: $glass; }
 .icon-music:before { content: $music; }
-.icon-search:before { content: $search; }
 .icon-envelope-alt:before { content: $envelope-alt; }
 .icon-heart:before { content: $heart; }
 .icon-star:before { content: $star; }
@@ -14,7 +13,6 @@
 .icon-th-large:before { content: $th-large; }
 .icon-th:before { content: $th; }
 .icon-th-list:before { content: $th-list; }
-.icon-ok:before { content: $ok; }
 .icon-remove:before { content: $remove; }
 .icon-zoom-in:before { content: $zoom-in; }
 .icon-zoom-out:before { content: $zoom-out; }
@@ -22,7 +20,6 @@
 .icon-off:before { content: $off; }
 .icon-signal:before { content: $signal; }
 .icon-gear:before,
-.icon-cog:before { content: $cog; }
 .icon-trash:before { content: $trash; }
 .icon-home:before { content: $home; }
 .icon-file-alt:before { content: $file-alt; }
@@ -101,7 +98,6 @@
 .icon-arrow-down:before { content: $arrow-down; }
 .icon-mail-forward:before,
 .icon-share-alt:before { content: $share-alt; }
-.icon-resize-full:before { content: $resize-full; }
 .icon-resize-small:before { content: $resize-small; }
 .icon-plus:before { content: $plus; }
 .icon-minus:before { content: $minus; }
@@ -380,3 +376,31 @@
 .icon-vk:before { content: $vk; }
 .icon-weibo:before { content: $weibo; }
 .icon-renren:before { content: $renren; }
+
+/*
+Icons
+
+This is collection of icons used in OpenLMIS.
+
+markup:
+<ul>
+  <li><i class="icon-ok"></i> - Ok</li>
+  <li><i class="icon-search"></i> - Search</li>
+  <li><i class="icon-cog"></i> - Configuration</li>
+  <li><i class="icon-resize-full"></i> - Full screen</li>
+  <li><a class="remove-row" href="">×</a> - Remove row</li>
+  <li>
+    <div class="search-list" style="border: 0px; margin: 0px;">
+      <a class="close-btn" href="" style="left: 0px; top: 0px;"></a>
+      <span style="position: relative; left: 25px;"> - Close search list</span>
+    </div>
+  </li>
+</ul>
+
+Styleguide 1.5
+*/
+
+.icon-ok:before { content: $ok; }
+.icon-search:before { content: $search; }
+.icon-cog:before { content: $cog; }
+.icon-resize-full:before { content: $resize-full; }
