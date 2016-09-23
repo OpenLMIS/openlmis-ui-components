@@ -84,6 +84,51 @@ module.exports = function(grunt) {
         }]
       }
     },
+    concat: {
+      options: {
+        sourcemap: true
+      },
+      vendorJs: {
+        src: [
+          // Required libraries
+          config.app.src + '/webapp/public/lib/jquery/jquery-2.0.0.min.js',
+          config.app.src + '/webapp/public/lib/base2.js',
+          config.app.src + '/webapp/public/lib/jquery/jquery-ui-1.9.2.custom.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-route.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-cookies.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-resource.min.js',
+          config.app.src + '/webapp/public/lib/bootstrap/js/bootstrap.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/ng-grid/ng-grid-2.0.7.min.js',
+          config.app.src + '/webapp/public/lib/select2/select2.min.js',
+          config.app.src + '/webapp/public/lib/underscore/underscore-min.js',
+          config.app.src + '/webapp/public/lib/localstorage/localStorage.js',
+        ],
+        dest: config.app.dest + '/public/vendor.js'
+      },
+      js: {
+        src: [
+          // Base files
+          config.app.src + '/webapp/public/js/shared/util.js',
+          config.app.src + '/webapp/public/js/shared/*.js',
+          config.app.src + '/webapp/public/js/shared/services/services.js',
+          config.app.src + '/webapp/public/js/shared/**/*.js',
+          // Module registration
+          config.app.src + '/webapp/public/js/**/module/*.js',
+          config.app.src + '/webapp/public/js/**/*.module.js',
+          // Special file types....
+          config.app.src + '/webapp/public/js/**/*.config.js',
+          config.app.src + '/webapp/public/js/**/*.routes.js',
+          // Everything else
+          config.app.src + '/webapp/public/js/**/*.js',
+          // Run time
+          // NEED file to declare openlmis-app
+        ],
+        dest: config.app.dest + '/public/openlmis.js'
+      }
+    },
     copy: {
       main: {
         files: [
@@ -191,7 +236,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
 };
