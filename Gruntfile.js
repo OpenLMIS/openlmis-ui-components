@@ -253,7 +253,7 @@ module.exports = function(grunt) {
       'styleguide-png': function() {
         return gulp.src([ config.app.dest + "/public/images/*",
                    config.app.dest + "/public/images/*" ])
-          .pipe(gulp.dest(outputPath + "/images"));
+          .pipe(gulp.dest("images"));
       }
     }
   });
