@@ -87,6 +87,9 @@ module.exports = function(grunt) {
         replacements: [{
           from: '@@OPENLMIS_SERVER_URL',
           to: grunt.option('openlmisServerURL') || config.openlmisServerURL
+        },{
+          from: '@@AUTH_SERVICE_URL',
+          to: grunt.option('authServiceURL') || config.authServiceURL
         }]
       }
     },

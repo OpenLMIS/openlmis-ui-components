@@ -11,42 +11,59 @@ describe("LoginController", function() {
 
   beforeEach(module('openlmis'));
 
-  var scope, ctrl, httpBackend, messageService, controller;
+  var $rootScope, scope, LoginController, AuthService, messageService, controller;
 
-  beforeEach(inject(function($rootScope, $controller, _messageService_, _$httpBackend_) {
-    httpBackend = _$httpBackend_;
+  beforeEach(inject(function(_$rootScope_, $controller, _messageService_) {
+    controller = $controller;
+    $rootScope = _$rootScope_;
+
     scope = $rootScope.$new();
+
+    scope.loginConfig = {
+      "preventReload":true
+    };
+
     messageService = _messageService_;
     spyOn(messageService, 'get');
-    controller = $controller;
-
-    ctrl = controller(LoginController, {
+    
+    LoginController = controller("LoginController", {
       $scope: scope,
       messageService: messageService
     });
 
-    httpBackend.when('GET', '/public/credentials/auth_server_client.json').respond(200, {
+  }));
+
+  beforeEach(inject(function($httpBackend){
+    
+    // TODO: Replace this with a spy function for authServerClientFactory
+    $httpBackend.when('GET', '/public/credentials/auth_server_client.json').respond(200, {
       "clientId": "trusted-client",
       "clientSecret": "secret"
     });
 
   }));
 
+  beforeEach(inject(function($q, AuthService){
+    spyOn(AuthService, 'login').andCallFake(function(username, password){
+      if(password == "bad-password"){
+        return $q.reject();
+      } else {
+        return $q.when();
+      }
+    });
+
+    spyOn(AuthService, 'getUserInfo').andReturn($q.when());
+  }));
+
   it('should not login and show error when server returns error', function() {
     scope.username = "john";
-    scope.password = "openLmis";
-
-    ctrl = controller(LoginController, {
-      $scope: scope,
-      messageService: messageService
-    });
+    scope.password = "bad-password";
 
     spyOn(messageService, 'populate');
     spyOn(location, 'reload');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password').respond(401);
 
     scope.doLogin();
-    httpBackend.flush();
+    $rootScope.$apply();
 
     expect(scope.loginError).toBe(messageService.get("user.login.error"));
   });
@@ -72,13 +89,12 @@ describe("LoginController", function() {
 
   it('should clear password on failed login attempt', function() {
     scope.username = "john";
-    scope.password = "john-password";
+    scope.password = "bad-password";
 
     spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password').respond(401);
 
     scope.doLogin();
-    httpBackend.flush();
+    $rootScope.$apply();
 
     expect(scope.password).toBe(undefined);
   });
@@ -86,32 +102,9 @@ describe("LoginController", function() {
   it('should clear password on successful login attempt', function() {
     scope.username = "john";
     scope.password = "john-password";
-    scope.loginConfig = {
-      modalShown: false,
-      preventReload: true
-    };
-
-    spyOn(messageService, 'populate');
-    httpBackend.when('POST', '/auth/oauth/token?grant_type=password').respond(200, {
-      "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
-      "token_type": "bearer",
-      "expires_in": 1733,
-      "scope": "read write",
-      "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462"
-    });
-
-    httpBackend.when('GET',
-        '/auth/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
-      .respond(200, {
-        "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
-        "username": "admin",
-        "password": "$2a$10$4IZfidcJzbR5Krvj87ZJdOZvuQoD/kvPAJe549rUNoP3N3uH0Lq2G",
-        "email": "test@openlmis.org",
-        "role": "ADMIN"
-      });
 
     scope.doLogin();
-    httpBackend.flush();
+    $rootScope.$apply()
 
     expect(scope.password).toBe(undefined);
   });
