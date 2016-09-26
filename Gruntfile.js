@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   var gulp = require('gulp');
   var styleguide = require('sc5-styleguide');
   var outputPath = 'docs';
-  grunt.loadNpmTasks('grunt-bowercopy');
+  var wiredep = require('wiredep');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -175,78 +175,10 @@ module.exports = function(grunt) {
                    config.app.dest + "/public/images/close-icon.png" ])
           .pipe(gulp.dest("images"));
       }
-    },
-    bowercopy: {
-        options: {
-        },
-
-        // Entire folders
-        folders: {
-            options: {
-                srcPrefix: 'bower_components',
-                destPrefix: 'build/public/lib'
-            },
-            //dest:src
-            files: {
-                '/angular': 'angular',
-                '/angular': 'angular-animate',
-                '/angular': 'angular-cookies',
-                '/angular': 'angular-loader',
-                '/angular': 'angular-resource',
-                '/angular': 'angular-route',
-                '/angular': 'angular-touch',
-                '/angular': 'angular-sanitize',
-                '/angular-ui': 'angular-ui',
-                '/bootstrap': 'bootstrap',
-                '/c3': 'c3',
-                '/chosen': 'chosen',
-                '/d3': 'd3',
-                '/data-tables': 'DataTables',
-                '/easy-pie-chart': 'easy-pie-chart',
-                '/fullcalendar': 'fullcalendar',
-                '/jquery': 'jquery',
-                '/localstorage': 'angular-local-storage',
-                '/leaflet': 'angular-leaflet',
-                '/nsPopover': 'nsPopover',
-                '/select2': 'select2',
-                '/underscore': 'underscore',
-                '/uniform': 'uniform',
-                '/flot': 'flot',
-                '/flot': 'flot.orderbars',
-                '/flot': 'flot-axislabels',
-                '/flot': 'flot.tooltip',
-                '/ui-calendar': 'angular-ui-calendar'
-            }
-        }
-        //Other options:
-
-        //Anything
-        test: {
-        },
-        // Javascript
-        libs: {
-        },
-        plugins: {
-        },
-        // Less
-        less: {
-        },
-        // Images
-        images: {
-        },
-        // Glob patterns
-        glob: {
-        },
-        // Glob without destination
-        globSrc: {
-        },
-        // Main files
-        main: {
-        }
     }
   });
 
-  grunt.registerTask('build', ['bowercopy', 'clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
 };
