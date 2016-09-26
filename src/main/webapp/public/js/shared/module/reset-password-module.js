@@ -8,11 +8,11 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-angular.module('resetPassword', ['openlmis']).
+angular.module('resetPassword', ['openlmis-core']).
   config(['$routeProvider', function ($routeProvider) {
     $routeProvider.
       when('/token/:token', {controller: ValidateTokenController, resolve: ValidateTokenController.resolve}).
-      when('/reset/:token', {controller: ResetPasswordController, resolve: ResetPasswordController.resolve, templateUrl: 'partials/reset-password-form.html'}).
-      when('/reset/password/complete', {controller: ResetCompleteController, templateUrl: 'partials/reset-password-complete.html'}).
+      when('/reset/:token', {controller: ResetPasswordController, resolve: ResetPasswordController.resolve, templateUrl: '/public/pages/partials/reset-password-form.html'}).
+      when('/reset/password/complete', {controller: ResetCompleteController, templateUrl: '/public/pages/partials/reset-password-complete.html'}).
       otherwise({redirectTo: '/token/:token'});
   }]);

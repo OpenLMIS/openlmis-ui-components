@@ -10,17 +10,20 @@
 
 describe("ResetPasswordController", function () {
 
-  var scope, $httpBackend, messageService, route, controller;
+  var scope, $httpBackend, messageService, route, controller, $location;
 
   beforeEach(module('openlmis'));
-  beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, $route, _messageService_) {
+  beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, $route, _messageService_, _$location_) {
     scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
     messageService = _messageService_;
+    $location = _$location_;
     route = $route;
     route.current = {params : {token : "token"}};
     spyOn(messageService, 'get');
+    spyOn($location, 'path').andCallThrough();
     controller = $controller(ResetPasswordController, {$scope:scope, tokenValid:true, route:route});
+
   }));
 
   it("Should give error message if password is less than 8 characters", function () {
@@ -50,9 +53,14 @@ describe("ResetPasswordController", function () {
 
   it("Should update password if it is valid and both passwords match", function () {
     $httpBackend.expectPUT('/user/resetPassword/token.json').respond(200);
+    $httpBackend.expectGET('/public/pages/partials/reset-password-complete.html').respond(200);
+
     scope.password1 = "abcdefghi4";
     scope.password2 = "abcdefghi4";
     scope.resetPassword();
     $httpBackend.flush();
+
+    expect($location.path).toHaveBeenCalledWith('/reset/password/complete');
   });
+
 });
