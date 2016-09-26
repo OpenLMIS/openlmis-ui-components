@@ -8,11 +8,8 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/* App Module */
 
-
-
-var app = angular.module('openlmis', ['openlmis.services', 'angular-google-analytics', 'openlmis.localStorage', 'ui.directives', 'ngCookies', 'ngRoute'],
+var app = angular.module('openlmis-core', ['openlmis.services', 'angular-google-analytics', 'openlmis.localStorage', 'ui.directives', 'ngCookies', 'ngRoute'],
   function ($httpProvider) {
     var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
       var requestCount = 0;

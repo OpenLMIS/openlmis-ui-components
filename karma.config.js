@@ -12,40 +12,9 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      //Library files in order
-      'lib/jquery/jquery-2.0.0.min.js',
-      'lib/jquery/jquery-ui-1.9.2.custom.min.js',
-      'lib/angular/angular.min.js',
-      'lib/angular/angular-route.min.js',
-      'lib/angular/angular-resource.min.js',
-      'lib/angular/angular-cookies.min.js',
-      'lib/angular-ui/ng-grid-1.6.3.js',
-      'lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js',
-      'lib/angular-ui/angular-ui.js',
-      'lib/indexed-db-angular-service/js/services/indexed-db.js',
-      'lib/localstorage/localStorage.js',
-      'lib/underscore/underscore-min.js',
-      'lib/base2.js',
-      'lib/select2/select2.min.js',
-      'lib/ui-calendar/calendar.js',
-      'lib/easypiechart/angular.easypiechart.min.js',
-      'lib/angular-ui/ui-jqplot/ui-jqplot-chart.js',
-      'lib/angular-ui/ng-table/ng-table.js',
-
-      //Mocking library
+      '../../../../build/public/vendor.js',
       '../../../test/javascript/lib/angular-mocks.js',
-
-      //Source files
-      'js/shared/*.js',
-      'js/shared/services/services.js',
-      'js/shared/**/*.js',
-
-      'js/*/controller/*.js',
-      'js/*/module/*.js',
-
-      'js/**/*.js',
-
-      //Spec files
+      '../../../../build/public/openlmis.js',
       '../../../test/javascript/specs/**/*.js'
     ],
 

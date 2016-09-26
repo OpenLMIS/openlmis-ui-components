@@ -8,11 +8,23 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-angular.module('resetPassword', ['openlmis-core']).
-  config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.
-      when('/token/:token', {controller: ValidateTokenController, resolve: ValidateTokenController.resolve}).
-      when('/reset/:token', {controller: ResetPasswordController, resolve: ResetPasswordController.resolve, templateUrl: '/public/pages/partials/reset-password-form.html'}).
-      when('/reset/password/complete', {controller: ResetCompleteController, templateUrl: '/public/pages/partials/reset-password-complete.html'}).
-      otherwise({redirectTo: '/token/:token'});
-  }]);
+ (function(){
+    "use strict";
+
+    angular.module('openlmis')
+        .run(authStateChangeInjector);
+
+    authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthService'];
+    function authStateChangeInjector($rootScope, $window, AuthService){
+        $rootScope.$on('$routeChangeStart', function(){
+            if(!AuthService.isAuthenticated() && $window.location.href.indexOf('login.html') == -1){
+                // if not authenticated and not on login page
+                $window.location.assign('/public/pages/login.html');
+            } else if(AuthService.isAuthenticated() && $window.location.href.indexOf('login.html') >= 0) {
+                // if authenticated and on login page
+                $window.location.assign('/public/pages/index.html');
+            }
+        });
+    }
+
+})();

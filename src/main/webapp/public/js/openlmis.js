@@ -5,24 +5,16 @@
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  *  
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-@import "font-awesome/font-awesome";
-@import "accordion";
-@import "base";
-@import "login";
+ /*
+    TODO: Procedurally generate this page
+ */
 
-//Components
-@import "header";
-@import "navigation";
+(function(){
+    "use strict";
 
-@import "content";
-@import "distribution";
-@import "form-toolbar";
-@import "equipment";
-@import "facility-selector-directive";
-@import "ivd-form";
+    angular.module('openlmis', ['openlmis-core', 'rnr', 'resetPassword']);
 
-@import "rnr-view";
-@import "rnr-mmia-view";
+})();

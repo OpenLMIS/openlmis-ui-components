@@ -22,21 +22,27 @@ module.exports = function(grunt) {
       all: [config.app.src + '/webapp/public/js/**/*.js']
     },
     sasslint: {
-      src: [config.app.src + '/webapp/public/scss/*.scss', '!**/ng-grid.scss'],
+      src: [
+        config.app.src + '/webapp/public/scss/*.scss',
+        '!**/ng-grid.scss'
+      ],
       options: {
         bench: false,
         config: '.sasslint.json'
       }
     },
     sass: {
+      options: {
+        sourceMap: true,
+      },
       compile: {
         files: [{
           expand: true,
-          cwd: config.app.src + '/webapp/public/scss/',
-          src: ["**/mixins.scss", "**/*.scss"],
+          cwd: config.app.src + '/webapp/public/scss',
+          src: ["*.scss"],
           dest: config.app.dest + '/public/css',
           ext: ".css",
-          flatten: false
+          flatten: true
         }]
       }
     },
@@ -55,9 +61,9 @@ module.exports = function(grunt) {
         preserveComments: false
       },
       files: {
-        cwd: config.app.src + '/webapp/public/js/',
+        cwd: config.app.dest + '/public/',
         src: ['**/*.js'],
-        dest: config.app.dest + '/public/js',
+        dest: config.app.dest + '/public/',
         expand: true,
         flatten: false
       }
@@ -82,7 +88,66 @@ module.exports = function(grunt) {
         replacements: [{
           from: '@@OPENLMIS_SERVER_URL',
           to: grunt.option('openlmisServerURL') || config.openlmisServerURL
+        },{
+          from: '@@AUTH_SERVICE_URL',
+          to: grunt.option('authServiceURL') || config.authServiceURL
         }]
+      }
+    },
+    concat: {
+      options: {
+        sourcemap: true
+      },
+      vendorJs: {
+        src: [
+          // Required libraries
+          config.app.src + '/webapp/public/lib/jquery/jquery-2.0.0.min.js',
+          config.app.src + '/webapp/public/lib/base2.js',
+          config.app.src + '/webapp/public/lib/jquery/jquery-ui-1.9.2.custom.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-route.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-cookies.min.js',
+          config.app.src + '/webapp/public/lib/angular/angular-resource.min.js',
+          config.app.src + '/webapp/public/lib/bootstrap/js/bootstrap.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js',
+          config.app.src + '/webapp/public/lib/angular-ui/ng-grid/ng-grid-2.0.7.min.js',
+          config.app.src + '/webapp/public/lib/select2/select2.min.js',
+          config.app.src + '/webapp/public/lib/underscore/underscore-min.js',
+          config.app.src + '/webapp/public/lib/localstorage/localStorage.js',
+        ],
+        dest: config.app.dest + '/public/vendor.js'
+      },
+      js: {
+        src: [
+          // Base files
+          config.app.src + '/webapp/public/js/shared/util.js',
+          config.app.src + '/webapp/public/js/shared/*.js',
+          config.app.src + '/webapp/public/js/shared/services/services.js',
+          config.app.src + '/webapp/public/js/shared/**/*.js',
+          // Module registration
+          config.app.src + '/webapp/public/js/**/module/*.js',
+          config.app.src + '/webapp/public/js/**/*.module.js',
+          // Special file types....
+          config.app.src + '/webapp/public/js/**/*.config.js',
+          config.app.src + '/webapp/public/js/**/*.routes.js',
+          // Everything else
+          config.app.src + '/webapp/public/js/**/*.js',
+          '!' + config.app.src + '/webapp/public/js/openlmis.js',
+          // Run time
+          // NEED file to declare openlmis-app
+          config.app.src + '/webapp/public/js/openlmis.js',
+        ],
+        dest: config.app.dest + '/public/openlmis.js'
+      },
+      vendorCss: {
+        src: [
+          config.app.src + '/webapp/public/lib/bootstrap/css/bootstrap.min.css',
+          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.css',
+          config.app.src + '/webapp/public/lib/select2/select2.css',
+          config.app.src + '/webapp/public/css/ng-grid.css',
+        ],
+        dest: config.app.dest + '/public/css/vendor.css'
       }
     },
     copy: {
@@ -107,6 +172,17 @@ module.exports = function(grunt) {
           }
         ],
       },
+      img: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            cwd: config.app.src + '/webapp/public/lib/',
+            src: ['**/img/**'],
+            dest: config.app.dest + '/public/img'
+          }
+        ],
+      },
       fonts: {
         files: [
           {
@@ -122,8 +198,13 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: config.app.src + '/webapp/public/pages/',
-            src: ['**'],
+            src: ['**', '!index.html'],
             dest: config.app.dest + '/public/pages'
+          },
+          {
+            flatten: true,
+            src: [config.app.src + '/webapp/public/pages/index.html'],
+            dest: config.app.dest + '/public/index.html'
           }
         ],
       },
@@ -150,35 +231,45 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        return gulp.src([ config.app.src + "/resources/scss/*.scss",
-                          config.app.src + "/resources/scss/body.css" ])
+        return gulp.src([ config.app.src + "/webapp/public/scss/base.scss",
+                          config.app.src + "/webapp/public/scss/content.scss",
+                          config.app.src + "/webapp/public/scss/header.scss",
+                          config.app.src + "/webapp/public/scss/navigation.scss",
+                          config.app.src + "/webapp/public/scss/font-awesome/icons.scss",
+                        ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
             rootPath: outputPath,
             appRoot: '/openlmis-requisition-refUI/docs',
             extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
             disableHtml5Mode: true,
-            overviewPath: config.app.src + '/resources/scss/overview.md'
+            overviewPath: config.app.dest + '/public/overview.md'
           }))
           .pipe(gulp.dest(outputPath));
       },
       'styleguide-applystyles': function() {
-        return gulp.src([ config.app.dest + "/public/lib/bootstrap/css/bootstrap.min.css",
+        return gulp.src([ config.app.dest + "/public/css/vendor.css",
                    config.app.dest + "/public/css/app.css",
-                   config.app.dest + "/public/lib/select2/select2.css",
-                   config.app.dest + "/public/lib/select2/select2.png" ])
+                   config.app.dest + "/public/body.css",
+                  ])
           .pipe(styleguide.applyStyles())
           .pipe(gulp.dest(outputPath));
       },
+      'styleguide-fonts': function() {
+        return gulp.src([
+            config.app.src + "/webapp/public/fonts/*",
+          ])
+          .pipe(gulp.dest(outputPath + "/fonts"))
+      },
       'styleguide-png': function() {
-        return gulp.src([ config.app.dest + "/public/images/tab-error.png",
-                   config.app.dest + "/public/images/close-icon.png" ])
+        return gulp.src([ config.app.dest + "/public/images/*",
+                   config.app.dest + "/public/images/*" ])
           .pipe(gulp.dest("images"));
       }
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'uglify', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
-  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-applystyles']);
+  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };
