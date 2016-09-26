@@ -38,12 +38,10 @@ function LoginController($scope, $http, localStorageService, messageService, aut
     $http({
       method: 'POST',
       url: '/auth/oauth/token?grant_type=password',
-      data:{
-        'username': $scope.username,
-        'password': $scope.password
-      },
+      data: 'username=' + $scope.username + '&password=' + $scope.password,
       headers: {
-        "Authorization": "Basic " + data
+        "Authorization": "Basic " + data,
+        "Content-Type": "application/x-www-form-urlencoded"
       }
     }).success(function(data) {
       localStorageService.add(localStorageKeys.ACCESS_TOKEN, data.access_token);
