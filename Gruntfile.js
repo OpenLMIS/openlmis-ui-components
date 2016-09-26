@@ -192,8 +192,13 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: config.app.src + '/webapp/public/pages/',
-            src: ['**'],
+            src: ['**', '!index.html'],
             dest: config.app.dest + '/public/pages'
+          },
+          {
+            flatten: true,
+            src: [config.app.src + '/webapp/public/pages/index.html'],
+            dest: config.app.dest + '/public/index.html'
           }
         ],
       },
