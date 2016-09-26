@@ -129,8 +129,10 @@ module.exports = function(grunt) {
           config.app.src + '/webapp/public/js/**/*.routes.js',
           // Everything else
           config.app.src + '/webapp/public/js/**/*.js',
+          '!' + config.app.src + '/webapp/public/js/openlmis.js',
           // Run time
           // NEED file to declare openlmis-app
+          config.app.src + '/webapp/public/js/openlmis.js',
         ],
         dest: config.app.dest + '/public/openlmis.js'
       },
