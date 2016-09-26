@@ -1,0 +1,43 @@
+{
+  "name": "vendor files for openlmis",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "1.2.10",
+    "angular-animate": "*",
+    "angular-cookies": "*",
+    "angular-loader": "*",
+    "angular-resource": "*",
+    "angular-route": "*",
+    "angular-touch": "*",
+    "angular-sanitize": "*",
+    "angular-ui": "0.4.0",
+    "bootstrap": "*",
+    "c3": "*",
+    "chosen": "*",
+    "d3": "*",
+    "DataTables": "*",
+    "easy-pie-chart": "*",
+    "flot": "*",
+    "flot.orderbars": "*",
+    "flot-axislabels": "*",
+    "flot.tooltip ": "*",
+    "fullcalendar": "*",
+    "jquery": "*",
+    "angular-local-storage": "*",
+    "angular-leaflet": "*",
+    "nsPopover": "*",
+    "select2": "*",
+    "underscore": "*",
+    "uniform": "*",
+    "angular-ui-calendar": "*"
+  },
+  "resolutions": {
+    "jquery": "^1.6",
+    "angular": "1.5.8"
+  }
+}
