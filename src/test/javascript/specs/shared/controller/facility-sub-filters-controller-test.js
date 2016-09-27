@@ -23,14 +23,14 @@ describe("Facility Sub Filters Controller", function () {
 
     $httpBackend = _$httpBackend_;
     controller = $controller;
-    ctrl = $controller('FacilitySubFiltersController', {$scope: scope, messageService: messageService});
+    ctrl = $controller(FacilitySubFiltersController, {$scope: scope, messageService: messageService});
   }));
 
   it('should set label as select in scope if facility type already selected', function () {
     spyOn(messageService, 'get').andReturn("label1");
     scope.facilityType = {"name": "warehouse"};
 
-    ctrl = controller('FacilitySubFiltersController', {$scope: scope, messageService: messageService});
+    ctrl = controller(FacilitySubFiltersController, {$scope: scope, messageService: messageService});
 
     expect(scope.label).toEqual('label1');
     expect(messageService.get).toHaveBeenCalledWith('label.change.facility.type');
@@ -40,7 +40,7 @@ describe("Facility Sub Filters Controller", function () {
     spyOn(messageService, 'get').andReturn("label1");
     scope.facilityType = undefined;
 
-    ctrl = controller('FacilitySubFiltersController', {$scope: scope, messageService: messageService});
+    ctrl = controller(FacilitySubFiltersController, {$scope: scope, messageService: messageService});
 
     expect(scope.label).toEqual('label1');
     expect(messageService.get).toHaveBeenCalledWith('create.facility.select.facilityType');

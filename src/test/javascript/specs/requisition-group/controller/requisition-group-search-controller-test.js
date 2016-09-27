@@ -21,7 +21,7 @@ describe("Requisition Group Search Controller", function () {
     navigateBackService.query = '';
     location = $location;
     ctrl = $controller;
-    ctrl('RequisitionGroupSearchController', {$scope: scope});
+    ctrl(RequisitionGroupSearchController, {$scope: scope});
   }));
 
   it('should get all requisition Groups in a page depending on search criteria', function () {

@@ -17,7 +17,7 @@ describe("Multiple Facility Search Filter Controller", function () {
     scope = $rootScope.$new();
     parentScope = $rootScope.$new();
     httpBackend = _$httpBackend_;
-    ctrl = $controller('MultipleFacilitySearchFilterController', {$scope: scope});
+    ctrl = $controller(MultipleFacilitySearchFilterController, {$scope: scope});
   }));
 
   it('should set searched facilities in scope', function () {

@@ -22,7 +22,7 @@ describe("Facility Search Filter Controller", function () {
     ];
 
     $httpBackend = _$httpBackend_;
-    ctrl = $controller('FacilitySearchFilterController', {$scope: scope});
+    ctrl = $controller(FacilitySearchFilterController, {$scope: scope});
   }));
 
   it("should associate a facility", function () {

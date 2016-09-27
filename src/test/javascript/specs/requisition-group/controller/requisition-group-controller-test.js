@@ -41,7 +41,7 @@ describe("Requisition Group Controller", function () {
     ];
 
     requisitionGroupData = {"requisitionGroup": requisitionGroup, "requisitionGroupMembers": requisitionGroupMembers, "requisitionGroupProgramSchedules": requisitionGroupProgramSchedules};
-    ctrl = $controller('RequisitionGroupController', {$scope: scope, requisitionGroupData: requisitionGroupData, programs: programs, schedules: schedules});
+    ctrl = $controller(RequisitionGroupController, {$scope: scope, requisitionGroupData: requisitionGroupData, programs: programs, schedules: schedules});
   }));
 
   it('should set requisition group data in scope', function () {
@@ -52,7 +52,7 @@ describe("Requisition Group Controller", function () {
   });
 
   it('should set requisition group data as empty in scope when requisition group data not present', function () {
-    ctrl = controller('RequisitionGroupController', {$scope: scope, requisitionGroupData: undefined, programs: programs, schedules: schedules});
+    ctrl = controller(RequisitionGroupController, {$scope: scope, requisitionGroupData: undefined, programs: programs, schedules: schedules});
 
     expect(scope.requisitionGroup).toEqual({});
     expect(scope.requisitionGroupMembers).toEqual([]);
@@ -225,7 +225,7 @@ describe("Requisition Group Controller", function () {
     scope.showSlider = false;
     spyOn(messageService, 'get').andReturn('facilities added sucessfully');
 
-    ctrl = controller('RequisitionGroupController', {$scope: scope, requisitionGroupData: requisitionGroupData, programs: programs, schedules: schedules});
+    ctrl = controller(RequisitionGroupController, {$scope: scope, requisitionGroupData: requisitionGroupData, programs: programs, schedules: schedules});
 
     var result = scope.addMembers(tempFacilities);
 
