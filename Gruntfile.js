@@ -99,11 +99,25 @@ module.exports = function(grunt) {
         sourcemap: true
       },
       vendorJs: {
-        src: [
+        src: function(){
+          return [
+            'bower_components/jquery/dist/jquery.js', // hack to make jquery load first
+            'bower_components/jquery-ui/jquery-ui.js' // hack to make jquery load first
+            ].concat(
+            wiredep().js,
+            [
+              'vendor/ng-grid-2.0.7.min.js',
+              'vendor/base2.js'
+            ]);
+        }(),
+/*
+        [
           // Required libraries
           config.app.src + '/webapp/public/lib/jquery/jquery-2.0.0.min.js',
           config.app.src + '/webapp/public/lib/base2.js',
           config.app.src + '/webapp/public/lib/jquery/jquery-ui-1.9.2.custom.min.js',
+          
+
           config.app.src + '/webapp/public/lib/angular/angular.min.js',
           config.app.src + '/webapp/public/lib/angular/angular-route.min.js',
           config.app.src + '/webapp/public/lib/angular/angular-cookies.min.js',
@@ -116,6 +130,7 @@ module.exports = function(grunt) {
           config.app.src + '/webapp/public/lib/underscore/underscore-min.js',
           config.app.src + '/webapp/public/lib/localstorage/localStorage.js',
         ],
+*/
         dest: config.app.dest + '/public/vendor.js'
       },
       js: {

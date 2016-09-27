@@ -13,8 +13,8 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       '../../../../build/public/vendor.js',
-      '../../../test/javascript/lib/angular-mocks.js',
       '../../../../build/public/openlmis.js',
+      '../../../../bower_components/angular-mocks/angular-mocks.js',
       '../../../test/javascript/specs/**/*.js'
     ],
 

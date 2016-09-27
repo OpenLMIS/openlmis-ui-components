@@ -1,5 +1,5 @@
 {
-  "name": "vendor files for openlmis",
+  "name": "OpenLMIS",
   "version": "0.0.1",
   "ignore": [
     "**/.*",
@@ -7,37 +7,53 @@
     "bower_components"
   ],
   "dependencies": {
-    "angular": "1.2.10",
+    "angular": "~1.5",
     "angular-animate": "*",
     "angular-cookies": "*",
     "angular-loader": "*",
     "angular-resource": "*",
     "angular-route": "*",
-    "angular-touch": "*",
     "angular-sanitize": "*",
     "angular-ui": "0.4.0",
     "bootstrap": "*",
-    "c3": "*",
-    "chosen": "*",
-    "d3": "*",
-    "DataTables": "*",
-    "easy-pie-chart": "*",
-    "flot": "*",
-    "flot.orderbars": "*",
-    "flot-axislabels": "*",
-    "flot.tooltip ": "*",
-    "fullcalendar": "*",
     "jquery": "*",
     "angular-local-storage": "*",
-    "angular-leaflet": "*",
-    "nsPopover": "*",
-    "select2": "*",
+    "select2": "3.4.2",
     "underscore": "*",
     "uniform": "*",
-    "angular-ui-calendar": "*"
+    "angular-bootstrap": "0.1.0",
+    "angular-ui-grid": "^3.2.9",
+    "angular-ui-sortable": "^0.14.3",
+    "jquery-ui": "^1"
+  },
+  "overrides": {
+    "jquery": {
+      "main": [
+        "dist/jquery.js"
+      ]
+    },
+    "jquery-ui": {
+      "main": ["jquery-ui.js"]
+    },
+    "angular-mocks": {
+      "main": []
+    },
+    "angular-ui": {
+      "main": [
+        "build/angular-ui.js",
+        "build/angular-ui.css"
+      ]
+    },
+    "angular-bootstrap": {
+      "main": [
+        "ui-bootstrap.js"
+      ]
+    }
   },
   "resolutions": {
-    "jquery": "^1.6",
-    "angular": "1.5.8"
+    "angular": "1.5.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.5.0"
   }
 }
