@@ -11,7 +11,7 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis')
+    angular.module('openlmis-core')
         .service('AuthService', AuthService);
 
     AuthService.$inject = ["$q", "$http", "AuthURL", "localStorageService", "authServerClientFactory"];
@@ -49,10 +49,12 @@
               });
             }
 
+            var data = btoa(clientId + ":" + clientSecret);
+
             $http({
                 method: 'POST',
                 url: AuthURL('/oauth/token?grant_type=password'),
-                data: 'username=' + $scope.username + '&password=' + $scope.password,
+                data: 'username=' + username + '&password=' + password,
                 headers: {
                   "Authorization": "Basic " + data,
                   "Content-Type": "application/x-www-form-urlencoded"

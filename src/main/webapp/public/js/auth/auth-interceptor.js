@@ -11,7 +11,7 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis')
+    angular.module('openlmis-core')
         .run(authStateChangeInjector);
 
     authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthService'];

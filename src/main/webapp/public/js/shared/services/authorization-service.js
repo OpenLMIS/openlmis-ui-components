@@ -15,7 +15,8 @@ services.factory('AuthorizationService', function (localStorageService, $window)
   var preAuthorize = function () {
     var permissions = Array.prototype.slice.call(arguments);
     if(!hasRight(permissions)){
-      $window.location = "/public/pages/access-denied.html";
+      // TODO: Fix this
+      //$window.location = "/public/pages/access-denied.html";
       return false;
     }
     return true;

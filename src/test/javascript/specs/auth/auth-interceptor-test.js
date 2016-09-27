@@ -7,16 +7,19 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("AuthService", function() {
+describe("AuthInterceptor", function() {
 
   var AuthService, $window, localStorageService, $rootScope;
 
   function setupTest(){
-    module('openlmis', function($provide){
-        $window = {location: { 
+    module('openlmis');
+
+    $window = {location: { 
             href: '/public/pages/index.html',
             assign: jasmine.createSpy()
         }};
+
+    module(function($provide){
         $provide.value('$window', $window);
     });
 

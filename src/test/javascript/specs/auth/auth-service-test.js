@@ -22,10 +22,9 @@ describe("AuthService", function() {
 
     AuthService.setClient('trusted-client', 'secret');
 
-    httpBackend.when('POST', '/oauth/token?grant_type=password')
+    httpBackend.when('POST', 'http://localhost/oauth/token?grant_type=password')
     .respond(function(method, url, data){
-      data = JSON.parse(data);
-      if(data['password'] == 'bad-password'){
+      if(data.indexOf('bad-password') >= 0 ){
         return [401];
       } else {
         return [200,{
@@ -39,7 +38,7 @@ describe("AuthService", function() {
     });
 
     httpBackend.when('GET',
-        '/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
+        'http://localhost/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
       .respond(200, {
         "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
         "username": "admin",

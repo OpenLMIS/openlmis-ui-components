@@ -11,7 +11,7 @@
  (function(){
  	"use strict";
 
- 	angular.module("openlmis")
+ 	angular.module("openlmis-core")
 		.constant("OpenlmisServerURL", function(){
 			// The serverURL can be set with a grunt build argument
 			// --serverURL=http://openlmis.server:location
@@ -23,7 +23,7 @@
 			}
 	}());
 
- 	angular.module("openlmis")
+ 	angular.module("openlmis-core")
  		.constant("AuthServiceURL", function(){
  			// The authUrl can be set with a grunt build argument
  			// --AuthServiceURL=http://auth.service:location
@@ -35,7 +35,7 @@
  			}
  		}());
 
- 	angular.module("openlmis")
+ 	angular.module("openlmis-core")
  		.factory("AuthURL", AuthURL);
 
  	function AuthURL(AuthServiceURL, OpenlmisServerURL){
