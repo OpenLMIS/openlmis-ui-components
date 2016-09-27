@@ -15,6 +15,6 @@
 (function(){
     "use strict";
 
-    angular.module('openlmis', ['openlmis-core', 'rnr', 'resetPassword']);
+    angular.module('openlmis', ['openlmis-core', 'rnr', 'requisitionGroup', 'createRnRTemplate', 'resetPassword']);
 
 })();
