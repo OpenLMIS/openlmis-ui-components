@@ -8,19 +8,28 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-function LocaleController($scope, $rootScope, $cookies, $http, messageService, localStorageService) {
-  $scope.selectedLocale = $cookies.lang === undefined ? "en" : $cookies.lang;
+(function(){
+  "use strict";
 
-  $scope.locales = ['en', 'es', 'fr', 'pt'];
-  messageService.populate($scope.selectedLocale);
+  angular.module('openlmis-core')
+  .controller('LocaleController', LocaleController);
 
-  $scope.changeLocale = function (localeKey) {
-    $scope.selectedLocale = localeKey;
-    $http.get('/public/messages/messages_' + $scope.selectedLocale + '.json').success(function (data) {
-      for (var attr in data) {
-        localStorageService.add('message.' + attr, data[attr]);
-      }
-      $rootScope.$broadcast('messagesPopulated');
-    });
-  };
-}
+  LocaleController.$inject = ['$scope', '$rootScope', '$cookies', '$http', 'messageService', 'localStorageService'] 
+  function LocaleController($scope, $rootScope, $cookies, $http, messageService, localStorageService) {
+    $scope.selectedLocale = $cookies.lang === undefined ? "en" : $cookies.lang;
+
+    $scope.locales = ['en', 'es', 'fr', 'pt'];
+    messageService.populate($scope.selectedLocale);
+
+    $scope.changeLocale = function (localeKey) {
+      $scope.selectedLocale = localeKey;
+      $http.get('/public/messages/messages_' + $scope.selectedLocale + '.json').success(function (data) {
+        for (var attr in data) {
+          localStorageService.add('message.' + attr, data[attr]);
+        }
+        $rootScope.$broadcast('messagesPopulated');
+      });
+    };
+  }
+
+})();

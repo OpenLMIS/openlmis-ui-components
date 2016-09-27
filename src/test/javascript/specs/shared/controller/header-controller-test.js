@@ -25,7 +25,7 @@ describe("HeaderController", function() {
     access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
     spyOn(localStorageService, 'get').andReturn(access_token);
     spyOn(localStorageService, 'remove');
-    $controller(HeaderController, {
+    $controller('HeaderController', {
       $scope: scope,
       localStorageService: localStorageService,
       loginConfig: loginConfig,

@@ -74,7 +74,7 @@ describe("NavigationController", function() {
       }
     });
 
-    ctrl = $controller(NavigationController, {
+    ctrl = $controller('NavigationController', {
       $scope: scope,
       localStorageService: localStorageService,
       $window: window

@@ -26,7 +26,7 @@ describe("LocaleController", function () {
     $httpBackend.expectGET('/public/messages/messages_pt.json').respond(messagesReturned);
 
 
-    controller = $controller(LocaleController, {$scope: scope, $rootScope: _$rootScope_, messageService: messageService,
+    controller = $controller('LocaleController', {$scope: scope, $rootScope: _$rootScope_, messageService: messageService,
       localStorageService: _localStorageService_, $cookies: _$cookies_});
   }));
 

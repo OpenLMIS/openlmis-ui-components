@@ -8,63 +8,70 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-function NavigationController($scope, ConfigSettingsByKey, localStorageService, Locales, $location, $window) {
+(function(){
+  "use strict";
 
-  ConfigSettingsByKey.get({key: 'LOGIN_SUCCESS_DEFAULT_LANDING_PAGE'}, function (data){
-    $scope.homePage =  data.settings.value;
-  });
+  angular.module('openlmis-core')
+    .controller('NavigationController', NavigationController);
 
-  $scope.loadRights = function () {
-    $scope.rights = localStorageService.get(localStorageKeys.RIGHT);
+  NavigationController.$inject = ['$scope', 'ConfigSettingsByKey', 'localStorageService', 'Locales', '$location', '$window'] 
+  function NavigationController($scope, ConfigSettingsByKey, localStorageService, Locales, $location, $window) {
 
-    $(".navigation > ul").show();
-  }();
-
-  $scope.showSubmenu = function () {
-    $(".navigation li:not(.navgroup)").on("click", function () {
-      $(this).children("ul").show();
+    ConfigSettingsByKey.get({key: 'LOGIN_SUCCESS_DEFAULT_LANDING_PAGE'}, function (data){
+      $scope.homePage =  data.settings.value;
     });
-  }();
 
-  $scope.hasReportingPermission = function () {
-    if ($scope.rights !== undefined && $scope.rights !== null) {
-      var rights = JSON.parse($scope.rights);
-      var rightTypes = _.pluck(rights, 'type');
-      return rightTypes.indexOf('REPORTING') > -1;
-    }
-    return false;
-  };
+    $scope.loadRights = function () {
+      $scope.rights = localStorageService.get(localStorageKeys.RIGHT);
 
-  $scope.hasPermission = function (permission) {
-    if ($scope.rights !== undefined && $scope.rights !== null) {
-      var rights = JSON.parse($scope.rights);
-      var rightNames = _.pluck(rights, 'name');
-      return rightNames.indexOf(permission) > -1;
-    }
-    return false;
-  };
+      $(".navigation > ul").show();
+    }();
 
-  $scope.goOnline = function()
-  {
-    Locales.get({}, function(data)
-    {
-      if(data.locales)
-      {
-        var currentURI = $location.absUrl();
-        if (currentURI.endsWith('offline.html'))
-          $window.location = currentURI.replace('public/pages/offline.html', '');
-        else if (currentURI.indexOf('offline.html') > -1)
-          $window.location = currentURI.replace('offline.html', 'index.html').replace('#/list', '#/manage');
-        else
-          $window.location.reload();
+    $scope.showSubmenu = function () {
+      $(".navigation li:not(.navgroup)").on("click", function () {
+        $(this).children("ul").show();
+      });
+    }();
 
-        $scope.showNetworkError = false;
-        return;
+    $scope.hasReportingPermission = function () {
+      if ($scope.rights !== undefined && $scope.rights !== null) {
+        var rights = JSON.parse($scope.rights);
+        var rightTypes = _.pluck(rights, 'type');
+        return rightTypes.indexOf('REPORTING') > -1;
       }
+      return false;
+    };
 
-    $scope.showNetworkError = true;
-    }, {});
-  };
+    $scope.hasPermission = function (permission) {
+      if ($scope.rights !== undefined && $scope.rights !== null) {
+        var rights = JSON.parse($scope.rights);
+        var rightNames = _.pluck(rights, 'name');
+        return rightNames.indexOf(permission) > -1;
+      }
+      return false;
+    };
 
+    $scope.goOnline = function()
+    {
+      Locales.get({}, function(data)
+      {
+        if(data.locales)
+        {
+          var currentURI = $location.absUrl();
+          if (currentURI.endsWith('offline.html'))
+            $window.location = currentURI.replace('public/pages/offline.html', '');
+          else if (currentURI.indexOf('offline.html') > -1)
+            $window.location = currentURI.replace('offline.html', 'index.html').replace('#/list', '#/manage');
+          else
+            $window.location.reload();
 
-}
+          $scope.showNetworkError = false;
+          return;
+        }
+
+      $scope.showNetworkError = true;
+      }, {});
+    };
+  }
+
+})();
