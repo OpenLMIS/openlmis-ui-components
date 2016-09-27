@@ -7,6 +7,7 @@
   },
   "license": "AGPL-3.0",
   "devDependencies": {
+    "bower": "^1.7.9",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "^1.0.1",
@@ -30,5 +31,8 @@
     "matchdep": "~0.1.2",
     "sc5-styleguide": "^1.1.2",
     "wiredep": "^4.0.0"
+  },
+  "scripts": {
+    "setup": "npm install && bower install && grunt build"
   }
 }
