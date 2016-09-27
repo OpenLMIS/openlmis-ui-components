@@ -9,23 +9,11 @@
  */
 describe("NavigationController", function() {
 
-  var scope, ctrl, $httpBackend, $location, window, rights;
-  beforeEach(module('openlmis'));
+  var scope, ctrl, $httpBackend, $location, window, rights, access_token;
+  var access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
 
-  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$location_) {
-    $httpBackend = _$httpBackend_;
-    $location = _$location_;
-    window = {};
-    scope = $rootScope.$new();
-    localStorageService = _localStorageService_;
-    ctrl = $controller(NavigationController, {
-      $scope: scope,
-      localStorageService: localStorageService,
-      $window: window
-    });
-    access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
-    //TODO: Change this when the ability to retrieve user's rights is added.
-    rights = [{
+  //TODO: Change this when the ability to retrieve user's rights is added.
+  var rights = [{
       "name": "DELETE_REQUISITION",
       "type": "REQUISITION"
     }, {
@@ -68,27 +56,47 @@ describe("NavigationController", function() {
       "name": "CONVERT_TO_ORDER",
       "type": "FULFILLMENT"
     }];
+
+  beforeEach(module('openlmis'));
+
+  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$location_) {
+    $httpBackend = _$httpBackend_;
+    $location = _$location_;
+    window = {};
+    scope = $rootScope.$new();
+    localStorageService = _localStorageService_;
+
+    spyOn(localStorageService, 'get').andCallFake(function(key){
+      if(key == 'RIGHTS'){
+        return JSON.stringify(rights);
+      } else {
+        return access_token;
+      }
+    });
+
+    ctrl = $controller(NavigationController, {
+      $scope: scope,
+      localStorageService: localStorageService,
+      $window: window
+    });
+    
   }));
 
   it('should check permission', function() {
-    spyOn(localStorageService, 'get').andReturn(JSON.stringify(rights));
     expect(false).toEqual(scope.hasPermission("MANAGE_FACILITY"));
     expect(true).toEqual(scope.hasPermission("CREATE_REQUISITION"));
   });
 
   it('should check reporting permission', function() {
-    spyOn(localStorageService, 'get').andReturn(JSON.stringify(rights));
     expect(scope.hasReportingPermission()).toBeFalsy();
   });
 
   it('should set user rights into scope', function() {
-    spyOn(localStorageService, 'get').andReturn(JSON.stringify(rights));
     expect(scope.rights).toEqual(JSON.stringify(rights));
   });
 
   describe("go online", function() {
     it("should take user to root if currently on offline home page and network is connected", function() {
-      spyOn(localStorageService, 'get').andReturn(access_token);
       $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
         .respond(200, {
           settings: {
@@ -109,7 +117,6 @@ describe("NavigationController", function() {
     });
 
     it("should take user to online version of app if network is connected", function() {
-      spyOn(localStorageService, 'get').andReturn(access_token);
       $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
         .respond(200, {
           settings: {
@@ -130,7 +137,6 @@ describe("NavigationController", function() {
     });
 
     it("should set offline flag and not change URI if network is disconnected", function() {
-      spyOn(localStorageService, 'get').andReturn(access_token);
       $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
         .respond(200, {
           settings: {
