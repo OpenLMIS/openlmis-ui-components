@@ -7,20 +7,27 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("AuthService", function() {
+describe("AuthorizationService", function() {
 
   beforeEach(module('openlmis'));
 
-  var AuthService, httpBackend, $rootScope;
+  var AuthorizationService, httpBackend, $rootScope;
 
-  beforeEach(inject(function(_AuthService_, _$httpBackend_, _$rootScope_, localStorageService) {
+  beforeEach(inject(function(_AuthorizationService_, _$httpBackend_, _$rootScope_, localStorageService) {
     httpBackend = _$httpBackend_;
-    AuthService = _AuthService_;
+    AuthorizationService = _AuthorizationService_;
     $rootScope = _$rootScope_;
 
     localStorageService.clearAll();
 
-    AuthService.setClient('trusted-client', 'secret');
+    // Keep auth interceptor from running....
+    spyOn($rootScope, '$on');
+
+    httpBackend.when('GET', '/public/credentials/auth_server_client.json')
+    .respond(200, {
+      'auth.server.clientId': 'client',
+      'auth.server.clientSecret': 'secret'
+    });
 
     httpBackend.when('POST', 'http://localhost/oauth/token?grant_type=password')
     .respond(function(method, url, data){
@@ -51,7 +58,7 @@ describe("AuthService", function() {
 
   it('should reject bad logins', function() {
     var error = false;
-    AuthService.login("john", "bad-password")
+    AuthorizationService.login("john", "bad-password")
     .catch(function(){
       error = true;
     });
@@ -65,7 +72,7 @@ describe("AuthService", function() {
   it('should resolve successful logins', function() {
     var success = false;
 
-    AuthService.login("john", "john-password")
+    AuthorizationService.login("john", "john-password")
     .then(function(){
       success = true;
     })
@@ -79,7 +86,7 @@ describe("AuthService", function() {
   it('will get user data only when authenticated', function(){
     var success = false;
 
-    AuthService.getUserInfo()
+    AuthorizationService.getUserInfo()
     .then(function(){
       success = true;
     });
@@ -88,11 +95,11 @@ describe("AuthService", function() {
 
     expect(success).toBe(false);
 
-    AuthService.login("john", "john-password");
+    AuthorizationService.login("john", "john-password");
     httpBackend.flush();
     $rootScope.$apply();
 
-    AuthService.getUserInfo()
+    AuthorizationService.getUserInfo()
     .then(function(){
       success = true;
     });
@@ -101,6 +108,6 @@ describe("AuthService", function() {
     $rootScope.$apply();
 
     expect(success).toBe(true); 
-
   });
+  
 });

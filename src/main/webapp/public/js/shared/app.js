@@ -55,17 +55,6 @@ var app = angular.module('openlmis-core', ['openlmis.services', 'angular-google-
 
 app.value("loginConfig", {modalShown: false, preventReload: false});
 
-app.factory('authServerClientFactory', function($http) {
-  return {
-    getCredentials: function() {
-      return $http.get('/public/credentials/auth_server_client.json')
-      .then(function(response){
-        return response.data;
-      });
-    }
-  }
-});
-
 app.directive('dateValidator', function () {
   return {
     require: '?ngModel',

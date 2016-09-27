@@ -14,13 +14,13 @@
     angular.module('openlmis-core')
         .run(authStateChangeInjector);
 
-    authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthService'];
-    function authStateChangeInjector($rootScope, $window, AuthService){
+    authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthorizationService'];
+    function authStateChangeInjector($rootScope, $window, AuthorizationService){
         $rootScope.$on('$routeChangeStart', function(){
-            if(!AuthService.isAuthenticated() && $window.location.href.indexOf('login.html') == -1){
+            if(!AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') == -1){
                 // if not authenticated and not on login page
                 $window.location.assign('/public/pages/login.html');
-            } else if(AuthService.isAuthenticated() && $window.location.href.indexOf('login.html') >= 0) {
+            } else if(AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') >= 0) {
                 // if authenticated and on login page
                 $window.location.assign('/public/pages/index.html');
             }

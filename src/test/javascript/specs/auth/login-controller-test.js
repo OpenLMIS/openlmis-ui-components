@@ -11,7 +11,7 @@ describe("LoginController", function() {
 
   beforeEach(module('openlmis'));
 
-  var $rootScope, scope, LoginController, AuthService, messageService, controller;
+  var $rootScope, scope, LoginController, AuthorizationService, messageService, controller;
 
   beforeEach(inject(function(_$rootScope_, $controller, _messageService_) {
     controller = $controller;
@@ -43,8 +43,8 @@ describe("LoginController", function() {
 
   }));
 
-  beforeEach(inject(function($q, AuthService){
-    spyOn(AuthService, 'login').andCallFake(function(username, password){
+  beforeEach(inject(function($q, AuthorizationService){
+    spyOn(AuthorizationService, 'login').andCallFake(function(username, password){
       if(password == "bad-password"){
         return $q.reject();
       } else {
@@ -52,7 +52,7 @@ describe("LoginController", function() {
       }
     });
 
-    spyOn(AuthService, 'getUserInfo').andReturn($q.when());
+    spyOn(AuthorizationService, 'getUserInfo').andReturn($q.when());
   }));
 
   it('should not login and show error when server returns error', function() {

@@ -73,6 +73,6 @@ describe("AuthURL", function () {
 
     var url = AuthURL("someURL");
     expect(url).toEqual("AuthServiceURL/someURL");
-
   });
+
 });

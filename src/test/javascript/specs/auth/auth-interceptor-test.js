@@ -9,7 +9,7 @@
  */
 describe("AuthInterceptor", function() {
 
-  var AuthService, $window, localStorageService, $rootScope;
+  var AuthorizationService, $window, localStorageService, $rootScope;
 
   function setupTest(){
     module('openlmis');
@@ -23,8 +23,8 @@ describe("AuthInterceptor", function() {
         $provide.value('$window', $window);
     });
 
-    inject(function(_AuthService_, _localStorageService_, _$rootScope_) {
-        AuthService = _AuthService_;
+    inject(function(_AuthorizationService_, _localStorageService_, _$rootScope_) {
+        AuthorizationService = _AuthorizationService_;
         localStorageService = _localStorageService_;
         $rootScope = _$rootScope_;
 
