@@ -5,7 +5,7 @@
 
 npm install --no-optional
 
-apt-get install git
+apt-get install --assume-yes git
 npm install -g bower
 
 bower install --allow-root
