@@ -13,4 +13,6 @@ WORKDIR /app
 VOLUME ["/app"]
 
 EXPOSE 9000
-CMD npm install --no-optional && bower install --allow-root --config.interactive=false &&  bash
+CMD npm install --no-optional
+CMD bower install --allow-root --config.interactive=false
+CMD bash
