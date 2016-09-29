@@ -49,9 +49,9 @@
       
       var deferred = $q.defer();
       $http.get('/public/credentials/auth_server_client.json')
-      .then(function(data){
-        clientId = data["auth.server.clientId"];
-        clientSecret = data["auth.server.clientSecret"];
+      .then(function(response){
+        clientId = response.data["auth.server.clientId"];
+        clientSecret = response.data["auth.server.clientSecret"];
         deferred.resolve(makeAuthorizationHeader());
       }).catch(function(){
         deferred.reject();
