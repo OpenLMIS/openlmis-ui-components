@@ -41,16 +41,9 @@ $ grunt serve
 ```
 
 ### Running complete application with nginx
-To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, run the commands below:
+To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, use [OpenLMIS-Blue] (https://github.com/OpenLMIS/openlmis-blue).
 
-```shell
-> docker-compose run --service-ports requisition-refui
-$ grunt build
-$ exit
-> docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
-```
-
-When the application is up and running, you should be able to access UI with http://localhost, requisition service with http://localhost/requisition and the auth service with http://localhost/auth.
+When the application is up and running, you should be able to access UI with http://localhost/public/pages/index.html
 
 To log into the UI you can use following credentials:
 ```
