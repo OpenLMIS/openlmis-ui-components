@@ -24,7 +24,8 @@
     "angular-bootstrap": "0.1.0",
     "angular-ui-grid": "^3.2.9",
     "angular-ui-sortable": "^0.14.3",
-    "jquery-ui": "^1"
+    "jquery-ui": "^1",
+    "angular-ui-router": "0.3.1"
   },
   "overrides": {
     "jquery": {
@@ -33,7 +34,9 @@
       ]
     },
     "jquery-ui": {
-      "main": ["jquery-ui.js"]
+      "main": [
+        "jquery-ui.js"
+      ]
     },
     "angular-mocks": {
       "main": []

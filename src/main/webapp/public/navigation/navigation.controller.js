@@ -11,7 +11,7 @@
 (function(){
   "use strict";
 
-  angular.module('openlmis-core')
+  angular.module('openlmis')
     .controller('NavigationController', NavigationController);
 
   NavigationController.$inject = ['$scope', 'ConfigSettingsByKey', 'localStorageService', 'Locales', '$location', '$window'] 

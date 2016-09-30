@@ -147,11 +147,11 @@ module.exports = function(grunt) {
           config.app.src + '/webapp/public/js/**/*.config.js',
           config.app.src + '/webapp/public/js/**/*.routes.js',
           // Everything else
-          config.app.src + '/webapp/public/js/**/*.js',
-          '!' + config.app.src + '/webapp/public/js/openlmis.js',
+          config.app.src + '/webapp/public/**/*.js',
           // Run time
           // NEED file to declare openlmis-app
-          config.app.src + '/webapp/public/js/openlmis.js',
+          config.app.src + '/webapp/public/app.js',
+          config.app.src + '/webapp/public/app.routes.js'
         ],
         dest: config.app.dest + '/public/openlmis.js'
       },
@@ -212,14 +212,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/webapp/public/pages/',
-            src: ['**', '!index.html'],
-            dest: config.app.dest + '/public/pages'
-          },
-          {
-            flatten: true,
-            src: [config.app.src + '/webapp/public/pages/index.html'],
-            dest: config.app.dest + '/public/index.html'
+            cwd: config.app.src + '/webapp/public/',
+            src: ['**/**.html'],
+            dest: config.app.dest + '/public'
           }
         ],
       },
