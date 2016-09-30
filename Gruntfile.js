@@ -284,7 +284,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'uglify', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'uglify', 'replace']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };

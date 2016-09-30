@@ -43,7 +43,7 @@ module.exports = function (config) {
     },
 
     htmlReporter: {
-	outputFile: '../../../../build/test/karma/units.html'
+	  outputFile: '../../../../build/test/karma/units.html'
     },
 
     preprocessors: {
