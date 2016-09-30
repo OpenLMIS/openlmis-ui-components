@@ -2,6 +2,7 @@
 *.ipr
 *.iws
 build/
+bower_components/
 images/
 docs/
 out/

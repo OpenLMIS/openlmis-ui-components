@@ -1,7 +1,7 @@
 version: "2"
 services:
   requisition-refui:
-    image: openlmis/requisition-refui
+    image: openlmis/dev-ui
     ports:
       - "9000:9000"
     volumes:
