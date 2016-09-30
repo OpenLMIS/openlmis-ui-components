@@ -1,7 +1,7 @@
 version: "2"
 services:
   builder:
-    image: openlmis/requisition-refui
+    image: openlmis/requisition-refui-dev
     volumes:
       - '.:/app'
     command:
