@@ -11,19 +11,36 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis-core')
-        .run(authStateChangeInjector);
+    angular.module('openlmis-auth', [
+        'openlmis-core',
+        'ui.router'
+        ])
+    .config(routes)
+    .run(setRootValues);
 
-    authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthorizationService'];
-    function authStateChangeInjector($rootScope, $window, AuthorizationService){
-        $rootScope.$on('$routeChangeStart', function(){
-            if(!AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') == -1){
-                // if not authenticated and not on login page
-                $window.location.assign('/public/pages/login.html');
-            } else if(AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') >= 0) {
-                // if authenticated and on login page
-                $window.location.assign('/public/pages/index.html');
+    routes.$inject = ['$stateProvider', '$urlRouterProvider'];
+    function routes($stateProvider, $urlRouterProvider){
+        $stateProvider
+        .state('auth', {
+            abstract: true
+        })
+        .state('auth.login', {
+            url: '/login',
+            views:{
+                '@': {
+                    templateUrl: 'auth/login-form.html',
+                    controller: 'LoginController'
+                }
             }
+        });
+    }
+
+    setRootValues.$inject = ['$rootScope', 'AuthorizationService'];
+    function setRootValues($rootScope, AuthorizationService){
+        $rootScope.$watch(function(){
+            return AuthorizationService.isAuthenticated();
+        }, function(auth){
+            $rootScope.userIsAuthenticated = auth;
         });
     }
 

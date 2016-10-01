@@ -11,17 +11,23 @@
 (function(){
   "use strict";
 
-  angular.module('openlmis')
+  angular.module('openlmis-dashboard')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', 'localStorageService', 'loginConfig', 'ConfigSettingsByKey', '$window', 'AuthorizationService', '$http'];
-  function HeaderController($scope, localStorageService, loginConfig, ConfigSettingsByKey, $window, AuthorizationService, $http) {
+  HeaderController.$inject = ['$scope', 'localStorageService', 'loginConfig', 'ConfigSettingsByKey', '$window', 'AuthorizationService', '$http', '$state'];
+  function HeaderController($scope, localStorageService, loginConfig, ConfigSettingsByKey, $window, AuthorizationService, $http, $state) {
     $scope.loginConfig = loginConfig;
-    $scope.user = localStorageService.get(localStorageKeys.USERNAME);
-    $scope.userId = localStorageService.get(localStorageKeys.USER_ID);
 
-    $scope.hasPermission = AuthorizationService.hasPermission;
+    $scope.$watch(function(){
+      return AuthorizationService.getUser();
+    }, function(user){
+      $scope.user = user.username;
+      $scope.userId = user.user_id;
 
+      $scope.hasPermission = AuthorizationService.hasPermission;
+    }, true);
+
+    /*
     var isGoogleAnalyticsEnabled = localStorageService.get('ENABLE_GOOGLE_ANALYTICS');
     // load this only once
     if (isGoogleAnalyticsEnabled === null) {
@@ -38,17 +44,11 @@
         localStorageService.add('GOOGLE_ANALYTICS_TRACKING_CODE', data.settings.value);
       });
     }
+    */
 
     $scope.logout = function() {
-
-      $http({
-        method: 'POST',
-        url: '/auth/api/users/logout?access_token=' + localStorageService.get(localStorageKeys.ACCESS_TOKEN)
-      }).success(function(data) {
-        localStorageService.remove(localStorageKeys.RIGHT);
-        localStorageService.remove(localStorageKeys.USERNAME);
-        localStorageService.remove(localStorageKeys.USER_ID);
-        localStorageService.remove(localStorageKeys.ACCESS_TOKEN)
+      AuthorizationService.logout()
+      .then(function(){
         localStorageService.remove('ENABLE_GOOGLE_ANALYTICS');
         localStorageService.remove('GOOGLE_ANALYTICS_TRACKING_CODE');
 
@@ -61,7 +61,8 @@
         $.each(localStorageKeys.DASHBOARD_FILTERS, function(item, idx) {
           localStorageService.remove(idx);
         });
-        $window.location = "/public/pages/login.html";
+
+        $state.reload();
       });
     };
   }

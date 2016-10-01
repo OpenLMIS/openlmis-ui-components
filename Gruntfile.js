@@ -157,10 +157,10 @@ module.exports = function(grunt) {
       },
       vendorCss: {
         src: [
-          config.app.src + '/webapp/public/lib/bootstrap/css/bootstrap.min.css',
-          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.css',
-          config.app.src + '/webapp/public/lib/select2/select2.css',
-          config.app.src + '/webapp/public/css/ng-grid.css',
+          './bower_components/bootstrap/dist/css/bootstrap.css',
+          './bower_components/angular-ui/build/angular-ui.min.css',
+          './bower_components/select2/select2.css',
+          //config.app.src + '/webapp/public/css/ng-grid.css',
         ],
         dest: config.app.dest + '/public/css/vendor.css'
       }

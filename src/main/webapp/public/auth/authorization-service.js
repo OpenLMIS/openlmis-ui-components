@@ -11,13 +11,20 @@
  (function(){
   "use strict";
 
-  angular.module('openlmis-core')
+  angular.module('openlmis-auth')
     .service('AuthorizationService', AuthorizationService)
+
+  var storageKeys = {
+    'ACCESS_TOKEN': 'OPENLMIS.ACCESS_TOKEN',
+    'USER_ID': 'OPENLMIS.USER_ID',
+    'USERNAME': 'OPENLMIS.USERNAME'
+  };
 
   AuthorizationService.$inject = ["$q", "$http", "AuthURL", "localStorageService"]
   function AuthorizationService ($q, $http, AuthURL, localStorageService) {
     var service = {};
 
+    service.getAccessToken = getAccessToken;
     service.isAuthenticated = isAuthenticated;
     service.login = login;
     service.logout = logout;
@@ -26,13 +33,22 @@
     service.preAuthorizeReporting = preAuthorizeReporting;
     service.hasPermission = hasPermission;
 
-    service.getUserInfo = getUserInfo; 
+    service.getUser = getUser;
+    service.getUserInfo = getUserInfo;
 
     var clientId, clientSecret;
 
-    function isAuthenticated(){
-        var access_token = localStorageService.get(localStorageKeys.ACCESS_TOKEN);
-        if(access_token){
+    function getAccessToken(){
+      var access_token = localStorageService.get(storageKeys.ACCESS_TOKEN);
+      if(access_token){
+        return access_token;
+      } else {
+        return false;
+      }
+    }
+
+    function isAuthenticated(){;
+        if(getAccessToken()){
             return true;
         } else {
             return false;
@@ -72,8 +88,8 @@
                 "Content-Type": "application/x-www-form-urlencoded"
               }
           }).success(function(data) {
-              localStorageService.add(localStorageKeys.ACCESS_TOKEN, data.access_token);
-              localStorageService.add(localStorageKeys.USER_ID, data.referenceDataUserId);
+              localStorageService.add(storageKeys.ACCESS_TOKEN, data.access_token);
+              localStorageService.add(storageKeys.USER_ID, data.referenceDataUserId);
               
               deferred.resolve();
           }).error(function(data) {
@@ -87,7 +103,22 @@
     }
 
     function logout(){
+      var deferred = $q.defer();
+      $http({
+        method: 'POST',
+        url: AuthURL('/api/users/logout?access_token=' + getAccessToken())
+      }).then(function(data) {
 
+        localStorageService.remove(storageKeys.USER_RIGHTS);
+        localStorageService.remove(storageKeys.USERNAME);
+        localStorageService.remove(storageKeys.USER_ID);
+        localStorageService.remove(storageKeys.ACCESS_TOKEN);
+
+        deferred.resolve();
+      }).catch(function(data){
+        deferred.reject();
+      });
+      return deferred.promise;
     }
 
     function getUserInfo(){
@@ -97,8 +128,8 @@
             deferred.reject();
         } else {
             var userInfoURL = AuthURL('/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' +
-                localStorageService.get(localStorageKeys.USER_ID) + '&access_token=' +
-                localStorageService.get(localStorageKeys.ACCESS_TOKEN));
+                localStorageService.get(storageKeys.USER_ID) + '&access_token=' +
+                localStorageService.get(storageKeys.ACCESS_TOKEN));
 
             $http({
                 method: 'GET',
@@ -107,13 +138,13 @@
                     "Content-Type": "application/json"
                 }
             }).success(function(data) {
-                localStorageService.add(localStorageKeys.USERNAME, data.username);
+                localStorageService.add(storageKeys.USERNAME, data.username);
 
                 //TODO: Get user's rights. For now they are hardcoded.
                 //localStorageService.add(localStorageKeys.RIGHT, getRights(data.rights));
                 var rights = defaultRights;
                 var rightsJson = JSON.stringify(rights);
-                localStorageService.add(localStorageKeys.RIGHT, rightsJson);
+                localStorageService.add(storageKeys.USER_RIGHTS, rightsJson);
 
                 deferred.resolve();
 
@@ -124,8 +155,15 @@
         return deferred.promise;
     }
 
+    function getUser(){
+      return {
+        username: localStorageService.get(storageKeys.USERNAME),
+        user_id: localStorageService.get(storageKeys.USER_ID)
+      };
+    }
+
     function hasRight(permissions){
-      var rights = localStorageService.get(localStorageKeys.RIGHT);
+      var rights = localStorageService.get(storageKeys.USER_RIGHTS);
 
       if (rights) {
         var rightNames = _.pluck(JSON.parse(rights), 'name');

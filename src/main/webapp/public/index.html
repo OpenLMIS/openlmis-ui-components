@@ -24,10 +24,11 @@
   <script type="text/javascript" src="/public/openlmis.js"></script>
 
 </head>
-<!-- TODO: onunload clears cache for safari. It is a hack. Find better alternative -->
-<body class="home-background" onunload="">
-  <div ui-view="header"></div>
-  <div ui-view="navigation"></div>
-  <div class="home-content" ui-view></div>
+<body >
+  <header ng-if="userIsAuthenticated">
+    <div ng-include="'dashboard/header.html'" ></div>
+    <div ng-include="'dashboard/navigation.html'" ></div>
+  </header>
+  <div ui-view></div>
 </body>
 </html>

@@ -23,7 +23,7 @@
 			}
 	}());
 
- 	angular.module("openlmis-core")
+ 	angular.module("openlmis-auth")
  		.constant("AuthServiceURL", function(){
  			// The authUrl can be set with a grunt build argument
  			// --AuthServiceURL=http://auth.service:location
@@ -35,7 +35,7 @@
  			}
  		}());
 
- 	angular.module("openlmis-core")
+ 	angular.module("openlmis-auth")
  		.factory("AuthURL", AuthURL);
 
  	function AuthURL(AuthServiceURL, OpenlmisServerURL){

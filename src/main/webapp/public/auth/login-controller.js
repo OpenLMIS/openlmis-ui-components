@@ -11,7 +11,7 @@
 (function(){
   "use strict";
 
-  angular.module("openlmis-core")
+  angular.module("openlmis-auth")
     .controller("LoginController", LoginController);
 
   LoginController.$inject = ['$scope', 'AuthorizationService', 'localStorageService', 'messageService'];
@@ -53,18 +53,7 @@
     $scope.getUserInfo = function(userId, token) {
       AuthorizationService.getUserInfo()
       .then(function(){
-        if (window.location.href.indexOf("login.html") != -1) {
-          window.location = "/public/pages/index.html";
-          return;
-        }
-        
-        //TODO: Figure out where these are used
-        if (!$scope.loginConfig.preventReload) {
-          location.reload();
-          return;
-        }
-        $scope.loginConfig.modalShown = false;
-        $scope.loginConfig.preventReload = false;
+        $scope.$emit('auth.login');
       })
       .catch(function(){
         $scope.loginError = messageService.get("user.authentication.error");

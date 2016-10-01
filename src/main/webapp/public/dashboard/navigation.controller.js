@@ -11,16 +11,16 @@
 (function(){
   "use strict";
 
-  angular.module('openlmis')
+  angular.module('openlmis-dashboard')
     .controller('NavigationController', NavigationController);
 
   NavigationController.$inject = ['$scope', 'ConfigSettingsByKey', 'localStorageService', 'Locales', '$location', '$window'] 
   function NavigationController($scope, ConfigSettingsByKey, localStorageService, Locales, $location, $window) {
-
+    /*
     ConfigSettingsByKey.get({key: 'LOGIN_SUCCESS_DEFAULT_LANDING_PAGE'}, function (data){
       $scope.homePage =  data.settings.value;
     });
-
+    */
     $scope.loadRights = function () {
       $scope.rights = localStorageService.get(localStorageKeys.RIGHT);
 

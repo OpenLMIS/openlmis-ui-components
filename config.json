@@ -3,5 +3,6 @@
     "src": "./src/main",
     "dest": "./build"
   },
-  "openlmisServerURL": "http://localhost"
+  "openlmisServerURL": "http://localhost",
+  "authServiceURL": "/auth"
 }
