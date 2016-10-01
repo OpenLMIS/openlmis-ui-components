@@ -14,7 +14,7 @@
       templateUrl: 'dashboard/home.html'
     });
 
-    $urlRouterProvider.otherwise("/home");
+    //$urlRouterProvider.otherwise("/home");
 
   }
 

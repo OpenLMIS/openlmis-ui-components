@@ -9,16 +9,18 @@
  */
 describe("AuthorizationService", function() {
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-auth'));
 
-  var AuthorizationService, httpBackend, $rootScope;
+  var AuthorizationService, httpBackend, $rootScope, localStorageService;
 
-  beforeEach(inject(function(_AuthorizationService_, _$httpBackend_, _$rootScope_, localStorageService) {
+  beforeEach(inject(function(_AuthorizationService_, _$httpBackend_, _$rootScope_, _localStorageService_) {
     httpBackend = _$httpBackend_;
     AuthorizationService = _AuthorizationService_;
     $rootScope = _$rootScope_;
+    localStorageService = _localStorageService_;
 
     localStorageService.clearAll();
+    spyOn(localStorageService, 'remove');
 
     // Keep auth interceptor from running....
     spyOn($rootScope, '$on');
@@ -29,7 +31,7 @@ describe("AuthorizationService", function() {
       'auth.server.clientSecret': 'secret'
     });
 
-    httpBackend.when('POST', 'http://localhost/oauth/token?grant_type=password')
+    httpBackend.when('POST', '/auth/oauth/token?grant_type=password')
     .respond(function(method, url, data){
       if(data.indexOf('bad-password') >= 0 ){
         return [401];
@@ -45,7 +47,7 @@ describe("AuthorizationService", function() {
     });
 
     httpBackend.when('GET',
-        'http://localhost/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
+        '/auth/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462&access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
       .respond(200, {
         "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
         "username": "admin",
@@ -108,6 +110,28 @@ describe("AuthorizationService", function() {
     $rootScope.$apply();
 
     expect(success).toBe(true); 
+  });
+
+  it('will clear user data on logout', function(){
+    // Login a user
+    AuthorizationService.login("john", "john-password");
+    httpBackend.flush();
+    $rootScope.$apply();
+
+    httpBackend.when('POST', '/auth/api/users/logout?access_token=4b06a35c-9684-4f8c-b9d0-ce2c6cd685de')
+    .respond(200);
+
+    AuthorizationService.logout();
+
+    httpBackend.flush();
+    $rootScope.$apply();
+
+    // User credentials are removed.
+    expect(localStorageService.remove).toHaveBeenCalledWith("RIGHTS");
+    expect(localStorageService.remove).toHaveBeenCalledWith("USERNAME");
+    expect(localStorageService.remove).toHaveBeenCalledWith("USER_ID");
+    expect(localStorageService.remove).toHaveBeenCalledWith("ACCESS_TOKEN");
+
   });
   
 });

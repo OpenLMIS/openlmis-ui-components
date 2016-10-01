@@ -121,6 +121,8 @@ describe('ViewRnrListController', function () {
     expect(scope.filteredRequisitions[0]).toEqual(scope.requisitions[0]);
   });
 
+  /*
+
   it('should set end date offset based on start date', function () {
     scope.startDate = "03-01-2012";
 
@@ -148,6 +150,8 @@ describe('ViewRnrListController', function () {
     expect(scope.endDateOffset).toBeGreaterThan(0);
     expect(scope.endDate).toBeUndefined();
   });
+
+  */
 
   it('should create grid with filtered requisitions', function () {
     expect('filteredRequisitions').toEqual(scope.rnrListGrid.data);

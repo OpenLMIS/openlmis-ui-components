@@ -8,9 +8,11 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "bower": "^1.7.9",
+    "cors-anywhere": "^0.4.0",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-uglify": "~0.2.4",
@@ -19,7 +21,6 @@
     "grunt-karma": "~2.0.0",
     "grunt-sass": "^1.2.1",
     "grunt-sasslint": "0.0.6",
-    "grunt-serve": "~0.1.6",
     "grunt-text-replace": "~0.4.0",
     "gulp": "^3.9.1",
     "karma": "^0.13.0",
@@ -28,11 +29,10 @@
     "karma-htmlfile-reporter": "~0.1",
     "karma-jasmine": "~0.1.0",
     "karma-junit-reporter": "~1.1.0",
+    "karma-ng-html2js-preprocessor": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.2",
     "matchdep": "~0.1.2",
     "sc5-styleguide": "^1.1.2",
     "wiredep": "^4.0.0"
-  },
-  "scripts": {
-    "setup": "npm install && bower install && grunt build"
   }
 }

@@ -50,7 +50,7 @@
       }
       return false;
     };
-
+    /*
     $scope.goOnline = function()
     {
       Locales.get({}, function(data)
@@ -72,6 +72,7 @@
       $scope.showNetworkError = true;
       }, {});
     };
+    */
   }
 
 })();

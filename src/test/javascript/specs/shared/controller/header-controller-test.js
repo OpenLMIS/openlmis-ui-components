@@ -11,9 +11,12 @@ describe("HeaderController", function() {
   beforeEach(module('openlmis'));
   beforeEach(module('ui.directives'));
 
-  var scope, loginConfig, window, localStorageService, httpBackend;
+  var scope, loginConfig, window, localStorageService, httpBackend, $state;
 
-  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_) {
+  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_) {
+    $state = _$state_;
+    spyOn($state, 'reload');
+
     httpBackend = _$httpBackend_;
     loginConfig = {
       a: {},
@@ -39,12 +42,11 @@ describe("HeaderController", function() {
 
   it('should navigate to login page when user logs out', function() {
     httpBackend.when('POST', '/auth/api/users/logout?access_token=' + access_token).respond(200);
+
     scope.logout();
     httpBackend.flush();
-    expect(localStorageService.remove).toHaveBeenCalledWith(localStorageKeys.RIGHT);
-    expect(localStorageService.remove).toHaveBeenCalledWith(localStorageKeys.USERNAME);
-    expect(localStorageService.remove).toHaveBeenCalledWith(localStorageKeys.USER_ID);
-    expect(localStorageService.remove).toHaveBeenCalledWith(localStorageKeys.ACCESS_TOKEN);
-    expect(window.location).toEqual("/public/pages/login.html");
+    
+    // Page state is on login page
+    expect($state.reload).toHaveBeenCalled();
   });
 });

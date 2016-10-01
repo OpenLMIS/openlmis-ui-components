@@ -15,9 +15,10 @@
     .service('AuthorizationService', AuthorizationService)
 
   var storageKeys = {
-    'ACCESS_TOKEN': 'OPENLMIS.ACCESS_TOKEN',
-    'USER_ID': 'OPENLMIS.USER_ID',
-    'USERNAME': 'OPENLMIS.USERNAME'
+    'ACCESS_TOKEN': 'ACCESS_TOKEN',
+    'USER_ID': 'USER_ID',
+    'USERNAME': 'USERNAME',
+    'USER_RIGHTS': 'RIGHTS'
   };
 
   AuthorizationService.$inject = ["$q", "$http", "AuthURL", "localStorageService"]
@@ -162,17 +163,27 @@
       };
     }
 
-    function hasRight(permissions){
-      var rights = localStorageService.get(storageKeys.USER_RIGHTS);
-
-      if (rights) {
-        var rightNames = _.pluck(JSON.parse(rights), 'name');
-        var hasRight = _.intersection(permissions, rightNames);
-        if(hasRight.length > 0){
-          return true;
-        }
+    function getRights(){
+      var rights = false;
+      try{
+        var raw = localStorageService.get(storageKeys.USER_RIGHTS);
+        rights = JSON.parse(raw);
+      } catch (e) {
+        rights = [];
       }
-      return false;
+      return rights;
+    }
+
+    function hasRight(permissions){
+      var rights = getRights();
+      var rightNames = _.pluck(rights, 'name');
+      var hasRight = _.intersection(permissions, rightNames);
+      
+      if(hasRight.length > 0){
+        return true;
+      } else {
+        return false;
+      }
     };
 
     function preAuthorize() {

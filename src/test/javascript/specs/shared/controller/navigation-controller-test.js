@@ -95,66 +95,66 @@ describe("NavigationController", function() {
     expect(scope.rights).toEqual(JSON.stringify(rights));
   });
 
-  describe("go online", function() {
-    it("should take user to root if currently on offline home page and network is connected", function() {
-      $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
-        .respond(200, {
-          settings: {
-            value: '/public/pages/dashboard/index.html'
-          }
-        });
-      $httpBackend.expectGET("/locales.json").respond(200, {
-        locales: ['en', 'pt']
-      });
-      spyOn($location, 'absUrl').andReturn("/public/pages/offline.html");
-      spyOn($location, 'path');
+  // describe("go online", function() {
+  //   it("should take user to root if currently on offline home page and network is connected", function() {
+  //     $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
+  //       .respond(200, {
+  //         settings: {
+  //           value: '/public/pages/dashboard/index.html'
+  //         }
+  //       });
+  //     $httpBackend.expectGET("/locales.json").respond(200, {
+  //       locales: ['en', 'pt']
+  //     });
+  //     spyOn($location, 'absUrl').andReturn("/public/pages/offline.html");
+  //     spyOn($location, 'path');
 
-      scope.goOnline();
+  //     scope.goOnline();
 
-      $httpBackend.flush();
-      expect(window.location).toEqual("/");
-      expect(scope.showNetworkError).toBeFalsy();
-    });
+  //     $httpBackend.flush();
+  //     expect(window.location).toEqual("/");
+  //     expect(scope.showNetworkError).toBeFalsy();
+  //   });
 
-    it("should take user to online version of app if network is connected", function() {
-      $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
-        .respond(200, {
-          settings: {
-            value: '/public/pages/dashboard/index.html'
-          }
-        });
-      $httpBackend.expectGET("/locales.json").respond(200, {
-        locales: ['en', 'pt']
-      });
-      spyOn($location, 'absUrl').andReturn("/page/offline.html#/list");
-      spyOn($location, 'path');
+  //   it("should take user to online version of app if network is connected", function() {
+  //     $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
+  //       .respond(200, {
+  //         settings: {
+  //           value: '/public/pages/dashboard/index.html'
+  //         }
+  //       });
+  //     $httpBackend.expectGET("/locales.json").respond(200, {
+  //       locales: ['en', 'pt']
+  //     });
+  //     spyOn($location, 'absUrl').andReturn("/page/offline.html#/list");
+  //     spyOn($location, 'path');
 
-      scope.goOnline();
+  //     scope.goOnline();
 
-      $httpBackend.flush();
-      expect(window.location).toEqual("/page/index.html#/manage");
-      expect(scope.showNetworkError).toBeFalsy();
-    });
+  //     $httpBackend.flush();
+  //     expect(window.location).toEqual("/page/index.html#/manage");
+  //     expect(scope.showNetworkError).toBeFalsy();
+  //   });
 
-    it("should set offline flag and not change URI if network is disconnected", function() {
-      $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
-        .respond(200, {
-          settings: {
-            value: '/public/pages/dashboard/index.html'
-          }
-        });
-      $httpBackend.expectGET("/locales.json").respond(200, {
-        locales: undefined
-      });
-      window = {
-        location: "/pages/test"
-      };
+  //   it("should set offline flag and not change URI if network is disconnected", function() {
+  //     $httpBackend.expectGET('/requisition/api/settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json?access_token=' + access_token)
+  //       .respond(200, {
+  //         settings: {
+  //           value: '/public/pages/dashboard/index.html'
+  //         }
+  //       });
+  //     $httpBackend.expectGET("/locales.json").respond(200, {
+  //       locales: undefined
+  //     });
+  //     window = {
+  //       location: "/pages/test"
+  //     };
 
-      scope.goOnline();
+  //     scope.goOnline();
 
-      $httpBackend.flush();
-      expect(window.location).toEqual("/pages/test");
-      expect(scope.showNetworkError).toBeTruthy();
-    });
-  });
+  //     $httpBackend.flush();
+  //     expect(window.location).toEqual("/pages/test");
+  //     expect(scope.showNetworkError).toBeTruthy();
+  //   });
+  // });
 });

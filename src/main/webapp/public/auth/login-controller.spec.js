@@ -10,10 +10,11 @@
 describe("LoginController", function() {
 
   beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-templates'));
 
   var $rootScope, scope, LoginController, AuthorizationService, messageService, controller;
 
-  beforeEach(inject(function(_$rootScope_, $controller, _messageService_) {
+  beforeEach(inject(function(_$rootScope_, $controller, _messageService_, $templateCache) {
     controller = $controller;
     $rootScope = _$rootScope_;
 

@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   var styleguide = require('sc5-styleguide');
   var outputPath = 'docs';
   var wiredep = require('wiredep');
+  var cors_proxy = require('cors-anywhere');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -47,8 +48,8 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: config.app.src + '/webapp/public/scss/*.scss',
-      tasks: ["sass"],
+      files: config.app.src + '/**/*',
+      tasks: ["check", 'copy', 'concat', 'sass', 'replace'],
       options: {
         spawn: false
       }
@@ -68,11 +69,13 @@ module.exports = function(grunt) {
         flatten: false
       }
     },
-    serve: {
-      options: {
-        port: 9000,
-        serve: {
-          path: config.app.dest
+    connect: {
+      server: {
+        options: {
+          keepalive: true,
+          debug: true,
+          port: 9000,
+          base: config.app.dest 
         }
       }
     },
@@ -87,18 +90,21 @@ module.exports = function(grunt) {
         overwrite: true,
         replacements: [{
           from: '@@OPENLMIS_SERVER_URL',
-          to: grunt.option('openlmisServerURL') || config.openlmisServerURL
+          to: makeURL('openlmisServerURL')
         },{
           from: '@@AUTH_SERVICE_URL',
-          to: grunt.option('authServiceURL') || config.authServiceURL
+          to: makeURL('authServiceURL')
         }]
       }
     },
     concat: {
       options: {
-        sourcemap: true
+        sourceMap: true
       },
       vendorJs: {
+        options: {
+          sourcemap: true
+        },
         src: function(){
           return [
             'bower_components/jquery/dist/jquery.js', // hack to make jquery load first
@@ -110,30 +116,12 @@ module.exports = function(grunt) {
               'vendor/base2.js'
             ]);
         }(),
-/*
-        [
-          // Required libraries
-          config.app.src + '/webapp/public/lib/jquery/jquery-2.0.0.min.js',
-          config.app.src + '/webapp/public/lib/base2.js',
-          config.app.src + '/webapp/public/lib/jquery/jquery-ui-1.9.2.custom.min.js',
-          
-
-          config.app.src + '/webapp/public/lib/angular/angular.min.js',
-          config.app.src + '/webapp/public/lib/angular/angular-route.min.js',
-          config.app.src + '/webapp/public/lib/angular/angular-cookies.min.js',
-          config.app.src + '/webapp/public/lib/angular/angular-resource.min.js',
-          config.app.src + '/webapp/public/lib/bootstrap/js/bootstrap.min.js',
-          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.js',
-          config.app.src + '/webapp/public/lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js',
-          config.app.src + '/webapp/public/lib/angular-ui/ng-grid/ng-grid-2.0.7.min.js',
-          config.app.src + '/webapp/public/lib/select2/select2.min.js',
-          config.app.src + '/webapp/public/lib/underscore/underscore-min.js',
-          config.app.src + '/webapp/public/lib/localstorage/localStorage.js',
-        ],
-*/
         dest: config.app.dest + '/public/vendor.js'
       },
       js: {
+        options: {
+          sourceMap: true
+        },
         src: [
           // Base files
           config.app.src + '/webapp/public/js/shared/util.js',
@@ -141,13 +129,17 @@ module.exports = function(grunt) {
           config.app.src + '/webapp/public/js/shared/services/services.js',
           config.app.src + '/webapp/public/js/shared/**/*.js',
           // Module registration
-          config.app.src + '/webapp/public/js/**/module/*.js',
-          config.app.src + '/webapp/public/js/**/*.module.js',
+          config.app.src + '/webapp/public/**/module/*.js',
+          config.app.src + '/webapp/public/**/*.module.js',
           // Special file types....
-          config.app.src + '/webapp/public/js/**/*.config.js',
-          config.app.src + '/webapp/public/js/**/*.routes.js',
+          config.app.src + '/webapp/public/**/*.config.js',
+          config.app.src + '/webapp/public/**/*.routes.js',
+          '!' + config.app.src + '/webapp/public/app.routes.js',
           // Everything else
           config.app.src + '/webapp/public/**/*.js',
+          '!' + config.app.src + '/**/*.spec.js',
+          '!' + config.app.src + '/webapp/public/app.js',
+          '!' + config.app.src + '/webapp/public/app.routes.js',
           // Run time
           // NEED file to declare openlmis-app
           config.app.src + '/webapp/public/app.js',
@@ -279,7 +271,35 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'uglify', 'replace']);
+  function makeURL(key){
+    if (!key) {
+      return false;
+    }
+
+    var url = grunt.option(key) || config[key];
+
+    if (grunt.option('addProxyService') && url && url[0] != "/") {
+      grunt.log.writeln('Making proxy url for ' + key + ': ' + url);
+      return 'http://127.0.0.1:3030/' + url;
+    } else {
+      return url;
+    }
+  }
+
+  grunt.registerTask('serve:proxy', 'Start proxy server', function(){
+    var host = '127.0.0.1';
+    var port = 3030;
+
+    if (grunt.option('addProxyService')){
+      grunt.log.writeln('starting proxy server at ' + host + ':' + port);
+      cors_proxy.createServer().listen(port, host);
+    }
+  });
+
+  grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
+
+
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace', 'uglify', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };
