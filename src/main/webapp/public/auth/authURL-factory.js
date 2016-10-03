@@ -11,53 +11,20 @@
  (function(){
  	"use strict";
 
- 	angular.module("openlmis-core")
-		.constant("OpenlmisServerURL", function(){
-			// The serverURL can be set with a grunt build argument
-			// --serverURL=http://openlmis.server:location
-			var serverURL = "@@OPENLMIS_SERVER_URL";
-			if(serverURL.substr(0,2) == "@@"){
-				return false;
-			} else {
-				return serverURL;
-			}
-	}());
-
- 	angular.module("openlmis-auth")
- 		.constant("AuthServiceURL", function(){
- 			// The authUrl can be set with a grunt build argument
- 			// --AuthServiceURL=http://auth.service:location
- 			var authUrl = "@@AUTH_SERVICE_URL";
- 			if(authUrl.substr(0,2) == "@@"){
- 				return false;
- 			} else {
- 				return authUrl;
- 			}
- 		}());
-
  	angular.module("openlmis-auth")
  		.factory("AuthURL", AuthURL);
 
- 	function AuthURL(AuthServiceURL, OpenlmisServerURL){
- 		var rootUrl = "";
+ 	AuthURL.$inject = ['OpenlmisURL', 'PathFactory'];
+ 	function AuthURL(OpenlmisURL, PathFactory){
 
- 		if(OpenlmisServerURL){
- 			rootUrl = OpenlmisServerURL;
- 		}
- 		if(AuthServiceURL){
- 			rootUrl = AuthServiceURL;
- 		}
-
- 		// remove trailing slash if entered into server...
- 		if(rootUrl.substr(-1) == "/"){
- 			rootUrl = rootUrl.substr(0, rootUrl.length-1);
- 		}
+ 		var authUrl = "@@AUTH_SERVICE_URL";
+		if(authUrl.substr(0,2) == "@@"){
+			authUrl = "";
+		}
 
  		return function(url){
- 			if(url[0] == "/"){
- 				url = url.substr(1);
- 			}
- 			return rootUrl + "/" + url;
+ 			url = PathFactory(authUrl, url);
+ 			return OpenlmisURL(url);
  		}
  	}
 

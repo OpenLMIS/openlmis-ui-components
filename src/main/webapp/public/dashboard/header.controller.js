@@ -14,8 +14,8 @@
   angular.module('openlmis-dashboard')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', 'localStorageService', 'loginConfig', 'ConfigSettingsByKey', '$window', 'AuthorizationService', '$http', '$state'];
-  function HeaderController($scope, localStorageService, loginConfig, ConfigSettingsByKey, $window, AuthorizationService, $http, $state) {
+  HeaderController.$inject = ['$scope', 'localStorageService', 'loginConfig', 'ConfigSettingsByKey', '$window', 'AuthorizationService', 'LoginService', '$http', '$state'];
+  function HeaderController($scope, localStorageService, loginConfig, ConfigSettingsByKey, $window, AuthorizationService, LoginService, $http, $state) {
     $scope.loginConfig = loginConfig;
 
     $scope.$watch(function(){
@@ -47,7 +47,7 @@
     */
 
     $scope.logout = function() {
-      AuthorizationService.logout()
+      LoginService.logout()
       .then(function(){
         localStorageService.remove('ENABLE_GOOGLE_ANALYTICS');
         localStorageService.remove('GOOGLE_ANALYTICS_TRACKING_CODE');

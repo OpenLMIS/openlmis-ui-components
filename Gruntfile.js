@@ -49,7 +49,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: config.app.src + '/**/*',
-      tasks: ["check", 'copy', 'concat', 'sass', 'replace'],
+      tasks: ['copy', 'concat', 'sass', 'replace'],
       options: {
         spawn: false
       }
@@ -275,11 +275,8 @@ module.exports = function(grunt) {
     if (!key) {
       return false;
     }
-
     var url = grunt.option(key) || config[key];
-
-    if (grunt.option('addProxyService') && url && url[0] != "/") {
-      grunt.log.writeln('Making proxy url for ' + key + ': ' + url);
+    if (grunt.option('addProxyService') && url && url.substr(0,4).toLowerCase() == "http") {
       return 'http://127.0.0.1:3030/' + url;
     } else {
       return url;
@@ -299,7 +296,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
 
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace', 'uglify', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace', 'karma']);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };

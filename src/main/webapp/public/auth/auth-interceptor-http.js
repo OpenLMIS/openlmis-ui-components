@@ -20,11 +20,26 @@
     	$httpProvider.interceptors.push('HttpAuthAccessToken');
     }
 
-    HttpAuthAccessToken.$inject = ['$q'];
-    function HttpAuthAccessToken($q){
+    HttpAuthAccessToken.$inject = ['$q', 'OpenlmisURLService', 'AuthorizationService'];
+    function HttpAuthAccessToken($q, OpenlmisURLService, AuthorizationService){
+
+        function addAccessToken(url){
+            if(url.indexOf('?access_token') == -1){
+                if(url.indexOf('?') == -1){
+                    url += '?access_token=' + AuthorizationService.getAccessToken();
+                } else {
+                    url += '&access_token=' + AuthorizationService.getAccessToken();
+                }
+            }
+            return url;
+        }
+
     	return {
     		request: function(config){
-    			return config;
+                if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()){
+                    config.url = addAccessToken(config.url);
+                }
+                return config;
     		}
     	}
     }

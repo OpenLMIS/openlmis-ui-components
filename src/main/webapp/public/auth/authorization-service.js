@@ -21,21 +21,27 @@
     'USER_RIGHTS': 'RIGHTS'
   };
 
-  AuthorizationService.$inject = ["$q", "$http", "AuthURL", "localStorageService"]
-  function AuthorizationService ($q, $http, AuthURL, localStorageService) {
+  AuthorizationService.$inject = ["$q", "localStorageService"]
+  function AuthorizationService ($q, localStorageService) {
     var service = {};
 
-    service.getAccessToken = getAccessToken;
     service.isAuthenticated = isAuthenticated;
-    service.login = login;
-    service.logout = logout;
+
+    service.getAccessToken = getAccessToken;
+    service.setAccessToken = setAccessToken;
+    service.clearAccessToken = clearAccessToken;
 
     service.preAuthorize = preAuthorize;
     service.preAuthorizeReporting = preAuthorizeReporting;
     service.hasPermission = hasPermission;
 
     service.getUser = getUser;
-    service.getUserInfo = getUserInfo;
+    service.setUser = setUser;
+    service.clearUser = clearUser;
+
+    service.getRights = getRights;
+    service.setRights = setRights;
+    service.clearRights = clearRights;
 
     var clientId, clientSecret;
 
@@ -48,6 +54,14 @@
       }
     }
 
+    function setAccessToken(value){
+      return localStorageService.add(storageKeys.ACCESS_TOKEN, value);
+    }
+
+    function clearAccessToken(){
+      return localStorageService.remove(storageKeys.ACCESS_TOKEN);
+    }
+
     function isAuthenticated(){;
         if(getAccessToken()){
             return true;
@@ -56,111 +70,21 @@
         }
     }
 
-    function makeAuthorizationHeader(){
-      var data = btoa(clientId + ":" + clientSecret);
-      return "Basic " + data;
-    }
-
-    function getAuthorizationHeader(){
-      if(clientId && clientSecret) return $q.when(makeAuthorizationHeader());
-      
-      var deferred = $q.defer();
-      $http.get('/public/credentials/auth_server_client.json')
-      .then(function(response){
-        clientId = response.data["auth.server.clientId"];
-        clientSecret = response.data["auth.server.clientSecret"];
-        deferred.resolve(makeAuthorizationHeader());
-      }).catch(function(){
-        deferred.reject();
-      });
-      return deferred.promise;
-    }
-
-    function login(username, password){
-        var deferred = $q.defer();
-
-        getAuthorizationHeader().then(function(AuthHeader) {
-          $http({
-              method: 'POST',
-              url: AuthURL('/oauth/token?grant_type=password'),
-              data: 'username=' + username + '&password=' + password,
-              headers: {
-                "Authorization": AuthHeader,
-                "Content-Type": "application/x-www-form-urlencoded"
-              }
-          }).success(function(data) {
-              localStorageService.add(storageKeys.ACCESS_TOKEN, data.access_token);
-              localStorageService.add(storageKeys.USER_ID, data.referenceDataUserId);
-              
-              deferred.resolve();
-          }).error(function(data) {
-              deferred.reject();
-          });
-        }).catch(function(){
-          deferred.reject();
-        });
-
-        return deferred.promise;
-    }
-
-    function logout(){
-      var deferred = $q.defer();
-      $http({
-        method: 'POST',
-        url: AuthURL('/api/users/logout?access_token=' + getAccessToken())
-      }).then(function(data) {
-
-        localStorageService.remove(storageKeys.USER_RIGHTS);
-        localStorageService.remove(storageKeys.USERNAME);
-        localStorageService.remove(storageKeys.USER_ID);
-        localStorageService.remove(storageKeys.ACCESS_TOKEN);
-
-        deferred.resolve();
-      }).catch(function(data){
-        deferred.reject();
-      });
-      return deferred.promise;
-    }
-
-    function getUserInfo(){
-        var deferred = $q.defer();
-
-        if(!isAuthenticated()) {
-            deferred.reject();
-        } else {
-            var userInfoURL = AuthURL('/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' +
-                localStorageService.get(storageKeys.USER_ID) + '&access_token=' +
-                localStorageService.get(storageKeys.ACCESS_TOKEN));
-
-            $http({
-                method: 'GET',
-                url: userInfoURL,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).success(function(data) {
-                localStorageService.add(storageKeys.USERNAME, data.username);
-
-                //TODO: Get user's rights. For now they are hardcoded.
-                //localStorageService.add(localStorageKeys.RIGHT, getRights(data.rights));
-                var rights = defaultRights;
-                var rightsJson = JSON.stringify(rights);
-                localStorageService.add(storageKeys.USER_RIGHTS, rightsJson);
-
-                deferred.resolve();
-
-            }).error(function(data) {
-                deferred.reject();    
-            });
-        }
-        return deferred.promise;
-    }
-
     function getUser(){
       return {
         username: localStorageService.get(storageKeys.USERNAME),
         user_id: localStorageService.get(storageKeys.USER_ID)
       };
+    }
+
+    function setUser(user_id, username){
+      localStorageService.add(storageKeys.USERNAME, username);
+      localStorageService.add(storageKeys.USER_ID, user_id);
+    }
+
+    function clearUser(){
+      localStorageService.remove(storageKeys.USERNAME);
+      localStorageService.remove(storageKeys.USER_ID);
     }
 
     function getRights(){
@@ -172,6 +96,16 @@
         rights = [];
       }
       return rights;
+    }
+
+    function setRights(rights){
+      if(!rights) rights = defaultRights;
+      var rightsJson = JSON.stringify(rights);
+      localStorageService.add(storageKeys.USER_RIGHTS, rightsJson);
+    }
+
+    function clearRights(){
+      localStorageService.remove(storageKeys.USER_RIGHTS); 
     }
 
     function hasRight(permissions){

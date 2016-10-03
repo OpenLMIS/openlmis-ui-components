@@ -12,9 +12,9 @@ describe("LoginController", function() {
   beforeEach(module('openlmis'));
   beforeEach(module('openlmis-templates'));
 
-  var $rootScope, scope, LoginController, AuthorizationService, messageService, controller;
+  var $rootScope, scope, LoginController, messageService, controller;
 
-  beforeEach(inject(function(_$rootScope_, $controller, _messageService_, $templateCache) {
+  beforeEach(inject(function(_$rootScope_, $controller, _messageService_) {
     controller = $controller;
     $rootScope = _$rootScope_;
 
@@ -34,26 +34,14 @@ describe("LoginController", function() {
 
   }));
 
-  beforeEach(inject(function($httpBackend){
-    
-    // TODO: Replace this with a spy function for authServerClientFactory
-    $httpBackend.when('GET', '/public/credentials/auth_server_client.json').respond(200, {
-      "clientId": "trusted-client",
-      "clientSecret": "secret"
-    });
-
-  }));
-
-  beforeEach(inject(function($q, AuthorizationService){
-    spyOn(AuthorizationService, 'login').andCallFake(function(username, password){
+  beforeEach(inject(function($q, LoginService){
+    spyOn(LoginService, 'login').andCallFake(function(username, password){
       if(password == "bad-password"){
         return $q.reject();
       } else {
         return $q.when();
       }
     });
-
-    spyOn(AuthorizationService, 'getUserInfo').andReturn($q.when());
   }));
 
   it('should not login and show error when server returns error', function() {

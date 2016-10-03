@@ -13,7 +13,7 @@ describe("HeaderController", function() {
 
   var scope, loginConfig, window, localStorageService, httpBackend, $state;
 
-  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_) {
+  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
     $state = _$state_;
     spyOn($state, 'reload');
 
@@ -34,6 +34,8 @@ describe("HeaderController", function() {
       loginConfig: loginConfig,
       $window: window
     });
+
+    spyOn(LoginService, 'logout').andReturn($q.when());
   }));
 
   it('should set login config in scope', function() {
@@ -41,10 +43,9 @@ describe("HeaderController", function() {
   });
 
   it('should navigate to login page when user logs out', function() {
-    httpBackend.when('POST', '/auth/api/users/logout?access_token=' + access_token).respond(200);
 
     scope.logout();
-    httpBackend.flush();
+    scope.$apply();
     
     // Page state is on login page
     expect($state.reload).toHaveBeenCalled();

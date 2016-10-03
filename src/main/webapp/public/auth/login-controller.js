@@ -14,9 +14,9 @@
   angular.module("openlmis-auth")
     .controller("LoginController", LoginController);
 
-  LoginController.$inject = ['$scope', 'AuthorizationService', 'localStorageService', 'messageService'];
+  LoginController.$inject = ['$scope', 'LoginService', 'localStorageService', 'messageService'];
 
-  function LoginController($scope, AuthorizationService, localStorageService, messageService) {
+  function LoginController($scope, LoginService, localStorageService, messageService) {
     var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
     var validateLoginForm = function() {
@@ -37,26 +37,17 @@
       }
 
       $scope.disableSignInButton = true;
-      AuthorizationService.login($scope.username, $scope.password)
+      LoginService.login($scope.username, $scope.password)
       .then(function(){
-        $scope.getUserInfo();
+        $scope.$emit('auth.login');
       })
       .catch(function(){
+        //$scope.loginError = messageService.get("user.authentication.error");
         $scope.loginError = messageService.get("user.login.error");
       })
       .finally(function(){
         $scope.disableSignInButton = false;
         $scope.password = undefined;
-      });
-    };
-
-    $scope.getUserInfo = function(userId, token) {
-      AuthorizationService.getUserInfo()
-      .then(function(){
-        $scope.$emit('auth.login');
-      })
-      .catch(function(){
-        $scope.loginError = messageService.get("user.authentication.error");
       });
     };
 
