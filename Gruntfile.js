@@ -157,10 +157,11 @@ module.exports = function(grunt) {
       },
       vendorCss: {
         src: [
-          config.app.src + '/webapp/public/lib/bootstrap/css/bootstrap.min.css',
-          config.app.src + '/webapp/public/lib/angular-ui/angular-ui.min.css',
-          config.app.src + '/webapp/public/lib/select2/select2.css',
-          config.app.src + '/webapp/public/css/ng-grid.css',
+          'bower_components/bootstrap/dist/css/bootstrap.min.css',
+          'bower_components/bootstrap/dist/css/bootstrap.min.css.map',
+          'bower_components/angular-ui/build/angular-ui.css',
+          'bower_components/select2/select2.css',
+          'bower_components/angular-ui-grid/ui-grid.min.css'
         ],
         dest: config.app.dest + '/public/css/vendor.css'
       }
@@ -235,6 +236,21 @@ module.exports = function(grunt) {
             cwd: config.app.src + '/resources',
             src: ['auth_server_client.json'],
             dest: config.app.dest + '/public/credentials'
+          }
+        ]
+      },
+      uiGridFonts: {
+        files: [
+          {
+            expand: true,
+            cwd: 'bower_components/angular-ui-grid/',
+            src: [
+              'ui-grid.eot',
+              'ui-grid.svg',
+              'ui-grid.ttf',
+              'ui-grid.woff'
+            ],
+            dest: config.app.dest + '/public/css'
           }
         ]
       }

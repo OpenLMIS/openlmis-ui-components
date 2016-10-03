@@ -15,7 +15,7 @@
 
     authStateChangeInjector.$inject = ['$rootScope', '$state', 'AuthorizationService'];
 
-    function authStateChangeInjector($rootScope, $state, AuthorizationService){
+    function authStateChangeInjector($rootScope, $state, AuthorizationService) {
         $rootScope.$on( "$stateChangeStart", function(event, next, current) {
             if (!AuthorizationService.isAuthenticated() && next.url !== "/login") {
                 event.preventDefault();
@@ -24,7 +24,7 @@
                 event.preventDefault();
                 $state.go('app.home');
             }
-          });
+        });
     }
 
 })();

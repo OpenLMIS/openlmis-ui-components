@@ -1773,8 +1773,9 @@ input[placeholder].placeholder {
 }
 
 #viewReqList, #approveReqList {
-  .ngRow.odd:hover, .ngRow.odd:hover + .ngRow.odd {
+  .ngRow.odd:hover, .ui-grid-row:hover, .ngRow.odd:hover + .ngRow.odd, {
     background-color: #bdd0cb;
+    cursor: pointer;
   }
   .ngRow.even:hover, .ngRow.even:hover + .ngRow.even {
     background-color: #bdd0cb;
@@ -1783,6 +1784,9 @@ input[placeholder].placeholder {
     span {
       cursor: pointer !important;
     }
+  }
+  .ui-grid-cell {
+    background: inherit !important;
   }
 }
 

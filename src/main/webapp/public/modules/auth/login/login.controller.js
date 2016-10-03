@@ -14,9 +14,9 @@
   angular.module("openlmis.auth")
     .controller("LoginController", LoginController);
 
-  LoginController.$inject = ['$scope', 'AuthorizationService', 'localStorageService', 'messageService'];
+  LoginController.$inject = ['$scope', '$state', 'AuthorizationService', 'localStorageService', 'messageService'];
 
-  function LoginController($scope, AuthorizationService, localStorageService, messageService) {
+  function LoginController($scope, $state, AuthorizationService, localStorageService, messageService) {
     var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
     var validateLoginForm = function() {
