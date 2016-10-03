@@ -8,8 +8,7 @@
 
   function routes($stateProvider, $urlRouterProvider) {
 
-    $stateProvider
-    .state('app', {
+    $stateProvider.state('app', {
         abstract: true,
         views: {
           'header@': { 
@@ -24,8 +23,7 @@
             template: '<div ui-view></div>' 
           }
         }
-    })
-    .state('app.home', {
+    }).state('app.home', {
         url: '/home',
         templateUrl: 'home.html'
     });

@@ -11,7 +11,7 @@
 (function(){
   "use strict";
 
-  angular.module("openlmis-core")
+  angular.module("openlmis.auth")
     .controller("LoginController", LoginController);
 
   LoginController.$inject = ['$scope', 'AuthorizationService', 'localStorageService', 'messageService'];

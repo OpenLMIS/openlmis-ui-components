@@ -142,7 +142,7 @@ module.exports = function(grunt) {
           config.app.src + '/webapp/public/js/shared/**/*.js',
           // Module registration
           config.app.src + '/webapp/public/js/**/module/*.js',
-          config.app.src + '/webapp/public/js/**/*.module.js',
+          config.app.src + '/webapp/public/**/*.module.js',
           // Special file types....
           config.app.src + '/webapp/public/js/**/*.config.js',
           config.app.src + '/webapp/public/js/**/*.routes.js',

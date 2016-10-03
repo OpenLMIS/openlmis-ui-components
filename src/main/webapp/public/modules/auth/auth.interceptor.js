@@ -11,20 +11,20 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis-core')
-        .run(authStateChangeInjector);
+    angular.module('openlmis.auth').run(authStateChangeInjector);
 
-    authStateChangeInjector.$inject = ['$rootScope', '$window', 'AuthorizationService'];
-    function authStateChangeInjector($rootScope, $window, AuthorizationService){
-        $rootScope.$on('$routeChangeStart', function(){
-            if(!AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') == -1){
-                // if not authenticated and not on login page
-                $window.location.assign('/public/pages/login.html');
-            } else if(AuthorizationService.isAuthenticated() && $window.location.href.indexOf('login.html') >= 0) {
-                // if authenticated and on login page
-                $window.location.assign('/public/pages/index.html');
+    authStateChangeInjector.$inject = ['$rootScope', '$state', 'AuthorizationService'];
+
+    function authStateChangeInjector($rootScope, $state, AuthorizationService){
+        $rootScope.$on( "$stateChangeStart", function(event, next, current) {
+            if (!AuthorizationService.isAuthenticated() && next.url !== "/login") {
+                event.preventDefault();
+                $state.go('app.login');
+            } else if (AuthorizationService.isAuthenticated() && next.url === "/login") {
+                event.preventDefault();
+                $state.go('app.home');
             }
-        });
+          });
     }
 
 })();
