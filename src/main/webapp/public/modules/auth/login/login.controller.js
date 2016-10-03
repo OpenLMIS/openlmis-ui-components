@@ -53,18 +53,7 @@
     $scope.getUserInfo = function(userId, token) {
       AuthorizationService.getUserInfo()
       .then(function(){
-        if (window.location.href.indexOf("login.html") != -1) {
-          window.location = "/public/pages/index.html";
-          return;
-        }
-        
-        //TODO: Figure out where these are used
-        if (!$scope.loginConfig.preventReload) {
-          location.reload();
-          return;
-        }
-        $scope.loginConfig.modalShown = false;
-        $scope.loginConfig.preventReload = false;
+        $state.go('app.home');
       })
       .catch(function(){
         $scope.loginError = messageService.get("user.authentication.error");
