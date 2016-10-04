@@ -9,7 +9,7 @@
 	function routes($stateProvider) {
 
 		$stateProvider.state('requisitions.approvalList', {
-			url: '/requisitions/approvalList',
+			url: '/approvalList',
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
 			resolve: {
