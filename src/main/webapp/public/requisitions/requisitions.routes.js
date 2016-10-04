@@ -8,7 +8,7 @@
 
 	function config($stateProvider) {
 
-		$stateProvider.state('app.requisitions', {
+		$stateProvider.state('requisitions', {
 			abstract: true,
 			url: '/requisitions',
 			templateUrl: 'modules/requisitions/requisitions.html'

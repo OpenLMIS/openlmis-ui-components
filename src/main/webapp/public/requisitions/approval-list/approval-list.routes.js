@@ -8,15 +8,13 @@
 
 	function routes($stateProvider) {
 
-		$stateProvider.state('app.requisitions.approvalList', {
+		$stateProvider.state('requisitions.approvalList', {
 			url: '/requisitions/approvalList',
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'modules/requisitions/approval-list/approval-list.html',
 			resolve: {
-		        requisitionList: function ($http, localStorageService, OpenlmisServerURL) {
-		        	var url = OpenlmisServerURL + '/requisition/api/requisitions/requisitions-for-approval&access_token=' +
-                				localStorageService.get(localStorageKeys.ACCESS_TOKEN);
-		          	return $http.get(url);
+		        requisitionList: function ($http, OpenlmisURL) {
+		          	return $http.get(OpenlmisURL('/requisition/api/requisitions/requisitions-for-approval'));
 		        }
 		    }
 		});
