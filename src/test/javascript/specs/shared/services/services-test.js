@@ -28,21 +28,21 @@ describe("Services", function () {
 
   describe("ApproveRnrService", function () {
 
-    var requisitionForApprovalService;
+    // var requisitionForApprovalService;
 
-    beforeEach(inject(function (RequisitionForApproval) {
-      requisitionForApprovalService = RequisitionForApproval;
-    }));
+    // beforeEach(inject(function (RequisitionForApproval) {
+    //   requisitionForApprovalService = RequisitionForApproval;
+    // }));
 
-    it('should GET R&Rs pending for approval', function () {
-      var requisitions = {"rnr_list": []};
-      httpMock.expect('GET', "/requisitions-for-approval.json").respond(requisitions);
-      requisitionForApprovalService.get({}, function (data) {
-        expect(data.rnr_list).toEqual(requisitions.rnr_list);
-      }, function () {
-      });
-      httpMock.flush();
-    });
+    // it('should GET R&Rs pending for approval', function () {
+    //   var requisitions = {"rnr_list": []};
+    //   httpMock.expect('GET', "/requisitions-for-approval.json").respond(requisitions);
+    //   requisitionForApprovalService.get({}, function (data) {
+    //     expect(data.rnr_list).toEqual(requisitions.rnr_list);
+    //   }, function () {
+    //   });
+    //   httpMock.flush();
+    // });
   });
 
   describe("SupplyLineSearchService", function () {

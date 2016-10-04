@@ -25,7 +25,7 @@ describe('ApproveRnrListController', function () {
       {"facilityName":"first facility", "programName":"first program", "facilityCode":"first code"},
       {"facilityName":"second facility", "programName":"second program", "facilityCode":"second code"}
     ];
-    ctrl = controller(ApproveRnrListController, {$scope:scope, requisitionList:requisitionList});
+    ctrl = controller("ApprovalListCtrl", {$scope:scope, requisitionList:requisitionList});
   }));
 
   it('should show all requisitions if filter is not applied', function () {
