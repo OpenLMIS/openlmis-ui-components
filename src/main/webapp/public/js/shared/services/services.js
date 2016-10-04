@@ -118,10 +118,6 @@ services.factory('Requisitions', function ($resource) {
   return $resource('/requisitions/:id/:operation.json', {id: '@id', operation: '@operation'}, update);
 });
 
-services.factory('RequisitionForApproval', function ($resource) {
-  return $resource('/requisitions-for-approval.json', {}, {});
-});
-
 services.factory('RequisitionsForViewing', function ($resource) {
   return $resource('/requisitions.json', {}, {});
 });
