@@ -312,7 +312,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
 
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace', 'karma']);
+  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]);
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };
