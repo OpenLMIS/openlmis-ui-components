@@ -1,9 +1,9 @@
 FROM debian:jessie
 
 WORKDIR /root
-RUN apt-get update && apt-get install -y bash libfontconfig nodejs npm transifex-client git
+RUN apt-get update && apt-get install -y bash libfontconfig nodejs npm transifex-client git phantomjs
 RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN npm install -g bower grunt-cli phantomjs-prebuilt
+RUN npm install -g bower grunt-cli
 
 WORKDIR /app
 VOLUME ["/app"]

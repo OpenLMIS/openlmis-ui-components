@@ -23,7 +23,7 @@ describe("LocaleController", function () {
 
     var messagesReturned = {"messages": {"key": "message"}};
     // Not sure why the first httpBackend call causes the second not to run
-    //$httpBackend.expect('GET', '/public/messages/messages_en.json').respond(messagesReturned);
+    $httpBackend.expect('GET', '/public/messages/messages_en.json').respond(messagesReturned);
     $httpBackend.expect('GET', '/public/messages/messages_pt.json').respond(messagesReturned);
 
 
