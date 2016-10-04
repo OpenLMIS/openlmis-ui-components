@@ -11,7 +11,7 @@
 		$stateProvider.state('requisitions.approvalList', {
 			url: '/requisitions/approvalList',
 			controller: 'ApprovalListCtrl',
-			templateUrl: 'modules/requisitions/approval-list/approval-list.html',
+			templateUrl: 'requisitions/approval-list/approval-list.html',
 			resolve: {
 		        requisitionList: function ($http, OpenlmisURL) {
 		          	return $http.get(OpenlmisURL('/requisition/api/requisitions/requisitions-for-approval'));

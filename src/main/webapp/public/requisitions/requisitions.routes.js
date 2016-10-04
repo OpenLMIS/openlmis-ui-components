@@ -11,7 +11,7 @@
 		$stateProvider.state('requisitions', {
 			abstract: true,
 			url: '/requisitions',
-			templateUrl: 'modules/requisitions/requisitions.html'
+			templateUrl: 'requisitions/requisitions.html'
 		});
 
 	}
