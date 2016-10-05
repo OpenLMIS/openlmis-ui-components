@@ -9,7 +9,7 @@
  */
 
 
-describe('ViewRnrController', function () {
+/*describe('ViewRnrController', function () {
   var scope, httpBackend, controller, routeParams, requisition, location, messageService, requisitionService, pageSize;
   var columns = [
     {"id": 1, "name": "productCode", "position": 1, "source": {"description": "Reference Data", "name": "REFERENCE", "code": "R"}, "sourceConfigurable": false, "label": "Product Code", "formula": "", "indicator": "O", "used": true, "visible": true, "mandatory": true, "description": "Unique identifier for each commodity", "formulaValidationRequired": true},
@@ -345,3 +345,4 @@ describe('ViewRnrController', function () {
 
 
 });
+*/

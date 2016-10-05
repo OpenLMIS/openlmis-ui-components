@@ -114,9 +114,6 @@ services.factory('LineItemsPerPage', function ($resource) {
   return $resource('/reference-data/pageSize.json', {}, {});
 });
 
-services.factory('Requisitions', function ($resource) {
-  return $resource('/requisitions/:id/:operation.json', {id: '@id', operation: '@operation'}, update);
-});
 
 services.factory('RequisitionsForViewing', function ($resource) {
   return $resource('/requisitions.json', {}, {});

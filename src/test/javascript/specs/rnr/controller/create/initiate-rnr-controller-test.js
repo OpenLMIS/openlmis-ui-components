@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('InitiateRnrController', function () {
+/*describe('InitiateRnrController', function () {
 
   var scope, ctrl, $httpBackend, location, facilities, programs, rootScope, messageService, navigateBackService;
 
@@ -365,4 +365,4 @@ describe('InitiateRnrController', function () {
     });
 
   });
-});
+});*/
