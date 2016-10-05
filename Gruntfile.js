@@ -308,8 +308,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]);
+  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]
+  if(grunt.option('production')) buildTasks.push('uglify');
+  grunt.registerTask('build', buildTasks);
+  
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };
