@@ -25,6 +25,14 @@
 		'createRnRTemplate', 
 		'resetPassword', 
 		'ui.router'
-		]);
+		]).config(defaultRoutes);
+
+	defaultRoutes.$inject = ['$urlRouterProvider'];
+	function defaultRoutes($urlRouterProvider){
+		$urlRouterProvider
+		.when('', '/home')
+		.when('/', '/home')
+		.otherwise("/home"); // This should acutally be a 404....
+	}
 
 })();
