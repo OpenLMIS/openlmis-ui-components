@@ -101,53 +101,47 @@ module.exports = function(grunt) {
       }
     },
     concat: {
-      options: {
-        sourceMap: true
-      },
-      vendorJs: {
-        options: {
-          sourcemap: true
-        },
-        src: function(){
-          return [
-            'bower_components/jquery/dist/jquery.js', // hack to make jquery load first
-            'bower_components/jquery-ui/jquery-ui.js' // hack to make jquery load first
-            ].concat(
-            wiredep().js,
-            [
-              'vendor/ng-grid-2.0.7.min.js',
-              'vendor/base2.js'
-            ]);
-        }(),
-        dest: config.app.dest + '/public/vendor.js'
-      },
       js: {
         options: {
           sourceMap: true
         },
-        src: [
-          // Base files
-          config.app.src + '/webapp/public/js/shared/util.js',
-          config.app.src + '/webapp/public/js/shared/*.js',
-          config.app.src + '/webapp/public/js/shared/services/services.js',
-          config.app.src + '/webapp/public/js/shared/**/*.js',
-          // Module registration
-          config.app.src + '/webapp/public/**/module/*.js',
-          config.app.src + '/webapp/public/**/*.module.js',
-          // Special file types....
-          config.app.src + '/webapp/public/**/*.config.js',
-          config.app.src + '/webapp/public/**/*.routes.js',
-          '!' + config.app.src + '/webapp/public/app.routes.js',
-          // Everything else
-          config.app.src + '/webapp/public/**/*.js',
-          '!' + config.app.src + '/**/*.spec.js',
-          '!' + config.app.src + '/webapp/public/app.js',
-          '!' + config.app.src + '/webapp/public/app.routes.js',
-          // Run time
-          // NEED file to declare openlmis-app
-          config.app.src + '/webapp/public/app.js',
-          config.app.src + '/webapp/public/app.routes.js'
-        ],
+        src: function(){
+          var appFiles = [
+            // Base files
+            config.app.src + '/webapp/public/js/shared/util.js',
+            config.app.src + '/webapp/public/js/shared/*.js',
+            config.app.src + '/webapp/public/js/shared/services/services.js',
+            config.app.src + '/webapp/public/js/shared/**/*.js',
+            // Module registration
+            config.app.src + '/webapp/public/**/module/*.js',
+            config.app.src + '/webapp/public/**/*.module.js',
+            // Special file types....
+            config.app.src + '/webapp/public/**/*.config.js',
+            config.app.src + '/webapp/public/**/*.routes.js',
+            '!' + config.app.src + '/webapp/public/app.routes.js',
+            // Everything else
+            config.app.src + '/webapp/public/**/*.js',
+            '!' + config.app.src + '/**/*.spec.js',
+            '!' + config.app.src + '/webapp/public/app.js',
+            '!' + config.app.src + '/webapp/public/app.routes.js',
+            // Run time
+            // NEED file to declare openlmis-app
+            config.app.src + '/webapp/public/app.js',
+            config.app.src + '/webapp/public/app.routes.js'
+          ];
+          // hack to make jquery load first
+          return [
+              'bower_components/jquery/dist/jquery.js', 
+              'bower_components/jquery-ui/jquery-ui.js'
+            ].concat(
+              wiredep().js,
+              [
+                'vendor/ng-grid-2.0.7.min.js',
+                'vendor/base2.js'
+              ],
+              appFiles
+            );
+        }(),
         dest: config.app.dest + '/public/openlmis.js'
       },
       vendorCss: {

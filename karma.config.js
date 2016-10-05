@@ -14,7 +14,6 @@ module.exports = function (config) {
 
     /* FILES */
     files: [
-      'build/public/vendor.js',
       'build/public/openlmis.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'src/**/specs/**/*.js',
