@@ -94,6 +94,9 @@ module.exports = function(grunt) {
         },{
           from: '@@AUTH_SERVICE_URL',
           to: makeURL('authServiceURL')
+        },{
+          from: '@@REQUISITION_SERVICE_URL',
+          to: makeURL('requisitionServiceURL')
         }]
       }
     },

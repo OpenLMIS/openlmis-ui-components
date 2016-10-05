@@ -4,5 +4,6 @@
     "dest": "./build"
   },
   "openlmisServerURL": "",
-  "authServiceURL": "/auth"
+  "authServiceURL": "/auth",
+  "requisitionServiceURL": "/requisition"
 }

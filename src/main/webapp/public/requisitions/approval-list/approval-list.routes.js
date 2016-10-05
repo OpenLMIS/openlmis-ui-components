@@ -13,8 +13,8 @@
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
 			resolve: {
-		        requisitionList: function ($http, OpenlmisURL) {
-		          	return $http.get(OpenlmisURL('/requisition/api/requisitions/requisitions-for-approval'));
+		        requisitionList: function ($http, RequisitionURL) {
+		          	return $http.get(RequisitionURL('/api/requisitions/requisitions-for-approval'));
 		        }
 		    }
 		});
