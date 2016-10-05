@@ -79,6 +79,7 @@
   "msg.rnr.authorized.success": "R&R authorized successfully!",
   "msg.rnr.approved.success": "R&R approved successfully!",
   "msg.rnr.not.started": "Not yet started",
+  "msg.rnr.get.user.info.error": "Cannot retrieve user info",
   "msg.rnr.previous.pending": "Previous R&R pending",
   "msg.no.period.available": "No current period defined. Please contact the Admin.",
   "msg.question.confirmation": "Are you sure? Please confirm.",
