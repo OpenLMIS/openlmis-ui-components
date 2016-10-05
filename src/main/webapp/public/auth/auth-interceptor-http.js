@@ -20,8 +20,8 @@
     	$httpProvider.interceptors.push('HttpAuthAccessToken');
     }
 
-    HttpAuthAccessToken.$inject = ['$q', 'OpenlmisURLService', 'AuthorizationService'];
-    function HttpAuthAccessToken($q, OpenlmisURLService, AuthorizationService){
+    HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService'];
+    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService){
 
         function addAccessToken(url){
             if(url.indexOf('?access_token') == -1){
@@ -40,7 +40,16 @@
                     config.url = addAccessToken(config.url);
                 }
                 return config;
-    		}
+    		},
+            'responseError': function(response) {
+                if (response.status === 401 || response.status === 403) {
+                    AuthorizationService.clearAccessToken();
+                    AuthorizationService.clearUser();
+                    AuthorizationService.clearRights();
+                    $injector.get('$state').go('auth.login');
+                }
+                return $q.reject(response);
+            }
     	}
     }
 
