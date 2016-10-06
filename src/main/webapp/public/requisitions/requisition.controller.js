@@ -10,22 +10,16 @@
 (function() {
     'use strict';
 
-    angular.module('rnr').controller('ViewRequisitionCtrl', ViewRequisitionCtrl);
+    angular.module('rnr').controller('RequisitionCtrl', RequisitionCtrl);
 
-    ViewRequisitionCtrl.$inject = ['$scope', 'requisition', '$dialog',  '$location', '$routeParams'];
+    RequisitionCtrl.$inject = ['$scope', 'requisition', '$dialog',  '$location', '$routeParams'];
 
-    function ViewRequisitionCtrl($scope, requisition, $dialog, $location, $routeParams){
-        $scope.ErrorId = false;
-        $scope.visibility = {'visibility': 'hidden'};
+    function RequisitionCtrl($scope, requisition, $dialog, $location, $routeParams){
 
         // NOTE: the state where requisition could be undefined is impossible
         // because of the resolve from the URL parameter 
         $scope.rnr = new Rnr(requisition.data);
-
-        $(document).ready(function(){
-                $scope.visibility = {'visibility': 'visible'};
-        });
-
         $scope.requisitionType = $scope.rnr.emergency ? "requisition.type.emergency" : "requisition.type.regular";
+        this.rnr = $scope.rnr;
     }
 })();
