@@ -130,16 +130,6 @@ module.exports = function(grunt) {
             );
         }(),
         dest: config.app.dest + '/public/openlmis.js'
-      },
-      vendorCss: {
-        src: [
-          config.app.bower_components + '/bootstrap/dist/css/bootstrap.min.css',
-          config.app.bower_components + '/bootstrap/dist/css/bootstrap.min.css.map',
-          config.app.bower_components + '/angular-ui/build/angular-ui.css',
-          config.app.bower_components + '/select2/select2.css',
-          config.app.bower_components + '/angular-ui-grid/ui-grid.min.css'
-        ],
-        dest: config.app.dest + '/public/css/vendor.css'
       }
     },
     copy: {
