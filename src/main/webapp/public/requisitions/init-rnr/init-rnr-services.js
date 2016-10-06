@@ -23,11 +23,7 @@
         return $resource(OpenlmisURL('/requisition/api/requisitions/periods-for-initiate'), {}, {
             get: {
                 method: 'GET',
-                params: {
-                    programId: '@programId',
-                    facilityId: '@facilityId',
-                    emergency: '@emergency'
-                }
+                isArray: true
             }
         });
     }
@@ -36,10 +32,7 @@
         return $resource(OpenlmisURL('/requisition/api/requisitions/search'), {}, {
             get: {
                 method: 'GET',
-                params: {
-                    programId: '@programId',
-                    facilityId: '@facilityId'
-                }
+                isArray: true
             }
         });
     }
