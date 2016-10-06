@@ -15,7 +15,6 @@
     "angular-route": "*",
     "angular-sanitize": "*",
     "angular-ui": "0.4.0",
-    "bootstrap": "*",
     "jquery": "*",
     "angular-local-storage": "*",
     "select2": "3.4.2",
@@ -25,7 +24,9 @@
     "angular-ui-grid": "^3.2.9",
     "angular-ui-sortable": "^0.14.3",
     "jquery-ui": "^1",
-    "angular-ui-router": "0.3.1"
+    "angular-ui-router": "0.3.1",
+    "bootstrap-sass": "^3.3.7",
+    "font-awesome": "^4.6.3"
   },
   "overrides": {
     "jquery": {
@@ -45,6 +46,12 @@
       "main": [
         "build/angular-ui.js",
         "build/angular-ui.css"
+      ]
+    },
+    "angular-ui-grid": {
+      "main": [
+        "ui-grid.css",
+        "ui-grid.js"
       ]
     },
     "angular-bootstrap": {

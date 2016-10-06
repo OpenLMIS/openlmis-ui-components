@@ -1,9 +1,11 @@
 module.exports = function(grunt) {
+  var outputPath = 'docs';
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
   var gulp = require('gulp');
   var styleguide = require('sc5-styleguide');
-  var outputPath = 'docs';
+  var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
 
@@ -24,27 +26,12 @@ module.exports = function(grunt) {
     },
     sasslint: {
       src: [
-        config.app.src + '/webapp/public/scss/*.scss',
+        path.join(config.app.src,'**/*.scss'),
         '!**/ng-grid.scss'
       ],
       options: {
         bench: false,
         config: '.sasslint.json'
-      }
-    },
-    sass: {
-      options: {
-        sourceMap: true,
-      },
-      compile: {
-        files: [{
-          expand: true,
-          cwd: config.app.src + '/webapp/public/scss',
-          src: ["*.scss"],
-          dest: config.app.dest + '/public/css',
-          ext: ".css",
-          flatten: true
-        }]
       }
     },
     watch: {
@@ -239,7 +226,7 @@ module.exports = function(grunt) {
               'ui-grid.ttf',
               'ui-grid.woff'
             ],
-            dest: config.app.dest + '/public/css'
+            dest: config.app.dest + '/public/fonts'
           }
         ]
       }
@@ -280,9 +267,64 @@ module.exports = function(grunt) {
         return gulp.src([ config.app.dest + "/public/images/*",
                    config.app.dest + "/public/images/*" ])
           .pipe(gulp.dest("images"));
+      },
+      'sass': function(){
+   var includePaths = [
+        config.app.src,
+        'bower_components/font-awesome/scss',
+        'bower_components/bootstrap-sass/assets/stylesheets'
+    ];
+
+    var sass = require('gulp-sass');
+    var bless = require('gulp-bless');
+    var sourcemaps = require('gulp-sourcemaps');
+    var concat = require('gulp-concat');
+    var addsrc = require('gulp-add-src');
+    var replace = require('gulp-replace');
+
+    var bowerCss = wiredep().css;
+    var bowerSass = wiredep().scss;
+
+    var files = [].concat(
+      [
+        path.join(config.app.src, "**/*variables.scss"),
+        path.join(config.app.src, "**/*.variables.scss")
+      ],
+      bowerSass,
+      bowerCss,
+      [
+        path.join(config.app.src, "/**/*mixins.scss"),
+        path.join(config.app.src, "/**/*.mixins.scss"),
+        path.join(config.app.src, '**/*.css'),
+        path.join(config.app.src, '**/*.scss'),
+        "!" + path.join(config.app.src, "webapp/public/scss/*")
+      ]);
+
+    var outputStyle = "expanded";
+    if(grunt.option('production')) outputStyle = "compressed";
+
+    return gulp.src(files)
+   .pipe(sourcemaps.init())
+    .pipe(concat({
+      path:'openlmis.scss'
+    }))
+    .pipe(sass({
+      includePaths: includePaths,
+      outputStyle: outputStyle,
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(concat('openlmis.css'))
+    .pipe(replace('../','')) // remove non-relative strings
+    .pipe(bless())
+    .pipe(gulp.dest(
+      path.join(config.app.dest, "public")
+    ));
       }
     }
   });
+
+
+  grunt.registerTask('sass', ['gulp:sass']);
 
   function makeURL(key){
     if (!key) {
