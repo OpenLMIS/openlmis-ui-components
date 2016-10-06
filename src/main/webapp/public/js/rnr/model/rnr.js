@@ -226,7 +226,7 @@ var Rnr = function (rnr, numberOfMonths, operationalStatuses) {
 
   Rnr.prototype.periodDisplayName = function () {
   //TODO: This is a temporary solution.
-    return this.processingPeriod.startDate.slice(0,3).join("/") + '-' + this.processingPeriod.endDate.slice(0,3).join("/");
+    return this.processingPeriod.startDate.slice(0,3).join("/") + ' - ' + this.processingPeriod.endDate.slice(0,3).join("/");
   };
 
   Rnr.prototype.reduceForApproval = function () {

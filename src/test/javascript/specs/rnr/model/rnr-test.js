@@ -7,7 +7,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-/*
+
 describe('R&R test', function () {
 
   function createRegularRnr(json, columnsArray) {
@@ -16,22 +16,6 @@ describe('R&R test', function () {
     var regularRnr = new Rnr(json, columnsArray, 3);
     return regularRnr;
   }
-
-  it('should sort non full supply line items during init', function () {
-    var rnrLineItem1 = {productCategoryDisplayOrder: 3};
-    var rnrLineItem2 = {productCategoryDisplayOrder: 1};
-    var rnrLineItem3 = {productCategoryDisplayOrder: 2};
-    var rnrJson = {'nonFullSupplyLineItems': [rnrLineItem1, rnrLineItem2, rnrLineItem3]}
-
-    var rnr = createRegularRnr();
-    jQuery.extend(rnr, rnrJson);
-    rnr.init();
-
-    expect(rnr.nonFullSupplyLineItems.length).toEqual(3);
-    expect(rnr.nonFullSupplyLineItems[0].productCategoryDisplayOrder).toEqual(1);
-    expect(rnr.nonFullSupplyLineItems[1].productCategoryDisplayOrder).toEqual(2);
-    expect(rnr.nonFullSupplyLineItems[2].productCategoryDisplayOrder).toEqual(3);
-  });
 
   it('should leave the R&R only with basic information', function () {
     var lineItem1 = new RegularRnrLineItem();
@@ -55,177 +39,8 @@ describe('R&R test', function () {
   });
 
   it("should set numberOfMonths on rnr creation", function () {
-    var rnr = new Rnr({}, [], 5);
+    var rnr = new Rnr({}, 5);
     expect(rnr.numberOfMonths).toEqual(5);
-  });
-
-  it('should prepare line item objects inside rnr', function () {
-    var lineItemSpy = spyOn(window, 'RegularRnrLineItem');
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-
-    var rnr = {emergency: false, 'fullSupplyLineItems': [lineItem1], 'nonFullSupplyLineItems': [lineItem2], status: 'status'};
-    var constructedRnr = createRegularRnr(rnr, null);
-
-    expect(lineItemSpy).toHaveBeenCalledWith(lineItem1, 3, null, 'status');
-    expect(lineItemSpy.calls.length).toEqual(2);
-    expect(constructedRnr.fullSupplyLineItems.length).toEqual(1);
-    expect(constructedRnr.nonFullSupplyLineItems.length).toEqual(1);
-  });
-
-  it('should set rnrColumns in scope', function () {
-    var rnrColumns = [
-      {'name': 'beginningBalance'}
-    ];
-
-    var constructedRnr = createRegularRnr({}, rnrColumns);
-
-    expect(constructedRnr.programRnrColumnList).toEqual(rnrColumns);
-  });
-
-  it('should validate R&R full supply line items and return false if required field missing', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'fullSupplyLineItems': [lineItem1, lineItem2]};
-    var programRnrColumnList = [
-      {"name": "beginningBalance"},
-      {"name": "noOfPatients"}
-    ];
-
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.fullSupplyLineItems[0], 'validateRequiredFieldsForFullSupply').andReturn(false);
-    spyOn(rnr.fullSupplyLineItems[1], 'validateRequiredFieldsForFullSupply').andReturn(true);
-
-    var errorMessage = rnr.validateFullSupply();
-
-    expect(rnr.fullSupplyLineItems[0].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[1].validateRequiredFieldsForFullSupply.calls.length).toEqual(0);
-    expect(errorMessage).toEqual('error.rnr.validation');
-  });
-
-  it("should not validate R&R full supply line items if line item is skipped", function () {
-    var lineItem1 = {"lineItem": "lineItem1", skipped: true};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'fullSupplyLineItems': [lineItem1]};
-
-    var programRnrColumnList = [
-      {"name": "beginningBalance"},
-      {"name": "noOfPatients"}
-    ];
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.fullSupplyLineItems[0], 'validateRequiredFieldsForFullSupply').andReturn(false);
-
-    var errorMessage = rnr.validateFullSupply();
-    expect(errorMessage).toEqual('');
-  });
-
-  it('should validate R&R full supply line items and return true if required field is not missing', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'fullSupplyLineItems': [lineItem1, lineItem2]};
-    var programRnrColumnList = [
-      {"name": "beginningBalance"},
-      {"name": "noOfPatients"}
-    ];
-
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.fullSupplyLineItems[0], 'validateRequiredFieldsForFullSupply').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[1], 'validateRequiredFieldsForFullSupply').andReturn(true);
-
-    var errorMessage = rnr.validateFullSupply();
-
-    expect(rnr.fullSupplyLineItems[0].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[1].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(errorMessage).toEqual('');
-  });
-
-  it('should validate R&R full supply line items and return false if required field is not missing but arithmetically invalid', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'fullSupplyLineItems': [lineItem1, lineItem2]};
-    var programRnrColumnList = [
-      {"name": "beginningBalance"},
-      {"name": "noOfPatients"}
-    ];
-
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.fullSupplyLineItems[0], 'validateRequiredFieldsForFullSupply').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[0], 'formulaValid').andReturn(false);
-    spyOn(rnr.fullSupplyLineItems[1], 'validateRequiredFieldsForFullSupply').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[1], 'formulaValid').andReturn(false);
-
-
-    var errorMessage = rnr.validateFullSupply();
-
-    expect(rnr.fullSupplyLineItems[0].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[0].formulaValid.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[1].validateRequiredFieldsForFullSupply.calls.length).toEqual(0);
-    expect(rnr.fullSupplyLineItems[1].formulaValid.calls.length).toEqual(0);
-    expect(errorMessage).toEqual('error.rnr.validation');
-  });
-
-  it('should validate R&R full supply line items and return true if required field is not missing and arithmetically valid', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'fullSupplyLineItems': [lineItem1, lineItem2]};
-    var programRnrColumnList = [
-      {"name": "beginningBalance"},
-      {"name": "noOfPatients"}
-    ];
-
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.fullSupplyLineItems[0], 'validateRequiredFieldsForFullSupply').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[0], 'formulaValid').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[1], 'validateRequiredFieldsForFullSupply').andReturn(true);
-    spyOn(rnr.fullSupplyLineItems[1], 'formulaValid').andReturn(true);
-
-    var errorMessage = rnr.validateFullSupply();
-
-    expect(rnr.fullSupplyLineItems[0].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[0].formulaValid.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[1].validateRequiredFieldsForFullSupply.calls.length).toEqual(1);
-    expect(rnr.fullSupplyLineItems[1].formulaValid.calls.length).toEqual(1);
-    expect(errorMessage).toEqual('');
-  });
-
-  it('should validate R&R non full supply line items and return true if required fields are not missing', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'nonFullSupplyLineItems': [lineItem1, lineItem2]};
-
-    var programRnrColumnList = [
-      {"name": "quantityRequested"},
-      {"name": "reasonForRequestedQuantity"}
-    ];
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.nonFullSupplyLineItems[0], 'validateRequiredFieldsForNonFullSupply').andReturn(true);
-    spyOn(rnr.nonFullSupplyLineItems[1], 'validateRequiredFieldsForNonFullSupply').andReturn(true);
-
-    var errorMessage = rnr.validateNonFullSupply();
-
-    expect(rnr.nonFullSupplyLineItems[0].validateRequiredFieldsForNonFullSupply.calls.length).toEqual(1);
-    expect(rnr.nonFullSupplyLineItems[1].validateRequiredFieldsForNonFullSupply.calls.length).toEqual(1);
-    expect(errorMessage).toEqual('');
-  });
-
-  it('should validate R&R non full supply line items and return false if required fields are missing', function () {
-    var lineItem1 = {"lineItem": "lineItem1"};
-    var lineItem2 = {};
-
-    var rnr = {period: {numberOfMonths: 3}, status: 'INITIATED', 'nonFullSupplyLineItems': [lineItem1, lineItem2]};
-
-    var programRnrColumnList = [
-      {"name": "quantityRequested"},
-      {"name": "reasonForRequestedQuantity"}
-    ];
-    rnr = createRegularRnr(rnr, programRnrColumnList);
-    spyOn(rnr.nonFullSupplyLineItems[0], 'validateRequiredFieldsForNonFullSupply').andReturn(false);
-    spyOn(rnr.nonFullSupplyLineItems[1], 'validateRequiredFieldsForNonFullSupply').andReturn(true);
-
-    var errorMessage = rnr.validateNonFullSupply();
-
-    expect(rnr.nonFullSupplyLineItems[0].validateRequiredFieldsForNonFullSupply.calls.length).toEqual(1);
-    expect(rnr.nonFullSupplyLineItems[1].validateRequiredFieldsForNonFullSupply.calls.length).toEqual(0);
-    expect(errorMessage).toEqual('error.rnr.validation');
   });
 
   it('should fill normalized consumption and update cost', function () {
@@ -418,12 +233,12 @@ describe('R&R test', function () {
   });
 
   it('should prepare period display name', function () {
-    var rnr = createRegularRnr({"id": "1", period: {"name": "Period 1", "stringStartDate": "16/01/2013", "stringEndDate": "30/04/2013"}}, null)
-    expect(rnr.periodDisplayName()).toEqual('16/01/2013 - 30/04/2013');
+    var rnr = createRegularRnr({"id": "1", processingPeriod: {"name": "Period 1", "startDate": [16, 1, 2013], "endDate": [30, 4, 2013]}}, null)
+    expect(rnr.periodDisplayName()).toEqual('16/1/2013 - 30/4/2013');
   });
 
   it('should set budget exceed flag if applicable', function () {
-    var rnr = createRegularRnr({"id": "1", period: {"name": "Period 1", "stringStartDate": "16/01/2013", "stringEndDate": "30/04/2013"}}, null);
+    var rnr = createRegularRnr({"id": "1", processingPeriod: {"name": "Period 1", "startDate": [16, 01, 2013], "endDate": [30, 04, 2013]}}, null);
     rnr.fullSupplyItemsSubmittedCost = 100;
     rnr.nonFullSupplyItemsSubmittedCost = 200;
     rnr.allocatedBudget = 100;
@@ -436,4 +251,4 @@ describe('R&R test', function () {
 
 
 });
-*/
+
