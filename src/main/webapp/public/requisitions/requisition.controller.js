@@ -10,7 +10,7 @@
 (function() {
     'use strict';
 
-    angular.module('rnr').controller('RequisitionCtrl', RequisitionCtrl);
+    angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
     RequisitionCtrl.$inject = ['$scope', 'requisition', '$dialog',  '$location', '$routeParams'];
 

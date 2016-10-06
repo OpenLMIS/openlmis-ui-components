@@ -13,7 +13,7 @@ describe("Message Directive", function () {
   var messageKey = "error.number.only";
   var compile;
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   describe("Non Input", function () {
     beforeEach(inject(function ($compile, $rootScope, _messageService_) {
       messageService = _messageService_;
@@ -79,7 +79,7 @@ describe("Message Directive", function () {
   describe("CommentBox", function () {
 
     var routeParams, httpBackend, scope;
-    beforeEach(module('openlmis'));
+    beforeEach(module('openlmis-core'));
 
     beforeEach(inject(function ($compile, $rootScope, $routeParams, $httpBackend) {
       scope = $rootScope.$new();

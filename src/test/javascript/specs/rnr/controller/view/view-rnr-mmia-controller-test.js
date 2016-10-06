@@ -76,7 +76,7 @@
     }
   };
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(inject(function ($httpBackend, $rootScope, $controller, _messageService_) {
     httpBackend = $httpBackend;
     scope = $rootScope.$new();

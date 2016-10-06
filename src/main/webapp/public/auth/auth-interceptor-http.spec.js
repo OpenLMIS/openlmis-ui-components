@@ -13,12 +13,14 @@ describe("AuthInterceptorHttp", function() {
 
   beforeEach(module('openlmis-auth'));
 
-  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_) {
+  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_, $state) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $http = _$http_;
       $httpBackend = _$httpBackend_;
       OpenlmisURL = _OpenlmisURL_;
+
+      spyOn($state, 'go');
 
       OpenlmisURLService.url = 'http://localhost';
   }));

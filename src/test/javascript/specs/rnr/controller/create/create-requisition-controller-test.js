@@ -12,7 +12,7 @@
 
   var scope, rootScope, ctrl, httpBackend, location, routeParams, controller, localStorageService, mockedRequisition, rnrColumns, regimenColumnList, pageSize,
     lossesAndAdjustmentTypes, facilityApprovedNFSProducts, requisitionRights, rnrLineItem, messageService, regimenTemplate, requisitionService, categoryList, requisitions;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(module('ui.bootstrap.dialog'));
 

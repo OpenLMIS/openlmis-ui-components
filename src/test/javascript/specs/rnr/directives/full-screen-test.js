@@ -16,7 +16,7 @@ describe('Full screen', function () {
   var compile, element, scope, div, printElement, rnrBody;
   var spyElement;
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(inject(function ($compile, $rootScope) {
 
     element = angular.element('<a full-screen href="" class="btn"><i class="icon-resize-full"></i></a>');

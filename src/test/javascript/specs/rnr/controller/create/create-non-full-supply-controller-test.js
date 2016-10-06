@@ -14,7 +14,7 @@ describe('CreateNonFullSupplyController', function () {
   var facilityApprovedProduct1, facilityApprovedProduct2, facilityApprovedProduct3, facilityApprovedProduct4, facilityApprovedProduct5;
   var category1, category2, category3;
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(inject(function ($httpBackend, $rootScope, $location, $controller, $routeParams, _localStorageService_) {
     scope = $rootScope.$new();
 

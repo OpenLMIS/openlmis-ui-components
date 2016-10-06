@@ -12,7 +12,7 @@ describe("Requisition Group Controller", function () {
 
   var scope, ctrl, requisitionGroup, messageService, $httpBackend, location, requisitionGroupData, requisitionGroupMembers, compile;
   var controller, schedules, programs, requisitionGroupProgramSchedules;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, $location, $compile, _messageService_) {
     scope = $rootScope.$new();
@@ -490,7 +490,7 @@ describe("Requisition Group Controller", function () {
 describe("Requisition Group resolve", function () {
   var $httpBackend, ctrl, $timeout, $route, $q;
   var deferredObject;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(inject(function (_$httpBackend_, $controller, _$timeout_, _$route_) {
     $httpBackend = _$httpBackend_;

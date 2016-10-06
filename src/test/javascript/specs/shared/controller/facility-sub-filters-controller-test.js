@@ -11,7 +11,7 @@
 describe("Facility Sub Filters Controller", function () {
 
   var scope, controller, messageService, $httpBackend, ctrl, facilityTypeList;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, _messageService_) {
     scope = $rootScope.$new();

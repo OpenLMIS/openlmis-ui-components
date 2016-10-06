@@ -9,8 +9,15 @@
  */
 describe("LoginController", function() {
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-auth'));
   beforeEach(module('openlmis-templates'));
+
+  beforeEach(module(function($provide){
+    // Turn off AuthToken
+    $provide.factory('HttpAuthAccessToken', function(){
+      return {};
+    });
+  }));
 
   var $rootScope, scope, LoginController, messageService, controller;
 
@@ -19,6 +26,8 @@ describe("LoginController", function() {
     $rootScope = _$rootScope_;
 
     scope = $rootScope.$new();
+
+    spyOn(scope, '$emit');
 
     scope.loginConfig = {
       "preventReload":true

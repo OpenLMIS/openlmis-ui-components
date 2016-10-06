@@ -11,7 +11,7 @@
 describe("Facility Search Filter Controller", function () {
 
   var scope, $httpBackend, ctrl, facilityTypeList;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller) {
     scope = $rootScope.$new();

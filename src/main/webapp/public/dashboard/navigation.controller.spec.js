@@ -57,7 +57,7 @@ describe("NavigationController", function() {
       "type": "FULFILLMENT"
     }];
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-dashboard'));
 
   beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$location_) {
     $httpBackend = _$httpBackend_;

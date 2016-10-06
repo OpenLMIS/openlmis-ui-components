@@ -11,7 +11,7 @@
 describe("ForgotPasswordController", function () {
 
   var controller, messageService, $httpBackend, scope;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, _messageService_) {
     scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;

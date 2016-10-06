@@ -28,7 +28,7 @@
 
         function getAuthorizationHeader(){
           var deferred = $q.defer();
-          $http.get('/public/credentials/auth_server_client.json')
+          $http.get('credentials/auth_server_client.json')
           .then(function(response){
             var header = makeAuthorizationHeader(
                 response.data["auth.server.clientId"],

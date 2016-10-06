@@ -341,7 +341,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]
+  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace', 'karma']
   if(grunt.option('production')) buildTasks.push('uglify');
   grunt.registerTask('build', buildTasks);
   

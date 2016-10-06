@@ -11,7 +11,7 @@
 describe("Requisition Group Search Controller", function () {
 
   var scope, $httpBackend, ctrl, navigateBackService, location;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
 
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, _navigateBackService_, $location) {
     scope = $rootScope.$new();

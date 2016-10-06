@@ -2,7 +2,8 @@
 
   'use strict';
 
-  angular.module('rnr').controller('ApprovalListCtrl', ApprovalListCtrl);
+  angular.module('openlmis.requisitions')
+    .controller('ApprovalListCtrl', ApprovalListCtrl);
 
   ApprovalListCtrl.$inject = ['$scope', 'requisitionList', '$location', 'messageService'];
 

@@ -16,8 +16,12 @@ describe("LoginService", function() {
     beforeEach(module(function($provide){
         $provide.factory('AuthURL', function(PathFactory){
             return function(url){
-                return PathFactory('/', url);
+                return PathFactory('', url);
             }
+        });
+        // Turn off AuthToken
+        $provide.factory('HttpAuthAccessToken', function(){
+          return {};
         });
     }));
 
@@ -27,7 +31,7 @@ describe("LoginService", function() {
         LoginService = _LoginService_;
         AuthorizationService = _AuthorizationService_;
 
-        httpBackend.when('GET', '/public/credentials/auth_server_client.json')
+        httpBackend.when('GET', 'credentials/auth_server_client.json')
         .respond(200, {
           'auth.server.clientId': 'client',
           'auth.server.clientSecret': 'secret'

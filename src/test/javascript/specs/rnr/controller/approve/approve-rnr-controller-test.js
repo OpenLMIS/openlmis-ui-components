@@ -12,7 +12,7 @@
 
   var scope, ctrl, httpBackend, location, routeParams, controller, requisition, regimenTemplate,
     programRnrColumnList, nonFullSupplyLineItems, lineItems, regimenLineItems, equipmentLineItems, dialog, rnrLineItem, regimenColumns, requisitionService, pageSize;
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(module('ui.bootstrap.dialog'));
 
   beforeEach(inject(function ($httpBackend, $rootScope, $location, $controller, _messageService_, _requisitionService_) {

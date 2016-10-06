@@ -12,7 +12,7 @@
 
   var scope, ctrl, $httpBackend, location, facilities, programs, rootScope, messageService, navigateBackService;
 
-  beforeEach(module('openlmis'));
+  beforeEach(module('openlmis-core'));
   beforeEach(inject(function ($rootScope, _$httpBackend_, $controller,
                               $location, _messageService_,
                               _navigateBackService_) {
