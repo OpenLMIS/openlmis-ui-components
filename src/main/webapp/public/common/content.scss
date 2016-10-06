@@ -10,10 +10,6 @@
 
 $heading-green: #17888F !default;
 
-@import "mixins";
-@import "calendar";
-@import "custom-scrollbar";
-
 .home-background {
   background: url(../images/home-glow.png) no-repeat center -70px, #d6d6d6 url(../images/home-bg.png) no-repeat right 530px;
 }

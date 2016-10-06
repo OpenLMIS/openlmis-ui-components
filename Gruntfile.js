@@ -1,9 +1,11 @@
 module.exports = function(grunt) {
+  var outputPath = 'docs';
+
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
   var gulp = require('gulp');
   var styleguide = require('sc5-styleguide');
-  var outputPath = 'docs';
+  var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
 
@@ -24,27 +26,12 @@ module.exports = function(grunt) {
     },
     sasslint: {
       src: [
-        config.app.src + '/webapp/public/scss/*.scss',
+        path.join(config.app.src,'**/*.scss'),
         '!**/ng-grid.scss'
       ],
       options: {
         bench: false,
         config: '.sasslint.json'
-      }
-    },
-    sass: {
-      options: {
-        sourceMap: true,
-      },
-      compile: {
-        files: [{
-          expand: true,
-          cwd: config.app.src + '/webapp/public/scss',
-          src: ["*.scss"],
-          dest: config.app.dest + '/public/css',
-          ext: ".css",
-          flatten: true
-        }]
       }
     },
     watch: {
@@ -101,53 +88,47 @@ module.exports = function(grunt) {
       }
     },
     concat: {
-      options: {
-        sourceMap: true
-      },
-      vendorJs: {
-        options: {
-          sourcemap: true
-        },
-        src: function(){
-          return [
-            'bower_components/jquery/dist/jquery.js', // hack to make jquery load first
-            'bower_components/jquery-ui/jquery-ui.js' // hack to make jquery load first
-            ].concat(
-            wiredep().js,
-            [
-              'vendor/ng-grid-2.0.7.min.js',
-              'vendor/base2.js'
-            ]);
-        }(),
-        dest: config.app.dest + '/public/vendor.js'
-      },
       js: {
         options: {
           sourceMap: true
         },
-        src: [
-          // Base files
-          config.app.src + '/webapp/public/js/shared/util.js',
-          config.app.src + '/webapp/public/js/shared/*.js',
-          config.app.src + '/webapp/public/js/shared/services/services.js',
-          config.app.src + '/webapp/public/js/shared/**/*.js',
-          // Module registration
-          config.app.src + '/webapp/public/**/module/*.js',
-          config.app.src + '/webapp/public/**/*.module.js',
-          // Special file types....
-          config.app.src + '/webapp/public/**/*.config.js',
-          config.app.src + '/webapp/public/**/*.routes.js',
-          '!' + config.app.src + '/webapp/public/app.routes.js',
-          // Everything else
-          config.app.src + '/webapp/public/**/*.js',
-          '!' + config.app.src + '/**/*.spec.js',
-          '!' + config.app.src + '/webapp/public/app.js',
-          '!' + config.app.src + '/webapp/public/app.routes.js',
-          // Run time
-          // NEED file to declare openlmis-app
-          config.app.src + '/webapp/public/app.js',
-          config.app.src + '/webapp/public/app.routes.js'
-        ],
+        src: function(){
+          var appFiles = [
+            // Base files
+            config.app.src + '/webapp/public/js/shared/util.js',
+            config.app.src + '/webapp/public/js/shared/*.js',
+            config.app.src + '/webapp/public/js/shared/services/services.js',
+            config.app.src + '/webapp/public/js/shared/**/*.js',
+            // Module registration
+            config.app.src + '/webapp/public/**/module/*.js',
+            config.app.src + '/webapp/public/**/*.module.js',
+            // Special file types....
+            config.app.src + '/webapp/public/**/*.config.js',
+            config.app.src + '/webapp/public/**/*.routes.js',
+            '!' + config.app.src + '/webapp/public/app.routes.js',
+            // Everything else
+            config.app.src + '/webapp/public/**/*.js',
+            '!' + config.app.src + '/**/*.spec.js',
+            '!' + config.app.src + '/webapp/public/app.js',
+            '!' + config.app.src + '/webapp/public/app.routes.js',
+            // Run time
+            // NEED file to declare openlmis-app
+            config.app.src + '/webapp/public/app.js',
+            config.app.src + '/webapp/public/app.routes.js'
+          ];
+          // hack to make jquery load first
+          return [
+              'bower_components/jquery/dist/jquery.js', 
+              'bower_components/jquery-ui/jquery-ui.js'
+            ].concat(
+              wiredep().js,
+              [
+                'vendor/ng-grid-2.0.7.min.js',
+                'vendor/base2.js'
+              ],
+              appFiles
+            );
+        }(),
         dest: config.app.dest + '/public/openlmis.js'
       },
       vendorCss: {
@@ -245,7 +226,7 @@ module.exports = function(grunt) {
               'ui-grid.ttf',
               'ui-grid.woff'
             ],
-            dest: config.app.dest + '/public/css'
+            dest: config.app.dest + '/public/fonts'
           }
         ]
       }
@@ -286,9 +267,64 @@ module.exports = function(grunt) {
         return gulp.src([ config.app.dest + "/public/images/*",
                    config.app.dest + "/public/images/*" ])
           .pipe(gulp.dest("images"));
+      },
+      'sass': function(){
+   var includePaths = [
+        config.app.src,
+        'bower_components/font-awesome/scss',
+        'bower_components/bootstrap-sass/assets/stylesheets'
+    ];
+
+    var sass = require('gulp-sass');
+    var bless = require('gulp-bless');
+    var sourcemaps = require('gulp-sourcemaps');
+    var concat = require('gulp-concat');
+    var addsrc = require('gulp-add-src');
+    var replace = require('gulp-replace');
+
+    var bowerCss = wiredep().css;
+    var bowerSass = wiredep().scss;
+
+    var files = [].concat(
+      [
+        path.join(config.app.src, "**/*variables.scss"),
+        path.join(config.app.src, "**/*.variables.scss")
+      ],
+      bowerSass,
+      bowerCss,
+      [
+        path.join(config.app.src, "/**/*mixins.scss"),
+        path.join(config.app.src, "/**/*.mixins.scss"),
+        path.join(config.app.src, '**/*.css'),
+        path.join(config.app.src, '**/*.scss'),
+        "!" + path.join(config.app.src, "webapp/public/scss/*")
+      ]);
+
+    var outputStyle = "expanded";
+    if(grunt.option('production')) outputStyle = "compressed";
+
+    return gulp.src(files)
+   .pipe(sourcemaps.init())
+    .pipe(concat({
+      path:'openlmis.scss'
+    }))
+    .pipe(sass({
+      includePaths: includePaths,
+      outputStyle: outputStyle,
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(concat('openlmis.css'))
+    .pipe(replace('../','')) // remove non-relative strings
+    .pipe(bless())
+    .pipe(gulp.dest(
+      path.join(config.app.dest, "public")
+    ));
       }
     }
   });
+
+
+  grunt.registerTask('sass', ['gulp:sass']);
 
   function makeURL(key){
     if (!key) {
@@ -314,8 +350,10 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-
-  grunt.registerTask('build', ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]);
+  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'/*, 'karma'*/]
+  if(grunt.option('production')) buildTasks.push('uglify');
+  grunt.registerTask('build', buildTasks);
+  
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
   grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
 };
