@@ -3,11 +3,19 @@ module.exports = function(grunt) {
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
-  var gulp = require('gulp');
   var styleguide = require('sc5-styleguide');
   var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
+
+  var gulp = require('gulp');
+  // registering promisies for gulp...
+  require("any-promise/register")("bluebird");
+  var sass = require('gulp-sass');
+  var bless = require('gulp-bless');
+  var sourcemaps = require('gulp-sourcemaps');
+  var concat = require('gulp-concat');
+  var replace = require('gulp-replace');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -264,13 +272,6 @@ module.exports = function(grunt) {
         'bower_components/font-awesome/scss',
         'bower_components/bootstrap-sass/assets/stylesheets'
     ];
-
-    var sass = require('gulp-sass');
-    var bless = require('gulp-bless');
-    var sourcemaps = require('gulp-sourcemaps');
-    var concat = require('gulp-concat');
-    var addsrc = require('gulp-add-src');
-    var replace = require('gulp-replace');
 
     var bowerCss = wiredep().css;
     var bowerSass = wiredep().scss;
