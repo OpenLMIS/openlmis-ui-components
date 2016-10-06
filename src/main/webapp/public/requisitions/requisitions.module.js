@@ -2,6 +2,8 @@
 	
 	"use strict";
 
-	angular.module('openlmis.requisitions', ['ui.router']);
-
+	angular.module('openlmis.requisitions', [
+	    'openlmis-core',
+	     'ui.router']);
+    
 })();

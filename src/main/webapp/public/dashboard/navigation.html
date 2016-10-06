@@ -18,7 +18,7 @@
       <div class="submenu">
         <ul>
           <li ng-show="hasPermission('CREATE_REQUISITION') || hasPermission('AUTHORIZE_REQUISITION')">
-            <a id="createRnr" href="/public/pages/logistics/rnr/index.html#/init-rnr"
+            <a id="createRnr" ui-sref="requisitions.initRnr"
                openlmis-message="link.requisitions.create.authorize"></a>
           </li>
           <li ng-show="hasPermission('APPROVE_REQUISITION')">

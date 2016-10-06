@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-var Rnr = function (rnr, programRnrColumns, numberOfMonths, operationalStatuses) {
+var Rnr = function (rnr, numberOfMonths, operationalStatuses) {
   
   // separate the skipped products from the not so skipped. 
   rnr.allSupplyLineItems = rnr.fullSupplyLineItems;
@@ -225,7 +225,8 @@ var Rnr = function (rnr, programRnrColumns, numberOfMonths, operationalStatuses)
   };
 
   Rnr.prototype.periodDisplayName = function () {
-    return this.period.stringStartDate + ' - ' + this.period.stringEndDate;
+  //TODO: This is a temporary solution.
+    return this.processingPeriod.startDate.slice(0,3).join("/") + '-' + this.processingPeriod.endDate.slice(0,3).join("/");
   };
 
   Rnr.prototype.reduceForApproval = function () {
@@ -258,23 +259,6 @@ var Rnr = function (rnr, programRnrColumns, numberOfMonths, operationalStatuses)
   Rnr.prototype.init = function () {
     var thisRnr = this;
 
-    function prepareLineItems(lineItems) {
-      var regularLineItems = [];
-      $(lineItems).each(function (i, lineItem) {
-        var regularLineItem = new RegularRnrLineItem(lineItem, thisRnr.numberOfMonths, programRnrColumns, thisRnr.status);
-        regularLineItems.push(regularLineItem);
-      });
-      return regularLineItems;
-    }
-
-    this.fullSupplyLineItems = prepareLineItems(this.fullSupplyLineItems);
-    this.nonFullSupplyLineItems = prepareLineItems(this.nonFullSupplyLineItems);
-    this.nonFullSupplyLineItems.sort(function (lineItem1, lineItem2) {
-      if (isUndefined(lineItem1))
-        return 1;
-      return lineItem1.compareTo(lineItem2);
-    });
-    this.programRnrColumnList = programRnrColumns;
 
     this.calculateFullSupplyItemsSubmittedCost();
     this.calculateNonFullSupplyItemsSubmittedCost();

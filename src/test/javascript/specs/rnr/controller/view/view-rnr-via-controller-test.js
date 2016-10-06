@@ -9,7 +9,7 @@
  */
 
 
-describe('ViewRnrViaDetailController', function () {
+/*describe('ViewRnrViaDetailController', function () {
   var httpBackend, scope, route, location, requisition, requisitionService;
 
   var rnrItemsVisible = [];
@@ -130,3 +130,4 @@ describe('ViewRnrViaDetailController', function () {
     httpBackend.flush();
   }
 });
+*/

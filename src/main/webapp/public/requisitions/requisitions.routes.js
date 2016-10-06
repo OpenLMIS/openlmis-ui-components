@@ -5,15 +5,13 @@
 	angular.module('openlmis.requisitions').config(config);
 
 	config.$inject = ['$stateProvider'];
-
 	function config($stateProvider) {
 
 		$stateProvider.state('requisitions', {
 			abstract: true,
 			url: '/requisitions',
-			templateUrl: 'requisitions/requisitions.html'
+			template: '<div ui-view></div>'
 		});
-
 	}
 
 })();

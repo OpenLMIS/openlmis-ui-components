@@ -51,20 +51,6 @@ services.factory('UserContext', function ($resource) {
   return $resource('/user-context.json', {}, {});
 });
 
-services.factory('Users', function ($resource) {
-  var resource = $resource('/users/:id.json', {id: '@id'}, update);
-
-  resource.disable = function (pathParams, success, error) {
-    $resource('/users/:id.json', {}, {update: {method: 'DELETE'}}).update(pathParams, {}, success, error);
-  };
-
-  return resource;
-});
-
-services.factory('UserFacilityList', function ($resource) {
-  return $resource('/user/facilities.json', {}, {});
-});
-
 services.factory('UserFacilityWithViewRequisition', function ($resource) {
   return $resource('/user/facilities/view.json', {}, {});
 });
@@ -114,10 +100,6 @@ services.factory('LineItemsPerPage', function ($resource) {
   return $resource('/reference-data/pageSize.json', {}, {});
 });
 
-services.factory('Requisitions', function ($resource) {
-  return $resource('/requisitions/:id/:operation.json', {id: '@id', operation: '@operation'}, update);
-});
-
 services.factory('RequisitionsForViewing', function ($resource) {
   return $resource('/requisitions.json', {}, {});
 });
@@ -152,10 +134,6 @@ services.factory('Schedule', function ($resource) {
 
 services.factory('Periods', function ($resource) {
   return $resource('/schedules/:scheduleId/periods.json', {}, {});
-});
-
-services.factory('PeriodsForFacilityAndProgram', function ($resource) {
-  return $resource('/logistics/periods.json', {}, {});
 });
 
 services.factory('Period', function ($resource) {
