@@ -36,6 +36,7 @@
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "karma-phantomjs-launcher": "^1.0.2",
     "matchdep": "~0.1.2",
+    "promise-polyfill": "6.0.2",
     "sc5-styleguide": "^1.1.2",
     "wiredep": "^4.0.0"
   }
