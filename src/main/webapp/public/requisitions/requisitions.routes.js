@@ -23,7 +23,7 @@
 
                   $http.get(OpenlmisURL('/requisition/api/requisitions/', $stateParams.rnr))
                     .then(function(response) {
-                      deferred.resolve(response);
+                      deferred.resolve(new Rnr(response.data));
                     }, function(response) {
                       alert('Cannot find requisition with UUID: ' + $stateParams.rnr);
                       deferred.reject();
