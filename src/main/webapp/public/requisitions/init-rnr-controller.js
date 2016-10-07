@@ -19,11 +19,10 @@
     function InitiateRnrController($scope, localStorageService, navigateBackService, messageService, $timeout, User, PeriodsForProgramAndFacility, RequisitionsForProgramAndFacility, Requisition) {
         var isNavigatedBack;
 
-        $scope.selectedRnrType = {"name": "Regular", "emergency": false};
+        $scope.selectedRnrType = {"name": "Regular", "emergency": false}; // TODO emergency (for now always false)
 
         $scope.rnrTypes = {"types": [
-            {"name": messageService.get("requisition.type.regular"), "emergency": false},
-            {"name": messageService.get("requisition.type.emergency"), "emergency": true}
+            {"name": messageService.get("requisition.type.regular"), "emergency": false} // TODO emergency (for now always false)
         ]};
 
         var resetRnrData = function () {
@@ -35,9 +34,6 @@
             $scope.facilities = null;
             $scope.error = null;
         },
-        getPeriodSpecificButton = function (activeForRnr) {
-            return '<input type="button" ng-click="initRnr(row.entity)" openlmis-message="button.proceed" class="btn btn-primary btn-small grid-btn" ng-show="' + activeForRnr + '"/>';
-        },
         optionMessage = function (entity, defaultMessage) {
             return entity === undefined || _.isEmpty(entity) ? messageService.get("label.none.assigned") : defaultMessage;
         },
@@ -48,29 +44,40 @@
                 firstPeriodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
             }
         },
-        createPeriodWithRnrStatus = function (periods, rnrs) {
+        createPeriodWithRnrStatus = function (periods) {
+            var periodWithRnrStatus,
+                rnr;
             if (periods === null || periods.length === 0) {
                 $scope.error = messageService.get("msg.no.period.available");
-                if ($scope.isEmergency) {
-                    addPreviousRequisitionToPeriodList(rnrs);
+                if ($scope.isEmergency) { // TODO emergency (for now always false)
+                    addPreviousRequisitionToPeriodList(rrns);
                 }
                 return;
             }
 
             $scope.periodGridData = [];
 
-            var periodWithRnrStatus;
-
             periods.forEach(function (period) {
                 periodWithRnrStatus = angular.copy(period);
-                if ($scope.isEmergency) {
+                RequisitionsForProgramAndFacility.get({processingPeriodId: period.id},
+                    function (data) {
+                        rnr = data[0];
+                    }, function () {
+                        if (data.data.error === 'error.current.rnr.already.post.submit') {
+                            $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
+                            messageService.get("msg.rnr.current.period.already.submitted");
+                            return;
+                        }
+                        $scope.error = data.data.error;
+                });
+                if ($scope.isEmergency) { // TODO emergency (for now always false)
                     periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
                 }
                 else {
                     periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
-                    if (rnrs !== null && rnrs.length > 0 && periodWithRnrStatus.id === rnrs[0].period.id) {
-                        periodWithRnrStatus.rnrId = rnrs[0].id;
-                        periodWithRnrStatus.rnrStatus = rnrs[0].status;
+                    if (periodWithRnrStatus.id === rnr.period.id) {
+                        periodWithRnrStatus.rnrId = rnr.id;
+                        periodWithRnrStatus.rnrStatus = rnr.status;
                     }
                 }
                 $scope.periodGridData.push(periodWithRnrStatus);
@@ -78,11 +85,11 @@
 
             resetValuesForFirstPeriod($scope.periodGridData);
 
-            if ($scope.isEmergency) {
+            if ($scope.isEmergency) { // TODO emergency (for now always false)
                 addPreviousRequisitionToPeriodList(rnrs);
             }
         },
-        addPreviousRequisitionToPeriodList = function (rnrs) {
+        addPreviousRequisitionToPeriodList = function (rnrs) { // TODO emergency (for now always false)
             var periodWithRnrStatus;
             if (rnrs === null || rnrs.length === 0) return;
             rnrs.forEach(function (rnr) {
@@ -93,27 +100,6 @@
                     periodWithRnrStatus.activeForRnr = true;
                     $scope.periodGridData.push(periodWithRnrStatus);
                 }
-            });
-        },
-        saveRequisition = function () {
-            var url = OpenlmisURL('/requisition/requisitions/' + selectedPeriod.rnrId);
-            $http({ // TODO change to resource Requisition.save
-                method: 'PUT',
-                url: url,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                data: {
-                    facility: $scope.selectedFacilityId,
-                    program: $scope.selectedProgram.id,
-                    processingPeriod: selectedPeriod.id,
-                    emergency: $scope.selectedRnrType.emergency
-                }
-            }).success(function (data) {
-                return data;
-            }).error(function(data) {
-                $scope.error = data.data.error ? data.data.error : messageService.get("error.requisition.not.exist");
-                return;
             });
         };
 
@@ -174,10 +160,10 @@
             showFilter: false,
             columnDefs: [
                 {field: 'name', displayName: messageService.get("label.periods")},
-                {field: 'stringStartDate', displayName: messageService.get("period.header.startDate")},
-                {field: 'stringEndDate', displayName: messageService.get("period.header.endDate")},
+                {field: 'startDate', displayName: messageService.get("period.header.startDate")},
+                {field: 'endDate', displayName: messageService.get("period.header.endDate")},
                 {field: 'rnrStatus', displayName: messageService.get("label.rnr.status") },
-                {field: '', displayName: '', cellTemplate: getPeriodSpecificButton('row.entity.activeForRnr')}
+                {name: 'proceed', displayName: '', cellTemplate: '<init-rnr-button active-for-rnr="' + 'row.entity.activeForRnr' + '"><init-rnr-button>'}
             ]
         };
 
@@ -205,9 +191,11 @@
                 return;
             }
 
-            PeriodsForProgramAndFacility.get({programId: $scope.selectedProgram.id, facilityId: $scope.selectedFacilityId, emergency: $scope.isEmergency},
+            PeriodsForProgramAndFacility.get({programId: $scope.selectedProgram.id, facilityId: $scope.selectedFacilityId, emergency: false},
                 function (data) {
-                    periods = data;
+                    $scope.error = "";
+                    $scope.isEmergency = false;
+                    createPeriodWithRnrStatus(periods, rnrs);
                 }, function () {
                     if (data.data.error === 'error.current.rnr.already.post.submit') {
                         $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
@@ -216,24 +204,6 @@
                     }
                     $scope.error = data.data.error;
             });
-
-            RequisitionsForProgramAndFacility.get({programId: $scope.selectedProgram.id, facilityId: $scope.selectedFacilityId},
-                function (data) {
-                    rnrs = data;
-                }, function () {
-                    if (data.data.error === 'error.current.rnr.already.post.submit') {
-                        $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
-                        messageService.get("msg.rnr.current.period.already.submitted");
-                        return;
-                    }
-                    $scope.error = data.data.error;
-            });
-
-            if (periods && rnrs) {
-                $scope.error = "";
-                $scope.isEmergency = false;
-                createPeriodWithRnrStatus(periods, rnrs);
-            }
         };
 
         $scope.initRnr = function (selectedPeriod) {

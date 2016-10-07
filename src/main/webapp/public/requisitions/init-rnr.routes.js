@@ -9,9 +9,9 @@
 	function routes($stateProvider) {
 
 		$stateProvider.state('requisitions.initRnr', {
-			url: '/requisition/init-rnr',
+			url: '/initialize',
 			controller: 'InitiateRnrController',
-			templateUrl: 'requisitions/init-rnr/init.html'
+			templateUrl: 'requisitions/init.html'
 		});
 	}
 })();

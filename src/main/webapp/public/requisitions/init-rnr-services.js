@@ -9,9 +9,9 @@
 
 
 	User.$inject = ['OpenlmisURL', '$resource'];
-	PeriodsForProgramAndFacility.$inject = ['OpenlmisURL', '$resource'];
-	RequisitionsForProgramAndFacility.$inject = ['OpenlmisURL', '$resource'];
-	Requisition.$inject = ['OpenlmisURL', '$resource'];
+	PeriodsForProgramAndFacility.$inject = ['RequisitionURL', '$resource'];
+	RequisitionsForProgramAndFacility.$inject = ['RequisitionURL', '$resource'];
+	Requisition.$inject = ['RequisitionURL', '$resource'];
 
 	function User(OpenlmisURL, $resource) {
 		return $resource(OpenlmisURL('/referencedata/api/users/:id'), {
@@ -19,8 +19,8 @@
         });
 	}
 
-	function PeriodsForProgramAndFacility(OpenlmisURL, $resource) {
-        return $resource(OpenlmisURL('/requisition/api/requisitions/periods-for-initiate'), {}, {
+	function PeriodsForProgramAndFacility(RequisitionURL, $resource) {
+        return $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
             get: {
                 method: 'GET',
                 isArray: true
@@ -28,8 +28,8 @@
         });
     }
 
-    function RequisitionsForProgramAndFacility(OpenlmisURL, $resource) {
-        return $resource(OpenlmisURL('/requisition/api/requisitions/search'), {}, {
+    function RequisitionsForProgramAndFacility(RequisitionURL, $resource) {
+        return $resource(RequisitionURL('/api/requisitions/search'), {}, {
             get: {
                 method: 'GET',
                 isArray: true
@@ -37,8 +37,8 @@
         });
     }
 
-    function Requisition(OpenlmisURL, $resource) {
-        return $resource(OpenlmisURL('/requisition/requisitions/:id'), {
+    function Requisition(RequisitionURL, $resource) {
+        return $resource(RequisitionURL('/api/requisitions/:id'), {
                 id: '@id'
         });
     }
