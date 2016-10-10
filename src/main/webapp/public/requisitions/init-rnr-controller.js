@@ -45,8 +45,7 @@
             }
         },
         createPeriodWithRnrStatus = function (periods) {
-            var periodWithRnrStatus,
-                rnr;
+            var periodWithRnrStatus;
             if (periods === null || periods.length === 0) {
                 $scope.error = messageService.get("msg.no.period.available");
                 if ($scope.isEmergency) { // TODO emergency (for now always false)
@@ -59,31 +58,30 @@
 
             periods.forEach(function (period) {
                 periodWithRnrStatus = angular.copy(period);
-                RequisitionsForProgramAndFacility.get({processingPeriodId: period.id},
+                RequisitionsForProgramAndFacility.get({processingPeriod: period.id, program: $scope.selectedProgram.id, facility: $scope.selectedFacilityId},
                     function (data) {
-                        rnr = data[0];
-                    }, function () {
-                        if (data.data.error === 'error.current.rnr.already.post.submit') {
-                            $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
-                            messageService.get("msg.rnr.current.period.already.submitted");
-                            return;
+                        var rnr;
+                        data.forEach(function (requisition) {
+                            if (requisition.processingPeriodId == period.id) {
+                                rnr = requisition;
+                            }
+                        });
+                        if ($scope.isEmergency) { // TODO emergency (for now always false)
+                            periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
                         }
-                        $scope.error = data.data.error;
+                        else {
+                            periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
+                            if (periodWithRnrStatus.id === rnr.processingPeriodId) {
+                                periodWithRnrStatus.rnrId = rnr.id;
+                                periodWithRnrStatus.rnrStatus = rnr.status;
+                            }
+                        }
+                        $scope.periodGridData.push(periodWithRnrStatus);
+                    }, function (data) {
+                        periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
+                        $scope.periodGridData.push(periodWithRnrStatus);
                 });
-                if ($scope.isEmergency) { // TODO emergency (for now always false)
-                    periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
-                }
-                else {
-                    periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
-                    if (periodWithRnrStatus.id === rnr.period.id) {
-                        periodWithRnrStatus.rnrId = rnr.id;
-                        periodWithRnrStatus.rnrStatus = rnr.status;
-                    }
-                }
-                $scope.periodGridData.push(periodWithRnrStatus);
             });
-
-            resetValuesForFirstPeriod($scope.periodGridData);
 
             if ($scope.isEmergency) { // TODO emergency (for now always false)
                 addPreviousRequisitionToPeriodList(rnrs);
@@ -149,15 +147,14 @@
             });
         };
 
-        $scope.periodGridOptions = { data: 'periodGridData',
-            canSelectRows: false,
-            displayFooter: false,
-            displaySelectionCheckbox: false,
+        $scope.periodGridOptions = { 
+            data: 'periodGridData',
+            showFooter: false,
+            showSelectionCheckbox: false,
             enableColumnResize: true,
-            enableColumnReordering: true,
-            enableSorting: false,
             showColumnMenu: false,
             showFilter: false,
+            rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}"><div ng-click="grid.appScope.openRnr(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div></div>',
             columnDefs: [
                 {field: 'name', displayName: messageService.get("label.periods")},
                 {field: 'startDate', displayName: messageService.get("period.header.startDate")},
@@ -195,7 +192,7 @@
                 function (data) {
                     $scope.error = "";
                     $scope.isEmergency = false;
-                    createPeriodWithRnrStatus(periods, rnrs);
+                    createPeriodWithRnrStatus(data);
                 }, function () {
                     if (data.data.error === 'error.current.rnr.already.post.submit') {
                         $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
