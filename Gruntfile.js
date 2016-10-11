@@ -306,6 +306,11 @@ module.exports = function(grunt) {
     .pipe(sourcemaps.write())
     .pipe(concat('openlmis.css'))
     .pipe(replace('../','')) // remove non-relative strings
+    //Replace UI-Grid font paths
+    .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))
+    .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
+    .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
+    .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
     .pipe(bless())
     .pipe(gulp.dest(
       path.join(config.app.dest, "public")
