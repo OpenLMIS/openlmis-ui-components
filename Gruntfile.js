@@ -73,8 +73,14 @@ module.exports = function(grunt) {
       }
     },
     karma: {
-      unit: {
+      options: {
         configFile: 'karma.config.js'
+      },
+      unit: {
+        // default
+      },
+      tdd: {
+        singleRun: false
       }
     },
     replace: {
