@@ -13,7 +13,7 @@
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
 			resolve: {
-		        requisitionList: function ($http, RequisitionURL) {
+		        requisitionList: function ($q, $http, RequisitionURL) {
 		        	var deferred = $q.defer();
 
 		        	$http.get(RequisitionURL('/api/requisitions/requisitions-for-approval'))

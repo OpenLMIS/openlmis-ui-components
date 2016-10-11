@@ -24,7 +24,7 @@
         {field: 'program.name', displayName: messageService.get("program.header") },
         {field: 'facility.code', displayName: messageService.get("option.value.facility.code")},
         {field: 'facility.name', displayName: messageService.get("option.value.facility.name")},
-        {field: 'facility.type', displayName: messageService.get("option.value.facility.type")},
+        {field: 'facility.type.name', displayName: messageService.get("option.value.facility.type")},
         /*{field: 'districtName', displayName: messageService.get("option.value.facility.district")},*/
         {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date")},
         {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date")},
@@ -37,9 +37,7 @@
     };
 
     $scope.openRnr = function (row) {
-      alert(row.entity.facilityId);
-      $scope.$parent.period = {'startDate': $scope.selectedItems[0].periodStartDate, 'endDate': $scope.selectedItems[0].periodEndDate};
-      $location.url("rnr-for-approval/" + $scope.selectedItems[0].id + '/' + $scope.selectedItems[0].programId + '?supplyType=fullSupply&page=1');
+      alert(row.entity.facility.id);
     };
 
     $scope.filterRequisitions = function () {
