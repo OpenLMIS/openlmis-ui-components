@@ -10,7 +10,7 @@
 <div class="app-form">
 	<ng-include src="'requisitions/header.html'"></ng-include>
 
-  <div ng-hide="columns" class="alert alert-info" role="alert" openlmis-message="requisitionType"></div>
+  <div ng-hide="columns" class="alert alert-info" role="alert" openlmis-message="error.rnr.template.not.defined"></div>
   <div ng-if="columns">
     <product-grid columns="columns" products="rnr.requsitionLineItems"></product-grid>  
   </div>
