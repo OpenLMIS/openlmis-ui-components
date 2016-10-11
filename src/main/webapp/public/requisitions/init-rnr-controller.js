@@ -54,6 +54,7 @@
                         var rnr, 
                             firstPeriodWithRnrStatus,
                             periodWithRnrStatus = angular.copy(period);
+                        periodWithRnrStatus.idx = idx;
                         data.forEach(function (requisition) {
                             if (requisition.processingPeriodId == period.id) {
                                 rnr = requisition;
@@ -76,9 +77,11 @@
                             }
                         }
                         $scope.periodGridData.push(periodWithRnrStatus);
+                        $scope.periodGridData.sort(compare);
                     }, function (data) {
                         var periodWithRnrStatus = angular.copy(period),
                             firstPeriodWithRnrStatus;
+                        periodWithRnrStatus.idx = idx;
                         periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
                         if (idx === 0){ 
                             periodWithRnrStatus.activeForRnr = true;
@@ -86,12 +89,21 @@
                                 periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
                             }
                         }
+                        $scope.periodGridData.push(periodWithRnrStatus);
+                        $scope.periodGridData.sort(compare);
                 });
             });
 
             if ($scope.isEmergency) { // TODO emergency (for now always false)
                 addPreviousRequisitionToPeriodList(rnrs);
             }
+        },
+        compare = function(a, b) {
+            if (a.idx < b.idx)
+                return -1;
+            if (a.idx > b.idx)
+                return 1;
+            return 0;
         },
         addPreviousRequisitionToPeriodList = function (rnrs) { // TODO emergency (for now always false)
             var periodWithRnrStatus;
