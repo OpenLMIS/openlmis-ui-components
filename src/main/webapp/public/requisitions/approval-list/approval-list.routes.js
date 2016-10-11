@@ -9,6 +9,8 @@
 	function routes($stateProvider) {
 
 		$stateProvider.state('requisitions.approvalList', {
+			showInNavigation: true,
+			label: 'link.requisition.approve',
 			url: '/approvalList',
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',

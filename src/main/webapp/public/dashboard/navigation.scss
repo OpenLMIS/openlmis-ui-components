@@ -1,106 +1,4 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
- */
-
-.navigation ul li.is-selected a {
-  color: #FFF;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
-}
-
-.navigation ul li.has-children {
-  background: url(../images/left-arrow.png) no-repeat 95% center;
-  padding-right: 10px;
-}
-
-.navigation ul li:hover > .submenu {
-  display: block !important;
-}
-
-.icon-rss {
-  color: #fff;
-}
-
-.navigation-locale-bar {
-  .locale-container {
-    ul {
-      z-index: 2;
-      top: -41px;
-      bottom: auto;
-      li {
-        color: white;
-        a {
-          color: white;
-        }
-        .selected {
-          color: #ccc;
-        }
-      }
-    }
-  }
-}
-
-.is-nav-link-selected {
-  background: #19565A;
-  @include box-shadow(inset 1px 1px 1px rgba(0, 0, 0, 0.2));
-  border-radius: 3px;
-}
-
-#networkWarningPopup {
-  background: white;
-  color: black;
-  @include box-shadow(0 0 15px rgba(0, 0, 0, 0.98));
-  top: 33px;
-  bottom: auto;
-  left: auto;
-  right: 0px;
-  width: 210px;
-  font-size: 1em;
-  &:after {
-    border-top: 0;
-    border-bottom: 7px solid white;
-    top: -7px;
-    left: auto;
-    right: 20px;
-  }
-  div {
-    font-weight: normal;
-    text-align: left;
-  }
-  .icon-exclamation-sign {
-    font-size: 1.2em;
-    width: 1em;
-    color: #cd1e24;
-  }
-}
-
-.link-minimize {
-  .icon-remove {
-    color: #737373;
-  }
-  &:hover {
-    text-decoration: none;
-    .icon-remove {
-      color: black;
-    }
-  }
-}
-
-/*
-Colors
-
-Primary color used in OpenLMIS is presented below.
-
-markup:
-<div class="navigation"/>
-
-Styleguide 1.2
-*/
+@import "bourbon";
 
 /*
 Navigation
@@ -111,14 +9,14 @@ Styleguide 2.0
 */
 
 /*
-Navigation bar
+Header navigation bar
 
 Navigation bar in OpenLMIS can include links, lists of links called submenu and headings providing description for these items.
 
 markup:
-<form style="height: 240px;">
-  <div class="navigation toggleFullScreen">
-    <ul class="clearfix">
+<header style="height: 240px;">
+  <nav>
+    <ul>
       <li>
         <a href="">Home</a>
       </li>
@@ -183,183 +81,118 @@ markup:
 Styleguide 2.1
 */
 
-.navigation {
-  background: #42a7ad;
-  background: -moz-linear-gradient(top, #0d8d98 0%, #0d6369 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0d8d98), color-stop(100%, #0d6369)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #0d8d98 0%, #0d6369 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #0d8d98 0%, #0d6369 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #0d8d98 0%, #0d6369 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #0d8d98 0%, #0d6369 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d8d98', endColorstr='#0d6369', GradientType=0); /* IE6-9 */
+header > .navbar {
+  @include clearfix();
+  @extend .navbar-default;
+
+  @include linear-gradient(to bottom, #0d8d98 0%, #0d6369 100%);
+  margin-bottom: 0px;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.4);
-  height: 40px;
-  font-size: 0.9em;
-  border-bottom: 1px solid #a2cdc5;
-  position: relative;
-  font-weight: bold;
-  z-index: 2;
-  a {
-    display: block;
+  border-width: 0px;
+  border-radius: 0px;
+
+  padding: 0em 1em;
+
+
+  /*  GENERAL NAVIGATION STYLE  */
+  a{
+    color: $white;
     text-decoration: none;
-    color: #FFF;
+    cursor: pointer;
+    &:hover{
+      color: darken($white, 15%);
+    }
   }
+
   ul {
-    list-style: none;
-    margin: 0;
+    @extend .list-unstyled;
   }
   li {
     position: relative;
   }
-  > ul {
-    padding: 8px 10px;
-    > li {
+
+  .navbar-right{
+    margin-right: 0px;
+  }
+
+  .navbar-links{
+    @extend .navbar-text;
+    margin-bottom: 0px;
+    color: darken($white, 15%);
+
+    li{
+      display: block;
       float: left;
-      margin: 0 4px;
-      > a {
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-        padding: 3px 14px;
-        border-radius: 3px;
-      }
-      &:hover > a {
-        background: #19565A;
-        box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
-      }
     }
-  }
-  .submenu {
-    display: none;
-    padding-top: 10px;
-    position: absolute;
-    min-width: 150px;
-    left: 0;
-    top: 22px;
-  }
-  ul ul {
-    padding: 2px 0;
-    font-weight: normal;
-    border-radius: 4px;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.8);
-    border: 1px solid #fff;
-    background: #DDD; /* Old browsers */
-    background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 15%, #e0e0e0 100%); /* FF3.6+ */
-    background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 15%, #e0e0e0 100%); /* Chrome10+,Safari5.1+ */
-    background: -ms-linear-gradient(top, #ffffff 0%, #ffffff 15%, #e0e0e0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 15%, #e0e0e0 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e0e0e0', GradientType=0); /* IE6-9 */
-    .submenu {
-      padding: 0 0 0 10px;
-      left: 97%;
-      top: 1px;
+
+    > li::after{
+      content: "|";
+      padding-right: 0.25em;
     }
-    li {
-      border-top: 1px solid #d1d1d1;
-      box-shadow: inset 0 1px 0 #FFF;
-      border-bottom: 0;
-      white-space: nowrap;
-      &.beak {
-        width: 0;
-        height: 0;
-        border-left: 8px solid transparent;
-        border-right: 8px solid transparent;
-        border-bottom: 8px solid #FFF;
-        position: absolute;
-        top: 3px;
-        left: 20px;
-        border-top: 0;
-      }
-      li {
-        &.beak {
-          border-right: 8px solid #FFF;
-          border-top: 8px solid transparent;
-          border-bottom: 8px solid transparent;
-          position: absolute;
-          top: 13px;
-          left: -5px;
-        }
-      }
-      &:first-child {
-        border-top: 0;
-      }
-      a {
-        color: #333;
-        padding: 8px 12px;
-        text-shadow: white 0 1px 0;
-      }
-      &:hover > a {
+    > li:last-child::after{
+      content: "";
+      padding: 0em;
+    }
+
+  }
+
+  /* TOP LEVEL ITEMS */
+  > .navbar-nav {
+
+    a{
+      display: block;
+      text-decoration: none;
+      padding: 0.5em 1em;
+      &:hover{
+        text-decoration: none;
         color: #009DA7;
       }
     }
-  }
-}
 
-/*
-Manage menu
-
-Manage menu in OpenLMIS is meant to be bookmarks displaying current state of the UI.
-
-markup:
-<div class="manage-nav">
-  <ul class="clearfix">
-    <li>
-      <a href="">Facilities</a>
-    </li>
-    <li>
-      <a href="">Roles</a>
-    </li>
-    <li class="selected">
-      <a href="">Schedules</a>
-    </li>
-    <li>
-      <a href="">Users</a>
-    </li>
-  </ul>
-</div>
-
-Styleguide 2.2
-*/
-
-.manage-nav {
-  font-size: 0.9em;
-  margin: -5px 0 10px;
-  font-weight: bold;
-  ul {
-    margin: 0;
-    padding-left: 5px;
-    list-style: none;
-    border-bottom: 1px solid #d6d6d6;
-  }
-  li {
-    float: left;
-    margin: 10px 2px -1px;
-    border: 1px solid #d6d6d6;
-    border-radius: 3px 3px 0 0;
-    background: #DDD; /* Old browsers */
-    background: -moz-linear-gradient(top, #ffffff 0%, #d9d9d9 100%); /* FF3.6+ */
-    background: -webkit-linear-gradient(top, #ffffff 0%, #d9d9d9 100%); /* Chrome10+,Safari5.1+ */
-    background: -ms-linear-gradient(top, #ffffff 0%, #d9d9d9 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #ffffff 0%, #d9d9d9 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d9d9d9', GradientType=0); /* IE6-9 */
-    &:hover, &.selected {
-      border-bottom: 1px solid #ffffff;
-      a {
-        padding: 8px 14px 6px;
-        background: #FFF; /* Old browsers */
-        background: -moz-linear-gradient(top, #d9d9d9 0%, #ffffff 100%); /* FF3.6+ */
-        background: -webkit-linear-gradient(top, #d9d9d9 0%, #ffffff 100%); /* Chrome10+,Safari5.1+ */
-        background: -ms-linear-gradient(top, #d9d9d9 0%, #ffffff 100%); /* IE10+ */
-        background: linear-gradient(to bottom, #d9d9d9 0%, #ffffff 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9d9d9', endColorstr='#ffffff', GradientType=0); /* IE6-9 */
+    > li {
+      > a {
+        color: #FFF;
+        text-decoration: none;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+        padding: 7px 14px;
+        margin: 7px 14px;
+      }
+      &.open > a,
+      &.open > a:hover,
+      > a:hover {
+        color: #FFF;
+        background-color: #19565A;
+        box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
       }
     }
   }
-  a {
-    display: block;
-    color: #2c2c2c;
-    padding: 8px 14px 6px;
-    text-shadow: 0 1px 0 #FFF;
-    &:hover {
-      text-decoration: none;
+
+  .dropdown-menu {
+    top: 90%;
+    @include linear-gradient(to bottom, $white 10%, $light-gray 100%);
+    /* Arrow up */
+    &::before{
+      content: "";
+      position:absolute;
+      top: -5px;
+      left: 30px;
+      width: 0px; 
+      height: 0px; 
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid #FFF;
+    }
+
+    a {
+      color: $text-color;
+
+      &:hover{
+        color: $brand-primary;
+        background-color: transparent;
+      }
     }
   }
+  /* SECOND LEVEL DROPDOWN */
+
 }

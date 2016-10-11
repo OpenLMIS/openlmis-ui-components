@@ -21,7 +21,10 @@
 <body class="home-background">
   <header ng-if="userIsAuthenticated">
     <div ng-include="'dashboard/header.html'" ></div>
-    <div ng-include="'dashboard/navigation.html'" ></div>
+    <div class="navbar">
+      <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
+      <openlmis-locale class="navbar-links navbar-right"></openlmis-locale>
+    </div>
   </header>
   <div class="flex-stretch" ui-view></div>
 </body>

@@ -1,12 +1,4 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
- */
+@import 'bourbon';
 
 body {
   background: #2a393a;
@@ -36,9 +28,8 @@ body {
     font-size: 1.3em;
     color: #747474;
     margin: 0;
-    margin-right: 118px;
     line-height: 24px;
-    padding: 14px;
+//    padding: 14px;
     text-shadow: 0 1px 0 #FFF;
     font-weight: normal;
     border-color: transparent;
@@ -166,42 +157,39 @@ input[placeholder].placeholder {
 .modal-login-header {
   border-bottom: 1px solid #CCC;
   border-radius: 3px 3px 0 0;
-  background: #DDD; /* Old browsers */
-  background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 24%, #c5c5c5 100%); /* FF3.6+ */
-  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 24%,#c5c5c5 100%); /* Chrome10+,Safari5.1+ */
-  background: -ms-linear-gradient(top, #ffffff 0%, #ffffff 24%,#c5c5c5 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 24%,#c5c5c5 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c5c5c5',GradientType=0 ); /* IE6-9 */
-}
-.locale-container {
-  position: relative;
-  ul {
-    margin: 0;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 10px 10px 12px;
-    float: right;
-    list-style-type: none;
-    li {
-      display: inline;
-      color: #727070;
-      font-size: 11px;
-      a {
-        color: rgb(0, 136, 204);
-      }
-      .selected {
-        color: #888787;
-      }
-      &:last-child {
-        span {
-          &:last-child {
-            display: none;
-          }
-        }
-      }
-    }
+  @include linear-gradient(to bottom, $white 30%, $light-gray 100%);
+  @include clearfix();
+  padding: 0.5em 1em;
+  display: flex;
+  align-items: baseline;
+  > *{
+    flex: 1 0 auto;
+  }
+  > .locale-container{
+    flex: 0 0 auto;
   }
 }
 
-
+.locale-container {
+  @extend .list-unstyled;
+  font-size: $font-size-small;
+  li {
+    display: block;
+    float: left;
+    a {
+      color: $brand-primary;
+    }
+    .selected {
+      color: $text-color;
+      text-decoration: none;
+    }
+    &::after{
+      content: "|";
+      padding-right: 0.5em;
+    }
+    &:last-child::after{
+      content: "";
+      padding: 0px;
+    }
+  }
+}

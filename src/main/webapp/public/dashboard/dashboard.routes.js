@@ -11,7 +11,9 @@
     $stateProvider
     .state('home', {
       url: '/home',
-      templateUrl: 'dashboard/home.html'
+      templateUrl: 'dashboard/home.html',
+      showInNavigation: true,
+      label: 'link.home'
     })
     .state('404', {
       url: '/404',

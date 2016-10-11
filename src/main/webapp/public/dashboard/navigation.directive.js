@@ -9,26 +9,40 @@
  */
 
 (function(){
-  "use strict";
+	"use strict";
 
-  angular.module('openlmis-dashboard')
-    .controller('NavigationController', NavigationController);
+	angular.module('openlmis-dashboard')
+		.directive('openlmisNavigation', navigation);
 
-  NavigationController.$inject = ['$scope', '$state', 'messageService'] 
-  function NavigationController($scope, $state, messageService) {
+	navigation.$inject = ['NavigationService'];
+	function navigation(NavigationService){
+		return {
+			restrict: 'E',
+			replace: true,
+			scope: {
+				rootState: "="
+			},
+			controller: 'NavigationController as NavigationCtrl',
+			templateUrl: 'dashboard/navigation.html',
+			link: function(scope, element, attrs){
+				var states = [];
+				if(scope.rootState && scope.rootState != ""){
+					states = NavigationService.get(scope.rootState);
+				} else {
+					states = NavigationService.getMain();
+				}
+				scope.states = states;
 
-    this.getStateLabel = getStateLabel;
-
-    function getStateLabel(stateName){
-      var state = $state.get(stateName);
-      if(!state) return "";
-
-      if(state.label) {
-        return messageService.get(state.label);
-      }
-
-      return messageService.get(state.name);
-    }
-  }
+				scope.hasChildStates = function(stateName){
+					var states = NavigationService.get(stateName);
+					if(states.length > 0){
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+	}
 
 })();

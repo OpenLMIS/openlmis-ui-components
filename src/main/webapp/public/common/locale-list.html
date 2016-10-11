@@ -1,0 +1,6 @@
+
+<ul class="locales">
+  <li ng-repeat="code in locales">
+    <a id="locale_{{code}}" ng-class="{'selected': selectedLocale == code}" ng-click=changeLocale(code) openlmis-message="label.locale.{{code}}" ></a>
+  </li>
+</ul>
