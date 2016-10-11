@@ -167,7 +167,8 @@
                 {field: 'startDate', displayName: messageService.get("period.header.startDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
                 {field: 'endDate', displayName: messageService.get("period.header.endDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
                 {field: 'rnrStatus', displayName: messageService.get("label.rnr.status") },
-                {name: 'proceed', displayName: '', cellTemplate: '<init-rnr-button active-for-rnr="{{row.entity.activeForRnr}}"><init-rnr-button>'}
+                {name: 'proceed', displayName: '', cellTemplate:
+                '/public/requisitions/init-rnr-button.html'}
             ]
         };
 
@@ -222,7 +223,7 @@
                     function (data) {
                         $scope.$parent.rnrData = data;
                         // TODO go to create Rnr
-                    }, function () {
+                    }, function (data) {
                         $scope.error = data.data.error ? data.data.error : messageService.get("error.requisition.not.exist");
                 });
             } else {
