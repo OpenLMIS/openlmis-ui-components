@@ -214,12 +214,7 @@
                     $scope.isEmergency = false;
                     createPeriodWithRnrStatus(data);
                 }, function () {
-                    if (data.data.error === 'error.current.rnr.already.post.submit') {
-                        $scope.error = $scope.selectedType !== "0" ? messageService.get("msg.no.rnr.awaiting.authorization") :
-                        messageService.get("msg.rnr.current.period.already.submitted");
-                        return;
-                    }
-                    $scope.error = data.data.error;
+                    $scope.error = messageService.get("msg.no.period.available");
             });
         };
 
