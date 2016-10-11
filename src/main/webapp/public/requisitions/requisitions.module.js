@@ -4,6 +4,8 @@
 
 	angular.module('openlmis.requisitions', [
 	    'openlmis-core',
-	     'ui.router']);
+	     'ui.router',
+       'ui.grid.pinning',
+       'ui.grid.grouping']);
     
 })();

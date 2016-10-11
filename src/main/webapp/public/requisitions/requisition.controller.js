@@ -12,14 +12,19 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', 'requisition', 'requisitionTemplate', '$dialog',  '$location', '$routeParams'];
+    RequisitionCtrl.$inject = ['$scope', 'requisition', 'RequisitionTemplate', '$stateParams'];
 
-    function RequisitionCtrl($scope, requisition, requisitionTemplate, $dialog, $location, $routeParams){
+    function RequisitionCtrl($scope, requisition, RequisitionTemplate, $stateParams){
+
+        RequisitionTemplate.get({
+            id: $stateParams.rnr
+        }, function(template) {
+            $scope.columns = template.columnsMap;
+        });
 
         // NOTE: the state where requisition could be undefined is impossible
         // because of the resolve from the URL parameter 
         $scope.rnr = requisition;
-        $scope.columns = requisitionTemplate.columnsMap;
         $scope.requisitionType = $scope.rnr.emergency ? "requisition.type.emergency" : "requisition.type.regular";
         this.rnr = $scope.rnr;
     }
