@@ -21,9 +21,23 @@ describe('ApproveRnrListController', function () {
     httpBackend = $httpBackend;
     messageService = _messageService_;
 
-    requisitionList = [
-      {"facilityName":"first facility", "programName":"first program", "facilityCode":"first code"},
-      {"facilityName":"second facility", "programName":"second program", "facilityCode":"second code"}
+    requisitionList = [{
+        facility: {
+          name: 'first facility',
+          code: 'first code'
+        },
+        program: {
+          name: 'first program'
+        }
+      }, {
+        facility: {
+          name: 'second facility',
+          code: 'second code',
+        },
+        program: {
+          name: 'second program'
+        }
+      }
     ];
     ctrl = controller("ApprovalListCtrl", {$scope:scope, requisitionList:requisitionList});
   }));
@@ -37,7 +51,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against program name', function () {
     scope.query = "first";
-    scope.searchField = "programName";
+    scope.searchField = "program.name";
 
     scope.filterRequisitions();
 
@@ -47,7 +61,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against facility name', function () {
     scope.query = "second facility";
-    scope.searchField = "facilityName";
+    scope.searchField = "facility.name";
     scope.filterRequisitions();
 
     expect(scope.filteredRequisitions.length).toEqual(1);
@@ -56,7 +70,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against facility code', function () {
     scope.query = "second CO";
-    scope.searchField = "facilityCode";
+    scope.searchField = "facility.code";
     scope.filterRequisitions();
 
     expect(scope.filteredRequisitions.length).toEqual(1);

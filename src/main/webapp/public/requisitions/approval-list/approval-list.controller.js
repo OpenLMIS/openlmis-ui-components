@@ -8,7 +8,7 @@
   ApprovalListCtrl.$inject = ['$scope', 'requisitionList', '$location', 'messageService'];
 
   function ApprovalListCtrl($scope, requisitionList, $location, messageService) {
-    $scope.requisitions = requisitionList.data;
+    $scope.requisitions = requisitionList;
     $scope.filteredRequisitions = $scope.requisitions;
     $scope.selectedItems = [];
 
@@ -48,18 +48,24 @@
       var searchField = $scope.searchField;
 
       $scope.filteredRequisitions = $.grep($scope.requisitions, function (rnr) {
-        return (searchField) ? contains(rnr[searchField], query) : matchesAnyField(query, rnr);
+        return (searchField) ? contains(getFieldValue(rnr,searchField), query) : matchesAnyField(query, rnr);
       });
 
       $scope.resultCount = $scope.filteredRequisitions.length;
     };
+
+    function getFieldValue(object, fieldName) {
+      return fieldName.split('.').reduce(function(a, b) {
+        return a[b];
+      }, object);
+    }
 
     function contains(string, query) {
       return string.toLowerCase().indexOf(query.toLowerCase()) != -1;
     }
 
     function matchesAnyField(query, rnr) {
-      var rnrString = "|" + rnr.programName + "|" + rnr.facilityName + "|" + rnr.facilityCode + "|";
+      var rnrString = "|" + rnr.program.name + "|" + rnr.facility.name + "|" + rnr.facility.code + "|";
       return contains(rnrString, query);
     }
   }
