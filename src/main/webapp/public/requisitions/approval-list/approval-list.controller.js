@@ -8,7 +8,7 @@
   ApprovalListCtrl.$inject = ['$scope', 'requisitionList', '$location', 'messageService'];
 
   function ApprovalListCtrl($scope, requisitionList, $location, messageService) {
-    $scope.requisitions = requisitionList;
+    $scope.requisitions = requisitionList.data;
     $scope.filteredRequisitions = $scope.requisitions;
     $scope.selectedItems = [];
 
@@ -21,15 +21,15 @@
       showFilter: false,
       rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}"><div ng-click="grid.appScope.openRnr(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div></div>',
       columnDefs: [
-        {field: 'programName', displayName: messageService.get("program.header") },
-        {field: 'facilityCode', displayName: messageService.get("option.value.facility.code")},
-        {field: 'facilityName', displayName: messageService.get("option.value.facility.name")},
-        {field: 'facilityType', displayName: messageService.get("option.value.facility.type")},
-        {field: 'districtName', displayName: messageService.get("option.value.facility.district")},
-        {field: 'stringPeriodStartDate', displayName: messageService.get("label.period.start.date")},
-        {field: 'stringPeriodEndDate', displayName: messageService.get("label.period.end.date")},
-        {field: 'stringSubmittedDate', displayName: messageService.get("label.date.submitted")},
-        {field: 'stringModifiedDate', displayName: messageService.get("label.date.modified")},
+        {field: 'program.name', displayName: messageService.get("program.header") },
+        {field: 'facility.code', displayName: messageService.get("option.value.facility.code")},
+        {field: 'facility.name', displayName: messageService.get("option.value.facility.name")},
+        {field: 'facility.type', displayName: messageService.get("option.value.facility.type")},
+        /*{field: 'districtName', displayName: messageService.get("option.value.facility.district")},*/
+        {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date")},
+        {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date")},
+        {field: 'createdDate', displayName: messageService.get("label.date.submitted")},
+        /*{field: 'stringModifiedDate', displayName: messageService.get("label.date.modified")},*/
         {name: 'emergency', displayName: messageService.get("requisition.type.emergency"),
           cellTemplate: '<div class="ngCellText checked"><i ng-class="{\'icon-ok\': row.entity.emergency}"></i></div>',
           width: 110 }
