@@ -20,6 +20,7 @@
         }
 
         var serverURLs = [];
+        var bypassURLs = ["ui-grid", "bootstrap"];
         function addURLtoServerURLs(url){
             var rootURL = getRootURL(url);
             if(!checkURL(rootURL)){
@@ -58,6 +59,11 @@
 
         function checkURL(url){
             var urlsToCheck = serverURLs.concat(service.url);
+            for(var i=0; i<bypassURLs.length; i++){
+                if(url.substring(0, bypassURLs[i].length) == bypassURLs[i]){
+                    return false;
+                }
+            }
             for(var i=0; i<urlsToCheck.length; i++){
                 if(url.indexOf(urlsToCheck[i]) == 0){
                     return true;
