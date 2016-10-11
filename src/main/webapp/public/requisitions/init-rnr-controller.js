@@ -37,15 +37,7 @@
         optionMessage = function (entity, defaultMessage) {
             return entity === undefined || _.isEmpty(entity) ? messageService.get("label.none.assigned") : defaultMessage;
         },
-        resetValuesForFirstPeriod = function (periodGridData) {
-            var firstPeriodWithRnrStatus = periodGridData[0];
-            firstPeriodWithRnrStatus.activeForRnr = true;
-            if (!firstPeriodWithRnrStatus.rnrId) {
-                firstPeriodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
-            }
-        },
         createPeriodWithRnrStatus = function (periods) {
-            var periodWithRnrStatus;
             if (periods === null || periods.length === 0) {
                 $scope.error = messageService.get("msg.no.period.available");
                 if ($scope.isEmergency) { // TODO emergency (for now always false)
@@ -56,11 +48,12 @@
 
             $scope.periodGridData = [];
 
-            periods.forEach(function (period) {
-                periodWithRnrStatus = angular.copy(period);
+            periods.forEach(function (period, idx) {
                 RequisitionsForProgramAndFacility.get({processingPeriod: period.id, program: $scope.selectedProgram.id, facility: $scope.selectedFacilityId},
                     function (data) {
-                        var rnr;
+                        var rnr, 
+                            firstPeriodWithRnrStatus,
+                            periodWithRnrStatus = angular.copy(period);
                         data.forEach(function (requisition) {
                             if (requisition.processingPeriodId == period.id) {
                                 rnr = requisition;
@@ -76,10 +69,23 @@
                                 periodWithRnrStatus.rnrStatus = rnr.status;
                             }
                         }
+                        if (idx === 0){ 
+                            periodWithRnrStatus.activeForRnr = true;
+                            if (!periodWithRnrStatus.rnrId) {
+                                periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
+                            }
+                        }
                         $scope.periodGridData.push(periodWithRnrStatus);
                     }, function (data) {
+                        var periodWithRnrStatus = angular.copy(period),
+                            firstPeriodWithRnrStatus;
                         periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.previous.pending");
-                        $scope.periodGridData.push(periodWithRnrStatus);
+                        if (idx === 0){ 
+                            periodWithRnrStatus.activeForRnr = true;
+                            if (!periodWithRnrStatus.rnrId) {
+                                periodWithRnrStatus.rnrStatus = messageService.get("msg.rnr.not.started");
+                            }
+                        }
                 });
             });
 
@@ -149,18 +155,19 @@
 
         $scope.periodGridOptions = { 
             data: 'periodGridData',
-            showFooter: false,
-            showSelectionCheckbox: false,
+            canSelectRows: false,
+            displayFooter: false,
+            displaySelectionCheckbox: false,
             enableColumnResize: true,
             showColumnMenu: false,
             showFilter: false,
-            rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}"><div ng-click="grid.appScope.openRnr(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div></div>',
+            enableSorting: false, 
             columnDefs: [
                 {field: 'name', displayName: messageService.get("label.periods")},
-                {field: 'startDate', displayName: messageService.get("period.header.startDate")},
-                {field: 'endDate', displayName: messageService.get("period.header.endDate")},
+                {field: 'startDate', displayName: messageService.get("period.header.startDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
+                {field: 'endDate', displayName: messageService.get("period.header.endDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
                 {field: 'rnrStatus', displayName: messageService.get("label.rnr.status") },
-                {name: 'proceed', displayName: '', cellTemplate: '<init-rnr-button active-for-rnr="' + 'row.entity.activeForRnr' + '"><init-rnr-button>'}
+                {name: 'proceed', displayName: '', cellTemplate: '<init-rnr-button active-for-rnr="{{row.entity.activeForRnr}}"><init-rnr-button>'}
             ]
         };
 

@@ -24,7 +24,8 @@
 		'requisitionGroup', 
 		'createRnRTemplate', 
 		'resetPassword', 
-		'ui.router'
+		'ui.router',
+		'ui.grid'
 		]).config(defaultRoutes);
 
 	defaultRoutes.$inject = ['$urlRouterProvider'];

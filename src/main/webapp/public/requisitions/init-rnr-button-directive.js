@@ -6,7 +6,7 @@
 	    function() {
            return {
                restrict: 'E',
-               templateUrl: 'init-rnr-button.html',
+               templateUrl: '/public/requisitions/init-rnr-button.html',
                replace: true,
                scope: {
                    activeForRnr: '@'

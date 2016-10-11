@@ -60,52 +60,12 @@
           </div>
         </div>
         <div class="row-fluid">
-          <select ui-select2 placeholder="{{ programOptionMessage() }}"
-                  id="programListMyFacility" class="span3"
-                  ng-model="selectedProgram.id" ng-change="loadPeriods()">
+          <select placeholder="{{ programOptionMessage() }}"
+              id="programListMyFacility" class="span3"
+              ng-model="selectedProgram.id" ng-change="loadPeriods()">
             <option value=""></option>
             <option ng-repeat="program in programs | orderBy: 'name'"
                     value="{{ program.id }}">{{ program.name }}
-            </option>
-          </select>
-        </div>
-
-      </div>
-
-
-      <div ng-show="selectedType == 1"> // disabled
-        <div class="row-fluid">
-          <div class="span12">
-            <label openlmis-message="label.program"></label>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <select ui-select2 placeholder="{{ programOptionMessage() }}"
-                  class="span3" id="programListSupervisedFacility"
-                  ng-change="loadFacilitiesForProgram();"
-                  ng-model="selectedProgram.id">
-            <option value=""></option>
-            <option ng-repeat="program in programs | orderBy: 'name'"
-                    value="{{ program.id }}">{{ program.name }}
-            </option>
-          </select>
-        </div>
-
-        <br/>
-
-        <div class="row-fluid">
-          <div class="span12">
-            <label openlmis-message="label.requisition.facilityName"></label>
-          </div>
-        </div>
-        <div class="row-fluid">
-          <select ui-select2 placeholder="{{ facilityOptionMessage() }}"
-                  class="span3" id="facilityList" ng-change="loadPeriods()"
-                  ng-model="selectedFacilityId">
-            <option value=""></option>
-            <option ng-repeat="facility in facilities | orderBy : 'name'"
-                    value="{{ facility.id }}">{{ facility.code }} - {{
-              facility.name }}
             </option>
           </select>
         </div>
