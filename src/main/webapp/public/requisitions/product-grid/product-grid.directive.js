@@ -18,12 +18,12 @@
       link: function(scope) {
 
         var columnDefs = [{
-          field: 'orderableProduct.name',
-          displayName: messageService.get('option.value.product'),
-          pinnedLeft: true
-        }, {
           field: 'orderableProduct.productCode',
           displayName: messageService.get('label.vaccine.manufacturer.product.code'),
+          pinnedLeft: true
+        }, {
+          field: 'orderableProduct.name',
+          displayName: messageService.get('option.value.product'),
           pinnedLeft: true
         }];
         
@@ -40,7 +40,7 @@
           showFooter: false,
           showSelectionCheckbox: false,
           enableColumnResize: true,
-          showColumnMenu: false,
+          enableColumnMenus: false,
           sortInfo: { fields: ['submittedDate'], directions: ['asc'] },
           showFilter: false,
           columnDefs: columnDefs
