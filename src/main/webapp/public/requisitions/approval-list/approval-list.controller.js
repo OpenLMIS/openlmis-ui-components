@@ -3,7 +3,8 @@
   'use strict';
 
   angular.module('openlmis.requisitions')
-    .controller('ApprovalListCtrl', ApprovalListCtrl);
+    .controller('ApprovalListCtrl', ApprovalListCtrl)
+    .filter('dateFilter', dateFilter);
 
   ApprovalListCtrl.$inject = ['$scope', '$state', 'requisitionList', '$location', 'messageService'];
 
@@ -26,9 +27,9 @@
         {field: 'facility.name', displayName: messageService.get("option.value.facility.name")},
         {field: 'facility.type.name', displayName: messageService.get("option.value.facility.type")},
         /*{field: 'districtName', displayName: messageService.get("option.value.facility.district")},*/
-        {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date")},
-        {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date")},
-        {field: 'createdDate', displayName: messageService.get("label.date.submitted")},
+        {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date"), cellFilter: 'dateFilter'},
+        {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date"), cellFilter: 'dateFilter'},
+        {field: 'createdDate', displayName: messageService.get("label.date.submitted"), cellFilter: 'dateFilter'},
         /*{field: 'stringModifiedDate', displayName: messageService.get("label.date.modified")},*/
         {name: 'emergency', displayName: messageService.get("requisition.type.emergency"),
           cellTemplate: '<div class="ngCellText checked"><i ng-class="{\'icon-ok\': row.entity.emergency}"></i></div>',
@@ -67,6 +68,16 @@
     function matchesAnyField(query, rnr) {
       var rnrString = "|" + rnr.program.name + "|" + rnr.facility.name + "|" + rnr.facility.code + "|";
       return contains(rnrString, query);
+    }
+  }
+
+  function formatNumber(number) {
+    return number > 9 ? '' + number: '0' + number;
+  }
+
+  function dateFilter() {
+    return function(value) {
+      return formatNumber(value[2]) + '/' + formatNumber(value[1]) + '/' + formatNumber(value[0]);
     }
   }
 
