@@ -26,6 +26,10 @@
                 isArray: true,
                 transformResponse: function(dataStr){
                     var data = JSON.parse(dataStr);
+                    if(!Array.isArray(data)){
+                        return [];
+                    }
+                    
                     data.forEach(function(period){
                         period.startDate = new Date(period.startDate.join('-'));
                         period.endDate = new Date(period.endDate.join('-'));
