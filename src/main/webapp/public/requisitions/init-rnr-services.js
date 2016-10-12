@@ -23,7 +23,15 @@
         return $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
             get: {
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                transformResponse: function(dataStr){
+                    var data = JSON.parse(dataStr);
+                    data.forEach(function(period){
+                        period.startDate = new Date(period.startDate.join('-'));
+                        period.endDate = new Date(period.endDate.join('-'));
+                    });
+                    return data;
+                }
             }
         });
     }
