@@ -14,9 +14,9 @@
 
     angular.module('openlmis.requisitions').controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'localStorageService', 'navigateBackService', 'messageService', '$timeout', 'User', 'PeriodsForProgramAndFacility', 'RequisitionsForProgramAndFacility', 'Requisition'];
+    InitiateRnrController.$inject = ['$scope', 'localStorageService', 'navigateBackService', 'messageService', '$timeout', 'User', 'PeriodsForProgramAndFacility', 'RequisitionsForProgramAndFacility', 'Requisition', '$state'];
 
-    function InitiateRnrController($scope, localStorageService, navigateBackService, messageService, $timeout, User, PeriodsForProgramAndFacility, RequisitionsForProgramAndFacility, Requisition) {
+    function InitiateRnrController($scope, localStorageService, navigateBackService, messageService, $timeout, User, PeriodsForProgramAndFacility, RequisitionsForProgramAndFacility, Requisition, $state) {
         var isNavigatedBack;
 
         $scope.selectedRnrType = {"name": "Regular", "emergency": false}; // TODO emergency (for now always false)
@@ -226,13 +226,10 @@
             $scope.error = "";
 
             if (selectedPeriod.rnrId) {
-                Requisition.get({id: selectedPeriod.rnrId},
-                    function (data) {
-                        $scope.$parent.rnrData = data;
-                        // TODO go to create Rnr
-                    }, function (data) {
-                        $scope.error = data.data.error ? data.data.error : messageService.get("error.requisition.not.exist");
+                $state.go('requisitions.requisition', {
+                    rnr: selectedPeriod.rnrId 
                 });
+
             } else {
                 Requisition.save({facility: $scope.selectedFacilityId,
                     program: $scope.selectedProgram.id,
