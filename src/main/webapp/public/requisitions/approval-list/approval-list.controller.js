@@ -5,9 +5,9 @@
   angular.module('openlmis.requisitions')
     .controller('ApprovalListCtrl', ApprovalListCtrl);
 
-  ApprovalListCtrl.$inject = ['$scope', 'requisitionList', '$location', 'messageService'];
+  ApprovalListCtrl.$inject = ['$scope', '$state', 'requisitionList', '$location', 'messageService'];
 
-  function ApprovalListCtrl($scope, requisitionList, $location, messageService) {
+  function ApprovalListCtrl($scope, $state, requisitionList, $location, messageService) {
     $scope.requisitions = requisitionList;
     $scope.filteredRequisitions = $scope.requisitions;
     $scope.selectedItems = [];
@@ -16,7 +16,7 @@
       showFooter: false,
       showSelectionCheckbox: false,
       enableColumnResize: true,
-      showColumnMenu: false,
+      enableColumnMenus: false,
       sortInfo: { fields: ['submittedDate'], directions: ['asc'] },
       showFilter: false,
       rowTemplate: '<div ng-mouseover="rowStyle={\'background-color\': \'red\'}; grid.appScope.onRowHover(this);" ng-mouseleave="rowStyle={}"><div ng-click="grid.appScope.openRnr(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div></div>',
@@ -37,7 +37,9 @@
     };
 
     $scope.openRnr = function (row) {
-      alert(row.entity.facility.id);
+      $state.go('requisitions.requisition', {
+        rnr: row.entity.id
+      });
     };
 
     $scope.filterRequisitions = function () {
