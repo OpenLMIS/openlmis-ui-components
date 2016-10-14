@@ -15,7 +15,7 @@
 
 	function User(OpenlmisURL, $resource) {
 		return $resource(OpenlmisURL('/referencedata/api/users/:id'), {
-                id: '@id'
+            id: '@id'
         });
 	}
 
@@ -51,7 +51,12 @@
 
     function Requisition(RequisitionURL, $resource) {
         return $resource(RequisitionURL('/api/requisitions/:id'), {
-                id: '@id'
+            id: '@id'
+        }, {
+            initiate : {
+                url: RequisitionURL('/api/requisitions/initiate'),
+                method: 'POST'
+            }
         });
     }
 
