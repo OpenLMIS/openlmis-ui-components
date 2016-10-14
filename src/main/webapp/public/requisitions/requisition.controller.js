@@ -27,5 +27,9 @@
         $scope.rnr = requisition;
         $scope.requisitionType = $scope.rnr.emergency ? "requisition.type.emergency" : "requisition.type.regular";
         this.rnr = $scope.rnr;
+
+        $scope.save = function() {
+
+        };
     }
 })();
