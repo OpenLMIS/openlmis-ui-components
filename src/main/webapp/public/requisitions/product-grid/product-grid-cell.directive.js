@@ -5,17 +5,9 @@
   angular.module('openlmis.requisitions')
     .directive('productGridCell', productGridCell);
 
-  productGridCell.$inject = ['$compile'];
+  productGridCell.$inject = ['$q', '$templateRequest', '$compile'];
 
-  function productGridCell($compile) {
-
-    function determineType(column) {
-      if (column.columnDefinition.type === 'String') {
-        return 'text';
-      }
-      return 'number';
-    }
-
+  function productGridCell($q, $templateRequest, $compile) {
     return {
       restrict: 'E',
       replace: true,
@@ -24,19 +16,23 @@
         col: '='
       },
       link: function(scope, element) {
-        var cell = angular.element('<div>');
-        cell.addClass('ui-grid-cell-contents');
+        scope.determineType = function() {
+          if (scope.col.columnDefinition.type === 'String') {
+            return 'text';
+          }
+          return 'number';
+        };
 
-        if (scope.col.source === 'USER_INPUT') {
-          var input = angular.element('<input>');
-          input.attr('type', determineType(scope.col));
-          input.attr('ng-model', 'ngModel');
-          cell.append(input);
-        } else {
-          cell.text('{{ngModel}}');
-        }
-        
-        element.replaceWith($compile(cell)(scope));
+        $q.all([
+          $templateRequest('requisitions/product-grid/product-grid-cell.html'),
+          $templateRequest('requisitions/product-grid/' + (scope.col.source === 'USER_INPUT' ? 'user-input' : 'read-only') + '-cell.html')
+        ]).then(
+          function(templates) {
+            var cell = angular.element(templates[0]);
+            cell.append(templates[1]);
+            element.replaceWith($compile(cell)(scope));
+          }
+        );
       }
     }
   }

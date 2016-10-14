@@ -18,8 +18,10 @@
 
         RequisitionTemplate.get({
             id: $stateParams.rnr
-        }, function(template) {
+        }).$promise.then(function(template) {
             $scope.columns = template.columnsMap;
+        }).finally(function() {
+            $scope.templateLoaded = true;
         });
 
         // NOTE: the state where requisition could be undefined is impossible
