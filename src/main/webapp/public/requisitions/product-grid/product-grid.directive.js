@@ -32,7 +32,7 @@
             field: column,
             displayName: column.name,
             cellFilter: 'numberFilter',
-            cellTemplate: '<product-grid-cell ng-model="row.entity[col.field]" col="grid.appScope.columns[col.field]"></product-grid-cell>'
+            cellTemplate: '<product-grid-cell ng-model="row.entity" col="grid.appScope.columns[col.field]"></product-grid-cell>'
           });
         }
 
