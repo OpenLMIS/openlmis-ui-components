@@ -6,3 +6,8 @@ body {
 .content h2 {
   color: #17888F;
 }
+
+.page-content {
+  margin: 12px 12px 0px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
+}

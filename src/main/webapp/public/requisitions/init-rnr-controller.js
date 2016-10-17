@@ -231,13 +231,14 @@
                 });
 
             } else {
-                Requisition.save({facility: $scope.selectedFacilityId,
+                Requisition.initiate({facility: $scope.selectedFacilityId,
                     program: $scope.selectedProgram.id,
-                    processingPeriod: selectedPeriod.id,
-                    emergency: $scope.selectedRnrType.emergency},
+                    suggestedPeriod: selectedPeriod.id,
+                    emergency: false},                          // TODO emergency (for now always false)
                     function (data) {
-                        $scope.$parent.rnrData = data;
-                        // TODO go to create Rnr
+                        $state.go('requisitions.requisition', {
+                            rnr: selectedPeriod.rnrId 
+                        });
                     }, function () {
                         $scope.error = messageService.get("error.requisition.not.initiated");
                 });
