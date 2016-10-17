@@ -1,4 +1,10 @@
-<div class="app-form">
+<div class="content">
+  <h2 openlmis-message="label.approve.requisitions"></h2>
+
+  <div class="alert alert-success" id="saveSuccessMsgDiv" ng-show="message"
+      ng-bind="$parent.message"></div>
+
+  <div class="app-form">
     <div class="form-group">
         <h3 id='requisitionListLabel' openlmis-message="label.requisition.list"></h3>
 
@@ -22,4 +28,5 @@
             <div id="approveReqList" class="gridStyle" ui-grid="gridOptions" ng-show="requisitions.length"></div>
         </div>
     </div>
+  </div>
 </div>

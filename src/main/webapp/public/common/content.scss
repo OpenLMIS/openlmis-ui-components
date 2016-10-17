@@ -82,7 +82,7 @@ $heading-green: #17888F !default;
   padding: 10px;
   border: 1px solid #e6e6e6;
   @include box-shadow(inset 1px 1px 0 white);
-  background: #F8F8F8;
+  background: #FFF;
 }
 
 .form-row {
@@ -136,17 +136,34 @@ span.field-error {
   padding: 16px 0;
   margin: 20px 0;
   border-top: 1px solid #A0A0A0;
-  > h3 {
+  > h3, h4 {
     display: inline-block;
     position: absolute;
     padding: 0 10px;
     margin-left: 10px;
-    background: #F8F8F8;
-    top: -23px;
+    background: #FFF;
     left: 10px;
     font-size: 1.2em;
-    line-height: 24px;
-    color: #168e96;
+    color: #17888f;
+    &:before{
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+    }
+    &:before {
+    right: 0.5em;
+    margin-left: -50%;
+    }
+  }
+  h3 {
+    top: -29px;
+    font-weight: bold;
+  }
+  h4 {
+    top: -20px;
   }
   .form-row {
     padding: 0;
@@ -3048,21 +3065,24 @@ Styleguide 1.1
 */
 
 .content {
-  min-height: 200px;
+  min-height: 600px;
   padding: 10px 15px 40px;
+  padding-bottom: 70px;
   margin: 12px 12px 0;
   @include box-shadow(0 0 5px rgba(0, 0, 0, 0.6));
   background: white;
-  &.rnr-content {
-    min-height: 600px;
-    padding-bottom: 70px;
-  }
-  h2 {
+  h1, h2 {
     margin-top: 0;
     border-bottom: 1px solid #d6d6d6;
-    font-size: 1.4em;
     font-weight: normal;
     color: $heading-green;
+    line-height: 40px;
+  }
+  h2 {
+    font-size: 1.4em;
+  }
+  h1 {
+    font-size: 1.6em;
   }
 }
 
