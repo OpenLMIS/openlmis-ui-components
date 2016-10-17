@@ -37,6 +37,7 @@
     margin: 10px 0 0 10px;
     color: #747474;
     text-shadow: 0 1px 0 #FFF;
+    border-color: transparent;
   }
 }
 
@@ -54,6 +55,47 @@
       width: 50%;
     }
   }
+}
+
+/*
+Content style
+
+This is content style used in OpenLMIS.
+
+markup:
+<div class="logo clearfix">
+  <h1>OpenLMIS</h1>
+</div>
+<div class="content">
+  <h2>Content style title</h2>
+  <p>This is a sample paragraph</p>
+  <ul>
+    <li>List item</li>
+    <li>Another list item</li>
+  </ul>
+</div>
+
+Styleguide 1.1
+*/
+
+.content {
+  @include content;
+}
+
+h1, h2 {
+  margin-top: 0;
+  border-bottom: 1px solid #d6d6d6;
+  font-weight: normal;
+  color: $heading-green;
+  line-height: 40px;
+}
+
+h2 {
+  font-size: 1.4em;
+}
+
+h1 {
+  font-size: 1.6em;
 }
 
 /*

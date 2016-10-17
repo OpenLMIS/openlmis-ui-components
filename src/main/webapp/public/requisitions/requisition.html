@@ -7,10 +7,12 @@
   ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
-<div class="app-form">
-	<ng-include src="'requisitions/header.html'"></ng-include>
+<div class="content">
+  <div class="app-form">
+      <ng-include src="'requisitions/header.html'"></ng-include>
   <div ng-if="templateLoaded">
-    <product-grid columns="columns" products="rnr.requisitionLineItems"></product-grid>
+      <product-grid columns="columns" products="rnr.requisitionLineItems"></product-grid>
   </div>
+  </div>
+  <ng-include src="'requisitions/requisition-form-toolbar.html'"></ng-include>
 </div>
-<ng-include src="'requisitions/requisition-form-toolbar.html'"></ng-include>

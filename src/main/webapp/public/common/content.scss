@@ -22,6 +22,7 @@ $heading-green: #17888F !default;
   h2 {
     font-size: 3em;
     font-weight: normal;
+    color: #A0A0A0;
   }
   h3 {
     font-size: 4.2em;
@@ -133,39 +134,7 @@ span.field-error {
 }
 
 .form-group {
-  position: relative;
-  padding: 16px 0;
-  margin: 20px 0;
-  border-top: 1px solid #A0A0A0;
-  > h3, h4 {
-    display: inline-block;
-    position: absolute;
-    padding: 0 10px;
-    margin-left: 10px;
-    background: #FFF;
-    left: 10px;
-    font-size: 1.2em;
-    color: #17888f;
-    &:before{
-    content: "";
-    display: inline-block;
-    height: 1px;
-    position: relative;
-    vertical-align: middle;
-    width: 50%;
-    }
-    &:before {
-    right: 0.5em;
-    margin-left: -50%;
-    }
-  }
-  h3 {
-    top: -29px;
-    font-weight: bold;
-  }
-  h4 {
-    top: -20px;
-  }
+  @include line-across-the-middle;
   .form-row {
     padding: 0;
     margin: 6px 0;
@@ -3042,48 +3011,6 @@ input[type="checkbox"].facilityCheckbox {
 
 .text-row, tr.text-row{
   height: 35px;
-}
-
-/*
-Content style
-
-This is content style used in OpenLMIS.
-
-markup:
-<div class="logo clearfix">
-  <h1>OpenLMIS</h1>
-</div>
-<div class="content">
-  <h2>Content style title</h2>
-  <p>This is a sample paragraph</p>
-  <ul>
-    <li>List item</li>
-    <li>Another list item</li>
-  </ul>
-</div>
-
-Styleguide 1.1
-*/
-
-.content {
-  min-height: 600px;
-  padding: 10px 15px 40px;
-  padding-bottom: 70px;
-  @include box-shadow(0 0 5px rgba(0, 0, 0, 0.6));
-  background: white;
-  h1, h2 {
-    margin-top: 0;
-    border-bottom: 1px solid #d6d6d6;
-    font-weight: normal;
-    color: $heading-green;
-    line-height: 40px;
-  }
-  h2 {
-    font-size: 1.4em;
-  }
-  h1 {
-    font-size: 1.6em;
-  }
 }
 
 /*
