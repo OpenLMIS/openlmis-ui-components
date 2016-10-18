@@ -134,7 +134,7 @@ span.field-error {
 }
 
 .form-group {
-  @include line-across-the-middle;
+  @include titles-with-center-line;
   .form-row {
     padding: 0;
     margin: 6px 0;
