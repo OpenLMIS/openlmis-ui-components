@@ -13,20 +13,20 @@
         E = 'stockOnHand';
 
     var calculations = {
-      totalConsumedQuantity: function(row) {
-        return row[A] + row[B] + row[D] - row[E];
+      totalConsumedQuantity: function(lineItem) {
+        return lineItem[A] + lineItem[B] + lineItem[D] - lineItem[E];
       },
-      stockOnHand: function(row) {
-        return row[A] + row[B] - row[C] + row[D];
+      stockOnHand: function(lineItem) {
+        return lineItem[A] + lineItem[B] - lineItem[C] + lineItem[D];
       }
     };
 
     return {
-      evaluate: function(row, col) {
-        if (col.source === 'CALCULATED') {
-          return calculations[col.columnDefinition.name](row);
+      evaluate: function(lineItem, property, calculated) {
+        if (calculated) {
+          return calculations[property](lineItem);
         }
-        return row[col.columnDefinition.name];
+        return lineItem[property];
       }
     }
   };

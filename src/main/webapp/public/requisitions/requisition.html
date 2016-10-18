@@ -9,8 +9,6 @@
   -->
 <div class="page">
     <ng-include src="'requisitions/header.html'"></ng-include>
-    <div ng-if="templateLoaded">
-        <product-grid columns="columns" products="rnr.requisitionLineItems"></product-grid>
-    </div>
+    <product-grid ng-model=requisition></product-grid>
 </div>
 <ng-include src="'requisitions/requisition-form-toolbar.html'"></ng-include>

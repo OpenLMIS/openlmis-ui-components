@@ -15,18 +15,13 @@
     RequisitionCtrl.$inject = ['$scope', 'requisition'];
 
     function RequisitionCtrl($scope, requisition) {
+        $scope.requisition = requisition;
+        $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
 
-        requisition.$getTemplate().then(function(template) {
-            $scope.columns = template.columnsMap;
-        }).finally(function() {
-            $scope.templateLoaded = true;
-        });
-
-        // NOTE: the state where requisition could be undefined is impossible
-        // because of the resolve from the URL parameter 
-        $scope.rnr = requisition;
-        $scope.requisitionType = $scope.rnr.emergency ? "requisition.type.emergency" : "requisition.type.regular";
-        this.rnr = $scope.rnr;
+        $scope.periodDisplayName = function () {
+            //TODO: This is a temporary solution.
+            return $scope.requisition.processingPeriod.startDate.slice(0,3).join("/") + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join("/");
+        };
 
         $scope.saveRnr = function() {};
     }

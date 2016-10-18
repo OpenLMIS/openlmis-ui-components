@@ -2,37 +2,35 @@
   
   'use strict';
 
-  angular.module('openlmis.requisitions')
+  angular
+    .module('openlmis.requisitions')
     .directive('productGridCell', productGridCell);
 
-  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'productLineItem'];
+  productGridCell.$inject = ['$templateRequest', '$compile', 'productLineItem'];
 
-  function productGridCell($q, $templateRequest, $compile, productLineItem) {
-    return {
-      restrict: 'E',
+  function productGridCell($templateRequest, $compile, productLineItem) {
+    var directive = {
+      restrict: 'A',
       replace: true,
-      scope: {
-        ngModel: '=',
-        col: '='
-      },
-      link: function(scope, element) {
-        var row = scope.ngModel;
+      require: '^productGrid',
+      link: link
+    };
+    return directive;
 
-        scope.getReadOnlyValue = function() {
-          return row[scope.col.columnDefinition.name] = productLineItem.evaluate(row, scope.col);
-        };
+    function link(scope, element) {
+      var row = scope.row.entity,
+          colName = scope.col.name,
+          source = scope.col.colDef.cellSource;
 
-        $q.all([
-          $templateRequest('requisitions/product-grid/product-grid-cell.html'),
-          $templateRequest('requisitions/product-grid/' + (scope.col.source === 'USER_INPUT' ? 'user-input' : 'read-only') + '-cell.html')
-        ]).then(
-          function(templates) {
-            var cell = angular.element(templates[0]);
-            cell.append(templates[1]);
-            element.replaceWith($compile(cell)(scope));
-          }
-        );
-      }
+      scope.getReadOnlyValue = function() {
+        return row[colName] = productLineItem.evaluate(row, colName, source === 'CALCULATED');
+      };
+
+      $templateRequest('requisitions/product-grid/' + (source === 'USER_INPUT' ? 'user-input' : 'read-only') + '-cell.html').then(
+        function(template) {
+          element.append($compile(template)(scope));
+        }
+      );
     }
   }
 
