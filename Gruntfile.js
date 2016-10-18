@@ -1,6 +1,4 @@
 module.exports = function(grunt) {
-  var outputPath = 'docs';
-
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
   var styleguide = require('sc5-styleguide');
@@ -213,6 +211,16 @@ module.exports = function(grunt) {
           }
         ]
       },
+      fontAwesomeFonts: {
+        files: [
+          {
+            expand: true,
+            cwd: 'bower_components/font-awesome/fonts/',
+            src: '*',
+            dest: path.join(config.app.dest, 'public/fonts')
+          }
+        ]
+      },
       uiGridFonts: {
         files: [
           {
@@ -231,40 +239,38 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        return gulp.src([ config.app.src + "/webapp/public/scss/base.scss",
-                          config.app.src + "/webapp/public/scss/content.scss",
-                          config.app.src + "/webapp/public/scss/header.scss",
-                          config.app.src + "/webapp/public/scss/navigation.scss",
-                          config.app.src + "/webapp/public/scss/font-awesome/icons.scss",
+        return gulp.src([
+                        path.join(config.styleguide.src,"**/*.scss"),
+                        "!"+path.join(config.styleguide.src,"**/scss/*.scss")
                         ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
-            rootPath: outputPath,
-            appRoot: '/openlmis-requisition-refUI/docs',
-            extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
-            disableHtml5Mode: true,
-            overviewPath: config.app.dest + '/public/overview.md'
+            appRoot: '/styleguide',
+            //extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
+            //disableHtml5Mode: true,
+            overviewPath: './overview.md'
           }))
-          .pipe(gulp.dest(outputPath));
+          .pipe(gulp.dest(config.styleguide.dest));
       },
       'styleguide-applystyles': function() {
-        return gulp.src([ config.app.dest + "/public/css/vendor.css",
-                   config.app.dest + "/public/css/app.css",
-                   config.app.dest + "/public/body.css",
+        return gulp.src([
+                  path.join(config.app.dest,"/public/openlmis*.css")
                   ])
           .pipe(styleguide.applyStyles())
-          .pipe(gulp.dest(outputPath));
+          .pipe(gulp.dest(config.styleguide.dest));
       },
       'styleguide-fonts': function() {
         return gulp.src([
-            config.app.src + "/webapp/public/fonts/*",
+            path.join(config.app.dest, "public/fonts/*"),
           ])
-          .pipe(gulp.dest(outputPath + "/fonts"))
+          .pipe(gulp.dest(path.join(config.styleguide.dest,"fonts")));
       },
       'styleguide-png': function() {
-        return gulp.src([ config.app.dest + "/public/images/*",
-                   config.app.dest + "/public/images/*" ])
-          .pipe(gulp.dest("images"));
+        return gulp.src([
+                    config.app.dest + "/public/images/*",
+                    config.app.dest + "/public/images/*"
+                   ])
+          .pipe(gulp.dest(path.join(config.styleguide.dest,"images")));
       },
       'sass': function(){
    var includePaths = [
@@ -346,10 +352,15 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace', 'karma']
+  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'];
+  var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles'];
+
   if(grunt.option('production')) buildTasks.push('uglify');
+  if(grunt.option('test')) buildTasks.push('karma:unit');
+  if(grunt.option('styleguide')) buildTasks = buildTasks.concat(styleguideTasks);
   grunt.registerTask('build', buildTasks);
   
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
-  grunt.registerTask('styleguide', ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles']);
+
+  grunt.registerTask('styleguide', ['build'].concat(styleguideTasks));
 };

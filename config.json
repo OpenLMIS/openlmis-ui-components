@@ -4,6 +4,10 @@
     "dest": "./build",
     "bower_components": "./bower_components"
   },
+  "styleguide": {
+  	"src": "./src/main",
+  	"dest": "./build/styleguide"
+  },
   "openlmisServerURL": "",
   "authServiceURL": "/auth",
   "requisitionServiceURL": "/requisition"

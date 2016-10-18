@@ -1756,11 +1756,11 @@ input[placeholder].placeholder {
 }
 
 #viewReqList, #approveReqList {
-  .ngRow.odd:hover, .ui-grid-row:hover, .ngRow.odd:hover + .ngRow.odd, {
+  .ngRow.odd:hover, .ui-grid-row:hover {
     background-color: #bdd0cb;
     cursor: pointer;
   }
-  .ngRow.even:hover, .ngRow.even:hover + .ngRow.even {
+  .ngRow.even:hover {
     background-color: #bdd0cb;
   }
   .ngCellText {
