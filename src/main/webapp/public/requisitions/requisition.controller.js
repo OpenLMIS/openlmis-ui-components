@@ -12,11 +12,11 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', 'requisition', 'Requisition', '$stateParams'];
+    RequisitionCtrl.$inject = ['$scope', 'requisition'];
 
-    function RequisitionCtrl($scope, requisition, Requisition, $stateParams){
+    function RequisitionCtrl($scope, requisition) {
 
-        Requisition.getTemplate(requisition).then(function(template) {
+        requisition.$getTemplate().$promise.then(function(template) {
             $scope.columns = template.columnsMap;
         }).finally(function() {
             $scope.templateLoaded = true;

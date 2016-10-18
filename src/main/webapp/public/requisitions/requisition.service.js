@@ -7,29 +7,32 @@
   requisition.$inject = ['$resource', 'RequisitionURL'];
 
   function requisition($resource, RequisitionURL) {
-    var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
-      'getTemplateForProgramId': {
-        method: 'GET',
+
+    var service = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
+      'get': {
+        transformResponse: transformResponse
+      },
+      'getTemplateByProgram': {
         url: RequisitionURL('/api/requisitionTemplates/search')
       }
     });
 
-    function getRequisition(id) {
-      return resource.get({
-        id: id
-      }).$promise;
+    function getTemplate() {
+      return service.getTemplateByProgram({
+        program: this.program.id
+      });
     }
 
-    function getTemplate(requisition) {
-      return resource.getTemplateForProgramId({
-        program: requisition.program.id
-      }).$promise;
+    function transformResponse(data, headersGetter, status) {
+      if (status === 200) {
+        var requisition = angular.fromJson(data);
+        requisition.$getTemplate = getTemplate;
+        return requisition;
+      }
+      return angular.fromJson(data);
     }
 
-    return {
-      getRequisition: getRequisition,
-      getTemplate: getTemplate
-    };
+    return service;
   }
 
 })();
