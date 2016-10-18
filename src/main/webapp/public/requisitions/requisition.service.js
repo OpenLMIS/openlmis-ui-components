@@ -28,7 +28,7 @@
 
     return {
       getRequisition: getRequisition,
-      getRequisitionTemplate: getTemplate
+      getTemplate: getTemplate
     };
   }
 
