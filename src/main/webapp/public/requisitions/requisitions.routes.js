@@ -18,10 +18,10 @@
 			controller: 'RequisitionCtrl',
 			templateUrl: 'requisitions/requisition.html',
 			resolve: {
-				requisition: function ($q, $stateParams, Requisition) {
+				requisition: function ($q, $stateParams, RequisitionFactory) {
 				  var deferred = $q.defer();
 
-				  Requisition.get({
+				  RequisitionFactory.get({
 				  	id: $stateParams.rnr
 				  }).$promise.then(function(response) {
 				      deferred.resolve(response);

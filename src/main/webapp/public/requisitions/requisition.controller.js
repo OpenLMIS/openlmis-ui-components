@@ -16,7 +16,7 @@
 
     function RequisitionCtrl($scope, requisition) {
 
-        requisition.$getTemplate().$promise.then(function(template) {
+        requisition.$getTemplate().then(function(template) {
             $scope.columns = template.columnsMap;
         }).finally(function() {
             $scope.templateLoaded = true;
