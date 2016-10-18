@@ -1026,7 +1026,7 @@ h3 {
 }
 
 .button-row {
-  padding: 7px 0;
+  padding: 5px 0;
 }
 
 .total-cost {
@@ -1772,6 +1772,13 @@ input[placeholder].placeholder {
   }
   .ui-grid-cell {
     background: inherit !important;
+    input[type="button"] {
+      padding: 0.3em 1em;
+      height: auto;
+      width: auto;
+      border-radius: 4px;
+      color: #FFF;
+    }
   }
 }
 
@@ -2542,7 +2549,7 @@ div.input-div[disabled] {
     }
   }
   .btn {
-    padding: 4px 11px;
+    padding: 0.5em 1em;
     float: right;
     border: 0;
     border-left: 1px solid #bbb;

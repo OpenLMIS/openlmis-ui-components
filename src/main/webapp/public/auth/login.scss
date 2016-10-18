@@ -8,6 +8,9 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
  */
 
+$button-green: #356b6f;
+$button-gray: #666666;
+
 body {
   background: #2a393a;
 }
@@ -70,22 +73,21 @@ body {
     &[type='text'], &[type='password'] {
       width: 95%;
       margin-bottom: 20px;
-      height: 32px;
     }
     &.btn {
-      padding: 9px 42px;
+      padding: 0.5em 1em;
       font-size: 1.15em;
       text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
       margin-bottom: 12px;
       &.btn-primary {
-        background-color: #356b6f;
-        background-image: -moz-linear-gradient(top, #42a7ad, #356b6f);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#42a7ad), to(#356b6f));
-        background-image: -webkit-linear-gradient(top, #42a7ad, #356b6f);
-        background-image: -o-linear-gradient(top, #42a7ad, #356b6f);
-        background-image: linear-gradient(to bottom, #42a7ad, #356b6f);
+        background-color: $button-green;
+        background-image: -moz-linear-gradient(top, #42a7ad, $button-green);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#42a7ad), to($button-green));
+        background-image: -webkit-linear-gradient(top, #42a7ad, $button-green);
+        background-image: -o-linear-gradient(top, #42a7ad, $button-green);
+        background-image: linear-gradient(to bottom, #42a7ad, $button-green);
         background-repeat: repeat-x;
-        border-color: #42a7ad #42a7ad #356b6f;
+        border-color: #42a7ad #42a7ad $button-green;
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ff42a7ad', endColorstr = '#ff004484', GradientType = 0);
         filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
       }
@@ -96,11 +98,11 @@ body {
       &.btn-primary.disabled,
       &.btn-primary[disabled] {
         color: #ffffff;
-        background-color: #356b6f;
+        background-color: $button-green;
       }
       &.btn-cancel {
         color: #FFFFFF;
-        background-color: #666666;
+        background-color: $button-gray;
         background-image: -moz-linear-gradient(top, #c5c5c5, #777777);
         background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#c5c5c5), to(#777777));
         background-image: -webkit-linear-gradient(top, #c5c5c5, #777777);

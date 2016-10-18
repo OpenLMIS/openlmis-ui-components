@@ -27,7 +27,9 @@ Buttons & Dropdown Buttons
 
 .btn {
   border-width: 0;
-  padding: 7px 14px;
+  padding: 0.5em 1em;
+  height: 1em;
+  width: 1em;
   font-size: 14px;
   outline: none !important;
   -webkit-box-shadow: none !important;
@@ -95,8 +97,8 @@ Buttons & Dropdown Buttons
 .btn.default.active,
 .btn.default[disabled],
 .btn.default.disabled {
-  color: #333333;
-  background-color: #d8d8d8 !important;
+  color: #FFF;
+  background-color: $button-gray !important;
   outline: none !important;
 }
 
@@ -259,42 +261,9 @@ Buttons & Dropdown Buttons
   outline: none !important;
 }
 
-.btn-lg {
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  vertical-align: middle;
-}
-
-.btn-lg > i {
-  font-size: 18px;
-}
-
-.btn > i {
-  font-size: 14px;
-}
-
-.btn-sm,
-.btn-xs {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.btn-sm > i,
-.btn-xs > i {
-  font-size: 13px;
-}
-
-.btn-xs {
-  padding: 1px 5px;
-}
-
 .btn-block {
   display: block;
   width: 100%;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 /***
@@ -322,36 +291,6 @@ Metro icons
   background-image: url(../img/syncfusion-icons.png);
   background-position: 0 0px;
   background-repeat: no-repeat;
-}
-
-/* large icons */
-.btn.m-icon-big {
-  padding: 9px 16px 8px 16px;
-}
-
-.btn.m-icon-big.m-icon-only{
-  padding: 9px 8px 8px 0px;
-}
-
-.btn.m-icon-big [class^="m-icon-big-"] {
-  margin: 0 0 0 10px;
-}
-
-.btn.m-icon-ony > i {
-  margin-left: 0px;
-}
-
-/* default icons */
-.btn.m-icon {
-  padding: 7px 14px 7px 14px;
-}
-
-.btn.m-icon [class^="m-icon-"] {
-  margin: 4px 0 0 5px;
-}
-
-.btn.m-icon.m-icon-only {
-  padding: 7px 10px 7px 6px;
 }
 
 /* white icon */
