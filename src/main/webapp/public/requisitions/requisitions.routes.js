@@ -21,9 +21,7 @@
 				requisition: function ($q, $stateParams, RequisitionFactory) {
 				  var deferred = $q.defer();
 
-				  RequisitionFactory.get({
-				  	id: $stateParams.rnr
-				  }).$promise.then(function(response) {
+				  RequisitionFactory.get($stateParams.rnr).$promise.then(function(response) {
 				      deferred.resolve(response);
 				    }, function(response) {
 				      alert('Cannot find requisition with UUID: ' + $stateParams.rnr);

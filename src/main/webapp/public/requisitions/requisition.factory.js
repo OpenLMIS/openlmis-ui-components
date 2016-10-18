@@ -8,29 +8,30 @@
 
   function requisitionFactory($resource, RequisitionURL) {
 
-    var service = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
-      'get': {
-        transformResponse: transformResponse
-      },
+    var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getTemplateByProgram': {
         url: RequisitionURL('/api/requisitionTemplates/search')
       }
     });
 
-    function getTemplate() {
-      return service.getTemplateByProgram({
-        program: this.program.id
-      }).$promise;
-    }
+    var service = {
+      get: get
+    };
+    return service;
 
-    function transformResponse(data, headersGetter, status) {
-      if (status !== 200) return data;
-      var requisition = angular.fromJson(data);
-      requisition.$getTemplate = getTemplate;
+    function get(id) {
+      var requisition = resource.get({id: id});
+      requisition.$promise.then(function(requisition) {
+        requisition.$getTemplate = getTemplate;
+      });
       return requisition;
     }
 
-    return service;
+    function getTemplate() {
+      return resource.getTemplateByProgram({
+        program: this.program.id
+      }).$promise;
+    }
   }
 
 })();
