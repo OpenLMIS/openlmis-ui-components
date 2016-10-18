@@ -27,16 +27,14 @@
     font-size: 1.2em;
     color: #17888f;
     &:before{
-    content: "";
-    display: inline-block;
-    height: 1px;
-    position: relative;
-    vertical-align: middle;
-    width: 50%;
-    }
-    &:before {
-    right: 0.5em;
-    margin-left: -50%;
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: relative;
+      vertical-align: middle;
+      width: 50%;
+      right: 0.5em;
+      margin-left: -50%;
     }
   }
   h3 {
