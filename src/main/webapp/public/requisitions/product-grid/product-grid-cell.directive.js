@@ -5,9 +5,9 @@
   angular.module('openlmis.requisitions')
     .directive('productGridCell', productGridCell);
 
-  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'productGridCellValue'];
+  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'productLineItem'];
 
-  function productGridCell($q, $templateRequest, $compile, productGridCellValue) {
+  function productGridCell($q, $templateRequest, $compile, productLineItem) {
     return {
       restrict: 'E',
       replace: true,
@@ -19,7 +19,7 @@
         var row = scope.ngModel;
 
         scope.getReadOnlyValue = function() {
-          return row[scope.col.columnDefinition.name] = productGridCellValue.evaluate(row, scope.col);
+          return row[scope.col.columnDefinition.name] = productLineItem.evaluate(row, scope.col);
         };
 
         $q.all([

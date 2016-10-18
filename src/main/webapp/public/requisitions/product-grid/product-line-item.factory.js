@@ -2,9 +2,9 @@
   
   'use strict';
 
-  angular.module('openlmis.requisitions').factory('productGridCellValue', productGridCellValue);
+  angular.module('openlmis.requisitions').factory('productLineItem', productLineItem);
 
-  function productGridCellValue() {
+  function productLineItem() {
 
     var A = 'beginningBalance',
         B = 'totalReceivedQuantity',
