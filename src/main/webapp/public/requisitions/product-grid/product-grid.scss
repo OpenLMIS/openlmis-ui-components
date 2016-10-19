@@ -1,0 +1,33 @@
+.product-grid {
+	[ui-grid-row] {
+		display: table-row;
+	}
+
+	.ui-grid-row, .ui-grid-cell {
+		height: auto!important;
+	}
+
+	.ui-grid-cell {
+		float: none;
+		display: table-cell;
+	}
+
+	.ui-grid-header-cell, .ui-grid-cell-contents {
+		white-space: normal;
+		padding: 2px;
+		word-break: break-word;
+	}
+
+	.row-error {
+		background-color: #f2dede;
+		border-color: #ebccd1;
+
+		.ui-grid-cell {
+			background: inherit;
+		}
+
+		.cell-error-message {
+			color: #a94442;
+		}
+	}
+}

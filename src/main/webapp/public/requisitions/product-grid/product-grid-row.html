@@ -1,0 +1,3 @@
+<div product-grid-row ng-class="{'row-error': hasErrors()}">
+	<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>
+</div>

@@ -10,6 +10,10 @@
   productGridCtrl.$inject = ['$scope', 'messageService'];
 
   function productGridCtrl($scope, messageService) {
+    var errors = {};
+    this.setError = setError;
+    this.rowHasErrors = rowHasErrors;
+
     $scope.ngModel.$getTemplate().then(function(template) {
       var columnDefs = [{
         field: 'orderableProduct.productCode',
@@ -41,11 +45,28 @@
         enableColumnMenus: false,
         sortInfo: { fields: ['submittedDate'], directions: ['asc'] },
         showFilter: false,
-        columnDefs: columnDefs
+        columnDefs: columnDefs,
+        rowTemplate: 'requisitions/product-grid/product-grid-row.html'
       };
     }).finally(function() {
       $scope.templateLoaded = true;
     });
+
+    function setError(rowId, colName, error) {
+      if (!errors[rowId]) {
+        errors[rowId] = {};
+      }
+      return errors[rowId][colName] = error;
+    }
+
+    function rowHasErrors(rowId) {
+      if (!errors[rowId]) return false;
+      var hasErrors = undefined;
+      angular.forEach(errors[rowId], function(error) {
+        hasErrors = hasErrors || error;
+      });
+      return hasErrors;
+    }
   }
 
   function numberFilter() {

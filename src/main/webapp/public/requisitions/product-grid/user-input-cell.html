@@ -1,1 +1,1 @@
-<input type="{{col.colDef.cellType === 'NUMERIC' ? 'number' : 'text'}}" ng-model="row.entity[col.name]">
+<input type="{{col.colDef.cellType === 'NUMERIC' ? 'number' : 'text'}}" ng-model="row.entity[col.name]" ng-class="{'ng-valid': !error, 'ng-invalid': error}">
