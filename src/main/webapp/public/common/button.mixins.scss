@@ -10,4 +10,5 @@
 
 @mixin button-color($color){
   background-color: $color;
+  background-image: linear-gradient(to bottom,  lighten($color, 15%), $color);
 }

@@ -37,7 +37,6 @@ input, a {
     padding: 0.5em 1em;
     line-height: 1em;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
-    background-image: linear-gradient(to bottom,  lighten($green, 15%), $green);
     background-repeat: repeat-x;
     border-color: #42a7ad #42a7ad $green;
     border-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -60,7 +59,6 @@ input, a {
     @include button-color($gray);
     padding: 0.5em 1em;
     line-height: 1em;
-    background-image: linear-gradient(to bottom, lighten($gray, 15%), #777777);
     background-repeat: repeat-x;
     border-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc5c5c5', endColorstr='#ff777777', GradientType=0);
@@ -74,6 +72,5 @@ input, a {
   &.btn-default[disabled] {
     color: #ffffff;
     @include button-color(#777777);
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   }
 }
