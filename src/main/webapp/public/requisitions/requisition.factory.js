@@ -18,6 +18,10 @@
       },
       'save': {
         method: 'PUT'
+      },
+      'submit': {
+        url: RequisitionURL('/api/requisitions/:id/submit'),
+        method: 'POST'
       }
     });
 
@@ -32,6 +36,7 @@
         requisition.$getTemplate = getTemplate;
         requisition.$authorize = authorize;
         requisition.$save = save;
+        requisition.$submit = submit;
       });
       return requisition;
     }
@@ -51,6 +56,12 @@
             {id: this.id},
             this).$promise;
         }
+
+    function submit() {
+        return resource.submit(
+            {id: this.id},
+            this).$promise;
+    }
   }
 
 })();

@@ -56,5 +56,18 @@
          $scope.authorizeEnabled = function() {
             return $scope.requisition === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
+
+        $scope.saveRnr = function() {};
+
+        $scope.submitRnr = function() {
+            $scope.requisition.$submit().then(
+                function(response) {
+                    $ngBootbox.alert(messageService.get('msg.rnr.submitted.success'));
+                }, function(response) {
+                    $ngBootbox.alert(messageService.get('error.requisition.not.submitted'));
+                }
+            );
+        };
+
     }
 })();
