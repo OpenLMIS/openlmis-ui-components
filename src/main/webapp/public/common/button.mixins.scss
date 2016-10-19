@@ -8,17 +8,10 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
  */
 
-ng-include[src*='navigation.html'] {
-  position: relative;
-  z-index: 2;
+@mixin button-color($color){
+  background-color: $color;
 }
-.navigation {
-  z-index: auto;
-}
-.login-page {
-  border-radius: 0;
-}
-.ui-datepicker select.ui-datepicker-year{
-  color: #555;
-  background-color: white;
+
+@mixin lighten-color($color){
+  background-image: lighten( $color, 10% );
 }
