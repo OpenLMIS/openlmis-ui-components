@@ -290,7 +290,6 @@ module.exports = function(grunt) {
       bowerSass,
       bowerCss,
       [
-        path.join(config.app.src, "/**/variables.scss"),
         path.join(config.app.src, "/**/*mixins.scss"),
         path.join(config.app.src, "/**/*.mixins.scss"),
         path.join(config.app.src, '**/*.css'),
