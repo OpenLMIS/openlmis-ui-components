@@ -24,6 +24,17 @@
         };
 
         $scope.saveRnr = function() {
+          $scope.requisition.$save()
+          .then(
+            function(response) {
+                $scope.message = messageService.get('msg.rnr.save.success');
+                $scope.error = "";
+            },
+            function(response) {
+                $scope.error = messageService.get('msg.rnr.save.failure');
+                $scope.message = "";
+            }
+          );
         };
 
         $scope.authorizeRnr = function() {

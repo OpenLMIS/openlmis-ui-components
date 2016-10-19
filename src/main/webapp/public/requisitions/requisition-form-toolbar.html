@@ -1,7 +1,7 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
-        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr(null)"
-               class="btn btn-primary save-button"
+        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr()"
+               class="btn btn-primary primary-action"
                openlmis-message="button.save" type="button"/>
         <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
                class="btn btn-primary primary-action"
@@ -13,11 +13,8 @@
               ng-show="authorizeEnabled()"
               ng-click="authorizeRnr()"/>
     </div>
-    <div class="toolbar-error" id="saveFailMessage" openlmis-message="error" ng-show="error"></div>
-    <div class="toolbar-error" id="submitFailMessage" openlmis-message="submitError"
-         ng-show="submitError"></div>
-    <div class="toolbar-success" id="saveSuccessMsgDiv" fade-out="3000" openlmis-message="message"
+    <div class="toolbar-error" id="errorMessage" fade-out="3000" openlmis-message="error"
+         ng-show="error"></div>
+    <div class="toolbar-success" id="successMessage" fade-out="3000" openlmis-message="message"
          ng-show="message"></div>
-    <div class="toolbar-success" id="submitSuccessMsgDiv" openlmis-message="submitMessage"
-         ng-show="submitMessage"></div>
 </div>
