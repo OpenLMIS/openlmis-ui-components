@@ -4,7 +4,9 @@
 
 	angular.module('openlmis.requisitions', [
 	    'openlmis-core',
-	     'ui.router',
-       'ui.grid.pinning']);
+	    'ui.router',
+       	'ui.grid.pinning',
+       	'ngBootbox'
+   	]);
     
 })();

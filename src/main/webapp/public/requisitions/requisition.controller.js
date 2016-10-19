@@ -12,9 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', 'requisition'];
+    RequisitionCtrl.$inject = ['$scope', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
 
-    function RequisitionCtrl($scope, requisition) {
+    function RequisitionCtrl($scope, requisition, AuthorizationService, messageService, $ngBootbox) {
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
 
@@ -23,6 +23,24 @@
             return $scope.requisition.processingPeriod.startDate.slice(0,3).join("/") + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join("/");
         };
 
-        $scope.saveRnr = function() {};
+        $scope.saveRnr = function() {
+        };
+
+        $scope.authorizeRnr = function() {
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
+                $scope.requisition.$authorize().then(
+                    function(response) {
+                        $ngBootbox.alert(messageService.get('msg.rnr.submitted.success'));
+                    }, function(response) {
+                        $ngBootbox.alert(messageService.get('msg.rnr.authorized.failure'));
+                    }
+                );
+            });
+        };
+
+         $scope.authorizeEnabled = function() {
+            return true;
+            //return ($scope.requisition === "INITIATED" || $scope.requisition === "SUBMITTED") && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+        };
     }
 })();
