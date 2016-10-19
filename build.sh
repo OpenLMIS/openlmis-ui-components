@@ -14,4 +14,4 @@ bower install --allow-root
 apt-get uninstall 
 
 # Run Grunt build
-grunt build styleguide --authServiceURL=/auth
+grunt build --test --styleguide
