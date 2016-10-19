@@ -12,7 +12,7 @@
     var factory = {
       nonNegative: nonNegative,
       nonEmpty: nonEmpty,
-      nonEmptyIfPropertyIsSet
+      nonEmptyIfPropertyIsSet: nonEmptyIfPropertyIsSet
     };
     return factory;
 
