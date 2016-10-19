@@ -34,15 +34,10 @@ Styleguide 1.3
 input, a {
   &.btn-primary {
     @include button-color($green);
-    @include lighten-color($green);
     padding: 0.5em 1em;
     line-height: 1em;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
-    background-image: -moz-linear-gradient(top, #42a7ad, $green);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#42a7ad), to($green));
-    background-image: -webkit-linear-gradient(top, #42a7ad, $green);
-    background-image: -o-linear-gradient(top, #42a7ad, $green);
-    background-image: linear-gradient(to bottom, #42a7ad, $green);
+    background-image: linear-gradient(to bottom,  lighten($green, 15%), $green);
     background-repeat: repeat-x;
     border-color: #42a7ad #42a7ad $green;
     border-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -63,14 +58,9 @@ input, a {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
     color: #FFFFFF;
     @include button-color($gray);
-    @include lighten-color($gray);
     padding: 0.5em 1em;
     line-height: 1em;
-    background-image: -moz-linear-gradient(top, #c5c5c5, #777777);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#c5c5c5), to(#777777));
-    background-image: -webkit-linear-gradient(top, #c5c5c5, #777777);
-    background-image: -o-linear-gradient(top, #c5c5c5, #777777);
-    background-image: linear-gradient(to bottom, #c5c5c5, #777777);
+    background-image: linear-gradient(to bottom, lighten($gray, 15%), #777777);
     background-repeat: repeat-x;
     border-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc5c5c5', endColorstr='#ff777777', GradientType=0);

@@ -311,6 +311,8 @@ module.exports = function(grunt) {
     }))
     .pipe(sourcemaps.write())
     .pipe(concat('openlmis.css'))
+    .pipe(sass({ includePaths: require('node-bourbon').includePaths }))
+    .pipe(sass().on('error', sass.logError))
     .pipe(replace('../','')) // remove non-relative strings
     //Replace UI-Grid font paths
     .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))

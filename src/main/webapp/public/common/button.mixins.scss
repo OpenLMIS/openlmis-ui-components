@@ -11,7 +11,3 @@
 @mixin button-color($color){
   background-color: $color;
 }
-
-@mixin lighten-color($color){
-  background-image: lighten( $color, 10% );
-}
