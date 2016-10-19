@@ -1,3 +1,8 @@
-<div product-grid-row ng-class="{'row-error': hasErrors()}">
-	<div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>
-</div>
+<tr ng-if="productCategory">
+  <td class="productCategory" colspan="{{columns.length + 2}}">{{productCategory}}</td>
+</tr>
+<tr ng-class="{'invalid-row': !lineItem.$valid()}">
+  <td>{{lineItem.orderableProduct.productCode}}</td>
+  <td>{{lineItem.orderableProduct.name}}</td>
+  <td ng-repeat="column in columns | orderBy : 'displayOrder'" product-grid-cell></td>
+</tr>

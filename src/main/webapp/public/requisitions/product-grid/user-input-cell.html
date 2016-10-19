@@ -1,1 +1,1 @@
-<input type="{{col.colDef.cellType === 'NUMERIC' ? 'number' : 'text'}}" ng-model="row.entity[col.name]" ng-class="{'ng-valid': !error, 'ng-invalid': error}">
+<input type="{{column.columnDefinition.columnType === 'NUMERIC' ? 'number' : 'text'}}" ng-model="lineItem[column.name]" ng-blur="lineItem.$validateProperty(column.name)">

@@ -1,5 +1,13 @@
-<div ng-if="templateLoaded">
-	<div ng-hide="options" class="alert alert-info" role="alert" openlmis-message="error.rnr.template.not.defined"></div>
-	<div class="product-grid" ng-if="options" ui-grid="options" ui-grid-pinning></div>
+<div class="table-container" ng-if="templateLoaded">
+  <table id="product-grid" class="table table-bordered search-list">
+    <thead>
+      <tr class="gradient-header">
+        <th class="col-product-code" openlmis-message="header.product.code"></th>
+        <th class="col-name" openlmis-message="header.product.name"></th>
+        <th class="col-{{column.name}}" ng-repeat="column in columns | orderBy : 'displayOrder'">{{column.label}}</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="lineItem in ngModel.requisitionLineItems" product-grid-row>
+    </tbody>
+  </table>
 </div>
-

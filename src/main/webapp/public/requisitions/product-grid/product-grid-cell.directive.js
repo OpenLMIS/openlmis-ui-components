@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .directive('productGridCell', productGridCell);
 
-  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'productLineItem', 'productLineItemValidator'];
+  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'LineItemFactory'];
 
-  function productGridCell($q, $templateRequest, $compile, productLineItem, productLineItemValidator) {
+  function productGridCell($q, $templateRequest, $compile, productLineItem) {
     var directive = {
       restrict: 'A',
       require: '^productGrid',
@@ -16,21 +16,9 @@
     };
     return directive;
 
-    function link(scope, element, attrs, gridCtrl) {
-      var row = scope.row.entity,
-          colName = scope.col.name,
-          source = scope.col.colDef.cellSource;
-
-      scope.getReadOnlyValue = function() {
-        return row[colName] = productLineItem.evaluate(row, colName, source === 'CALCULATED');
-      };
-
-      scope.getError = function() {
-        return scope.error = gridCtrl.setError(scope.row.uid, colName, productLineItemValidator.validate(row, colName, scope.col.displayName));
-      }
-
+    function link(scope, element) {
       $q.all([
-        $templateRequest('requisitions/product-grid/' + (source === 'USER_INPUT' ? 'user-input' : 'read-only') + '-cell.html'),
+        $templateRequest('requisitions/product-grid/' + (scope.column.source === 'USER_INPUT' ? 'user-input' : 'read-only') + '-cell.html'),
         $templateRequest('requisitions/product-grid/product-grid-cell-error.html')
       ]).then(
         function(templates) {

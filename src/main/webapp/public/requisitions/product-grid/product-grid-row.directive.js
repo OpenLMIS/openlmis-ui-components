@@ -6,19 +6,30 @@
     .module('openlmis.requisitions')
     .directive('productGridRow', productGridRow);
 
-  productGridRow.$inject = ['productLineItemValidator'];
-
-  function productGridRow(productLineItemValidator) {
+  function productGridRow() {
     var directive = {
       restrict: 'A',
       require: '^productGrid',
+      templateUrl: 'requisitions/product-grid/product-grid-row.html',
       link: link
     };
     return directive;
 
     function link(scope, element, attrs, gridCtrl) {
-      scope.hasErrors = function() {
-        return gridCtrl.rowHasErrors(scope.row.uid);
+      if (scope.$index === 0 || productCategoryChanged()) {
+        scope.productCategory = getProductCategory(scope.lineItem);
+      }
+
+      function productCategoryChanged() {
+        return getProductCategory(scope.lineItem) !== getProductCategory(getPreviousLineItem());
+      }
+
+      function getProductCategory(lineItem) {
+        return lineItem.orderableProduct.programs[0].productCategoryDisplayName;
+      }
+
+      function getPreviousLineItem() {
+        return scope.ngModel.requisitionLineItems[scope.$index - 1];
       }
     }
   }
