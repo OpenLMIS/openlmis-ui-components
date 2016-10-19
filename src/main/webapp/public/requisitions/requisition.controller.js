@@ -15,6 +15,8 @@
     RequisitionCtrl.$inject = ['$scope', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
 
     function RequisitionCtrl($scope, requisition, AuthorizationService, messageService, $ngBootbox) {
+
+
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
 
@@ -41,17 +43,18 @@
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
                 $scope.requisition.$authorize().then(
                     function(response) {
-                        $ngBootbox.alert(messageService.get('msg.rnr.submitted.success'));
+                        $scope.message = messageService.get('msg.rnr.submitted.success');
+                        $scope.error = "";
                     }, function(response) {
-                        $ngBootbox.alert(messageService.get('msg.rnr.authorized.failure'));
+                        $scope.error = messageService.get('msg.rnr.authorized.failure');
+                        $scope.message = "";
                     }
                 );
             });
         };
 
          $scope.authorizeEnabled = function() {
-            return true;
-            //return ($scope.requisition === "INITIATED" || $scope.requisition === "SUBMITTED") && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+            return $scope.requisition === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
     }
 })();
