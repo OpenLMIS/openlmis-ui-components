@@ -1,14 +1,14 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
-        <button id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr(null)"
-               class="btn btn-success save-button"
-               openlmis-message="button.save"/>
-        <button id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
-               class="btn btn-success submit-button"
-               openlmis-message="button.submit"
+        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr(null)"
+               class="btn btn-primary save-button"
+               openlmis-message="button.save" type="button"/>
+        <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
+               class="btn btn-primary primary-action"
+               openlmis-message="button.submit" type="button"
                ng-show="requisition.status == 'INITIATED' && hasPermission('CREATE_REQUISITION')"/>
-        <button id="authorizeRnrButton" 
-              class="btn btn-primary save-button"
+        <input id="authorizeRnrButton" type="button"
+              class="btn btn-primary primary-action"
               openlmis-message="button.authorize"
               ng-show="authorizeEnabled()"
               ng-click="authorizeRnr()"/>
