@@ -14,7 +14,7 @@
       },
       'authorize': {
         url: RequisitionURL('/api/requisitions/:id/authorize'),
-        method: 'PUT'
+        method: 'POST'
       },
       'save': {
         method: 'PUT'
@@ -43,9 +43,7 @@
     }
 
     function authorize() {
-      return resource.authorize(
-        {id: this.id}, 
-        this).$promise;
+      return resource.authorize({id: this.id}).$promise;
     }
 
     function save() {
