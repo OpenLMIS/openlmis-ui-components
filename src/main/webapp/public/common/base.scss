@@ -8,9 +8,22 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
  */
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: #808080;
   font-family: Arial, sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-stretch {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 @font-face {

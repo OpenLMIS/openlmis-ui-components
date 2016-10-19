@@ -18,11 +18,11 @@
   <script type="text/javascript" src="/public/openlmis.js"></script>
 
 </head>
-<body >
+<body>
   <header ng-if="userIsAuthenticated">
     <div ng-include="'dashboard/header.html'" ></div>
     <div ng-include="'dashboard/navigation.html'" ></div>
   </header>
-  <div ui-view></div>
+  <div class="flex-stretch" ui-view></div>
 </body>
 </html>
