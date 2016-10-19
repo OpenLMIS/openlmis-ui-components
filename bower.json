@@ -1,5 +1,5 @@
 {
-  "name": "OpenLMIS",
+  "name": "openlmis",
   "version": "0.0.1",
   "ignore": [
     "**/.*",
@@ -15,13 +15,13 @@
     "angular-route": "*",
     "angular-sanitize": "*",
     "angular-ui": "0.4.0",
-    "jquery": "*",
+    "jquery": "^3",
     "angular-local-storage": "*",
     "select2": "3.4.2",
     "underscore": "*",
     "angular-bootstrap": "0.1.0",
     "angular-ui-grid": "^3.2.9",
-    "angular-ui-sortable": "^0.14.3",
+    "angular-ui-sortable": "*",
     "jquery-ui": "^1",
     "angular-ui-router": "0.3.1",
     "bootstrap-sass": "^3.3.7",
