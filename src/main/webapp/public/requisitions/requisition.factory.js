@@ -43,12 +43,7 @@
 
     function get(id) {
       var requisition = resource.get({id: id});
-      requisition.$promise.then(function(requisition) {
-        requisition.$getTemplate = getTemplate;
-        requisition.$authorize = authorize;
-        requisition.$save = save;
-        requisition.$submit = submit;
-      });
+      addRequisitionMethods(requisition);
       return requisition;
     }
 
@@ -59,7 +54,9 @@
     }
 
     function authorize() {
-      return resource.authorize({id: this.id}).$promise;
+      var requisition = resource.authorize({id: this.id});
+      addRequisitionMethods(requisition);
+      return requisition;
     }
 
     function save() {
@@ -87,6 +84,15 @@
       return resource.search({
         program: programId, 
         facility: facilityId}).$promise;
+    }
+
+    function addRequisitionMethods(requisition) {
+      requisition.$promise.then(function(requisition) {
+        requisition.$getTemplate = getTemplate;
+        requisition.$authorize = authorize;
+        requisition.$save = save;
+        requisition.$submit = submit;
+      });
     }
   }
 

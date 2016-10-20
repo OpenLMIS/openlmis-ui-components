@@ -41,10 +41,11 @@
 
         $scope.authorizeRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
-                $scope.requisition.$authorize().then(
+                $scope.requisition.$authorize().$promise.then(
                     function(response) {
                         $scope.message = messageService.get('msg.rnr.submitted.success');
                         $scope.error = "";
+                        $scope.requisition = response;
                     }, function(response) {
                         $scope.error = messageService.get('msg.rnr.authorized.failure');
                         $scope.message = "";
