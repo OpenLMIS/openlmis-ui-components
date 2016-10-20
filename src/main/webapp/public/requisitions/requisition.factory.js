@@ -83,9 +83,8 @@
       }, {}).$promise;
     }
 
-    function search(periodId, programId, facilityId) {
+    function search(programId, facilityId) {
       return resource.search({
-        processingPeriod: periodId, 
         program: programId, 
         facility: facilityId}).$promise;
     }
