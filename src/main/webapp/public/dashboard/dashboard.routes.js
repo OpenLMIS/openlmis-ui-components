@@ -12,6 +12,10 @@
     .state('home', {
       url: '/home',
       templateUrl: 'dashboard/home.html'
+    })
+    .state('404', {
+      url: '/404',
+      templateUrl: 'dashboard/404.html'
     });
 
   }

@@ -33,7 +33,7 @@
 		$urlRouterProvider
 		.when('', '/home')
 		.when('/', '/home')
-		.otherwise("/home"); // This should acutally be a 404....
+		.otherwise("/404");
 	}
 
 })();
