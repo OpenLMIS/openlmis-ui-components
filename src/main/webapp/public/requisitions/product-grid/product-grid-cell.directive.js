@@ -22,9 +22,12 @@
         $templateRequest('requisitions/product-grid/product-grid-cell-error.html')
       ]).then(
         function(templates) {
-          angular.forEach(templates, function(template) {
-            element.append($compile(template)(scope));
-          });
+          var input = angular.element(templates[0]);
+          if (scope.column.columnDefinition.columnType === 'NUMERIC' && scope.column.source === 'USER_INPUT') {
+            input.attr('positive-integer', '');
+          }
+          element.append($compile(input)(scope));
+          element.append($compile(templates[1])(scope));
         }
       );
     }
