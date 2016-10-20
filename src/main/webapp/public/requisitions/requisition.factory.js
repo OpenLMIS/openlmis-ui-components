@@ -26,7 +26,11 @@
       'initiate': {
         url: RequisitionURL('/api/requisitions/initiate'),
         method: 'POST'
-      }, 
+      },
+      'remove': {
+        url: RequisitionURL('/api/requisitions/:id'),
+        method: 'DELETE'
+      },
       'search': {
         url: RequisitionURL('/api/requisitions/search'),
         method: 'GET',
@@ -57,6 +61,10 @@
       var requisition = resource.authorize({id: this.id});
       addRequisitionMethods(requisition);
       return requisition;
+    }
+
+    function remove() {
+      return resource.remove({id: this.id}).$promise;
     }
 
     function save() {
@@ -92,6 +100,7 @@
         requisition.$authorize = authorize;
         requisition.$save = save;
         requisition.$submit = submit;
+        requisition.$remove = remove;
       });
     }
   }

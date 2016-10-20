@@ -12,9 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
+    RequisitionCtrl.$inject = ['$scope', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox', '$window'];
 
-    function RequisitionCtrl($scope, requisition, AuthorizationService, messageService, $ngBootbox) {
+    function RequisitionCtrl($scope, requisition, AuthorizationService, messageService, $ngBootbox, $window) {
 
 
         $scope.requisition = requisition;
@@ -54,8 +54,27 @@
             });
         };
 
+        $scope.removeRnr = function() {
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation.deletion")).then(function() {
+                $scope.requisition.$remove().then(
+                    function(response) {
+                        $scope.message = messageService.get('msg.rnr.deletion.success');
+                        $scope.error = "";
+                        $window.location.href = "/public/index.html#/requisitions/initialize";
+                    }, function(response) {
+                        $scope.error = messageService.get('msg.rnr.deletion.failure');
+                        $scope.message = "";
+                    }
+                );
+            });
+        };
+
          $scope.authorizeEnabled = function() {
             return $scope.requisition === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+        };
+
+         $scope.isPossibleToDelete = function() {
+            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
         $scope.submitRnr = function() {
