@@ -75,12 +75,12 @@
     }
 
     function initiate(facility, program, suggestedPeriod, emergency) {
-      return resource.initiate({}, {
+      return resource.initiate({
         facility: facility,
         program: program,
         suggestedPeriod: suggestedPeriod,
         emergency: emergency
-      }).$promise;
+      }, {}).$promise;
     }
 
     function search(periodId, programId, facilityId) {

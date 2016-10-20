@@ -51,7 +51,6 @@
             var requisitions = RequisitionFactory.search(period.id, programId, facilityId);
 
             requisitions.then(function(data) {
-                period.rnrStatus = messageService.get("msg.rnr.previous.pending");
                 data.forEach(function (requisition) {
                     if (requisition.processingPeriodId == period.id) {
                         period.rnrId = requisition.id;

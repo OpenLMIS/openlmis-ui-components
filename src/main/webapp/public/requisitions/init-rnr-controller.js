@@ -47,7 +47,7 @@
                 {field: 'name', displayName: messageService.get("label.periods")},
                 {field: 'startDate', displayName: messageService.get("period.header.startDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
                 {field: 'endDate', displayName: messageService.get("period.header.endDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
-                {field: 'rnrStatus', displayName: messageService.get("label.rnr.status") },
+                {field: 'rnrStatus', displayName: messageService.get("label.rnr.status"), cellTemplate: 'requisitions/rnr-status-cell.html'},
                 {name: 'proceed', displayName: '', cellTemplate:
                 '/public/requisitions/init-rnr-button.html'}
             ]
