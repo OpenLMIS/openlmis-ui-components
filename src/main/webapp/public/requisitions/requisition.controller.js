@@ -57,8 +57,6 @@
             return $scope.requisition === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
 
-        $scope.saveRnr = function() {};
-
         $scope.submitRnr = function() {
             $scope.requisition.$submit().then(
                 function(response) {
