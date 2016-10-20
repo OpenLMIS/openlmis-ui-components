@@ -23,15 +23,21 @@
         url: RequisitionURL('/api/requisitions/:id/submit'),
         method: 'POST'
       },
-      'initiate' : {
+      'initiate': {
         url: RequisitionURL('/api/requisitions/initiate'),
         method: 'POST'
+      }, 
+      'search': {
+        url: RequisitionURL('/api/requisitions/search'),
+        method: 'GET',
+        isArray: true
       }
     });
 
     var service = {
       get: get,
-      initiate: initiate
+      initiate: initiate,
+      search: search
     };
     return service;
 
@@ -75,6 +81,13 @@
         suggestedPeriod: suggestedPeriod,
         emergency: emergency
       }).$promise;
+    }
+
+    function search(periodId, programId, facilityId) {
+      return resource.search({
+        processingPeriod: periodId, 
+        program: programId, 
+        facility: facilityId}).$promise;
     }
   }
 

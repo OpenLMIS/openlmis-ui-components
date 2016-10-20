@@ -58,9 +58,9 @@
         };
 
         $scope.loadPeriods = function () {
+            $scope.error = "";
             $scope.periodGridData = [];
             if (!($scope.selectedProgram && $scope.selectedProgram.id && $scope.selectedFacilityId)) {
-                $scope.error = "";
                 return;
             }
             PeriodsForProgramAndFacilityFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, false).$promise.then(function(data) {

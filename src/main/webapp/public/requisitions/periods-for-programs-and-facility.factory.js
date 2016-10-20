@@ -15,13 +15,6 @@
             }
         });
 
-        var requisitionsForPeriod = $resource(RequisitionURL('/api/requisitions/search'), {}, {
-            get: {
-                method: 'GET',
-                isArray: true
-            }
-        });
-
         var service = {
             get: get
         };
@@ -55,9 +48,9 @@
         }
 
         function addRequisitionToPeriod(period, programId, facilityId) {
-            var requisitions = requisitionsForPeriod.get({processingPeriod: period.id, program: programId, facility: facilityId});
+            var requisitions = RequisitionFactory.search(period.id, programId, facilityId);
 
-            requisitions.$promise.then(function(data) {
+            requisitions.then(function(data) {
                 period.rnrStatus = messageService.get("msg.rnr.previous.pending");
                 data.forEach(function (requisition) {
                     if (requisition.processingPeriodId == period.id) {
