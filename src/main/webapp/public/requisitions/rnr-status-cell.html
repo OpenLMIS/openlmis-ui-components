@@ -1,0 +1,4 @@
+<div class="ui-grid-cell-contents" >
+	{{grid.getCellValue(row, col)}}
+	<div ng-if="!grid.getCellValue(row, col)" openlmis-message="msg.rnr.previous.pending"></div>
+</div>

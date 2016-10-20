@@ -47,8 +47,9 @@
                 {field: 'name', displayName: messageService.get("label.periods")},
                 {field: 'startDate', displayName: messageService.get("period.header.startDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
                 {field: 'endDate', displayName: messageService.get("period.header.endDate"), type: 'date', cellFilter: 'date:\'yyyy-MM-dd\''},
-                {field: 'rnrStatus', displayName: messageService.get("label.rnr.status")},
-                {name: 'proceed', displayName: '', cellTemplate: '/public/requisitions/init-rnr-button.html'}
+                {field: 'rnrStatus', displayName: messageService.get("label.rnr.status"), cellTemplate: 'requisitions/rnr-status-cell.html'},
+                {name: 'proceed', displayName: '', cellTemplate:
+                '/public/requisitions/init-rnr-button.html'}
             ]
         };
 
@@ -62,10 +63,10 @@
             if (!($scope.selectedProgram && $scope.selectedProgram.id && $scope.selectedFacilityId)) {
                 return;
             }
-            PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, false).then(function(data) {
+            PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, false).$promise.then(function(data) {
                 $scope.isEmergency = false;
-                $scope.periodGridData = data.$getPeriodGridLineItems($scope.selectedProgram.id, $scope.selectedFacilityId);;
-            }).catch(function() {
+                $scope.periodGridData = data;
+            }, function() {
                 $scope.error = messageService.get("msg.no.period.available");
             });
         };
