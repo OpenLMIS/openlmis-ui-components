@@ -2,13 +2,13 @@
   
     'use strict';
 
-    angular.module('openlmis.requisitions').factory('PeriodsForProgramAndFacilityFactory', periodsForProgramAndFacilityFactory);
+    angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);
 
-    periodsForProgramAndFacilityFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionFactory', 'messageService'];
+    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionFactory', 'messageService'];
 
-    function periodsForProgramAndFacilityFactory($resource, RequisitionURL, RequisitionFactory, messageService) {
+    function periodFactory($resource, RequisitionURL, RequisitionFactory, messageService) {
 
-        var periodResource = $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
+        var resource = $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
             get: {
                 method: 'GET',
                 isArray: true
@@ -21,7 +21,7 @@
         return service;
 
         function get(programId, facilityId, emergency) {
-            var periods = periodResource.get({programId: programId, facilityId: facilityId, emergency: emergency});
+            var periods = resource.get({programId: programId, facilityId: facilityId, emergency: emergency});
 
             periods.$promise.then(function(data) {
                 if(!Array.isArray(data)){
