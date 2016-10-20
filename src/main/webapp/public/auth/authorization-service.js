@@ -21,8 +21,8 @@
     'USER_RIGHTS': 'RIGHTS'
   };
 
-  AuthorizationService.$inject = ["$q", "localStorageService"]
-  function AuthorizationService ($q, localStorageService) {
+  AuthorizationService.$inject = ["$q", "localStorageService", "$injector"]
+  function AuthorizationService ($q, localStorageService, $injector) {
     var service = {};
 
     service.isAuthenticated = isAuthenticated;
@@ -38,6 +38,7 @@
     service.getUser = getUser;
     service.setUser = setUser;
     service.clearUser = clearUser;
+    service.getDetailedUser = getDetailedUser;
 
     service.getRights = getRights;
     service.setRights = setRights;
@@ -75,6 +76,11 @@
         username: localStorageService.get(storageKeys.USERNAME),
         user_id: localStorageService.get(storageKeys.USER_ID)
       };
+    }
+
+    function getDetailedUser() {
+      var user = getUser();
+      return $injector.get('UserFactory').get(user.user_id);
     }
 
     function setUser(user_id, username){

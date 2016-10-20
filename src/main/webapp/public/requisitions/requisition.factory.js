@@ -22,11 +22,16 @@
       'submit': {
         url: RequisitionURL('/api/requisitions/:id/submit'),
         method: 'POST'
+      },
+      'initiate' : {
+        url: RequisitionURL('/api/requisitions/initiate'),
+        method: 'POST'
       }
     });
 
     var service = {
-      get: get
+      get: get,
+      initiate: initiate
     };
     return service;
 
@@ -52,15 +57,24 @@
     }
 
     function save() {
-          return resource.save(
-            {id: this.id},
-            this).$promise;
-        }
+      return resource.save(
+        {id: this.id},
+        this).$promise;
+    }
 
     function submit() {
-        return resource.submit(
-            {id: this.id},
-            this).$promise;
+      return resource.submit(
+        {id: this.id},
+        this).$promise;
+    }
+
+    function initiate(facility, program, suggestedPeriod, emergency) {
+      return resource.initiate({}, {
+        facility: facility,
+        program: program,
+        suggestedPeriod: suggestedPeriod,
+        emergency: emergency
+      }).$promise;
     }
   }
 

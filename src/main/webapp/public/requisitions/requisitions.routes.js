@@ -30,8 +30,8 @@
 
 				  return deferred.promise;
 				}
-      }
-    });
+      		}
+    	});
 	}
 
 })();
