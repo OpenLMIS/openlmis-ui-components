@@ -70,7 +70,7 @@
         };
 
          $scope.authorizeEnabled = function() {
-            return $scope.requisition === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+            return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
 
          $scope.isPossibleToDelete = function() {
