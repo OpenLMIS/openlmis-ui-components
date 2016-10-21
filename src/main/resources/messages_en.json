@@ -75,6 +75,7 @@
   "label.no.products": "No products.",
   "label.confirm.action": "Confirm Action",
   "msg.rnr.save.success": "R&R saved successfully!",
+  "msg.rnr.save.failure": "There was an error saving this requisition.",
   "msg.rnr.submitted.success": "R&R submitted successfully!",
   "msg.rnr.authorized.success": "R&R authorized successfully!",
   "msg.rnr.authorized.failure": "R&R authorize failed!",
