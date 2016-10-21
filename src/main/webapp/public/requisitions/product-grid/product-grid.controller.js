@@ -14,10 +14,22 @@
       LineItemFactory.extendLineItem(lineItem);
     });
 
+    function displayColumn(name) {
+      if (name != 'remarks' && name != 'approvedQuantity') {
+        return true;
+      } else if ($scope.ngModel.status == 'AUTHORIZED' || $scope.ngModel.status == 'APPROVED') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     $scope.ngModel.$getTemplate().then(function(template) {
       $scope.columns = [];
       angular.forEach(template.columnsMap, function(column) {
-        $scope.columns.push(column);
+        if (displayColumn(column.name)) {
+          $scope.columns.push(column);
+        }
       });
     }).finally(function() {
       $scope.templateLoaded = true;
