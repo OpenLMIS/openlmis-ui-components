@@ -26,13 +26,7 @@
 
         $scope.selectedType = 0;
 
-        if (facility) {
-            $scope.facilityDisplayName = facility.code + '-' + facility.name;
-            $scope.selectedFacilityId = facility.id;
-            $scope.programs = facility.supportedPrograms;
-        } else {
-            $scope.facilityDisplayName = messageService.get("label.none.assigned");
-        }
+        $scope.loadPeriods = loadPeriods;
 
         $scope.periodGridOptions = { 
             data: 'periodGridData',
@@ -52,11 +46,25 @@
             ]
         };
 
+        if (facility) {
+            $scope.facilityDisplayName = facility.code + '-' + facility.name;
+            $scope.selectedFacilityId = facility.id;
+            $scope.programs = facility.supportedPrograms;
+            if (_.isEmpty($scope.programs)) {
+                $scope.error = messageService.get("msg.no.program.available");
+            } else if ($scope.programs.length === 1) {
+                $scope.selectedProgram = $scope.programs[0];
+                $scope.loadPeriods();
+            }
+        } else {
+            $scope.facilityDisplayName = messageService.get("label.none.assigned");
+        }
+
         $scope.programOptionMessage = function () {
             return $scope.programs === undefined || _.isEmpty($scope.programs) ? messageService.get("label.none.assigned") : messageService.get("label.select.program");
         };
 
-        $scope.loadPeriods = function () {
+        function loadPeriods() {
             $scope.error = "";
             $scope.periodGridData = [];
             if (!($scope.selectedProgram && $scope.selectedProgram.id && $scope.selectedFacilityId)) {
@@ -64,7 +72,11 @@
             }
             PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, false).then(function(data) {
                 $scope.isEmergency = false;
-                $scope.periodGridData = data;
+                if (data.length === 0) {
+                    $scope.error = messageService.get("msg.no.period.available");
+                } else {
+                    $scope.periodGridData = data;
+                }
             }).catch(function() {
                 $scope.error = messageService.get("msg.no.period.available");
             });
