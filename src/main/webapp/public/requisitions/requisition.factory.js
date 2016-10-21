@@ -58,7 +58,7 @@
     }
 
     function authorize() {
-      var requisition = resource.authorize({id: this.id});
+      var requisition = resource.authorize({id: this.id}, {});
       addRequisitionMethods(requisition);
       return requisition;
     }
