@@ -19,9 +19,8 @@
         return true;
       } else if ($scope.ngModel.status == 'AUTHORIZED' || $scope.ngModel.status == 'APPROVED') {
         return true;
-      } else {
-        return false;
       }
+      return false;
     }
 
     $scope.ngModel.$getTemplate().then(function(template) {
