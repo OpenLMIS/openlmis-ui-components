@@ -16,23 +16,22 @@
     };
     return factory;
 
-    function nonNegative(lineItem, property) {
-      if (lineItem[property] < 0) {
+    function nonNegative(value) {
+      if (value < 0) {
         return messageService.get('error.negative');
       }
     }
 
-    function nonEmpty(lineItem, property) {
-      var value = lineItem[property];
+    function nonEmpty(value) {
       if (value === null || value === undefined || value ==='') {
         return messageService.get('error.required');
       }
     }
 
     function nonEmptyIfPropertyIsSet(setProperty) {
-      return function(lineItem, property) {
+      return function(value, lineItem) {
         if (lineItem[setProperty]) {
-          return nonEmpty(lineItem, property);
+          return nonEmpty(value);
         }
       };
     }

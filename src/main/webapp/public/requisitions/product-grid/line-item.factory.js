@@ -46,14 +46,14 @@
     }
 
     function validateProperty(name) {
-      var error = undefined;
-      var lineItem = this;
+      var error = undefined,
+          lineItem = this;
 
       if (nonMandatoryField.indexOf(name) === -1) {
-        error = error || ValidationFactory.nonEmpty(lineItem, name);
-      } 
+        error = error || ValidationFactory.nonEmpty(lineItem[name], lineItem);
+      }
       angular.forEach(validationsToPass[name], function(validation) {
-        error = error || validation(lineItem, name);
+        error = error || validation(lineItem[name], lineItem);
       });
 
       return this.$errors()[name] = error;
@@ -72,9 +72,16 @@
 
     function getValue(propertyName, calculate) {
       if (calculate) {
-        this[propertyName] = CalculationFactory[propertyName](this);
-        this.$validateProperty(propertyName);
-        return this[propertyName];
+        var value = CalculationFactory[propertyName](this),
+            lineItem = this,
+            error;
+        
+        angular.forEach(validationsToPass[propertyName], function(validation) {
+          error = error || validation(value, lineItem);
+        });
+        this.$errors()[propertyName] = error;
+
+        return value;
       }
       return this[propertyName];
     }
