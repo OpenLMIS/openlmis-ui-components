@@ -279,11 +279,11 @@ module.exports = function(grunt) {
           .pipe(gulp.dest(path.join(config.styleguide.dest,"images")));
       },
       'sass': function(){
-   var includePaths = [
+   var includePaths = require('node-bourbon').includePaths.concat([
         config.app.src,
         'bower_components/font-awesome/scss',
         'bower_components/bootstrap-sass/assets/stylesheets'
-    ];
+    ]);
 
     var bowerCss = wiredep().css;
     var bowerSass = wiredep().scss;
@@ -317,7 +317,6 @@ module.exports = function(grunt) {
     }))
     .pipe(sourcemaps.write())
     .pipe(concat('openlmis.css'))
-    .pipe(sass({ includePaths: require('node-bourbon').includePaths }))
     .pipe(sass().on('error', sass.logError))
     .pipe(replace('../','')) // remove non-relative strings
     //Replace UI-Grid font paths
