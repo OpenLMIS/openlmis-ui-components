@@ -1,0 +1,12 @@
+
+.not-found-page {
+	@extend .page-hero;
+	&::after{
+		font-family: FontAwesome;
+		content: "\f14e";
+		font-size: 200px;
+		position: absolute;
+		bottom: 10px;
+		right: 100px;
+	}
+}

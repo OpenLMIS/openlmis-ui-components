@@ -28,10 +28,14 @@
 
 @media(min-width: $screen-sm-min){
 	.page-hero{
-		width: $screen-sm-min - 100px;
 		padding: 50px;
+		> * {
+			display: block;
+			width: $screen-sm-min - 100px; 
+		}
 		h2 em{
 			display: block;
+			font-size: 0.9em;
 		}
 	}
 }
