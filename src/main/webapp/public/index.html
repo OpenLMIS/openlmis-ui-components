@@ -18,7 +18,7 @@
   <script type="text/javascript" src="/public/openlmis.js"></script>
 
 </head>
-<body class="home-background">
+<body >
   <header ng-if="userIsAuthenticated">
     <div ng-include="'dashboard/header.html'" ></div>
     <div class="navbar">
@@ -26,6 +26,6 @@
       <openlmis-locale class="navbar-links navbar-right"></openlmis-locale>
     </div>
   </header>
-  <div class="flex-stretch" ui-view></div>
+  <div ui-view></div>
 </body>
 </html>

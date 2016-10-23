@@ -1,0 +1,57 @@
+
+.page-hero {
+	position: relative;
+	padding: 50px 25px;
+	font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
+	color: #a0a0a0;
+	font-size: 3em;
+	h1, h2, h3, h4, h5, .title, .subtitle{
+		color: #a0a0a0;
+		line-height: 1.2em;
+		border-width: 0px;
+		em {
+			font-weight: normal;
+			font-style: normal;
+		}
+	}
+	&::before{
+		content: "";
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: -1;
+		height: 100%;
+		width: 100%;
+		background: #d6d6d6 url(common/page-hero-glow.png) no-repeat center -70px;
+	}
+}
+
+@media(min-width: $screen-sm-min){
+	.page-hero{
+		width: $screen-sm-min - 100px;
+		padding: 50px;
+		h2 em{
+			display: block;
+		}
+	}
+}
+
+.page-hero .title {
+  position: relative;
+  &:before, &:after {
+    width: 100%;
+    position: absolute;
+    content: attr(title);
+    opacity: 0.2;
+    color: rgba(255, 255, 255, 1);
+  }
+  &:before {
+    top: 1px;
+    left: -1px;
+  }
+  &:after {
+    top: 2px;
+    left: 0;
+  }
+}
+

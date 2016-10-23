@@ -1,0 +1,14 @@
+
+.home-page{
+  @extend .page-hero;
+  padding-bottom: 170px;
+  &::after{
+    content:"";
+    width: 100%;
+    height: 136px; // image height
+    position: absolute;
+    bottom: 24px;
+    left: 0px;
+    background: url(dashboard/home-background.png) no-repeat right bottom;
+  }
+}
