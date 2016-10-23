@@ -160,9 +160,13 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/webapp/public/images/',
-            src: ['**'],
-            dest: config.app.dest + '/public/images'
+            cwd: config.app.src + '/webapp/public/',
+            src: [
+              '**/*.png',
+              '**/*.jpg',
+              '**/*.gif'
+            ],
+            dest: config.app.dest + '/public'
           }
         ],
       },
