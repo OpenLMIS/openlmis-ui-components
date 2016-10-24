@@ -27,6 +27,7 @@
         $scope.periodDisplayName = periodDisplayName;
         $scope.displaySubmit = displaySubmit;
         $scope.displayAuthorize = displayAuthorize;
+        $scope.displayDelete = displayDelete;
         $scope.displayApproveAndReject = displayApproveAndReject;
 
         function saveRnr() {
@@ -116,6 +117,10 @@
 
         function displayApproveAndReject() {
             return $scope.requisition.status === "AUTHORIZED" && AuthorizationService.hasPermission("APPROVE_REQUISITION");
+        };
+
+        function displayDelete() {
+            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
         function saveWithCallback(callback) {

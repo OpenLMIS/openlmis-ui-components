@@ -131,10 +131,6 @@
       }
     }
 
-    function isPossibleToDelete() {
-        return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
-    };
-
     function addRequisitionMethods(requisition) {
       requisition.$getTemplate = getTemplate;
       requisition.$authorize = authorize;
