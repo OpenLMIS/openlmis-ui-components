@@ -117,6 +117,20 @@
       }).$promise;
     }
 
+    function validate() {
+      var requisition = this;
+      angular.forEach(this.requisitionLineItems, function(lineItem) {
+        lineItem.$validateProperties(requisition.$visibleFields());
+      })
+    }    
+
+    function visibleFields() {
+      var fields = [];
+      return function(newFields) {
+        return arguments.length ? (fields = newFields) : fields;
+      }
+    }
+
     function isPossibleToDelete() {
         return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
     };
@@ -129,6 +143,8 @@
       requisition.$remove = remove;
       requisition.$approve = approve;
       requisition.$reject = reject;
+      requisition.$validate = validate;
+      requisition.$visibleFields = visibleFields();
       angular.forEach(requisition.requisitionLineItems, LineItemFactory.extendLineItem);
     }
   }

@@ -24,8 +24,10 @@
       angular.forEach(template.columnsMap, function(column) {
         if (displayColumn(column.name)) {
           $scope.columns.push(column);
+          $scope.ngModel.$visibleFields().push(column.name);
         }
       });
+
     }).finally(function() {
       $scope.templateLoaded = true;
     });

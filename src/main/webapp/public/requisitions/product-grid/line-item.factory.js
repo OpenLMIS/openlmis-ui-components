@@ -9,7 +9,6 @@
   function lineItemFactory(ValidationFactory, CalculationFactory) {
 
     var nonMandatoryField = [
-      'approvedQuantity',
       'skipped',
       'remarks',
       'totalLossesAndAdjustments',
@@ -32,6 +31,7 @@
       lineItem.$errors = errors();
       lineItem.$getPropertyError = getPropertyError;
       lineItem.$validateProperty = validateProperty;
+      lineItem.$validateProperties = validateProperties;
       lineItem.$getValue = getValue;
     }
 
@@ -57,6 +57,13 @@
       });
 
       return this.$errors()[name] = error;
+    }
+
+    function validateProperties(properties) {
+      var lineItem = this;
+      angular.forEach(properties, function(property) {
+        lineItem.$validateProperty(property);
+      })
     }
 
     function getPropertyError(propertyName) {

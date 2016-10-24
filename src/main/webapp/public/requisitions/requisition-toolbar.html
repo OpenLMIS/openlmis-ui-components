@@ -3,7 +3,7 @@
         <input id="deleteRnrButton" type="button"
                class="btn btn-danger delete-button"
                openlmis-message="button.delete"
-               ng-show="requisition.$isPossibleToDelete()"
+               ng-if="displayApproveAndReject()"
                ng-click="removeRnr()"/>
         <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr()"
                class="btn btn-default save-button"
@@ -11,21 +11,21 @@
         <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
                class="btn btn-primary primary-action"
                openlmis-message="button.submit" type="button"
-               ng-show="isPossibleToSubmit()"/>
+               ng-if="displaySubmit()"/>
         <input id="authorizeRnrButton" type="button"
               class="btn btn-primary primary-action"
               openlmis-message="button.authorize"
-              ng-show="authorizeEnabled()"
+              ng-if="displayAuthorize()"
               ng-click="authorizeRnr()"/>
         <input id="approveRnrButton" type="button"
                class="btn btn-primary primary-action"
                openlmis-message="button.approve"
-               ng-show="approveAndRejectEnabled()"
+               ng-if="displayApproveAndReject()"
                ng-click="approveRnr()"/>
         <input id="rejectRnrButton" type="button"
                class="btn btn-primary primary-action"
                openlmis-message="button.rnr.reject"
-               ng-show="approveAndRejectEnabled()"
+               ng-if="displayApproveAndReject()"
                ng-click="rejectRnr()"/>
 
     </div>
