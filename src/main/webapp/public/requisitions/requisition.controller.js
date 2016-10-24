@@ -26,30 +26,27 @@
         };
 
         $scope.saveRnr = function() {
-            $scope.requisition.$save().then(function(response) {
-                    $scope.message = messageService.get('msg.rnr.save.success');
-                    $scope.error = "";
-                    $state.reload();
-                },
-                function(response) {
-                    $scope.error = messageService.get('msg.rnr.save.failure');
-                    $scope.message = "";
-                }
-            );
+            saveWithCallback(function(response) {
+                $scope.message = messageService.get('msg.rnr.save.success');
+                $scope.error = "";
+                $state.reload();
+            });
         };
 
         $scope.authorizeRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
-                $scope.requisition.$authorize().$promise.then(
-                    function(response) {
-                        $scope.message = messageService.get('msg.rnr.authorized.success');
-                        $scope.error = "";
-                        $state.reload();
-                    }, function(response) {
-                        $scope.error = messageService.get('msg.rnr.authorized.failure');
-                        $scope.message = "";
-                    }
-                );
+                saveWithCallback(function() {
+                    $scope.requisition.$authorize().then(
+                        function(response) {
+                            $scope.message = messageService.get('msg.rnr.authorized.success');
+                            $scope.error = "";
+                            $state.reload();
+                        }, function(response) {
+                            $scope.error = messageService.get('msg.rnr.authorized.failure');
+                            $scope.message = "";
+                        }
+                    );
+                });
             });
         };
 
@@ -70,16 +67,18 @@
 
         $scope.submitRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
-                $scope.requisition.$submit().then(
-                    function(response) {
-                        $scope.message = messageService.get('msg.rnr.submitted.success');
-                        $scope.error = "";
-                        $state.reload();
-                    }, function(response) {
-                        $scope.error = messageService.get('error.requisition.not.submitted');
-                        $scope.message = "";
-                    }
-                );
+                saveWithCallback(function() {
+                    $scope.requisition.$submit().then(
+                        function(response) {
+                            $scope.message = messageService.get('msg.rnr.submitted.success');
+                            $scope.error = "";
+                            $state.reload();
+                        }, function(response) {
+                            $scope.error = messageService.get('error.requisition.not.submitted');
+                            $scope.message = "";
+                        }
+                    );
+                });
             });    
         };
 
@@ -90,6 +89,15 @@
         $scope.isPossibleToSubmit = function() {
             return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("CREATE_REQUISITION");
         };
+
+        function saveWithCallback(callback) {
+            $scope.requisition.$save().then(callback, failedToSave);
+        }
+
+        function failedToSave(response) {
+            $scope.error = messageService.get('msg.rnr.save.failure');
+            $scope.message = "";
+        }
 
     }
 })();

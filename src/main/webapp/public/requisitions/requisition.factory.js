@@ -47,7 +47,7 @@
 
     function get(id) {
       var requisition = resource.get({id: id});
-      addRequisitionMethods(requisition);
+      requisition.$promise.then(addRequisitionMethods);
       return requisition;
     }
 
@@ -58,27 +58,27 @@
     }
 
     function authorize() {
-      var requisition = resource.authorize({id: this.id}, {});
-      addRequisitionMethods(requisition);
-      return requisition;
+      return resource.authorize({
+        id: this.id
+      }, {}).$promise;
     }
 
     function remove() {
-      return resource.remove({id: this.id}).$promise;
+      return resource.remove({
+        id: this.id
+      }).$promise;
     }
 
     function save() {
-      var requisition = resource.save(
-        {id: this.id},
-        this);
-      addRequisitionMethods(requisition);
-      return requisition.$promise;
+      return resource.save({
+        id: this.id
+      },this).$promise;
     }
 
     function submit() {
-      return resource.submit(
-        {id: this.id},
-        this).$promise;
+      return resource.submit({
+        id: this.id
+      }, this).$promise;
     }
 
     function initiate(facility, program, suggestedPeriod, emergency) {
@@ -93,7 +93,8 @@
     function search(programId, facilityId) {
       return resource.search({
         program: programId, 
-        facility: facilityId}).$promise;
+        facility: facilityId
+      }).$promise;
     }
 
     function isPossibleToDelete() {
@@ -101,15 +102,12 @@
     };
 
     function addRequisitionMethods(requisition) {
-      requisition.$promise.then(function(requisition) {
-        requisition.$getTemplate = getTemplate;
-        requisition.$authorize = authorize;
-        requisition.$save = save;
-        requisition.$submit = submit;
-        requisition.$remove = remove;
-        requisition.$isPossibleToDelete = isPossibleToDelete;
-        angular.forEach(requisition.requisitionLineItems, LineItemFactory.extenLineItem);
-      });
+      requisition.$getTemplate = getTemplate;
+      requisition.$authorize = authorize;
+      requisition.$save = save;
+      requisition.$submit = submit;
+      requisition.$remove = remove;
+      angular.forEach(requisition.requisitionLineItems, LineItemFactory.extendLineItem);
     }
   }
 
