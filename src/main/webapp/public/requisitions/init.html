@@ -79,12 +79,10 @@
             </select>
         </div>
 
-        <div id="viewReqList" class="row-fluid init-rnr-grid"
+        <div id="viewReqList" class="row-fluid"
               ng-show="selectedProgram && selectedFacilityId && !(periodGridData.length == 0)">
-            <div class="span6">
-                <div class="gridStyle small" ui-grid="periodGridOptions"
+            <div class="grid grid-init-rnr" ui-grid="periodGridOptions"
                      ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)" id="periodGrid"></div>
-            </div>
         </div>
         <div class="row-fluid" ng-show="error">
             <div class="span12">

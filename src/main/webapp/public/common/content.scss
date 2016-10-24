@@ -1297,16 +1297,8 @@ table td.delete-button {
   }
 }
 
-.gridStyle {
+.grid {
   @include size(400px 100%);
-  border: 1px solid rgb(212, 212, 212);
-}
-
-.approveGrid {
-  width: 100%;
-  max-height: 1320px;
-  min-height: 333px;
-  margin-top: 10px;
   border: 1px solid rgb(212, 212, 212);
 }
 
@@ -1387,16 +1379,6 @@ table td.delete-button {
   }
 }
 
-.init-rnr-grid {
-  .gridStyle {
-    width: 720px;
-  }
-  .ngCell input {
-    width: 80%;
-  }
-  margin: 20px 0;
-}
-
 .suggest-field {
   @include size(20px 87%);
   padding: 4px 6px;
@@ -1435,62 +1417,6 @@ table td.delete-button {
       opacity: 1;
     }
   }
-}
-
-//grid styles
-
-.ngGrid {
-  border-radius: 4px;
-  background-color: transparent;
-  font-size: 0.9em;
-}
-
-.ngCell {
-  z-index: auto !important;
-  overflow: visible;
-  input {
-    width: 88%;
-  }
-  .orderStatusCellText {
-    overflow: visible;
-  }
-}
-
-.ngCellText.checked {
-  padding-left: 20px;
-  font-size: 1.2em;
-}
-
-.ngTopPanel {
-  background-color: transparent;
-}
-
-.ngHeaderContainer {
-  background-color: #f8f8f8
-}
-
-.ngHeaderSortColumn[style*='pointer'] {
-  background: url(../images/sortable.png) no-repeat right 12px;
-}
-
-.ngSortButtonDown, .ngSortButtonUp {
-  @include size(5px 20px);
-  top: 12px;
-  right: 10px;
-  left: auto;
-  border: 0;
-}
-
-.ngSortButtonDown {
-  background: url(../images/sort-down.png) no-repeat left top;
-}
-
-.ngSortButtonUp {
-  background: url(../images/sort-up.png) no-repeat left top;
-}
-
-.ngViewport {
-  outline: 0 none;
 }
 
 .grid-btn {
