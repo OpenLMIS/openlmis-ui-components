@@ -12,9 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox', '$window'];
+    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
 
-    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, $window) {
+    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox) {
 
 
         $scope.requisition = requisition;
@@ -85,10 +85,6 @@
 
         $scope.authorizeEnabled = function() {
             return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
-        };
-
-        $scope.isPossibleToDelete = function() {
-            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
         $scope.isPossibleToSubmit = function() {

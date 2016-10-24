@@ -1,5 +1,10 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
+        <input id="deleteRnrButton" type="button"
+               class="btn btn-danger delete-button"
+               openlmis-message="button.delete"
+               ng-show="requisition.$isPossibleToDelete()"
+               ng-click="removeRnr()"/>
         <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr()"
                class="btn btn-default save-button"
                openlmis-message="button.save" type="button"/>
@@ -12,11 +17,7 @@
                openlmis-message="button.authorize"
                ng-show="authorizeEnabled()"
                ng-click="authorizeRnr()"/>
-        <input id="deleteRnrButton" type="button"
-               class="btn btn-primary primary-action"
-               openlmis-message="button.delete"
-               ng-show="isPossibleToDelete()"
-               ng-click="removeRnr()"/>
+
     </div>
     <div class="toolbar-error" id="errorMessage" fade-out="3000" openlmis-message="error"
          ng-show="error"></div>

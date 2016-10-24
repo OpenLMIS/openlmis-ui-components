@@ -21,11 +21,15 @@ $heading-green: #17888F !default;
   width: 100%;
   min-height: 50px;
   z-index: 15;
-  .save-button {
+  .delete-button {
     float: left;
     margin-left: 10px;
     margin-top: 4px;
   }
+  .save-button {
+    margin-left: 10px;
+    margin-top: 4px;
+   }
   .primary-action {
     float: right;
     margin-right: 10px;
