@@ -90,6 +90,7 @@
   "msg.question.confirmation": "Are you sure? Please confirm.",
   "msg.question.confirmation.authorize": "Are you sure to authorize this R&R? Please confirm.",
   "msg.question.confirmation.deletion": "Are you sure to delete this R&R? Please confirm.",
+  "msg.question.confirmation.submit": "Are you sure to submit this R&R? Please confirm.",
   "msg.select.atleast.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.rnr.converted.to.order": "The requisition(s) have been successfully converted to Orders",
   "msg.error.occurred": "Error Occurred",
