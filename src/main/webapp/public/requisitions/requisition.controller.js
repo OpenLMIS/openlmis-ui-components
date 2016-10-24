@@ -26,24 +26,24 @@
         };
 
         $scope.saveRnr = function() {
-          $scope.requisition.$save()
-          .then(
-            function(response) {
-                $scope.message = messageService.get('msg.rnr.save.success');
-                $scope.error = "";
-            },
-            function(response) {
-                $scope.error = messageService.get('msg.rnr.save.failure');
-                $scope.message = "";
-            }
-          );
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
+                $scope.requisition.$save().then(function(response) {
+                        $scope.message = messageService.get('msg.rnr.save.success');
+                        $scope.error = "";
+                    },
+                    function(response) {
+                        $scope.error = messageService.get('msg.rnr.save.failure');
+                        $scope.message = "";
+                    }
+                );
+            });
         };
 
         $scope.authorizeRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
                 $scope.requisition.$authorize().$promise.then(
                     function(response) {
-                        $scope.message = messageService.get('msg.rnr.submitted.success');
+                        $scope.message = messageService.get('msg.rnr.authorized.success');
                         $scope.error = "";
                         $scope.requisition = response;
                     }, function(response) {
@@ -69,22 +69,26 @@
             });
         };
 
-         $scope.authorizeEnabled = function() {
+        $scope.submitRnr = function() {
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation.deletion")).then(function() {
+                $scope.requisition.$submit().then(
+                    function(response) {
+                        $scope.message = messageService.get('msg.rnr.submitted.success');
+                        $scope.error = "";
+                    }, function(response) {
+                        $scope.error = messageService.get('error.requisition.not.submitted');
+                        $scope.message = "";
+                    }
+                );
+            });    
+        };
+
+        $scope.authorizeEnabled = function() {
             return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
 
-         $scope.isPossibleToDelete = function() {
+        $scope.isPossibleToDelete = function() {
             return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
-        };
-
-        $scope.submitRnr = function() {
-            $scope.requisition.$submit().then(
-                function(response) {
-                    $ngBootbox.alert(messageService.get('msg.rnr.submitted.success'));
-                }, function(response) {
-                    $ngBootbox.alert(messageService.get('error.requisition.not.submitted'));
-                }
-            );
         };
 
     }
