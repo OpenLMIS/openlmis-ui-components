@@ -91,5 +91,9 @@
             return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
+        $scope.isPossibleToSubmit = function() {
+            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("CREATE_REQUISITION");
+        };
+
     }
 })();

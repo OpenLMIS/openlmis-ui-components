@@ -6,12 +6,12 @@
         <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
                class="btn btn-primary primary-action"
                openlmis-message="button.submit" type="button"
-               ng-show="requisition.status == 'INITIATED'"/>
+               ng-show="isPossibleToSubmit()"/>
         <input id="authorizeRnrButton" type="button"
-              class="btn btn-primary primary-action"
-              openlmis-message="button.authorize"
-              ng-show="authorizeEnabled()"
-              ng-click="authorizeRnr()"/>
+               class="btn btn-primary primary-action"
+               openlmis-message="button.authorize"
+               ng-show="authorizeEnabled()"
+               ng-click="authorizeRnr()"/>
         <input id="deleteRnrButton" type="button"
                class="btn btn-primary primary-action"
                openlmis-message="button.delete"
