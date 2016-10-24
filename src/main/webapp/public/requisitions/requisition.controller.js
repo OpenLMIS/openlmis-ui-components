@@ -33,6 +33,19 @@
             });
         };
 
+        function saveWithCallback(callback) {
+            $scope.requisition.$save().then(callback, failedToSave);
+        }
+
+        function failedToSave(response) {
+            $scope.error = messageService.get('msg.rnr.save.failure');
+            $scope.message = "";
+        }
+
+        $scope.authorizeEnabled = function() {
+            return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+        };
+
         $scope.authorizeRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
                 saveWithCallback(function() {
@@ -65,6 +78,10 @@
             });
         };
 
+        $scope.isPossibleToSubmit = function() {
+            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("CREATE_REQUISITION");
+        };
+
         $scope.submitRnr = function() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
                 saveWithCallback(function() {
@@ -82,38 +99,23 @@
             });    
         };
 
-        $scope.authorizeEnabled = function() {
-            return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
-        };
-
-        $scope.isPossibleToSubmit = function() {
-            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("CREATE_REQUISITION");
-        };
-
-        function saveWithCallback(callback) {
-            $scope.requisition.$save().then(callback, failedToSave);
-        }
-
-        function failedToSave(response) {
-            $scope.error = messageService.get('msg.rnr.save.failure');
-            $scope.message = "";
-        }
-
         $scope.approveAndRejectEnabled = function() {
             return $scope.requisition.status === "AUTHORIZED" && AuthorizationService.hasPermission("APPROVE_REQUISITION");
         };
 
         $scope.approveRnr = function() {
              $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
-                $scope.requisition.$approve().then(
-                    function(response) {
-                        $scope.message = messageService.get('msg.rnr.approved.success');
-                        $scope.error = "";
-                    }, function(response) {
-                        $scope.error = messageService.get('msg.error.occurred');
-                        $scope.message = "";
-                    }
-                );
+                saveWithCallback(function() {
+                    $scope.requisition.$approve().then(
+                        function(response) {
+                            $scope.message = messageService.get('msg.rnr.approved.success');
+                            $scope.error = "";
+                        }, function(response) {
+                            $scope.error = messageService.get('msg.error.occurred');
+                            $scope.message = "";
+                        }
+                    );
+                });
              });
         };
 
