@@ -49,7 +49,6 @@
                     AuthorizationService.getDetailedUser().$promise.then(function(response) {
                         deferred.resolve(response.homeFacility);
                     }, function(response) {
-                        alert('Cannot find user info');
                         deferred.reject();
                     });
 
