@@ -1,6 +1,6 @@
 {
   "name": "openlmis",
-  "version": "0.0.1",
+  "version": "3.0.0-beta-SNAPSHOT",
   "ignore": [
     "**/.*",
     "node_modules",
