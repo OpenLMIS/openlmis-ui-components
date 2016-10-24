@@ -29,7 +29,7 @@
       }
 
       function getPreviousLineItem() {
-        return scope.ngModel.requisitionLineItems[scope.$index - 1];
+        return scope.sortedLineItems[scope.$index - 1];
       }
     }
   }

@@ -4,9 +4,9 @@
 
   angular.module('openlmis.requisitions').factory('RequisitionFactory', requisitionFactory);
 
-  requisitionFactory.$inject = ['$resource', 'RequisitionURL'];
+  requisitionFactory.$inject = ['$resource', 'RequisitionURL', 'LineItemFactory'];
 
-  function requisitionFactory($resource, RequisitionURL) {
+  function requisitionFactory($resource, RequisitionURL, LineItemFactory) {
 
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getTemplateByProgram': {
@@ -68,9 +68,11 @@
     }
 
     function save() {
-      return resource.save(
+      var requisition = resource.save(
         {id: this.id},
-        this).$promise;
+        this);
+      addRequisitionMethods(requisition);
+      return requisition.$promise;
     }
 
     function submit() {
@@ -101,6 +103,7 @@
         requisition.$save = save;
         requisition.$submit = submit;
         requisition.$remove = remove;
+        angular.forEach(requisition.requisitionLineItems, LineItemFactory.extenLineItem);
       });
     }
   }

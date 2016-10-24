@@ -36,7 +36,7 @@
     }
 
     function valid() {
-      valid = true;
+      var valid = true;
 
       angular.forEach(this.$errors(), function(error) {
         valid = valid && !error;

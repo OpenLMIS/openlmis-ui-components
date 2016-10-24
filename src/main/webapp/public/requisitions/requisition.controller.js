@@ -12,9 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox', '$window'];
+    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox', '$window'];
 
-    function RequisitionCtrl($scope, requisition, AuthorizationService, messageService, $ngBootbox, $window) {
+    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, $window) {
 
 
         $scope.requisition = requisition;
@@ -30,6 +30,7 @@
                 $scope.requisition.$save().then(function(response) {
                         $scope.message = messageService.get('msg.rnr.save.success');
                         $scope.error = "";
+                        $state.reload();
                     },
                     function(response) {
                         $scope.error = messageService.get('msg.rnr.save.failure');
@@ -45,7 +46,7 @@
                     function(response) {
                         $scope.message = messageService.get('msg.rnr.authorized.success');
                         $scope.error = "";
-                        $scope.requisition = response;
+                        $state.reload();
                     }, function(response) {
                         $scope.error = messageService.get('msg.rnr.authorized.failure');
                         $scope.message = "";
@@ -60,7 +61,7 @@
                     function(response) {
                         $scope.message = messageService.get('msg.rnr.deletion.success');
                         $scope.error = "";
-                        $window.location.href = "/public/index.html#/requisitions/initialize";
+                        $state.go('requisitions.initRnr');
                     }, function(response) {
                         $scope.error = messageService.get('msg.rnr.deletion.failure');
                         $scope.message = "";
@@ -75,6 +76,7 @@
                     function(response) {
                         $scope.message = messageService.get('msg.rnr.submitted.success');
                         $scope.error = "";
+                        $state.reload();
                     }, function(response) {
                         $scope.error = messageService.get('error.requisition.not.submitted');
                         $scope.message = "";

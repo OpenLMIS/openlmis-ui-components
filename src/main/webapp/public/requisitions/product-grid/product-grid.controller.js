@@ -6,13 +6,9 @@
     .module('openlmis.requisitions')
     .controller('ProductGridCtrl', productGridCtrl);
 
-  productGridCtrl.$inject = ['$scope', 'LineItemFactory'];
+  productGridCtrl.$inject = ['$scope'];
 
-  function productGridCtrl($scope, LineItemFactory) {
-
-    angular.forEach($scope.ngModel.requisitionLineItems, function(lineItem) {
-      LineItemFactory.extendLineItem(lineItem);
-    });
+  function productGridCtrl($scope) {
 
     function displayColumn(name) {
       if (name != 'remarks' && name != 'approvedQuantity') {
