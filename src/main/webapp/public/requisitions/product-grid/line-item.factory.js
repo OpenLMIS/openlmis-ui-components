@@ -80,6 +80,7 @@
           error = error || validation(value, lineItem);
         });
         this.$errors()[propertyName] = error;
+        this[propertyName] = null;
 
         return value;
       }
