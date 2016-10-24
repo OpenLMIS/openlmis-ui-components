@@ -99,5 +99,37 @@
             $scope.message = "";
         }
 
+        $scope.approveAndRejectEnabled = function() {
+            return $scope.requisition.status === "AUTHORIZED" && AuthorizationService.hasPermission("APPROVE_REQUISITION");
+        };
+
+        $scope.approveRnr = function() {
+             $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
+                $scope.requisition.$approve().then(
+                    function(response) {
+                        $scope.message = messageService.get('msg.rnr.approved.success');
+                        $scope.error = "";
+                    }, function(response) {
+                        $scope.error = messageService.get('msg.error.occurred');
+                        $scope.message = "";
+                    }
+                );
+             });
+        };
+
+        $scope.rejectRnr = function() {
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
+                $scope.requisition.$reject().then(
+                    function(response) {
+                        $scope.message = messageService.get('label.alertType.RNR_REJECTED');
+                        $scope.error = "";
+                    }, function(response) {
+                        $scope.error = messageService.get('msg.error.occurred');
+                        $scope.message = "";
+                    }
+                );
+            });
+        };
+
     }
 })();

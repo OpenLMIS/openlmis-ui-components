@@ -35,6 +35,14 @@
         url: RequisitionURL('/api/requisitions/search'),
         method: 'GET',
         isArray: true
+      },
+      'approve': {
+        url: RequisitionURL('/api/requisitions/:id/approve'),
+        method: 'POST'
+      },
+      'reject': {
+        url: RequisitionURL('/api/requisitions/:id/reject'),
+        method: 'PUT'
       }
     });
 
@@ -81,6 +89,18 @@
       }, this).$promise;
     }
 
+    function approve() {
+      return resource.approve(
+        {id: this.id},
+        this).$promise;
+    }
+
+    function reject() {
+      return resource.reject(
+        {id: this.id},
+        this).$promise;
+    }
+
     function initiate(facility, program, suggestedPeriod, emergency) {
       return resource.initiate({
         facility: facility,
@@ -107,6 +127,8 @@
       requisition.$save = save;
       requisition.$submit = submit;
       requisition.$remove = remove;
+      requisition.$approve = approve;
+      requisition.$reject = reject;
       angular.forEach(requisition.requisitionLineItems, LineItemFactory.extendLineItem);
     }
   }
