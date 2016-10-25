@@ -21,17 +21,20 @@
             templateUrl: 'requisitions/requisition.html',
             resolve: {
                 requisition: function ($location, $q, $stateParams, RequisitionFactory) {
-                  var deferred = $q.defer();
+                    var deferred = $q.defer();
 
-                  RequisitionFactory.get($stateParams.rnr).$promise.then(function(response) {
-                      deferred.resolve(response);
+                    RequisitionFactory.get($stateParams.rnr).$promise.then(function(response) {
+                        deferred.resolve(response);
                     }, function(response) {
-                      deferred.reject();
-                      return $location.url('/404');
-                  });
+                        deferred.reject();
+                        return $location.url('/404');
+                    });
 
-                  return deferred.promise;
+                    return deferred.promise;
                 }
+            },
+            params: {
+                message: undefined
             }
         });
 

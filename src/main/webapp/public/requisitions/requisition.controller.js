@@ -12,12 +12,13 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
+    RequisitionCtrl.$inject = ['$scope', '$state', '$stateParams','requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
 
-    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox) {
+    function RequisitionCtrl($scope, $state, $stateParams, requisition, AuthorizationService, messageService, $ngBootbox) {
 
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
+        $scope.message = getMessage();
         $scope.saveRnr = saveRnr;
         $scope.submitRnr = submitRnr;
         $scope.authorizeRnr = authorizeRnr;
@@ -32,9 +33,9 @@
 
         function saveRnr() {
             saveWithCallback(function(response) {
-                $scope.message = messageService.get('msg.rnr.save.success');
-                $scope.error = "";
-                $state.reload();
+                $state.go('.', {
+                    message: messageService.get('msg.rnr.save.success')
+                });
             });
         };
 
@@ -42,9 +43,9 @@
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
                 saveWithCallback(function() {
                     $scope.requisition.$submit().then(function(response) {
-                        $scope.message = messageService.get('msg.rnr.submitted.success');
-                        $scope.error = "";
-                        $state.reload();
+                        $state.go('.', {
+                            message: messageService.get('msg.rnr.submitted.success')
+                        });
                     }, showErrors);
                 });
             });    
@@ -54,9 +55,9 @@
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
                 saveWithCallback(function() {
                     $scope.requisition.$authorize().then(function(response) {
-                        $scope.message = messageService.get('msg.rnr.authorized.success');
-                        $scope.error = "";
-                        $state.reload();
+                        $state.go('.', {
+                            message: messageService.get('msg.rnr.authorized.success')
+                        });
                     }, showErrors);
                 });
             });
@@ -137,6 +138,10 @@
         function showErrors() {
             $scope.requisition.$validate();
         } 
+
+        function getMessage() {
+            return $stateParams.message;
+        }
 
     }
 })();
