@@ -83,6 +83,7 @@
                     $scope.requisition.$approve().then(function(response) {
                         $scope.message = messageService.get('msg.rnr.approved.success');
                         $scope.error = "";
+                        $state.go('requisitions.approvalList');
                     }, showErrors);
                 });
              });
@@ -94,6 +95,7 @@
                     function(response) {
                         $scope.message = messageService.get('label.alertType.RNR_REJECTED');
                         $scope.error = "";
+                        $state.go('requisitions.approvalList');
                     }, function(response) {
                         $scope.error = messageService.get('msg.error.occurred');
                         $scope.message = "";
