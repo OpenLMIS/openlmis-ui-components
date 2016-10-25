@@ -58,6 +58,7 @@
             }
         } else {
             $scope.facilityDisplayName = messageService.get("label.none.assigned");
+            $scope.error = messageService.get("error.rnr.user.facility.not.assigned");
         }
 
         $scope.programOptionMessage = function () {

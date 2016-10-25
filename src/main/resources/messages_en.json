@@ -108,6 +108,7 @@
   "error.rnr.required.fields.missing": "Please complete the highlighted fields on the R&R form before submitting",
   "error.rnr.authorization": "R&R already authorized",
   "error.rnr.submission": "R&R already submitted",
+  "error.rnr.user.facility.not.assigned": "Cannot display period, because user has no home facility assigned",
   "rnr.already.approved": "R&R already approved",
   "error.requisition.not.initiated": "Requisition not initiated yet",
   "error.requisition.not.submitted": "Requisition not submitted yet",
