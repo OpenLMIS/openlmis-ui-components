@@ -39,21 +39,25 @@
 
         function submitRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
-                save().then(function() {
-                    $scope.requisition.$submit().then(function(response) {
-                        reloadWithMessage(messageService.get('msg.rnr.submitted.success'));
-                    }, showErrors);
-                });
+                if (requisition.$isValid()) {
+                    save().then(function() {
+                        $scope.requisition.$submit().then(function(response) {
+                            reloadWithMessage(messageService.get('msg.rnr.submitted.success'));
+                        }, showErrors);
+                    });
+                }
             });    
         };
 
         function authorizeRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
-                save().then(function() {
-                    $scope.requisition.$authorize().then(function(response) {
-                        reloadWithMessage(messageService.get('msg.rnr.authorized.success'));
-                    }, showErrors);
-                });
+                if (requisition.$isValid()) {
+                    save().then(function() {
+                        $scope.requisition.$authorize().then(function(response) {
+                            reloadWithMessage(messageService.get('msg.rnr.authorized.success'));
+                        }, showErrors);
+                    });
+                }
             });
         };
 
@@ -72,11 +76,13 @@
 
         function approveRnr() {
              $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
-                save().then(function() {
-                    $scope.requisition.$approve().then(function(response) {
-                        $state.go('requisitions.approvalList');
-                    }, showErrors);
-                });
+                if (requisition.$isValid()) {
+                    save().then(function() {
+                        $scope.requisition.$approve().then(function(response) {
+                            $state.go('requisitions.approvalList');
+                        }, showErrors);
+                    });
+                }
              });
         };
 
@@ -99,19 +105,19 @@
         };
 
         function displayAuthorize() {
-            return $scope.requisition.status === "SUBMITTED" && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+            return $scope.requisition.$isSubmitted() && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
 
         function displaySubmit() {
-            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("CREATE_REQUISITION");
+            return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("CREATE_REQUISITION");
         };
 
         function displayApproveAndReject() {
-            return $scope.requisition.status === "AUTHORIZED" && AuthorizationService.hasPermission("APPROVE_REQUISITION");
+            return $scope.requisition.$isAuthorized() && AuthorizationService.hasPermission("APPROVE_REQUISITION");
         };
 
         function displayDelete() {
-            return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
+            return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
         function save() {

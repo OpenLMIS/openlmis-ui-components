@@ -70,6 +70,7 @@
   "error.number.only": "Numbers only",
   "error.invalid.date.format": "Use date format : MM/YYYY",
   "error.reason.required": "Please enter a reason",
+  "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
   "label.category": "Category",
   "label.product.code": "Product code / name:",
   "label.no.products": "No products.",

@@ -1,0 +1,5 @@
+<div>
+	<div ng-if="isReadOnly">{{lineItem.$getColumnValue(column.name, column.source === 'CALCULATED')}}</div>
+	<input ng-if="!isReadOnly" type="text" ng-model="lineItem[column.name]" ng-change="validate()" ng-blur="validate()">
+	<div class="cell-error-message">{{lineItem.$getColumnError(column.name)}}</div>
+</div> 

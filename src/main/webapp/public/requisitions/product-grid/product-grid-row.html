@@ -1,7 +1,7 @@
 <tr ng-if="productCategory">
   <td class="productCategory" colspan="{{columns.length + 2}}">{{productCategory}}</td>
 </tr>
-<tr ng-class="{'invalid-row': !lineItem.$valid()}">
+<tr ng-class="{'invalid-row': !lineItem.$isValid()}">
   <td>{{lineItem.orderableProduct.productCode}}</td>
   <td>{{lineItem.orderableProduct.name}}</td>
   <td ng-repeat="column in columns | orderBy : 'displayOrder'" product-grid-cell></td>

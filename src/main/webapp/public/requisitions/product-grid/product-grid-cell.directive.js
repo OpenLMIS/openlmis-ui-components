@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .directive('productGridCell', productGridCell);
 
-  productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'LineItemFactory'];
+  productGridCell.$inject = ['$templateRequest', '$compile', 'Column', 'Source', 'Type'];
 
-  function productGridCell($q, $templateRequest, $compile, productLineItem) {
+  function productGridCell($templateRequest, $compile, Column, Source, Type) {
     var directive = {
       restrict: 'A',
       require: '^productGrid',
@@ -17,36 +17,41 @@
     return directive;
 
     function link(scope, element) {
-      var editable = isEditable(scope);
-      $q.all([
-        $templateRequest('requisitions/product-grid/' + (editable ? 'user-input' : 'read-only') + '-cell.html'),
-        $templateRequest('requisitions/product-grid/product-grid-cell-error.html')
-      ]).then(
-        function(templates) {
-          var input = angular.element(templates[0]);
-          if (scope.column.columnDefinition.columnType === 'NUMERIC' && scope.column.source === 'USER_INPUT' && editable) {
-            input.attr('positive-integer', '');
+      var requisition = scope.ngModel,
+          column = scope.column;
+
+      scope.isReadOnly = isReadOnly();
+      scope.validate = validate;
+
+      $templateRequest('requisitions/product-grid/product-grid-cell.html').then(
+        function(template) {
+          var cell = angular.element(template);
+          if (column.type === Type.NUMERIC && !scope.isReadOnly) {
+            cell.find('input').attr('positive-integer', '');
           }
-          element.append($compile(input)(scope));
-          element.append($compile(templates[1])(scope));
+          element.append($compile(cell)(scope));
         }
       );
-    }
 
-    function isEditable(scope) {
-      var editable = scope.column.source === 'USER_INPUT' ? true : false;
-      switch (scope.ngModel.status) {
-        case 'AUTHORIZED':
-          if (scope.column.name === 'approvedQuantity' || scope.column.name === 'remarks') {
-            editable = true;
-          } else {
-            editable = false;
+      angular.forEach(column.dependencies, function(dependency) {
+        scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
+          if (newValue !== oldValue) {
+            validate();
           }
-          break;
-        case 'APPROVED':
-          editable = false;
+        });
+      });
+
+      function validate() {
+        scope.lineItem.$isColumnValid(column);
       }
-      return editable;
+
+      function isReadOnly() {
+        if (requisition.$isApproved()) return true;
+        if (requisition.$isAuthorized()) {
+          return [Column.APPROVED_QUANTITY, Column.REMARKS].indexOf(column.name) === -1;
+        }
+        return column.source !== Source.USER_INPUT;
+      }
     }
   }
 

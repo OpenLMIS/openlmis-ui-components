@@ -6,12 +6,14 @@
     .module('openlmis.requisitions')
     .factory('CalculationFactory', calculationFactory);
 
-  function calculationFactory() {
-    var A = 'beginningBalance',
-        B = 'totalReceivedQuantity',
-        C = 'totalConsumedQuantity',
-        D = 'totalLossesAndAdjustments',
-        E = 'stockOnHand';
+  calculationFactory.$inject = ['Column'];
+
+  function calculationFactory(Column) {
+    var A = Column.BEGINNING_BALANCE,
+        B = Column.TOTAL_RECEIVED_QUANTITY,
+        C = Column.TOTAL_CONSUMED_QUANTITY,
+        D = Column.TOTAL_LOSSES_AND_ADJUSTMENTS,
+        E = Column.STOCK_ON_HAND;
 
     var factory = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,

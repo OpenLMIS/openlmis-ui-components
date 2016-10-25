@@ -12,7 +12,8 @@
     var factory = {
       nonNegative: nonNegative,
       nonEmpty: nonEmpty,
-      nonEmptyIfPropertyIsSet: nonEmptyIfPropertyIsSet
+      nonEmptyIfPropertyIsSet: nonEmptyIfPropertyIsSet,
+      validCalculation: validCalculation
     };
     return factory;
 
@@ -34,6 +35,14 @@
           return nonEmpty(value);
         }
       };
+    }
+
+    function validCalculation(calculation) {
+      return function(value, lineItem) {
+        if (value !== calculation(lineItem)) {
+          return messageService.get('error.wrongCalculation');
+        }
+      }
     }
   }
 

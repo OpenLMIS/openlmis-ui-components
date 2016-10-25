@@ -4,21 +4,21 @@
 
   angular.module('openlmis.requisitions').factory('LineItemFactory', lineItemFactory);
 
-  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory'];
+  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column'];
 
-  function lineItemFactory(ValidationFactory, CalculationFactory) {
-
-    var nonMandatoryField = [
-      'skipped',
-      'remarks',
-      'totalLossesAndAdjustments',
-      'requestedQuantityExplanation'
-    ];
+  function lineItemFactory(ValidationFactory, CalculationFactory, Column) {
 
     var validationsToPass = {
-      stockOnHand: [ValidationFactory.nonNegative],
-      totalConsumedQuantity: [ValidationFactory.nonNegative],
-      requestedQuantityExplanation: [ValidationFactory.nonEmptyIfPropertyIsSet('requestedQuantity')]
+      stockOnHand: [
+        ValidationFactory.nonNegative,
+        ValidationFactory.validCalculation(CalculationFactory.stockOnHand)
+      ],
+      totalConsumedQuantity: [
+        ValidationFactory.nonNegative
+      ],
+      requestedQuantityExplanation: [
+        ValidationFactory.nonEmptyIfPropertyIsSet(Column.REQUESTED_QUANTITY)
+      ]
     };
 
     var factory = {
@@ -27,47 +27,53 @@
     return factory;
 
     function extendLineItem(lineItem) {
-      lineItem.$valid = valid;
+      lineItem.$isValid = isValid;
       lineItem.$errors = errors();
-      lineItem.$getPropertyError = getPropertyError;
-      lineItem.$validateProperty = validateProperty;
-      lineItem.$validateProperties = validateProperties;
-      lineItem.$getValue = getValue;
+      lineItem.$getColumnError = getColumnError;
+      lineItem.$isColumnValid = isColumnValid;
+      lineItem.$areColumnsValid = areColumnsValid;
+      lineItem.$getColumnValue = getColumnValue;
     }
 
-    function valid() {
-      var valid = true;
+    function isValid() {
+      var isValid = true;
 
       angular.forEach(this.$errors(), function(error) {
-        valid = valid && !error;
+        isValid = isValid && !error;
       });
 
-      return valid;
+      return isValid;
     }
 
-    function validateProperty(name) {
-      var error = undefined,
-          lineItem = this;
+    function isColumnValid(column) {
+      var lineItem = this,
+          error;
 
-      if (nonMandatoryField.indexOf(name) === -1) {
-        error = error || ValidationFactory.nonEmpty(lineItem[name], lineItem);
+      if (column.required) {
+        error = error || ValidationFactory.nonEmpty(lineItem[column.name]);
       }
-      angular.forEach(validationsToPass[name], function(validation) {
-        error = error || validation(lineItem[name], lineItem);
+
+      angular.forEach(validationsToPass[column.name], function(validation) {
+        error = error || validation(lineItem[column.name], lineItem);
       });
 
-      return this.$errors()[name] = error;
+      this.$errors()[column.name] = error;
+      return !error;
     }
 
-    function validateProperties(properties) {
-      var lineItem = this;
-      angular.forEach(properties, function(property) {
-        lineItem.$validateProperty(property);
+    function areColumnsValid(columns) {
+      var lineItem = this,
+          areValid = true;
+
+      angular.forEach(columns, function(column) {
+        areValid = lineItem.$isColumnValid(column) && areValid;
       })
+
+      return areValid;
     }
 
-    function getPropertyError(propertyName) {
-      return this.$errors()[propertyName];
+    function getColumnError(name) {
+      return this.$errors()[name];
     }
 
     function errors() {
@@ -77,21 +83,21 @@
       }
     }
 
-    function getValue(propertyName, calculate) {
+    function getColumnValue(name, calculate) {
       if (calculate) {
-        var value = CalculationFactory[propertyName](this),
+        var value = CalculationFactory[name](this),
             lineItem = this,
             error;
         
-        angular.forEach(validationsToPass[propertyName], function(validation) {
+        angular.forEach(validationsToPass[name], function(validation) {
           error = error || validation(value, lineItem);
         });
-        this.$errors()[propertyName] = error;
-        this[propertyName] = null;
+        this.$errors()[name] = error;
+        this[name] = null;
 
         return value;
       }
-      return this[propertyName];
+      return this[name];
     }
   };
 
