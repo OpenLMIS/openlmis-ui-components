@@ -32,16 +32,20 @@
         $scope.displayApproveAndReject = displayApproveAndReject;
 
         function saveRnr() {
-            save().then(function(response) {
-                reloadWithMessage(messageService.get('msg.rnr.save.success'));
+            saveWithCallback(function(response) {
+                $state.go('.', {
+                    message: messageService.get('msg.rnr.save.success')
+                });
             });
         };
 
         function submitRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
-                save().then(function() {
+                saveWithCallback(function() {
                     $scope.requisition.$submit().then(function(response) {
-                        reloadWithMessage(messageService.get('msg.rnr.submitted.success'));
+                        $state.go('.', {
+                            message: messageService.get('msg.rnr.submitted.success')
+                        });
                     }, showErrors);
                 });
             });    
@@ -49,9 +53,11 @@
 
         function authorizeRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
-                save().then(function() {
+                saveWithCallback(function() {
                     $scope.requisition.$authorize().then(function(response) {
-                        reloadWithMessage(messageService.get('msg.rnr.authorized.success'));
+                        $state.go('.', {
+                            message: messageService.get('msg.rnr.authorized.success')
+                        });
                     }, showErrors);
                 });
             });
@@ -61,6 +67,8 @@
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.deletion")).then(function() {
                 $scope.requisition.$remove().then(
                     function(response) {
+                        $scope.message = messageService.get('msg.rnr.deletion.success');
+                        $scope.error = "";
                         $state.go('requisitions.initRnr');
                     }, function(response) {
                         $scope.error = messageService.get('msg.rnr.deletion.failure');
@@ -72,8 +80,10 @@
 
         function approveRnr() {
              $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
-                save().then(function() {
+                saveWithCallback(function() {
                     $scope.requisition.$approve().then(function(response) {
+                        $scope.message = messageService.get('msg.rnr.approved.success');
+                        $scope.error = "";
                         $state.go('requisitions.approvalList');
                     }, showErrors);
                 });
@@ -84,6 +94,8 @@
             $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
                 $scope.requisition.$reject().then(
                     function(response) {
+                        $scope.message = messageService.get('label.alertType.RNR_REJECTED');
+                        $scope.error = "";
                         $state.go('requisitions.approvalList');
                     }, function(response) {
                         $scope.error = messageService.get('msg.error.occurred');
@@ -114,10 +126,8 @@
             return $scope.requisition.status === "INITIATED" && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
-        function save() {
-            var promise = $scope.requisition.$save();
-            promise.catch(failedToSave);
-            return promise;
+        function saveWithCallback(callback) {
+            $scope.requisition.$save().then(callback, failedToSave);
         }
 
         function failedToSave(response) {
@@ -131,12 +141,6 @@
 
         function getMessage() {
             return $stateParams.message;
-        }
-
-        function reloadWithMessage(message) {
-            $state.go('.', {
-                message: message
-            });
         }
 
     }
