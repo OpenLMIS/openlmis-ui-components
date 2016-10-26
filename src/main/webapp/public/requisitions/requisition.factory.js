@@ -131,19 +131,19 @@
     function submit() {
       return resource.submit({
         id: this.id
-      }, this).$promise;
+      }, {}).$promise;
     }
 
     function approve() {
-      return resource.approve(
-        {id: this.id},
-        this).$promise;
+      return resource.approve({
+        id: this.id
+      }, {}).$promise;
     }
 
     function reject() {
-      return resource.reject(
-        {id: this.id},
-        this).$promise;
+      return resource.reject({
+        id: this.id
+      }, {}).$promise;
     }
 
     function isInitiated() {
