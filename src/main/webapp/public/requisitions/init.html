@@ -35,7 +35,7 @@
       </label>
     </fieldset>
   </form>
-  <div ng-if="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
+  <div ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
     ui-grid="periodGridOptions"
     class="grid grid-init-rnr"
     id="periodGrid"></div>
