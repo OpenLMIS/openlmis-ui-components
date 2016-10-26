@@ -4,9 +4,9 @@
 
   angular.module('openlmis.requisitions').factory('RequisitionFactory', requisitionFactory);
 
-  requisitionFactory.$inject = ['$q', '$resource', 'RequisitionURL', 'LineItemFactory', 'ColumnTemplateFactory', 'Status'];
+  requisitionFactory.$inject = ['$q', '$resource', 'RequisitionURL', 'LineItemFactory', 'ColumnTemplateFactory', 'Status', 'Source'];
 
-  function requisitionFactory($q, $resource, RequisitionURL, LineItemFactory, ColumnTemplateFactory, Status) {
+  function requisitionFactory($q, $resource, RequisitionURL, LineItemFactory, ColumnTemplateFactory, Status, Source) {
 
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'authorize': {
@@ -122,6 +122,7 @@
     }
 
     function save() {
+      nullCalculatedFields(this, this.$columnTemplates());
       return resource.save({
         id: this.id
       },this).$promise;
@@ -170,6 +171,16 @@
       });
 
       return isValid;
+    }
+
+    function nullCalculatedFields(requisition, columnTemplates) {
+      angular.forEach(requisition.requisitionLineItems, function(lineItem) {
+        angular.forEach(columnTemplates, function(template) {
+          if (template.source === Source.CALCULATED) {
+            lineItem[template.name] = null;
+          }
+        })
+      });
     }
   }
 

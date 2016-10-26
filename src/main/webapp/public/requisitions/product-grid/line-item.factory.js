@@ -4,9 +4,9 @@
 
   angular.module('openlmis.requisitions').factory('LineItemFactory', lineItemFactory);
 
-  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column'];
+  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
 
-  function lineItemFactory(ValidationFactory, CalculationFactory, Column) {
+  function lineItemFactory(ValidationFactory, CalculationFactory, Column, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -83,19 +83,11 @@
       }
     }
 
-    function getColumnValue(name, calculate) {
-      if (calculate) {
-        var value = CalculationFactory[name](this),
-            lineItem = this,
-            error;
-        
-        angular.forEach(validationsToPass[name], function(validation) {
-          error = error || validation(value, lineItem);
-        });
-        this.$errors()[name] = error;
-        this[name] = null;
-
-        return value;
+    function getColumnValue(column) {
+      var name = column.name;
+      if (column.source === Source.CALCULATED) {
+        this[name] = CalculationFactory[name](this);
+        this.$isColumnValid(column);
       }
       return this[name];
     }
