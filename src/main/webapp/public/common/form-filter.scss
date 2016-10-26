@@ -1,0 +1,44 @@
+
+
+.form-filter{
+	display: flex;
+	.form-group{
+		flex: 1 0 auto;
+		margin-left: 1em;
+		&:first-child{
+			margin-left: 0em;
+		}
+	}
+	label, legend{
+		display: block;
+		float: none;
+		font-weight: bold;
+		font-size: $font-size-small;
+		line-height: 1em;
+		border-width: 0px;
+		padding: 0.25em;
+		margin: 0.25em 0em;
+	}
+	label.checkbox,
+	label.radio{
+		font-weight: normal;
+		line-height: 1em;
+		font-size: $font-size-base;
+		padding-left: 25px;
+		margin-left: 0px;
+		input[type="checkbox"],
+		input[type="radio"]{
+			display: block;
+			margin: 0px;
+			top: 0.25em;
+			left: 0.25em;
+		}
+		&::after{
+			@include clearfix();
+		}
+	}
+	input[type="text"],
+	select {
+		@extend .form-control;
+	}
+}
