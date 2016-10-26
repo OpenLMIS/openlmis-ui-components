@@ -52,7 +52,7 @@
     function toColumnTemplates(requisitionTemplate, requisition) {
       var columnTemplates = [];
       angular.forEach(requisitionTemplate.columnsMap, function(column) {
-        if (displayColumn(column.name, requisition.status)) {
+        if (displayColumn(column, requisition.status)) {
           columnTemplates.push(toColumnTemplate(column, requisition));
         }
       });
@@ -74,9 +74,12 @@
       };
     }
 
-    function displayColumn(name, status) {
-      return [Column.APPROVED_QUANTITY, Column.REMARKS].indexOf(name) === -1 ||
-             [Status.AUTHORIZED, Status.APPROVED].indexOf(status) > -1;
+    function displayColumn(column, status) {
+      if (column.isDisplayed) {
+        return [Column.APPROVED_QUANTITY, Column.REMARKS].indexOf(column.name) === -1 ||
+               [Status.AUTHORIZED, Status.APPROVED].indexOf(status) > -1;
+      }
+      return false;
     }
   }
 

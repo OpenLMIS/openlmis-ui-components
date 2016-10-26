@@ -1,13 +1,14 @@
 (function() {
-  
-  'use strict';
+	
+	'use strict';
 
-  angular.module('openlmis.requisitions').factory('RequisitionFactory', requisitionFactory);
+	angular
+		.module('openlmis.requisitions')
+		.factory('requisition', requisition);
 
-  requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'LineItemFactory', 'ColumnTemplateFactory', 'Status', 'Source'];
+  requisition.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'ColumnTemplateFactory', 'lineItem', 'Status', 'Source', 'Column'];
 
-  function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, LineItemFactory, ColumnTemplateFactory, Status, Source) {
-
+  function requisition($q, $resource, OpenlmisURL, RequisitionURL, ColumnTemplateFactory, lineItem, Status, Source, Column) {
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getStockAdjustmentReasonsByProgram': {
         url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
@@ -18,24 +19,12 @@
         method: 'POST'
       },
       'save': {
-        method: 'PUT'
+        method: 'PUT',
+        transformRequest: transformRequisition
       },
       'submit': {
         url: RequisitionURL('/api/requisitions/:id/submit'),
         method: 'POST'
-      },
-      'initiate': {
-        url: RequisitionURL('/api/requisitions/initiate'),
-        method: 'POST'
-      },
-      'remove': {
-        url: RequisitionURL('/api/requisitions/:id'),
-        method: 'DELETE'
-      },
-      'search': {
-        url: RequisitionURL('/api/requisitions/search'),
-        method: 'GET',
-        isArray: true
       },
       'approve': {
         url: RequisitionURL('/api/requisitions/:id/approve'),
@@ -47,42 +36,9 @@
       }
     });
 
-    var service = {
-      get: get,
-      initiate: initiate,
-      search: search
-    };
-    return service;
+    return extendRequisition;
 
-    function get(id) {
-      var requisition = resource.get({id: id});
-      requisition.$promise.then(addRequisitionMethods);
-      return requisition;
-    }
-
-    function initiate(facility, program, suggestedPeriod, emergency) {
-      return resource.initiate({
-        facility: facility,
-        program: program,
-        suggestedPeriod: suggestedPeriod,
-        emergency: emergency
-      }, {}).$promise;
-    }
-
-    function search(programId, facilityId) {
-      return resource.search({
-        program: programId, 
-        facility: facilityId
-      }).$promise;
-    }
-
-    function getStockAdjustmentReasons() {
-      return resource.getStockAdjustmentReasonsByProgram({
-        program: this.program.id
-      }).$promise;
-    }
-
-    function addRequisitionMethods(requisition) {
+    function extendRequisition(requisition) {
       requisition.$getColumnTemplates = getColumnTemplates;
       requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
       requisition.$columnTemplates = columnTemplates();
@@ -97,7 +53,8 @@
       requisition.$isSubmitted = isSubmitted;
       requisition.$isApproved = isApproved;
       requisition.$isAuthorized = isAuthorized;
-      angular.forEach(requisition.requisitionLineItems, LineItemFactory.extendLineItem);
+      angular.forEach(requisition.requisitionLineItems, lineItem);
+      return requisition;
     }
 
     function getColumnTemplates() {
@@ -111,6 +68,12 @@
       });
 
       return deferred.promise;
+    }
+
+    function getStockAdjustmentReasons() {
+      return resource.getStockAdjustmentReasonsByProgram({
+        program: this.program.id
+      }).$promise;
     }
 
     function columnTemplates() {
@@ -133,7 +96,6 @@
     }
 
     function save() {
-      nullCalculatedFields(this, this.$columnTemplates());
       return resource.save({
         id: this.id
       },this).$promise;
@@ -184,14 +146,35 @@
       return isValid;
     }
 
-    function nullCalculatedFields(requisition, columnTemplates) {
+    function transformRequisition(requisition) {
+      var fieldsToNull = getFieldsToNull(requisition.$columnTemplates());
       angular.forEach(requisition.requisitionLineItems, function(lineItem) {
-        angular.forEach(columnTemplates, function(template) {
-          if (template.source === Source.CALCULATED) {
-            lineItem[template.name] = null;
-          }
-        })
+        transformLineItem(lineItem, fieldsToNull);
+      })
+      return angular.toJson(requisition);
+    }
+
+    function transformLineItem(lineItem, fieldsToNull) {
+      angular.forEach(fieldsToNull, function(fieldToNull) {
+        lineItem[fieldToNull] = null;
       });
+    }
+
+    function getFieldsToNull(columnTemplates) {
+      var fieldsToNull = [];
+
+      angular.forEach(Column, function(column) {
+        fieldsToNull.push(column);
+      });
+
+      angular.forEach(columnTemplates, function(column) {
+        var index = fieldsToNull.indexOf(column.name);
+        if (index > -1 && column.source !== Source.CALCULATED) {
+          fieldsToNull.splice(index, 1);
+        }
+      });
+
+      return fieldsToNull;
     }
   }
 

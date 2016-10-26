@@ -43,7 +43,7 @@
                     save().then(function() {
                         $scope.requisition.$submit().then(function(response) {
                             reloadWithMessage(messageService.get('msg.rnr.submitted.success'));
-                        }, showErrors);
+                        });
                     });
                 }
             });    
@@ -55,7 +55,7 @@
                     save().then(function() {
                         $scope.requisition.$authorize().then(function(response) {
                             reloadWithMessage(messageService.get('msg.rnr.authorized.success'));
-                        }, showErrors);
+                        });
                     });
                 }
             });
@@ -80,7 +80,7 @@
                     save().then(function() {
                         $scope.requisition.$approve().then(function(response) {
                             $state.go('requisitions.approvalList');
-                        }, showErrors);
+                        });
                     });
                 }
              });
@@ -130,10 +130,6 @@
             $scope.error = messageService.get('msg.rnr.save.failure');
             $scope.message = "";
         }
-
-        function showErrors() {
-            $scope.requisition.$validate();
-        } 
 
         function getMessage() {
             return $stateParams.message;

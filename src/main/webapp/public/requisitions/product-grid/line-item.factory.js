@@ -2,11 +2,13 @@
   
   'use strict';
 
-  angular.module('openlmis.requisitions').factory('LineItemFactory', lineItemFactory);
+  angular
+    .module('openlmis.requisitions')
+    .factory('lineItem', lineItem);
 
-  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
+  lineItem.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
 
-  function lineItemFactory(ValidationFactory, CalculationFactory, Column, Source) {
+  function lineItem(ValidationFactory, CalculationFactory, Column, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -21,10 +23,7 @@
       ]
     };
 
-    var factory = {
-      extendLineItem: extendLineItem
-    };
-    return factory;
+    return extendLineItem;
 
     function extendLineItem(lineItem) {
       lineItem.$isValid = isValid;
