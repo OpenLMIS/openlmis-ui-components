@@ -140,9 +140,7 @@
         }
 
         function reloadWithMessage(message) {
-            $state.go('.', {
-                message: message
-            });
+            $state.go('.', { message: message }, { reload: true });
         }
 
     }
