@@ -5,11 +5,11 @@
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.facilityType"></legend>
       <label class="radio">
-        label.myFacility
+        {{'label.myFacility'|message}}
         <input type="radio" ng-model="selectedType" ng-value="0" ng-change="loadFacilityData(selectedType);" />
       </label>
       <label class="radio is-disabled">
-        label.supervised.Facility
+        {{'label.supervised.Facility'|message}}
         <input type="radio" ng-model="selectedType" ng-value="1" ng-change="loadFacilityData(selectedType);" disabled />        
       </label>
     </fieldset>
