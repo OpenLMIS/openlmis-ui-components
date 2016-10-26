@@ -12,13 +12,14 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state', '$stateParams','requisition', 'AuthorizationService', 'messageService', '$ngBootbox'];
+    RequisitionCtrl.$inject = ['$scope', '$state', '$stateParams','requisition',
+    'AuthorizationService', 'messageService', '$ngBootbox', 'SuccessErrorModal'];
 
-    function RequisitionCtrl($scope, $state, $stateParams, requisition, AuthorizationService, messageService, $ngBootbox) {
+    function RequisitionCtrl($scope, $state, $stateParams, requisition, AuthorizationService,
+    messageService, $ngBootbox, SuccessErrorModal) {
 
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
-        $scope.message = getMessage();
         $scope.saveRnr = saveRnr;
         $scope.submitRnr = submitRnr;
         $scope.authorizeRnr = authorizeRnr;
@@ -31,9 +32,10 @@
         $scope.displayDelete = displayDelete;
         $scope.displayApproveAndReject = displayApproveAndReject;
 
+
         function saveRnr() {
             save().then(function(response) {
-                reloadWithMessage(messageService.get('msg.rnr.save.success'));
+               SuccessErrorModal.showSuccess(messageService.get("msg.rnr.save.success"));
             });
         };
 
@@ -42,7 +44,8 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$submit().then(function(response) {
-                            reloadWithMessage(messageService.get('msg.rnr.submitted.success'));
+                            SuccessErrorModal
+                            .showSuccess(messageService.get('msg.rnr.submitted.success'));
                         });
                     });
                 }
@@ -54,7 +57,8 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$authorize().then(function(response) {
-                            reloadWithMessage(messageService.get('msg.rnr.authorized.success'));
+                            SuccessErrorModal
+                            .showSuccess(messageService.get('msg.rnr.authorized.success'));
                         });
                     });
                 }
@@ -67,8 +71,7 @@
                     function(response) {
                         $state.go('requisitions.initRnr');
                     }, function(response) {
-                        $scope.error = messageService.get('msg.rnr.deletion.failure');
-                        $scope.message = "";
+                        SuccessErrorModal.showError(messageService.get('msg.rnr.deletion.failure'));
                     }
                 );
             });
@@ -92,8 +95,7 @@
                     function(response) {
                         $state.go('requisitions.approvalList');
                     }, function(response) {
-                        $scope.error = messageService.get('msg.error.occurred');
-                        $scope.message = "";
+                        SuccessErrorModal.showError(messageService.get('msg.error.occurred'));
                     }
                 );
             });
@@ -127,16 +129,7 @@
         }
 
         function failedToSave(response) {
-            $scope.error = messageService.get('msg.rnr.save.failure');
-            $scope.message = "";
-        }
-
-        function getMessage() {
-            return $stateParams.message;
-        }
-
-        function reloadWithMessage(message) {
-            $state.go('.', { message: message }, { reload: true });
+            SuccessErrorModal.showError(messageService.get('msg.rnr.save.failure'));
         }
 
     }
