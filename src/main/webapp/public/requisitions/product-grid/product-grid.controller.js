@@ -45,7 +45,8 @@
 
     $scope.removeAdjustment = function(adjustment) {
         var index = $scope.currentRnrLineItem.stockAdjustments.indexOf(adjustment);
-        $scope.currentRnrLineItem.stockAdjustments.splice(index, 1)
+        $scope.currentRnrLineItem.stockAdjustments.splice(index, 1);
+        $scope.updateTotalLossesAndAdjustments();
     };
 
     $scope.getReasonName = function(reasonId) {
