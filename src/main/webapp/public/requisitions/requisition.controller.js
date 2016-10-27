@@ -47,6 +47,8 @@
                             NotificationModal.showError('msg.rnr.submitted.failure');
                         });
                     });
+                } else {
+                    NotificationModal.showError('error.rnr.validation');
                 }
             });    
         };
@@ -61,6 +63,8 @@
                             NotificationModal.showError('msg.rnr.authorized.failure');
                         });
                     });
+                } else {
+                    NotificationModal.showError('error.rnr.validation');
                 }
             });
         };
@@ -70,6 +74,7 @@
                 $scope.requisition.$remove().then(
                     function(response) {
                         $state.go('requisitions.initRnr');
+                        NotificationModal.showSuccess(messageService.get('msg.rnr.deletion.success'));
                     }, function(response) {
                         NotificationModal.showError('msg.rnr.deletion.failure');
                     }
@@ -83,8 +88,11 @@
                     save().then(function() {
                         $scope.requisition.$approve().then(function(response) {
                             $state.go('requisitions.approvalList');
+                            NotificationModal.showSuccess(messageService.get('msg.rnr.approved.success'));
                         });
                     });
+                } else {
+                    NotificationModal.showError('error.rnr.validation');
                 }
              });
         };
@@ -94,6 +102,7 @@
                 $scope.requisition.$reject().then(
                     function(response) {
                         $state.go('requisitions.approvalList');
+                        NotificationModal.showSuccess(messageService.get('msg.rnr.reject.success'));
                     }, function(response) {
                         NotificationModal.showError(messageService.get('msg.rejected.failure'));
                     }
