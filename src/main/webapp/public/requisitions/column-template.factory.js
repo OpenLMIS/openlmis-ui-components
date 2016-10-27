@@ -76,7 +76,7 @@
     function displayColumn(column, requisition) {
       return column.isDisplayed && (
               [Column.APPROVED_QUANTITY, Column.REMARKS].indexOf(column.name) === -1 ||
-              [Status.AUTHORIZED, Status.APPROVED].indexOf(status) > -1);
+              [Status.AUTHORIZED, Status.APPROVED].indexOf(requisition.status) > -1);
     }
   }
 
