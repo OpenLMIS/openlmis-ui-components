@@ -63,7 +63,7 @@
       var calulation = CalculationFactory[column.name];
       if (calulation) {
         if (!isCalculated(counterparts[column.name], columns)) {
-          error = error || ValidationFactory.validCalculation(calulation)(lineItem);
+          error = error || ValidationFactory.validCalculation(calulation)(lineItem[column.name], lineItem);
         }
       }
 
