@@ -12,11 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state', '$stateParams','requisition',
-    'AuthorizationService', 'messageService', '$ngBootbox', 'SuccessErrorModal'];
+    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', '$ngBootbox', 'NotificationModal'];
 
-    function RequisitionCtrl($scope, $state, $stateParams, requisition, AuthorizationService,
-    messageService, $ngBootbox, SuccessErrorModal) {
+    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, NotificationModal) {
 
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
@@ -35,7 +33,7 @@
 
         function saveRnr() {
             save().then(function(response) {
-               SuccessErrorModal.showSuccess(messageService.get("msg.rnr.save.success"));
+               NotificationModal.showSuccess('msg.rnr.save.success', reloadState);
             });
         };
 
@@ -44,8 +42,9 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$submit().then(function(response) {
-                            SuccessErrorModal
-                            .showSuccess(messageService.get('msg.rnr.submitted.success'));
+                            NotificationModal.showSuccess('msg.rnr.submitted.success', reloadState);
+                        }, function(response) {
+                            NotificationModal.showError('msg.rnr.submitted.failure');
                         });
                     });
                 }
@@ -57,8 +56,9 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$authorize().then(function(response) {
-                            SuccessErrorModal
-                            .showSuccess(messageService.get('msg.rnr.authorized.success'));
+                            NotificationModal.showSuccess('msg.rnr.authorized.success', reloadState);
+                        }, function(response) {
+                            NotificationModal.showError('msg.rnr.authorized.failure');
                         });
                     });
                 }
@@ -71,7 +71,7 @@
                     function(response) {
                         $state.go('requisitions.initRnr');
                     }, function(response) {
-                        SuccessErrorModal.showError(messageService.get('msg.rnr.deletion.failure'));
+                        NotificationModal.showError('msg.rnr.deletion.failure');
                     }
                 );
             });
@@ -95,7 +95,7 @@
                     function(response) {
                         $state.go('requisitions.approvalList');
                     }, function(response) {
-                        SuccessErrorModal.showError(messageService.get('msg.error.occurred'));
+                        NotificationModal.showError(messageService.get('msg.rejected.failure'));
                     }
                 );
             });
@@ -129,7 +129,11 @@
         }
 
         function failedToSave(response) {
-            SuccessErrorModal.showError(messageService.get('msg.rnr.save.failure'));
+            NotificationModal.showError(messageService.get('msg.rnr.save.failure'));
+        }
+
+        function reloadState() {
+            $state.reload();
         }
 
     }
