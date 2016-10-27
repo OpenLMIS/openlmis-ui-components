@@ -1,6 +1,33 @@
-.success-error-modal .modal-body {
-    background-color: #dddddd;
-    text-align: right;
+.notification-modal {
+	.modal-body{
+		padding: 0px;
+	}
+	article{
+		margin: 0.5em;
+		font-size: 2em;
+		&::before{
+			font-family: FontAwesome;
+			font-size: 2em;
+			padding-right: 7px;
+			line-height: 1em;
+			float: left;
+		}
+		&.success::before{
+			color: $green;
+			content: "\f05d";
+		}
+		&.error{
+			color: $red;
+			content: "\f05c";
+		}
+	}
+	footer{
+		@include clearfix();
+		font-size: $font-size-small;
+	    background-color: $light-gray;
+		text-align: right;
+		padding: 1em;
+	}
 }
 
 .success-icon {

@@ -4,44 +4,41 @@
   angular.module('openlmis-core')
   .service('SuccessErrorModal', SuccessErrorModal);
 
-  SuccessErrorModal.$inject = [];
+  SuccessErrorModal.$inject = ['$rootScope', '$templateRequest', '$compile', 'bootbox'];
 
-  function SuccessErrorModal() {
+  function SuccessErrorModal($rootScope, $templateRequest, $compile, bootbox) {
 
-    var showSuccess = function (successMessage) {
-        var dialog = bootbox.dialog({
-            title: '<p><i class="fa fa-check-circle-o fa-3x success-icon"/> '
-            + successMessage + '</p>',
-            message: 'Click or press ESC button to continue',
-            className: 'success-error-modal',
-            backdrop: true,
-            onEscape: true,
-            closeButton: false
-        });
+    function showModal(message, type){
+        var scope = $rootScope.$new();
+        scope.message = message;
+        scope.type = type;
 
-        dialog.init(function(){
-            setTimeout(function(){
-                dialog.modal('hide');
-            }, 5000);
+        $templateRequest('common/success-error.html')
+        .then(function(html){
+
+            var dialog = bootbox.dialog({
+                message: $compile(html)(scope),
+                className: 'notification-modal',
+                backdrop: true,
+                onEscape: true,
+                closeButton: false
+            });
+
+            dialog.init(function(){
+                setTimeout(function(){
+                    dialog.modal('hide');
+                }, 5000);
+            });
+
         });
     }
 
-    var showError = function (errorMessage) {
-        var dialog = bootbox.dialog({
-            title: '<p><i class="fa fa-times-circle-o fa-3x error-icon"/> '
-            + errorMessage + '</p>',
-            message: 'Click or press ESC button to continue',
-            className: 'success-error-modal',
-            backdrop: true,
-            onEscape: true,
-            closeButton: false
-        });
+    var showSuccess = function (successMessage) {
+        showModal(successMessage, 'success');
+    }
 
-        dialog.init(function(){
-            setTimeout(function(){
-                dialog.modal('hide');
-            }, 5000);
-        });
+    var showError = function (errorMessage) {
+        showModal(errorMessage, 'error');
     }
 
     return {
