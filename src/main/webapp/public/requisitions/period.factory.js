@@ -4,9 +4,9 @@
 
     angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'RequisitionURL', 'Requisitions', 'messageService', '$q'];
+    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService', '$q'];
 
-    function periodFactory($resource, RequisitionURL, Requisitions, messageService, $q) {
+    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
             get: {
@@ -39,7 +39,7 @@
             var periodGridLineItems = [],
                 deferred = $q.defer();
 
-            Requisitions.search(programId, facilityId).then(function(data) {
+            RequisitionService.search(programId, facilityId).then(function(data) {
                 periods.forEach(function (period, idx) {
                     var foundRequisition = null;
                     data.forEach(function (requisition) {

@@ -16,9 +16,9 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory', 'Requisitions', '$state'];
+    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory', 'RequisitionService', '$state'];
 
-    function InitiateRnrController($scope, messageService, facility, PeriodFactory, Requisitions, $state) {
+    function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state) {
 
         $scope.selectedRnrType = {"name": messageService.get("requisition.type.regular"), "emergency": false}; // TODO emergency (for now always false)
 
@@ -93,7 +93,7 @@
                     rnr: selectedPeriod.rnrId 
                 });
             } else {
-                Requisitions.initiate($scope.selectedFacilityId,
+                RequisitionService.initiate($scope.selectedFacilityId,
                     $scope.selectedProgram.id,
                     selectedPeriod.id,
                     false).then(

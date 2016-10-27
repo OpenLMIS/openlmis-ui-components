@@ -4,11 +4,11 @@
 
   angular
     .module('openlmis.requisitions')
-    .service('Requisitions', requisitions);
+    .service('RequisitionService', requisitionService);
 
-  requisitions.$inject = ['$resource', 'RequisitionURL', 'requisition', 'Source', 'Column'];
+  requisitionService.$inject = ['$resource', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column'];
 
-  function requisitions($resource, RequisitionURL, requisition, Source, Column) {
+  function requisitionService($resource, RequisitionURL, RequisitionFactory, Source, Column) {
 
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'initiate': {
@@ -31,7 +31,7 @@
 
     function get(id) {
       var response = resource.get({id: id});
-      response.$promise.then(requisition);
+      response.$promise.then(RequisitionFactory);
       return response;
     }
 
