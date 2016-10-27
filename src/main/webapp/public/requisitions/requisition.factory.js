@@ -4,11 +4,15 @@
 
   angular.module('openlmis.requisitions').factory('RequisitionFactory', requisitionFactory);
 
-  requisitionFactory.$inject = ['$q', '$resource', 'RequisitionURL', 'LineItemFactory', 'ColumnTemplateFactory', 'Status', 'Source'];
+  requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'LineItemFactory', 'ColumnTemplateFactory', 'Status', 'Source'];
 
-  function requisitionFactory($q, $resource, RequisitionURL, LineItemFactory, ColumnTemplateFactory, Status, Source) {
+  function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, LineItemFactory, ColumnTemplateFactory, Status, Source) {
 
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
+      'getStockAdjustmentReasonsByProgram': {
+        url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
+        isArray: true
+      },
       'authorize': {
         url: RequisitionURL('/api/requisitions/:id/authorize'),
         method: 'POST'
@@ -72,8 +76,15 @@
       }).$promise;
     }
 
+    function getStockAdjustmentReasons() {
+      return resource.getStockAdjustmentReasonsByProgram({
+        program: this.program.id
+      }).$promise;
+    }
+
     function addRequisitionMethods(requisition) {
       requisition.$getColumnTemplates = getColumnTemplates;
+      requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
       requisition.$columnTemplates = columnTemplates();
       requisition.$authorize = authorize;
       requisition.$save = save;

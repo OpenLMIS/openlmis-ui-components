@@ -990,7 +990,7 @@ h3 {
 .rnr-adjustment {
   padding: 0 6px;
   display: block;
-  font-size: 0.85em;
+  font-size: 1.0em;
   line-height: 28px;
   text-align: right;
   background: url(../images/edit-icon.png) no-repeat 8px center;
@@ -1007,6 +1007,14 @@ h3 {
   font-size: 1.2em;
   font-weight: bold;
   text-align: right;
+}
+
+.adjustment-warning {
+  padding: 10px 52px 10px 10px;
+  margin: 10px 0 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: left;
 }
 
 //Schedules

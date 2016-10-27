@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .factory('CalculationFactory', calculationFactory);
 
-  calculationFactory.$inject = ['Column'];
+  calculationFactory.$inject = ['Column', '$filter'];
 
-  function calculationFactory(Column) {
+  function calculationFactory(Column, $filter) {
     var A = Column.BEGINNING_BALANCE,
         B = Column.TOTAL_RECEIVED_QUANTITY,
         C = Column.TOTAL_CONSUMED_QUANTITY,
@@ -17,7 +17,8 @@
 
     var factory = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
-      stockOnHand: calculateStockOnHand
+      stockOnHand: calculateStockOnHand,
+      totalLossesAndAdjustments: calculateTotalLossesAndAdjustments
     };
     return factory;
 
@@ -27,6 +28,21 @@
     
     function calculateStockOnHand(lineItem) {
       return lineItem[A] + lineItem[B] - lineItem[C] + lineItem[D];
+    }
+
+    function calculateTotalLossesAndAdjustments(lineItem, stockAdjustmentReasons) {
+      var total = 0;
+      angular.forEach(lineItem.stockAdjustments, function(adjustment) {
+        var reason = $filter('filter')(stockAdjustmentReasons, {id: adjustment.reasonId}, true);
+        if (!!reason) {
+            if (reason[0].additive === true) {
+              total += adjustment.quantity;
+            } else {
+              total -= adjustment.quantity;
+            }
+        }
+      });
+      return total;
     }
   }
 

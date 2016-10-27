@@ -1,0 +1,55 @@
+
+<div id="lossesAndAdjustments" modal="lossesAndAdjustmentsModal" options="{'backdrop':'static', 'escape':true}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h3 openlmis-message="label.losses.adjustments"></h3></div>
+            <div class="modal-body">
+                <div>
+                    <label openlmis-message="label.add.loss.adjustment"></label>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <select style="width: 350px;" ng-model="adjustment.reason"
+                                    ng-options="r as r.name for r in stockAdjustmentReasons">
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" placeholder="placeholder.quantity" ng-model="adjustment.quantity" class="form-input" required />
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" ng-click="addAdjustment()" openlmis-message="button.add"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="adjustment-warning clearfix alert alert-info" openlmis-message="label.no.losses.adjustment"
+                     ng-show="currentRnrLineItem.stockAdjustments == null || currentRnrLineItem.stockAdjustments.length === 0"></div>
+                <div class="adjustment-list" ng-show="currentRnrLineItem.stockAdjustments.length > 0">
+                    <ul>
+                        <li ng-repeat="adjustment in currentRnrLineItem.stockAdjustments" class="clearfix">
+                            <div class="col-sm-6">
+                                <span class="tpl-adjustment-type" ng-bind="getReasonName(adjustment.reasonId)"></span>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="number" class="tpl-adjustment-qty form-input"
+                                       ng-model="adjustment.quantity" ng-change="updateTotalLossesAndAdjustments()" required />
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-default" ng-click="removeAdjustment(adjustment)" openlmis-message="button.remove"></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="adjustment-total clearfix alert alert-warning"
+                     ng-show="currentRnrLineItem.stockAdjustments.length > 0">
+                    <span class="pull-left" openlmis-message="label.losses.total"></span><span
+                        ng-bind="currentRnrLineItem.totalLossesAndAdjustments"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" ng-click="closeLossesAndAdjustmentModal()"
+                           class="btn btn-primary" openlmis-message="button.close"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
