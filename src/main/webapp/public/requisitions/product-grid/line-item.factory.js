@@ -61,7 +61,7 @@
       });
 
       var calulation = CalculationFactory[column.name];
-      if (calulation) {
+      if (calulation && column.name !== Column.TOTAL_LOSSES_AND_ADJUSTMENTS) {
         if (!isCalculated(counterparts[column.name], columns)) {
           error = error || ValidationFactory.validCalculation(calulation)(lineItem[column.name], lineItem);
         }
