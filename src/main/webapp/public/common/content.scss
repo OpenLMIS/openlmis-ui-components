@@ -2178,27 +2178,6 @@ input[placeholder].placeholder {
   padding: 8px 0px 0px
 }
 
-.regular {
-  @include right-arrow(#DBDBDB);
-}
-
-.regular:after, .regular:before {
-  @include right-arrow-after-before();
-}
-
-.regular:after {
-  @include right-arrow-after(#DBDBDB);
-}
-
-.emergency {
-  @include right-arrow(#D25F5B);
-  color: #fff;
-}
-
-.emergency:after, .emergency:before {
-  @include right-arrow-after-before();
-}
-
 .emergency:after {
   @include right-arrow-after(#D25F5B);
 }

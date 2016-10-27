@@ -1,0 +1,59 @@
+
+#requisition-header .info-box{
+	@include clearfix();
+
+	display: flex;
+
+	> * {
+		flex: 0 0 auto;
+	}
+
+	.regular {
+	  @include right-arrow(#DBDBDB);
+	}
+
+	.regular:after, .regular:before {
+	  @include right-arrow-after-before();
+	}
+
+	.regular:after {
+	  @include right-arrow-after(#DBDBDB);
+	}
+
+	.emergency {
+	  @include right-arrow(#D25F5B);
+	  color: #fff;
+	}
+
+	.emergency:after, .emergency:before {
+	  @include right-arrow-after-before();
+	}
+
+	dl{
+		display: flex;
+		flex-grow: 1;
+		padding-top: 30px;
+		padding-bottom: 0px;
+		margin-left: 15px;
+	}
+	dt{
+		display: block;
+		flex: 0 0 auto;
+		width: 0px;
+		position: relative;
+		top: -1.2em;
+		white-space: nowrap;
+	}
+	dt::after{
+		content: ":";
+	}
+	dd{
+		display: block;
+		flex: 1 0 auto;
+		padding-right: 1em;
+		&:last-child{
+			padding-right: 0em;
+		}
+	}
+}
+
