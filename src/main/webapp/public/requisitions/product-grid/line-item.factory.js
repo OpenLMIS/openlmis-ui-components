@@ -13,7 +13,6 @@
     var validationsToPass = {
       stockOnHand: [
         ValidationFactory.nonNegative,
-        ValidationFactory.validCalculation(CalculationFactory.stockOnHand)
       ],
       totalConsumedQuantity: [
         ValidationFactory.nonNegative
@@ -21,6 +20,11 @@
       requestedQuantityExplanation: [
         ValidationFactory.nonEmptyIfPropertyIsSet(Column.REQUESTED_QUANTITY)
       ]
+    };
+
+    var counterparts = {
+      stockOnHand: Column.TOTAL_CONSUMED_QUANTITY,
+      totalConsumedQuantity: Column.STOCK_ON_HAND
     };
 
     return extendLineItem;
@@ -44,7 +48,7 @@
       return isValid;
     }
 
-    function isColumnValid(column) {
+    function isColumnValid(column, columns) {
       var lineItem = this,
           error;
 
@@ -56,6 +60,13 @@
         error = error || validation(lineItem[column.name], lineItem);
       });
 
+      var calulation = CalculationFactory[column.name];
+      if (calulation) {
+        if (!isCalculated(counterparts[column.name], columns)) {
+          error = error || ValidationFactory.validCalculation(calulation)(lineItem);
+        }
+      }
+
       this.$errors()[column.name] = error;
       return !error;
     }
@@ -65,8 +76,10 @@
           areValid = true;
 
       angular.forEach(columns, function(column) {
-        areValid = lineItem.$isColumnValid(column) && areValid;
-      })
+        if (column.display) {
+          areValid = lineItem.$isColumnValid(column, columns) && areValid;
+        }
+      });
 
       return areValid;
     }
@@ -100,6 +113,14 @@
       }
 
       return this[name];
+    }
+
+    function isCalculated(name, columns) {
+      var calculated = false;
+      angular.forEach(columns, function(column) {
+        calculated = calculated || (column.name == name && column.source === Source.CALCULATED);
+      });
+      return calculated;
     }
   };
 

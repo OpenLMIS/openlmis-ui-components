@@ -49,7 +49,7 @@
       });
 
       function validate() {
-        scope.lineItem.$isColumnValid(column);
+        scope.lineItem.$isColumnValid(column, scope.columns);
       }
 
       function isReadOnly() {

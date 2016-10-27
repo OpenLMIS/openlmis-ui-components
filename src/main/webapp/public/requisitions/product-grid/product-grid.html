@@ -2,7 +2,7 @@
   <table id="product-grid" class="table table-bordered search-list">
     <thead>
       <tr class="gradient-header">
-        <th class="col-{{column.name}}" ng-repeat="column in columns | orderBy : 'displayOrder'">{{column.label}}</th>
+        <th class="col-{{column.name}}" ng-repeat="column in visibleColumns | orderBy : 'displayOrder'">{{column.label}}</th>
       </tr>
     </thead>
     <tbody ng-repeat="lineItem in (sortedLineItems = (ngModel.requisitionLineItems | orderBy: ['orderableProduct.programs[0].productCategoryDisplayName', 'orderableProduct.name']))" product-grid-row>

@@ -52,9 +52,7 @@
     function toColumnTemplates(requisitionTemplate, requisition) {
       var columnTemplates = [];
       angular.forEach(requisitionTemplate.columnsMap, function(column) {
-        if (displayColumn(column, requisition)) {
-          columnTemplates.push(toColumnTemplate(column, requisition));
-        }
+        columnTemplates.push(toColumnTemplate(column, requisition));
       });
       return columnTemplates
     }
@@ -68,6 +66,7 @@
         type: column.columnDefinition.columnType,
         source: source,
         label: column.label,
+        display: displayColumn(column, requisition),
         displayOrder: column.displayOrder,
         required: (nonMandatoryFields.indexOf(name) === -1 && source == Source.USER_INPUT),
         dependencies: dependencies[name]

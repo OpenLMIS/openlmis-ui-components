@@ -2,5 +2,5 @@
   <td class="productCategory" colspan="{{columns.length + 2}}">{{productCategory}}</td>
 </tr>
 <tr ng-class="{'invalid-row': !lineItem.$isValid()}">
-  <td ng-repeat="column in columns | orderBy : 'displayOrder'" product-grid-cell></td>
+  <td ng-repeat="column in visibleColumns | orderBy : 'displayOrder'" product-grid-cell></td>
 </tr>

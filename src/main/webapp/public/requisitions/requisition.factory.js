@@ -147,34 +147,19 @@
     }
 
     function transformRequisition(requisition) {
-      var fieldsToNull = getFieldsToNull(requisition.$columnTemplates());
+      var columnTemplates = requisition.$columnTemplates();
       angular.forEach(requisition.requisitionLineItems, function(lineItem) {
-        transformLineItem(lineItem, fieldsToNull);
+        transformLineItem(lineItem, columnTemplates);
       })
       return angular.toJson(requisition);
     }
 
-    function transformLineItem(lineItem, fieldsToNull) {
-      angular.forEach(fieldsToNull, function(fieldToNull) {
-        lineItem[fieldToNull] = null;
-      });
-    }
-
-    function getFieldsToNull(columnTemplates) {
-      var fieldsToNull = [];
-
-      angular.forEach(Column, function(column) {
-        fieldsToNull.push(column);
-      });
-
-      angular.forEach(columnTemplates, function(column) {
-        var index = fieldsToNull.indexOf(column.name);
-        if (index > -1 && column.source !== Source.CALCULATED) {
-          fieldsToNull.splice(index, 1);
+    function transformLineItem(lineItem, columns) {
+      angular.forEach(columns, function(column) {
+        if (!column.display) {
+          lineItem[column.name] = null;  
         }
       });
-
-      return fieldsToNull;
     }
   }
 

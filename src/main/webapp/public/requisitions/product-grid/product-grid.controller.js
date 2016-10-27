@@ -14,6 +14,12 @@
 
     $scope.ngModel.$getColumnTemplates().then(function(columnTemplates) {
       $scope.columns = columnTemplates;
+      $scope.visibleColumns = [];
+      angular.forEach($scope.columns, function(column) {
+        if (column.display) {
+          $scope.visibleColumns.push(column);
+        }
+      })
     }).finally(function() {
       $scope.templateLoaded = true;
     });
