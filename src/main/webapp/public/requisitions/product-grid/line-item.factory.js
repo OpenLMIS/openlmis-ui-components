@@ -84,11 +84,22 @@
     }
 
     function getColumnValue(column) {
-      var name = column.name;
+      var name = column.name,
+        value;
+
+      if (name.indexOf('.') > -1) { // for product code and product name
+        value = this;
+        angular.forEach(name.split('.'), function(property) { 
+          value = value[property];
+        });
+        return value;
+      }
+
       if (column.source === Source.CALCULATED) {
         this[name] = CalculationFactory[name](this);
         this.$isColumnValid(column);
       }
+
       return this[name];
     }
   };

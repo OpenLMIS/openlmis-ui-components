@@ -9,7 +9,8 @@
   function source() {
     return {
       USER_INPUT: 'USER_INPUT',
-      CALCULATED: 'CALCULATED'
+      CALCULATED: 'CALCULATED',
+      REFERENCEDATA: 'REFERENCE_DATA',
     };
   }
 

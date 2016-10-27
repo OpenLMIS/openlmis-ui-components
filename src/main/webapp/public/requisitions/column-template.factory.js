@@ -69,7 +69,7 @@
         source: column.source,
         label: column.label,
         displayOrder: column.displayOrder,
-        required: (nonMandatoryFields.indexOf(name) === -1 && type !== Source.CALCULATED),
+        required: (nonMandatoryFields.indexOf(name) === -1 && type === Source.USER_INPUT),
         dependencies: dependencies[name]
       };
     }

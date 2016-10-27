@@ -2,8 +2,6 @@
   <table id="product-grid" class="table table-bordered search-list">
     <thead>
       <tr class="gradient-header">
-        <th class="col-product-code" openlmis-message="header.product.code"></th>
-        <th class="col-name" openlmis-message="header.product.name"></th>
         <th class="col-{{column.name}}" ng-repeat="column in columns | orderBy : 'displayOrder'">{{column.label}}</th>
       </tr>
     </thead>

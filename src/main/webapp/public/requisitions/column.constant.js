@@ -17,7 +17,9 @@
       SKIPPED: 'skipped',
       TOTAL_RECEIVED_QUANTITY: 'totalReceivedQuantity',
       TOTAL_CONSUMED_QUANTITY: 'totalConsumedQuantity',
-      TOTAL_LOSSES_AND_ADJUSTMENTS: 'totalLossesAndAdjustments'
+      TOTAL_LOSSES_AND_ADJUSTMENTS: 'totalLossesAndAdjustments',
+      PRODUCT_CODE: 'productCode',
+      PRODUCT_NAME: 'productName'
     };
   }
 
