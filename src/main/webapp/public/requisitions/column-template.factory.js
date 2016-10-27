@@ -61,15 +61,15 @@
 
     function toColumnTemplate(column, requisition) {
       var name = column.name,
-          type = column.columnDefinition.columnType;
+          source = column.source;
 
       return {
         name: name,
-        type: type,
-        source: column.source,
+        type: column.columnDefinition.columnType,
+        source: source,
         label: column.label,
         displayOrder: column.displayOrder,
-        required: (nonMandatoryFields.indexOf(name) === -1 && type === Source.USER_INPUT),
+        required: (nonMandatoryFields.indexOf(name) === -1 && source == Source.USER_INPUT),
         dependencies: dependencies[name]
       };
     }
