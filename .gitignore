@@ -3,8 +3,6 @@
 *.iws
 build/
 bower_components/
-images/
-docs/
 out/
 .idea/
 node_modules/
