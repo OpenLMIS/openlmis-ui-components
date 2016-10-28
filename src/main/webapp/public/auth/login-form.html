@@ -20,13 +20,12 @@
           <form ng-submit="doLogin()" novalidate>
               <fieldset>
                   <div class="login-form-row">
-                      <input ng-model="username" type="text" id="username" openlmis-message="placeholder.username"
-                             required
-                             autofocus/>
+                      <label for="username" openlmis-message="label.username"></label>
+                      <input ng-model="username" type="text" id="username" required autofocus/>
                   </div>
                   <div class="login-form-row">
-                      <input ng-model="password" type="password" id="password" openlmis-message="placeholder.password"
-                             required/>
+                      <label for="password" openlmis-message="label.password"></label>
+                      <input ng-model="password" type="password" id="password" required/>
                   </div>
                   <div id="loginError" class="alert alert-error" ng-bind="loginError" ng-show="loginError"></div>
                   <div class="login-form-row">
