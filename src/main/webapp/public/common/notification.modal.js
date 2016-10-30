@@ -36,6 +36,10 @@
                 }, 3000);
             });
 
+            /*$(document).on('click', '.modal-backdrop', function (event) {
+                hideModal(dialog, callback);
+            });*/
+
         });
     }
 
