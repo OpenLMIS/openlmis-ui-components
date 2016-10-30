@@ -15,6 +15,8 @@ module.exports = function(grunt) {
   var concat = require('gulp-concat');
   var replace = require('gulp-replace');
 
+  grunt.loadNpmTasks('grunt-ngdocs');
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: ['build', 'quality', 'docs', 'images'],
@@ -245,6 +247,19 @@ module.exports = function(grunt) {
             dest: config.app.dest + '/public/fonts'
           }
         ]
+      }
+    },
+    ngdocs: {
+      options:{
+        dest: "./build/docs",
+        title: "OpenLMIS-UI Documentation"
+      },
+      api: {
+        src: [
+          path.join(config.app.src, "**/*.js"),
+          "!" + path.join(config.app.src, "**/*.spec.js")
+        ],
+        title: "API"
       }
     },
     gulp: {

@@ -8,6 +8,10 @@
   	"src": "./src/main",
   	"dest": "./build/styleguide"
   },
+  "docs": {
+    "src": "./docs",
+    "dest": "./build/docs"
+  },
   "openlmisServerURL": "",
   "authServiceURL": "/auth",
   "requisitionServiceURL": "/requisition"
