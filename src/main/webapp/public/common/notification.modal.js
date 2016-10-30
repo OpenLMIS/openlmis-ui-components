@@ -11,40 +11,49 @@
     function showModal(message, callback, type){
         var scope = $rootScope.$new();
         scope.message = messageService.get(message);
+        scope.footerMessage = messageService.get('msg.notification.modal.footer');
         scope.type = type;
 
-        $templateRequest('common/success-error.html').then(function(html){
+        $templateRequest('common/notification-modal.html').then(function(html){
 
-            var dialog = bootbox.dialog({
-                message: $compile(html)(scope),
-                className: 'notification-modal',
-                backdrop: true,
-                onEscape: true,
-                closeButton: false
-            });
+            var isClosed = false,
+                dialog = bootbox.dialog({
+                    message: $compile(html)(scope),
+                    className: 'notification-modal',
+                    backdrop: true,
+                    onEscape: true,
+                    closeButton: false
+                }).on('hide.bs.modal', function(e) {
+                    if(callback) callback();
+                }).on('click.bs.modal', function(e) {
+                    dialog.modal('hide');
+                }
+            );
 
             dialog.init(function(){
                 setTimeout(function(){
                     dialog.modal('hide');
-                    if (callback) 
-                        callback();
                 }, 3000);
             });
+
+            /*$(document).on('click', '.modal-backdrop', function (event) {
+                hideModal(dialog, callback);
+            });*/
 
         });
     }
 
-    var showSuccess = function (successMessage, callback) {
+    function showSuccess(successMessage, callback) {
         showModal(successMessage, callback, 'success');
     }
 
-    var showError = function (errorMessage) {
+    function showError(errorMessage) {
         showModal(errorMessage, null, 'error');
     }
 
     return {
-        showSuccess:showSuccess,
-        showError:showError
+        showSuccess: showSuccess,
+        showError: showError
     }
   }
 })();

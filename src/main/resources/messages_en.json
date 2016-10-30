@@ -2699,5 +2699,6 @@
   "label.vaccine.no.pending.periods": "There are no pending periods for this facility.",
   "label.vaccine.no.ivd.reports.to.view": "There are no monthly vaccine reports to view for this facility. Please check if the facility you selected has started reporting.",
   "link.reports.admin": "Admin Reports",
-  "label.add.loss.adjustment": "Add new Loss/Adjustment"
+  "label.add.loss.adjustment": "Add new Loss/Adjustment",
+  "msg.notification.modal.footer": "Press ESC button or click anywhere to continue"
 }
