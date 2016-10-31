@@ -24,13 +24,17 @@ Grunt is our build tool. Grunt tasks available:
 - `grunt karma:unit` to run Jasmine unit tests.
 - `grunt karma:tdd` run Jasmine unit tests in test driven development mode, where test will automatically rerun when openlmis.js is rebuilt or any test file is updated.
 - `grunt check` to run JSHint and LessLint tasks that perform code quality check.
+- `grunt docs` will build the ngDocs documentation website
 
 ### Flags
 - `--production` will compress all UI related files to be used in production. Otherwise files are not compressed and include sourcemaps for easier debugging.
+- `--docs` Will generate ngDocumentation at build time
+- `--styleguide` will create a styleguide from KSS pages
 - `--openlmisServerURL` takes an argument that will change the location where the OpenLMIS UI application will look for a OpenLMIS Server. This variable can also be set in config.json. 
 - `--authServiceURL` just like openlmisServerURL, but for the location of the Openlmis Authentication Service. If this url doesn't start with 'http' it will be prefixed by the openlmisServerURL. 
 - `--requisitionServiceURL` just like authServiceURL, but for the OpenLMIS Requisitions Service. 
 - `--addProxyService` for working with OpenLMIS servers or services that are on a different domain and don't implement CORs. This flag when run with `gulp serve` will start a [CORS Anywhere](https://github.com/Rob--W/cors-anywhere) server at `http://127.0.0.1:3030` — Adding this flag to `grunt build` or `grunt watch` will prepend any OpenLMIS URL with `http://127.0.0.1:3030/` so that all requests to OpenLMIS are CORS compliant. 
+
 
 
 ### Development Environment
