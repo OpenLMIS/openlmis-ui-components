@@ -384,9 +384,12 @@ module.exports = function(grunt) {
   if(grunt.option('production')) buildTasks.push('uglify');
   if(grunt.option('test')) buildTasks.push('karma:unit');
   if(grunt.option('styleguide')) buildTasks = buildTasks.concat(styleguideTasks);
+  if(grunt.option('docs')) buildTasks.push('ngdocs');
+
   grunt.registerTask('build', buildTasks);
   
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
 
+  grunt.registerTask('docs', ['build'].concat('ngdocs'));
   grunt.registerTask('styleguide', ['build'].concat(styleguideTasks));
 };
