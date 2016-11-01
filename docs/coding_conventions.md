@@ -1,6 +1,14 @@
-# OpenLMIS-UI Styleguide
+# OpenLMIS-UI Coding Conventions
 
-This document describes the desired formatting to be used withing the OpenLMIS-UI repositories.
+This document describes the desired formatting to be used withing the OpenLMIS-UI repositories, many of the conventions are adapted from [John Papa's Angular V1 styleguide|https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md] and [SMACSS by Jonathan Snook.|https://smacss.com/]
+
+## General
+The following conventions should be applied to all sections of UI development:
+* All intentation should be 4 spaces
+* Legacy code should be refactored to meet coding conventions
+* No thrid party libraries should be included in a OpenLMIS-UI repository
+
+## File Structure
 
 ## HTML Markup Guidelines
 
@@ -36,10 +44,10 @@ This gives us simpler markup, that could be restyled and reused depending on the
 * Using float and width properties to correctly display the button
 * A ::after pseudo class can replace any 'clearfix' element (which shouldn't exist in our code)
 
-
-See the UI-Styleguide for examples of how specific elements, such as forms, lists, or tables, should be constructed and used. 
+See the UI-Styleguide for examples of how specific elements and components should should be constructed and used. 
 
 ## SASS & CSS Formatting Guidelines
+The CSS styles should reflect the SMACSS CSS methodology, 
 
 ## Javascript Formatting Guidelines
 
