@@ -26,9 +26,6 @@
             {"name": messageService.get("requisition.type.regular"), "emergency": false}
         ]};// TODO emergency (for now always false)
 
-        $scope.types = [{"name": "Regular", "emergency": false},
-        {"name": "Emergency", "emergency": true}];
-
         $scope.$watch('selectedProgram.item', function() {
             loadPeriods();
         }, true);
