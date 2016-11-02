@@ -1,6 +1,13 @@
 (function(){
     "use strict";
 
+    /**
+        *@ngdoc controller
+        *@name openlmis-core.controller:SelectController
+        *@description
+        *Controller for <openlmis-select> directive to assign proper attributes to <ui-select>
+        */
+
     angular.module("openlmis-core").controller("SelectController", SelectController);
 
     SelectController.$inject = ['$scope','$attrs']

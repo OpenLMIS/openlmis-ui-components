@@ -247,6 +247,15 @@ module.exports = function(grunt) {
             dest: config.app.dest + '/public/fonts'
           }
         ]
+      },
+      selectTwoImages: {
+        expand: true,
+        cwd: 'bower_components/select2/',
+        src: [
+            '*.png',
+            '*.gif'
+        ],
+        dest: path.join(config.app.dest, 'public/images')
       }
     },
     ngdocs: {
@@ -301,7 +310,8 @@ module.exports = function(grunt) {
    var includePaths = require('node-bourbon').includePaths.concat([
         config.app.src,
         'bower_components/font-awesome/scss',
-        'bower_components/bootstrap-sass/assets/stylesheets'
+        'bower_components/bootstrap-sass/assets/stylesheets',
+        'bower_components/select2/src/scss'
     ]);
 
     var bowerCss = wiredep().css;
@@ -343,6 +353,10 @@ module.exports = function(grunt) {
     .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
     .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
     .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
+    //Replace Select2 image locations
+    .pipe(replace('select2.png','images/select2.png'))
+    .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
+    .pipe(replace('select2x2.png','images/select2x2.png'))
     .pipe(bless())
     .pipe(gulp.dest(
       path.join(config.app.dest, "public")

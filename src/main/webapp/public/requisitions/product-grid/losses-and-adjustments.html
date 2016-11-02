@@ -8,9 +8,6 @@
                     <label openlmis-message="label.add.loss.adjustment"></label>
                     <div class="row">
                         <div class="col-md-5">
-                            <select style="width: 350px;" ng-model="adjustment.reason"
-                                    ng-options="r as r.name for r in stockAdjustmentReasons">
-                            </select>
                             <openlmis-select ng-model="adjustment.reason"
                                 items="stockAdjustmentReasons"
                                 display-field="name"

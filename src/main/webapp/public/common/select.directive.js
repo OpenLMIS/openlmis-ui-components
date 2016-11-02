@@ -2,9 +2,17 @@
 (function(){
     "use strict";
 
+    /**
+    *@ngdoc directive
+    *@name openlmis-core.directive:openlmisSelect
+    *@restrict E
+    *@description directive for simple implementing <ui-select> element.
+    *
+    */
+
     angular.module("openlmis-core").directive('openlmisSelect', select);
 
-    function select($parse){
+    function select($parse) {
         return {
             scope: {
                 ngModel: '=ngModel',
