@@ -85,7 +85,7 @@ header > .navbar {
   @include clearfix();
   @extend .navbar-default;
 
-  @include linear-gradient(to bottom, #0d8d98 0%, #0d6369 100%);
+  @include linear-gradient(to bottom, $heading-green 0%, $dark-heading-green 100%);
   margin-bottom: 0px;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.4);
   border-width: 0px;
@@ -149,13 +149,13 @@ header > .navbar {
       padding: 0.5em 1em;
       &:hover{
         text-decoration: none;
-        color: #009DA7;
+        color: $cyan;
       }
     }
 
     > li {
       > a {
-        color: #FFF;
+        color: $white;
         font-weight: bold;
         text-decoration: none;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
@@ -165,8 +165,8 @@ header > .navbar {
       &.open > a,
       &.open > a:hover,
       > a:hover {
-        color: #FFF;
-        background-color: #19565A;
+        color: $white;
+        background-color: $dark-cyan;
         box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
         border-radius: 3px;
       }
@@ -186,7 +186,7 @@ header > .navbar {
       height: 0px; 
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 5px solid #FFF;
+      border-bottom: 5px solid $white;
     }
 
     a {

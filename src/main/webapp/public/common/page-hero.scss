@@ -3,10 +3,10 @@
 	position: relative;
 	padding: 50px 25px;
 	font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
-	color: #a0a0a0;
+	color: $medium-gray;
 	font-size: 3em;
 	h1, h2, h3, h4, h5, .title, .subtitle{
-		color: #a0a0a0;
+		color: $medium-gray;
 		line-height: 1.2em;
 		border-width: 0px;
 		em {
@@ -22,7 +22,7 @@
 		z-index: -1;
 		height: 100%;
 		width: 100%;
-		background: #d6d6d6 url(common/page-hero-glow.png) no-repeat center -70px;
+		background: $light-gray url(common/page-hero-glow.png) no-repeat center -70px;
 	}
 }
 

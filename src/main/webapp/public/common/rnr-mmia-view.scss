@@ -83,12 +83,12 @@
 
   table.second-section {
     th {
-      background-color: #d0d0d0;
+      background-color: $medium-gray;
       word-break: break-all;
     }
 
     td:nth-child(4) {
-      background-color: #f0f0f0;
+      background-color: $very-light-gray;
     }
   }
 
@@ -99,7 +99,7 @@
     .regime-section {
       .regime-form {
         thead {
-          background-color: #f0f0f0;
+          background-color: $very-light-gray;
         }
       }
 
@@ -123,7 +123,7 @@
       .patient-form {
 
         thead {
-          background-color: #d0d0d0;
+          background-color: $medium-gray;
           tr {
             font-size: 8px;
           }
@@ -137,7 +137,7 @@
 
         tr {
           td:first-child {
-            background-color: #d0d0d0;
+            background-color: $medium-gray;
           }
           th {
             height: 18.8px;
@@ -196,27 +196,27 @@ table.regime-form {
 }
 
 .bg-color-green {
-  background-color: #c7ddbb;
+  background-color: $light-green;
 }
 
 .bg-color-lightyellow {
-  background-color: #faf8c7;
+  background-color: $light-yellow;
 }
 
 .bg-color-lightblue {
-  background-color: #d3e9f0;
+  background-color: $light-blue;
 }
 
 .bg-color-gray {
-  background-color: #d0d0d0;
+  background-color: $medium-gray;
 }
 
 .bg-color-yellow {
-  background-color: #f6f391;
+  background-color: $yellow;
 }
 
 .bg-color-darkgray {
-  background-color: #b3b1b1;
+  background-color: $medium-gray;
 }
 
 .align-left {

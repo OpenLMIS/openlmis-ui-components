@@ -1,20 +1,20 @@
 .bad, td.bad{
-  color: #d03913;
+  color: $red;
   font-weight: bold;
-  background-color: #f2dede;
+  background-color: $light-red;
   width: 100%;
 }
 
 .warn, td.warn{
-  background-color: #fcf8e3;
-  color: #3852d0;
+  background-color: $light-yellow;
+  color: $blue;
   font-weight: bold;
   width: 100%;
 }
 
 .good, td.good{
-  color: #3b9225;
-  background-color: #dff0d8;
+  color: $green;
+  background-color: $light-green;
   font-weight: bold;
   width: 100%;
 }

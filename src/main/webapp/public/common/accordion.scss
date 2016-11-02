@@ -10,14 +10,14 @@
 
 .accordion {
   .accordion-heading {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid $medium-gray;
     margin-bottom: 25px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
     span {
       padding: 0px 10px 10px 0px;
-      background: #F8F8F8;
+      background: $very-light-gray;
     }
     strong, b, a {
       position: relative;
@@ -25,14 +25,14 @@
     }
     strong, b {
       margin-right: 5px;
-      color: #999;
-      background: #F8F8F8;
+      color: $medium-gray;
+      background: $very-light-gray;
       margin-top: 10px;
       left: -10px;
     }
     a {
       text-decoration: none;
-      background: #F8F8F8;
+      background: $very-light-gray;
     }
   }
   .accordion-body {

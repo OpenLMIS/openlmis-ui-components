@@ -2,10 +2,10 @@
    This should be only used for UI Styleguide */
 
 body {
-  background-color: #fff;
+  background-color: $white;
   font-family: Arial, sans-serif;
 }
 
 .content h2 {
-  color: #17888F;
+  color: $heading-green;
 }

@@ -8,8 +8,6 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
  */
 
-$heading-green: #17888F !default;
-
 //Buttons
 
 .action-buttons {
@@ -37,11 +35,11 @@ $heading-green: #17888F !default;
     width: 100%;
     top: -38px;
     .cost-values {
-      background: #d3f2f4;
+      background: $light-cyan;
       text-align: right;
       font-size: 1.1em;
-      border: 1px solid #bfe1e3;
-      color: #005c61;
+      border: 1px solid $light-cyan;
+      color: $dark-cyan;
       text-shadow: 0 1px 0 white;
       height: 20px;
       padding: 6px 8px;
@@ -51,16 +49,16 @@ $heading-green: #17888F !default;
       width: 190px;
       bottom: 96px;
       text-align: left;
-      color: #504D4D;
+      color: $gray;
       h4 {
         border-bottom: none;
         font-size: 1em;
-        color: #005c61;
+        color: $dark-cyan;
       }
       small {
         div {
           padding: 5px 0;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid $medium-gray;
           &:last-child {
             border-bottom: none;
           }
@@ -78,7 +76,7 @@ $heading-green: #17888F !default;
     .is-icon-ul-selected {
       font-size: 1em;
       border-radius: 3px;
-      background: #005c61;
+      background: $dark-cyan;
       color: white;
     }
   }
@@ -88,7 +86,7 @@ $heading-green: #17888F !default;
   &:hover {
     font-size: 1em;
     border-radius: 3px;
-    background: #005c61;
+    background: $dark-cyan;
     color: white;
     cursor: pointer;
   }
@@ -104,22 +102,22 @@ $heading-green: #17888F !default;
 }
 
 .toolbar-success {
-  color: #86D186;
+  color: $green;
 }
 
 .toolbar-error {
-  color: #EB7272;
+  color: $red;
 }
 
 //Comments
 
 .comments-popup {
-  background: #f9f9f9;
+  background: $very-light-gray;
   padding: 5px 15px 10px;
   position: fixed;
   bottom: 54px;
   right: 19px;
-  border: 1px solid #999;
+  border: 1px solid $medium-gray;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   border-radius: 6px;
   width: 280px;
@@ -129,7 +127,7 @@ $heading-green: #17888F !default;
   h4 {
     color: $heading-green;
     font-size: 1.15em;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid $medium-gray;
     padding-bottom: 5px;
     margin: 5px 0 0;
   }
@@ -141,13 +139,13 @@ $heading-green: #17888F !default;
     font-size: 0.85em;
     word-wrap: break-word;
     li {
-      border-bottom: 1px solid #DDD;
+      border-bottom: 1px solid $light-gray;
       padding: 10px 0;
       line-height: 18px;
       .comment-info {
         font-size: .90em;
         .comment-date {
-          color: #a9a9a9;
+          color: $medium-gray;
         }
       }
     }
@@ -163,19 +161,19 @@ $heading-green: #17888F !default;
   .link-minimize {
     display: inline-block;
     padding: 0 0 0 6px;
-    color: #aaa;
+    color: $medium-gray;
     line-height: 18px;
     float: right;
     &:hover {
       text-decoration: none;
       .icon-remove {
-        color: #666;
+        color: $gray;
       }
     }
   }
   .beak-down {
     display: inline-block;
-    border: 11px solid #F9F9F9;
+    border: 11px solid $very-light-gray;
     border-bottom: 0;
     border-left-color: transparent;
     border-right-color: transparent;
@@ -184,13 +182,13 @@ $heading-green: #17888F !default;
     bottom: -11px;
   }
   .comment-length {
-    color: #999;
+    color: $medium-gray;
     font-size: 0.9em;
   }
 }
 
 .toolbar-loader {
-  color: #FFF;
+  color: $white;
   font-weight: bold;
   position: absolute;
   left: 0;
@@ -205,6 +203,6 @@ $heading-green: #17888F !default;
 
 .budget-exceeds-detailed {
   float: left;
-  color: #CE8726;
+  color: $orange;
   text-shadow: none;
 }

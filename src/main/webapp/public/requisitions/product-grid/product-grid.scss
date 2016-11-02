@@ -2,11 +2,11 @@
 
 	tbody {
 		tr.invalid-row {
-			background-color: #f2dede;
-			border-color: #ebccd1;
+			background-color: $light-red;
+			border-color: $border-color-red;;
 
 			.cell-error-message {
-				color: #a94442;
+				color: $red;
 			}
 		}
 	}

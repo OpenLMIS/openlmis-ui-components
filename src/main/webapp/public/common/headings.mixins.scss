@@ -12,7 +12,7 @@
   position: relative;
   padding: 16px 0;
   margin: 20px 0;
-  border-top: 1px solid #A0A0A0;
+  border-top: 1px solid $medium-gray;
 }
 
 @mixin titles-with-center-line {
@@ -22,10 +22,10 @@
     position: absolute;
     padding: 0 10px;
     margin-left: 10px;
-    background: #FFF;
+    background: $white;
     left: 10px;
     font-size: 1.2em;
-    color: #17888f;
+    color: $heading-green;
     &:before{
       content: "";
       display: inline-block;

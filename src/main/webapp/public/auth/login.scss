@@ -1,7 +1,7 @@
 @import 'bourbon';
 
 body {
-  background: #2a393a;
+  background: $dark-gray;
 }
 
 .login-page {
@@ -11,33 +11,33 @@ body {
   width: 700px;
   margin-left: -330px;
   margin-top: -220px;
-  box-shadow: 0 0 15px #222;
+  box-shadow: 0 0 15px $dark-gray;
   border: 1px solid white;
   border-radius: 6px;
 }
 
 .login-container {
-  background: #FFF; /* Old browsers */
-  background: -moz-linear-gradient(top, #ffffff 0%, #ffffff 48%, #e1e1e1 100%); /* FF3.6+ */
-  background: -webkit-linear-gradient(top, #ffffff 0%, #ffffff 48%, #e1e1e1 100%); /* Chrome10+,Safari5.1+ */
-  background: -ms-linear-gradient(top, #ffffff 0%, #ffffff 48%, #e1e1e1 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 48%, #e1e1e1 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#ffffff', endColorstr = '#e1e1e1', GradientType = 0); /* IE6-9 */
+  background: $white; /* Old browsers */
+  background: -moz-linear-gradient(top, $white 0%, $white 48%, $light-gray 100%); /* FF3.6+ */
+  background: -webkit-linear-gradient(top, $white 0%,  48%, $light-gray 100%); /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(top, $white 0%, $white 48%, $light-gray 100%); /* IE10+ */
+  background: linear-gradient(to bottom, $white 0%, $white 48%, $light-gray 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '$white', endColorstr = '$light-gray', GradientType = 0); /* IE6-9 */
   border-radius: 4px;
   h1 {
     font-size: 1.3em;
-    color: #747474;
+    color: $gray;
     margin: 0;
     line-height: 24px;
 //    padding: 14px;
-    text-shadow: 0 1px 0 #FFF;
+    text-shadow: 0 1px 0 $white;
     font-weight: normal;
     border-color: transparent;
     font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
   }
   h2 {
     font-size: 1.4em;
-    color: #414141;
+    color: $dark-gray;
     margin: 0;
     padding: 15px 0;
     line-height: 30px;
@@ -46,13 +46,13 @@ body {
   .alert-error {
     font-size: 0.9em;
     line-height: 17px;
-    border-color: #B94A48;
+    border-color: $red;
   }
   form {
     margin: 0;
   }
   input:focus:required:invalid:focus {
-    border-color: #17888f;
+    border-color: $heading-green;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
@@ -93,7 +93,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: #17888f;
+  border-color: $heading-green;
   outline: 0;
   outline: thin dotted  \9;
 /* IE6-9 */
@@ -141,7 +141,7 @@ input[type="color"]:focus,
   text-align: right;
   padding: 0px 10px;
   font-size: 0.7em;
-  color: #a2a2a2;
+  color: $gray;
 }
 
 .modal-login {
@@ -151,11 +151,11 @@ input[type="color"]:focus,
 }
 
 input[placeholder].placeholder {
-  color: #a2a2a2;
+  color: $medium-gray;
 }
 
 .modal-login-header {
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid $medium-gray;
   border-radius: 3px 3px 0 0;
   @include linear-gradient(to bottom, $white 30%, $light-gray 100%);
   @include clearfix();

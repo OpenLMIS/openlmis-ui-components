@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  background-color: #808080;
+  background-color: $gray;
   font-family: Arial, sans-serif;
   height: 100%;
   display: flex;
@@ -46,9 +46,9 @@ input[type="text"]::-ms-clear {
 }
 
 a {
-  color: #078f97;
+  color: $heading-green;
   &:hover {
-    color: #055e74;
+    color: $dark-cyan;
   }
 }
 
@@ -76,7 +76,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: #17888f;
+  border-color: $heading-green;
   outline: 0;
   outline: thin dotted     \9;
   /* IE6-9 */
@@ -89,8 +89,8 @@ input[type="color"]:focus,
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
-  color: #333;
-  background: #D3EBEB;
+  color: $dark-gray;
+  background: $light-cyan;
 }
 
 select {
@@ -100,9 +100,9 @@ select {
 //modal
 
 .modal-header {
-  border-color: #CCC;
+  border-color: $medium-gray;
   h3 {
-    color: #17888F;
+    color: $heading-green;
     font-weight: normal;
     font-size: 1.4em;
   }
@@ -159,7 +159,7 @@ label.short {
   font-size: 0.8em;
   text-align: center;
   white-space: normal;
-  color: #FFFFFF;
+  color: $white;
   @include box-shadow(0 0 15px rgba(0, 0, 0, 0.5));
   &:after {
     height: 0;

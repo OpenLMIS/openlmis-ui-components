@@ -9,7 +9,7 @@
 	}
 
 	.regular {
-	  @include right-arrow(#DBDBDB);
+	  @include right-arrow($light-gray);
 	}
 
 	.regular:after, .regular:before {
@@ -17,12 +17,12 @@
 	}
 
 	.regular:after {
-	  @include right-arrow-after(#DBDBDB);
+	  @include right-arrow-after($light-gray);
 	}
 
 	.emergency {
-	  @include right-arrow(#D25F5B);
-	  color: #fff;
+	  @include right-arrow($red);
+	  color: $white;
 	}
 
 	.emergency:after, .emergency:before {
