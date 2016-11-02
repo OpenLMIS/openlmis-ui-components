@@ -18,7 +18,7 @@
 		        requisitionList: function ($q, $http, RequisitionURL) {
 		        	var deferred = $q.defer();
 
-		        	$http.get(RequisitionURL('/api/requisitions/requisitions-for-approval'))
+		        	$http.get(RequisitionURL('/api/requisitions/requisitionsForApproval'))
 		        	  .then(function(response) {
 		        	    deferred.resolve(response.data);
 		        	  }, function(response) {

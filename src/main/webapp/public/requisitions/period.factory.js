@@ -8,7 +8,7 @@
 
     function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q) {
 
-        var resource = $resource(RequisitionURL('/api/requisitions/periods-for-initiate'), {}, {
+        var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
             get: {
                 method: 'GET',
                 isArray: true
