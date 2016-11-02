@@ -7,33 +7,34 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("NotificationModal", function() {
+ddescribe("NotificationModal", function() {
 
-    var timeout, notificationModal, httpBackend;
+    var timeout, notificationModal, httpBackend, scope;
 
     beforeEach(module('openlmis-core'));
 
-    beforeEach(inject(function(_$httpBackend_, _$timeout_, NotificationModal) {
-        httpBackend = _$httpBackend_;
+    beforeEach(inject(function(_$timeout_, NotificationModal, $templateCache) {
         timeout = _$timeout_;
         notificationModal = NotificationModal;
 
-        httpBackend.when('GET', 'common/notification-modal.html').respond(200, "");
+        $templateCache.put('common/notification-modal.html', "something");
     }));
 
-    it('should hide succes modal and call callback function after delay', function() {
+    it('should hide succes modal then call callback function after delay', function() {
         var called = false;
 
-        notificationModal.showSuccess('msg.rnr.authorized.success', function() {
+        notificationModal.showSuccess('some.message', function() {
             called = true;
         });
 
-        httpBackend.flush();
-
+        // callback hasn't happened yet
+        expect(called).toBe(false);
+        
         timeout.flush();
         timeout.verifyNoPendingTasks();
-
-        //expect(called).toBe(true);
+        
+        // callback was fired
+        expect(called).toBe(true);
     });
 
 });

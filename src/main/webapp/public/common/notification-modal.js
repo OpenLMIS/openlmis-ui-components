@@ -13,37 +13,54 @@
     angular.module('openlmis-core')
         .service('NotificationModal', NotificationModal);
 
-    NotificationModal.$inject = ['$rootScope', '$templateRequest', '$compile', '$timeout', 'bootbox', 'messageService'];
+    NotificationModal.$inject = ['$rootScope', '$templateCache', '$templateRequest', '$compile', '$timeout', 'bootbox', 'messageService'];
 
-    function NotificationModal($rootScope, $templateRequest, $compile, $timeout, bootbox, messageService) {
+    function NotificationModal($rootScope, $templateCache, $templateRequest, $compile, $timeout, bootbox, messageService) {
+        var templateURL = 'common/notification-modal.html';
 
         function showModal(message, callback, type){
             var scope = $rootScope.$new();
             scope.message = messageService.get(message);
             scope.type = type;
 
-            $templateRequest('common/notification-modal.html').then(function(html){
+            // Made function within scope to deal with cache checking
+            function makeModal(html){
+              var timeoutPromise;
 
-                var dialog = bootbox.dialog({
-                        message: $compile(html)(scope),
-                        className: 'notification-modal',
-                        backdrop: true,
-                        onEscape: true,
-                        closeButton: false
-                    }).on('hide.bs.modal', function(e) {
-                        if(callback) callback();
-                    }).on('click.bs.modal', function(e) {
-                        dialog.modal('hide');
-                    }
-                );
+              var dialog = bootbox.dialog({
+                  message: $compile(html)(scope),
+                  className: 'notification-modal',
+                  backdrop: true,
+                  onEscape: true,
+                  closeButton: false,
+                  callback: callback
+              });
 
-                dialog.init(function(){
-                    $timeout(function(){
-                        dialog.modal('hide');
-                    }, 3000);
-                });
+              dialog.on('click.bs.modal', function(){
+                dialog.modal('hide');
+              });
+              dialog.on('hide.bs.modal', function(){
+                if(callback) callback();
+                if(timeoutPromise){
+                  $timeout.cancel(timeoutPromise);
+                }
+              });
+              dialog.on('hidden.bs.modal', function(){
+                // remove modal from DOM
+              });
 
-            });
+              timeoutPromise = $timeout(function(){
+                dialog.modal('hide');
+                if(callback) callback();
+              }, 3000);
+            }
+
+            var tempalte = $templateCache.get(templateURL);
+            if(tempalte){
+              makeModal(tempalte);
+            } else {
+              $templateRequest(templateURL).then(makeModal);
+            }
         }
 
         /**
