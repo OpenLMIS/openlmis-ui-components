@@ -21,7 +21,7 @@
       totalConsumedQuantity: calculateTotalConsumedQuantity,
       stockOnHand: calculateStockOnHand,
       totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
-      total:calculateTotal
+      total: calculateTotal
     };
     return factory;
 
