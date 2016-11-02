@@ -13,12 +13,13 @@
                 <input id="searchRequisition" class="search-query" ng-change="filterRequisitions()" type="text"
                        ng-model="query"/>
                 <span openlmis-message="label.in"></span>
-                <select ng-model="searchField" ng-change="filterRequisitions()">
-                    <option value="" openlmis-message="option.value.all"></option>
-                    <option value="program.name" openlmis-message="option.value.program"></option>
-                    <option value="facility.code" openlmis-message="option.value.facility.code"></option>
-                    <option value="facility.name" openlmis-message="option.value.facility.name"></option>
-                </select>
+                <openlmis-select
+                        placeholder="{{ typeOptionMessage() }}",
+                        ng-model="searchField",
+                        items="labels",
+                        field-displayed="name",
+                        track-by="name"><
+                </openlmis-select>
             </div>
         </div>
         <div id="approveReqList" class="grid" ui-grid="gridOptions" ng-show="requisitions.length"></div>

@@ -23,12 +23,17 @@
         $scope.selectedRnrType = {"name": messageService.get("requisition.type.regular"), "emergency": false}; // TODO emergency (for now always false)
 
         $scope.rnrTypes = {"types": [
-            {"name": messageService.get("requisition.type.regular"), "emergency": false},
-             {"name": messageService.get("requisition.type.emergency"), "emergency": true}
+            {"name": messageService.get("requisition.type.regular"), "emergency": false}
         ]};// TODO emergency (for now always false)
 
         $scope.types = [{"name": "Regular", "emergency": false},
         {"name": "Emergency", "emergency": true}];
+
+        $scope.$watch('selectedProgram.item', function() {
+            loadPeriods();
+        }, true);
+
+        $scope.facilities =[];
 
         $scope.selectedType = 0;
 

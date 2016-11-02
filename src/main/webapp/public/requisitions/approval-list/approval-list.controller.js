@@ -13,6 +13,23 @@
     $scope.filteredRequisitions = $scope.requisitions;
     $scope.selectedItems = [];
 
+
+   $scope.labels = [
+        {"value": "", "name": messageService.get("option.value.all")},
+        {"value": messageService.get("program.name"),
+            "name": messageService.get("option.value.program")},
+        {"value": messageService.get("facility.name"),
+            "name": messageService.get("option.value.facility.name")},
+        {"value": messageService.get("facility.code"),
+            "name": messageService.get("option.value.facility.code")}
+    ];
+ 
+    $scope.$watch('searchField.item', function() {
+        if($scope.searchField) {
+            $scope.filterRequisitions();
+        }
+    }, true);
+
     $scope.gridOptions = { data: 'filteredRequisitions',
       showFooter: false,
       showSelectionCheckbox: false,
@@ -37,6 +54,10 @@
       ]
     };
 
+    $scope.typeOptionMessage = function() {
+        return messageService.get("label.select.type");
+    }
+
     $scope.openRnr = function (row) {
       $state.go('requisitions.requisition', {
         rnr: row.entity.id
@@ -46,10 +67,11 @@
     $scope.filterRequisitions = function () {
       $scope.filteredRequisitions = [];
       var query = $scope.query || "";
-      var searchField = $scope.searchField;
+      var searchField = $scope.searchField.item.value;
 
       $scope.filteredRequisitions = $.grep($scope.requisitions, function (rnr) {
-        return (searchField) ? contains(getFieldValue(rnr,searchField), query) : matchesAnyField(query, rnr);
+        return (searchField) ? contains(getFieldValue(rnr,searchField), query)
+         : matchesAnyField(query, rnr);
       });
 
       $scope.resultCount = $scope.filteredRequisitions.length;

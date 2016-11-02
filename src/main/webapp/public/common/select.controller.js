@@ -7,15 +7,9 @@
     function SelectController($scope, $attrs) {
         $scope.selected = {};
         $scope.ngModel = $scope.selected;
+        $scope.searchEnabled = false;
 
-
-        $scope.selectedChanged = function() {
-            $scope.onChange();
-        }
-
-        if ($scope.items.length < 11) {
-            $scope.searchEnabled = false;
-        } else {
+        if ( $scope.items && $scope.items.length > 10) {
             $scope.searchEnabled = true;
         }
 

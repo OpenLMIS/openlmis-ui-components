@@ -15,17 +15,21 @@
     </fieldset>
     <div class="form-group">
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
-      <select id="facilityName" disabled>
-        <option>{{facilityDisplayName}}</option>
-      </select>
+      <openlmis-select id="facilityName" disabled
+        ng-model="facilities"
+        placeholder=" {{facilityDisplayName}} ">
+      </openlmis-select>
     </div>
     <div class="form-group">
       <label for="programListMyFacility" openlmis-message="label.program"></label>
-      <select placeholder="{{ programOptionMessage() }}"
+      <openlmis-select
         id="programListMyFacility"
-        ng-model="selectedProgram" ng-change="loadPeriods()"
-        ng-options="program.name for program in programs track by program.id">
-      </select>
+        ng-model="selectedProgram"
+        items="programs",
+        placeholder="{{ programOptionMessage() }}"
+        field-displayed="name"
+        order-by="id"
+        track-by="name"></openlmis-select>
     </div>
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.type"></legend>

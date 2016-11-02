@@ -8,12 +8,14 @@
         return {
             scope: {
                 ngModel: '=ngModel',
-                onChange: '&?onChange',
                 items: '=items',
-                placeholder: '@placeholder'
+                placeholder: '@?placeholder',
+                fieldDisplayed: '@fieldDisplayed',
+                orderBy: '@?',
+                trackBy: '@?'
             },
-            restrict: 'EA',
-
+            restrict: 'E',
+            replace: 'true',
             templateUrl: 'common/select.html',
             controller: 'SelectController',
         };
