@@ -51,7 +51,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against program name', function () {
     scope.query = "first";
-    scope.searchField = "program.name";
+    scope.searchField = {item: {name: "name", value: "program.name"}};
 
     scope.filterRequisitions();
 
@@ -61,7 +61,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against facility name', function () {
     scope.query = "second facility";
-    scope.searchField = "facility.name";
+    scope.searchField = {item: {name: "name", value: "facility.name"}};
     scope.filterRequisitions();
 
     expect(scope.filteredRequisitions.length).toEqual(1);
@@ -70,7 +70,7 @@ describe('ApproveRnrListController', function () {
 
   it('should Filter requisitions against facility code', function () {
     scope.query = "second CO";
-    scope.searchField = "facility.code";
+    scope.searchField = {item: {name: "name", value: "facility.code"}};
     scope.filterRequisitions();
 
     expect(scope.filteredRequisitions.length).toEqual(1);
@@ -79,7 +79,7 @@ describe('ApproveRnrListController', function () {
 
   it('should be able to Filter requisitions against all fields also', function() {
     scope.query = "second";
-    scope.searchField = "";
+    scope.searchField = {item: {name: "name", value: ""}};
 
     scope.filterRequisitions();
 
@@ -89,7 +89,7 @@ describe('ApproveRnrListController', function () {
 
   it('should be able to case-insensitively Filter requisitions', function() {
     scope.query = "seCOnD";
-    scope.searchField = "";
+    scope.searchField = {item: {name: "name", value: ""}};
 
     scope.filterRequisitions();
 
