@@ -6,7 +6,7 @@
     <div class="alert alert-info" id="NoRequisitionsPendingMessage" ng-hide="requisitions.length"
          openlmis-message="message.no.rnr.pending.approval">
     </div>
-    <div ng-show="requisitions.length">
+    <div class="approval-list" ng-show="requisitions.length">
         <div class="row-fluid">
             <div class="span6 offset6 grid-filters">
                 <label for="searchRequisition" openlmis-message="label.search"></label>
@@ -21,6 +21,6 @@
                 </select>
             </div>
         </div>
-        <div id="approveReqList" class="grid grid-approval-list" ui-grid="gridOptions" ng-show="requisitions.length"></div>
+        <div id="approveReqList" class="grid" ui-grid="gridOptions" ng-show="requisitions.length"></div>
     </div>
 </div>
