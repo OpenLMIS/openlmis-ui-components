@@ -25,6 +25,10 @@
         Column.TOTAL_CONSUMED_QUANTITY,
         Column.TOTAL_LOSSES_AND_ADJUSTMENTS
       ],
+      total: [
+        Column.BEGINNING_BALANCE,
+        Column.TOTAL_RECEIVED_QUANTITY
+      ],
       requestedQuantityExplanation: [
         Column.REQUESTED_QUANTITY
       ]

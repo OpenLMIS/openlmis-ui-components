@@ -13,12 +13,15 @@
         B = Column.TOTAL_RECEIVED_QUANTITY,
         C = Column.TOTAL_CONSUMED_QUANTITY,
         D = Column.TOTAL_LOSSES_AND_ADJUSTMENTS,
-        E = Column.STOCK_ON_HAND;
+        E = Column.STOCK_ON_HAND,
+        Y = Column.TOTAL;
+
 
     var factory = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
       stockOnHand: calculateStockOnHand,
-      totalLossesAndAdjustments: calculateTotalLossesAndAdjustments
+      totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
+      total:calculateTotal
     };
     return factory;
 
@@ -28,6 +31,10 @@
     
     function calculateStockOnHand(lineItem) {
       return lineItem[A] + lineItem[B] - lineItem[C] + lineItem[D];
+    }
+
+    function calculateTotal(lineItem) {
+      return lineItem[A] + lineItem[B];
     }
 
     function calculateTotalLossesAndAdjustments(lineItem, stockAdjustmentReasons) {

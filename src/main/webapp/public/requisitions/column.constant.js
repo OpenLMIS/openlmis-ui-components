@@ -18,6 +18,7 @@
       TOTAL_RECEIVED_QUANTITY: 'totalReceivedQuantity',
       TOTAL_CONSUMED_QUANTITY: 'totalConsumedQuantity',
       TOTAL_LOSSES_AND_ADJUSTMENTS: 'totalLossesAndAdjustments',
+      TOTAL: 'total',
       PRODUCT_CODE: 'productCode',
       PRODUCT_NAME: 'productName'
     };
