@@ -43,7 +43,7 @@
             $scope.currentRnrLineItem.stockAdjustments = [];
         }
         $scope.currentRnrLineItem.stockAdjustments.push({
-            'reasonId': $scope.adjustment.reason.id,
+            'reasonId': $scope.adjustment.reason.item.id,
             'quantity': $scope.adjustment.quantity
         })
         $scope.updateTotalLossesAndAdjustments();

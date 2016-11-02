@@ -79,10 +79,12 @@
         function loadPeriods() {
             $scope.error = "";
             $scope.periodGridData = [];
-            if (!($scope.selectedProgram && $scope.selectedProgram.id && $scope.selectedFacilityId)) {
+            if (!($scope.selectedProgram && $scope.selectedProgram.item.id && $scope
+            .selectedFacilityId)) {
                 return;
             }
-            PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, false).then(function(data) {
+            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, false).then
+            (function(data) {
                 $scope.isEmergency = false;
                 if (data.length === 0) {
                     $scope.error = messageService.get("msg.no.period.available");
@@ -103,7 +105,7 @@
                 });
             } else {
                 RequisitionService.initiate($scope.selectedFacilityId,
-                    $scope.selectedProgram.id,
+                    $scope.selectedProgram.item.id,
                     selectedPeriod.id,
                     false).then(
                     function (data) {
