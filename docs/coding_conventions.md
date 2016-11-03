@@ -111,8 +111,17 @@ To keep file sizes small, consider breaking up files according to SMACSS guideli
 
 General conventions:
 * All code should be within an [immedately invoked scope|https://github.com/johnpapa/angular-styleguide/tree/master/a1#iife]
+* *ONLY ONE OBJECT PER FILE*
 * Variable and function names should be written in camelCase
 * All Angular object names should be written in CamelCase
+
+### Documentation
+To document the OpenLMIS-UI, we are using [ngDocs|https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation] built with [grunt-ngdocs|https://www.npmjs.com/package/grunt-ngdocs].
+
+* Any object's exposed methods or variables must be documented with ngDoc
+
+### Unit Testing Guidelines
+stub stub stub
 
 ### Angular V1 Object Guidelines
 AngularJS has many different object types — here are the following types the OpenLMIS-UI primarily uses. If there is a need for object types not documented, please refer to the John Papa Angular V1 styleguide.
@@ -158,18 +167,50 @@ function sample(){
 ```
 
 #### Controller
+Controllers are all about connecting data and logic from Factories and Services to HTML Views. An ideal controller won't do much more than this, and will be as 'thin' as possible.
+
+Controllers are typically specific in context, so as a rule controllers should never be reused. A controller can be linked to a HTML form, which might be reused in multiple contexts — but that controller most likely wouldn't be applicable in other places.
+
+It is also worth noting that [John Papa insists that controllers don't directly manipulate properties|https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#controllers] in $scope, but rather the [ControllerAs|https://docs.angularjs.org/api/ng/directive/ngController] syntax should be used which injects the controller into a HTML block's context. The main rationale is that it makes the $scope variables less cluttered, and makes the controller more testable as an object.
+
+*General Conventions*
+* Should be only object changing application $state
+* Is used in a single context
+* Doesn't directly manipulate $scope variables
 
 #### Routes
+Routing logic is defined by [UI-Router,|https://ui-router.github.io/ng1/] where a URL path is typically paired with an HTML View and Controller.
 
-#### Interceptor
+*General Conventions*
+* The [UI-Router resolve properties|https://github.com/angular-ui/ui-router/wiki#resolve] are used to ease loading on router
+* [Routes should define their own views,|https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271] if their layout is more complicated than a single section 
+
+#### HTTP Interceptor
+HTTP Interceptors are technically factories that have been configured to 'intercept' certain types of requests in Angular and modify their behavior. This is recommended because other Angular objects can use consistent Angular objects, reducing the need to write code that is specialized for our own framework.
+
+The Angular guide to writting [HTTP Interceptors is here|https://docs.angularjs.org/api/ng/service/$http#interceptors]
+
+*General Conventions*
+* Write interceptors so they only chanage a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
+* Don't include HTTP Interceptors in openlmis-core, as the interceptor might be injected into all other unit tests — which could break everything
 
 #### Directive
+Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
+
+*General Conventions*
+* Restrict directives to only elements or attributes
+* Don't use an isolated scope unless you absolutely have to
+* If the directive needs extenal information, use a controller — don't manipulate data in a link function
 
 #### Modal
+A modal object isn't a 'native Angular object' — it is a service or factory that displays a modal window. This is done for convience and because it allows modal windows to not be declared in html files — and be used more easily by controllers (or even services, if appropriate).
 
-### Documentation
-To document the OpenLMIS-UI, we are using [ngDocs|https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation] built with [grunt-ngdocs|https://www.npmjs.com/package/grunt-ngdocs].
+*General Conventions*
+* 
 
-* Any object's exposed methods or variables must be documented with ngDoc
+#### HTML Views
+Angular allows HTML files to have variables and simple logic evaluated within the markup.
 
-### Unit Testing Guidelines
+*General Conventions*
+* If there is logic that is more complicated than a single if statement, move that logic to a controller
+* Use filters to format variable output — don't format variables in a controller
