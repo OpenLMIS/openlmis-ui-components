@@ -51,6 +51,10 @@ input[type='text'] {
   outline: 0 none !important;
 }
 
+input[placeholder].placeholder {
+  color: $medium-gray;
+}
+
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,

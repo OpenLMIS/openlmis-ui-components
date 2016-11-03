@@ -1,0 +1,151 @@
+
+.search-query {
+  margin-top: 10px;
+}
+
+.search-list {
+  position: relative;
+  border: 1px solid $medium-gray;
+  border-radius: 3px;
+  margin: 10px 0;
+  h3 {
+    padding: 8px 10px;
+    margin: 0;
+    background: $very-light-gray; /* Old browsers */
+    background: -moz-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $very-light-gray), color-stop(100%, $light-gray)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* IE10+ */
+    background: linear-gradient(to bottom, $very-light-gray 0%, $light-gray 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$very-light-gray', endColorstr='$light-gray', GradientType=0); /* IE6-9 */
+    line-height: normal;
+    text-shadow: 0 1px 0 $white;
+    color: $dark-gray;
+  }
+  .close-btn {
+    @include size(16px);
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    opacity: 0.8;
+    background: url(../images/close-icon.png) no-repeat left top;
+    text-indent: -999em;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  ul {
+    margin: 0;
+    list-style: none;
+    li {
+      border-top: 1px solid $medium-gray;
+      &:first-child {
+        border-top: 0;
+      }
+      > a {
+        padding: 10px;
+        display: block;
+        &:hover, &:focus {
+          + .user-actions a {
+            display: inline-block;
+          }
+        }
+      }
+      > span {
+        padding: 10px;
+        display: block;
+      }
+      &:hover > a {
+        background-color: $very-light-gray;
+      }
+      &:hover .user-actions a {
+        display: inline-block !important;
+      }
+    }
+    .user-actions {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      padding: 6px 0;
+      display: inline-block;
+      a {
+        display: none;
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.search-list {
+  position: relative;
+  border: 1px solid $medium-gray;
+  border-radius: 3px;
+  margin: 10px 0;
+  h3 {
+    padding: 8px 10px;
+    margin: 0;
+    background: $very-light-gray; /* Old browsers */
+    background: -moz-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $very-light-gray), color-stop(100%, $light-gray)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $very-light-gray 0%, $light-gray 100%); /* IE10+ */
+    background: linear-gradient(to bottom, $very-light-gray 0%, $light-gray 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$very-light-gray', endColorstr='$light-gray', GradientType=0); /* IE6-9 */
+    line-height: normal;
+    text-shadow: 0 1px 0 $white;
+    color: $dark-gray;
+  }
+  .close-btn {
+    @include size(16px);
+    position: absolute;
+    top: 10px;
+    right: 11px;
+    opacity: 0.8;
+    background: url(../images/close-icon.png) no-repeat left top;
+    text-indent: -999em;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  ul {
+    margin: 0;
+    list-style: none;
+
+    li {
+      position: relative;
+      border-top: 1px solid $medium-gray;
+      &:first-child {
+        border-top: 0;
+      }
+      > a {
+        padding: 10px;
+        display: block;
+        &:hover, &:focus {
+          + .search-actions a {
+            display: inline-block;
+          }
+        }
+      }
+      &:hover > a {
+        background-color: $very-light-gray;
+      }
+      &:hover .search-actions a {
+        display: inline-block !important;
+      }
+    }
+
+    .search-actions {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      padding: 6px 0;
+      display: inline-block;
+      a {
+        display: none;
+        margin-right: 5px;
+      }
+    }
+  }
+}

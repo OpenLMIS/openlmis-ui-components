@@ -1,4 +1,40 @@
 
+/*
+Forms
+
+Base form elements which are used in OpenLMIS are presented below.
+
+markup:
+<form>
+	<legend>Example form elements</legend>
+	<label for="exampleTextInput" style="font-size:18px">Example text input elements</label>
+	<div id="exampleTextInput">
+		<p>Text input: <input type="text"/></p>
+	</div>
+	<label for="exampleCombobox" style="font-size:18px">Example combo box element</label>
+	<div id="exampleCombobox">
+		<select style="border-radius: 3px !important;">
+			<option value="1">--Select Option--</option>
+			<option value="0">EPI</option><option value="1">ART</option>
+			<option value="2">Essential Medicines</option>
+			<option value="3">Family Planning</option>
+			<option value="4">Malaria</option>
+		</select>
+	</div>
+	<label for="exampleCheckBox" style="font-size:18px">Example check box elements</label>
+	<div id="exampleCheckBox">
+		<p><input type="checkbox" value="0"/> Option 1</p>
+		<p><input type="checkbox" value="1"/> Option 2</p>
+	</div>
+	<label for="radioInput" style="margin-top:10px;font-size:18px">Example radio elements</label>
+	<div id="radioInput">
+		<p><input type="radio" name="radioExample" value="0"/> Option 1</p>
+		<p><input type="radio" name="radioExample" value="1"/> Option 2</p>
+	</div>
+</form>
+
+Styleguide 3.0
+*/
 
 .form-filter{
 	display: flex;

@@ -1,0 +1,164 @@
+/*
+Tables
+
+Tables in OpenLMIS are used to present data retrieved from the database. They can include not only text, but also icons and buttons.
+
+markup:
+<div class="table-container">
+  <table id="facilityApprovedProductTable" class="table search-list">
+    <thead>
+      <tr class="gradient-header">
+        <th class="col-full-supply">Fully Supply</th>
+        <th class="col-product-code">Code</th>
+        <th class="col-name">Name</th>
+        <th class="col-strength">Strenght</th>
+        <th class="col-unit-measure">Unit of measure</th>
+        <th class="col-max-months-stock">
+          <span>Max months of stock</span>
+          <span class="label-required">*</span>
+        </th>
+        <th class="col-min-months-stock">Min months of stock</th>
+        <th class="col-eop">Emergency Order Point</th>
+        <th class="col-icon-ok">Global active</th>
+        <th class="col-icon-ok">Active at program</th>
+        <th class="col-action"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="productCategory" colspan="11">Anti-malarials</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>P00833</td>
+        <td>Quinine Sulphate</td>
+        <td>300</td>
+        <td>mg</td>
+        <td class="right-justified col-max-months-stock">6</td>
+        <td class="right-justified position-relative col-min-months-stock"></td>
+        <td class="right-justified position-relative col-eop"></td>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Anti-pyretics</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>N-378013</td>
+        <td>Tramedol</td>
+        <td>50mg/ml</td>
+        <td>mg</td>
+        <td class="col-max-months-stock">6</td>
+        <td class="position-relative col-min-months-stock"></td>
+        <td class="position-relative col-eop"></td>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Malaria-Prophylaxis</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>A41099</td>
+        <td>Doxycycline</td>
+        <td>100</td>
+        <td>mg</td>
+        <td class="col-max-months-stock">6</td>
+        <td class="position-relative col-min-months-stock"></td>
+        <td class="position-relative col-eop"></td>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="productCategory" colspan="11">Test Kits</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>KM3375-2</td>
+        <td>Malaria Rapid Diagnostic Test</td>
+        <td>1</td>
+        <td>each</td>
+        <td class="col-max-months-stock">6</td>
+        <td class="position-relative col-min-months-stock"></td>
+        <td class="position-relative col-eop"></td>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td></td>
+        <td>
+          <input class="btn btn-primary btn-small" value="Edit" type="button"/>
+          <input class="btn btn-danger btn-small" value="Delete" type="button"/>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+Styleguide 1.6
+*/
+
+#facilityApprovedProductTable {
+  th, td {
+    line-height: 15px;
+  }
+  .col-full-supply {
+    max-width: 50px;
+    min-width: 50px;
+  }
+  .col-product-code {
+    min-width: 100px;
+    max-width: 125px;
+  }
+  .col-strength, .col-unit-measure {
+    min-width: 80px;
+    max-width: 100px;
+  }
+  .col-action {
+    min-width: 125px;
+  }
+  .col-max-months-stock, .col-min-months-stock, .col-eop {
+    min-width: 60px;
+    max-width: 125px;
+    input[type="text"] {
+      margin-bottom: 0;
+      width: 85%;
+    }
+  }
+  td .rnr-form-error {
+    bottom: 22px;
+    line-height: 20px;
+  }
+  .toolbar-error {
+    color: $red;
+  }
+  input.btn-danger {
+    margin-left: 3px;
+  }
+}

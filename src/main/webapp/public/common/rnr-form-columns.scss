@@ -1,0 +1,89 @@
+
+/* R&R form */
+
+th.col-remarks,
+th.col-reasonForRequestedQuantity,
+th.col-reasonForLossesAndAdjustments {
+  min-width: 280px;
+}
+
+td.col-general,
+td.col-beginningBalance,
+td.col-quantityReceived,
+td.col-quantityReturned,
+td.col-quantityDispensed,
+td.col-newPatientCount,
+td.col-stockInHand,
+td.col-stockOutDays,
+td.col-quantityRequested,
+td.col-quantityApproved {
+  input[type="text"] {
+    width: 89%;
+    text-align: right;
+  }
+}
+
+.col-row-number{
+  width: 20px;
+}
+
+td.col-expirationDate {
+  input[type="text"] {
+    width: 89%;
+  }
+}
+
+td.col-patientsOnTreatment,
+td.col-patientsToInitiateTreatment,
+td.col-patientsStoppedTreatment {
+  input[type="text"] {
+    text-align: right;
+  }
+}
+
+td.col-general,
+td.col-beginningBalance,
+td.col-total,
+td.col-stockInHand,
+td.col-normalizedConsumption,
+td.col-periodNormalizedConsumption,
+td.col-amc,
+td.col-maxStockQuantity,
+td.col-calculatedOrderQuantity,
+td.col-packsToShip,
+td.col-price,
+td.col-cost,
+td.col-lossesAndAdjustments {
+  span {
+    display: block;
+    text-align: right;
+  }
+  span.row-specific-error {
+    span {
+      text-align: left;
+    }
+  }
+}
+
+td.col-quantityReceived,
+td.col-quantityDispensed,
+td.col-newPatientCount,
+td.col-stockOutDays,
+td.col-quantityRequested,
+td.col-patientsOnTreatment,
+td.col-patientsToInitiateTreatment,
+td.col-patientsStoppedTreatment,
+td.col-quantityApproved,
+td.col-packsToShip,
+td.col-quantityShipped {
+  span {
+    text-align: right;
+    display: block;
+  }
+}
+
+td.col-remarks {
+  input[type="text"] {
+    width: 93%;
+  }
+}
