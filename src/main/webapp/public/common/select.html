@@ -1,5 +1,5 @@
 <div>
-    <ui-select theme="select2" ng-model="selected.item" search-enabled="searchEnabled">
+    <ui-select ng-model="selected.item" search-enabled="searchEnabled">
         <ui-select-match ng-model="selected.item" placeholder="{{placeholder}}" >
             {{$select.selected[fieldDisplayed]}}</ui-select-match>
         <ui-select-choices repeat="item in items | orderBy:'{{orderBy}}' track by item[trackBy]">
