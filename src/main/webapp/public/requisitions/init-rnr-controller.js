@@ -76,7 +76,7 @@
         function loadPeriods() {
             $scope.error = "";
             $scope.periodGridData = [];
-            if (!($scope.selectedProgram && $scope.selectedProgram.item.id && $scope
+            if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope
             .selectedFacilityId)) {
                 return;
             }
