@@ -8,6 +8,4 @@
     <tbody ng-repeat="lineItem in (sortedLineItems = (ngModel.requisitionLineItems | orderBy: ['orderableProduct.programs[0].productCategoryDisplayName', 'orderableProduct.name']))" product-grid-row>
     </tbody>
   </table>
-
-  <ng-include src="'/public/requisitions/product-grid/losses-and-adjustments.html'"></ng-include>
 </div>

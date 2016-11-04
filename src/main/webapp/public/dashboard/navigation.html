@@ -1,7 +1,7 @@
 <ul>
-  <li ng-repeat="state in states" ng-class="{'dropdown':hasChildStates(state)}">
-  	<a ng-if="hasChildStates(state)" class="dropdown-toggle" openlmis-message="NavigationCtrl.getStateLabel(state)"></a>
+  <li ng-repeat="state in states" ng-class="{'dropdown':hasChildStates(state)}" uib-dropdown>
+  	<a ng-if="hasChildStates(state)" class="dropdown-toggle" uib-dropdown-toggle openlmis-message="NavigationCtrl.getStateLabel(state)"></a>
     <a ng-if="!hasChildStates(state)" ui-sref="{{state}}" openlmis-message="NavigationCtrl.getStateLabel(state)"></a>
-    <openlmis-navigation ng-if="hasChildStates(state)" class="dropdown-menu" root-state="state"></openlmis-navigation>
+    <openlmis-navigation ng-if="hasChildStates(state)" class="dropdown-menu" uib-dropdown-menu root-state="state"></openlmis-navigation>
   </li>
 </ul>

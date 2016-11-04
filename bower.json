@@ -19,7 +19,7 @@
     "angular-local-storage": "*",
     "select2": "3.4.2",
     "underscore": "*",
-    "angular-bootstrap": "0.1.0",
+    "angular-bootstrap": "*",
     "angular-ui-grid": "^3.2.9",
     "angular-ui-sortable": "*",
     "jquery-ui": "^1",
@@ -28,7 +28,8 @@
     "font-awesome": "^4.6.3",
     "bootbox": "4.4.0",
     "ngBootbox": "0.1.3",
-    "angular-ui-select": "^0.19.5"
+    "angular-ui-select": "^0.19.5",
+    "angularjs-dropdown-multiselect": "*"
   },
   "overrides": {
     "jquery": {
@@ -54,11 +55,6 @@
       "main": [
         "ui-grid.css",
         "ui-grid.js"
-      ]
-    },
-    "angular-bootstrap": {
-      "main": [
-        "ui-bootstrap.js"
       ]
     }
   },
