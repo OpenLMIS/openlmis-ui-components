@@ -131,3 +131,23 @@ table.search-list {
     color: $dark-gray;
   }
 }
+
+.loader-icon {
+  @include size(100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(255,255,255,0.6);
+}
+
+img[src="/public/images/loader.gif"] {
+  position: fixed;
+  background: white;
+  padding: 3px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border:1px solid #aaa;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px #aaa
+}
