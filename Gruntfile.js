@@ -248,6 +248,22 @@ module.exports = function(grunt) {
           }
         ]
       },
+      bootstrapFonts: {
+        files: [
+          {
+            expand: true,
+            cwd: 'bower_components/bootstrap/fonts/',
+            src: [
+              'glyphicons-halflings-regular.eot',
+              'glyphicons-halflings-regular.svg',
+              'glyphicons-halflings-regular.ttf',
+              'glyphicons-halflings-regular.woff',
+              'glyphicons-halflings-regular.woff2'
+            ],
+            dest: config.app.dest + '/public/fonts/bootstrap'
+          }
+        ]
+      },
       selectTwoImages: {
         expand: true,
         cwd: 'bower_components/select2/',
