@@ -1,0 +1,67 @@
+.adjustment-list {
+max-height: 15em;
+  margin-top: 1em;
+  overflow: auto;
+  border: 0.1em solid $medium-gray;
+  background: $very-light-gray;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      border-top: 0.1em solid $light-gray;
+      &:first-child {
+        border-top: 0 none;
+      }
+      .tpl-adjustment-type {
+        width: 57em;
+        line-height: 2em;
+      }
+      .tpl-adjustment-qty {
+        float: right;
+        text-align: right;
+        input {
+          width: 70px;
+          padding-right: 10px;
+          margin-bottom: 0;
+          border-radius: 3px;
+          text-align: right;
+        }
+      }
+      .tpl-adjustment-delete {
+        padding-top: 0.5em;
+        float: right;
+      }
+    }
+  }
+}
+
+.rnr-adjustment {
+  padding: 0 0.5em;
+  display: block;
+  font-size: 1.0em;
+  line-height: 2em;
+  text-align: right;
+  background: url(../images/edit-icon.png) no-repeat 0.5em center;
+  .adjustment-value {
+    font-weight: bold;
+  }
+}
+
+.adjustment-total {
+  padding: 0.6em 2.5em 0.6em 0.6em;
+  margin: 0.5em 0 0;
+  border-radius: 0;
+  border-color: $orange;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: right;
+}
+
+.adjustment-warning {
+  padding: 0.6em 2.5em 0.6em 0.6em;
+  margin: 0.5em 0 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: left;
+}

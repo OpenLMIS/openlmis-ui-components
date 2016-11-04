@@ -1,5 +1,4 @@
 #product-grid {
-
 	tbody {
 		tr.invalid-row {
 			background-color: $light-red;
@@ -10,24 +9,4 @@
 			}
 		}
 	}
-    .tpl-adjustment-type {
-      width: 220px;
-      line-height: 26px;
-    }
-    .tpl-adjustment-qty {
-      float: right;
-      text-align: right;
-      input {
-        width: 70px;
-        padding-right: 10px;
-        margin-bottom: 0;
-        border-radius: 3px;
-        text-align: right;
-      }
-    }
-    .tpl-adjustment-delete {
-      padding-top: 14px;
-      float: right;
-    }
-
 }

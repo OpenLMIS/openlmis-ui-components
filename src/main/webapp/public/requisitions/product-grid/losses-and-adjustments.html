@@ -11,7 +11,8 @@
                     ></openlmis-select>
             </div>
             <div class="col-md-3">
-                <input type="number" min="0" openlmis-message="placeholder.quantity" ng-model="adjustment.quantity" class="form-input" required />
+                <input type="number" min="0" openlmis-message="placeholder.quantity"
+                       ng-model="adjustment.quantity" class="form-control" required />
             </div>
             <div class="col-md-3">
                 <button class="btn btn-primary" ng-click="addAdjustment()" openlmis-message="button.add"></button>
@@ -27,11 +28,13 @@
                     <span class="tpl-adjustment-type" ng-bind="getReasonName(adjustment.reasonId)"></span>
                 </div>
                 <div class="col-sm-4">
-                    <input type="number" min="0" class="tpl-adjustment-qty form-input"
+                    <input type="number" min="0" class="form-control tpl-adjustment-qty"
                            ng-model="adjustment.quantity" ng-change="updateTotalLossesAndAdjustments()" required />
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-default" ng-click="removeAdjustment(adjustment)" openlmis-message="button.remove"></button>
+                    <span class="tpl-adjustment-delete">
+                        <button class="btn btn-default" ng-click="removeAdjustment(adjustment)" openlmis-message="button.remove"></button>
+                    </span>
                 </div>
             </li>
         </ul>
