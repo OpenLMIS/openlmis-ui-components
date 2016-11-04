@@ -8,12 +8,12 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 700px;
-  margin-left: -330px;
-  margin-top: -220px;
-  box-shadow: 0 0 15px $dark-gray;
-  border: 1px solid white;
-  border-radius: 6px;
+  width: 50em;
+  margin-left: -24em;
+  margin-top: -15.5em;
+  box-shadow: 0 0 1em $dark-gray;
+  border: 0.1em solid white;
+  border-radius: 0.5em;
 }
 
 .login-container {
@@ -23,14 +23,13 @@ body {
   background: -ms-linear-gradient(top, $white 0%, $white 48%, $light-gray 100%); /* IE10+ */
   background: linear-gradient(to bottom, $white 0%, $white 48%, $light-gray 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '$white', endColorstr = '$light-gray', GradientType = 0); /* IE6-9 */
-  border-radius: 4px;
+  border-radius: 0.3em;
   h1 {
     font-size: 1.3em;
     color: $gray;
     margin: 0;
-    line-height: 24px;
-//    padding: 14px;
-    text-shadow: 0 1px 0 $white;
+    line-height: 1.5em;
+    text-shadow: 0 0.1em 0 $white;
     font-weight: normal;
     border-color: transparent;
     font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
@@ -39,13 +38,13 @@ body {
     font-size: 1.4em;
     color: $dark-gray;
     margin: 0;
-    padding: 15px 0;
-    line-height: 30px;
+    padding: 0.8em 0;
+    line-height: 1.5em;
     border-color: transparent;
   }
   .alert-error {
     font-size: 0.9em;
-    line-height: 17px;
+    line-height: 1.5em;
     border-color: $red;
   }
   form {
@@ -53,21 +52,21 @@ body {
   }
   input:focus:required:invalid:focus {
     border-color: $heading-green;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(23, 136, 143, 0.6);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 80px rgba(23, 136, 143, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 80px rgba(23, 136, 143, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 80px rgba(23, 136, 143, 0.6);
   }
   input {
     &[type='text'], &[type='password'] {
       width: 95%;
-      margin-bottom: 20px;
+      margin-bottom: 1.5em;
     }
     &.btn {
       font-size: 1.15em;
-      margin-bottom: 12px;
+      margin-bottom: 1em;
       &.btn-primary {
         float: right;
-        margin-right: 18px;
+        margin-right: 1em;
         }
     }
   }
@@ -104,29 +103,13 @@ input[type="color"]:focus,
 }
 
 .login-form {
-  background: url(../images/login-bg.png) no-repeat 20px top;
-  padding: 0 55px 0 330px;
-  min-height: 310px;
-}
-
-.forgot-password-form {
-  padding: 2px 20px 25px;
-  min-height: 140px;
-  input[type='text'],
-  input[type='password'] {
-    margin-bottom: 15px;
-  }
-  .login-form-row {
-    width: 55%;
-  }
-  input.btn {
-    margin: 8px 10px 0 0;
-    padding: 9px 40px;
-  }
+  background: url(../images/login-bg.png) no-repeat 1.5em top;
+  padding: 0 4em 0 23.5em;
+  min-height: 22em;
 }
 
 .forgot-link {
-  padding: 15px 0 20px;
+  padding: 1em 0 1.5em;
 }
 
 .form-desc {
@@ -139,15 +122,9 @@ input[type="color"]:focus,
 
 .powered-by {
   text-align: right;
-  padding: 0px 10px;
+  padding: 0px 1em;
   font-size: 0.7em;
   color: $gray;
-}
-
-.modal-login {
-  width: 692px;
-  margin-left: -346px;
-  z-index: 1051; // The angular modal has z-index as 1050
 }
 
 input[placeholder].placeholder {
@@ -155,8 +132,8 @@ input[placeholder].placeholder {
 }
 
 .modal-login-header {
-  border-bottom: 1px solid $medium-gray;
-  border-radius: 3px 3px 0 0;
+  border-bottom: 0.1em solid $medium-gray;
+  border-radius: 0.3em 0.3em 0 0;
   @include linear-gradient(to bottom, $white 30%, $light-gray 100%);
   @include clearfix();
   padding: 0.5em 1em;
@@ -189,7 +166,7 @@ input[placeholder].placeholder {
     }
     &:last-child::after{
       content: "";
-      padding: 0px;
+      padding: 0em;
     }
   }
 }
