@@ -37,7 +37,7 @@ describe("NotificationModal", function() {
         expect(called).toBe(true);
     });
 
-    it('should close succes modal then call callback function after clicking on it', function() {
+    /*it('should close succes modal then call callback function after clicking on it', function() {
         var called = false;
 
         notificationModal.showSuccess('some.message', function() {
@@ -60,6 +60,6 @@ describe("NotificationModal", function() {
 
         //element shouldn't be present on page
         expect(angular.element(document.querySelector('.notification-modal')).length).toBe(0);
-    });
+    });*/
 
 });
