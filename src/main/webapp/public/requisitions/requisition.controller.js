@@ -33,7 +33,7 @@
 
         function saveRnr() {
             save().then(function(response) {
-               NotificationModal.showSuccess('msg.rnr.save.success', reloadState);
+               NotificationModal.showSuccess('msg.rnr.save.success').then(reloadState);
             });
         };
 
@@ -42,7 +42,7 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$submit().then(function(response) {
-                            NotificationModal.showSuccess('msg.rnr.submitted.success', reloadState);
+                            NotificationModal.showSuccess('msg.rnr.submitted.success').then(reloadState);
                         }, function(response) {
                             NotificationModal.showError('msg.rnr.submitted.failure');
                         });
@@ -58,7 +58,7 @@
                 if (requisition.$isValid()) {
                     save().then(function() {
                         $scope.requisition.$authorize().then(function(response) {
-                            NotificationModal.showSuccess('msg.rnr.authorized.success', reloadState);
+                            NotificationModal.showSuccess('msg.rnr.authorized.success').then(reloadState);
                         }, function(response) {
                             NotificationModal.showError('msg.rnr.authorized.failure');
                         });

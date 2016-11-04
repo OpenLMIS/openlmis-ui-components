@@ -13,54 +13,54 @@
     angular.module('openlmis-core')
         .service('NotificationModal', NotificationModal);
 
-    NotificationModal.$inject = ['$rootScope', '$templateCache', '$templateRequest', '$compile', '$timeout', 'bootbox', 'messageService'];
+    NotificationModal.$inject = ['$rootScope', '$templateCache', '$templateRequest', '$compile', '$timeout', '$q', 'bootbox', 'messageService'];
 
-    function NotificationModal($rootScope, $templateCache, $templateRequest, $compile, $timeout, bootbox, messageService) {
+    function NotificationModal($rootScope, $templateCache, $templateRequest, $compile, $timeout, $q, bootbox, messageService) {
         var templateURL = 'common/notification-modal.html';
 
-        function showModal(message, callback, type){
-            var scope = $rootScope.$new();
+        function showModal(message, type){
+            var deferred = $q.defer(),
+                scope = $rootScope.$new();
             scope.message = messageService.get(message);
             scope.type = type;
 
             // Made function within scope to deal with cache checking
-            function makeModal(html){
-              var timeoutPromise;
+            function makeModal(html) {
+                var timeoutPromise,
+                    dialog = bootbox.dialog({
+                        message: $compile(html)(scope),
+                        className: 'notification-modal',
+                        backdrop: true,
+                        onEscape: true,
+                        closeButton: false
+                    });
 
-              var dialog = bootbox.dialog({
-                  message: $compile(html)(scope),
-                  className: 'notification-modal',
-                  backdrop: true,
-                  onEscape: true,
-                  closeButton: false,
-                  callback: callback
-              });
+                dialog.on('click.bs.modal', function(){
+                    dialog.modal('hide');
+                });
+                dialog.on('hide.bs.modal', function(){
+                    deferred.resolve();
+                    if(timeoutPromise){
+                        $timeout.cancel(timeoutPromise);
+                    }
+                });
+                dialog.on('hidden.bs.modal', function(){
+                    angular.element(document.querySelector('.notification-modal')).remove();
+                });
 
-              dialog.on('click.bs.modal', function(){
-                dialog.modal('hide');
-              });
-              dialog.on('hide.bs.modal', function(){
-                if(callback) callback();
-                if(timeoutPromise){
-                  $timeout.cancel(timeoutPromise);
-                }
-              });
-              dialog.on('hidden.bs.modal', function(){
-                // remove modal from DOM
-              });
-
-              timeoutPromise = $timeout(function(){
-                dialog.modal('hide');
-                if(callback) callback();
-              }, 3000);
+                timeoutPromise = $timeout(function(){
+                    dialog.modal('hide');
+                }, 3000);
             }
 
             var tempalte = $templateCache.get(templateURL);
             if(tempalte){
-              makeModal(tempalte);
+                makeModal(tempalte);
             } else {
-              $templateRequest(templateURL).then(makeModal);
+                $templateRequest(templateURL).then(makeModal);
             }
+
+            return deferred.promise;
         }
 
         /**
@@ -70,11 +70,11 @@
           * @methodOf openlmis-core.NotificationModal
           * 
           * @description
-          * Shows success modal with custom message and callback function called on closing modal.
+          * Shows success modal with custom message and return promise.
           *
           */
-        function showSuccess(successMessage, callback) {
-            showModal(successMessage, callback, 'success');
+        function showSuccess(successMessage) {
+            return showModal(successMessage, 'success');
         }
 
         /**
@@ -84,11 +84,11 @@
           * @methodOf openlmis-core.NotificationModal
           * 
           * @description
-          * Shows error modal with custom message.
+          * Shows error modal with custom message and return promise.
           *
           */
         function showError(errorMessage) {
-            showModal(errorMessage, null, 'error');
+            return showModal(errorMessage, 'error');
         }
 
         return {

@@ -9,48 +9,30 @@
  */
 describe("NotificationModal", function() {
 
-    var timeout, notificationModal;
+    var timeout, notificationModal, rootScope, called;
 
     beforeEach(module('openlmis-core'));
 
-    beforeEach(inject(function(_$timeout_, NotificationModal, $templateCache) {
+    beforeEach(inject(function(_$rootScope_, _$timeout_, NotificationModal, $templateCache) {
         timeout = _$timeout_;
         notificationModal = NotificationModal;
+        rootScope = _$rootScope_;
 
         $templateCache.put('common/notification-modal.html', "something");
     }));
 
-    it('should close succes modal then call callback function after delay', function() {
-        var called = false;
-
-        notificationModal.showSuccess('some.message', function() {
-            called = true;
-        });
-
-        // callback hasn't happened yet
-        expect(called).toBe(false);
-        
-        timeout.flush();
-        timeout.verifyNoPendingTasks();
-        
-        // callback was fired
-        expect(called).toBe(true);
-    });
-
-    /*it('should close succes modal then call callback function after clicking on it', function() {
-        var called = false;
-
-        notificationModal.showSuccess('some.message', function() {
-            called = true;
-        });
-
-        // callback hasn't happened yet
-        expect(called).toBe(false);
-        
+    it('should close succes modal then call callback function after clicking on it', function() {
+        var callback = jasmine.createSpy();
+        notificationModal.showSuccess('some.message').then(callback);
         angular.element(document.querySelector('.notification-modal')).trigger('click');
-        
-        // callback was fired
-        expect(called).toBe(true);
+        waitsFor(function() {
+            rootScope.$digest();
+            return callback.callCount > 0;
+        }, "Callback has not been executed.", 1000);
+         
+        runs(function() {
+            expect(callback).toHaveBeenCalled();
+        });
     });
 
     it('should hide error modal after clicking on it', function() {
@@ -58,8 +40,27 @@ describe("NotificationModal", function() {
         
         angular.element(document.querySelector('.notification-modal')).trigger('click');
 
-        //element shouldn't be present on page
-        expect(angular.element(document.querySelector('.notification-modal')).length).toBe(0);
-    });*/
+        waitsFor(function() {
+            return angular.element(document.querySelector('.notification-modal')).length < 1;
+        }, "Modal has not been closed.", 1000);
+         
+        runs(function() {
+            expect(angular.element(document.querySelector('.notification-modal')).length).toBe(0);
+        });
+    });
+
+    it('should close succes modal then call callback function after delay', function() {
+        var callback = jasmine.createSpy();
+        notificationModal.showSuccess('some.message').then(callback);
+
+        // callback hasn't happened yet
+        expect(callback.callCount).toBe(0);
+        
+        timeout.flush();
+        timeout.verifyNoPendingTasks();
+        
+        // callback was fired
+        expect(callback).toHaveBeenCalled();
+    });
 
 });
