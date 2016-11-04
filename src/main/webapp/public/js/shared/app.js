@@ -8,41 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 var app = angular.module('openlmis-core');
-
-app.config(function ($httpProvider) {
-  var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
-
-    function responseSuccess(response) {
-      return response;
-    }
-
-    function responseError(response) {
-      switch (response.status) {
-        case 401:
-          loginConfig.preventReload = (response.config.method != 'GET');
-          loginConfig.modalShown = true;
-          break;
-        default:
-          break;
-      }
-      return $q.reject(response);
-    }
-
-    function request(config) {
-      config.headers["X-Requested-With"] = "XMLHttpRequest";
-      return config;
-    }
-
-    return {
-      'request': request,
-      'response': responseSuccess,
-      'responseError': responseError
-    };
-  }];
-  $httpProvider.interceptors.push(interceptor);
-});
 
 app.value("loginConfig", {modalShown: false, preventReload: false});
 

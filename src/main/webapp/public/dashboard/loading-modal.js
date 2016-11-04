@@ -13,6 +13,7 @@
     'use strict';
 
     angular.module('openlmis-core')
+<<<<<<< 7443520fda4a52788841455c827842ca2b1133ed
       .service('LoadingModal', LoadingModal);
 
     LoadingModal.$inject = ['$templateCache', '$templateRequest', '$timeout', '$q', 'bootbox'];
@@ -67,6 +68,37 @@
         }
 
         return service;
+=======
+      .service('LoadingModal', loadingModal);
+
+    function loadingModal() {
+
+        var actionsActive = 0,
+            loaderElement = angular.element('#loader'),
+            service = {
+                startLoading: add,
+                finishLoading: remove
+            };
+
+        return service;
+
+        function add() {
+            openLoadingIcon();
+        }
+
+        function remove() {
+            if (--actionsActive < 1)
+                closeLoadingIcon();
+        }
+
+        function openLoadingIcon() {
+            angular.element('#loader').show();
+        }
+
+        function closeLoadingIcon() {
+            angular.element('#loader').hide();
+        }
+>>>>>>> OLMIS-1160: Merge with master branch, minor improvements
     }
 
 })();
