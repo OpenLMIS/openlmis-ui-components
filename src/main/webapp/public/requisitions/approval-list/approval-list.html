@@ -14,7 +14,7 @@
                        ng-model="query"/>
                 <span openlmis-message="label.in"></span>
                 <openlmis-select
-                        placeholder="{{ typeOptionMessage() }}",
+                        placeholder="{{ 'label.select.type' | message }}",
                         ng-model="searchField",
                         items="labels",
                         field-displayed="name",

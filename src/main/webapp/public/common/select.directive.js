@@ -12,6 +12,7 @@
 
     angular.module("openlmis-core").directive('openlmisSelect', select);
 
+    select.$inject = ['$parse'];
     function select($parse) {
         return {
             scope: {
