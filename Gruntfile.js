@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    clean: ['build', 'quality', 'docs', 'images'],
+    clean: ['build', 'quality'],
     jshint: {
       options: {
         undef: false,
