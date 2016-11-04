@@ -24,7 +24,7 @@
             var deferred = $q.defer();
 
             resource.get({programId: programId, facilityId: facilityId, emergency: emergency}, function(data) {
-                getPeriodGridLineItems(data, programId, facilityId).then(function(items) {
+                getPeriodGridLineItems(data, programId, facilityId, emergency).then(function(items) {
                     deferred.resolve(items);
                 }).catch(function() {
                     deferred.reject();
@@ -35,7 +35,7 @@
             return deferred.promise;
         }
 
-        function getPeriodGridLineItems(periods, programId, facilityId) {
+        function getPeriodGridLineItems(periods, programId, facilityId, emergency) {
             var periodGridLineItems = [],
                 deferred = $q.defer();
 

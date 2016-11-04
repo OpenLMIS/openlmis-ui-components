@@ -1,3 +1,4 @@
+
 <div class="page">
   <h2 openlmis-message="label.initiate.requisition"></h2>
   <form class="form-filter">
@@ -24,19 +25,21 @@
       <openlmis-select
         id="programListMyFacility"
         ng-model="selectedProgram"
-        items="programs",
+        items="programs"
         placeholder="{{ programOptionMessage() }}"
         field-displayed="name"
         order-by="id"
         track-by="name"></openlmis-select>
     </div>
-    <fieldset class="form-group">
-      <legend openlmis-message="label.requisition.type"></legend>
-      <label ng-repeat="type in rnrTypes.types" class="radio">
-        {{type.name}}
-        <input type="radio" ng-model="selectedRnrType.emergency" ng-value="type.emergency" ng-change="loadPeriods();" />
-      </label>
-    </fieldset>
+    <div class="form-group">
+      <label for="rnrType" openlmis-message="label.requisition.type"></label>
+      <openlmis-select id="rnrType" ng-model="selectedRnrType"
+                       items="rnrTypes.types"
+                       field-displayed="name"
+                       placeholder="{{ selectedRnrType.name }}"
+                       track-by="emergency">
+      </openlmis-select>
+    </div>
   </form>
   <div ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
     ui-grid="periodGridOptions"
