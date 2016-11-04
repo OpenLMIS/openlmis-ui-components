@@ -1,0 +1,62 @@
+<div class="page">
+    <h2 openlmis-message="header.view.requisitions"></h2>
+    <form class="form-filter">
+        <div class="form-group">
+            <label for="facility" openlmis-message="label.requisition.facilityName"></label>
+            <select id="facility"
+                ng-model="selectedFacility" 
+                ng-change="loadPrograms()"
+                ng-options="facility.name for facility in facilities track by facility.id">
+            </select>
+            <!--<openlmis-select
+                id="facility"
+                ng-model="selectedFacility"
+                items="facilities"
+                field-displayed="name"
+                track-by="id"
+                ng-change="loadPrograms()">
+            </openlmis-select>-->
+        </div>
+        <div class="form-group">
+            <label for="program" openlmis-message="label.program"></label>
+            <select id="program"
+                ng-model="selectedProgram"
+                ng-options="program.name for program in programs track by program.id"
+                ng-disabled="!selectedFacility">
+            </select>
+            <!--<openlmis-select
+                id="program"
+                ng-model="selectedProgram"
+                items="programs"
+                field-displayed="name"
+                track-by="id">
+            </openlmis-select>-->
+        </div>
+        <div class="form-group">
+            <label for="status" openlmis-message="label.status"></label>
+            <div id="status"
+                ng-dropdown-multiselect="" 
+                options="statuses" 
+                selected-model="selectedStatuses" 
+                extra-settings="multiselectSettings">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="startDate" openlmis-message="label.from"></label>
+            <openlmis-datepicker id="startDate" value="startDate"></openlmis-datepicker>
+        </div>
+        <div class="form-group">
+            <label for="endDate" openlmis-message="label.to"></label>
+            <openlmis-datepicker id="endDate" value="endDate"></openlmis-datepicker>
+        </div>
+    </form>
+    <input id="searchButton" ng-click="search()"
+        class="btn btn-primary"
+        openlmis-message="button.search" type="button"
+        ng-if="selectedFacility"/>
+    <div id="requisitionViewList" 
+        class="grid grid-requisition-list" 
+        ui-grid="gridOptions" 
+        ng-if="requisitionList.length"></div>
+    <div ng-if="error" class="alert alert-error" openlmis-message="error" ng-show="error"></div>
+</div>
