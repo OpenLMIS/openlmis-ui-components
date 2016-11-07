@@ -1,14 +1,13 @@
 
 .page-hero {
 	position: relative;
-	padding: 50px 25px;
 	font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
 	color: $medium-gray;
 	font-size: 3em;
 	h1, h2, h3, h4, h5, .title, .subtitle{
 		color: $medium-gray;
 		line-height: 1.2em;
-		border-width: 0px;
+		border-width: 0;
 		em {
 			font-weight: normal;
 			font-style: normal;
@@ -17,21 +16,21 @@
 	&::before{
 		content: "";
 		position: absolute;
-		top: 0px;
-		left: 0px;
+		top: 0;
+		left: 0;
 		z-index: -1;
 		height: 100%;
 		width: 100%;
-		background: $light-gray url(common/page-hero-glow.png) no-repeat center -70px;
+		background: $light-gray url(common/page-hero-glow.png) no-repeat center -2em;
 	}
 }
 
 @media(min-width: $screen-sm-min){
 	.page-hero{
-		padding: 50px;
+		padding: 1.2em;
 		> * {
 			display: block;
-			width: $screen-sm-min - 100px; 
+			width: $screen-sm-min - 100px;
 		}
 		h2 em{
 			display: block;
@@ -50,11 +49,11 @@
     color: rgba(255, 255, 255, 1);
   }
   &:before {
-    top: 1px;
-    left: -1px;
+    top: 0.1em;
+    left: -0.1em;
   }
   &:after {
-    top: 2px;
+    top: 0.2em;
     left: 0;
   }
 }

@@ -22,10 +22,10 @@ body{
 
 .page {
   flex-grow: 0;
-  margin: 12px 12px 0px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.6);
-  outline: 1px solid $light-gray;
-  outline-offset: -7px;
+  margin: 0.9em 0.9em 0;
+  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.6);
+  outline: 0.1em solid $light-gray;
+  outline-offset: -0.5em;
   background: $white;
-  padding: 15px 20px 40px;
+  padding: 1em 1.5em 2.8em;
 }

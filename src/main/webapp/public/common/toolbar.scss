@@ -7,14 +7,14 @@
 
 	> button {
 		@extend .btn;
-		margin: 10px 5px;
+		margin: 0.7em 0.3em;
 
 		:first-child {
-			margin-left: 10px;
+			margin-left: 0.7em;
 		}
 
 		:last-child {
-			margin-right: 10px;
+			margin-right: 0.7em;
 		}
 	}
 }

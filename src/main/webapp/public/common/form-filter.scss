@@ -51,7 +51,7 @@ Styleguide 3.0
 		font-weight: bold;
 		font-size: $font-size-small;
 		line-height: 1em;
-		border-width: 0px;
+		border-width: 0;
 		padding: 0.25em;
 		margin: 0.25em 0em;
 	}
@@ -60,12 +60,12 @@ Styleguide 3.0
 		font-weight: normal;
 		line-height: 1em;
 		font-size: $font-size-base;
-		padding-left: 25px;
-		margin-left: 0px;
+		padding-left: 1.7em;
+		margin-left: 0;
 		input[type="checkbox"],
 		input[type="radio"]{
 			display: block;
-			margin: 0px;
+			margin: 0;
 			top: 0.25em;
 			left: 0.25em;
 		}
