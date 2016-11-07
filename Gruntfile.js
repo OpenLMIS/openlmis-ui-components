@@ -412,9 +412,9 @@ module.exports = function(grunt) {
   var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles'];
 
   if(grunt.option('production')) buildTasks.push('uglify');
-  if(grunt.option('test')) buildTasks.push('karma:unit');
-  if(grunt.option('styleguide')) buildTasks = buildTasks.concat(styleguideTasks);
-  if(grunt.option('docs')) buildTasks.push('ngdocs');
+  if(!grunt.option('no-test')) buildTasks.push('karma:unit');
+  if(!grunt.option('no-styleguide')) buildTasks = buildTasks.concat(styleguideTasks);
+  if(!grunt.option('no-docs')) buildTasks.push('ngdocs');
 
   grunt.registerTask('build', buildTasks);
   
