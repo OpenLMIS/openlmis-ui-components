@@ -2,7 +2,7 @@
 
 body>header>:first-child {
   box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.6);
-  border-bottom: 0.1em solid lighten(cyan, 45%);
+  border-bottom: 0.1em solid lighten($cyan, 45%);
   color: $dark-gray;
   min-height: 4.7em;
   position: relative;

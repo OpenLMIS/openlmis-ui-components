@@ -93,7 +93,7 @@ input[type="color"]:focus,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
   color: $dark-gray;
-  background: lighten(cyan, 45%);
+  background: lighten($cyan, 45%);
 }
 
 select {

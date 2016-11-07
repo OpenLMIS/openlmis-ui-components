@@ -46,11 +46,11 @@ table .productCategory,
 
 #viewReqList, #approveReqList {
   .ngRow.odd:hover, .ui-grid-row:hover {
-    background-color: lighten(cyan, 45%);
+    background-color: lighten($cyan, 45%);
     cursor: pointer;
   }
   .ngRow.even:hover {
-    background-color: lighten(cyan, 45%);
+    background-color: lighten($cyan, 45%);
   }
   .ngCellText {
     span {
