@@ -14,4 +14,4 @@ bower install --allow-root
 apt-get uninstall 
 
 # Run Grunt build
-grunt build --test --styleguide
+grunt build
