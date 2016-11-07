@@ -13,11 +13,11 @@
     'use strict';
 
     /**
-        *@ngdoc controller
-        *@name openlmis-requisition.controller:RequisitionViewController
-        *@description
-        *Controller for requisition view page
-        */
+     * @ngdoc controller
+     * @name openlmis-requisition.RequisitionViewController
+     * @description
+     * Controller for requisition view page
+     */
 
     angular
         .module('openlmis.requisitions')
@@ -65,15 +65,15 @@
         };
 
         /**
-            *
-            * @ngdoc function
-            * @name openRnr
-            * @methodOf openlmis-requisition.RequisitionViewController
-            * 
-            * @description
-            * Redirect to requisition page after clicking on grid row.
-            *
-            */
+         *
+         * @ngdoc function
+         * @name openRnr
+         * @methodOf openlmis-requisition.RequisitionViewController
+         * 
+         * @description
+         * Redirect to requisition page after clicking on grid row.
+         *
+         */
         function openRnr(row) {
             $state.go('requisitions.requisition', {
                 rnr: row.entity.id
@@ -81,15 +81,15 @@
         }
 
         /**
-            *
-            * @ngdoc function
-            * @name loadPrograms
-            * @methodOf openlmis-requisition.RequisitionViewController
-            * 
-            * @description
-            * Loads selected facility supported programs to program select input.
-            *
-            */
+         *
+         * @ngdoc function
+         * @name loadPrograms
+         * @methodOf openlmis-requisition.RequisitionViewController
+         * 
+         * @description
+         * Loads selected facility supported programs to program select input.
+         *
+         */
         function loadPrograms() {
             if ($scope.selectedFacility.supportedPrograms) {
                 $scope.programs = $scope.selectedFacility.supportedPrograms;
@@ -99,15 +99,15 @@
         }
 
         /**
-            *
-            * @ngdoc function
-            * @name search
-            * @methodOf openlmis-requisition.RequisitionViewController
-            * 
-            * @description
-            * Searches requisitions by criteria selected in form.
-            *
-            */
+         *
+         * @ngdoc function
+         * @name search
+         * @methodOf openlmis-requisition.RequisitionViewController
+         * 
+         * @description
+         * Searches requisitions by criteria selected in form.
+         *
+         */
         function search() {
             $scope.requisitionList = [];
             $scope.error = null;
