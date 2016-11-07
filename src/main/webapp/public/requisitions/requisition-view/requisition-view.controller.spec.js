@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('RequisitionViewController', function() {
+ddescribe('RequisitionViewController', function() {
 
     var scope, ctrl, httpBackend, controller, statuses, endDate, startDate
         facilityList = [
@@ -61,11 +61,16 @@ describe('RequisitionViewController', function() {
         startDate = new Date();
         endDate = new Date();
 
-        httpBackend.when('GET', RequisitionURL('/api/requisitions/search?endDate=' + endDate.toISOString() + '&facility=' + facilityList[0].id + 
-            '&program=' + facilityList[0].supportedPrograms[0].id + '&startDate=' + startDate.toISOString() + 
-            '&status%5B%5D=' + statuses[1].label + '&status%5B%5D=' + statuses[2].label))
-        .respond(200, requisitionList);
+        // httpBackend.when('GET', RequisitionURL('/api/requisitions/search?endDate=' + endDate.toISOString() + '&facility=' + facilityList[0].id + 
+        //     '&program=' + facilityList[0].supportedPrograms[0].id + '&startDate=' + startDate.toISOString() + 
+        //     '&status%5B%5D=' + statuses[1].label + '&status%5B%5D=' + statuses[2].label))
+        // .respond(200, requisitionList);
         ctrl = controller('RequisitionViewController', {$scope:scope, facilityList:facilityList});
+    }));
+
+    beforeEach(inject(function(RequisitionService, $q){
+        var response = $q.when(requisitionList);
+        spyOn(RequisitionService, 'search').andReturn(response);
     }));
 
     it('should have facility list and status list filled after init', function() {
@@ -102,7 +107,8 @@ describe('RequisitionViewController', function() {
         scope.endDate = endDate;
 
         scope.search();
-        httpBackend.flush();
+        // search has a promise, finish the promise
+        scope.$apply();
 
         expect(angular.toJson(scope.requisitionList)).toEqual(angular.toJson(requisitionList));
     });
