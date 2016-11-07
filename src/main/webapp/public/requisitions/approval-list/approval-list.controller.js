@@ -99,7 +99,10 @@
 
   function dateFilter() {
     return function(value) {
-      return formatNumber(value[2]) + '/' + formatNumber(value[1]) + '/' + formatNumber(value[0]);
+        if (value) {
+            return formatNumber(value[2]) + '/' + formatNumber(value[1]) + '/' + formatNumber(value[0]);      
+        }
+        return undefined;
     }
   }
 

@@ -1,0 +1,45 @@
+.convert-to-order-list {
+
+	.page {
+
+		overflow: hidden;
+
+		& > h2,
+		.info-message {
+			width: 100%;
+		}
+
+		& > * {
+			float: left;
+			margin-bottom: 10px;
+		}
+
+		.filters {
+			width: 25%;
+			float: right;
+
+			.filter-by {
+				width: auto;
+			}
+
+			button.search {
+				@include button-color($green);
+			}
+		}
+
+		.info-message {
+			@extend .alert;
+			@extend .alert-info;
+		}
+
+		.grid {
+			width: 100%;
+		}
+	}
+
+	button.convert-to-order {
+		@include button-color($green);
+		float: right;
+	}
+
+}

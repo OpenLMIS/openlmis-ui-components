@@ -1,0 +1,19 @@
+<div class="convert-to-order-list">
+	<div class="page">
+		<h2 openlmis-message="label.requisition.convertOrder"></h2>
+		<div class="filters" ng-if="!nothingToConvert">
+			<select class="filter-by" ng-model="searchParams.filterBy" ng-options="filter.value as translate(filter.name) for filter in filters"></select>
+			<input class="filter-value" ng-model="searchParams.filterValue" maxlength="50"/>
+			<button class="search" ng-click="reloadGrid()"><span class="fa fa-search"></span></button>
+		</div>
+		<div class="info-message" ng-if="getInfoMessage()" openlmis-message="{{getInfoMessage()}}"></div>
+		<div ng-if="filteredRequisitions.length" class="grid" ui-grid="gridOptions" ui-grid-selection></div>
+	</div>
+	<div class="toolbar" ng-if="filteredRequisitions.length">
+	    <button class="convert-to-order"
+	    		ng-disabled="!gridApi.selection.getSelectedCount()"
+	 			ng-click="convertToOrder()">
+	 				<span openlmis-message="link.requisitions.convertToOrder"></span>
+	 	</button>
+	</div>
+</div>

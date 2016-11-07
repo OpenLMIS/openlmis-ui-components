@@ -1,0 +1,20 @@
+.toolbar {
+	background: rgba(0, 0, 0, 0.7);
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 15;
+
+	> button {
+		@extend .btn;
+		margin: 10px 5px;
+
+		:first-child {
+			margin-left: 10px;
+		}
+
+		:last-child {
+			margin-right: 10px;
+		}
+	}
+}

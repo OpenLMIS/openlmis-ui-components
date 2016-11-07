@@ -1,0 +1,29 @@
+.filters {
+	display: flex;
+	
+	input, select {
+		@extend .form-control;
+	}
+
+	button {
+		@extend .btn;
+	}
+
+	input {
+		border-right: 0px;
+		border-left: 0px;
+	}
+
+	> * {
+		border-radius: 0px !important;
+	}
+
+	:first-child {
+		border-radius: 4px 0px 0px 4px !important;
+	}
+
+	:last-child {
+		border-radius: 0px 4px 4px 0px !important;
+	}
+
+}
