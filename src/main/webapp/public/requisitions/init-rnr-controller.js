@@ -31,7 +31,7 @@
             loadPeriods();
         }, true);
 
-        $scope.$watch('selectedRnrType.item', function() {
+        $scope.$watch('selectedRnrType', function() {
             loadPeriods();
         }, true);
 
@@ -85,9 +85,9 @@
             .selectedFacilityId)) {
                 return;
             }
-            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.selectedRnrType.item.emergency).then
+            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.selectedRnrType.emergency).then
             (function(data) {
-                $scope.isEmergency = $scope.selectedRnrType.item.emergency;
+                $scope.isEmergency = $scope.selectedRnrType.emergency;
                 if (data.length === 0) {
                     $scope.error = messageService.get("msg.no.period.available");
                 } else {
