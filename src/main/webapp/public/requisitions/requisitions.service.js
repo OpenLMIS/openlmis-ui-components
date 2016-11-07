@@ -62,9 +62,9 @@
                 facility: facilityId
             };
             if(programId) searchParams['program'] = programId;
-            if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['status[]'] = statuses;
-            if(startDate) searchParams['startDate'] = startDate;
-            if(endDate) searchParams['endDate'] = endDate;
+            if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['requisitionStatus'] = statuses;
+            if(startDate) searchParams['createdDateFrom'] = startDate;
+            if(endDate) searchParams['createdDateTo'] = endDate;
             return resource.search(searchParams).$promise; 
         }
 
