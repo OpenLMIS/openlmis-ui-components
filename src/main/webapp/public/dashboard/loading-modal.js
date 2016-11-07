@@ -15,35 +15,75 @@
     angular.module('openlmis-core')
       .service('LoadingModal', LoadingModal);
 
-    LoadingModal.$inject = ['bootbox'];
+    LoadingModal.$inject = ['$templateCache', '$templateRequest', '$timeout', '$q', 'bootbox'];
 
-    function LoadingModal(bootbox) {
+    function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
+        var templateURL = 'dashboard/loading-modal.html';
+        var actionsActive = 0;
+        //var loaderElement = angular.element('#loader');
 
-        var actionsActive = 0,
-            loaderElement = angular.element('#loader'),
-            service = {
-                startLoading: add,
-                finishLoading: remove
-            };
+        var service = {
+              startLoading: show
+        };
 
-//        var dialog = bootbox.dialog({
-//            message: 'message',
-//            className: 'loading-modal',
-//            onEscape: true
-//        });
+        function showModal() {
+            var deferred = $q.defer();
 
-        return service;
+            function makeModal(html) {
+                var timeoutPromise,
+                    dialog = bootbox.dialog({
+                        message: $compile(html)(scope),
+                        className: 'notification-modal',
+                        backdrop: true,
+                        onEscape: true,
+                        closeButton: false
+                    });
+
+                dialog.on('click.bs.modal', function(){
+                    dialog.modal('hide');
+                });
+                dialog.on('hide.bs.modal', function(){
+                    deferred.resolve();
+                    if(timeoutPromise){
+                        $timeout.cancel(timeoutPromise);
+                    }
+                });
+                dialog.on('hidden.bs.modal', function(){
+                    angular.element(document.querySelector('.notification-modal')).remove();
+                });
+
+                timeoutPromise = $timeout(function(){
+                    dialog.modal('hide');
+                }, 3000);
+            }
+
+            var template = $templateCache.get(templateURL);
+            if(template){
+                makeModal(template);
+            } else {
+                $templateRequest(templateURL).then(makeModal);
+            }
+
+            return deferred.promise;
+        }
+
+        function show() {
+            console.log("show");
+            showModal();
+        }
 
         function add() {
             //dialog.modal('show');
-            openLoadingIcon();
+            console.log("add");
+            //openLoadingIcon();
         }
 
         function remove() {
+            console.log("remove");
             //dialog.modal('hide');
-            if (--actionsActive < 1) {
-                closeLoadingIcon();
-            }
+            //if (--actionsActive < 1) {
+            //    closeLoadingIcon();
+            //}
         }
 
         function openLoadingIcon() {
@@ -53,6 +93,8 @@
         function closeLoadingIcon() {
             angular.element('#loader').hide();
         }
+
+        return service;
     }
 
 })();

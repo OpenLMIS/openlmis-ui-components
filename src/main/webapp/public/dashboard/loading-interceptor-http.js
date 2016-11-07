@@ -25,15 +25,19 @@
 
     	return {
     		'request': function(response){
+            //LoadingModal.startLoading();
+            //LoadingModal.add();
             LoadingModal.startLoading();
             return response;
     		},
         'response': function(response){
-            LoadingModal.finishLoading();
+            //LoadingModal.finishLoading();
+            //LoadingModal.remove();
             return response;
         },
         'responseError': function(response) {
-            LoadingModal.finishLoading();
+            //LoadingModal.finishLoading();
+            //LoadingModal.remove();
             return response;
         }
     	}
