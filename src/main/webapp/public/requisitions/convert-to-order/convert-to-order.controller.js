@@ -16,22 +16,19 @@
 		.module('openlmis.requisitions')
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
 
-	convertToOrderCtrl.$inject = ['$scope', 'RequisitionService', 'messageService', 'uiGridConstants', '$ngBootbox', 'NotificationModal'];
+	convertToOrderCtrl.$inject = ['$scope', '$state', '$stateParams', 'requisitions', 'RequisitionService'];
 
-	function convertToOrderCtrl($scope, RequisitionService, messageService, uiGridConstants, $ngBootbox, NotificationModal) {
-
-        $scope.reloadGrid = reloadGrid;
-        $scope.translate = translate;
-        $scope.convertToOrder = convertToOrder;
-        $scope.getInfoMessage = getInfoMessage;
+	function convertToOrderCtrl($scope, $state, $stateParams, requisitions, RequisitionService) {
 
         $scope.searchParams = {
-            filterBy: 'all',
-            filterValue: ''
+            filterBy: $stateParams.filterBy,
+            filterValue: $stateParams.filterValue,
+            sortBy: $stateParams.sortBy,
+            descending: $stateParams.descending
         };
 
-		$scope.filters = [
-			{
+        $scope.filters = [
+            {
                 value: 'all',
                 name: 'option.value.all'
             }, {
@@ -47,114 +44,60 @@
                 value: 'supplyingDepot',
                 name: 'label.supplying.depot'
             }*/
-		];
+        ];
 
-		$scope.gridOptions = {
-            data: 'filteredRequisitions',
-            enableRowSelection: true,
-            enableSelectAll: true,
-			sortInfo: $scope.sortOptions,
-            enableColumnMenus: false,
-			useExternalSorting: true,
-			columnDefs: [
-                {
-                    field: 'requisition.program.name',
-                    displayName: messageService.get("program.header"),
-                    sortName: 'programName',
-                    enableColumnMenus: false
-                }, {
-                    field: 'requisition.facility.code',
-                    displayName: messageService.get("option.value.facility.code"),
-                    sortName: 'facilityCode',
-                    enableColumnMenus: false
-                }, {
-                    field: 'requisition.facility.name',
-                    displayName: messageService.get("option.value.facility.name"),
-                    sortName: 'facilityName',
-                    enableColumnMenus: false
-                }, {
-                    field: 'requisition.facility.geographicZone.parent.name',
-                    displayName: messageService.get("option.value.facility.district"),
-                    enableSorting: false
-                }, {
-                    field: 'requisition.processingPeriod.startDate',
-                    displayName: messageService.get("label.period.start.date"),
-                    enableSorting: false,
-                    cellFilter: 'dateFilter'
-                }, {
-                    field: 'requisition.processingPeriod.endDate',
-                    displayName: messageService.get("label.period.end.date"),
-                    enableSorting: false,
-                    cellFilter: 'dateFilter'
-                }, /*{
-                    field: 'stringSubmittedDate',
-                    displayName: messageService.get("label.date.submitted"),,
-                    enableSorting: false
-                    cellFilter: 'dateFilter'
-                },*/ {
-                    field: 'requisition.processingPeriod.processingSchedule.modifiedDate',
-                    displayName: messageService.get("label.date.modified"),
-                    enableSorting: false,
-                    cellFilter: 'dateFilter'
-                }, {
-                    name: 'supplyingDepotName',
-					displayName: messageService.get("label.supplying.depot"),
-                    enableSorting: false,
-					cellTemplate: 'requisitions/convert-to-order/supplying-depot-cell.html',
-                    width: 220
-                }, {
-                    name: 'emergency',
-                    displayName: messageService.get("requisition.type.emergency"),
-                    enableSorting: false,
-					cellTemplate: 'requisitions/convert-to-order/emergency-cell.html',
-					width: 110 
-                }
-            ],
-            onRegisterApi: onRegisterApi
-		};
+        $scope.requisitions = requisitions;
+        $scope.nothingToConvert = !requisitions.length && defaultSearchParams();
+        $scope.infoMessage = getInfoMessage();
+        $scope.selectAll = false;
 
-        reloadGrid();
+        $scope.convertToOrder = convertToOrder;
+        $scope.getSelected = getSelected;
+        $scope.reload = reload;
+        $scope.toggleSelectAll = toggleSelectAll;
+        $scope.setSelectAll = setSelectAll;
 
-        function reloadGrid() {
-            RequisitionService.forConvert($scope.searchParams).then(
-                function(requisitions) {
-                    $scope.filteredRequisitions = requisitions;
-                    $scope.nothingToConvert = !$scope.filteredRequisitions.length && defaultSearchParams();
-                }
-            );
+        function reload() {
+            $state.go($state.current.name, $scope.searchParams, {
+                reload: true
+            });
         }
 
-        function translate(message) {
-            return messageService.get(message);
+        function getSelected() {
+            var selected = [];
+            angular.forEach($scope.requisitions, function(requisition) {
+                if (requisition.$selected) {
+                    selected.push(requisition);
+                }
+            });
+            return selected;
+        }
+
+        function toggleSelectAll(selectAll) {
+            angular.forEach($scope.requisitions, function(requisition) {
+                requisition.$selected = selectAll;
+            });
+        }
+
+        function setSelectAll() {
+            var value = true;
+            angular.forEach($scope.requisitions, function(requisition) {
+                value = value && requisition.$selected;
+            });
+            $scope.selectAll = value;
         }
 
         function convertToOrder() {
-            RequisitionService.convertToOrder($scope.gridApi.selection.getSelectedRows()).then(reloadGrid);
+            RequisitionService.convertToOrder(getSelected()).then(reload);
         }
 
         function getInfoMessage() {
             if ($scope.nothingToConvert) {
                 return 'message.no.requisitions.for.conversion';
-            } else if ($scope.filteredRequisitions && !$scope.filteredRequisitions.length) {
+            } else if (!$scope.requisitions.length) {
                 return 'message.no.search.results';
             }
             return undefined;
-        }
-
-        function onRegisterApi(gridApi) {
-            $scope.gridApi = gridApi;
-            $scope.gridApi.core.on.sortChanged($scope, sortChanged);
-        }
-
-        function sortChanged(grid, sortColumns) {
-            if (sortColumns.length) {
-                $scope.searchParams.sortBy = sortColumns[0].colDef.sortName;
-                $scope.searchParams.descending = sortColumns[0].direction === uiGridConstants.DESC;
-            } else {
-                $scope.searchParams.sortBy = '';
-                $scope.searchParams.descending = true;
-            }
-            reloadGrid();
         }
 
         function defaultSearchParams() {

@@ -23,7 +23,8 @@
             'forConvert': {
                 url: RequisitionURL('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                transformResponse: transformForConvertResponse
             },
             'convertToOrder': {
                 url: RequisitionURL('/api/orders/requisitions'),
@@ -98,6 +99,23 @@
                 });
             });
             return angular.toJson(body);
+        }
+
+        function transformForConvertResponse(data, headers, status) {
+            if (status === 200) {
+                var items = angular.fromJson(data);
+                angular.forEach(items, function(item) {
+                    item.requisition.processingPeriod.startDate = toDate(item.requisition.processingPeriod.startDate);
+                    item.requisition.processingPeriod.endDate = toDate(item.requisition.processingPeriod.endDate);
+                    item.requisition.processingPeriod.processingSchedule.modifiedDate = toDate(item.requisition.processingPeriod.processingSchedule.modifiedDate);
+                });
+                return items;
+            }
+            return data;
+        }
+
+        function toDate(array) {
+            return array ? new Date(array.toString()) : undefined;
         }
     }
 
