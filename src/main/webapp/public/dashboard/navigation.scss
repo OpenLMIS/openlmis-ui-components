@@ -147,7 +147,8 @@ header > .navbar {
       display: block;
       text-decoration: none;
       padding: 0.5em 1em;
-      &:hover{
+      &:hover,
+      &:focus{
         text-decoration: none;
         color: $cyan;
       }
@@ -161,6 +162,10 @@ header > .navbar {
         text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.4);
         padding: 0.5em 1em;
         margin: 0.5em;
+        &:hover,
+        &:focus {
+          color: $white;
+        }
       }
       &.open > a,
       &.open > a:hover,
