@@ -1,8 +1,8 @@
 #product-grid {
 	tbody {
 		tr.invalid-row {
-			background-color: $light-red;
-			border-color: $border-color-red;;
+			background-color: lighten($red, 45%);
+			border-color: darken($red, 20%);
 
 			.cell-error-message {
 				color: $red;

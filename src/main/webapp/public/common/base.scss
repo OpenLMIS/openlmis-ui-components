@@ -38,7 +38,7 @@ body {
 a {
   color: $heading-green;
   &:hover {
-    color: $dark-cyan;
+    color: darken($cyan, 25%);
   }
 }
 
@@ -93,7 +93,7 @@ input[type="color"]:focus,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
   color: $dark-gray;
-  background: $light-cyan;
+  background: lighten(cyan, 45%);
 }
 
 select {
