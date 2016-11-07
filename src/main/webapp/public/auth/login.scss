@@ -17,11 +17,7 @@ body {
 }
 
 .login-container {
-  background: $white; /* Old browsers */
-  background: -moz-linear-gradient(top, $white 0%, $white 48%, $light-gray 100%); /* FF3.6+ */
-  background: -webkit-linear-gradient(top, $white 0%,  48%, $light-gray 100%); /* Chrome10+,Safari5.1+ */
-  background: -ms-linear-gradient(top, $white 0%, $white 48%, $light-gray 100%); /* IE10+ */
-  background: linear-gradient(to bottom, $white 0%, $white 48%, $light-gray 100%); /* W3C */
+  @include linear-gradient(to bottom, $white 0%, $white 48%, $light-gray 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '$white', endColorstr = '$light-gray', GradientType = 0); /* IE6-9 */
   border-radius: 0.3em;
   h1 {
