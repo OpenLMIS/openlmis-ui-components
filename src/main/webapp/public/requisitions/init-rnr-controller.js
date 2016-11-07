@@ -22,10 +22,10 @@
 
         $scope.selectedRnrType = {"name": messageService.get("requisition.type.regular"), "emergency": false};
 
-        $scope.rnrTypes = {"types": [
-            {"name": messageService.get("requisition.type.regular"), "emergency": false},
-            {"name": messageService.get("requisition.type.emergency"), "emergency": true}
-        ]};
+        $scope.rnrTypes = [
+            {'name': messageService.get("requisition.type.regular"), 'emergency': false},
+            {'name': messageService.get("requisition.type.emergency"), 'emergency': true}
+        ];
 
         $scope.$watch('selectedProgram.item', function() {
             loadPeriods();

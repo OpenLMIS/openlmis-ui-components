@@ -33,7 +33,7 @@
     </div>
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.type"></legend>
-      <label ng-repeat="type in rnrTypes.types" class="radio">
+      <label ng-repeat="type in rnrTypes" class="radio">
         {{type.name}}
         <input type="radio" ng-model="selectedRnrType.emergency" ng-value="type.emergency" />
       </label>
