@@ -13,9 +13,11 @@
     'use strict';
 
     angular.module('openlmis-core')
-      .service('LoadingModal', loadingModal);
+      .service('LoadingModal', LoadingModal);
 
-    function loadingModal() {
+    LoadingModal.$inject = ['bootbox'];
+
+    function LoadingModal(bootbox) {
 
         var actionsActive = 0,
             loaderElement = angular.element('#loader'),
@@ -24,15 +26,24 @@
                 finishLoading: remove
             };
 
+//        var dialog = bootbox.dialog({
+//            message: 'message',
+//            className: 'loading-modal',
+//            onEscape: true
+//        });
+
         return service;
 
         function add() {
+            //dialog.modal('show');
             openLoadingIcon();
         }
 
         function remove() {
-            if (--actionsActive < 1)
+            //dialog.modal('hide');
+            if (--actionsActive < 1) {
                 closeLoadingIcon();
+            }
         }
 
         function openLoadingIcon() {
