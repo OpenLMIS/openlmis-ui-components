@@ -20,7 +20,7 @@
 
     function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state) {
 
-        $scope.selectedRnrType = {"name": messageService.get("requisition.type.regular"), "emergency": false};
+        $scope.selectedRnrType = {'name': messageService.get("requisition.type.regular"), 'emergency': false};
 
         $scope.rnrTypes = [
             {'name': messageService.get("requisition.type.regular"), 'emergency': false},
