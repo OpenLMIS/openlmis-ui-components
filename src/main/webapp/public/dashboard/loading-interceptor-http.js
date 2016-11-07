@@ -13,34 +13,48 @@
 
     angular.module('openlmis-core')
     	.factory('LoadingInterceptor', LoadingInterceptor)
-    	.config(httpIntercept);
+    	.config(httpIntercept)
+        .run(setLoadingListeners);
 
     httpIntercept.$inject = ['$httpProvider'];
     function httpIntercept($httpProvider){
     	$httpProvider.interceptors.push('LoadingInterceptor');
     }
 
-    LoadingInterceptor.$inject = ['LoadingModal'];
-    function LoadingInterceptor(LoadingModal){
+    LoadingInterceptor.$inject = ['$rootScope'];
+    function LoadingInterceptor($rootScope){
 
     	return {
     		'request': function(response){
-            //LoadingModal.startLoading();
-            //LoadingModal.add();
-            LoadingModal.startLoading();
-            return response;
+                console.log("loading should start");
+                $rootScope.$emit('loadingModal.start');
+                return response;
     		},
-        'response': function(response){
-            //LoadingModal.finishLoading();
-            //LoadingModal.remove();
-            return response;
-        },
-        'responseError': function(response) {
-            //LoadingModal.finishLoading();
-            //LoadingModal.remove();
-            return response;
-        }
+            'response': function(response){
+                console.log("loading should stop");
+                $rootScope.$emit('loadingModal.stop');
+                //LoadingModal.finishLoading();
+                //LoadingModal.remove();
+                return response;
+            },
+            'responseError': function(response) {
+                console.log("loading should stop 2");
+                $rootScope.$emit('loadingModal.stop');
+                return response;
+            }
     	}
+    }
+
+    setLoadingListeners.$inject = ['$rootScope', 'LoadingModal']
+    function setLoadingListeners($rootScope, LoadingModal){
+        $rootScope.$on('loadingModal.start', function(){
+            console.log("meow");
+            LoadingModal.startLoading();
+        });
+        $rootScope.$on('loadingModal.stop', function(){
+            console.log("woof");
+            LoadingModal.stopLoading();
+        });
     }
 
 })();
