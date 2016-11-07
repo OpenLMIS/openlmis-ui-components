@@ -36,7 +36,6 @@
             get: get,
             initiate: initiate,
             search: search,
-            advancedSearch: advancedSearch,
             forConvert: forConvert,
             convertToOrder: convertToOrder
         };
@@ -57,21 +56,14 @@
             }, {}).$promise;
         }
 
-        function search(programId, facilityId) {
-            return resource.search({
-                program: programId, 
-                facility: facilityId
-            }).$promise;
-        }
-
-        function advancedSearch(program, facility, statuses, startDate, endDate) {
+        function search(programId, facilityId, statuses, startDate, endDate) {
             var searchParams = {
-                facility: facility.id,
-                startDate: startDate,
-                endDate: endDate
+                facility: facilityId
             };
-            if(statuses && angular.isArray(statuses && statuses.length > 0)) searchParams['status[]'] = statuses;
-            if(program) searchParams['program'] = program.id;
+            if(programId) searchParams['program'] = programId;
+            if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['status[]'] = statuses;
+            if(startDate) searchParams['startDate'] = startDate;
+            if(endDate) searchParams['endDate'] = endDate;
             return resource.search(searchParams).$promise; 
         }
 

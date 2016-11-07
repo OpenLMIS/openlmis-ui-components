@@ -2,13 +2,13 @@
     "use strict";
 
     /**
-      * 
-      * @ngdoc service
-      * @name openlmis-core.NotificationModal
-      * @description
-      * Service allows to display error/success modal that expires after short with custom message.
-      *
-      */
+        * 
+        * @ngdoc service
+        * @name openlmis-core.NotificationModal
+        * @description
+        * Service allows to display error/success modal that expires after short with custom message.
+        *
+        */
 
     angular.module('openlmis-core')
         .service('NotificationModal', NotificationModal);
@@ -64,29 +64,29 @@
         }
 
         /**
-          *
-          * @ngdoc function
-          * @name showSuccess
-          * @methodOf openlmis-core.NotificationModal
-          * 
-          * @description
-          * Shows success modal with custom message and return promise.
-          *
-          */
+            *
+            * @ngdoc function
+            * @name showSuccess
+            * @methodOf openlmis-core.NotificationModal
+            * 
+            * @description
+            * Shows success modal with custom message and return promise.
+            *
+            */
         function showSuccess(successMessage) {
             return showModal(successMessage, 'success');
         }
 
         /**
-          *
-          * @ngdoc function
-          * @name showError
-          * @methodOf openlmis-core.NotificationModal
-          * 
-          * @description
-          * Shows error modal with custom message and return promise.
-          *
-          */
+            *
+            * @ngdoc function
+            * @name showError
+            * @methodOf openlmis-core.NotificationModal
+            * 
+            * @description
+            * Shows error modal with custom message and return promise.
+            *
+            */
         function showError(errorMessage) {
             return showModal(errorMessage, 'error');
         }

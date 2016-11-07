@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+        *@ngdoc controller
+        *@name openlmis-core.controller:SelectController
+        *@description
+        *Controller for <openlmis-datepicker> directive
+        */
+
     angular
         .module('openlmis-core')
         .controller('DatepickerCtrl', DatepickerCtrl);

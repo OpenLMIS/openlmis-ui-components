@@ -12,13 +12,20 @@
 
     'use strict';
 
+    /**
+        *@ngdoc controller
+        *@name openlmis-requisition.controller:RequisitionViewController
+        *@description
+        *Controller for requisition view page
+        */
+
     angular
         .module('openlmis.requisitions')
         .controller('RequisitionViewController', RequisitionViewController);
 
-    RequisitionViewController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status'/*, '$http', 'RequisitionURL'*/];
+    RequisitionViewController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status'];
 
-    function RequisitionViewController($scope, $state, messageService, facilityList, RequisitionService, Status/*, $http, RequisitionURL*/) {
+    function RequisitionViewController($scope, $state, messageService, facilityList, RequisitionService, Status) {
 
         $scope.loadPrograms = loadPrograms;
         $scope.search = search;
@@ -47,9 +54,9 @@
                 {field: 'program.name', displayName: messageService.get("program.header") },
                 {field: 'facility.code', displayName: messageService.get("option.value.facility.code")},
                 {field: 'facility.name', displayName: messageService.get("option.value.facility.name")},
-                {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date"), cellFilter: 'dateFilter'},
-                {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date"), cellFilter: 'dateFilter'},
-                {field: 'createdDate', displayName: messageService.get("label.date.submitted"), cellFilter: 'dateFilter'},
+                {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date"), type: 'date', cellFilter: 'dateFilter'},
+                {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date"), type: 'date', cellFilter: 'dateFilter'},
+                {field: 'createdDate', displayName: messageService.get("label.date.submitted"), type: 'date', cellFilter: 'dateFilter'},
                 {field: 'status', displayName: messageService.get("label.status")},
                 {name: 'emergency', displayName: messageService.get("requisition.type.emergency"),
                     cellTemplate: '<div class="ngCellText checked"><i ng-class="{\'icon-ok\': row.entity.emergency}"></i></div>',
@@ -57,12 +64,32 @@
             ]
         };
 
+        /**
+            *
+            * @ngdoc function
+            * @name openRnr
+            * @methodOf openlmis-requisition.RequisitionViewController
+            * 
+            * @description
+            * Redirect to requisition page after clicking on grid row.
+            *
+            */
         function openRnr(row) {
             $state.go('requisitions.requisition', {
                 rnr: row.entity.id
             });
         }
 
+        /**
+            *
+            * @ngdoc function
+            * @name loadPrograms
+            * @methodOf openlmis-requisition.RequisitionViewController
+            * 
+            * @description
+            * Loads selected facility supported programs to program select input.
+            *
+            */
         function loadPrograms() {
             if ($scope.selectedFacility.supportedPrograms) {
                 $scope.programs = $scope.selectedFacility.supportedPrograms;
@@ -71,20 +98,48 @@
             }
         }
 
+        /**
+            *
+            * @ngdoc function
+            * @name search
+            * @methodOf openlmis-requisition.RequisitionViewController
+            * 
+            * @description
+            * Searches requisitions by criteria selected in form.
+            *
+            */
         function search() {
+            $scope.requisitionList = [];
+            $scope.error = null;
             if ($scope.selectedFacility) {
-                RequisitionService.advancedSearch($scope.selectedProgram, $scope.selectedFacility, $scope.selectedStatuses, $scope.startDate.toISOString(), $scope.endDate.toISOString()).then(function(response) {
-                    $scope.requisitionList = response.data;
+                RequisitionService.search($scope.selectedProgram ? $scope.selectedProgram.id : null, 
+                    $scope.selectedFacility ? $scope.selectedFacility.id : null, 
+                    getStatusLabels($scope.selectedStatuses),
+                    $scope.startDate ? $scope.startDate.toISOString() : null, 
+                    $scope.endDate ? $scope.endDate.toISOString() : null)
+                .then(function(response) {
+                    $scope.requisitionList = response;
                     if (!angular.isArray($scope.requisitionList) || $scope.requisitionList.length < 1) {
                         $scope.error = messageService.get('msg.no.requisitions.found');
                     }
                 }, function() {
-                    $scope.error = messageService.get('msg.error.occured');
+                    $scope.error = messageService.get('msg.error.occurred');
                 });
             } else {
                 $scope.error = messageService.get('msg.no.facility.selected');
             }
         }
 
+        function getStatusLabels(ids) {
+            var list;
+            if(ids && angular.isArray(ids) && ids.length > 0) {
+                list = [];
+                angular.forEach(ids, function(id) {
+                    list.push($scope.statuses[id.id].label);
+                });
+                return list;
+            }
+            return null;
+        }
     }
 })();
