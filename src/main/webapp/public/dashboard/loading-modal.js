@@ -13,65 +13,10 @@
     'use strict';
 
     angular.module('openlmis-core')
-<<<<<<< 7443520fda4a52788841455c827842ca2b1133ed
       .service('LoadingModal', LoadingModal);
+    LoadingModal.$inject = ['bootbox'];
 
-    LoadingModal.$inject = ['$templateCache', '$templateRequest', '$timeout', '$q', 'bootbox'];
-
-    function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
-        var actionsActive = 0;
-        var dialog;
-
-        var service = {
-              startLoading: showModal,
-              stopLoading: hideModal
-        };
-
-        function showModal() {
-            var deferred = $q.defer();
-            console.log("showing modal");
-            function makeModal() {
-                var timeoutPromise;
-                dialog = bootbox.dialog({
-                    message: '<img src="/public/images/loader.gif">',
-                    className: 'loading-modal',
-                    backdrop: true,
-                    onEscape: true,
-                    closeButton: false
-                });
-
-                dialog.on('click.bs.modal', function(){
-                    dialog.modal('hide');
-                });
-                dialog.on('hide.bs.modal', function(){
-                    deferred.resolve();
-                    if(timeoutPromise){
-                        $timeout.cancel(timeoutPromise);
-                    }
-                });
-                dialog.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.loading-modal')).remove();
-                });
-
- //               timeoutPromise = $timeout(function(){
-//                    dialog.modal('hide');
-//                }, 3000);
-            }
-            makeModal();
-
-            return deferred.promise;
-        }
-
-        function hideModal() {
-            console.log("hiding modal");
-            dialog.modal('hide');
-        }
-
-        return service;
-=======
-      .service('LoadingModal', loadingModal);
-
-    function loadingModal() {
+    function LoadingModal(bootbox) {
 
         var actionsActive = 0,
             loaderElement = angular.element('#loader'),
@@ -80,15 +25,24 @@
                 finishLoading: remove
             };
 
+//        var dialog = bootbox.dialog({
+//            message: 'message',
+//            className: 'loading-modal',
+//            onEscape: true
+//        });
+
         return service;
 
         function add() {
+            //dialog.modal('show');
             openLoadingIcon();
         }
 
         function remove() {
-            if (--actionsActive < 1)
+            //dialog.modal('hide');
+            if (--actionsActive < 1) {
                 closeLoadingIcon();
+            }
         }
 
         function openLoadingIcon() {
