@@ -33,9 +33,14 @@
     </div>
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.type"></legend>
-      <label ng-repeat="type in rnrTypes" class="radio">
-        {{type.name}}
-        <input type="radio" name="group1" ng-model="selectedRnrType" ng-value="type.emergency"
+      <label class="radio">
+        <span openlmis-message="requisition.type.regular"></span>
+        <input type="radio" ng-model="emergency" ng-value="false"
+               ng-change="loadPeriods();" />
+      </label>
+      <label class="radio">
+        <span openlmis-message="requisition.type.emergency"></span>
+        <input type="radio" ng-model="emergency" ng-value="true"
                ng-change="loadPeriods();" />
       </label>
     </fieldset>
