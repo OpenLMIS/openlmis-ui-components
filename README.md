@@ -56,7 +56,7 @@ $ grunt serve --addProxyService
 ```
 `<server_url>` should point to the base adress of your OpenLmis server (usually this is your IP address).
 
-Note `grunt watch` will require you to change the files at least once in order to build the UI. Alternatively you can runt `grunt build` beforehand. This is the recommended way to develop the UI, as it is the fastest one.
+Note that `grunt watch` will require you to change the files at least once in order to build the UI. Alternatively you can runt `grunt build` beforehand. This is the recommended way to develop the UI, as it is the fastest one.
 
 ### Running complete application with nginx
 To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, use [OpenLMIS-Blue] (https://github.com/OpenLMIS/openlmis-blue).
