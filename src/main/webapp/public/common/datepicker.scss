@@ -1,3 +1,10 @@
-.olmis-datepicker {
-	width: 10.5em;
+.olmis-datepicker { 
+    position: relative; 
+}
+
+.olmis-datepicker-icon {
+  	position: absolute;
+  	padding: 10px;
+  	pointer-events: none;
+  	right: 0px;
 }

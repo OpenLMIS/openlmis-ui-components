@@ -1,10 +1,6 @@
-<p class="input-group olmis-datepicker">
-    <input type="text" class="form-control"
-        uib-datepicker-popup="dd-MM-yyyy" ng-model="value" is-open="isOpened" 
-        datepicker-options="dateOptions" close-text="Close" />
-    <span class="input-group-btn">
-	    <button type="button" class="btn btn-default" ng-click="openDatepicker()">
-	        <i class="glyphicon glyphicon-calendar"></i>
-	    </button>
-	</span>
-</p>
+<div class="olmis-datepicker">
+    <i class="glyphicon glyphicon-calendar olmis-datepicker-icon"></i>
+    <input type="text" class="form-control" id="{{inputId}}"
+    	uib-datepicker-popup="dd-MM-yyyy" ng-model="value" is-open="isOpened" 
+    	datepicker-options="dateOptions" close-text="Close" ng-click="openDatepicker()"/>
+</div>

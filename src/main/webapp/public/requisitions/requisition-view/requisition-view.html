@@ -31,7 +31,7 @@
                 track-by="id">
             </openlmis-select>-->
         </div>
-        <div class="form-group">
+        <!--<div class="form-group">
             <label for="status" openlmis-message="label.status"></label>
             <div id="status"
                 ng-dropdown-multiselect="" 
@@ -39,14 +39,14 @@
                 selected-model="selectedStatuses" 
                 extra-settings="multiselectSettings">
             </div>
-        </div>
+        </div>-->
         <div class="form-group">
             <label for="startDate" openlmis-message="label.from"></label>
-            <openlmis-datepicker id="startDate" value="startDate"></openlmis-datepicker>
+            <openlmis-datepicker input-id="startDate" value="startDate"></openlmis-datepicker>
         </div>
         <div class="form-group">
             <label for="endDate" openlmis-message="label.to"></label>
-            <openlmis-datepicker id="endDate" value="endDate"></openlmis-datepicker>
+            <openlmis-datepicker input-id="endDate" value="endDate"></openlmis-datepicker>
         </div>
     </form>
     <input id="searchButton" ng-click="search()"

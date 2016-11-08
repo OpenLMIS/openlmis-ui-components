@@ -114,7 +114,8 @@
             if ($scope.selectedFacility) {
                 RequisitionService.search($scope.selectedProgram ? $scope.selectedProgram.id : null, 
                     $scope.selectedFacility ? $scope.selectedFacility.id : null, 
-                    getStatusLabels($scope.selectedStatuses),
+                    //getStatusLabels($scope.selectedStatuses),
+                    null,
                     $scope.startDate ? $scope.startDate.toISOString() : null, 
                     $scope.endDate ? $scope.endDate.toISOString() : null)
                 .then(function(response) {

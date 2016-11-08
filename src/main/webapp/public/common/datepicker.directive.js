@@ -19,7 +19,8 @@
 		var directive = {
 			restrict: 'EA',
 			scope: {
-				value: '='
+				value: '=',
+				inputId: '@?'
 			},
 			templateUrl: 'common/datepicker.html',
 			controller: 'DatepickerCtrl'
