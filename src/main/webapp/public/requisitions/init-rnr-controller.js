@@ -28,6 +28,8 @@
 
         $scope.facilities =[];
 
+        $scope.selectedType = 0;
+
         $scope.loadPeriods = loadPeriods;
 
         $scope.periodGridOptions = { 
