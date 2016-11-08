@@ -11,6 +11,19 @@
 (function(){
   "use strict";
 
+  /**
+   * @ngdoc service
+   * @name openlmis-dashboard.NavigationService
+   *
+   * @description
+   * Reads routes set in UI-Router and returns all routes that are visible to the user.
+   *
+   * When writting UI-Router routes, set the route with 'showInNavigation: true' which will add the route to the navigation service. The parent state from the UI-Router definition is used to create a hiearchy for navigation states.
+   *
+   * TODO: Check if a user has authorization to view the URL
+   * 
+   */
+
   angular.module('openlmis-dashboard')
     .service('NavigationService', NavigationService);
 
@@ -26,6 +39,13 @@
 
     parseNaviationStates($state.get());
 
+    /**
+     * @ngdoc function
+     * @name Initialize
+     * @methodOf openlmis-dashboard.NavigationService
+     *
+     * @description Parses all the navigaiton states from UI-Router, setting them into the service object's memory.
+     */
     function parseNaviationStates(states){
       states.forEach(function(state){
         if(state.showInNavigation){
@@ -70,6 +90,14 @@
       return false;
     }
 
+    /**
+     * @ngdoc function
+     * @name get
+     * @methodOf openlmis-dashboard.NavigationService
+     * @param  {String} stateName The name of the state to get all child states for
+     * 
+     * @return {Array} Sorted list of UI-Router naviation states
+     */
     function getNavigationFor(stateName){
         if(AuthorizationService.isAuthenticated()){
             if(!stateName){
@@ -86,6 +114,15 @@
         return [];
     }
 
+    /**
+     * @ngdoc function
+     * @name getMain
+     * @methodOf openlmis-dashboard.NavigationService
+     *
+     * @description Wrapper around NavigationService.get(), that explicitly loads the main navigation. 
+     * 
+     * @return {Array} Sorted list of top-level navigation states
+     */
     function getMainNavigation(){
         return getNavigationFor();
     }

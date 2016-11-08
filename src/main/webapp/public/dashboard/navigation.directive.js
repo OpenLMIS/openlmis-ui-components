@@ -11,6 +11,27 @@
 (function(){
 	"use strict";
 
+	/**
+	 * @ngdoc directive
+	 * @name  openlmis-dashboard.directive:openlmisNavigation
+	 * @restrict E
+	 *
+	 * @description
+	 * Takes a rootState name and will render a navigation tree for that entire state, this happens by the directive recursively calling its self.
+	 *
+	 * @example
+	 *
+	 * Load the top-level navigation
+	 * ```
+	 * <openlmis-navigation />
+	 * ```
+	 * 
+	 * Load a specific state
+	 * ```
+	 * <openlmis-navigation root-state="foo" />
+	 * ```
+	 */
+
 	angular.module('openlmis-dashboard')
 		.directive('openlmisNavigation', navigation);
 
