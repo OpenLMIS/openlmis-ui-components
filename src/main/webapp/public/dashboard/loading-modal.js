@@ -16,22 +16,22 @@
       .service('LoadingModal', LoadingModal);
 
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
-        var templateURL = 'dashboard/loading-modal.html';
         var actionsActive = 0;
         //var loaderElement = angular.element('#loader');
 
         var service = {
-              startLoading: show
+              startLoading: showModal,
+              stopLoading: hide
         };
 
         function showModal() {
             var deferred = $q.defer();
-
-            function makeModal(html) {
+            console.log("showing modal");
+            function makeModal() {
                 var timeoutPromise,
                     dialog = bootbox.dialog({
-                        message: $compile(html)(scope),
-                        className: 'notification-modal',
+                        message: 'loading-modal',
+                        className: 'loading-modal',
                         backdrop: true,
                         onEscape: true,
                         closeButton: false
@@ -47,20 +47,14 @@
                     }
                 });
                 dialog.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.notification-modal')).remove();
+                    angular.element(document.querySelector('.loading-modal')).remove();
                 });
 
                 timeoutPromise = $timeout(function(){
                     dialog.modal('hide');
                 }, 3000);
             }
-
-            var template = $templateCache.get(templateURL);
-            if(template){
-                makeModal(template);
-            } else {
-                $templateRequest(templateURL).then(makeModal);
-            }
+            makeModal();
 
             return deferred.promise;
         }
@@ -70,8 +64,12 @@
             showModal();
         }
 
+        function hide() {
+            console.log("hide");
+        }
+
         function add() {
-            //dialog.modal('show');
+            dialog.modal('show');
             console.log("add");
             //openLoadingIcon();
         }
