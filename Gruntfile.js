@@ -108,14 +108,14 @@ module.exports = function(grunt) {
         },
         src: function(){
           var appFiles = [
-            // Base files
+            // Module registration
+            config.app.src + '/webapp/public/**/module/*.js',
+            config.app.src + '/webapp/public/**/*.module.js',
+            // Legacy files
             config.app.src + '/webapp/public/js/shared/util.js',
             config.app.src + '/webapp/public/js/shared/*.js',
             config.app.src + '/webapp/public/js/shared/services/services.js',
             config.app.src + '/webapp/public/js/shared/**/*.js',
-            // Module registration
-            config.app.src + '/webapp/public/**/module/*.js',
-            config.app.src + '/webapp/public/**/*.module.js',
             // Special file types....
             config.app.src + '/webapp/public/**/*.config.js',
             config.app.src + '/webapp/public/**/*.routes.js',

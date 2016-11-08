@@ -9,49 +9,50 @@
  */
 
 
-var app = angular.module('openlmis-core', ['openlmis.services', 'angular-google-analytics', 'openlmis.localStorage', 'ui.directives', 'ngCookies', 'ngRoute'],
-  function ($httpProvider) {
-    var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
-      var requestCount = 0;
+var app = angular.module('openlmis-core');
 
-      function responseSuccess(response) {
-        if (!(--requestCount))
-          angular.element('#loader').hide();
-        return response;
+app.config(function ($httpProvider) {
+  var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
+    var requestCount = 0;
+
+    function responseSuccess(response) {
+      if (!(--requestCount))
+        angular.element('#loader').hide();
+      return response;
+    }
+
+    function responseError(response) {
+      if (!(--requestCount))
+        angular.element('#loader').hide();
+      switch (response.status) {
+        case 403:
+          $window.location = "/public/pages/access-denied.html";
+          break;
+        case 401:
+          loginConfig.preventReload = (response.config.method != 'GET');
+          loginConfig.modalShown = true;
+          break;
+        default:
+          break;
       }
+      return $q.reject(response);
+    }
 
-      function responseError(response) {
-        if (!(--requestCount))
-          angular.element('#loader').hide();
-        switch (response.status) {
-          case 403:
-            $window.location = "/public/pages/access-denied.html";
-            break;
-          case 401:
-            loginConfig.preventReload = (response.config.method != 'GET');
-            loginConfig.modalShown = true;
-            break;
-          default:
-            break;
-        }
-        return $q.reject(response);
-      }
+    function request(config) {
+      if ((++requestCount) > 0)
+        angular.element('#loader').show();
+      config.headers["X-Requested-With"] = "XMLHttpRequest";
+      return config;
+    }
 
-      function request(config) {
-        if ((++requestCount) > 0)
-          angular.element('#loader').show();
-        config.headers["X-Requested-With"] = "XMLHttpRequest";
-        return config;
-      }
-
-      return {
-        'request': request,
-        'response': responseSuccess,
-        'responseError': responseError
-      };
-    }];
-    $httpProvider.interceptors.push(interceptor);
-  });
+    return {
+      'request': request,
+      'response': responseSuccess,
+      'responseError': responseError
+    };
+  }];
+  $httpProvider.interceptors.push(interceptor);
+});
 
 app.value("loginConfig", {modalShown: false, preventReload: false});
 
