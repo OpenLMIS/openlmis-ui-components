@@ -22,7 +22,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding-right:0 !important;
+  padding-right:0 !important; // this stops adding the padding to body when modal is closed on low resolution screens
 }
 
 @font-face {
