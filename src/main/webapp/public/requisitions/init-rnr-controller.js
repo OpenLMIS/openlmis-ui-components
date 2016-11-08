@@ -20,7 +20,7 @@
 
     function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state) {
 
-        $scope.selectedRnrType = {'name': messageService.get("requisition.type.regular"), 'emergency': false};
+        $scope.selectedRnrType = false;
 
         $scope.rnrTypes = [
             {'name': messageService.get("requisition.type.regular"), 'emergency': false},
@@ -28,10 +28,6 @@
         ];
 
         $scope.$watch('selectedProgram.item', function() {
-            loadPeriods();
-        }, true);
-
-        $scope.$watch('selectedRnrType', function() {
             loadPeriods();
         }, true);
 
@@ -85,9 +81,9 @@
             .selectedFacilityId)) {
                 return;
             }
-            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.selectedRnrType.emergency).then
+            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.selectedRnrType).then
             (function(data) {
-                $scope.isEmergency = $scope.selectedRnrType.emergency;
+                $scope.isEmergency = $scope.selectedRnrType;
                 if (data.length === 0) {
                     $scope.error = messageService.get("msg.no.period.available");
                 } else {
