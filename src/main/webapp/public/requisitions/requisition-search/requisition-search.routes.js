@@ -8,12 +8,12 @@
 
 	function routes($stateProvider) {
 
-		$stateProvider.state('requisitions.view', {
+		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
 			label: 'link.requisition.view',
 			url: '/view',
-			controller: 'RequisitionViewController',
-			templateUrl: 'requisitions/requisition-view/requisition-view.html',
+			controller: 'RequisitionSearchController',
+			templateUrl: 'requisitions/requisition-search/requisition-search.html',
 			resolve: {
 		        facilityList: function ($q, FacilityFactory) {
 		        	var deferred = $q.defer();

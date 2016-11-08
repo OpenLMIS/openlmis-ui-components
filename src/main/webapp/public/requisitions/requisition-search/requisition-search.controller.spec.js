@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('RequisitionViewController', function() {
+ddescribe('RequisitionSearchController', function() {
 
     var scope, ctrl, httpBackend, controller, statuses, endDate, startDate
         facilityList = [
@@ -65,7 +65,7 @@ ddescribe('RequisitionViewController', function() {
         //     '&program=' + facilityList[0].supportedPrograms[0].id + '&startDate=' + startDate.toISOString() + 
         //     '&status%5B%5D=' + statuses[1].label + '&status%5B%5D=' + statuses[2].label))
         // .respond(200, requisitionList);
-        ctrl = controller('RequisitionViewController', {$scope:scope, facilityList:facilityList});
+        ctrl = controller('RequisitionSearchController', {$scope:scope, facilityList:facilityList});
     }));
 
     beforeEach(inject(function(RequisitionService, $q){

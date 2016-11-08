@@ -21,11 +21,11 @@
 
     angular
         .module('openlmis.requisitions')
-        .controller('RequisitionViewController', RequisitionViewController);
+        .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionViewController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status'];
+    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status'];
 
-    function RequisitionViewController($scope, $state, messageService, facilityList, RequisitionService, Status) {
+    function RequisitionSearchController($scope, $state, messageService, facilityList, RequisitionService, Status) {
 
         $scope.loadPrograms = loadPrograms;
         $scope.search = search;
