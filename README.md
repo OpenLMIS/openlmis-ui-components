@@ -47,6 +47,16 @@ If you run the UI module, it should be available on port 9000.
 $ grunt build
 $ grunt serve
 ```
+In order to run a development server that rebuilds the UI every time you make changes to the files run:
+
+```shell
+> docker-compose run --service-ports requisition-refui
+$ grunt watch --openlmisServerURL=<server_url> --addProxyService
+$ grunt serve --addProxyService
+```
+`<server_url>` should point to base adres of your OpenLmis server (usually this is your IP address).
+
+Note this requires you to change the files at least once in order to build the UI. Alternatively you can runt `grunt build` beforehand. This is the recommended way to develop the UI, as it is the fastest one.
 
 ### Running complete application with nginx
 To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, use [OpenLMIS-Blue] (https://github.com/OpenLMIS/openlmis-blue).
