@@ -10,18 +10,32 @@
 
  (function(){
  	"use strict";
-
+ 	/**
+ 	 * 
+ 	 * @ngdoc service
+ 	 * @name openlmis-auth.AuthURL
+ 	 *
+ 	 * @description
+ 	 * A factory that takes a URL and prepends the AuthServiceURL before the url.
+ 	 *
+ 	 * The actual auth url can be changed by setting the --authServiceURL flag at build time
+ 	 * 
+ 	 */
  	angular.module("openlmis-auth")
  		.factory("AuthURL", AuthURL);
 
  	AuthURL.$inject = ['OpenlmisURL', 'PathFactory'];
  	function AuthURL(OpenlmisURL, PathFactory){
 
+ 		// String that gets replaced by AUTH_SERVICE_URL config variable
  		var authUrl = "@@AUTH_SERVICE_URL";
 		if(authUrl.substr(0,2) == "@@"){
 			authUrl = "";
 		}
-
+		/**
+		 * @param  {String} url The url fragment to prepend the auth url before
+		 * @return {String} A url that is directed towards the OpenLMIS AuthService
+		 */
  		return function(url){
  			url = PathFactory(authUrl, url);
  			return OpenlmisURL(url);

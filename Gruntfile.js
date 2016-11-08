@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: config.app.src + '/**/*',
-      tasks: ['copy', 'concat', 'sass', 'replace'],
+      tasks: ['copy', 'concat', 'sass', 'replace', 'ngdocs'],
       options: {
         spawn: false
       }

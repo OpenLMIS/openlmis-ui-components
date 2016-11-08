@@ -11,12 +11,22 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis-auth')
-        .run(authStateChangeInjector);
+    /**
+     * @ngdoc service
+     * @name  openlmis-auth.stateChangeInterceptor
+     *
+     * @description
+     * When the UI-Router starts a state change, then the user's authentication is checked. If the user isn't authenticated, then they are shown the login page. 
+     *
+     * Any route that the user visits within the openlmis-auth module they will be allowed to visit if they are not authenticated. Meaning if a user is authenticated, they won't be able to access the login or forgot password screens. 
+     * 
+     */
 
-    authStateChangeInjector.$inject = ['$rootScope', '$state', 'AuthorizationService'];
-    function authStateChangeInjector($rootScope, $state, AuthorizationService){
-        //$rootScope.$on('$viewContentLoading', redirectAuthState);
+    angular.module('openlmis-auth')
+        .run(authStateChangeInterceptor);
+
+    authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService'];
+    function authStateChangeInterceptor($rootScope, $state, AuthorizationService){
         $rootScope.$on('$stateChangeStart', redirectAuthState);
 
         function redirectAuthState(event, toState, toParams, fromState, fromParams){

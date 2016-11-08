@@ -11,6 +11,15 @@
 (function(){
   "use strict";
 
+  /**
+   * @ngdoc controller
+   * @name  openlmis-auth.LoginController
+   *
+   * @description
+   * Controller that drives the login form.
+   * 
+   */
+
   angular.module("openlmis-auth")
     .controller("LoginController", LoginController);
 
@@ -19,6 +28,43 @@
   function LoginController($scope, LoginService, localStorageService, messageService) {
     var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
+    /**
+     * 
+     * @ngdoc property
+     * @name  $scope.username
+     * @propertyOf openlmis-auth.LoginController
+     * @returns {string} Username
+     * 
+     */
+
+    /**
+     * 
+     * @ngdoc property
+     * @name  $scope.password
+     * @propertyOf openlmis-auth.LoginController
+     * @returns {string} Password
+     * 
+     */
+
+    /**
+     * 
+     * @ngdoc property
+     * @name  $scope.loginError
+     * @propertyOf openlmis-auth.LoginController
+     * @returns {string} Error message from attempting a logging in
+     * 
+     */
+
+    /**
+     * @ngdoc function
+     * @name  validateLoginForm
+     * @methodOf openlmis-auth.LoginController
+     *
+     * @returns {boolean} If login form is valid
+     *
+     * @description
+     * Checks username and password $scope variables, and returns true or shows an appropriate error message before the actual login request happens.
+     */
     var validateLoginForm = function() {
       if ($scope.username === undefined || $scope.username.trim() === '') {
         $scope.loginError = messageService.get("error.login.username");
@@ -31,6 +77,19 @@
       return true;
     };
 
+    /**
+     * @ngdoc function
+     * @name doLogin
+     * @methodOf openlmis-auth.LoginController
+     *
+     * @description
+     * Takes $scope.username and $scope.password variables and sends them to login service.
+     * 
+     * On error response from the login service, $scope.loginError is set.
+     *
+     * On success a 'auth.login' event is emitted — 
+     * 
+     */
     $scope.doLogin = function() {
       if (!validateLoginForm()) {
         return;
@@ -42,7 +101,6 @@
         $scope.$emit('auth.login');
       })
       .catch(function(){
-        //$scope.loginError = messageService.get("user.authentication.error");
         $scope.loginError = messageService.get("user.login.error");
       })
       .finally(function(){
@@ -51,20 +109,18 @@
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name  goToForgotPassword
+     * methodOf openlmis-auth.LoginController
+     *
+     * @description Changes location to forgot login page
+     * 
+     */
+
     $scope.goToForgotPassword = function() {
       window.location = FORGOT_PASSWORD;
     };
 
-    function getRights(rightList) {
-      var rights = [];
-      if (!rightList) return rights;
-      $.each(rightList, function(index, right) {
-        rights.push({
-          name: right.name,
-          type: right.type
-        });
-      });
-      return JSON.stringify(rights);
-    }
   }
 }());
