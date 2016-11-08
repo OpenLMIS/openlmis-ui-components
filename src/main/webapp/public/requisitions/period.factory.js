@@ -43,7 +43,7 @@
                 periods.forEach(function (period, idx) {
                     var foundRequisition = null;
                     data.forEach(function (requisition) {
-                        if (requisition.processingPeriodId == period.id) {
+                        if (requisition.processingPeriod.id == period.id) {
                             foundRequisition = requisition;
                         }
                     });
