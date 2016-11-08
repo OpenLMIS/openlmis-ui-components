@@ -53,9 +53,9 @@
                 }, 3000);
             }
 
-            var tempalte = $templateCache.get(templateURL);
-            if(tempalte){
-                makeModal(tempalte);
+            var template = $templateCache.get(templateURL);
+            if (template){
+                makeModal(template);
             } else {
                 $templateRequest(templateURL).then(makeModal);
             }

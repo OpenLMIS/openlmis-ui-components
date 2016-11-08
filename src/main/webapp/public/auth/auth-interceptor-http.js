@@ -21,11 +21,11 @@
     }
 
     HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService'];
-    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService){
+    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService) {
 
         function addAccessToken(url){
-            if(url.indexOf('?access_token') == -1){
-                if(url.indexOf('?') == -1){
+            if (url.indexOf('?access_token') == -1){
+                if (url.indexOf('?') == -1){
                     url += '?access_token=' + AuthorizationService.getAccessToken();
                 } else {
                     url += '&access_token=' + AuthorizationService.getAccessToken();
@@ -42,13 +42,16 @@
                 return config;
     		},
             'responseError': function(response) {
-                if (response.status === 401 || response.status === 403) {
+                if (response.status === 401) {
                     AuthorizationService.clearAccessToken();
                     AuthorizationService.clearUser();
                     AuthorizationService.clearRights();
                     $injector.get('$state').go('auth.login');
+                    return $q.reject(response);
+                } else if (response.status === 403) {
+                    $injector.get('NotificationModal').showError('error.authorisation');
                 }
-                return $q.reject(response);
+                return response;
             }
     	}
     }
