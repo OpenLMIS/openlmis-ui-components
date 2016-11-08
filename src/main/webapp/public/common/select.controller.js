@@ -13,6 +13,9 @@
     SelectController.$inject = ['$scope','$attrs']
     function SelectController($scope, $attrs) {
         $scope.selected = {};
+        if($scope.defaultValue) {
+            $scope.selected.item = JSON.parse($scope.defaultValue);
+        }
         $scope.ngModel = $scope.selected;
         $scope.searchEnabled = false;
 

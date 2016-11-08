@@ -16,11 +16,11 @@
 
    $scope.labels = [
         {"value": "", "name": messageService.get("option.value.all")},
-        {"value": messageService.get("program.name"),
+        {"value": "program.name",
             "name": messageService.get("option.value.program")},
-        {"value": messageService.get("facility.name"),
+        {"value": "facility.name",
             "name": messageService.get("option.value.facility.name")},
-        {"value": messageService.get("facility.code"),
+        {"value": "facility.code",
             "name": messageService.get("option.value.facility.code")}
     ];
  
@@ -53,10 +53,6 @@
           width: 110 }
       ]
     };
-
-    $scope.typeOptionMessage = function() {
-        return messageService.get("label.select.type");
-    }
 
     $scope.openRnr = function (row) {
       $state.go('requisitions.requisition', {

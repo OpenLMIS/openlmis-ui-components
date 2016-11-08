@@ -33,6 +33,7 @@ table .productCategory,
 .grid-filters {
   padding: 0.7em 0 1.4em;
   text-align: right;
+  display: flex;
   .search-query {
     width: 10em;
     padding: 0.25em 4em;

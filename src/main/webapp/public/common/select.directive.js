@@ -21,7 +21,8 @@
                 placeholder: '@?placeholder',
                 fieldDisplayed: '@fieldDisplayed',
                 orderBy: '@?',
-                trackBy: '@?'
+                trackBy: '@?',
+                defaultValue: '@?defaultValue'
             },
             restrict: 'E',
             replace: 'true',
