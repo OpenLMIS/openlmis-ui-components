@@ -11,7 +11,7 @@
  (function(){
   "use strict";
 
-  angular.module('openlmis-auth')
+  angular.module('openlmis-core')
     .service('AuthorizationService', AuthorizationService)
 
   var storageKeys = {
