@@ -8,7 +8,55 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+<<<<<<< 0cd36664561e151f015a68961043d456699a863f
 var app = angular.module('openlmis-core');
+=======
+
+var app = angular.module('openlmis-core');
+
+app.config(function ($httpProvider) {
+  var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
+    var requestCount = 0;
+
+    function responseSuccess(response) {
+      if (!(--requestCount))
+        angular.element('#loader').hide();
+      return response;
+    }
+
+    function responseError(response) {
+      if (!(--requestCount))
+        angular.element('#loader').hide();
+      switch (response.status) {
+        case 403:
+          $window.location = "/public/pages/access-denied.html";
+          break;
+        case 401:
+          loginConfig.preventReload = (response.config.method != 'GET');
+          loginConfig.modalShown = true;
+          break;
+        default:
+          break;
+      }
+      return $q.reject(response);
+    }
+
+    function request(config) {
+      if ((++requestCount) > 0)
+        angular.element('#loader').show();
+      config.headers["X-Requested-With"] = "XMLHttpRequest";
+      return config;
+    }
+
+    return {
+      'request': request,
+      'response': responseSuccess,
+      'responseError': responseError
+    };
+  }];
+  $httpProvider.interceptors.push(interceptor);
+});
+>>>>>>> OLMIS-1256: Moved openlmis-core definition to /common directory
 
 app.value("loginConfig", {modalShown: false, preventReload: false});
 
