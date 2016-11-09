@@ -115,6 +115,7 @@
                 RequisitionService.initiate($scope.selectedFacilityId,
                     $scope.selectedProgram.item.id,
                     selectedPeriod.id,
+                    $scope.emergency,
                     false).then(
                     function (data) {
                         $state.go('requisitions.requisition', {
