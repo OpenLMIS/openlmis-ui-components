@@ -46,7 +46,7 @@
     position: absolute;
     content: attr(title);
     opacity: 0.2;
-    color: rgba(255, 255, 255, 1);
+    color: rgba($white, 1);
   }
   &:before {
     top: 0.1em;

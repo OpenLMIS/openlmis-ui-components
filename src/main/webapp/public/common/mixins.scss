@@ -39,7 +39,6 @@
   text-shadow: none;
 }
 @mixin right-arrow-after($color){
-  border-color: rgba(136, 183, 213, 0);
   border-left-color: $color;
   border-width: 2.7em 0 2.7em 1.2em;
   top: 50%;
