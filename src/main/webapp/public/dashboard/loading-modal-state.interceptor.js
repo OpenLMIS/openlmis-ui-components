@@ -9,8 +9,8 @@
     function stateInterceptorListeners($rootScope, $timeout, LoadingModal){
 
         $rootScope.$on('$stateChangeStart', createModal);
-        $rootScope.$on('$stateChageSuccess', closeModal);
-        $rootScope.$on('$stateChageError', closeModal);
+        $rootScope.$on('$stateChangeSuccess', closeModal);
+        $rootScope.$on('$stateChangeError', closeModal);
         $rootScope.$on('$stateNotFound', closeModal);
 
         var timeoutPromise;
@@ -32,6 +32,7 @@
                 $timeout.cancel(timeoutPromise)
                 timeoutPromise = null;
             } else {
+                LoadingModal.stopLoading();
                 // close loading modal...
             }
         }
