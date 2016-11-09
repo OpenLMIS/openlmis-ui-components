@@ -20,11 +20,10 @@
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
         var actionsActive = 0;
         var dialog;
-        //var loaderElement = angular.element('#loader');
 
         var service = {
               startLoading: showModal,
-              stopLoading: hide
+              stopLoading: hideModal
         };
 
         function showModal() {
@@ -62,36 +61,9 @@
             return deferred.promise;
         }
 
-        function show() {
-            console.log("show");
-            showModal();
-        }
-
-        function hide() {
-            console.log("hide");
+        function hideModal() {
+            console.log("hiding modal");
             dialog.modal('hide');
-        }
-
-        function add() {
-            dialog.modal('show');
-            console.log("add");
-            //openLoadingIcon();
-        }
-
-        function remove() {
-            console.log("remove");
-            //dialog.modal('hide');
-            //if (--actionsActive < 1) {
-            //    closeLoadingIcon();
-            //}
-        }
-
-        function openLoadingIcon() {
-            angular.element('#loader').show();
-        }
-
-        function closeLoadingIcon() {
-            angular.element('#loader').hide();
         }
 
         return service;
