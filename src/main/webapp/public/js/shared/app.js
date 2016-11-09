@@ -16,17 +16,12 @@ var app = angular.module('openlmis-core');
 
 app.config(function ($httpProvider) {
   var interceptor = ['$q', '$window', 'loginConfig', function ($q, $window, loginConfig) {
-    var requestCount = 0;
 
     function responseSuccess(response) {
-      if (!(--requestCount))
-        angular.element('#loader').hide();
       return response;
     }
 
     function responseError(response) {
-      if (!(--requestCount))
-        angular.element('#loader').hide();
       switch (response.status) {
         case 403:
           $window.location = "/public/pages/access-denied.html";
@@ -42,8 +37,6 @@ app.config(function ($httpProvider) {
     }
 
     function request(config) {
-      if ((++requestCount) > 0)
-        angular.element('#loader').show();
       config.headers["X-Requested-With"] = "XMLHttpRequest";
       return config;
     }

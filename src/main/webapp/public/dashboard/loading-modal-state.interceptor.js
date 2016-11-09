@@ -16,17 +16,17 @@
         var timeoutPromise;
 
         function createModal(){
-            console.log("I am called every time ^__^");
+            console.log("state change - create");
             // pause timeout so modal doesn't open immedately all the damn time
-            //timeoutPromise = $timeout(function(){
+            timeoutPromise = $timeout(function(){
                 // open modal
                 LoadingModal.startLoading();
-                //timeoutPromise = null;
-            //}, 500);
+                timeoutPromise = null;
+            }, 500);
         }
 
         function closeModal(){
-            console.log("I am never called T__T");
+            console.log("state change - close");
             if(timeoutPromise){
                 // didn't have chance to open modal, cancel opening it
                 $timeout.cancel(timeoutPromise)
