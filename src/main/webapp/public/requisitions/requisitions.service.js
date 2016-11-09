@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .service('RequisitionService', requisitionService);
 
-    requisitionService.$inject = ['$q', '$resource', 'messageService', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', '$ngBootbox', 'NotificationModal'];
+    requisitionService.$inject = ['$q', '$resource', 'messageService', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', '$ngBootbox', 'NotificationModal', 'DateUtils'];
 
-    function requisitionService($q, $resource, messageService, RequisitionURL, RequisitionFactory, Source, Column, $ngBootbox, NotificationModal) {
+    function requisitionService($q, $resource, messageService, RequisitionURL, RequisitionFactory, Source, Column, $ngBootbox, NotificationModal, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -18,13 +18,20 @@
             'search': {
                 url: RequisitionURL('/api/requisitions/search'),
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                transformResponse: transformRequisitionListResponse
+            },
+            'forApproval': {
+                url: RequisitionURL('/api/requisitions/requisitionsForApproval'),
+                method: 'GET',
+                isArray: true,
+                transformResponse: transformRequisitionListResponse
             },
             'forConvert': {
                 url: RequisitionURL('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
                 isArray: true,
-                transformResponse: transformForConvertResponse
+                transformResponse: transformResponseForConvert
             },
             'convertToOrder': {
                 url: RequisitionURL('/api/orders/requisitions'),
@@ -37,6 +44,7 @@
             get: get,
             initiate: initiate,
             search: search,
+            forApproval: forApproval,
             forConvert: forConvert,
             convertToOrder: convertToOrder
         };
@@ -66,6 +74,10 @@
             if(startDate) searchParams['createdDateFrom'] = startDate;
             if(endDate) searchParams['createdDateTo'] = endDate;
             return resource.search(searchParams).$promise; 
+        }
+
+        function forApproval() {
+            return resource.forApproval().$promise;
         }
 
         function forConvert(params) {
@@ -101,21 +113,34 @@
             return angular.toJson(body);
         }
 
-        function transformForConvertResponse(data, headers, status) {
-            if (status === 200) {
-                var items = angular.fromJson(data);
+        function transformRequisitionListResponse(data, headers, status) {
+            return transformResponse(data, status, function(requisitions) {
+                angular.forEach(requisitions, transformRequisition);
+                return requisitions;
+            });
+        }
+
+        function transformResponseForConvert(data, headers, status) {
+            return transformResponse(data, status, function(items) {
                 angular.forEach(items, function(item) {
-                    item.requisition.processingPeriod.startDate = toDate(item.requisition.processingPeriod.startDate);
-                    item.requisition.processingPeriod.endDate = toDate(item.requisition.processingPeriod.endDate);
-                    item.requisition.processingPeriod.processingSchedule.modifiedDate = toDate(item.requisition.processingPeriod.processingSchedule.modifiedDate);
+                    transformRequisition(item.requisition);
                 });
                 return items;
+            });
+        }
+
+        function transformResponse(data, status, transformer) {
+            if (status === 200) {
+                return transformer(angular.fromJson(data));
             }
             return data;
         }
 
-        function toDate(array) {
-            return array ? new Date(array.toString()) : undefined;
+        function transformRequisition(requisition) {
+            requisition.createdDate = DateUtils.toDate(requisition.createdDate);
+            requisition.processingPeriod.startDate = DateUtils.toDate(requisition.processingPeriod.startDate);
+            requisition.processingPeriod.endDate = DateUtils.toDate(requisition.processingPeriod.endDate);
+            requisition.processingPeriod.processingSchedule.modifiedDate = DateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
         }
     }
 

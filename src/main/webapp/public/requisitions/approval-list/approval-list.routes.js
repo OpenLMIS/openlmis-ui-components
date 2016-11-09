@@ -15,17 +15,8 @@
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
 			resolve: {
-		        requisitionList: function ($q, $http, RequisitionURL) {
-		        	var deferred = $q.defer();
-
-		        	$http.get(RequisitionURL('/api/requisitions/requisitionsForApproval'))
-		        	  .then(function(response) {
-		        	    deferred.resolve(response.data);
-		        	  }, function(response) {
-		        	    deferred.reject();
-		        	  });
-
-		        	return deferred.promise;
+		        requisitionList: function (RequisitionService) {
+                    return RequisitionService.forApproval();
 		        }
 		    }
 		});

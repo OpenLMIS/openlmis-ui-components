@@ -4,14 +4,15 @@
 
     angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService', '$q'];
+    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService', '$q', 'DateUtils'];
 
-    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q) {
+    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
             get: {
                 method: 'GET',
-                isArray: true
+                isArray: true,
+                transformResponse: transformResponse
             }
         });
 
@@ -63,16 +64,24 @@
         function createPeriodGridItem(period, requisition, idx) {
             return {
                 name: period.name,
-                startDate: formatDate(period.startDate),
-                endDate: formatDate(period.endDate),
+                startDate: period.startDate,
+                endDate: period.endDate,
                 rnrStatus: (requisition ? requisition.status : (idx === 0 ? messageService.get("msg.rnr.not.started") : messageService.get("msg.rnr.previous.pending"))),
                 activeForRnr: (idx === 0 ? true : false),
                 rnrId: (requisition ? requisition.id : null)
             };
         }
 
-        function formatDate(date) {
-            return new Date(date.join('-'));
+        function transformResponse(data, headers, status) {
+            if (status === 200) {
+                var periods = angular.fromJson(data);
+                periods.forEach(function(period) {
+                    period.startDate = DateUtils.toDate(period.startDate);
+                    period.endDate = DateUtils.toDate(period.endDate);
+                })
+                return periods;
+            }
+            return data;
         }
     }
 

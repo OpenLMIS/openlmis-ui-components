@@ -23,9 +23,9 @@
         .module('openlmis.requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status'];
+    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status', 'DateUtils'];
 
-    function RequisitionSearchController($scope, $state, messageService, facilityList, RequisitionService, Status) {
+    function RequisitionSearchController($scope, $state, messageService, facilityList, RequisitionService, Status, DateUtils) {
 
         $scope.loadPrograms = loadPrograms;
         $scope.search = search;
@@ -49,18 +49,41 @@
             enableColumnResize: true,
             enableColumnMenus: false,
             showFilter: false,
-            rowTemplate: '<div ng-click="grid.appScope.openRnr(row)" ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid" class="ui-grid-cell" ng-class="col.colIndex()" ui-grid-cell></div>',
+            rowTemplate: 'common/grid/row.html',
             columnDefs: [
-                {field: 'program.name', displayName: messageService.get("program.header") },
-                {field: 'facility.code', displayName: messageService.get("option.value.facility.code")},
-                {field: 'facility.name', displayName: messageService.get("option.value.facility.name")},
-                {field: 'processingPeriod.startDate', displayName: messageService.get("label.period.start.date"), type: 'date', cellFilter: 'dateFilter'},
-                {field: 'processingPeriod.endDate', displayName: messageService.get("label.period.end.date"), type: 'date', cellFilter: 'dateFilter'},
-                {field: 'createdDate', displayName: messageService.get("label.date.submitted"), type: 'date', cellFilter: 'dateFilter'},
-                {field: 'status', displayName: messageService.get("label.status")},
-                {name: 'emergency', displayName: messageService.get("requisition.type.emergency"),
-                    cellTemplate: '<div class="ngCellText checked"><i ng-class="{\'icon-ok\': row.entity.emergency}"></i></div>',
-                    width: 110 }
+                {
+                    field: 'program.name', 
+                    displayName: messageService.get('program.header')
+                }, {
+                    field: 'facility.code',
+                    displayName: messageService.get('option.value.facility.code')
+                }, {
+                    field: 'facility.name',
+                    displayName: messageService.get('option.value.facility.name')
+                }, {
+                    field: 'processingPeriod.startDate',
+                    displayName: messageService.get('label.period.start.date'),
+                    cellFilter: DateUtils.FILTER
+                }, {
+                    field: 'processingPeriod.endDate',
+                    displayName: messageService.get('label.period.end.date'),
+                    type: 'date',
+                    cellFilter: DateUtils.FILTER
+                }, {
+                    field: 'createdDate',
+                    displayName: messageService.get('label.date.submitted'),
+                    type: 'date',
+                    cellFilter: DateUtils.FILTER
+                },
+                {
+                    field: 'status',
+                    displayName: messageService.get('label.status')
+                }, {
+                    name: 'emergency',
+                    displayName: messageService.get('requisition.type.emergency'),
+                    cellTemplate: 'common/grid/emergency-cell.html',
+                    width: 110
+                }
             ]
         };
 
