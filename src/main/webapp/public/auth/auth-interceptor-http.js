@@ -77,10 +77,10 @@
              * @methodOf openlmis-auth.HttpAuthAccessTokenInterceptor
              * 
              * @param  {object} response HTTP Response
-             * @return {Promise} A rejected promise
+             * @return {Promise} Either rejected (in case of 401) or resolved promise.
              *
              * @description
-             * Takes a failed response that is a 401 or 403 and clears a user's credentials, forcing them to login.
+             * Takes a failed response that is a 401 and clears a user's credentials, forcing them to login OR takes 403 response and shows a modal with authorization error.
              * 
              */
             'responseError': function(response) {
@@ -91,9 +91,9 @@
                     $injector.get('$state').go('auth.login');
                     return $q.reject(response);
                 } else if (response.status === 403) {
-                    $injector.get('NotificationModal').showError('error.authorisation');
+                    $injector.get('NotificationModal').showError('error.authorization');
                 }
-                return response;
+                return $q.resolve(response);
             }
     	}
     }
