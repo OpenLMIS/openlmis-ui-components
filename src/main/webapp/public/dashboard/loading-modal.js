@@ -19,6 +19,7 @@
 
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
         var actionsActive = 0;
+        var dialog;
         //var loaderElement = angular.element('#loader');
 
         var service = {
@@ -30,14 +31,14 @@
             var deferred = $q.defer();
             console.log("showing modal");
             function makeModal() {
-                var timeoutPromise,
-                    dialog = bootbox.dialog({
-                        message: 'loading-modal',
-                        className: 'loading-modal',
-                        backdrop: true,
-                        onEscape: true,
-                        closeButton: false
-                    });
+                var timeoutPromise;
+                dialog = bootbox.dialog({
+                    message: 'loading-modal',
+                    className: 'loading-modal',
+                    backdrop: true,
+                    onEscape: true,
+                    closeButton: false
+                });
 
                 dialog.on('click.bs.modal', function(){
                     dialog.modal('hide');
@@ -68,6 +69,7 @@
 
         function hide() {
             console.log("hide");
+            dialog.modal('hide');
         }
 
         function add() {
