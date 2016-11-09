@@ -44,7 +44,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: config.app.src + '/**/*',
-      tasks: ['copy', 'concat', 'sass', 'replace', 'ngdocs'],
+      tasks: ['build'],
       options: {
         spawn: false
       }
@@ -412,9 +412,9 @@ module.exports = function(grunt) {
   var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles'];
 
   if(grunt.option('production')) buildTasks.push('uglify');
-  if(!grunt.option('no-test')) buildTasks.push('karma:unit');
-  if(!grunt.option('no-styleguide')) buildTasks = buildTasks.concat(styleguideTasks);
-  if(!grunt.option('no-docs')) buildTasks.push('ngdocs');
+  if(!grunt.option('noTest') && !grunt.option('appOnly')) buildTasks.push('karma:unit');
+  if(!grunt.option('noStyleguide') && !grunt.option('appOnly')) buildTasks = buildTasks.concat(styleguideTasks);
+  if(!grunt.option('noDocs') && !grunt.option('appOnly')) buildTasks.push('ngdocs');
 
   grunt.registerTask('build', buildTasks);
   
