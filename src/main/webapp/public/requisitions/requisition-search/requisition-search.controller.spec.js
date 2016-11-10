@@ -78,20 +78,26 @@ describe('RequisitionSearchController', function() {
         expect(scope.selectedFacility).toBe(undefined);
         expect(scope.programs).toBe(undefined);
 
-        scope.selectedFacility = scope.facilities[0];
+        scope.selectedFacility = {
+            item: scope.facilities[0]
+        };
         scope.loadPrograms();
-        expect(scope.selectedFacility.id).toEqual('1');
+        expect(scope.selectedFacility.item.id).toEqual('1');
         expect(scope.programs).toEqual(scope.facilities[0].supportedPrograms);
 
-        scope.selectedFacility = scope.facilities[1];
+        scope.selectedFacility.item = scope.facilities[1];
         scope.loadPrograms();
-        expect(scope.selectedFacility.id).toEqual('2');
+        expect(scope.selectedFacility.item.id).toEqual('2');
         expect(scope.programs).toEqual(scope.facilities[1].supportedPrograms);
     });
 
     it('should load grid data after search', function() {
-        scope.selectedFacility = scope.facilities[0];
-        scope.selectedProgram = scope.selectedFacility.supportedPrograms[0];
+        scope.selectedFacility = {
+            item: scope.facilities[0]
+        };
+        scope.selectedProgram = {
+            item: scope.selectedFacility.item.supportedPrograms[0]
+        };
         scope.selectedStatuses = [
             {
                 id: 1

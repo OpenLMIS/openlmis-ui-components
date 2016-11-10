@@ -43,6 +43,10 @@
             smartButtonMaxItems: 4
         };
 
+        $scope.$watch('selectedFacility.item', function(){
+            loadPrograms();
+        });
+
         $scope.gridOptions = { data: 'requisitionList',
             showFooter: false,
             showSelectionCheckbox: false,
@@ -114,8 +118,8 @@
          *
          */
         function loadPrograms() {
-            if ($scope.selectedFacility.supportedPrograms) {
-                $scope.programs = $scope.selectedFacility.supportedPrograms;
+            if ($scope.selectedFacility && $scope.selectedFacility.item.supportedPrograms) {
+                $scope.programs = $scope.selectedFacility.item.supportedPrograms;
             } else {
                 $scope.error = messageService.get('msg.no.program.available');
             }
@@ -134,9 +138,10 @@
         function search() {
             $scope.requisitionList = [];
             $scope.error = null;
-            if ($scope.selectedFacility) {
-                RequisitionService.search($scope.selectedProgram ? $scope.selectedProgram.id : null, 
-                    $scope.selectedFacility ? $scope.selectedFacility.id : null, 
+            if ($scope.selectedFacility && $scope.selectedFacility.item) {
+                RequisitionService.search($scope.selectedProgram.item ? $scope.selectedProgram.item
+                .id : null,
+                    $scope.selectedFacility.item ? $scope.selectedFacility.item.id : null,
                     //getStatusLabels($scope.selectedStatuses),
                     null,
                     $scope.startDate ? $scope.startDate.toISOString() : null, 
