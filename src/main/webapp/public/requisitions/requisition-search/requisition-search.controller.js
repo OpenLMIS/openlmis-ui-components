@@ -118,7 +118,9 @@
          *
          */
         function loadPrograms() {
-            if ($scope.selectedFacility && $scope.selectedFacility.item.supportedPrograms) {
+            if (!$scope.selectedFacility) {
+                return;
+            } else if ($scope.selectedFacility.item.supportedPrograms) {
                 $scope.programs = $scope.selectedFacility.item.supportedPrograms;
             } else {
                 $scope.error = messageService.get('msg.no.program.available');
