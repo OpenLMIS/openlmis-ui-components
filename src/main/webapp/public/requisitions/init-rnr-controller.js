@@ -16,9 +16,11 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory', 'RequisitionService', '$state', 'DateUtils'];
+    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory',
+    'RequisitionService', '$state', 'DateUtils', 'Status'];
 
-    function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state, DateUtils) {
+    function InitiateRnrController($scope, messageService, facility, PeriodFactory,
+    RequisitionService, $state, DateUtils, Status) {
 
         $scope.emergency = false;
 
@@ -106,8 +108,10 @@
 
         $scope.initRnr = function (selectedPeriod) {
             $scope.error = "";
-            if (!selectedPeriod.rnrId || selectedPeriod.rnrStatus == "AUTHORIZED" ||
-            selectedPeriod.rnrStatus == "APPROVED"){
+            if (!selectedPeriod.rnrId ||
+            selectedPeriod.rnrStatus == Status.AUTHORIZED ||
+            selectedPeriod.rnrStatus == Status.APPROVED ||
+            selectedPeriod.rnrStatus == Status.RELEASED){
                 RequisitionService.initiate($scope.selectedFacilityId,
                 $scope.selectedProgram.item.id,
                 selectedPeriod.id,
