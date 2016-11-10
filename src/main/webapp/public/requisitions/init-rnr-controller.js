@@ -106,24 +106,23 @@
 
         $scope.initRnr = function (selectedPeriod) {
             $scope.error = "";
-
-            if (selectedPeriod.rnrId) {
-                $state.go('requisitions.requisition', {
-                    rnr: selectedPeriod.rnrId 
+            if (!selectedPeriod.rnrId || selectedPeriod.rnrStatus == "AUTHORIZED" ||
+            selectedPeriod.rnrStatus == "APPROVED"){
+                RequisitionService.initiate($scope.selectedFacilityId,
+                $scope.selectedProgram.item.id,
+                selectedPeriod.id,
+                $scope.emergency).then(
+                function (data) {
+                    $state.go('requisitions.requisition', {
+                        rnr: data.id
+                    });
+                }, function () {
+                    $scope.error = messageService.get("error.requisition.not.initiated");
                 });
             } else {
-                RequisitionService.initiate($scope.selectedFacilityId,
-                    $scope.selectedProgram.item.id,
-                    selectedPeriod.id,
-                    $scope.emergency,
-                    false).then(
-                    function (data) {
-                        $state.go('requisitions.requisition', {
-                            rnr: data.id
-                        });
-                    }, function () {
-                        $scope.error = messageService.get("error.requisition.not.initiated");
-                    });
+                $state.go('requisitions.requisition', {
+                    rnr: selectedPeriod.rnrId
+                });
             }
         };
     }
