@@ -30,7 +30,7 @@
             function makeModal() {
                 var timeoutPromise;
                 dialog = bootbox.dialog({
-                    message: 'loading-modal',
+                    message: '<img src="/public/images/loader.gif">',
                     className: 'loading-modal',
                     backdrop: true,
                     onEscape: true,
@@ -50,9 +50,9 @@
                     angular.element(document.querySelector('.loading-modal')).remove();
                 });
 
-                timeoutPromise = $timeout(function(){
-                    dialog.modal('hide');
-                }, 3000);
+ //               timeoutPromise = $timeout(function(){
+//                    dialog.modal('hide');
+//                }, 3000);
             }
             makeModal();
 
