@@ -25,7 +25,7 @@
         $scope.emergency = false;
 
         $scope.$watch('selectedProgram.item', function() {
-            loadPeriods();
+            $scope.loadPeriods();
         }, true);
 
         $scope.facilities =[];
