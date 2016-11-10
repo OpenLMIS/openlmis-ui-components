@@ -30,7 +30,6 @@
                     dialog = bootbox.dialog({
                         message: $compile(html)(scope),
                         className: 'notification-modal',
-                        backdrop: true,
                         onEscape: true,
                         closeButton: false
                     });
