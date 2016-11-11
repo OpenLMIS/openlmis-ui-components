@@ -289,15 +289,13 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
-        var styleguideAppRoute = config.styleguide.appRoot;
-        if(grunt.option('styleguideAppRoute')) styleguideAppRoute = grunt.option('styleguideAppRoute');
         return gulp.src([
                         path.join(config.styleguide.src,"**/*.scss"),
                         "!"+path.join(config.styleguide.src,"**/scss/*.scss")
                         ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
-            appRoot: styleguideAppRoute,
+            appRoot: "http://replaceThis",
             disableHtml5Mode: true,
             overviewPath: path.join(config.docs.src, 'styleguide.md')
           }))
@@ -322,6 +320,15 @@ module.exports = function(grunt) {
                     config.app.dest + "/public/images/*"
                    ])
           .pipe(gulp.dest(path.join(config.styleguide.dest,"images")));
+      },
+      'styleguide-index-replace': function(){
+        return gulp.src([
+            path.join(config.styleguide.dest, 'index.html'),
+            path.join(config.styleguide.dest, 'styleguide-app.css')
+          ])
+          .pipe(replace("http://replaceThis/", ""))
+          .pipe(replace("font-family: 'FontAwesome';", ""))
+          .pipe(gulp.dest(config.styleguide.dest));
       },
       'sass': function(){
    var includePaths = require('node-bourbon').includePaths.concat([
@@ -410,7 +417,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'];
-  var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles'];
+  var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles', 'gulp:styleguide-index-replace'];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');
