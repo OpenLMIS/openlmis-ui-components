@@ -289,16 +289,17 @@ module.exports = function(grunt) {
     },
     gulp: {
       'styleguide-generate': function() {
+        var styleguideAppRoute = config.styleguide.appRoot;
+        if(grunt.option('styleguideAppRoute')) styleguideAppRoute = grunt.option('styleguideAppRoute');
         return gulp.src([
                         path.join(config.styleguide.src,"**/*.scss"),
                         "!"+path.join(config.styleguide.src,"**/scss/*.scss")
                         ])
           .pipe(styleguide.generate({
             title: 'OpenLMIS Styleguide',
-            appRoot: '/styleguide',
-            //extraHead: '<link rel="stylesheet" type="text/css" href="/openlmis-requisition-refUI/docs/body.css"/>',
-            //disableHtml5Mode: true,
-            overviewPath: './overview.md'
+            appRoot: styleguideAppRoute,
+            disableHtml5Mode: true,
+            overviewPath: path.join(config.docs.src, 'styleguide.md')
           }))
           .pipe(gulp.dest(config.styleguide.dest));
       },
@@ -411,15 +412,16 @@ module.exports = function(grunt) {
   var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'];
   var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles'];
 
-  if(grunt.option('production')) buildTasks.push('uglify');
-  if(!grunt.option('noTest') && !grunt.option('appOnly')) buildTasks.push('karma:unit');
-  if(!grunt.option('noStyleguide') && !grunt.option('appOnly')) buildTasks = buildTasks.concat(styleguideTasks);
-  if(!grunt.option('noDocs') && !grunt.option('appOnly')) buildTasks.push('ngdocs');
+  var fullBuildTasks = [].concat(buildTasks);
+  if(grunt.option('production')) fullBuildTasks.push('uglify');
+  if(!grunt.option('noTest') && !grunt.option('appOnly')) fullBuildTasks.push('karma:unit');
+  if(!grunt.option('noStyleguide') && !grunt.option('appOnly')) fullBuildTasks = fullBuildTasks.concat(styleguideTasks);
+  if(!grunt.option('noDocs') && !grunt.option('appOnly')) fullBuildTasks.push('ngdocs');
 
-  grunt.registerTask('build', buildTasks);
+  grunt.registerTask('build', fullBuildTasks);
   
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
 
   grunt.registerTask('docs', ['build'].concat('ngdocs'));
-  grunt.registerTask('styleguide', ['build'].concat(styleguideTasks));
+  grunt.registerTask('styleguide', buildTasks.concat(styleguideTasks));
 };

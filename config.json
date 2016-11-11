@@ -6,7 +6,8 @@
   },
   "styleguide": {
   	"src": "./src/main",
-  	"dest": "./build/styleguide"
+  	"dest": "./build/styleguide",
+    "appRoute": "/styleguide"
   },
   "docs": {
     "src": "./docs",

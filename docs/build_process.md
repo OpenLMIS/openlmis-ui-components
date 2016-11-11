@@ -36,6 +36,12 @@ Building the styleguide can be skipped by adding `--noStyleguide` to the command
 grunt build --noStyleguide
 ```
 
+To change the route path for the styleguide application, add a complete path to `--styleguideAppRoute`
+
+```
+grunt build --styleguideAppRoute=http://somewhere.else
+```
+
 ### Javascript Documentation
 Choose not to build the Javascipt Documentation by add `--noDocs` to the command.
 
