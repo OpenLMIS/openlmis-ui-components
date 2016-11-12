@@ -15,7 +15,7 @@
     angular.module('openlmis-core')
       .service('LoadingModal', LoadingModal);
 
-    function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox) {
+    function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox, messageService) {
         var actionsActive = 0;
         var dialog;
 
@@ -26,11 +26,9 @@
 
         function showModal() {
             var deferred = $q.defer();
-            console.log("showing modal");
             function makeModal() {
-                var timeoutPromise;
                 dialog = bootbox.dialog({
-                    message: '<img src="/public/images/loader.gif">',
+                    message: messageService.get('msg.loading'),
                     className: 'loading-modal',
                     backdrop: true,
                     onEscape: true,
@@ -42,17 +40,10 @@
                 });
                 dialog.on('hide.bs.modal', function(){
                     deferred.resolve();
-                    if(timeoutPromise){
-                        $timeout.cancel(timeoutPromise);
-                    }
                 });
                 dialog.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.loading-modal')).remove();
+                    dialog.remove();
                 });
-
- //               timeoutPromise = $timeout(function(){
-//                    dialog.modal('hide');
-//                }, 3000);
             }
             makeModal();
 
@@ -60,7 +51,6 @@
         }
 
         function hideModal() {
-            console.log("hiding modal");
             dialog.modal('hide');
         }
 
