@@ -53,11 +53,13 @@
         }
 
         function removeModal() {
-            dialog.on('hidden.bs.modal', function(){
-                dialog.remove();
-                dialog = null;
-            });
-            dialog.modal('hide');
+            if(dialog){
+                dialog.on('hidden.bs.modal', function(){
+                    dialog.remove();
+                    dialog = null;
+                });
+                dialog.modal('hide');
+            }
         }
     }
 
