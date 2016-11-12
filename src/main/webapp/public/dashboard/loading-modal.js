@@ -16,45 +16,49 @@
       .service('LoadingModal', LoadingModal);
 
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox, messageService) {
-        var actionsActive = 0;
         var dialog;
+        var timeoutPromise;
 
-        var service = {
-              startLoading: showModal,
-              stopLoading: hideModal
+        return {
+              open: showModal,
+              close: hideModal
         };
 
         function showModal() {
-            var deferred = $q.defer();
-            function makeModal() {
-                dialog = bootbox.dialog({
-                    message: messageService.get('msg.loading'),
-                    className: 'loading-modal',
-                    backdrop: true,
-                    onEscape: true,
-                    closeButton: false
-                });
-
-                dialog.on('click.bs.modal', function(){
-                    dialog.modal('hide');
-                });
-                dialog.on('hide.bs.modal', function(){
-                    deferred.resolve();
-                });
-                dialog.on('hidden.bs.modal', function(){
-                    dialog.remove();
-                });
+            if(!dialog && !timeoutPromise){
+                timeoutPromise = $timeout(function(){
+                    makeModal();
+                    timeoutPromise = null;
+                }, 500);
             }
-            makeModal();
-
-            return deferred.promise;
         }
 
-        function hideModal() {
+        function hideModal(){
+            if(timeoutPromise){
+                $timeout.cancel(timeoutPromise);
+                timeoutPromise = null;
+            } else if(dialog){
+                removeModal();
+            }
+        }
+
+        function makeModal(){
+            dialog = bootbox.dialog({
+                message: messageService.get('msg.loading'),
+                className: 'loading-modal',
+                backdrop: true,
+                onEscape: true,
+                closeButton: false
+            });
+        }
+
+        function removeModal() {
+            dialog.on('hidden.bs.modal', function(){
+                dialog.remove();
+                dialog = null;
+            });
             dialog.modal('hide');
         }
-
-        return service;
     }
 
 })();
