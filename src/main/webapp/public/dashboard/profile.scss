@@ -1,0 +1,25 @@
+.profile {
+
+	.error-message {
+		@extend .alert;
+		@extend .alert-danger;
+		width: 100%;
+	}
+
+	table {
+		@extend .table;
+		@extend .table-bordered;
+
+		thead > tr {
+			@extend .gradient-header;
+
+			& > th {
+				min-width: 0 !important;
+			}
+		}
+
+		th, td {
+			vertical-align: middle !important;
+		}
+	}
+}
