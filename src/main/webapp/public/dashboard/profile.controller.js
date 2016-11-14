@@ -29,7 +29,8 @@
 
         $scope.userProfile = user;
         $scope.updateProfile = updateProfile;
-        $scope.errorMessage = getErrorMessage();
+        $scope.errorMessage = getErrorMessage;
+        $scope.displayRoles = areRolesAssignmentsAvaliable;
 
         /**
          * @ngdoc function
@@ -52,6 +53,7 @@
          * @ngdoc function
          * @name  getInfoMessage
          * @methodOf openlmis-dashboard.UserProfileController
+         * @returns {String} errror message to display
          * 
          * @description
          *
@@ -60,10 +62,24 @@
         function getErrorMessage() {
             if (!$scope.userProfile) {
                 return 'msg.rnr.get.user.info.error';
-            } else if(!$scope.userProfile.roleAssignments || $scope.userProfile.roleAssignments.length) {
+            } else if(!areRolesAssignmentsAvaliable()) {
                 return 'msg.user.no.roles.assigned';
             }
             return null;
+        }
+
+        /**
+         * @ngdoc function
+         * @name  areRolesAssignmentsAvaliable
+         * @methodOf openlmis-dashboard.UserProfileController
+         * @returns {boolean} true if userProfile has role assignments
+         * 
+         * @description
+         *
+         * Checks if user role assignments are present
+         */
+        function areRolesAssignmentsAvaliable() {
+            return $scope.userProfile.roleAssignments && $scope.userProfile.roleAssignments.length > 0;
         }
     }
 

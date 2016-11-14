@@ -39,7 +39,7 @@
             </div>
 	    </form>
 	</div>
-	<div ng-if="!errorMessage">
+	<div ng-if="displayRoles()">
 		<h2 openlmis-message="label.roles"></h2>
 		<table>
 			<thead>
@@ -56,5 +56,5 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="error-message" ng-if="errorMessage" openlmis-message="{{errorMessage}}"></div>
+	<div class="error-message" ng-if="errorMessage()" openlmis-message="{{errorMessage()}}"></div>
 </div>

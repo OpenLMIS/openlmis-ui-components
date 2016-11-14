@@ -2,6 +2,15 @@
   
     'use strict';
 
+    /**
+     * @ngdoc factory
+     * @name openlmis-auth.UserFactory
+     *
+     * @description
+     * 
+     * Allows user to perform actions on user resource
+     * 
+     */
     angular.module('openlmis-auth').factory('UserFactory', userFactory);
 
     userFactory.$inject = ['OpenlmisURL', '$resource'];
@@ -20,6 +29,18 @@
         };
         return service;
 
+
+        /**
+         * @ngdoc function
+         * @name  get
+         * @methodOf openlmis-auth.UserFactory
+         * @param {String} id User id 
+         * @returns {Resource} User info
+         * 
+         * @description
+         *
+         * Get user by id
+         */
         function get(id) {
             var user = resource.get({id: id});
             user.$promise.then(extendUser);
@@ -31,13 +52,23 @@
             return user;
         }
 
+        /**
+         * @ngdoc function
+         * @name  updateProfile
+         * @methodOf openlmis-auth.UserFactory
+         * @returns {Promise} updated User
+         * 
+         * @description
+         *
+         * Updates user profile info
+         */
         function updateProfile() {
             var profileInfo = {
                 firstName: this.firstName,
                 lastName: this.lastName,
                 email: this.email
             }
-            return resource.save({id: this.id}, profileInfo).$promise;
+            return resource.update({id: this.id}, profileInfo).$promise;
         }
     }
 

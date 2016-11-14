@@ -43,14 +43,14 @@ describe('UserProfileController', function() {
         expect(user).toEqual(scope.userProfile);
     });
 
-    /*it('should set error message if there is no user info', function() {
+    it('should set error message if there is no user info', function() {
         scope.userProfile = null;
-        expect(scope.errorMessage).toEqual('msg.rnr.get.user.info.error');
-    });*/
+        expect(scope.errorMessage()).toEqual('msg.rnr.get.user.info.error');
+    });
 
     it('should set error message if there is no role assigned to user', function() {
         scope.userProfile.roleAssignments = [];
-        expect(scope.errorMessage).toEqual('msg.user.no.roles.assigned');
+        expect(scope.errorMessage()).toEqual('msg.user.no.roles.assigned');
     });
 
     it('should call upate user ifno', function() {
