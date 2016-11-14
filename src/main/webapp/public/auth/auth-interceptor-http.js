@@ -92,6 +92,8 @@
                     return $q.reject(response);
                 } else if (response.status === 403) {
                     $injector.get('NotificationModal').showError('error.authorization');
+                } else if (response.status === 404) {
+                    return $q.reject(response);
                 }
                 return $q.resolve(response);
             }

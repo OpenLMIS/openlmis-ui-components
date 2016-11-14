@@ -3,7 +3,7 @@
     'use strict';
 
     /**
-     * @ngdoc factory
+     * @ngdoc service
      * @name openlmis-auth.UserFactory
      *
      * @description
