@@ -1,14 +1,28 @@
 .loading-modal {
 	.modal-dialog{
     width: auto;
+    margin: auto auto;
+    flex-grow: 0;
+  }
+  .modal-body{
+    @include clearfix();
+  }
+  .modal-body{
+    &::before{
+      content: "";
+      display:block;
+      float: left;
+      width: 2em;
+      height: 2em;
+      margin: 0.5em;
+      background-image: url('dashboard/loading-modal.gif');
+      background-size: 2em;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
   }
 
-  .modal-content{
-    position: relative;
-    padding-left: 30px + $space-size*2; // 30px is width of loading-modal.gif
-    padding-right: $space-size;
-    background-image: url('dashboard/loading-modal.gif');
-    background-repeat: no-repeat;
-    background-position: $space-size center;
+  .bootbox-body{
+    display: none;
   }
 }
