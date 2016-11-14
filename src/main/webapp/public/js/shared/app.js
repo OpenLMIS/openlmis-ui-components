@@ -25,9 +25,6 @@ app.config(function ($httpProvider) {
       if (!(--requestCount))
         angular.element('#loader').hide();
       switch (response.status) {
-        case 403:
-          $window.location = "/public/pages/access-denied.html";
-          break;
         case 401:
           loginConfig.preventReload = (response.config.method != 'GET');
           loginConfig.modalShown = true;
