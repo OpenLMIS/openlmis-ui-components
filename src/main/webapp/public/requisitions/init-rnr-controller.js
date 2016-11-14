@@ -101,6 +101,13 @@
                 } else {
                     $scope.periodGridData = data;
                 }
+                data.forEach(function (period) {
+                    if ($scope.emergency && (period.rnrStatus == Status.AUTHORIZED ||
+                    period.rnrStatus == Status.APPROVED ||
+                    period.rnrStatus == Status.RELEASED)) {
+                        period.rnrStatus = messageService.get("msg.rnr.not.started");
+                    }
+                });
             }).catch(function() {
                 $scope.error = messageService.get("msg.no.period.available");
             });
@@ -109,9 +116,7 @@
         $scope.initRnr = function (selectedPeriod) {
             $scope.error = "";
             if (!selectedPeriod.rnrId ||
-            selectedPeriod.rnrStatus == Status.AUTHORIZED ||
-            selectedPeriod.rnrStatus == Status.APPROVED ||
-            selectedPeriod.rnrStatus == Status.RELEASED){
+            selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
                 RequisitionService.initiate($scope.selectedFacilityId,
                 $scope.selectedProgram.item.id,
                 selectedPeriod.id,

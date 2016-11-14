@@ -26,7 +26,7 @@ describe("InitiateRnrController", function(){
             return $controller('InitiateRnrController', {$scope: scope, facility: facility,
             PeriodFactory: periodFactory, RequisitionService: requisitionService});
         }
-        period = {"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"};
+        period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
         spyOn(periodFactory, 'get').andReturn($q.when(period));
     }));
 
