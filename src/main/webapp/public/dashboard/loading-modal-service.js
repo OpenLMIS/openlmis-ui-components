@@ -15,6 +15,16 @@
     angular.module('openlmis-core')
       .service('LoadingModalService', LoadingModal);
 
+    /**
+     * @ngdoc service
+     * @name  openlmis-core.LoadingModalService
+     *
+     * @description
+     *
+     * Will show and hide a loading modal that will block the UI and show a simple loading symbol.
+     * 
+     */
+
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox, messageService) {
         var dialog;
         var timeoutPromise;
@@ -24,48 +34,30 @@
               close: hideModal
         };
 
+        /**
+         * @ngdoc function
+         * @name open
+         * @methodOf openlmis-core.LoadingModalService
+         *
+         * @description Shows the loading modal after a half second delay.
+         */
+
         function showModal() {
-<<<<<<< ba207b21aef11c7587eb710e7a6b58da8675ea00
             if(!dialog && !timeoutPromise){
                 timeoutPromise = $timeout(function(){
                     makeModal();
                     timeoutPromise = null;
                 }, 500);
-=======
-            console.log("showModal " + actionsActive);
-            if(actionsActive > 0)
-              return;
-            actionsActive++;
-            var deferred = $q.defer();
-            console.log("showing modal");
-            function makeModal() {
-                var timeoutPromise;
-                dialog = bootbox.dialog({
-                    message: '<img src="/public/images/loader.gif">',
-                    className: 'loading-modal',
-                    backdrop: true,
-                    onEscape: true,
-                    closeButton: false
-                });
-                dialog.on('click.bs.modal', function(){
-                    dialog.modal('hide');
-                });
-                dialog.on('hide.bs.modal', function(){
-                    deferred.resolve();
-                    if(timeoutPromise){
-                        $timeout.cancel(timeoutPromise);
-                    }
-                });
-                dialog.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.loading-modal')).remove();
-                });
-
-                timeoutPromise = $timeout(function(){
-                    dialog.modal('hide');
-                }, 3000);
->>>>>>> OLMIS-1160: Repaired loading, logout bug still exists
             }
         }
+
+        /**
+         * @ngdoc function
+         * @name close
+         * @methodOf openlmis-core.LoadingModalService
+         *
+         * @description Hides the loading modal OR cancels the promise that was showing the modal.
+         */
 
         function hideModal(){
             if(timeoutPromise){
@@ -76,7 +68,6 @@
             }
         }
 
-<<<<<<< ba207b21aef11c7587eb710e7a6b58da8675ea00
         function makeModal(){
             dialog = bootbox.dialog({
                 message: messageService.get('msg.loading'),
@@ -85,13 +76,6 @@
                 onEscape: true,
                 closeButton: false
             });
-=======
-        function hideModal() {
-            console.log("hideModal " + actionsActive);
-            actionsActive--;
-            console.log("hiding modal");
-            dialog.modal('hide');
->>>>>>> OLMIS-1160: Repaired loading, logout bug still exists
         }
 
         function removeModal() {
