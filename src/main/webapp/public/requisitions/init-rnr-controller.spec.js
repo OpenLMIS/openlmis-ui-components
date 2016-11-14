@@ -61,7 +61,7 @@ describe("InitiateRnrController", function(){
         expect(scope.selectedProgram).toEqual(programs[0]);
     });
 
-    it("Should change page to requisitions.requisition with selected period with rnrId", function(){
+    it("Should change page to requisitions.requisition for with selected period with rnrId", function(){
         var controller = initController();
         var selectedPeriod = {"rnrId": 1};
 
@@ -73,7 +73,7 @@ describe("InitiateRnrController", function(){
 
     });
 
-    it("Should change page to requisitions.requisition with selected period without rnrId",
+    it("Should change page to requisitions.requisition for newly initialized requisition in selected period",
     function(){
         var selectedPeriod = {"id":1};
 
