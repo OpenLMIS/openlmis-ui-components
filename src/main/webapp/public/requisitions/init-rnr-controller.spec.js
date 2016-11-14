@@ -1,7 +1,7 @@
 describe("InitiateRnrController", function(){
 
     var $q, scope, ctrl, $httpBackend, location, facilities, programs, rootScope,
-    navigateBackService, periodFactory, $state;
+    navigateBackService, periodFactory, $state, period;
 
     beforeEach(module('openlmis.requisitions'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _PeriodFactory_,
@@ -18,22 +18,19 @@ describe("InitiateRnrController", function(){
         programs = [
            {item: {"code": "HIV", "id": 1}}
         ];
-        facilities=
+        facility=
           {"id": "10134", "name": "National Warehouse", "description": null, "code": "CODE",
           "supportedPrograms": programs}
         ;
         initController = function(){
-            return $controller('InitiateRnrController', {$scope: scope, facility: facilities,
+            return $controller('InitiateRnrController', {$scope: scope, facility: facility,
             PeriodFactory: periodFactory, RequisitionService: requisitionService});
         }
-
+        period = {"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"};
+        spyOn(periodFactory, 'get').andReturn($q.when(period));
     }));
 
     it("should reload periods when program changes", function(){
-
-
-        var period = {"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"};
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
 
         var controller = initController();
         spyOn(scope, 'loadPeriods');
@@ -46,9 +43,6 @@ describe("InitiateRnrController", function(){
 
     it("should reload periods when type changes", function() {
 
-        var period = {"id":1, "rnrId":123,  "startDate": "01-01-2016", "endDate": "02-02-2016"};
-
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
         var controller = initController();
         spyOn(scope, 'loadPeriods');
 
@@ -61,13 +55,13 @@ describe("InitiateRnrController", function(){
     it("should assigns proper values when facility is assigned", function() {
         var controller = initController();
 
-        expect(scope.facilityDisplayName).toEqual(facilities.code + '-' + facilities.name);
-        expect(scope.selectedFacilityId).toEqual(facilities.id);
+        expect(scope.facilityDisplayName).toEqual(facility.code + '-' + facility.name);
+        expect(scope.selectedFacilityId).toEqual(facility.id);
         expect(scope.programs).toEqual(programs);
         expect(scope.selectedProgram).toEqual(programs[0]);
     });
 
-    it("Should change page with selected period with rnrId", function(){
+    it("Should change page to requisitions.requisition with selected period with rnrId", function(){
         var controller = initController();
         var selectedPeriod = {"rnrId": 1};
 
@@ -75,58 +69,42 @@ describe("InitiateRnrController", function(){
 
         scope.initRnr(selectedPeriod);
 
-        expect($state.go).toHaveBeenCalled();
+        expect($state.go).toHaveBeenCalledWith('requisitions.requisition', {"rnr":1});
 
     });
 
-    it("Should change page with selected period without rnrId", function(){
+    it("Should change page to requisitions.requisition with selected period without rnrId",
+    function(){
         var selectedPeriod = {"id":1};
-        var period = {"id":1, "rnrId":123,  "startDate": "01-01-2016", "endDate": "02-02-2016"};
-
 
         spyOn($state, 'go');
-
-        spyOn(requisitionService, 'initiate').andReturn($q.when([{"id": 1}]));
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
+        spyOn(requisitionService, 'initiate').andReturn($q.when({"id": 1}));
 
         var controller = initController();
 
         scope.initRnr(selectedPeriod);
-
         scope.$apply();
 
-        expect($state.go).toHaveBeenCalled();
+        expect($state.go).toHaveBeenCalledWith('requisitions.requisition', {"rnr": 1});
     });
 
-    it("Should not change page with selected period without rnrId and when invalid response from service",
+    it("Should not change page to requisitions.requisition with selected period without rnrId "
+    + "and when invalid response from service",
     function(){
-    var period = {"id":1, "rnrId":123,  "startDate": "01-01-2016", "endDate": "02-02-2016"};
-        requisitionService = { initiate: function(){
-            var deferred = $q.defer();
-            deferred.reject([{"id": 1}]);
-            return deferred.promise;
-        }
-        };
+        spyOn(requisitionService,'initiate').andReturn($q.reject({"id": 1}));
         var selectedPeriod = {};
 
         spyOn($state, 'go');
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
 
-         var controller = initController();
+        var controller = initController();
 
         scope.initRnr(selectedPeriod);
-
         scope.$apply();
 
         expect($state.go).not.toHaveBeenCalled();
     });
 
     it("Should reload periods with proper data", function() {
-        var period = {"id": 1, "rnrId": 123, "startDate": "march", "endDate": "may"};
-        var requisition = [{"id": 2,"processingPeriod":period, "programId":1, "facilityId":10134}];
-
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
-
         var controller = initController();
         scope.loadPeriods();
         scope.$apply();
