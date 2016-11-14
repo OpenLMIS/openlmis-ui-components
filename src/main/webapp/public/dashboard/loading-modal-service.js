@@ -13,7 +13,7 @@
     'use strict';
 
     angular.module('openlmis-core')
-      .service('LoadingModal', LoadingModal);
+      .service('LoadingModalService', LoadingModal);
 
     function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox, messageService) {
         var dialog;

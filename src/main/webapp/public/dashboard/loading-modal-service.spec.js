@@ -1,12 +1,12 @@
 
-ddescribe("LoadingModal", function(){
+describe("LoadingModal", function(){
 
-    var dialog, LoadingModal, $timeout;
+    var dialog, LoadingModalService, $timeout;
 
     beforeEach(module('openlmis-core'));
 
-    beforeEach(inject(function(_$timeout_, _LoadingModal_, bootbox){
-        LoadingModal = _LoadingModal_;
+    beforeEach(inject(function(_$timeout_, _LoadingModalService_, bootbox){
+        LoadingModalService = _LoadingModalService_;
         $timeout = _$timeout_;
 
         dialog = {
@@ -22,7 +22,7 @@ ddescribe("LoadingModal", function(){
     }));
 
     it('opens a modal after a timeout', function(){
-        LoadingModal.open();
+        LoadingModalService.open();
 
         $timeout.flush();
 
@@ -30,8 +30,8 @@ ddescribe("LoadingModal", function(){
     });
 
     it("won't open a modal if it was closed before the timeout", function(){
-        LoadingModal.open();
-        LoadingModal.close();
+        LoadingModalService.open();
+        LoadingModalService.close();
 
         // Expect there to be no timeouts to call (because it was canceled)
         expect(function() {$timeout.flush();}).toThrow();
@@ -40,13 +40,13 @@ ddescribe("LoadingModal", function(){
     });
 
     it("will close a modal only if one has already been opened", function(){
-        LoadingModal.close();
+        LoadingModalService.close();
         // Dialog didn't get loaded
         expect(dialog.modal.calls.length).toEqual(0);
 
-        LoadingModal.open();
+        LoadingModalService.open();
         $timeout.flush();
-        LoadingModal.close();
+        LoadingModalService.close();
         
         expect(dialog.modal).toHaveBeenCalled();
     });

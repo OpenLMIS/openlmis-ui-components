@@ -5,12 +5,12 @@
     angular.module('openlmis-core')
         .run(stateInterceptorListeners);
 
-    stateInterceptorListeners.$inject = ["$rootScope", "LoadingModal"];
-    function stateInterceptorListeners($rootScope, LoadingModal){
-        $rootScope.$on('$stateChangeStart', LoadingModal.open);
-        $rootScope.$on('$stateChangeSuccess', LoadingModal.close);
-        $rootScope.$on('$stateChangeError', LoadingModal.close);
-        $rootScope.$on('$stateNotFound', LoadingModal.close);
+    stateInterceptorListeners.$inject = ["$rootScope", "LoadingModalService"];
+    function stateInterceptorListeners($rootScope, LoadingModalService){
+        $rootScope.$on('$stateChangeStart', LoadingModalService.open);
+        $rootScope.$on('$stateChangeSuccess', LoadingModalService.close);
+        $rootScope.$on('$stateChangeError', LoadingModalService.close);
+        $rootScope.$on('$stateNotFound', LoadingModalService.close);
     }
 
 })();
