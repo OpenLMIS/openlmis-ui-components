@@ -25,11 +25,45 @@
         };
 
         function showModal() {
+<<<<<<< ba207b21aef11c7587eb710e7a6b58da8675ea00
             if(!dialog && !timeoutPromise){
                 timeoutPromise = $timeout(function(){
                     makeModal();
                     timeoutPromise = null;
                 }, 500);
+=======
+            console.log("showModal " + actionsActive);
+            if(actionsActive > 0)
+              return;
+            actionsActive++;
+            var deferred = $q.defer();
+            console.log("showing modal");
+            function makeModal() {
+                var timeoutPromise;
+                dialog = bootbox.dialog({
+                    message: '<img src="/public/images/loader.gif">',
+                    className: 'loading-modal',
+                    backdrop: true,
+                    onEscape: true,
+                    closeButton: false
+                });
+                dialog.on('click.bs.modal', function(){
+                    dialog.modal('hide');
+                });
+                dialog.on('hide.bs.modal', function(){
+                    deferred.resolve();
+                    if(timeoutPromise){
+                        $timeout.cancel(timeoutPromise);
+                    }
+                });
+                dialog.on('hidden.bs.modal', function(){
+                    angular.element(document.querySelector('.loading-modal')).remove();
+                });
+
+                timeoutPromise = $timeout(function(){
+                    dialog.modal('hide');
+                }, 3000);
+>>>>>>> OLMIS-1160: Repaired loading, logout bug still exists
             }
         }
 
@@ -42,6 +76,7 @@
             }
         }
 
+<<<<<<< ba207b21aef11c7587eb710e7a6b58da8675ea00
         function makeModal(){
             dialog = bootbox.dialog({
                 message: messageService.get('msg.loading'),
@@ -50,6 +85,13 @@
                 onEscape: true,
                 closeButton: false
             });
+=======
+        function hideModal() {
+            console.log("hideModal " + actionsActive);
+            actionsActive--;
+            console.log("hiding modal");
+            dialog.modal('hide');
+>>>>>>> OLMIS-1160: Repaired loading, logout bug still exists
         }
 
         function removeModal() {
