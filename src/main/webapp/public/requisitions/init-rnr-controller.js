@@ -88,7 +88,6 @@
         };
 
         function loadPeriods() {
-            $scope.error = "";
             $scope.periodGridData = [];
             if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope
             .selectedFacilityId)) {
@@ -100,6 +99,7 @@
                     $scope.error = messageService.get("msg.no.period.available");
                 } else {
                     $scope.periodGridData = data;
+                    $scope.error = "";
                 }
                 data.forEach(function (period) {
                     if ($scope.emergency && (period.rnrStatus == Status.AUTHORIZED ||
