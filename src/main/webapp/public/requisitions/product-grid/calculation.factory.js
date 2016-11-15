@@ -14,14 +14,17 @@
         C = Column.TOTAL_CONSUMED_QUANTITY,
         D = Column.TOTAL_LOSSES_AND_ADJUSTMENTS,
         E = Column.STOCK_ON_HAND,
-        Y = Column.TOTAL;
-
+        Y = Column.TOTAL,
+        K = Column.APPROVED_QUANTITY,
+        J = Column.REQUESTED_QUANTITY,
+        V = Column.PACKS_TO_SHIP;
 
     var factory = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
       stockOnHand: calculateStockOnHand,
       totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
-      total: calculateTotal
+      total: calculateTotal,
+      packsToShip: calculatePacksToShip
     };
     return factory;
 
@@ -50,6 +53,40 @@
         }
       });
       return total;
+    }
+
+    function calculatePacksToShip(lineItem) {
+        var orderQuantity = getOrderQuantity(lineItem),
+            packSize = lineItem.orderableProduct.packSize;
+
+        if (orderQuantity === 0 || packSize === 0) {
+            return 0;
+        } else {
+            var packsToShip = Math.trunc(orderQuantity / packSize),
+                remainderQuantity = orderQuantity % packSize;
+
+            if (remainderQuantity > 0 && remainderQuantity >= lineItem.orderableProduct.packRoundingThreshold) {
+              packsToShip += 1;
+            }
+
+            if (packsToShip == 0 && !lineItem.orderableProduct.roundToZero) {
+              packsToShip = 1;
+            }
+
+            return packsToShip;
+        }
+    }
+
+    function getOrderQuantity(lineItem) {
+        if (lineItem[K] !== null && lineItem[K] !== undefined) {
+            return lineItem[K];
+        }
+
+        if (lineItem[J] !== null && lineItem[J] !== undefined) {
+            return lineItem[J];
+        }
+
+        return 0;
     }
   }
 
