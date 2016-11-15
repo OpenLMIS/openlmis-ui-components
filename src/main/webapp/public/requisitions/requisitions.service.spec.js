@@ -9,7 +9,7 @@
  */
 describe('RequisitionService', function() {
 
-    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, ngBootbox, q, allStatuses,
+    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, ngBootbox, q, allStatuses, requisitionUrl,
         startDate = [2016, 4, 30, 16, 21, 33],
         endDate = [2016, 4, 30, 16, 21, 33],
         startDate1 = new Date(),
@@ -34,12 +34,6 @@ describe('RequisitionService', function() {
             processingSchedule: processingSchedule
         },
         emergency = false,
-        params = {
-            filterBy: 'filterBy',
-            filterValue: 'filterValue',
-            sortBy: 'sortBy',
-            descending: 'true'
-        },
         requisition = {
             id: '1',
             name: 'requisition',
@@ -84,40 +78,17 @@ describe('RequisitionService', function() {
         dateUtils = DateUtils;
         ngBootbox = $ngBootbox;
         q = $q;
-
-        httpBackend.when('GET', RequisitionURL('/api/requisitions/' + requisition.id))
-        .respond(200, requisition);
-
-        httpBackend.when('POST', RequisitionURL('/api/requisitions/initiate?emergency=' + emergency + 
-            '&facility=' + facility.id + '&program=' + program.id + '&suggestedPeriod=' + period.id))
-        .respond(200, requisition);
-
-        httpBackend.when('GET', RequisitionURL('/api/requisitions/requisitionsForConvert?descending=' + params.descending + 
-            '&filterBy=' + params.filterBy + '&filterValue=' + params.filterValue + '&sortBy=' + params.sortBy))
-        .respond(200, [{requisition: requisitionDto}]);
-
-        httpBackend.when('POST', RequisitionURL('/api/orders/requisitions'))
-        .respond(function(method, url, data){
-          if(!angular.equals(data, angular.toJson([requisitionToConvert]))){
-            return [404];
-          } else {
-            return [200, angular.toJson(requisition)];
-          }
-        });
-
-        httpBackend.when('GET', RequisitionURL('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() + 
-            '&createdDateTo=' + endDate1.toISOString() + '&facility=' + facility.id + '&program=' + program.id + 
-            '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
-        .respond(200, [requisitionDto]);
-
-        httpBackend.when('GET', RequisitionURL('/api/requisitions/search?facility=' + facility.id))
-        .respond(200, [requisitionDto2]);
+        requisitionUrl = RequisitionURL;
 
         $templateCache.put('common/notification-modal.html', "something");
     }));
 
     it('should get requisition by id', function() {
         var data;
+
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/' + requisition.id))
+        .respond(200, requisition);
+
         requisitionService.get('1').$promise.then(function(response) {
             data = response;
         });
@@ -125,11 +96,16 @@ describe('RequisitionService', function() {
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+        expect(data.id).toBe(requisition.id);
+
     });
 
     it('should initiate requisition', function() {
         var data;
+
+        httpBackend.when('POST', requisitionUrl('/api/requisitions/initiate?emergency=' + emergency + 
+            '&facility=' + facility.id + '&program=' + program.id + '&suggestedPeriod=' + period.id))
+        .respond(200, requisition);
 
         requisitionService.initiate(facility.id, program.id, period.id, emergency).then(function(response) {
             data = response;
@@ -143,12 +119,17 @@ describe('RequisitionService', function() {
 
     it('should get requisitions for convert', function() {
         var data, 
-            requisitionCopy = angular.copy(requisitionDto);
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto)),
+            params = {
+                filterBy: 'filterBy',
+                filterValue: 'filterValue',
+                sortBy: 'sortBy',
+                descending: 'true'
+            };
 
-        requisitionCopy.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisitionDto.processingPeriod.processingSchedule.modifiedDate);
-        requisitionCopy.processingPeriod.endDate = dateUtils.toDate(requisitionDto.processingPeriod.endDate);
-        requisitionCopy.processingPeriod.startDate = dateUtils.toDate(requisitionDto.processingPeriod.startDate);
-        requisitionCopy.createdDate = dateUtils.toDate(requisitionDto.createdDate);
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/requisitionsForConvert?descending=' + params.descending + 
+            '&filterBy=' + params.filterBy + '&filterValue=' + params.filterValue + '&sortBy=' + params.sortBy))
+        .respond(200, [{requisition: requisitionDto}]);
 
         requisitionService.forConvert(params).then(function(response) {
             data = response;
@@ -162,6 +143,15 @@ describe('RequisitionService', function() {
 
     it('should convert requisitions', function() {
         var callback = jasmine.createSpy();
+
+        httpBackend.when('POST', requisitionUrl('/api/orders/requisitions'))
+        .respond(function(method, url, data){
+          if(!angular.equals(data, angular.toJson([requisitionToConvert]))){
+            return [404];
+          } else {
+            return [200, angular.toJson(requisition)];
+          }
+        });
 
         requisitionService.convertToOrder([{requisition: requisition}]).then(callback);
         
@@ -182,12 +172,12 @@ describe('RequisitionService', function() {
     it('should search requisitions with all params', function() {
         var data, 
             statuses = [allStatuses[0].label, allStatuses[1].label],
-            requisitionCopy = angular.copy(requisitionDto);
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
 
-        requisitionCopy.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisitionDto.processingPeriod.processingSchedule.modifiedDate);
-        requisitionCopy.processingPeriod.endDate = dateUtils.toDate(requisitionDto.processingPeriod.endDate);
-        requisitionCopy.processingPeriod.startDate = dateUtils.toDate(requisitionDto.processingPeriod.startDate);
-        requisitionCopy.createdDate = dateUtils.toDate(requisitionDto.createdDate);
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() + 
+            '&createdDateTo=' + endDate1.toISOString() + '&facility=' + facility.id + '&program=' + program.id + 
+            '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
+        .respond(200, [requisitionDto]);
 
         requisitionService.search(program.id, facility.id, statuses, startDate1.toISOString(), endDate1.toISOString()).then(function(response) {
             data = response;
@@ -201,12 +191,10 @@ describe('RequisitionService', function() {
 
     it('should search requisitions only with facility paramter', function() {
         var data,
-            requisitionCopy = angular.copy(requisitionDto2);
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto2));
 
-        requisitionCopy.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisitionDto.processingPeriod.processingSchedule.modifiedDate);
-        requisitionCopy.processingPeriod.endDate = dateUtils.toDate(requisitionDto.processingPeriod.endDate);
-        requisitionCopy.processingPeriod.startDate = dateUtils.toDate(requisitionDto.processingPeriod.startDate);
-        requisitionCopy.createdDate = dateUtils.toDate(requisitionDto.createdDate);
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?facility=' + facility.id))
+        .respond(200, [requisitionDto2]);
 
         requisitionService.search(null, facility.id, null, null, null).then(function(response) {
             data = response;
@@ -217,5 +205,13 @@ describe('RequisitionService', function() {
 
         expect(angular.toJson(data)).toEqual(angular.toJson([requisitionCopy]));
     });
+
+    function formatDatesInRequisition(requisition) {
+        requisition.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
+        requisition.processingPeriod.endDate = dateUtils.toDate(requisition.processingPeriod.endDate);
+        requisition.processingPeriod.startDate = dateUtils.toDate(requisition.processingPeriod.startDate);
+        requisition.createdDate = dateUtils.toDate(requisition.createdDate);
+        return requisition;
+    }
 
 });
