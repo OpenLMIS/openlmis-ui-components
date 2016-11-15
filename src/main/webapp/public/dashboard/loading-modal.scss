@@ -6,6 +6,7 @@
   }
   .modal-body{
     @include clearfix();
+    padding: 0;
   }
   .modal-body{
     &::before{
@@ -25,4 +26,9 @@
   .bootbox-body{
     display: none;
   }
+}
+
+.modal-backdrop{
+  background-color: $white;
+  opacity: $opacity;
 }
