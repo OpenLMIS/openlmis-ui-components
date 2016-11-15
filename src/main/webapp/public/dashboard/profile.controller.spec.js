@@ -48,19 +48,6 @@ describe('UserProfileController', function() {
         expect(scope.errorMessage()).toEqual('msg.rnr.get.user.info.error');
     });
 
-    it('should set error message if there is no role assigned to user', function() {
-        scope.userProfile.roleAssignments = [];
-        expect(scope.errorMessage()).toEqual('msg.user.no.roles.assigned');
-    });
-
-    it('should call upate user ifno', function() {
-        scope.userProfile.$updateProfile = callback;
-        notificationModal.showSuccess = jasmine.createSpy("showSuccess spy");
-        scope.updateProfile();
-        scope.$digest();
-        expect(notificationModal.showSuccess).toHaveBeenCalled();
-    });
-
     function callback() {
         var deferred = q.defer();
         deferred.resolve();

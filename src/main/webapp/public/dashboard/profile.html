@@ -9,52 +9,21 @@
   -->
 
 <div class="page profile">
-	<div>
-		<h2 openlmis-message="label.basicInformation"></h2>
-		<form class="form-filter">
-	        <div class="form-group">
-	            <label for="firstName" openlmis-message="create.user.firstName"></label>
-	            <div class="form-field">
-	                <input ng-model="userProfile.firstName" name="firstName" id="firstName" type="text">
-	            </div>
-	        </div>
-            <div class="form-group">
-                <label for="lastName" openlmis-message="create.user.lastName"></label>
-                <div class="form-field">
-                    <input ng-model="userProfile.lastName" name="lastName" id="lastName" type="text">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-cell">
-                    <label for="email" openlmis-message="create.user.email"></label>
-                    <div class="form-field">
-                        <input ng-model="userProfile.email" name="email" id="email" type="text">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input id="saveButton" ng-click="updateProfile()"
-	                class="btn btn-primary" ng-disabled="!userProfile"
-	                openlmis-message="button.save" type="button"/>
-            </div>
-	    </form>
-	</div>
-	<div ng-if="displayRoles()">
-		<h2 openlmis-message="label.roles"></h2>
-		<table>
-			<thead>
-				<tr>
-					<th openlmis-message="program.header"></th>
-					<th openlmis-message="label.supervisory.node"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in userProfile.roleAssignments">
-					<td>{{item.programCode}}</td>
-					<td>{{item.supervisoryNodeCode}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<h2 openlmis-message="label.basicInformation"></h2>
+	<form>
+		<!-- For now inputs are read only -->
+		<div class="form-group">
+            <label for="firstName" openlmis-message="create.user.firstName"></label>
+            <input class="form-control" ng-model="userProfile.firstName" name="firstName" id="firstName" type="text" disabled> 
+        </div>
+        <div class="form-group">
+            <label for="lastName" openlmis-message="create.user.lastName"></label>
+            <input class="form-control" ng-model="userProfile.lastName" name="lastName" id="lastName" type="text" disabled>
+        </div>
+        <div class="form-group">
+            <label for="email" openlmis-message="create.user.email"></label>
+            <input class="form-control" ng-model="userProfile.email" name="email" id="email" type="text" disabled>
+		</div>
+    </form>
 	<div class="error-message" ng-if="errorMessage()" openlmis-message="{{errorMessage()}}"></div>
 </div>

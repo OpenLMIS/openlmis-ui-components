@@ -28,26 +28,7 @@
     function UserProfileController($scope, user, NotificationModal) {
 
         $scope.userProfile = user;
-        $scope.updateProfile = updateProfile;
         $scope.errorMessage = getErrorMessage;
-        $scope.displayRoles = areRolesAssignmentsAvaliable;
-
-        /**
-         * @ngdoc function
-         * @name  updateProfile
-         * @methodOf openlmis-dashboard.UserProfileController
-         * 
-         * @description
-         *
-         * Updates user profile info and displays success/error modal
-         */
-        function updateProfile(){
-            $scope.userProfile.$updateProfile().then(function() {
-                NotificationModal.showSuccess('msg.user.profile.save.success');
-            }, function() {
-                NotificationModal.showError('msg.user.profile.save.failure');
-            });
-        }
 
         /**
          * @ngdoc function
@@ -62,24 +43,8 @@
         function getErrorMessage() {
             if (!$scope.userProfile) {
                 return 'msg.rnr.get.user.info.error';
-            } else if(!areRolesAssignmentsAvaliable()) {
-                return 'msg.user.no.roles.assigned';
             }
             return null;
-        }
-
-        /**
-         * @ngdoc function
-         * @name  areRolesAssignmentsAvaliable
-         * @methodOf openlmis-dashboard.UserProfileController
-         * @returns {boolean} true if userProfile has role assignments
-         * 
-         * @description
-         *
-         * Checks if user role assignments are present
-         */
-        function areRolesAssignmentsAvaliable() {
-            return $scope.userProfile.roleAssignments && $scope.userProfile.roleAssignments.length > 0;
         }
     }
 
