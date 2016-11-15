@@ -19,6 +19,7 @@
       TOTAL_CONSUMED_QUANTITY: 'totalConsumedQuantity',
       TOTAL_LOSSES_AND_ADJUSTMENTS: 'totalLossesAndAdjustments',
       TOTAL: 'total',
+      PACKS_TO_SHIP: 'packsToShip',
       PRODUCT_CODE: 'productCode',
       PRODUCT_NAME: 'productName'
     };
