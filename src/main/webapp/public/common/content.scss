@@ -134,14 +134,18 @@ table.search-list {
 
 .alert {
 	position: relative;
-	background-color: lighten($cyan, 40%);
-	color: darken($cyan, 5%);
-	border: 0.07em solid lighten($cyan, 35%);
 	padding: 0.6em 1em 0.6em 1em;
+	border: 0.07em solid $black;
 }
 
 .alert.alert-error {
     background-color: lighten($red, 45%);
     border-color: lighten($red, 40%);
 	color: $red;
+}
+
+.alert.alert-info {
+	background-color: lighten($cyan, 40%);
+	border-color: lighten($cyan, 35%);
+	color: darken($cyan, 10%);
 }
