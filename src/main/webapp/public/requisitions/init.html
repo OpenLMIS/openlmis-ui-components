@@ -1,7 +1,7 @@
 
 <div class="page">
   <h2 openlmis-message="label.initiate.requisition"></h2>
-  <form class="form-filter">
+  <form ng-submit="loadPeriods()" class="form-filter">
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.facilityType"></legend>
       <label class="radio">
@@ -17,8 +17,7 @@
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
       <select id="facilityName" disabled
         ng-model="selectedFacilityId"
-        ng-options="facility.id as facility.name for facility in facilities"
-        >
+        ng-options="facility.id as facility.name for facility in facilities" >
       </select>
     </div>
     <div class="form-group">
@@ -26,22 +25,21 @@
       <select
         id="programListMyFacility"
         ng-model="selectedProgram"
-        ng-options="program as program.name for program in programs"
-      ></select>
+        ng-options="program as program.name for program in programs" >
+      </select>
     </div>
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.type"></legend>
       <label class="radio">
         <span openlmis-message="requisition.type.regular"></span>
-        <input type="radio" ng-model="emergency" ng-value="false"
-               ng-change="loadPeriods();" />
+        <input type="radio" ng-model="emergency" ng-value="false" />
       </label>
       <label class="radio">
         <span openlmis-message="requisition.type.emergency"></span>
-        <input type="radio" ng-model="emergency" ng-value="true"
-               ng-change="loadPeriods();" />
+        <input type="radio" ng-model="emergency" ng-value="true" />
       </label>
     </fieldset>
+    <input type="submit" value="{{'button.search'|message}}" />
   </form>
   <div ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
     ui-grid="periodGridOptions"

@@ -30,32 +30,9 @@ describe("InitiateRnrController", function(){
         spyOn(periodFactory, 'get').andReturn($q.when(period));
     }));
 
-    it("should reload periods when program changes", function(){
-
-        var controller = initController();
-        spyOn(scope, 'loadPeriods');
-
-        scope.selectedProgram.item = {"code": "Code", "id": 1};
-        scope.$apply();
-
-        expect(scope.loadPeriods).toHaveBeenCalled();
-    });
-
-    it("should reload periods when type changes", function() {
-
-        var controller = initController();
-        spyOn(scope, 'loadPeriods');
-
-        scope.emergency = {"name": "name", "emergency":false};
-        scope.$apply();
-
-        expect(scope.loadPeriods).toHaveBeenCalled();
-    });
-
     it("should assigns proper values when facility is assigned", function() {
         var controller = initController();
 
-        expect(scope.facilityDisplayName).toEqual(facility.code + '-' + facility.name);
         expect(scope.selectedFacilityId).toEqual(facility.id);
         expect(scope.programs).toEqual(programs);
         expect(scope.selectedProgram).toEqual(programs[0]);

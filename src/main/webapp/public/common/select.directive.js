@@ -17,9 +17,11 @@
         return {
             restrict: 'E',
             replace: false,
-            require: "ngModel",
-            priority: 10, // Sets this link function to run AFTER ngSelect
-            link: function(scope, element, attrs, ngModelCtrl){
+            require: ['ngModel', 'select'],
+            priority: 101, // Sets link function to run AFTER ngSelect and ngOption
+            link: function(scope, element, attrs, ctrls){
+                var ngModelCtrl = ctrls[0];
+                var selectCtrl = ctrls[1];
 
                 var numOptions = element.children().length;
 
@@ -31,7 +33,16 @@
                     ngModelCtrl.$setViewValue(option.value);
                 }
 
-                jQuery(element).selectize();
+                function onChange(value){
+                    element.val(value);
+                    var viewValue = selectCtrl.readValue();
+                    ngModelCtrl.$setViewValue(viewValue);
+                }
+
+                jQuery(element).select2()
+                .on('change', function(e){
+                    onChange(e.val);
+                });
             }
         };
     }

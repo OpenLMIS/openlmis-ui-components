@@ -38,10 +38,6 @@
          */
         $scope.emergency = false;
 
-        $scope.$watch('selectedProgram.item', function() {
-            $scope.loadPeriods();
-        }, true);
-
         /**
          * @ngdoc property
          * @name facilities
@@ -117,7 +113,11 @@
         $scope.initRnr = initRnr;
 
         if (facility) {
-            $scope.facilities = [facility]; // since we dont get a full list of facilities yet...
+            $scope.facilities = [facility];
+            $scope.selectedFacility = facility;
+
+            $scope.selectedProgram = undefined;
+
             $scope.facilityDisplayName = facility.code + '-' + facility.name;
             $scope.selectedFacilityId = facility.id;
             $scope.programs = facility.supportedPrograms;
@@ -159,11 +159,11 @@
          */
         function loadPeriods() {
             $scope.periodGridData = [];
-            if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope.selectedFacilityId)) {
+            if (!($scope.selectedProgram && $scope.selectedFacilityId)) {
                 return;
             }
             LoadingModalService.open();
-            PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.emergency).then
+            PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, $scope.emergency).then
             (function(data) {
                 if (data.length === 0) {
                     Notification.error('msg.no.period.available');
@@ -206,7 +206,7 @@
             if (!selectedPeriod.rnrId ||
             selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
                 RequisitionService.initiate($scope.selectedFacilityId,
-                $scope.selectedProgram.item.id,
+                $scope.selectedProgram.id,
                 selectedPeriod.id,
                 $scope.emergency).then(
                 function (data) {
