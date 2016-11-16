@@ -140,12 +140,12 @@
          *
          */
         function search() {
-            LoadingModalService.open();
             $scope.requisitionList = [];
             $scope.error = null;
             if ($scope.selectedFacility && $scope.selectedFacility.item) {
-                RequisitionService.search($scope.selectedProgram.item ? $scope.selectedProgram.item
-                .id : null,
+                LoadingModalService.open();
+                RequisitionService.search(
+                    $scope.selectedProgram.item ? $scope.selectedProgram.item.id : null,
                     $scope.selectedFacility.item ? $scope.selectedFacility.item.id : null,
                     //getStatusLabels($scope.selectedStatuses),
                     null,
@@ -157,12 +157,13 @@
                     if (!angular.isArray($scope.requisitionList) || $scope.requisitionList.length < 1) {
                         $scope.error = messageService.get('msg.no.requisitions.found');
                     }
-                }, function() {
+                })
+                .catch(function() {
                     $scope.error = messageService.get('msg.error.occurred');
-                });
+                })
+                .finally(LoadingModalService.close);
             } else {
                 $scope.error = messageService.get('msg.no.facility.selected');
-                LoadingModalService.close();
             }
         }
 
