@@ -34,7 +34,7 @@
                 transformResponse: transformResponseForConvert
             },
             'convertToOrder': {
-                url: RequisitionURL('/api/orders/requisitions'),
+                url: RequisitionURL('/api/requisitions/convertToOrder'),
                 method: 'POST',
                 transformRequest: transformRequest
             }
@@ -73,7 +73,7 @@
             if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['requisitionStatus'] = statuses;
             if(startDate) searchParams['createdDateFrom'] = startDate;
             if(endDate) searchParams['createdDateTo'] = endDate;
-            return resource.search(searchParams).$promise; 
+            return resource.search(searchParams).$promise;
         }
 
         function forApproval() {

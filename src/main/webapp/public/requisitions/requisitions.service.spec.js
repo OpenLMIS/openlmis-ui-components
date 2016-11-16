@@ -103,7 +103,7 @@ describe('RequisitionService', function() {
     it('should initiate requisition', function() {
         var data;
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/initiate?emergency=' + emergency + 
+        httpBackend.when('POST', requisitionUrl('/api/requisitions/initiate?emergency=' + emergency +
             '&facility=' + facility.id + '&program=' + program.id + '&suggestedPeriod=' + period.id))
         .respond(200, requisition);
 
@@ -118,7 +118,7 @@ describe('RequisitionService', function() {
     });
 
     it('should get requisitions for convert', function() {
-        var data, 
+        var data,
             requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto)),
             params = {
                 filterBy: 'filterBy',
@@ -127,7 +127,7 @@ describe('RequisitionService', function() {
                 descending: 'true'
             };
 
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/requisitionsForConvert?descending=' + params.descending + 
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/requisitionsForConvert?descending=' + params.descending +
             '&filterBy=' + params.filterBy + '&filterValue=' + params.filterValue + '&sortBy=' + params.sortBy))
         .respond(200, [{requisition: requisitionDto}]);
 
@@ -144,7 +144,7 @@ describe('RequisitionService', function() {
     it('should convert requisitions', function() {
         var callback = jasmine.createSpy();
 
-        httpBackend.when('POST', requisitionUrl('/api/orders/requisitions'))
+        httpBackend.when('POST', requisitionUrl('/api/requisitions/convertToOrder'))
         .respond(function(method, url, data){
           if(!angular.equals(data, angular.toJson([requisitionToConvert]))){
             return [404];
@@ -154,13 +154,13 @@ describe('RequisitionService', function() {
         });
 
         requisitionService.convertToOrder([{requisition: requisition}]).then(callback);
-        
+
         angular.element(document.querySelector('[data-bb-handler="confirm"]')).trigger('click');
 
         waitsFor(function() {
             return angular.element(document.querySelector('[data-bb-handler="confirm"]')).length < 1;
         }, "Modal has not been closed.", 1000);
-         
+
         runs(function() {
             $rootScope.$apply();
             httpBackend.flush();
@@ -170,12 +170,12 @@ describe('RequisitionService', function() {
     });
 
     it('should search requisitions with all params', function() {
-        var data, 
+        var data,
             statuses = [allStatuses[0].label, allStatuses[1].label],
             requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
 
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() + 
-            '&createdDateTo=' + endDate1.toISOString() + '&facility=' + facility.id + '&program=' + program.id + 
+        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
+            '&createdDateTo=' + endDate1.toISOString() + '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
