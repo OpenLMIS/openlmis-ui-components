@@ -131,3 +131,17 @@ table.search-list {
     color: $dark-gray;
   }
 }
+
+.alert {
+	position: relative;
+	background-color: lighten($cyan, 40%);
+	color: darken($cyan, 5%);
+	border: 0.07em solid lighten($cyan, 35%);
+	padding: 0.6em 1em 0.6em 1em;
+}
+
+.alert.alert-error {
+    background-color: lighten($red, 45%);
+    border-color: lighten($red, 40%);
+	color: $red;
+}
