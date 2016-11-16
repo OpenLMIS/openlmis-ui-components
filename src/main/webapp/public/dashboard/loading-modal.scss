@@ -28,7 +28,7 @@
   }
 }
 
-.modal-backdrop{
+.loading-modal ~ .modal-backdrop{
   background-color: $white;
   opacity: $opacity;
 }
