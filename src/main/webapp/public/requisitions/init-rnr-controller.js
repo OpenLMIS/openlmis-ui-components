@@ -17,10 +17,10 @@
         .controller('InitiateRnrController', InitiateRnrController);
 
     InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory',
-    'RequisitionService', '$state', 'DateUtils', 'Status'];
+    'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService'];
 
     function InitiateRnrController($scope, messageService, facility, PeriodFactory,
-    RequisitionService, $state, DateUtils, Status) {
+    RequisitionService, $state, DateUtils, Status, LoadingModalService) {
 
         $scope.emergency = false;
 
@@ -93,6 +93,7 @@
             .selectedFacilityId)) {
                 return;
             }
+            LoadingModalService.open();
             PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.emergency).then
             (function(data) {
                 if (data.length === 0) {
@@ -108,8 +109,10 @@
                         period.rnrStatus = messageService.get("msg.rnr.not.started");
                     }
                 });
+                LoadingModalService.close();
             }).catch(function() {
                 $scope.error = messageService.get("msg.no.period.available");
+                LoadingModalService.close();
             });
         };
 

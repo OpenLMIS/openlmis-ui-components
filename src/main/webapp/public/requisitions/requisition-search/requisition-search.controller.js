@@ -23,9 +23,11 @@
         .module('openlmis.requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status', 'DateUtils'];
+    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList',
+    'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService'];
 
-    function RequisitionSearchController($scope, $state, messageService, facilityList, RequisitionService, Status, DateUtils) {
+    function RequisitionSearchController($scope, $state, messageService, facilityList,
+    RequisitionService, Status, DateUtils, LoadingModalService) {
 
         $scope.loadPrograms = loadPrograms;
         $scope.search = search;
@@ -138,6 +140,7 @@
          *
          */
         function search() {
+            LoadingModalService.open();
             $scope.requisitionList = [];
             $scope.error = null;
             if ($scope.selectedFacility && $scope.selectedFacility.item) {
@@ -150,6 +153,7 @@
                     $scope.endDate ? $scope.endDate.toISOString() : null)
                 .then(function(response) {
                     $scope.requisitionList = response;
+                    LoadingModalService.close();
                     if (!angular.isArray($scope.requisitionList) || $scope.requisitionList.length < 1) {
                         $scope.error = messageService.get('msg.no.requisitions.found');
                     }
@@ -158,6 +162,7 @@
                 });
             } else {
                 $scope.error = messageService.get('msg.no.facility.selected');
+                LoadingModalService.close();
             }
         }
 
