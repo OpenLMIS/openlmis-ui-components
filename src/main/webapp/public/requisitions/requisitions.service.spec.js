@@ -144,6 +144,10 @@ describe('RequisitionService', function() {
     it('should convert requisitions', function() {
         var callback = jasmine.createSpy();
 
+        spyOn(ngBootbox, 'confirm').andCallFake(function(argumentObject) {
+            return q.when(true);
+        });
+
         httpBackend.when('POST', requisitionUrl('/api/requisitions/convertToOrder'))
         .respond(function(method, url, data){
           if(!angular.equals(data, angular.toJson([requisitionToConvert]))){
@@ -155,18 +159,11 @@ describe('RequisitionService', function() {
 
         requisitionService.convertToOrder([{requisition: requisition}]).then(callback);
 
-        angular.element(document.querySelector('[data-bb-handler="confirm"]')).trigger('click');
+        $rootScope.$apply();
+        httpBackend.flush();
+        $rootScope.$apply();
 
-        waitsFor(function() {
-            return angular.element(document.querySelector('[data-bb-handler="confirm"]')).length < 1;
-        }, "Modal has not been closed.", 1000);
-
-        runs(function() {
-            $rootScope.$apply();
-            httpBackend.flush();
-            $rootScope.$apply();
-            expect(callback).toHaveBeenCalled();
-        });
+        expect(callback).toHaveBeenCalled();
     });
 
     it('should search requisitions with all params', function() {
