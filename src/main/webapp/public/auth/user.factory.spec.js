@@ -36,15 +36,6 @@ describe('UserFactory', function() {
 
         httpBackend.when('GET', OpenlmisURL('/referencedata/api/users/' + user.id))
         .respond(200, user);
-
-        httpBackend.when('POST', OpenlmisURL('/referencedata/api/users/update/' + user.id))
-        .respond(function(method, url, data){
-            if(!angular.equals(data, angular.toJson({firstName: newFirstName, lastName: newLastName, email: newEmail}))){
-                return [404];
-            } else {
-                return [200, angular.toJson(user)];
-            }
-        });
     }));
 
     it('should get requisition by id', function() {
@@ -58,40 +49,4 @@ describe('UserFactory', function() {
 
         expect(angular.toJson(data)).toEqual(angular.toJson(user));
     });
-
-    it('should extend user with additional functionality', function() {
-        var data;
-        userFactory.get(user.id).$promise.then(function(response) {
-            data = response;
-        });
-
-        httpBackend.flush();
-        $rootScope.$apply();
-
-        expect(data.$updateProfile).toBeDefined();
-    });
-
-    it('should update profile info', function() {
-        var data, updatedUser;
-        userFactory.get(user.id).$promise.then(function(response) {
-            data = response;
-        });
-
-        httpBackend.flush();
-        $rootScope.$apply();
-
-        data.firstName = newFirstName;
-        data.lastName = newLastName;
-        data.email = newEmail;
-
-        data.$updateProfile().then(function(response) {
-            updatedUser = response;
-        });
-
-        httpBackend.flush();
-        $rootScope.$apply();
-
-        expect(angular.toJson(updatedUser)).toEqual(angular.toJson(user));
-    });
-
 });

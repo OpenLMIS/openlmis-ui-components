@@ -9,21 +9,17 @@
   -->
 
 <div class="page profile">
-	<h2 openlmis-message="label.basicInformation"></h2>
-	<form>
-		<!-- For now inputs are read only -->
-		<div class="form-group">
-            <label for="firstName" openlmis-message="create.user.firstName"></label>
-            <input class="form-control" ng-model="userProfile.firstName" name="firstName" id="firstName" type="text" disabled> 
-        </div>
-        <div class="form-group">
-            <label for="lastName" openlmis-message="create.user.lastName"></label>
-            <input class="form-control" ng-model="userProfile.lastName" name="lastName" id="lastName" type="text" disabled>
-        </div>
-        <div class="form-group">
-            <label for="email" openlmis-message="create.user.email"></label>
-            <input class="form-control" ng-model="userProfile.email" name="email" id="email" type="text" disabled>
-		</div>
-    </form>
-	<div class="error-message" ng-if="errorMessage()" openlmis-message="{{errorMessage()}}"></div>
+    <h2 openlmis-message="label.basicInformation"></h2>
+    <dl>
+        <dt openlmis-message="create.user.firstName"></dt>
+        <dd>{{userProfile.firstName}}<dd>
+    </dl>
+    <dl>
+        <dt openlmis-message="create.user.lastName"></dt>
+        <dd>{{userProfile.lastName}}<dd>
+    </dl>
+    <dl>
+        <dt openlmis-message="create.user.email"></dt>
+        <dd>{{userProfile.email}}<dd>
+    </dl>
 </div>

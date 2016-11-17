@@ -10,13 +10,9 @@
 
 <div class="user-info">
     <span openlmis-message="message.loggedInAs"></span>&nbsp;<strong>{{user}}</strong>
-    <a ui-sref="profile">
-        <span id="user-tab" openlmis-message="menu.header.edit.preferences"></span>
-    </a>
+    <a ui-sref="profile" openlmis-message="menu.header.edit.preferences"></a>
     <span ng-show="hasPermission('VIEW_HELP')">| 
-        <a href="/public/pages/help/helpContent/index.html#/viewDashboard">
-            <span openlmis-message="menu.header.help"></span>
-        </a>
+        <a href="/public/pages/help/helpContent/index.html#/viewDashboard" openlmis-message="menu.header.help"></a>
     </span>
     <a id='logout' ng-click="logout()" href="" openlmis-message="link.logout"></a>
 </div>

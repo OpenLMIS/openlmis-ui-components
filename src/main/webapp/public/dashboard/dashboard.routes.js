@@ -20,16 +20,8 @@
             templateUrl: 'dashboard/profile.html',
             controller: 'UserProfileController',
             resolve: {
-                user: function ($q, $stateParams, AuthorizationService) {
-                    var deferred = $q.defer();
-
-                    AuthorizationService.getDetailedUser().$promise.then(function(response) {
-                        deferred.resolve(response);
-                    }, function(response) {
-                        deferred.reject();
-                    });
-
-                    return deferred.promise;
+                user: function (AuthorizationService) {
+                    return AuthorizationService.getDetailedUser().$promise
                 }
             }
         })

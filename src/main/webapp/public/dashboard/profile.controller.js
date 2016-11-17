@@ -24,28 +24,9 @@
     angular.module('openlmis-dashboard')
         .controller('UserProfileController', UserProfileController);
 
-    UserProfileController.$inject = ['$scope', 'user', 'NotificationModal'] 
-    function UserProfileController($scope, user, NotificationModal) {
-
+    UserProfileController.$inject = ['$scope', 'user'] 
+    function UserProfileController($scope, user) {
         $scope.userProfile = user;
-        $scope.errorMessage = getErrorMessage;
-
-        /**
-         * @ngdoc function
-         * @name  getInfoMessage
-         * @methodOf openlmis-dashboard.UserProfileController
-         * @returns {String} errror message to display
-         * 
-         * @description
-         *
-         * Displays info when there is no user info or no role assignmets
-         */
-        function getErrorMessage() {
-            if (!$scope.userProfile) {
-                return 'msg.rnr.get.user.info.error';
-            }
-            return null;
-        }
     }
 
 })();

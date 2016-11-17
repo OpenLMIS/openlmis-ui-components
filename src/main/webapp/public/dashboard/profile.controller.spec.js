@@ -10,49 +10,25 @@
 
 describe('UserProfileController', function() {
 
-    var scope, ctrl, httpBackend, controller, notificationModal, user, q;
+    var scope, ctrl, user;
+
     beforeEach(module('openlmis-dashboard'));
 
-    beforeEach(inject(function ($httpBackend, $rootScope, $controller, NotificationModal, $q) {
+    beforeEach(inject(function ($rootScope, $controller) {
         scope = $rootScope.$new();
-        controller = $controller;
-        httpBackend = $httpBackend;
-        notificationModal = NotificationModal;
-        q = $q;
 
         user = {
             firstName: 'Name',
             lastName: 'Surname',
-            email: 'email@olmis.com',
-            roleAssignments: [
-                {
-                    programCode: 'prog-code1',
-                    supervisoryNodeCode: 'sn-code1'
-                },
-                {
-                    programCode: 'prog-code2',
-                    supervisory: 'sn-code2'
-                }
-            ]
+            email: 'email@olmis.com'
         }
 
-        ctrl = controller('UserProfileController', {$scope:scope, user:user});
+        ctrl = $controller('UserProfileController', {$scope:scope, user:user});
     }));
 
     it('should set user profile', function() {
         expect(user).toEqual(scope.userProfile);
     });
-
-    it('should set error message if there is no user info', function() {
-        scope.userProfile = null;
-        expect(scope.errorMessage()).toEqual('msg.rnr.get.user.info.error');
-    });
-
-    function callback() {
-        var deferred = q.defer();
-        deferred.resolve();
-        return deferred.promise;
-    }
 
 });
 

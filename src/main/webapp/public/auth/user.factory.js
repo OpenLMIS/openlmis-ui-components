@@ -42,33 +42,7 @@
          * Get user by id
          */
         function get(id) {
-            var user = resource.get({id: id});
-            user.$promise.then(extendUser);
-            return user;
-        }
-
-        function extendUser(user) {
-            user.$updateProfile = updateProfile;
-            return user;
-        }
-
-        /**
-         * @ngdoc function
-         * @name  updateProfile
-         * @methodOf openlmis-auth.UserFactory
-         * @returns {Promise} updated User
-         * 
-         * @description
-         *
-         * Updates user profile info
-         */
-        function updateProfile() {
-            var profileInfo = {
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email
-            }
-            return resource.update({id: this.id}, profileInfo).$promise;
+            return resource.get({id: id});
         }
     }
 
