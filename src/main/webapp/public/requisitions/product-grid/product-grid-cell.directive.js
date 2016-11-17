@@ -25,7 +25,7 @@
 
       $q.all([
         $templateRequest('requisitions/product-grid/product-grid-cell.html'),
-        $templateRequest('requisitions/product-grid/edit-modal-cell.html')
+        $templateRequest('requisitions/product-grid/product-grid-adjustment-cell.html')
       ]).then(
           function (templates) {
             if (!isLossesAndAdjustmentCell(scope) || scope.isReadOnly) {

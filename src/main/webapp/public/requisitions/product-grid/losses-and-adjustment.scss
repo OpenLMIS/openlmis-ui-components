@@ -13,33 +13,34 @@ max-height: 15em;
       &:first-child {
         border-top: 0 none;
       }
-      .tpl-adjustment-type {
-        width: 57em;
-        line-height: 2em;
-      }
-      .tpl-adjustment-qty {
-        float: right;
-        text-align: right;
-        margin-top: 0.5em;
-      }
-      .tpl-adjustment-delete {
-        padding-top: 0.5em;
-        float: right;
-      }
     }
   }
+}
+
+.adjustment {
+    display: flex;
+    flex-wrap: wrap;
+    * {
+        margin: 0.5em 1em 0.5em 2em;
+    }
+    label {
+        flex: 2 0 5em;
+        line-height: 2.5em;
+        font-weight: normal;
+    }
+    input {
+        flex: 1 0 5em;
+        text-align: right;
+    }
 }
 
 .rnr-adjustment {
   padding: 0 0.5em;
   display: block;
-  font-size: 1.0em;
   line-height: 2em;
   text-align: right;
   background: url(../images/edit-icon.png) no-repeat 0.5em center;
-  .adjustment-value {
-    font-weight: bold;
-  }
+  font-weight: bold;
 }
 
 .adjustment-total {

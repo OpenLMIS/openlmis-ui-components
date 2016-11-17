@@ -95,9 +95,10 @@
     function calculateTotalLossesAndAdjustments(lineItem, stockAdjustmentReasons) {
       var total = 0;
       angular.forEach(lineItem.stockAdjustments, function(adjustment) {
-        var reason = $filter('filter')(stockAdjustmentReasons, {id: adjustment.reasonId}, true);
+        var filteredReasons = $filter('filter')(stockAdjustmentReasons, {id: adjustment.reasonId}, true);
+        var reason = (filteredReasons) ? filteredReasons[0] : null;
         if (!!reason) {
-            if (reason[0].additive === true) {
+            if (reason.additive === true) {
               total += adjustment.quantity;
             } else {
               total -= adjustment.quantity;

@@ -19,25 +19,14 @@
             </div>
         </div>
     </div>
-    <div class="adjustment-warning clearfix alert alert-info" openlmis-message="label.no.losses.adjustment"
+    <div class="adjustment-warning alert alert-info" openlmis-message="label.no.losses.adjustment"
          ng-show="currentRnrLineItem.stockAdjustments == null || currentRnrLineItem.stockAdjustments.length === 0"></div>
     <div class="adjustment-list" ng-show="currentRnrLineItem.stockAdjustments.length > 0">
-        <ul>
-            <li ng-repeat="adjustment in currentRnrLineItem.stockAdjustments" class="clearfix">
-                <div class="col-sm-6">
-                    <span class="tpl-adjustment-type" ng-bind="getReasonName(adjustment.reasonId)"></span>
-                </div>
-                <div class="col-sm-4">
-                    <input type="number" min="0" class="form-control tpl-adjustment-qty"
-                           ng-model="adjustment.quantity" ng-change="updateTotalLossesAndAdjustments()" required />
-                </div>
-                <div class="col-sm-2">
-                    <span class="tpl-adjustment-delete">
-                        <button class="btn btn-default" ng-click="removeAdjustment(adjustment)" openlmis-message="button.remove"></button>
-                    </span>
-                </div>
-            </li>
-        </ul>
+        <ul><li ng-repeat="adjustment in currentRnrLineItem.stockAdjustments" class="adjustment">
+            <label for="adjustment-quantity-{{$index}}" >{{getReasonName(adjustment.reasonId)}}</label>
+            <input id="adjustment-quantity-{{$index}}" class="form-control" ng-model="adjustment.quantity" type="number" min="0" />
+            <button class="btn btn-default" ng-click="removeAdjustment(adjustment)">{{'button.remove' | message}}</button>
+        </li></ul>
     </div>
 
     <div class="adjustment-total clearfix alert alert-warning"

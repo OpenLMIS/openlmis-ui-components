@@ -35,6 +35,9 @@
             var scope = $rootScope.$new();
 
             $scope.currentRnrLineItem = lineItem;
+            if (!$scope.currentRnrLineItem.stockAdjustments) {
+                $scope.currentRnrLineItem.stockAdjustments = [];
+            }
             $scope.adjustment = {};
 
             scope.closeLossesAndAdjustmentModal = closeLossesAndAdjustmentModal;
@@ -55,6 +58,7 @@
                     size: 'large'
                 });
             });
+            $scope.$watch('currentRnrLineItem.stockAdjustments', updateTotalLossesAndAdjustments, true);
         }
 
         function closeLossesAndAdjustmentModal() {
@@ -62,20 +66,15 @@
         }
 
         function addAdjustment() {
-            if (!$scope.currentRnrLineItem.stockAdjustments) {
-                $scope.currentRnrLineItem.stockAdjustments = [];
-            }
             $scope.currentRnrLineItem.stockAdjustments.push({
-                'reasonId': $scope.adjustment.reason.item.id,
-                'quantity': $scope.adjustment.quantity
-            })
-            updateTotalLossesAndAdjustments();
+                 'reasonId': $scope.adjustment.reason.item.id,
+                 'quantity': $scope.adjustment.quantity
+             })
         }
 
         function removeAdjustment(adjustment) {
             var index = $scope.currentRnrLineItem.stockAdjustments.indexOf(adjustment);
             $scope.currentRnrLineItem.stockAdjustments.splice(index, 1);
-            updateTotalLossesAndAdjustments();
         }
 
         function getReasonName(reasonId) {
