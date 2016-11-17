@@ -8,8 +8,7 @@ module.exports = function (config) {
       'karma-coverage',
       'karma-phantomjs-launcher',
       'karma-htmlfile-reporter',
-      'karma-junit-reporter',
-      'karma-ng-html2js-preprocessor'
+      'karma-junit-reporter'
     ],
 
     /* FILES */
@@ -36,13 +35,7 @@ module.exports = function (config) {
     },
 
     preprocessors: {
-      '**/*.js': ['coverage'], // Might not work....
-      '**/*.html': ['ng-html2js']
-    },
-
-    ngHtml2JsPreprocessor: {
-      stripPrefix: 'build/public/',
-      moduleName: 'openlmis-templates'
+      '**/*.js': ['coverage'] // Might not work....
     },
 
     /* KARMA PROCESS */
