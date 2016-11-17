@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .factory('CalculationFactory', calculationFactory);
 
-  calculationFactory.$inject = ['Column', '$filter'];
+  calculationFactory.$inject = ['Column', '$filter', 'Status', '$window'];
 
-  function calculationFactory(Column, $filter) {
+  function calculationFactory(Column, $filter, Status, $window) {
     var A = Column.BEGINNING_BALANCE,
         B = Column.TOTAL_RECEIVED_QUANTITY,
         C = Column.TOTAL_CONSUMED_QUANTITY,
@@ -55,15 +55,15 @@
       return total;
     }
 
-    function calculatePacksToShip(lineItem) {
-        var orderQuantity = getOrderQuantity(lineItem),
+    function calculatePacksToShip(lineItem, status) {
+        var orderQuantity = getOrderQuantity(lineItem, status),
             packSize = lineItem.orderableProduct.packSize;
 
         if (orderQuantity === 0 || packSize === 0) {
             return 0;
         } else {
-            var packsToShip = Math.trunc(orderQuantity / packSize),
-                remainderQuantity = orderQuantity % packSize;
+            var remainderQuantity = orderQuantity % packSize,
+                packsToShip = (orderQuantity - remainderQuantity) / packSize;
 
             if (remainderQuantity > 0 && remainderQuantity >= lineItem.orderableProduct.packRoundingThreshold) {
               packsToShip += 1;
@@ -77,16 +77,8 @@
         }
     }
 
-    function getOrderQuantity(lineItem) {
-        if (lineItem[K] !== null && lineItem[K] !== undefined) {
-            return lineItem[K];
-        }
-
-        if (lineItem[J] !== null && lineItem[J] !== undefined) {
-            return lineItem[J];
-        }
-
-        return 0;
+    function getOrderQuantity(lineItem, status) {
+        return status === Status.AUTHORIZED ? lineItem[K] : lineItem[J];
     }
   }
 

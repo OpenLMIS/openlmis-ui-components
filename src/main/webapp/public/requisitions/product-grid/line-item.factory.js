@@ -95,7 +95,7 @@
       }
     }
 
-    function getColumnValue(column) {
+    function getColumnValue(column, status) {
       var name = column.name,
         value;
 
@@ -108,7 +108,7 @@
       }
 
       if (column.source === Source.CALCULATED) {
-        this[name] = CalculationFactory[name](this);
+        this[name] = CalculationFactory[name](this, status);
         this.$isColumnValid(column);
       }
 
