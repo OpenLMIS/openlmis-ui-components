@@ -121,7 +121,18 @@ To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/an
 * Any object's exposed methods or variables must be documented with ngDoc
 
 ### Unit Testing Guidelines
-stub stub stub
+A unit tests has 3 goals that it should accomplish to test a javascript object:
+# Checks success, error, and edge cases
+# Tests as few objects as possible
+# Demonstrates how an object should be used
+
+With those 3 goals in mind, its important to realize that the variety of AngularJS object types means that the same approact won't work for each and every object. Since the OpenLMIS-UI coding conventions layout patterns for different types of AngularJS objects, it's also possible to illustrate how to unit test objects that follow those conventions.
+
+Check out [AngularJS's unit testing guide](https://docs.angularjs.org/guide/unit-testing), its well written and many of out tests follow their styles.
+
+Here are some general rules to keep in mind while writing any unit tests:
+* Keep beforeEach statements short and to the point, which will help other's read your statements
+* Understand how to use [Spies in Jasmine,](https://jasmine.github.io/1.3/introduction.html#section-Spies) they can help isolate objects and provide test cases
 
 ### Angular V1 Object Guidelines
 AngularJS has many different object types — here are the following types the OpenLMIS-UI primarily uses. If there is a need for object types not documented, please refer to the John Papa Angular V1 styleguide.
@@ -140,9 +151,30 @@ It's also [useful to wrap 3rd party objects and libraries](https://github.com/jo
 #### Service
 [John Papa refers to services as Singletons,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#services) which means they should only be used for application information that has a single instance. Examples of this would include the current user, the application's connection state, or the current library of localization messages.
 
-*Conventions:*
+*Naming Convention*
+*NameOfService*Service
+Always camel-case the name of the object, and append 'Service' to the end, so that people using the object know the service is persistant across other objects.
+
+*General Conventions:*
 * Services should always return an object
 * Services shouldn't have their state changed through properties, only method calls
+
+*Unit Testing Conventions*
+* Keep $httpBackend mock statements close to the specific places they are used (unless the statement is reusable)
+* Use Jasmine's spyOn method to mock the methods of other objects that are used
+* In some cases mocking an entire AngularJS Service, or a constant, will be required. This is possible by using [AngularJS's $provide object](https://docs.angularjs.org/api/auto/service/$provide) within a beforeEach block. This would look like
+
+```
+beforeEach(module($provide){
+	// mock out a tape recorder service, which is used else where
+	tape = jasmine.createSpyObj('tape', ['play', 'pause', 'stop', 'rewind']);
+	
+	// overwrite an existing service
+	$provide.service('TapeRecorderService', function(){
+		return tape;
+	});
+});
+```
 
 #### Factory
 Factories should be the most used Angualr object type in any application. [John Papa insists that factories serve a single purpose,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#factories) and should be extended by variabled they are called with.
@@ -163,8 +195,12 @@ function sample(){
 		savedContext = context;
 	}
 }
-
 ```
+
+*Unit Testing Conventions*
+Test a factory much like you would test a service, except be sure to:
+* Declare a new factory at the start of every test
+* Exercise the producted object, not just the callback function
 
 #### Controller
 Controllers are all about connecting data and logic from Factories and Services to HTML Views. An ideal controller won't do much more than this, and will be as 'thin' as possible.
@@ -177,6 +213,10 @@ It is also worth noting that [John Papa insists that controllers don't directly 
 * Should be only object changing application $state
 * Is used in a single context
 * Doesn't directly manipulate $scope variables
+
+*Unit Testing Conventions*
+* Set all items that would be required from a route when the Controller is instantiated
+* Mock any services used by the controller
 
 #### Routes
 Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where a URL path is typically paired with an HTML View and Controller.
@@ -194,6 +234,9 @@ The Angular guide to writting [HTTP Interceptors is here](https://docs.angularjs
 * Write interceptors so they only chanage a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
 * Don't include HTTP Interceptors in openlmis-core, as the interceptor might be injected into all other unit tests — which could break everything
 
+*Unit Testing Conventions*
+The goal when unit testing an interceptor is to not only test input and output transformation functions, but to also make sure the interceptor is called at an appropriate time.
+
 #### Directive
 Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
 
@@ -201,6 +244,34 @@ Directives are pieces of HTML markup that have been extended to do a certain fun
 * Restrict directives to only elements or attributes
 * Don't use an isolated scope unless you absolutely have to
 * If the directive needs extenal information, use a controller — don't manipulate data in a link function
+
+*Unit Testing*
+The bit secrect when unit testing a directive is to make sure to use the $compile function to return an element that is extended with jQuery. Once you have this object you will be able to interact with the directive by clicking, hovering, or triggering other DOM events.
+
+```
+describe('SampleDirective', function(){
+	it('gets compiled and shows the selected item name', function($compile, $rootScope){
+		var scope = $rootScope.$new();
+		scope['item'] = {
+			name: "Sample Title"
+		};
+		var element = $compile("<sample-directive selected='item'></sample-directive>")(scope);
+
+		expect(element.text()).toBe("Sample Title");
+	});
+	it('responds to being clicked', function($compile, $rootScope){
+		var element = $compile("<sample-directive selected='item'></sample-directive>")($rootScope.$new());
+
+		// check before the action
+		expect(element.text()).toBe("No Title");
+
+		element.click();
+		// check to see the results of the action
+		// this could also be looking at a spy to see what the values are
+		expect(element.text()).toBe("I was clicked");
+	});
+});
+```
 
 #### Modal
 A modal object isn't a 'native Angular object' — it is a service or factory that displays a modal window. This is done for convience and because it allows modal windows to not be declared in html files — and be used more easily by controllers (or even services, if appropriate).
