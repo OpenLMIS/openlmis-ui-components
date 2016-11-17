@@ -6,9 +6,9 @@
 		.module('openlmis.requisitions')
 		.factory('RequisitionFactory', requisitionFactory);
 
-  requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'ColumnTemplateFactory', 'lineItem', 'Status', 'Source', 'Column'];
+  requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'ColumnTemplateFactory', 'LineItemFactory', 'Status', 'Source', 'Column'];
 
-  function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, ColumnTemplateFactory, lineItem, Status, Source, Column) {
+  function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, ColumnTemplateFactory, LineItemFactory, Status, Source, Column) {
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getStockAdjustmentReasonsByProgram': {
         url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
@@ -53,7 +53,7 @@
       requisition.$isSubmitted = isSubmitted;
       requisition.$isApproved = isApproved;
       requisition.$isAuthorized = isAuthorized;
-      angular.forEach(requisition.requisitionLineItems, lineItem);
+      angular.forEach(requisition.requisitionLineItems, LineItemFactory);
       return requisition;
     }
 

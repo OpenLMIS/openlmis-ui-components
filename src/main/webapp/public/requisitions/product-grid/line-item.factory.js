@@ -4,11 +4,11 @@
 
   angular
     .module('openlmis.requisitions')
-    .factory('lineItem', lineItem);
+    .factory('LineItemFactory', lineItemFactory);
 
-  lineItem.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
+  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
 
-  function lineItem(ValidationFactory, CalculationFactory, Column, Source) {
+  function lineItemFactory(ValidationFactory, CalculationFactory, Column, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -27,9 +27,9 @@
       totalConsumedQuantity: Column.STOCK_ON_HAND
     };
 
-    return extendLineItem;
+    return lineItem;
 
-    function extendLineItem(lineItem) {
+    function lineItem(lineItem) {
       lineItem.$isValid = isValid;
       lineItem.$errors = errors();
       lineItem.$getColumnError = getColumnError;

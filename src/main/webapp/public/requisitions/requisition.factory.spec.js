@@ -10,8 +10,7 @@
 
 describe('RequisitionFactory', function() {
 
-    var $rootScope, $httpBackend, requisitionFactory, q, columnTemplateFactory, lineItem,
-    allStatuses, requisitionUrl, openlmisUrl;
+    var $rootScope, $httpBackend, requisitionFactory, q, columnTemplateFactory, allStatuses, requisitionUrl, openlmisUrl;
 
     var facility = {
             id: '1',
@@ -57,8 +56,7 @@ describe('RequisitionFactory', function() {
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL,
-    OpenlmisURL, ColumnTemplateFactory, lineItem, Status, $q){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, OpenlmisURL, ColumnTemplateFactory, Status, $q){
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         requisitionFactory = RequisitionFactory;
@@ -66,7 +64,6 @@ describe('RequisitionFactory', function() {
         openlmisUrl = OpenlmisURL;
         allStatuses = Status.$toList();
         columnTemplateFactory = ColumnTemplateFactory;
-        lineItem = lineItem;
         q = $q;
 
         requisitionFactory(requisition);
