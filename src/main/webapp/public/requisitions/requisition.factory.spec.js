@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-describe("RequisitionFactory", function() {
+describe('RequisitionFactory', function() {
 
     var $rootScope, $httpBackend, requisitionFactory, q, columnTemplateFactory, lineItem,
     allStatuses, requisitionUrl, openlmisUrl;
@@ -37,14 +37,14 @@ describe("RequisitionFactory", function() {
             id: '1',
             name: 'begginingBalance',
             label: 'BG',
-            sources: ["USER_INPUT"],
+            sources: ['USER_INPUT'],
             columnType: 'NUMERIC',
             mandatory: true
         },
         begginingBalance = {
             name: 'begginingBalance',
             label: 'BG',
-            source: "USER_INPUT",
+            source: 'USER_INPUT',
             columnDefinition: columnDefinition
         },
         requisitionTemplate = {
