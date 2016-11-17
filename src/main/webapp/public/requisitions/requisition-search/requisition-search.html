@@ -6,6 +6,7 @@
             <openlmis-select
                 id="facility"
                 ng-model="selectedFacility"
+                ng-required
                 items="facilities"
                 field-displayed="name"
                 track-by="id">
@@ -15,6 +16,7 @@
             <label for="program" openlmis-message="label.program"></label>
             <openlmis-select
                 id="program"
+                ng-required
                 ng-model="selectedProgram"
                 items="programs"
                 field-displayed="name"
