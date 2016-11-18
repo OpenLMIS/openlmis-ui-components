@@ -81,7 +81,7 @@
         function removeModal() {
             if(dialog){
                 dialog.on('hidden.bs.modal', function(){
-                    dialog.remove();
+                    if(dialog) dialog.remove();
                     dialog = null;
                 });
                 dialog.modal('hide');
