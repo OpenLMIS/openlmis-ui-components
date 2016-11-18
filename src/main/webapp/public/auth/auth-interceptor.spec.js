@@ -12,12 +12,13 @@ describe("AuthInterceptor", function() {
   var AuthorizationService, $rootScope, $state;
 
   function setupTest(){
-    module('openlmis');
+    module('openlmis-auth');
 
     module(function($stateProvider){
         $stateProvider.state('somewhere', {
           url: '/somewhere'
-        });
+        })
+        .state('home', {});
     });
 
     inject(function(_AuthorizationService_, _$rootScope_, _$state_) {
