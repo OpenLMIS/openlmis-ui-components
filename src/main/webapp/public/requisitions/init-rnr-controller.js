@@ -31,9 +31,10 @@
          * @ngdoc property
          * @name emergency
          * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Boolean}
          *
          * @description
-         * Holds currently selected requisition type (standard/emergency)
+         * Holds a boolean indicating if the currently selected requisition type is standard or emergency
          */
         $scope.emergency = false;
 
@@ -45,6 +46,7 @@
          * @ngdoc property
          * @name facilities
          * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Array}
          *
          * @description
          * Holds available facilities based on the selected type and/or programs
@@ -55,6 +57,7 @@
          * @ngdoc property
          * @name selectedType
          * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Integer}
          *
          * @description
          * Holds currently selected facility selection type:

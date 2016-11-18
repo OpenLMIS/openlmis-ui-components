@@ -13,6 +13,7 @@
 
     angular.module('openlmis-auth', [
         'openlmis-core',
+        'openlmis-templates',
         'ui.router'
         ])
     .config(routes)

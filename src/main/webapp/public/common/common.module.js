@@ -14,6 +14,7 @@
         'openlmis.services',
         'angular-google-analytics',
         'openlmis.localStorage',
+        'openlmis-templates',
         'ui.directives',
         'ngCookies',
         'ngRoute'
