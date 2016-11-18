@@ -10,7 +10,7 @@
 
 describe('RequisitionSearchController', function() {
 
-    var scope, ctrl, httpBackend, controller, statuses, endDate, startDate
+    var scope, ctrl, httpBackend, controller, statuses, endDate, startDate, notification,
         facilityList = [
             {
                 id: '1',
@@ -53,13 +53,14 @@ describe('RequisitionSearchController', function() {
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL) {
+    beforeEach(inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification) {
         scope = $rootScope.$new();
         controller = $controller;
         httpBackend = $httpBackend;
         statuses = Status.$toList();
         startDate = new Date();
         endDate = new Date();
+        notification = Notification
 
         ctrl = controller('RequisitionSearchController', {$scope:scope, facilityList:facilityList});
     }));
@@ -116,9 +117,11 @@ describe('RequisitionSearchController', function() {
     });
 
     it('search is disabled if facility is not selected', function() {
+        var callback = jasmine.createSpy();
         expect(scope.selectedFacility).toBe(undefined);
+        spyOn(notification, 'error').andCallFake(callback);
         scope.search();
-        expect(scope.error).toBe('msg.no.facility.selected');
+        expect(callback).toHaveBeenCalled();
     });
 
 });

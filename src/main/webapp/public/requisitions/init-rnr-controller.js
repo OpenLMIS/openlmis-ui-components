@@ -16,11 +16,9 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory',
-    'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService'];
+    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory', 'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification'];
 
-    function InitiateRnrController($scope, messageService, facility, PeriodFactory,
-    RequisitionService, $state, DateUtils, Status, LoadingModalService) {
+    function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification) {
 
         $scope.emergency = false;
 
@@ -89,15 +87,14 @@
 
         function loadPeriods() {
             $scope.periodGridData = [];
-            if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope
-            .selectedFacilityId)) {
+            if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope.selectedFacilityId)) {
                 return;
             }
             LoadingModalService.open();
             PeriodFactory.get($scope.selectedProgram.item.id, $scope.selectedFacilityId, $scope.emergency).then
             (function(data) {
                 if (data.length === 0) {
-                    $scope.error = messageService.get("msg.no.period.available");
+                    Notification.error('msg.no.period.available');
                 } else {
                     $scope.periodGridData = data;
                     $scope.error = "";
@@ -111,7 +108,7 @@
                 });
                 LoadingModalService.close();
             }).catch(function() {
-                $scope.error = messageService.get("msg.no.period.available");
+                Notification.error('msg.no.period.available');
                 LoadingModalService.close();
             });
         };
@@ -129,7 +126,7 @@
                         rnr: data.id
                     });
                 }, function () {
-                    $scope.error = messageService.get("error.requisition.not.initiated");
+                    Notification.error('error.requisition.not.initiated');
                 });
             } else {
                 $state.go('requisitions.requisition', {

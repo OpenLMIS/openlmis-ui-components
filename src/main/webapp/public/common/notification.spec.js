@@ -14,7 +14,7 @@ describe("Notification", function() {
     beforeEach(module('openlmis-core'));
 
     beforeEach(inject(function($templateCache) {
-        $templateCache.put('common/notification.html', '<div class="notofication" ng-click="closeNotification()"></div>');
+        $templateCache.put('common/notification.html', '<div class="notification" ng-click="closeNotification()"></div>');
         $templateCache.put('common/notification-container.html', "something");
     }));
 
