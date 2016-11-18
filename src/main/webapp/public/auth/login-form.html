@@ -27,7 +27,8 @@
                       <label for="login-password" openlmis-message="label.password"></label>
                       <input ng-model="password" type="password" id="login-password" required/>
                   </div>
-                  <div id="loginError" class="alert alert-error" ng-bind="loginError" ng-show="loginError"></div>
+                  <div id="loginError" class="alert is-error" ng-bind="loginError"
+                       ng-show="loginError"></div>
                   <div class="login-form-row">
                       <input class="btn btn-primary" type="submit" openlmis-message="button.sign.in"
                              ng-disabled="disableSignInButton"/>

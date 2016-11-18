@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="adjustment-warning alert alert-info" openlmis-message="label.no.losses.adjustment"
+    <div class="adjustment-warning alert is-info" openlmis-message="label.no.losses.adjustment"
          ng-show="currentRnrLineItem.stockAdjustments == null || currentRnrLineItem.stockAdjustments.length === 0"></div>
     <div class="adjustment-list" ng-show="currentRnrLineItem.stockAdjustments.length > 0">
         <ul><li ng-repeat="adjustment in currentRnrLineItem.stockAdjustments" class="adjustment">
@@ -29,7 +29,7 @@
         </li></ul>
     </div>
 
-    <div class="adjustment-total clearfix alert alert-warning"
+    <div class="adjustment-total clearfix alert is-error"
          ng-show="currentRnrLineItem.stockAdjustments.length > 0">
         <span class="pull-left" openlmis-message="label.losses.total"></span><span
             ng-bind="currentRnrLineItem.totalLossesAndAdjustments"></span>

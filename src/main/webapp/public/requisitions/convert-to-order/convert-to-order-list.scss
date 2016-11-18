@@ -29,7 +29,7 @@
 
 		.info-message {
 			@extend .alert;
-			@extend .alert-info;
+			@extend .is-info;
 		}
 
 		table {
