@@ -36,7 +36,6 @@
                     timeoutCalled = false,
                     scope = $rootScope.$new();
 
-                scope.closeNotification = closeNotification;
                 scope.message = messageService.get(message);
                 scope.class = type;
                 scope.glyphicon = icon;
@@ -47,8 +46,9 @@
                 });
                 element.on('mouseout', function() {
                     isMouseOver = false;
-                    if(timeoutCalled) element.remove();
+                    if(timeoutCalled) closeNotification();
                 });
+                element.on('click', closeNotification());
 
                 container.append(element);
 
@@ -57,7 +57,7 @@
                 function setTimeout() {
                     timeoutPromise = $timeout(function(){
                         timeoutCalled = true;
-                        if(!isMouseOver) element.remove();
+                        if(!isMouseOver) closeNotification();
                         return false;
                     }, 5000);
                 }
@@ -69,7 +69,10 @@
                 }
 
                 function closeNotification() {
-                    element.remove();
+                    element.css('-webkit-animation', 'fade-out 500ms');
+                    element.bind('webkitAnimationEnd',function(){
+                        element.remove();
+                    });
                     cancelTimeout();
                 }
 
@@ -87,7 +90,6 @@
             }
 
             function makeContainer(html) {
-                //var scope = $rootScope.$new();
                 container = angular.element(html);
                 angular.element(document.body).append(container);
             }
@@ -96,56 +98,53 @@
         /**
          *
          * @ngdoc function
-         * @name showSuccess
-         * @methodOf openlmis-core.NotificationModal
+         * @name success
+         * @methodOf openlmis-core.Notification
          * @param {String} successMessage success message to display
-         * @returns {Promise} success message promise
          * 
          * @description
          * Shows success message element with custom message and return promise.
          *
          */
-        function showSuccess(successMessage) {
+        function success(successMessage) {
             return showMessage(successMessage, 'alert-success', 'glyphicon-ok-sign');
         }
 
         /**
          *
          * @ngdoc function
-         * @name showError
-         * @methodOf openlmis-core.NotificationModal
+         * @name error
+         * @methodOf openlmis-core.Notification
          * @param {String} errorMessage info message to display
-         * @returns {Promise} error message promise
          * 
          * @description
          * Shows error message element with custom message and return promise.
          *
          */
-        function showError(errorMessage) {
+        function error(errorMessage) {
             return showMessage(errorMessage, 'alert-danger', 'glyphicon-remove-sign');
         }
 
         /**
          *
          * @ngdoc function
-         * @name showInfo
-         * @methodOf openlmis-core.NotificationModal
+         * @name info
+         * @methodOf openlmis-core.Notification
          * @param {String} infoMessage info message to display
-         * @returns {Promise} info message promise
          * 
          * @description
          * Shows info message element with custom message and return promise.
          * 
          *
          */
-        function showInfo(infoMessage) {
+        function info(infoMessage) {
             return showMessage(infoMessage, 'alert-info', 'glyphicon-info-sign');
         }
 
         return {
-            showSuccess: showSuccess,
-            showError: showError,
-            showInfo: showInfo
+            success: success,
+            error: error,
+            info: info
         }
     }
 })();

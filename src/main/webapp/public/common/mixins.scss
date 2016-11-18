@@ -53,3 +53,13 @@
   position: absolute;
   pointer-events: none;
 }
+
+@mixin fade-in {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@mixin fade-out {
+  0% {opacity: 1;}
+  100% {opacity: 0;}
+}

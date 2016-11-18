@@ -1,33 +1,10 @@
-@include keyframes(fadeIn) {
-  from {
-    @include transform(translateY(-20px));
-    opacity: 0;
-  }
-  to {
-    @include transform(translateY(0));
-    opacity: 1;
-  }
-}
-
-@mixin animation--fadedown($delay) {
-  @include animation(fadeIn 0.3s ease-in-out);
-  @include animation-iteration-count(1);
-  @include animation-fill-mode(forwards);
-  @include animation-delay(#{$delay}s);
-}
-
 .notification {
-	opacity: 0;
     @extend .alert;
 	width: 22em;
 	min-height: 5em;
 	display: flex;
 	align-items: center;
-	@for $i from 1 through 5 {
-      &:nth-child(#{$i}) {
-        @include animation--fadedown($i/10);
-      }
-    }
+    -webkit-animation: fade-in 500ms;
 }
 
 .notification-container {

@@ -12,9 +12,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', '$ngBootbox', 'NotificationModal', 'LoadingModalService'];
+    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', '$ngBootbox', 'LoadingModalService', 'Notification'];
 
-    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, NotificationModal, LoadingModalService) {
+    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, LoadingModalService, Notification) {
 
         $scope.requisition = requisition;
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
@@ -35,7 +35,8 @@
             LoadingModalService.open();
             save().then(function(response) {
                LoadingModalService.close();
-               NotificationModal.showSuccess('msg.rnr.save.success').then(reloadState);
+               Notification.success('msg.rnr.save.success');
+               reloadState();
             });
         };
 
@@ -46,15 +47,16 @@
                         LoadingModalService.open();
                         $scope.requisition.$submit()
                         .then(function(response) {
-                            NotificationModal.showSuccess('msg.rnr.submitted.success').then(reloadState);
+                            Notification.success('msg.rnr.save.success');
+                            reloadState();
                         })
                         .catch(function(response) {
-                            NotificationModal.showError('msg.rnr.submitted.failure');
+                            Notification.error('msg.rnr.submitted.failure');
                         })
                         .finally(LoadingModalService.close);
                     });
                 } else {
-                    NotificationModal.showError('error.rnr.validation');
+                    Notification.showError('error.rnr.validation');
                 }
             });    
         };
@@ -67,15 +69,16 @@
                         LoadingModalService.open();
                         $scope.requisition.$authorize()
                         .then(function(response) {
-                            NotificationModal.showSuccess('msg.rnr.authorized.success').then(reloadState);
+                            Notification.success('msg.rnr.authorized.success');
+                            reloadState();
                         })
                         .catch(function(response) {
-                            NotificationModal.showError('msg.rnr.authorized.failure');
+                            Notification.error('msg.rnr.authorized.failure');
                         })
                         .finally(LoadingModalService.close);
                     });
                 } else {
-                    NotificationModal.showError('error.rnr.validation');
+                    Notification.error('error.rnr.validation');
                 }
             });
         };
@@ -86,30 +89,30 @@
                 $scope.requisition.$remove()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
-                    NotificationModal.showSuccess(messageService.get('msg.rnr.deletion.success'));
+                    Notification.success('msg.rnr.deletion.success');
                 })
                 .catch(function(response) {
-                    NotificationModal.showError('msg.rnr.deletion.failure');
+                    Notification.error('msg.rnr.deletion.failure');
                 })
                 .finally(LoadingModalService.close);
             });
         };
 
         function approveRnr() {
-             $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
-                if (requisition.$isValid()) {
+            $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
+                if(requisition.$isValid()) {
                     save()
                     .then(function() {
                         LoadingModalService.open();
                         $scope.requisition.$approve()
                         .then(function(response) {
                             $state.go('requisitions.approvalList');
-                            NotificationModal.showSuccess(messageService.get('msg.rnr.approved.success'));
+                            Notification.success('msg.rnr.approved.success');
                         })
                         .finally(LoadingModalService.close);
                     });
                 } else {
-                    NotificationModal.showError('error.rnr.validation');
+                    Notification.error('error.rnr.validation');
                 }
              });
         };
@@ -120,10 +123,10 @@
                 $scope.requisition.$reject()
                 .then(function(response) {
                     $state.go('requisitions.approvalList');
-                    NotificationModal.showSuccess(messageService.get('msg.rnr.reject.success'));
+                    Notification.success('msg.rnr.reject.success');
                 })
                 .catch(function(response) {
-                    NotificationModal.showError(messageService.get('msg.rejected.failure'));
+                    Notification.error('msg.rejected.failure');
                 })
                 .finally(LoadingModalService.close);
             });
@@ -159,7 +162,7 @@
         }
 
         function failedToSave(response) {
-            NotificationModal.showError(messageService.get('msg.rnr.save.failure'));
+            Notification.error(messageService.get('msg.rnr.save.failure'));
         }
 
         function reloadState() {

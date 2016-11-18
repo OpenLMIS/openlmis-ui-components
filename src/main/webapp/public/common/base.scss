@@ -137,3 +137,15 @@ select {
 .number, td.number, th.number{
   text-align: right;
 }
+
+@-moz-keyframes fade-in { @include fade-in; }
+
+@-webkit-keyframes fade-in { @include fade-in; }
+
+@keyframes fade-in { @include fade-in; }
+
+@-moz-keyframes fade-out { @include fade-out; }
+
+@-webkit-keyframes fade-out { @include fade-out; }
+
+@keyframes fade-out { @include fade-out; }
