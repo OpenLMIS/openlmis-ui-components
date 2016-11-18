@@ -162,7 +162,9 @@
         }
 
         function failedToSave(response) {
-            Notification.error(messageService.get('msg.rnr.save.failure'));
+            if (response.status !== 403) {
+                Notification.error(messageService.get('msg.rnr.save.failure'));
+            }
         }
 
         function reloadState() {

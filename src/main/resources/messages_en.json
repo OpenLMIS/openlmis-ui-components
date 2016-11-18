@@ -545,7 +545,7 @@
   "menu.header.edit": "Edit",
   "error.login.username": "Please enter your username.",
   "error.login.password": "Please enter your password.",
-  "error.authorization": "You are not authorized to view the requested page.",
+  "error.authorization": "You are not authorized to perform this action.",
   "email.sent.message": "Email Sent!",
   "email.check.message": "Please check your email and click on reset password link.",
   "reset.password.message": "Please provide your email address OR username and we will send you a reset password link on your registered email id.",
