@@ -63,7 +63,7 @@
                 }, {
                     name: 'proceed',
                     displayName: '',
-                    cellTemplate: 'requisitions/init-rnr-button.html'
+                    cellTemplate: '/public/requisitions/init-rnr-button.html'
                 }
             ]
         };

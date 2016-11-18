@@ -13,6 +13,7 @@ describe("AuthInterceptor", function() {
 
   function setupTest(){
     module('openlmis-auth');
+    module('openlmis-templates');
 
     module(function($stateProvider){
         $stateProvider.state('somewhere', {

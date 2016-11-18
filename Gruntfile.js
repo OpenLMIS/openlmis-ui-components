@@ -198,7 +198,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: config.app.src + '/webapp/public/',
-            src: ['index.html'],
+            src: ['**/**.html'],
             dest: config.app.dest + '/public'
           }
         ],
@@ -386,17 +386,6 @@ module.exports = function(grunt) {
       path.join(config.app.dest, "public")
     ));
       }
-    },
-    ngtemplates: {
-      app: {
-        cwd:      config.app.src + '/webapp/public',
-        src:      ['**/**.html', '!index.html'],
-        dest:     '.tmp/templates.js',
-        options: {
-          module:   'openlmis-core',
-          concat:   'js'
-        }
-      }
     }
   });
 
@@ -427,7 +416,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-  var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace'];
+  var buildTasks = ['clean', 'copy', 'concat', 'sass', 'replace'];
   var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles', 'gulp:styleguide-index-replace'];
 
   var fullBuildTasks = [].concat(buildTasks);

@@ -10,6 +10,7 @@
 describe("LoginController", function() {
 
   beforeEach(module('openlmis-auth'));
+  beforeEach(module('openlmis-templates'));
 
   beforeEach(module(function($provide){
     // Turn off AuthToken
