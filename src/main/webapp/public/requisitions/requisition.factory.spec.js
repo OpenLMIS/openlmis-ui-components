@@ -62,7 +62,7 @@ describe('RequisitionFactory', function() {
         requisitionFactory = RequisitionFactory;
         requisitionUrl = RequisitionURL;
         openlmisUrl = OpenlmisURL;
-        allStatuses = Status.$toList();
+        allStatuses = Status;
         columnTemplateFactory = ColumnTemplateFactory;
         q = $q;
 
@@ -70,51 +70,51 @@ describe('RequisitionFactory', function() {
     }));
 
     it('should submit requisition', function() {
-        var data;
+        expect(requisition.$isSubmitted()).toBe(false);
+
+        requisition.status = allStatuses.SUBMITTED;
 
         httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/submit'))
         .respond(200, requisition);
 
-        requisition.$submit().then(function(response) {
-            data = response;
-        });
+        requisition.$submit();
 
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+        expect(requisition.$isSubmitted()).toBe(true);
     });
 
     it('should authorize requisition', function() {
-        var data;
+        expect(requisition.$isAuthorized()).toBe(false);
+
+        requisition.status = allStatuses.AUTHORIZED;
 
         httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/authorize'))
         .respond(200, requisition);
 
-        requisition.$authorize().then(function(response) {
-            data = response;
-        });
+        requisition.$authorize();
 
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+        expect(requisition.$isAuthorized()).toBe(true);
     });
 
     it('should approve requisition', function() {
-        var data;
+        expect(requisition.$isApproved()).toBe(false);
+
+        requisition.status = allStatuses.APPROVED;
 
         httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/approve'))
         .respond(200, requisition);
 
-        requisition.$approve().then(function(response) {
-            data = response;
-        });
+        requisition.$approve();
 
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+        expect(requisition.$isApproved()).toBe(true);
     });
 
     it('should reject requisition', function() {
@@ -194,13 +194,15 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return true if requisition status is initiated', function() {
+        requisition.status = allStatuses.INITIATED;
+
         var isInitiated = requisition.$isInitiated();
 
         expect(isInitiated).toBe(true);
     });
 
     it('should return false if requisition status is not initiated', function() {
-        requisition.status = allStatuses[1].label;
+        requisition.status = allStatuses.SUBMITTED;
 
         var isInitiated = requisition.$isInitiated();
 
@@ -208,7 +210,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return true if requisition status is submitted', function() {
-        requisition.status = allStatuses[1].label;
+        requisition.status = allStatuses.SUBMITTED;
 
         var isSubmitted = requisition.$isSubmitted();
 
@@ -216,7 +218,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return false if requisition status is not submitted', function() {
-        requisition.status = allStatuses[0].label;
+        requisition.status = allStatuses.INITIATED;
 
         var isSubmitted = requisition.$isSubmitted();
 
@@ -224,7 +226,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return true if requisition status is authorized', function() {
-        requisition.status = allStatuses[2].label;
+        requisition.status = allStatuses.AUTHORIZED;
 
         var isAuthorized = requisition.$isAuthorized();
 
@@ -232,7 +234,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return false if requisition status is not authorized', function() {
-        requisition.status = allStatuses[0].label;
+        requisition.status = allStatuses.INITIATED;
 
         var isAuthorized = requisition.$isAuthorized();
 
@@ -240,7 +242,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return true if requisition status is approved', function() {
-        requisition.status = allStatuses[3].label;
+        requisition.status = allStatuses.APPROVED;
 
         var isApproved = requisition.$isApproved();
 
@@ -248,7 +250,7 @@ describe('RequisitionFactory', function() {
     });
 
     it('should return false if requisition status is not approved', function() {
-        requisition.status = allStatuses[0].label;
+        requisition.status = allStatuses.INITIATED;
 
         var isApproved = requisition.$isApproved();
 
