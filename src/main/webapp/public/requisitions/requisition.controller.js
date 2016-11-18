@@ -56,7 +56,7 @@
                         .finally(LoadingModalService.close);
                     });
                 } else {
-                    Notification.showError('error.rnr.validation');
+                    Notification.error('error.rnr.validation');
                 }
             });    
         };

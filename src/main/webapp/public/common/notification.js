@@ -36,6 +36,7 @@
                     timeoutCalled = false,
                     scope = $rootScope.$new();
 
+                scope.closeNotification = closeNotification;
                 scope.message = messageService.get(message);
                 scope.class = type;
                 scope.glyphicon = icon;
@@ -48,7 +49,6 @@
                     isMouseOver = false;
                     if(timeoutCalled) closeNotification();
                 });
-                element.on('click', closeNotification());
 
                 container.append(element);
 
