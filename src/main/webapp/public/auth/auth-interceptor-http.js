@@ -65,7 +65,9 @@
              * Checks the request config url with OpenlmisURLService, and if there is a match an access token is added to the url 
              */
     		request: function(config){
-                if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()){
+                if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()
+                        // we don't want to add the token to template requests
+                        && !config.url.endsWith('.html')){
                     config.url = addAccessToken(config.url);
                 }
                 return config;

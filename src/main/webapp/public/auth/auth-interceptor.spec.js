@@ -12,26 +12,20 @@ describe("AuthInterceptor", function() {
   var AuthorizationService, $rootScope, $state;
 
   function setupTest(){
-    module('openlmis-auth');
+    module('openlmis');
 
     module(function($stateProvider){
         $stateProvider.state('somewhere', {
           url: '/somewhere'
         });
-        $stateProvider.state('home', {
-          url: '/home'
-        });
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_, $templateCache) {
+    inject(function(_AuthorizationService_, _$rootScope_, _$state_) {
         AuthorizationService = _AuthorizationService_;
         $rootScope = _$rootScope_;
         $state = _$state_;
 
         spyOn($state, 'go').andCallThrough();
-
-        //$templateCache.put('dashboard/home.html', 'foo');
-        //$templateCache.put('auth/login-form.html', 'baz');
     });
   }
 

@@ -393,7 +393,7 @@ module.exports = function(grunt) {
         src:      ['**/**.html', '!index.html'],
         dest:     '.tmp/templates.js',
         options: {
-          module:   'openlmis-core',
+          module:   'openlmis',
           concat:   'js'
         }
       }
