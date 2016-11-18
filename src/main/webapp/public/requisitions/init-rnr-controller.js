@@ -12,6 +12,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis.requisitions.InitiateRnrController
+     * @description
+     * Controller responsible for actions connected with displaying available periods and
+     * initiating or navigating to an existing requisition.
+     */
     angular
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
@@ -20,19 +27,51 @@
 
     function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification) {
 
+        /**
+         * @ngdoc property
+         * @name emergency
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Holds currently selected requisition type (standard/emergency)
+         */
         $scope.emergency = false;
 
         $scope.$watch('selectedProgram.item', function() {
             $scope.loadPeriods();
         }, true);
 
-        $scope.facilities =[];
+        /**
+         * @ngdoc property
+         * @name facilities
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Holds available facilities based on the selected type and/or programs
+         */
+        $scope.facilities = [];
 
+        /**
+         * @ngdoc property
+         * @name selectedType
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Holds currently selected facility selection type:
+         *  0 - my facility
+         *  1 - supervised facility
+         */
         $scope.selectedType = 0;
 
-        $scope.loadPeriods = loadPeriods;
-
-        $scope.periodGridOptions = { 
+        /**
+         * @ngdoc property
+         * @name periodGridOptions
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Holds configuration of the period grid
+         */
+        $scope.periodGridOptions = {
             data: 'periodGridData',
             canSelectRows: false,
             displayFooter: false,
@@ -40,7 +79,7 @@
             enableColumnResize: true,
             showColumnMenu: false,
             showFilter: false,
-            enableSorting: false, 
+            enableSorting: false,
             columnDefs: [
                 {
                     field: 'name',
@@ -66,6 +105,14 @@
             ]
         };
 
+        // Functions
+
+        $scope.loadPeriods = loadPeriods;
+
+        $scope.programOptionMessage = programOptionMessage;
+
+        $scope.initRnr = initRnr;
+
         if (facility) {
             $scope.facilityDisplayName = facility.code + '-' + facility.name;
             $scope.selectedFacilityId = facility.id;
@@ -81,10 +128,31 @@
             $scope.error = messageService.get("error.rnr.user.facility.not.assigned");
         }
 
-        $scope.programOptionMessage = function () {
+        /**
+         * @ngdoc function
+         * @name programOptionMessage
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Determines a proper message for the programs dropdown, based on the presence of programs.
+         *
+         * @return {String} localized message
+         */
+        function programOptionMessage() {
             return $scope.programs === undefined || _.isEmpty($scope.programs) ? messageService.get("label.none.assigned") : messageService.get("label.select.program");
         };
 
+        /**
+         * @ngdoc function
+         * @name loadPeriods
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for displaying and updating a grid, containing available periods for the
+         * selected program, facility and type. It will set an error message if no periods have
+         * been found for the given parameters. It will also filter out periods for which there
+         * already exists a requisition with an AUTHORIZED, APPROVED or RELEASED status.
+         */
         function loadPeriods() {
             $scope.periodGridData = [];
             if (!($scope.selectedProgram && $scope.selectedProgram.item  && $scope.selectedFacilityId)) {
@@ -113,7 +181,23 @@
             });
         };
 
-        $scope.initRnr = function (selectedPeriod) {
+        /**
+         * @ngdoc function
+         * @name initRnr
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for initiating and/or navigating to the requisition, based on the specified
+         * period. If the provided period does not have a requisition associated with it, one
+         * will be initiated for the currently selected facility, program, emergency status and
+         * provided period. In case of a successful response, a redirect to the newly initiated
+         * requisition is made. Otherwise an error about failed requisition initiate is shown. If
+         * the provided period is already associated with a requisition, the function only
+         * performs a redirect to that requisition.
+         *
+         * @param {Object} selectedPeriod  a period to initiate or proceed with the requisition for
+         */
+        function initRnr(selectedPeriod) {
             $scope.error = "";
             if (!selectedPeriod.rnrId ||
             selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
