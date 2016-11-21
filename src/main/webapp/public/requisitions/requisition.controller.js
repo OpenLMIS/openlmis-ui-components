@@ -12,7 +12,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-requisition.RequisitionController
+     * @name openlmis.requisitions.RequisitionController
      *
      * @description
      * Controller for managing requisitions.
