@@ -138,14 +138,20 @@ select {
   text-align: right;
 }
 
-@-moz-keyframes fade-in { @include fade-in; }
+@include keyframes(fade-in) {
+  from {
+    @include transform(scale(0));
+  }
+  to {
+    @include transform(scale(1));
+  }
+}
 
-@-webkit-keyframes fade-in { @include fade-in; }
-
-@keyframes fade-in { @include fade-in; }
-
-@-moz-keyframes fade-out { @include fade-out; }
-
-@-webkit-keyframes fade-out { @include fade-out; }
-
-@keyframes fade-out { @include fade-out; }
+@include keyframes(fade-out) {
+  from {
+    @include transform(scale(1));
+  }
+  to {
+    @include transform(scale(0));
+  }
+}

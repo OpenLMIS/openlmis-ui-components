@@ -1,7 +1,7 @@
 .notification {
     @extend .alert;
-	width: 22em;
-	min-height: 5em;
+	width: 350px;
+	min-height: 80px;
 	display: flex;
 	align-items: center;
     -webkit-animation: fade-in 500ms;
