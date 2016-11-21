@@ -33,7 +33,7 @@
         function error(message, additionalMessage) {
             var deferred = $q.defer();
             if(additionalMessage) showAlert(messageService.get(additionalMessage), messageService.get(message), deferred.resolve);
-            else showAlert(message, null, deferred.resolve);
+            else showAlert(messageService.get(message), null, deferred.resolve);
             return deferred.promise;
         }
 
