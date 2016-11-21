@@ -16,7 +16,6 @@
      *
      * @description
      * Controller for managing requisitions.
-     *
      */
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
@@ -26,17 +25,13 @@
     function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, LoadingModalService, Notification) {
 
         /**
-         *
          * @ngdoc property
          * @name $scope.requisition
          * @propertyOf openlmis-requisition.RequisitionCtrl
-         * @returns {Object} Requisition
-         *
          */
         $scope.requisition = requisition;
 
         /**
-        *
         * @ngdoc property
         * @name $scope.requisitionType
         * @propertyOf openlmis-requisition.RequisitionCtrl
