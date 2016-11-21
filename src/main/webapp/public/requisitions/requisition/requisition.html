@@ -8,7 +8,11 @@
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
 <div class="page">
-    <ng-include src="'requisitions/header.html'"></ng-include>
-    <product-grid ng-model=requisition></product-grid>
+    <ng-include src="'requisitions/requisition/header.html'"></ng-include>
+    <ul class="nav nav-tabs">
+      <li ui-sref-active="active" role="presentation"><a ui-sref="requisitions.requisition.fullSupplyProducts">{{'label.full.supply.products' | message}}</a></li>
+      <li ui-sref-active="active" ng-if="requisition.$template.showNonFullSupplyTab" role="presentation"><a ui-sref="requisitions.requisition.nonFullSupplyProducts">{{'label.non.full.supply.products' | message}}</a></li>
+    </ul>
+    <div ui-view=""></div>
 </div>
 <ng-include src="'requisitions/requisition-toolbar.html'"></ng-include>

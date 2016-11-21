@@ -209,14 +209,14 @@
                 selectedPeriod.id,
                 $scope.emergency).then(
                 function (data) {
-                    $state.go('requisitions.requisition', {
+                    $state.go('requisitions.requisition.fullSupplyProducts', {
                         rnr: data.id
                     });
                 }, function () {
                     Notification.error('error.requisition.not.initiated');
                 });
             } else {
-                $state.go('requisitions.requisition', {
+                $state.go('requisitions.requisition.fullSupplyProducts', {
                     rnr: selectedPeriod.rnrId
                 });
             }

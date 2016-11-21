@@ -1,14 +1,14 @@
 (function() {
-  
+
   'use strict';
 
   angular
     .module('openlmis.requisitions')
     .factory('LineItemFactory', lineItemFactory);
 
-  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Column', 'Source'];
+  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Columns', 'Source'];
 
-  function lineItemFactory(ValidationFactory, CalculationFactory, Column, Source) {
+  function lineItemFactory(ValidationFactory, CalculationFactory, Columns, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -18,13 +18,13 @@
         ValidationFactory.nonNegative
       ],
       requestedQuantityExplanation: [
-        ValidationFactory.nonEmptyIfPropertyIsSet(Column.REQUESTED_QUANTITY)
+        ValidationFactory.nonEmptyIfPropertyIsSet(Columns.REQUESTED_QUANTITY)
       ]
     };
 
     var counterparts = {
-      stockOnHand: Column.TOTAL_CONSUMED_QUANTITY,
-      totalConsumedQuantity: Column.STOCK_ON_HAND
+      stockOnHand: Columns.TOTAL_CONSUMED_QUANTITY,
+      totalConsumedQuantity: Columns.STOCK_ON_HAND
     };
 
     return lineItem;
@@ -61,7 +61,7 @@
       });
 
       var calulation = CalculationFactory[column.name];
-      if (calulation && column.name !== Column.TOTAL_LOSSES_AND_ADJUSTMENTS) {
+      if (calulation && column.name !== Columns.TOTAL_LOSSES_AND_ADJUSTMENTS) {
         if (!isCalculated(counterparts[column.name], columns)) {
           error = error || ValidationFactory.validCalculation(calulation)(lineItem[column.name], lineItem);
         }
@@ -101,7 +101,7 @@
 
       if (name.indexOf('.') > -1) { // for product code and product name
         value = this;
-        angular.forEach(name.split('.'), function(property) { 
+        angular.forEach(name.split('.'), function(property) {
           value = value[property];
         });
         return value;

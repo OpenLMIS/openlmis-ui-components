@@ -6,28 +6,21 @@
         .module('openlmis.requisitions')
         .controller('ProductGridCtrl', productGridCtrl);
 
-    productGridCtrl.$inject = ['$scope', '$filter', 'CalculationFactory', 'bootbox', '$rootScope', '$templateRequest', '$compile'];
+    productGridCtrl.$inject = ['$scope', '$stateParams', '$filter', 'CalculationFactory', 'bootbox', '$rootScope', '$templateRequest', '$compile'];
 
-    function productGridCtrl($scope, $filter, CalculationFactory, bootbox, $rootScope, $templateRequest, $compile) {
+    function productGridCtrl($scope, $stateParams, $filter, CalculationFactory, bootbox, $rootScope, $templateRequest, $compile) {
 
         var dialog;
 
         $scope.getTotalLossesAndAdjustments = getTotalLossesAndAdjustments;
         $scope.showLossesAndAdjustments = showLossesAndAdjustments;
+        $scope.nonFullSupply = $stateParams.nonFullSupply;
+        $scope.getCategories = getCategories;
+        $scope.getColumns = getColumns;
+        $scope.gridVisible = gridVisible;
+        $scope.hideLineItem = hideLineItem;
 
-        $scope.ngModel.$getColumnTemplates().then(function(columnTemplates) {
-            $scope.columns = columnTemplates;
-            $scope.visibleColumns = [];
-            angular.forEach($scope.columns, function(column) {
-                if (column.display) {
-                    $scope.visibleColumns.push(column);
-                }
-            })
-        }).finally(function() {
-            $scope.templateLoaded = true;
-        });
-
-        $scope.ngModel.$getStockAdjustmentReasons().then(function(stockAdjustmentReasons) {
+        $scope.requisition.$getStockAdjustmentReasons().then(function(stockAdjustmentReasons) {
             $scope.stockAdjustmentReasons = stockAdjustmentReasons;
         });
 
@@ -49,7 +42,7 @@
             scope.currentRnrLineItem = $scope.currentRnrLineItem;
             scope.adjustment = $scope.adjustment
 
-            $templateRequest('requisitions/product-grid/losses-and-adjustments.html').then(function(html){
+            $templateRequest('requisitions/requisition/losses-and-adjustments/losses-and-adjustments.html').then(function(html){
                 dialog = bootbox.dialog({
                     message: $compile(html)(scope),
                     backdrop: true,
@@ -95,6 +88,20 @@
             $scope.currentRnrLineItem.totalLossesAndAdjustments = CalculationFactory.totalLossesAndAdjustments(
                 $scope.currentRnrLineItem, $scope.stockAdjustmentReasons
             );
+        }
+
+        function hideLineItem(category, lineItem) {
+            var id = category.lineItems.indexOf(lineItem);
+            category.lineItems[id].orderableProduct.$visible = true;
+            category.lineItems.splice(id, 1);
+        }
+
+        function gridVisible() {
+            return !$scope.nonFullSupply || $scope.requisition.$nonFullSupplyCategories.length;
+        }
+
+        function getCategories() {
+            return $scope.nonFullSupply ? $scope.requisition.$nonFullSupplyCategories : $scope.requisition.$fullSupplyCategories;
         }
 
     }

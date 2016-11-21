@@ -1,0 +1,29 @@
+.add-product-modal {
+
+	form {
+		overflow: hidden;
+
+		.ng-touched.ng-invalid {
+			border-color: $red;
+
+			&:focus {
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+			}
+		}
+
+		button {
+			@extend .btn;
+			margin-left: 1em;
+			float: right;
+		}
+
+		button.cancel {
+			@include button-color($gray);
+		}
+
+		button.add-product {
+			@include button-color($green);
+		}
+	}
+
+}

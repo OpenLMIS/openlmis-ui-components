@@ -10,7 +10,9 @@
 
 describe('RequisitionFactory', function() {
 
-    var $rootScope, $httpBackend, requisitionFactory, q, columnTemplateFactory, allStatuses, requisitionUrl, openlmisUrl;
+    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrl, openlmisUrl;
+
+    var TemplateSpy;
 
     var facility = {
             id: '1',
@@ -26,7 +28,8 @@ describe('RequisitionFactory', function() {
             status: 'INITIATED',
             facility: facility,
             program: program,
-            supplyingFacility: facility
+            supplyingFacility: facility,
+            requisitionLineItems: []
         },
         stockAdjustmentReason = {
             program: program,
@@ -56,17 +59,35 @@ describe('RequisitionFactory', function() {
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, OpenlmisURL, ColumnTemplateFactory, Status, $q){
+    beforeEach(module(function($provide){
+        var template = jasmine.createSpyObj('template', ['getColumns']),
+            TemplateSpy = jasmine.createSpy('Template').andReturn(template);
+
+        template.getColumns.andCallFake(function(nonFullSupply) {
+            return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
+        })
+
+    	$provide.service('Template', function(){
+    		return TemplateSpy;
+    	});
+    }));
+
+    beforeEach(inject(function(CategoryFactory) {
+        spyOn(CategoryFactory, 'groupFullSupplyLineItems').andReturn(fullSupplyCategories());
+        spyOn(CategoryFactory, 'groupNonFullSupplyLineItems').andReturn(nonFullSupplyCategories());
+        spyOn(CategoryFactory, 'groupProducts').andReturn([]);
+    }));
+
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, OpenlmisURL, Status, $q){
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         requisitionFactory = RequisitionFactory;
         requisitionUrl = RequisitionURL;
         openlmisUrl = OpenlmisURL;
         allStatuses = Status;
-        columnTemplateFactory = ColumnTemplateFactory;
         q = $q;
 
-        requisitionFactory(requisition);
+        requisitionFactory(requisition, requisitionTemplate, {});
     }));
 
     it('should submit requisition', function() {
@@ -168,31 +189,6 @@ describe('RequisitionFactory', function() {
         expect(angular.toJson(data)).toEqual(angular.toJson([stockAdjustmentReason]));
     });
 
-    it('should get column templates', function() {
-        var data;
-
-        httpBackend.when('GET', requisitionUrl
-        ('/api/requisitionTemplates/search?program=' + program.id))
-        .respond(200, requisitionTemplate);
-
-        requisition.$getColumnTemplates().then(function(response) {
-            data = response;
-        });
-
-        var result = [{
-            name:'begginingBalance',
-            type: 'NUMERIC',
-            source: 'USER_INPUT',
-            label: 'BG',
-            required: true
-        }];
-
-        httpBackend.flush();
-        $rootScope.$apply();
-
-        expect(angular.toJson(data)).toEqual(angular.toJson(result));
-    });
-
     it('should return true if requisition status is initiated', function() {
         requisition.status = allStatuses.INITIATED;
 
@@ -261,5 +257,66 @@ describe('RequisitionFactory', function() {
         var isValid = requisition.$isValid();
 
         expect(isValid).toBe(true);
+
+        requisition.$fullSupplyCategories.forEach(function(category) {
+            category.lineItems.forEach(function(lineItem) {
+                expect(lineItem.$areColumnsValid)
+                    .toHaveBeenCalledWith(requisition.$template.getColumns());
+            });
+        });
+
+        requisition.$nonFullSupplyCategories.forEach(function(category) {
+            category.lineItems.forEach(function(lineItem) {
+                expect(lineItem.$areColumnsValid)
+                    .toHaveBeenCalledWith(requisition.$template.getColumns(true));
+            });
+        });
     });
+
+    function fullSupplyCategories() {
+        return [
+            category('CategoryOne', [lineItemSpy('One'), lineItemSpy('Two')]),
+            category('CategoryTwo', [lineItemSpy('Three'), lineItemSpy('Four')])
+        ];
+    }
+
+    function nonFullSupplyCategories() {
+        return [
+            category('CategoryThree', [lineItemSpy('Five'), lineItemSpy('Six')]),
+            category('CategoryFour', [lineItemSpy('Seven'), lineItemSpy('Eight')])
+        ];
+    }
+
+    function nonFullSupplyColumns() {
+        return [
+            column('Three'),
+            column('Four')
+        ];
+    }
+
+    function fullSupplyColumns() {
+        return [
+            column('One'),
+            column('Two')
+        ];
+    }
+
+    function column(suffix) {
+        return {
+            name: 'Column' + suffix
+        };
+    }
+
+    function category(name, lineItems) {
+        return {
+            name: name,
+            lineItems: lineItems
+        };
+    }
+
+    function lineItemSpy(suffix) {
+        var lineItemSpy = jasmine.createSpyObj('lineItem' + suffix, ['$areColumnsValid']);
+        lineItemSpy.$areColumnsValid.andReturn(true);
+        return lineItemSpy;
+    }
 });

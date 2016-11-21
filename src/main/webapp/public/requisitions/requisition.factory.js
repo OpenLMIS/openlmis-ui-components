@@ -1,14 +1,14 @@
 (function() {
-	
-	'use strict';
 
-	angular
-		.module('openlmis.requisitions')
-		.factory('RequisitionFactory', requisitionFactory);
+  'use strict';
 
-  requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'ColumnTemplateFactory', 'LineItemFactory', 'Status', 'Source', 'Column'];
+  angular
+    .module('openlmis.requisitions')
+    .factory('RequisitionFactory', requisitionFactory);
 
-  function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, ColumnTemplateFactory, LineItemFactory, Status, Source, Column) {
+  requisitionFactory.$inject = ['$resource', 'OpenlmisURL', 'RequisitionURL', 'Template', 'LineItemFactory', 'CategoryFactory', 'Status', 'Source'];
+
+  function requisitionFactory($resource, OpenlmisURL, RequisitionURL, Template, LineItemFactory, CategoryFactory, Status, Source) {
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getStockAdjustmentReasonsByProgram': {
         url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
@@ -36,51 +36,37 @@
       }
     });
 
-    return extendRequisition;
+    return requisition;
 
-    function extendRequisition(requisition) {
-      requisition.$getColumnTemplates = getColumnTemplates;
-      requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
-      requisition.$columnTemplates = columnTemplates();
-      requisition.$authorize = authorize;
-      requisition.$save = save;
-      requisition.$submit = submit;
-      requisition.$remove = remove;
-      requisition.$approve = approve;
-      requisition.$reject = reject;
-      requisition.$isValid = isValid;
-      requisition.$isInitiated = isInitiated;
-      requisition.$isSubmitted = isSubmitted;
-      requisition.$isApproved = isApproved;
-      requisition.$isAuthorized = isAuthorized;
-      angular.forEach(requisition.requisitionLineItems, LineItemFactory);
-      return requisition;
-    }
+    function requisition(requisition, template, approvedProducts) {
+        var lineItems = requisition.requisitionLineItems,
+            programId = requisition.program.id;
 
-    function getColumnTemplates() {
-      var deferred = $q.defer(),
-          requisition = this;
+        requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
+        requisition.$authorize = authorize;
+        requisition.$save = save;
+        requisition.$submit = submit;
+        requisition.$remove = remove;
+        requisition.$approve = approve;
+        requisition.$reject = reject;
+        requisition.$isValid = isValid;
+        requisition.$isInitiated = isInitiated;
+        requisition.$isSubmitted = isSubmitted;
+        requisition.$isApproved = isApproved;
+        requisition.$isAuthorized = isAuthorized;
+        requisition.$template = new Template(template, requisition);
+        requisition.$fullSupplyCategories = CategoryFactory.groupFullSupplyLineItems(lineItems, programId);
+        requisition.$nonFullSupplyCategories = CategoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
+        requisition.$approvedCategories= CategoryFactory.groupProducts(lineItems, approvedProducts);
+        requisition.requisitionLineItems.forEach(LineItemFactory);
 
-      ColumnTemplateFactory.getColumnTemplates(this).then(function(columnTemplates) {
-        deferred.resolve(requisition.$columnTemplates(columnTemplates));
-      }, function(error) {
-        deferred.reject(error);
-      });
-
-      return deferred.promise;
+        return requisition;
     }
 
     function getStockAdjustmentReasons() {
       return resource.getStockAdjustmentReasonsByProgram({
         program: this.program.id
       }).$promise;
-    }
-
-    function columnTemplates() {
-      var columnTemplates = [];
-      return function(newColumnTemplates) {
-        return arguments.length ? (columnTemplates = newColumnTemplates) : columnTemplates;
-      };
     }
 
     function authorize() {
@@ -136,20 +122,29 @@
     }
 
     function isValid() {
-      var columnTemplates = this.$columnTemplates(),
-          isValid = true;
+      var isValid = true,
+      fullSupplyColumns = this.$template.getColumns(),
+      nonFullSupplyColumns = this.$template.getColumns(true);
 
-      angular.forEach(this.requisitionLineItems, function(lineItem) {
-        isValid = lineItem.$areColumnsValid(columnTemplates) && isValid;
+      this.$fullSupplyCategories.forEach(function(category) {
+        category.lineItems.forEach(function(lineItem) {
+          isValid = lineItem.$areColumnsValid(fullSupplyColumns) && isValid;
+        });
+      });
+
+      this.$nonFullSupplyCategories.forEach(function(category) {
+        category.lineItems.forEach(function(lineItem) {
+          isValid = lineItem.$areColumnsValid(nonFullSupplyColumns) && isValid;
+        });
       });
 
       return isValid;
     }
 
     function transformRequisition(requisition) {
-      var columnTemplates = requisition.$columnTemplates();
+      var columns = requisition.$template.columns;
       angular.forEach(requisition.requisitionLineItems, function(lineItem) {
-        transformLineItem(lineItem, columnTemplates);
+        transformLineItem(lineItem, columns);
       })
       return angular.toJson(requisition);
     }
@@ -157,7 +152,7 @@
     function transformLineItem(lineItem, columns) {
       angular.forEach(columns, function(column) {
         if (!column.display || column.source === Source.CALCULATED) {
-          lineItem[column.name] = null;  
+          lineItem[column.name] = null;
         }
       });
     }

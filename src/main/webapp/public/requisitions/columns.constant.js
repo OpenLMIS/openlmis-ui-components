@@ -4,9 +4,9 @@
 
   angular
     .module('openlmis.requisitions')
-    .constant('Column', column());
+    .constant('Columns', columns());
 
-  function column() {
+  function columns() {
     return {
       APPROVED_QUANTITY: 'approvedQuantity',
       BEGINNING_BALANCE: 'beginningBalance',
@@ -20,8 +20,9 @@
       TOTAL_LOSSES_AND_ADJUSTMENTS: 'totalLossesAndAdjustments',
       TOTAL: 'total',
       PACKS_TO_SHIP: 'packsToShip',
-      PRODUCT_CODE: 'productCode',
-      PRODUCT_NAME: 'productName'
+      PRODUCT_CODE: 'orderableProduct.productCode',
+      PRODUCT_NAME: 'orderableProduct.name',
+      UNIT_UNIT_OF_ISSUE: 'dispensable'
     };
   }
 

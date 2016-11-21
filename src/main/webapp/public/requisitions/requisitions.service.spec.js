@@ -9,7 +9,8 @@
  */
 describe('RequisitionService', function() {
 
-    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, ngBootbox, q, allStatuses, requisitionUrl,
+    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, ngBootbox, q,
+        allStatuses, requisitionUrl, openlmisUrl,
         startDate = [2016, 4, 30, 16, 21, 33],
         endDate = [2016, 4, 30, 16, 21, 33],
         startDate1 = new Date(),
@@ -42,7 +43,13 @@ describe('RequisitionService', function() {
             programId: program.id,
             processingPeriodId: period.id,
             createdDate: createdDate,
-            supplyingFacility: '2'
+            supplyingFacility: '2',
+            program: {
+                id: 'program-id'
+            },
+            facility: {
+                id: 'facility-id'
+            }
         },
         requisitionDto = {
             id: '2',
@@ -69,27 +76,47 @@ describe('RequisitionService', function() {
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, Status, RequisitionFactory, DateUtils, $ngBootbox, $q, $templateCache) {
-        httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-        requisitionService = RequisitionService;
-        allStatuses = Status.$toList();
-        requisitionFactory = RequisitionFactory;
-        dateUtils = DateUtils;
-        ngBootbox = $ngBootbox;
-        q = $q;
-        requisitionUrl = RequisitionURL;
-
-        $templateCache.put('common/notification-modal.html', "something");
+    beforeEach(module(function($provide){
+        var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition);
+    	$provide.service('RequisitionFactory', function() {
+            return requisitionFactorySpy;
+        });
     }));
 
+    beforeEach(
+        inject(
+            function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
+                     Status, RequisitionFactory, DateUtils, $ngBootbox, $q, $templateCache) {
+
+                httpBackend = _$httpBackend_;
+                $rootScope = _$rootScope_;
+                requisitionService = RequisitionService;
+                allStatuses = Status.$toList();
+                requisitionFactory = RequisitionFactory;
+                dateUtils = DateUtils;
+                ngBootbox = $ngBootbox;
+                q = $q;
+                requisitionUrl = RequisitionURL;
+                openlmisUrl = OpenlmisURL;
+
+                $templateCache.put('common/notification-modal.html', "something")
+            }
+        )
+    );
+
     it('should get requisition by id', function() {
+        var getRequisitionUrl = '/api/requisitions/' + requisition.id;
+        var getTemplateUrl = '/api/requisitionTemplates/search?program=' + requisition.program.id;
+        var getProductsUrl = 'referencedata//api/facilities/' + requisition.facility.id +
+                             '/approvedProducts?fullSupply=false&programId=' +
+                             requisition.program.id;
+
+        httpBackend.when('GET', requisitionUrl(getRequisitionUrl)).respond(200, requisition);
+        httpBackend.when('GET', requisitionUrl(getTemplateUrl)).respond(200, {});
+        httpBackend.when('GET', openlmisUrl(getProductsUrl)).respond(200, []);
+
         var data;
-
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/' + requisition.id))
-        .respond(200, requisition);
-
-        requisitionService.get('1').$promise.then(function(response) {
+        requisitionService.get('1').then(function(response) {
             data = response;
         });
 

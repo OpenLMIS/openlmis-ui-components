@@ -1,5 +1,5 @@
 (function() {
-	
+
 	'use strict';
 
 	/**
@@ -20,26 +20,25 @@
 		.module('openlmis.requisitions')
 		.directive('productGridCell', productGridCell);
 
-	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'Column', 'Source', 'Type'];
+	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'Columns', 'Source', 'Type'];
 
-	function productGridCell($q, $templateRequest, $compile, Column, Source, Type) {
-		var directive = {
-			restrict: 'A',
-			require: '^productGrid',
-			link: link
-		};
-		return directive;
+  	function productGridCell($q, $templateRequest, $compile, Columns, Source, Type) {
+    	var directive = {
+      		restrict: 'A',
+      		link: link
+    	};
+    	return directive;
 
-		function link(scope, element) {
-			var requisition = scope.ngModel,
-					column = scope.column;
+    	function link(scope, element) {
+      		var requisition = scope.requisition,
+          		column = scope.column;
 
 			scope.isReadOnly = isReadOnly();
 			scope.validate = validate;
 
 			$q.all([
-				$templateRequest('requisitions/product-grid/product-grid-cell.html'),
-				$templateRequest('requisitions/product-grid/product-grid-adjustment-cell.html')
+				$templateRequest('requisitions/requisition/product-grid/product-grid-cell.html'),
+				$templateRequest('requisitions/requisition/losses-and-adjustments/product-grid-adjustment-cell.html')
 			]).then(
 				function (templates) {
 					if (!isLossesAndAdjustmentCell(scope) || scope.isReadOnly) {
@@ -54,22 +53,22 @@
 				}
 			);
 
-			angular.forEach(column.dependencies, function(dependency) {
-				scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
-					if (newValue !== oldValue) {
-						validate();
-					}
-				});
-			});
+	      	angular.forEach(column.dependencies, function(dependency) {
+	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
+	          		if (newValue !== oldValue) {
+	            		validate();
+	          		}
+	        	});
+	      	});
 
-			function validate() {
-				scope.lineItem.$isColumnValid(column, scope.columns);
-			}
+      		function validate() {
+        		scope.lineItem.$isColumnValid(column, scope.requisition.$template.columns);
+      		}
 
 			function isReadOnly() {
 				if (requisition.$isApproved()) return true;
 				if (requisition.$isAuthorized()) {
-					return [Column.APPROVED_QUANTITY, Column.REMARKS].indexOf(column.name) === -1;
+					return [Columns.APPROVED_QUANTITY, Columns.REMARKS].indexOf(column.name) === -1;
 				}
 				return column.source !== Source.USER_INPUT;
 			}

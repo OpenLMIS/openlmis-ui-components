@@ -6,25 +6,25 @@
    * @ngdoc service
    * @name openlmis.requisitions.CalculationFactory
    *
-   * @description 
+   * @description
    * Responsible for storing all the calculations related with the line item and product grid.
    */
   angular
     .module('openlmis.requisitions')
     .factory('CalculationFactory', calculationFactory);
 
-  calculationFactory.$inject = ['Column', '$filter', 'Status', '$window'];
+  calculationFactory.$inject = ['Columns', '$filter', 'Status', '$window'];
 
-  function calculationFactory(Column, $filter, Status, $window) {
-    var A = Column.BEGINNING_BALANCE,
-        B = Column.TOTAL_RECEIVED_QUANTITY,
-        C = Column.TOTAL_CONSUMED_QUANTITY,
-        D = Column.TOTAL_LOSSES_AND_ADJUSTMENTS,
-        E = Column.STOCK_ON_HAND,
-        Y = Column.TOTAL,
-        K = Column.APPROVED_QUANTITY,
-        J = Column.REQUESTED_QUANTITY,
-        V = Column.PACKS_TO_SHIP;
+  function calculationFactory(Columns, $filter, Status, $window) {
+    var A = Columns.BEGINNING_BALANCE,
+        B = Columns.TOTAL_RECEIVED_QUANTITY,
+        C = Columns.TOTAL_CONSUMED_QUANTITY,
+        D = Columns.TOTAL_LOSSES_AND_ADJUSTMENTS,
+        E = Columns.STOCK_ON_HAND,
+        Y = Columns.TOTAL,
+        K = Columns.APPROVED_QUANTITY,
+        J = Columns.REQUESTED_QUANTITY,
+        V = Columns.PACKS_TO_SHIP;
 
     var factory = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
@@ -40,16 +40,16 @@
      * @name totalConsumedQuantity
      * @methodOf openlmis.requisitions.CalculationFactory
      *
-     * @description 
+     * @description
      * Calculates the value of the Total Consumed Quantity column based on the given line item.
-     *  
+     *
      * @param  {Object} lineItem the line item to calculate the value from
      * @return {Number}          the calculated Total Consumed Quantity value
      */
     function calculateTotalConsumedQuantity(lineItem) {
       return lineItem[A] + lineItem[B] + lineItem[D] - lineItem[E];
     }
-    
+
     /**
      * @ngdoc function
      * @name  stockOnHand
@@ -57,7 +57,7 @@
      *
      * @description
      * Calculates the value of the Stock On Hand column based on the given line item.
-     * 
+     *
      * @param  {Object} lineItem the line item to calculate the value from
      * @return {Number}          the calculated Stock On Hand value
      */
@@ -70,9 +70,9 @@
      * @name  total
      * @methodOf openlmis.requisitions.CalculationFactory
      *
-     * @description 
+     * @description
      * Calculates the value of the Total column based on the given line item.
-     * 
+     *
      * @param  {Object} lineItem the line item to calculate the value from
      * @return {Number}          the calculated Total value
      */
@@ -87,7 +87,7 @@
      *
      * @description
      * Calculates the value of the Total Losses and Adjustments column based on the given line item and adjustment reasons.
-     * 
+     *
      * @param  {Object} lineItem               the line item to calculate the value from
      * @param  {List}   stockAdjustmentReasons the list of stock adjustment reasons
      * @return {Number}                        the calculated Total Losses and Adjustments value
@@ -113,9 +113,9 @@
      * @name packsToShip
      * @methodOf openlmis.requisitions.CalculationFactory
      *
-     * @description 
+     * @description
      * Calculates the value of the Packs to Ship column based on the given line item and requisition status.
-     * 
+     *
      * @param  {Object} lineItem the line item to calculate the value from
      * @param  {String} status   the status of the requisition
      * @return {Number}          the calculated Packs to Ship value
@@ -150,7 +150,7 @@
      *
      * @describtion
      * Returns the value of the order quantity based on the requisitions status.
-     * 
+     *
      * @param  {Object} lineItem the line item to get the order quantity from
      * @param  {String} status   the status of the requisitions
      * @return {Number}          the value of the order quantity

@@ -1,5 +1,5 @@
 (function() {
-  
+
     'use strict';
 
     angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);

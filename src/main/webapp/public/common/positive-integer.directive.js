@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.requisitions.positiveInteger
+	 * @name openlmis-core.positiveInteger
 	 *
 	 * @description
 	 * Restricts the ngModel to only allow positive interegers.
@@ -16,7 +16,7 @@
 	 * ```
 	 */
 	angular
-		.module('openlmis.requisitions')
+		.module('openlmis-core')
 		.directive('positiveInteger', positiveInteger);
 
 	function positiveInteger() {
@@ -29,12 +29,12 @@
 		function link(scope, element, attrs, modelCtrl) {
 			modelCtrl.$parsers.push(function (inputValue) {
 
-				if (inputValue == undefined) return '' 
-				var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
+				if (inputValue == undefined) return ''
+				var transformedInput = inputValue.replace(/[^0-9]/g, '');
 				if (transformedInput!=inputValue) {
 					modelCtrl.$setViewValue(transformedInput);
 					modelCtrl.$render();
-				}         
+				}
 
 				return transformedInput ? parseInt(transformedInput) : null;
 			});

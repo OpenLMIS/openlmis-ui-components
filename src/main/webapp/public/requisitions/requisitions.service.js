@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .service('RequisitionService', requisitionService);
 
-    requisitionService.$inject = ['$q', '$resource', 'messageService', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', '$ngBootbox', 'Notification', 'DateUtils'];
+    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', '$ngBootbox', 'Notification', 'DateUtils'];
 
-    function requisitionService($q, $resource, messageService, RequisitionURL, RequisitionFactory, Source, Column, $ngBootbox, Notification, DateUtils) {
+    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL, RequisitionFactory, Source, Column, $ngBootbox, Notification, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -27,6 +27,10 @@
                 isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
+            'getTemplate': {
+                url: RequisitionURL('/api/requisitionTemplates/search'),
+                method: 'GET'
+            },
             'forConvert': {
                 url: RequisitionURL('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
@@ -37,6 +41,11 @@
                 url: RequisitionURL('/api/requisitions/convertToOrder'),
                 method: 'POST',
                 transformRequest: transformRequest
+            },
+            'getApprovedProducts': {
+                url: OpenlmisURL('referencedata//api/facilities/:id/approvedProducts'),
+                method: 'GET',
+                isArray: true
             }
         });
 
@@ -51,9 +60,36 @@
         return service;
 
         function get(id) {
-            var response = resource.get({id: id});
-            response.$promise.then(RequisitionFactory);
-            return response;
+            var deferred = $q.defer();
+
+            resource.get({
+                id: id
+            }).$promise.then(function(requisition) {
+                $q.all([
+                    resource.getTemplate({
+                        program: requisition.program.id
+                    }).$promise,
+                    resource.getApprovedProducts({
+                        id: requisition.facility.id,
+                        fullSupply: false,
+                        programId: requisition.program.id
+                    }).$promise
+                ]).then(function(responses) {
+                    resolve(requisition, responses[0], responses[1]);
+                }, function() {
+                    resolve(requisition);
+                });
+            }, error);
+
+            return deferred.promise;
+
+            function resolve(requisition, template, approvedProducts) {
+                deferred.resolve(RequisitionFactory(requisition, template, approvedProducts));
+            }
+
+            function error() {
+                deferred.reject();
+            }
         }
 
         function initiate(facility, program, suggestedPeriod, emergency) {

@@ -15,29 +15,6 @@
             template: '<div ui-view></div>'
         });
 
-        $stateProvider.state('requisitions.requisition', {
-            url: '^/requisition/:rnr',
-            controller: 'RequisitionCtrl',
-            templateUrl: 'requisitions/requisition.html',
-            resolve: {
-                requisition: function ($location, $q, $stateParams, RequisitionService) {
-                    var deferred = $q.defer();
-
-                    RequisitionService.get($stateParams.rnr).$promise.then(function(response) {
-                        deferred.resolve(response);
-                    }, function(response) {
-                        deferred.reject();
-                        return $location.url('/404');
-                    });
-
-                    return deferred.promise;
-                }
-            },
-            params: {
-                message: undefined
-            }
-        });
-
         $stateProvider.state('requisitions.initRnr', {
             url: '/initialize',
             showInNavigation: true,
