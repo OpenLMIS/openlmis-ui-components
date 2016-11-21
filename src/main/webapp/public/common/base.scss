@@ -155,3 +155,11 @@ select {
     @include transform(scale(0));
   }
 }
+
+.fadeIn {
+  @include animation(fade-in 500ms);
+}
+
+.fadeOut {
+  @include animation(fade-out 500ms);
+}

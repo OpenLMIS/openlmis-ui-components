@@ -69,7 +69,7 @@
                 }
 
                 function closeNotification() {
-                    element.css('-webkit-animation', 'fade-out 500ms');
+                    element.addClass('fadeOut');
                     element.bind('webkitAnimationEnd',function(){
                         element.remove();
                     });
