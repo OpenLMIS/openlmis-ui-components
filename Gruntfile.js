@@ -85,6 +85,27 @@ module.exports = function(grunt) {
         singleRun: false
       }
     },
+    appcache: {
+      options: {
+        basePath: './build/public'
+      },
+      all: {
+        dest: "./build/public/manifest.appcache",
+        cache: {
+          patterns: [
+            './build/public/openlmis.js',
+            './build/public/common/**/*',
+            './build/public/dashboard/**/*',
+            './build/public/fonts/**/*',
+            './build/public/*.css',
+            './build/public/images/**/*',
+            './build/public/messages/**/*'
+          ],
+          literals: '/'
+        },
+        network: '*'
+      }
+    },
     replace: {
       serverurl: {
         src: [config.app.dest + '/public/**/*.js'],
@@ -428,7 +449,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-  var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace'];
+  var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
   var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles', 'gulp:styleguide-index-replace'];
 
   var fullBuildTasks = [].concat(buildTasks);

@@ -42,6 +42,7 @@
     "matchdep": "~0.1.2",
     "node-bourbon": "^4.2.8",
     "sc5-styleguide": "^1.1.2",
-    "wiredep": "^4.0.0"
+    "wiredep": "^4.0.0",
+    "grunt-appcache": "^0.2.0"
   }
 }
