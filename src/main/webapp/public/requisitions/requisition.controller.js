@@ -27,7 +27,8 @@
         /**
          * @ngdoc property
          * @name $scope.requisition
-         * @propertyOf openlmis-requisition.RequisitionController
+         * @propertyOf openlmis.requisitions.RequisitionController
+         * @type {Object}
          *
          * @description
          * Holds requisition.
@@ -37,10 +38,11 @@
         /**
         * @ngdoc property
         * @name $scope.requisitionType
-        * @propertyOf openlmis-requisition.RequisitionController
+        * @propertyOf openlmis.requisitions.RequisitionController
+        * @type {String}
         *
         * @description
-        * Holds requisition type (regular/emergency).
+        * Holds message key to display, depending on the requisition type (regular/emergency).
         */
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
 
@@ -62,7 +64,7 @@
          /**
          * @ngdoc function
          * @name saveRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for saving requisition. If the requisition fails to save, an error
@@ -81,7 +83,7 @@
         /**
          * @ngdoc function
          * @name submitRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for submitting requisition. Displays confirmation dialog, and checks
@@ -113,7 +115,7 @@
         /**
          * @ngdoc function
          * @name authorizeRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for authorizing requisition. Displays confirmation dialog, and checks
@@ -147,7 +149,7 @@
         /**
          * @ngdoc function
          * @name removeRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for removing requisition. Displays confirmation dialog before deletion.
@@ -172,7 +174,7 @@
         /**
          * @ngdoc function
          * @name approveRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for approving requisition. Displays confirmation dialog, and checks
@@ -202,7 +204,7 @@
         /**
          * @ngdoc function
          * @name rejectRnr
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Responsible for rejecting requisition. Displays confirmation dialog before rejection.
@@ -227,11 +229,10 @@
         /**
          * @ngdoc function
          * @name periodDisplayName
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
-         * Creates reporting period through joining requisition's processing period's start date
-         * with its end date.
+         * Creates human readable duration of reporting period.
          *
          * @returns {string} Reporting period.
          *
@@ -244,7 +245,7 @@
         /**
          * @ngdoc function
          * @name displayAuthorize
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Determines whether to display authorize button or not. Returns true only if requisition
@@ -259,7 +260,7 @@
         /**
          * @ngdoc function
          * @name displaySubmit
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Determines whether to display submit button or not. Returns true only if requisition
@@ -274,13 +275,13 @@
         /**
          * @ngdoc function
          * @name displayApproveAndReject
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
-         * Determines whether to display approveAndReject button or not. Returns true only if
+         * Determines whether to display approve and reject buttons or not. Returns true only if
          * requisition is authorized and user has permission to approve requisition.
          *
-         * @return {boolean} should approveAndReject button be displayed
+         * @return {boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
             return $scope.requisition.$isAuthorized() && AuthorizationService.hasPermission("APPROVE_REQUISITION");
@@ -289,13 +290,13 @@
         /**
          * @ngdoc function
          * @name displayDelete
-         * @methodOf openlmis-requisition.RequisitionController
+         * @methodOf openlmis.requisitions.RequisitionController
          *
          * @description
          * Determines whether to display delete button or not. Returns true only if requisition
          * is initiated and user has permission to delete requisition.
          *
-         * @return {boolean} should display button be displayed
+         * @return {boolean} should delete button be displayed
          */
         function displayDelete() {
             return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("DELETE_REQUISITION");
