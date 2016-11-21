@@ -10,14 +10,44 @@
 (function() {
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis-requisition.RequisitionCtrl
+     *
+     * @description
+     * Controller for managing requisitions.
+     *
+     */
+
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
     RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', '$ngBootbox', 'LoadingModalService', 'Notification'];
 
     function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, LoadingModalService, Notification) {
 
+        /**
+         *
+         * @ngdoc property
+         * @name $scope.requisition
+         * @propertyOf openlmis-requisition.RequisitionCtrl
+         * @returns {Object} Requisition
+         *
+         */
         $scope.requisition = requisition;
+
+        /**
+        *
+        * @ngdoc property
+        * @name $scope.requisitionType
+        * @propertyOf openlmis-requisition.RequisitionCtrl
+        *
+        * @description
+        * Holds requisition type (regular/emergency).
+        */
         $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
+
+        // Functions
+
         $scope.saveRnr = saveRnr;
         $scope.submitRnr = submitRnr;
         $scope.authorizeRnr = authorizeRnr;
@@ -31,6 +61,16 @@
         $scope.displayApproveAndReject = displayApproveAndReject;
 
 
+         /**
+         * @ngdoc function
+         * @name saveRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for saving requisition. If the requisition fails to save, an error
+         * notification modal will be displayed.
+         * Otherwise, a success notification modal will be shown.
+         */
         function saveRnr() {
             LoadingModalService.open();
             save().then(function(response) {
@@ -40,6 +80,17 @@
             });
         };
 
+        /**
+         * @ngdoc function
+         * @name submitRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for submitting requisition. Displays confirmation dialog, and checks
+         * requisition validity before submission. If the requisition is not valid, fails to save or
+         * an error occurs during submission, an error notification modal will be displayed.
+         * Otherwise, a success notification modal will be shown.
+         */
         function submitRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
                 if (requisition.$isValid()) {
@@ -61,6 +112,18 @@
             });    
         };
 
+        /**
+         * @ngdoc function
+         * @name authorizeRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for authorizing requisition. Displays confirmation dialog, and checks
+         * requisition validity before authorization. If the requisition is not valid, fails to
+         * save or an error occurs during authorization, an error notification modal will be
+         * displayed.
+         * Otherwise, a success notification modal will be shown.
+         */
         function authorizeRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
                 if (requisition.$isValid()) {
@@ -83,6 +146,16 @@
             });
         };
 
+        /**
+         * @ngdoc function
+         * @name removeRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for removing requisition. Displays confirmation dialog before deletion.
+         * If an error occurs during authorization, it will display an error notification modal.
+         * Otherwise, a success notification modal will be shown.
+         */
         function removeRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation.deletion")).then(function() {
                 LoadingModalService.open();
@@ -98,6 +171,17 @@
             });
         };
 
+        /**
+         * @ngdoc function
+         * @name approveRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for approving requisition. Displays confirmation dialog, and checks
+         * requisition validity before approval. If the requisition is not valid or it fails to
+         * save, an error notification modal will be displayed.
+         * Otherwise, a success notification modal will be shown.
+         */
         function approveRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
                 if(requisition.$isValid()) {
@@ -117,6 +201,16 @@
              });
         };
 
+        /**
+         * @ngdoc function
+         * @name rejectRnr
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Responsible for rejecting requisition. Displays confirmation dialog before rejection.
+         * If an error occurs during rejecting it will display an error notification modal.
+         * Otherwise, a success notification modal will be shown.
+         */
         function rejectRnr() {
             $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
                 LoadingModalService.open();
@@ -132,23 +226,79 @@
             });
         };
 
+        /**
+         * @ngdoc function
+         * @name periodDisplayName
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Creates reporting period through joining requisition's processing period's start date
+         * with its end date.
+         *
+         * @returns {string} Reporting period.
+         *
+         */
         function periodDisplayName() {
             //TODO: This is a temporary solution.
             return $scope.requisition.processingPeriod.startDate.slice(0,3).join("/") + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join("/");
         };
 
+        /**
+         * @ngdoc function
+         * @name displayAuthorize
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display authorize button or not. Returns true only if requisition
+         * is submitted and user has permission to authorize requisition.
+         *
+         * @return {boolean} should authorize button be displayed
+         */
         function displayAuthorize() {
             return $scope.requisition.$isSubmitted() && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
         };
 
+        /**
+         * @ngdoc function
+         * @name displaySubmit
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display submit button or not. Returns true only if requisition
+         * is initiated and user has permission to create requisition.
+         *
+         * @return {boolean} should submit button be displayed
+         */
         function displaySubmit() {
             return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("CREATE_REQUISITION");
         };
 
+        /**
+         * @ngdoc function
+         * @name displayApproveAndReject
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display approveAndReject button or not. Returns true only if
+         * requisition is authorized and user has permission to approve requisition.
+         *
+         * @return {boolean} should approveAndReject button be displayed
+         */
         function displayApproveAndReject() {
             return $scope.requisition.$isAuthorized() && AuthorizationService.hasPermission("APPROVE_REQUISITION");
         };
 
+        /**
+         * @ngdoc function
+         * @name displayDelete
+         * @methodOf openlmis-requisition.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display delete button or not. Returns true only if requisition
+         * is initiated and user has permission to delete requisition.
+         *
+         * @return {boolean} should display button be displayed
+         */
         function displayDelete() {
             return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
