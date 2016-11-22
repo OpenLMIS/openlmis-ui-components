@@ -19,3 +19,17 @@
 	margin-right: 0.5em;
 	font-size: x-large;
 }
+
+.hide-notification {
+    right: 0px;
+    -webkit-animation: slide-out 0.5s forwards;
+    animation: slide-out 0.5s forwards;
+}
+
+@-webkit-keyframes slide-out {
+    100% { right: -400px; }
+}
+
+@keyframes slide-out {
+    100% { right: -400px; }
+}

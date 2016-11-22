@@ -69,7 +69,7 @@
                 }
 
                 function closeNotification() {
-                    element.addClass('fadeOut');
+                    element.addClass('hide-notification');
                     element.bind('webkitAnimationEnd',function(){
                         element.remove();
                     });
