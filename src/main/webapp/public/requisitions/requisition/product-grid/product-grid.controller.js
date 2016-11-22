@@ -46,7 +46,7 @@
                     message: $compile(html)(scope),
                     backdrop: true,
                     onEscape: true,
-                    closeButton: false,
+                    closeButton: true,
                     size: 'large'
                 });
             });
@@ -61,7 +61,7 @@
             $scope.currentRnrLineItem.stockAdjustments.push({
                  'reasonId': $scope.adjustment.reason.item.id,
                  'quantity': $scope.adjustment.quantity
-             })
+             });
         }
 
         function removeAdjustment(adjustment) {
