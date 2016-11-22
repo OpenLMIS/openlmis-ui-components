@@ -199,14 +199,16 @@ describe('RequisitionService', function() {
     it('should search requisitions with all params', function() {
         var data,
             statuses = [allStatuses[0].label, allStatuses[1].label],
-            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto))
+            emergency = true;
 
         httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
-            '&createdDateTo=' + endDate1.toISOString() + '&facility=' + facility.id + '&program=' + program.id +
+            '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + emergency +
+            '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
-        requisitionService.search(program.id, facility.id, statuses, null, startDate1.toISOString(),
+        requisitionService.search(program.id, facility.id, statuses, emergency, startDate1.toISOString(),
         endDate1.toISOString()).then(function(response) {
             data = response;
         });
