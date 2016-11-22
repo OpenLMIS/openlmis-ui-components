@@ -2,7 +2,7 @@
     "use strict";
 
     /**
-     * 
+     *
      * @ngdoc service
      * @name openlmis-core.Alert
      * @description
@@ -25,7 +25,7 @@
          * @param {String} message Primary message to display at the top
          * @param {String} additionalMessage Additional message to display below
          * @return {Promise} alert promise
-         * 
+         *
          * @description
          * Shows warning modal with custom message and returns promise.
          *
@@ -43,7 +43,7 @@
          * @methodOf openlmis-core.Alert
          * @param {String} message Message to display
          * @param {String} callback Function called after closing alert
-         * 
+         *
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
@@ -65,7 +65,7 @@
 
             function makeAlert(html) {
 
-                var alert, 
+                var alert,
                     scope = $rootScope.$new();
 
                 scope.icon = alertClass;
@@ -81,14 +81,14 @@
                     className: 'alert-modal'
                 });
                 alert.on('click.bs.modal', function(){
-                    callback();
+                    if(callback) callback();
                     alert.modal('hide');
                 });
                 alert.on('hidden.bs.modal', function(){
                     angular.element(document.querySelector('.alert-modal')).remove();
                 });
             }
-            
+
         }
 
         return {
