@@ -2,6 +2,13 @@
 
   'use strict';
 
+  /**
+   * @ngdoc service
+   * @name openlmis.requisitions.RequisitionFactory
+   *
+   * @description
+   * Responsible for storing all information related to the requisition.
+   */
   angular
     .module('openlmis.requisitions')
     .factory('RequisitionFactory', requisitionFactory);
@@ -63,64 +70,182 @@
         return requisition;
     }
 
+    /**
+     * @ngdoc function
+     * @name getStockAdjustmentReasons
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Retrieves stock adjustment reasons based on program.
+     *
+     * @return {*|Function} promise
+     */
     function getStockAdjustmentReasons() {
       return resource.getStockAdjustmentReasonsByProgram({
         program: this.program.id
       }).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name authorize
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function authorize() {
       return resource.authorize({
         id: this.id
       }, {}).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name remove
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function remove() {
       return resource.remove({
         id: this.id
       }).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name save
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function save() {
       return resource.save({
         id: this.id
       },this).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name submit
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function submit() {
       return resource.submit({
         id: this.id
       }, {}).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name approve
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function approve() {
       return resource.approve({
         id: this.id
       }, {}).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name reject
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     *
+     * @return {*|Function} promise
+     */
     function reject() {
       return resource.reject({
         id: this.id
       }, {}).$promise;
     }
 
+    /**
+     * @ngdoc function
+     * @name isInitiated
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Responsible for checking if requisition is initiated.
+     * Returns true only if requisition status equals initiated.
+     *
+     * @return {boolean} is requisition initiated
+     */
     function isInitiated() {
       return this.status === Status.INITIATED;
     }
 
+    /**
+     * @ngdoc function
+     * @name isSubmitted
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Responsible for checking if requisition is submitted.
+     * Returns true only if requisition status equals submitted.
+     *
+     * @return {boolean} is requisition submitted
+     */
     function isSubmitted() {
       return this.status === Status.SUBMITTED;
     }
 
+    /**
+     * @ngdoc function
+     * @name isAuthorized
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Responsible for checking if requisition is authorized.
+     * Returns true only if requisition status equals authorized.
+     *
+     * @return {boolean} is requisition authorized
+     */
     function isAuthorized() {
       return this.status === Status.AUTHORIZED;
     }
 
+    /**
+     * @ngdoc function
+     * @name isApproved
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Responsible for checking if requisition is approved.
+     * Returns true only if requisition status equals approved.
+     *
+     * @return {boolean} is requisition approved
+     */
     function isApproved() {
       return this.status === Status.APPROVED;
     }
 
+    /**
+     * @ngdoc function
+     * @name isValid
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     *
+     * @description
+     * Determines whether the requisition is valid based on line items' columns validity.
+     *
+     * @return {boolean} is requisition valid
+     */
     function isValid() {
       var isValid = true,
       fullSupplyColumns = this.$template.getColumns(),
@@ -141,6 +266,11 @@
       return isValid;
     }
 
+      /**
+       *
+       * @param requisition requisition which needs to be converted into a JSON-formatted string
+       * @return {string|string|undefined}
+       */
     function transformRequisition(requisition) {
       var columns = requisition.$template.columns;
       angular.forEach(requisition.requisitionLineItems, function(lineItem) {
@@ -148,6 +278,7 @@
       })
       return angular.toJson(requisition);
     }
+
 
     function transformLineItem(lineItem, columns) {
       angular.forEach(columns, function(column) {
