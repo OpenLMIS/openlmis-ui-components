@@ -1,0 +1,40 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+* Copyright © 2013 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
+ */
+describe("Alert", function() {
+
+    var timeout, alert, rootScope, Bootbox;
+
+    beforeEach(module('openlmis-core'));
+
+    beforeEach(inject(function(_$rootScope_, _$timeout_, Alert, $templateCache, bootbox) {
+        timeout = _$timeout_;
+        alert = Alert;
+        rootScope = _$rootScope_;
+        Bootbox = bootbox;
+
+        $templateCache.put('common/alert.html', '<div class="alert-modal"></div>');
+    }));
+
+    it('should close warning alert then call callback function after clicking on it', function() {
+        var callback = jasmine.createSpy();
+
+        alert.warning('some.message').then(callback);
+        angular.element(document.querySelector('.alert-modal')).trigger('click');
+        waitsFor(function() {
+            rootScope.$digest();
+            return callback.callCount > 0;
+        }, "Callback has not been executed.", 1000);
+         
+        runs(function() {
+            expect(callback).toHaveBeenCalled();
+        });
+    });
+
+});
