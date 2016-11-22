@@ -49,7 +49,6 @@
          *
          */
         function error(message, callback) {
-            console.log('alertClass');
             showAlert('glyphicon-remove-circle', callback, messageService.get(message));
         }
 
