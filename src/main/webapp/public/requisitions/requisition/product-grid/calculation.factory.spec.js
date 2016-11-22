@@ -59,7 +59,7 @@ describe('CalculationFactory', function() {
         it ('should round packs to ship if threshold is exceeded', function() {
             lineItem.requestedQuantity = 15;
             lineItem.orderableProduct.packSize = 10;
-            lineItem.orderableProduct.packRoundingThreshold = 5;
+            lineItem.orderableProduct.packRoundingThreshold = 4;
 
             expect(CalculationFactory.packsToShip(lineItem, Status.SUBMITTED)).toBe(2);
         });

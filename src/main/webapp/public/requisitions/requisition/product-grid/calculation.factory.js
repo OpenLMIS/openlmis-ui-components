@@ -13,9 +13,9 @@
     .module('openlmis.requisitions')
     .factory('CalculationFactory', calculationFactory);
 
-  calculationFactory.$inject = ['Columns', '$filter', 'Status', '$window'];
+  calculationFactory.$inject = ['Columns', '$filter', 'Status'];
 
-  function calculationFactory(Columns, $filter, Status, $window) {
+  function calculationFactory(Columns, $filter, Status) {
     var A = Columns.BEGINNING_BALANCE,
         B = Columns.TOTAL_RECEIVED_QUANTITY,
         C = Columns.TOTAL_CONSUMED_QUANTITY,
@@ -130,7 +130,7 @@
             var remainderQuantity = orderQuantity % packSize,
                 packsToShip = (orderQuantity - remainderQuantity) / packSize;
 
-            if (remainderQuantity > 0 && remainderQuantity >= lineItem.orderableProduct.packRoundingThreshold) {
+            if (remainderQuantity > 0 && remainderQuantity > lineItem.orderableProduct.packRoundingThreshold) {
               packsToShip += 1;
             }
 
