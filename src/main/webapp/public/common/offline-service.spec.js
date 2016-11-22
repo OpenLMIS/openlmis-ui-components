@@ -11,7 +11,7 @@ describe("OfflineService", function() {
     }));
 
     it('should return false when there is internet connection', function() {
-        var result = true;
+        var result;
         spyOn(offlineService, 'isOffline').andCallThrough();
 
         spyOn(offline, 'check').andCallFake(function() {
