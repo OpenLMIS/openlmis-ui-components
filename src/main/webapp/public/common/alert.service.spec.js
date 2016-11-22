@@ -22,16 +22,16 @@ describe("Alert", function() {
         $templateCache.put('common/alert.html', '<div class="alert-modal"></div>');
     }));
 
-    it('should close warning alert then call callback function after clicking on it', function() {
+    it('should close error alert then call callback function after clicking on it', function() {
         var callback = jasmine.createSpy();
 
-        alert.warning('some.message').then(callback);
+        alert.error('some.message', callback);
         angular.element(document.querySelector('.alert-modal')).trigger('click');
         waitsFor(function() {
             rootScope.$digest();
             return callback.callCount > 0;
         }, "Callback has not been executed.", 1000);
-         
+
         runs(function() {
             expect(callback).toHaveBeenCalled();
         });

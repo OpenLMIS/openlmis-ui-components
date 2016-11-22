@@ -17,10 +17,15 @@
 
     function Alert($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache, bootbox, messageService) {
 
+        var alert = warning;
+        alert.error = error;
+
+        return alert;
+
         /**
          *
          * @ngdoc function
-         * @name warning
+         * @name Alert
          * @methodOf openlmis-core.Alert
          * @param {String} message Primary message to display at the top
          * @param {String} additionalMessage Additional message to display below
@@ -65,35 +70,32 @@
 
             function makeAlert(html) {
 
-                var alert,
+                var modal,
                     scope = $rootScope.$new();
 
                 scope.icon = alertClass;
                 scope.message = messageService.get(message);
                 if (additionalMessage) scope.additionalMessage = messageService.get(additionalMessage);
 
-                alert = bootbox.dialog({
+                modal = bootbox.dialog({
                     message: $compile(html)(scope),
                     callback: callback,
                     backdrop: true,
-                    onEscape: callback,
+                    onEscape: callback ? callback : true,
                     closeButton: false,
                     className: 'alert-modal'
                 });
-                alert.on('click.bs.modal', function(){
+                modal.on('click.bs.modal', function(){
                     if(callback) callback();
-                    alert.modal('hide');
+                    modal.modal('hide');
                 });
-                alert.on('hidden.bs.modal', function(){
+                modal.on('hidden.bs.modal', function(){
                     angular.element(document.querySelector('.alert-modal')).remove();
                 });
             }
 
         }
 
-        return {
-            warning: warning,
-            error: error
-        }
+
     }
 })();

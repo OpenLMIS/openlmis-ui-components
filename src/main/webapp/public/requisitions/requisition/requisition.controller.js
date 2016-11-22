@@ -92,7 +92,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function submitRnr() {
-            Confirm('msg.question.confirmation.submit', 'msg.rnr.save.success').then(function() {
+            Confirm('msg.question.confirmation.submit').then(function() {
                 if (requisition.$isValid()) {
                     save().then(function() {
                         LoadingModalService.open();
@@ -109,7 +109,7 @@
                 } else {
                     Notification.error('error.rnr.validation');
                 }
-            });    
+            });
         };
 
         /**

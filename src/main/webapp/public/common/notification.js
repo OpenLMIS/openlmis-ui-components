@@ -2,7 +2,7 @@
     "use strict";
 
     /**
-     * 
+     *
      * @ngdoc service
      * @name openlmis-core.Notification
      * @description
@@ -17,14 +17,66 @@
 
     function Notification($rootScope, $timeout, $templateCache, $templateRequest, $compile, messageService) {
 
-        var container;
+        var container, notify;
 
         if(!container) createContainer();
+
+        notify = info;
+        notify.success = success;
+        notify.error = error;
+
+        return notify;
+
+        /**
+         *
+         * @ngdoc function
+         * @name success
+         * @methodOf openlmis-core.Notification
+         * @param {String} successMessage success message to display
+         *
+         * @description
+         * Shows success message element with custom message and return promise.
+         *
+         */
+        function success(successMessage) {
+            return showMessage(successMessage, 'alert-success', 'glyphicon-ok-sign');
+        }
+
+        /**
+         *
+         * @ngdoc function
+         * @name error
+         * @methodOf openlmis-core.Notification
+         * @param {String} errorMessage info message to display
+         *
+         * @description
+         * Shows error message element with custom message and return promise.
+         *
+         */
+        function error(errorMessage) {
+            return showMessage(errorMessage, 'alert-danger', 'glyphicon-remove-sign');
+        }
+
+        /**
+         *
+         * @ngdoc function
+         * @name Notification
+         * @methodOf openlmis-core.Notification
+         * @param {String} infoMessage info message to display
+         *
+         * @description
+         * Shows info message element with custom message and return promise.
+         *
+         *
+         */
+        function info(infoMessage) {
+            return showMessage(infoMessage, 'alert-info', 'glyphicon-info-sign');
+        }
 
         function showMessage(message, type, icon) {
             var templateURL = 'common/notification.html',
                 template = $templateCache.get(templateURL);
-                
+
             if (template) makeNotification(template);
             else $templateRequest(templateURL).then(makeNotification);
 
@@ -95,56 +147,5 @@
             }
         }
 
-        /**
-         *
-         * @ngdoc function
-         * @name success
-         * @methodOf openlmis-core.Notification
-         * @param {String} successMessage success message to display
-         * 
-         * @description
-         * Shows success message element with custom message and return promise.
-         *
-         */
-        function success(successMessage) {
-            return showMessage(successMessage, 'alert-success', 'glyphicon-ok-sign');
-        }
-
-        /**
-         *
-         * @ngdoc function
-         * @name error
-         * @methodOf openlmis-core.Notification
-         * @param {String} errorMessage info message to display
-         * 
-         * @description
-         * Shows error message element with custom message and return promise.
-         *
-         */
-        function error(errorMessage) {
-            return showMessage(errorMessage, 'alert-danger', 'glyphicon-remove-sign');
-        }
-
-        /**
-         *
-         * @ngdoc function
-         * @name info
-         * @methodOf openlmis-core.Notification
-         * @param {String} infoMessage info message to display
-         * 
-         * @description
-         * Shows info message element with custom message and return promise.
-         * 
-         *
-         */
-        function info(infoMessage) {
-            return showMessage(infoMessage, 'alert-info', 'glyphicon-info-sign');
-        }
-
-        return {
-            success: success,
-            error: error,
-            info: info
-        }
     }
 })();
