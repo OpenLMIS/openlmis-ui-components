@@ -101,12 +101,13 @@
             }, {}).$promise;
         }
 
-        function search(programId, facilityId, statuses, startDate, endDate) {
+        function search(programId, facilityId, statuses, emergency, startDate, endDate) {
             var searchParams = {
                 facility: facilityId
             };
             if(programId) searchParams['program'] = programId;
             if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['requisitionStatus'] = statuses;
+            if(emergency) searchParams['emergency'] = emergency;
             if(startDate) searchParams['createdDateFrom'] = startDate;
             if(endDate) searchParams['createdDateTo'] = endDate;
             return resource.search(searchParams).$promise;

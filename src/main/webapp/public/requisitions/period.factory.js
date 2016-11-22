@@ -4,9 +4,11 @@
 
     angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService', '$q', 'DateUtils'];
+    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService',
+    'messageService', '$q', 'DateUtils', 'Status'];
 
-    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q, DateUtils) {
+    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q,
+    DateUtils, Status) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
             get: {
@@ -40,22 +42,52 @@
             var periodGridLineItems = [],
                 deferred = $q.defer();
 
-            RequisitionService.search(programId, facilityId).then(function(data) {
-                periods.forEach(function (period, idx) {
-                    var foundRequisition = null;
-                    data.forEach(function (requisition) {
-                        if (requisition.processingPeriod.id == period.id) {
-                            foundRequisition = requisition;
+            if (emergency == true) {
+                getPreviousPeriodLineItems(programId, facilityId, emergency).then(search);
+
+            } else {
+                search(periodGridLineItems);
+            }
+
+            return deferred.promise;
+
+            function search(lineItems) {
+                RequisitionService.search(programId, facilityId).then(function(data) {
+                    periods.forEach(function (period, idx) {
+                        var foundRequisition = null;
+                        data.forEach(function (requisition) {
+                            if (requisition.processingPeriod.id == period.id) {
+                                foundRequisition = requisition;
+                            }
+                        });
+                        if (emergency == false || (emergency == true &&
+                        foundRequisition.status != Status.INITIATED &&
+                        foundRequisition.status != Status.SUBMITTED)) {
+                            lineItems.push(createPeriodGridItem(period, foundRequisition, idx));
                         }
                     });
-                    periodGridLineItems.push(createPeriodGridItem(period, foundRequisition, idx));
+                    deferred.resolve(lineItems);
+                }, function() {
+                    periods.forEach(function (period, idx) {
+                        lineItems.push(createPeriodGridItem(period, null, idx));
+                    });
+                    deferred.resolve(lineItems);
                 });
-                deferred.resolve(periodGridLineItems);
+            }
+        }
+
+        function getPreviousPeriodLineItems(programId, facilityId, emergency) {
+            var statuses = [Status.INITIATED, Status.SUBMITTED],
+                deferred = $q.defer();
+
+            RequisitionService.search(programId, facilityId, statuses, emergency).then(function(data) {
+                var lineItems = [];
+                data.forEach(function(rnr) {
+                    lineItems.push(createPeriodGridItem(rnr.processingPeriod, rnr, 0));
+                });
+                deferred.resolve(lineItems);
             }, function() {
-                periods.forEach(function (period, idx) {
-                    periodGridLineItems.push(createPeriodGridItem(period, null, idx));
-                });
-                deferred.resolve(periodGridLineItems);
+                deferred.reject();
             });
 
             return deferred.promise;
