@@ -20,9 +20,9 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', '$ngBootbox', 'LoadingModalService', 'Notification'];
+    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', 'LoadingModalService', 'Notification', 'Confirm'];
 
-    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, $ngBootbox, LoadingModalService, Notification) {
+    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, LoadingModalService, Notification, Confirm) {
 
         /**
          * @ngdoc property
@@ -92,7 +92,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function submitRnr() {
-            $ngBootbox.confirm(messageService.get("msg.question.confirmation.submit")).then(function() {
+            Confirm('msg.question.confirmation.submit', 'msg.rnr.save.success').then(function() {
                 if (requisition.$isValid()) {
                     save().then(function() {
                         LoadingModalService.open();
@@ -125,10 +125,9 @@
          * Otherwise, a success notification modal will be shown.
          */
         function authorizeRnr() {
-            $ngBootbox.confirm(messageService.get("msg.question.confirmation.authorize")).then(function() {
+            Confirm('msg.question.confirmation.authorize').then(function() {
                 if (requisition.$isValid()) {
-                    save()
-                    .then(function() {
+                    save().then(function() {
                         LoadingModalService.open();
                         $scope.requisition.$authorize()
                         .then(function(response) {
@@ -157,7 +156,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function removeRnr() {
-            $ngBootbox.confirm(messageService.get("msg.question.confirmation.deletion")).then(function() {
+            Confirm.destroy('msg.question.confirmation.deletion').then(function() {
                 LoadingModalService.open();
                 $scope.requisition.$remove()
                 .then(function(response) {
@@ -183,7 +182,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function approveRnr() {
-            $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
+            Confirm('msg.question.confirmation').then(function() {
                 if(requisition.$isValid()) {
                     save()
                     .then(function() {
@@ -212,7 +211,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function rejectRnr() {
-            $ngBootbox.confirm(messageService.get("msg.question.confirmation")).then(function() {
+            Confirm('msg.question.confirmation').then(function() {
                 LoadingModalService.open();
                 $scope.requisition.$reject()
                 .then(function(response) {

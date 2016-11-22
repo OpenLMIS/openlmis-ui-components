@@ -2705,5 +2705,7 @@
   "msg.user.profile.save.success": "User info save successfully",
   "msg.user.profile.save.failure": "Saving user info failed",
   "msg.user.no.roles.assigned": "No roles assigned to user",
-  "msg.server.error": "Server error"
+  "msg.server.error": "Server error",
+  "msg.button.ok": "OK",
+  "msg.button.cancel": "Cancel"
 }

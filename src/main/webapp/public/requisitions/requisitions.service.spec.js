@@ -9,7 +9,7 @@
  */
 describe('RequisitionService', function() {
 
-    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, ngBootbox, q,
+    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
         allStatuses, requisitionUrl, openlmisUrl,
         startDate = [2016, 4, 30, 16, 21, 33],
         endDate = [2016, 4, 30, 16, 21, 33],
@@ -77,16 +77,24 @@ describe('RequisitionService', function() {
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(module(function($provide){
-        var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition);
+        var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition),
+            confirmSpy = jasmine.createSpy('Confirm').andCallFake(function(argumentObject) {
+                return q.when(true);
+            });
+
     	$provide.service('RequisitionFactory', function() {
             return requisitionFactorySpy;
+        });
+
+        $provide.service('Confirm', function() {
+            return confirmSpy;
         });
     }));
 
     beforeEach(
         inject(
             function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
-                     Status, RequisitionFactory, DateUtils, $ngBootbox, $q, $templateCache) {
+                     Status, RequisitionFactory, DateUtils, $q, $templateCache) {
 
                 httpBackend = _$httpBackend_;
                 $rootScope = _$rootScope_;
@@ -94,7 +102,6 @@ describe('RequisitionService', function() {
                 allStatuses = Status.$toList();
                 requisitionFactory = RequisitionFactory;
                 dateUtils = DateUtils;
-                ngBootbox = $ngBootbox;
                 q = $q;
                 requisitionUrl = RequisitionURL;
                 openlmisUrl = OpenlmisURL;
@@ -170,10 +177,6 @@ describe('RequisitionService', function() {
 
     it('should convert requisitions', function() {
         var callback = jasmine.createSpy();
-
-        spyOn(ngBootbox, 'confirm').andCallFake(function(argumentObject) {
-            return q.when(true);
-        });
 
         httpBackend.when('POST', requisitionUrl('/api/requisitions/convertToOrder'))
         .respond(function(method, url, data){

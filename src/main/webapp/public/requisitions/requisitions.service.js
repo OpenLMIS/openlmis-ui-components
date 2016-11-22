@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .service('RequisitionService', requisitionService);
 
-    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', '$ngBootbox', 'Notification', 'DateUtils'];
+    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', 'Confirm', 'Notification', 'DateUtils'];
 
-    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL, RequisitionFactory, Source, Column, $ngBootbox, Notification, DateUtils) {
+    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL, RequisitionFactory, Source, Column, Confirm, Notification, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -124,7 +124,7 @@
         function convertToOrder(requisitions) {
             var deferred = $q.defer();
 
-            $ngBootbox.confirm(messageService.get('msg.question.confirmation')).then(function() {
+            Confirm('msg.question.confirmation').then(function() {
                 resource.convertToOrder(requisitions).$promise.then(function() {
                     deferred.resolve();
                     Notification.success('msg.rnr.converted.to.order');
