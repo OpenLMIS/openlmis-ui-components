@@ -21,9 +21,10 @@
          * @ngdoc property
          * @name requisitions
          * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @type {Array}
          *
          * @description
-         * Holds currently requisitions.
+         * Holds requisitions.
          */
 		$scope.requisitions = requisitionList;
 
@@ -31,29 +32,21 @@
          * @ngdoc property
          * @name filteredRequisitions
          * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @type {Array}
          *
          * @description
-         * Holds currently filtered requisitions using parameters.
+         * Holds currently filtered requisitions.
          */
 		$scope.filteredRequisitions = $scope.requisitions;
 
         /**
          * @ngdoc property
-         * @name selectedItems
-         * @propertyOf openlmis.requisitions.RequisitionApprovalListController
-         *
-         * @description
-         * Holds currently filtered requisitions. Using query to filter.
-         */
-		$scope.selectedItems = [];
-
-        /**
-         * @ngdoc property
          * @name labels
          * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @type {Array}
          *
          * @description
-         * Holds need labels.
+         * Holds needed labels.
          */
 	 	$scope.labels = [
 			{
@@ -133,14 +126,13 @@
 			]
 		};
 
-
         /**
          * @ngdoc property
          * @name openRnr
          * @propertyOf openlmis.requisitions.RequisitionApprovalListController
          *
          * @description
-         * Holds currently handler to redirect to requisition page after clicking on grid row.
+         * Holds handler which redirects to requisition page after clicking on grid row.
          *
          */
 		$scope.openRnr = function (row) {
@@ -155,7 +147,7 @@
          * @propertyOf openlmis.requisitions.RequisitionApprovalListController
          *
          * @description
-         * Holds currently filtered requisitions. Using filter value and search in specific field.
+         * Holds handler which filters requisitions after change query or searchField.
          *
          */
 		$scope.filterRequisitions = function () {
