@@ -93,8 +93,8 @@
                     $injector.get('$state').go('auth.login');
                 } else if (response.status === 403) {
                     $injector.get('Alert').error('error.authorization');
-                } else if (response.status === 404) {
-                    return $q.reject(response);
+                } else if(response.status === 500) {
+                    $injector.get('Alert').error('msg.server.error');
                 }
                 return $q.reject(response);
             }

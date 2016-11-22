@@ -2704,5 +2704,6 @@
   "msg.facilities.not.found": "No facilities found. Please contact Admin",
   "msg.user.profile.save.success": "User info save successfully",
   "msg.user.profile.save.failure": "Saving user info failed",
-  "msg.user.no.roles.assigned": "No roles assigned to user"
+  "msg.user.no.roles.assigned": "No roles assigned to user",
+  "msg.server.error": "Server error"
 }
