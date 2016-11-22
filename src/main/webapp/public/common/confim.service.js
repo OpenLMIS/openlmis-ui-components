@@ -2,7 +2,7 @@
     "use strict";
 
     /**
-     * 
+     *
      * @ngdoc service
      * @name openlmis-core.Confirm
      * @description
@@ -30,7 +30,7 @@
          * @param {String} message Primary message to display at the top
          * @param {Function} additionalMessage Additional message to display below
          * @param {String} buttonMessage Optional message to display on confirm button
-         * 
+         *
          * @description
          * Shows confirm modal with custom message.
          *
@@ -46,7 +46,7 @@
          * @methodOf openlmis-core.Confirm
          * @param {String} message Message to display
          * @return {Promise} confirm promise
-         * 
+         *
          * @description
          * Shows confirm modal with custom message and returns a promise.
          *
