@@ -16,6 +16,7 @@ module.exports = function(grunt) {
   var replace = require('gulp-replace');
 
   grunt.loadNpmTasks('grunt-ngdocs');
+  grunt.loadNpmTasks('grunt-notify');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -42,9 +43,17 @@ module.exports = function(grunt) {
         config: '.sasslint.json'
       }
     },
+    notify: {
+        watch: {
+            options: {
+                message: 'Build complete',
+                duration: 2
+            }
+        }
+    },
     watch: {
       files: config.app.src + '/**/*',
-      tasks: ['build'],
+      tasks: ['build', 'notify:watch'],
       options: {
         spawn: false
       }
@@ -70,7 +79,7 @@ module.exports = function(grunt) {
           keepalive: true,
           debug: true,
           port: 9000,
-          base: config.app.dest 
+          base: config.app.dest
         }
       }
     },
@@ -153,7 +162,7 @@ module.exports = function(grunt) {
           ];
           // hack to make jquery load first
           return [
-              'bower_components/jquery/dist/jquery.js', 
+              'bower_components/jquery/dist/jquery.js',
               'bower_components/jquery-ui/jquery-ui.js'
             ].concat(
               wiredep().js,
@@ -459,7 +468,7 @@ module.exports = function(grunt) {
   if(!grunt.option('noDocs') && !grunt.option('appOnly')) fullBuildTasks.push('ngdocs');
 
   grunt.registerTask('build', fullBuildTasks);
-  
+
   grunt.registerTask('check', ['clean', 'jshint', 'sasslint']);
 
   grunt.registerTask('docs', ['build'].concat('ngdocs'));
