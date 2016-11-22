@@ -2698,7 +2698,7 @@
   "label.vaccine.no.ivd.reports.to.view": "There are no monthly vaccine reports to view for this facility. Please check if the facility you selected has started reporting.",
   "link.reports.admin": "Admin Reports",
   "label.add.loss.adjustment": "Add new Loss/Adjustment",
-  "msg.notification.modal.footer": "Press ESC button or click anywhere to continue",
+  "msg.alert.modal.footer": "Press ESC button or click anywhere to continue",
   "msg.no.facility.selected": "Facility not selected",
   "msg.no.requisitions.found": "No requisitions found",
   "msg.facilities.not.found": "No facilities found. Please contact Admin",

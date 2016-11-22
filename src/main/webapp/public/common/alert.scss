@@ -1,0 +1,31 @@
+.alert-modal {
+	.alert-main{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		font-size: 1.7em;
+	}
+	.alert-messages {		
+		padding: 0.3em;
+	}
+	.alert-message-additional{
+		font-size: 0.7em;
+	}
+	.glyphicon {
+		font-size: 2.6em;
+		margin: 0.2em;
+	}
+	.glyphicon-alert {
+		color: $orange;
+	}
+	.glyphicon-remove-circle {
+		color: $red;
+	}
+	footer{
+		@include clearfix();
+		font-size: $font-size-small;
+	    background-color: $light-gray;
+		text-align: right;
+		padding: 1em;
+	}
+}

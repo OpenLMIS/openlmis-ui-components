@@ -74,9 +74,9 @@
         function saveRnr() {
             LoadingModalService.open();
             save().then(function(response) {
-               LoadingModalService.close();
-               Notification.success('msg.rnr.save.success');
-               reloadState();
+                LoadingModalService.close();
+                Notification.success('msg.rnr.save.success');
+                reloadState();
             });
         };
 

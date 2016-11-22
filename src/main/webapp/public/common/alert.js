@@ -13,57 +13,87 @@
     angular.module('openlmis-core')
         .service('Alert', Alert);
 
-    Alert.$inject = ['$timeout', '$q', 'bootbox', 'messageService'];
+    Alert.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest', '$templateCache', 'bootbox', 'messageService'];
 
-    function Alert($timeout, $q, bootbox, messageService) {
+    function Alert($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache, bootbox, messageService) {
 
         /**
          *
          * @ngdoc function
-         * @name error
+         * @name warning
          * @methodOf openlmis-core.Alert
-         * @param {String} message primary message to display at the top
-         * @param {String} additionalMessage additional message to display below
+         * @param {String} message Primary message to display at the top
+         * @param {String} additionalMessage Additional message to display below
          * @return {Promise} alert promise
          * 
          * @description
-         * Shows alert modal with custom message and returns promise.
+         * Shows warning modal with custom message and returns promise.
          *
          */
-        function error(message, additionalMessage) {
+        function warning(message, additionalMessage) {
             var deferred = $q.defer();
-            if(additionalMessage) showAlert(messageService.get(additionalMessage), messageService.get(message), deferred.resolve);
-            else showAlert(messageService.get(message), null, deferred.resolve);
+            showAlert('glyphicon-alert', deferred.resolve, message, additionalMessage);
             return deferred.promise;
         }
 
         /**
          *
          * @ngdoc function
-         * @name errorWithCallback
+         * @name error
          * @methodOf openlmis-core.Alert
-         * @param {String} message message to display
-         * @param {String} callback function called after closing alert
+         * @param {String} message Message to display
+         * @param {String} callback Function called after closing alert
          * 
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
          */
-        function errorWithCallback(message, callback) {
-            showAlert(messageService.get(message), null, callback);
+        function error(message, callback) {
+            showAlert('glyphicon-remove-circle', callback, messageService.get(message));
         }
 
-        function showAlert(message, title, callback) {
-            bootbox.alert({
-                message: message,
-                title: title,
-                callback: callback
-            });
+        function showAlert(alertClass, callback, message, additionalMessage) {
+
+            var templateURL = 'common/alert.html',
+                template = $templateCache.get(templateURL);
+
+            if (template){
+                makeAlert(template);
+            } else {
+                $templateRequest(templateURL).then(makeAlert);
+            }
+
+            function makeAlert(html) {
+
+                var alert, 
+                    scope = $rootScope.$new();
+
+                scope.icon = alertClass;
+                scope.message = messageService.get(message);
+                if (additionalMessage) scope.additionalMessage = messageService.get(additionalMessage);
+
+                alert = bootbox.dialog({
+                    message: $compile(html)(scope),
+                    callback: callback,
+                    backdrop: true,
+                    onEscape: callback,
+                    closeButton: false,
+                    className: 'alert-modal'
+                });
+                alert.on('click.bs.modal', function(){
+                    callback();
+                    alert.modal('hide');
+                });
+                alert.on('hidden.bs.modal', function(){
+                    angular.element(document.querySelector('.alert-modal')).remove();
+                });
+            }
+            
         }
 
         return {
-            error: error,
-            errorWithCallback: errorWithCallback
+            warning: warning,
+            error: error
         }
     }
 })();
