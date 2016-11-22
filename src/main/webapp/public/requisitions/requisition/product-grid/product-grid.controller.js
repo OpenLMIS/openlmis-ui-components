@@ -16,7 +16,6 @@
         $scope.showLossesAndAdjustments = showLossesAndAdjustments;
         $scope.nonFullSupply = $stateParams.nonFullSupply;
         $scope.getCategories = getCategories;
-        $scope.getColumns = getColumns;
         $scope.gridVisible = gridVisible;
         $scope.hideLineItem = hideLineItem;
 
