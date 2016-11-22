@@ -272,11 +272,18 @@
        * @return {string|string|undefined}
        */
     function transformRequisition(requisition) {
-      var columns = requisition.$template.columns;
-      angular.forEach(requisition.requisitionLineItems, function(lineItem) {
-        transformLineItem(lineItem, columns);
-      })
-      return angular.toJson(requisition);
+        var columns = requisition.$template.columns;
+        angular.forEach(requisition.requisitionLineItems, function(lineItem) {
+            transformLineItem(lineItem, columns);
+        });
+        requisition.$nonFullSupplyCategories.forEach(function(category) {
+            category.lineItems.forEach(function(lineItem) {
+                if (requisition.requisitionLineItems.indexOf(lineItem) === -1) {
+                    requisition.requisitionLineItems.push(lineItem);
+                }
+            });
+        });
+        return angular.toJson(requisition);
     }
 
 

@@ -50,7 +50,17 @@
                     }
                     LineItemFactory(lineItem);
 
-                    getCategoryByName(scope.requisition.$nonFullSupplyCategories, scope.selectedCategory.name).lineItems.push(lineItem);
+                    var category = getCategoryByName(scope.requisition.$nonFullSupplyCategories,
+                                    scope.selectedCategory.name);
+
+                    if (!category) {
+                        scope.requisition.$nonFullSupplyCategories.push({
+                            name: scope.selectedCategory.name,
+                            lineItems: [lineItem]
+                        })
+                    } else {
+                        category.lineItems.push(lineItem);
+                    }
                 });
             }
 
