@@ -121,7 +121,7 @@
          * @return {Promise} requisition promise
          *
          * @description
-         * Initate new requisition for program in facility with given period.
+         * Initates new requisition for program in facility with given period.
          *
          */
         function initiate(facility, program, suggestedPeriod, emergency) {
@@ -146,7 +146,7 @@
          * @return {Array} Array of requisitions for given criteria (optional)
          *
          * @description
-         * Search requisitons by criteria from parameters
+         * Search requisitons by criteria from parameters.
          *
          */
         function search(programId, facilityId, statuses, emergency, startDate, endDate) {
@@ -183,7 +183,7 @@
          * @return {Array} Array of requisitions for convert
          *
          * @description
-         * Search requisitons for convert to order by given criteria
+         * Search requisitons for convert to order by given criteria.
          *
          */
         function forConvert(params) {
@@ -197,7 +197,7 @@
          * @param {Array} requisitions Array of requisitions to convert
          *
          * @description
-         * Converts given requisitions into orders
+         * Converts given requisitions into orders.
          *
          */
         function convertToOrder(requisitions) {

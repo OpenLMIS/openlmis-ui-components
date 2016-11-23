@@ -55,7 +55,7 @@
      * @return {Object} requisition with methods
      *
      * @description
-     * Add all needed methods and information from template to given requisition.
+     * Adds all needed methods and information from template to given requisition.
      *
      */
     function requisition(requisition, template, approvedProducts) {
@@ -106,7 +106,7 @@
      * @return {Promise} requisition promise
      *
      * @description
-     * Authorize requisition
+     * Authorizes requisition.
      *
      */
     function authorize() {
@@ -122,7 +122,7 @@
      * @return {Promise} promise that resolves after requisition is deleted
      *
      * @description
-     * Removes requisition
+     * Removes requisition.
      *
      */
     function remove() {
@@ -138,7 +138,7 @@
      * @return {Promise} requisition promise
      *
      * @description
-     * Saves requisition
+     * Saves requisition.
      *
      */
     function save() {
@@ -154,7 +154,7 @@
      * @return {Promise} requisition promise
      *
      * @description
-     * Submits requisition in initiated status
+     * Submits requisition.
      *
      */
     function submit() {
@@ -170,7 +170,7 @@
      * @return {Promise} promise that resolves when requisition is approved
      *
      * @description
-     * Approves requisition with authorized status
+     * Approves requisition.
      *
      */
     function approve() {
@@ -186,7 +186,7 @@
      * @return {Promise} promise that resolves when requisition is rejected
      *
      * @description
-     * Reject requisition in authorized status
+     * Rejects requisition.
      *
      */
     function reject() {
