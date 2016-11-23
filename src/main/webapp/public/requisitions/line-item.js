@@ -4,11 +4,11 @@
 
   angular
     .module('openlmis.requisitions')
-    .factory('LineItemFactory', lineItemFactory);
+    .factory('LineItem', lineItem);
 
-  lineItemFactory.$inject = ['ValidationFactory', 'CalculationFactory', 'Columns', 'Source'];
+  lineItem.$inject = ['ValidationFactory', 'CalculationFactory', 'Columns', 'Source'];
 
-  function lineItemFactory(ValidationFactory, CalculationFactory, Columns, Source) {
+  function lineItem(ValidationFactory, CalculationFactory, Columns, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -27,21 +27,23 @@
       totalConsumedQuantity: Columns.STOCK_ON_HAND
     };
 
-    return lineItem;
+    LineItem.prototype.isValid = isValid;
+    LineItem.prototype.getColumnError = getColumnError;
+    LineItem.prototype.isColumnValid = isColumnValid;
+    LineItem.prototype.areColumnsValid = areColumnsValid;
+    LineItem.prototype.getColumnValue = getColumnValue;
 
-    function lineItem(lineItem) {
-      lineItem.$isValid = isValid;
-      lineItem.$errors = errors();
-      lineItem.$getColumnError = getColumnError;
-      lineItem.$isColumnValid = isColumnValid;
-      lineItem.$areColumnsValid = areColumnsValid;
-      lineItem.$getColumnValue = getColumnValue;
+    return LineItem;
+
+    function LineItem(lineItem) {
+        angular.merge(this, lineItem);
+        this.$errors = {};
     }
 
     function isValid() {
       var isValid = true;
 
-      angular.forEach(this.$errors(), function(error) {
+      this.$errors.forEach(function(error) {
         isValid = isValid && !error;
       });
 
@@ -67,7 +69,7 @@
         }
       }
 
-      this.$errors()[column.name] = error;
+      this.$errors[column.name] = error;
       return !error;
     }
 
@@ -77,7 +79,7 @@
 
       angular.forEach(columns, function(column) {
         if (column.display) {
-          areValid = lineItem.$isColumnValid(column, columns) && areValid;
+          areValid = lineItem.isColumnValid(column, columns) && areValid;
         }
       });
 
@@ -85,14 +87,7 @@
     }
 
     function getColumnError(name) {
-      return this.$errors()[name];
-    }
-
-    function errors() {
-      var errors = {};
-      return function(newErrors) {
-        return arguments.length ? (errors = newErrors) : errors;
-      }
+      return this.$errors[name];
     }
 
     function getColumnValue(column, status) {
@@ -109,7 +104,7 @@
 
       if (column.source === Source.CALCULATED) {
         this[name] = CalculationFactory[name](this, status);
-        this.$isColumnValid(column);
+        this.isColumnValid(column);
       }
 
       return this[name];

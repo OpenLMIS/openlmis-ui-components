@@ -13,9 +13,9 @@
     .module('openlmis.requisitions')
     .factory('RequisitionFactory', requisitionFactory);
 
-  requisitionFactory.$inject = ['$resource', 'OpenlmisURL', 'RequisitionURL', 'Template', 'LineItemFactory', 'CategoryFactory', 'Status', 'Source'];
+  requisitionFactory.$inject = ['$resource', 'OpenlmisURL', 'RequisitionURL', 'Template', 'LineItem', 'CategoryFactory', 'Status', 'Source'];
 
-  function requisitionFactory($resource, OpenlmisURL, RequisitionURL, Template, LineItemFactory, CategoryFactory, Status, Source) {
+  function requisitionFactory($resource, OpenlmisURL, RequisitionURL, Template, LineItem, CategoryFactory, Status, Source) {
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getStockAdjustmentReasonsByProgram': {
         url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
@@ -59,8 +59,7 @@
      *
      */
     function requisition(requisition, template, approvedProducts) {
-        var lineItems = requisition.requisitionLineItems,
-            programId = requisition.program.id;
+        var programId = requisition.program.id;
 
         requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
         requisition.$authorize = authorize;
@@ -75,11 +74,16 @@
         requisition.$isApproved = isApproved;
         requisition.$isAuthorized = isAuthorized;
         requisition.$template = new Template(template, requisition);
+
+        var lineItems = [];
+        requisition.requisitionLineItems.forEach(function(lineItem) {
+            lineItems.push(new LineItem(lineItem));
+        });
+        requisition.requisitionLineItems = lineItems;
+
         requisition.$fullSupplyCategories = CategoryFactory.groupFullSupplyLineItems(lineItems, programId);
         requisition.$nonFullSupplyCategories = CategoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
         requisition.$approvedCategories= CategoryFactory.groupProducts(lineItems, approvedProducts);
-        requisition.requisitionLineItems.forEach(LineItemFactory);
-
         return requisition;
     }
 
@@ -272,13 +276,13 @@
 
       this.$fullSupplyCategories.forEach(function(category) {
         category.lineItems.forEach(function(lineItem) {
-          isValid = lineItem.$areColumnsValid(fullSupplyColumns) && isValid;
+          isValid = lineItem.areColumnsValid(fullSupplyColumns) && isValid;
         });
       });
 
       this.$nonFullSupplyCategories.forEach(function(category) {
         category.lineItems.forEach(function(lineItem) {
-          isValid = lineItem.$areColumnsValid(nonFullSupplyColumns) && isValid;
+          isValid = lineItem.areColumnsValid(nonFullSupplyColumns) && isValid;
         });
       });
 

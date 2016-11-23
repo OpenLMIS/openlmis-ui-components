@@ -62,7 +62,7 @@
 	      	});
 
       		function validate() {
-        		scope.lineItem.$isColumnValid(column, scope.requisition.$template.columns);
+				scope.lineItem.isColumnValid(column, scope.requisition.$template.columns);
       		}
 
 			function isReadOnly() {

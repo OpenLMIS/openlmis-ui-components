@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .directive('addProduct', addProduct);
 
-    addProduct.$inject = ['$ngBootbox', '$templateRequest', '$compile', '$timeout', 'messageService', 'LineItemFactory'];
+    addProduct.$inject = ['$ngBootbox', '$templateRequest', '$compile', '$timeout', 'messageService', 'LineItem'];
 
-    function addProduct($ngBootbox, $templateRequest, $compile, $timeout, messageService, LineItemFactory) {
+    function addProduct($ngBootbox, $templateRequest, $compile, $timeout, messageService, LineItem) {
         var directive = {
             restrict: 'AE',
             scope: {
@@ -48,7 +48,6 @@
                       orderableProduct: scope.selectedProduct,
                       $hideable: true
                     }
-                    LineItemFactory(lineItem);
 
                     var category = getCategoryByName(scope.requisition.$nonFullSupplyCategories,
                                     scope.selectedCategory.name);
@@ -56,7 +55,7 @@
                     if (!category) {
                         scope.requisition.$nonFullSupplyCategories.push({
                             name: scope.selectedCategory.name,
-                            lineItems: [lineItem]
+                            lineItems: [new LineItem(lineItem)]
                         })
                     } else {
                         category.lineItems.push(lineItem);

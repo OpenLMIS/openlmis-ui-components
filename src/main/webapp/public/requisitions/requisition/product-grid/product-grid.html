@@ -10,7 +10,7 @@
 			<tr>
 			  <td class="productCategory" colspan="{{requisition.$template.getColumns(nonFullSupply).length + 1}}">{{category.name}}</td>
 			</tr>
-			<tr ng-class="{'invalid-row': !lineItem.$isValid()}" ng-repeat="lineItem in category.lineItems">
+			<tr ng-class="{'invalid-row': !lineItem.isValid()}" ng-repeat="lineItem in category.lineItems">
 			  <td ng-repeat="column in requisition.$template.getColumns(nonFullSupply) | orderBy : 'displayOrder'" product-grid-cell></td>
 				<td ng-if="nonFullSupply">
 					<button class="hide-line-item"

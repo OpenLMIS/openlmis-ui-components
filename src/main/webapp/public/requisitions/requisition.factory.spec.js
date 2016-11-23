@@ -260,14 +260,14 @@ describe('RequisitionFactory', function() {
 
         requisition.$fullSupplyCategories.forEach(function(category) {
             category.lineItems.forEach(function(lineItem) {
-                expect(lineItem.$areColumnsValid)
+                expect(lineItem.areColumnsValid)
                     .toHaveBeenCalledWith(requisition.$template.getColumns());
             });
         });
 
         requisition.$nonFullSupplyCategories.forEach(function(category) {
             category.lineItems.forEach(function(lineItem) {
-                expect(lineItem.$areColumnsValid)
+                expect(lineItem.areColumnsValid)
                     .toHaveBeenCalledWith(requisition.$template.getColumns(true));
             });
         });
@@ -315,8 +315,8 @@ describe('RequisitionFactory', function() {
     }
 
     function lineItemSpy(suffix) {
-        var lineItemSpy = jasmine.createSpyObj('lineItem' + suffix, ['$areColumnsValid']);
-        lineItemSpy.$areColumnsValid.andReturn(true);
+        var lineItemSpy = jasmine.createSpyObj('lineItem' + suffix, ['areColumnsValid']);
+        lineItemSpy.areColumnsValid.andReturn(true);
         return lineItemSpy;
     }
 });
