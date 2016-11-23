@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .controller('ProductGridCtrl', productGridCtrl);
 
-    productGridCtrl.$inject = ['$scope', '$stateParams', '$filter', 'CalculationFactory', 'bootbox', '$rootScope', '$templateRequest', '$compile'];
+    productGridCtrl.$inject = ['$scope', '$stateParams', '$filter', 'calculations', 'bootbox', '$rootScope', '$templateRequest', '$compile'];
 
-    function productGridCtrl($scope, $stateParams, $filter, CalculationFactory, bootbox, $rootScope, $templateRequest, $compile) {
+    function productGridCtrl($scope, $stateParams, $filter, calculations, bootbox, $rootScope, $templateRequest, $compile) {
 
         var dialog;
 
@@ -86,7 +86,7 @@
         }
 
         function updateTotalLossesAndAdjustments() {
-            $scope.currentRnrLineItem.totalLossesAndAdjustments = CalculationFactory.totalLossesAndAdjustments(
+            $scope.currentRnrLineItem.totalLossesAndAdjustments = calculations.totalLossesAndAdjustments(
                 $scope.currentRnrLineItem, $scope.stockAdjustmentReasons
             );
         }

@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .factory('LineItem', lineItem);
 
-  lineItem.$inject = ['validations', 'CalculationFactory', 'Columns', 'Source'];
+  lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source'];
 
-  function lineItem(validations, CalculationFactory, Columns, Source) {
+  function lineItem(validations, calculations, Columns, Source) {
 
     var validationsToPass = {
       stockOnHand: [
@@ -61,7 +61,7 @@
         error = error || validation(lineItem[column.name], lineItem);
       });
 
-      var calulation = CalculationFactory[column.name];
+      var calulation = calculations[column.name];
       if (calulation && column.name !== Columns.TOTAL_LOSSES_AND_ADJUSTMENTS) {
         if (!isCalculated(counterparts[column.name], columns)) {
           error = error || validations.validateCalculation(calulation)(lineItem[column.name], lineItem);
@@ -98,7 +98,7 @@
       }
 
       if (column.source === Source.CALCULATED) {
-        this[name] = CalculationFactory[name](this, status);
+        this[name] = calculations[name](this, status);
         this.isColumnValid(column);
       }
 
