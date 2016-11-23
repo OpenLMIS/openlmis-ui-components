@@ -39,7 +39,7 @@
             scope.updateTotalLossesAndAdjustments = updateTotalLossesAndAdjustments;
             scope.stockAdjustmentReasons = $scope.stockAdjustmentReasons;
             scope.currentRnrLineItem = $scope.currentRnrLineItem;
-            scope.adjustment = $scope.adjustment
+            scope.adjustment = $scope.adjustment;
 
             $templateRequest('requisitions/requisition/losses-and-adjustments/losses-and-adjustments.html').then(function(html){
                 dialog = bootbox.dialog({
@@ -61,7 +61,9 @@
             $scope.currentRnrLineItem.stockAdjustments.push({
                  'reasonId': $scope.adjustment.reason.item.id,
                  'quantity': $scope.adjustment.quantity
-             });
+            });
+            $scope.adjustment.quantity = undefined;
+            $scope.adjustment.reason.item = undefined;
         }
 
         function removeAdjustment(adjustment) {
