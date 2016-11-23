@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis.requisitions.RequisitionService
+     *
+     * @description
+     * Responsible for retriving all information from server.
+     */
     angular
         .module('openlmis.requisitions')
         .service('RequisitionService', requisitionService);
@@ -59,6 +66,17 @@
         };
         return service;
 
+        /**
+         * @ngdoc function
+         * @name get
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @param {String} id Requisition UUID
+         * @return {Promise} requisition promise
+         *
+         * @description
+         * Retrieves requisition by id.
+         *
+         */
         function get(id) {
             var deferred = $q.defer();
 
@@ -92,6 +110,20 @@
             }
         }
 
+        /**
+         * @ngdoc function
+         * @name initiate
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @param {String} facility Facility UUID
+         * @param {String} program Program UUID
+         * @param {String} suggestedPeriod Period UUID
+         * @param {boolean} emergency Indicates if requisition is emergency or not
+         * @return {Promise} requisition promise
+         *
+         * @description
+         * Initate new requisition for program in facility with given period.
+         *
+         */
         function initiate(facility, program, suggestedPeriod, emergency) {
             return resource.initiate({
                 facility: facility,
@@ -101,6 +133,22 @@
             }, {}).$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name search
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @param {String} programId Program UUID (optional)
+         * @param {String} facilityId Facility UUID
+         * @param {Array} statuses List of requisition statuses (optional)
+         * @param {boolean} emergency Indicates if requisition is emergency or not (optional)
+         * @param {Date} startDate Requisitions created from this date (optional)
+         * @param {Date} endDate Requisitions created to this date (optional)
+         * @return {Array} Array of requisitions for given criteria (optional)
+         *
+         * @description
+         * Search requisitons by criteria from parameters
+         *
+         */
         function search(programId, facilityId, statuses, emergency, startDate, endDate) {
             var searchParams = {
                 facility: facilityId
@@ -113,14 +161,45 @@
             return resource.search(searchParams).$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name forApproval
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @return {Array} Array of requisitions for approval
+         *
+         * @description
+         * Retrieves all requisitions with authorized status for approve.
+         *
+         */
         function forApproval() {
             return resource.forApproval().$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name forConvert
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @param {Object} params Request params, contains i.e.: filertBy, filterValue, sortBy, descending
+         * @return {Array} Array of requisitions for convert
+         *
+         * @description
+         * Search requisitons for convert to order by given criteria
+         *
+         */
         function forConvert(params) {
             return resource.forConvert(params).$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name convertToOrder
+         * @methodOf openlmis.requisitions.RequisitionService
+         * @param {Array} requisitions Array of requisitions to convert
+         *
+         * @description
+         * Converts given requisitions into orders
+         *
+         */
         function convertToOrder(requisitions) {
             var deferred = $q.defer();
 
