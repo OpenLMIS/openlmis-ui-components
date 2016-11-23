@@ -4,7 +4,7 @@
 
   angular
     .module('openlmis.requisitions')
-    .factory('ValidationFactory', validationFactory);
+    .factory('validations', validationFactory);
 
   validationFactory.$inject = ['messageService'];
 

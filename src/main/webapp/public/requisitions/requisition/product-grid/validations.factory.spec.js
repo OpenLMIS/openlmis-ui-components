@@ -1,19 +1,19 @@
 
-describe('ValidationFactory', function() {
+describe('validations', function() {
 
-    var validationFactory, messageService;
+    var validations, messageService;
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(ValidationFactory, _messageService_) {
-        validationFactory = ValidationFactory;
+    beforeEach(inject(function(_validations_, _messageService_) {
+        validations = _validations_;
         messageService = _messageService_;
     }));
 
     it('should return "negative" error message when value is negative', function() {
 
         spyOn(messageService, 'get');
-        validationFactory.nonNegative(-1);
+        validations.nonNegative(-1);
         expect(messageService.get).toHaveBeenCalledWith('error.negative');
 
     });
@@ -21,7 +21,7 @@ describe('ValidationFactory', function() {
     it('should return "required" error message when value is blank', function() {
 
         spyOn(messageService, 'get');
-        validationFactory.nonEmpty("");
+        validations.nonEmpty("");
         expect(messageService.get).toHaveBeenCalledWith('error.required');
 
     });
@@ -29,7 +29,7 @@ describe('ValidationFactory', function() {
     it('should pass validation when value is non negative', function() {
 
         spyOn(messageService, 'get');
-        validationFactory.nonNegative(0);
+        validations.nonNegative(0);
         expect(messageService.get).not.toHaveBeenCalled();
 
     });
@@ -37,7 +37,7 @@ describe('ValidationFactory', function() {
     it('should pass validation when value is not empty', function() {
 
         spyOn(messageService, 'get');
-        validationFactory.nonEmpty(2);
+        validations.nonEmpty(2);
         expect(messageService.get).not.toHaveBeenCalled();
 
     });

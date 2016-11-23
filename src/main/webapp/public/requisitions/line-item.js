@@ -6,19 +6,19 @@
     .module('openlmis.requisitions')
     .factory('LineItem', lineItem);
 
-  lineItem.$inject = ['ValidationFactory', 'CalculationFactory', 'Columns', 'Source'];
+  lineItem.$inject = ['validations', 'CalculationFactory', 'Columns', 'Source'];
 
-  function lineItem(ValidationFactory, CalculationFactory, Columns, Source) {
+  function lineItem(validations, CalculationFactory, Columns, Source) {
 
     var validationsToPass = {
       stockOnHand: [
-        ValidationFactory.nonNegative,
+        validations.nonNegative,
       ],
       totalConsumedQuantity: [
-        ValidationFactory.nonNegative
+        validations.nonNegative
       ],
       requestedQuantityExplanation: [
-        ValidationFactory.nonEmptyIfPropertyIsSet(Columns.REQUESTED_QUANTITY)
+        validations.nonEmptyIfPropertyIsSet(Columns.REQUESTED_QUANTITY)
       ]
     };
 
@@ -54,7 +54,7 @@
           error;
 
       if (column.required) {
-        error = error || ValidationFactory.nonEmpty(lineItem[column.name]);
+        error = error || validations.nonEmpty(lineItem[column.name]);
       }
 
       angular.forEach(validationsToPass[column.name], function(validation) {
@@ -64,7 +64,7 @@
       var calulation = CalculationFactory[column.name];
       if (calulation && column.name !== Columns.TOTAL_LOSSES_AND_ADJUSTMENTS) {
         if (!isCalculated(counterparts[column.name], columns)) {
-          error = error || ValidationFactory.validCalculation(calulation)(lineItem[column.name], lineItem);
+          error = error || validations.validCalculation(calulation)(lineItem[column.name], lineItem);
         }
       }
 
