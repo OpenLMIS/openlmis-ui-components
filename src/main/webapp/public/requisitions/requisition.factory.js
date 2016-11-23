@@ -7,7 +7,7 @@
    * @name openlmis.requisitions.RequisitionFactory
    *
    * @description
-   * Responsible for storing all information related to the requisition.
+   * Responsible for supplying requisition with additional methods.
    */
   angular
     .module('openlmis.requisitions')
@@ -45,6 +45,19 @@
 
     return requisition;
 
+    /**
+     * @ngdoc function
+     * @name requisition
+     * @methodOf openlmis.requisitions.RequisitionFactory
+     * @param {Resource} requisition resource with requisition
+     * @param {Resource} template resource with requisition template
+     * @param {Resource} approvedProducts resource with approved products
+     * @return {Object} requisition with methods
+     *
+     * @description
+     * Add all needed methods and information from template to given requisition.
+     *
+     */
     function requisition(requisition, template, approvedProducts) {
         var lineItems = requisition.requisitionLineItems,
             programId = requisition.program.id;
@@ -74,11 +87,11 @@
      * @ngdoc function
      * @name getStockAdjustmentReasons
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} promise with reasons
      *
      * @description
-     * Retrieves stock adjustment reasons based on program.
+     * Retrieves stock adjustment reasons based on requisition program.
      *
-     * @return {*|Function} promise
      */
     function getStockAdjustmentReasons() {
       return resource.getStockAdjustmentReasonsByProgram({
@@ -90,10 +103,11 @@
      * @ngdoc function
      * @name authorize
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} requisition promise
      *
      * @description
+     * Authorize requisition
      *
-     * @return {*|Function} promise
      */
     function authorize() {
       return resource.authorize({
@@ -105,10 +119,11 @@
      * @ngdoc function
      * @name remove
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} promise that resolves after requisition is deleted
      *
      * @description
+     * Removes requisition
      *
-     * @return {*|Function} promise
      */
     function remove() {
       return resource.remove({
@@ -120,10 +135,11 @@
      * @ngdoc function
      * @name save
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} requisition promise
      *
      * @description
+     * Saves requisition
      *
-     * @return {*|Function} promise
      */
     function save() {
       return resource.save({
@@ -135,10 +151,11 @@
      * @ngdoc function
      * @name submit
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} requisition promise
      *
      * @description
+     * Submits requisition in initiated status
      *
-     * @return {*|Function} promise
      */
     function submit() {
       return resource.submit({
@@ -150,10 +167,11 @@
      * @ngdoc function
      * @name approve
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} promise that resolves when requisition is approved
      *
      * @description
+     * Approves requisition with authorized status
      *
-     * @return {*|Function} promise
      */
     function approve() {
       return resource.approve({
@@ -165,10 +183,11 @@
      * @ngdoc function
      * @name reject
      * @methodOf openlmis.requisitions.RequisitionFactory
+     * @return {Promise} promise that resolves when requisition is rejected
      *
      * @description
+     * Reject requisition in authorized status
      *
-     * @return {*|Function} promise
      */
     function reject() {
       return resource.reject({
@@ -266,11 +285,6 @@
       return isValid;
     }
 
-      /**
-       *
-       * @param requisition requisition which needs to be converted into a JSON-formatted string
-       * @return {string|string|undefined}
-       */
     function transformRequisition(requisition) {
         var columns = requisition.$template.columns;
         angular.forEach(requisition.requisitionLineItems, function(lineItem) {
