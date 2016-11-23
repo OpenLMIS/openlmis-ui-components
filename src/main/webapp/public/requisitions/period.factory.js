@@ -66,11 +66,9 @@
                         foundRequisition.status != Status.SUBMITTED)) {
                             lineItems.push(createPeriodGridItem(period, foundRequisition, idx));
                         }
-                    });
-                    deferred.resolve(lineItems);
-                }, function() {
-                    periods.forEach(function (period, idx) {
-                        lineItems.push(createPeriodGridItem(period, null, idx));
+                        if (emergency == true && foundRequisition == null) {
+                            lineItems.push(createPeriodGridItem(period, null, idx));
+                        }
                     });
                     deferred.resolve(lineItems);
                 });
