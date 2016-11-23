@@ -1,23 +1,27 @@
-.notification {
-    @extend .alert;
-	width: 350px;
-	min-height: 80px;
-	display: flex;
-	align-items: center;
-	@extend .fadeIn;
+.notification-container {
+  	position: fixed;
+  	right: 0px;
+  	top: 0px;
+  	z-index: 15;
 }
 
-.notification-container {
-	position: fixed;
-	right: 0px;
-	top: 0px;
-	z-index: 15;
-	padding: 2em;
+.notification {
+    @extend .alert;
+    width: 350px;
+    min-height: 80px;
+    margin: 10px 20px;
+    display: flex;
+    align-items: center;
+    @extend .fadeIn;
+}
+
+.notification:first-child {
+    margin-top: 20px;
 }
 
 .notification .glyphicon {
-	margin-right: 0.5em;
-	font-size: x-large;
+    margin-right: 0.5em;
+    font-size: x-large;
 }
 
 .hide-notification {
