@@ -39,7 +39,9 @@
         Columns.PRODUCT_CODE,
         Columns.PRODUCT_NAME,
         Columns.UNIT_UNIT_OF_ISSUE,
-        Columns.PACKS_TO_SHIP
+        Columns.PACKS_TO_SHIP,
+        Columns.APPROVED_QUANTITY,
+        Columns.REMARKS
     ];
 
     return Column;
