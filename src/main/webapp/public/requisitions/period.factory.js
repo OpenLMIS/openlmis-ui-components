@@ -61,6 +61,7 @@
                             }
                         });
                         if (emergency == false || (emergency == true &&
+                        foundRequisition != null &&
                         foundRequisition.status != Status.INITIATED &&
                         foundRequisition.status != Status.SUBMITTED)) {
                             lineItems.push(createPeriodGridItem(period, foundRequisition, idx));
