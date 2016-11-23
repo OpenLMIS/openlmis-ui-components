@@ -13,8 +13,6 @@
 
 		button {
 			@extend .btn;
-			margin-left: 1em;
-			float: right;
 		}
 
 		button.cancel {
@@ -23,6 +21,7 @@
 
 		button.add-product {
 			@include button-color($green);
+			float: right;
 		}
 	}
 
