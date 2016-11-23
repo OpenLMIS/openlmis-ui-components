@@ -28,7 +28,6 @@
     };
 
     LineItem.prototype.isValid = isValid;
-    LineItem.prototype.getColumnError = getColumnError;
     LineItem.prototype.isColumnValid = isColumnValid;
     LineItem.prototype.areColumnsValid = areColumnsValid;
     LineItem.prototype.getColumnValue = getColumnValue;
@@ -84,10 +83,6 @@
       });
 
       return areValid;
-    }
-
-    function getColumnError(name) {
-      return this.$errors[name];
     }
 
     function getColumnValue(column, status) {
