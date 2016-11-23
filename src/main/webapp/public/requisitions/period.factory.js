@@ -61,9 +61,7 @@
                             }
                         });
                         if (emergency == false || (emergency == true &&
-                        foundRequisition != null &&
-                        foundRequisition.status != Status.INITIATED &&
-                        foundRequisition.status != Status.SUBMITTED)) {
+                        foundRequisition != null && lineItems.length == 0)) {
                             lineItems.push(createPeriodGridItem(period, foundRequisition, idx));
                         }
                         if (emergency == true && foundRequisition == null) {
