@@ -13,7 +13,7 @@
       nonNegative: nonNegative,
       nonEmpty: nonEmpty,
       nonEmptyIfPropertyIsSet: nonEmptyIfPropertyIsSet,
-      validCalculation: validCalculation
+      validateCalculation: validateCalculation
     };
     return factory;
 
@@ -37,7 +37,7 @@
       };
     }
 
-    function validCalculation(calculation) {
+    function validateCalculation(calculation) {
       return function(value, lineItem) {
         if (value !== calculation(lineItem)) {
           return messageService.get('error.wrongCalculation');
