@@ -1,5 +1,5 @@
 .product-grid {
-	overflow: hidden;
+	overflow: auto;
 
 	table {
 		@extend .table;
@@ -10,7 +10,6 @@
 		}
 
 		tbody {
-
 			tr.invalid-row {
 				background-color: lighten($red, 45%);
 				border-color: darken($red, 20%);
