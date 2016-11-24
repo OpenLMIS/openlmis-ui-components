@@ -208,8 +208,8 @@ describe('RequisitionService', function() {
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
-        requisitionService.search(program.id, facility.id, statuses, emergency, startDate1.toISOString(),
-        endDate1.toISOString()).then(function(response) {
+        requisitionService.search(program.id, facility.id, startDate1.toISOString(),
+            endDate1.toISOString(), statuses, emergency).then(function(response) {
             data = response;
         });
 

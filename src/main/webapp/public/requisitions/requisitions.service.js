@@ -139,17 +139,18 @@
          * @methodOf openlmis.requisitions.RequisitionService
          * @param {String} programId Program UUID (optional)
          * @param {String} facilityId Facility UUID
-         * @param {Array} statuses List of requisition statuses (optional)
-         * @param {boolean} emergency Indicates if requisition is emergency or not (optional)
          * @param {Date} startDate Requisitions created from this date (optional)
          * @param {Date} endDate Requisitions created to this date (optional)
+         * @param {Array} statuses List of requisition statuses (optional)
+         * @param {boolean} emergency Indicates if requisition is emergency or not (optional)
+         *
          * @return {Array} Array of requisitions for given criteria (optional)
          *
          * @description
          * Search requisitons by criteria from parameters.
          *
          */
-        function search(programId, facilityId, statuses, emergency, startDate, endDate) {
+        function search(programId, facilityId, startDate, endDate, statuses, emergency) {
             var searchParams = {
                 facility: facilityId
             };

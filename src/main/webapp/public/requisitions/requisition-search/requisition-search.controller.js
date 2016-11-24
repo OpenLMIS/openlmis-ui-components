@@ -145,10 +145,10 @@
                 RequisitionService.search(
                     $scope.selectedProgram.item ? $scope.selectedProgram.item.id : null,
                     $scope.selectedFacility.item ? $scope.selectedFacility.item.id : null,
+                    $scope.startDate ? $scope.startDate.toISOString() : null,
+                    $scope.endDate ? $scope.endDate.toISOString() : null,
                     //getStatusLabels($scope.selectedStatuses),
-                    null,
-                    $scope.startDate ? $scope.startDate.toISOString() : null, 
-                    $scope.endDate ? $scope.endDate.toISOString() : null)
+                    null)
                 .then(function(response) {
                     $scope.requisitionList = response;
                     LoadingModalService.close();
