@@ -77,7 +77,8 @@
             var statuses = [Status.INITIATED, Status.SUBMITTED],
                 deferred = $q.defer();
 
-            RequisitionService.search(programId, facilityId, statuses, emergency).then(function(data) {
+            RequisitionService.search(programId, facilityId, null, null, statuses, emergency).then
+            (function(data) {
                 var lineItems = [];
                 data.forEach(function(rnr) {
                     lineItems.push(createPeriodGridItem(rnr.processingPeriod, rnr, 0));
