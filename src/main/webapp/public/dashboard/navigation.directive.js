@@ -25,7 +25,7 @@
 	 * ```
 	 * <openlmis-navigation />
 	 * ```
-	 * 
+	 *
 	 * Load a specific state
 	 * ```
 	 * <openlmis-navigation root-state="foo" />
@@ -61,6 +61,10 @@
 					} else {
 						return false;
 					}
+				}
+
+				scope.isSubmenu = function(stateName){
+					return !NavigationService.isTopLevel(stateName) && scope.hasChildStates(stateName);
 				}
 			}
 		}

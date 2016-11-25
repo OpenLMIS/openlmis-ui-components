@@ -16,15 +16,15 @@
    * @name openlmis-dashboard.NavigationController
    *
    * @description
-   * 
+   *
    * Adds functionality that takes a state's label property and uses the messageService to translate it into string.
-   * 
+   *
    */
 
   angular.module('openlmis-dashboard')
     .controller('NavigationController', NavigationController);
 
-  NavigationController.$inject = ['$scope', '$state', 'messageService'] 
+  NavigationController.$inject = ['$scope', '$state', 'messageService']
   function NavigationController($scope, $state, messageService) {
 
     this.getStateLabel = getStateLabel;
@@ -34,7 +34,7 @@
      * @name  getStateLabel
      * @methodOf openlmis-dashboard.NavigationController
      * @param  {String} stateName The name of a state
-     * 
+     *
      * @return {String} The translated name for the view
      */
     function getStateLabel(stateName){

@@ -21,7 +21,7 @@
    * When writting UI-Router routes, set the route with 'showInNavigation: true' which will add the route to the navigation service. The parent state from the UI-Router definition is used to create a hiearchy for navigation states.
    *
    * TODO: Check if a user has authorization to view the URL
-   * 
+   *
    */
 
   angular.module('openlmis-dashboard')
@@ -29,13 +29,14 @@
 
   NavigationService.$inject = ['$state', 'AuthorizationService'];
   function NavigationService($state, AuthorizationService){
-    
+
     var service = this;
     var navigationStates = {};
     var topLevelStates = [];
 
     service.get = getNavigationFor;
     service.getMain = getMainNavigation;
+    service.isTopLevel = isTopLevel;
 
     parseNaviationStates($state.get());
 
@@ -95,7 +96,7 @@
      * @name get
      * @methodOf openlmis-dashboard.NavigationService
      * @param  {String} stateName The name of the state to get all child states for
-     * 
+     *
      * @return {Array} Sorted list of UI-Router naviation states
      */
     function getNavigationFor(stateName){
@@ -104,7 +105,7 @@
                 return topLevelStates.sort(stateSort);
             }
             if(navigationStates[stateName]){
-                if(navigationStates[stateName].children 
+                if(navigationStates[stateName].children
                     && Array.isArray(navigationStates[stateName].children)){
                     var childStates = navigationStates[stateName].children
                     return childStates.sort(stateSort);
@@ -119,12 +120,26 @@
      * @name getMain
      * @methodOf openlmis-dashboard.NavigationService
      *
-     * @description Wrapper around NavigationService.get(), that explicitly loads the main navigation. 
-     * 
+     * @description Wrapper around NavigationService.get(), that explicitly loads the main navigation.
+     *
      * @return {Array} Sorted list of top-level navigation states
      */
     function getMainNavigation(){
         return getNavigationFor();
+    }
+
+    /**
+     * @ngdoc function
+     * @name isTopLevel
+     * @methodOf openlmis-dashboard.NavigationService
+     * @param  {String} stateName The name of the state
+     *
+     * @return {boolean} if state is displayed on top nav
+     *
+     * @description Indecates if state is root state (displayed on top navigation bar).
+     */
+    function isTopLevel(stateName) {
+        return topLevelStates.indexOf(stateName) > -1;
     }
 
     function stateSort(aKey, bKey){
