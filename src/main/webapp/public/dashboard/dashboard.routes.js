@@ -12,6 +12,7 @@
         .state('home', {
             url: '/home',
             templateUrl: 'dashboard/home.html',
+            priority: 2,
             showInNavigation: true,
             label: 'link.home'
         })

@@ -8,34 +8,30 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
- /*
-    TODO: Procedurally generate this page
- */
-
 (function() {
-    "use strict";
 
-	angular.module('openlmis', [
-		'openlmis-core',
-		'openlmis-auth',
-		'openlmis-dashboard',
-		'openlmis.requisitions',
-        'openlmis.administration',
-		'resetPassword',
-		'ui.router',
-		'ui.grid',
-		'angularjs-dropdown-multiselect',
-		'ui.bootstrap.datepickerPopup',
-		'ui.bootstrap',
-		'ui.bootstrap.dropdown'
-		]).config(defaultRoutes);
+    'use strict';
 
-	defaultRoutes.$inject = ['$urlRouterProvider'];
-	function defaultRoutes($urlRouterProvider){
-		$urlRouterProvider
-		.when('', '/home')
-		.when('/', '/home')
-		.otherwise("/404");
-	}
+    /**
+     * @ngdoc controller
+     * @name openlmis.administration.TemplateListController
+     * @description
+     * Controller for template list view page
+     */
 
+    angular.module('openlmis.administration').controller('TemplateListController', TemplateListController);
+
+    TemplateListController.$inject = ['$scope', '$state', 'messageService', 'programList'];
+
+    function TemplateListController($scope, $state, messageService, programList) {
+        $scope.programs = programList;
+
+        $scope.goToTemplate = goToTemplate;
+
+        function goToTemplate(id) {
+            /*$state.go('administration.template', {
+                template: id
+            });*/
+        }
+    }
 })();

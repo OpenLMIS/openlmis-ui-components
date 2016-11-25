@@ -8,34 +8,31 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
- /*
-    TODO: Procedurally generate this page
- */
-
 (function() {
-    "use strict";
 
-	angular.module('openlmis', [
-		'openlmis-core',
-		'openlmis-auth',
-		'openlmis-dashboard',
-		'openlmis.requisitions',
-        'openlmis.administration',
-		'resetPassword',
-		'ui.router',
-		'ui.grid',
-		'angularjs-dropdown-multiselect',
-		'ui.bootstrap.datepickerPopup',
-		'ui.bootstrap',
-		'ui.bootstrap.dropdown'
-		]).config(defaultRoutes);
+	'use strict';
 
-	defaultRoutes.$inject = ['$urlRouterProvider'];
-	function defaultRoutes($urlRouterProvider){
-		$urlRouterProvider
-		.when('', '/home')
-		.when('/', '/home')
-		.otherwise("/404");
+	angular.module('openlmis.administration').config(routes);
+
+	routes.$inject = ['$stateProvider'];
+
+	function routes($stateProvider) {
+
+		$stateProvider.state('administration', {
+            abstract: true,
+            showInNavigation: true,
+            priority: 0,
+            label: 'link.administration',
+            url: '/administration',
+            template: '<div ui-view></div>'
+        });
+
+		$stateProvider.state('administration.configure', {
+            abstract: true,
+            showInNavigation: true,
+            label: 'template.configure',
+            url: '/configure',
+            template: '<div ui-view></div>'
+        });
 	}
-
 })();

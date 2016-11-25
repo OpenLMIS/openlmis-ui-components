@@ -1,0 +1,23 @@
+.template-list {
+
+	.page {
+
+		overflow: hidden;
+
+		table {
+			@extend .table;
+			@extend .table-bordered;
+            width: 40%;
+
+			thead > tr {
+				@extend .gradient-header;
+			}
+
+			div * {
+				float: left;
+				padding: 0.1em;
+			}
+		}
+	}
+
+}
