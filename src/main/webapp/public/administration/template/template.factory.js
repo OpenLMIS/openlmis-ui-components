@@ -53,28 +53,28 @@
          * @name  get
          * @methodOf openlmis.administration.RequisitionTemplate
          * @param {String} id Requsition template UUID
-         * @returns {Resource} Requisition template info
+         * @returns {Promise} Requisition template info
          *
          * @description
          *
          * Gets requisition template by id.
          */
         function get(id) {
-            return resource.get({id: id});
+            return resource.get({id: id}).$promise;
         }
 
         /**
          * @ngdoc function
          * @name  getAll
          * @methodOf openlmis.administration.RequisitionTemplate
-         * @returns {Array} Array of all requisition templates
+         * @returns {Promise} Array of all requisition templates
          *
          * @description
          *
          * Gets all requisition templates.
          */
         function getAll() {
-            return resource.getAll();
+            return resource.getAll().$promise;
         }
 
         /**
@@ -89,7 +89,7 @@
          * Gets requisition template for given program.
          */
         function search(programId) {
-            return resource.search({program: programId});
+            return resource.search({program: programId}).$promise;
         }
     }
 

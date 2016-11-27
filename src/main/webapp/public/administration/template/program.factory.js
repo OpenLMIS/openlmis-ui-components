@@ -49,21 +49,21 @@
          * @name  get
          * @methodOf openlmis.administration.Program
          * @param {String} id Program UUID
-         * @returns {Resource} Program info
+         * @returns {Promise} Program info
          *
          * @description
          *
          * Gets program by id.
          */
         function get(id) {
-            return resource.get({id: id});
+            return resource.get({id: id}).$promise;
         }
 
         /**
          * @ngdoc function
          * @name  getAll
          * @methodOf openlmis.administration.Program
-         * @returns {Array} Promise with array of all programs with templates
+         * @returns {Promise} Array of all programs with templates
          *
          * @description
          *
@@ -85,7 +85,7 @@
 
         function getProgramTemplates(programs) {
             var deferred = $q.defer();
-            RequisitionTemplate.getAll().$promise.then(function(templates) {
+            RequisitionTemplate.getAll().then(function(templates) {
                 angular.forEach(programs, function(program, programIdx) {
                     angular.forEach(templates, function(template, templateIdx) {
                         if(program.id === template.programId) {

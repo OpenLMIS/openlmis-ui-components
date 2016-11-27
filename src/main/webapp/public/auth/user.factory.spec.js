@@ -15,10 +15,7 @@ describe('UserFactory', function() {
             firstName: 'fname',
             lastName: 'lname',
             email: 'email@olmis.com'
-        },
-        newEmail = 'newemail@olmis.com',
-        newFirstName = 'newfname',
-        newLastName = 'newlname';
+        };
 
     beforeEach(module('openlmis-auth'));
 
@@ -38,7 +35,7 @@ describe('UserFactory', function() {
         .respond(200, user);
     }));
 
-    it('should get requisition by id', function() {
+    it('should get user by id', function() {
         var data;
         userFactory.get(user.id).$promise.then(function(response) {
             data = response;
