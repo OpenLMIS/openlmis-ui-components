@@ -10,7 +10,7 @@
 
   function lineItem(validations, calculations, Columns, Source) {
 
-    LineItem.prototype.getColumnValue = getColumnValue;
+    LineItem.prototype.getFieldValue = getFieldValue;
 
     return LineItem;
 
@@ -19,7 +19,7 @@
         this.$errors = {};
     }
 
-    function getColumnValue(column, status) {
+    function getFieldValue(column, status) {
       var name = column.name,
         value;
 

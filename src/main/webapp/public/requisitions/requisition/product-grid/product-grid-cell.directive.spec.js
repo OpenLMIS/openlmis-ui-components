@@ -24,7 +24,7 @@ describe('ProductGridCell', function() {
             source: Source.USER_INPUT
         };
         scope.lineItem = {
-            getColumnValue: function() {
+            getFieldValue: function() {
                 return "readOnlyFieldValue";
             }
         }
