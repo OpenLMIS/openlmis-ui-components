@@ -2,7 +2,7 @@ describe('ProductGridCell', function() {
 
 	'use strict';
 
-    var compile, scope, directiveElem, Column, Source;
+    var compile, scope, directiveElem, Source;
 
     beforeEach(function(){
       module('openlmis.requisitions');
@@ -11,10 +11,9 @@ describe('ProductGridCell', function() {
 
     beforeEach(function(){
 
-      inject(function($compile, $rootScope, Type, _Column_, _Source_){
+      inject(function($compile, $rootScope, Type, _Source_){
         compile = $compile;
         scope = $rootScope.$new();
-        Column = _Column_;
         Source = _Source_;
         scope.requisition = {};
 

@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .factory('Template', template);
 
-    template.$inject = ['Column'];
+    template.$inject = ['RequisitionColumn'];
 
-    function template(Column) {
+    function template(RequisitionColumn) {
 
         Template.prototype.getColumns = getColumns;
 
@@ -19,7 +19,7 @@
 
             var columns = [];
             angular.forEach(template.columnsMap, function(column) {
-                columns.push(new Column(column, requisition));
+                columns.push(new RequisitionColumn(column, requisition));
             });
             this.columns = columns;
         }

@@ -1,13 +1,13 @@
-describe('Column', function() {
+describe('RequisitionColumn', function() {
 
-    var Colum, Status, Columns, Source, Type;
+    var RequisitionColumn, Status, Columns, Source, Type;
 
     var columnDef, requisition;
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(_Column_, _Status_, _Columns_, _Source_, _Type_) {
-        Column = _Column_;
+    beforeEach(inject(function(_RequisitionColumn_, _Status_, _Columns_, _Source_, _Type_) {
+        RequisitionColumn = _RequisitionColumn_;
         Status = _Status_;
         Columns = _Columns_;
         Source = _Source_;
@@ -30,8 +30,8 @@ describe('Column', function() {
         };
     });
 
-    it('should create Column from definition', function() {
-        var column = new Column(columnDef, requisition);
+    it('should create RequisitionColumn from definition', function() {
+        var column = new RequisitionColumn(columnDef, requisition);
 
         expect(column.name).toBe(Columns.STOCK_ON_HAND);
         expect(column.source).toBe(Source.CALCULATED);
@@ -52,7 +52,7 @@ describe('Column', function() {
     it('should hide column if it is invisible', function() {
         columnDef.isDisplayed = false;
 
-        var column = new Column(columnDef, requisition);
+        var column = new RequisitionColumn(columnDef, requisition);
 
         expect(column.display).toBe(false);
     });
@@ -79,7 +79,7 @@ describe('Column', function() {
             columnDef.name = testCase.column;
             columnDef.source = testCase.source;
 
-            var column = new Column(columnDef, requisition);
+            var column = new RequisitionColumn(columnDef, requisition);
 
             expect(column.required).toBe(testCase.result);
         });
@@ -127,7 +127,7 @@ describe('Column', function() {
             columnDef.name = testCase.column;
             requisition.status = testCase.status;
 
-            var column = new Column(columnDef, requisition);
+            var column = new RequisitionColumn(columnDef, requisition);
 
             expect(column.display).toBe(testCase.result);
         });

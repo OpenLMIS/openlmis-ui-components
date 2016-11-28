@@ -4,11 +4,11 @@
 
   angular
     .module('openlmis.requisitions')
-    .factory('Column', column);
+    .factory('RequisitionColumn', requisitionColumn);
 
-  column.$inject = ['Columns', 'Source', 'Status'];
+  requisitionColumn.$inject = ['Columns', 'Source', 'Status'];
 
-  function column(Columns, Source, Status) {
+  function requisitionColumn(Columns, Source, Status) {
 
     var nonMandatoryFields = [
       Columns.SKIPPED,
@@ -44,9 +44,9 @@
         Columns.REMARKS
     ];
 
-    return Column;
+    return RequisitionColumn;
 
-    function Column(column, requisition) {
+    function RequisitionColumn(column, requisition) {
         var name = column.name,
             source = column.source;
 

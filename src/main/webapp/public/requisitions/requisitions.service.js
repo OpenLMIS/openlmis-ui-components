@@ -13,9 +13,12 @@
         .module('openlmis.requisitions')
         .service('RequisitionService', requisitionService);
 
-    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory', 'Source', 'Column', 'Confirm', 'Notification', 'DateUtils'];
+    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
+                                  'RequisitionURL', 'RequisitionFactory', 'Source', 'Confirm',
+                                  'Notification', 'DateUtils'];
 
-    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL, RequisitionFactory, Source, Column, Confirm, Notification, DateUtils) {
+    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
+                                RequisitionFactory, Source, Confirm, Notification, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
