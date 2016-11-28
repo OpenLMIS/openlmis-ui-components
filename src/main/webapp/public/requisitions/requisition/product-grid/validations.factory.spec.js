@@ -1,5 +1,5 @@
 
-ddescribe('validations', function() {
+describe('validations', function() {
 
     var validations, messageService;
 
