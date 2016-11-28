@@ -1,18 +1,18 @@
 describe('CalculationFactory', function() {
 
-    var CalculationFactory, Status;
-    var lineItem, _additive_, filter = function() {
-        return [{
-            additive: _additive_,
-        }];
-    };
+    var CalculationFactory, Status, lineItem, _additive_;
 
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(module(function($provide) {
+        var filter = function() {
+            return [{
+                additive: _additive_,
+            }];
+        };
+
         $provide.value('filterFilter', filter);
     }));
-
 
     beforeEach(inject(function(_CalculationFactory_, _Status_) {
         CalculationFactory = _CalculationFactory_;
