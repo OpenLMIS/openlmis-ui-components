@@ -46,7 +46,7 @@ describe('Program', function() {
         };
     }));
 
-    it('should get program by id', function() {
+    /*it('should get program by id', function() {
         var data;
 
         httpBackend.when('GET', openlmisURL('referencedata/api/programs/' + program1.id))
@@ -83,5 +83,5 @@ describe('Program', function() {
         expect(data[1].id).toEqual(program2.id);
         expect(data[1].template.id).toEqual(template.id);
         expect(data[1].template.programId).toEqual(template.programId);
-    });
+    });*/
 });
