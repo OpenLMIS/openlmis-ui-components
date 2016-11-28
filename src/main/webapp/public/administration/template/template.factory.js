@@ -17,7 +17,6 @@
      * @name openlmis.administration.RequisitionTemplate
      *
      * @description
-     *
      * Allows user to perform operations on requisition template resource.
      *
      */
@@ -56,7 +55,6 @@
          * @returns {Promise} Requisition template info
          *
          * @description
-         *
          * Gets requisition template by id.
          */
         function get(id) {
@@ -70,7 +68,6 @@
          * @returns {Promise} Array of all requisition templates
          *
          * @description
-         *
          * Gets all requisition templates.
          */
         function getAll() {
@@ -85,7 +82,6 @@
          * @return {Promise} requisition template for given program
          *
          * @description
-         *
          * Gets requisition template for given program.
          */
         function search(programId) {

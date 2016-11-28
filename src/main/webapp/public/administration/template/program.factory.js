@@ -17,10 +17,7 @@
      * @name openlmis.administration.Program
      *
      * @description
-     *
      * Allows user to perform operations on program resource.
-     * Additionally finds template (if exist) for each program.
-     *
      */
     angular.module('openlmis.administration').factory('Program', Program);
 
@@ -52,7 +49,6 @@
          * @returns {Promise} Program info
          *
          * @description
-         *
          * Gets program by id.
          */
         function get(id) {
@@ -66,7 +62,6 @@
          * @returns {Promise} Array of all programs with templates
          *
          * @description
-         *
          * Gets all programs and adds requisition template to it.
          */
         function getAll() {

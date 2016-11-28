@@ -33,7 +33,7 @@ describe('RequisitionTemplate', function() {
     it('should get requisition template by id', function() {
         var data;
 
-        httpBackend.when('GET', requisitionURL('api/requisitionTemplates/' + template1.id))
+        httpBackend.when('GET', requisitionURL('/api/requisitionTemplates/' + template1.id))
         .respond(200, template1);
 
         templateFactory.get(template1.id).then(function(response) {
@@ -50,7 +50,7 @@ describe('RequisitionTemplate', function() {
     it('should get all requisition templates', function() {
         var data;
 
-        httpBackend.when('GET', requisitionURL('api/requisitionTemplates'))
+        httpBackend.when('GET', requisitionURL('/api/requisitionTemplates'))
         .respond(200, [template1, template2]);
 
         templateFactory.getAll().then(function(response) {
@@ -69,7 +69,7 @@ describe('RequisitionTemplate', function() {
     it('should search requisition template by program id', function() {
         var data;
 
-        httpBackend.when('GET', requisitionURL('api/requisitionTemplates/search?program=' + template2.programId))
+        httpBackend.when('GET', requisitionURL('/api/requisitionTemplates/search?program=' + template2.programId))
         .respond(200, template2);
 
         templateFactory.search(template2.programId).then(function(response) {

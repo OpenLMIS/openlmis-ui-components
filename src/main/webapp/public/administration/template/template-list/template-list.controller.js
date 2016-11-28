@@ -15,6 +15,7 @@
     /**
      * @ngdoc controller
      * @name openlmis.administration.TemplateListController
+     *
      * @description
      * Controller for template list view page
      */
@@ -29,9 +30,7 @@
         $scope.goToTemplate = goToTemplate;
 
         function goToTemplate(id) {
-            /*$state.go('administration.template', {
-                template: id
-            });*/
+            // go to template view
         }
     }
 })();

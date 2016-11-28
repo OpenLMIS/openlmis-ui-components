@@ -136,7 +136,8 @@
      *
      * @return {boolean} if state is displayed on top nav
      *
-     * @description Indecates if state is root state (displayed on top navigation bar).
+     * @description
+     * Indecates if state is root state (displayed on top navigation bar).
      */
     function isTopLevel(stateName) {
         return topLevelStates.indexOf(stateName) > -1;
