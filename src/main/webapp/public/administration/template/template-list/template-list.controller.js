@@ -26,11 +26,5 @@
 
     function TemplateListController($scope, $state, messageService, programList) {
         $scope.programs = programList;
-
-        $scope.goToTemplate = goToTemplate;
-
-        function goToTemplate(id) {
-            // go to template view
-        }
     }
 })();
