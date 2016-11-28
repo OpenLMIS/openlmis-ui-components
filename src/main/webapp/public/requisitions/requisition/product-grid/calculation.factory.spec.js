@@ -1,20 +1,10 @@
 describe('calculations', function() {
 
-    var calculations, Status, lineItem, _additive_;
+    var calculations, Status, lineItem;
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(module(function($provide) {
-        var filter = function() {
-            return [{
-                additive: _additive_,
-            }];
-        };
-
-        $provide.value('filterFilter', filter);
-    }));
-
-    beforeEach(inject(function(_calculations_, _Status_) {
+    var lineItemInject = inject(function(_calculations_, _Status_) {
         calculations = _calculations_;
         Status = _Status_;
 
@@ -26,9 +16,10 @@ describe('calculations', function() {
             totalReceivedQuantity: 10,
             stockOnHand: 5,
         };
-    }));
+    });
 
-    describe('calculatePacksToShip', function() {
+    describe('Calculate packs to ship', function(){
+        beforeEach(lineItemInject);
 
         it('should return zero if pack size is zero', function() {
             lineItem.orderableProduct.packSize = 0;
@@ -94,13 +85,27 @@ describe('calculations', function() {
             expect(calculations.totalConsumedQuantity(lineItem)).toBe(50);
         });
 
+    });
+
+    describe('Calculate total losses and adjustments', function() {
+        var _additive__;
+        beforeEach(module(function($provide) {
+            var filter = function() {
+                return [{
+                    additive: _additive_,
+                }];
+            };
+
+            $provide.value('filterFilter', filter);
+        }));
+
+        beforeEach(lineItemInject);
 
         it ('should return zero when calculating totalLossesAndAdjustments and no reason present', function() {
             expect(calculations.totalLossesAndAdjustments(lineItem, {})).toBe(0);
         });
 
-        it ('should use positive values when calculating totalLossesAndAdjustments and additive parameter is true',
-         function() {
+        it ('should use positive values when calculating totalLossesAndAdjustments and additive parameter is true', function() {
             _additive_ = true;
             lineItem.stockAdjustments = [
                 {
@@ -113,8 +118,7 @@ describe('calculations', function() {
             expect(calculations.totalLossesAndAdjustments(lineItem, {})).toBe(11);
         });
 
-        it ('should use negative values when calculating totalLossesAndAdjustments and additive parameter is false',
-         function() {
+        it ('should use negative values when calculating totalLossesAndAdjustments and additive parameter is false', function() {
             _additive_ = false;
             lineItem.stockAdjustments = [
                 {
