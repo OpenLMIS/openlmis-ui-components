@@ -6,9 +6,12 @@
         .module('openlmis.requisitions')
         .controller('ProductGridCtrl', productGridCtrl);
 
-    productGridCtrl.$inject = ['$scope', '$stateParams', '$filter', 'calculations', 'bootbox', '$rootScope', '$templateRequest', '$compile'];
+    productGridCtrl.$inject = ['$scope', '$stateParams', '$filter', 'calculations', 'bootbox',
+                               '$rootScope', '$templateRequest', '$compile',
+                               'requisitionValidator'];
 
-    function productGridCtrl($scope, $stateParams, $filter, calculations, bootbox, $rootScope, $templateRequest, $compile) {
+    function productGridCtrl($scope, $stateParams, $filter, calculations, bootbox, $rootScope,
+                             $templateRequest, $compile, requisitionValidator) {
 
         var dialog;
 
@@ -18,6 +21,7 @@
         $scope.getCategories = getCategories;
         $scope.gridVisible = gridVisible;
         $scope.hideLineItem = hideLineItem;
+        $scope.isLineItemValid = requisitionValidator.isLineItemValid;
 
         $scope.requisition.$getStockAdjustmentReasons().then(function(stockAdjustmentReasons) {
             $scope.stockAdjustmentReasons = stockAdjustmentReasons;

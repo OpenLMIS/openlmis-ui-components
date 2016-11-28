@@ -68,7 +68,6 @@
         requisition.$remove = remove;
         requisition.$approve = approve;
         requisition.$reject = reject;
-        requisition.$isValid = isValid;
         requisition.$isInitiated = isInitiated;
         requisition.$isSubmitted = isSubmitted;
         requisition.$isApproved = isApproved;
@@ -257,36 +256,6 @@
      */
     function isApproved() {
       return this.status === Status.APPROVED;
-    }
-
-    /**
-     * @ngdoc function
-     * @name isValid
-     * @methodOf openlmis.requisitions.RequisitionFactory
-     *
-     * @description
-     * Determines whether the requisition is valid based on line items' columns validity.
-     *
-     * @return {boolean} is requisition valid
-     */
-    function isValid() {
-      var isValid = true,
-      fullSupplyColumns = this.$template.getColumns(),
-      nonFullSupplyColumns = this.$template.getColumns(true);
-
-      this.$fullSupplyCategories.forEach(function(category) {
-        category.lineItems.forEach(function(lineItem) {
-          isValid = lineItem.areColumnsValid(fullSupplyColumns) && isValid;
-        });
-      });
-
-      this.$nonFullSupplyCategories.forEach(function(category) {
-        category.lineItems.forEach(function(lineItem) {
-          isValid = lineItem.areColumnsValid(nonFullSupplyColumns) && isValid;
-        });
-      });
-
-      return isValid;
     }
 
     function transformRequisition(requisition) {

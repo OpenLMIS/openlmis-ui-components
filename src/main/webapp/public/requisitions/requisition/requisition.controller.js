@@ -20,9 +20,13 @@
 
     angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state','requisition', 'AuthorizationService', 'messageService', 'LoadingModalService', 'Notification', 'Confirm'];
+    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
+                               'AuthorizationService', 'messageService', 'LoadingModalService',
+                               'Notification', 'Confirm'];
 
-    function RequisitionCtrl($scope, $state, requisition, AuthorizationService, messageService, LoadingModalService, Notification, Confirm) {
+    function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
+                             AuthorizationService, messageService, LoadingModalService,
+                             Notification, Confirm) {
 
         /**
          * @ngdoc property
@@ -93,7 +97,7 @@
          */
         function submitRnr() {
             Confirm('msg.question.confirmation.submit').then(function() {
-                if (requisition.$isValid()) {
+                if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
                         $scope.requisition.$submit()
@@ -126,7 +130,7 @@
          */
         function authorizeRnr() {
             Confirm('msg.question.confirmation.authorize').then(function() {
-                if (requisition.$isValid()) {
+                if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
                         $scope.requisition.$authorize()
@@ -183,7 +187,7 @@
          */
         function approveRnr() {
             Confirm('msg.question.confirmation').then(function() {
-                if(requisition.$isValid()) {
+                if(requisitionValidator.validateRequisition(requisition)) {
                     save()
                     .then(function() {
                         LoadingModalService.open();

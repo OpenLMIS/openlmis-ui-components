@@ -20,9 +20,12 @@
 		.module('openlmis.requisitions')
 		.directive('productGridCell', productGridCell);
 
-	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'Columns', 'Source', 'Type'];
+	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator', 'Columns',
+							   'Source', 'Type'];
 
-  	function productGridCell($q, $templateRequest, $compile, Columns, Source, Type) {
+	function productGridCell($q, $templateRequest, $compile, requisitionValidator, Columns, Source,
+							 Type) {
+
     	var directive = {
       		restrict: 'A',
       		link: link
@@ -62,7 +65,7 @@
 	      	});
 
       		function validate() {
-				scope.lineItem.isColumnValid(column, scope.requisition.$template.columns);
+				requisitionValidator.validateLineItemField(scope.lineItem, column, scope.requisition.$template.columns);
       		}
 
 			function isReadOnly() {

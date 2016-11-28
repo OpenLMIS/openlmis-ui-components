@@ -253,26 +253,6 @@ describe('RequisitionFactory', function() {
         expect(isApproved).toBe(false);
     });
 
-    it('should return true if requisition is valid', function() {
-        var isValid = requisition.$isValid();
-
-        expect(isValid).toBe(true);
-
-        requisition.$fullSupplyCategories.forEach(function(category) {
-            category.lineItems.forEach(function(lineItem) {
-                expect(lineItem.areColumnsValid)
-                    .toHaveBeenCalledWith(requisition.$template.getColumns());
-            });
-        });
-
-        requisition.$nonFullSupplyCategories.forEach(function(category) {
-            category.lineItems.forEach(function(lineItem) {
-                expect(lineItem.areColumnsValid)
-                    .toHaveBeenCalledWith(requisition.$template.getColumns(true));
-            });
-        });
-    });
-
     function fullSupplyCategories() {
         return [
             category('CategoryOne', [lineItemSpy('One'), lineItemSpy('Two')]),
