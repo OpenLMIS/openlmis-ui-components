@@ -1,56 +1,58 @@
 (function() {
 
-  'use strict';
+    'use strict';
 
-  angular
+    angular
     .module('openlmis.requisitions')
     .factory('LineItem', lineItem);
 
-  lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source'];
+    lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source'];
 
-  function lineItem(validations, calculations, Columns, Source) {
+    function lineItem(validations, calculations, Columns, Source) {
 
-    LineItem.prototype.getFieldValue = getFieldValue;
-    LineItem.prototype.updateFieldValue = updateFieldValue;
+        LineItem.prototype.getFieldValue = getFieldValue;
+        LineItem.prototype.updateFieldValue = updateFieldValue;
 
-    return LineItem;
+        return LineItem;
 
-    function LineItem(lineItem, programId, columns, status) {
-        var newLineItem = this;
-        angular.merge(newLineItem, lineItem);
-        newLineItem.$errors = {};
-        newLineItem.$program = getProgramById(lineItem.orderableProduct.programs, programId);
+        function LineItem(lineItem, requisition) {
+            var newLineItem = this,
+            programId = requisition.program.id;
 
-        columns.forEach(function(column) {
-            newLineItem.updateFieldValue(column, status);
-        });
-    }
+            angular.merge(newLineItem, lineItem);
+            newLineItem.$errors = {};
+            newLineItem.$program = getProgramById(lineItem.orderableProduct.programs, programId);
 
-    function getFieldValue(name) {
-        var value = this;
-        angular.forEach(name.split('.'), function(property) {
-          value = value[property];
-        });
-        return value;
-    }
-
-    function updateFieldValue(column, status) {
-        if (column.source === Source.CALCULATED) {
-            var name = column.name;
-            this[name] = calculations[name](this, status);
+            requisition.$template.columns.forEach(function(column) {
+                newLineItem.updateFieldValue(column, requisition.status);
+            });
         }
-    }
 
-    function getProgramById(programs, programId) {
-        var match;
-        programs.forEach(function(program) {
-            if (program.programId === programId) {
-                match = program;
+        function getFieldValue(name) {
+            var value = this;
+            angular.forEach(name.split('.'), function(property) {
+                value = value[property];
+            });
+            return value;
+        }
+
+        function updateFieldValue(column, status) {
+            if (column.source === Source.CALCULATED) {
+                var name = column.name;
+                this[name] = calculations[name](this, status);
             }
-        });
-        return match;
-    }
+        }
 
-  };
+        function getProgramById(programs, programId) {
+            var match;
+            programs.forEach(function(program) {
+                if (program.programId === programId) {
+                    match = program;
+                }
+            });
+            return match;
+        }
+
+    };
 
 })();
