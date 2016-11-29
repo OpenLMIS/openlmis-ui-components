@@ -124,7 +124,7 @@
                 error = error || validation(lineItem[name], lineItem);
             });
 
-            if (isCalculated(column) && !isCalculated(getCounterpart(columns, name))) {
+            if (shouldValidateCalculation(lineItem, column, columns)) {
                 error = error || validateCalculation(calculations[name], lineItem, name);
             }
 
@@ -149,6 +149,12 @@
                 valid = valid && !error;
             });
             return valid;
+        }
+
+        function shouldValidateCalculation(lineItem, column, columns) {
+            return calculations[column.name]
+                    && !isCalculated(column)
+                    && !isCalculated(getCounterpart(columns, column.name));
         }
 
         function validateCalculation(calculation, lineItem, name) {
