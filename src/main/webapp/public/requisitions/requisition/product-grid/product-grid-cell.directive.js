@@ -59,6 +59,9 @@
 	      	angular.forEach(column.dependencies, function(dependency) {
 	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
 	          		if (newValue !== oldValue) {
+						if (column.source === Source.CALCULATED) {
+							scope.lineItem.updateFieldValue(column, requisition.status);
+						}
 	            		validate();
 	          		}
 	        	});

@@ -30,6 +30,10 @@
       ],
       requestedQuantityExplanation: [
         Columns.REQUESTED_QUANTITY
+      ],
+      packsToShip: [
+        Columns.REQUESTED_QUANTITY,
+        Columns.APPROVED_QUANTITY
       ]
     };
 

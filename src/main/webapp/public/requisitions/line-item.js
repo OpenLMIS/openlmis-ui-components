@@ -11,32 +11,34 @@
   function lineItem(validations, calculations, Columns, Source) {
 
     LineItem.prototype.getFieldValue = getFieldValue;
+    LineItem.prototype.updateFieldValue = updateFieldValue;
 
     return LineItem;
 
-    function LineItem(lineItem, programId) {
-        angular.merge(this, lineItem);
-        this.$errors = {};
-        this.$program = getProgramById(lineItem.orderableProduct.programs, programId);
+    function LineItem(lineItem, programId, columns, status) {
+        var newLineItem = this;
+        angular.merge(newLineItem, lineItem);
+        newLineItem.$errors = {};
+        newLineItem.$program = getProgramById(lineItem.orderableProduct.programs, programId);
+
+        columns.forEach(function(column) {
+            newLineItem.updateFieldValue(column, status);
+        });
     }
 
-    function getFieldValue(column, status) {
-      var name = column.name,
-        value;
-
-      if (name.indexOf('.') > -1) { // for product code and product name
-        value = this;
+    function getFieldValue(name) {
+        var value = this;
         angular.forEach(name.split('.'), function(property) {
           value = value[property];
         });
         return value;
-      }
+    }
 
-      if (column.source === Source.CALCULATED) {
-        this[name] = calculations[name](this, status);
-      }
-
-      return this[name];
+    function updateFieldValue(column, status) {
+        if (column.source === Source.CALCULATED) {
+            var name = column.name;
+            this[name] = calculations[name](this, status);
+        }
     }
 
     function getProgramById(programs, programId) {

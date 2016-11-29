@@ -76,7 +76,7 @@
 
         var lineItems = [];
         requisition.requisitionLineItems.forEach(function(lineItem) {
-            lineItems.push(new LineItem(lineItem, programId));
+            lineItems.push(new LineItem(lineItem, programId, requisition.$template.columns, requisition.status));
         });
         requisition.requisitionLineItems = lineItems;
 

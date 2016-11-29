@@ -1,5 +1,5 @@
 <div>
-	<div ng-if="isReadOnly">{{lineItem.getFieldValue(column, requisitions.status)}}</div>
+	<div ng-if="isReadOnly">{{lineItem.getFieldValue(column.name)}}</div>
 	<input type="text" ng-model="lineItem[column.name]" ng-if="!isReadOnly" ng-change="validate()"
 		   ng-blur="validate()">
 	<div class="cell-error-message">{{lineItem.$errors[column.name]}}</div>
