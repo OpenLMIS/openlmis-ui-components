@@ -30,9 +30,9 @@
             }
         });
 
-        $stateProvider.state('requisitions.requisition.fullSupplyProducts', {
+        $stateProvider.state('requisitions.requisition.fullSupply', {
             controller: 'ProductGridCtrl',
-            url: '/fullSupplyProducts',
+            url: '/fullSupply',
             templateUrl: 'requisitions/requisition/product-grid/product-grid.html',
             params: {
                 nonFullSupply: false

@@ -102,7 +102,7 @@
          *
          */
         function openRnr(row) {
-            $state.go('requisitions.requisition.fullSupplyProducts', {
+            $state.go('requisitions.requisition.fullSupply', {
                 rnr: row.entity.id
             });
         }

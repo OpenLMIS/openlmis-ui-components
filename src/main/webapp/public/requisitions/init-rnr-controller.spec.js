@@ -69,7 +69,7 @@ describe("InitiateRnrController", function(){
 
         scope.initRnr(selectedPeriod);
 
-        expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupplyProducts', {"rnr":1});
+        expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {"rnr":1});
 
     });
 
@@ -85,7 +85,7 @@ describe("InitiateRnrController", function(){
         scope.initRnr(selectedPeriod);
         scope.$apply();
 
-        expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupplyProducts', {"rnr": 1});
+        expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {"rnr": 1});
     });
 
     it("Should not change page to requisitions.requisition with selected period without rnrId "
