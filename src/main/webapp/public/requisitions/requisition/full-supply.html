@@ -1,0 +1,17 @@
+<div class="product-grid">
+	<table>
+		<thead>
+			<tr>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}</th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="(category, lineItems) in vm.categories">
+			<tr>
+			  <td class="productCategory" colspan="{{vm.columns.length}}">{{category}}</td>
+			</tr>
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems">
+			  <td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

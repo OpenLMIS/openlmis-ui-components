@@ -31,12 +31,10 @@
         });
 
         $stateProvider.state('requisitions.requisition.fullSupply', {
-            controller: 'ProductGridCtrl',
             url: '/fullSupply',
-            templateUrl: 'requisitions/requisition/product-grid/product-grid.html',
-            params: {
-                nonFullSupply: false
-            }
+            templateUrl: 'requisitions/requisition/full-supply.html',
+            controller: 'FullSupplyCtrl',
+            controllerAs: 'vm'
         });
 
         $stateProvider.state('requisitions.requisition.nonFullSupplyProducts', {
