@@ -4,17 +4,17 @@
 
     angular
         .module('openlmis.requisitions')
-        .factory('Category', category);
+        .factory('RequisitionCategory', requisitionCategory);
 
-    function category() {
+    function requisitionCategory() {
 
-        var Category;
+        var RequisitionCategory;
 
-        Category.prototype.isVisible = isVisible;
+        RequisitionCategory.prototype.isVisible = isVisible;
 
-        return Category;
+        return RequisitionCategory;
 
-        function Category(name, lineItems) {
+        function RequisitionCategory(name, lineItems) {
             this.name = name;
             this.lineItems = lineItems;
         }

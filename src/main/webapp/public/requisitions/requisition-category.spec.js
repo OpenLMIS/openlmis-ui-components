@@ -1,14 +1,14 @@
-describe('Category', function() {
+describe('RequisitionCategory', function() {
 
-    var Category;
+    var RequisitionCategory;
 
     var name = 'TestCategory',
         lineItems;
 
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function(_Category_) {
-        Category = _Category_;
+    beforeEach(inject(function(_RequisitionCategory_) {
+        RequisitionCategory = _RequisitionCategory_;
     }));
 
     beforeEach(function() {
@@ -22,7 +22,7 @@ describe('Category', function() {
     });
 
     it('should create Column object', function() {
-        var category = new Category(name, lineItems);
+        var category = new RequisitionCategory(name, lineItems);
 
         expect(category.name).toBe(name);
         expect(category.lineItems).toBe(lineItems);
@@ -34,7 +34,7 @@ describe('Category', function() {
             lineItems[0].$visible = true;
             lineItems[1].$visible = false;
 
-            var category = new Category(name, lineItems);
+            var category = new RequisitionCategory(name, lineItems);
 
             expect(category.isVisible()).toBe(true);
         });
@@ -43,7 +43,7 @@ describe('Category', function() {
             lineItems[0].$visible = false;
             lineItems[1].$visible = false;
 
-            var category = new Category(name, lineItems);
+            var category = new RequisitionCategory(name, lineItems);
 
             expect(category.isVisible()).toBe(false);
         });

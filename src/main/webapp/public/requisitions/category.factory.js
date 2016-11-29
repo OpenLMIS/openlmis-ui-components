@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .factory('CategoryFactory', categoryFactory);
 
-    categoryFactory.$inject = ['Category'];
+    categoryFactory.$inject = ['RequisitionCategory'];
 
-    function categoryFactory(Category) {
+    function categoryFactory(RequisitionCategory) {
         var factory = {
             groupFullSupplyLineItems: groupFullSupplyLineItems,
             groupNonFullSupplyLineItems: groupNonFullSupplyLineItems,
@@ -64,7 +64,7 @@
         function toCategoryList(categories) {
             var list = []
             for (var category in categories) {
-                list.push(new Category(category, categories[category]));
+                list.push(new RequisitionCategory(category, categories[category]));
             }
             return list;
         }
