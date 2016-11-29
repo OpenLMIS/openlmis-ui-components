@@ -76,7 +76,7 @@
 
         var lineItems = [];
         requisition.requisitionLineItems.forEach(function(lineItem) {
-            lineItems.push(new LineItem(lineItem));
+            lineItems.push(new LineItem(lineItem, programId));
         });
         requisition.requisitionLineItems = lineItems;
 

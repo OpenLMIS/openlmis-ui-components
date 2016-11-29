@@ -10,7 +10,8 @@
 
 describe('RequisitionFactory', function() {
 
-    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrl, openlmisUrl;
+    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrl, openlmisUrl,
+        LineItemSpy;
 
     var TemplateSpy;
 
@@ -70,6 +71,16 @@ describe('RequisitionFactory', function() {
     	$provide.service('Template', function(){
     		return TemplateSpy;
     	});
+    }));
+
+    beforeEach(module(function($provide){
+        LineItemSpy = jasmine.createSpy().andCallFake(function(lineItem) {
+            return lineItem;
+        });
+
+        $provide.service('LineItem', function(){
+            return LineItemSpy;
+        });
     }));
 
     beforeEach(inject(function(CategoryFactory) {

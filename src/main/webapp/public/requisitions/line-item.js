@@ -14,9 +14,10 @@
 
     return LineItem;
 
-    function LineItem(lineItem) {
+    function LineItem(lineItem, programId) {
         angular.merge(this, lineItem);
         this.$errors = {};
+        this.$program = getProgramById(lineItem.orderableProduct.programs, programId);
     }
 
     function getFieldValue(column, status) {
@@ -36,6 +37,16 @@
       }
 
       return this[name];
+    }
+
+    function getProgramById(programs, programId) {
+        var match;
+        programs.forEach(function(program) {
+            if (program.programId === programId) {
+                match = program;
+            }
+        });
+        return match;
     }
 
   };

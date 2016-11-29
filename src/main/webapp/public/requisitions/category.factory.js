@@ -16,15 +16,15 @@
         };
         return factory;
 
-        function groupFullSupplyLineItems(lineItems, programId) {
-            return groupLineItemsWithCondition(lineItems, programId, function(lineItem) {
-                return isFullSupply(lineItem, programId);
+        function groupFullSupplyLineItems(lineItems) {
+            return groupLineItemsWithCondition(lineItems, function(lineItem) {
+                return lineItem.$program.fullSupply;
             });
         }
 
-        function groupNonFullSupplyLineItems(lineItems, programId) {
-            return groupLineItemsWithCondition(lineItems, programId, function(lineItem) {
-                return !isFullSupply(lineItem, programId);
+        function groupNonFullSupplyLineItems(lineItems) {
+            return groupLineItemsWithCondition(lineItems, function(lineItem) {
+                return !lineItem.$program.fullSupply;
             });
         }
 
@@ -45,12 +45,12 @@
             return toCategoryList(categories);
         }
 
-        function groupLineItemsWithCondition(lineItems, programId, condition) {
+        function groupLineItemsWithCondition(lineItems, condition) {
             var categories = {};
 
             lineItems.forEach(function(lineItem) {
                 if (condition(lineItem)) {
-                    var category = getCategory(lineItem, programId);
+                    var category = lineItem.$program.productCategoryDisplayName;
                     if (!categories[category]) {
                         categories[category] = [];
                     }
@@ -67,26 +67,6 @@
                 list.push(new RequisitionCategory(category, categories[category]));
             }
             return list;
-        }
-
-        function getCategory(lineItem, programId) {
-            var program = getProgramById(lineItem.orderableProduct.programs, programId);
-            return program ? program.productCategoryDisplayName : undefined;
-        }
-
-        function isFullSupply(lineItem, programId) {
-            var program = getProgramById(lineItem.orderableProduct.programs, programId);
-            return program ? program.fullSupply : undefined;
-        }
-
-        function getProgramById(programs, programId) {
-            var match;
-            programs.forEach(function(program) {
-                if (program.programId === programId) {
-                    match = program;
-                }
-            });
-            return match;
         }
 
         function isLineItem(lineItems, product) {
