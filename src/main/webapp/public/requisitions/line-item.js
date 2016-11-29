@@ -32,7 +32,7 @@
       }
 
       if (column.source === Source.CALCULATED) {
-        this[name] = CalculationFactory[name](this, status);
+        this[name] = calculations[name](this, status);
       }
 
       return this[name];
