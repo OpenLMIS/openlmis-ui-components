@@ -14,31 +14,20 @@ describe('validations', function() {
         });
     }));
 
-    it('should return "negative" error message when value is negative', function() {
+    it('should perform validation for negative values correctly', function() {
 
-        validations.nonNegative(-1);
-        expect(messageService.get).toHaveBeenCalledWith('error.negative');
-
-    });
-
-    it('should return "required" error message when value is blank', function() {
-
-        validations.nonEmpty("");
-        expect(messageService.get).toHaveBeenCalledWith('error.required');
+        expect(validations.nonNegative(-1)).toBe('error.negative');
+        expect(validations.nonNegative(0)).toBeUndefined();
+        expect(validations.nonNegative(1)).toBeUndefined();
 
     });
 
-    it('should pass validation when value is non negative', function() {
+    it('should perform validation for blank values correctly', function() {
 
-        validations.nonNegative(0);
-        expect(messageService.get).not.toHaveBeenCalled();
-
-    });
-
-    it('should pass validation when value is not empty', function() {
-
-        validations.nonEmpty(2);
-        expect(messageService.get).not.toHaveBeenCalled();
+        expect(validations.nonEmpty("")).toBe('error.required');
+        expect(validations.nonEmpty(null)).toBe('error.required');
+        expect(validations.nonEmpty(2)).toBeUndefined();
+        expect(validations.nonEmpty("some string")).toBeUndefined();
 
     });
 
