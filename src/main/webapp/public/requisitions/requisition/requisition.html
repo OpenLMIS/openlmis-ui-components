@@ -11,7 +11,7 @@
     <ng-include src="'requisitions/requisition/header.html'"></ng-include>
     <ul class="nav nav-tabs">
       <li ui-sref-active="active" role="presentation"><a ui-sref="requisitions.requisition.fullSupply">{{'label.full.supply.products' | message}}</a></li>
-      <li ui-sref-active="active" ng-if="requisition.$template.showNonFullSupplyTab" role="presentation"><a ui-sref="requisitions.requisition.nonFullSupplyProducts">{{'label.non.full.supply.products' | message}}</a></li>
+      <li ui-sref-active="active" ng-if="requisition.$template.showNonFullSupplyTab" role="presentation"><a ui-sref="requisitions.requisition.nonFullSupply">{{'label.non.full.supply.products' | message}}</a></li>
     </ul>
     <div ui-view=""></div>
 </div>
