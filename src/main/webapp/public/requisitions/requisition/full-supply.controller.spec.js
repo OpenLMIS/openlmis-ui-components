@@ -43,10 +43,11 @@ describe('FullSupplyCtrl', function() {
         return {
             $template: templateSpy(),
             requisitionLineItems: [
-                lineItemSpy(0, 'One'),
-                lineItemSpy(1, 'Two'),
-                lineItemSpy(2, 'One'),
-                lineItemSpy(3, 'Two')
+                lineItemSpy(0, 'One', true),
+                lineItemSpy(1, 'Two', true),
+                lineItemSpy(2, 'One', true),
+                lineItemSpy(3, 'Two', true),
+                lineItemSpy(4, 'Three', false)
             ]
         };
     }
@@ -55,11 +56,12 @@ describe('FullSupplyCtrl', function() {
         return jasmine.createSpyObj('Template', ['getColumns']);
     }
 
-    function lineItemSpy(id, category) {
+    function lineItemSpy(id, category, fullSupply) {
         return {
             $id: id,
             $program: {
-                productCategoryDisplayName: category
+                productCategoryDisplayName: category,
+                fullSupply: fullSupply
             }
         };
     }

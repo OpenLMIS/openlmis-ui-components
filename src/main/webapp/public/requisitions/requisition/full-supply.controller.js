@@ -69,11 +69,13 @@
         function groupByCategory(lineItems) {
             var categories = {};
             lineItems.forEach(function(lineItem) {
-                var category = lineItem.$program.productCategoryDisplayName;
-                if (!categories[category]) {
-                    categories[category] = [];
+                if (lineItem.$program.fullSupply) {
+                    var category = lineItem.$program.productCategoryDisplayName;
+                    if (!categories[category]) {
+                        categories[category] = [];
+                    }
+                    categories[category].push(lineItem);
                 }
-                categories[category].push(lineItem);
             });
             return categories;
         }
