@@ -1,0 +1,9 @@
+<p>Pick a warehouse</p>
+<input id="searchFacilities" style="width: 100%" ng-change="filterFacilities()" type="text"
+       ng-model="query" placeholder="Filter warehouses"/>
+<div>
+    <label ng-repeat="facility in facilities" class="radio">
+        {{facility.name}}
+        <input type="radio" ng-model="facilities" ng-value="name"/>
+    </label>
+</div>

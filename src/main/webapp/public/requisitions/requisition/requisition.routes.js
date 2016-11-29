@@ -26,6 +26,17 @@
                     });
 
                     return deferred.promise;
+                },
+                facilityList: function ($q, FacilityFactory) {
+                    var deferred = $q.defer();
+
+                    FacilityFactory.getAll().then(function(response) {
+                        deferred.resolve(response);
+                    }, function(response) {
+                        deferred.reject();
+                    });
+
+                    return deferred.promise;
                 }
             }
         });

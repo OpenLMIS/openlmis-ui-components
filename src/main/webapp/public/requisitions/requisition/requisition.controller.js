@@ -22,11 +22,13 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm'];
+                               'Notification', 'Confirm', 'ConvertToOrder', 'RequisitionService',
+                                'facilityList'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm) {
+                             Notification, Confirm, ConvertToOrder, RequisitionService,
+                             facilityList) {
 
         /**
          * @ngdoc property
@@ -38,6 +40,8 @@
          * Holds requisition.
          */
         $scope.requisition = requisition;
+
+        $scope.facilities = facilityList;
 
         /**
         * @ngdoc property
@@ -58,12 +62,28 @@
         $scope.removeRnr = removeRnr;
         $scope.approveRnr = approveRnr;
         $scope.rejectRnr = rejectRnr;
+        $scope.convertRnr = convertRnr;
+        $scope.reload = reload;
         $scope.periodDisplayName = periodDisplayName;
         $scope.displaySubmit = displaySubmit;
         $scope.displayAuthorize = displayAuthorize;
         $scope.displayDelete = displayDelete;
         $scope.displayApproveAndReject = displayApproveAndReject;
+        $scope.displayConvertToOrder = displayConvertToOrder;
 
+         /**
+         * @ngdoc function
+         * @name reload
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Reload state of current page
+         */
+        function reload() {
+            $state.go($state.current.name, $scope.searchParams, {
+                reload: true
+            });
+        }
 
          /**
          * @ngdoc function
@@ -231,6 +251,25 @@
 
         /**
          * @ngdoc function
+         * @name convertRnr
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Responsible for converting requisition to order.
+         * Displays modal window before convertion.
+         * If an error occurs during converting it will display an error notification modal.
+         * Otherwise, a success notification modal will be shown.
+         */
+        function convertRnr() {
+            ConvertToOrder($scope.facilities, $scope.requisition).then(function() {
+                var requisitions = [];
+                requisitions.push({requisition: $scope.requisition});
+                RequisitionService.convertToOrder(requisitions).then(reload);
+            });
+        };
+
+        /**
+         * @ngdoc function
          * @name periodDisplayName
          * @methodOf openlmis.requisitions.RequisitionCtrl
          *
@@ -305,6 +344,21 @@
             return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("DELETE_REQUISITION");
         };
 
+        /**
+         * @ngdoc function
+         * @name displayConvertToOrder
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display convert to order button or not. Returns true only if
+         * requisition is approved and user has permission to convert requisition.
+         *
+         * @return {boolean} should convert to order button be displayed
+         */
+        function displayConvertToOrder() {
+            return $scope.requisition.$isApproved();
+        };
+
         function save() {
             LoadingModalService.open();
             var promise = $scope.requisition.$save();
@@ -322,6 +376,61 @@
         function reloadState() {
             $state.reload();
         }
+
+        /**
+         * @ngdoc property
+         * @name filterFacilities
+         * @propertyOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Holds handler which filters facilities after change query.
+         *
+         */
+		$scope.filterFacilities = function () {
+			$scope.filteredFacilities = [];
+			var query = $scope.query || "";
+
+			$scope.filteredFacilities = $.grep($scope.facilities, function (facility) {
+				return matchesAnyField(query, facility);
+			});
+
+			$scope.resultCount = $scope.filteredFacilities.length;
+		};
+
+        /**
+         * @ngdoc function
+         * @name contains
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Check if string contains specific substring.
+         * If substring exist in string return index of first char of substring.
+         *
+         * @param  {String} string the string wherein search
+         * @param  {String} query  the substring to search
+         * @return {number}        index in string table of specific first char of substring
+         */
+		function contains(string, query) {
+			return string.toLowerCase().indexOf(query.toLowerCase()) != -1;
+		}
+
+        /**
+         * @ngdoc function
+         * @name matchesAnyField
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Concat strings: facility name and code to one string. Check if this string
+         * contains specific substring. If substring exist in string return index of first char of substring.
+         *
+         * @param  {String} query the string to search
+         * @param  {Object} facility   the facility to get name and code
+         * @return {number}       index in string table of specific first char of substring
+         */
+		function matchesAnyField(query, facility) {
+			var facilityString = "|" + name + "|" + code + "|";
+			return contains(facilityString, query);
+		}
 
     }
 })();

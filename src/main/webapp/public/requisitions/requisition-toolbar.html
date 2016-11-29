@@ -27,6 +27,10 @@
                openlmis-message="button.rnr.reject"
                ng-if="displayApproveAndReject()"
                ng-click="rejectRnr()"/>
-
+        <input id="convertRnrButton" type="button"
+               class="btn btn-primary primary-action"
+               openlmis-message="button.convert.to.order"
+               ng-if="displayConvertToOrder()"
+               ng-click="convertRnr()"/>
     </div>
 </div>
