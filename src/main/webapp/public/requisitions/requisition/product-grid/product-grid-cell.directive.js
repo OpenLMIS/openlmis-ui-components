@@ -28,6 +28,8 @@
 
     	var directive = {
       		restrict: 'A',
+			replace: true,
+			templateUrl: 'requisitions/requisition/product-grid/product-grid-cell.html',
       		link: link
     	};
     	return directive;
@@ -38,23 +40,11 @@
 
 			scope.isReadOnly = isReadOnly();
 			scope.validate = validate;
+			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
 
-			$q.all([
-				$templateRequest('requisitions/requisition/product-grid/product-grid-cell.html'),
-				$templateRequest('requisitions/requisition/losses-and-adjustments/product-grid-adjustment-cell.html')
-			]).then(
-				function (templates) {
-					if (!isLossesAndAdjustmentCell(scope) || scope.isReadOnly) {
-						var cell = angular.element(templates[0]);
-						if (column.type === Type.NUMERIC && !scope.isReadOnly) {
-							cell.find('input').attr('positive-integer', '');
-						}
-						element.append($compile(cell)(scope));
-					} else {
-						element.append($compile(templates[1])(scope));
-					}
-				}
-			);
+			if (column.type === Type.NUMERIC && !scope.isReadOnly) {
+				element.find('input').attr('positive-integer', '');
+			}
 
 	      	angular.forEach(column.dependencies, function(dependency) {
 	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
@@ -79,8 +69,8 @@
 				return column.source !== Source.USER_INPUT;
 			}
 
-			function isLossesAndAdjustmentCell(scope) {
-				return scope.column.name === 'totalLossesAndAdjustments' ? true : false;
+			function isTotalLossesAndAdjustments(column) {
+				return column.name === Columns.TOTAL_LOSSES_AND_ADJUSTMENTS;
 			}
 		}
 	}

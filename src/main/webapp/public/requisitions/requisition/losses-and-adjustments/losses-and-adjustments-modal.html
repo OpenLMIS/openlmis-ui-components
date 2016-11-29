@@ -1,0 +1,57 @@
+<label openlmis-message="label.add.loss.adjustment"></label>
+<form class="form-filter" ng-submit="vm.addAdjustment()">
+    <div class="form-group">
+        <label for="reason">{{'label.equipment.maintenance.request.reason' | message}}</label>
+        <openlmis-select id="reason"
+                         ng-model="vm.adjustment.reason"
+                         items="vm.reasons"
+                         field-displayed="name"
+                         track-by="name"/>
+    </div>
+    <div class="form-group">
+        <label for="quantity">{{'label.quantity' | message}}</label>
+        <input id="quantity"
+               class="form-control"
+               ng-model="vm.adjustment.quantity"
+               type="number"
+               min="0"
+               required />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">
+            {{'button.add' | message}}
+        </button>
+    </div>
+</form>
+
+<div class="adjustment-warning alert is-info"
+     ng-show="vm.adjustments == null || vm.adjustments.length === 0">
+        {{'label.no.losses.adjustment' | message}}
+</div>
+
+<div class="adjustment-list" ng-show="vm.adjustments.length > 0">
+    <ul>
+        <li ng-repeat="adjustment in vm.adjustments" class="adjustment">
+            <label for="adjustment-quantity-{{$index}}">
+                {{vm.getReasonName(adjustment.reasonId)}}
+            </label>
+            <input id="adjustment-quantity-{{$index}}"
+                   class="form-control"
+                   ng-model="adjustment.quantity"
+                   type="number"
+                   min="0"/>
+            <button class="btn btn-danger" ng-click="vm.removeAdjustment(adjustment)">
+                {{'button.remove' | message}}
+            </button>
+        </li>
+    </ul>
+</div>
+
+<div class="adjustment-total clearfix alert is-error" ng-show="vm.adjustments.length > 0">
+    <span class="pull-left">{{'label.losses.total' | message}}</span>
+    <span>{{vm.getTotal()}}</span>
+</div>
+
+<button class="btn btn-default" ng-click="vm.hideModal()">
+    {{'button.close' | message}}
+</button>
