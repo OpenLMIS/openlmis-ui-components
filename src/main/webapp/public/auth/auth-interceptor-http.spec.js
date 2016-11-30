@@ -9,16 +9,17 @@
  */
 describe("AuthInterceptorHttp", function() {
 
-  var AuthorizationService, $rootScope, $http, $httpBackend, OpenlmisURL;
+  var AuthorizationService, $rootScope, $http, $httpBackend, OpenlmisURL, messageService;
 
   beforeEach(module('openlmis-auth'));
 
-  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_, $state) {
+  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_, $state, _messageService_) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $http = _$http_;
       $httpBackend = _$httpBackend_;
       OpenlmisURL = _OpenlmisURL_;
+      messageService = _messageService_;
 
       spyOn($state, 'go');
 
@@ -28,6 +29,7 @@ describe("AuthInterceptorHttp", function() {
   it('will add access token if user is authenticated', function(){
     var success = false;
 
+    spyOn(messageService, 'populate');
     $httpBackend.expect('GET', "http://localhost/somewhere").respond(401);
 
     AuthorizationService.clearAccessToken();
