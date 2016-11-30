@@ -37,7 +37,8 @@
                     });
 
                     return deferred.promise;
-                }
+                },
+                requisitions: requisitionsResolve
             }
         });
 
@@ -54,6 +55,15 @@
             controller: 'NonFullSupplyCtrl',
             controllerAs: 'vm'
         });
+
+        function requisitionsResolve($stateParams, RequisitionService) {
+            return RequisitionService.forConvert({
+                filterBy: $stateParams.filterBy,
+                filterValue: $stateParams.filterValue,
+                sortBy: $stateParams.sortBy,
+                descending: $stateParams.descending
+            });
+        }
 
     }
 
