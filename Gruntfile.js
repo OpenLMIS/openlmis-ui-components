@@ -1,7 +1,6 @@
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
-  var styleguide = require('sc5-styleguide');
   var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
@@ -318,48 +317,6 @@ module.exports = function(grunt) {
       }
     },
     gulp: {
-      'styleguide-generate': function() {
-        return gulp.src([
-                        path.join(config.styleguide.src,"**/*.scss"),
-                        "!"+path.join(config.styleguide.src,"**/scss/*.scss")
-                        ])
-          .pipe(styleguide.generate({
-            title: 'OpenLMIS Styleguide',
-            appRoot: "http://replaceThis",
-            disableHtml5Mode: true,
-            overviewPath: path.join(config.docs.src, 'styleguide.md')
-          }))
-          .pipe(gulp.dest(config.styleguide.dest));
-      },
-      'styleguide-applystyles': function() {
-        return gulp.src([
-                  path.join(config.app.dest,"/public/openlmis*.css")
-                  ])
-          .pipe(styleguide.applyStyles())
-          .pipe(gulp.dest(config.styleguide.dest));
-      },
-      'styleguide-fonts': function() {
-        return gulp.src([
-            path.join(config.app.dest, "public/fonts/*"),
-          ])
-          .pipe(gulp.dest(path.join(config.styleguide.dest,"fonts")));
-      },
-      'styleguide-png': function() {
-        return gulp.src([
-                    config.app.dest + "/public/images/*",
-                    config.app.dest + "/public/images/*"
-                   ])
-          .pipe(gulp.dest(path.join(config.styleguide.dest,"images")));
-      },
-      'styleguide-index-replace': function(){
-        return gulp.src([
-            path.join(config.styleguide.dest, 'index.html'),
-            path.join(config.styleguide.dest, 'styleguide-app.css')
-          ])
-          .pipe(replace("http://replaceThis/", ""))
-          .pipe(replace("font-family: 'FontAwesome';", ""))
-          .pipe(gulp.dest(config.styleguide.dest));
-      },
       'sass': function(){
    var includePaths = require('node-bourbon').includePaths.concat([
         config.app.src,
@@ -459,7 +416,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
-  var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles', 'gulp:styleguide-index-replace'];
+  var styleguideTasks = [];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');
