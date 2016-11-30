@@ -9,7 +9,7 @@
  */
 describe("AuthInterceptor", function() {
 
-  var AuthorizationService, $rootScope, $state, LoginModalService;
+  var AuthorizationService, $rootScope, $state, LoginModalService, messageService;
 
   function setupTest(){
     module('openlmis-auth');
@@ -21,11 +21,12 @@ describe("AuthInterceptor", function() {
       .state('home', {});
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _LoginModalService_) {
+    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _LoginModalService_, _messageService_) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       LoginModalService = _LoginModalService_;
+      messageService = _messageService_;
 
       spyOn($state, 'go').andCallThrough();
       spyOn(LoginModalService, 'onLoginRequired').andCallThrough();
@@ -45,6 +46,7 @@ describe("AuthInterceptor", function() {
   it('will call LoginModalService.onLoginRequired if auth token is not set and state is not home', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+    spyOn(messageService, 'populate');
 
     $state.go('somewhere');
     $rootScope.$apply();
