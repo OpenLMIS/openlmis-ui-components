@@ -45,10 +45,10 @@
        * @ngdoc function
        * @name login
        * @methodOf openlmis-auth.LoginService
-       * 
+       *
        * @param {String} username The name of the person trying to login
        * @param {String} password The password the person is trying to login with
-       * 
+       *
        * @description
        * Makes an HTTP request to login the user.
        *
@@ -90,7 +90,7 @@
        * @ngdoc function
        * @name logout
        * @methodOf openlmis-auth.LoginService
-       * 
+       *
        * @description
        * Calls the server, and removes from authorization service.
        *
@@ -136,7 +136,7 @@
 
                   deferred.resolve();
               }).error(function(data) {
-                  deferred.reject();    
+                  deferred.reject();
               });
           }
           return deferred.promise;

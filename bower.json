@@ -31,7 +31,8 @@
     "angular-ui-select": "^0.19.5",
     "angularjs-dropdown-multiselect": "*",
     "offline": "^0.7.18",
-    "angular-filter": "^0.5.11"
+    "angular-filter": "^0.5.11",
+    "angular-http-auth": "^1.5.0"
   },
   "overrides": {
     "jquery": {

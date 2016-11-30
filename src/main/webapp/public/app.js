@@ -27,7 +27,8 @@
 		'angularjs-dropdown-multiselect',
 		'ui.bootstrap.datepickerPopup',
 		'ui.bootstrap',
-		'ui.bootstrap.dropdown'
+		'ui.bootstrap.dropdown',
+		'http-auth-interceptor'
 		]).config(defaultRoutes);
 
 	defaultRoutes.$inject = ['$urlRouterProvider'];

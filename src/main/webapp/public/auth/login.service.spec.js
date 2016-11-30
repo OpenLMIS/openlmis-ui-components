@@ -40,7 +40,7 @@ describe("LoginService", function() {
         httpBackend.when('POST', '/oauth/token?grant_type=password')
         .respond(function(method, url, data){
           if(data.indexOf('bad-password') >= 0 ){
-            return [401];
+            return [400];
           } else {
             return [200,{
               "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",

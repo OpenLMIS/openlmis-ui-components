@@ -14,7 +14,8 @@
     angular.module('openlmis-auth', [
         'openlmis-core',
         'openlmis-templates',
-        'ui.router'
+        'ui.router',
+        'http-auth-interceptor'
         ])
     .config(routes)
     .run(setRootValues);

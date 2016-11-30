@@ -9,35 +9,47 @@
  */
 describe("AuthInterceptor", function() {
 
-  var AuthorizationService, $rootScope, $state;
+  var AuthorizationService, $rootScope, $state, InterceptorService;
 
   function setupTest(){
     module('openlmis-auth');
 
     module(function($stateProvider){
-        $stateProvider.state('somewhere', {
-          url: '/somewhere'
-        })
-        .state('home', {});
+      $stateProvider.state('somewhere', {
+        url: '/somewhere'
+      })
+      .state('home', {});
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_) {
-        AuthorizationService = _AuthorizationService_;
-        $rootScope = _$rootScope_;
-        $state = _$state_;
+    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _InterceptorService_) {
+      AuthorizationService = _AuthorizationService_;
+      $rootScope = _$rootScope_;
+      $state = _$state_;
+      InterceptorService = _InterceptorService_;
 
-        spyOn($state, 'go').andCallThrough();
+      spyOn($state, 'go').andCallThrough();
+      spyOn(InterceptorService, 'onLoginRequired');
     });
   }
 
-  it('will redirect user to login if auth token is not set', function(){
+  it('will redirect user to login if auth token is not set and state is home', function(){
+    setupTest();
+    spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+
+    $state.go('home');
+    $rootScope.$apply();
+
+    expect($state.go).toHaveBeenCalledWith('auth.login');
+  });
+
+  it('will call InterceptorService.onLoginRequired if auth token is not set and state is not home', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
     $state.go('somewhere');
     $rootScope.$apply();
 
-    expect($state.go).toHaveBeenCalledWith('auth.login');
+    expect(InterceptorService.onLoginRequired).toHaveBeenCalled();
   });
 
   it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
@@ -55,7 +67,7 @@ describe("AuthInterceptor", function() {
   it('will not redirect user if auth token is set, unless page is login.html', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
-    
+
     // Call 1
     $state.go('somewhere');
     $rootScope.$apply();
@@ -72,5 +84,11 @@ describe("AuthInterceptor", function() {
     expect($state.go.calls.length).toEqual(3);
 
   });
+
+  it('should call InterceptorService.onLoginRequired  on event:auth-loginRequired'), function(){
+    $rootScope.$broadcast('event:auth-loginRequired');
+
+    expect(InterceptorService.onLoginRequired).toHaveBeenCalled();
+  }
 
 });
