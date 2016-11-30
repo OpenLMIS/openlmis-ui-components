@@ -23,7 +23,7 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-gulp": "^1.0.1",
     "grunt-karma": "~2.0.0",
-    "grunt-kss": "^5.0.1",
+    "grunt-kss": "~4.0.1",
     "grunt-ngdocs": "^0.2.10",
     "grunt-notify": "^0.4.5",
     "grunt-sass": "^1.2.1",

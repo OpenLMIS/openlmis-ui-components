@@ -15,6 +15,7 @@ module.exports = function(grunt) {
   var replace = require('gulp-replace');
 
   grunt.loadNpmTasks('grunt-ngdocs');
+  grunt.loadNpmTasks('grunt-kss');
   grunt.loadNpmTasks('grunt-notify');
 
   grunt.initConfig({
