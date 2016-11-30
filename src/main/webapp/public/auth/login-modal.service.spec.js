@@ -7,9 +7,9 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("InterceptorService", function() {
+describe("LoginModalService", function() {
 
-    var InterceptorService, bootbox, $q, $rootScope, LoadingModalService;
+    var LoginModalService, bootbox, $q, $rootScope, LoadingModalService;
 
     beforeEach(module('openlmis-auth'));
 
@@ -25,8 +25,8 @@ describe("InterceptorService", function() {
       });
     });
 
-    beforeEach(inject(function (_InterceptorService_, _bootbox_, _$q_, _$rootScope_, _LoadingModalService_) {
-        InterceptorService = _InterceptorService_;
+    beforeEach(inject(function (_LoginModalService_, _bootbox_, _$q_, _$rootScope_, _LoadingModalService_) {
+        LoginModalService = _LoginModalService_;
         bootbox = _bootbox_;
         $q = _$q_;
         $rootScope = _$rootScope_;
@@ -37,14 +37,14 @@ describe("InterceptorService", function() {
     }));
 
     it('should open login modal dialog', function () {
-        InterceptorService.onLoginRequired();
+        LoginModalService.onLoginRequired();
         $rootScope.$apply();
 
         expect(bootbox.dialog).toHaveBeenCalled();
     })
 
     it('should close loading dialog', function () {
-        InterceptorService.onLoginRequired();
+        LoginModalService.onLoginRequired();
         $rootScope.$apply();
 
         expect(LoadingModalService.close).toHaveBeenCalled();

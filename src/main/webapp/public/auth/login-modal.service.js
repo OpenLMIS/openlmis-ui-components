@@ -4,33 +4,33 @@
   /**
     *
     * @ngdoc service
-    * @name openlmis-auth.InterceptorService
+    * @name openlmis-auth.LoginModalService
     * @description
     * Helper service for auth-interceptor
     *
     */
 
   angular.module('openlmis-auth')
-  .service('InterceptorService', InterceptorService);
+  .service('LoginModalService', LoginModalService);
 
-  InterceptorService.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService'];
-  function InterceptorService($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService) {
-    var service = {};
+  LoginModalService.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService', '$q'];
+  function LoginModalService($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService, $q) {
 
-    service.onLoginRequired = onLoginRequired;
+    this.onLoginRequired = onLoginRequired;
 
     /**
       *
       * @ngdoc function
       * @name onLoginRequired
-      * @methodOf openlmis-auth.InterceptorService
+      * @methodOf openlmis-auth.LoginModalService
       * @param {boolean} reload true if reload page after login
       *
       * @description
       * Make and show login modal, close loading modal.
       *
       */
-    function onLoginRequired(reload) {
+    function onLoginRequired(noRetryRequest) {
+      var deferred = $q.defer();
       var scope = $rootScope.$new();
 
       scope.doLogin = doLogin;
@@ -45,13 +45,13 @@
       LoadingModalService.close();
 
       function doLogin() {
-        LoginService.login(scope.username, scope.password)
-        .then(function(){
+        LoginService.login(scope.username, scope.password).then(function(){
           scope.dialog.modal('hide');
-          if (reload == true) {
-            location.reload();
+          if (noRetryRequest == true) {
+            deferred.resolve();
           } else {
             authService.loginConfirmed();
+            deferred.reject();
           }
         })
         .catch(function(){
@@ -61,9 +61,9 @@
           scope.password = undefined;
         });
       }
-    }
 
-    return service;
+      return deferred.promise;
+    }
   }
 
 })();

@@ -9,7 +9,7 @@
  */
 describe("AuthInterceptor", function() {
 
-  var AuthorizationService, $rootScope, $state, InterceptorService;
+  var AuthorizationService, $rootScope, $state, LoginModalService;
 
   function setupTest(){
     module('openlmis-auth');
@@ -21,14 +21,14 @@ describe("AuthInterceptor", function() {
       .state('home', {});
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _InterceptorService_) {
+    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _LoginModalService_) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $state = _$state_;
-      InterceptorService = _InterceptorService_;
+      LoginModalService = _LoginModalService_;
 
       spyOn($state, 'go').andCallThrough();
-      spyOn(InterceptorService, 'onLoginRequired');
+      spyOn(LoginModalService, 'onLoginRequired').andCallThrough();
     });
   }
 
@@ -42,14 +42,14 @@ describe("AuthInterceptor", function() {
     expect($state.go).toHaveBeenCalledWith('auth.login');
   });
 
-  it('will call InterceptorService.onLoginRequired if auth token is not set and state is not home', function(){
+  it('will call LoginModalService.onLoginRequired if auth token is not set and state is not home', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
     $state.go('somewhere');
     $rootScope.$apply();
 
-    expect(InterceptorService.onLoginRequired).toHaveBeenCalled();
+    expect(LoginModalService.onLoginRequired).toHaveBeenCalled();
   });
 
   it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
@@ -85,10 +85,10 @@ describe("AuthInterceptor", function() {
 
   });
 
-  it('should call InterceptorService.onLoginRequired  on event:auth-loginRequired'), function(){
+  it('should call LoginModalService.onLoginRequired on event:auth-loginRequired'), function(){
     $rootScope.$broadcast('event:auth-loginRequired');
 
-    expect(InterceptorService.onLoginRequired).toHaveBeenCalled();
+    expect(LoginModalService.onLoginRequired).toHaveBeenCalled();
   }
 
 });

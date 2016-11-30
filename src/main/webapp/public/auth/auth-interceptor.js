@@ -25,15 +25,17 @@
     * Any route that the user visits within the openlmis-auth module they will be allowed to visit if they are not authenticated. Meaning if a user is authenticated, they won't be able to access the login or forgot password screens.
     *
     */
-  authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'InterceptorService'];
-  function authStateChangeInterceptor($rootScope, $state, AuthorizationService, InterceptorService) {
+  authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'LoginModalService'];
+  function authStateChangeInterceptor($rootScope, $state, AuthorizationService, LoginModalService) {
     $rootScope.$on('$stateChangeStart', redirectAuthState);
 
     function redirectAuthState(event, toState, toParams, fromState, fromParams) {
       if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
         // if not authenticated and not on login page or home page
         event.preventDefault();
-        InterceptorService.onLoginRequired(true);
+        LoginModalService.onLoginRequired(true).then(function(){
+            location.reload();
+        });
       } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
         // if not authenticated and on home page
         event.preventDefault();
@@ -58,9 +60,9 @@
     * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
     *
     */
-  loginRequiredInterceptor.$inject = ['$rootScope', 'InterceptorService'];
-  function loginRequiredInterceptor($rootScope, InterceptorService) {
-    $rootScope.$on('event:auth-loginRequired', InterceptorService.onLoginRequired);
+  loginRequiredInterceptor.$inject = ['$rootScope', 'LoginModalService'];
+  function loginRequiredInterceptor($rootScope, LoginModalService) {
+    $rootScope.$on('event:auth-loginRequired', LoginModalService.onLoginRequired);
   }
 
 })();
