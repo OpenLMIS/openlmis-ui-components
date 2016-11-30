@@ -1,11 +1,8 @@
 FROM debian:jessie
 
 WORKDIR /root
-RUN apt-get update && apt-get install -y bash libfontconfig npm transifex-client git curl
-
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs
-
+RUN apt-get update && apt-get install -y bash libfontconfig nodejs npm transifex-client git
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN npm install -g bower grunt-cli phantomjs-prebuilt
 
 WORKDIR /app

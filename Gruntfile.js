@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   var config = require('./config');
+  var styleguide = require('sc5-styleguide');
   var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
@@ -15,7 +16,6 @@ module.exports = function(grunt) {
   var replace = require('gulp-replace');
 
   grunt.loadNpmTasks('grunt-ngdocs');
-  grunt.loadNpmTasks('grunt-kss');
   grunt.loadNpmTasks('grunt-notify');
 
   grunt.initConfig({
@@ -317,73 +317,104 @@ module.exports = function(grunt) {
         title: "API"
       }
     },
-    kss: {
-      options: {
-        title: 'OpenLMIS-UI Styleguide',
-        homepage: '../../../docs/styleguide.md', // root path is from config.styleguide.src -- should change somehow
-        verbose: false
-      },
-      dist: {
-        src: [config.styleguide.src],
-        dest: config.styleguide.dest
-      }
-    },
     gulp: {
-      sass: function(){
-       var includePaths = require('node-bourbon').includePaths.concat([
-            config.app.src,
-            'bower_components/font-awesome/scss',
-            'bower_components/bootstrap-sass/assets/stylesheets',
-            'bower_components/select2/src/scss'
-        ]);
+      'styleguide-generate': function() {
+        return gulp.src([
+                        path.join(config.styleguide.src,"**/*.scss"),
+                        "!"+path.join(config.styleguide.src,"**/scss/*.scss")
+                        ])
+          .pipe(styleguide.generate({
+            title: 'OpenLMIS Styleguide',
+            appRoot: "http://replaceThis",
+            disableHtml5Mode: true,
+            overviewPath: path.join(config.docs.src, 'styleguide.md')
+          }))
+          .pipe(gulp.dest(config.styleguide.dest));
+      },
+      'styleguide-applystyles': function() {
+        return gulp.src([
+                  path.join(config.app.dest,"/public/openlmis*.css")
+                  ])
+          .pipe(styleguide.applyStyles())
+          .pipe(gulp.dest(config.styleguide.dest));
+      },
+      'styleguide-fonts': function() {
+        return gulp.src([
+            path.join(config.app.dest, "public/fonts/*"),
+          ])
+          .pipe(gulp.dest(path.join(config.styleguide.dest,"fonts")));
+      },
+      'styleguide-png': function() {
+        return gulp.src([
+                    config.app.dest + "/public/images/*",
+                    config.app.dest + "/public/images/*"
+                   ])
+          .pipe(gulp.dest(path.join(config.styleguide.dest,"images")));
+      },
+      'styleguide-index-replace': function(){
+        return gulp.src([
+            path.join(config.styleguide.dest, 'index.html'),
+            path.join(config.styleguide.dest, 'styleguide-app.css')
+          ])
+          .pipe(replace("http://replaceThis/", ""))
+          .pipe(replace("font-family: 'FontAwesome';", ""))
+          .pipe(gulp.dest(config.styleguide.dest));
+      },
+      'sass': function(){
+   var includePaths = require('node-bourbon').includePaths.concat([
+        config.app.src,
+        'bower_components/font-awesome/scss',
+        'bower_components/bootstrap-sass/assets/stylesheets',
+        'bower_components/select2/src/scss'
+    ]);
 
-        var bowerCss = wiredep().css;
-        var bowerSass = wiredep().scss;
+    var bowerCss = wiredep().css;
+    var bowerSass = wiredep().scss;
 
-        var files = [].concat(
-          [
-            path.join(config.app.src, "**/*variables.scss"),
-            path.join(config.app.src, "**/*.variables.scss")
-          ],
-          bowerSass,
-          bowerCss,
-          [
-            path.join(config.app.src, "/**/*mixins.scss"),
-            path.join(config.app.src, "/**/*.mixins.scss"),
-            path.join(config.app.src, '**/*.css'),
-            path.join(config.app.src, '**/*.scss'),
-            "!" + path.join(config.app.src, "webapp/public/scss/*")
-          ]);
+    var files = [].concat(
+      [
+        path.join(config.app.src, "**/*variables.scss"),
+        path.join(config.app.src, "**/*.variables.scss")
+      ],
+      bowerSass,
+      bowerCss,
+      [
+        path.join(config.app.src, "/**/*mixins.scss"),
+        path.join(config.app.src, "/**/*.mixins.scss"),
+        path.join(config.app.src, '**/*.css'),
+        path.join(config.app.src, '**/*.scss'),
+        "!" + path.join(config.app.src, "webapp/public/scss/*")
+      ]);
 
-        var outputStyle = "expanded";
-        if(grunt.option('production')) outputStyle = "compressed";
+    var outputStyle = "expanded";
+    if(grunt.option('production')) outputStyle = "compressed";
 
-        return gulp.src(files)
-        .pipe(sourcemaps.init())
-        .pipe(concat({
-          path:'openlmis.scss'
-        }))
-        .pipe(sass({
-          includePaths: includePaths,
-          outputStyle: outputStyle,
-        }))
-        .pipe(sourcemaps.write())
-        .pipe(concat('openlmis.css'))
-        .pipe(sass().on('error', sass.logError))
-        .pipe(replace('../','')) // remove non-relative strings
-        //Replace UI-Grid font paths
-        .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))
-        .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
-        .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
-        .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
-        //Replace Select2 image locations
-        .pipe(replace('select2.png','images/select2.png'))
-        .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
-        .pipe(replace('select2x2.png','images/select2x2.png'))
-        .pipe(bless())
-        .pipe(gulp.dest(
-          path.join(config.app.dest, "public")
-        ));
+    return gulp.src(files)
+   .pipe(sourcemaps.init())
+    .pipe(concat({
+      path:'openlmis.scss'
+    }))
+    .pipe(sass({
+      includePaths: includePaths,
+      outputStyle: outputStyle,
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(concat('openlmis.css'))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(replace('../','')) // remove non-relative strings
+    //Replace UI-Grid font paths
+    .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))
+    .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
+    .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
+    .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
+    //Replace Select2 image locations
+    .pipe(replace('select2.png','images/select2.png'))
+    .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
+    .pipe(replace('select2x2.png','images/select2x2.png'))
+    .pipe(bless())
+    .pipe(gulp.dest(
+      path.join(config.app.dest, "public")
+    ));
       }
     },
     ngtemplates: {
@@ -428,7 +459,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
-  var styleguideTasks = ['kss'];
+  var styleguideTasks = ['gulp:styleguide-generate', 'gulp:styleguide-png', 'gulp:styleguide-fonts', 'gulp:styleguide-applystyles', 'gulp:styleguide-index-replace'];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');
