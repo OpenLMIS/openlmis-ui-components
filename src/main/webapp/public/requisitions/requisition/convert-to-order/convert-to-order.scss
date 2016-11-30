@@ -1,0 +1,29 @@
+.convert-to-order-modal {
+
+	form {
+		overflow: hidden;
+
+		.form-group {
+		    input.filter {
+		        width: 100%;
+		    }
+		}
+
+		.form-group.facilities {
+		    margin-left: 20px;
+		    label {
+		        font-weight: normal;
+		    }
+		}
+
+		button {
+			@extend .btn;
+		}
+
+		button.convert-rnr {
+			@include button-color($green);
+			float: right;
+		}
+	}
+
+}

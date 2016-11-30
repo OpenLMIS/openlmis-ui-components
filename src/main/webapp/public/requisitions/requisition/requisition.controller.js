@@ -22,13 +22,11 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'ConvertToOrder', 'RequisitionService',
-                                'facilityList'];
+                               'Notification', 'Confirm', 'RequisitionService', 'facilityList'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, ConvertToOrder, RequisitionService,
-                             facilityList) {
+                             Notification, Confirm, RequisitionService, facilityList) {
 
         /**
          * @ngdoc property
@@ -63,27 +61,13 @@
         $scope.approveRnr = approveRnr;
         $scope.rejectRnr = rejectRnr;
         $scope.convertRnr = convertRnr;
-        $scope.reload = reload;
+        $scope.reloadState = reloadState;
         $scope.periodDisplayName = periodDisplayName;
         $scope.displaySubmit = displaySubmit;
         $scope.displayAuthorize = displayAuthorize;
         $scope.displayDelete = displayDelete;
         $scope.displayApproveAndReject = displayApproveAndReject;
         $scope.displayConvertToOrder = displayConvertToOrder;
-
-         /**
-         * @ngdoc function
-         * @name reload
-         * @methodOf openlmis.requisitions.RequisitionCtrl
-         *
-         * @description
-         * Reload state of current page
-         */
-        function reload() {
-            $state.go($state.current.name, $scope.searchParams, {
-                reload: true
-            });
-        }
 
          /**
          * @ngdoc function
@@ -256,16 +240,14 @@
          *
          * @description
          * Responsible for converting requisition to order.
-         * Displays modal window before convertion.
+         * Displays modal window before conversion.
          * If an error occurs during converting it will display an error notification modal.
          * Otherwise, a success notification modal will be shown.
          */
         function convertRnr() {
-            ConvertToOrder($scope.facilities, $scope.requisition).then(function() {
-                var requisitions = [];
-                requisitions.push({requisition: $scope.requisition});
-                RequisitionService.convertToOrder(requisitions).then(reload);
-            });
+            var requisitions = [];
+            requisitions.push({requisition: $scope.requisition});
+            RequisitionService.convertToOrder(requisitions).then(reloadState);
         };
 
         /**
