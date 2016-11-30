@@ -3,15 +3,9 @@
 # Sync with Transifex
 ./sync_transifex.sh
 
+# Update everything (just in case)
+bower install --allow-root
 npm install --no-optional
 
-apt-get install --assume-yes git
-npm install -g bower
-
-rm -r ./bower_components
-bower install --allow-root
-
-apt-get uninstall 
-
-# Run Grunt build
+# Built and test
 grunt build
