@@ -1,5 +1,7 @@
 <td>
-	<div ng-if="isReadOnly">{{lineItem.getFieldValue(column.name)}}</div>
+	<div ng-if="isReadOnly && !isTotalLossesAndAdjustments">
+		{{lineItem.getFieldValue(column.name)}}
+	</div>
 	<input type="text"
 		   ng-model="lineItem[column.name]"
 		   ng-if="!isReadOnly && !isTotalLossesAndAdjustments"

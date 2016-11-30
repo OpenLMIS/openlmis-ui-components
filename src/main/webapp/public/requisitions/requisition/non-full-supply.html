@@ -1,0 +1,31 @@
+<div class="product-grid">
+	<table>
+		<thead>
+			<tr>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="(category, lineItems) in vm.lineItems | filter:{$program: {fullSupply:false}} | groupBy:'$program.productCategoryDisplayName'">
+			<tr>
+			  <td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
+			</tr>
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems">
+			  <td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell></td>
+				<td>
+					<button class="hide-line-item"
+							ng-click="vm.deleteLineItem(lineItem)"
+							ng-disabled="!lineItem.$hideable">
+								<i class="fa fa-remove"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button class="add-product"
+			add-product
+			requisition="vm.requisition">
+			{{'button.add' | message}}
+			</button>
+</div>

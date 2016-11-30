@@ -39,11 +39,9 @@
 
         $stateProvider.state('requisitions.requisition.nonFullSupply', {
             url: '/nonFullSupply',
-            controller: 'ProductGridCtrl',
-            templateUrl: 'requisitions/requisition/product-grid/product-grid.html',
-            params: {
-                nonFullSupply: true
-            }
+            templateUrl: 'requisitions/requisition/non-full-supply.html',
+            controller: 'NonFullSupplyCtrl',
+            controllerAs: 'vm'
         });
 
     }

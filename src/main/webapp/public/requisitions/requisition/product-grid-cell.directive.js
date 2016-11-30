@@ -29,7 +29,7 @@
     	var directive = {
       		restrict: 'A',
 			replace: true,
-			templateUrl: 'requisitions/requisition/product-grid/product-grid-cell.html',
+			templateUrl: 'requisitions/requisition/product-grid-cell.html',
       		link: link
     	};
     	return directive;

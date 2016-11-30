@@ -30,7 +30,8 @@
     "ngBootbox": "0.1.3",
     "angular-ui-select": "^0.19.5",
     "angularjs-dropdown-multiselect": "*",
-    "offline": "^0.7.18"
+    "offline": "^0.7.18",
+    "angular-filter": "^0.5.11"
   },
   "overrides": {
     "jquery": {

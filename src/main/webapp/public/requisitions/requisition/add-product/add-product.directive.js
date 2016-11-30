@@ -49,17 +49,9 @@
                       $hideable: true
                     }
 
-                    var category = getCategoryByName(scope.requisition.$nonFullSupplyCategories,
-                                    scope.selectedCategory.name);
-
-                    if (!category) {
-                        scope.requisition.$nonFullSupplyCategories.push({
-                            name: scope.selectedCategory.name,
-                            lineItems: [new LineItem(lineItem)]
-                        })
-                    } else {
-                        category.lineItems.push(lineItem);
-                    }
+                    scope.requisition.requisitionLineItems.push(
+                        new LineItem(lineItem, scope.requisition)
+                    );
                 });
             }
 

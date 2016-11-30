@@ -6,9 +6,9 @@
     .module('openlmis.requisitions')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source'];
+    lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source', 'Type'];
 
-    function lineItem(validations, calculations, Columns, Source) {
+    function lineItem(validations, calculations, Columns, Source, Type) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
@@ -16,13 +16,15 @@
         return LineItem;
 
         function LineItem(lineItem, requisition) {
-            var newLineItem = this,
-            programId = requisition.program.id;
+            angular.copy(lineItem, this);
 
-            angular.merge(newLineItem, lineItem);
-            newLineItem.$errors = {};
-            newLineItem.$program = getProgramById(lineItem.orderableProduct.programs, programId);
+            this.orderableProduct = lineItem.orderableProduct
+            this.stockAdjustments = lineItem.stockAdjustments;
 
+            this.$errors = {};
+            this.$program = getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
+
+            var newLineItem = this;
             requisition.$template.columns.forEach(function(column) {
                 newLineItem.updateFieldValue(column, requisition.status);
             });
@@ -37,9 +39,16 @@
         }
 
         function updateFieldValue(column, status) {
+            var fullName = column.name,
+                object = getObject(this, fullName),
+                propertyName = getPropertyName(column.name);
+
             if (column.source === Source.CALCULATED) {
-                var name = column.name;
-                this[name] = calculations[name](this, status);
+                object[propertyName] = calculations[fullName](this, status);
+            } else if (column.type === Type.NUMERIC) {
+                object[propertyName] = object[propertyName] ? object[propertyName] : 0;
+            } else {
+                object[propertyName] = object[propertyName] ? object[propertyName] : '';
             }
         }
 
@@ -51,6 +60,23 @@
                 }
             });
             return match;
+        }
+
+        function getObject(from, path) {
+            var object = from;
+            if (path.indexOf('.') > -1) {
+                var properties = path.split('.');
+                properties.pop();
+                properties.forEach(function(property) {
+                    object = object[property];
+                });
+            }
+            return object;
+        }
+
+        function getPropertyName(fullPath) {
+            var id = fullPath.lastIndexOf('.')
+            return id > -1 ? fullPath.substr(id) : fullPath;
         }
 
     };
