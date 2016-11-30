@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y bash libfontconfig transifex-client git
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs
 
-#RUN npm install -g bower grunt-cli phantomjs-prebuilt
+RUN npm install -g bower grunt-cli phantomjs-prebuilt
 
 WORKDIR /app
 VOLUME ["/app"]
 
 EXPOSE 9000
-#CMD npm install --no-optional && bower install --allow-root --config.interactive=false && bash
+CMD npm install --no-optional && bower install --allow-root --config.interactive=false && bash
