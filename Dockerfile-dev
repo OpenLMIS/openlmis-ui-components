@@ -3,15 +3,25 @@ FROM debian:jessie
 WORKDIR /root
 
 # NOTE bzip2 is required by PhantomJS-prebuilt
-RUN apt-get update && apt-get install -y bash libfontconfig transifex-client git curl bzip2
+# NOTE buildessential is needed for node-sass (installed by gulp-sass)
+RUN apt-get update && apt-get install -y bash build-essential libfontconfig transifex-client git curl bzip2
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs
 
 RUN npm install -g bower grunt-cli phantomjs-prebuilt
 
+# Need npm/bower package files from /app
 WORKDIR /app
 VOLUME ["/app"]
 
+# Delete any existing packages (incase they are hiding)
+RUN rm -rf node_modules/ bower_components/
+
+RUN npm install --no-optional
+RUN bower install --allow-root --config.interactive=false 
+
+# Port 9000 used for dev server
 EXPOSE 9000
-CMD npm install --no-optional && bower install --allow-root --config.interactive=false && bash
+
+CMD bash

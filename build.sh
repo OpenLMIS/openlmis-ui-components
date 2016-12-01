@@ -4,7 +4,7 @@
 ./sync_transifex.sh
 
 # Update everything (just in case)
-bower install --allow-root
+bower install --allow-root --config.interactive=false
 npm install --no-optional
 
 # Built and test
