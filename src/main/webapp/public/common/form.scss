@@ -1,0 +1,87 @@
+
+/*
+Forms
+
+## General Rules
+When creating a form in OpenLMIS-UI, our approach is to keep the markup as simple
+as possible. Additional styles and functionality should be added through semantic
+CSS or AngularJS directives.
+
+*Note:* All form styles are based off the Bootstrap 3 guidelines, and all
+Bootstrap 3 markup will work.
+
+*Conventions:*
+* Don't use disabled states, hide form controls when not needed
+** Only form elements such as `<input type="text">` or `<select>` can be disabled
+* Form actions happen on form submit or button click (not magically)
+** Only internal form actions may 'magically' update (ie a `<select>` filter)
+** Always include a submit button with an action label (ie 'Search' or 'Save')
+* Labels for form elements must always be visible
+** Radio and checkboxes must be surrounded in a fieldset (with a legend)
+* Required fields must always be marked
+* No placeholders
+** Unless the element is `<select>`
+
+## Error Messages
+There are two types of error messages in a form, input-level messages and 
+form-level messages.
+
+Form-level messages should be shown at the top for the form. These elements are
+only shown after a form is submitted, and recieve focus when the form
+submission fails. Once a form is resubmitted the error is removed. 
+
+Input-level messages are shown below the input element that has an error. All
+error messages must use ARIA labels so they are associated with the input
+element.
+
+markup:
+<form>
+	<!-- Form headings should be an appropriate heading level -->
+	<h3>Example form elements</h3>
+	<div class="form-group">
+		<label for="exampleTextInput" >Example text input</label>
+		<input id="exampleTextInput" type="text" ng-model="exampleText" />
+	</div>
+	<div class="form-group">
+		<label for="exampleSelect">Example combo box element</label>
+		<select id="exampleSelect" ng-model="exampleSelect">
+			<option value="">--Select Option--</option>
+			<option value="0">EPI</option>
+			<option value="1">ART</option>
+			<option value="2">Essential Medicines</option>
+			<option value="3">Family Planning</option>
+			<option value="4">Malaria</option>
+		</select>
+	</div>
+	<label class="checkbox">
+		<input type="checkbox" ng-model="booleanCheckbox" ng-value="true" />
+		Boolean checkbox, used to turn a value on or off
+	</label>
+	<fieldset>
+		<legend>Multiple checkbox elements</legend>
+		<label class="checkbox">
+			<input type="checkbox" ng-model="checkboxOptions" value="0" />
+			Option 1
+		</label>
+		<label class="checkbox">
+			<input type="checkbox" ng-model="checkboxOptions" value="1" />
+			Option 2
+		</label>
+	</fieldset>
+	<fieldset>
+		<legend>Radio elements</legend>
+		<label class="radio">
+			<input type="radio" ng-model="radioOptions" value="0" />
+			Radio 1
+		</label>
+		<label class="radio">
+			<input type="radio" ng-model="radioOptions" value="1" />
+			Radio 2
+		</label>
+	</fieldset>
+	<input type="submit" value="Save" />
+</form>
+
+Styleguide 3.0
+
+*/
