@@ -22,6 +22,7 @@
 			url: '/template/:template',
 			controller: 'TemplateController',
 			templateUrl: 'administration/template/template.html',
+			controllerAs: 'vm',
 			resolve: {
 				templateAndProgram: function ($location, $q, $stateParams, $state, templateFactory, Program) {
 					var deferred = $q.defer();

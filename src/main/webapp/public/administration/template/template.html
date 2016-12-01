@@ -2,24 +2,24 @@
     <div class="page">
         <h2 openlmis-message="configure.rnr.header"></h2>
         <div class="info-box">
-            <div openlmis-message="program.header"></div>
-            <div>{{program.name}}</div>
-            <a openlmis-message="template.change" ng-click="goToTemplateList()"></a>
+            <div>{{'program.header' | messsage}}</div>
+            <div>{{vm.program.name}}</div>
+            <a ng-click="goToTemplateList()">{{'template.change' | message}}</a>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th openlmis-message="template.header.display"></th>
+                    <th>{{'template.header.display' | message}}</th>
                     <th></th>
-					<th openlmis-message="template.header.label"></th>
-					<th openlmis-message="template.header.source"></th>
+					<th>{{'template.header.label' | message}}</th>
+					<th>{{'template.header.source' | message}}</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody dnd-list="template.columnsMap"
-                dnd-drop="dropCallback(event, index, item)">
-                <tr ng-repeat="column in template.columnsMap | orderObjectsBy:'displayOrder'"
+            <tbody dnd-list="vm.template.columnsMap"
+                dnd-drop="vm.dropCallback(event, index, item)">
+                <tr ng-repeat="column in vm.template.columnsMap | orderObjectsBy:'displayOrder'"
                     dnd-draggable="column"
                     dnd-disable-if="!column.columnDefinition.canChangeOrder"
                     dnd-effect-allowed="move"
@@ -36,13 +36,13 @@
                             <input disable-drag type="text" ng-model="column.label" class="form-control input-sm" ng-disabled="column.columnDefinition.canBeChangedByUser">
                         </td>
                         <td>
-                            <div ng-if="!canChangeSource(column.columnDefinition)">{{sourceDisplayName(column.source)}}</div>
-                            <div ng-if="canChangeSource(column.columnDefinition)">
-                                <select class="form-control" ng-model="column.source" ng-options="source as sourceDisplayName(source) for source in column.columnDefinition.sources"></select>
+                            <div ng-if="!vm.canChangeSource(column.columnDefinition)">{{vm.sourceDisplayName(column.source)}}</div>
+                            <div ng-if="vm.canChangeSource(column.columnDefinition)">
+                                <select class="form-control" ng-model="column.source" ng-options="source as vm.sourceDisplayName(source) for source in column.columnDefinition.sources"></select>
                             </div>
                         </td>
                         <td>
-                            <div ng-if="!column.$isValid(template.columnsMap)" class="error">{{errorMessage(column)}}</div>
+                            <div ng-if="!column.$isValid(template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
                         </td>
                 </tr>
                 <tr class="dndPlaceholder">

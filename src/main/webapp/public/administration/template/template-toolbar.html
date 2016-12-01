@@ -1,10 +1,13 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
-        <input id="saveButton" ng-click="saveTemplate()"
-               class="btn btn-primary save-button" ng-disabled="!template.$isValid()"
-               openlmis-message="button.save" type="button"/>
-        <input id="cancelButton" ng-click="goToTemplateList()"
-               class="btn btn-default save-button"
-               openlmis-message="button.cancel" type="button"/>
+        <button id="saveButton" ng-click="saveTemplate()"
+            class="btn btn-primary save-button" ng-disabled="!template.$isValid()">
+            {{'button.save' | message}}
+        </button>
+        <button id="cancelButton" ng-click="goToTemplateList()"
+            class="btn btn-default save-button"
+            openlmis-message="button.cancel" type="button">
+            {{'button.cancel' | message}}
+        </button>
     </div>
 </div>

@@ -22,18 +22,20 @@
 
     angular.module('openlmis.administration').controller('TemplateController', TemplateController);
 
-    TemplateController.$inject = ['$scope', '$state', 'templateAndProgram', '$q', 'Notification', 'Source', 'messageService'];
+    TemplateController.$inject = ['$state', 'templateAndProgram', '$q', 'Notification', 'Source', 'messageService'];
 
-    function TemplateController($scope, $state, templateAndProgram, $q, Notification, Source, messageService) {
-        $scope.template = templateAndProgram.template;
-        $scope.program = templateAndProgram.program;
+    function TemplateController($state, templateAndProgram, $q, Notification, Source, messageService) {
+        var vm = this;
 
-        $scope.goToTemplateList = goToTemplateList;
-        $scope.saveTemplate = saveTemplate;
-        $scope.dropCallback = dropCallback;
-        $scope.canChangeSource = canChangeSource;
-        $scope.sourceDisplayName = sourceDisplayName;
-        $scope.errorMessage = errorMessage;
+        vm.template = templateAndProgram.template;
+        vm.program = templateAndProgram.program;
+
+        vm.goToTemplateList = goToTemplateList;
+        vm.saveTemplate = saveTemplate;
+        vm.dropCallback = dropCallback;
+        vm.canChangeSource = canChangeSource;
+        vm.sourceDisplayName = sourceDisplayName;
+        vm.errorMessage = errorMessage;
 
         /**
          * @ngdoc function
@@ -58,7 +60,7 @@
          * list view page. If saving is unsuccessful error notification is displayed.
          */
         function saveTemplate() {
-            $scope.template.$save().then(function() {
+            vm.template.$save().then(function() {
                 Notification.success('template.save.success');
                 goToTemplateList();
             }, function() {
@@ -79,7 +81,7 @@
          * it displays notification error on screen.
          */
         function dropCallback(event, index, item) {
-            if(!$scope.template.$moveColumn(item, index)) {
+            if(!vm.template.$moveColumn(item, index)) {
                 Notification.error('msg.tempalte.column.drop.error');
             }
             return false; // disable default drop functionality
@@ -127,7 +129,7 @@
         function errorMessage(column) {
             var dependentColumnsDisplayNameList = '';
             angular.forEach(column.$dependentOn, function(columnName) {
-                if($scope.template.columnsMap[columnName].isDisplayed) dependentColumnsDisplayNameList = dependentColumnsDisplayNameList + ' ' + $scope.template.columnsMap[columnName].label + ',';
+                if(vm.template.columnsMap[columnName].isDisplayed) dependentColumnsDisplayNameList = dependentColumnsDisplayNameList + ' ' + vm.template.columnsMap[columnName].label + ',';
             });
             dependentColumnsDisplayNameList = dependentColumnsDisplayNameList.substring(0, dependentColumnsDisplayNameList.length - 1); // remove last comma
             return messageService.get('msg.template.column.should.be.displayed') + dependentColumnsDisplayNameList;
