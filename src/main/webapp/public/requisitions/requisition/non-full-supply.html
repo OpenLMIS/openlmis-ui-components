@@ -15,7 +15,7 @@
 				<td>
 					<button class="hide-line-item"
 							ng-click="vm.deleteLineItem(lineItem)"
-							ng-disabled="!lineItem.$hideable">
+							ng-if="lineItem.$hideable">
 								<i class="fa fa-remove"></i>
 					</button>
 				</td>
