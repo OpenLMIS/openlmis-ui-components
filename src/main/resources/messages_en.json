@@ -421,6 +421,7 @@
   "message.arithmeticValidation.status": "Total Quantity Consumed (C) and Stock On Hand (E) are configured as user inputs. Validation of inputs (C = A + B +/- D -E) is",
   "message.arithmeticValidation.toggle": "Turn {0}",
   "template.configured": "Configured",
+  "template.create": "Create",
   "template.configure": "Configure",
   "template.programName": "Program:",
   "template.change": "(Change)",

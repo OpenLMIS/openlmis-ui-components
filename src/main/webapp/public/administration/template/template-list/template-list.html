@@ -15,7 +15,12 @@
     				<div ng-if="program.template">
                         <i class="fa fa-check"></i>
                         <div>{{'template.configured' | message}}</div>
-                        <a ng-click="goToTemplate(program.template.id)" openlmis-message="link.edit">{{'link.edit' | message}}</a>
+                        <span>(</span>
+                        <a ng-click="goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
+                        <span>)</span>
+    				</div>
+                    <div ng-if="!program.template">
+                        <div>{{'template.create' | message}}</div>
     				</div>
     			</td>
     		</tr>
