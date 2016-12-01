@@ -19,8 +19,8 @@
             vm.reasons = stockAdjustmentReasons;
         });
 
-        vm.addAdjustment = updateValue(addAdjustment);
-        vm.removeAdjustment = updateValue(removeAdjustment);
+        vm.addAdjustment = addAdjustment;
+        vm.removeAdjustment = removeAdjustment;
         vm.getReasonName = getReasonName;
         vm.getTotal = getTotal;
 
@@ -31,12 +31,13 @@
             });
             vm.adjustment.quantity = undefined;
             vm.adjustment.reason.item = undefined;
+            vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
         }
 
         function removeAdjustment(adjustment) {
             var index = vm.adjustments.indexOf(adjustment);
             vm.adjustments.splice(index, 1);
-
+            vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
         }
 
         function getReasonName(reasonId) {
@@ -47,13 +48,6 @@
             if (reason && reason.length) {
                 return reason[0].name;
             }
-        }
-
-        function updateValue(before) {
-            return function() {
-                before();
-                vm.lineItem.totalLossesAndAdjustments = getTotal();
-            };
         }
 
         function getTotal() {
