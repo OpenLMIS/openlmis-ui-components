@@ -26,7 +26,6 @@
   LoginController.$inject = ['$scope', 'LoginService', 'localStorageService', 'messageService'];
 
   function LoginController($scope, LoginService, localStorageService, messageService) {
-    var FORGOT_PASSWORD = "/public/pages/forgot-password.html";
 
     /**
      * 
@@ -107,19 +106,6 @@
         $scope.disableSignInButton = false;
         $scope.password = undefined;
       });
-    };
-
-    /**
-     * @ngdoc function
-     * @name  goToForgotPassword
-     * methodOf openlmis-auth.LoginController
-     *
-     * @description Changes location to forgot login page
-     * 
-     */
-
-    $scope.goToForgotPassword = function() {
-      window.location = FORGOT_PASSWORD;
     };
 
   }

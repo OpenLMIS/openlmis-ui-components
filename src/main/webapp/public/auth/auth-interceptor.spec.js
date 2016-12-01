@@ -9,7 +9,7 @@
  */
 describe("AuthInterceptor", function() {
 
-  var AuthorizationService, $rootScope, $state, LoginModalService, messageService;
+  var AuthorizationService, $rootScope, $state, messageService;
 
   function setupTest(){
     module('openlmis-auth');
@@ -21,15 +21,14 @@ describe("AuthInterceptor", function() {
       .state('home', {});
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _LoginModalService_, _messageService_) {
+    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _messageService_) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $state = _$state_;
-      LoginModalService = _LoginModalService_;
       messageService = _messageService_;
 
       spyOn($state, 'go').andCallThrough();
-      spyOn(LoginModalService, 'onLoginRequired').andCallThrough();
+      spyOn($rootScope, '$broadcast').andCallThrough();
     });
   }
 
@@ -40,10 +39,10 @@ describe("AuthInterceptor", function() {
     $state.go('home');
     $rootScope.$apply();
 
-    expect($state.go).toHaveBeenCalledWith('auth.login');
+    expect($state.go).toHaveBeenCalledWith('auth.login.form');
   });
 
-  it('will call LoginModalService.onLoginRequired if auth token is not set and state is not home', function(){
+  it('will call broadcast event:auth-loginRequired if auth token is not set and state is not home', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
     spyOn(messageService, 'populate');
@@ -51,14 +50,14 @@ describe("AuthInterceptor", function() {
     $state.go('somewhere');
     $rootScope.$apply();
 
-    expect(LoginModalService.onLoginRequired).toHaveBeenCalled();
+    expect($rootScope.$broadcast).toHaveBeenCalledWith('event:auth-loginRequired', true);
   });
 
   it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
     setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
-    $state.go('auth.login');
+    $state.go('auth.login.form');
     $rootScope.$apply();
 
     // User not redirected, because only $state.go call is original.
@@ -77,7 +76,7 @@ describe("AuthInterceptor", function() {
     expect($state.go.calls.length).toEqual(1);
 
     // Call 2
-    $state.go('auth.login');
+    $state.go('auth.login.form');
     $rootScope.$apply();
 
     expect($state.go).toHaveBeenCalledWith('home');
@@ -86,11 +85,5 @@ describe("AuthInterceptor", function() {
     expect($state.go.calls.length).toEqual(3);
 
   });
-
-  it('should call LoginModalService.onLoginRequired on event:auth-loginRequired'), function(){
-    $rootScope.$broadcast('event:auth-loginRequired');
-
-    expect(LoginModalService.onLoginRequired).toHaveBeenCalled();
-  }
 
 });

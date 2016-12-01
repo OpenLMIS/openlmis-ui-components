@@ -13,7 +13,6 @@
 
   angular.module('openlmis-auth')
   .run(authStateChangeInterceptor)
-  .run(loginRequiredInterceptor);
 
   /**
     * @ngdoc function
@@ -25,21 +24,19 @@
     * Any route that the user visits within the openlmis-auth module they will be allowed to visit if they are not authenticated. Meaning if a user is authenticated, they won't be able to access the login or forgot password screens.
     *
     */
-  authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'LoginModalService'];
-  function authStateChangeInterceptor($rootScope, $state, AuthorizationService, LoginModalService) {
+  authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService'];
+  function authStateChangeInterceptor($rootScope, $state, AuthorizationService) {
     $rootScope.$on('$stateChangeStart', redirectAuthState);
 
     function redirectAuthState(event, toState, toParams, fromState, fromParams) {
       if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
         // if not authenticated and not on login page or home page
         event.preventDefault();
-        LoginModalService.onLoginRequired(true).then(function(){
-            location.reload();
-        });
+        $rootScope.$broadcast('event:auth-loginRequired', true);
       } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
         // if not authenticated and on home page
         event.preventDefault();
-        $state.go('auth.login');
+        $state.go('auth.login.form');
       } else if(AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') == 0) {
         // if authenticated and on login page
         event.preventDefault();
@@ -50,19 +47,10 @@
     $rootScope.$on('auth.login', function(){
       $state.go('home');
     });
-  }
 
-  /**
-    * @ngdoc function
-    * @name  openlmis-auth.loginRequiredInterceptor
-    *
-    * @description
-    * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
-    *
-    */
-  loginRequiredInterceptor.$inject = ['$rootScope', 'LoginModalService'];
-  function loginRequiredInterceptor($rootScope, LoginModalService) {
-    $rootScope.$on('event:auth-loginRequired', LoginModalService.onLoginRequired);
+    $rootScope.$on('event:auth-loggedIn', function(){
+      location.reload();
+    });
   }
 
 })();

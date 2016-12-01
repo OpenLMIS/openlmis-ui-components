@@ -15,7 +15,7 @@ describe("HeaderController", function() {
 
   beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
     $state = _$state_;
-    spyOn($state, 'reload');
+    spyOn($state, 'go');
 
     httpBackend = _$httpBackend_;
     loginConfig = {
@@ -48,6 +48,6 @@ describe("HeaderController", function() {
     scope.$apply();
     
     // Page state is on login page
-    expect($state.reload).toHaveBeenCalled();
+    expect($state.go).toHaveBeenCalledWith('auth.login.form');
   });
 });

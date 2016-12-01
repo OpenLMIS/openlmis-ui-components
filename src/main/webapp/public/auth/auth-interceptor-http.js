@@ -20,7 +20,8 @@
      */
     angular.module('openlmis-auth')
     	.factory('HttpAuthAccessToken', HttpAuthAccessToken)
-    	.config(httpIntercept);
+    	.config(httpIntercept)
+    	.run(loginRequiredInterceptor);
 
     httpIntercept.$inject = ['$httpProvider'];
     function httpIntercept($httpProvider){
@@ -98,6 +99,63 @@
                 return $q.reject(response);
             }
     	}
+    }
+
+    /**
+    * @ngdoc function
+    * @name  openlmis-auth.loginRequiredInterceptor
+    *
+    * @description
+    * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
+    *
+    */
+    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService'];
+    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService) {
+        $rootScope.$on('event:auth-loginRequired', onLoginRequired);
+
+            /**
+              *
+              * @ngdoc function
+              * @name onLoginRequired
+              * @param {Object} event event
+              * @param {boolean} noRetryRequest true if no retry request
+              *
+              * @description
+              * Make and show login modal, close loading modal.
+              *
+              */
+            function onLoginRequired(event, noRetryRequest) {
+              var scope = $rootScope.$new();
+
+              scope.doLogin = doLogin;
+
+              $templateRequest('auth/login-form.html').then(function(html){
+                scope.dialog = bootbox.dialog({
+                  message: $compile(html)(scope),
+                  size: 'large',
+                  closeButton: false,
+                  className: 'login-modal'
+                });
+              });
+              LoadingModalService.close();
+
+              function doLogin() {
+                LoginService.login(scope.username, scope.password).then(function(){
+                  scope.dialog.modal('hide');
+                  if (noRetryRequest == true) {
+                    $rootScope.$broadcast('event:auth-loggedIn');
+                  } else {
+                    authService.loginConfirmed();
+                  }
+                })
+                .catch(function(){
+                  scope.loginError = messageService.get("user.login.error");
+                })
+                .finally(function(){
+                  scope.password = undefined;
+                });
+              }
+            }
     }
 
 })();

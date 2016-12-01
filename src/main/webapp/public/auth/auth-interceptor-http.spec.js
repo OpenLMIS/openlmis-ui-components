@@ -9,21 +9,39 @@
  */
 describe("AuthInterceptorHttp", function() {
 
-  var AuthorizationService, $rootScope, $http, $httpBackend, OpenlmisURL, messageService;
+  var AuthorizationService, $rootScope, $http, $httpBackend, OpenlmisURL, messageService, bootbox, $q, LoadingModalService;
 
-  beforeEach(module('openlmis-auth'));
+  beforeEach(function() {
+      module('openlmis-auth')
 
-  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_, $state, _messageService_) {
+      var mockDependency = function () {
+        var deferred = $q.defer();
+        deferred.resolve('<div></div>');
+        return deferred.promise;
+      }
+
+      module(function ($provide) {
+        $provide.value('$templateRequest', mockDependency);
+      });
+  });
+
+  beforeEach(inject(function(_AuthorizationService_, _$rootScope_, OpenlmisURLService, _OpenlmisURL_, _$http_, _$httpBackend_, $state, _messageService_, _bootbox_, _$q_, _LoadingModalService_) {
       AuthorizationService = _AuthorizationService_;
       $rootScope = _$rootScope_;
       $http = _$http_;
       $httpBackend = _$httpBackend_;
       OpenlmisURL = _OpenlmisURL_;
       messageService = _messageService_;
+      bootbox = _bootbox_;
+      $q = _$q_;
+      LoadingModalService = _LoadingModalService_;
 
       spyOn($state, 'go');
 
       OpenlmisURLService.url = 'http://localhost';
+
+      spyOn(bootbox, 'dialog');
+      spyOn(LoadingModalService, 'close');
   }));
 
   it('will add access token if user is authenticated', function(){
@@ -111,5 +129,19 @@ describe("AuthInterceptorHttp", function() {
 
     expect(success).toBe(true);
   });
+
+  it('should open login modal dialog on event:auth-loginRequired', function () {
+      $rootScope.$broadcast('event:auth-loginRequired');
+      $rootScope.$apply();
+
+      expect(bootbox.dialog).toHaveBeenCalled();
+  })
+
+  it('should close loading dialog on event:auth-loginRequired', function () {
+      $rootScope.$broadcast('event:auth-loginRequired');
+      $rootScope.$apply();
+
+      expect(LoadingModalService.close).toHaveBeenCalled();
+  })
 
 });

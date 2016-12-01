@@ -23,18 +23,19 @@
     routes.$inject = ['$stateProvider', '$urlRouterProvider'];
     function routes($stateProvider, $urlRouterProvider){
         $stateProvider
-        .state('auth', {
-            abstract: true
-        })
-        .state('auth.login', {
-            url: '/login',
-            views:{
-                '@': {
-                    templateUrl: 'auth/login-form.html',
-                    controller: 'LoginController'
-                }
-            }
-        });
+            .state('auth', {
+                abstract: true,
+                template: '<ui-view/>'
+            })
+            .state('auth.login', {
+                abstract: true,
+                templateUrl: 'auth/login-page.html',
+            })
+            .state('auth.login.form', {
+                url: '/login',
+                templateUrl: 'auth/login-form.html',
+                controller: 'LoginController'
+            });
     }
 
     /**
