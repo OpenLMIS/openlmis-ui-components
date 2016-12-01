@@ -13,9 +13,9 @@
         .module('openlmis.requisitions')
         .controller('NonFullSupplyCtrl', nonFullSupplyCtrl);
 
-    nonFullSupplyCtrl.$inject = ['$scope', 'requisitionValidator', 'RequisitionCategory'];
+    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator'];
 
-    function nonFullSupplyCtrl($scope, requisitionValidator, RequisitionCategory) {
+    function nonFullSupplyCtrl(requisition, requisitionValidator) {
         var vm = this,
             categories;
 
@@ -28,7 +28,7 @@
          * @description
          * Holds requisition. This object is shared with the parent and fullSupply states.
          */
-        vm.requisition = $scope.$parent.requisition;
+        vm.requisition = requisition;
 
         /**
          * @ngdoc property

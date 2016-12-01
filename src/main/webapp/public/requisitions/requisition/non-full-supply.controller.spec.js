@@ -1,6 +1,6 @@
 describe('NonFullSupplyCtrl', function() {
 
-    var vm, scope, requisitionValidator, RequisitionCategory, requisition;
+    var vm, requisitionValidator, RequisitionCategory, requisition;
 
     beforeEach(module('openlmis.requisitions'));
 
@@ -9,10 +9,8 @@ describe('NonFullSupplyCtrl', function() {
         RequisitionCategory = jasmine.createSpy('RequisitionCategory');
     });
 
-    beforeEach(inject(function($rootScope) {
-        scope = $rootScope.$new();
-        scope.$parent = $rootScope.$new();
-        scope.$parent.requisition = {
+    beforeEach(function($rootScope) {
+        requisition = {
             $template: jasmine.createSpyObj('Template', ['getColumns']),
             requisitionLineItems: [
                 lineItemSpy(0, 'One', true),
@@ -22,12 +20,11 @@ describe('NonFullSupplyCtrl', function() {
                 lineItemSpy(4, 'Three', false)
             ]
         };
-        requisition = scope.$parent.requisition;
-    }));
+    });
 
     beforeEach(inject(function($controller) {
         vm = $controller('NonFullSupplyCtrl', {
-            $scope: scope,
+            requisition: requisition,
             requisitionValidator: requisitionValidator,
             RequisitionCategory: RequisitionCategory
         });

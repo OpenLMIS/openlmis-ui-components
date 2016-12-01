@@ -4,7 +4,7 @@ describe('FullSupplyCtrl', function() {
     var vm;
 
     //mocks
-    var scope, requisitionValidator;
+    var requisition, requisitionValidator;
 
     beforeEach(module('openlmis.requisitions'));
 
@@ -12,10 +12,8 @@ describe('FullSupplyCtrl', function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
     });
 
-    beforeEach(inject(function($rootScope) {
-        scope = $rootScope.$new();
-        scope.$parent = $rootScope.$new();
-        scope.$parent.requisition = {
+    beforeEach(function($rootScope) {
+        requisition = {
             $template: jasmine.createSpyObj('Template', ['getColumns']),
             requisitionLineItems: [
                 lineItem('One', true),
@@ -34,23 +32,23 @@ describe('FullSupplyCtrl', function() {
                 }
             };
         }
-    }));
+    });
 
     beforeEach(inject(function($controller) {
         vm = $controller('FullSupplyCtrl', {
-            $scope: scope,
+            requisition: requisition,
             requisitionValidator: requisitionValidator
         });
     }));
 
     it('should group line items by category', function() {
         expect(vm.categories['One'].length).toBe(2);
-        expect(vm.categories['One'][0]).toBe(scope.$parent.requisition.requisitionLineItems[0]);
-        expect(vm.categories['One'][1]).toBe(scope.$parent.requisition.requisitionLineItems[2]);
+        expect(vm.categories['One'][0]).toBe(requisition.requisitionLineItems[0]);
+        expect(vm.categories['One'][1]).toBe(requisition.requisitionLineItems[2]);
 
         expect(vm.categories['Two'].length).toBe(2);
-        expect(vm.categories['Two'][0]).toBe(scope.$parent.requisition.requisitionLineItems[1]);
-        expect(vm.categories['Two'][1]).toBe(scope.$parent.requisition.requisitionLineItems[3]);
+        expect(vm.categories['Two'][0]).toBe(requisition.requisitionLineItems[1]);
+        expect(vm.categories['Two'][1]).toBe(requisition.requisitionLineItems[3]);
     });
 
     it('should expose requisitionValidator.isLineItemValid method', function() {
