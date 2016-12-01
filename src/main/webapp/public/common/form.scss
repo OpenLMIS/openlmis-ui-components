@@ -10,17 +10,17 @@ CSS or AngularJS directives.
 *Note:* All form styles are based off the Bootstrap 3 guidelines, and all
 Bootstrap 3 markup will work.
 
-*Conventions:*
+**Conventions:**
 * Don't use disabled states, hide form controls when not needed
-** Only form elements such as `<input type="text">` or `<select>` can be disabled
+  * Only form elements such as `<input type="text">` or `<select>` can be disabled
 * Form actions happen on form submit or button click (not magically)
-** Only internal form actions may 'magically' update (ie a `<select>` filter)
-** Always include a submit button with an action label (ie 'Search' or 'Save')
+  * Only internal form actions may 'magically' update (ie a `<select>` filter)
+  * Always include a submit button with an action label (ie 'Search' or 'Save')
 * Labels for form elements must always be visible
-** Radio and checkboxes must be surrounded in a fieldset (with a legend)
+  * Radio and checkboxes must be surrounded in a fieldset (with a legend)
 * Required fields must always be marked
 * No placeholders
-** Unless the element is `<select>`
+  * Unless the element is `<select>`
 
 ## Error Messages
 There are two types of error messages in a form, input-level messages and 
