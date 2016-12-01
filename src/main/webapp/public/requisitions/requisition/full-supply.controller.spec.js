@@ -15,7 +15,25 @@ describe('FullSupplyCtrl', function() {
     beforeEach(inject(function($rootScope) {
         scope = $rootScope.$new();
         scope.$parent = $rootScope.$new();
-        scope.$parent.requisition = requisitionSpy();
+        scope.$parent.requisition = {
+            $template: jasmine.createSpyObj('Template', ['getColumns']),
+            requisitionLineItems: [
+                lineItem('One', true),
+                lineItem('Two', true),
+                lineItem('One', true),
+                lineItem('Two', true),
+                lineItem('Three', false)
+            ]
+        }
+
+        function lineItem(category, fullSupply) {
+            return {
+                $program: {
+                    productCategoryDisplayName: category,
+                    fullSupply: fullSupply
+                }
+            };
+        }
     }));
 
     beforeEach(inject(function($controller) {
@@ -39,31 +57,6 @@ describe('FullSupplyCtrl', function() {
         expect(vm.isLineItemValid).toBe(requisitionValidator.isLineItemValid);
     });
 
-    function requisitionSpy() {
-        return {
-            $template: templateSpy(),
-            requisitionLineItems: [
-                lineItemSpy(0, 'One', true),
-                lineItemSpy(1, 'Two', true),
-                lineItemSpy(2, 'One', true),
-                lineItemSpy(3, 'Two', true),
-                lineItemSpy(4, 'Three', false)
-            ]
-        };
-    }
 
-    function templateSpy() {
-        return jasmine.createSpyObj('Template', ['getColumns']);
-    }
-
-    function lineItemSpy(id, category, fullSupply) {
-        return {
-            $id: id,
-            $program: {
-                productCategoryDisplayName: category,
-                fullSupply: fullSupply
-            }
-        };
-    }
 
 });
