@@ -12,15 +12,9 @@ RUN apt-get install -y nodejs
 RUN npm install -g bower grunt-cli phantomjs-prebuilt
 
 WORKDIR /app
-VOLUME ["/app"]
-
-# Delete any existing packages (incase they are hiding)
-RUN cd /app; rm -rf node_modules/ bower_components/
-
-RUN cd /app; npm install --no-optional
-RUN cd /app; bower install --allow-root --config.interactive=false 
+VOLUME ["/app"] 
 
 # Port 9000 used for dev server
 EXPOSE 9000
 
-CMD bash
+CMD rm -rf node_modules/ bower_components/ && npm install --no-optional && bower install --allow-root --config.interactive=false && bash
