@@ -316,6 +316,16 @@ module.exports = function(grunt) {
         title: "API"
       }
     },
+    kss: {
+      options: {
+        title: 'OpenLMIS-UI Styleguide',
+        homepage: '../../../docs/styleguide.md'
+      },
+      dist: {
+        src: [config.styleguide.src],
+        dest: config.styleguide.dest
+      }
+    },
     gulp: {
       'sass': function(){
    var includePaths = require('node-bourbon').includePaths.concat([
@@ -416,7 +426,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
-  var styleguideTasks = [];
+  var styleguideTasks = ['kss'];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');
