@@ -1,21 +1,28 @@
 describe('NonFullSupplyCtrl', function() {
 
-    var vm;
-
-    var scope, requisitionValidator, RequisitionCategory;
+    var vm, scope, requisitionValidator, RequisitionCategory, requisition;
 
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
         RequisitionCategory = jasmine.createSpy('RequisitionCategory');
-
     });
 
     beforeEach(inject(function($rootScope) {
         scope = $rootScope.$new();
         scope.$parent = $rootScope.$new();
-        scope.$parent.requisition = requisitionSpy();
+        scope.$parent.requisition = {
+            $template: jasmine.createSpyObj('Template', ['getColumns']),
+            requisitionLineItems: [
+                lineItemSpy(0, 'One', true),
+                lineItemSpy(1, 'Two', true),
+                lineItemSpy(2, 'One', true),
+                lineItemSpy(3, 'Two', true),
+                lineItemSpy(4, 'Three', false)
+            ]
+        };
+        requisition = scope.$parent.requisition;
     }));
 
     beforeEach(inject(function($controller) {
@@ -27,27 +34,26 @@ describe('NonFullSupplyCtrl', function() {
     }));
 
     it('should delete line item', function() {
-        vm.deleteLineItem(scope.$parent.requisition.requisitionLineItems[0]);
-        expect(scope.$parent.requisition.requisitionLineItems.length).toBe(4);
-        expect(scope.$parent.requisition.requisitionLineItems[0].category).not.toBe('One');
+        vm.deleteLineItem(requisition.requisitionLineItems[0]);
+        expect(requisition.requisitionLineItems.length).toBe(4);
+        expect(requisition.requisitionLineItems[0].category).not.toBe('One');
     });
 
-    function requisitionSpy() {
-        return {
-            $template: templateSpy(),
-            requisitionLineItems: [
-                lineItemSpy(0, 'One', true),
-                lineItemSpy(1, 'Two', true),
-                lineItemSpy(2, 'One', true),
-                lineItemSpy(3, 'Two', true),
-                lineItemSpy(4, 'Three', false)
-            ]
-        };
-    }
+    it('should bind requisitionValidator.isLineItemValid method to vm', function() {
+        expect(vm.isLineItemValid).toBe(requisitionValidator.isLineItemValid);
+    });
 
-    function templateSpy() {
-        return jasmine.createSpyObj('Template', ['getColumns']);
-    }
+    it('should bind requisition property to vm', function() {
+        expect(vm.requisition).toBe(requisition);
+    });
+
+    it('should bind columns property to vm', function() {
+        expect(vm.columns).toBe(requisition.$template.getColumns());
+    });
+
+    it('should bind requisitionLineItems property to vm', function() {
+        expect(vm.lineItems).toBe(requisition.requisitionLineItems);
+    });
 
     function lineItemSpy(id, category, fullSupply) {
         return {
