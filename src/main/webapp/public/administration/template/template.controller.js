@@ -98,7 +98,7 @@
          * and if there is more then one possible source to choose from.
          */
         function canChangeSource(columnDefinition) {
-            return columnDefinition.sources.length > 1 && columnDefinition.canChangeSource;
+            return columnDefinition.sources.length > 1;
         }
 
         /**

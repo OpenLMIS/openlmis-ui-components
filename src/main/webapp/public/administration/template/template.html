@@ -33,7 +33,7 @@
                             </div>
                         </td>
                         <td>
-                            <input disable-drag type="text" ng-model="column.label" class="form-control input-sm" ng-disabled="column.columnDefinition.canBeChangedByUser">
+                            <input disable-drag type="text" ng-model="column.label" class="form-control input-sm"/>
                         </td>
                         <td>
                             <div ng-if="!vm.canChangeSource(column.columnDefinition)">{{vm.sourceDisplayName(column.source)}}</div>
@@ -42,7 +42,7 @@
                             </div>
                         </td>
                         <td>
-                            <div ng-if="!column.$isValid(template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
+                            <div ng-if="!column.$isValid(vm.template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
                         </td>
                 </tr>
                 <tr class="dndPlaceholder">

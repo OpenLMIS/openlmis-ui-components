@@ -85,16 +85,10 @@ describe('TemplateController', function() {
 
     it('can change source works correctly', function() {
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT.name, source.CALCULATED.name],
-            canChangeSource: true
+            sources: [source.USER_INPUT.name, source.CALCULATED.name]
         })).toBe(true);
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT.name],
-            canChangeSource: true
-        })).toBe(false);
-        expect(vm.canChangeSource({
-            sources: [source.USER_INPUT.name, source.CALCULATED.name],
-            canChangeSource: false
+            sources: [source.USER_INPUT.name]
         })).toBe(false);
     });
 
