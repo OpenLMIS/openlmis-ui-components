@@ -1,10 +1,10 @@
 <div class="template-list">
     <div class="page">
-        <h2 openlmis-message="configure.rnr.header"></h2>
+        <h2>{{'configure.rnr.header' | message}}</h2>
         <table ng-if="programs.length">
     		<thead>
     		<tr>
-    			<th openlmis-message="program.header"></th>
+    			<th>{{'program.header' | message}}</th>
     			<th></th>
     		</tr>
     		</thead>
@@ -14,8 +14,8 @@
     			<td>
     				<div ng-if="program.template">
                         <i class="fa fa-check"></i>
-                        <div openlmis-message="template.configured"></div>
-                        <a ng-click="goToTemplate(program.template.id)" openlmis-message="link.edit"></a>
+                        <div>{{'template.configured' | message}}</div>
+                        <a ng-click="goToTemplate(program.template.id)" openlmis-message="link.edit">{{'link.edit' | message}}</a>
     				</div>
     			</td>
     		</tr>
