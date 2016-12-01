@@ -9,18 +9,18 @@
  */
 describe('Program', function() {
 
-    var rootScope, httpBackend, programFactory, openlmisURL, templateFactory, program1, program2, template, q;
+    var rootScope, httpBackend, programFactory, openlmisURL, program1, program2, template, q;
 
     beforeEach(module('openlmis.administration'));
 
     beforeEach(module(function($provide){
-        var RequisitionTemplateSpy = jasmine.createSpyObj('RequisitionTemplate', ['getAll']);
+        var RequisitionTemplateSpy = jasmine.createSpyObj('templateFactory', ['getAll']);
 
         RequisitionTemplateSpy.getAll.andCallFake(function() {
             return q.when([template]);
         });
 
-    	$provide.factory('RequisitionTemplate', function(){
+    	$provide.factory('templateFactory', function(){
     		return RequisitionTemplateSpy;
     	});
     }));

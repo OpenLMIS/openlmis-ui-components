@@ -28,7 +28,8 @@
 		'ui.bootstrap.datepickerPopup',
 		'ui.bootstrap',
 		'ui.bootstrap.dropdown',
-		'http-auth-interceptor'
+		'http-auth-interceptor',
+        'dndLists'
 		]).config(defaultRoutes);
 
 	defaultRoutes.$inject = ['$urlRouterProvider'];

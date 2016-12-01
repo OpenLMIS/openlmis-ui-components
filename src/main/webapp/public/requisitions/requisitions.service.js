@@ -14,11 +14,11 @@
         .service('RequisitionService', requisitionService);
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
-                                  'RequisitionURL', 'RequisitionFactory', 'Source', 'Confirm',
+                                  'RequisitionURL', 'RequisitionFactory', 'Confirm',
                                   'Notification', 'DateUtils'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Source, Confirm, Notification, DateUtils) {
+                                RequisitionFactory, Confirm, Notification, DateUtils) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {

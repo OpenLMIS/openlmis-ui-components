@@ -21,9 +21,9 @@
      */
     angular.module('openlmis.administration').factory('Program', Program);
 
-    Program.$inject = ['OpenlmisURL', '$resource', '$q', 'RequisitionTemplate'];
+    Program.$inject = ['OpenlmisURL', '$resource', '$q', 'templateFactory'];
 
-    function Program(OpenlmisURL, $resource, $q, RequisitionTemplate) {
+    function Program(OpenlmisURL, $resource, $q, templateFactory) {
 
         var resource = $resource(OpenlmisURL('/referencedata/api/programs/:id'), {}, {
             'getAll': {
@@ -80,7 +80,7 @@
 
         function getProgramTemplates(programs) {
             var deferred = $q.defer();
-            RequisitionTemplate.getAll().then(function(templates) {
+            templateFactory.getAll().then(function(templates) {
                 angular.forEach(programs, function(program, programIdx) {
                     angular.forEach(templates, function(template, templateIdx) {
                         if(program.id === template.programId) {

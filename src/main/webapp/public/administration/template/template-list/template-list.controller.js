@@ -22,9 +22,26 @@
 
     angular.module('openlmis.administration').controller('TemplateListController', TemplateListController);
 
-    TemplateListController.$inject = ['$scope', '$state', 'messageService', 'programList'];
+    TemplateListController.$inject = ['$scope', '$state', 'programList'];
 
-    function TemplateListController($scope, $state, messageService, programList) {
+    function TemplateListController($scope, $state, programList) {
         $scope.programs = programList;
+
+        $scope.goToTemplate = goToTemplate;
+
+        /**
+         * @ngdoc function
+         * @name goToTemplate
+         * @methodOf openlmis.administration.TemplateListController
+         * @param {String} templateId Template UUID
+         *
+         * @description
+         * Redirects user to template view page.
+         */
+        function goToTemplate(templateId) {
+            $state.go('administration.configure.template', {
+                template: templateId
+            });
+        }
     }
 })();

@@ -1,0 +1,56 @@
+<div class="template">
+    <div class="page">
+        <h2 openlmis-message="configure.rnr.header"></h2>
+        <div class="info-box">
+            <div openlmis-message="program.header"></div>
+            <div>{{program.name}}</div>
+            <a openlmis-message="template.change" ng-click="goToTemplateList()"></a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th openlmis-message="template.header.display"></th>
+                    <th></th>
+					<th openlmis-message="template.header.label"></th>
+					<th openlmis-message="template.header.source"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody dnd-list="template.columnsMap"
+                dnd-drop="dropCallback(event, index, item)">
+                <tr ng-repeat="column in template.columnsMap | orderObjectsBy:'displayOrder'"
+                    dnd-draggable="column"
+                    dnd-disable-if="!column.columnDefinition.canChangeOrder"
+                    dnd-effect-allowed="move"
+                    ng-class="{pinned: !column.columnDefinition.canChangeOrder}">
+                        <td>
+                            <input type="checkbox" ng-model="column.isDisplayed" ng-disabled="column.columnDefinition.isDisplayedRequired">
+                        </td>
+                        <td>
+                            <div class="circle">
+                                <div class="inner-circle">{{column.indicator}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <input disable-drag type="text" ng-model="column.label" class="form-control input-sm" ng-disabled="column.columnDefinition.canBeChangedByUser">
+                        </td>
+                        <td>
+                            <div ng-if="!canChangeSource(column.columnDefinition)">{{sourceDisplayName(column.source)}}</div>
+                            <div ng-if="canChangeSource(column.columnDefinition)">
+                                <select class="form-control" ng-model="column.source" ng-options="source as sourceDisplayName(source) for source in column.columnDefinition.sources"></select>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-if="!column.$isValid(template.columnsMap)" class="error">{{errorMessage(column)}}</div>
+                        </td>
+                </tr>
+                <tr class="dndPlaceholder">
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<ng-include src="'administration/template/template-toolbar.html'"></ng-include>

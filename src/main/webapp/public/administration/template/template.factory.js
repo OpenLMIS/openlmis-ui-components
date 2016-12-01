@@ -14,78 +14,201 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.administration.RequisitionTemplate
+     * @name openlmis.administration.templateFactory
      *
      * @description
-     * Allows user to perform operations on requisition template resource.
+     * Comunicates with templateDataService.
      *
      */
-    angular.module('openlmis.administration').factory('RequisitionTemplate', RequisitionTemplate);
+    angular.module('openlmis.administration').factory('templateFactory', templateFactory);
 
-    RequisitionTemplate.$inject = ['RequisitionURL', '$resource'];
+    templateFactory.$inject = ['$q', 'templateDataService', 'RequisitionColumn'];
 
-    function RequisitionTemplate(RequisitionURL, $resource) {
+    function templateFactory($q, templateDataService, RequisitionColumn) {
 
-        var resource = $resource(RequisitionURL('/api/requisitionTemplates/:id'), {}, {
-            'getAll': {
-                url: RequisitionURL('/api/requisitionTemplates'),
-                method: 'GET',
-                isArray: true
-            },
-            'search': {
-                url: RequisitionURL('/api/requisitionTemplates/search'),
-                method: 'GET'
-            }
-        }),
+        var maxNumber = 999999999999999,
 
         factory = {
             get: get,
             getAll: getAll,
-            search: search
+            getByProgram: getByProgram
         };
 
         return factory;
 
-
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.administration.RequisitionTemplate
-         * @param {String} id Requsition template UUID
-         * @returns {Promise} Requisition template info
+         * @methodOf openlmis.administration.templateFactory
+         * @param {String} id Template UUID
+         * @returns {Promise} Template
          *
          * @description
-         * Gets requisition template by id.
+         * Gets requisition template by id and adds validation and column sorting methods.
          */
         function get(id) {
-            return resource.get({id: id}).$promise;
+            var deferred = $q.defer();
+            templateDataService.get(id).then(function(template) {
+                template.$save = save;
+                template.$isValid = isTemplateValid;
+                template.$moveColumn = moveColumn;
+                addDependentColumnValidation(template.columnsMap);
+                deferred.resolve(template);
+            }, function() {
+                deferred.reject();
+            });
+            return deferred.promise;
         }
 
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.administration.RequisitionTemplate
-         * @returns {Promise} Array of all requisition templates
+         * @methodOf openlmis.administration.templateFactory
+         * @returns {Promise} Array of requisition templates
          *
          * @description
-         * Gets all requisition templates.
+         * Gets all requisition templates from templateDataService.
          */
         function getAll() {
-            return resource.getAll().$promise;
+            return templateDataService.getAll();
         }
 
         /**
          * @ngdoc function
-         * @name  search
-         * @methodOf openlmis.administration.RequisitionTemplate
+         * @name  getByProgram
+         * @methodOf openlmis.administration.templateFactory
          * @param {String} programId Program UUID
-         * @return {Promise} requisition template for given program
+         * @return {Promise} Template for given program
          *
          * @description
-         * Gets requisition template for given program.
+         * Gets requisition template for given program UUID.
          */
-        function search(programId) {
-            return resource.search({program: programId}).$promise;
+        function getByProgram(programId) {
+            return templateDataService.search(programId);
+        }
+
+
+        // Saves template
+        function save() {
+            return templateDataService.save(this);
+        }
+
+        // Creates a array with dependent column names.
+        function addDependentColumnValidation(columns) {
+            angular.forEach(columns, function(column) {
+                var dependencies = RequisitionColumn.columnDependencies(column);
+                if(dependencies && dependencies.length > 0) {
+                    angular.forEach(dependencies, function(dependency) {
+                        if(!columns[dependency].$dependentOn) columns[dependency].$dependentOn = [];
+                        columns[dependency].$dependentOn.push(column.name);
+                    });
+                }
+                column.$isValid = isColumnValid;
+            });
+        }
+
+        // Cheks if all columns in template are valid.
+        function isTemplateValid() {
+            var valid = true,
+                template = this;
+
+            angular.forEach(template.columnsMap, function(column) {
+                if(!column.$isValid(template.columnsMap)) valid = false;
+            });
+
+            return valid;
+        }
+
+        // Checks if column is valid.
+        // Column is not valid when isn't displayed, but at least one is dependent column is displayed.
+        function isColumnValid(columns) {
+            var valid = true,
+                column = this;
+
+            if(column.$dependentOn && column.$dependentOn.length > 0) {
+                angular.forEach(column.$dependentOn, function(columnName) {
+                    if(columns[columnName] && columns[columnName].isDisplayed && !column.isDisplayed) valid = false;
+                });
+            }
+
+            return valid;
+        }
+
+        // Checks if column can be dropped in area and if so,
+        // changes display order of columns beetwen old and new position of dropped column.
+        function moveColumn(droppedItem, dropSpotIndex) {
+            var pinnedColumns = [], // columns that position can't be changed
+                columns = [],       // all columns
+                newDisplayOrder,
+                min,                // the lowest column displayOrder value in droppable area
+                max,                // the highest column displayOrder value in droppable area
+                isMovingUpTheList;  // indicates if column is going down or up the list
+
+            convertListToArray(this.columnsMap);
+            isMovingUpTheList = getArrayIndexForColumn(droppedItem) > dropSpotIndex;
+
+            if(isMovingUpTheList) newDisplayOrder = columns[dropSpotIndex].displayOrder;    // new displayOrder value depends on if column was dropped below or above
+            else newDisplayOrder = columns[dropSpotIndex - 1].displayOrder;
+
+            setMinMaxDisplayOrder(droppedItem.displayOrder);
+
+            if(isInDroppableArea(newDisplayOrder)) {
+                angular.forEach(columns, function(column) {
+                    if(isInDroppableArea(column.displayOrder) && column.columnDefinition.canChangeOrder) {
+                        if(droppedItem.name === column.name) column.displayOrder = newDisplayOrder; // setting new displayOrder for dropped column
+                        else if(isMovingUpTheList && column.displayOrder >= newDisplayOrder && column.displayOrder < droppedItem.displayOrder) column.displayOrder++;  // columns beetwen old and new postion must be
+                        else if(column.displayOrder <= newDisplayOrder && column.displayOrder > droppedItem.displayOrder) column.displayOrder--;                       // incremented or decremented
+                    }
+                });
+                return true;
+            } else {
+                return false;
+            }
+
+            // Converts list of columns to array, copies "pinned" columns to another array and sorts both.
+            function convertListToArray(list) {
+                angular.forEach(list, function(column) {
+                    if(!column.columnDefinition.canChangeOrder) pinnedColumns.push(column);
+                    columns.push(column);
+                });
+
+                pinnedColumns.sort(sort)
+                columns.sort(sort);
+            };
+
+            // Sorting function for column arrays
+            function sort(a, b) {
+                a = parseInt(a['displayOrder']);
+                b = parseInt(b['displayOrder']);
+                return a - b;
+            }
+
+            // Returns current index in array of gien column.
+            function getArrayIndexForColumn(column) {
+                var index
+                angular.forEach(columns, function(item, idx) {
+                    if(column.name === item.name) index = idx;
+                });
+                return index;
+            }
+
+            // Sets min and max diplay order value.
+            // In other words it tells you beetwen which "pinned" columns was our dropped column located.
+            // This column can be dropped only in this area.
+            function setMinMaxDisplayOrder(displayOrder) {
+                min = 0;
+                max = undefined;
+                angular.forEach(pinnedColumns, function(pinnedColumn) {
+                    if(displayOrder > pinnedColumn.displayOrder) min = pinnedColumn.displayOrder;
+                    if(!max && displayOrder < pinnedColumn.displayOrder) max = pinnedColumn.displayOrder;
+                });
+                if(!max) max = maxNumber;
+            }
+
+            // Based on mix and max from function above checks if column was dropped in proper area
+            function isInDroppableArea(displayOrder) {
+                return displayOrder > min && displayOrder < max;
+            }
         }
     }
 

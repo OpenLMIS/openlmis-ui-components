@@ -276,7 +276,7 @@
 
     function transformLineItem(lineItem, columns) {
       angular.forEach(columns, function(column) {
-        if (!column.display || column.source === Source.CALCULATED) {
+        if (!column.display || column.source === Source.CALCULATED.name) {
           lineItem[column.name] = null;
         }
       });

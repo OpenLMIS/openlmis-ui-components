@@ -23,11 +23,19 @@
 			controller: 'TemplateController',
 			templateUrl: 'administration/template/template.html',
 			resolve: {
-				requisition: function ($location, $q, $stateParams, RequisitionTemplate) {
+				templateAndProgram: function ($location, $q, $stateParams, $state, templateFactory, Program) {
 					var deferred = $q.defer();
 
-					RequisitionTemplate.get($stateParams.template).then(function(response) {
-						deferred.resolve(response);
+					templateFactory.get($stateParams.template).then(function(requisitionTemplate) {
+						Program.get(requisitionTemplate.programId).then(function(program) {
+							deferred.resolve({
+								template: requisitionTemplate,
+								program: program
+							});
+						}, function() {
+							deferred.reject();
+							return $location.url('/404');
+						});
 					}, function(response) {
 						deferred.reject();
 						return $location.url('/404');
