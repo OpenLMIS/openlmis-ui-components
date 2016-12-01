@@ -2,37 +2,63 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis.requisitions.ConvertOneRnrToOrderCtrl
+     *
+     * @description
+     * Controller for converting single requisition to order.
+     */
+
     angular
         .module('openlmis.requisitions')
         .controller('ConvertOneRnrToOrderCtrl', convertOneRnrToOrderCtrl);
 
-    convertOneRnrToOrderCtrl.$inject = ['$scope', '$filter', '$state', 'FacilityFactory',
-                                  'RequisitionService'];
+    convertOneRnrToOrderCtrl.$inject = ['$scope', '$state', 'RequisitionService'];
 
-    function convertOneRnrToOrderCtrl($scope, $filter, $state, FacilityFactory,
-        RequisitionService) {
+    function convertOneRnrToOrderCtrl($scope, $state, RequisitionService) {
+
         var vm = this;
 
+        /**
+         * @ngdoc property
+         * @name vm.requisitions
+         * @propertyOf openlmis.requisitions.ConvertOneRnrToOrderCtrl
+         * @type {Object}
+         *
+         * @description
+         * Holds requisitions.
+         */
+        vm.requisitions = $scope.requisitions;
+
+        /**
+         * @ngdoc property
+         * @name vm.requisition
+         * @propertyOf openlmis.requisitions.ConvertOneRnrToOrderCtrl
+         * @type {Object}
+         *
+         * @description
+         * Holds requisition.
+         */
         vm.requisition = $scope.requisition;
-        vm.facilities = $scope.facilities;
-        //$filter('filter')($scope.requisitions, { requisition: vm.rnr })[0];
+
+        // Functions
+
         vm.convertRnr = convertRnr;
         vm.reloadState = reloadState;
 
         /**
          * @ngdoc function
          * @name convertRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf openlmis.requisitions.ConvertOneRnrToOrderCtrl
          *
          * @description
          * Responsible for converting requisition to order.
          * Displays modal window before conversion.
-         * If an error occurs during converting it will display an error notification modal.
-         * Otherwise, a success notification modal will be shown.
          */
         function convertRnr() {
             var requisitions = [];
-            requisitions.push({requisition: vm.requisition});
+            requisitions.push(vm.requisitionWithDepots);
             RequisitionService.convertToOrder(requisitions).then(vm.reloadState);
         };
 

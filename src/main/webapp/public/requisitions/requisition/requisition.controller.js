@@ -339,7 +339,7 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            return $scope.requisition.$isApproved();
+            return $scope.requisition.$isApproved() && AuthorizationService.hasPermission("CONVERT_TO_ORDER");
         };
 
         function save() {
