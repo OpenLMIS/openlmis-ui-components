@@ -28,8 +28,7 @@
 
     	var directive = {
       		restrict: 'A',
-			replace: true,
-			templateUrl: 'requisitions/requisition/product-grid-cell.html',
+			replace: false,
       		link: link
     	};
     	return directive;
@@ -42,9 +41,14 @@
 			scope.validate = validate;
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
 
-			if (column.type === Type.NUMERIC && !scope.isReadOnly) {
-				element.find('input').attr('positive-integer', '');
-			}
+
+			$templateRequest('requisitions/requisition/product-grid-cell.html').then(function(template) {
+				var cell = angular.element(template);
+				if (column.type === Type.NUMERIC && !scope.isReadOnly) {
+					cell.find('input').attr('positive-integer', '');
+				}
+				element.replaceWith($compile(cell)(scope));
+			});
 
 	      	angular.forEach(column.dependencies, function(dependency) {
 	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {

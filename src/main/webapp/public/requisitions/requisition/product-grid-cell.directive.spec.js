@@ -44,7 +44,7 @@ describe('ProductGridCell', function() {
 
         function getCompiledElement(){
 
-            var rootElement = angular.element('<div product-grid-cell></div>');
+            var rootElement = angular.element('<div><div product-grid-cell></div></div>');
             var compiledElement = compile(rootElement)(scope);
             scope.$digest();
             return compiledElement;

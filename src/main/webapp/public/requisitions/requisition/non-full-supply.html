@@ -24,6 +24,7 @@
 	</table>
 
 	<button class="add-product"
+			ng-if="vm.displayAddProductButton()"
 			add-product
 			requisition="vm.requisition">
 			{{'button.add' | message}}

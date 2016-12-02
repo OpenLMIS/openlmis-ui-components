@@ -6,8 +6,7 @@
 		   ng-model="lineItem[column.name]"
 		   ng-if="!isReadOnly && !isTotalLossesAndAdjustments"
 		   ng-change="validate()"
-		   ng-blur="validate()"
-		   positive-integer>
+		   ng-blur="validate()">
 	<div ng-if="isTotalLossesAndAdjustments"
 		 losses-and-adjustments
 		 line-item="lineItem"

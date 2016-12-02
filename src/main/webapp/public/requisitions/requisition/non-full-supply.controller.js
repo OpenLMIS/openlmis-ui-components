@@ -16,8 +16,10 @@
     nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator'];
 
     function nonFullSupplyCtrl(requisition, requisitionValidator) {
-        var vm = this,
-            categories;
+        var vm = this;
+
+        vm.deleteLineItem = deleteLineItem;
+        vm.displayAddProductButton = displayAddProductButton;
 
         /**
          * @ngdoc property
@@ -77,12 +79,15 @@
          *
          * @param  {Object} lineItem   the line item to be deleted
          */
-        vm.deleteLineItem = deleteLineItem;
-
         function deleteLineItem(lineItem) {
             var lineItemId = vm.lineItems.indexOf(lineItem);
             vm.lineItems[lineItemId].orderableProduct.$visible = true;
             vm.lineItems.splice(lineItemId, 1);
+        }
+
+        function displayAddProductButton() {
+            return !vm.requisition.$isApproved()
+                && !vm.requisition.$isAuthorized();
         }
     }
 
