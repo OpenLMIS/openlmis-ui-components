@@ -39,7 +39,7 @@
             'save': {
                 method: 'PUT'
             }
-        }),
+        });
 
         this.get = get;
         this.getAll = getAll;
