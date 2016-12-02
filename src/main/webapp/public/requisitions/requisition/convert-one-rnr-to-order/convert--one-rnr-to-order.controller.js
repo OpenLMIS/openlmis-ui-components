@@ -27,7 +27,7 @@
          * @type {Object}
          *
          * @description
-         * Holds requisitions.
+         * Holds requisitions for convert.
          */
         vm.requisitions = $scope.requisitions;
 
