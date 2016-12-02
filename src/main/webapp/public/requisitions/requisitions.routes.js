@@ -10,6 +10,7 @@
         $stateProvider.state('requisitions', {
             abstract: true,
             showInNavigation: true,
+            right: 'REQUISITION_VIEW',
             priority: 1,
             label: 'link.requisitions',
             url: '/requisitions',

@@ -22,11 +22,11 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'requisitions'];
+                               'Notification', 'Confirm', 'requisitions', 'Rights'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, requisitions) {
+                             Notification, Confirm, requisitions, Rights) {
 
         /**
          * @ngdoc property
@@ -59,7 +59,7 @@
         * @description
         * Holds message key to display, depending on the requisition type (regular/emergency).
         */
-        $scope.requisitionType = $scope.requisition.emergency ? "requisition.type.emergency" : "requisition.type.regular";
+        $scope.requisitionType = $scope.requisition.emergency ? 'requisition.type.emergency' : 'requisition.type.regular';
 
         // Functions
 
@@ -253,7 +253,7 @@
          */
         function periodDisplayName() {
             //TODO: This is a temporary solution.
-            return $scope.requisition.processingPeriod.startDate.slice(0,3).join("/") + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join("/");
+            return $scope.requisition.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join('/');
         };
 
         /**
@@ -268,7 +268,10 @@
          * @return {boolean} should authorize button be displayed
          */
         function displayAuthorize() {
-            return $scope.requisition.$isSubmitted() && AuthorizationService.hasPermission("AUTHORIZE_REQUISITION");
+            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_AUTHORIZE, {
+                programCode: $scope.requisition.program.code
+            });
+            return $scope.requisition.$isSubmitted() && hasRight;
         };
 
         /**
@@ -283,7 +286,10 @@
          * @return {boolean} should submit button be displayed
          */
         function displaySubmit() {
-            return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("CREATE_REQUISITION");
+            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_CREATE, {
+                programCode: $scope.requisition.program.code
+            });
+            return $scope.requisition.$isInitiated() && hasRight;
         };
 
         /**
@@ -298,7 +304,10 @@
          * @return {boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
-            return $scope.requisition.$isAuthorized() && AuthorizationService.hasPermission("APPROVE_REQUISITION");
+            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_APPROVE, {
+                programCode: $scope.requisition.program.code
+            });
+            return $scope.requisition.$isAuthorized() && hasRight;
         };
 
         /**
@@ -313,7 +322,10 @@
          * @return {boolean} should delete button be displayed
          */
         function displayDelete() {
-            return $scope.requisition.$isInitiated() && AuthorizationService.hasPermission("DELETE_REQUISITION");
+            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_DELETE, {
+                programCode: $scope.requisition.program.code
+            });
+            return $scope.requisition.$isInitiated() && hasRight;
         };
 
         /**
@@ -328,7 +340,7 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            return $scope.requisition.$isApproved() && AuthorizationService.hasPermission("CONVERT_TO_ORDER");
+            return $scope.requisition.$isApproved();
         };
 
         function save() {

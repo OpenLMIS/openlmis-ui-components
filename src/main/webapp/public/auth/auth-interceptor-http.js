@@ -12,11 +12,11 @@
     "use strict";
 
     /**
-     * 
+     *
      * @ngdoc service
      * @name  openlmis-auth.HttpAuthAccessTokenInterceptor
      * @description Adds access token stored by the Authorization Service to all requests to the OpenLMIS Server
-     * 
+     *
      */
     angular.module('openlmis-auth')
     	.factory('HttpAuthAccessToken', HttpAuthAccessToken)
@@ -35,18 +35,17 @@
          * @name  Add access token
          * @methodOf openlmis-auth.HttpAuthAccessTokenInterceptor
          * @private
-         * 
+         *
          * @param {String} url A url string
          * @returns {String} A url string with access_token url parameter added
          *
          * @description Added a get request variable to the end of the url
          */
         function addAccessToken(url){
-            if (url.indexOf('?access_token') == -1){
-                if (url.indexOf('?') == -1){
-                    url += '?access_token=' + AuthorizationService.getAccessToken();
-                } else {
-                    url += '&access_token=' + AuthorizationService.getAccessToken();
+            if (url.indexOf('?access_token') == -1) {
+                var token = AuthorizationService.getAccessToken();
+                if (token) {
+                    url += (url.indexOf('?') == -1 ? '?' : '&') + 'access_token=' + token;
                 }
             }
             return url;
@@ -54,16 +53,16 @@
 
     	return {
             /**
-             * 
+             *
              * @ngdoc function
              * @name request
              * @methodOf openlmis-auth.HttpAuthAccessTokenInterceptor
-             * 
+             *
              * @param  {object} config HTTP Config object
              * @return {object} A modified configuration object
              *
              * @description
-             * Checks the request config url with OpenlmisURLService, and if there is a match an access token is added to the url 
+             * Checks the request config url with OpenlmisURLService, and if there is a match an access token is added to the url
              */
     		request: function(config){
                 if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()
@@ -74,17 +73,17 @@
                 return config;
     		},
             /**
-             * 
+             *
              * @ngdoc function
              * @name  response
              * @methodOf openlmis-auth.HttpAuthAccessTokenInterceptor
-             * 
+             *
              * @param  {object} response HTTP Response
              * @return {Promise} Rejected promise
              *
              * @description
              * Takes a failed response that is a 401 and clears a user's credentials, forcing them to login OR takes 403 response and shows a modal with authorization error.
-             * 
+             *
              */
             'responseError': function(response) {
                 if (response.status === 401) {

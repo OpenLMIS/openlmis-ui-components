@@ -9,7 +9,7 @@
  */
 describe("LoginService", function() {
 
-    var $rootScope, $httpBackend, LoginService, AuthorizationService
+    var $rootScope, $httpBackend, LoginService, AuthorizationService, Right;
 
     beforeEach(module('openlmis-auth'));
 
@@ -19,9 +19,19 @@ describe("LoginService", function() {
                 return PathFactory('', url);
             }
         });
+        $provide.factory('OpenlmisURL', function(PathFactory){
+           return function(url){
+               return PathFactory('', url);
+           }
+        });
         // Turn off AuthToken
         $provide.factory('HttpAuthAccessToken', function(){
           return {};
+        });
+
+        Right = jasmine.createSpyObj('Right', ['buildRights']);
+        $provide.factory('Right', function() {
+            return Right;
         });
     }));
 
@@ -61,6 +71,10 @@ describe("LoginService", function() {
             "email": "test@openlmis.org",
             "role": "ADMIN"
           });
+
+        httpBackend.when('GET', '/referencedata/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
+            .respond(200, {});
+
     }));
 
   it('should reject bad logins', function() {
@@ -97,7 +111,7 @@ describe("LoginService", function() {
 
     var user = AuthorizationService.getUser();
 
-    expect(user.user_id).toBe("35316636-6264-6331-2d34-3933322d3462"); 
+    expect(user.user_id).toBe("35316636-6264-6331-2d34-3933322d3462");
   });
 
   it('will clear user data on logout', function(){
