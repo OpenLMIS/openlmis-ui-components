@@ -1,3 +1,17 @@
-.ui-select-match{
+.ui-select-match {
   width: 250px;
+
+}
+
+.select2-container .select2-choice, .select2-result-label {
+  height: 34px;
+  overflow: auto;
+}
+
+.select2-arrow, .select2-chosen {
+  padding-top: 4px;
+}
+
+.select2-result-label {
+    padding: 8px 7px 4px !important;
 }
