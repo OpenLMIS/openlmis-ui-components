@@ -62,7 +62,7 @@
             this.label = column.label;
             this.display = displayColumn(column, requisition);
             this.displayOrder = column.displayOrder;
-            this.required = (nonMandatoryFields.indexOf(name) === -1 && source == Source.USER_INPUT.name);
+            this.required = (nonMandatoryFields.indexOf(name) === -1 && source == Source.USER_INPUT);
             this.fullSupplyOnly = nonFullSupplyColumns.indexOf(name) === -1;
             this.dependencies = dependencies[name];
         }

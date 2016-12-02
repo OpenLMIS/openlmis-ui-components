@@ -112,7 +112,7 @@
          * Gives diplay name of given source type.
          */
         function sourceDisplayName(name) {
-            return Source[name].label;
+            return messageService.get(Source.getLabel(name));
         }
 
         /**

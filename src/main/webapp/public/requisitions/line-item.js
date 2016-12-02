@@ -43,7 +43,7 @@
                 object = getObject(this, fullName),
                 propertyName = getPropertyName(column.name);
 
-            if (column.source === Source.CALCULATED.name) {
+            if (column.source === Source.CALCULATED) {
                 object[propertyName] = calculations[fullName](this, status);
             } else if (column.type === Type.NUMERIC) {
                 object[propertyName] = object[propertyName] ? object[propertyName] : 0;

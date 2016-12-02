@@ -162,7 +162,7 @@
         }
 
         function isCalculated(column) {
-            return column.source === Source.CALCULATED.name;
+            return column.source === Source.CALCULATED;
         }
 
         function getCounterpart(columns, name) {

@@ -38,7 +38,7 @@
 			label: 'configure.rnr.header',
 			url: '/templateList',
 			controller: 'ProgramAdministrationListCtrl',
-			templateUrl: 'requisitions/template/template-list/template-list.html',
+			templateUrl: 'requisitions/template/program-administration-list/program-administration-list.html',
 			controllerAs: 'vm',
 			resolve: {
 				programList: function (Program) {

@@ -171,7 +171,7 @@ describe('requisitionValidator', function() {
             lineItem[Columns.STOCK_ON_HAND] = -10;
             column.name = Columns.STOCK_ON_HAND;
             column.required = true;
-            column.source = Source.CALCULATED.name;
+            column.source = Source.CALCULATED;
             validations.nonNegative.andReturn('negative');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
@@ -187,11 +187,11 @@ describe('requisitionValidator', function() {
                 calculationSpy = jasmine.createSpy();
 
             calculationSpy.andReturn('invalidCalculation');
-            column.source = Source.USER_INPUT.name;
+            column.source = Source.USER_INPUT;
             column.name = name;
             columns.push({
                 name: Columns.TOTAL_CONSUMED_QUANTITY,
-                source: Source.USER_INPUT.name
+                source: Source.USER_INPUT
             });
             validations.validateCalculation.andReturn(calculationSpy);
 
@@ -203,11 +203,11 @@ describe('requisitionValidator', function() {
         });
 
         it('should skip calculation validation if counterpart is calculated', function() {
-            column.source = Source.CALCULATED.name;
+            column.source = Source.CALCULATED;
             column.name = Columns.STOCK_ON_HAND;
             columns.push({
                 name: Columns.TOTAL_CONSUMED_QUANTITY,
-                source: Source.CALCULATED.name
+                source: Source.CALCULATED
             });
 
             var result = validator.validateLineItemField(lineItem, column, columns);

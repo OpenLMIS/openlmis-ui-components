@@ -82,10 +82,10 @@ describe('RequisitionTemplateAdminController', function() {
 
     it('can change source works correctly', function() {
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT.name, source.CALCULATED.name]
+            sources: [source.USER_INPUT, source.CALCULATED]
         })).toBe(true);
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT.name]
+            sources: [source.USER_INPUT]
         })).toBe(false);
     });
 

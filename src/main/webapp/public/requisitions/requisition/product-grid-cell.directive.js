@@ -53,7 +53,7 @@
 	      	angular.forEach(column.dependencies, function(dependency) {
 	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
 	          		if (newValue !== oldValue) {
-						if (column.source === Source.CALCULATED.name) {
+						if (column.source === Source.CALCULATED) {
 							scope.lineItem.updateFieldValue(column, requisition.status);
 						}
 	            		validate();
@@ -70,7 +70,7 @@
 				if (requisition.$isAuthorized()) {
 					return [Columns.APPROVED_QUANTITY, Columns.REMARKS].indexOf(column.name) === -1;
 				}
-				return column.source !== Source.USER_INPUT.name;
+				return column.source !== Source.USER_INPUT;
 			}
 
 			function isTotalLossesAndAdjustments(column) {

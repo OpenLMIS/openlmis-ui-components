@@ -17,7 +17,7 @@ describe('RequisitionColumn', function() {
     beforeEach(function() {
         columnDef = {
             name: Columns.STOCK_ON_HAND,
-            source: Source.CALCULATED.name,
+            source: Source.CALCULATED,
             label: 'Stock on Hand',
             isDisplayed: true,
             displayOrder: 1,
@@ -34,7 +34,7 @@ describe('RequisitionColumn', function() {
         var column = new RequisitionColumn(columnDef, requisition);
 
         expect(column.name).toBe(Columns.STOCK_ON_HAND);
-        expect(column.source).toBe(Source.CALCULATED.name);
+        expect(column.source).toBe(Source.CALCULATED);
         expect(column.type).toBe(Type.NUMERIC);
         expect(column.label).toBe('Stock on Hand');
         expect(column.display).toBe(true);

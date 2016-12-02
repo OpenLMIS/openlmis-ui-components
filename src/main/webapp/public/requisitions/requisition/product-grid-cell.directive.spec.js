@@ -31,7 +31,7 @@ describe('ProductGridCell', function() {
             scope.column = {
                 type: Type.NUMERIC,
                 name: "beginningBalance",
-                source: Source.USER_INPUT.name
+                source: Source.USER_INPUT
             };
             scope.lineItem = {
                 getFieldValue: function() {
