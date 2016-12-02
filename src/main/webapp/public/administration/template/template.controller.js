@@ -20,15 +20,15 @@
      * Controller for template view page
      */
 
-    angular.module('openlmis.administration').controller('TemplateController', TemplateController);
+    angular.module('openlmis.administration').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
-    TemplateController.$inject = ['$state', 'templateAndProgram', '$q', 'Notification', 'Source', 'messageService'];
+    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService'];
 
-    function TemplateController($state, templateAndProgram, $q, Notification, Source, messageService) {
+    function RequisitionTemplateAdminController($state, template, program, $q, Notification, Source, messageService) {
         var vm = this;
 
-        vm.template = templateAndProgram.template;
-        vm.program = templateAndProgram.program;
+        vm.template = template;
+        vm.program = program;
 
         vm.goToTemplateList = goToTemplateList;
         vm.saveTemplate = saveTemplate;

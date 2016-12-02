@@ -20,14 +20,16 @@
      * Controller for template list view page
      */
 
-    angular.module('openlmis.administration').controller('TemplateListController', TemplateListController);
+    angular.module('openlmis.administration').controller('ProgramAdministrationList', ProgramAdministrationList);
 
-    TemplateListController.$inject = ['$scope', '$state', 'programList'];
+    ProgramAdministrationList.$inject = ['$state', 'programList'];
 
-    function TemplateListController($scope, $state, programList) {
-        $scope.programs = programList;
+    function ProgramAdministrationList($state, programList) {
+        var vm = this;
 
-        $scope.goToTemplate = goToTemplate;
+        vm.programs = programList;
+
+        vm.goToTemplate = goToTemplate;
 
         /**
          * @ngdoc function

@@ -7,17 +7,17 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('templateDataService', function() {
+describe('RequisitionTemplateService', function() {
 
-    var rootScope, httpBackend, TemplateDataService, requisitionURL, template1, template2;
+    var rootScope, httpBackend, requisitionTemplateService, requisitionURL, template1, template2;
 
     beforeEach(module('openlmis.administration'));
     beforeEach(module('openlmis.requisitions'));
 
-    beforeEach(inject(function($httpBackend, $rootScope, templateDataService, RequisitionURL) {
+    beforeEach(inject(function($httpBackend, $rootScope, RequisitionTemplateService, RequisitionURL) {
         httpBackend = $httpBackend;
         rootScope = $rootScope;
-        TemplateDataService = templateDataService;
+        requisitionTemplateService = RequisitionTemplateService;
         requisitionURL = RequisitionURL;
 
         template1 = {
@@ -36,7 +36,7 @@ describe('templateDataService', function() {
         httpBackend.when('GET', requisitionURL('/api/requisitionTemplates/' + template1.id))
         .respond(200, template1);
 
-        TemplateDataService.get(template1.id).then(function(response) {
+        requisitionTemplateService.get(template1.id).then(function(response) {
             data = response;
         });
 
@@ -53,7 +53,7 @@ describe('templateDataService', function() {
         httpBackend.when('GET', requisitionURL('/api/requisitionTemplates'))
         .respond(200, [template1, template2]);
 
-        TemplateDataService.getAll().then(function(response) {
+        requisitionTemplateService.getAll().then(function(response) {
             data = response;
         });
 
@@ -72,7 +72,7 @@ describe('templateDataService', function() {
         httpBackend.when('GET', requisitionURL('/api/requisitionTemplates/search?program=' + template2.programId))
         .respond(200, template2);
 
-        TemplateDataService.search(template2.programId).then(function(response) {
+        requisitionTemplateService.search(template2.programId).then(function(response) {
             data = response;
         });
 
@@ -89,7 +89,7 @@ describe('templateDataService', function() {
         httpBackend.when('PUT', requisitionURL('/api/requisitionTemplates/' + template1.id))
         .respond(200, template1);
 
-        TemplateDataService.save(template1).then(function(response) {
+        requisitionTemplateService.save(template1).then(function(response) {
             data = response;
         });
 

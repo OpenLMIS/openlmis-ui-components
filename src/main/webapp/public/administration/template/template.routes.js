@@ -20,29 +20,15 @@
 
 		$stateProvider.state('administration.configure.template', {
 			url: '/template/:template',
-			controller: 'TemplateController',
+			controller: 'RequisitionTemplateAdminController',
 			templateUrl: 'administration/template/template.html',
 			controllerAs: 'vm',
 			resolve: {
-				templateAndProgram: function ($location, $q, $stateParams, $state, templateFactory, Program) {
-					var deferred = $q.defer();
-
-					templateFactory.get($stateParams.template).then(function(requisitionTemplate) {
-						Program.get(requisitionTemplate.programId).then(function(program) {
-							deferred.resolve({
-								template: requisitionTemplate,
-								program: program
-							});
-						}, function() {
-							deferred.reject();
-							return $location.url('/404');
-						});
-					}, function(response) {
-						deferred.reject();
-						return $location.url('/404');
-					});
-
-					return deferred.promise;
+				template: function ($stateParams, templateFactory) {
+					return templateFactory.get($stateParams.template);
+				},
+				program: function (template, Program) {
+					return Program.get(template.programId);
 				}
 			}
 		});
@@ -51,8 +37,9 @@
 			showInNavigation: true,
 			label: 'configure.rnr.header',
 			url: '/templateList',
-			controller: 'TemplateListController',
+			controller: 'ProgramAdministrationList',
 			templateUrl: 'administration/template/template-list/template-list.html',
+			controllerAs: 'vm',
 			resolve: {
 				programList: function (Program) {
 					return Program.getAll();

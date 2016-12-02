@@ -1,4 +1,4 @@
-.template {
+.requisition-template-admin {
 
 	.page {
 		overflow: hidden;
@@ -21,7 +21,7 @@
 
 		table {
 			@extend .table;
-			width: 60%;
+			width: 100%;
 
 			thead > tr {
 				@extend .gradient-header;
@@ -31,12 +31,17 @@
 				vertical-align: middle !important;
 			}
 
-			.drop-placeholder {
-				color: $gray;
+			.moveable {
+				cursor: move;
+			}
+
+			.moveable:hover {
+				background-color: $very-light-gray;
 			}
 
 			.dndPlaceholder {
-				background-color: $light-gray;
+				background-color: $light-shadow;
+				height: 3em;
 			}
 
 			.pinned {
@@ -45,6 +50,10 @@
 
 			.error {
 				color: $red;
+			}
+
+			.dndDraggingSource {
+			  	display: none;
 			}
 		}
 

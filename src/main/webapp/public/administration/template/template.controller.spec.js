@@ -1,4 +1,4 @@
-describe('TemplateController', function() {
+describe('RequisitionTemplateAdminController', function() {
 
     //tested
     var vm;
@@ -41,11 +41,9 @@ describe('TemplateController', function() {
             mame: 'program1'
         };
 
-        vm = $controller('TemplateController', {
-            templateAndProgram: {
-                program: program,
-                template: template
-            }
+        vm = $controller('RequisitionTemplateAdminController', {
+            program: program,
+            template: template
         });
     }));
 

@@ -20,11 +20,11 @@
      * Allows user to perform operations on requisition template resource.
      *
      */
-    angular.module('openlmis.administration').factory('templateDataService', templateDataService);
+    angular.module('openlmis.administration').service('RequisitionTemplateService', RequisitionTemplateService);
 
-    templateDataService.$inject = ['RequisitionURL', '$resource'];
+    RequisitionTemplateService.$inject = ['RequisitionURL', '$resource'];
 
-    function templateDataService(RequisitionURL, $resource) {
+    function RequisitionTemplateService(RequisitionURL, $resource) {
 
         var resource = $resource(RequisitionURL('/api/requisitionTemplates/:id'), {}, {
             'getAll': {

@@ -1,7 +1,7 @@
 <div class="template-list">
     <div class="page">
         <h2>{{'configure.rnr.header' | message}}</h2>
-        <table ng-if="programs.length">
+        <table ng-if="vm.programs.length">
     		<thead>
     		<tr>
     			<th>{{'program.header' | message}}</th>
@@ -9,14 +9,14 @@
     		</tr>
     		</thead>
     		<tbody>
-    		<tr ng-repeat="program in programs">
+    		<tr ng-repeat="program in vm.programs">
     			<td>{{program.name}}</td>
     			<td>
     				<div ng-if="program.template">
                         <i class="fa fa-check"></i>
                         <div>{{'template.configured' | message}}</div>
                         <span>(</span>
-                        <a ng-click="goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
+                        <a ng-click="vm.goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
                         <span>)</span>
     				</div>
                     <div ng-if="!program.template">

@@ -22,9 +22,9 @@
      */
     angular.module('openlmis.administration').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = ['$q', 'templateDataService', 'RequisitionColumn'];
+    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn'];
 
-    function templateFactory($q, templateDataService, RequisitionColumn) {
+    function templateFactory($q, RequisitionTemplateService, RequisitionColumn) {
 
         var maxNumber = 999999999999999,
 
@@ -48,7 +48,7 @@
          */
         function get(id) {
             var deferred = $q.defer();
-            templateDataService.get(id).then(function(template) {
+            RequisitionTemplateService.get(id).then(function(template) {
                 template.$save = save;
                 template.$isValid = isTemplateValid;
                 template.$moveColumn = moveColumn;
@@ -70,7 +70,7 @@
          * Gets all requisition templates from templateDataService.
          */
         function getAll() {
-            return templateDataService.getAll();
+            return RequisitionTemplateService.getAll();
         }
 
         /**
@@ -84,13 +84,13 @@
          * Gets requisition template for given program UUID.
          */
         function getByProgram(programId) {
-            return templateDataService.search(programId);
+            return RequisitionTemplateService.search(programId);
         }
 
 
         // Saves template
         function save() {
-            return templateDataService.save(this);
+            return RequisitionTemplateService.save(this);
         }
 
         // Creates a array with dependent column names.
