@@ -20,7 +20,6 @@
 		'openlmis-auth',
 		'openlmis-dashboard',
 		'openlmis.requisitions',
-        'openlmis.administration',
 		'resetPassword',
 		'ui.router',
 		'ui.grid',

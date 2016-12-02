@@ -48,10 +48,9 @@
             Columns.REMARKS
         ];
 
-        var requisitionColumn = RequisitionColumn;
-        requisitionColumn.columnDependencies = columnDependencies;
+        RequisitionColumn.columnDependencies = columnDependencies;
 
-        return requisitionColumn;
+        return RequisitionColumn;
 
         function RequisitionColumn(column, requisition) {
             var name = column.name,

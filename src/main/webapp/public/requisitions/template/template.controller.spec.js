@@ -9,7 +9,6 @@ describe('RequisitionTemplateAdminController', function() {
     //injects
     var q, state, notification, source, rootScope;
 
-    beforeEach(module('openlmis.administration'));
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(inject(function($controller, $q, $state, Notification, Source, messageService, $rootScope) {

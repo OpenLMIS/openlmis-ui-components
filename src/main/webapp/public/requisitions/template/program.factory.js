@@ -19,7 +19,7 @@
      * @description
      * Allows user to perform operations on program resource.
      */
-    angular.module('openlmis.administration').factory('Program', Program);
+    angular.module('openlmis.requisitions').factory('Program', Program);
 
     Program.$inject = ['OpenlmisURL', '$resource', '$q', 'templateFactory'];
 

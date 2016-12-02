@@ -5,7 +5,7 @@
  *
  * @description Orders object properties by given attribute.
  */
-angular.module('openlmis.administration').filter('orderObjectBy', function(){
+angular.module('openlmis.requisitions').filter('orderObjectBy', function(){
     return function(input, attribute) {
         if (!angular.isObject(input)) return input;
 

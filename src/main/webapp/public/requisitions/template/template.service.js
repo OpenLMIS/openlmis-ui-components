@@ -20,7 +20,7 @@
      * Allows user to perform operations on requisition template resource.
      *
      */
-    angular.module('openlmis.administration').service('RequisitionTemplateService', RequisitionTemplateService);
+    angular.module('openlmis.requisitions').service('RequisitionTemplateService', RequisitionTemplateService);
 
     RequisitionTemplateService.$inject = ['RequisitionURL', '$resource'];
 
@@ -41,14 +41,10 @@
             }
         }),
 
-        factory = {
-            get: get,
-            getAll: getAll,
-            search: search,
-            save: save
-        };
-
-        return factory;
+        this.get = get;
+        this.getAll = getAll;
+        this.search = search;
+        this.save = save;
 
         /**
          * @ngdoc function

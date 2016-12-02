@@ -11,7 +11,6 @@ describe('RequisitionTemplateService', function() {
 
     var rootScope, httpBackend, requisitionTemplateService, requisitionURL, template1, template2;
 
-    beforeEach(module('openlmis.administration'));
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(inject(function($httpBackend, $rootScope, RequisitionTemplateService, RequisitionURL) {

@@ -20,11 +20,11 @@
      * Controller for template list view page
      */
 
-    angular.module('openlmis.administration').controller('ProgramAdministrationList', ProgramAdministrationList);
+    angular.module('openlmis.requisitions').controller('ProgramAdministrationListCtrl', ProgramAdministrationListCtrl);
 
-    ProgramAdministrationList.$inject = ['$state', 'programList'];
+    ProgramAdministrationListCtrl.$inject = ['$state', 'programList'];
 
-    function ProgramAdministrationList($state, programList) {
+    function ProgramAdministrationListCtrl($state, programList) {
         var vm = this;
 
         vm.programs = programList;

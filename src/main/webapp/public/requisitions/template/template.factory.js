@@ -20,7 +20,7 @@
      * Comunicates with templateDataService.
      *
      */
-    angular.module('openlmis.administration').factory('templateFactory', templateFactory);
+    angular.module('openlmis.requisitions').factory('templateFactory', templateFactory);
 
     templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn'];
 

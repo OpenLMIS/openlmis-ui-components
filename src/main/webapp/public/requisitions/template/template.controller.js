@@ -20,7 +20,7 @@
      * Controller for template view page
      */
 
-    angular.module('openlmis.administration').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
+    angular.module('openlmis.requisitions').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
     RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService'];
 
@@ -127,12 +127,12 @@
          * when column validation failed.
          */
         function errorMessage(column) {
-            var dependentColumnsDisplayNameList = '';
+            var dependencies = '';
             angular.forEach(column.$dependentOn, function(columnName) {
-                if(vm.template.columnsMap[columnName].isDisplayed) dependentColumnsDisplayNameList = dependentColumnsDisplayNameList + ' ' + vm.template.columnsMap[columnName].label + ',';
+                if(vm.template.columnsMap[columnName].isDisplayed) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
             });
-            dependentColumnsDisplayNameList = dependentColumnsDisplayNameList.substring(0, dependentColumnsDisplayNameList.length - 1); // remove last comma
-            return messageService.get('msg.template.column.should.be.displayed') + dependentColumnsDisplayNameList;
+            dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
+            return messageService.get('msg.template.column.should.be.displayed') + dependencies;
         }
     }
 })();

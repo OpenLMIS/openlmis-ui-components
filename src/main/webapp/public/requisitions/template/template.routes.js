@@ -12,7 +12,7 @@
 
 	'use strict';
 
-	angular.module('openlmis.administration').config(routes);
+	angular.module('openlmis.requisitions').config(routes);
 
 	routes.$inject = ['$stateProvider'];
 
@@ -21,7 +21,7 @@
 		$stateProvider.state('administration.configure.template', {
 			url: '/template/:template',
 			controller: 'RequisitionTemplateAdminController',
-			templateUrl: 'administration/template/template.html',
+			templateUrl: 'requisitions/template/template.html',
 			controllerAs: 'vm',
 			resolve: {
 				template: function ($stateParams, templateFactory) {
@@ -37,8 +37,8 @@
 			showInNavigation: true,
 			label: 'configure.rnr.header',
 			url: '/templateList',
-			controller: 'ProgramAdministrationList',
-			templateUrl: 'administration/template/template-list/template-list.html',
+			controller: 'ProgramAdministrationListCtrl',
+			templateUrl: 'requisitions/template/template-list/template-list.html',
 			controllerAs: 'vm',
 			resolve: {
 				programList: function (Program) {

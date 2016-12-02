@@ -11,7 +11,7 @@ describe('Program', function() {
 
     var rootScope, httpBackend, programFactory, openlmisURL, program1, program2, template, q;
 
-    beforeEach(module('openlmis.administration'));
+    beforeEach(module('openlmis.requisitions'));
 
     beforeEach(module(function($provide){
         var RequisitionTemplateSpy = jasmine.createSpyObj('templateFactory', ['getAll']);

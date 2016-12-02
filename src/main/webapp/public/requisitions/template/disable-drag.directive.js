@@ -20,11 +20,11 @@
      * Disable drag action on html elements i.e. inputs.
      *
      */
-    angular.module('openlmis.administration').directive('disableDrag', disableDrag);
+    angular.module('openlmis.requisitions').directive('disableDrag', disableDrag);
 
     function disableDrag() {
         var directive = {
-            restrict: 'AE',
+            restrict: 'A',
             link: link
         }
         return directive;
