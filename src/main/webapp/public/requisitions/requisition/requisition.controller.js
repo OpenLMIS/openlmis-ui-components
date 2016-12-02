@@ -22,11 +22,11 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'facilityList', 'requisitions'];
+                               'Notification', 'Confirm', 'requisitions'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, facilityList, requisitions) {
+                             Notification, Confirm, requisitions) {
 
         /**
          * @ngdoc property
@@ -49,17 +49,6 @@
          * Holds requisitionsForConvert.
          */
         $scope.requisitions = requisitions;
-
-        /**
-         * @ngdoc property
-         * @name $scope.facilities
-         * @propertyOf openlmis.requisitions.RequisitionCtrl
-         * @type {Object}
-         *
-         * @description
-         * Holds facilities.
-         */
-        $scope.facilities = facilityList;
 
         /**
         * @ngdoc property
