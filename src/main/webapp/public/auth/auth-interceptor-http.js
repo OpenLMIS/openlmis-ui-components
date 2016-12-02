@@ -148,7 +148,6 @@
                   config.url = CommonFactory.updateAccessToken(config.url);
                   return config;
                 })
-
               }
             })
             .catch(function(){
