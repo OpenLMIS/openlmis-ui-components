@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.administration.templateFactory
+     * @name openlmis.requisitions.templateFactory
      *
      * @description
      * Comunicates with templateDataService.
@@ -39,7 +39,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.administration.templateFactory
+         * @methodOf openlmis.requisitions.templateFactory
          * @param {String} id Template UUID
          * @returns {Promise} Template
          *
@@ -63,7 +63,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.administration.templateFactory
+         * @methodOf openlmis.requisitions.templateFactory
          * @returns {Promise} Array of requisition templates
          *
          * @description
@@ -76,7 +76,7 @@
         /**
          * @ngdoc function
          * @name  getByProgram
-         * @methodOf openlmis.administration.templateFactory
+         * @methodOf openlmis.requisitions.templateFactory
          * @param {String} programId Program UUID
          * @return {Promise} Template for given program
          *

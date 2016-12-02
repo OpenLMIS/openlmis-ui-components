@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.administration.templateDataService
+     * @name openlmis.requisitions.RequisitionTemplateService
      *
      * @description
      * Allows user to perform operations on requisition template resource.
@@ -49,7 +49,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.administration.templateDataService
+         * @methodOf openlmis.requisitions.RequisitionTemplateService
          * @param {String} id Requsition template UUID
          * @returns {Promise} Requisition template info
          *
@@ -63,7 +63,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.administration.templateDataService
+         * @methodOf openlmis.requisitions.RequisitionTemplateService
          * @returns {Promise} Array of all requisition templates
          *
          * @description
@@ -76,7 +76,7 @@
         /**
          * @ngdoc function
          * @name  search
-         * @methodOf openlmis.administration.templateDataService
+         * @methodOf openlmis.requisitions.RequisitionTemplateService
          * @param {String} programId Program UUID
          * @return {Promise} Requisition template for given program
          *
@@ -90,7 +90,7 @@
         /**
          * @ngdoc function
          * @name  save
-         * @methodOf openlmis.administration.templateDataService
+         * @methodOf openlmis.requisitions.RequisitionTemplateService
          * @return {Promise} Saved requisition template
          *
          * @description

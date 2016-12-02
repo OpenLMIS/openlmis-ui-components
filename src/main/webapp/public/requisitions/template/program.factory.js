@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.administration.Program
+     * @name openlmis.requisitions.Program
      *
      * @description
      * Allows user to perform operations on program resource.
@@ -44,7 +44,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.administration.Program
+         * @methodOf openlmis.requisitions.Program
          * @param {String} id Program UUID
          * @returns {Promise} Program info
          *
@@ -58,7 +58,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.administration.Program
+         * @methodOf openlmis.requisitions.Program
          * @returns {Promise} Array of all programs with templates
          *
          * @description

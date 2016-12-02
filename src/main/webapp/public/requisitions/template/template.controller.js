@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.administration.TemplateController
+     * @name openlmis.requisitions.RequisitionTemplateAdminController
      *
      * @description
      * Controller for template view page
@@ -40,7 +40,7 @@
         /**
          * @ngdoc function
          * @name goToTemplateList
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          *
          * @description
          * Redirects user to template list view page.
@@ -52,7 +52,7 @@
         /**
          * @ngdoc function
          * @name saveTemplate
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          *
          * @description
          * Saves template from scope. After successful action displays
@@ -71,7 +71,7 @@
         /**
          * @ngdoc function
          * @name dropCallback
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {Event} event Drop event
          * @param {integer} index Indicates where column was dropped
          * @param {Object} item Dropped dolumn
@@ -90,7 +90,7 @@
         /**
          * @ngdoc function
          * @name canChangeSource
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {Object} columnDefinition Contains info about how column can be manipulated by user
          *
          * @description
@@ -104,7 +104,7 @@
         /**
          * @ngdoc function
          * @name sourceDisplayName
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {String} name Column source name
          * @returns {String} Column source display name
          *
@@ -118,7 +118,7 @@
         /**
          * @ngdoc function
          * @name errorMessage
-         * @methodOf openlmis.administration.TemplateController
+         * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {Object} column Column
          * @returns {String} Column valdation error message
          *

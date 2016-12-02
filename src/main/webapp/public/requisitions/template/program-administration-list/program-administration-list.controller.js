@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.administration.TemplateListController
+     * @name openlmis.requisitions.ProgramAdministrationListCtrl
      *
      * @description
      * Controller for template list view page
@@ -34,7 +34,7 @@
         /**
          * @ngdoc function
          * @name goToTemplate
-         * @methodOf openlmis.administration.TemplateListController
+         * @methodOf openlmis.requisitions.ProgramAdministrationListCtrl
          * @param {String} templateId Template UUID
          *
          * @description

@@ -1,6 +1,6 @@
 /**
  * @ngdoc filter
- * @name .openlmis.administration.orderObjectBy
+ * @name .openlmis.requisitions.orderObjectBy
  * @function orderObjectBy
  *
  * @description Orders object properties by given attribute.
