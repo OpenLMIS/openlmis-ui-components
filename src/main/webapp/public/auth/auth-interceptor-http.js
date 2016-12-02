@@ -108,53 +108,57 @@
     * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
     *
     */
-    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService'];
-    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService) {
+    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService', 'CommonFactory'];
+    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService, CommonFactory) {
         $rootScope.$on('event:auth-loginRequired', onLoginRequired);
 
-            /**
-              *
-              * @ngdoc function
-              * @name onLoginRequired
-              * @param {Object} event event
-              * @param {boolean} noRetryRequest true if no retry request
-              *
-              * @description
-              * Make and show login modal, close loading modal.
-              *
-              */
-            function onLoginRequired(event, noRetryRequest) {
-              var scope = $rootScope.$new();
+        /**
+          *
+          * @ngdoc function
+          * @name onLoginRequired
+          * @param {Object} event event
+          * @param {boolean} noRetryRequest true if no retry request
+          *
+          * @description
+          * Make and show login modal, close loading modal.
+          *
+          */
+        function onLoginRequired(event, noRetryRequest) {
+          var scope = $rootScope.$new();
 
-              scope.doLogin = doLogin;
+          scope.doLogin = doLogin;
 
-              $templateRequest('auth/login-form.html').then(function(html){
-                scope.dialog = bootbox.dialog({
-                  message: $compile(html)(scope),
-                  size: 'large',
-                  closeButton: false,
-                  className: 'login-modal'
-                });
-              });
-              LoadingModalService.close();
+          $templateRequest('auth/login-form.html').then(function(html){
+            scope.dialog = bootbox.dialog({
+              message: $compile(html)(scope),
+              size: 'large',
+              closeButton: false,
+              className: 'login-modal'
+            });
+          });
+          LoadingModalService.close();
 
-              function doLogin() {
-                LoginService.login(scope.username, scope.password).then(function(){
-                  scope.dialog.modal('hide');
-                  if (noRetryRequest == true) {
-                    $rootScope.$broadcast('event:auth-loggedIn');
-                  } else {
-                    authService.loginConfirmed();
-                  }
+          function doLogin() {
+            LoginService.login(scope.username, scope.password).then(function(){
+              scope.dialog.modal('hide');
+              if (noRetryRequest == true) {
+                $rootScope.$broadcast('event:auth-loggedIn');
+              } else {
+                authService.loginConfirmed(null, function(config){
+                  config.url = CommonFactory.updateAccessToken(config.url);
+                  return config;
                 })
-                .catch(function(){
-                  scope.loginError = messageService.get("user.login.error");
-                })
-                .finally(function(){
-                  scope.password = undefined;
-                });
+
               }
-            }
+            })
+            .catch(function(){
+              scope.loginError = messageService.get("user.login.error");
+            })
+            .finally(function(){
+              scope.password = undefined;
+            });
+          }
+        }
     }
 
 })();
