@@ -301,6 +301,23 @@ module.exports = function(grunt) {
             '*.gif'
         ],
         dest: path.join(config.app.dest, 'public/images')
+      },
+      kssCopyAppAssets: {
+        expand: true,
+        cwd: path.join(config.app.dest, 'public'),
+        src: [
+          'openlmis.js',
+          'openlmis.js.map',
+          'favicon.ico',
+          '*.css',
+          '**/*.png',
+          '**/*.gif',
+          '**/*.json',
+          'fonts/**/*',
+          'images/**/*',
+          'messages/**/*'
+        ],
+        dest: config.styleguide.dest
       }
     },
     ngdocs: {
@@ -319,7 +336,8 @@ module.exports = function(grunt) {
     kss: {
       options: {
         title: 'OpenLMIS-UI Styleguide',
-        homepage: '../../../docs/styleguide.md'
+        homepage: '../../../docs/styleguide.md',
+        builder: 'styleguide'
       },
       dist: {
         src: [config.styleguide.src],
@@ -426,7 +444,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
-  var styleguideTasks = ['kss'];
+  var styleguideTasks = ['kss', 'copy:kssCopyAppAssets'];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');

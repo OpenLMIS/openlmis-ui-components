@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{options.title}}</title>
+
+  <meta name="description" content="">
+  <meta name="generator" content="kss-node">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="kss-assets/kss.css">
+  <link rel="stylesheet" href="openlmis.css">
+  {{{styles}}}
+</head>
+<body ng-app="openlmis">
+  <header class="kss-header">
+    <div>
+      <img class="logo" src="images/logo.png" />
+      <h1>{{options.title}}</h1>
+    </div>
+    <nav class="navbar">
+      <ul class="nav navbar-nav">
+        <li class="">
+          <a class="" href="./">
+            <em>0</em>
+            <em>Overview</em>
+          </a>
+        </li>
+      {{#each menu}}
+        {{#if children}}
+        <li uib-dropdown class="dropdown">
+          <a uib-dropdown-toggle class="dropdown-toggle" href="section-{{referenceURI}}.html">
+            <em>{{referenceNumber}}</em> {{header}}
+          </a>
+          <ul uib-dropdown-menu class="dropdown-menu">
+          {{#each children}}
+            <li class="kss-nav__menu-item">
+              <a class="kss-nav__menu-link" href="section-{{../referenceURI}}.html#kssref-{{referenceURI}}">
+                <em>{{referenceNumber}}</em> {{header}}
+              </a>
+            </li>
+          {{/each}}
+          </ul>
+        </li>
+        {{else}}
+        <li class="">
+          <a href="section-{{referenceURI}}.html">
+            <em>{{referenceNumber}}</em> {{header}}
+          </a>
+        </li>
+        {{/if}}
+      {{/each}}
+      </ul>
+    </nav>
+  </header>
+<article role="main" class="page">
+{{#if homepage}}
+  <div id="kssref-0" class="kss-section kss-section--depth-0 kss-overview kss-style">
+    {{{homepage}}}
+  </div>
+{{else}}
+
+  {{!
+    Display each section, in order.
+
+    The "root" element comes first in this loop, and can be detected using
+    the "#if @first" block as seen below.
+  }}
+  {{#each sections}}
+    <{{#if @first}}div{{else}}section{{/if}} id="kssref-{{referenceURI}}">
+
+      <div>
+        <h{{depth}} >
+          <a href="#kssref-{{referenceURI}}">
+            <em>{{referenceNumber}}</em>
+            {{header}}
+          </a>
+        </h{{depth}}>
+
+        {{#if description}}
+          <div class="kss-description">
+            {{{description}}}
+          </div>
+        {{/if}}
+
+        {{#if parameters}}
+          <div class="kss-parameters__title">Parameters:</div>
+          <ul class="kss-parameters">
+          {{#each parameters}}
+            <li class="kss-parameters__item">
+              <div class="kss-parameters__name"><code>{{name}}</code></div>
+              <div class="kss-parameters__description">
+                {{{description}}}
+                {{#if defaultValue}}
+                  <div class="kss-parameters__default-value">
+                    Defaults to: <code>{{defaultValue}}</code>
+                  </div>
+                {{/if}}
+              </div>
+            </li>
+          {{/each}}
+          </ul>
+        {{/if}}
+      </div>
+
+      {{#if example}}
+        <div class="kss-modifier__wrapper">
+          <div class="kss-modifier__heading kss-style">
+            Example{{#if modifiers}}s{{/if}}
+          </div>
+
+          {{#if modifiers}}
+            <div class="kss-modifier__default-name kss-style">
+              Default styling
+            </div>
+          {{/if}}
+
+          <div class="kss-modifier__example">
+            {{{example}}}
+          </div>
+
+          {{#each modifiers}}
+            <div class="kss-modifier__name kss-style">
+              {{name}}
+            </div>
+            <div class="kss-modifier__description kss-style">
+              {{{description}}}
+            </div>
+            <div class="kss-modifier__example">
+              {{{markup}}}
+            </div>
+          {{/each}}
+        </div>
+        {{#if example}}
+          <pre class="prettyprint linenums lang-html"><code data-language="html">{{markup}}</code></pre>
+        {{/if}}
+      {{/if}}
+
+      {{#if sourceFile.name}}
+        <div class="kss-source kss-style">
+          Source: <code>{{sourceFile.name}}</code>, line {{sourceFile.line}}
+        </div>
+      {{/if}}
+
+    </{{#if @first}}div{{else}}section{{/if}}>
+  {{/each}}
+{{/if}}
+</article>
+
+<!-- SCRIPTS -->
+<script src="openlmis.js"></script>
+<script src="kss-assets/prettify.js"></script>
+<script style="display:none;">
+  prettyPrint();
+</script>
+{{{scripts}}}
+
+{{! This will only be included in the demo page. }}
+{{#if options.demo}}
+  <footer class="kss-github">
+    <!-- https://github.com/blog/273-github-ribbons -->
+    <a href="https://github.com/kss-node/kss-node"><img src="kss-assets/github-fork--black.png" alt="Fork me on GitHub"></a>
+  </footer>
+{{/if}}
+
+<!-- Automatically built using <a href="https://github.com/kss-node/kss-node">kss-node</a>. -->
+</body>
+</html>
