@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y bash build-essential libfontconfig tran
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs
 
-RUN npm install -g bower grunt-cli phantomjs-prebuilt
+RUN npm install -g bower grunt-cli phantomjs-prebuilt kss
 
 WORKDIR /app
 VOLUME ["/app"] 
