@@ -336,8 +336,7 @@ module.exports = function(grunt) {
     kss: {
       options: {
         title: 'OpenLMIS-UI Styleguide',
-        homepage: '../../../docs/styleguide.md',
-        builder: 'styleguide'
+        homepage: '../../../docs/styleguide.md'
       },
       dist: {
         src: [config.styleguide.src],
