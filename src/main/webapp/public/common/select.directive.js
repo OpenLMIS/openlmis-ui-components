@@ -4,30 +4,33 @@
 
     /**
     *@ngdoc directive
-    *@name openlmis-core.directive:openlmisSelect
+    *@name openlmis-core.directive:select
     *@restrict E
     *@description directive for simple implementing <ui-select> element.
     *
     */
 
-    angular.module("openlmis-core").directive('openlmisSelect', select);
+    angular.module("openlmis-core").directive('select', select);
 
     select.$inject = ['$parse'];
     function select($parse) {
         return {
-            scope: {
-                ngModel: '=ngModel',
-                items: '=items',
-                placeholder: '@?placeholder',
-                fieldDisplayed: '@fieldDisplayed',
-                orderBy: '@?',
-                trackBy: '@?',
-                defaultValue: '@?defaultValue'
-            },
             restrict: 'E',
-            replace: 'true',
-            templateUrl: 'common/select.html',
-            controller: 'SelectController',
+            replace: false,
+            require: "ngModel",
+            priority: 10, // Sets this link function to run AFTER ngSelect
+            link: function(scope, element, attrs, ngModelCtrl){
+
+                var numOptions = element.children().length;
+
+                if(numOptions <= 1){
+                    element.attr("disabled", true);
+                }
+                if(numOptions == 1){
+                    var option = angular.element(element.children()[0]);
+                    ngModelCtrl.$setViewValue(option.value);
+                }
+            }
         };
     }
 })();
