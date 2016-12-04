@@ -30,6 +30,8 @@
                     var option = angular.element(element.children()[0]);
                     ngModelCtrl.$setViewValue(option.value);
                 }
+
+                jQuery(element).selectize();
             }
         };
     }
