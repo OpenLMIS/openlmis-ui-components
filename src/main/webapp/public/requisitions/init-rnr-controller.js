@@ -117,6 +117,7 @@
         $scope.initRnr = initRnr;
 
         if (facility) {
+            $scope.facilities = [facility]; // since we dont get a full list of facilities yet...
             $scope.facilityDisplayName = facility.code + '-' + facility.name;
             $scope.selectedFacilityId = facility.id;
             $scope.programs = facility.supportedPrograms;
