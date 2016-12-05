@@ -1,16 +1,15 @@
-<form name="convertForm" ng-submit="vm.convertRnr()">
-    <label for="filter">{{'create.user.select.warehouse' | message}}</label>
-    <div class="form-group">
-        <input class="filter" type="text" ng-model="searchText" placeholder="Filter warehouses"/>
-    </div>
+<form name="convertForm" ng-submit="convertRnr()">
+    <label for="searchWarehouses">{{'label.filter.warehouses' | message}}</label>
+    <input id="searchWarehouses" type="text" ng-model="searchText"/>
     <div class="form-group depots">
-        <label ng-repeat="depot in vm.requisitionWithDepots.supplyingDepots | filter:searchText"
+        <label for="radioBtn" ng-repeat="depot in requisitionWithDepots.supplyingDepots |
+               filter:searchText"
                class="radio" >
-            <input type="radio" name="radioBtn" ng-value="depot.id"
-                   ng-model="vm.requisition.supplyingFacility"/>
+            <input id="radioBtn" type="radio" name="radioBtn" ng-value="depot.id"
+                   ng-model="requisition.supplyingFacility"/>
             {{depot.name}}
         </label>
     </div>
-    <button class="convert-rnr" type="submit" ng-click="vm.hideModal()">
+    <button class="convert-rnr" type="submit" ng-click="close()">
         {{'button.convert.to.order' | message}}</button>
 </form>

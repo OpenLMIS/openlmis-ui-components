@@ -22,11 +22,11 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'requisitions', 'Rights'];
+                               'Notification', 'Confirm', 'Rights', 'ConvertToOrderModal'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, requisitions, Rights) {
+                             Notification, Confirm, Rights, ConvertToOrderModal) {
 
         /**
          * @ngdoc property
@@ -38,17 +38,6 @@
          * Holds requisition.
          */
         $scope.requisition = requisition;
-
-        /**
-         * @ngdoc property
-         * @name $scope.requisitions
-         * @propertyOf openlmis.requisitions.RequisitionCtrl
-         * @type {Object}
-         *
-         * @description
-         * Holds requisitionsForConvert.
-         */
-        $scope.requisitions = requisitions;
 
         /**
         * @ngdoc property
@@ -67,6 +56,7 @@
         $scope.submitRnr = submitRnr;
         $scope.authorizeRnr = authorizeRnr;
         $scope.removeRnr = removeRnr;
+        $scope.convertRnr = convertRnr;
         $scope.approveRnr = approveRnr;
         $scope.rejectRnr = rejectRnr;
         $scope.periodDisplayName = periodDisplayName;
@@ -341,6 +331,10 @@
          */
         function displayConvertToOrder() {
             return $scope.requisition.$isApproved();
+        };
+
+        function convertRnr() {
+            ConvertToOrderModal.show($scope.requisition);
         };
 
         function save() {
