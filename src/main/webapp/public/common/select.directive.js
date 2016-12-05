@@ -18,16 +18,12 @@
             restrict: 'E',
             replace: false,
             require: ['ngModel', 'select'],
-            priority: 101, // Sets link function to run AFTER ngSelect and ngOption
+            priority: 111, // Runs after ngSelect, ngOptions, and ngOption
             link: function(scope, element, attrs, ctrls){
                 var ngModelCtrl = ctrls[0];
                 var selectCtrl = ctrls[1];
 
-                scope.$watch(function(){
-                    return element.children().length;
-                }, setSelectState);
-
-                setSelectState();
+                ngModelCtrl.$render = setSelectState;
 
                 function setSelectState(){
                     var select2Options = {
@@ -35,16 +31,39 @@
                         allowClear: true
                     };
 
-                    var numOptions = element.children().length;
 
-                    if(numOptions <= 1){
+                    selectCtrl.renderUnknownOption = function(){};
+                    selectCtrl.removeOption = function(){};
+                    // Remove unknown option from ngOptions
+                    jQuery(element).children('option[value="?"]').remove();
+
+                    // Add empty option, if not already there
+                    var emptyOption = element.children('option[value=""]');
+                    if(!emptyOption.length){
+                        element.prepend('<option value=""></option>');
+                    }
+
+                    if(attrs.placeholder){
+                        select2Options.placeholder = attrs.placeholder;
+                        // check if there is an empty option already and update it's text
+                        element.children('option[value=""]').text(attrs.placeholder);
+                    }
+
+                    if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
+                        ngModelCtrl.$setViewValue("", false);
+                        element.val("");
+                    }
+
+                    var options = element.children('option:not(option[value=""]):not(option[value="?"])');
+
+                    if(options.length <= 1){
                         element.attr("disabled", true);
                     } else {
                         element.attr("disabled", false);
                     }
                     
-                    if(numOptions == 1){
-                        var firstValue = element.children()[0].value;
+                    if(options.length == 1){
+                        var firstValue = options[0].value;
                         setViewValue(firstValue);
                     }
 
