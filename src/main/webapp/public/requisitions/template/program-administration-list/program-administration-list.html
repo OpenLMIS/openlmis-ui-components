@@ -15,10 +15,12 @@
     				<div ng-if="program.template">
                         <i class="fa fa-check"></i>
                         <div>{{'template.configured' | message}}</div>
-                        <span>(</span>
-                        <a ng-click="vm.goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
-                        <span>)</span>
-    				</div>
+                        <div ng-if="vm.hasPermissionToConfigureTempaltes()">
+                            <span>(</span>
+                                <a ng-click="vm.goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
+                            <span>)</span>
+                        </div>
+                	</div>
                     <div ng-if="!program.template">
                         <div>{{'template.create' | message}}</div>
     				</div>

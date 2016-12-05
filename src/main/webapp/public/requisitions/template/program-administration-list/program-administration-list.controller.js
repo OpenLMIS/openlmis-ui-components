@@ -22,14 +22,15 @@
 
     angular.module('openlmis.requisitions').controller('ProgramAdministrationListCtrl', ProgramAdministrationListCtrl);
 
-    ProgramAdministrationListCtrl.$inject = ['$state', 'programList'];
+    ProgramAdministrationListCtrl.$inject = ['$state', 'programList', 'AuthorizationService', 'Rights'];
 
-    function ProgramAdministrationListCtrl($state, programList) {
+    function ProgramAdministrationListCtrl($state, programList, AuthorizationService, Rights) {
         var vm = this;
 
         vm.programs = programList;
 
         vm.goToTemplate = goToTemplate;
+        vm.hasPermissionToConfigureTempaltes = hasPermissionToConfigureTempaltes;
 
         /**
          * @ngdoc function
@@ -44,6 +45,10 @@
             $state.go('administration.configure.template', {
                 template: templateId
             });
+        }
+
+        function hasPermissionToConfigureTempaltes() {
+            return AuthorizationService.hasRight(Rights.MANAGE_REQUISITION_TEMPLATES);
         }
     }
 })();
