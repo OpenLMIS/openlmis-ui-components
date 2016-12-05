@@ -57,9 +57,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
         beforeEach(function() {
             adjustment = {
                 reason: {
-                    item: {
-                        id: 2
-                    }
+                    id: 2
                 },
                 quantity: 10
             };
@@ -81,7 +79,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             vm.addAdjustment();
 
             expect(adjustments.push).toHaveBeenCalledWith({
-                reasonId: adjustment.reason.item.id,
+                reasonId: adjustment.reason.id,
                 quantity: adjustment.quantity
             });
         });
@@ -93,7 +91,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             vm.addAdjustment();
 
             expect(vm.adjustment.quantity).toBeUndefined();
-            expect(vm.adjustment.reason.item).toBeUndefined();
+            expect(vm.adjustment.reason).toBeUndefined();
         });
 
         it('should update total losses and adjustments', function() {

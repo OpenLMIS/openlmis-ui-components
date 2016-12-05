@@ -2,11 +2,10 @@
 <form class="form-filter" ng-submit="vm.addAdjustment()">
     <div class="form-group">
         <label for="reason">{{'label.equipment.maintenance.request.reason' | message}}</label>
-        <openlmis-select id="reason"
-                         ng-model="vm.adjustment.reason"
-                         items="vm.reasons"
-                         field-displayed="name"
-                         track-by="name"/>
+        <select id="reason"
+         ng-model="vm.adjustment.reason"
+         ng-options="reason as reason.name for reason in vm.reasons"
+         ></select>
     </div>
     <div class="form-group">
         <label for="quantity">{{'label.quantity' | message}}</label>

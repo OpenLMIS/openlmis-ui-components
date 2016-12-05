@@ -26,11 +26,11 @@
 
         function addAdjustment() {
             vm.adjustments.push({
-                reasonId: vm.adjustment.reason.item.id,
+                reasonId: vm.adjustment.reason.id,
                 quantity: vm.adjustment.quantity
             });
             vm.adjustment.quantity = undefined;
-            vm.adjustment.reason.item = undefined;
+            vm.adjustment.reason = undefined;
             vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
         }
 
