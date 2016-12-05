@@ -26,9 +26,7 @@
 
     function templateFactory($q, RequisitionTemplateService, RequisitionColumn) {
 
-        var maxNumber = 999999999999999,
-
-        factory = {
+        var factory = {
             get: get,
             getAll: getAll,
             getByProgram: getByProgram
@@ -137,7 +135,8 @@
         // Checks if column can be dropped in area and if so,
         // changes display order of columns beetwen old and new position of dropped column.
         function moveColumn(droppedItem, dropSpotIndex) {
-            var pinnedColumns = [], // columns that position can't be changed
+            var maxNumber = 999999999999999,
+                pinnedColumns = [], // columns that position can't be changed
                 columns = [],       // all columns
                 newDisplayOrder,
                 min,                // the lowest column displayOrder value in droppable area
