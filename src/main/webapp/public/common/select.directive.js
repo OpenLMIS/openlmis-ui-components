@@ -23,26 +23,42 @@
                 var ngModelCtrl = ctrls[0];
                 var selectCtrl = ctrls[1];
 
-                var numOptions = element.children().length;
+                scope.$watch(function(){
+                    return element.children().length;
+                }, setSelectState);
 
-                if(numOptions <= 1){
-                    element.attr("disabled", true);
-                }
-                if(numOptions == 1){
-                    var option = angular.element(element.children()[0]);
-                    ngModelCtrl.$setViewValue(option.value);
+                setSelectState();
+
+                function setSelectState(){
+                    var select2Options = {
+                        placeholder: false,
+                        allowClear: true
+                    };
+
+                    var numOptions = element.children().length;
+
+                    if(numOptions <= 1){
+                        element.attr("disabled", true);
+                    } else {
+                        element.attr("disabled", false);
+                    }
+                    
+                    if(numOptions == 1){
+                        var firstValue = element.children()[0].value;
+                        setViewValue(firstValue);
+                    }
+
+                    jQuery(element).select2(select2Options)
+                    .on('change', function(e){
+                        setViewValue(e.val);
+                    });
                 }
 
-                function onChange(value){
+                function setViewValue(value){
                     element.val(value);
                     var viewValue = selectCtrl.readValue();
                     ngModelCtrl.$setViewValue(viewValue);
                 }
-
-                jQuery(element).select2()
-                .on('change', function(e){
-                    onChange(e.val);
-                });
             }
         };
     }

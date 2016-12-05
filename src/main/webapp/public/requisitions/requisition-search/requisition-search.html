@@ -3,25 +3,24 @@
     <form class="form-filter">
         <div class="form-group">
             <label for="facility" openlmis-message="label.requisition.facilityName"></label>
-            <openlmis-select
+            <select
                 id="facility"
+                ng-change="loadPrograms()"
                 ng-model="selectedFacility"
+                ng-options="facility as facility.name for facility in facilities"
                 ng-required
-                items="facilities"
-                field-displayed="name"
-                track-by="id">
-            </openlmis-select>
+                >
+            </select>
         </div>
         <div class="form-group">
             <label for="program" openlmis-message="label.program"></label>
-            <openlmis-select
+            <select
                 id="program"
                 ng-required
                 ng-model="selectedProgram"
-                items="programs"
-                field-displayed="name"
-                track-by="id">
-            </openlmis-select>
+                ng-options="program as program.name for program in programs"
+                >
+            </select>
         </div>
         <!--<div class="form-group">
             <label for="status" openlmis-message="label.status"></label>
