@@ -22,11 +22,12 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'Rights', 'ConvertToOrderModal'];
+                               'Notification', 'Confirm', 'RequisitionRights',
+                               'ConvertToOrderModal'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, Rights, ConvertToOrderModal) {
+                             Notification, Confirm, RequisitionRights, ConvertToOrderModal) {
 
         /**
          * @ngdoc property
@@ -258,7 +259,7 @@
          * @return {boolean} should authorize button be displayed
          */
         function displayAuthorize() {
-            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_AUTHORIZE, {
+            var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_AUTHORIZE, {
                 programCode: $scope.requisition.program.code
             });
             return $scope.requisition.$isSubmitted() && hasRight;
@@ -276,7 +277,7 @@
          * @return {boolean} should submit button be displayed
          */
         function displaySubmit() {
-            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_CREATE, {
+            var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_CREATE, {
                 programCode: $scope.requisition.program.code
             });
             return $scope.requisition.$isInitiated() && hasRight;
@@ -294,7 +295,7 @@
          * @return {boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
-            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_APPROVE, {
+            var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_APPROVE, {
                 programCode: $scope.requisition.program.code
             });
             return $scope.requisition.$isAuthorized() && hasRight;
@@ -312,7 +313,7 @@
          * @return {boolean} should delete button be displayed
          */
         function displayDelete() {
-            var hasRight = AuthorizationService.hasRight(Rights.REQUISITION_DELETE, {
+            var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_DELETE, {
                 programCode: $scope.requisition.program.code
             });
             return $scope.requisition.$isInitiated() && hasRight;

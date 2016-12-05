@@ -4,13 +4,13 @@
 
     angular.module('openlmis.requisitions').config(config);
 
-    config.$inject = ['$stateProvider'];
-    function config($stateProvider) {
+    config.$inject = ['$stateProvider', 'RequisitionRights'];
+    function config($stateProvider, RequisitionRights) {
 
         $stateProvider.state('requisitions', {
             abstract: true,
             showInNavigation: true,
-            right: 'REQUISITION_VIEW',
+            right: RequisitionRights.REQUISITION_VIEW,
             priority: 1,
             label: 'link.requisitions',
             url: '/requisitions',

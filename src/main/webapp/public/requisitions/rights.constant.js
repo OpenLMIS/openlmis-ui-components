@@ -3,10 +3,10 @@
     'use strict';
 
     angular
-        .module('openlmis-core')
-        .constant('Rights', rights());
+        .module('openlmis.requisitions')
+        .constant('RequisitionRights', constant());
 
-    function rights() {
+    function constant() {
         return {
             REQUISITION_VIEW: 'REQUISITION_VIEW',
             REQUISITION_CREATE: 'REQUISITION_CREATE',
