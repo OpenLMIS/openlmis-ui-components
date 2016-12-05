@@ -151,7 +151,7 @@
 
             setMinMaxDisplayOrder(droppedItem.displayOrder);
 
-            if(isInDroppableArea(newDisplayOrder)) {
+            if(isInDroppableArea(newDisplayOrder) && droppedItem.columnDefinition.canChangeOrder) {
                 angular.forEach(columns, function(column) {
                     if(isInDroppableArea(column.displayOrder) && column.columnDefinition.canChangeOrder) {
                         if(droppedItem.name === column.name) column.displayOrder = newDisplayOrder; // setting new displayOrder for dropped column

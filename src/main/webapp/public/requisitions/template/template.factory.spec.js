@@ -155,7 +155,7 @@ describe('templateFactory', function() {
     });
 
     it('should check if template is valid', function() {
-        var data, requisitionTemplate;
+        var requisitionTemplate;
 
         TemplateFactory.get(template.id).then(function(response) {
             requisitionTemplate = response;
@@ -165,5 +165,94 @@ describe('templateFactory', function() {
         requisitionTemplate.columnsMap.total.isDisplayed = false;
 
         expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should move total column below remarks column', function() {
+        var requisitionTemplate, columnCopy;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+
+        columnCopy = angular.copy(requisitionTemplate.columnsMap.total)
+        expect(requisitionTemplate.$moveColumn(columnCopy, 2)).toBe(true);
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(1);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(2);
+    });
+
+    it('should move remarks column above total column', function() {
+        var requisitionTemplate, columnCopy;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+
+        columnCopy = angular.copy(requisitionTemplate.columnsMap.remarks)
+        expect(requisitionTemplate.$moveColumn(columnCopy, 0)).toBe(true);
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(1);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(2);
+    });
+
+    it('should not move column if canChangeOrder is set to false', function() {
+        var requisitionTemplate, columnCopy;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+
+        requisitionTemplate.columnsMap.remarks.columnDefinition.canChangeOrder = false;
+
+        columnCopy = angular.copy(requisitionTemplate.columnsMap.remarks)
+        expect(requisitionTemplate.$moveColumn(columnCopy, 0)).toBe(false);
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+    });
+
+    it('should not move column if it is not beetwen the same pinned columns', function() {
+        var requisitionTemplate, columnCopy;
+
+        template.columnsMap.begginingBalance = {
+            isDisplayed: true,
+            displayOrder: 2,
+            name: 'beginningBalance',
+            label: 'Beginning Balance',
+            columnDefinition: {
+                canChangeOrder: false,
+                sources: ['USER_INPUT', 'CALCULATED'],
+                isDisplayRequired: false
+            },
+            source: 'USER_INPUT'
+        }
+        template.columnsMap.remarks.displayOrder = 3
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(3);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+
+        columnCopy = angular.copy(requisitionTemplate.columnsMap.remarks)
+        expect(requisitionTemplate.$moveColumn(columnCopy, 0)).toBe(false);
+
+        expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(3);
+        expect(requisitionTemplate.columnsMap.begginingBalance.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
     });
 });
