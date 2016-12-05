@@ -20,8 +20,7 @@
      */
     angular.module('openlmis-auth')
     	.factory('HttpAuthAccessToken', HttpAuthAccessToken)
-    	.config(httpIntercept)
-    	.run(loginRequiredInterceptor);
+    	.config(httpIntercept);
 
     httpIntercept.$inject = ['$httpProvider'];
     function httpIntercept($httpProvider){
@@ -99,59 +98,4 @@
             }
     	}
     }
-
-    /**
-    * @ngdoc function
-    * @name  openlmis-auth.loginRequiredInterceptor
-    *
-    * @description
-    * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
-    *
-    */
-    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService', 'CommonFactory'];
-    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService, CommonFactory) {
-        var noRetryRequest;
-        var dialog;
-
-        $rootScope.$on('event:auth-loginRequired', onLoginRequired);
-
-        /**
-          *
-          * @ngdoc function
-          * @name onLoginRequired
-          * @param {Object} event event
-          * @param {boolean} noRetryRequest true if no retry request
-          *
-          * @description
-          * Make and show login modal, close loading modal.
-          *
-          */
-        function onLoginRequired(event, _noRetryRequest_) {
-          var scope = $rootScope.$new();
-          noRetryRequest = _noRetryRequest_;
-
-          $templateRequest('auth/login-form.html').then(function (html) {
-            dialog = bootbox.dialog({
-              message: $compile(html)(scope),
-              size: 'large',
-              closeButton: false,
-              className: 'login-modal'
-            });
-          });
-          LoadingModalService.close();
-        }
-
-        $rootScope.$on('auth.login-modal', function () {
-          dialog.modal('hide');
-          if (noRetryRequest == true) {
-            $rootScope.$broadcast('event:auth-loggedIn');
-          } else {
-            authService.loginConfirmed(null, function (config) {
-              config.url = CommonFactory.updateAccessToken(config.url);
-              return config;
-            })
-          }
-        });
-
-        }
 })();

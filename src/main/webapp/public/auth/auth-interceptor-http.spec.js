@@ -130,18 +130,4 @@ describe("AuthInterceptorHttp", function() {
     expect(success).toBe(true);
   });
 
-  it('should open login modal dialog on event:auth-loginRequired', function () {
-      $rootScope.$broadcast('event:auth-loginRequired');
-      $rootScope.$apply();
-
-      expect(bootbox.dialog).toHaveBeenCalled();
-  })
-
-  it('should close loading dialog on event:auth-loginRequired', function () {
-      $rootScope.$broadcast('event:auth-loginRequired');
-      $rootScope.$apply();
-
-      expect(LoadingModalService.close).toHaveBeenCalled();
-  })
-
 });

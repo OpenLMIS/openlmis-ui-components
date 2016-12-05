@@ -73,7 +73,7 @@
                     AuthorizationService.setAccessToken(data.access_token);
                     getUserInfo(data.referenceDataUserId).then(function() {
                         getUserRights(data.referenceDataUserId).then(function() {
-                            if ($state.current.name.indexOf('auth') == 0) {
+                            if ($state.is('auth.login.form')) {
                                 $rootScope.$emit('auth.login');
                             } else {
                                 $rootScope.$emit('auth.login-modal');
