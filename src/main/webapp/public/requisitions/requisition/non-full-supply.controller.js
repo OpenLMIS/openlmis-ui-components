@@ -34,7 +34,7 @@
          * Checks whether any field of the given line item has any error. It does not perform any
          * validation. It is an exposure of the isLineItemValid method of the requisitionValidator.
          *
-         * @param  {Object}  lineItem the line item ot be checked
+         * @param  {Object}  lineItem the line item to be checked
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
