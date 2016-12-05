@@ -34,11 +34,12 @@
          * @param {Array}   facilities  the list of related warehouses
          * @param {Array}   nodes       the list of related supervisory nodes
          */
-        function Right(name, programs, facilities, nodes) {
+        function Right(name, programs, facilities, nodes, isDirect) {
             this.name = name;
             this.programs = programs;
             this.facilities = facilities;
             this.nodes = nodes;
+            this.isDirect = isDirect;
         }
 
         /**
@@ -80,8 +81,8 @@
                                 if (right[field].indexOf(fieldValue) === -1) {
                                     right[field].push(fieldValue);
                                 }
+                                isDirect = false;
                             }
-                            isDirect = false;
                         });
 
                     if (isDirect) {
@@ -100,7 +101,8 @@
                     right,
                     rights[right].programCode,
                     rights[right].warehouseCode,
-                    rights[right].supervisoryNodeCode
+                    rights[right].supervisoryNodeCode,
+                    rights[right].isDirect
                 ));
             }
             return rightList;
