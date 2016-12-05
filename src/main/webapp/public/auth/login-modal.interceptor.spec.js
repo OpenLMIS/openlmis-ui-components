@@ -31,7 +31,6 @@ describe("AuthInterceptorHttp", function() {
       $q = _$q_;
       LoadingModalService = _LoadingModalService_;
 
-
       spyOn(bootbox, 'dialog');
       spyOn(LoadingModalService, 'close');
   }));
