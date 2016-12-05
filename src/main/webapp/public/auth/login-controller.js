@@ -96,9 +96,6 @@
 
       $scope.disableSignInButton = true;
       LoginService.login($scope.username, $scope.password)
-      .then(function(){
-        $scope.$emit('auth.login');
-      })
       .catch(function(){
         $scope.loginError = messageService.get("user.login.error");
       })

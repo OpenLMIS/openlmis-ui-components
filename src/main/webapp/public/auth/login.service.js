@@ -14,10 +14,10 @@
         .module('openlmis-auth')
         .service('LoginService', LoginService);
 
-    LoginService.$inject = ['$q', '$http', 'AuthURL', 'OpenlmisURL', 'AuthorizationService',
-                            'Right'];
+    LoginService.$inject = ['$rootScope', '$q', '$http', 'AuthURL', 'OpenlmisURL', 'AuthorizationService',
+                            'Right', '$state'];
 
-    function LoginService($q, $http, AuthURL, OpenlmisURL, AuthorizationService, Right) {
+    function LoginService($rootScope, $q, $http, AuthURL, OpenlmisURL, AuthorizationService, Right, $state) {
         var service = {};
 
         service.login = login;
@@ -73,6 +73,11 @@
                     AuthorizationService.setAccessToken(data.access_token);
                     getUserInfo(data.referenceDataUserId).then(function() {
                         getUserRights(data.referenceDataUserId).then(function() {
+                            if ($state.current.name.indexOf('auth') == 0) {
+                                $rootScope.$emit('auth.login');
+                            } else {
+                                $rootScope.$emit('auth.login-modal');
+                            }
                             deferred.resolve();
                         }).catch(function(){
                             AuthorizationService.clearAccessToken();

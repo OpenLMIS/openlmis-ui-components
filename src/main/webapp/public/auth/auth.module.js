@@ -29,12 +29,11 @@
             })
             .state('auth.login', {
                 abstract: true,
-                templateUrl: 'auth/login-page.html',
+                templateUrl: 'auth/login-page.html'
             })
             .state('auth.login.form', {
                 url: '/login',
-                templateUrl: 'auth/login-form.html',
-                controller: 'LoginController'
+                templateUrl: 'auth/login-form.html'
             });
     }
 

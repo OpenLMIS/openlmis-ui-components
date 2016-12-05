@@ -35,6 +35,10 @@ describe("LoginService", function() {
         });
     }));
 
+    beforeEach(module(function($stateProvider){
+        $stateProvider.state('home', {});
+    }));
+
     beforeEach(inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _AuthorizationService_){
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
@@ -75,6 +79,7 @@ describe("LoginService", function() {
         httpBackend.when('GET', '/referencedata/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
             .respond(200, {});
 
+        spyOn($rootScope, '$emit');
     }));
 
   it('should reject bad logins', function() {

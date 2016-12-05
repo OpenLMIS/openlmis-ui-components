@@ -110,6 +110,9 @@
     */
     loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'LoginService', 'messageService', 'authService', 'CommonFactory'];
     function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, LoginService, messageService, authService, CommonFactory) {
+        var noRetryRequest;
+        var dialog;
+
         $rootScope.$on('event:auth-loginRequired', onLoginRequired);
 
         /**
@@ -123,13 +126,12 @@
           * Make and show login modal, close loading modal.
           *
           */
-        function onLoginRequired(event, noRetryRequest) {
+        function onLoginRequired(event, _noRetryRequest_) {
           var scope = $rootScope.$new();
+          noRetryRequest = _noRetryRequest_;
 
-          scope.doLogin = doLogin;
-
-          $templateRequest('auth/login-form.html').then(function(html){
-            scope.dialog = bootbox.dialog({
+          $templateRequest('auth/login-form.html').then(function (html) {
+            dialog = bootbox.dialog({
               message: $compile(html)(scope),
               size: 'large',
               closeButton: false,
@@ -137,27 +139,19 @@
             });
           });
           LoadingModalService.close();
-
-          function doLogin() {
-            LoginService.login(scope.username, scope.password).then(function(){
-              scope.dialog.modal('hide');
-              if (noRetryRequest == true) {
-                $rootScope.$broadcast('event:auth-loggedIn');
-              } else {
-                authService.loginConfirmed(null, function(config){
-                  config.url = CommonFactory.updateAccessToken(config.url);
-                  return config;
-                })
-              }
-            })
-            .catch(function(){
-              scope.loginError = messageService.get("user.login.error");
-            })
-            .finally(function(){
-              scope.password = undefined;
-            });
-          }
         }
-    }
 
+        $rootScope.$on('auth.login-modal', function () {
+          dialog.modal('hide');
+          if (noRetryRequest == true) {
+            $rootScope.$broadcast('event:auth-loggedIn');
+          } else {
+            authService.loginConfirmed(null, function (config) {
+              config.url = CommonFactory.updateAccessToken(config.url);
+              return config;
+            })
+          }
+        });
+
+        }
 })();
