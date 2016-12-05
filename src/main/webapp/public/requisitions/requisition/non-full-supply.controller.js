@@ -20,7 +20,6 @@
                                LineItem) {
 
         var vm = this;
-        console.log(AddProductModalService);
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
