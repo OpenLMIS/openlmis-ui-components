@@ -41,6 +41,7 @@ a {
   &:hover {
     color: darken($cyan, 25%);
   }
+  cursor: pointer;
 }
 
 textarea {
@@ -163,4 +164,3 @@ select {
 .fadeOut {
   @include animation(fade-out 500ms);
 }
-
