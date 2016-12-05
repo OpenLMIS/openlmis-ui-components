@@ -1,0 +1,169 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2013 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
+ */
+describe('templateFactory', function() {
+
+    var rootScope, TemplateFactory, template, q;
+
+    beforeEach(module('openlmis.requisitions'));
+
+    beforeEach(module(function($provide){
+        var RequisitionTemplateServiceSpy = jasmine.createSpyObj('RequisitionTemplateService', ['get', 'getAll', 'search', 'save']),
+            RequisitionColumnSpy =  jasmine.createSpyObj('RequisitionColumn', ['columnDependencies']);
+
+        RequisitionTemplateServiceSpy.get.andCallFake(function() {
+            return q.when(template);
+        });
+
+        RequisitionTemplateServiceSpy.getAll.andCallFake(function() {
+            return q.when([template]);
+        });
+
+        RequisitionTemplateServiceSpy.search.andCallFake(function(programId) {
+            if(programId === template.programId) {
+                return q.when(template);
+            }
+            return q.when(true);
+        });
+
+        RequisitionTemplateServiceSpy.save.andCallFake(function(requisitionTemplate) {
+            if(requisitionTemplate.id === template.id && requisitionTemplate.columnsMap.total.displayOrder === 3) {
+                return q.when(requisitionTemplate);
+            }
+            return q.when(true);
+        });
+
+        $provide.factory('RequisitionTemplateService', function(){
+    		return RequisitionTemplateServiceSpy;
+    	});
+
+        RequisitionColumnSpy.columnDependencies.andCallFake(function(column) {
+            if(column.name === 'remarks') {
+                return ['total'];
+            }
+            return null;
+        });
+
+        $provide.factory('RequisitionColumn', function(){
+    		return RequisitionColumnSpy;
+    	});
+    }));
+
+    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, OpenlmisURL, $q) {
+        rootScope = $rootScope;
+        TemplateFactory = templateFactory;
+        openlmisURL = OpenlmisURL;
+        q = $q
+
+        template = {
+            id: '1',
+            programId: '2',
+            columnsMap : {
+                total: {
+                    isDisplayed: true,
+                    displayOrder: 1,
+                    name: 'total',
+                    label: 'Total',
+                    columnDefinition: {
+                        canChangeOrder: true,
+                        sources: ['USER_INPUT'],
+                        isDisplayRequired: false
+                    },
+                    source: 'USER_INPUT'
+                },
+                remarks: {
+                    isDisplayed: true,
+                    displayOrder: 2,
+                    name: 'remarks',
+                    label: 'Remarks',
+                    columnDefinition: {
+                        canChangeOrder: true,
+                        sources: ['USER_INPUT', 'CALCULATED'],
+                        isDisplayRequired: false
+                    },
+                    source: 'USER_INPUT'
+                }
+            }
+        };
+    }));
+
+    it('should get template by id and add required methods', function() {
+        var data;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            data = response;
+        });
+
+        rootScope.$apply();
+
+        expect(data.id).toEqual(template.id);
+        expect(angular.isFunction(data.$isValid)).toBe(true);
+        expect(angular.isFunction(data.$save)).toBe(true);
+        expect(angular.isFunction(data.$moveColumn)).toBe(true);
+        angular.forEach(data.columnsMap, function(column) {
+            expect(angular.isFunction(data.$isValid)).toBe(true);
+        });
+    });
+
+    it('should get all templates', function() {
+        var data;
+
+        TemplateFactory.getAll().then(function(response) {
+            data = response;
+        });
+
+        rootScope.$apply();
+
+        expect(data[0].id).toEqual(template.id);
+    });
+
+    it('should get template by program id', function() {
+        var data;
+
+        TemplateFactory.getByProgram(template.programId).then(function(response) {
+            data = response;
+        });
+
+        rootScope.$apply();
+
+        expect(data.id).toEqual(template.id);
+    });
+
+    it('should save template', function() {
+        var data, requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.displayOrder = 3;
+
+        requisitionTemplate.$save().then(function(response) {
+            data = response;
+        });
+        rootScope.$apply();
+
+        expect(data.id).toEqual(template.id);
+        expect(data.columnsMap.total.displayOrder).toEqual(3);
+    });
+
+    it('should check if template is valid', function() {
+        var data, requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.isDisplayed = false;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+});
