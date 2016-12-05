@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis-auth')
+        .module('openlmis-core')
         .constant('Rights', rights());
 
     function rights() {

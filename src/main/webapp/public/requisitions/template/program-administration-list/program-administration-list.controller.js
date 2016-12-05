@@ -30,7 +30,7 @@
         vm.programs = programList;
 
         vm.goToTemplate = goToTemplate;
-        vm.hasPermissionToConfigureTempaltes = hasPermissionToConfigureTempaltes;
+        vm.canConfigureTemplates = canConfigureTemplates;
 
         /**
          * @ngdoc function
@@ -47,7 +47,7 @@
             });
         }
 
-        function hasPermissionToConfigureTempaltes() {
+        function canConfigureTemplates() {
             return AuthorizationService.hasRight(Rights.MANAGE_REQUISITION_TEMPLATES);
         }
     }

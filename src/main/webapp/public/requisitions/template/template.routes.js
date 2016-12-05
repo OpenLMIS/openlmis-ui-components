@@ -14,16 +14,16 @@
 
 	angular.module('openlmis.requisitions').config(routes);
 
-	routes.$inject = ['$stateProvider'];
+	routes.$inject = ['$stateProvider', 'Rights'];
 
-	function routes($stateProvider) {
+	function routes($stateProvider, Rights) {
 
 		$stateProvider.state('administration.configure.template', {
 			url: '/template/:template',
 			controller: 'RequisitionTemplateAdminController',
 			templateUrl: 'requisitions/template/template.html',
 			controllerAs: 'vm',
-			accessRight: 'MANAGE_REQUISITION_TEMPLATES',
+			accessRight: Rights.MANAGE_REQUISITION_TEMPLATES,
 			resolve: {
 				template: function ($stateParams, templateFactory) {
 					return templateFactory.get($stateParams.template);
@@ -41,7 +41,7 @@
 			controller: 'ProgramAdministrationListCtrl',
 			templateUrl: 'requisitions/template/program-administration-list/program-administration-list.html',
 			controllerAs: 'vm',
-			accessRight: 'MANAGE_REQUISITION_TEMPLATES',
+			accessRight: Rights.MANAGE_REQUISITION_TEMPLATES,
 			resolve: {
 				programList: function (Program) {
 					return Program.getAll();
