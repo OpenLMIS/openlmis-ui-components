@@ -42,7 +42,7 @@
          * @description Added a get request variable to the end of the url
          */
         function addAccessToken(url){
-            if (url.indexOf('?access_token') == -1) {
+            if (url.indexOf('access_token=') == -1) {
                 var token = AuthorizationService.getAccessToken();
                 if (token) {
                     url += (url.indexOf('?') == -1 ? '?' : '&') + 'access_token=' + token;
