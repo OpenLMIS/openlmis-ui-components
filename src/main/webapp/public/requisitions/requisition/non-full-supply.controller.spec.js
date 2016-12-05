@@ -1,56 +1,207 @@
 describe('NonFullSupplyCtrl', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, requisition;
+    var vm, requisitionValidator, RequisitionCategory, AddProductModalService, requisition, q,
+        rootScope, controller, LineItem;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(function(){
+        module('openlmis.requisitions');
 
-    beforeEach(function() {
+        inject(function($q, $controller, $rootScope) {
+            controller = $controller;
+            rootScope = $rootScope;
+            q = $q;
+        });
+
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
-        RequisitionCategory = jasmine.createSpy('RequisitionCategory');
+        AddProductModalService = jasmine.createSpyObj('AddProductModalService', ['show']);
+
+        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
+        requisition.$template = jasmine.createSpyObj('Template', ['getColumns']);
+        requisition.requisitionLineItems = [
+            lineItemSpy(0, 'One', true),
+            lineItemSpy(1, 'Two', true),
+            lineItemSpy(2, 'One', true),
+            lineItemSpy(3, 'Two', true),
+            lineItemSpy(4, 'Three', false)
+        ];
     });
 
-    beforeEach(function($rootScope) {
-        requisition = {
-            $template: jasmine.createSpyObj('Template', ['getColumns']),
-            requisitionLineItems: [
-                lineItemSpy(0, 'One', true),
-                lineItemSpy(1, 'Two', true),
-                lineItemSpy(2, 'One', true),
-                lineItemSpy(3, 'Two', true),
-                lineItemSpy(4, 'Three', false)
-            ]
-        };
+    describe('initialization', function() {
+
+        it('should bind requisitionValidator.isLineItemValid method to vm', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.isLineItemValid).toBe(requisitionValidator.isLineItemValid);
+        });
+
+        it('should bind requisition property to vm', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.requisition).toBe(requisition);
+        });
+
+        it('should bind columns property to vm', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.columns).toBe(requisition.$template.getColumns());
+        });
+
+        it('should bind requisitionLineItems property to vm', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.lineItems).toBe(requisition.requisitionLineItems);
+        });
+
+        it('should display add product button if reqisition is not authorized nor approved', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.displayAddProductButton).toBe(true);
+        });
+
+        it('should not display add product button if requisition is authorized', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(true);
+
+            initController();
+
+            expect(vm.displayAddProductButton).toBe(false);
+        });
+
+        it('should not display add product button if requisition is approved', function() {
+            requisition.$isApproved.andReturn(true);
+            requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.displayAddProductButton).toBe(false);
+        });
+
     });
 
-    beforeEach(inject(function($controller) {
-        vm = $controller('NonFullSupplyCtrl', {
+    describe('deleteLineItem', function() {
+
+        beforeEach(function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+            initController();
+        });
+
+        it('should delete line item if it exist', function() {
+            var lineItem = requisition.requisitionLineItems[2];
+            var product = lineItem.orderableProduct;
+
+            vm.deleteLineItem(lineItem);
+
+            expect(requisition.requisitionLineItems.length).toBe(4);
+            expect(requisition.requisitionLineItems.indexOf(lineItem)).toBe(-1);
+        });
+
+        it('should make the product visible after deletion', function() {
+            var lineItem = requisition.requisitionLineItems[2];
+            var product = lineItem.orderableProduct;
+
+            vm.deleteLineItem(lineItem);
+
+            expect(product.$visible).toBe(true);
+        });
+
+        it('should not delete lineItem if it doesn\'t exist', function() {
+            spyOn(requisition.requisitionLineItems, 'splice');
+
+            vm.deleteLineItem(lineItemSpy(5, 'Three', false));
+
+            expect(requisition.requisitionLineItems.length).toBe(5);
+            expect(requisition.requisitionLineItems.splice).not.toHaveBeenCalled();
+        });
+
+        it('should not make the product visible if the item wasn\'t removed', function() {
+            var lineItem = lineItemSpy(5, 'Three', false);
+            var product = lineItem.orderableProduct;
+
+            vm.deleteLineItem(lineItem);
+
+            expect(product.$visible).toBe(false);
+        });
+
+    });
+
+    describe('addProduct', function() {
+
+        beforeEach(function() {
+            LineItem = jasmine.createSpy();
+            requisition.program = {
+                id: 'program-id'
+            };
+            initController();
+        });
+
+        it('should add product', function() {
+            AddProductModalService.show.andReturn(q.when(lineItemSpy(5, 'Three', false)));
+
+            vm.addProduct();
+            rootScope.$apply();
+
+            expect(AddProductModalService.show).toHaveBeenCalled();
+            expect(requisition.requisitionLineItems.length).toBe(6);
+        });
+
+        it('should not add product if modal was dismissed', function() {
+            var deferred = q.defer();
+            spyOn(requisition.requisitionLineItems, 'push');
+            AddProductModalService.show.andReturn(deferred.promise);
+
+            vm.addProduct();
+            deferred.reject();
+            rootScope.$apply();
+
+            expect(AddProductModalService.show).toHaveBeenCalled();
+            expect(requisition.requisitionLineItems.length).toBe(5);
+            expect(requisition.requisitionLineItems.push).not.toHaveBeenCalled();
+        });
+
+    });
+
+    describe('displayDeleteColumn', function() {
+
+        it('should return true if any line item is deletable', function() {
+            requisition.requisitionLineItems[1].$deletable = true;
+
+            var result = vm.displayDeleteColumn();
+
+            expect(result).not.toBe(false);
+        });
+
+        it('should return false if none of the line items is deletable', function() {
+            var result = vm.displayDeleteColumn();
+
+            expect(result).not.toBe(true);
+        });
+
+    });
+
+    function initController() {
+        vm = controller('NonFullSupplyCtrl', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
-            RequisitionCategory: RequisitionCategory
+            AddProductModalService: AddProductModalService,
+            LineItem: LineItem
         });
-    }));
-
-    it('should delete line item', function() {
-        vm.deleteLineItem(requisition.requisitionLineItems[0]);
-        expect(requisition.requisitionLineItems.length).toBe(4);
-        expect(requisition.requisitionLineItems[0].category).not.toBe('One');
-    });
-
-    it('should bind requisitionValidator.isLineItemValid method to vm', function() {
-        expect(vm.isLineItemValid).toBe(requisitionValidator.isLineItemValid);
-    });
-
-    it('should bind requisition property to vm', function() {
-        expect(vm.requisition).toBe(requisition);
-    });
-
-    it('should bind columns property to vm', function() {
-        expect(vm.columns).toBe(requisition.$template.getColumns());
-    });
-
-    it('should bind requisitionLineItems property to vm', function() {
-        expect(vm.lineItems).toBe(requisition.requisitionLineItems);
-    });
+    }
 
     function lineItemSpy(id, category, fullSupply) {
         return {

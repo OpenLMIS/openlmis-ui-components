@@ -13,13 +13,32 @@
         .module('openlmis.requisitions')
         .controller('NonFullSupplyCtrl', nonFullSupplyCtrl);
 
-    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator'];
+    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'AddProductModalService',
+                                 'LineItem'];
 
-    function nonFullSupplyCtrl(requisition, requisitionValidator) {
+    function nonFullSupplyCtrl(requisition, requisitionValidator, AddProductModalService,
+                               LineItem) {
+
         var vm = this;
+        console.log(AddProductModalService);
 
         vm.deleteLineItem = deleteLineItem;
-        vm.displayAddProductButton = displayAddProductButton;
+        vm.addProduct = addProduct;
+        vm.displayDeleteColumn = displayDeleteColumn;
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @name isLineItemValid
+         *
+         * @description
+         * Checks whether any field of the given line item has any error. It does not perform any
+         * validation. It is an exposure of the isLineItemValid method of the requisitionValidator.
+         *
+         * @param  {Object}  lineItem the line item ot be checked
+         * @return {Boolean}          true if any of the fields has error, false otherwise
+         */
+        vm.isLineItemValid = requisitionValidator.isLineItemValid;
 
         /**
          * @ngdoc property
@@ -31,6 +50,17 @@
          * Holds requisition. This object is shared with the parent and fullSupply states.
          */
         vm.requisition = requisition;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis.requisitions.NonFullSupplyCtrl
+         * @name displayAddProductButton
+         * @type {Boolean}
+         *
+         * @description
+         * Flag reponsible for hiding/showing the Add Product button.
+         */
+        vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isAuthorized();
 
         /**
          * @ngdoc property
@@ -57,20 +87,6 @@
         /**
          * @ngdoc method
          * @methodOf openlmis.requisitions.NonFullSupplyCtrl
-         * @name isLineItemValid
-         *
-         * @description
-         * Checks whether any field of the given line item has any error. It does not perform any
-         * validation. It is an exposure of the isLineItemValid method of the requisitionValidator.
-         *
-         * @param  {Object}  lineItem the line item ot be checked
-         * @return {Boolean}          true if any of the fields has error, false otherwise
-         */
-        vm.isLineItemValid = requisitionValidator.isLineItemValid;
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
          * @name deleteLineItem
          *
          * @description
@@ -80,14 +96,47 @@
          * @param  {Object} lineItem   the line item to be deleted
          */
         function deleteLineItem(lineItem) {
-            var lineItemId = vm.lineItems.indexOf(lineItem);
-            vm.lineItems[lineItemId].orderableProduct.$visible = true;
-            vm.lineItems.splice(lineItemId, 1);
+            var id = vm.lineItems.indexOf(lineItem);
+            if (id > -1) {
+                vm.lineItems[id].orderableProduct.$visible = true;
+                vm.lineItems.splice(id, 1);
+            }
         }
 
-        function displayAddProductButton() {
-            return !vm.requisition.$isApproved()
-                && !vm.requisition.$isAuthorized();
+        /**
+         * @ngdoc method
+         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @name addProduct
+         *
+         * @description
+         * Opens modal that let the user add new product to the grid.
+         */
+        function addProduct() {
+            AddProductModalService.show(vm.requisition.$approvedCategories)
+                .then(function(lineItem) {
+                    vm.requisition.requisitionLineItems.push(
+                        new LineItem(lineItem, vm.requisition)
+                    );
+                });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @name displayDeleteColumn
+         *
+         * @description
+         * Checks whether the delete column should be displayed. The column is visible only if any
+         * of the line items is deletable.
+         *
+         * @return {Boolean} true if the delete column should be displayed, false otherwise
+         */
+        function displayDeleteColumn() {
+            var display = false;
+            vm.lineItems.forEach(function(lineItem) {
+                display = display || lineItem.$deletable;
+            });
+            return display;
         }
     }
 

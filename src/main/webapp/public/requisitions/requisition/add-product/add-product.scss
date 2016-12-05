@@ -11,15 +11,13 @@
 			}
 		}
 
-		button {
-			@extend .btn;
-		}
-
 		button.cancel {
+			@extend .btn;
 			@include button-color($gray);
 		}
 
-		button.add-product {
+		input.add-product {
+			@extend .btn;
 			@include button-color($green);
 			float: right;
 		}

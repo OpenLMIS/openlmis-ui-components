@@ -1,14 +1,12 @@
-<form name="addProductForm">
+<form name="addProductForm" ng-submit="addProduct(selectedProduct, requestedQuantity, requestedQuantityExplanation)">
 	<div class="form-group">
 		<label for="category">{{'label.product.category' | message}}</label>
-		<select class="form-control" ng-model="selectedCategory" ng-disabled="!requisition.$approvedCategories.length" ng-options="category.name for category in requisition.$approvedCategories | filter:categoryVisible" required>
-			<option ng-value="" ng-if="!selectedCategory" openlmis-message="placeholder.select.category"></option>
+		<select class="form-control" ng-model="selectedCategory" ng-disabled="!categories.length" ng-options="category.name for category in categories | filter:categoryVisible" required>
 		</select>
 	</div>
 	<div class="form-group">
 		<label for="product">{{'label.product.name' | message}}</label>
 		<select class="form-control" ng-model="selectedProduct" ng-disabled="!selectedCategory" ng-options="lineItem.name for lineItem in selectedCategory.lineItems | filter:productVisible" required>
-			<option ng-value="" openlmis-message="placeholder.select.product"></option>
 		</select>
 	</div>
 	<div class="form-group">
@@ -19,6 +17,6 @@
 		<label for="requestedQuantity">{{'placeholder.explanation' | message}}</label>
 		<input class="form-control" ng-model="requestedQuantityExplanation" ng-required="requestedQuantity">
 	</div>
-	<button class="add-product" ng-click="addProduct()" ng-disabled="!addProductForm.$valid">{{'button.add' | message}}</button>
+	<input class="add-product" type="submit" ng-disabled="!addProductForm.$valid" value="{{'button.add' | message}}"></button>
 	<button type="button" data-dismiss="modal" class="cancel">{{'button.cancel' | message}}</button>
 </form>

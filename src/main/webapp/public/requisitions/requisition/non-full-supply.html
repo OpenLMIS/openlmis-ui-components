@@ -3,7 +3,7 @@
 		<thead>
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}</th>
-				<th></th>
+				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.lineItems | filter:{$program: {fullSupply:false}} | groupBy:'$program.productCategoryDisplayName'">
@@ -12,10 +12,10 @@
 			</tr>
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems">
 			  <td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell></td>
-				<td>
+				<td ng-if="vm.displayDeleteColumn()">
 					<button class="hide-line-item"
 							ng-click="vm.deleteLineItem(lineItem)"
-							ng-if="lineItem.$hideable">
+							ng-if="lineItem.$deletable">
 								<i class="fa fa-remove"></i>
 					</button>
 				</td>
@@ -24,9 +24,8 @@
 	</table>
 
 	<button class="add-product"
-			ng-if="vm.displayAddProductButton()"
-			add-product
-			requisition="vm.requisition">
+			ng-if="vm.displayAddProductButton"
+			ng-click="vm.addProduct()">
 			{{'button.add' | message}}
 			</button>
 </div>
