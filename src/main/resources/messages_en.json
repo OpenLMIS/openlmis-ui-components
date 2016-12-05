@@ -2713,5 +2713,6 @@
   "msg.template.column.drop.placeholder": "Drop column here...",
   "msg.tempalte.column.drop.error": "Can't drop column here",
   "msg.template.column.should.be.displayed": "This column should be displayed toogether with:",
-  "label.filter.warehouses": "Filter warehouses"
+  "label.filter.warehouses": "Filter warehouses",
+  "requisition.converttoorder.pickdepot": "Pick warehouse to convert requisition to order at"
 }
