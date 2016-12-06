@@ -39,7 +39,7 @@
                         <td>
                             <div ng-if="!vm.canChangeSource(column.columnDefinition)">{{vm.sourceDisplayName(column.source)}}</div>
                             <div ng-if="vm.canChangeSource(column.columnDefinition)">
-                                <select class="form-control" ng-model="column.source" ng-options="source as vm.sourceDisplayName(source) for source in column.columnDefinition.sources"></select>
+                                <select ng-model="column.source" ng-options="source as vm.sourceDisplayName(source) for source in column.columnDefinition.sources"></select>
                             </div>
                         </td>
                         <td>
