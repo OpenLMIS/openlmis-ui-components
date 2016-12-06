@@ -1,16 +1,52 @@
-.ui-select-match {
-  width: 250px;
+@import 'bourbon';
 
+.select2-container .select2-choice{
+	height: auto;
+	padding: 6px 12px;
 }
 
-.select2-container .select2-choice, .select2-result-label {
-  height: 34px;
-  overflow: auto;
+.select2-container .select2-arrow b{
+	padding-top: 6px;
 }
 
-.select2-arrow, .select2-chosen {
-  padding-top: 4px;
+.select2-container{
+	font-size: 1em;
+	line-height: 1em;
+	
+	.select2-choice,
+	.select2-arrow{
+		background: transparent;
+	}
+
+	&.select2-container-active .select2-choice{
+		border-color: $gray;
+		box-shadow: transparent 0px 0px 0px;
+	}
+
+	&.select2-dropdown-open{
+		.select2-choice{
+			@include linear-gradient(to bottom, $light-gray, $white);
+		}
+	}
+
+	.select2-results .select2-highlighted{
+		background-color: $brand-primary;
+	}
 }
+
+.select2-drop-active{
+	border-color: $gray;
+}
+
+.select2-container-disabled{
+	.select2-choice .select2-arrow{
+		display: none;
+	}
+}
+
+
+
+/*
 
 .select2-result-label {
     padding: 8px 7px 4px !important;
@@ -19,3 +55,5 @@
 .select2-results .select2-highlighted {
     background: $blue !important;
 }
+
+*/
