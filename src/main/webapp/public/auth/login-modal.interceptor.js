@@ -47,7 +47,6 @@
           $templateRequest('auth/login-form.html').then(function (html) {
             dialog = bootbox.dialog({
               message: $compile(html)(scope),
-              size: 'large',
               closeButton: false,
               className: 'login-modal'
             });
@@ -58,7 +57,7 @@
         $rootScope.$on('auth.login-modal', function () {
           dialog.modal('hide');
           if (noRetryRequest == true) {
-            $rootScope.$broadcast('event:auth-loggedIn');
+            $rootScope.$emit('event:auth-loggedIn');
           } else {
             authService.loginConfirmed(null, function (config) {
               config.url = CommonFactory.updateAccessToken(config.url);

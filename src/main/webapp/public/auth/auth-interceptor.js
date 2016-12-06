@@ -24,15 +24,15 @@
     * Any route that the user visits within the openlmis-auth module they will be allowed to visit if they are not authenticated. Meaning if a user is authenticated, they won't be able to access the login or forgot password screens.
     *
     */
-    authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'Alert'];
-    function authStateChangeInterceptor($rootScope, $state, AuthorizationService, Alert) {
+    authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'Alert', '$window'];
+    function authStateChangeInterceptor($rootScope, $state, AuthorizationService, Alert, $window) {
         $rootScope.$on('$stateChangeStart', redirectAuthState);
 
         function redirectAuthState(event, toState, toParams, fromState, fromParams) {
             if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
                 // if not authenticated and not on login page or home page
                 event.preventDefault();
-                $rootScope.$broadcast('event:auth-loginRequired', true);
+                $rootScope.$emit('event:auth-loginRequired', true);
             } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
                 // if not authenticated and on home page
                 event.preventDefault();
@@ -53,7 +53,7 @@
         });
 
         $rootScope.$on('event:auth-loggedIn', function(){
-            location.reload();
+            $window.location.reload();
         });
 
         function hasPermission(state) {

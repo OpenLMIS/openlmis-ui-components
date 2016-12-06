@@ -28,12 +28,15 @@ describe("AuthInterceptor", function() {
       messageService = _messageService_;
 
       spyOn($state, 'go').andCallThrough();
-      spyOn($rootScope, '$broadcast').andCallThrough();
+      spyOn($rootScope, '$emit');
     });
   }
 
-  it('will redirect user to login if auth token is not set and state is home', function(){
+  beforeEach(function(){
     setupTest();
+  });
+
+  it('will redirect user to login if auth token is not set and state is home', function(){
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
     $state.go('home');
@@ -42,19 +45,18 @@ describe("AuthInterceptor", function() {
     expect($state.go).toHaveBeenCalledWith('auth.login.form');
   });
 
-  it('will call broadcast event:auth-loginRequired if auth token is not set and state is not home', function(){
-    setupTest();
+  it('will call event event:auth-loginRequired if auth token is not set and state is not home', function(){
+
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
     spyOn(messageService, 'populate');
 
     $state.go('somewhere');
     $rootScope.$apply();
 
-    expect($rootScope.$broadcast).toHaveBeenCalledWith('event:auth-loginRequired', true);
+    expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loginRequired', true);
   });
 
   it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
-    setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
     $state.go('auth.login.form');
@@ -66,7 +68,6 @@ describe("AuthInterceptor", function() {
   });
 
   it('will not redirect user if auth token is set, unless page is login.html', function(){
-    setupTest();
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
 
     // Call 1
@@ -85,5 +86,35 @@ describe("AuthInterceptor", function() {
     expect($state.go.calls.length).toEqual(3);
 
   });
+
+  it('should reload page on event:auth-loggedIn', inject(function($window) {
+    spyOn($window.location, 'reload');
+
+    $rootScope.$broadcast('event:auth-loggedIn');
+    $rootScope.$apply();
+
+    expect($window.location.reload).toHaveBeenCalled();
+  }))
+
+  it('should reload page on event:auth-loggedIn', inject(function($window) {
+    spyOn($window.location, 'reload');
+
+    $rootScope.$broadcast('event:auth-loggedIn');
+    $rootScope.$apply();
+
+    expect($window.location.reload).toHaveBeenCalled();
+  }))
+
+  it('should go to home page on auth.login event', inject(function($window) {
+    spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+
+    $state.go('somewhere');
+    $rootScope.$apply();
+
+    $rootScope.$broadcast('auth.login');
+    $rootScope.$apply();
+
+    expect($state.is('home')).toBe(true);
+  }))
 
 });

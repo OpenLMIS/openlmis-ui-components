@@ -139,6 +139,19 @@ input[placeholder].placeholder {
   }
 }
 
+.login-modal .modal-dialog {
+    width: 50em;
+}
+
+.login-modal .modal-content {
+    margin-top: 15em;
+}
+
 .login-modal .modal-body {
     padding: 0em !important;
+}
+
+.login-modal .login-container {
+    border-radius: 0.5em;
+    border: 0.1em solid white;
 }

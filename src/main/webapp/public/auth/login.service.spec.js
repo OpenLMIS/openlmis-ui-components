@@ -9,7 +9,7 @@
  */
 describe("LoginService", function() {
 
-    var $rootScope, $httpBackend, LoginService, AuthorizationService, Right;
+    var $rootScope, $httpBackend, LoginService, AuthorizationService, Right, $state;
 
     beforeEach(module('openlmis-auth'));
 
@@ -36,14 +36,17 @@ describe("LoginService", function() {
     }));
 
     beforeEach(module(function($stateProvider){
-        $stateProvider.state('home', {});
+      $stateProvider.state('home', {});
+      $stateProvider.state('somewhere', {})
+
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _AuthorizationService_){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _AuthorizationService_, _$state_){
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         LoginService = _LoginService_;
         AuthorizationService = _AuthorizationService_;
+        $state = _$state_;
 
         httpBackend.when('GET', 'credentials/auth_server_client.json')
         .respond(200, {
@@ -143,5 +146,31 @@ describe("LoginService", function() {
     expect(AuthorizationService.clearRights).toHaveBeenCalled();
 
   });
+
+  it('should emit "auth.login" event when logging in through auth page', function(){
+    AuthorizationService.clearAccessToken();
+
+    $state.go('auth.login.form');
+    $rootScope.$apply();
+
+    LoginService.login("john", "john-password");
+    httpBackend.flush();
+    $rootScope.$apply();
+
+    expect($rootScope.$emit).toHaveBeenCalledWith('auth.login');
+  });
+
+  it('should emit "auth.login-modal" event when logging in through page other than auth', inject(function($rootScope){
+    AuthorizationService.clearAccessToken();
+
+    $state.go('somewhere');
+    $rootScope.$apply();
+
+    LoginService.login("john", "john-password");
+    httpBackend.flush();
+    $rootScope.$apply();
+
+    expect($rootScope.$emit).toHaveBeenCalledWith('auth.login-modal');
+  }));
 
 });
