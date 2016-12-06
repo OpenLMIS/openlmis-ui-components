@@ -1,4 +1,4 @@
-ddescribe('Right', function() {
+describe('Right', function() {
 
     var Right;
 
