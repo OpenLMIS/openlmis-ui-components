@@ -14,7 +14,7 @@
 			url: '/view',
 			controller: 'RequisitionSearchController',
 			templateUrl: 'requisitions/requisition-search/requisition-search.html',
-			accessRight: RequisitionRights.REQUISITION_VIEW,
+			accessRight: [RequisitionRights.REQUISITION_VIEW],
 			resolve: {
 		        facilityList: function ($q, FacilityFactory) {
 		        	var deferred = $q.defer();

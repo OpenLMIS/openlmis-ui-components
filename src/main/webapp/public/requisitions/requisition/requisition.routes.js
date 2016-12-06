@@ -34,6 +34,7 @@
         $stateProvider.state('requisitions.requisition.fullSupply', {
             url: '/fullSupply',
             templateUrl: 'requisitions/requisition/full-supply.html',
+            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             controller: 'FullSupplyCtrl',
             controllerAs: 'vm'
         });
@@ -41,6 +42,7 @@
         $stateProvider.state('requisitions.requisition.nonFullSupply', {
             url: '/nonFullSupply',
             templateUrl: 'requisitions/requisition/non-full-supply.html',
+            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             controller: 'NonFullSupplyCtrl',
             controllerAs: 'vm'
         });

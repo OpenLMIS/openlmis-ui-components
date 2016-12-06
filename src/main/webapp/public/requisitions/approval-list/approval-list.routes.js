@@ -14,7 +14,7 @@
 			url: '/approvalList',
 			controller: 'ApprovalListCtrl',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
-			accessRight: RequisitionRights.REQUISITION_APPROVE,
+			accessRight: [RequisitionRights.REQUISITION_APPROVE],
 			resolve: {
 		        requisitionList: function (RequisitionService) {
                     return RequisitionService.forApproval();

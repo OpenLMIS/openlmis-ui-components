@@ -35,6 +35,7 @@
         this.getRights = getRights;
         this.getUser = getUser;
         this.hasRight = hasRight;
+        this.hasRights = hasRights;
         this.isAuthenticated = isAuthenticated;
         this.setAccessToken = setAccessToken;
         this.setRights = setRights;
@@ -230,6 +231,23 @@
             }
 
             return false;
+        }
+
+        function hasRights(rights, areAllRightsRequired) {
+            var hasPermission;
+            if(areAllRightsRequired) {
+                hasPermission = true;
+                angular.forEach(rights, function(right) {
+                    if(!hasRight(right)) hasPermission = false;
+                });
+                return hasPermission;
+            } else {
+                hasPermission = false;
+                angular.forEach(rights, function(right) {
+                    if(hasRight(right)) hasPermission = true;
+                });
+                return hasPermission;
+            }
         }
 
         /**

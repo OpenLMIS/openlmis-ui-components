@@ -41,7 +41,7 @@
                 // if authenticated and on login page
                 event.preventDefault();
                 $state.go('home');
-            } else if(toState.accessRight && !hasPermission(toState)) {
+            } else if(toState.accessRight && !AuthorizationService.hasRights(toState.accessRight, toState.areAllRightsRequired)) {
                 // checking rights to enter state
                 event.preventDefault();
                 Alert.error('error.authorization');
@@ -55,29 +55,6 @@
         $rootScope.$on('event:auth-loggedIn', function(){
             $window.location.reload();
         });
-
-        function hasPermission(state) {
-            if(angular.isArray(state.accessRight)) {
-                if(state.allRightsRequired) {
-                    var hasAllRights = true;
-                    angular.forEach(state.accessRight, function(right) {
-                        console.log(right);
-                        if(!AuthorizationService.hasRight(right)) hasAllRights = false;
-                    });
-                    console.log(hasAllRights);
-                    return hasAllRights;
-                } else {
-                    var hasAllRights = false;
-                    angular.forEach(state.accessRight, function(right) {
-                        console.log(right);
-                        if(AuthorizationService.hasRight(right)) hasAllRights = true;
-                    });
-                    console.log(hasAllRights);
-                    return hasAllRights;
-                }
-            }
-            return AuthorizationService.hasRight(state.accessRight);
-        }
     }
 
 })();
