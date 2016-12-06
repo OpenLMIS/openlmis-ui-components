@@ -337,6 +337,14 @@
             return $scope.requisition.$isApproved() && hasRight;
         };
 
+        /**
+         * @ngdoc function
+         * @name convertRnr
+         * @methodOf openlmis.requisitions.RequisitionCtrl
+         *
+         * @description
+         * Displays convert to order modal.
+         */
         function convertRnr() {
             ConvertToOrderModal.show($scope.requisition);
         };
