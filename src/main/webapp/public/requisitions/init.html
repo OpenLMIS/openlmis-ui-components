@@ -41,7 +41,9 @@
         <input type="radio" ng-model="emergency" ng-value="true" />
       </label>
     </fieldset>
-    <input type="submit" value="{{'button.search'|message}}" />
+    <div class="form-group">
+      <input type="submit" value="{{'button.search'|message}}" class="btn btn-primary" />
+    </div>
   </form>
   <div ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
     ui-grid="periodGridOptions"

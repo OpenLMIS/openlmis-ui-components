@@ -112,7 +112,7 @@ describe('RequisitionSearchController', function() {
         expect(angular.toJson(scope.requisitionList)).toEqual(angular.toJson(requisitionList));
     });
 
-    it('search is disabled if facility is not selected', function() {
+    it('search should give an error if facility is not selected', function() {
         var callback = jasmine.createSpy();
         expect(scope.selectedFacility).toBe(undefined);
         spyOn(notification, 'error').andCallFake(callback);

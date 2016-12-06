@@ -4,22 +4,6 @@
          openlmis-message="message.no.rnr.pending.approval">
     </div>
     <div class="approval-list" ng-show="requisitions.length">
-        <div class="row-fluid">
-            <div class="span6 offset6 grid-filters">
-                <label for="searchRequisition" openlmis-message="label.search"
-                       class="padding2px" ></label>
-                <input id="searchRequisition" class="search-query" ng-change="filterRequisitions()" type="text"
-                       ng-model="query"/>
-                <span openlmis-message="label.in" class="padding2px"></span>
-                <openlmis-select
-                        placeholder="{{ 'label.select.type' | message }}"
-                        ng-model="searchField"
-                        items="labels"
-                        field-displayed="name"
-                        track-by="name">
-                </openlmis-select>
-            </div>
-        </div>
         <div id="approveReqList" class="grid" ui-grid="gridOptions" ng-show="requisitions.length"></div>
     </div>
 </div>
