@@ -42,6 +42,7 @@
             deferred = $q.defer();
 
             scope.requisition = requisition;
+            scope.searchText = undefined;
 
             $q.all([
                 getDepotsForRequisition(),
