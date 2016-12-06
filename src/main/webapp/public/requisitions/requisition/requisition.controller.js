@@ -331,7 +331,10 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            return $scope.requisition.$isApproved();
+            var hasRight = AuthorizationService.hasRight(RequisitionRights.CONVERT_TO_ORDER, {
+                programCode: $scope.requisition.program.code
+            });
+            return $scope.requisition.$isApproved() && hasRight;
         };
 
         function convertRnr() {
