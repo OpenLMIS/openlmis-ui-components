@@ -15,7 +15,7 @@
     </fieldset>
     <div class="form-group">
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
-      <select id="facilityName" disabled
+      <select id="facilityName"
         ng-model="selectedFacilityId"
         ng-options="facility.id as facility.name for facility in facilities"
         placeholder="label.select.facility" >
