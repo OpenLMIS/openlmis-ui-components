@@ -1,4 +1,4 @@
-ddescribe('NavigationController', function() {
+describe('NavigationController', function() {
 
     var vm, scope, NavigationService, $controller, mainRoot, subRoot, states;
 
