@@ -5,6 +5,7 @@
             <label for="facility" openlmis-message="label.requisition.facilityName"></label>
             <select
                 id="facility"
+                placeholder="{{'label.select.facility'|message}}"
                 ng-change="loadPrograms()"
                 ng-model="selectedFacility"
                 ng-options="facility as facility.name for facility in facilities"
@@ -16,6 +17,7 @@
             <label for="program" openlmis-message="label.program"></label>
             <select
                 id="program"
+                placeholder="{{'label.select.program'|message}}"
                 ng-required
                 ng-model="selectedProgram"
                 ng-options="program as program.name for program in programs"

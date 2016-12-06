@@ -12,8 +12,8 @@
 
     angular.module("openlmis-core").directive('select', select);
 
-    select.$inject = ['$parse'];
-    function select($parse) {
+    select.$inject = ['messageService'];
+    function select(messageService) {
         return {
             restrict: 'E',
             replace: false,
@@ -27,8 +27,8 @@
 
                 function setSelectState(){
                     var select2Options = {
-                        placeholder: false,
-                        allowClear: true
+                        allowClear: true,
+                        placeholder: messageService.get('placeholder.select.default')
                     };
 
 
@@ -41,12 +41,6 @@
                     var emptyOption = element.children('option[value=""]');
                     if(!emptyOption.length){
                         element.prepend('<option value=""></option>');
-                    }
-
-                    if(attrs.placeholder){
-                        select2Options.placeholder = attrs.placeholder;
-                        // check if there is an empty option already and update it's text
-                        element.children('option[value=""]').text(attrs.placeholder);
                     }
 
                     if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
