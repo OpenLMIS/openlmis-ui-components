@@ -6,11 +6,27 @@
     *@ngdoc directive
     *@name openlmis-core.directive:select
     *@restrict E
-    *@description directive for simple implementing <ui-select> element.
+    *@description
+    *
+    * Adds behavior to the select element, such as disabling the element if there is only one option
+    * or and adding placeholder text.
+    *
+    * @example
+    * Ideally all select elements will use ng-model
+    * ```
+    * <select ng-model="value" placeholder="Empty options"></select>
+    * ```
+    *
+    * This will also work with ngOptions and setting a placeholder with an option element
+    * ```
+    * <select ng-model="value" ng-options="for something in whatever">
+    *    <option>Placeholder text goes here</option>
+    * </select>
+    * ```
     *
     */
 
-    angular.module("openlmis-core").directive('openlmis-select', select);
+    angular.module("openlmis-core").directive('select', select);
 
     select.$inject = ['messageService'];
     function select(messageService) {
@@ -23,20 +39,20 @@
                 var ngModelCtrl = ctrls[0];
                 var selectCtrl = ctrls[1];
 
-                ngModelCtrl.$render = setSelectState;
-
-                function setSelectState(){
+                ngModelCtrl.$render = function(){
                     // Add empty option, if not already there
                     var emptyOption = element.children('option[value=""]');
                     if(!emptyOption.length){
-                        element.prepend('<option value=""></option>');
+                        element.prepend('<option class="placeholder"></option>');
+                    } else {
+                        emptyOption.addClass('placeholder');
                     }
 
                     // set the placeholder text
                     if(attrs.placeholder){
-                        emptyOption.text(attrs.placeholder);
+                        element.children('option.placeholder').text(attrs.placeholder);
                     } else {
-                        emptyOption.text(messageService.get('select.placeholder.default'));
+                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
                     }
 
                     if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
