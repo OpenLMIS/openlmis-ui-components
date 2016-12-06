@@ -23,7 +23,6 @@
 		'resetPassword',
 		'ui.router',
 		'ui.grid',
-		'angularjs-dropdown-multiselect',
 		'ui.bootstrap.datepickerPopup',
 		'ui.bootstrap',
 		'ui.bootstrap.dropdown',

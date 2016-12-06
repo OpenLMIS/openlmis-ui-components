@@ -2,7 +2,7 @@ describe('Select directive', function() {
 
     'use strict';
 
-    var $compile, $rootScope;
+    var scope, element;
 
     beforeEach(function() {
         module('openlmis-templates');
@@ -10,23 +10,22 @@ describe('Select directive', function() {
 
     beforeEach(module('openlmis-core'));
 
-    beforeEach(inject(function(_$compile_, _$rootScope_){
-        $compile = _$compile_;
-        $rootScope = _$rootScope_;
+    beforeEach(inject(function($compile, $rootScope){
+        scope = $rootScope.$new();
+        scope.options = [];
+        var html = '<select openlmis-select ng-model="value" ng-options="option for option in options"></select>';
+        element = $compile()(scope);
     }));
 
-    it('should call select2 when element is compiled', function(){
-    	
-    	var scope = $rootScope.$new();
-    	var element = $compile('<select ng-model="foo"></select>')(scope);
-
-    });
-
     it('will disable element if single option and set value', function(){
+        scope.options = [1, 2, 3, 4];
 
+        scope.$apply();
+
+        expect(element.attr("disabled")).toBe(true); 
     });
 
-    it('will show empty element', function(){
+    it('shows placeholder attribute as first option', function(){
 
     });
 

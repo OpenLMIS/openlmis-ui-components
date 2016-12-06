@@ -10,7 +10,7 @@
     *
     */
 
-    angular.module("openlmis-core").directive('select', select);
+    angular.module("openlmis-core").directive('openlmis-select', select);
 
     select.$inject = ['messageService'];
     function select(messageService) {
@@ -36,7 +36,7 @@
                     if(attrs.placeholder){
                         emptyOption.text(attrs.placeholder);
                     } else {
-                        emptyOption.text(messageService.get('placeholder.select.default'));
+                        emptyOption.text(messageService.get('select.placeholder.default'));
                     }
 
                     if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
@@ -53,15 +53,11 @@
                     }
                     
                     if(options.length == 1){
-                        var firstValue = options[0].value;
-                        setViewValue(firstValue);
+                        element.val(options[0].value);
+                        ngModelCtrl.$setViewValue(
+                            selectCtrl.readValue() // if ngOptions is used with object, this fetches the object
+                            );
                     }
-                }
-
-                function setViewValue(value){
-                    element.val(value);
-                    var viewValue = selectCtrl.readValue();
-                    ngModelCtrl.$setViewValue(viewValue);
                 }
             }
         };

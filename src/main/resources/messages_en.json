@@ -685,7 +685,7 @@
   "label.select.facility": "--Select Facility--",
   "label.select.program": "--Select Program--",
   "label.none.assigned": "--None Assigned--",
-  "placeholder.select.default": "-- Select an option --",
+  "select.placeholder.default": "-- Select an option --",
   "label.all": "All",
   "option.distribution.viewLoadAmount": "View warehouse load amount",
   "option.distribution.inputFacilityData": "Input facility data",
