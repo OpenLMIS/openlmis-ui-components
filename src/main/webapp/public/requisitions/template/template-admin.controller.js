@@ -127,12 +127,20 @@
          * when column validation failed.
          */
         function errorMessage(column) {
-            var dependencies = '';
+            var dependencies = '',
+                message;
             angular.forEach(column.$dependentOn, function(columnName) {
                 if(vm.template.columnsMap[columnName].isDisplayed) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
             });
-            dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
-            return messageService.get('msg.template.column.should.be.displayed') + dependencies;
+            message = messageService.get('msg.template.column.should.be.displayed');
+            if(!column.isDisplayed && column.source === Source.USER_INPUT) {
+                message = message + messageService.get('msg.template.column.is.user.input');
+            }
+            if(dependencies.length > 0) {
+                dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
+                message = message + messageService.get('msg.template.column.together.with') + dependencies;
+            }
+            return message;
         }
     }
 })();

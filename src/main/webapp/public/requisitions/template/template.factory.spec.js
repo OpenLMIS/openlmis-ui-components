@@ -154,7 +154,20 @@ describe('templateFactory', function() {
         expect(data.columnsMap.total.displayOrder).toEqual(3);
     });
 
-    it('should check if template is valid', function() {
+    it('should check if template is valid when dependent column is not displayed', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.isDisplayed = false;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when column is not displayed and columnn source is set to user input', function() {
         var requisitionTemplate;
 
         TemplateFactory.get(template.id).then(function(response) {

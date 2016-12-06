@@ -22,9 +22,9 @@
      */
     angular.module('openlmis.requisitions').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn'];
+    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn', 'Source'];
 
-    function templateFactory($q, RequisitionTemplateService, RequisitionColumn) {
+    function templateFactory($q, RequisitionTemplateService, RequisitionColumn, Source) {
 
         var factory = {
             get: get,
@@ -123,6 +123,7 @@
             var valid = true,
                 column = this;
 
+            if(!column.isDisplayed && column.source === Source.USER_INPUT) return false;
             if(column.$dependentOn && column.$dependentOn.length > 0) {
                 angular.forEach(column.$dependentOn, function(columnName) {
                     if(columns[columnName] && columns[columnName].isDisplayed && !column.isDisplayed) valid = false;
