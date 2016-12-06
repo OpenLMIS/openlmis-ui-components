@@ -43,7 +43,7 @@
                     // Add empty option, if not already there
                     var emptyOption = element.children('option[value=""]');
                     if(!emptyOption.length){
-                        element.prepend('<option class="placeholder"></option>');
+                        element.prepend('<option value="" class="placeholder"></option>');
                     } else {
                         emptyOption.addClass('placeholder');
                     }
