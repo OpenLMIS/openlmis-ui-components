@@ -8,66 +8,50 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-	"use strict";
+(function() {
 
-	/**
-	 * @ngdoc directive
-	 * @name  openlmis-dashboard.directive:openlmisNavigation
-	 * @restrict E
-	 *
-	 * @description
-	 * Takes a rootState name and will render a navigation tree for that entire state, this happens by the directive recursively calling its self.
-	 *
-	 * @example
-	 *
-	 * Load the top-level navigation
-	 * ```
-	 * <openlmis-navigation />
-	 * ```
-	 *
-	 * Load a specific state
-	 * ```
-	 * <openlmis-navigation root-state="foo" />
-	 * ```
-	 */
+    'use strict';
 
-	angular.module('openlmis-dashboard')
-		.directive('openlmisNavigation', navigation);
+    /**
+     * @ngdoc directive
+     * @name  openlmis-dashboard.directive:openlmisNavigation
+     * @restrict E
+     *
+     * @description
+     * Takes a rootState name and will render a navigation tree for that entire state, this happens by the directive recursively calling its self.
+     *
+     * @example
+     *
+     * Load the top-level navigation
+     * ```
+     * <openlmis-navigation />
+     * ```
+     *
+     * Load a specific state
+     * ```
+     * <openlmis-navigation root-state="foo" />
+     * ```
+     */
 
-	navigation.$inject = ['NavigationService'];
-	function navigation(NavigationService){
-		return {
-			restrict: 'E',
-			replace: true,
-			scope: {
-				rootState: "="
-			},
-			controller: 'NavigationController as NavigationCtrl',
-			templateUrl: 'dashboard/navigation.html',
-			link: function(scope, element, attrs){
-				var states = [];
-				if(scope.rootState && scope.rootState != ""){
-					states = NavigationService.get(scope.rootState);
-				} else {
-					states = NavigationService.getMain();
-				}
-				scope.states = states;
+    angular
+        .module('openlmis-dashboard')
+        .directive('openlmisNavigation', directive);
 
-				scope.hasChildStates = function(stateName){
-					var states = NavigationService.get(stateName);
-					if(states.length > 0){
-						return true;
-					} else {
-						return false;
-					}
-				}
+    directive.$inject = [];
 
-				scope.isSubmenu = function(stateName){
-					return !NavigationService.isTopLevel(stateName) && scope.hasChildStates(stateName);
-				}
-			}
-		}
-	}
+    function directive() {
+        var directive = {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                rootState: '@?',
+                states: '=?'
+            },
+            controller: 'NavigationController',
+            controllerAs: 'vm',
+            templateUrl: 'dashboard/navigation.html'
+        };
+        return directive;
+    }
 
 })();

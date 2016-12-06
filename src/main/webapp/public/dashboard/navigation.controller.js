@@ -8,45 +8,50 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-  "use strict";
-
-  /**
-   * @ngdoc controller
-   * @name openlmis-dashboard.NavigationController
-   *
-   * @description
-   *
-   * Adds functionality that takes a state's label property and uses the messageService to translate it into string.
-   *
-   */
-
-  angular.module('openlmis-dashboard')
-    .controller('NavigationController', NavigationController);
-
-  NavigationController.$inject = ['$scope', '$state', 'messageService']
-  function NavigationController($scope, $state, messageService) {
-
-    this.getStateLabel = getStateLabel;
+(function() {
+    "use strict";
 
     /**
-     * @ngdoc function
-     * @name  getStateLabel
-     * @methodOf openlmis-dashboard.NavigationController
-     * @param  {String} stateName The name of a state
+     * @ngdoc controller
+     * @name openlmis-dashboard.NavigationController
      *
-     * @return {String} The translated name for the view
+     * @description
+     *
+     * Adds functionality that takes a state's label property and uses the messageService to translate it into string.
+     *
      */
-    function getStateLabel(stateName){
-      var state = $state.get(stateName);
-      if(!state) return "";
 
-      if(state.label) {
-        return messageService.get(state.label);
-      }
+    angular
+        .module('openlmis-dashboard')
+        .controller('NavigationController', NavigationController);
 
-      return messageService.get(state.name);
+    NavigationController.$inject = ['$scope', 'NavigationService']
+
+    function NavigationController($scope, NavigationService) {
+        var vm = this;
+
+        vm.states = getStates();
+
+        vm.hasChildren = hasChildren;
+        vm.isSubmenu = NavigationService.isSubmenu;
+        vm.shouldDisplay = NavigationService.shouldDisplay;
+
+        function getStates() {
+            var states = [];
+
+            if (!$scope.rootState && !$scope.states) {
+                states = NavigationService.getRoot('');
+            } else if ($scope.rootState) {
+                states = NavigationService.getRoot($scope.rootState);
+            } else {
+                states = $scope.states;
+            }
+            return states;
+        }
+
+        function hasChildren(state) {
+            return NavigationService.hasChildren(state, true);
+        }
     }
-  }
 
 })();

@@ -205,6 +205,8 @@
                 name: rightName
             }, true);
 
+            if (!rights) return false;
+
             if (rights.length) {
                 var right = rights[0],
                     hasRight = true;
