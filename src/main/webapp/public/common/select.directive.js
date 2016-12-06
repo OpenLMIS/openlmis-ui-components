@@ -26,21 +26,17 @@
                 ngModelCtrl.$render = setSelectState;
 
                 function setSelectState(){
-                    var select2Options = {
-                        allowClear: true,
-                        placeholder: messageService.get('placeholder.select.default')
-                    };
-
-
-                    selectCtrl.renderUnknownOption = function(){};
-                    selectCtrl.removeOption = function(){};
-                    // Remove unknown option from ngOptions
-                    jQuery(element).children('option[value="?"]').remove();
-
                     // Add empty option, if not already there
                     var emptyOption = element.children('option[value=""]');
                     if(!emptyOption.length){
                         element.prepend('<option value=""></option>');
+                    }
+
+                    // set the placeholder text
+                    if(attrs.placeholder){
+                        emptyOption.text(attrs.placeholder);
+                    } else {
+                        emptyOption.text(messageService.get('placeholder.select.default'));
                     }
 
                     if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
@@ -60,11 +56,6 @@
                         var firstValue = options[0].value;
                         setViewValue(firstValue);
                     }
-
-                    jQuery(element).select2(select2Options)
-                    .on('change', function(e){
-                        setViewValue(e.val);
-                    });
                 }
 
                 function setViewValue(value){

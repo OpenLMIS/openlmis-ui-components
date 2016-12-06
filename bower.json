@@ -17,7 +17,6 @@
     "angular-ui": "0.4.0",
     "jquery": "^3",
     "angular-local-storage": "*",
-    "select2": "3.4.2",
     "underscore": "*",
     "angular-bootstrap": "*",
     "angular-ui-grid": "^3.2.9",
@@ -33,8 +32,7 @@
     "offline": "^0.7.18",
     "angular-filter": "^0.5.11",
     "angular-http-auth": "^1.5.0",
-    "angular-drag-and-drop-lists": "*",
-    "selectize": "^0.12.4"
+    "angular-drag-and-drop-lists": "*"
   },
   "overrides": {
     "jquery": {
