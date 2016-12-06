@@ -3,9 +3,9 @@
  * Copyright © 2013 VillageReach
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
  (function(){
@@ -19,12 +19,12 @@
      *
      */
     angular.module('openlmis-auth')
-    	.factory('HttpAuthAccessToken', HttpAuthAccessToken)
-    	.config(httpIntercept);
+        .factory('HttpAuthAccessToken', HttpAuthAccessToken)
+        .config(httpIntercept);
 
     httpIntercept.$inject = ['$httpProvider'];
     function httpIntercept($httpProvider){
-    	$httpProvider.interceptors.push('HttpAuthAccessToken');
+        $httpProvider.interceptors.push('HttpAuthAccessToken');
     }
 
     HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService'];
@@ -41,10 +41,10 @@
          * @description Added a get request variable to the end of the url
          */
         function addAccessToken(url){
-            if (url.indexOf('access_token=') == -1) {
+            if (url.indexOf('access_token=') === -1) {
                 var token = AuthorizationService.getAccessToken();
                 if (token) {
-                    url += (url.indexOf('?') == -1 ? '?' : '&') + 'access_token=' + token;
+                    url += (url.indexOf('?') === -1 ? '?' : '&') + 'access_token=' + token;
                 }
             }
             return url;
@@ -96,6 +96,6 @@
                 }
                 return $q.reject(response);
             }
-    	}
+    	};
     }
 })();

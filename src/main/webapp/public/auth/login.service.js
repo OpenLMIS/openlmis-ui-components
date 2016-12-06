@@ -88,7 +88,7 @@
                         deferred.reject();
                     });
 
-                }).error(function(data) {
+                }).error(function() {
                     deferred.reject();
                 });
             }).catch(function(){
@@ -113,14 +113,14 @@
             $http({
                 method: 'POST',
                 url: AuthURL('/api/users/logout')
-            }).then(function(data) {
+            }).then(function() {
 
                 AuthorizationService.clearAccessToken();
                 AuthorizationService.clearUser();
                 AuthorizationService.clearRights();
 
                 deferred.resolve();
-            }).catch(function(data){
+            }).catch(function(){
                 deferred.reject();
             });
             return deferred.promise;
@@ -145,7 +145,7 @@
                     AuthorizationService.setUser(userId, data.username);
                     getUserRights(userId);
                     deferred.resolve();
-                }).error(function(data) {
+                }).error(function() {
                     deferred.reject();
                 });
             }
@@ -170,7 +170,7 @@
                 }).success(function(data) {
                     AuthorizationService.setRights(Right.buildRights(data));
                     deferred.resolve();
-                }).error(function(data) {
+                }).error(function() {
                     deferred.reject();
                 });
             }

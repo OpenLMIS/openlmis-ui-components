@@ -94,7 +94,7 @@ describe("AuthInterceptor", function() {
     $rootScope.$apply();
 
     expect($window.location.reload).toHaveBeenCalled();
-  }))
+  }));
 
   it('should reload page on event:auth-loggedIn', inject(function($window) {
     spyOn($window.location, 'reload');
@@ -103,9 +103,9 @@ describe("AuthInterceptor", function() {
     $rootScope.$apply();
 
     expect($window.location.reload).toHaveBeenCalled();
-  }))
+  }));
 
-  it('should go to home page on auth.login event', inject(function($window) {
+  it('should go to home page on auth.login event', function() {
     spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
 
     $state.go('somewhere');
@@ -115,6 +115,6 @@ describe("AuthInterceptor", function() {
     $rootScope.$apply();
 
     expect($state.is('home')).toBe(true);
-  }))
+  });
 
 });

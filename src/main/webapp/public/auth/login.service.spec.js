@@ -9,7 +9,7 @@
  */
 describe("LoginService", function() {
 
-    var $rootScope, $httpBackend, LoginService, AuthorizationService, Right, $state;
+    var $rootScope, httpBackend, LoginService, AuthorizationService, Right, $state;
 
     beforeEach(module('openlmis-auth'));
 
@@ -17,12 +17,12 @@ describe("LoginService", function() {
         $provide.factory('AuthURL', function(PathFactory){
             return function(url){
                 return PathFactory('', url);
-            }
+            };
         });
         $provide.factory('OpenlmisURL', function(PathFactory){
            return function(url){
                return PathFactory('', url);
-           }
+           };
         });
         // Turn off AuthToken
         $provide.factory('HttpAuthAccessToken', function(){
@@ -37,7 +37,7 @@ describe("LoginService", function() {
 
     beforeEach(module(function($stateProvider){
       $stateProvider.state('home', {});
-      $stateProvider.state('somewhere', {})
+      $stateProvider.state('somewhere', {});
 
     }));
 
@@ -104,7 +104,7 @@ describe("LoginService", function() {
     LoginService.login("john", "john-password")
     .then(function(){
       success = true;
-    })
+    });
 
     httpBackend.flush();
     $rootScope.$apply();

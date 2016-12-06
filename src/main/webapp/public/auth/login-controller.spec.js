@@ -34,7 +34,7 @@ describe("LoginController", function() {
 
     messageService = _messageService_;
     spyOn(messageService, 'get');
-    
+
     LoginController = controller("LoginController", {
       $scope: scope,
       messageService: messageService
@@ -75,7 +75,7 @@ describe("LoginController", function() {
     scope.username = "   ";
     scope.doLogin();
     expect(messageService.get).toHaveBeenCalledWith('error.login.username');
-  })
+  });
 
   it('should show error when password is missing', function() {
     scope.username = "someUser";
@@ -101,7 +101,7 @@ describe("LoginController", function() {
     scope.password = "john-password";
 
     scope.doLogin();
-    $rootScope.$apply()
+    $rootScope.$apply();
 
     expect(scope.password).toBe(undefined);
   });

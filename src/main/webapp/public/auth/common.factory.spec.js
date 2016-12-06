@@ -13,7 +13,7 @@ describe('CommonFactory', function() {
     beforeEach(module('openlmis-auth'));
 
     beforeEach(inject(function(_CommonFactory_){
-        CommonFactory  = _CommonFactory_
+        CommonFactory  = _CommonFactory_;
     }));
 
     it('should update query param value when key exists', function() {

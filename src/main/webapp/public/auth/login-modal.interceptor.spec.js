@@ -9,23 +9,23 @@
  */
 describe("LoginModalInterceptor", function() {
 
-  var $rootScope, OpenlmisURL, bootbox, $q, LoadingModalService;
+  var $rootScope, bootbox, $q, LoadingModalService;
 
   beforeEach(function() {
-      module('openlmis-auth')
+      module('openlmis-auth');
 
       var mockDependency = function () {
         var deferred = $q.defer();
         deferred.resolve('<div></div>');
         return deferred.promise;
-      }
+      };
 
       module(function ($provide) {
         $provide.value('$templateRequest', mockDependency);
       });
   });
 
-  beforeEach(inject(function(_$rootScope_, _bootbox_, _$q_, _LoadingModalService_, $window) {
+  beforeEach(inject(function(_$rootScope_, _bootbox_, _$q_, _LoadingModalService_) {
       $rootScope = _$rootScope_;
       bootbox = _bootbox_;
       $q = _$q_;
@@ -49,7 +49,7 @@ describe("LoginModalInterceptor", function() {
       expect(LoadingModalService.close).toHaveBeenCalled();
   });
 
-  it('should emit event:auth-loggedIn on auth.login-modal if no retry request', inject(function ($window) {
+  it('should emit event:auth-loggedIn on auth.login-modal if no retry request', function () {
       $rootScope.$broadcast('event:auth-loginRequired', true);
       $rootScope.$apply();
       spyOn($rootScope, '$emit');
@@ -58,7 +58,7 @@ describe("LoginModalInterceptor", function() {
       $rootScope.$apply();
 
       expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loggedIn');
-  }));
+  });
 
   it('should call authService.loginConfirmed on auth.login-modal if retry request', inject(function (authService) {
       $rootScope.$broadcast('event:auth-loginRequired');
