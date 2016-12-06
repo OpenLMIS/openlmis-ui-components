@@ -57,7 +57,7 @@
 
 		function shouldDisplay(state) {
 			return state.showInNavigation
-                && (!state.accessRight || AuthorizationService.hasRights(state.accessRight))
+                && (!state.accessRights || AuthorizationService.hasRights(state.accessRights))
                 && (!state.abstract || hasChildren(state, true));
 		}
 
