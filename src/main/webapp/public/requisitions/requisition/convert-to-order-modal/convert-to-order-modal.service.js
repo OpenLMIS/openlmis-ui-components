@@ -33,6 +33,7 @@
          * @name show
          * @methodOf openlmis.requisitions.ConvertToOrderModal
          * @param {Object} requisition Requisition for convert
+         * @return {Promises} depots for requisition and template for modal
          *
          * @description
          * Shows modal to convert requisition.
@@ -95,6 +96,7 @@
          * @ngdoc function
          * @name getDepotsForRequisition
          * @methodOf openlmis.requisitions.ConvertToOrderModal
+         * @return {Promise} Depots for current requisition.
          *
          * @description
          * Get depots for current requisition.
