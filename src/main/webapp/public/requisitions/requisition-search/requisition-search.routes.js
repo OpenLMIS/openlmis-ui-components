@@ -1,12 +1,12 @@
 (function() {
-	
+
 	'use strict';
 
 	angular.module('openlmis.requisitions').config(routes);
 
-	routes.$inject = ['$stateProvider'];
+	routes.$inject = ['$stateProvider', 'RequisitionRights'];
 
-	function routes($stateProvider) {
+	function routes($stateProvider, RequisitionRights) {
 
 		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
@@ -14,6 +14,7 @@
 			url: '/view',
 			controller: 'RequisitionSearchController',
 			templateUrl: 'requisitions/requisition-search/requisition-search.html',
+			accessRight: RequisitionRights.REQUISITION_VIEW,
 			resolve: {
 		        facilityList: function ($q, FacilityFactory) {
 		        	var deferred = $q.defer();

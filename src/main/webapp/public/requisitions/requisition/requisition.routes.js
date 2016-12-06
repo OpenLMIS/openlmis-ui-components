@@ -6,14 +6,15 @@
         .module('openlmis.requisitions')
         .config(routes);
 
-    routes.$inject = ['$stateProvider'];
+    routes.$inject = ['$stateProvider', 'RequisitionRights'];
 
-    function routes($stateProvider) {
+    function routes($stateProvider, RequisitionRights) {
 
         $stateProvider.state('requisitions.requisition', {
             url: '^/requisition/:rnr',
             controller: 'RequisitionCtrl',
             templateUrl: 'requisitions/requisition/requisition.html',
+            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             resolve: {
                 requisition: function ($location, $q, $stateParams, RequisitionService) {
                     var deferred = $q.defer();

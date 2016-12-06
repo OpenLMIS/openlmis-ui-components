@@ -1,20 +1,20 @@
 /*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
- */
+* This program is part of the OpenLMIS logistics management information system platform software.
+* Copyright © 2013 VillageReach
+*
+* This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+*  
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+* You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+*/
 
 (function(){
-  "use strict";
+    "use strict";
 
-  angular.module('openlmis-auth')
-  .run(authStateChangeInterceptor)
+    angular.module('openlmis-auth')
+    .run(authStateChangeInterceptor)
 
-  /**
+    /**
     * @ngdoc function
     * @name  openlmis-auth.authStateChangeInterceptor
     *
@@ -24,33 +24,60 @@
     * Any route that the user visits within the openlmis-auth module they will be allowed to visit if they are not authenticated. Meaning if a user is authenticated, they won't be able to access the login or forgot password screens.
     *
     */
-  authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService'];
-  function authStateChangeInterceptor($rootScope, $state, AuthorizationService) {
-    $rootScope.$on('$stateChangeStart', redirectAuthState);
+    authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'Alert'];
+    function authStateChangeInterceptor($rootScope, $state, AuthorizationService, Alert) {
+        $rootScope.$on('$stateChangeStart', redirectAuthState);
 
-    function redirectAuthState(event, toState, toParams, fromState, fromParams) {
-      if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
-        // if not authenticated and not on login page or home page
-        event.preventDefault();
-        $rootScope.$broadcast('event:auth-loginRequired', true);
-      } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
-        // if not authenticated and on home page
-        event.preventDefault();
-        $state.go('auth.login.form');
-      } else if(AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') == 0) {
-        // if authenticated and on login page
-        event.preventDefault();
-        $state.go('home');
-      }
+        function redirectAuthState(event, toState, toParams, fromState, fromParams) {
+            if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
+                // if not authenticated and not on login page or home page
+                event.preventDefault();
+                $rootScope.$broadcast('event:auth-loginRequired', true);
+            } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
+                // if not authenticated and on home page
+                event.preventDefault();
+                $state.go('auth.login.form');
+            } else if(AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') == 0) {
+                // if authenticated and on login page
+                event.preventDefault();
+                $state.go('home');
+            } else if(toState.accessRight && !hasPermission(toState)) {
+                // checking rights to enter state
+                event.preventDefault();
+                Alert.error('error.authorization');
+            }
+        }
+
+        $rootScope.$on('auth.login', function(){
+            $state.go('home');
+        });
+
+        $rootScope.$on('event:auth-loggedIn', function(){
+            location.reload();
+        });
+
+        function hasPermission(state) {
+            if(angular.isArray(state.accessRight)) {
+                if(state.allRightsRequired) {
+                    var hasAllRights = true;
+                    angular.forEach(state.accessRight, function(right) {
+                        console.log(right);
+                        if(!AuthorizationService.hasRight(right)) hasAllRights = false;
+                    });
+                    console.log(hasAllRights);
+                    return hasAllRights;
+                } else {
+                    var hasAllRights = false;
+                    angular.forEach(state.accessRight, function(right) {
+                        console.log(right);
+                        if(AuthorizationService.hasRight(right)) hasAllRights = true;
+                    });
+                    console.log(hasAllRights);
+                    return hasAllRights;
+                }
+            }
+            return AuthorizationService.hasRight(state.accessRight);
+        }
     }
-
-    $rootScope.$on('auth.login', function(){
-      $state.go('home');
-    });
-
-    $rootScope.$on('event:auth-loggedIn', function(){
-      location.reload();
-    });
-  }
 
 })();

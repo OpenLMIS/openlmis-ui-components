@@ -10,7 +10,6 @@
         $stateProvider.state('requisitions', {
             abstract: true,
             showInNavigation: true,
-            right: RequisitionRights.REQUISITION_VIEW,
             priority: 1,
             label: 'link.requisitions',
             url: '/requisitions',
@@ -24,6 +23,7 @@
             label: 'link.requisitions.create.authorize',
             controller: 'InitiateRnrController',
             templateUrl: 'requisitions/init.html',
+            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE],
             resolve: {
                 facility: function (AuthorizationService, $q) {
                     var deferred = $q.defer();

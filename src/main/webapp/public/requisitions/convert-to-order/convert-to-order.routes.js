@@ -6,9 +6,9 @@
         .module('openlmis.requisitions')
         .config(routes);
 
-    routes.$inject = ['$stateProvider'];
+    routes.$inject = ['$stateProvider', 'RequisitionRights'];
 
-    function routes($stateProvider) {
+    function routes($stateProvider, RequisitionRights) {
 
         $stateProvider.state('requisitions.convertToOrder', {
             showInNavigation: true,
@@ -16,6 +16,7 @@
             url: '/convertToOrder?filterBy&filterValue&sortBy&descending',
             controller: 'ConvertToOrderCtrl',
             templateUrl: 'requisitions/convert-to-order/convert-to-order.html',
+            accessRight: RequisitionRights.REQUISITION_CONVERT_TO_ORDER,
             params: {
                 filterBy: 'all',
                 filterValue: ''
