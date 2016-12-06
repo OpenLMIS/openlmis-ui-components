@@ -41,7 +41,7 @@
                 // if authenticated and on login page
                 event.preventDefault();
                 $state.go('home');
-            } else if(toState.accessRight && !AuthorizationService.hasRights(toState.accessRight, toState.areAllRightsRequired)) {
+            } else if(toState.accessRights && !AuthorizationService.hasRights(toState.accessRights, toState.areAllRightsRequired)) {
                 // checking rights to enter state
                 event.preventDefault();
                 Alert.error('error.authorization');

@@ -23,7 +23,9 @@
             label: 'link.requisitions.create.authorize',
             controller: 'InitiateRnrController',
             templateUrl: 'requisitions/init.html',
-            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE],
+            accessRights: [RequisitionRights.REQUISITION_CREATE,
+                RequisitionRights.REQUISITION_DELETE,
+                RequisitionRights.REQUISITION_AUTHORIZE],
             resolve: {
                 facility: function (AuthorizationService, $q) {
                     var deferred = $q.defer();

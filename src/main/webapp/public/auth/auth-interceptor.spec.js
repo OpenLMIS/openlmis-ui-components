@@ -1,120 +1,136 @@
 /*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
- */
+* This program is part of the OpenLMIS logistics management information system platform software.
+* Copyright © 2013 VillageReach
+*
+* This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+* You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
+*/
 describe("AuthInterceptor", function() {
 
-  var AuthorizationService, $rootScope, $state, messageService;
+    var AuthorizationService, $rootScope, $state, messageService;
 
-  function setupTest(){
-    module('openlmis-auth');
+    function setupTest(){
+        module('openlmis-auth');
 
-    module(function($stateProvider){
-      $stateProvider.state('somewhere', {
-        url: '/somewhere'
-      })
-      .state('home', {});
+        module(function($stateProvider){
+            $stateProvider.state('somewhere', {
+                url: '/somewhere',
+                accessRights: ['VIEW'],
+            })
+            .state('home', {});
+        });
+
+        inject(function(_AuthorizationService_, _$rootScope_, _$state_, _messageService_, _Alert_) {
+            AuthorizationService = _AuthorizationService_;
+            Alert = _Alert_;
+            $rootScope = _$rootScope_;
+            $state = _$state_;
+            messageService = _messageService_;
+
+            spyOn($state, 'go').andCallThrough();
+            spyOn($rootScope, '$emit');
+        });
+    }
+
+    beforeEach(function(){
+        setupTest();
     });
 
-    inject(function(_AuthorizationService_, _$rootScope_, _$state_, _messageService_) {
-      AuthorizationService = _AuthorizationService_;
-      $rootScope = _$rootScope_;
-      $state = _$state_;
-      messageService = _messageService_;
+    it('will redirect user to login if auth token is not set and state is home', function(){
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
-      spyOn($state, 'go').andCallThrough();
-      spyOn($rootScope, '$emit');
+        $state.go('home');
+        $rootScope.$apply();
+
+        expect($state.go).toHaveBeenCalledWith('auth.login.form');
     });
-  }
 
-  beforeEach(function(){
-    setupTest();
-  });
+    it('will call event event:auth-loginRequired if auth token is not set and state is not home', function(){
 
-  it('will redirect user to login if auth token is not set and state is home', function(){
-    spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+        spyOn(messageService, 'populate');
 
-    $state.go('home');
-    $rootScope.$apply();
+        $state.go('somewhere');
+        $rootScope.$apply();
 
-    expect($state.go).toHaveBeenCalledWith('auth.login.form');
-  });
+        expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loginRequired', true);
+    });
 
-  it('will call event event:auth-loginRequired if auth token is not set and state is not home', function(){
+    it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
-    spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
-    spyOn(messageService, 'populate');
+        $state.go('auth.login.form');
+        $rootScope.$apply();
 
-    $state.go('somewhere');
-    $rootScope.$apply();
+        // User not redirected, because only $state.go call is original.
+        expect($state.go.calls.length).toEqual(1);
 
-    expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loginRequired', true);
-  });
+    });
 
-  it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
-    spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+    it('will not redirect user if auth token is set, unless page is login.html', function(){
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+        spyOn(AuthorizationService, 'hasRights').andReturn(true);
 
-    $state.go('auth.login.form');
-    $rootScope.$apply();
+        // Call 1
+        $state.go('somewhere');
+        $rootScope.$apply();
 
-    // User not redirected, because only $state.go call is original.
-    expect($state.go.calls.length).toEqual(1);
+        expect($state.go.calls.length).toEqual(1);
 
-  });
+        // Call 2
+        $state.go('auth.login.form');
+        $rootScope.$apply();
 
-  it('will not redirect user if auth token is set, unless page is login.html', function(){
-    spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+        expect($state.go).toHaveBeenCalledWith('home');
 
-    // Call 1
-    $state.go('somewhere');
-    $rootScope.$apply();
+        // Call 1 + 2, and redirect to 'home'
+        expect($state.go.calls.length).toEqual(3);
 
-    expect($state.go.calls.length).toEqual(1);
+    });
 
-    // Call 2
-    $state.go('auth.login.form');
-    $rootScope.$apply();
+    it('should reload page on event:auth-loggedIn', inject(function($window) {
+        spyOn($window.location, 'reload');
 
-    expect($state.go).toHaveBeenCalledWith('home');
+        $rootScope.$broadcast('event:auth-loggedIn');
+        $rootScope.$apply();
 
-    // Call 1 + 2, and redirect to 'home'
-    expect($state.go.calls.length).toEqual(3);
+        expect($window.location.reload).toHaveBeenCalled();
+    }))
 
-  });
+    it('should reload page on event:auth-loggedIn', inject(function($window) {
+        spyOn($window.location, 'reload');
 
-  it('should reload page on event:auth-loggedIn', inject(function($window) {
-    spyOn($window.location, 'reload');
+        $rootScope.$broadcast('event:auth-loggedIn');
+        $rootScope.$apply();
 
-    $rootScope.$broadcast('event:auth-loggedIn');
-    $rootScope.$apply();
+        expect($window.location.reload).toHaveBeenCalled();
+    }))
 
-    expect($window.location.reload).toHaveBeenCalled();
-  }));
+    it('should go to home page on auth.login event', inject(function($window) {
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+        spyOn(AuthorizationService, 'hasRights').andReturn(true);
 
-  it('should reload page on event:auth-loggedIn', inject(function($window) {
-    spyOn($window.location, 'reload');
+        $state.go('somewhere');
+        $rootScope.$apply();
 
-    $rootScope.$broadcast('event:auth-loggedIn');
-    $rootScope.$apply();
+        $rootScope.$broadcast('auth.login');
+        $rootScope.$apply();
 
-    expect($window.location.reload).toHaveBeenCalled();
-  }));
+        expect($state.is('home')).toBe(true);
+    }))
 
-  it('should go to home page on auth.login event', function() {
-    spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+    it('should call alert if has no permission to enter state', inject(function($window) {
+        var spy = jasmine.createSpy();
 
-    $state.go('somewhere');
-    $rootScope.$apply();
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
+        spyOn(AuthorizationService, 'hasRights').andReturn(false);
+        spyOn(Alert, 'error').andCallFake(spy);
 
-    $rootScope.$broadcast('auth.login');
-    $rootScope.$apply();
+        $state.go('somewhere');
+        $rootScope.$apply();
 
-    expect($state.is('home')).toBe(true);
-  });
-
+        expect(spy).toHaveBeenCalled();
+    }))
 });

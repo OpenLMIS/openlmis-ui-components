@@ -14,7 +14,11 @@
             url: '^/requisition/:rnr',
             controller: 'RequisitionCtrl',
             templateUrl: 'requisitions/requisition/requisition.html',
-            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
+            accessRights: [RequisitionRights.REQUISITION_CREATE,
+                RequisitionRights.REQUISITION_DELETE,
+                RequisitionRights.REQUISITION_AUTHORIZE,
+                RequisitionRights.REQUISITION_APPROVE,
+                RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             resolve: {
                 requisition: function ($location, $q, $stateParams, RequisitionService) {
                     var deferred = $q.defer();
@@ -34,7 +38,6 @@
         $stateProvider.state('requisitions.requisition.fullSupply', {
             url: '/fullSupply',
             templateUrl: 'requisitions/requisition/full-supply.html',
-            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             controller: 'FullSupplyCtrl',
             controllerAs: 'vm'
         });
@@ -42,7 +45,6 @@
         $stateProvider.state('requisitions.requisition.nonFullSupply', {
             url: '/nonFullSupply',
             templateUrl: 'requisitions/requisition/non-full-supply.html',
-            accessRight: [RequisitionRights.REQUISITION_CREATE, RequisitionRights.REQUISITION_DELETE, RequisitionRights.REQUISITION_AUTHORIZE, RequisitionRights.REQUISITION_APPROVE, RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             controller: 'NonFullSupplyCtrl',
             controllerAs: 'vm'
         });

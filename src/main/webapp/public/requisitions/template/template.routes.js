@@ -23,7 +23,7 @@
 			controller: 'RequisitionTemplateAdminController',
 			templateUrl: 'requisitions/template/template.html',
 			controllerAs: 'vm',
-			accessRight: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
+			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
 			resolve: {
 				template: function ($stateParams, templateFactory) {
 					return templateFactory.get($stateParams.template);
@@ -41,7 +41,7 @@
 			controller: 'ProgramAdministrationListCtrl',
 			templateUrl: 'requisitions/template/program-administration-list/program-administration-list.html',
 			controllerAs: 'vm',
-			accessRight: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
+			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
 			resolve: {
 				programList: function (Program) {
 					return Program.getAll();
