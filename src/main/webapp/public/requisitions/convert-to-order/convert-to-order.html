@@ -36,11 +36,9 @@
 					<td>{{item.requisition.processingPeriod.endDate | date:'shortDate'}}</td>
 					<td>{{item.requisition.processingPeriod.processingSchedule.modifiedDate | date:'shortDate'}}</td>
 					<td>
-						<div>
-							<select class="form-control" ng-model="item.requisition.supplyingFacility" ng-options="depot.id as depot.name for depot in item.supplyingDepots">
-								<option ng-value="" ng-if="!item.requisition.supplyingFacility" openlmis-message="label.select.none"></option>
-							</select>
-						</div>
+						<select ng-model="item.requisition.supplyingFacility" ng-options="depot.id as depot.name for depot in item.supplyingDepots">
+							<option ng-value="" ng-if="!item.requisition.supplyingFacility" openlmis-message="label.select.none"></option>
+						</select>
 					</td>
 					<td>
 						<i ng-class="{'fa fa-check': item.requisition.emergency}"></i>
