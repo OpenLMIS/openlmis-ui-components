@@ -20,8 +20,8 @@
     .config(routes)
     .run(setRootValues);
 
-    routes.$inject = ['$stateProvider', '$urlRouterProvider'];
-    function routes($stateProvider, $urlRouterProvider){
+    routes.$inject = ['$stateProvider'];
+    function routes($stateProvider){
         $stateProvider
             .state('auth', {
                 abstract: true,
@@ -43,7 +43,7 @@
      * @memberOf openlmis-auth
      *
      * @description When user authentication changes, $rootScope.userIsAuthenticated is updated for convenience.
-     * 
+     *
      */
     setRootValues.$inject = ['$rootScope', 'AuthorizationService'];
     function setRootValues($rootScope, AuthorizationService){

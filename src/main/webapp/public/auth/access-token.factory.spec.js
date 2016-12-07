@@ -7,34 +7,52 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('CommonFactory', function() {
-    var CommonFactory;
+describe('AccessTokenFactory', function() {
+    var AccessTokenFactory;
 
     beforeEach(module('openlmis-auth'));
 
-    beforeEach(inject(function(_CommonFactory_){
-        CommonFactory  = _CommonFactory_;
+    beforeEach(inject(function(_AccessTokenFactory_){
+        AccessTokenFactory  = _AccessTokenFactory_;
     }));
 
     it('should update query param value when key exists', function() {
         var uri = 'http://example.com/requisitions?program=abc&access_token=123';
-        var updatedUri = CommonFactory.updateQueryStringParameter(uri, 'access_token', '321');
+        var updatedUri = AccessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=321');
     });
 
     it('should not update query param value when key not exists', function() {
         var uri = 'http://example.com/requisitions?program=abc';
-        var updatedUri = CommonFactory.updateQueryStringParameter(uri, 'access_token', '321');
+        var updatedUri = AccessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
 
         expect(updatedUri).toEqual(uri);
     });
+
+    it('should add access_token if not already in URI', inject(function(AuthorizationService) {
+        spyOn(AuthorizationService, 'getAccessToken').andReturn('123');
+
+        var uri = 'http://example.com/requisitions?program=abc';
+        var updatedUri = AccessTokenFactory.addAccessToken(uri);
+
+        expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=123');
+    }));
+
+    it('should not add access_token if already in URI', inject(function(AuthorizationService) {
+        spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
+
+        var uri = 'http://example.com/requisitions?program=abc&access_token=123';
+        var updatedUri = AccessTokenFactory.addAccessToken(uri);
+
+        expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=123');
+    }));
 
     it('should update access_token when "access_token" key in query params', inject(function(AuthorizationService) {
         spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
 
         var uri = 'http://example.com/requisitions?program=abc&access_token=123';
-        var updatedUri = CommonFactory.updateAccessToken(uri);
+        var updatedUri = AccessTokenFactory.updateAccessToken(uri);
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=321');
     }));
@@ -43,7 +61,7 @@ describe('CommonFactory', function() {
         spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
 
         var uri = 'http://example.com/requisitions?program=abc';
-        var updatedUri = CommonFactory.updateAccessToken(uri);
+        var updatedUri = AccessTokenFactory.updateAccessToken(uri);
 
         expect(updatedUri).toEqual(uri);
     }));

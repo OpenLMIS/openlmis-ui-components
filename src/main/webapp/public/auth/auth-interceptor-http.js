@@ -27,30 +27,9 @@
         $httpProvider.interceptors.push('HttpAuthAccessToken');
     }
 
-    HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService'];
-    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService){
-        /**
-         * @ngdoc function
-         * @name  Add access token
-         * @methodOf openlmis-auth.HttpAuthAccessTokenInterceptor
-         * @private
-         *
-         * @param {String} url A url string
-         * @returns {String} A url string with access_token url parameter added
-         *
-         * @description Added a get request variable to the end of the url
-         */
-        function addAccessToken(url){
-            if (url.indexOf('access_token=') === -1) {
-                var token = AuthorizationService.getAccessToken();
-                if (token) {
-                    url += (url.indexOf('?') === -1 ? '?' : '&') + 'access_token=' + token;
-                }
-            }
-            return url;
-        }
-
-    	return {
+    HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService', 'AccessTokenFactory'];
+    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService, AccessTokenFactory){
+       return {
             /**
              *
              * @ngdoc function
@@ -63,14 +42,14 @@
              * @description
              * Checks the request config url with OpenlmisURLService, and if there is a match an access token is added to the url
              */
-    		request: function(config){
+            request: function(config){
                 if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()
                         // we don't want to add the token to template requests
                         && !config.url.endsWith('.html')){
-                    config.url = addAccessToken(config.url);
+                    config.url = AccessTokenFactory.addAccessToken(config.url);
                 }
                 return config;
-    		},
+            },
             /**
              *
              * @ngdoc function
@@ -96,6 +75,6 @@
                 }
                 return $q.reject(response);
             }
-    	};
+        };
     }
 })();

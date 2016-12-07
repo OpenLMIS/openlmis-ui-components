@@ -27,12 +27,14 @@
     authStateChangeInterceptor.$inject = ['$rootScope', '$state', 'AuthorizationService', 'Alert', '$window'];
     function authStateChangeInterceptor($rootScope, $state, AuthorizationService, Alert, $window) {
         $rootScope.$on('$stateChangeStart', redirectAuthState);
+        var savedToState;
 
         function redirectAuthState(event, toState, toParams, fromState, fromParams) {
             if(!AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
                 // if not authenticated and not on login page or home page
                 event.preventDefault();
                 $rootScope.$emit('event:auth-loginRequired', true);
+                savedToState = toState;
             } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
                 // if not authenticated and on home page
                 event.preventDefault();
@@ -53,7 +55,7 @@
         });
 
         $rootScope.$on('event:auth-loggedIn', function(){
-            $window.location.reload();
+            $state.go(savedToState);
         });
     }
 

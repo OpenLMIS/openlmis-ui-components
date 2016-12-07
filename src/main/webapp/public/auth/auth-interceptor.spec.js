@@ -17,7 +17,7 @@ describe("AuthInterceptor", function() {
         module(function($stateProvider){
             $stateProvider.state('somewhere', {
                 url: '/somewhere',
-                accessRights: ['VIEW'],
+                accessRights: ['VIEW']
             })
             .state('home', {});
         });
@@ -90,25 +90,19 @@ describe("AuthInterceptor", function() {
 
     });
 
-    it('should reload page on event:auth-loggedIn', inject(function($window) {
-        spyOn($window.location, 'reload');
+    it('should reload page on event:auth-loggedIn', function() {
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+
+        $state.go('somewhere');
+        $rootScope.$apply();
 
         $rootScope.$broadcast('event:auth-loggedIn');
         $rootScope.$apply();
 
-        expect($window.location.reload).toHaveBeenCalled();
-    }))
+        expect($state.go).toHaveBeenCalledWith({ url : '/somewhere', accessRights : [ 'VIEW' ], name : 'somewhere' });
+    });
 
-    it('should reload page on event:auth-loggedIn', inject(function($window) {
-        spyOn($window.location, 'reload');
-
-        $rootScope.$broadcast('event:auth-loggedIn');
-        $rootScope.$apply();
-
-        expect($window.location.reload).toHaveBeenCalled();
-    }))
-
-    it('should go to home page on auth.login event', inject(function($window) {
+    it('should go to home page on auth.login event', function() {
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
         spyOn(AuthorizationService, 'hasRights').andReturn(true);
 
@@ -119,9 +113,9 @@ describe("AuthInterceptor", function() {
         $rootScope.$apply();
 
         expect($state.is('home')).toBe(true);
-    }))
+    });
 
-    it('should call alert if has no permission to enter state', inject(function($window) {
+    it('should call alert if has no permission to enter state', function() {
         var spy = jasmine.createSpy();
 
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(true);
@@ -132,5 +126,5 @@ describe("AuthInterceptor", function() {
         $rootScope.$apply();
 
         expect(spy).toHaveBeenCalled();
-    }))
+    });
 });
