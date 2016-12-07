@@ -126,11 +126,16 @@
             if(!column.isDisplayed && column.source === Source.USER_INPUT) return false;
             if(column.$dependentOn && column.$dependentOn.length > 0) {
                 angular.forEach(column.$dependentOn, function(columnName) {
-                    if(columns[columnName] && columns[columnName].isDisplayed && !column.isDisplayed) valid = false;
+                    if(columns[columnName] && isVolumnInvalid(column, columns[columnName])) valid = false;
                 });
             }
 
             return valid;
+        }
+
+        function isVolumnInvalid(column, dependentColumn) {
+            return (dependentColumn.isDisplayed && !column.isDisplayed && column.source === Source.USER_INPUT) ||
+                    (column.source === Source.CALCULATED && dependentColumn.source === Source.CALCULATED);
         }
 
         // Checks if column can be dropped in area and if so,

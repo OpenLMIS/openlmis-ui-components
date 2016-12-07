@@ -2716,6 +2716,7 @@
   "msg.template.column.should.be.displayed": "Should be displayed",
   "msg.template.column.is.user.input": " if source is USER INPUT",
   "msg.template.column.together.with": " together with: ",
+  "msg.template.column.calculated.error": "Cannot be CALCULATED together with: ",
   "label.filter.warehouses": "Filter warehouses",
   "requisition.convertToOrder.pickDepot": "Pick warehouse to convert requisition to order at",
   "label.convert.requisition.to.order": "Convert Requisition to Order"
