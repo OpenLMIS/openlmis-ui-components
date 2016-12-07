@@ -19,7 +19,7 @@
         $stateProvider.state('requisitions.initRnr', {
             url: '/initialize',
             showInNavigation: true,
-            priority: 1,
+            priority: 11,
             label: 'link.requisitions.create.authorize',
             controller: 'InitiateRnrController',
             templateUrl: 'requisitions/init.html',
