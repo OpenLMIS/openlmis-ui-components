@@ -39,41 +39,26 @@
                 var ngModelCtrl = ctrls[0];
                 var selectCtrl = ctrls[1];
 
-                ngModelCtrl.$render = function(){
-                    // Add empty option, if not already there
-                    var emptyOption = element.children('option[value=""]');
-                    if(!emptyOption.length){
-                        element.prepend('<option value="" class="placeholder"></option>');
-                    } else {
-                        emptyOption.addClass('placeholder');
-                    }
+                var emptyOption = element.children('option[value=""]');
+                if(!emptyOption.length){
+                    element.prepend('<option value="" class="placeholder"></option>');
+                } else {
+                    emptyOption.addClass('placeholder');
+                }
 
-                    // set the placeholder text
-                    if(attrs.placeholder){
-                        element.children('option.placeholder').text(attrs.placeholder);
-                    } else {
-                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
-                    }
+                // set the placeholder text
+                if(attrs.placeholder){
+                    element.children('option.placeholder').text(attrs.placeholder);
+                } else {
+                    element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                }
 
-                    if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
-                        ngModelCtrl.$setViewValue("", false);
-                        element.val("");
-                    }
+                var options = element.children('option:not(option[value=""]):not(option[value="?"])');
 
-                    var options = element.children('option:not(option[value=""]):not(option[value="?"])');
-
-                    if(options.length <= 1){
-                        element.attr("disabled", true);
-                    } else {
-                        element.attr("disabled", false);
-                    }
-                    
-                    if(options.length == 1){
-                        element.val(options[0].value);
-                        ngModelCtrl.$setViewValue(
-                            selectCtrl.readValue() // if ngOptions is used with object, this fetches the object
-                            );
-                    }
+                if(options.length <= 1){
+                    element.attr("disabled", true);
+                } else {
+                    element.attr("disabled", false);
                 }
             }
         };
