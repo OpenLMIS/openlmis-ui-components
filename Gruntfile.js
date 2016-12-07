@@ -17,6 +17,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-ngdocs');
   grunt.loadNpmTasks('grunt-notify');
 
+  var kss = require('kss');
+  var fse = require('fs-extra');
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: ['build', 'quality'],
@@ -333,16 +336,6 @@ module.exports = function(grunt) {
         title: "API"
       }
     },
-    kss: {
-      options: {
-        title: 'OpenLMIS-UI Styleguide',
-        homepage: '../../../docs/styleguide.md'
-      },
-      dist: {
-        src: [config.styleguide.src],
-        dest: config.styleguide.dest
-      }
-    },
     gulp: {
       'sass': function(){
    var includePaths = require('node-bourbon').includePaths.concat([
@@ -414,9 +407,38 @@ module.exports = function(grunt) {
       }
     }
   });
-
-
   grunt.registerTask('sass', ['gulp:sass']);
+
+    // kss: {
+    //   options: {
+    //     title: 'OpenLMIS-UI Styleguide',
+    //     homepage: '../../../docs/styleguide.md'
+    //   },
+    //   dist: {
+    //     src: [config.styleguide.src],
+    //     dest: config.styleguide.dest
+    //   }
+    // },
+
+  grunt.registerTask('kss', function(){
+    var copyOptions = {
+      clobber: true
+    };
+    try{
+      fse.removeSync('.tmp/styleguide');
+      fse.mkdirsSync('.tmp/styleguide');
+      fse.copySync('node_modules/kss/builder/handlebars', '.tmp/styleguide', copyOptions);
+      fse.copySync('styleguide/index.hbs', '.tmp/styleguide/index.hbs', copyOptions);
+      fse.copySync('styleguide/homepage.md', '.tmp/styleguide/homepage.md', copyOptions);
+      kss({
+        source: config.styleguide.src,
+        destination: config.styleguide.dest,
+        builder: '.tmp/styleguide'
+      });
+    } catch (err) {
+
+    }
+  });
 
   function makeURL(key){
     if (!key) {
