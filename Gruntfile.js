@@ -429,7 +429,7 @@ module.exports = function(grunt) {
       clobber: true
     });
     fse.mkdirsSync('build/styleguide');
-    
+
     done();
   });
 
@@ -483,7 +483,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('serve', ['consul:register', 'serve:proxy', 'connect:server']);
+  grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
   var styleguideTasks = ['kssSetup', 'kss', 'copy:kssCopyAppAssets'];
