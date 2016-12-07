@@ -12,11 +12,12 @@ describe('NavigationController', function() {
         scope = jasmine.createSpy();
 
         NavigationService = jasmine.createSpyObj('NavigationService', [
-            'getRoot',
             'hasChildren',
             'isSubmenu',
             'shouldDisplay'
         ]);
+
+        NavigationService.roots = {};
     });
 
     describe('initialization', function() {
@@ -39,10 +40,10 @@ describe('NavigationController', function() {
                 'state2'
             ];
 
-            NavigationService.getRoot.andCallFake(function(root) {
-                if (root === '') return mainRoot;
-                if (root === 'subRoot') return subRoot;
-            });
+            NavigationService.roots = {
+                '': mainRoot,
+                subRoot: subRoot
+            };
         })
 
         it('should expose NavigationService.isSubmenu method', function() {

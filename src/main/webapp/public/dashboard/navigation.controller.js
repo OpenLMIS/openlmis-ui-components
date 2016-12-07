@@ -40,9 +40,9 @@
             var states = [];
 
             if (!$scope.rootState && !$scope.states) {
-                states = NavigationService.getRoot('');
+                states = NavigationService.roots[''];
             } else if ($scope.rootState) {
-                states = NavigationService.getRoot($scope.rootState);
+                states = NavigationService.roots[$scope.rootState];
             } else {
                 states = $scope.states;
             }

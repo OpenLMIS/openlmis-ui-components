@@ -5,7 +5,7 @@
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  *  
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * You should have received a copy of the GNU Affero General Public License along with service program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
 (function() {
@@ -29,24 +29,21 @@
         .module('openlmis-dashboard')
         .service('NavigationService', NavigationService);
 
-    NavigationService.$inject = ['$rootScope', '$state', '$filter', 'AuthorizationService'];
+    NavigationService.$inject = ['$state', '$filter', 'AuthorizationService'];
 
-    function NavigationService($rootScope, $state, $filter, AuthorizationService) {
-        var roots = initialize();
+    function NavigationService($state, $filter, AuthorizationService) {
+        var service = this;
 
-        this.getRoot = getRoot;
-        this.shouldDisplay = shouldDisplay;
-        this.hasChildren = hasChildren;
-        this.isSubmenu = isSubmenu;
+        service.shouldDisplay = shouldDisplay;
+        service.hasChildren = hasChildren;
+        service.isSubmenu = isSubmenu;
 
-		function hasChildren(state, visibleOnly) {
+        service.roots = initialize();
+
+		function hasChildren(state) {
             var result = false;
             angular.forEach(state.children, function(child) {
-                if (visibleOnly) {
-                    result = result || shouldDisplay(child);
-                } else {
-                    result = result || (state.children && state.children.length);
-                }
+                result = result || shouldDisplay(child);
             })
 			return result;
 		}
@@ -88,10 +85,6 @@
             return roots;
         }
 
-        function getRoot(name) {
-            return roots[name];
-        }
-
         function getParentStateName(state) {
             var lastDot = state.name.lastIndexOf('.');
             return lastDot ? state.name.substring(0, lastDot) : '';
@@ -122,8 +115,8 @@
         }
 
         function isRoot(state) {
-            for (var root in roots) {
-                if (roots[root].indexOf(state) !== -1) {
+            for (var root in service.roots) {
+                if (service.roots[root].indexOf(state) !== -1) {
                     return true;
                 }
             }
