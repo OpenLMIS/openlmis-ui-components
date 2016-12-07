@@ -17,6 +17,7 @@
             controller: 'ConvertToOrderCtrl',
             templateUrl: 'requisitions/convert-to-order/convert-to-order.html',
             accessRights: [RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
+            priority: 10,
             params: {
                 filterBy: 'all',
                 filterValue: ''
