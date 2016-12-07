@@ -1,4 +1,4 @@
-describe('NavigationService', function() {
+describe('NavigationStateService', function() {
 
     var service, states, state, AuthorizationService;
 
@@ -35,8 +35,8 @@ describe('NavigationService', function() {
 
         state.get.andReturn(states);
 
-        inject(function(NavigationService) {
-            service = NavigationService;
+        inject(function(NavigationStateService) {
+            service = NavigationStateService;
         });
     });
 
