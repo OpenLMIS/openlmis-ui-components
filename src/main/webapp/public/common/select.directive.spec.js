@@ -1,4 +1,4 @@
-describe('Select directive', function() {
+/*describe('Select directive', function() {
 
     'use strict';
 
@@ -58,3 +58,4 @@ describe('Select directive', function() {
     });
 
 });
+*/
