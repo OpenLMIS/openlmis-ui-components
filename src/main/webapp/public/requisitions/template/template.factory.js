@@ -123,6 +123,7 @@
             var valid = true,
                 column = this;
 
+            if(column.source === undefined || column.source === null  || column.source === '') return false;
             if(!column.isDisplayed && column.source === Source.USER_INPUT) return false;
             if(column.$dependentOn && column.$dependentOn.length > 0) {
                 angular.forEach(column.$dependentOn, function(columnName) {

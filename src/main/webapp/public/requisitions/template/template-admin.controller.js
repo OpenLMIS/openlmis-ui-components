@@ -130,12 +130,11 @@
             var dependencies = '',
                 message;
 
+            if(column.source === undefined || column.source === null  || column.source === '') return messageService.get('msg.template.column.source.empty');
             angular.forEach(column.$dependentOn, function(columnName) {
                 if(vm.template.columnsMap[columnName].source === Source.CALCULATED && column.source === Source.CALCULATED) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
             });
-            console.log(dependencies);
             if(dependencies.length > 0) {
-                console.log('wszedl');
                 dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
                 return messageService.get('msg.template.column.calculated.error') + dependencies;
             }
