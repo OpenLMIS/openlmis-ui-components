@@ -44,6 +44,9 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "matchdep": "^1",
     "node-bourbon": "^4.2.8",
-    "wiredep": "^4.0.0"
-  }
+    "wiredep": "^4.0.0",
+    "sc5-styleguide": "^1.1.2"
+  },
+
+  "files": [ "consul/package.json" ]
 }

@@ -114,7 +114,7 @@ describe('RequisitionService', function() {
     it('should get requisition by id', function() {
         var getRequisitionUrl = '/api/requisitions/' + requisition.id;
         var getTemplateUrl = '/api/requisitionTemplates/search?program=' + requisition.program.id;
-        var getProductsUrl = '/referencedata/api/facilities/' + requisition.facility.id +
+        var getProductsUrl = '/api/facilities/' + requisition.facility.id +
                              '/approvedProducts?fullSupply=false&programId=' +
                              requisition.program.id;
 

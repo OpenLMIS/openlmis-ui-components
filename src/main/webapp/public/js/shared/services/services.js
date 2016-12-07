@@ -409,7 +409,7 @@ services.factory('FacilityImages', function($resource){
 
 //TODO: Make OpenLMIS server URL a global variable (look at task'replace' in Gruntfile.js and README) and modify all services + add access tokens to services.
 services.factory('ConfigSettingsByKey',function(localStorageService, $resource){
-  return $resource('/requisition/api/settings/:key.json?access_token=' + localStorageService.get(localStorageKeys.ACCESS_TOKEN), {}, {});
+  return $resource('/api/settings/:key.json?access_token=' + localStorageService.get(localStorageKeys.ACCESS_TOKEN), {}, {});
 });
 
 services.factory('Supplylines', function ($resource) {

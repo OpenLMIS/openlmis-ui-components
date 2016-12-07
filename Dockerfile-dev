@@ -17,4 +17,4 @@ VOLUME ["/app"]
 # Port 9000 used for dev server
 EXPOSE 9000
 
-CMD rm -rf node_modules/ bower_components/ && npm install --no-optional && bower install --allow-root --config.interactive=false && bash
+CMD rm -rf node_modules/ bower_components/ && npm install --no-optional && bower install --allow-root --config.interactive=false

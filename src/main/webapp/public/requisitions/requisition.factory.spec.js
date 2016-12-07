@@ -187,7 +187,7 @@ describe('RequisitionFactory', function() {
         var data;
 
         httpBackend.when('GET', openlmisUrl
-        ('/referencedata/api/stockAdjustmentReasons/search?program=' + program.id))
+        ('/api/stockAdjustmentReasons/search?program=' + program.id))
         .respond(200, [stockAdjustmentReason]);
 
         requisition.$getStockAdjustmentReasons().then(function(response) {

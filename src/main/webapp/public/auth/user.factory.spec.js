@@ -31,7 +31,7 @@ describe('UserFactory', function() {
         $rootScope = _$rootScope_;
         userFactory = UserFactory;
 
-        httpBackend.when('GET', OpenlmisURL('/referencedata/api/users/' + user.id))
+        httpBackend.when('GET', OpenlmisURL('/api/users/' + user.id))
         .respond(200, user);
     }));
 

@@ -25,9 +25,9 @@
 
     function Program(OpenlmisURL, $resource, $q, templateFactory) {
 
-        var resource = $resource(OpenlmisURL('/referencedata/api/programs/:id'), {}, {
+        var resource = $resource(OpenlmisURL('/api/programs/:id'), {}, {
             'getAll': {
-                url: OpenlmisURL('/referencedata/api/programs'),
+                url: OpenlmisURL('/api/programs'),
                 method: 'GET',
                 isArray: true
             }

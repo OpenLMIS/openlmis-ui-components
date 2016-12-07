@@ -8,9 +8,9 @@
     FacilityFactory.$inject = ['$q', '$resource', 'OpenlmisURL'];
 
     function FacilityFactory($q, $resource, OpenlmisURL) {
-        var resource = $resource(OpenlmisURL('/referencedata/api/facilities/:id'), {}, {
+        var resource = $resource(OpenlmisURL('/api/facilities/:id'), {}, {
             'getAll': {
-                url: OpenlmisURL('/referencedata/api/facilities/'),
+                url: OpenlmisURL('/api/facilities/'),
                 method: 'GET',
                 isArray: true
             }

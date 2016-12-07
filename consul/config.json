@@ -1,0 +1,7 @@
+{
+  "name": "requisition-refui",
+  "path": [
+    "public",
+    "public/<all>"
+  ]
+}

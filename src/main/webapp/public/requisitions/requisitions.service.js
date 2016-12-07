@@ -53,7 +53,7 @@
                 transformRequest: transformRequest
             },
             'getApprovedProducts': {
-                url: OpenlmisURL('/referencedata/api/facilities/:id/approvedProducts'),
+                url: OpenlmisURL('/api/facilities/:id/approvedProducts'),
                 method: 'GET',
                 isArray: true
             }

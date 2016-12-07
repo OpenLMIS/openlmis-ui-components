@@ -63,7 +63,7 @@
             getAuthorizationHeader().then(function(AuthHeader) {
                 $http({
                     method: 'POST',
-                    url: AuthURL('/oauth/token?grant_type=password'),
+                    url: AuthURL('/api/oauth/token?grant_type=password'),
                     data: 'username=' + username + '&password=' + password,
                     headers: {
                         'Authorization': AuthHeader,
@@ -133,7 +133,7 @@
                 deferred.reject();
             } else {
                 var userInfoURL = AuthURL(
-                    '/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=' + userId
+                    '/api/users/' + userId
                 );
                 $http({
                     method: 'GET',
@@ -159,7 +159,7 @@
                 deferred.reject();
             } else {
                 var userRoleAssignmentsURL = OpenlmisURL(
-                    '/referencedata/api/users/' + userId + '/roleAssignments'
+                    '/api/users/' + userId + '/roleAssignments'
                 );
                 $http({
                     method: 'GET',

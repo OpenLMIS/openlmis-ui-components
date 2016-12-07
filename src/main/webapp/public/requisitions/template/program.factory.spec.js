@@ -49,7 +49,7 @@ describe('Program', function() {
     it('should get program by id', function() {
         var data;
 
-        httpBackend.when('GET', openlmisURL('/referencedata/api/programs/' + program1.id))
+        httpBackend.when('GET', openlmisURL('/api/programs/' + program1.id))
         .respond(200, program1);
 
         programFactory.get(program1.id).then(function(response) {
@@ -69,7 +69,7 @@ describe('Program', function() {
 
         programWithTemplate.template = template;
 
-        httpBackend.when('GET', openlmisURL('/referencedata/api/programs'))
+        httpBackend.when('GET', openlmisURL('/api/programs'))
         .respond(200, [program1, program2]);
 
         programFactory.getAll().then(function(response) {

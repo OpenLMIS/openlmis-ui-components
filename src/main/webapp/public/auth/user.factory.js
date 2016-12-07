@@ -17,9 +17,9 @@
 
     function userFactory(OpenlmisURL, $resource) {
 
-        var resource = $resource(OpenlmisURL('/referencedata/api/users/:id'), {}, {
+        var resource = $resource(OpenlmisURL('/api/users/:id'), {}, {
             'update': {
-                url: OpenlmisURL('/referencedata/api/users/update/:id'),
+                url: OpenlmisURL('/api/users/update/:id'),
                 method: 'POST'
             }
         });

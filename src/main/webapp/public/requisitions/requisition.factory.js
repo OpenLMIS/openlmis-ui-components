@@ -18,7 +18,7 @@
   function requisitionFactory($resource, OpenlmisURL, RequisitionURL, Template, LineItem, CategoryFactory, Status, Source) {
     var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
       'getStockAdjustmentReasonsByProgram': {
-        url: OpenlmisURL('/referencedata/api/stockAdjustmentReasons/search'),
+        url: OpenlmisURL('/api/stockAdjustmentReasons/search'),
         isArray: true
       },
       'authorize': {

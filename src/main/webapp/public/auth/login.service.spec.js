@@ -54,7 +54,7 @@ describe("LoginService", function() {
           'auth.server.clientSecret': 'secret'
         });
 
-        httpBackend.when('POST', '/oauth/token?grant_type=password')
+        httpBackend.when('POST', '/api/oauth/token?grant_type=password')
         .respond(function(method, url, data){
           if(data.indexOf('bad-password') >= 0 ){
             return [400];
@@ -70,7 +70,7 @@ describe("LoginService", function() {
         });
 
         httpBackend.when('GET',
-            '/api/users/search/findOneByReferenceDataUserId?referenceDataUserId=35316636-6264-6331-2d34-3933322d3462')
+            '/api/users/35316636-6264-6331-2d34-3933322d3462')
           .respond(200, {
             "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
             "username": "admin",
@@ -79,7 +79,7 @@ describe("LoginService", function() {
             "role": "ADMIN"
           });
 
-        httpBackend.when('GET', '/referencedata/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
+        httpBackend.when('GET', '/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
             .respond(200, {});
 
         spyOn($rootScope, '$emit');
