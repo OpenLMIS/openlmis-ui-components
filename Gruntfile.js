@@ -17,9 +17,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-ngdocs');
   grunt.loadNpmTasks('grunt-notify');
 
-  var kss = require('kss');
-  var fse = require('fs-extra');
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     clean: ['build', 'quality'],
@@ -405,39 +402,35 @@ module.exports = function(grunt) {
           concat:   'js',
         }
       }
+    },
+    kss: {
+      options: {
+        title: 'OpenLMIS-UI Styleguide',
+        homepage: '../../../styleguide/homepage.md',
+        builder: '.tmp/styleguide/'
+      },
+      dist: {
+        src: [config.styleguide.src],
+        dest: config.styleguide.dest
+      }
     }
   });
   grunt.registerTask('sass', ['gulp:sass']);
 
-    // kss: {
-    //   options: {
-    //     title: 'OpenLMIS-UI Styleguide',
-    //     homepage: '../../../docs/styleguide.md'
-    //   },
-    //   dist: {
-    //     src: [config.styleguide.src],
-    //     dest: config.styleguide.dest
-    //   }
-    // },
+  grunt.registerTask('kssSetup', function(){
+    var done = this.async();
+    var fse = require('fs-extra');
 
-  grunt.registerTask('kss', function(){
-    var copyOptions = {
+    fse.removeSync('build/styleguide');
+    fse.removeSync('.tmp/styleguide');
+    fse.mkdirsSync('.tmp/styleguide');
+    fse.copySync('node_modules/kss/builder/handlebars', '.tmp/styleguide');
+    fse.copySync('styleguide/index.hbs', '.tmp/styleguide/index.hbs', {
       clobber: true
-    };
-    try{
-      fse.removeSync('.tmp/styleguide');
-      fse.mkdirsSync('.tmp/styleguide');
-      fse.copySync('node_modules/kss/builder/handlebars', '.tmp/styleguide', copyOptions);
-      fse.copySync('styleguide/index.hbs', '.tmp/styleguide/index.hbs', copyOptions);
-      fse.copySync('styleguide/homepage.md', '.tmp/styleguide/homepage.md', copyOptions);
-      kss({
-        source: config.styleguide.src,
-        destination: config.styleguide.dest,
-        builder: '.tmp/styleguide'
-      });
-    } catch (err) {
-
-    }
+    });
+    fse.mkdirsSync('build/styleguide');
+    
+    done();
   });
 
   function makeURL(key){
@@ -493,7 +486,7 @@ module.exports = function(grunt) {
   grunt.registerTask('serve', ['consul:register', 'serve:proxy', 'connect:server']);
 
   var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
-  var styleguideTasks = ['kss', 'copy:kssCopyAppAssets'];
+  var styleguideTasks = ['kssSetup', 'kss', 'copy:kssCopyAppAssets'];
 
   var fullBuildTasks = [].concat(buildTasks);
   if(grunt.option('production')) fullBuildTasks.push('uglify');
