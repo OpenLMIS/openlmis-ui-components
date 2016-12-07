@@ -99,7 +99,7 @@ describe("AuthInterceptor", function() {
         $rootScope.$broadcast('event:auth-loggedIn');
         $rootScope.$apply();
 
-        expect($state.go).toHaveBeenCalledWith({ url : '/somewhere', accessRights : [ 'VIEW' ], name : 'somewhere' });
+        expect($state.go).toHaveBeenCalledWith({ url : '/somewhere', accessRights : [ 'VIEW' ], name : 'somewhere' }, {});
     });
 
     it('should go to home page on auth.login event', function() {
