@@ -5,9 +5,8 @@
     "bower_components": "./bower_components"
   },
   "styleguide": {
-  	"src": "./src/main",
-  	"dest": "./build/styleguide",
-    "appRoute": "/styleguide"
+  	"src": "src/",
+  	"dest": "build/styleguide"
   },
   "docs": {
     "src": "./docs",
