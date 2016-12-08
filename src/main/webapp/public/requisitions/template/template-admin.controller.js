@@ -142,7 +142,7 @@
                 if(vm.template.columnsMap[columnName].isDisplayed) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
             });
             message = messageService.get('msg.template.column.should.be.displayed');
-            if(!column.isDisplayed && column.source === Source.USER_INPUT) {
+            if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) {
                 message = message + messageService.get('msg.template.column.is.user.input');
             }
             if(dependencies.length > 0) {

@@ -124,7 +124,7 @@
                 column = this;
 
             if(column.source === undefined || column.source === null  || column.source === '') return false;
-            if(!column.isDisplayed && column.source === Source.USER_INPUT) return false;
+            if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) return false;
             if(column.$dependentOn && column.$dependentOn.length > 0) {
                 angular.forEach(column.$dependentOn, function(columnName) {
                     if(columns[columnName] && isVolumnInvalid(column, columns[columnName])) valid = false;

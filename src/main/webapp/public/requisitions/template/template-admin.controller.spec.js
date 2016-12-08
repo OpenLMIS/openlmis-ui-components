@@ -92,7 +92,10 @@ describe('RequisitionTemplateAdminController', function() {
     it('should return proper error message', function() {
         var column = {
             $dependentOn: ['total', 'remarks'],
-            source: 'USER_INPUT'
+            source: 'USER_INPUT',
+            columnDefinition: {
+                sources: ['USER_INPUT']
+            }
         };
 
         spyOn(message, 'get').andReturn('');

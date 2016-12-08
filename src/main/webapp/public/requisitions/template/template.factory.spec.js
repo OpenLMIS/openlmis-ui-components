@@ -167,7 +167,7 @@ describe('templateFactory', function() {
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
 
-    it('should check if template is valid when column is not displayed and columnn source is set to user input', function() {
+    it('should check if template is valid when column is not displayed and columnn source is set to user input and there is more than one source to choose', function() {
         var requisitionTemplate;
 
         TemplateFactory.get(template.id).then(function(response) {
@@ -175,7 +175,34 @@ describe('templateFactory', function() {
         });
         rootScope.$apply();
 
-        requisitionTemplate.columnsMap.total.isDisplayed = false;
+        requisitionTemplate.columnsMap.remarks.isDisplayed = false;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when column has empty source', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.source = null;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when column and one dependent on it has source set to CALCULATED', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.source = 'CALCULATED';
+        requisitionTemplate.columnsMap.remarks.source = 'CALCULATED';
 
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
