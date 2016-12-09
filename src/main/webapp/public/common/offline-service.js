@@ -16,7 +16,9 @@
     OfflineService.$inject = ['Offline'];
 
     function OfflineService(Offline) {
-        this.isOffline = false;
+        var service = this;
+
+        service.isOffline = false;
 
         Offline.options = { reconnect: { initialDelay: 30, delay: 30 },
                             checkOnLoad: true,
@@ -32,11 +34,11 @@
         Offline.on('down', offline);
 
         function offline() {
-            isOffline = true;
+            service.isOffline = true;
         };
 
         function online() {
-            isOffline = false;
+            service.isOffline = false;
         };
     }
 })();
