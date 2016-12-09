@@ -144,7 +144,10 @@ input[placeholder].placeholder {
 }
 
 .login-modal .modal-content {
-    margin-top: 15em;
+    position: absolute;
+    width: 50em;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .login-modal .modal-body {
