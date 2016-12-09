@@ -108,9 +108,16 @@ table.search-list {
   margin: 0.8em 0;
 }
 
-.col-icon-ok {
-  max-width: 50px;
-  min-width: 50px;
+.col-emergency {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.icon-ok {
+  &::before {
+      font-family: FontAwesome;
+      content: "\f00c";
+  }
 }
 
 .gradient-header {

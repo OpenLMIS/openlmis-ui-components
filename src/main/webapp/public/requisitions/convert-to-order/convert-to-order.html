@@ -40,8 +40,8 @@
 							<option ng-value="" ng-if="!item.requisition.supplyingFacility" openlmis-message="label.select.none"></option>
 						</select>
 					</td>
-					<td>
-						<i ng-class="{'fa fa-check': item.requisition.emergency}"></i>
+					<td class="col-emergency">
+						<i ng-class="{\'icon-ok\': item.requisition.emergency}"></i>
 					</td>
 				</tr>
 			</tbody>
