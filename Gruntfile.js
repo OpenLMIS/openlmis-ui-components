@@ -445,34 +445,6 @@ module.exports = function(grunt) {
     }
   }
 
-  grunt.registerTask('consul:register', 'Start service registration', function() {
-    grunt.log.ok('Service registration started');
-    grunt.util.spawn({
-      cmd: 'node',
-      args: ['consul/registration.js', '-c', 'register', '-f', '/app/consul/config.json'],
-    }, function done(error) {
-      if (error) {
-        grunt.fail.warn(error);
-      } else {
-        grunt.log.ok('Service registration completed');
-      }
-    });
-  });
-
-  grunt.registerTask('consul:deregister', 'Start service deregistration', function() {
-    grunt.log.ok('Service deregistration started');
-    grunt.util.spawn({
-      cmd: 'node',
-      args: ['consul/registration.js', '-c', 'deregister', '-f', '/app/consul/config.json'],
-    }, function done(error) {
-      if (error) {
-        grunt.fail.warn(error);
-      } else {
-        grunt.log.ok('Service deregistration completed');
-      }
-    });
-  });
-
   grunt.registerTask('serve:proxy', 'Start proxy server', function(){
     var host = '127.0.0.1';
     var port = 3030;
