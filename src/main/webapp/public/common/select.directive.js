@@ -26,6 +26,7 @@
     *
     */
 
+    /*
     angular.module("openlmis-core").directive('select', select);
 
     select.$inject = ['messageService'];
@@ -47,10 +48,12 @@
                 }
 
                 // set the placeholder text
-                if(attrs.placeholder){
-                    element.children('option.placeholder').text(attrs.placeholder);
-                } else {
-                    element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                if(emptyOption.text()==""){
+                    if(attrs.placeholder){
+                        element.children('option.placeholder').text(attrs.placeholder);
+                    } else {
+                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                    }
                 }
 
                 var options = element.children('option:not(option[value=""]):not(option[value="?"])');
@@ -63,4 +66,6 @@
             }
         };
     }
+
+    */
 })();
