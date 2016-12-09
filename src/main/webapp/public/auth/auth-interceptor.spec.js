@@ -9,7 +9,7 @@
 */
 describe("AuthInterceptor", function() {
 
-    var AuthorizationService, $rootScope, $state, messageService;
+    var AuthorizationService, $rootScope, $state;
 
     function setupTest(){
         module('openlmis-auth');
@@ -22,12 +22,11 @@ describe("AuthInterceptor", function() {
             .state('home', {});
         });
 
-        inject(function(_AuthorizationService_, _$rootScope_, _$state_, _messageService_, _Alert_) {
+        inject(function(_AuthorizationService_, _$rootScope_, _$state_, _Alert_) {
             AuthorizationService = _AuthorizationService_;
             Alert = _Alert_;
             $rootScope = _$rootScope_;
             $state = _$state_;
-            messageService = _messageService_;
 
             spyOn($state, 'go').andCallThrough();
             spyOn($rootScope, '$emit');
@@ -48,15 +47,36 @@ describe("AuthInterceptor", function() {
     });
 
     it('will call event event:auth-loginRequired if auth token is not set and state is not home', function(){
-
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
-        spyOn(messageService, 'populate');
 
         $state.go('somewhere');
         $rootScope.$apply();
 
         expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loginRequired', true);
     });
+
+    it('will not call event event:auth-loginRequired if auth token is not set and state is not home and fromState is auth.login.form', function(){
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+
+        $state.go('auth.login.form');
+        $rootScope.$apply();
+
+        $state.go('somewhere');
+        $rootScope.$apply();
+
+        expect($rootScope.$emit).not.toHaveBeenCalled();
+    });
+
+      it('should close loading dialog if auth token is not set and state is not home', inject(function (LoadingModalService) {
+        spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
+        spyOn(LoadingModalService, 'close');
+
+        $state.go('somewhere');
+        $rootScope.$apply();
+
+        expect(LoadingModalService.close).toHaveBeenCalled();
+      }));
+
 
     it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
