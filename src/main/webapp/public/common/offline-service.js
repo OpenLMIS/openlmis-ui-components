@@ -16,6 +16,7 @@
     OfflineService.$inject = ['Offline', '$q'];
 
     function OfflineService(Offline, $q) {
+        var isOffline = false;
 
         //Reconnect: should Offline.js retest connection periodically when it is down
         //Requests: should Offline.js store and attempt to remake requests which fail while the
@@ -38,11 +39,13 @@
             var offline = function() {
                 deferred.resolve(true);
                 unbindEvents();
+                isOffline = true;
             }
 
             var online = function() {
                 deferred.resolve(false);
                 unbindEvents();
+                isOffline = false;
             }
 
             var unbindEvents = function() {
