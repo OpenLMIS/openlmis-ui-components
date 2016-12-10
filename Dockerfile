@@ -2,7 +2,7 @@ FROM nginx
 
 ADD  nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY /build/public /usr/share/nginx/html
+COPY /build/public /usr/share/nginx/html/public
 COPY /consul /consul
 COPY run.sh /run.sh
 
