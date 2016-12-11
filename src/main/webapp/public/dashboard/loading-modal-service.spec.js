@@ -33,8 +33,8 @@ describe("LoadingModal", function(){
         LoadingModalService.open();
         LoadingModalService.close();
 
-        // Expect there to be no timeouts to call (because it was canceled)
-        expect(function() {$timeout.flush();}).toThrow();
+        $timeout.flush(); // clear any timeouts (nothing should happen)
+        
         // Expect there to be no calls to bootbox dialog
         expect(bootbox.dialog.calls.length).toEqual(0);
     });
