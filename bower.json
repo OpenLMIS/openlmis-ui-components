@@ -7,7 +7,7 @@
     "bower_components"
   ],
   "dependencies": {
-    "angular": "~1.5",
+    "angular": "^1.6",
     "angular-animate": "*",
     "angular-cookies": "*",
     "angular-loader": "*",
@@ -19,17 +19,17 @@
     "angular-local-storage": "*",
     "underscore": "*",
     "angular-bootstrap": "*",
-    "angular-ui-grid": "^3.2.9",
+    "angular-ui-grid": "*",
     "angular-ui-sortable": "*",
     "jquery-ui": "^1",
-    "angular-ui-router": "0.3.1",
+    "angular-ui-router": "*",
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "^4.6.3",
     "bootbox": "4.4.0",
     "ngBootbox": "0.1.3",
-    "offline": "^0.7.18",
-    "angular-filter": "^0.5.11",
-    "angular-http-auth": "^1.5.0",
+    "offline": "^0.7",
+    "angular-filter": "^0.5",
+    "angular-http-auth": "^1.5",
     "angular-drag-and-drop-lists": "*"
   },
   "overrides": {
@@ -59,10 +59,10 @@
       ]
     }
   },
-  "resolutions": {
-    "angular": "1.5.0"
-  },
   "devDependencies": {
-    "angular-mocks": "1.5.0"
+    "angular-mocks": "^1.6"
+  },
+  "resolutions": {
+    "angular": "1.6.0"
   }
 }

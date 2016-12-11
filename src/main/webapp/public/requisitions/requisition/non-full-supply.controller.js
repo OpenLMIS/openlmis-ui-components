@@ -108,7 +108,7 @@
          * @name addProduct
          *
          * @description
-         * Opens modal that let the user add new product to the grid.
+         * Opens modal that lets the user add new product to the grid.
          */
         function addProduct() {
             AddProductModalService.show(vm.requisition.$approvedCategories)
@@ -116,6 +116,9 @@
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)
                     );
+                })
+                .catch(function(){
+                    // don't do anything
                 });
         }
 

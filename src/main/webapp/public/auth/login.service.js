@@ -30,7 +30,8 @@
 
         function getAuthorizationHeader(){
             var deferred = $q.defer();
-            $http.get('credentials/auth_server_client.json').then(function(response){
+            $http.get('credentials/auth_server_client.json')
+            .then(function(response){
                 var header = makeAuthorizationHeader(
                     response.data['auth.server.clientId'],
                     response.data['auth.server.clientSecret']
@@ -60,7 +61,8 @@
 
         function login(username, password){
             var deferred = $q.defer();
-            getAuthorizationHeader().then(function(AuthHeader) {
+            var promise = getAuthorizationHeader()
+            .then(function(AuthHeader) {
                 $http({
                     method: 'POST',
                     url: AuthURL('/api/oauth/token?grant_type=password'),
@@ -69,29 +71,28 @@
                         'Authorization': AuthHeader,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
-                }).success(function(data) {
-                    AuthorizationService.setAccessToken(data.access_token);
-                    getUserInfo(data.referenceDataUserId).then(function() {
-                        getUserRights(data.referenceDataUserId).then(function() {
+                }).then(function(response) {
+                    AuthorizationService.setAccessToken(response.data.access_token);
+                    getUserInfo(response.data.referenceDataUserId).then(function() {
+                        getUserRights(response.data.referenceDataUserId).then(function() {
                             if ($state.is('auth.login.form')) {
                                 $rootScope.$emit('auth.login');
                             } else {
                                 $rootScope.$emit('auth.login-modal');
                             }
                             deferred.resolve();
-                        }).catch(function(){
+                        }, function(){
                             AuthorizationService.clearAccessToken();
                             deferred.reject();
                         });
-                    }).catch(function(){
+                    }, function(){
                         AuthorizationService.clearAccessToken();
                         deferred.reject();
                     });
-
-                }).error(function() {
+                }, function() { // catch HTTP error
                     deferred.reject();
                 });
-            }).catch(function(){
+            }, function(){
                 deferred.reject();
             });
             return deferred.promise;
@@ -128,7 +129,6 @@
 
         function getUserInfo(userId){
             var deferred = $q.defer();
-
             if(!AuthorizationService.isAuthenticated()) {
                 deferred.reject();
             } else {
@@ -141,11 +141,11 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).success(function(data) {
-                    AuthorizationService.setUser(userId, data.username);
-                    getUserRights(userId);
+                }).then(function(response) {
+                    AuthorizationService.setUser(userId, response.data.username);
+                    //getUserRights(userId);
                     deferred.resolve();
-                }).error(function() {
+                }).catch(function() {
                     deferred.reject();
                 });
             }
@@ -167,10 +167,10 @@
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).success(function(data) {
-                    AuthorizationService.setRights(Right.buildRights(data));
+                }).then(function(response) {
+                    AuthorizationService.setRights(Right.buildRights(response.data));
                     deferred.resolve();
-                }).error(function() {
+                }).catch(function() {
                     deferred.reject();
                 });
             }

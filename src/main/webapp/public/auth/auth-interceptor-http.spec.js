@@ -30,10 +30,11 @@ describe("AuthInterceptorHttp", function() {
     $httpBackend.expect('GET', "http://localhost/somewhere").respond(401);
 
     AuthorizationService.clearAccessToken();
+    
     $http({
       method: "GET",
       url: OpenlmisURL('somewhere')
-    });
+    }).catch(function(){});
     $httpBackend.flush();
 
     expect(success).toBe(false);
@@ -48,7 +49,7 @@ describe("AuthInterceptorHttp", function() {
     $http({
       method: "GET",
       url: OpenlmisURL('somewhere')
-    });
+    }).catch(function(){});
     $httpBackend.flush();
 
     expect(success).toBe(true);
@@ -66,7 +67,7 @@ describe("AuthInterceptorHttp", function() {
     $http({
       method: "GET",
       url: OpenlmisURL('somewhere?access_token=other-token')
-    });
+    }).catch(function(){});
     $httpBackend.flush();
 
     expect(success).toBe(true);
@@ -84,7 +85,7 @@ describe("AuthInterceptorHttp", function() {
     $http({
       method: "GET",
       url: OpenlmisURL('somewhere?foo=bar&baz=blip')
-    });
+    }).catch(function(){});
     $httpBackend.flush();
 
     expect(success).toBe(true);
@@ -103,7 +104,7 @@ describe("AuthInterceptorHttp", function() {
         "foo": "bar",
         "baz": "blip"
       }
-    });
+    }).catch(function(){});
     $httpBackend.flush();
 
     expect(success).toBe(true);
