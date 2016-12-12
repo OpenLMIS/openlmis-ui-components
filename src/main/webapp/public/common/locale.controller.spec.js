@@ -11,30 +11,30 @@
 describe("LocaleController", function () {
 
 
-  beforeEach(module('openlmis-core'));
+  // beforeEach(module('openlmis-core'));
 
-  var controller, scope, $cookies;
+  // var controller, scope, $cookies;
 
-  beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, messageService, localStorageService, $cookies) {
-    scope = $rootScope.$new();
-    $httpBackend = _$httpBackend_;
+  // beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, messageService, localStorageService, $cookies) {
+  //   scope = $rootScope.$new();
+  //   $httpBackend = _$httpBackend_;
 
-    var messagesReturned = {"messages": {"key": "message"}};
-    $httpBackend.expect('GET', 'messages/messages_en.json').respond(messagesReturned);
-    $httpBackend.expect('GET', 'messages/messages_pt.json').respond(messagesReturned);
+  //   var messagesReturned = {"messages": {"key": "message"}};
+  //   $httpBackend.expect('GET', 'messages/messages_en.json').respond(messagesReturned);
+  //   $httpBackend.expect('GET', 'messages/messages_pt.json').respond(messagesReturned);
 
-    controller = $controller('LocaleController', {
-      $scope: scope,
-      $rootScope: $rootScope,
-      messageService: messageService,
-      localStorageService: localStorageService,
-      $cookies: $cookies
-    });
-  }));
+  //   controller = $controller('LocaleController', {
+  //     $scope: scope,
+  //     $rootScope: $rootScope,
+  //     messageService: messageService,
+  //     localStorageService: localStorageService,
+  //     $cookies: $cookies
+  //   });
+  // }));
 
-  it("Should change the locale and clear local storage", function () {
-    // scope.changeLocale('pt');
-    // $httpBackend.flush();
-  });
+  // it("Should change the locale and clear local storage", function () {
+  //   scope.changeLocale('pt');
+  //   $httpBackend.flush();
+  // });
 
 });
