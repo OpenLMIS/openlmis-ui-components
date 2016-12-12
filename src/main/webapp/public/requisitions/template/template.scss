@@ -20,17 +20,6 @@
 		}
 
 		table {
-			@extend .table;
-			width: 100%;
-
-			thead > tr {
-				@extend .gradient-header;
-			}
-
-			th, td {
-				vertical-align: middle !important;
-			}
-
 			.moveable {
 				cursor: move;
 			}

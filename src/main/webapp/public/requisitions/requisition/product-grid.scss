@@ -1,29 +1,6 @@
 .product-grid {
 	overflow: auto;
 
-	table {
-		@extend .table;
-		@extend .table-bordered;
-
-		thead > tr {
-			@extend .gradient-header;
-		}
-
-		tbody {
-			tr.invalid-row {
-				background-color: lighten($red, 45%);
-				border-color: darken($red, 20%);
-
-				.cell-error-message {
-					color: $red;
-				}
-
-			}
-
-		}
-
-	}
-
 	button {
 		@extend .btn;
 	}

@@ -119,15 +119,3 @@ table.search-list {
       content: "\f00c";
   }
 }
-
-.gradient-header {
-  th {
-    min-width: 7em;
-    @include linear-gradient(to bottom, $very-light-gray 0%, $light-gray 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$very-light-gray', endColorstr='$light-gray', GradientType=0); /* IE6-9 */
-    font-size: 0.9em;
-    font-weight: bold;
-    text-shadow: 0 0.1em 0 $white;
-    color: $dark-gray;
-  }
-}

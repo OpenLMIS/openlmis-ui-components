@@ -31,23 +31,6 @@
 			@extend .alert;
 			@extend .is-info;
 		}
-
-		table {
-			@extend .table;
-			@extend .table-bordered;
-
-			thead > tr {
-				@extend .gradient-header;
-
-				& > th {
-					min-width: 0 !important;
-				}
-			}
-
-			th, td {
-				vertical-align: middle !important;
-			}
-		}
 	}
 
 	button.convert-to-order {
