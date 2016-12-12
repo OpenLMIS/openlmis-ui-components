@@ -15,19 +15,21 @@ describe("LocaleController", function () {
 
   var controller, scope, $cookies;
 
-  beforeEach(inject(function (_$rootScope_, _$httpBackend_, $controller, _messageService_, _localStorageService_, _$cookies_) {
-    scope = _$rootScope_.$new();
+  beforeEach(inject(function ($rootScope, _$httpBackend_, $controller, messageService, localStorageService, $cookies) {
+    scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
-    $cookies = _$cookies_;
-    var messageService = _messageService_;
 
     var messagesReturned = {"messages": {"key": "message"}};
-    $httpBackend.expect('GET', '/public/messages/messages_en.json').respond(messagesReturned);
-    $httpBackend.expect('GET', '/public/messages/messages_pt.json').respond(messagesReturned);
+    $httpBackend.expect('GET', 'messages/messages_en.json').respond(messagesReturned);
+    $httpBackend.expect('GET', 'messages/messages_pt.json').respond(messagesReturned);
 
-    controller = $controller('LocaleController', {$scope: scope, $rootScope: _$rootScope_, messageService: messageService,
-      localStorageService: _localStorageService_, $cookies: _$cookies_}
-      );
+    controller = $controller('LocaleController', {
+      $scope: scope,
+      $rootScope: $rootScope,
+      messageService: messageService,
+      localStorageService: localStorageService,
+      $cookies: $cookies
+    });
   }));
 
   it("Should change the locale and clear local storage", function () {

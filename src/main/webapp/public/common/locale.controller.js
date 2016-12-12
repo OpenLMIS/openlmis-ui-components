@@ -14,8 +14,10 @@
   angular.module('openlmis-core')
   .controller('LocaleController', LocaleController);
 
-  LocaleController.$inject = ['$scope', '$rootScope', '$cookies', '$http', 'messageService', 'localStorageService'] 
-  function LocaleController($scope, $rootScope, $cookies, $http, messageService, localStorageService) {
+  LocaleController.$inject = ['$scope', '$rootScope', '$http', 'messageService', 'localStorageService', '$cookies'] 
+  function LocaleController($scope, $rootScope, $http, messageService, localStorageService, $cookies) {
+    var vm = this;
+
     $scope.selectedLocale = $cookies.lang === undefined ? "en" : $cookies.lang;
 
     $scope.locales = ['en', 'es', 'fr', 'pt'];
@@ -23,11 +25,14 @@
 
     $scope.changeLocale = function (localeKey) {
       $scope.selectedLocale = localeKey;
-      $http.get('/public/messages/messages_' + $scope.selectedLocale + '.json').success(function (data) {
+      $http.get('messages/messages_' + $scope.selectedLocale + '.json')
+      .then(function (response) {
         for (var attr in data) {
-          localStorageService.add('message.' + attr, data[attr]);
+          localStorageService.add('message.' + attr, response.data[attr]);
         }
         $rootScope.$broadcast('messagesPopulated');
+      }, function(){
+        // do nothing, but really should send an alert...
       });
     };
   }
