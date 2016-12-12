@@ -24,8 +24,8 @@
      * Will show and hide a loading modal that will block the UI and show a simple loading symbol.
      * 
      */
-
-    function LoadingModal($templateCache, $templateRequest, $timeout, $q, bootbox, messageService) {
+     LoadingModal.$inject = ['$timeout', 'bootbox', 'messageService'];
+    function LoadingModal($timeout, bootbox, messageService) {
         var dialog;
         var timeoutPromise;
 
