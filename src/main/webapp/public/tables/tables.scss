@@ -1,0 +1,117 @@
+/*
+Tables
+
+Tables in the OpenLMIS-UI should be used to represent data that needs to be read or edited across multiple attributes in a single list.
+
+Centeral elements of a table must include:
+* `thead` with named headings for each column
+* `tbody` with optional title element which will create a sub-heading
+
+markup:
+<table >
+  <thead>
+    <tr>
+      <th>Fully Supply</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Strength</th>
+      <th>Unit of measure</th>
+    </tr>
+  </thead>
+  <tbody title="Anti-malarials">
+    <tr>
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>P00833</td>
+      <td>Quinine Sulphate</td>
+      <td>300</td>
+      <td>mg</td>
+    </tr>
+  </tbody>
+  <tbody title="Anti-pyretics">
+    <tr>
+      <td class="center-justified">
+        <i class="icon-ok"/>
+      </td>
+      <td>N-378013</td>
+      <td>Tramedol</td>
+      <td>50mg/ml</td>
+      <td>mg</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>A41099</td>
+      <td>Doxycycline</td>
+      <td>100</td>
+      <td>mg</td>
+    </tr>
+    <tr>
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>KM3375-2</td>
+      <td>Malaria Rapid Diagnostic Test</td>
+      <td>1</td>
+      <td>each</td>
+    </tr>
+  </tbody>
+</table>
+
+Styleguide 4.0
+*/
+
+@import 'bourbon';
+
+table{
+  @extend .table;
+  @extend .table-bordered;
+  width: 100%;
+  background-color: $white;
+
+  td, th{
+    padding: 1em;
+    white-space: nowrap;
+    vertical-align: middle !important; // from requisition template screen
+  }
+
+  thead{
+    background-color: $light-gray;
+    tr:first-child{
+      @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+    }
+  }
+
+  > thead > tr > th{
+    border-bottom-width: 1px;
+  }
+  
+  > tbody + tbody{
+    border-top-width: 1px;
+  }
+}
+
+
+
+  table {
+    
+    tbody {
+      tr.invalid-row {
+        background-color: lighten($red, 45%);
+        border-color: darken($red, 20%);
+
+        .cell-error-message {
+          color: $red;
+        }
+
+      }
+
+    }
+
+  }
+
+
+
+
