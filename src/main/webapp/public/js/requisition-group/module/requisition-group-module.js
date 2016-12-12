@@ -9,15 +9,3 @@
  */
 
 var requisitionGroupModule = angular.module('requisitionGroup', ['openlmis-core']);
-
-requisitionGroupModule.config(['$routeProvider', function ($routeProvider) {
-      $routeProvider.
-          when('/search',
-          {controller: RequisitionGroupSearchController, templateUrl: 'partials/search.html', reloadOnSearch: false}).
-          when('/edit/:id', {controller: RequisitionGroupController, templateUrl: 'partials/create.html', resolve: RequisitionGroupController.resolve}).
-          when('/create', {controller: RequisitionGroupController, templateUrl: 'partials/create.html', resolve: RequisitionGroupController.resolve}).
-          otherwise({redirectTo: '/search'});
-    }]).run(function ($rootScope, AuthorizationService) {
-      $rootScope.requisitionGroupSelected = "selected";
-      AuthorizationService.preAuthorize('MANAGE_REQUISITION_GROUP');
-    });
