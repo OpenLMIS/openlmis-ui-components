@@ -14,12 +14,8 @@
     			<td>
     				<div ng-if="program.template">
                         <i class="fa fa-check"></i>
-                        <div>{{'template.configured' | message}}</div>
-                        <div ng-if="vm.canConfigureTemplates()">
-                            <span>(</span>
-                                <a ng-click="vm.goToTemplate(program.template.id)">{{'link.edit' | message}}</a>
-                            <span>)</span>
-                        </div>
+                        {{'template.configured' | message}}
+                        <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.template.id)">({{'link.edit' | message}})</a>
                 	</div>
                     <div ng-if="!program.template">
                         <div>{{'template.create' | message}}</div>
