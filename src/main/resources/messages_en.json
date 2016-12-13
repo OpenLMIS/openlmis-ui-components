@@ -2720,5 +2720,6 @@
   "msg.template.column.source.empty": "Source cannot be empty!",
   "label.filter.warehouses": "Filter warehouses",
   "requisition.convertToOrder.pickDepot": "Pick warehouse to convert requisition to order at",
-  "label.convert.requisition.to.order": "Convert Requisition to Order"
+  "label.convert.requisition.to.order": "Convert Requisition to Order",
+  "msg.requisition.view.offline": "Offline"
 }

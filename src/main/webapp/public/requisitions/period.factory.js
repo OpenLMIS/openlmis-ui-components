@@ -52,7 +52,7 @@
             return deferred.promise;
 
             function search(lineItems) {
-                RequisitionService.search(programId, facilityId).then(function(data) {
+                RequisitionService.search(false, programId, facilityId).then(function(data) {
                     periods.forEach(function (period, idx) {
                         var foundRequisition = null;
                         data.forEach(function (requisition) {
@@ -77,7 +77,7 @@
             var statuses = [Status.INITIATED, Status.SUBMITTED],
                 deferred = $q.defer();
 
-            RequisitionService.search(programId, facilityId, null, null, statuses, emergency).then
+            RequisitionService.search(false, programId, facilityId, null, null, statuses, emergency).then
             (function(data) {
                 var lineItems = [];
                 data.forEach(function(rnr) {

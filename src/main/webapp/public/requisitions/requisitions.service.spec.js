@@ -10,7 +10,7 @@
 describe('RequisitionService', function() {
 
     var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
-        allStatuses, requisitionUrl, openlmisUrl,
+        allStatuses, requisitionUrl, openlmisUrl, RequisitionStorage,
         startDate = [2016, 4, 30, 16, 21, 33],
         endDate = [2016, 4, 30, 16, 21, 33],
         startDate1 = new Date(),
@@ -94,7 +94,7 @@ describe('RequisitionService', function() {
     beforeEach(
         inject(
             function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
-                     Status, RequisitionFactory, DateUtils, $q, $templateCache) {
+                     Status, RequisitionFactory, DateUtils, $q, $templateCache, _RequisitionStorage_) {
 
                 httpBackend = _$httpBackend_;
                 $rootScope = _$rootScope_;
@@ -105,6 +105,7 @@ describe('RequisitionService', function() {
                 q = $q;
                 requisitionUrl = RequisitionURL;
                 openlmisUrl = OpenlmisURL;
+                RequisitionStorage = _RequisitionStorage_;
 
                 $templateCache.put('common/notification-modal.html', "something")
             }
@@ -208,7 +209,7 @@ describe('RequisitionService', function() {
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
-        requisitionService.search(program.id, facility.id, startDate1.toISOString(),
+        requisitionService.search(false, program.id, facility.id, startDate1.toISOString(),
             endDate1.toISOString(), statuses, emergency).then(function(response) {
             data = response;
         });
@@ -226,7 +227,7 @@ describe('RequisitionService', function() {
         httpBackend.when('GET', requisitionUrl('/api/requisitions/search?facility=' + facility.id))
         .respond(200, [requisitionDto2]);
 
-        requisitionService.search(null, facility.id, null, null, null).then(function(response) {
+        requisitionService.search(false, null, facility.id, null, null, null).then(function(response) {
             data = response;
         });
 
@@ -234,6 +235,20 @@ describe('RequisitionService', function() {
         $rootScope.$apply();
 
         expect(angular.toJson(data)).toEqual(angular.toJson([requisitionCopy]));
+    });
+
+    it('should search requisitions offline', function() {
+        var data;
+
+        spyOn(RequisitionStorage, 'search').andReturn([requisitionDto2]);
+
+        requisitionService.search(true, null, facility.id, null, null, null).then(function(response) {
+            data = response;
+        });
+
+        $rootScope.$apply();
+
+        expect(angular.toJson(data)).toEqual(angular.toJson([requisitionDto2]));
     });
 
     function formatDatesInRequisition(requisition) {

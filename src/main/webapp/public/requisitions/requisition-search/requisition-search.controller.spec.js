@@ -10,7 +10,7 @@
 
 describe('RequisitionSearchController', function() {
 
-    var scope, ctrl, httpBackend, controller, statuses, endDate, startDate, notification,
+    var rootScope, httpBackend, endDate, startDate, notification, vm,
         facilityList = [
             {
                 id: '1',
@@ -54,15 +54,13 @@ describe('RequisitionSearchController', function() {
     beforeEach(module('openlmis.requisitions'));
 
     beforeEach(inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification) {
-        scope = $rootScope.$new();
-        controller = $controller;
+        rootScope = $rootScope;
         httpBackend = $httpBackend;
-        statuses = Status.$toList();
         startDate = new Date();
         endDate = new Date();
-        notification = Notification
+        notification = Notification;
 
-        ctrl = controller('RequisitionSearchController', {$scope:scope, facilityList:facilityList});
+        vm = $controller('RequisitionSearchController', {facilityList:facilityList});
     }));
 
     beforeEach(inject(function(RequisitionService, $q){
@@ -70,55 +68,40 @@ describe('RequisitionSearchController', function() {
         spyOn(RequisitionService, 'search').andReturn(response);
     }));
 
-    it('should have facility list and status list filled after init', function() {
-        expect(scope.facilities).toEqual(facilityList);
-        expect(scope.statuses).toEqual(statuses)
-    });
-
     it('should fill programs after changing selected facility', function() {
-        expect(scope.selectedFacility).toBe(undefined);
-        expect(scope.programs).toBe(undefined);
+        expect(vm.selectedFacility).toBe(undefined);
+        expect(vm.programs).toBe(undefined);
 
-        scope.selectedFacility = scope.facilities[0];
-        scope.loadPrograms();
-        expect(scope.selectedFacility.id).toEqual('1');
-        expect(scope.programs).toEqual(scope.facilities[0].supportedPrograms);
+        vm.selectedFacility = vm.facilities[0];
+        vm.loadPrograms();
+        expect(vm.selectedFacility.id).toEqual('1');
+        expect(vm.programs).toEqual(vm.facilities[0].supportedPrograms);
 
-        scope.selectedFacility = scope.facilities[1];
-        scope.loadPrograms();
-        expect(scope.selectedFacility.id).toEqual('2');
-        expect(scope.programs).toEqual(scope.facilities[1].supportedPrograms);
+        vm.selectedFacility = vm.facilities[1];
+        vm.loadPrograms();
+        expect(vm.selectedFacility.id).toEqual('2');
+        expect(vm.programs).toEqual(vm.facilities[1].supportedPrograms);
     });
 
-    it('should load grid data after search', function() {
-        scope.selectedFacility = {
-            item: scope.facilities[0]
-        };
-        scope.selectedProgram = scope.selectedFacility.item.supportedPrograms[0];
-        scope.selectedStatuses = [
-            {
-                id: 1
-            }, {
-                id: 2
-            }
-        ];
-        scope.startDate = startDate;
-        scope.endDate = endDate;
+    it('should load requisitions after search', function() {
+        vm.selectedFacility = vm.facilities[0];
+        vm.selectedProgram = vm.selectedFacility.supportedPrograms[0];
+        vm.startDate = startDate;
+        vm.endDate = endDate;
 
-        scope.search();
-        // search has a promise, finish the promise
-        scope.$apply();
+        vm.search();
 
-        expect(angular.toJson(scope.requisitionList)).toEqual(angular.toJson(requisitionList));
+        rootScope.$apply();
+
+        expect(angular.toJson(vm.requisitionList)).toEqual(angular.toJson(requisitionList));
     });
 
     it('search should give an error if facility is not selected', function() {
         var callback = jasmine.createSpy();
-        expect(scope.selectedFacility).toBe(undefined);
+        expect(vm.selectedFacility).toBe(undefined);
         spyOn(notification, 'error').andCallFake(callback);
-        scope.search();
+        vm.search();
         expect(callback).toHaveBeenCalled();
     });
 
 });
-

@@ -23,7 +23,7 @@
                     }
                     $rootScope.$broadcast('messagesPopulated');
                 }, function() {
-                    console.log('fdgdgfd');
+                    $rootScope.$broadcast('messagesNotPopulated');
                 });
             }
         };

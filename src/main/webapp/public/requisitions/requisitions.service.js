@@ -15,10 +15,10 @@
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
                                   'RequisitionURL', 'RequisitionFactory', 'Confirm',
-                                  'Notification', 'DateUtils'];
+                                  'Notification', 'DateUtils', 'RequisitionStorage'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, DateUtils) {
+                                RequisitionFactory, Confirm, Notification, DateUtils, RequisitionStorage) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -140,6 +140,7 @@
          * @ngdoc function
          * @name search
          * @methodOf openlmis.requisitions.RequisitionService
+         * @param {boolean} offline Indicates if searching in offline requisitions
          * @param {String} programId Program UUID (optional)
          * @param {String} facilityId Facility UUID
          * @param {Date} startDate Requisitions created from this date (optional)
@@ -153,16 +154,29 @@
          * Search requisitons by criteria from parameters.
          *
          */
-        function search(programId, facilityId, startDate, endDate, statuses, emergency) {
+        function search(offline, programId, facilityId, startDate, endDate, statuses, emergency) {
             var searchParams = {
-                facility: facilityId
-            };
+                    facility: facilityId
+                },
+                deferred = $q.defer();
+
             if(programId) searchParams['program'] = programId;
             if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['requisitionStatus'] = statuses;
             if(emergency) searchParams['emergency'] = emergency;
             if(startDate) searchParams['createdDateFrom'] = startDate;
             if(endDate) searchParams['createdDateTo'] = endDate;
-            return resource.search(searchParams).$promise;
+
+            if(offline) {
+                deferred.resolve(RequisitionStorage.search(searchParams));
+            } else {
+                resource.search(searchParams).$promise.then(function(requisitions) {
+                    deferred.resolve(requisitions);
+                }, function() {
+                    deferred.reject();
+                });
+            }
+
+            return deferred.promise;
         }
 
         /**

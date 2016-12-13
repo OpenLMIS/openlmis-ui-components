@@ -23,83 +23,37 @@
         .module('openlmis.requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$scope', '$state', 'messageService', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification'];
+    RequisitionSearchController.$inject = ['$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'Offline'];
 
-    function RequisitionSearchController($scope, $state, messageService, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification) {
+    function RequisitionSearchController($state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, Offline) {
+        var vm = this;
 
-        $scope.loadPrograms = loadPrograms;
-        $scope.search = search;
-        $scope.openRnr = openRnr;
+        vm.loadPrograms = loadPrograms;
+        vm.search = search;
+        vm.openRnr = openRnr;
 
-        $scope.facilities = facilityList;
-        $scope.statuses = Status.$toList();
-        $scope.selectedStatuses = [];
+        vm.offline = Offline.isOffline;
+        vm.facilities = facilityList;
+        vm.statuses = Status.$toList();
+        vm.selectedStatuses = [];
 
-        if (!angular.isArray($scope.facilities) || $scope.facilities.length < 1) {
-            $scope.error = messageService.get('msg.facilities.not.found');
+        if (!angular.isArray(vm.facilities) || vm.facilities.length < 1) {
+            vm.error = 'msg.facilities.not.found';
         }
-
-        $scope.multiselectSettings = {
-            smartButtonMaxItems: 4
-        };
-
-        $scope.gridOptions = { data: 'requisitionList',
-            showFooter: false,
-            showSelectionCheckbox: false,
-            enableColumnResize: true,
-            enableColumnMenus: false,
-            showFilter: false,
-            rowTemplate: 'common/grid/row.html',
-            columnDefs: [
-                {
-                    field: 'program.name', 
-                    displayName: messageService.get('program.header')
-                }, {
-                    field: 'facility.code',
-                    displayName: messageService.get('option.value.facility.code')
-                }, {
-                    field: 'facility.name',
-                    displayName: messageService.get('option.value.facility.name')
-                }, {
-                    field: 'processingPeriod.startDate',
-                    displayName: messageService.get('label.period.start.date'),
-                    cellFilter: DateUtils.FILTER
-                }, {
-                    field: 'processingPeriod.endDate',
-                    displayName: messageService.get('label.period.end.date'),
-                    type: 'date',
-                    cellFilter: DateUtils.FILTER
-                }, {
-                    field: 'createdDate',
-                    displayName: messageService.get('label.date.submitted'),
-                    type: 'date',
-                    cellFilter: DateUtils.FILTER
-                },
-                {
-                    field: 'status',
-                    displayName: messageService.get('label.status')
-                }, {
-                    name: 'emergency',
-                    displayName: messageService.get('requisition.type.emergency'),
-                    cellTemplate: 'common/grid/emergency-cell.html',
-                    width: 110
-                }
-            ]
-        };
 
         /**
          *
          * @ngdoc function
          * @name openRnr
          * @methodOf openlmis-requisition.RequisitionViewController
-         * 
+         *
          * @description
          * Redirect to requisition page after clicking on grid row.
          *
          */
-        function openRnr(row) {
+        function openRnr(requisitionId) {
             $state.go('requisitions.requisition.fullSupply', {
-                rnr: row.entity.id
+                rnr: requisitionId
             });
         }
 
@@ -108,18 +62,18 @@
          * @ngdoc function
          * @name loadPrograms
          * @methodOf openlmis-requisition.RequisitionViewController
-         * 
+         *
          * @description
          * Loads selected facility supported programs to program select input.
          *
          */
         function loadPrograms() {
-            if (!$scope.selectedFacility) {
+            if (!vm.selectedFacility) {
                 return;
-            } else if ($scope.selectedFacility.supportedPrograms) {
-                $scope.programs = $scope.selectedFacility.supportedPrograms;
+            } else if (vm.selectedFacility.supportedPrograms) {
+                vm.programs = vm.selectedFacility.supportedPrograms;
             } else {
-                $scope.error = messageService.get('msg.no.program.available');
+                vm.error = 'msg.no.program.available';
             }
         }
 
@@ -128,27 +82,28 @@
          * @ngdoc function
          * @name search
          * @methodOf openlmis-requisition.RequisitionViewController
-         * 
+         *
          * @description
          * Searches requisitions by criteria selected in form.
          *
          */
         function search() {
-            $scope.requisitionList = [];
-            $scope.error = null;
-            if ($scope.selectedFacility) {
+            vm.requisitionList = [];
+            vm.error = null;
+            if (vm.selectedFacility) {
                 LoadingModalService.open();
                 RequisitionService.search(
-                    $scope.selectedProgram ? $scope.selectedProgram.id : null,
-                    $scope.selectedFacility ? $scope.selectedFacility.id : null,
-                    $scope.startDate ? $scope.startDate.toISOString() : null,
-                    $scope.endDate ? $scope.endDate.toISOString() : null,
-                    //getStatusLabels($scope.selectedStatuses),
-                    null)
+                    vm.offline ? true : vm.searchOffline,
+                    vm.selectedProgram ? vm.selectedProgram.id : null,
+                    vm.selectedFacility ? vm.selectedFacility.id : null,
+                    vm.startDate ? vm.startDate.toISOString() : null,
+                    vm.endDate ? vm.endDate.toISOString() : null,
+                    null
+                )
                 .then(function(response) {
-                    $scope.requisitionList = response;
+                    vm.requisitionList = response;
                     LoadingModalService.close();
-                    if (!angular.isArray($scope.requisitionList) || $scope.requisitionList.length < 1) {
+                    if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
                         Notification.error('msg.no.requisitions.found');
                     }
                 })
@@ -159,18 +114,6 @@
             } else {
                 Notification.error('msg.no.facility.selected');
             }
-        }
-
-        function getStatusLabels(ids) {
-            var list;
-            if(ids && angular.isArray(ids) && ids.length > 0) {
-                list = [];
-                angular.forEach(ids, function(id) {
-                    list.push($scope.statuses[id.id].label);
-                });
-                return list;
-            }
-            return null;
         }
     }
 })();
