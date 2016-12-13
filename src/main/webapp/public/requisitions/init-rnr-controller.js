@@ -23,9 +23,13 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory', 'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification'];
+    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'PeriodFactory',
+    'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
+     'AuthorizationService', '$q', 'RequisitionRights'];
 
-    function InitiateRnrController($scope, messageService, facility, PeriodFactory, RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification) {
+    function InitiateRnrController($scope, messageService, facility, PeriodFactory,
+    RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
+    AuthorizationService, $q, RequisitionRights) {
 
         /**
          * @ngdoc property
@@ -51,6 +55,28 @@
 
         /**
          * @ngdoc property
+         * @name supervisedPrograms
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Array}
+         *
+         * @description
+         * Holds available programs where user has supervisory permissions.
+         */
+        $scope.supervisedPrograms = undefined;
+
+        /**
+         * @ngdoc property
+         * @name homeFacilityPrograms
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Array}
+         *
+         * @description
+         * Holds available programs for home facility.
+         */
+        $scope.homeFacilityPrograms = undefined;
+
+        /**
+         * @ngdoc property
          * @name selectedType
          * @propertyOf openlmis.requisitions.InitiateRnrController
          * @type {Integer}
@@ -61,6 +87,17 @@
          *  1 - supervised facility
          */
         $scope.selectedType = 0;
+
+        /**
+         * @ngdoc property
+         * @name user
+         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @type {Object}
+         *
+         * @description
+         * Holds currently logged in user.
+         */
+        $scope.user = AuthorizationService.getUser();
 
         /**
          * @ngdoc property
@@ -112,14 +149,18 @@
 
         $scope.initRnr = initRnr;
 
+        $scope.loadFacilityData = loadFacilityData;
+
+        $scope.loadFacilities = loadFacilities;
+
         if (facility) {
             $scope.facilities = [facility];
-            $scope.selectedFacility = facility;
 
             $scope.selectedProgram = undefined;
 
             $scope.facilityDisplayName = facility.code + '-' + facility.name;
             $scope.selectedFacilityId = facility.id;
+            $scope.homeFacilityPrograms = facility.supportedPrograms;
             $scope.programs = facility.supportedPrograms;
             if (_.isEmpty($scope.programs)) {
                 $scope.error = messageService.get("msg.no.program.available");
@@ -131,6 +172,14 @@
             $scope.facilityDisplayName = messageService.get("label.none.assigned");
             $scope.error = messageService.get("error.rnr.user.facility.not.assigned");
         }
+
+        RequisitionService.getSupervisedPrograms($scope.user.user_id).then(
+        function (data) {
+            $scope.supervisedPrograms = data;
+            if (_.isEmpty($scope.supervisedPrograms)) {
+                $scope.supervisedFacilitiesDisabled = true;
+            }
+        });
 
         /**
          * @ngdoc function
@@ -222,5 +271,65 @@
                 });
             }
         };
+
+        /**
+         * @ngdoc function
+         * @name loadFacilityData
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for displaying and updating select elements that allow to choose
+         * program and facility to initiate or proceed with the requisition for.
+         * If selected type is equal 1 then it will display all programs where the current
+         * user has supervisory permissions. If the selected type is equal 0, then it will
+         * display list of programs that are available in user's home facility.
+         *
+         * @param {Object} selectedType  a type of facility to initiate or proceed with the requisition for
+         */
+        function loadFacilityData(selectedType) {
+            if (selectedType == 1) {
+                $scope.programs = $scope.supervisedPrograms;
+                $scope.facilities = [];
+                $scope.selectedFacilityId = undefined;
+            } else {
+                $scope.programs = $scope.homeFacilityPrograms;
+                $scope.facilities = [facility];
+                $scope.selectedFacilityId = facility.id;
+            }
+            $scope.selectedProgram = undefined;
+        };
+
+        /**
+         * @ngdoc function
+         * @name loadFacilities
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for providing a list of facilities where selected program is active and
+         * where the current user has supervisory permissions.
+         *
+         * @param {Object} selectedProgram selected program where user has supervisory permissions
+         */
+        function loadFacilities(selectedProgram) {
+            LoadingModalService.open();
+            $q.all([
+                RequisitionService.getRightByName(RequisitionRights.REQUISITION_CREATE),
+                RequisitionService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE)
+            ])
+            .then(function (rights) {
+                $q.all([
+                    RequisitionService.getSupervisedFacilities($scope.user.user_id, selectedProgram.id, rights[0][0].id),
+                    RequisitionService.getSupervisedFacilities($scope.user.user_id, selectedProgram.id, rights[1][0].id)
+                ])
+                .then(function (facilities) {
+                    $scope.facilities = facilities[0].concat(facilities[1]);
+                });
+            })
+            .catch(function(error) {
+                Notification.error('msg.error.occurred');
+                LoadingModalService.close();
+            })
+            .finally(LoadingModalService.close());
+        }
     }
 })();
