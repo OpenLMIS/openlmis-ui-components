@@ -56,6 +56,7 @@ describe("InitiateRnrController", function(){
 
         spyOn($state, 'go');
         spyOn(requisitionService, 'initiate').andReturn($q.when({"id": 1}));
+        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
 
         var controller = initController();
 
@@ -69,6 +70,8 @@ describe("InitiateRnrController", function(){
     + "and when invalid response from service",
     function(){
         spyOn(requisitionService,'initiate').andReturn($q.reject({"id": 1}));
+        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
+
         var selectedPeriod = {};
 
         spyOn($state, 'go');
@@ -82,6 +85,8 @@ describe("InitiateRnrController", function(){
     });
 
     it("Should reload periods with proper data", function() {
+        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
+
         var controller = initController();
         scope.loadPeriods();
         scope.$apply();
