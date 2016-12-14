@@ -16,7 +16,7 @@
 	 * ```
 	 */
 	angular
-		.module('openlmis-core')
+		.module('openlmis-form')
 		.directive('positiveInteger', positiveInteger);
 
 	function positiveInteger() {

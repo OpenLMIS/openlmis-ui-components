@@ -12,7 +12,8 @@
      */
     angular.module('openlmis-core', [
         'openlmis.services',
-        'openlmis.table',
+        'openlmis-table',
+        'openlmis-form',
         'openlmis.localStorage',
         'openlmis-templates',
         'angular-google-analytics',

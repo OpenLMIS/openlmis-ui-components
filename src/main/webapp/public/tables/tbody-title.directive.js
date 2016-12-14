@@ -31,7 +31,7 @@
 	 * ```
 	 */
 	angular
-		.module('openlmis.table')
+		.module('openlmis-table')
 		.directive('tbody', tbodyTitle);
 
 	tbodyTitle.$inject = [];

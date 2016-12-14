@@ -10,7 +10,7 @@
         */
 
     angular
-        .module('openlmis-core')
+        .module('openlmis-form')
         .controller('DatepickerCtrl', DatepickerCtrl);
 
     DatepickerCtrl.$inject = ['$scope'];

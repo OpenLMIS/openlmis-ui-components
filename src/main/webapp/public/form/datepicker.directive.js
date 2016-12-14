@@ -12,7 +12,7 @@
       	*/
 
 	angular
-		.module('openlmis-core')
+		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
 
 	function datepicker() {
@@ -22,7 +22,7 @@
 				value: '=',
 				inputId: '@?'
 			},
-			templateUrl: 'common/datepicker.html',
+			templateUrl: 'form/datepicker.html',
 			controller: 'DatepickerCtrl'
 		};
 		return directive;
