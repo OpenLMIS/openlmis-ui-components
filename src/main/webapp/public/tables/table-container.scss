@@ -1,0 +1,131 @@
+/*
+Table Containers
+
+To create scrollable and complex table elements, wrap the table within a table
+container, which will constrain the layout of form elements and captions within
+a table. **Any table wider than the display area will horizontally scroll.**
+
+All `.table-container` children that are not the table will be displayed to the
+left of the actual container. There will be no effort made to guess the size of
+the elements within the `.table-container`.
+
+All elements within a `.table-container` will be pinned, so that all items are
+vertically visible and appear to be the same height.
+
+markup:
+<section class="table-container">
+  <form>
+    <fieldset>
+      <legend>Show categories</legend>
+      <label>
+        <input type="checkbox" checked="checked" />
+        Anti-malarials
+      </label>
+      <label>
+        <input type="checkbox" />
+        Anti-patterns
+      </label>
+      <label>
+        <input type="checkbox" checked="checked" />
+        Anti-pyretics
+      </label>
+    </fieldset>
+  </form>
+  <table >
+    <thead>
+      <tr>
+        <th>Fully Supply</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Strength</th>
+        <th>Unit of measure</th>
+      </tr>
+    </thead>
+    <tbody title="Anti-malarials">
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>P00833</td>
+        <td>Quinine Sulphate</td>
+        <td>300</td>
+        <td>mg</td>
+      </tr>
+    </tbody>
+    <tbody title="Anti-pyretics">
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>N-378013</td>
+        <td>Tramedol</td>
+        <td>50mg/ml</td>
+        <td>mg</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>A41099</td>
+        <td>Doxycycline</td>
+        <td>100</td>
+        <td>mg</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>KM3375-2</td>
+        <td>Malaria Rapid Diagnostic Test</td>
+        <td>1</td>
+        <td>each</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+Styleguide 4.1
+*/
+
+@import 'bourbon';
+
+// Layout
+.table-container{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+
+  > * {
+    flex: 0 0 auto;
+    order: 0;
+    margin: 1em;
+  }
+  > table{
+    flex: 1 0 auto;
+    order: 10;
+  }
+}
+
+// Styles
+.table-container{
+  background-color: $light-gray;
+
+  &:after{
+    content: "";
+    display: block;
+    height: 100%;
+    width: 1em;
+    position: absolute;
+    top: 0em;
+    right: -1px;
+    @include linear-gradient(to right, rgba($light-gray, 0), $light-gray);
+  }
+}
+
+.table-container > table{
+
+}
+
+

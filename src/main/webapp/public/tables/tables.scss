@@ -6,6 +6,8 @@ read or edited across multiple attributes per item. If there isn't a need to
 look or interact with specific attributes of an item in the list, please use a
 list rather than a table. *Don't use tables for styling purposes.* 
 
+A table without a container will always try to fit into the current widow, and not horizontally scroll.
+
 *Tables must include:*
 * `thead` that defines the column titles
 * `tbody` which will hold groups of items
@@ -86,13 +88,15 @@ Styleguide 4.0
 table{
   @extend .table;
   @extend .table-bordered;
-  width: 100%;
   background-color: $white;
 
   td, th{
     padding: 1em;
-    white-space: nowrap;
     vertical-align: middle !important; // from requisition template screen
+  }
+
+  th {
+    white-space: nowrap;
   }
 
   thead{
@@ -115,6 +119,7 @@ tbody tr.title:first-child{
   background-color: $brand-primary;
   color: $white;
   font-weight: bold;
+  text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
   td {
     padding: 1em 2em;
   }
