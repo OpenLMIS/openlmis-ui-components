@@ -12,9 +12,10 @@
      */
     angular.module('openlmis-core', [
         'openlmis.services',
-        'angular-google-analytics',
+        'openlmis.table',
         'openlmis.localStorage',
         'openlmis-templates',
+        'angular-google-analytics',
         'ui.directives',
         'ngCookies',
         'ngRoute',
