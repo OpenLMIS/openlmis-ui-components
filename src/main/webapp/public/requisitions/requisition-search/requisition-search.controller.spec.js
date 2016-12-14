@@ -10,7 +10,11 @@
 
 describe('RequisitionSearchController', function() {
 
-    var rootScope, httpBackend, endDate, startDate, notification, vm,
+    var rootScope, httpBackend, endDate, startDate, notification, vm, facilityList, requisitionList;
+
+    beforeEach(function() {
+        module('openlmis.requisitions');
+
         facilityList = [
             {
                 id: '1',
@@ -40,7 +44,7 @@ describe('RequisitionSearchController', function() {
                     }
                 ]
             }
-        ],
+        ];
         requisitionList = [{
             facility: {
                 name: 'facility1',
@@ -51,22 +55,21 @@ describe('RequisitionSearchController', function() {
             }
         }];
 
-    beforeEach(module('openlmis.requisitions'));
+        inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification) {
+            rootScope = $rootScope;
+            httpBackend = $httpBackend;
+            startDate = new Date();
+            endDate = new Date();
+            notification = Notification;
 
-    beforeEach(inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification) {
-        rootScope = $rootScope;
-        httpBackend = $httpBackend;
-        startDate = new Date();
-        endDate = new Date();
-        notification = Notification;
+            vm = $controller('RequisitionSearchController', {facilityList:facilityList});
+        });
 
-        vm = $controller('RequisitionSearchController', {facilityList:facilityList});
-    }));
-
-    beforeEach(inject(function(RequisitionService, $q){
-        var response = $q.when(requisitionList);
-        spyOn(RequisitionService, 'search').andReturn(response);
-    }));
+        inject(function(RequisitionService, $q){
+            var response = $q.when(requisitionList);
+            spyOn(RequisitionService, 'search').andReturn(response);
+        });
+    });
 
     it('should fill programs after changing selected facility', function() {
         expect(vm.selectedFacility).toBe(undefined);

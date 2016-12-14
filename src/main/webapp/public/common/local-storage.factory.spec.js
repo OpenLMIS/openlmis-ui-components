@@ -55,4 +55,27 @@ describe('localStorageFactory', function() {
 
         expect(itemStorage.getAll()).toEqual([]);
     });
+
+    it('should not change item in storage after getting it and modify it outside the storage factory', function() {
+        var object;
+
+        itemStorage.put(item1);
+        object = itemStorage.get(item1.id);
+
+        expect(object).toEqual(item1);
+
+        object.name = 'wasd';
+
+        expect(itemStorage.get(item1.id).name).toEqual(item1.name);
+        expect(itemStorage.get(item1.id).name).toEqual('item1');
+    });
+
+    it('should set index for item if it has no id', function() {
+        var index;
+
+        item1.id = undefined;
+        index = itemStorage.put(item1);
+
+        expect(itemStorage.get(index)).toEqual(item1);
+    });
 });

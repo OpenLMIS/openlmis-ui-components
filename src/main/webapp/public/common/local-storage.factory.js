@@ -12,42 +12,52 @@
         return LocalStorageFactory;
 
         function LocalStorageFactory(resourceName) {
-            var storage = {
-                resource: resourceName,
-                get: get,
-                getAll: getAll,
-                put: put,
-                clearAll: clearAll
-            };
+            var resource = $localStorage[resourceName],
+                storage = {
+                    get: get,
+                    getAll: getAll,
+                    put: put,
+                    clearAll: clearAll
+                };
 
-            if (!$localStorage[resourceName]) {
-                $localStorage[resourceName] = {};
+            if (!resource) {
+                resource = {};
             }
 
             return storage;
+
+            function get(id) {
+                return angular.copy(resource[id]);
+            }
+
+            function getAll() {
+                var items = [];
+                angular.forEach(resource, function(item) {
+                    items.push(angular.copy(item));
+                });
+                return items;
+            }
+
+            function put(item) {
+                var index;
+                if(!item.id) index = generateIndex();
+                else index = item.id;
+                resource[index] = item;
+                return index;
+            }
+
+            function clearAll() {
+                resource = {};
+            }
+
+            function generateIndex() {
+                var index;
+                do {
+                    index = Math.random();
+                }
+                while(resource[index]);
+                return index;
+            }
         }
-
-        function get(id) {
-            return $localStorage[this.resource][id];
-        }
-
-        function getAll() {
-            var items = [];
-            angular.forEach($localStorage[this.resource], function(item) {
-                items.push(item);
-            });
-            return items;
-        }
-
-        function put(item) {
-            return $localStorage[this.resource][item.id] = item;
-        }
-
-        function clearAll() {
-            $localStorage[this.resource] = {};
-        }
-
-
     }
-
 })();
