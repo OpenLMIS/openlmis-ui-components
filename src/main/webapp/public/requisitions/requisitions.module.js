@@ -10,8 +10,7 @@
         'ui.grid.pinning',
         'ui.grid.selection',
         'ngSanitize',
-        'ngBootbox',
-        'ngStorage'
+        'ngBootbox'
     ]);
 
 })();

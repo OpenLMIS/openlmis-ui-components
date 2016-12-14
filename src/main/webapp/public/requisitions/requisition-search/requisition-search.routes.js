@@ -17,10 +17,10 @@
 			accessRights: [RequisitionRights.REQUISITION_VIEW],
 			controllerAs: 'vm',
 			resolve: {
-		        facilityList: function ($q, FacilityFactory) {
+		        facilityList: function ($q, FacilityService) {
 		        	var deferred = $q.defer();
 
-		        	FacilityFactory.getAll().then(function(response) {
+		        	FacilityService.getAll().then(function(response) {
 		        		deferred.resolve(response);
 		        	}, function() {
 		        		deferred.reject();

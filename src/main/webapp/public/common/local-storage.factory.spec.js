@@ -7,47 +7,52 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('FacilityStorage', function() {
+describe('localStorageFactory', function() {
 
-    var FacilityStorage,
-        facility1 = {
+    var localStorageFactory, item1, item2, itemStorage;
+
+    beforeEach(function() {
+        module('openlmis-core');
+
+        inject(function(_localStorageFactory_) {
+            localStorageFactory = _localStorageFactory_;
+        });
+
+        item1 = {
             id: '1',
-            name: 'facility1'
-        },
-        facility2 = {
+            name: 'item1'
+        };
+        item2 = {
             id: '2',
-            name: 'facility2'
+            name: 'item1'
         };
 
-    beforeEach(module('openlmis.requisitions'));
-
-    beforeEach(inject(function(_FacilityStorage_) {
-        FacilityStorage = _FacilityStorage_;
-    }));
+        itemStorage = localStorageFactory('items');
+    });
 
     it('should get facility by id', function() {
-        FacilityStorage.put(facility1);
+        itemStorage.put(item1);
 
-        expect(FacilityStorage.get(facility1.id)).toEqual(facility1);
+        expect(itemStorage.get(item1.id)).toEqual(item1);
     });
 
     it('should get all facilies', function() {
-        FacilityStorage.put(facility1);
-        FacilityStorage.put(facility2);
+        itemStorage.put(item1);
+        itemStorage.put(item2);
 
-        expect(FacilityStorage.getAll()).toEqual([facility1, facility2]);
+        expect(itemStorage.getAll()).toEqual([item1, item2]);
     });
 
     it('should clear all facilies', function() {
-        expect(FacilityStorage.getAll()).toEqual([]);
+        expect(itemStorage.getAll()).toEqual([]);
 
-        FacilityStorage.put(facility1);
-        FacilityStorage.put(facility2);
+        itemStorage.put(item1);
+        itemStorage.put(item2);
 
-        expect(FacilityStorage.getAll()).toEqual([facility1, facility2]);
+        expect(itemStorage.getAll()).toEqual([item1, item2]);
 
-        FacilityStorage.clearAll();
+        itemStorage.clearAll();
 
-        expect(FacilityStorage.getAll()).toEqual([]);
+        expect(itemStorage.getAll()).toEqual([]);
     });
 });

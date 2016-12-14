@@ -10,31 +10,37 @@
 describe('RequisitionService', function() {
 
     var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
-        allStatuses, requisitionUrl, openlmisUrl, RequisitionStorage,
-        startDate = [2016, 4, 30, 16, 21, 33],
-        endDate = [2016, 4, 30, 16, 21, 33],
-        startDate1 = new Date(),
-        endDate1 = new Date(),
-        modifiedDate = [2016, 4, 30, 16, 21, 33],
-        createdDate = [2016, 4, 30, 16, 21, 33],
+        allStatuses, requisitionUrl, openlmisUrl, requisitionsStorage,
+        startDate, endDate, startDate1, endDate1, modifiedDate, createdDate, processingSchedule,
+        facility, program, period, emergency, requisition, requisitionDto, requisitionDto2, requisitionToConvert;
+
+    beforeEach(function() {
+        module('openlmis.requisitions');
+
+        startDate = [2016, 4, 30, 16, 21, 33];
+        endDate = [2016, 4, 30, 16, 21, 33];
+        startDate1 = new Date();
+        endDate1 = new Date();
+        modifiedDate = [2016, 4, 30, 16, 21, 33];
+        createdDate = [2016, 4, 30, 16, 21, 33];
         processingSchedule = {
             modifiedDate: modifiedDate
-        },
+        };
         facility = {
             id: '1',
             name: 'facility1'
-        },
+        };
         program = {
             id: '1',
             name: 'program1'
-        },
+        };
         period = {
             id: '1',
             startDate: startDate,
             endDate: endDate,
             processingSchedule: processingSchedule
-        },
-        emergency = false,
+        };
+        emergency = false;
         requisition = {
             id: '1',
             name: 'requisition',
@@ -50,7 +56,7 @@ describe('RequisitionService', function() {
             facility: {
                 id: 'facility-id'
             }
-        },
+        };
         requisitionDto = {
             id: '2',
             name: 'requisitionDto',
@@ -59,7 +65,7 @@ describe('RequisitionService', function() {
             program: program,
             processingPeriod: period,
             createdDate: createdDate
-        },
+        };
         requisitionDto2 = {
             id: '3',
             name: 'requisitionDto',
@@ -68,49 +74,52 @@ describe('RequisitionService', function() {
             program: program,
             processingPeriod: period,
             createdDate: createdDate
-        },
+        };
         requisitionToConvert = {
             requisitionId: requisition.id,
             supplyingDepotId: requisition.supplyingFacility
         };
 
-    beforeEach(module('openlmis.requisitions'));
+        module(function($provide){
+            var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition),
+                confirmSpy = jasmine.createSpy('Confirm').andCallFake(function(argumentObject) {
+                    return q.when(true);
+                });
 
-    beforeEach(module(function($provide){
-        var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition),
-            confirmSpy = jasmine.createSpy('Confirm').andCallFake(function(argumentObject) {
-                return q.when(true);
+        	$provide.service('RequisitionFactory', function() {
+                return requisitionFactorySpy;
             });
 
-    	$provide.service('RequisitionFactory', function() {
-            return requisitionFactorySpy;
+            $provide.service('Confirm', function() {
+                return confirmSpy;
+            });
+
+            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['get', 'getAll', 'put']);
+            var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
+                return requisitionsStorage;
+            });
+
+            $provide.service('localStorageFactory', function() {
+                return localStorageFactorySpy;
+            });
         });
 
-        $provide.service('Confirm', function() {
-            return confirmSpy;
+        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
+                Status, RequisitionFactory, DateUtils, $q, $templateCache) {
+
+            httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            requisitionService = RequisitionService;
+            allStatuses = Status.$toList();
+            requisitionFactory = RequisitionFactory;
+            dateUtils = DateUtils;
+            q = $q;
+            requisitionUrl = RequisitionURL;
+            openlmisUrl = OpenlmisURL;
+
+            $templateCache.put('common/notification-modal.html', "something");
         });
-    }));
-
-    beforeEach(
-        inject(
-            function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
-                     Status, RequisitionFactory, DateUtils, $q, $templateCache, _RequisitionStorage_) {
-
-                httpBackend = _$httpBackend_;
-                $rootScope = _$rootScope_;
-                requisitionService = RequisitionService;
-                allStatuses = Status.$toList();
-                requisitionFactory = RequisitionFactory;
-                dateUtils = DateUtils;
-                q = $q;
-                requisitionUrl = RequisitionURL;
-                openlmisUrl = OpenlmisURL;
-                RequisitionStorage = _RequisitionStorage_;
-
-                $templateCache.put('common/notification-modal.html', "something")
-            }
-        )
-    );
+    });
 
     it('should get requisition by id', function() {
         var getRequisitionUrl = '/api/requisitions/' + requisition.id;
@@ -199,19 +208,25 @@ describe('RequisitionService', function() {
 
     it('should search requisitions with all params', function() {
         var data,
-            statuses = [allStatuses[0].label, allStatuses[1].label],
-            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto))
-            emergency = true;
+            params = {
+                facility: facility.id,
+                program: program.id,
+                createdDateFrom: startDate1.toISOString(),
+                createdDateTo: endDate1.toISOString(),
+                requisitionStatus: [allStatuses[0].label, allStatuses[1].label],
+                emergency: true
+            },
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
 
         httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
-            '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + emergency +
+            '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + params.emergency +
             '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
-        requisitionService.search(false, program.id, facility.id, startDate1.toISOString(),
-            endDate1.toISOString(), statuses, emergency).then(function(response) {
+        requisitionService.search(false, params).then(function(response) {
             data = response;
+        }, function(response) {
         });
 
         httpBackend.flush();
@@ -222,12 +237,15 @@ describe('RequisitionService', function() {
 
     it('should search requisitions only with facility paramter', function() {
         var data,
-            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto2));
+            requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto2)),
+            params = {
+                facility: facility.id
+            };
 
         httpBackend.when('GET', requisitionUrl('/api/requisitions/search?facility=' + facility.id))
         .respond(200, [requisitionDto2]);
 
-        requisitionService.search(false, null, facility.id, null, null, null).then(function(response) {
+        requisitionService.search(false, params).then(function(response) {
             data = response;
         });
 
@@ -238,11 +256,14 @@ describe('RequisitionService', function() {
     });
 
     it('should search requisitions offline', function() {
-        var data;
+        var data,
+            params = {
+                facility: facility.id
+            };
 
-        spyOn(RequisitionStorage, 'search').andReturn([requisitionDto2]);
+        requisitionsStorage.getAll.andReturn([requisitionDto2]);
 
-        requisitionService.search(true, null, facility.id, null, null, null).then(function(response) {
+        requisitionService.search(true, params).then(function(response) {
             data = response;
         });
 

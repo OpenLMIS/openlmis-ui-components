@@ -19,7 +19,7 @@ angular.module('openlmis.requisitions').filter('requisitionFilter', function(){
             if(params.createdDateFrom && new Date(params.createdDateFrom) > new Date(requisition.createdDate)) match = false;
             if(params.createdDateTo && new Date(params.createdDateTo) < new Date(requisition.createdDate)) match = false;
             if(params.emergency && params.emergency != requisition.emergency) match = false;
-            if(params.statuses && !matchStatus(requisition.status, params.statuses)) match = false;
+            if(params.requisitionStatus && !matchStatus(requisition.status, params.requisitionStatus)) match = false;
 
             if(match) requisitions.push(requisition);
         });

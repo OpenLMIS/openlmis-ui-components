@@ -3,11 +3,11 @@
 	'use strict';
 
 	angular.module('openlmis.requisitions')
-	    .factory('FacilityFactory', FacilityFactory);
+	    .service('FacilityService', FacilityService);
 
-    FacilityFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'Offline', 'FacilityStorage'];
+    FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'Offline', 'localStorageFactory'];
 
-    function FacilityFactory($q, $resource, OpenlmisURL, Offline, FacilityStorage) {
+    function FacilityService($q, $resource, OpenlmisURL, Offline, localStorageFactory) {
         var resource = $resource(OpenlmisURL('/api/facilities/:id'), {}, {
             'getAll': {
                 url: OpenlmisURL('/api/facilities/'),
@@ -16,22 +16,24 @@
             }
         }),
 
-        factory = {
+		facilitiesOffline = localStorageFactory('facilities'),
+
+        service = {
             get: get,
             getAll: getAll
         };
-        return factory;
+        return service;
 
         function get(facilityId) {
             var facility,
 				deferred = $q.defer();
 
 			if(Offline.isOffline) {
-				facility = FacilityStorage.get(facilityId);
+				facility = facilitiesOffline.get(facilityId);
 				facility ? deferred.resolve(facility) : deferred.reject();
 			} else {
 	            resource.get({id: facilityId}, function(data) {
-					FacilityStorage.put(data);
+					facilitiesOffline.put(data);
 	                deferred.resolve(data);
 	            }, function() {
 	                deferred.reject();
@@ -45,11 +47,11 @@
             var deferred = $q.defer();
 
 			if(Offline.isOffline) {
-				deferred.resolve(FacilityStorage.getAll());
+				deferred.resolve(facilitiesOffline.getAll());
 			} else {
 				resource.getAll(function(facilities) {
 					angular.forEach(facilities, function(facility) {
-						FacilityStorage.put(facility);
+						facilitiesOffline.put(facility);
 					});
 	                deferred.resolve(facilities);
 	            }, function() {

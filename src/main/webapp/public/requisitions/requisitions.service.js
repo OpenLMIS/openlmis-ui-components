@@ -15,10 +15,10 @@
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
                                   'RequisitionURL', 'RequisitionFactory', 'Confirm',
-                                  'Notification', 'DateUtils', 'RequisitionStorage'];
+                                  'Notification', 'DateUtils', 'localStorageFactory', '$filter'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, DateUtils, RequisitionStorage) {
+                                RequisitionFactory, Confirm, Notification, DateUtils, localStorageFactory, $filter) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -87,7 +87,9 @@
             getSupervisedPrograms: getSupervisedPrograms,
             getSupervisedFacilities: getSupervisedFacilities,
             getRightByName: getRightByName
-        };
+        },
+        requisitionsOffline = localStorageFactory('requisitions');
+
         return service;
 
         /**
@@ -162,12 +164,15 @@
          * @name search
          * @methodOf openlmis.requisitions.RequisitionService
          * @param {boolean} offline Indicates if searching in offline requisitions
-         * @param {String} programId Program UUID (optional)
-         * @param {String} facilityId Facility UUID
-         * @param {Date} startDate Requisitions created from this date (optional)
-         * @param {Date} endDate Requisitions created to this date (optional)
-         * @param {Array} statuses List of requisition statuses (optional)
-         * @param {boolean} emergency Indicates if requisition is emergency or not (optional)
+         * @param {Object} searchParams Contains parameters for searching requisitions, i.e.
+         * {
+         *      program: 'programID',
+         *      facility: 'facilityID',
+         *      createdDateFrom: 'startDate',
+         *      createdDateTo: 'endDate',
+         *      requisitionStatus: ['status1', 'status2'],
+         *      emergency: false
+         * }
          *
          * @return {Array} Array of requisitions for given criteria (optional)
          *
@@ -175,20 +180,14 @@
          * Search requisitons by criteria from parameters.
          *
          */
-        function search(offline, programId, facilityId, startDate, endDate, statuses, emergency) {
-            var searchParams = {
-                    facility: facilityId
-                },
-                deferred = $q.defer();
-
-            if(programId) searchParams['program'] = programId;
-            if(statuses && angular.isArray(statuses) && statuses.length > 0) searchParams['requisitionStatus'] = statuses;
-            if(emergency) searchParams['emergency'] = emergency;
-            if(startDate) searchParams['createdDateFrom'] = startDate;
-            if(endDate) searchParams['createdDateTo'] = endDate;
+        function search(offline, searchParams) {
+            var deferred = $q.defer();
 
             if(offline) {
-                deferred.resolve(RequisitionStorage.search(searchParams));
+                var allRequisitions = requisitionsOffline.getAll(),
+                    filteredRequisitions = $filter('requisitionFilter')(allRequisitions, searchParams);
+
+                deferred.resolve(filteredRequisitions);
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
                     deferred.resolve(requisitions);

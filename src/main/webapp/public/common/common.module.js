@@ -19,7 +19,8 @@
         'ui.directives',
         'ngCookies',
         'ngRoute',
-        'ui.router'
+        'ui.router',
+        'ngStorage'
         ]);
 
 })();

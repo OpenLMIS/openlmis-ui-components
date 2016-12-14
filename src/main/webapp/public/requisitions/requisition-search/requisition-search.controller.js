@@ -23,9 +23,9 @@
         .module('openlmis.requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'Offline'];
+    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'Offline'];
 
-    function RequisitionSearchController($state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, Offline) {
+    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, Offline) {
         var vm = this;
 
         vm.loadPrograms = loadPrograms;
@@ -33,6 +33,7 @@
         vm.openRnr = openRnr;
 
         vm.offline = Offline.isOffline;
+        vm.searchOffline = vm.offline;
         vm.facilities = facilityList;
         vm.statuses = Status.$toList();
         vm.selectedStatuses = [];
@@ -40,6 +41,11 @@
         if (!angular.isArray(vm.facilities) || vm.facilities.length < 1) {
             vm.error = 'msg.facilities.not.found';
         }
+
+        $rootScope.$watch(Offline.isOffline, function(){
+            vm.offline = Offline.isOffline;
+            if(Offline.isOffline) vm.searchOffline = Offline.isOffline;
+        }, true);
 
         /**
          *
@@ -73,7 +79,7 @@
             } else if (vm.selectedFacility.supportedPrograms) {
                 vm.programs = vm.selectedFacility.supportedPrograms;
             } else {
-                vm.error = 'msg.no.program.available';
+                Notification.error('msg.no.program.available');
             }
         }
 
@@ -89,19 +95,17 @@
          */
         function search() {
             vm.requisitionList = [];
-            vm.error = null;
             if (vm.selectedFacility) {
+                vm.error = null;
                 LoadingModalService.open();
-                RequisitionService.search(
-                    vm.offline ? true : vm.searchOffline,
-                    vm.selectedProgram ? vm.selectedProgram.id : null,
-                    vm.selectedFacility ? vm.selectedFacility.id : null,
-                    vm.startDate ? vm.startDate.toISOString() : null,
-                    vm.endDate ? vm.endDate.toISOString() : null,
-                    null
-                )
-                .then(function(response) {
-                    vm.requisitionList = response;
+                RequisitionService.search(vm.searchOffline, {
+                    program: vm.selectedProgram ? vm.selectedProgram.id : null,
+                    facility: vm.selectedFacility ? vm.selectedFacility.id : null,
+                    createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
+                    createdDateTo: vm.endDate ? vm.endDate.toISOString() : null
+                })
+                .then(function(requisitionList) {
+                    vm.requisitionList = requisitionList;
                     LoadingModalService.close();
                     if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
                         Notification.error('msg.no.requisitions.found');
