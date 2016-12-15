@@ -15,7 +15,6 @@ module.exports = function (config) {
     files: [
       'build/webapp/openlmis.js',
       'bower_components/angular-mocks/angular-mocks.js',
-      // 'src/**/specs/**/*.js',
       'src/**/*.spec.js',
       'build/webapp/**/*.html'
     ],
