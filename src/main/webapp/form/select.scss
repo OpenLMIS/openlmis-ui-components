@@ -1,0 +1,71 @@
+
+/*
+Selects
+
+Stubby bubbly hubbly
+
+markup:
+<form>
+	<label for="select-single-option">Select with no selection</label>
+	<select id="select-single-option">
+	  <option value="">Ignored placeholder value</option>
+	  <option value="selected-default-option">Selected default option</option>
+	</select>
+	<label for="select-no-selection">Select with no selection</label>
+	<select id="select-no-selection" placeholder="Customizable placeholder">
+	  <option value="1">1</option>
+	  <option value="2">2</option>
+	</select>
+	<label for="select-with-selection">Select with selected value</label>
+	<select id="select-with-selection">
+	  <option value="1">1</option>
+	  <option value="2" selected="selected">2</option>
+	</select>
+	<label for="select-no-placeholder">Select with no placeholder <em>(not recommended)</em></label>
+	<select id="select-no-placeholder" no-placeholder>
+      <option value="1">This will be immedately selected</option>
+      <option value="2">This is another option</option>
+    </select>
+	<fieldset ng-init="
+		selectValue='animal';
+		options = {
+			'animal': {
+				name: 'Animals that do not exist',
+				options: ['Unicorn']
+			},
+			'variable':{
+				name: 'Variables that do not exist',
+				options: ['foo', 'bar', 'baz']
+			}
+		};
+		">
+		<legend>ngModel based select elements</legend>
+		<a ng-click="selectValue=undefined">Reset</a>
+		<label for="select-ng-options">Select using ngOptions</label>
+		<select id="select-ng-options"
+			ng-model="selectValue"
+			ng-options="key as value.name for (key, value) in options"
+		>
+			<option value="">Select a non-existant thing</option>
+		</select>
+		<label for="select-updated">Select with dynamic options</label>
+		<select id="select-updated"
+			placeholder="Pick something"
+			ng-model="secondOption"
+			ng-options="value for value in options[selectValue].options"
+			>
+		</select>
+	</fieldset>
+</form>
+
+
+Styleguide 3.1
+
+*/
+
+select{
+	@extend .form-control;
+}
+
+
+
