@@ -29,13 +29,13 @@
             return storage;
 
             function get(id) {
-                return angular.copy(resource[id]);
+                return resource[id];
             }
 
             function getAll() {
                 var items = [];
                 angular.forEach(resource, function(item) {
-                    items.push(angular.copy(item));
+                    items.push(item);
                 });
                 return items;
             }

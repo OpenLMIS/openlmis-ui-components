@@ -44,7 +44,7 @@ describe('localStorageFactory', function() {
         itemStorage.put(item1);
         itemStorage.put(item2);
 
-        expect(itemStorage.getAll()).toEqual([item1, item2]);
+        expect(itemStorage.getAll().sort(compare)).toEqual([item1, item2].sort(compare));
     });
 
     it('should clear all facilies', function() {
@@ -55,25 +55,11 @@ describe('localStorageFactory', function() {
         itemStorage.put(item1);
         itemStorage.put(item2);
 
-        expect(itemStorage.getAll()).toEqual([item1, item2]);
+        expect(itemStorage.getAll().sort(compare)).toEqual([item1, item2].sort(compare));
 
         itemStorage.clearAll();
 
         expect(itemStorage.getAll()).toEqual([]);
-    });
-
-    it('should not change item in storage after getting it and modify it outside the storage factory', function() {
-        var object;
-
-        itemStorage.put(item1);
-        object = itemStorage.get(item1.id);
-
-        expect(object).toEqual(item1);
-
-        object.name = 'wasd';
-
-        expect(itemStorage.get(item1.id).name).toEqual(item1.name);
-        expect(itemStorage.get(item1.id).name).toEqual('item1');
     });
 
     it('should set index for item if it has no id', function() {
@@ -84,4 +70,12 @@ describe('localStorageFactory', function() {
 
         expect(itemStorage.get(index)).toEqual(item1);
     });
+
+    function compare(a,b) {
+        if (a.id < b.id)
+            return -1;
+        if (a.id > b.id)
+            return 1;
+        return 0;
+    }
 });
