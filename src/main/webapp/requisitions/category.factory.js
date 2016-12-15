@@ -32,7 +32,7 @@
             var categories = {};
 
             products.forEach(function(product) {
-                var category = product.product.productCategoryDisplayName; // wczesniej bylo z kropka
+                var category = product.product.productCategoryDisplayName;
                 if (!isLineItem(lineItems, product)) {
                     if (!categories[category]) {
                         categories[category] = [];
