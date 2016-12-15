@@ -55,7 +55,10 @@ describe('RequisitionSearchController', function() {
             }
         }];
 
-        inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification) {
+        inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification, RequisitionService, $q) {
+            var response = $q.when(requisitionList);
+            spyOn(RequisitionService, 'search').andReturn(response);
+
             rootScope = $rootScope;
             httpBackend = $httpBackend;
             startDate = new Date();
@@ -63,11 +66,6 @@ describe('RequisitionSearchController', function() {
             notification = Notification;
 
             vm = $controller('RequisitionSearchController', {facilityList:facilityList});
-        });
-
-        inject(function(RequisitionService, $q){
-            var response = $q.when(requisitionList);
-            spyOn(RequisitionService, 'search').andReturn(response);
         });
     });
 

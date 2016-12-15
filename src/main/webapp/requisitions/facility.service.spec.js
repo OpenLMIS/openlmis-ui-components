@@ -44,7 +44,7 @@ describe('FacilityService', function() {
         };
     });
 
-    describe('get factory', function() {
+    describe('get', function() {
 
         it('should get facility by id from storage while offline', function() {
             var data;
@@ -81,7 +81,7 @@ describe('FacilityService', function() {
         });
     });
 
-    describe('get all factories', function() {
+    describe('getAll', function() {
 
         it('should get all facilities from storage while offline', function() {
             var data;

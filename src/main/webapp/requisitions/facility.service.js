@@ -2,6 +2,13 @@
 
 	'use strict';
 
+	/**
+     * @ngdoc service
+     * @name openlmis.requisitions.FacilityService
+     *
+     * @description
+     * Responsible for retriving all facility information from server.
+     */
 	angular.module('openlmis.requisitions')
 	    .service('FacilityService', FacilityService);
 
@@ -24,6 +31,18 @@
         };
         return service;
 
+		/**
+         * @ngdoc function
+         * @name get
+         * @methodOf openlmis.requisitions.FacilityService
+         * @param {String} facilityId Facility UUID
+         * @return {Promise} facility promise
+         *
+         * @description
+         * Retrieves facility by id. When user is offline it gets facility from offline storage.
+         * If user is online it stores facilitiy into offline storage
+         *
+         */
         function get(facilityId) {
             var facility,
 				deferred = $q.defer();
@@ -43,6 +62,17 @@
             return deferred.promise;
         }
 
+		/**
+         * @ngdoc function
+         * @name getAll
+         * @methodOf openlmis.requisitions.FacilityService
+         * @return {Promise} Array of facilities
+         *
+         * @description
+         * Retrieves all facilities. When user is offline it gets facilities from offline storage.
+         * If user is online it stores all facilities into offline storage
+         *
+         */
         function getAll() {
             var deferred = $q.defer();
 
