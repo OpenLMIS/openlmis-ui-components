@@ -23,16 +23,16 @@
         .module('openlmis.requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'Offline'];
+    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'OfflineService'];
 
-    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, Offline) {
+    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, OfflineService) {
         var vm = this;
 
         vm.loadPrograms = loadPrograms;
         vm.search = search;
         vm.openRnr = openRnr;
 
-        vm.offline = Offline.isOffline;
+        vm.offline = OfflineService.isOffline;
         vm.searchOffline = vm.offline;
         vm.facilities = facilityList;
         vm.statuses = Status.$toList();
@@ -42,9 +42,9 @@
             vm.error = 'msg.facilities.not.found';
         }
 
-        $rootScope.$watch(Offline.isOffline, function(){
-            vm.offline = Offline.isOffline;
-            if(Offline.isOffline) vm.searchOffline = Offline.isOffline;
+        $rootScope.$watch(OfflineService.isOffline, function(){
+            vm.offline = OfflineService.isOffline;
+            if(OfflineService.isOffline) vm.searchOffline = OfflineService.isOffline;
         }, true);
 
         /**

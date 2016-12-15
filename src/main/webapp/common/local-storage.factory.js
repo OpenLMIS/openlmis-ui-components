@@ -12,27 +12,26 @@
         return LocalStorageFactory;
 
         function LocalStorageFactory(resourceName) {
-            var resource = $localStorage[resourceName],
-                storage = {
+            var storage = {
                     get: get,
                     getAll: getAll,
                     put: put,
                     clearAll: clearAll
                 };
 
-            if (!resource) {
-                resource = {};
+            if (!$localStorage[resourceName]) {
+                $localStorage[resourceName] = {};
             }
 
             return storage;
 
             function get(id) {
-                return angular.copy(resource[id]);
+                return angular.copy($localStorage[resourceName][id]);
             }
 
             function getAll() {
                 var items = [];
-                angular.forEach(resource, function(item) {
+                angular.forEach($localStorage[resourceName], function(item) {
                     items.push(angular.copy(item));
                 });
                 return items;
@@ -42,12 +41,12 @@
                 var index;
                 if(!item.id) index = generateIndex();
                 else index = item.id;
-                resource[index] = item;
+                $localStorage[resourceName][index] = item;
                 return index;
             }
 
             function clearAll() {
-                resource = {};
+                $localStorage[resourceName] = {};
             }
 
             function generateIndex() {
@@ -55,7 +54,7 @@
                 do {
                     index = Math.random();
                 }
-                while(resource[index]);
+                while($localStorage[resourceName][index]);
                 return index;
             }
         }
