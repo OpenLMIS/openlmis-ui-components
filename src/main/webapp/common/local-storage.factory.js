@@ -12,19 +12,14 @@
         return LocalStorageFactory;
 
         function LocalStorageFactory(resourceName) {
-            var resource,
+            if(!$localStorage[resourceName]) $localStorage[resourceName] = {};
+            var resource = $localStorage[resourceName],
                 storage = {
                     get: get,
                     getAll: getAll,
                     put: put,
                     clearAll: clearAll
                 };
-
-            if (!$localStorage[resourceName]) {
-                $localStorage[resourceName] = {};
-            }
-
-            resource = $localStorage[resourceName];
 
             return storage;
 
