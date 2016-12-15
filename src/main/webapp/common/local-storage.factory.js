@@ -12,7 +12,7 @@
         return LocalStorageFactory;
 
         function LocalStorageFactory(resourceName) {
-            var resource = $localStorage[resourceName];
+            var resource,
                 storage = {
                     get: get,
                     getAll: getAll,
@@ -23,6 +23,8 @@
             if (!$localStorage[resourceName]) {
                 $localStorage[resourceName] = {};
             }
+
+            resource = $localStorage[resourceName];
 
             return storage;
 
@@ -48,6 +50,7 @@
 
             function clearAll() {
                 $localStorage[resourceName] = {};
+                resource = {};
             }
 
             function generateIndex() {
