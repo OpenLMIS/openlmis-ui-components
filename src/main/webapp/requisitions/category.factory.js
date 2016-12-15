@@ -32,13 +32,13 @@
             var categories = {};
 
             products.forEach(function(product) {
-                var category = product.product.productCategory.displayName;
+                var category = product.product.productCategoryDisplayName; // wczesniej bylo z kropka
                 if (!isLineItem(lineItems, product)) {
                     if (!categories[category]) {
                         categories[category] = [];
                     }
-                    categories[category].push(product.product.product);
-                    product.product.product.$visible = true;
+                    categories[category].push(product.product);
+                    product.product.$visible = true;
                 }
             });
 
@@ -72,7 +72,7 @@
         function isLineItem(lineItems, product) {
             var isLineItem = false;
             lineItems.forEach(function(lineItem) {
-                isLineItem = isLineItem || (lineItem.orderableProduct.id === product.product.product.id);
+                isLineItem = isLineItem || (lineItem.orderableProduct.id === product.product.productId);
             });
             return isLineItem;
         }
