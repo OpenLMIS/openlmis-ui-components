@@ -31,12 +31,16 @@ describe('localStorageFactory', function() {
     });
 
     it('should get facility by id', function() {
+        itemStorage.clearAll();
+
         itemStorage.put(item1);
 
         expect(itemStorage.get(item1.id)).toEqual(item1);
     });
 
-    it('should get all facilies', function() {
+    it('should get all facilities', function() {
+        itemStorage.clearAll();
+
         itemStorage.put(item1);
         itemStorage.put(item2);
 
@@ -44,6 +48,8 @@ describe('localStorageFactory', function() {
     });
 
     it('should clear all facilies', function() {
+        itemStorage.clearAll();
+
         expect(itemStorage.getAll()).toEqual([]);
 
         itemStorage.put(item1);

@@ -33,7 +33,7 @@
         <div class="form-group">
             <label for="offlineSearch">{{'msg.requisition.view.offline' | message}}</label>
             <input id="offlineSearch" type="checkbox"
-                ng-model="vm.searchOffline" ng-disabled="vm.offline"/>
+                ng-model="vm.searchOffline" ng-disabled="vm.isOfflineDisabled()"/>
         </div>
         <div class="form-group">
             <button id="searchButton" ng-click="vm.search()"

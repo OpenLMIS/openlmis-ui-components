@@ -32,8 +32,8 @@
         vm.search = search;
         vm.openRnr = openRnr;
 
-        vm.offline = OfflineService.isOffline;
-        vm.searchOffline = vm.offline;
+        vm.isOfflineDisabled = isOfflineDisabled;
+        vm.searchOffline = OfflineService.isOffline;
         vm.facilities = facilityList;
         vm.statuses = Status.$toList();
         vm.selectedStatuses = [];
@@ -42,11 +42,10 @@
             vm.error = 'msg.facilities.not.found';
         }
 
-        $rootScope.$watch(OfflineService.isOffline, function(){
-            vm.offline = OfflineService.isOffline;
-            if(OfflineService.isOffline) vm.searchOffline = OfflineService.isOffline;
-        }, true);
-
+        function isOfflineDisabled() {
+            if(OfflineService.isOffline) vm.searchOffline = true;
+            return OfflineService.isOffline;
+        }
         /**
          *
          * @ngdoc function
