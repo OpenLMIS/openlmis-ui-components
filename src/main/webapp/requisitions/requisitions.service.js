@@ -56,24 +56,6 @@
                 url: OpenlmisURL('/api/facilities/:id/approvedProducts'),
                 method: 'GET',
                 isArray: true
-            },
-            'getSupervisedPrograms': {
-                url: OpenlmisURL('api/users/:id/programs'),
-                method: 'GET',
-                isArray: true,
-                params: {
-                    forHomeFacility: false
-                }
-            },
-            'getSupervisedFacilities': {
-                url: OpenlmisURL('api/users/:id/supervisedFacilities'),
-                method: 'GET',
-                isArray: true
-            },
-            'getRightByName': {
-                url: OpenlmisURL('api/rights/search'),
-                method: 'GET',
-                isArray: true
             }
         });
 
@@ -83,10 +65,7 @@
             search: search,
             forApproval: forApproval,
             forConvert: forConvert,
-            convertToOrder: convertToOrder,
-            getSupervisedPrograms: getSupervisedPrograms,
-            getSupervisedFacilities: getSupervisedFacilities,
-            getRightByName: getRightByName
+            convertToOrder: convertToOrder
         },
         requisitionsOffline = localStorageFactory('requisitions');
 
@@ -255,52 +234,6 @@
 
             return deferred.promise;
         }
-
-        /**
-        * @ngdoc function
-        * @name getSupervisedPrograms
-        * @methodOf openlmis.requisitions.RequisitionService
-        * @param {String} userId User UUID
-        * @return {Promise} array of user's supervised programs
-        *
-        * @description
-        * Returns programs where the current user has supervisory permissions.
-        */
-        function getSupervisedPrograms(userId) {
-            return resource.getSupervisedPrograms({id:userId}).$promise;
-        }
-
-        /**
-        * @ngdoc function
-        * @name getSupervisedFacilities
-        * @methodOf openlmis.requisitions.RequisitionService
-        * @param {String} userId User UUID
-        * @param {String} programId Program UUID
-        * @param {String} rightId Right UUID
-        * @return {Promise} array of user's supervised facilities
-        *
-        * @description
-        * Returns facilities where program with given programId is active and where the current
-        * user has right with given rightId.
-        */
-        function getSupervisedFacilities(userId, programId, rightId) {
-            return resource.getSupervisedFacilities({id: userId, programId: programId, rightId:
-            rightId}).$promise;
-        }
-
-        /**
-        * @ngdoc function
-        * @name getRightByName
-        * @methodOf openlmis.requisitions.RequisitionService
-        * @param {String} name Right name
-        * @return {Promise} right with given name
-        *
-        * @description
-        * Returns right with given name.
-        */
-        function getRightByName(name) {
-            return resource.getRightByName({name: name}).$promise;
-         }
 
         function transformRequest(requisitionsWithDepots) {
             var body = [];

@@ -14,23 +14,26 @@ describe("InitiateRnrController", function(){
         requisitionService = _RequisitionService_;
         $q = _$q_;
 
+        user = {"user_id": "user_id"};
+        programs = [{item: {"code": "HIV", "id": 1}}];
+        facility = {
+            "id": "10134",
+            "name": "National Warehouse",
+            "description": null,
+            "code": "CODE",
+            "supportedPrograms": programs};
 
-        programs = [
-           {item: {"code": "HIV", "id": 1}}
-        ];
-        facility=
-          {"id": "10134", "name": "National Warehouse", "description": null, "code": "CODE",
-          "supportedPrograms": programs}
-        ;
-        initController = function(){
-            return $controller('InitiateRnrController', {$scope: scope, facility: facility,
+        
+        initController = function() {
+            return $controller('InitiateRnrController', {$scope: scope, facility: facility, user: user, supervisedPrograms: [],
             PeriodFactory: periodFactory, RequisitionService: requisitionService});
         }
+
         period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
         spyOn(periodFactory, 'get').andReturn($q.when(period));
     }));
 
-    it("should assigns proper values when facility is assigned", function() {
+    it("should assign proper values when facility is assigned", function() {
         var controller = initController();
 
         expect(scope.selectedFacilityId).toEqual(facility.id);
@@ -56,7 +59,6 @@ describe("InitiateRnrController", function(){
 
         spyOn($state, 'go');
         spyOn(requisitionService, 'initiate').andReturn($q.when({"id": 1}));
-        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
 
         var controller = initController();
 
@@ -70,7 +72,6 @@ describe("InitiateRnrController", function(){
     + "and when invalid response from service",
     function(){
         spyOn(requisitionService,'initiate').andReturn($q.reject({"id": 1}));
-        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
 
         var selectedPeriod = {};
 
@@ -85,7 +86,6 @@ describe("InitiateRnrController", function(){
     });
 
     it("Should reload periods with proper data", function() {
-        spyOn(requisitionService, 'getSupervisedPrograms').andReturn($q.when([]));
 
         var controller = initController();
         scope.loadPeriods();

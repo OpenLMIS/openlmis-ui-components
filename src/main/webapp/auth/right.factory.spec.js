@@ -15,10 +15,11 @@ describe('Right', function() {
         var right;
 
         beforeEach(function() {
-            right = new Right('RightName', ['ProgramOne'], ['FacilityOne'], ['NodeOne']);
+            right = new Right('RightId', 'RightName', ['ProgramOne'], ['FacilityOne'], ['NodeOne']);
         });
 
         it('should set all properties', function() {
+            expect(right.id).toBe('RightId');
             expect(right.name).toBe('RightName');
             expect(right.programs.length).toBe(1);
             expect(right.programs[0]).toBe('ProgramOne');

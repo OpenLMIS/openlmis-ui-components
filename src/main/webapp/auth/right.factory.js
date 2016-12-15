@@ -29,12 +29,14 @@
          * @description
          * Creates a Right class object.
          *
+         * @param {String}  id          the id of the Right
          * @param {String}  name        the name of the Right
          * @param {Array}   programs    the list of related programs
          * @param {Array}   facilities  the list of related warehouses
          * @param {Array}   nodes       the list of related supervisory nodes
          */
-        function Right(name, programs, facilities, nodes, isDirect) {
+        function Right(id, name, programs, facilities, nodes, isDirect) {
+            this.id = id;
             this.name = name;
             this.programs = programs;
             this.facilities = facilities;
@@ -63,6 +65,7 @@
                     var right;
                     if (!rights[name]) {
                         right = {
+                            id: rightObj.id,
                             programCode: [],
                             warehouseCode: [],
                             supervisoryNodeCode: []
@@ -98,6 +101,7 @@
             var rightList = [];
             for (var right in rights) {
                 rightList.push(new Right(
+                    rights[right].id,
                     right,
                     rights[right].programCode,
                     rights[right].warehouseCode,

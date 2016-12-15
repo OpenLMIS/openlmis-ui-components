@@ -40,6 +40,7 @@
         this.setAccessToken = setAccessToken;
         this.setRights = setRights;
         this.setUser = setUser;
+        this.getRightIdByName = getRightIdByName;
 
         /**
          * @ngdoc function
@@ -262,6 +263,20 @@
          */
         function clearRights() {
             localStorageService.remove(storageKeys.USER_ROLE_ASSIGNMENTS);
+        }
+
+        /**
+         * @ngdoc function
+         * @name  getRightIdByName
+         * @methodOf openlmis-common.AuthorizationService
+         *
+         * @description
+         * Returns id of right with given name.
+         */
+        function getRightIdByName(rightName) {
+            var rights = $filter('filter')(getRights(), {
+                name: rightName}, true);
+            return rights[0].id;
         }
     }
 

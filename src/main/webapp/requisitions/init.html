@@ -6,16 +6,16 @@
       <legend openlmis-message="label.requisition.facilityType"></legend>
       <label class="radio">
         {{'label.myFacility'|message}}
-        <input type="radio" ng-model="selectedType" ng-value="0" ng-change="loadFacilityData(selectedType);" />
+        <input type="radio" ng-model="isSupervised" ng-value="false" ng-change="loadFacilityData(isSupervised);" />
       </label>
       <label class="radio">
         {{'label.supervised.Facility'|message}}
-        <input type="radio" ng-model="selectedType" ng-value="1"
-               ng-change="loadFacilityData(selectedType);"
+        <input type="radio" ng-model="isSupervised" ng-value="true"
+               ng-change="loadFacilityData(isSupervised);"
                ng-disabled="supervisedFacilitiesDisabled"/>
       </label>
     </fieldset>
-    <div class="form-group" ng-show="!selectedType">
+    <div class="form-group" ng-if="!isSupervised">
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
       <select id="facilityName"
         ng-model="selectedFacilityId"
@@ -23,7 +23,7 @@
         placeholder="label.select.facility" >
       </select>
     </div>
-    <div class="form-group" ng-show="!selectedType">
+    <div class="form-group" ng-if="!isSupervised">
       <label for="programListMyFacility" openlmis-message="label.program"></label>
       <select
         id="programListMyFacility"
@@ -32,7 +32,7 @@
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-show="selectedType">
+    <div class="form-group" ng-if="isSupervised">
       <label for="programListSupervisedFacility" openlmis-message="label.program"></label>
       <select
         id="programListSupervisedFacility"
@@ -42,11 +42,10 @@
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-show="selectedType">
+    <div class="form-group" ng-if="isSupervised">
       <label for="supervisedFacilityName" openlmis-message="label.requisition.facilityName"></label>
       <select
         id="supervisedFacilityName"
-        ng-disabled="!selectedProgram"
         ng-model="selectedFacilityId"
         ng-options="facility.id as facility.name for facility in facilities | unique:'id'"
         placeholder="{{'label.select.facility' | message}}" >
