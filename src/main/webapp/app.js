@@ -30,12 +30,14 @@
         'dndLists'
 		]).config(defaultRoutes);
 
-	defaultRoutes.$inject = ['$urlRouterProvider'];
-	function defaultRoutes($urlRouterProvider){
+	defaultRoutes.$inject = ['$urlRouterProvider', '$qProvider'];
+	function defaultRoutes($urlRouterProvider, $qProvider){
 		$urlRouterProvider
 		.when('', '/home')
 		.when('/', '/home')
 		.otherwise("/404");
+
+        $qProvider.errorOnUnhandledRejections(false);
 	}
 
 })();
