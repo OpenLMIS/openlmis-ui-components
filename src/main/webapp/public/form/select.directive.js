@@ -26,7 +26,6 @@
     *
     */
 
-    /*
     angular.module("openlmis-core").directive('select', select);
 
     select.$inject = ['messageService'];
@@ -40,32 +39,56 @@
                 var ngModelCtrl = ctrls[0];
                 var selectCtrl = ctrls[1];
 
-                var emptyOption = element.children('option[value=""]');
-                if(!emptyOption.length){
-                    element.prepend('<option value="" class="placeholder"></option>');
-                } else {
-                    emptyOption.addClass('placeholder');
+                ngModelCtrl.$render = function(){
+                    
+                    if(!ngModelCtrl.$viewValue || ngModelCtrl.$viewValue == ""){
+                        ngModelCtrl.$setViewValue("", false);
+                        element.children('option[selected="selected"]').removeAttr('selected');
+                    } else {
+                        selectCtrl.writeValue(ngModelCtrl.$viewValue);
+                    }
+
+                    createEmptyOption();
+                    disableElementIfOneOption();             
                 }
 
-                // set the placeholder text
-                if(emptyOption.text()==""){
-                    if(attrs.placeholder){
-                        element.children('option.placeholder').text(attrs.placeholder);
+                function createEmptyOption(){
+                    var emptyOption = element.children('option[value=""]');
+                    if(!emptyOption.length){
+                        element.prepend('<option value="" class="placeholder"></option>');
                     } else {
-                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                        emptyOption.addClass('placeholder');
+                    }
+
+                    // set the placeholder text
+                    if(emptyOption.text()==""){
+                        if(attrs.placeholder){
+                            element.children('option.placeholder').text(attrs.placeholder);
+                        } else {
+                            element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                        }
                     }
                 }
 
-                var options = element.children('option:not(option[value=""]):not(option[value="?"])');
+                function disableElementIfOneOption(){
+                    var optionsSelector = 'option:not(option[value=""]):not(option[value="?"])';
+                    var options = element.children(optionsSelector);
 
-                if(options.length <= 1){
-                    element.attr("disabled", true);
-                } else {
-                    element.attr("disabled", false);
+                    if(options.length <= 1){
+                        element.attr("disabled", true);
+                    } else {
+                        element.attr("disabled", false);
+                    }
+
+                    if(options.length == 1){
+                        element.children(optionsSelector + ':first').attr('selected', 'selected');
+                        ngModelCtrl.$setViewValue(
+                            selectCtrl.readValue() // if ngOptions is used with object, this fetches the object
+                            );
+                    } 
                 }
             }
         };
     }
 
-    */
 })();
