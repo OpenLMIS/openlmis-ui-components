@@ -78,7 +78,7 @@ module.exports = function(grunt) {
           keepalive: true,
           debug: true,
           port: 9000,
-          base: config.app.dest + '/webapp'
+          base: config.app.dest
         }
       }
     },
