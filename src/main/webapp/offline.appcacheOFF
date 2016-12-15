@@ -2,127 +2,127 @@ CACHE MANIFEST
 #version @version@
 
 CACHE:
-/public/favicon.ico
-/public/lib/jquery/jquery-2.0.0.min.js
-/public/lib/angular/angular.min.js
-/public/lib/angular/angular-route.min.js
-/public/lib/angular/angular-resource.min.js
-/public/lib/bootstrap/js/bootstrap.min.js
-/public/lib/bootstrap/css/bootstrap.min.css
-/public/lib/angular-ui/angular-ui.min.js
-/public/lib/angular-ui/angular-ui.min.css
+/favicon.ico
+/lib/jquery/jquery-2.0.0.min.js
+/lib/angular/angular.min.js
+/lib/angular/angular-route.min.js
+/lib/angular/angular-resource.min.js
+/lib/bootstrap/js/bootstrap.min.js
+/lib/bootstrap/css/bootstrap.min.css
+/lib/angular-ui/angular-ui.min.js
+/lib/angular-ui/angular-ui.min.css
 
-/public/js/shared/app.js
-/public/lib/angular/angular-cookies.min.js
-/public/lib/select2/select2.js
-/public/js/shared/select2-ext.js
-/public/lib/select2/select2.css
+/js/shared/app.js
+/lib/angular/angular-cookies.min.js
+/lib/select2/select2.js
+/js/shared/select2-ext.js
+/lib/select2/select2.css
 
-/public/js/shared/directives/form-toolbar.js
-/public/js/shared/directives/openlmis-message.js
-/public/js/shared/directives/openlmis-pagination.js
-/public/js/shared/directives/placeholder.js
-/public/js/shared/directives/ui-nav.js
-/public/js/shared/directives/tab-scroll.js
-/public/js/shared/directives/modal-events.js
-/public/js/shared/directives/fade-out.js
-/public/js/shared/directives/fixed-table-header.js
+/js/shared/directives/form-toolbar.js
+/js/shared/directives/openlmis-message.js
+/js/shared/directives/openlmis-pagination.js
+/js/shared/directives/placeholder.js
+/js/shared/directives/ui-nav.js
+/js/shared/directives/tab-scroll.js
+/js/shared/directives/modal-events.js
+/js/shared/directives/fade-out.js
+/js/shared/directives/fixed-table-header.js
 
-/public/css/app.css
-/public/js/shared/services/services.js
-/public/js/shared/services/message-service.js
-/public/js/shared/controller/navigation-controller.js
-/public/lib/localstorage/localStorage.js
-/public/js/shared/localStorageKeys.js
+/css/app.css
+/js/shared/services/services.js
+/js/shared/services/message-service.js
+/js/shared/controller/navigation-controller.js
+/lib/localstorage/localStorage.js
+/js/shared/localStorageKeys.js
 
-/public/pages/navigation-offline.html
-/public/pages/header-offline.html
-/public/pages/template/dialog/dialogbox.html
+/pages/navigation-offline.html
+/pages/header-offline.html
+/pages/template/dialog/dialogbox.html
 
-/public/pages/logistics/distribution/offline.html
-/public/pages/logistics/distribution/partials/list.html
-/public/pages/logistics/distribution/partials/init.html
-/public/pages/logistics/distribution/partials/record-facility-data.html
-/public/pages/logistics/distribution/partials/record-facility-menu.html
-/public/pages/logistics/distribution/partials/view-load-amount.html
-/public/pages/logistics/distribution/partials/epi-use.html
-/public/pages/logistics/distribution/partials/epi-inventory.html
-/public/pages/logistics/distribution/partials/refrigerator-reading.html
-/public/pages/logistics/distribution/partials/refrigerator.html
-/public/pages/logistics/distribution/partials/visit-info.html
-/public/pages/logistics/distribution/partials/full-coverage.html
-/public/pages/logistics/distribution/partials/child-coverage.html
-/public/pages/logistics/distribution/partials/adult-coverage.html
+/pages/logistics/distribution/offline.html
+/pages/logistics/distribution/partials/list.html
+/pages/logistics/distribution/partials/init.html
+/pages/logistics/distribution/partials/record-facility-data.html
+/pages/logistics/distribution/partials/record-facility-menu.html
+/pages/logistics/distribution/partials/view-load-amount.html
+/pages/logistics/distribution/partials/epi-use.html
+/pages/logistics/distribution/partials/epi-inventory.html
+/pages/logistics/distribution/partials/refrigerator-reading.html
+/pages/logistics/distribution/partials/refrigerator.html
+/pages/logistics/distribution/partials/visit-info.html
+/pages/logistics/distribution/partials/full-coverage.html
+/pages/logistics/distribution/partials/child-coverage.html
+/pages/logistics/distribution/partials/adult-coverage.html
 
-/public/js/distribution/directives/auto-save.js
-/public/js/distribution/resolve/distribution-resolve.js
-/public/js/distribution/module/distribution-module.js
-/public/js/distribution/migrations.js
-/public/js/distribution/model/distribution.js
-/public/js/distribution/model/refrigerators.js
-/public/js/distribution/model/epi-use.js
-/public/js/distribution/model/epi-inventory.js
-/public/js/distribution/model/refrigerator-reading.js
-/public/js/distribution/model/facility-visit.js
-/public/js/distribution/model/facility-distribution-data.js
-/public/js/distribution/model/coverage.js
-/public/js/distribution/model/child-coverage.js
-/public/js/distribution/model/adult-coverage.js
-
-
-/public/js/distribution/service/shared-distributions.js
-/public/js/distribution/service/distribution-service.js
-
-/public/js/distribution/controller/distribution-list-controller.js
-/public/js/distribution/controller/distribution-controller.js
-/public/js/distribution/controller/view-load-amount-controller.js
-/public/js/distribution/controller/record-facility-menu-controller.js
-/public/js/distribution/controller/record-facility-data-controller.js
-/public/js/distribution/controller/refrigerator-controller.js
-/public/js/distribution/controller/epi-use-controller.js
-/public/js/distribution/controller/epi-inventory-controller.js
-/public/js/distribution/controller/coverage-controller.js
-/public/js/distribution/controller/visit-info-controller.js
-/public/js/distribution/controller/child-coverage-controller.js
-/public/js/distribution/controller/adult-coverage-controller.js
-
-/public/js/shared/controller/locale-controller.js
-/public/lib/select2/select2.png
+/js/distribution/directives/auto-save.js
+/js/distribution/resolve/distribution-resolve.js
+/js/distribution/module/distribution-module.js
+/js/distribution/migrations.js
+/js/distribution/model/distribution.js
+/js/distribution/model/refrigerators.js
+/js/distribution/model/epi-use.js
+/js/distribution/model/epi-inventory.js
+/js/distribution/model/refrigerator-reading.js
+/js/distribution/model/facility-visit.js
+/js/distribution/model/facility-distribution-data.js
+/js/distribution/model/coverage.js
+/js/distribution/model/child-coverage.js
+/js/distribution/model/adult-coverage.js
 
 
-/public/lib/indexed-db-angular-service/js/services/indexed-db.js
-/public/js/shared/services/authorization-service.js
-/public/js/shared/services/navigate-back-service.js
-/public/js/shared/controller/header-controller.js
-/public/js/shared/controller/login-controller.js
-/public/js/shared/open-lmis-dialog.js
-/public/js/program-product/model/program-product-ISA.js
+/js/distribution/service/shared-distributions.js
+/js/distribution/service/distribution-service.js
 
-/public/lib/jquery/jquery-ui-1.9.2.custom.min.js
-/public/lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js
-/public/lib/underscore/underscore-min.js
-/public/js/shared/util.js
+/js/distribution/controller/distribution-list-controller.js
+/js/distribution/controller/distribution-controller.js
+/js/distribution/controller/view-load-amount-controller.js
+/js/distribution/controller/record-facility-menu-controller.js
+/js/distribution/controller/record-facility-data-controller.js
+/js/distribution/controller/refrigerator-controller.js
+/js/distribution/controller/epi-use-controller.js
+/js/distribution/controller/epi-inventory-controller.js
+/js/distribution/controller/coverage-controller.js
+/js/distribution/controller/visit-info-controller.js
+/js/distribution/controller/child-coverage-controller.js
+/js/distribution/controller/adult-coverage-controller.js
 
-/public/images/logo.png
-/public/images/left-arrow.png
-/public/images/loader.gif
-/public/images/login-bg.png
-/public/images/warning_triangle.png
-/public/images/home-bg.png
-/public/images/home-glow.png
+/js/shared/controller/locale-controller.js
+/lib/select2/select2.png
+
+
+/lib/indexed-db-angular-service/js/services/indexed-db.js
+/js/shared/services/authorization-service.js
+/js/shared/services/navigate-back-service.js
+/js/shared/controller/header-controller.js
+/js/shared/controller/login-controller.js
+/js/shared/open-lmis-dialog.js
+/js/program-product/model/program-product-ISA.js
+
+/lib/jquery/jquery-ui-1.9.2.custom.min.js
+/lib/angular-ui/bootstrap/ui-bootstrap-0.1.0.min.js
+/lib/underscore/underscore-min.js
+/js/shared/util.js
+
+/images/logo.png
+/images/left-arrow.png
+/images/loader.gif
+/images/login-bg.png
+/images/warning_triangle.png
+/images/home-bg.png
+/images/home-glow.png
 
 #TODO: Determine why the UI doesn't request/use fonts consistently. Improving that would obviate the need to cache redundant font-files.
-/public/fonts/fontawesome-webfont.woff
-/public/fonts/fontawesome-webfont.woff?v=3.2.1
-/public/fonts/fontawesome-webfont.ttf?v=3.2.1
-/public/fonts/HelveticaNeue-CondensedBold.woff
+/fonts/fontawesome-webfont.woff
+/fonts/fontawesome-webfont.woff?v=3.2.1
+/fonts/fontawesome-webfont.ttf?v=3.2.1
+/fonts/HelveticaNeue-CondensedBold.woff
 
 /settings/LOGIN_SUCCESS_DEFAULT_LANDING_PAGE.json
 
 FALLBACK:
-/ /public/pages/offline.html
-/public/pages/header.html /public/pages/header-offline.html
-/public/pages/navigation.html /public/pages/navigation-offline.html
+/ /pages/offline.html
+/pages/header.html /pages/header-offline.html
+/pages/navigation.html /pages/navigation-offline.html
 
 NETWORK:
 *

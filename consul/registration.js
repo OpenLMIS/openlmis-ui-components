@@ -80,7 +80,7 @@ function ServiceConsulRegistrator(host, port) {
     for (var i = 0; i < self.attempts; i++) {
       var response = awaitRequest(settings, data);
 
-      if (response.statusCode !== 200) {
+      if (response.statusCode === 200) {
         break;
       }
 

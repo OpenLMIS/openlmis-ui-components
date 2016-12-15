@@ -25,7 +25,7 @@ describe("MessageService", function () {
     spyOn(localStorageService, 'add');
 
     var messagesReturned = {"key":"message"};
-    httpBackend.when('GET', '/public/messages/messages_en.json').respond(messagesReturned);
+    httpBackend.when('GET', '/messages/messages_en.json').respond(messagesReturned);
     messageService.populate('en');
     httpBackend.flush();
     expect(localStorageService.add).toHaveBeenCalledWith('message.key', "message");

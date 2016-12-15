@@ -91,7 +91,7 @@ describe("Message Directive", function () {
 
     it("should get comments for a Rnr", function () {
       routeParams.rnrId = 1;
-      httpBackend.expect('GET', '/public/pages/template/comment-box.html').respond(200, "<div></div>");
+      httpBackend.expect('GET', '/pages/template/comment-box.html').respond(200, "<div></div>");
       httpBackend.expect('GET', '/requisitions/comments.json').respond(200, {"comments": [
         {"id": 1}
       ]});

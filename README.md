@@ -13,7 +13,7 @@ This repository holds the files for the OpenLMIS Requisition Reference UI Module
  ```
 2. Develop w/ Docker by running `docker-compose run --service-ports requisition-refui`.
 3. You should now be in an interactive shell inside the newly created development environment, build the project with: `grunt build` and then you can start it with `grunt serve`.
-4. Go to `http://<yourDockerIPAddress>:9000/public/pages/login.html` to see the login page. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
+4. Go to `http://<yourDockerIPAddress>:9000/pages/login.html` to see the login page. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
 
 ## Building & Testing
 Grunt is our build tool. Grunt tasks available:
@@ -61,7 +61,7 @@ Note that `grunt watch` will require you to change the files at least once in or
 ### Running complete application with nginx
 To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, use [OpenLMIS-Blue] (https://github.com/OpenLMIS/openlmis-blue).
 
-When the application is up and running, you should be able to access UI with http://localhost/public/pages/index.html
+When the application is up and running, you should be able to access UI with http://localhost/pages/index.html
 
 To log into the UI you can use following credentials:
 ```

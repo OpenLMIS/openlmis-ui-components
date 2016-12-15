@@ -7,8 +7,8 @@ This document details the different workflows a developer might use while workin
 The most standard way to build the OpenLMIS-UI is to run `grunt build` which will concatinate, and compile the OpenLMIS-UI into a working set of front-end assets that are ready for development. When run, the following high level tasks will be exectuted:
 * clean the `build` directory
 * -style check files in `src`-
-* create OpenLMIS application in `build/public`
-* run unit test in `src` against `build/public/openlmis.js`
+* create OpenLMIS application in `build/webapp`
+* run unit test in `src` against `build/webapp/openlmis.js`
 * create OpenLMIS styleguide in `build/styleguide`
 * create OpenLMIS Javascript Documentation in `build/docs`
 

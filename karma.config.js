@@ -13,11 +13,11 @@ module.exports = function (config) {
 
     /* FILES */
     files: [
-      'build/public/openlmis.js',
+      'build/webapp/openlmis.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // 'src/**/specs/**/*.js',
       'src/**/*.spec.js',
-      'build/public/**/*.html'
+      'build/webapp/**/*.html'
     ],
     exclude: [],
     

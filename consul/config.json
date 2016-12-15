@@ -5,7 +5,7 @@
     "Tags": ["openlmis-service"]
   },
   "path": [
-    "public",
-    "public/<all>"
+    "",
+    "<all>"
   ]
 }
