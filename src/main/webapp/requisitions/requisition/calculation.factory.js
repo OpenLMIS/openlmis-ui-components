@@ -154,9 +154,8 @@
      * @description
      * Calculates the total cost by multiplying price per pack and packs to ship.
      *
-     * @param  {Object} lineItem the line item to get the order quantity from
-     * @param  {String} status   the status of the requisitions
-     * @return {Number}          the value of the order quantity
+     * @param  {Object} lineItem the line item to get the values from
+     * @return {Number}          the total cost of this line item
      */
     function calculateTotalCost(lineItem) {
         var pricePerPack = lineItem[T];
