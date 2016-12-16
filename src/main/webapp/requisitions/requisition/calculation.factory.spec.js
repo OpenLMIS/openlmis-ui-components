@@ -85,6 +85,30 @@ describe('calculations', function() {
             expect(calculations.totalConsumedQuantity(lineItem)).toBe(50);
         });
 
+        it ('should calculate total cost', function() {
+            lineItem.pricePerPack = 30.20;
+            lineItem.packsToShip = 4;
+
+            expect(calculations.totalCost(lineItem)).toBe(120.8);
+        });
+
+        it ('should calculate zero total cost if value missing', function() {
+            lineItem.pricePerPack = undefined;
+            lineItem.packsToShip = 4;
+
+            expect(calculations.totalCost(lineItem)).toBe(0);
+
+            lineItem.pricePerPack = 4;
+            lineItem.packsToShip = undefined;
+
+            expect(calculations.totalCost(lineItem)).toBe(0);
+
+            lineItem.pricePerPack = undefined;
+            lineItem.packsToShip = undefined;
+
+            expect(calculations.totalCost(lineItem)).toBe(0);
+        });
+
     });
 
     describe('Calculate total losses and adjustments', function() {

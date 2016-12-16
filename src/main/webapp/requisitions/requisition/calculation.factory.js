@@ -24,14 +24,17 @@
         Y = Columns.TOTAL,
         K = Columns.APPROVED_QUANTITY,
         J = Columns.REQUESTED_QUANTITY,
-        V = Columns.PACKS_TO_SHIP;
+        V = Columns.PACKS_TO_SHIP,
+        Q = Columns.TOTAL_COST,
+        T = Columns.PRICE_PER_PACK;
 
     var calculations = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
       stockOnHand: calculateStockOnHand,
       totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
       total: calculateTotal,
-      packsToShip: calculatePacksToShip
+      packsToShip: calculatePacksToShip,
+      totalCost: calculateTotalCost
     };
     return calculations;
 
@@ -140,6 +143,31 @@
 
             return packsToShip;
         }
+    }
+
+    /**
+     * @ngdoc function
+     * @name calculateTotalCost
+     * @methodOf openlmis.requisitions.calculations
+     * @private
+     *
+     * @description
+     * Calculates the total cost by multiplying price per pack and packs to ship.
+     *
+     * @param  {Object} lineItem the line item to get the order quantity from
+     * @param  {String} status   the status of the requisitions
+     * @return {Number}          the value of the order quantity
+     */
+    function calculateTotalCost(lineItem) {
+        var pricePerPack = lineItem[T];
+        if (pricePerPack === undefined) {
+            pricePerPack = 0;
+        }
+        var packsToShip = lineItem[V];
+        if (packsToShip === undefined) {
+            packsToShip = 0;
+        }
+        return pricePerPack * packsToShip;
     }
 
     /**
