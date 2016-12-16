@@ -5,6 +5,8 @@
   "label.locale.en_tz": "English",
   "label.locale.fr": "Français",
   "label.locale.en_TZ": "English",
+  "locale.load.success": "Changed language to English",
+  "locale.load.error": "Error changing language",
   "label.currency.symbol": "$",
   "button.add": "Add",
   "button.add.new": "Add New",
