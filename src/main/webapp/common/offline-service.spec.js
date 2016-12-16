@@ -20,7 +20,9 @@ describe("OfflineService", function() {
         offlineService.checkConnection();
         timeout.flush(30001);
 
-        expect(offlineService.offline).toBe(false);
+        var isOffline = offlineService.isOffline();
+
+        expect(isOffline).toBe(false);
     });
 
     it('should return true when there is no internet connection', function() {
@@ -31,7 +33,9 @@ describe("OfflineService", function() {
         offlineService.checkConnection();
         timeout.flush(30001);
 
-        expect(offlineService.offline).toBe(true);
+        var isOffline = offlineService.isOffline();
+
+        expect(isOffline).toBe(true);
     });
 
     it('should return false when the connection has gone from down to up', function() {
@@ -42,7 +46,9 @@ describe("OfflineService", function() {
         offlineService.checkConnection();
         timeout.flush(30001);
 
-        expect(offlineService.offline).toBe(false);
+        var isOffline = offlineService.isOffline();
+
+        expect(isOffline).toBe(false);
     });
 
     it('should return true when the connection has gone from up to down', function() {
@@ -53,6 +59,8 @@ describe("OfflineService", function() {
         offlineService.checkConnection();
         timeout.flush(30001);
 
-        expect(offlineService.offline).toBe(true);
+        var isOffline = offlineService.isOffline();
+
+        expect(isOffline).toBe(true);
     });
 });

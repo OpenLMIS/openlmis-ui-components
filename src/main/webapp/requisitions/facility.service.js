@@ -47,7 +47,7 @@
             var facility,
 				deferred = $q.defer();
 
-			if(OfflineService.offline) {
+			if(OfflineService.isOffline()) {
 				facility = facilitiesOffline.get(facilityId);
 				facility ? deferred.resolve(facility) : deferred.reject();
 			} else {
@@ -76,7 +76,7 @@
         function getAll() {
             var deferred = $q.defer();
 
-			if(OfflineService.offline) {
+			if(OfflineService.isOffline()) {
 				deferred.resolve(facilitiesOffline.getAll());
 			} else {
 				resource.getAll(function(facilities) {

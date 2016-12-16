@@ -50,7 +50,8 @@ describe('FacilityService', function() {
             var data;
 
             facilitiesStorage.get.andReturn(facility2);
-            OfflineService.offline = true;
+
+            spyOn(OfflineService, 'isOffline').andReturn(true);
 
             FacilityService.get(facility2.id).then(function(response) {
                 data = response;
@@ -67,7 +68,8 @@ describe('FacilityService', function() {
 
             $httpBackend.when('GET', OpenlmisUrl('/api/facilities/' + facility1.id)).respond(200, facility1);
             facilitiesStorage.put.andCallFake(spy);
-            OfflineService.offline = false;
+
+            spyOn(OfflineService, 'isOffline').andReturn(false);
 
             FacilityService.get(facility1.id).then(function(response) {
                 data = response;
@@ -87,7 +89,8 @@ describe('FacilityService', function() {
             var data;
 
             facilitiesStorage.getAll.andReturn([facility1, facility2]);
-            OfflineService.offline = true;
+
+            spyOn(OfflineService, 'isOffline').andReturn(true);
 
             FacilityService.getAll().then(function(response) {
                 data = response;
@@ -105,7 +108,8 @@ describe('FacilityService', function() {
 
             $httpBackend.when('GET', OpenlmisUrl('/api/facilities')).respond(200, [facility1, facility2]);
             facilitiesStorage.put.andCallFake(spy);
-            OfflineService.offline = false;
+
+            spyOn(OfflineService, 'isOffline').andReturn(false);
 
             FacilityService.getAll().then(function(response) {
                 data = response;

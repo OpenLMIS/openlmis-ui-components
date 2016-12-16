@@ -16,9 +16,8 @@
     OfflineService.$inject = ['Offline', '$timeout'];
 
     function OfflineService(Offline, $timeout) {
-        var service = this;
-
-        service.offline = false;
+        var service = this,
+            isOffline = false;
 
         Offline.options = { checkOnLoad: true,
                             interceptRequests: false,
@@ -42,18 +41,18 @@
         service.checkConnection();
 
         service.isOffline = function() {
-            return service.offline;
+            return isOffline;
         }
 
         function offline() {
            $timeout(function() {
-               service.offline = true;
+               isOffline = true;
            });
         }
 
         function online() {
            $timeout(function() {
-               service.offline = false;
+               isOffline = false;
            });
         }
     }
