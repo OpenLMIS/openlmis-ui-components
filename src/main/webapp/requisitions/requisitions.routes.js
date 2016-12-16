@@ -42,10 +42,21 @@
                 user: function(AuthorizationService) {
                     return AuthorizationService.getUser();
                 },
-                supervisedPrograms: function (SupervisedPrograms, $q, user) {
+                supervisedPrograms: function (UserPrograms, $q, user) {
                     var deferred = $q.defer();
 
-                    SupervisedPrograms(user.user_id).then(function (response) {
+                    UserPrograms(user.user_id, false).then(function (response) {
+                        deferred.resolve(response);
+                    }, function (response) {
+                        deferred.reject();
+                    });
+
+                    return deferred.promise;
+                },
+                homePrograms: function (UserPrograms, $q, user) {
+                    var deferred = $q.defer();
+
+                    UserPrograms(user.user_id, true).then(function (response) {
                         deferred.resolve(response);
                     }, function (response) {
                         deferred.reject();

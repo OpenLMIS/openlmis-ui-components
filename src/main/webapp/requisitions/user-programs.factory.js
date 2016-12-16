@@ -13,21 +13,21 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis.requisitions.SupervisedPrograms
+     * @name openlmis.requisitions.UserPrograms
      *
      * @description
-     * Returns programs where the current user has supervisory permissions.
+     * Returns the programs at a user's home facility or programs that the user supervises.
      */
     angular.module("openlmis.requisitions")
-        .factory("SupervisedPrograms", SupervisedPrograms);
+        .factory("UserPrograms", UserPrograms);
 
-    SupervisedPrograms.$inject = ['$resource', 'OpenlmisURL'];
-    function SupervisedPrograms($resource, OpenlmisURL){
+    UserPrograms.$inject = ['$resource', 'OpenlmisURL'];
+    function UserPrograms($resource, OpenlmisURL){
 
         var resource = $resource(OpenlmisURL('api/users/:id/programs'), {}, {});
 
-        return function(id) {
-            return resource.query({id: id, forHomeFacility: false}).$promise;
+        return function(id, isForHomeFacility) {
+            return resource.query({id: id, forHomeFacility: isForHomeFacility}).$promise;
         };
     }
 

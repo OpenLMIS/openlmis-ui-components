@@ -23,11 +23,11 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'PeriodFactory',
+    InitiateRnrController.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
     'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
      'AuthorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
-    function InitiateRnrController(messageService, facility, user, supervisedPrograms, PeriodFactory,
+    function InitiateRnrController(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
     RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
     AuthorizationService, $q, RequisitionRights, SupervisedFacilities) {
 
@@ -75,7 +75,7 @@
          * @description
          * Holds available programs for home facility.
          */
-        vm.homeFacilityPrograms = facility.supportedPrograms;
+        vm.homeFacilityPrograms = homePrograms;
 
         /**
          * @ngdoc property

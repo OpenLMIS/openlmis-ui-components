@@ -29,7 +29,7 @@ describe("InitiateRnrController", function(){
         spyOn(periodFactory, 'get').andReturn($q.when(period));
 
         vm = $controller('InitiateRnrController', {facility: facility, user: user, supervisedPrograms: programs,
-            PeriodFactory: periodFactory, RequisitionService: requisitionService});
+            homePrograms: programs, PeriodFactory: periodFactory, RequisitionService: requisitionService});
     }));
 
     it("should assign proper values when facility is assigned", function() {
