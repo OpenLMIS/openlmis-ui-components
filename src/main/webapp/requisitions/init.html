@@ -15,7 +15,7 @@
                ng-disabled="supervisedFacilitiesDisabled"/>
       </label>
     </fieldset>
-    <div class="form-group" ng-if="!isSupervised">
+    <div class="form-group" ng-show="!isSupervised">
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
       <select id="facilityName"
         ng-model="selectedFacilityId"
@@ -23,7 +23,7 @@
         placeholder="label.select.facility" >
       </select>
     </div>
-    <div class="form-group" ng-if="!isSupervised">
+    <div class="form-group" ng-show="!isSupervised">
       <label for="programListMyFacility" openlmis-message="label.program"></label>
       <select
         id="programListMyFacility"
@@ -32,7 +32,7 @@
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-if="isSupervised">
+    <div class="form-group" ng-show="isSupervised">
       <label for="programListSupervisedFacility" openlmis-message="label.program"></label>
       <select
         id="programListSupervisedFacility"
@@ -42,7 +42,7 @@
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-if="isSupervised">
+    <div class="form-group" ng-show="isSupervised">
       <label for="supervisedFacilityName" openlmis-message="label.requisition.facilityName"></label>
       <select
         id="supervisedFacilityName"
