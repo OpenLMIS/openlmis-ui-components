@@ -23,13 +23,15 @@
         .module('openlmis.requisitions')
         .controller('InitiateRnrController', InitiateRnrController);
 
-    InitiateRnrController.$inject = ['$scope', 'messageService', 'facility', 'user', 'supervisedPrograms', 'PeriodFactory',
+    InitiateRnrController.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'PeriodFactory',
     'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
      'AuthorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
-    function InitiateRnrController($scope, messageService, facility, user, supervisedPrograms, PeriodFactory,
+    function InitiateRnrController(messageService, facility, user, supervisedPrograms, PeriodFactory,
     RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
     AuthorizationService, $q, RequisitionRights, SupervisedFacilities) {
+
+        var vm = this;
 
         /**
          * @ngdoc property
@@ -40,7 +42,7 @@
          * @description
          * Holds a boolean indicating if the currently selected requisition type is standard or emergency
          */
-        $scope.emergency = false;
+        vm.emergency = false;
 
         /**
          * @ngdoc property
@@ -51,7 +53,7 @@
          * @description
          * Holds available facilities based on the selected type and/or programs
          */
-        $scope.facilities = [];
+        vm.facilities = [];
 
         /**
          * @ngdoc property
@@ -62,7 +64,7 @@
          * @description
          * Holds available programs where user has supervisory permissions.
          */
-        $scope.supervisedPrograms = supervisedPrograms;
+        vm.supervisedPrograms = supervisedPrograms;
 
         /**
          * @ngdoc property
@@ -73,7 +75,7 @@
          * @description
          * Holds available programs for home facility.
          */
-        $scope.homeFacilityPrograms = facility.supportedPrograms;
+        vm.homeFacilityPrograms = facility.supportedPrograms;
 
         /**
          * @ngdoc property
@@ -86,7 +88,7 @@
          *  false - my facility
          *  true - supervised facility
          */
-        $scope.isSupervised = false;
+        vm.isSupervised = false;
 
         /**
          * @ngdoc property
@@ -96,8 +98,9 @@
          * @description
          * Holds configuration of the period grid
          */
-        $scope.periodGridOptions = {
-            data: 'periodGridData',
+        vm.periodGridOptions = {
+            appScopeProvider: this,
+            data: 'vm.periodGridData',
             canSelectRows: false,
             displayFooter: false,
             displaySelectionCheckbox: false,
@@ -130,38 +133,38 @@
             ]
         };
 
-        $scope.supervisedFacilitiesDisabled = _.isEmpty($scope.supervisedPrograms);
+        vm.supervisedFacilitiesDisabled = _.isEmpty(vm.supervisedPrograms);
 
         // Functions
 
-        $scope.loadPeriods = loadPeriods;
+        vm.loadPeriods = loadPeriods;
 
-        $scope.programOptionMessage = programOptionMessage;
+        vm.programOptionMessage = programOptionMessage;
 
-        $scope.initRnr = initRnr;
+        vm.initRnr = initRnr;
 
-        $scope.loadFacilityData = loadFacilityData;
+        vm.loadFacilityData = loadFacilityData;
 
-        $scope.loadFacilities = loadFacilities;
+        vm.loadFacilities = loadFacilities;
 
         if (facility) {
-            $scope.facilities = [facility];
+            vm.facilities = [facility];
 
-            $scope.selectedProgram = undefined;
+            vm.selectedProgram = undefined;
 
-            $scope.facilityDisplayName = facility.code + '-' + facility.name;
-            $scope.selectedFacilityId = facility.id;
-            $scope.homeFacilityPrograms = facility.supportedPrograms;
-            $scope.programs = facility.supportedPrograms;
-            if (_.isEmpty($scope.programs)) {
-                $scope.error = messageService.get("msg.no.program.available");
-            } else if ($scope.programs.length === 1) {
-                $scope.selectedProgram = $scope.programs[0];
-                $scope.loadPeriods();
+            vm.facilityDisplayName = facility.code + '-' + facility.name;
+            vm.selectedFacilityId = facility.id;
+            vm.homeFacilityPrograms = facility.supportedPrograms;
+            vm.programs = facility.supportedPrograms;
+            if (_.isEmpty(vm.programs)) {
+                vm.error = messageService.get("msg.no.program.available");
+            } else if (vm.programs.length === 1) {
+                vm.selectedProgram = vm.programs[0];
+                vm.loadPeriods();
             }
         } else {
-            $scope.facilityDisplayName = messageService.get("label.none.assigned");
-            $scope.error = messageService.get("error.rnr.user.facility.not.assigned");
+            vm.facilityDisplayName = messageService.get("label.none.assigned");
+            vm.error = messageService.get("error.rnr.user.facility.not.assigned");
         }
 
         /**
@@ -175,7 +178,7 @@
          * @return {String} localized message
          */
         function programOptionMessage() {
-            return $scope.programs === undefined || _.isEmpty($scope.programs) ? messageService.get("label.none.assigned") : messageService.get("label.select.program");
+            return vm.programs === undefined || _.isEmpty(vm.programs) ? messageService.get("label.none.assigned") : messageService.get("label.select.program");
         };
 
         /**
@@ -190,21 +193,21 @@
          * already exists a requisition with an AUTHORIZED, APPROVED or RELEASED status.
          */
         function loadPeriods() {
-            $scope.periodGridData = [];
-            if (!($scope.selectedProgram && $scope.selectedFacilityId)) {
+            vm.periodGridData = [];
+            if (!(vm.selectedProgram && vm.selectedFacilityId)) {
                 return;
             }
             LoadingModalService.open();
-            PeriodFactory.get($scope.selectedProgram.id, $scope.selectedFacilityId, $scope.emergency).then
+            PeriodFactory.get(vm.selectedProgram.id, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
                 if (data.length === 0) {
                     Notification.error('msg.no.period.available');
                 } else {
-                    $scope.periodGridData = data;
-                    $scope.error = "";
+                    vm.periodGridData = data;
+                    vm.error = "";
                 }
                 data.forEach(function (period) {
-                    if ($scope.emergency && (period.rnrStatus == Status.AUTHORIZED ||
+                    if (vm.emergency && (period.rnrStatus == Status.AUTHORIZED ||
                     period.rnrStatus == Status.APPROVED ||
                     period.rnrStatus == Status.RELEASED)) {
                         period.rnrStatus = messageService.get("msg.rnr.not.started");
@@ -234,13 +237,13 @@
          * @param {Object} selectedPeriod  a period to initiate or proceed with the requisition for
          */
         function initRnr(selectedPeriod) {
-            $scope.error = "";
+            vm.error = "";
             if (!selectedPeriod.rnrId ||
             selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
-                RequisitionService.initiate($scope.selectedFacilityId,
-                $scope.selectedProgram.id,
+                RequisitionService.initiate(vm.selectedFacilityId,
+                vm.selectedProgram.id,
                 selectedPeriod.id,
-                $scope.emergency).then(
+                vm.emergency).then(
                 function (data) {
                     $state.go('requisitions.requisition.fullSupply', {
                         rnr: data.id
@@ -271,15 +274,15 @@
          */
         function loadFacilityData(isSupervised) {
             if (isSupervised) {
-                $scope.programs = $scope.supervisedPrograms;
-                $scope.facilities = [];
-                $scope.selectedFacilityId = undefined;
+                vm.programs = vm.supervisedPrograms;
+                vm.facilities = [];
+                vm.selectedFacilityId = undefined;
             } else {
-                $scope.programs = $scope.homeFacilityPrograms;
-                $scope.facilities = [facility];
-                $scope.selectedFacilityId = facility.id;
+                vm.programs = vm.homeFacilityPrograms;
+                vm.facilities = [facility];
+                vm.selectedFacilityId = facility.id;
             }
-            $scope.selectedProgram = undefined;
+            vm.selectedProgram = undefined;
         };
 
         /**
@@ -304,13 +307,15 @@
                     SupervisedFacilities(user.user_id, selectedProgram.id, authorizeRightId)
                 ])
                     .then(function (facilities) {
-                        $scope.facilities = facilities[0].concat(facilities[1]);
+                        vm.facilities = facilities[0].concat(facilities[1]);
                     })
                     .catch(function (error) {
                         Notification.error('msg.error.occurred');
                         LoadingModalService.close();
                     })
                     .finally(LoadingModalService.close());
+            } else {
+                vm.facilities = [];
             }
         }
     }

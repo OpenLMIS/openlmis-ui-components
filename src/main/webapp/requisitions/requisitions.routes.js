@@ -22,6 +22,7 @@
             priority: 11,
             label: 'link.requisitions.create.authorize',
             controller: 'InitiateRnrController',
+            controllerAs: 'vm',
             templateUrl: 'requisitions/init.html',
             accessRights: [RequisitionRights.REQUISITION_CREATE,
                 RequisitionRights.REQUISITION_DELETE,

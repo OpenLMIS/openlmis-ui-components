@@ -27,7 +27,7 @@
         var resource = $resource(OpenlmisURL('api/users/:id/programs'), {}, {});
 
         return function(id) {
-            return resource.query({id: id}).$promise;
+            return resource.query({id: id, forHomeFacility: false}).$promise;
         };
     }
 

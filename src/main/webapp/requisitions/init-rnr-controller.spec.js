@@ -6,9 +6,8 @@ describe("InitiateRnrController", function(){
     beforeEach(module('openlmis.requisitions'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _PeriodFactory_,
     _$state_, _RequisitionService_) {
-        scope = $rootScope.$new();
         rootScope = $rootScope;
-
+        scope = $rootScope.$new();
         periodFactory =_PeriodFactory_;
         $state = _$state_;
         requisitionService = _RequisitionService_;
@@ -25,7 +24,7 @@ describe("InitiateRnrController", function(){
 
         
         initController = function() {
-            return $controller('InitiateRnrController', {$scope: scope, facility: facility, user: user, supervisedPrograms: [],
+            return $controller('InitiateRnrController', {facility: facility, user: user, supervisedPrograms: [],
             PeriodFactory: periodFactory, RequisitionService: requisitionService});
         }
 
@@ -36,9 +35,9 @@ describe("InitiateRnrController", function(){
     it("should assign proper values when facility is assigned", function() {
         var controller = initController();
 
-        expect(scope.selectedFacilityId).toEqual(facility.id);
-        expect(scope.programs).toEqual(programs);
-        expect(scope.selectedProgram).toEqual(programs[0]);
+        expect(controller.selectedFacilityId).toEqual(facility.id);
+        expect(controller.programs).toEqual(programs);
+        expect(controller.selectedProgram).toEqual(programs[0]);
     });
 
     it("Should change page to requisitions.requisition for with selected period with rnrId", function(){
@@ -47,7 +46,7 @@ describe("InitiateRnrController", function(){
 
         spyOn($state, 'go');
 
-        scope.initRnr(selectedPeriod);
+        controller.initRnr(selectedPeriod);
 
         expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {"rnr":1});
 
@@ -62,7 +61,7 @@ describe("InitiateRnrController", function(){
 
         var controller = initController();
 
-        scope.initRnr(selectedPeriod);
+        controller.initRnr(selectedPeriod);
         scope.$apply();
 
         expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {"rnr": 1});
@@ -79,7 +78,7 @@ describe("InitiateRnrController", function(){
 
         var controller = initController();
 
-        scope.initRnr(selectedPeriod);
+        controller.initRnr(selectedPeriod);
         scope.$apply();
 
         expect($state.go).not.toHaveBeenCalled();
@@ -88,10 +87,10 @@ describe("InitiateRnrController", function(){
     it("Should reload periods with proper data", function() {
 
         var controller = initController();
-        scope.loadPeriods();
+        controller.loadPeriods();
         scope.$apply();
 
         expect(periodFactory.get).toHaveBeenCalled();
-        expect(scope.periodGridData).toEqual(period);
+        expect(controller.periodGridData).toEqual(period);
     });
 });

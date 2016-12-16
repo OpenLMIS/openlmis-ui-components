@@ -1,53 +1,54 @@
 
 <div class="page">
   <h2 openlmis-message="label.initiate.requisition"></h2>
-  <form ng-submit="loadPeriods()" class="form-filter">
+  <form ng-submit="vm.loadPeriods()" class="form-filter">
     <fieldset class="form-group">
       <legend openlmis-message="label.requisition.facilityType"></legend>
       <label class="radio">
         {{'label.myFacility'|message}}
-        <input type="radio" ng-model="isSupervised" ng-value="false" ng-change="loadFacilityData(isSupervised);" />
+        <input type="radio" ng-model="vm.isSupervised" ng-value="false" ng-change="vm.loadFacilityData(vm.isSupervised)" />
       </label>
       <label class="radio">
         {{'label.supervised.Facility'|message}}
-        <input type="radio" ng-model="isSupervised" ng-value="true"
-               ng-change="loadFacilityData(isSupervised);"
-               ng-disabled="supervisedFacilitiesDisabled"/>
+        <input type="radio" ng-model="vm.isSupervised" ng-value="true"
+               ng-change="vm.loadFacilityData(vm.isSupervised)"
+               ng-disabled="vm.supervisedFacilitiesDisabled"/>
       </label>
     </fieldset>
-    <div class="form-group" ng-show="!isSupervised">
+    <div class="form-group" ng-show="!vm.isSupervised">
       <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
-      <select id="facilityName"
-        ng-model="selectedFacilityId"
-        ng-options="facility.id as facility.name for facility in facilities"
+      <select
+        id="facilityName"
+        ng-model="vm.selectedFacilityId"
+        ng-options="facility.id as facility.name for facility in vm.facilities"
         placeholder="label.select.facility" >
       </select>
     </div>
-    <div class="form-group" ng-show="!isSupervised">
+    <div class="form-group" ng-show="!vm.isSupervised">
       <label for="programListMyFacility" openlmis-message="label.program"></label>
       <select
         id="programListMyFacility"
-        ng-model="selectedProgram"
-        ng-options="program as program.name for program in programs"
+        ng-model="vm.selectedProgram"
+        ng-options="program as program.name for program in vm.programs"
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-show="isSupervised">
+    <div class="form-group" ng-show="vm.isSupervised">
       <label for="programListSupervisedFacility" openlmis-message="label.program"></label>
       <select
         id="programListSupervisedFacility"
-        ng-change="loadFacilities(selectedProgram)"
-        ng-model="selectedProgram"
-        ng-options="program as program.name for program in programs"
+        ng-change="vm.loadFacilities(vm.selectedProgram)"
+        ng-model="vm.selectedProgram"
+        ng-options="program as program.name for program in vm.programs"
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
-    <div class="form-group" ng-show="isSupervised">
+    <div class="form-group" ng-show="vm.isSupervised">
       <label for="supervisedFacilityName" openlmis-message="label.requisition.facilityName"></label>
       <select
         id="supervisedFacilityName"
-        ng-model="selectedFacilityId"
-        ng-options="facility.id as facility.name for facility in facilities | unique:'id'"
+        ng-model="vm.selectedFacilityId"
+        ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
         placeholder="{{'label.select.facility' | message}}" >
       </select>
     </div>
@@ -55,21 +56,21 @@
       <legend openlmis-message="label.requisition.type"></legend>
       <label class="radio">
         <span openlmis-message="requisition.type.regular"></span>
-        <input type="radio" ng-model="emergency" ng-value="false" />
+        <input type="radio" ng-model="vm.emergency" ng-value="false" />
       </label>
       <label class="radio">
         <span openlmis-message="requisition.type.emergency"></span>
-        <input type="radio" ng-model="emergency" ng-value="true" />
+        <input type="radio" ng-model="vm.emergency" ng-value="true" />
       </label>
     </fieldset>
     <div class="form-group">
       <input type="submit" value="{{'button.search'|message}}" class="btn btn-primary" />
     </div>
   </form>
-  <div ng-show="selectedProgram && selectedFacilityId && periodGridData && !(periodGridData.length == 0)"
-    ui-grid="periodGridOptions"
+  <div ng-show="vm.selectedProgram && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)"
+    ui-grid="vm.periodGridOptions"
     class="grid grid-init-rnr"
     id="periodGrid">
   </div>
-  <div ng-if="error" class="alert is-error" openlmis-message="error" ng-show="error"></div>
+  <div ng-if="vm.error" class="alert is-error" openlmis-message="error" ng-show="vm.error"></div>
 </div>
