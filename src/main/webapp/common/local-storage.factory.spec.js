@@ -38,6 +38,21 @@ describe('localStorageFactory', function() {
         expect(itemStorage.get(item1.id)).toEqual(item1);
     });
 
+    it('should update an object pulled from the datastore without saving it', function(){
+        itemStorage.clearAll();
+
+        itemStorage.put({
+            id: 'foo',
+            name: 'Foo'
+        });
+        var foo = itemStorage.get('foo');
+        foo.name = 'Bar';
+        // NOTE: foo has not been explicitly saved 
+
+        var otherFoo = itemStorage.get('foo');
+        expect(otherFoo.name).toBe('Bar');
+    });
+
     it('should get all facilities', function() {
         itemStorage.clearAll();
 
