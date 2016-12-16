@@ -13,17 +13,16 @@
     angular.module('openlmis-core')
         .service('OfflineService', OfflineService);
 
-    OfflineService.$inject = ['Offline'];
+    OfflineService.$inject = ['Offline', '$timeout'];
 
-    function OfflineService(Offline) {
+    function OfflineService(Offline, $timeout) {
         var service = this;
 
-        service.isOffline = false;
+        service.offline = false;
 
-        Offline.options = { reconnect: { initialDelay: 30, delay: 30 },
-                            checkOnLoad: true,
-                            interceptRequests: true
-                          };
+        Offline.options = { checkOnLoad: true,
+                            interceptRequests: false,
+                            requests: false };
 
         Offline.on('confirmed-up', online);
 
@@ -33,12 +32,29 @@
 
         Offline.on('down', offline);
 
+        service.checkConnection = function() {
+            $timeout(function() {
+                Offline.check();
+                service.checkConnection();
+            }, 30000);
+        }
+
+        service.checkConnection();
+
+        service.isOffline = function() {
+            return service.offline;
+        }
+
         function offline() {
-            service.isOffline = true;
-        };
+           $timeout(function() {
+               service.offline = true;
+           });
+        }
 
         function online() {
-            service.isOffline = false;
-        };
+           $timeout(function() {
+               service.offline = false;
+           });
+        }
     }
 })();

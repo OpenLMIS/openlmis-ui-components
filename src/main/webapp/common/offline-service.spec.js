@@ -1,35 +1,56 @@
 describe("OfflineService", function() {
 
-    var offline, offlineService;
+    var offline, offlineService, timeout;
 
     beforeEach(module('openlmis-core'));
 
-    beforeEach(inject(function(OfflineService, Offline) {
+    beforeEach(inject(function(OfflineService, Offline, $timeout) {
         offlineService = OfflineService;
         offline = Offline;
+        timeout = $timeout;
     }));
 
     it('should return false when there is internet connection', function() {
-        offline.trigger('confirmed-up');
+        spyOn(offline, 'check').andCallFake(function() {
+            offline.trigger('confirmed-up');
+        });
 
-        expect(offlineService.isOffline).toBe(false);
+        offlineService.checkConnection();
+        timeout.flush(30001);
+
+        expect(offlineService.offline).toBe(false);
     });
 
     it('should return true when there is no internet connection', function() {
-        offline.trigger('confirmed-down');
+        spyOn(offline, 'check').andCallFake(function() {
+            offline.trigger('confirmed-down');
+        });
 
-        expect(offlineService.isOffline).toBe(true);
+        offlineService.checkConnection();
+        timeout.flush(30001);
+
+        expect(offlineService.offline).toBe(true);
     });
 
     it('should return false when the connection has gone from down to up', function() {
-        offline.trigger('up');
+        spyOn(offline, 'check').andCallFake(function() {
+            offline.trigger('up');
+        });
 
-        expect(offlineService.isOffline).toBe(false);
+        offlineService.checkConnection();
+        timeout.flush(30001);
+
+        expect(offlineService.offline).toBe(false);
     });
 
     it('should return true when the connection has gone from up to down', function() {
-        offline.trigger('down');
+        spyOn(offline, 'check').andCallFake(function() {
+            offline.trigger('down');
+        });
 
-        expect(offlineService.isOffline).toBe(true);
+        offlineService.checkConnection();
+        timeout.flush(30001);
+
+        expect(offlineService.offline).toBe(true);
     });
 });

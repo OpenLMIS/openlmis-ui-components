@@ -9,9 +9,12 @@
   -->
 
 <div class="user-info">
+    <div ng-show="isOffline()">
+        <strong><span openlmis-message="msg.requisition.view.offline"></span></strong>
+    </div>
     <span openlmis-message="message.loggedInAs"></span>&nbsp;<strong>{{user}}</strong>
     <a ui-sref="profile" openlmis-message="menu.header.edit.preferences"></a>
-    <span ng-show="hasPermission('VIEW_HELP')">| 
+    <span ng-show="hasPermission('VIEW_HELP')">|
         <a href="/pages/help/helpContent/index.html#/viewDashboard" openlmis-message="menu.header.help"></a>
     </span>
     <a id='logout' ng-click="logout()" href="" openlmis-message="link.logout"></a>

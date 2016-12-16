@@ -7,7 +7,16 @@ body>header>:first-child {
   min-height: 4.7em;
   position: relative;
   z-index: 3;
-  @include linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
+  &.online-header {
+    @include linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
+
+    .user-info {
+      padding: 3em 1em 0 0;
+    }
+  }
+  &.offline-header {
+    background-color: #dddddd;
+  }
 }
 .logo {
   padding: 0.6em 0 0;

@@ -19,13 +19,13 @@
 
 </head>
 <body >
-  <header ng-if="userIsAuthenticated">
-    <div ng-include="'dashboard/header.html'" ></div>
-    <div class="navbar">
-      <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
-      <openlmis-locale class="navbar-links navbar-right"></openlmis-locale>
-    </div>
-  </header>
-  <div ui-view></div>
+<header ng-if="userIsAuthenticated">
+  <div ng-class="isOffline() ? 'offline-header' : 'online-header'" offline></div>
+  <div class="navbar">
+    <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
+    <openlmis-locale class="navbar-links navbar-right"></openlmis-locale>
+  </div>
+</header>
+<div ui-view></div>
 </body>
 </html>
