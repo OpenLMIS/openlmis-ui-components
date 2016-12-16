@@ -2,13 +2,15 @@ describe("OfflineService", function() {
 
     var offline, offlineService, timeout;
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(function() {
+        module('openlmis-core');
 
-    beforeEach(inject(function(OfflineService, Offline, $timeout) {
-        offlineService = OfflineService;
-        offline = Offline;
-        timeout = $timeout;
-    }));
+        inject(function(OfflineService, Offline, $timeout) {
+            offlineService = OfflineService;
+            offline = Offline;
+            timeout = $timeout;
+        });
+    });
 
     it('should return false when there is internet connection', function() {
         spyOn(offline, 'check').andCallFake(function() {

@@ -10,7 +10,7 @@
 
     function offline(OfflineService) {
         var directive = {
-            restrict: 'AE',
+            restrict: 'A',
             replace: false,
             templateUrl: 'dashboard/header.html',
             link: link
