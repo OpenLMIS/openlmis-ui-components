@@ -33,7 +33,7 @@
         vm.openRnr = openRnr;
 
         vm.isOfflineDisabled = isOfflineDisabled;
-        vm.searchOffline = OfflineService.isOffline;
+        vm.searchOffline = OfflineService.offline;
         vm.facilities = facilityList;
         vm.statuses = Status.$toList();
         vm.selectedStatuses = [];
@@ -43,8 +43,8 @@
         }
 
         function isOfflineDisabled() {
-            if(OfflineService.isOffline) vm.searchOffline = true;
-            return OfflineService.isOffline;
+            if(OfflineService.offline) vm.searchOffline = true;
+            return OfflineService.offline;
         }
         /**
          *

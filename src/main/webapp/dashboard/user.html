@@ -10,7 +10,7 @@
 
 <div class="user-info">
     <div ng-show="isOffline()">
-        <strong><span openlmis-message="msg.requisition.view.offline"></span></strong>
+        <strong><span>{{'msg.requisition.view.offline' | message }}</span></strong>
     </div>
     <span openlmis-message="message.loggedInAs"></span>&nbsp;<strong>{{user}}</strong>
     <a ui-sref="profile" openlmis-message="menu.header.edit.preferences"></a>
