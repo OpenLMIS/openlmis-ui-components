@@ -10,12 +10,14 @@
 
 <div class="user-info">
     <div ng-show="isOffline()">
-        <strong><span>{{'msg.requisition.view.offline' | message }}</span></strong>
+        <span class="bold">{{'msg.requisition.view.offline' | message }}</span>
     </div>
-    <span openlmis-message="message.loggedInAs"></span>&nbsp;<strong>{{user}}</strong>
-    <a ui-sref="profile" openlmis-message="menu.header.edit.preferences"></a>
+    <span>{{ 'message.loggedInAs' | message }}</span>&nbsp;<span class="bold">{{user}}</span>
+    <a ui-sref="profile">{{ 'menu.header.edit.preferences' | message }}</a>
     <span ng-show="hasPermission('VIEW_HELP')">|
-        <a href="/pages/help/helpContent/index.html#/viewDashboard" openlmis-message="menu.header.help"></a>
+        <a href="/pages/help/helpContent/index.html#/viewDashboard">
+            {{ 'menu.header.help' | message }}
+        </a>
     </span>
-    <a id='logout' ng-click="logout()" href="" openlmis-message="link.logout"></a>
+    <a id='logout' ng-click="logout()" href="">{{ 'link.logout' | message }}</a>
 </div>
