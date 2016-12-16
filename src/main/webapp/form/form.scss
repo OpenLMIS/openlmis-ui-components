@@ -38,21 +38,17 @@ markup:
 <form>
 	<!-- Form headings should be an appropriate heading level -->
 	<h3>Example form elements</h3>
-	<div class="form-group">
-		<label for="exampleTextInput" >Example text input</label>
-		<input id="exampleTextInput" type="text" ng-model="exampleText" ng-required />
-	</div>
-	<div class="form-group">
-		<label for="exampleSelect">Example combo box element</label>
-		<select id="exampleSelect" ng-model="exampleSelect">
-			<option value="">--Select Option--</option>
-			<option value="0">EPI</option>
-			<option value="1">ART</option>
-			<option value="2">Essential Medicines</option>
-			<option value="3">Family Planning</option>
-			<option value="4">Malaria</option>
-		</select>
-	</div>
+	<label for="exampleTextInput" >Example text input</label>
+	<input id="exampleTextInput" type="text" ng-model="exampleText" ng-required />
+	<label for="exampleSelect">Example combo box element</label>
+	<select id="exampleSelect" ng-model="exampleSelect">
+		<option value="">--Select Option--</option>
+		<option value="0">EPI</option>
+		<option value="1">ART</option>
+		<option value="2">Essential Medicines</option>
+		<option value="3">Family Planning</option>
+		<option value="4">Malaria</option>
+	</select>
 	<label class="checkbox">
 		<input type="checkbox" ng-model="booleanCheckbox" ng-value="true" />
 		Boolean checkbox, used to turn a value on or off
@@ -86,5 +82,25 @@ Styleguide 3.0
 
 */
 
+// form {
+// 	display: flex;
+// 	flex-direction: row;
+// 	flex-wrap: wrap;
+// 	> * {
+// 		display: block;
+// 		clear: both;
+// 		width: auto;
+// 		flex: 1 0 auto;
+// 	}
+// 	> label, > fieldset{
+// 		min-width: 100%;
+// 	}
+
+// 	> input[type="submit"],
+// 	> input[type="button"],
+// 	> button {
+// 		flex: 0 0 auto;
+// 	}
+// }
 
 
