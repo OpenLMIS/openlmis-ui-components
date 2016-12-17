@@ -242,7 +242,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/resources',
+            cwd: 'messages',
             src: ['messages_*.json'],
             dest: config.app.dest + '/webapp/messages'
           }
