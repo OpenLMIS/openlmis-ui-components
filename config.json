@@ -14,5 +14,9 @@
   },
   "openlmisServerURL": "",
   "authServiceURL": "/",
-  "requisitionServiceURL": "/"
+  "requisitionServiceURL": "/",
+  "authService": {
+    "clientId": "trusted-client",
+    "clientSecret": "secret"
+  }
 }

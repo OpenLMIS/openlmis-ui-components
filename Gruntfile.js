@@ -127,6 +127,12 @@ module.exports = function(grunt) {
         },{
           from: '@@REQUISITION_SERVICE_URL',
           to: makeURL('requisitionServiceURL')
+        },{
+          from: '@@AUTH_SERVICE_CLIENT_ID',
+          to: config.authService.clientId
+        },{
+          from: '@@AUTH_SERVICE_CLIENT_SECRET',
+          to: config.authService.clientSecret
         }]
       }
     },

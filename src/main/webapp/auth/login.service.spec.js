@@ -48,12 +48,6 @@ describe("LoginService", function() {
         AuthorizationService = _AuthorizationService_;
         $state = _$state_;
 
-        httpBackend.when('GET', 'credentials/auth_server_client.json')
-        .respond(200, {
-          'auth.server.clientId': 'client',
-          'auth.server.clientSecret': 'secret'
-        });
-
         httpBackend.when('POST', '/api/oauth/token?grant_type=password')
         .respond(function(method, url, data){
           if(data.indexOf('bad-password') >= 0 ){

@@ -23,26 +23,6 @@
         service.login = login;
         service.logout = logout;
 
-        function makeAuthorizationHeader(clientId, clientSecret){
-            var data = btoa(clientId + ':' + clientSecret);
-            return 'Basic ' + data;
-        }
-
-        function getAuthorizationHeader(){
-            var deferred = $q.defer();
-            $http.get('credentials/auth_server_client.json')
-            .then(function(response){
-                var header = makeAuthorizationHeader(
-                    response.data['auth.server.clientId'],
-                    response.data['auth.server.clientSecret']
-                );
-                deferred.resolve(header);
-            }).catch(function(){
-                deferred.reject();
-            });
-            return deferred.promise;
-        }
-
         /**
         *
         * @ngdoc function
@@ -61,38 +41,38 @@
 
         function login(username, password){
             var deferred = $q.defer();
-            var promise = getAuthorizationHeader()
-            .then(function(AuthHeader) {
-                $http({
-                    method: 'POST',
-                    url: AuthURL('/api/oauth/token?grant_type=password'),
-                    data: 'username=' + username + '&password=' + password,
-                    headers: {
-                        'Authorization': AuthHeader,
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).then(function(response) {
-                    AuthorizationService.setAccessToken(response.data.access_token);
-                    getUserInfo(response.data.referenceDataUserId).then(function() {
-                        getUserRights(response.data.referenceDataUserId).then(function() {
-                            if ($state.is('auth.login.form')) {
-                                $rootScope.$emit('auth.login');
-                            } else {
-                                $rootScope.$emit('auth.login-modal');
-                            }
-                            deferred.resolve();
-                        }, function(){
-                            AuthorizationService.clearAccessToken();
-                            deferred.reject();
-                        });
+            var authHeader = 'Basic '+ btoa(
+                '@@AUTH_SERVICE_CLIENT_ID' // replaced on build by config.authService.cliendId
+                + ':'
+                + '@@AUTH_SERVICE_CLIENT_SECRET' // replaced on build by config.authService.clientSecret
+            );
+            $http({
+                method: 'POST',
+                url: AuthURL('/api/oauth/token?grant_type=password'),
+                data: 'username=' + username + '&password=' + password,
+                headers: {
+                    'Authorization': authHeader,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(function(response) {
+                AuthorizationService.setAccessToken(response.data.access_token);
+                getUserInfo(response.data.referenceDataUserId).then(function() {
+                    getUserRights(response.data.referenceDataUserId).then(function() {
+                        if ($state.is('auth.login.form')) {
+                            $rootScope.$emit('auth.login');
+                        } else {
+                            $rootScope.$emit('auth.login-modal');
+                        }
+                        deferred.resolve();
                     }, function(){
                         AuthorizationService.clearAccessToken();
                         deferred.reject();
                     });
-                }, function() { // catch HTTP error
+                }, function(){
+                    AuthorizationService.clearAccessToken();
                     deferred.reject();
                 });
-            }, function(){
+            }, function() { // catch HTTP error
                 deferred.reject();
             });
             return deferred.promise;
