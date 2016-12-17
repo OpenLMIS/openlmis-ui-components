@@ -34,6 +34,10 @@
             packsToShip: [
                 Columns.REQUESTED_QUANTITY,
                 Columns.APPROVED_QUANTITY
+            ],
+            totalCost: [
+                Columns.PACKS_TO_SHIP,
+                Columns.PRICE_PER_PACK
             ]
         };
 
