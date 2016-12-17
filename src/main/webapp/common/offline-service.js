@@ -19,9 +19,12 @@
         var service = this,
             isOffline = false;
 
-        Offline.options = { checkOnLoad: true,
-                            interceptRequests: false,
-                            requests: false };
+        Offline.options = {
+            checkOnLoad: true,
+            interceptRequests: false,
+            requests: false,
+            checks: {xhr: {url: 'favicon.ico'}}
+            };
 
         Offline.on('confirmed-up', online);
 
