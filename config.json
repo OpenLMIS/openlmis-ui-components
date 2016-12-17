@@ -1,14 +1,17 @@
 {
+  "src": "./src",
+  "dest": "./build",
   "app": {
-    "src": "./src/main",
-    "dest": "./build",
+    "src": "./src",
+    "dest": "./build/webapp",
     "bower_components": "./bower_components"
   },
   "styleguide": {
-  	"src": "src/",
+  	"src": "styleguide/",
   	"dest": "build/styleguide"
   },
   "docs": {
+    "title": "OpenLMIS-UI Documentation",
     "src": "./docs",
     "dest": "./build/docs"
   },

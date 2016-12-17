@@ -30,12 +30,13 @@ module.exports = function(grunt) {
         reporter: 'checkstyle',
         reporterOutput: 'quality/js/checkstyle-results.xml'
       },
-      all: [config.app.src + '/webapp/js/**/*.js']
+      all: [
+        path.join(config.app.src, '**/*.js')
+      ]
     },
     sasslint: {
       src: [
-        path.join(config.app.src,'**/*.scss'),
-        '!**/ng-grid.scss'
+        path.join(config.app.src, '**/*.scss')
       ],
       options: {
         bench: false,
@@ -65,9 +66,9 @@ module.exports = function(grunt) {
         preserveComments: false
       },
       files: {
-        cwd: config.app.dest + '/webapp/',
+        cwd: config.app.dest,
         src: ['**/*.js'],
-        dest: config.app.dest + '/webapp/',
+        dest: config.app.dest,
         expand: true,
         flatten: false
       }
@@ -78,7 +79,7 @@ module.exports = function(grunt) {
           keepalive: true,
           debug: true,
           port: 9000,
-          base: config.app.dest
+          base: config.dest
         }
       }
     },
@@ -95,10 +96,10 @@ module.exports = function(grunt) {
     },
     appcache: {
       options: {
-        basePath: './build/webapp'
+        basePath: config.app.dest
       },
       all: {
-        dest: "./build/webapp/manifest.appcache",
+        dest: path.join(config.app.dest, "manifest.appcache"),
         cache: {
           patterns: [
             './build/webapp/openlmis.js',
@@ -116,7 +117,7 @@ module.exports = function(grunt) {
     },
     replace: {
       serverurl: {
-        src: [config.app.dest + '/webapp/**/*.js'],
+        src: [path.join(config.app.dest, '**/*.js')],
         overwrite: true,
         replacements: [{
           from: '@@OPENLMIS_SERVER_URL',
@@ -144,26 +145,21 @@ module.exports = function(grunt) {
         src: function(){
           var appFiles = [
             // Module registration
-            config.app.src + '/webapp/**/module/*.js',
-            config.app.src + '/webapp/**/*.module.js',
-            // Legacy files
-            config.app.src + '/webapp/js/shared/util.js',
-            config.app.src + '/webapp/js/shared/*.js',
-            config.app.src + '/webapp/js/shared/services/services.js',
-            config.app.src + '/webapp/js/shared/**/*.js',
-            // Special file types....
-            config.app.src + '/webapp/**/*.config.js',
-            config.app.src + '/webapp/**/*.routes.js',
-            '!' + config.app.src + '/webapp/app.routes.js',
+            path.join(config.app.src, '**/module.js'),
+            path.join(config.app.src, '**/*.module.js'),
+            // Configuration files....
+            path.join(config.app.src, '**/config.js'),
+            path.join(config.app.src, '**/*.config.js'),
+            path.join(config.app.src, '**/routes.js'),
+            path.join(config.app.src, '**/*.routes.js'),
             // Everything else
-            config.app.src + '/webapp/**/*.js',
-            '!' + config.app.src + '/**/*.spec.js',
-            '!' + config.app.src + '/webapp/app.js',
-            '!' + config.app.src + '/webapp/app.routes.js',
-            // Run time
+            path.join(config.app.src, '**/*.js'),
+            // Don't include these with everything else
+            '!' + path.join(config.app.src,'/**/*.spec.js'),
+            '!' + path.join(config.app.src, '/webapp/app.js'),
+            // App run time, 
             // NEED file to declare openlmis-app
-            config.app.src + '/webapp/app.js',
-            config.app.src + '/webapp/app.routes.js'
+            path.join(config.app.src, '/webapp/app.js')
           ];
           // hack to make jquery load first
           return [
@@ -171,60 +167,25 @@ module.exports = function(grunt) {
               'bower_components/jquery-ui/jquery-ui.js'
             ].concat(
               wiredep().js,
-              [
-                'vendor/ng-grid-2.0.7.min.js',
-                'vendor/base2.js'
-              ],
               appFiles
             );
         }(),
-        dest: config.app.dest + '/webapp/openlmis.js'
+        dest: path.join(config.app.dest, 'openlmis.js')
       }
     },
     copy: {
-      main: {
-        files: [
-          {
-            expand: true,
-            cwd: config.app.src + '/webapp/',
-            src: ['*'],
-            dest: config.app.dest + '/webapp',
-            filter: 'isFile'
-          }
-        ],
-      },
       images: {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/webapp/',
+            cwd: config.app.src,
             src: [
               '**/*.png',
               '**/*.jpg',
-              '**/*.gif'
+              '**/*.gif',
+              '**/*.ico'
             ],
-            dest: config.app.dest + '/webapp'
-          }
-        ],
-      },
-      img: {
-        files: [
-          {
-            expand: true,
-            flatten: true,
-            cwd: config.app.src + '/webapp/lib/',
-            src: ['**/img/**'],
-            dest: config.app.dest + '/webapp/img'
-          }
-        ],
-      },
-      fonts: {
-        files: [
-          {
-            expand: true,
-            cwd: config.app.src + '/webapp/fonts/',
-            src: ['**'],
-            dest: config.app.dest + '/webapp/fonts'
+            dest: config.app.dest
           }
         ],
       },
@@ -232,9 +193,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/webapp/',
+            cwd: config.app.src,
             src: ['index.html'],
-            dest: config.app.dest + '/webapp'
+            dest: config.app.dest
           }
         ],
       },
@@ -244,19 +205,19 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'messages',
             src: ['messages_*.json'],
-            dest: config.app.dest + '/webapp/messages'
+            dest: path.join(config.app.dest, 'messages')
           }
         ]
       },
-      credentials: {
+      fonts: {
         files: [
           {
             expand: true,
-            cwd: config.app.src + '/resources',
-            src: ['auth_server_client.json'],
-            dest: config.app.dest + '/webapp/credentials'
+            cwd: path.join(config.app.src, 'fonts/'),
+            src: ['**'],
+            dest: path.join(config.app.dest, 'fonts')
           }
-        ]
+        ],
       },
       fontAwesomeFonts: {
         files: [
@@ -264,7 +225,7 @@ module.exports = function(grunt) {
             expand: true,
             cwd: 'bower_components/font-awesome/fonts/',
             src: '*',
-            dest: path.join(config.app.dest, 'webapp/fonts')
+            dest: path.join(config.app.dest, 'fonts')
           }
         ]
       },
@@ -279,7 +240,7 @@ module.exports = function(grunt) {
               'ui-grid.ttf',
               'ui-grid.woff'
             ],
-            dest: config.app.dest + '/webapp/fonts'
+            dest: path.join(config.app.dest, '/fonts')
           }
         ]
       },
@@ -295,22 +256,13 @@ module.exports = function(grunt) {
               'glyphicons-halflings-regular.woff',
               'glyphicons-halflings-regular.woff2'
             ],
-            dest: config.app.dest + '/webapp/fonts/bootstrap'
+            dest: path.join(config.app.dest, 'fonts/bootstrap')
           }
         ]
       },
-      selectTwoImages: {
-        expand: true,
-        cwd: 'bower_components/select2/',
-        src: [
-            '*.png',
-            '*.gif'
-        ],
-        dest: path.join(config.app.dest, 'webapp/images')
-      },
       kssCopyAppAssets: {
         expand: true,
-        cwd: path.join(config.app.dest, 'webapp'),
+        cwd: config.app.dest,
         src: [
           'openlmis.js',
           'openlmis.js.map',
@@ -328,8 +280,8 @@ module.exports = function(grunt) {
     },
     ngdocs: {
       options:{
-        dest: "./build/docs",
-        title: "OpenLMIS-UI Documentation"
+        dest: config.docs.dest,
+        title: config.docs.title
       },
       api: {
         src: [
@@ -341,65 +293,62 @@ module.exports = function(grunt) {
     },
     gulp: {
       'sass': function(){
-   var includePaths = require('node-bourbon').includePaths.concat([
-        config.app.src,
-        'bower_components/font-awesome/scss',
-        'bower_components/bootstrap-sass/assets/stylesheets',
-        'bower_components/select2/src/scss'
-    ]);
+        var includePaths = require('node-bourbon').includePaths.concat([
+            config.app.src,
+            'bower_components/font-awesome/scss',
+            'bower_components/bootstrap-sass/assets/stylesheets',
+            'bower_components/select2/src/scss'
+        ]);
 
-    var bowerCss = wiredep().css;
-    var bowerSass = wiredep().scss;
+        var bowerCss = wiredep().css;
+        var bowerSass = wiredep().scss;
 
-    var files = [].concat(
-      [
-        path.join(config.app.src, "**/*variables.scss"),
-        path.join(config.app.src, "**/*.variables.scss")
-      ],
-      bowerSass,
-      bowerCss,
-      [
-        path.join(config.app.src, "/**/*mixins.scss"),
-        path.join(config.app.src, "/**/*.mixins.scss"),
-        path.join(config.app.src, '**/*.css'),
-        path.join(config.app.src, '**/*.scss'),
-        "!" + path.join(config.app.src, "webapp/scss/*")
-      ]);
+        var files = [].concat(
+          [
+            path.join(config.app.src, "**/variables.scss"),
+            path.join(config.app.src, "**/*.variables.scss")
+          ],
+          bowerSass,
+          bowerCss,
+          [
+            path.join(config.app.src, "/**/mixins.scss"),
+            path.join(config.app.src, "/**/*.mixins.scss"),
+            path.join(config.app.src, '**/*.css'),
+            path.join(config.app.src, '**/*.scss'),
+          ]);
 
-    var outputStyle = "expanded";
-    if(grunt.option('production')) outputStyle = "compressed";
+        var outputStyle = "expanded";
+        if(grunt.option('production')) outputStyle = "compressed";
 
-    return gulp.src(files)
-   .pipe(sourcemaps.init())
-    .pipe(concat({
-      path:'openlmis.scss'
-    }))
-    .pipe(sass({
-      includePaths: includePaths,
-      outputStyle: outputStyle,
-    }))
-    .pipe(sourcemaps.write())
-    .pipe(concat('openlmis.css'))
-    .pipe(sass().on('error', sass.logError))
-    .pipe(replace('../','')) // remove non-relative strings
-    //Replace UI-Grid font paths
-    .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))
-    .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
-    .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
-    .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
-    //Replace Select2 image locations
-    .pipe(replace('select2.png','images/select2.png'))
-    .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
-    .pipe(replace('select2x2.png','images/select2x2.png'))
-    .pipe(bless())
-    .pipe(gulp.dest(
-      path.join(config.app.dest, "webapp")
-    ));
+        return gulp.src(files)
+        .pipe(sourcemaps.init())
+        .pipe(concat({
+          path:'openlmis.scss'
+        }))
+        .pipe(sass({
+          includePaths: includePaths,
+          outputStyle: outputStyle,
+        }))
+        .pipe(sourcemaps.write())
+        .pipe(concat('openlmis.css'))
+        .pipe(sass().on('error', sass.logError))
+        .pipe(replace('../','')) // remove non-relative strings
+        //Replace UI-Grid font paths
+        .pipe(replace('ui-grid.eot','fonts/ui-grid.eot'))
+        .pipe(replace('ui-grid.ttf','fonts/ui-grid.ttf'))
+        .pipe(replace('ui-grid.woff','fonts/ui-grid.woff'))
+        .pipe(replace('ui-grid.svg','fonts/ui-grid.svg'))
+        //Replace Select2 image locations
+        .pipe(replace('select2.png','images/select2.png'))
+        .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
+        .pipe(replace('select2x2.png','images/select2x2.png'))
+        .pipe(bless())
+        .pipe(gulp.dest(config.app.dest));
       }
     },
     ngtemplates: {
       app: {
-        cwd:      config.app.src + '/webapp',
+        cwd:      config.app.src,
         src:      ['**/**.html', '!index.html'],
         dest:     '.tmp/templates.js',
         options: {
@@ -412,11 +361,11 @@ module.exports = function(grunt) {
     kss: {
       options: {
         title: 'OpenLMIS-UI Styleguide',
-        homepage: '../../../styleguide/homepage.md',
+        homepage: '../../../styleguide/homepage.md', // wait why here?
         builder: '.tmp/styleguide/'
       },
       dist: {
-        src: [config.styleguide.src],
+        src: [config.app.src],
         dest: config.styleguide.dest
       }
     }
@@ -426,15 +375,16 @@ module.exports = function(grunt) {
   grunt.registerTask('kssSetup', function(){
     var done = this.async();
     var fse = require('fs-extra');
+    var tmpLocation = '.tmp/styleguide';
 
-    fse.removeSync('build/styleguide');
-    fse.removeSync('.tmp/styleguide');
+    fse.removeSync(config.styleguide.dest);
+    fse.removeSync(tmpLocation);
     fse.mkdirsSync('.tmp/styleguide');
-    fse.copySync('node_modules/kss/builder/handlebars', '.tmp/styleguide');
-    fse.copySync('styleguide/index.hbs', '.tmp/styleguide/index.hbs', {
+    fse.copySync('node_modules/kss/builder/handlebars', tmpLocation);
+    fse.copySync(path.join(config.styleguide.src, 'index.hbs'), '.tmp/styleguide/index.hbs', {
       clobber: true
     });
-    fse.mkdirsSync('build/styleguide');
+    fse.mkdirsSync(config.styleguide.dest);
 
     done();
   });
