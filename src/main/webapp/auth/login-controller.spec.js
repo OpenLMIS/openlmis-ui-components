@@ -28,10 +28,6 @@ describe("LoginController", function() {
 
     spyOn(scope, '$emit');
 
-    scope.loginConfig = {
-      "preventReload":true
-    };
-
     messageService = _messageService_;
     spyOn(messageService, 'get');
 

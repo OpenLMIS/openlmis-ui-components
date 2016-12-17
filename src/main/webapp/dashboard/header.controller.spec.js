@@ -13,34 +13,19 @@ describe("HeaderController", function() {
 
   var scope, loginConfig, window, localStorageService, httpBackend, $state;
 
-  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
+  beforeEach(inject(function($rootScope, $controller, _$state_, LoginService, $q) {
     $state = _$state_;
-    spyOn($state, 'go');
 
-    httpBackend = _$httpBackend_;
-    loginConfig = {
-      a: {},
-      b: {}
-    };
     scope = $rootScope.$new();
-    window = {};
-    localStorageService = _localStorageService_;
-    access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
-    spyOn(localStorageService, 'get').andReturn(access_token);
-    spyOn(localStorageService, 'remove');
+
     $controller('HeaderController', {
       $scope: scope,
       localStorageService: localStorageService,
-      loginConfig: loginConfig,
-      $window: window
     });
 
+    spyOn($state, 'go');
     spyOn(LoginService, 'logout').andReturn($q.when());
   }));
-
-  it('should set login config in scope', function() {
-    expect(scope.loginConfig).toEqual(loginConfig);
-  });
 
   it('should navigate to login page when user logs out', function() {
 

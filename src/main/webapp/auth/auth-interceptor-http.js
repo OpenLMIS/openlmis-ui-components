@@ -45,7 +45,7 @@
             request: function(config){
                 if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()
                         // we don't want to add the token to template requests
-                        && !config.url.endsWith('.html')){
+                        && config.url.substr(-5).toLowerCase() != '.html'){
                     config.url = AccessTokenFactory.addAccessToken(config.url);
                 }
                 return config;

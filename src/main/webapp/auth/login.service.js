@@ -121,7 +121,7 @@
                 AuthorizationService.clearRights();
 
                 deferred.resolve();
-            }).catch(function(){
+            }, function(){
                 deferred.reject();
             });
             return deferred.promise;

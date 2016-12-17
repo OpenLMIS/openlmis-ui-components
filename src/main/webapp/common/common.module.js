@@ -11,17 +11,16 @@
      *
      */
     angular.module('openlmis-core', [
-        'openlmis.services',
         'openlmis-table',
         'openlmis-form',
         'openlmis.localStorage',
         'openlmis-templates',
-        'angular-google-analytics',
         'ui.directives',
         'ngCookies',
         'ngRoute',
         'ui.router',
-        'ngStorage'
+        'ngStorage',
+        'ngResource'
         ]);
 
 })();

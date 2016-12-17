@@ -14,9 +14,8 @@
   angular.module('openlmis-dashboard')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', 'localStorageService', 'loginConfig', 'ConfigSettingsByKey', '$window', 'AuthorizationService', 'LoginService', '$http', '$state'];
-  function HeaderController($scope, localStorageService, loginConfig, ConfigSettingsByKey, $window, AuthorizationService, LoginService, $http, $state) {
-    $scope.loginConfig = loginConfig;
+  HeaderController.$inject = ['$scope', 'localStorageService', '$window', 'AuthorizationService', 'LoginService', '$http', '$state'];
+  function HeaderController($scope, localStorageService, $window, AuthorizationService, LoginService, $http, $state) {
 
     $scope.$watch(function(){
       return AuthorizationService.getUser();
@@ -27,41 +26,9 @@
       $scope.hasPermission = AuthorizationService.hasPermission;
     }, true);
 
-    /*
-    var isGoogleAnalyticsEnabled = localStorageService.get('ENABLE_GOOGLE_ANALYTICS');
-    // load this only once
-    if (isGoogleAnalyticsEnabled === null) {
-
-      ConfigSettingsByKey.get({
-        key: 'ENABLE_GOOGLE_ANALYTICS'
-      }, function(data) {
-        localStorageService.add('ENABLE_GOOGLE_ANALYTICS', data.settings.value == 'true');
-      });
-
-      ConfigSettingsByKey.get({
-        key: 'GOOGLE_ANALYTICS_TRACKING_CODE'
-      }, function(data) {
-        localStorageService.add('GOOGLE_ANALYTICS_TRACKING_CODE', data.settings.value);
-      });
-    }
-    */
-
     $scope.logout = function() {
       LoginService.logout()
       .then(function(){
-        localStorageService.remove('ENABLE_GOOGLE_ANALYTICS');
-        localStorageService.remove('GOOGLE_ANALYTICS_TRACKING_CODE');
-
-        $.each(localStorageKeys.REPORTS, function(itm, idx) {
-          localStorageService.remove(idx);
-        });
-        $.each(localStorageKeys.PREFERENCE, function(item, idx) {
-          localStorageService.remove(idx);
-        });
-        $.each(localStorageKeys.DASHBOARD_FILTERS, function(item, idx) {
-          localStorageService.remove(idx);
-        });
-
         $state.go('auth.login.form');
       });
     };
