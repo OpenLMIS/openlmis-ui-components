@@ -18,11 +18,11 @@
         function LineItem(lineItem, requisition) {
             angular.copy(lineItem, this);
 
-            this.orderableProduct = lineItem.orderableProduct
+            this.orderableProduct = lineItem.orderableProduct;
             this.stockAdjustments = lineItem.stockAdjustments;
 
             this.$errors = {};
-            this.$program = getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
+            this.$program = this.orderableProduct.$program ? this.orderableProduct.$program : getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
 
             var newLineItem = this;
             requisition.$template.columns.forEach(function(column) {
@@ -43,12 +43,14 @@
                 object = getObject(this, fullName),
                 propertyName = getPropertyName(column.name);
 
-            if (column.source === Source.CALCULATED) {
-                object[propertyName] = calculations[fullName](this, status);
-            } else if (column.type === Type.NUMERIC) {
-                object[propertyName] = object[propertyName] ? object[propertyName] : 0;
-            } else {
-                object[propertyName] = object[propertyName] ? object[propertyName] : '';
+            if(object) {
+                if (column.source === Source.CALCULATED) {
+                    object[propertyName] = calculations[fullName](this, status);
+                } else if (column.type === Type.NUMERIC) {
+                    object[propertyName] = object[propertyName] ? object[propertyName] : 0;
+                } else {
+                    object[propertyName] = object[propertyName] ? object[propertyName] : '';
+                }
             }
         }
 
@@ -78,7 +80,6 @@
             var id = fullPath.lastIndexOf('.')
             return id > -1 ? fullPath.substr(id) : fullPath;
         }
-
     };
 
 })();

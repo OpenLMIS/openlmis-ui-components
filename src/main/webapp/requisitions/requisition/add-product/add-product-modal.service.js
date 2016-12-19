@@ -55,7 +55,7 @@
             deferred.resolve({
                 requestedQuantity: quantity,
                 requestedQuantityExplanation: explanation,
-                orderableProduct: product,
+                orderableProduct: convertToOrderableProduct(product),
                 $deletable: true
             });
         }
@@ -68,6 +68,16 @@
             return product.$visible;
         }
 
+        function convertToOrderableProduct(product) {
+            return {
+                name: product.productName,
+                productCode: product.productCode,
+                $program: {
+                    productCategoryDisplayName: product.productCategoryDisplayName,
+                    fullSupply: product.fullSupply
+                }
+            }
+        }
     }
 
 })();
