@@ -2,6 +2,14 @@
 
     'use strict';
 
+    /**
+     * @ngdoc directive
+     * @name openlmis-core.directive:offline
+     *
+     * @description
+     * Directive for determining if user is online or not.
+     */
+
     angular
         .module('openlmis-core')
         .directive('offline', offline);
@@ -16,6 +24,15 @@
         }
         return directive;
 
+        /**
+         * @ngdoc function
+         * @name link
+         * @methodOf openlmis-core.directive:offline
+         *
+         * @description
+         * Watch if connection isn't lost or back
+         *
+         */
         function link(scope, element, attr) {
             scope.$watch(function(){
                 return OfflineService.isOffline();
