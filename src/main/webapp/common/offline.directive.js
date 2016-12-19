@@ -10,18 +10,21 @@
 
     function offline(OfflineService) {
         var directive = {
-            templateUrl: 'dashboard/header.html',
+            scope: false,
+            replace: false,
             link: link
         }
         return directive;
 
         function link(scope, element, attr) {
-            scope.$watch('checkConnection', function(data) {
-                scope.isOffline = data;
+            scope.$watch(function(){
+                return OfflineService.isOffline();
+            }, function(isOffline) {
+                scope.isOffline = isOffline;
             }, true);
 
             scope.checkConnection = function() {
-                return OfflineService.isOffline();
+                return OfflineService.checkConnection();
             };
         }
     }

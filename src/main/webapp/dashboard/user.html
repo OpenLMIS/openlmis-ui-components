@@ -9,9 +9,6 @@
   -->
 
 <div class="user-info">
-    <div ng-show="isOffline()">
-        <span class="bold">{{'msg.requisition.view.offline' | message }}</span>
-    </div>
     <span>{{ 'message.loggedInAs' | message }}</span>&nbsp;<span class="bold">{{user}}</span>
     <a ui-sref="profile">{{ 'menu.header.edit.preferences' | message }}</a>
     <span ng-show="hasPermission('VIEW_HELP')">|

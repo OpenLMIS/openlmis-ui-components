@@ -20,7 +20,7 @@
   </head>
   <body >
     <header ng-if="userIsAuthenticated">
-      <offline ng-class="isOffline() ? 'offline-header' : 'online-header'"></offline>
+      <div ng-include="'dashboard/header.html'" offline ng-class="{'isOffline':isOffline}" ></div>
       <div class="navbar">
         <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
         <openlmis-locale class="navbar-links navbar-right"></openlmis-locale>
