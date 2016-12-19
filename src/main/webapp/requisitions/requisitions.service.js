@@ -90,7 +90,7 @@
             }).$promise.then(function(requisition) {
                 $q.all([
                     resource.getTemplate({
-                        program: requisition.template
+                        id: requisition.template
                     }).$promise,
                     resource.getApprovedProducts({
                         id: requisition.facility.id,
