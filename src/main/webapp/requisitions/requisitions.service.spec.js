@@ -123,13 +123,11 @@ describe('RequisitionService', function() {
 
     it('should get requisition by id', function() {
         var getRequisitionUrl = '/api/requisitions/' + requisition.id;
-        var getTemplateUrl = '/api/requisitionTemplates/search?program=' + requisition.program.id;
         var getProductsUrl = '/api/facilities/' + requisition.facility.id +
                              '/approvedProducts?fullSupply=false&programId=' +
                              requisition.program.id;
 
         httpBackend.when('GET', requisitionUrl(getRequisitionUrl)).respond(200, requisition);
-        httpBackend.when('GET', requisitionUrl(getTemplateUrl)).respond(200, {});
         httpBackend.when('GET', openlmisUrl(getProductsUrl)).respond(200, []);
 
         var data;

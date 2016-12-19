@@ -14,11 +14,11 @@
 
         return Template;
 
-        function Template(template, requisition) {
+        function Template(requisition) {
             this.showNonFullSupplyTab = requisition.program.showNonFullSupplyTab;
 
             var columns = [];
-            angular.forEach(template.columnsMap, function(column) {
+            angular.forEach(requisition.template.columnsMap, function(column) {
                 columns.push(new RequisitionColumn(column, requisition));
             });
             this.columns = columns;

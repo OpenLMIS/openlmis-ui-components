@@ -37,10 +37,6 @@
                 isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
-            'getTemplate': {
-                url: RequisitionURL('/api/requisitionTemplates/search'),
-                method: 'GET'
-            },
             'forConvert': {
                 url: RequisitionURL('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
@@ -88,17 +84,12 @@
             resource.get({
                 id: id
             }).$promise.then(function(requisition) {
-                $q.all([
-                    resource.getTemplate({
-                        program: requisition.program.id
-                    }).$promise,
-                    resource.getApprovedProducts({
-                        id: requisition.facility.id,
-                        fullSupply: false,
-                        programId: requisition.program.id
-                    }).$promise
-                ]).then(function(responses) {
-                    resolve(requisition, responses[0], responses[1]);
+                resource.getApprovedProducts({
+                    id: requisition.facility.id,
+                    fullSupply: false,
+                    programId: requisition.program.id
+                }).$promise.then(function(approvedProducts) {
+                    resolve(requisition, approvedProducts);
                 }, function() {
                     resolve(requisition);
                 });
@@ -106,8 +97,8 @@
 
             return deferred.promise;
 
-            function resolve(requisition, template, approvedProducts) {
-                deferred.resolve(RequisitionFactory(requisition, template, approvedProducts));
+            function resolve(requisition, approvedProducts) {
+                deferred.resolve(RequisitionFactory(requisition, approvedProducts));
             }
 
             function error() {

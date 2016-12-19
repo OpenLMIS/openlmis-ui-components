@@ -23,15 +23,6 @@ describe('RequisitionFactory', function() {
             id: '1',
             name: 'program'
         },
-        requisition = {
-            id: '1',
-            name: 'requisition',
-            status: 'INITIATED',
-            facility: facility,
-            program: program,
-            supplyingFacility: facility,
-            requisitionLineItems: []
-        },
         stockAdjustmentReason = {
             program: program,
             id: '1'
@@ -56,6 +47,16 @@ describe('RequisitionFactory', function() {
             columnsMap : {
                 begginingBalance : begginingBalance
             }
+        },
+        requisition = {
+            id: '1',
+            name: 'requisition',
+            status: 'INITIATED',
+            facility: facility,
+            program: program,
+            supplyingFacility: facility,
+            template: requisitionTemplate,
+            requisitionLineItems: []
         };
 
     beforeEach(module('openlmis.requisitions'));
@@ -98,7 +99,7 @@ describe('RequisitionFactory', function() {
         allStatuses = Status;
         q = $q;
 
-        requisitionFactory(requisition, requisitionTemplate, {});
+        requisitionFactory(requisition, {});
     }));
 
     it('should submit requisition', function() {
