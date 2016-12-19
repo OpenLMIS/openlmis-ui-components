@@ -23,14 +23,19 @@
                 Columns.TOTAL_RECEIVED_QUANTITY,
                 Columns.TOTAL_CONSUMED_QUANTITY,
                 Columns.TOTAL_LOSSES_AND_ADJUSTMENTS
+
+            ],
+            totalConsumedQuantity: [
+                Columns.BEGINNING_BALANCE,
+                Columns.TOTAL_RECEIVED_QUANTITY,
+                Columns.STOCK_ON_HAND,
+                Columns.TOTAL_LOSSES_AND_ADJUSTMENTS
             ],
             total: [
                 Columns.BEGINNING_BALANCE,
                 Columns.TOTAL_RECEIVED_QUANTITY
             ],
-            requestedQuantityExplanation: [
-                Columns.REQUESTED_QUANTITY
-            ],
+
             packsToShip: [
                 Columns.REQUESTED_QUANTITY,
                 Columns.APPROVED_QUANTITY

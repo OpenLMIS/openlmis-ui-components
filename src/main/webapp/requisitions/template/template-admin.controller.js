@@ -120,10 +120,10 @@
          * @name errorMessage
          * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {Object} column Column
-         * @returns {String} Column valdation error message
+         * @returns {String} Column validation error message
          *
          * @description
-         * Gives error message with all diplayed dependent column names
+         * Gives error message with all displayed dependent column names
          * when column validation failed.
          */
         function errorMessage(column) {
@@ -131,23 +131,21 @@
                 message;
 
             if(column.source === undefined || column.source === null  || column.source === '') return messageService.get('msg.template.column.source.empty');
-            angular.forEach(column.$dependentOn, function(columnName) {
-                if(vm.template.columnsMap[columnName].source === Source.CALCULATED && column.source === Source.CALCULATED) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
-            });
+
+            if(column.source === Source.CALCULATED) {
+                var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
+                angular.forEach(circularDependencyArray, function(dependency) {
+                    dependencies = dependencies + ' ' + vm.template.columnsMap[dependency].label + ',';
+                });
+            }
+
             if(dependencies.length > 0) {
                 dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
                 return messageService.get('msg.template.column.calculated.error') + dependencies;
             }
-            angular.forEach(column.$dependentOn, function(columnName) {
-                if(vm.template.columnsMap[columnName].isDisplayed) dependencies = dependencies + ' ' + vm.template.columnsMap[columnName].label + ',';
-            });
             message = messageService.get('msg.template.column.should.be.displayed');
             if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) {
                 message = message + messageService.get('msg.template.column.is.user.input');
-            }
-            if(dependencies.length > 0) {
-                dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
-                message = message + messageService.get('msg.template.column.together.with') + dependencies;
             }
             return message;
         }

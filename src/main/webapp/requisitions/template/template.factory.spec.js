@@ -9,7 +9,7 @@
  */
 describe('templateFactory', function() {
 
-    var rootScope, TemplateFactory, template, q;
+    var rootScope, TemplateFactory, template, q, dependencyTestColumns;
 
     beforeEach(module('openlmis.requisitions'));
 
@@ -46,6 +46,16 @@ describe('templateFactory', function() {
         RequisitionColumnSpy.columnDependencies.andCallFake(function(column) {
             if(column.name === 'remarks') {
                 return ['total'];
+            } else if (column.name === 'totalCost') {
+                return ['pricePerPack', 'packsToShip'];
+            } else if (column.name === 'packsToShip') {
+                return ['requestedQuantity', 'approvedQuantity'];
+            } else if (column.name === 'pricePerPack') {
+                return [];
+            } else if (column.name === 'stockOnHand') {
+                return ['beginningBalance', 'totalConsumedQuantity'];
+            } else if (column.name === 'totalConsumedQuantity') {
+                return ['beginningBalance', 'stockOnHand'];
             }
             return null;
         });
@@ -91,6 +101,105 @@ describe('templateFactory', function() {
                 }
             }
         };
+
+        dependencyTestColumns = {
+            pricePerPack: {
+                isDisplayed: true,
+                displayOrder: 1,
+                name: 'pricePerPack',
+                label: 'Price per Pack',
+                columnDefinition: {
+                    canChangeOrder: true,
+                    sources: ['REFERENCE_DATA'],
+                    isDisplayRequired: false
+                },
+                source: 'REFERENCE_DATA'
+            },
+            totalCost: {
+                isDisplayed: true,
+                displayOrder: 2,
+                name: 'totalCost',
+                label: 'Total Cost',
+                columnDefinition: {
+                    canChangeOrder: true,
+                    sources: ['CALCULATED'],
+                    isDisplayRequired: false
+                },
+                source: 'CALCULATED'
+            },
+            packsToShip: {
+               isDisplayed: true,
+               displayOrder: 3,
+               name: 'packsToShip',
+               label: 'Packs to Ship',
+               columnDefinition: {
+                   canChangeOrder: true,
+                   sources: ['CALCULATED'],
+                   isDisplayRequired: false
+               },
+               source: 'CALCULATED'
+           },
+           requestedQuantity: {
+              isDisplayed: true,
+              displayOrder: 4,
+              name: 'requestedQuantity',
+              label: 'Requested Quantity',
+              columnDefinition: {
+                  canChangeOrder: true,
+                  sources: ['USER_INPUT'],
+                  isDisplayRequired: false
+              },
+              source: 'USER_INPUT'
+          },
+          approvedQuantity: {
+              isDisplayed: true,
+              displayOrder: 5,
+              name: 'approvedQuantity',
+              label: 'Approved Quantity',
+              columnDefinition: {
+                  canChangeOrder: true,
+                  sources: ['USER_INPUT'],
+                  isDisplayRequired: false
+              },
+              source: 'USER_INPUT'
+          },
+          stockOnHand: {
+              isDisplayed: true,
+              displayOrder: 6,
+              name: 'stockOnHand',
+              label: 'Stock On Hand',
+              columnDefinition: {
+                 canChangeOrder: true,
+                 sources: ['USER_INPUT', 'CALCULATED'],
+                 isDisplayRequired: false
+              },
+              source: 'CALCULATED'
+           },
+          totalConsumedQuantity: {
+              isDisplayed: true,
+              displayOrder: 6,
+              name: 'totalConsumedQuantity',
+              label: 'Total Consumed Quantity',
+              columnDefinition: {
+                 canChangeOrder: true,
+                 sources: ['USER_INPUT', 'CALCULATED'],
+                 isDisplayRequired: false
+              },
+              source: 'USER_INPUT'
+           },
+           beginningBalance: {
+              isDisplayed: true,
+              displayOrder: 7,
+              name: 'beginningBalance',
+              label: 'Beginning Balance',
+              columnDefinition: {
+                 canChangeOrder: true,
+                 sources: ['USER_INPUT'],
+                 isDisplayRequired: false
+              },
+              source: 'USER_INPUT'
+           }
+        };
     }));
 
     it('should get template by id and add required methods', function() {
@@ -106,6 +215,7 @@ describe('templateFactory', function() {
         expect(angular.isFunction(data.$isValid)).toBe(true);
         expect(angular.isFunction(data.$save)).toBe(true);
         expect(angular.isFunction(data.$moveColumn)).toBe(true);
+        expect(angular.isFunction(data.$findCircularCalculatedDependencies)).toBe(true);
         angular.forEach(data.columnsMap, function(column) {
             expect(angular.isFunction(data.$isValid)).toBe(true);
         });
@@ -154,19 +264,6 @@ describe('templateFactory', function() {
         expect(data.columnsMap.total.displayOrder).toEqual(3);
     });
 
-    it('should check if template is valid when dependent column is not displayed', function() {
-        var requisitionTemplate;
-
-        TemplateFactory.get(template.id).then(function(response) {
-            requisitionTemplate = response;
-        });
-        rootScope.$apply();
-
-        requisitionTemplate.columnsMap.total.isDisplayed = false;
-
-        expect(requisitionTemplate.$isValid()).toBe(false);
-    });
-
     it('should check if template is valid when column is not displayed and columnn source is set to user input and there is more than one source to choose', function() {
         var requisitionTemplate;
 
@@ -189,20 +286,6 @@ describe('templateFactory', function() {
         rootScope.$apply();
 
         requisitionTemplate.columnsMap.total.source = null;
-
-        expect(requisitionTemplate.$isValid()).toBe(false);
-    });
-
-    it('should check if template is valid when column and one dependent on it has source set to CALCULATED', function() {
-        var requisitionTemplate;
-
-        TemplateFactory.get(template.id).then(function(response) {
-            requisitionTemplate = response;
-        });
-        rootScope.$apply();
-
-        requisitionTemplate.columnsMap.total.source = 'CALCULATED';
-        requisitionTemplate.columnsMap.remarks.source = 'CALCULATED';
 
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
@@ -266,7 +349,7 @@ describe('templateFactory', function() {
     it('should not move column if it is not beetwen the same pinned columns', function() {
         var requisitionTemplate, columnCopy;
 
-        template.columnsMap.begginingBalance = {
+        template.columnsMap.beginningBalance = {
             isDisplayed: true,
             displayOrder: 2,
             name: 'beginningBalance',
@@ -292,7 +375,46 @@ describe('templateFactory', function() {
         expect(requisitionTemplate.$moveColumn(columnCopy, 0)).toBe(false);
 
         expect(requisitionTemplate.columnsMap.remarks.displayOrder).toBe(3);
-        expect(requisitionTemplate.columnsMap.begginingBalance.displayOrder).toBe(2);
+        expect(requisitionTemplate.columnsMap.beginningBalance.displayOrder).toBe(2);
         expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
+    });
+
+    it('should allow calculated column to depend on a different calculated column', function() {
+        var requisitionTemplate;
+
+        template.columnsMap = dependencyTestColumns;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('totalCost')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('pricePerPack')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('packsToShip')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('requestedQuantity')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('approvedQuantity')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('stockOnHand')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('beginningBalance')).toEqual([]);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('totalConsumedQuantity')).toEqual([]);
+    });
+
+    it('should find circular calculated dependencies', function() {
+        var requisitionTemplate;
+
+        template.columnsMap = dependencyTestColumns;
+        template.columnsMap.totalConsumedQuantity.source = 'CALCULATED';
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('stockOnHand'))
+            .toEqual(['totalConsumedQuantity']);
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('totalConsumedQuantity'))
+            .toEqual(['stockOnHand']);
+        // check this just in case
+        expect(requisitionTemplate.$findCircularCalculatedDependencies('totalCost')).toEqual([]);
     });
 });

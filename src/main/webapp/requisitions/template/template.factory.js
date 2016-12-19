@@ -50,6 +50,8 @@
                 template.$save = save;
                 template.$isValid = isTemplateValid;
                 template.$moveColumn = moveColumn;
+                template.$findCircularCalculatedDependencies = findCircularCalculatedDependencies;
+
                 addDependentColumnValidation(template.columnsMap);
                 deferred.resolve(template);
             }, function() {
@@ -125,18 +127,17 @@
 
             if(column.source === undefined || column.source === null  || column.source === '') return false;
             if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) return false;
-            if(column.$dependentOn && column.$dependentOn.length > 0) {
-                angular.forEach(column.$dependentOn, function(columnName) {
-                    if(columns[columnName] && isVolumnInvalid(column, columns[columnName])) valid = false;
-                });
+
+
+            var circularDependencies = [];
+            checkForCircularCalculatedDependencies(null, column.name, [],
+                                                   null, columns, circularDependencies);
+
+            if (circularDependencies.length > 0) {
+                valid = false;
             }
 
             return valid;
-        }
-
-        function isVolumnInvalid(column, dependentColumn) {
-            return (dependentColumn.isDisplayed && !column.isDisplayed && column.source === Source.USER_INPUT) ||
-                    (column.source === Source.CALCULATED && dependentColumn.source === Source.CALCULATED);
         }
 
         // Checks if column can be dropped in area and if so,
@@ -180,7 +181,7 @@
 
                 pinnedColumns.sort(sort)
                 columns.sort(sort);
-            };
+            }
 
             // Sorting function for column arrays
             function sort(a, b) {
@@ -214,6 +215,60 @@
             // Based on mix and max from function above checks if column was dropped in proper area
             function isInDroppableArea(displayOrder) {
                 return displayOrder > min && displayOrder < max;
+            }
+        }
+
+        // check if a column has a calculated dependency that is dependent on this columns
+        function findCircularCalculatedDependencies(columnName) {
+            var circularDependencies = [];
+            checkForCircularCalculatedDependencies(null, columnName, [], null,
+                                                   this.columnsMap, circularDependencies);
+            return circularDependencies;
+        }
+
+        function checkForCircularCalculatedDependencies(columnNameToCheck, columnNameToFind, columnsVisited,
+                                                directParent, columnsMap, circularDependencies) {
+            // already visited this column in a different dependency chain, skip
+            if (columnsVisited.indexOf(columnNameToCheck) > -1) {
+                return;
+            }
+
+            if (columnNameToCheck === columnNameToFind) {
+                // bingo, this is in the dependency chain and depends on the original column
+                // the direct parent has the dependency, since this is the original column
+                circularDependencies.push(directParent);
+                return;
+            }
+
+            var currentColumnName;
+            if (columnNameToCheck) {
+                // mark column as already visited
+                // we won't get here for the original column
+                columnsVisited.push(columnNameToCheck);
+                currentColumnName = columnNameToCheck;
+            } else {
+                // first run, start at our column
+
+                currentColumnName = columnNameToFind;
+            }
+
+            var column = columnsMap[currentColumnName];
+            // ignore if doesn't exist
+            if (!column) {
+                return;
+            }
+
+            // check all dependencies recursively
+            var dependencies = RequisitionColumn.columnDependencies(column);
+            if (dependencies) {
+                angular.forEach(dependencies, function(dependency) {
+                    // only check calculated dependencies
+                    var dependencyColumn = columnsMap[dependency];
+                    if (dependencyColumn && dependencyColumn.source === Source.CALCULATED) {
+                        checkForCircularCalculatedDependencies(dependency, columnNameToFind, columnsVisited,
+                                                   currentColumnName, columnsMap, circularDependencies);
+                    }
+                });
             }
         }
     }

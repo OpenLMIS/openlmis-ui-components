@@ -20,7 +20,7 @@ describe('RequisitionTemplateAdminController', function() {
         rootScope = $rootScope;
 
         var mockFunction = function() {};
-        template = jasmine.createSpyObj('template', ['$save', '$moveColumn']);
+        template = jasmine.createSpyObj('template', ['$save', '$moveColumn', '$findCircularCalculatedDependencies']);
         template.id = '1';
         template.programId = '1';
         template.columnsMap = {
@@ -33,6 +33,11 @@ describe('RequisitionTemplateAdminController', function() {
                 displayOrder: 2,
                 isDisplayed: true,
                 label: 'Total'
+            },
+            stockOnHand: {
+                displayOrder: 3,
+                isDisplayed: true,
+                label: "Stock on Hand"
             }
         };
         program = {
@@ -51,7 +56,7 @@ describe('RequisitionTemplateAdminController', function() {
         expect(vm.template).toEqual(template);
     });
 
-    it('should save template and then display succes notification and change state', function() {
+    it('should save template and then display success notification and change state', function() {
         var stateGoSpy = jasmine.createSpy(),
             notificationSpy = jasmine.createSpy();
 
@@ -89,17 +94,33 @@ describe('RequisitionTemplateAdminController', function() {
         })).toBe(false);
     });
 
-    it('should return proper error message', function() {
-        var column = {
-            $dependentOn: ['total', 'remarks'],
-            source: 'USER_INPUT',
+    it('should validate for circular dependencies', function() {
+       var column = {
+            $dependentOn: ['stockOnHand'],
+            source: 'CALCULATED',
             columnDefinition: {
-                sources: ['USER_INPUT']
+                sources: ['USER_INPUT', 'CALCULATED']
             }
         };
+        spyOn(message, 'get').andReturn('Circular error');
 
-        spyOn(message, 'get').andReturn('');
+        template.$findCircularCalculatedDependencies.andReturn(['stockOnHand']);
 
-        expect(vm.errorMessage(column)).toEqual(' ' + template.columnsMap.total.label + ', ' + template.columnsMap.remarks.label);
+        expect(vm.errorMessage(column)).toBe('Circular error Stock on Hand');
+    });
+
+    it('should validate for circular dependencies and return error for multiple columns', function() {
+       var column = {
+            $dependentOn: ['stockOnHand'],
+            source: 'CALCULATED',
+            columnDefinition: {
+                sources: ['USER_INPUT', 'CALCULATED']
+            }
+        };
+        spyOn(message, 'get').andReturn('Circular error');
+
+        template.$findCircularCalculatedDependencies.andReturn(['stockOnHand', 'total']);
+
+        expect(vm.errorMessage(column)).toBe('Circular error Stock on Hand, Total');
     });
 });
