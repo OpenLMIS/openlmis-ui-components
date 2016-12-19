@@ -6,12 +6,12 @@
       <legend openlmis-message="label.requisition.facilityType"></legend>
       <label class="radio">
         {{'label.myFacility'|message}}
-        <input type="radio" ng-model="vm.isSupervised" ng-value="false" ng-change="vm.loadFacilityData(vm.isSupervised)" />
+        <input type="radio" ng-model="vm.isSupervised" ng-value="false" ng-change="vm.updateFacilityType(vm.isSupervised)" />
       </label>
       <label class="radio">
         {{'label.supervised.Facility'|message}}
         <input type="radio" ng-model="vm.isSupervised" ng-value="true"
-               ng-change="vm.loadFacilityData(vm.isSupervised)"
+               ng-change="vm.updateFacilityType(vm.isSupervised)"
                ng-disabled="vm.supervisedFacilitiesDisabled"/>
       </label>
     </fieldset>
@@ -28,8 +28,8 @@
       <label for="programListMyFacility" openlmis-message="label.program"></label>
       <select
         id="programListMyFacility"
-        ng-model="vm.selectedProgram"
-        ng-options="program as program.name for program in vm.programs"
+        ng-model="vm.selectedProgramId"
+        ng-options="program.id as program.name for program in vm.programs"
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
@@ -37,9 +37,9 @@
       <label for="programListSupervisedFacility" openlmis-message="label.program"></label>
       <select
         id="programListSupervisedFacility"
-        ng-change="vm.loadFacilities(vm.selectedProgram)"
-        ng-model="vm.selectedProgram"
-        ng-options="program as program.name for program in vm.programs"
+        ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
+        ng-model="vm.selectedProgramId"
+        ng-options="program.id as program.name for program in vm.programs"
         placeholder="{{'label.select.program' | message}}" >
       </select>
     </div>
@@ -67,7 +67,7 @@
       <input type="submit" value="{{'button.search'|message}}" class="btn btn-primary" />
     </div>
   </form>
-  <div ng-show="vm.selectedProgram && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)"
+  <div ng-show="vm.selectedProgramId && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)"
     ui-grid="vm.periodGridOptions"
     class="grid grid-init-rnr"
     id="periodGrid">

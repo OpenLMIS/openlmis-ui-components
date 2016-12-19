@@ -17,7 +17,7 @@ describe("InitiateRnrController", function(){
 
         user = {"user_id": "user_id"};
         right = {"id": "right_id"};
-        programs = [{item: {"code": "HIV", "id": 1}}];
+        programs = [{"code": "HIV", "id": 1}];
         period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
         facility = {
             "id": "10134",
@@ -36,7 +36,7 @@ describe("InitiateRnrController", function(){
     it("should assign proper values when facility is assigned", function() {
         expect(vm.selectedFacilityId).toEqual(facility.id);
         expect(vm.programs).toEqual(programs);
-        expect(vm.selectedProgram).toEqual(programs[0]);
+        expect(vm.selectedProgramId).toEqual(programs[0].id);
     });
 
     it("Should change page to requisitions.requisition for with selected period with rnrId", function(){
@@ -83,7 +83,7 @@ describe("InitiateRnrController", function(){
     });
 
     it("should load proper data for supervised facility", function() {
-        vm.loadFacilityData(true);
+        vm.updateFacilityType(true);
 
         expect(vm.facilities).toEqual([]);
         expect(vm.programs).toEqual(vm.supervisedPrograms);
@@ -91,7 +91,7 @@ describe("InitiateRnrController", function(){
     });
 
     it("should load proper data for home facility", function() {
-        vm.loadFacilityData(false);
+        vm.updateFacilityType(false);
 
         expect(vm.facilities).toEqual([facility]);
         expect(vm.programs).toEqual(vm.homePrograms);
@@ -104,13 +104,13 @@ describe("InitiateRnrController", function(){
         spyOn(spyObj, 'spyMethod').andReturn([facility]);
         spyOn(authorizationService, 'getRightByName').andReturn(right);
 
-        vm.loadFacilities(vm.supervisedPrograms[0]);
+        vm.loadFacilitiesForProgram(vm.supervisedPrograms[0]);
 
         expect(vm.facilities).toEqual([facility]);
     });
 
     it("should return empty list of facilities for undefined program", function() {
-        vm.loadFacilities(undefined);
+        vm.loadFacilitiesForProgram(undefined);
 
         expect(vm.facilities).toEqual([]);
     });

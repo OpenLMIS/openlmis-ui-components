@@ -93,6 +93,7 @@
   "msg.rnr.previous.pending": "Previous R&R pending",
   "msg.no.period.available": "No current period defined. Please contact the Admin.",
   "msg.no.program.available": "There is no programs for facility. Please contact the Admin.",
+  "msg.no.facility.available": "There is no facilities for program. Please contact the Admin.",
   "msg.question.confirmation": "Are you sure? Please confirm.",
   "msg.question.confirmation.authorize": "Are you sure to authorize this R&R? Please confirm.",
   "msg.question.confirmation.deletion": "Are you sure to delete this R&R? Please confirm.",

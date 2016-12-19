@@ -133,8 +133,6 @@
             ]
         };
 
-        vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
-
         // Functions
 
         vm.loadPeriods = loadPeriods;
@@ -143,28 +141,51 @@
 
         vm.initRnr = initRnr;
 
-        vm.loadFacilityData = loadFacilityData;
+        vm.updateFacilityType = updateFacilityType;
 
-        vm.loadFacilities = loadFacilities;
+        vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
 
-        if (facility) {
-            vm.facilities = [facility];
+        vm.updateFacilityType(vm.isSupervised);
 
-            vm.selectedProgram = undefined;
+        /**
+         * @ngdoc function
+         * @name loadFacilityData
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for displaying and updating select elements that allow to choose
+         * program and facility to initiate or proceed with the requisition for.
+         * If isSupervised is true then it will display all programs where the current
+         * user has supervisory permissions. If the param is false, then list of programs
+         * from user's home facility will be displayed.
+         *
+         * @param {Boolean} isSupervised  indicates type of facility to initiate or proceed with the requisition for
+         */
+        function updateFacilityType(isSupervised) {
 
-            vm.facilityDisplayName = facility.code + '-' + facility.name;
-            vm.selectedFacilityId = facility.id;
-            vm.programs = vm.homePrograms;
-            if (vm.programs.length <= 0) {
-                vm.error = messageService.get("msg.no.program.available");
-            } else if (vm.programs.length === 1) {
-                vm.selectedProgram = vm.programs[0];
-                vm.loadPeriods();
+            vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
+
+            if (isSupervised) {
+                vm.programs = vm.supervisedPrograms;
+                vm.facilities = [];
+                vm.selectedFacilityId = undefined;
+                vm.selectedProgramId = undefined;
+            } else {
+                vm.programs = vm.homePrograms;
+                vm.facilities = [facility];
+                vm.selectedFacilityId = facility.id;
+
+                if (vm.programs.length <= 0) {
+                    vm.error = messageService.get("msg.no.program.available");
+                } else if (vm.programs.length === 1) {
+                    vm.selectedProgramId = vm.programs[0].id;
+                    vm.loadPeriods();
+                } else {
+                    vm.selectedProgramId = undefined;
+                }
             }
-        } else {
-            vm.facilityDisplayName = messageService.get("label.none.assigned");
-            vm.error = messageService.get("error.rnr.user.facility.not.assigned");
         }
+
 
         /**
          * @ngdoc function
@@ -193,11 +214,11 @@
          */
         function loadPeriods() {
             vm.periodGridData = [];
-            if (!(vm.selectedProgram && vm.selectedFacilityId)) {
+            if (!(vm.selectedProgramId && vm.selectedFacilityId)) {
                 return;
             }
             LoadingModalService.open();
-            PeriodFactory.get(vm.selectedProgram.id, vm.selectedFacilityId, vm.emergency).then
+            PeriodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
                 if (data.length === 0) {
                     Notification.error('msg.no.period.available');
@@ -240,7 +261,7 @@
             if (!selectedPeriod.rnrId ||
             selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
                 RequisitionService.initiate(vm.selectedFacilityId,
-                vm.selectedProgram.id,
+                vm.selectedProgramId,
                 selectedPeriod.id,
                 vm.emergency).then(
                 function (data) {
@@ -259,54 +280,30 @@
 
         /**
          * @ngdoc function
-         * @name loadFacilityData
-         * @methodOf openlmis.requisitions.InitiateRnrController
-         *
-         * @description
-         * Responsible for displaying and updating select elements that allow to choose
-         * program and facility to initiate or proceed with the requisition for.
-         * If isSupervised is true then it will display all programs where the current
-         * user has supervisory permissions. If the param is false, then list of programs
-         * from user's home facility will be displayed.
-         *
-         * @param {Boolean} isSupervised  indicates type of facility to initiate or proceed with the requisition for
-         */
-        function loadFacilityData(isSupervised) {
-            if (isSupervised) {
-                vm.programs = vm.supervisedPrograms;
-                vm.facilities = [];
-                vm.selectedFacilityId = undefined;
-            } else {
-                vm.programs = vm.homePrograms;
-                vm.facilities = [facility];
-                vm.selectedFacilityId = facility.id;
-            }
-            vm.selectedProgram = undefined;
-        };
-
-        /**
-         * @ngdoc function
-         * @name loadFacilities
+         * @name loadFacilitiesForProgram
          * @methodOf openlmis.requisitions.InitiateRnrController
          *
          * @description
          * Responsible for providing a list of facilities where selected program is active and
          * where the current user has supervisory permissions.
          *
-         * @param {Object} selectedProgram selected program where user has supervisory permissions
+         * @param {Object} selectedProgramId id of selected program where user has supervisory permissions
          */
-        function loadFacilities(selectedProgram) {
-            if (selectedProgram) {
+        function loadFacilitiesForProgram(selectedProgramId) {
+            if (selectedProgramId) {
                 LoadingModalService.open();
                 var createRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
                 var authorizeRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE);
 
                 $q.all([
-                    SupervisedFacilities(user.user_id, selectedProgram.id, createRight.id),
-                    SupervisedFacilities(user.user_id, selectedProgram.id, authorizeRight.id)
+                    SupervisedFacilities(user.user_id, selectedProgramId, createRight.id),
+                    SupervisedFacilities(user.user_id, selectedProgramId, authorizeRight.id)
                 ])
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);
+                        if (vm.facilities.length <= 0) {
+                            vm.error = messageService.get("msg.no.facility.available");
+                        }
                     })
                     .catch(function (error) {
                         Notification.error('msg.error.occurred');
