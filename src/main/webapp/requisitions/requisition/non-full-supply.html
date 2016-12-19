@@ -8,24 +8,20 @@
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.lineItems | filter:{$program: {fullSupply:false}} | groupBy:'$program.productCategoryDisplayName'">
 			<tr>
-			  <td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
+				<td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
 			</tr>
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems">
-			  <td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell></td>
+				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 				<td ng-if="vm.displayDeleteColumn()">
-					<button class="hide-line-item"
-							ng-click="vm.deleteLineItem(lineItem)"
-							ng-if="lineItem.$deletable">
-								<i class="fa fa-remove"></i>
+					<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
+						<i class="fa fa-remove"></i>
 					</button>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
-	<button class="add-product"
-			ng-if="vm.displayAddProductButton"
-			ng-click="vm.addProduct()">
+	<button class="add-product" ng-if="vm.displayAddProductButton" ng-click="vm.addProduct()">
 			{{'button.add' | message}}
 			</button>
 </div>

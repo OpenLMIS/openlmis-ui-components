@@ -8,27 +8,25 @@
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
 <div id="requisition-header" class="toggleFullScreen">
-  <h2><span id='requisitionHeaderLabel' openlmis-message="label.requisition"></span>&nbsp;<span
-          ng-bind="requisition.program.name + ' (' + requisition.facility.type.name + ')'"></span>
+    <h2><span id='requisitionHeaderLabel' openlmis-message="label.requisition"></span>&nbsp;<span
+            ng-bind="vm.requisition.program.name + ' (' + vm.requisition.facility.type.name + ')'"></span>
   </h2>
-  <div class="info-box padding2px">
-    <div ng-class="{'emergency': requisition.emergency, 'regular': !requisition.emergency}">
-      <span openlmis-message="requisitionType"></span>
+    <div class="info-box padding2px">
+        <div ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">
+            <span openlmis-message="vm.requisitionType"></span>
+        </div>
+
+        <dl class="requisition-head-block">
+            <dt>{{'label.facility'|message}}</dt>
+            <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
+            <dt>{{'label.facility.operatedBy' | message}}</dt>
+            <dd>{{vm.requisition.facility.operator.name}}</dd>
+            <dt>{{'label.region' | message}}</dt>
+            <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
+            <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
+            <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
+            <dt>{{'label.facility.reportingPeriod' | message}}</dt>
+            <dd>{{vm.periodDisplayName()}}</dd>
+        </dl>
     </div>
-
-    <dl class="requisition-head-block">
-      <dt>{{'label.facility'|message}}</dt>
-      <dd>{{requisition.facility.code}} - {{requisition.facility.name}}</dd>
-      <dt>{{'label.facility.operatedBy' | message}}</dt>
-      <dd>{{requisition.facility.operator.name}}</dd>
-      <dt>{{'label.region' | message}}</dt>
-      <dd>{{requisition.facility.geographicZone.name}}</dd>
-      <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
-      <dd ng-if="requisition.facility.geographicZone.parent.name">{{requisition.facility.geographicZone.parent.name}}</dd>
-      <dt>{{'label.facility.reportingPeriod' | message}}</dt>
-      <dd>{{periodDisplayName()}}</dd>
-    </dl>
-  </div>
 </div>
-
-

@@ -3,33 +3,33 @@
         <input id="deleteRnrButton" type="button"
                class="btn delete-button"
                openlmis-message="button.delete"
-               ng-if="displayDelete()"
-               ng-click="removeRnr()"/>
-        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="saveRnr()"
+               ng-if="vm.displayDelete()"
+               ng-click="vm.removeRnr()"/>
+        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="vm.saveRnr()"
                class="btn btn-default save-button"
                openlmis-message="button.save" type="button"/>
-        <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="submitRnr()"
+        <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="vm.submitRnr()"
                class="btn btn-primary primary-action"
                openlmis-message="button.submit" type="button"
-               ng-if="displaySubmit()"/>
+               ng-if="vm.displaySubmit()"/>
         <input id="authorizeRnrButton" type="button"
               class="btn btn-primary primary-action"
               openlmis-message="button.authorize"
-              ng-if="displayAuthorize()"
-              ng-click="authorizeRnr()"/>
+              ng-if="vm.displayAuthorize()"
+              ng-click="vm.authorizeRnr()"/>
         <input id="approveRnrButton" type="button"
                class="btn btn-primary primary-action"
                openlmis-message="button.approve"
-               ng-if="displayApproveAndReject()"
-               ng-click="approveRnr()"/>
+               ng-if="vm.displayApproveAndReject()"
+               ng-click="vm.approveRnr()"/>
         <input id="rejectRnrButton" type="button"
                class="btn btn-danger primary-action"
                openlmis-message="button.rnr.reject"
-               ng-if="displayApproveAndReject()"
-               ng-click="rejectRnr()"/>
-        <input type="button" ng-if="displayConvertToOrder()"
+               ng-if="vm.displayApproveAndReject()"
+               ng-click="vm.rejectRnr()"/>
+        <input type="button" ng-if="vm.displayConvertToOrder()"
                class="btn btn-primary primary-action"
-               ng-click="convertRnr()"
+               ng-click="vm.convertRnr()"
                openlmis-message="button.convert.to.order"/>
     </div>
 </div>

@@ -20,8 +20,8 @@
 		.module('openlmis.requisitions')
 		.directive('productGridCell', productGridCell);
 
-	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator', 'Columns',
-							   'Source', 'Type'];
+	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator',
+							   'Columns', 'Source', 'Type'];
 
 	function productGridCell($q, $templateRequest, $compile, requisitionValidator, Columns, Source,
 							 Type) {
@@ -29,7 +29,12 @@
     	var directive = {
       		restrict: 'A',
 			replace: false,
-      		link: link
+      		link: link,
+			scope: {
+				requisition: '=',
+				column: '=',
+				lineItem: '='
+			}
     	};
     	return directive;
 

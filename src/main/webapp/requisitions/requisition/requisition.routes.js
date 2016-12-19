@@ -13,6 +13,7 @@
         $stateProvider.state('requisitions.requisition', {
             url: '^/requisition/:rnr',
             controller: 'RequisitionCtrl',
+            controllerAs: 'vm',
             templateUrl: 'requisitions/requisition/requisition.html',
             accessRights: [RequisitionRights.REQUISITION_CREATE,
                 RequisitionRights.REQUISITION_DELETE,

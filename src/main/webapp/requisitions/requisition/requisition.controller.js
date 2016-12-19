@@ -29,43 +29,45 @@
                              AuthorizationService, messageService, LoadingModalService,
                              Notification, Confirm, RequisitionRights, ConvertToOrderModal) {
 
+        var vm = this;
+
         /**
          * @ngdoc property
-         * @name $scope.requisition
+         * @name requisition
          * @propertyOf openlmis.requisitions.RequisitionCtrl
          * @type {Object}
          *
          * @description
          * Holds requisition.
          */
-        $scope.requisition = requisition;
+        vm.requisition = requisition;
 
         /**
         * @ngdoc property
-        * @name $scope.requisitionType
+        * @name requisitionType
         * @propertyOf openlmis.requisitions.RequisitionCtrl
         * @type {String}
         *
         * @description
         * Holds message key to display, depending on the requisition type (regular/emergency).
         */
-        $scope.requisitionType = $scope.requisition.emergency ? 'requisition.type.emergency' : 'requisition.type.regular';
+        vm.requisitionType = vm.requisition.emergency ? 'requisition.type.emergency' : 'requisition.type.regular';
 
         // Functions
 
-        $scope.saveRnr = saveRnr;
-        $scope.submitRnr = submitRnr;
-        $scope.authorizeRnr = authorizeRnr;
-        $scope.removeRnr = removeRnr;
-        $scope.convertRnr = convertRnr;
-        $scope.approveRnr = approveRnr;
-        $scope.rejectRnr = rejectRnr;
-        $scope.periodDisplayName = periodDisplayName;
-        $scope.displaySubmit = displaySubmit;
-        $scope.displayAuthorize = displayAuthorize;
-        $scope.displayDelete = displayDelete;
-        $scope.displayApproveAndReject = displayApproveAndReject;
-        $scope.displayConvertToOrder = displayConvertToOrder;
+        vm.saveRnr = saveRnr;
+        vm.submitRnr = submitRnr;
+        vm.authorizeRnr = authorizeRnr;
+        vm.removeRnr = removeRnr;
+        vm.convertRnr = convertRnr;
+        vm.approveRnr = approveRnr;
+        vm.rejectRnr = rejectRnr;
+        vm.periodDisplayName = periodDisplayName;
+        vm.displaySubmit = displaySubmit;
+        vm.displayAuthorize = displayAuthorize;
+        vm.displayDelete = displayDelete;
+        vm.displayApproveAndReject = displayApproveAndReject;
+        vm.displayConvertToOrder = displayConvertToOrder;
 
          /**
          * @ngdoc function
@@ -102,7 +104,7 @@
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
-                        $scope.requisition.$submit()
+                        vm.requisition.$submit()
                         .then(function(response) {
                             Notification.success('msg.rnr.save.success');
                             reloadState();
@@ -135,7 +137,7 @@
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
-                        $scope.requisition.$authorize()
+                        vm.requisition.$authorize()
                         .then(function(response) {
                             Notification.success('msg.rnr.authorized.success');
                             reloadState();
@@ -164,7 +166,7 @@
         function removeRnr() {
             Confirm.destroy('msg.question.confirmation.deletion').then(function() {
                 LoadingModalService.open();
-                $scope.requisition.$remove()
+                vm.requisition.$remove()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
                     Notification.success('msg.rnr.deletion.success');
@@ -193,7 +195,7 @@
                     save()
                     .then(function() {
                         LoadingModalService.open();
-                        $scope.requisition.$approve()
+                        vm.requisition.$approve()
                         .then(function(response) {
                             $state.go('requisitions.approvalList');
                             Notification.success('msg.rnr.approved.success');
@@ -219,7 +221,7 @@
         function rejectRnr() {
             Confirm('msg.question.confirmation').then(function() {
                 LoadingModalService.open();
-                $scope.requisition.$reject()
+                vm.requisition.$reject()
                 .then(function(response) {
                     $state.go('requisitions.approvalList');
                     Notification.success('msg.rnr.reject.success');
@@ -244,7 +246,7 @@
          */
         function periodDisplayName() {
             //TODO: This is a temporary solution.
-            return $scope.requisition.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + $scope.requisition.processingPeriod.endDate.slice(0,3).join('/');
+            return vm.requisition.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + vm.requisition.processingPeriod.endDate.slice(0,3).join('/');
         };
 
         /**
@@ -260,9 +262,9 @@
          */
         function displayAuthorize() {
             var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_AUTHORIZE, {
-                programCode: $scope.requisition.program.code
+                programCode: vm.requisition.program.code
             });
-            return $scope.requisition.$isSubmitted() && hasRight;
+            return vm.requisition.$isSubmitted() && hasRight;
         };
 
         /**
@@ -278,9 +280,9 @@
          */
         function displaySubmit() {
             var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_CREATE, {
-                programCode: $scope.requisition.program.code
+                programCode: vm.requisition.program.code
             });
-            return $scope.requisition.$isInitiated() && hasRight;
+            return vm.requisition.$isInitiated() && hasRight;
         };
 
         /**
@@ -296,9 +298,9 @@
          */
         function displayApproveAndReject() {
             var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_APPROVE, {
-                programCode: $scope.requisition.program.code
+                programCode: vm.requisition.program.code
             });
-            return $scope.requisition.$isAuthorized() && hasRight;
+            return vm.requisition.$isAuthorized() && hasRight;
         };
 
         /**
@@ -314,9 +316,9 @@
          */
         function displayDelete() {
             var hasRight = AuthorizationService.hasRight(RequisitionRights.REQUISITION_DELETE, {
-                programCode: $scope.requisition.program.code
+                programCode: vm.requisition.program.code
             });
-            return $scope.requisition.$isInitiated() && hasRight;
+            return vm.requisition.$isInitiated() && hasRight;
         };
 
         /**
@@ -332,9 +334,9 @@
          */
         function displayConvertToOrder() {
             var hasRight = AuthorizationService.hasRight(RequisitionRights.CONVERT_TO_ORDER, {
-                programCode: $scope.requisition.program.code
+                programCode: vm.requisition.program.code
             });
-            return $scope.requisition.$isApproved() && hasRight;
+            return vm.requisition.$isApproved() && hasRight;
         };
 
         /**
@@ -346,12 +348,12 @@
          * Displays convert to order modal.
          */
         function convertRnr() {
-            ConvertToOrderModal.show($scope.requisition);
+            ConvertToOrderModal.show(vm.requisition);
         };
 
         function save() {
             LoadingModalService.open();
-            var promise = $scope.requisition.$save();
+            var promise = vm.requisition.$save();
             promise.catch(failedToSave);
             promise.finally(LoadingModalService.close)
             return promise;
