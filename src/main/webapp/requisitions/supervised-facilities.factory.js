@@ -22,13 +22,26 @@
     angular.module("openlmis.requisitions")
         .factory("SupervisedFacilities", factory);
 
-    factory.$inject = ['$resource', 'OpenlmisURL'];
-    function factory($resource, OpenlmisURL){
-
-        var resource = $resource(OpenlmisURL('api/users/:id/supervisedFacilities'), {}, {});
+    factory.$inject = ['OpenlmisURL', '$q', '$http'];
+    function factory(OpenlmisURL, $q, $http){
 
         return function(id, programId, rightId) {
-            return resource.query({id: id, programId: programId, rightId: rightId}).$promise;
+            var deferred = $q.defer();
+            var facilitiesUrl = OpenlmisURL('api/users/' + id + '/supervisedFacilities');
+            $http({
+                method: 'GET',
+                url: facilitiesUrl,
+                isArray:true,
+                params: {
+                    programId: programId,
+                    rightId: rightId
+                }
+            }).then(function(response) {
+                deferred.resolve(response.data);
+            }).catch(function() {
+                deferred.reject();
+            });
+            return deferred.promise;
         };
     }
 

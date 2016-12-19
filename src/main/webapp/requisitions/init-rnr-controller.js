@@ -68,20 +68,20 @@
 
         /**
          * @ngdoc property
-         * @name homeFacilityPrograms
+         * @name homePrograms
          * @propertyOf openlmis.requisitions.InitiateRnrController
          * @type {Array}
          *
          * @description
          * Holds available programs for home facility.
          */
-        vm.homeFacilityPrograms = homePrograms;
+        vm.homePrograms = homePrograms;
 
         /**
          * @ngdoc property
          * @name isSupervised
          * @propertyOf openlmis.requisitions.InitiateRnrController
-         * @type {Integer}
+         * @type {Boolean}
          *
          * @description
          * Holds currently selected facility selection type:
@@ -133,7 +133,7 @@
             ]
         };
 
-        vm.supervisedFacilitiesDisabled = _.isEmpty(vm.supervisedPrograms);
+        vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
 
         // Functions
 
@@ -154,9 +154,8 @@
 
             vm.facilityDisplayName = facility.code + '-' + facility.name;
             vm.selectedFacilityId = facility.id;
-            vm.homeFacilityPrograms = facility.supportedPrograms;
-            vm.programs = facility.supportedPrograms;
-            if (_.isEmpty(vm.programs)) {
+            vm.programs = vm.homePrograms;
+            if (vm.programs.length <= 0) {
                 vm.error = messageService.get("msg.no.program.available");
             } else if (vm.programs.length === 1) {
                 vm.selectedProgram = vm.programs[0];
@@ -266,11 +265,11 @@
          * @description
          * Responsible for displaying and updating select elements that allow to choose
          * program and facility to initiate or proceed with the requisition for.
-         * If selected type is equal 1 then it will display all programs where the current
-         * user has supervisory permissions. If the selected type is equal 0, then it will
-         * display list of programs that are available in user's home facility.
+         * If isSupervised is true then it will display all programs where the current
+         * user has supervisory permissions. If the param is false, then list of programs
+         * from user's home facility will be displayed.
          *
-         * @param {Object} isSupervised  a type of facility to initiate or proceed with the requisition for
+         * @param {Boolean} isSupervised  indicates type of facility to initiate or proceed with the requisition for
          */
         function loadFacilityData(isSupervised) {
             if (isSupervised) {
@@ -278,7 +277,7 @@
                 vm.facilities = [];
                 vm.selectedFacilityId = undefined;
             } else {
-                vm.programs = vm.homeFacilityPrograms;
+                vm.programs = vm.homePrograms;
                 vm.facilities = [facility];
                 vm.selectedFacilityId = facility.id;
             }
@@ -299,12 +298,12 @@
         function loadFacilities(selectedProgram) {
             if (selectedProgram) {
                 LoadingModalService.open();
-                var createRightId = AuthorizationService.getRightIdByName(RequisitionRights.REQUISITION_CREATE);
-                var authorizeRightId = AuthorizationService.getRightIdByName(RequisitionRights.REQUISITION_AUTHORIZE);
+                var createRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
+                var authorizeRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE);
 
                 $q.all([
-                    SupervisedFacilities(user.user_id, selectedProgram.id, createRightId),
-                    SupervisedFacilities(user.user_id, selectedProgram.id, authorizeRightId)
+                    SupervisedFacilities(user.user_id, selectedProgram.id, createRight.id),
+                    SupervisedFacilities(user.user_id, selectedProgram.id, authorizeRight.id)
                 ])
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);

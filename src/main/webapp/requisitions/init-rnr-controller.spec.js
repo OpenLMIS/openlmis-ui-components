@@ -16,6 +16,7 @@ describe("InitiateRnrController", function(){
         $q = _$q_;
 
         user = {"user_id": "user_id"};
+        right = {"id": "right_id"};
         programs = [{item: {"code": "HIV", "id": 1}}];
         period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
         facility = {
@@ -93,7 +94,7 @@ describe("InitiateRnrController", function(){
         vm.loadFacilityData(false);
 
         expect(vm.facilities).toEqual([facility]);
-        expect(vm.programs).toEqual(vm.homeFacilityPrograms);
+        expect(vm.programs).toEqual(vm.homePrograms);
         expect(vm.selectedFacilityId).toEqual(facility.id);
     });
 
@@ -101,7 +102,7 @@ describe("InitiateRnrController", function(){
         var spyObj = {};
         spyObj.spyMethod = supervisedFacilities;
         spyOn(spyObj, 'spyMethod').andReturn([facility]);
-        spyOn(authorizationService, 'getRightIdByName').andReturn("rightId");
+        spyOn(authorizationService, 'getRightByName').andReturn(right);
 
         vm.loadFacilities(vm.supervisedPrograms[0]);
 

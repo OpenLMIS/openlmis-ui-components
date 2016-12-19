@@ -21,14 +21,25 @@
     angular.module("openlmis.requisitions")
         .factory("UserPrograms", UserPrograms);
 
-    UserPrograms.$inject = ['$resource', 'OpenlmisURL'];
-    function UserPrograms($resource, OpenlmisURL){
-
-        var resource = $resource(OpenlmisURL('api/users/:id/programs'), {}, {});
+    UserPrograms.$inject = ['OpenlmisURL', '$q', '$http'];
+    function UserPrograms(OpenlmisURL, $q, $http){
 
         return function(id, isForHomeFacility) {
-            return resource.query({id: id, forHomeFacility: isForHomeFacility}).$promise;
+            var deferred = $q.defer();
+            var programsUrl = OpenlmisURL('api/users/' + id + '/programs');
+            $http({
+                method: 'GET',
+                url: programsUrl,
+                isArray: true,
+                params: {
+                    forHomeFacility: isForHomeFacility
+                }
+            }).then(function(response) {
+                deferred.resolve(response.data);
+            }).catch(function() {
+                deferred.reject();
+            });
+            return deferred.promise;
         };
     }
-
 })();

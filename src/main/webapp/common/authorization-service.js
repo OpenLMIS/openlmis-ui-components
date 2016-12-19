@@ -40,7 +40,7 @@
         this.setAccessToken = setAccessToken;
         this.setRights = setRights;
         this.setUser = setUser;
-        this.getRightIdByName = getRightIdByName;
+        this.getRightByName = getRightByName;
 
         /**
          * @ngdoc function
@@ -267,16 +267,16 @@
 
         /**
          * @ngdoc function
-         * @name  getRightIdByName
+         * @name  getRightByName
          * @methodOf openlmis-common.AuthorizationService
          *
          * @description
          * Returns id of right with given name.
          */
-        function getRightIdByName(rightName) {
+        function getRightByName(rightName) {
             var rights = $filter('filter')(getRights(), {
                 name: rightName}, true);
-            return rights[0].id;
+            return angular.copy(rights[0]);
         }
     }
 
