@@ -1,25 +1,18 @@
 {
-  "src": "./src",
-  "dest": "./build",
   "app": {
-    "src": "./src",
-    "dest": "./build/webapp",
+    "src": "./src/main",
+    "dest": "./build",
     "bower_components": "./bower_components"
   },
   "styleguide": {
-  	"src": "styleguide/",
+  	"src": "src/",
   	"dest": "build/styleguide"
   },
   "docs": {
-    "title": "OpenLMIS-UI Documentation",
     "src": "./docs",
     "dest": "./build/docs"
   },
   "openlmisServerURL": "",
   "authServiceURL": "/",
-  "requisitionServiceURL": "/",
-  "authService": {
-    "clientId": "trusted-client",
-    "clientSecret": "secret"
-  }
+  "requisitionServiceURL": "/"
 }

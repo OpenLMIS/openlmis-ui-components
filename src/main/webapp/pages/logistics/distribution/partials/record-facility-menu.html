@@ -1,0 +1,61 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<div class="left-navigation" ng-controller="RecordFacilityMenuController">
+  <ul>
+    <li id="facilityVisitStatus"
+        ng-class="[distributionData.facilityVisit.computeStatus(), isSelected('visit-info')]">
+      <a id="facilityVisitTab" href="" ng-click="changeRoute('visit-info')">
+        <span id="facilityVisitTabIcon" class="status-icon"></span>
+        <span id="facilityVisitTabLabel" openlmis-message="label.visit.information"></span>
+      </a>
+    </li>
+    <li id="refrigeratorStatus"
+        ng-class="[distributionData.refrigerators.computeStatus(distributionData.facilityVisit.visited), isSelected('refrigerator-data')]">
+      <a id="refrigeratorTab" href="" ng-click="changeRoute('refrigerator-data')">
+        <span id="refrigeratorTabIcon" class="status-icon"></span>
+        <span id="refrigeratorTabLabel" openlmis-message="label.refrigerators"></span>
+      </a>
+    </li>
+    <li id="epiInventoryStatus"
+        ng-class="[distributionData.epiInventory.computeStatus(distributionData.facilityVisit.visited), isSelected('epi-inventory')]">
+      <a id="epiInventoryTab" href="" ng-click="changeRoute('epi-inventory')">
+        <span id="epiInventoryTabIcon" class="status-icon"></span>
+        <span id="epiInventoryTabLabel" openlmis-message="label.epi.inventory"></span>
+      </a>
+    </li>
+    <li id="epiUseStatus" ng-class="[distributionData.epiUse.computeStatus(distributionData.facilityVisit.visited), isSelected('epi-use')]">
+      <a id="epiUseTab" href="" ng-click="changeRoute('epi-use')">
+        <span id="epiUseTabIcon" class="status-icon"></span>
+        <span id="epiUseTabLabel" openlmis-message="label.epi.use"></span>
+      </a>
+    </li>
+    <li id="coverageStatus" ng-class="[distributionData.fullCoverage.computeStatus(), isSelected('full-coverage')]">
+      <a id="coverageTab" href="" ng-click="changeRoute('full-coverage')">
+        <span id="coverageTabIcon" class="status-icon"></span>
+        <span id="coverageTabLabel" openlmis-message="label.coverage.full"></span>
+      </a>
+    </li>
+    <li id="childCoverageStatus"
+        ng-class="[distributionData.childCoverage.computeStatus(), isSelected('child-coverage')]">
+      <a id="childCoverageTab" href="" ng-click="changeRoute('child-coverage')">
+        <span id="childCoverageTabIcon" class="status-icon"></span>
+        <span id="childCoverageTabLabel" openlmis-message="label.coverage.children"></span>
+      </a>
+    </li>
+    <li id="adultCoverageStatus"
+        ng-class="[distributionData.adultCoverage.computeStatus(), isSelected('adult-coverage')]">
+      <a id="adultCoverageTab" href="" ng-click="changeRoute('adult-coverage')">
+        <span id="adultCoverageTabIcon" class="status-icon"></span>
+        <span id="adultCoverageTabLabel" openlmis-message="label.coverage.adult"></span>
+      </a>
+    </li>
+  </ul>
+</div>

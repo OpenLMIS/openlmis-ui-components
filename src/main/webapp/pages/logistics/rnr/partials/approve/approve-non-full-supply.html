@@ -1,0 +1,108 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<div>
+
+  <div id="pageErrors" class="page-errors" ng-show="errorPages.nonFullSupply">
+    <div ng-switch on="errorPages.nonFullSupply.length" class="dropdown">
+      <a href="" ng-switch-when="1" class="dropdown-toggle" openlmis-message="error.one.page"></a>
+      <a href="" ng-switch-default class="dropdown-toggle"
+         openlmis-message="error.multiple.pages|nonFullSupplyErrorPagesCount">
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="page in errorPages.nonFullSupply">
+          <a href="" ng-click="goToPage(page, $event)">{{page}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div ng-hide="page.nonFullSupply.length" class="alert alert-info" openlmis-message="label.no.products"></div>
+
+  <div id="approveRnr" ng-show="page.nonFullSupply.length" class="rnr-table" adjust-height>
+    <div class="left-table float-left">
+      <table id="nonFullSupplyFrozenTable" fixed-table-header class="table table-bordered scrollable">
+        <thead>
+        <tr adjust-height="scrollable-head" class="fixed-head">
+          <th class="col-{{column.name}}" ng-repeat="column in visibleColumns.nonFullSupply.fixed"
+              ng-bind="column.label"></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="rnrLineItem in page.nonFullSupply">
+        <tr>
+          <td class="productCategory" colspan="{{visibleColumns.nonFullSupply.fixed.length}}"
+              ng-show="showCategory($index)"
+              ng-bind="rnrLineItem.productCategory"></td>
+        </tr>
+        <tr adjust-height="scrollable-body{{ $index }}" class="fixed-body{{ $index }}">
+          <td class="cell-input col-{{ column.name }}" ng-repeat="column in visibleColumns.nonFullSupply.fixed">
+            <span ng-bind="rnrLineItem[column.name]" id="{{getId(column.name, $parent)}}" class="cell-text"></span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="float-left right-table" custom-horizontal-scroll>
+      <table id="nonFullSupplyTable" fixed-table-header class="table table-bordered scrollable">
+        <thead>
+        <tr adjust-height="fixed-head" class="scrollable-head">
+          <th class="col-{{column.name}}" ng-repeat="column in visibleColumns.nonFullSupply.scrollable"
+              ng-bind="column.label"></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="rnrLineItem in page.nonFullSupply">
+        <tr>
+          <td class="productCategory" colspan="{{visibleColumns.nonFullSupply.scrollable.length}}"
+              ng-show="showCategory($index)"></td>
+        </tr>
+        <tr adjust-height="fixed-body{{ $index }}" class="scrollable-body{{ $index }}">
+          <td class="cell-input col-{{ column.name }}" ng-repeat="column in visibleColumns.nonFullSupply.scrollable">
+            <span ng-switch on="column.name">
+              <span ng-switch-when="quantityApproved" class="position-relative">
+                  <input ng-change="rnr.fillPacksToShip(rnrLineItem)" ng-required="true" type="text"
+                         ng-model="rnrLineItem[column.name]" numeric-validator="positiveInteger" maxlength="8"
+                         name="quantityApproved{{$parent.$parent.$index}}" ng-trim="false"
+                         id="{{getId(column.name, $parent)}}"
+                         ng-class="highlightRequired(approvedQuantityRequiredFlag, rnrLineItem[column.name])"/>
+                  <span class="rnr-form-error" id="quantityApproved{{$parent.$parent.$index}}"
+                        style="display:none;" openlmis-message="error.number.only">
+                  </span>
+                </span>
+
+                <span ng-switch-when="remarks">
+                  <input id="{{getId(column.name, $parent)}}" type="text"
+                         name="remarks{{rnrLineItem['id']}}"
+                         ng-model="rnrLineItem[column.name]"
+                         class="cell-text"
+                         maxlength="250"/>
+                </span>
+
+                <span ng-switch-when="price">
+                  <span ng-bind='rnrLineItem[column.name] | currency:currency' id="{{getId(column.name, $parent)}}"
+                        class="cell-text"></span>
+                </span>
+
+                <span ng-switch-when="cost">
+                  <span ng-bind='rnrLineItem[column.name] | currency:currency' id="{{getId(column.name, $parent)}}"
+                        class="cell-text"></span>
+                </span>
+
+                <span ng-switch-default ng-bind="rnrLineItem[column.name]" id="{{getId(column.name, $parent)}}"
+                      class="cell-text"></span>
+            </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clear-both"></div>
+  </div>
+</div>

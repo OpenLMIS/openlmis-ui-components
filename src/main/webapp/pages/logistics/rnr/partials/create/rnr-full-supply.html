@@ -1,0 +1,456 @@
+<!--
+  ~ This program is part of the OpenLMIS logistics management information system platform software.
+  ~ Copyright © 2013 VillageReach
+  ~
+  ~ This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~  
+  ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+  ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+  -->
+
+<div ng-controller="CreateFullSupplyController">
+  <div id="pageErrors" class="page-errors" ng-show="errorPages.fullSupply">
+    <div ng-switch on="errorPages.fullSupply.length" class="dropdown">
+      <a href="" ng-switch-when="1" class="dropdown-toggle" openlmis-message="error.one.page"></a>
+      <a href="" ng-switch-default class="dropdown-toggle"
+         openlmis-message="error.multiple.pages|fullSupplyErrorPagesCount"></a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="page in errorPages.fullSupply">
+          <a href="" ng-click="goToPage(page, $event)">{{page}}</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div ng-hide="page.fullSupply.length" class="alert alert-info" openlmis-message="label.no.products"></div>
+
+  <br/>
+  <input ng-show="rnr.program.hideSkippedProducts"
+         id="showSkippedProductModal"
+         ng-disabled="((rnr.status != 'INITIATED' && rnr.status != 'SUBMITTED') || rnr.status == 'SUBMITTED' && !hasPermission('AUTHORIZE_REQUISITION'))"
+         type="button"
+         ng-click="showAddSkippedProductsModal()"
+         class="pull-right btn btn-primary"
+         openlmis-message="button.add"/>
+
+  <div class="clearfix"></div>
+
+  <div class="rnr-table" ng-show="page.fullSupply.length" tab-scroll bottom-offset="180" adjust-height>
+    <div class="float-left left-table parent">
+      <table id="fullSupplyFrozenTable" class="table table-bordered" fixed-table-header>
+        <thead>
+        <tr>
+          <th class="col-{{column.name}}" ng-repeat="column in visibleColumns.fullSupply.fixed">
+            <span ng-bind="column.label"></span>
+        <span ng-if="column.name == 'skipped'">
+        <a href="" id="selectAll" ng-click="setSkipAll(true)" openlmis-message="label.select.all"></a>&nbsp;|
+        <a href="" id="selectNone" ng-click="setSkipAll(false)" openlmis-message="label.select.none"></a>
+        </span>
+          </th>
+        </tr>
+        </thead>
+        <tbody ng-show="visibleColumns.fullSupply && (rnr.fullSupplyLineItems.length > 0)"
+               ng-repeat="rnrLineItem in page.fullSupply">
+        <tr>
+          <td id="category_{{$index}}" class="productCategory" colspan="{{visibleColumns.fullSupply.fixed.length}}"
+              ng-show="showCategory($index)"
+              ng-bind="rnrLineItem.productCategory"></td>
+        </tr>
+        <tr ng-class="getRowErrorClass(rnrLineItem)">
+          <td class="cell-input col-{{column.name}}" ng-repeat="column in visibleColumns.fullSupply.fixed">
+            <ng-switch on="column.name">
+          <span ng-switch-when="skipped">
+            <input ng-model="rnrLineItem[column.name]"
+                   ng-disabled="formDisabled || (!rnrLineItem.canSkip() && !rnrLineItem[column.name])"
+                   id="skip_{{$parent.$parent.$index}}" type="checkbox"
+                   ng-change="rnr.calculateFullSupplyItemsSubmittedCost()"/>
+          </span>
+          <span ng-switch-when="product">
+            <span ng-bind="rnrLineItem[column.name]" id="{{column.name}}_{{$parent.$parent.$index}}"
+                  class="cell-text"></span>
+            <span class="label label-warning glyphicon glyphicon-search"
+                  ng-show="rnrLineItem.isEquipmentValid === false"
+                  title="An Equipment related with this product is not operational. Please fill the remarks section on the equipment to continue." openlmis-message="rnr.equipment.warning"></span>
+          </span>
+          <span ng-switch-default ng-bind="rnrLineItem[column.name]" id="{{column.name}}_{{$parent.$parent.$index}}"
+                class="cell-text">
+          </span>
+            </ng-switch>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="float-left right-table parent" custom-horizontal-scroll>
+      <table id="fullSupplyTable" class="table table-bordered scrollable" fixed-table-header>
+        <thead>
+        <tr>
+          <th class="col-{{column.name}}" ng-repeat="column in visibleColumns.fullSupply.scrollable"
+              ng-bind="column.label"></th>
+        </tr>
+        </thead>
+        <tbody ng-show="visibleColumns.fullSupply && (rnr.fullSupplyLineItems.length > 0)"
+               ng-repeat="rnrLineItem in page.fullSupply">
+        <tr>
+          <td class="productCategory" colspan="{{visibleColumns.fullSupply.scrollable.length}}"
+              ng-show="showCategory($index)">
+            &nbsp;</td>
+        </tr>
+        <tr ng-class="getRowErrorClass(rnrLineItem)">
+          <td class="cell-input col-{{column.name}}" ng-repeat="column in visibleColumns.fullSupply.scrollable">
+            <ng-switch on="column.source.name">
+    <span ng-switch-when="USER_INPUT">
+      <ng-switch on="column.name">
+        <span ng-switch-when="beginningBalance"
+              ng-class="getCellErrorClass(rnrLineItem)" class="position-relative">
+            <input id="{{getId(column.name, $parent)}}" type="text"
+                   ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   name="beginningBalance{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger" maxlength="8"
+                   ng-change="rnr.fillConsumptionOrStockInHand(rnrLineItem)"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"/>
+            <span class="rnr-form-error" id="beginningBalance{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+
+          <span class="row-specific-error" ng-show="rnrLineItem.getErrorMessage()">
+            <span openlmis-message="lineItemErrorMessage(rnrLineItem)"></span>
+            <span class="beak-down"></span>
+          </span>
+        </span>
+
+        <span ng-switch-when="quantityReceived"
+              ng-class="getCellErrorClass(rnrLineItem)" class="position-relative">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   id="{{getId(column.name, $parent)}}" type="text"
+                   name="quantityReceived{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   align="right"
+                   numeric-validator="positiveInteger" maxlength="8"
+                   ng-change="rnr.fillConsumptionOrStockInHand(rnrLineItem)"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"/>
+            <span class="rnr-form-error" id="quantityReceived{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+          <span class="row-specific-error" ng-show="rnrLineItem.getErrorMessage()">
+            <span openlmis-message="lineItemErrorMessage(rnrLineItem)"></span>
+            <span class="beak-down"></span>
+          </span>
+        </span>
+
+        <span class="expirationDateContainer" ng-switch-when="expirationDate">
+          <input ng-disabled="formDisabled || rnrLineItem.skipped"
+                 id="{{getId(column.name, $parent)}}" type="text"
+                 error-holder="expirationDate{{rnrLineItem['id']}}"
+                 maxlength="7"
+                 ng-model="rnrLineItem[column.name]"
+                 showError="showError"
+                 date-validator="date"/>
+          <span class="rnr-form-error" id="expirationDate{{rnrLineItem['id']}}"
+                style="display:none;" openlmis-message="error.invalid.date.format"
+                ng-hide="rnrLineItem.expirationDate && rnrLineItem.skipped">
+          </span>
+        </span>
+
+        <span ng-switch-when="quantityDispensed"
+              ng-class="getCellErrorClass(rnrLineItem, programRnrColumnList)" class="input-error-parent-cell">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   id="{{getId(column.name, $parent)}}" type="text"
+                   name="quantityDispensed{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger"
+                   ng-change="rnr.fillConsumptionOrStockInHand(rnrLineItem)"
+                   maxlength="8"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"/>
+            <span class="rnr-form-error" id="quantityDispensed{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+          <span class="row-specific-error" ng-show="rnrLineItem.getErrorMessage()"
+                style="background: red;">
+            <span openlmis-message="lineItemErrorMessage(rnrLineItem)"></span>
+            <span class="beak-down"></span>
+          </span>
+        </span>
+
+        <span ng-switch-when="lossesAndAdjustments">
+          <div ng-init="controllerScope = $parent.$parent.$parent.$parent"
+               ng-class="highlightNestedFieldsWithError(rnrLineItem[column.name], 'quantity')">
+            <a id="{{getId('lossesAndAdjustmentLink', $parent)}}" href=""
+               ng-click="showLossesAndAdjustments(rnrLineItem); controllerScope.currentLinkId = getId('lossesAndAdjustmentLink', $parent)"
+               class="rnr-adjustment">
+                  <span class="adjustment-value" id="totalLossesAndAdjustment"
+                        ng-bind="rnrLineItem.totalLossesAndAdjustments"></span>
+            </a>
+          </div>
+        </span>
+
+
+        <span ng-switch-when="stockInHand"
+              ng-class="getCellErrorClass(rnrLineItem)" class="position-relative">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   id="{{getId(column.name, $parent)}}" type="text"
+                   name="stockInHand{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger"
+                   ng-change="rnr.fillConsumptionOrStockInHand(rnrLineItem)"
+                   maxlength="8"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"
+                   class="small-width-ie"/>
+            <span class="rnr-form-error" id="stockInHand{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+          <span class="row-specific-error" ng-show="rnrLineItem.getErrorMessage()">
+            <span openlmis-message="lineItemErrorMessage(rnrLineItem)"></span>
+            <span class="beak-down"></span>
+          </span>
+        </span>
+
+        <span ng-switch-when="newPatientCount" class="position-relative">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   id="{{getId(column.name, $parent)}}"
+                   type="text"
+                   name="newPatientCount{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger" maxlength="8"
+                   ng-change="rnr.fillNormalizedConsumption(rnrLineItem)"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"/>
+            <span class="rnr-form-error" id="newPatientCount{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+          </span>
+
+        <span ng-switch-when="quantityRequested" class="position-relative">
+            <input ng-disabled="formDisabled || rnrLineItem.skipped" id="{{getId(column.name, $parent)}}" type="text"
+                   name="quantityRequested{{rnrLineItem['id']}}" ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger" ng-trim="false" maxlength="8"
+                   ng-change="rnr.fillPacksToShip(rnrLineItem)"/>
+            <span class="rnr-form-error" id="quantityRequested{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+            </span>
+          </span>
+
+        <span ng-switch-when="remarks">
+
+        </span>
+
+        <span class="reasonForRequestedQuantityContainer" ng-switch-when="reasonForRequestedQuantity">
+          <input ng-disabled="formDisabled || rnrLineItem.skipped"
+                 id="{{getId(column.name, $parent)}}" type="text"
+                 name="reasonForRequestedQuantity{{rnrLineItem['id']}}"
+                 ng-model="rnrLineItem[column.name]"
+                 ng-required="rnrLineItem.quantityRequested"
+                 ng-class="highlightRequired(submitError && rnrLineItem.quantityRequested, rnrLineItem.reasonForRequestedQuantity, rnrLineItem.skipped) ||
+                 highlightWarningBasedOnField(!submitError && rnrLineItem.quantityRequested, rnrLineItem.reasonForRequestedQuantity, rnrLineItem, rnrLineItem.skipped);"
+                 maxlength="250"/>
+          <span id='{{getId(column.name, $parent)}}_warning'
+                ng-class="{'rnr-form-error': submitError, 'alert alert-warning warning-alert': !submitError}"
+                ng-show="rnrLineItem.quantityRequested && !rnrLineItem.reasonForRequestedQuantity && !rnrLineItem.skipped"
+                openlmis-message="error.reason.required">
+          </span>
+        </span>
+
+        <span ng-switch-when="stockOutDays" class="position-relative">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || rnrLineItem.skipped"
+                   id="{{getId(column.name, $parent)}}"
+                   type="text" name="stockOutDays{{rnrLineItem['id']}}"
+                   ng-model="rnrLineItem[column.name]"
+                   numeric-validator="positiveInteger" maxlength="8"
+                   ng-change="rnr.fillNormalizedConsumption(rnrLineItem)"
+                   ng-class="highlightRequired(showError, rnrLineItem[column.name], rnrLineItem.skipped)"/>
+            <span class="rnr-form-error" id="stockOutDays{{rnrLineItem['id']}}"
+                  style="display:none;" openlmis-message="error.number.only">
+          </span>
+        </span>
+      </ng-switch>
+    </span>
+    <span ng-switch-default>
+      <ng-switch on="column.name">
+        <span ng-switch-when="stockInHand"
+              ng-class="getCellErrorClass(rnrLineItem)">
+          <span id="{{getId(column.name, $parent)}}" ng-bind="rnrLineItem[column.name]"
+                class="cell-text right-justified display-block"> </span>
+          <span class="row-specific-error" ng-show="rnrLineItem.getErrorMessage()">
+            <span openlmis-message="lineItemErrorMessage(rnrLineItem)"></span>
+            <span class="beak-down"></span>
+          </span>
+        </span>
+        <span ng-switch-when="price">
+          <span ng-bind='rnrLineItem[column.name] | currency:currency' id="{{getId(column.name, $parent)}}"
+                class="cell-text"></span>
+        </span>
+        <span ng-switch-when="cost">
+          <span ng-bind='rnrLineItem[column.name] | currency:currency' id="{{getId(column.name, $parent)}}"
+                class="cell-text"></span>
+        </span>
+        <span ng-switch-default ng-bind="rnrLineItem[column.name]" id="{{getId(column.name, $parent)}}"
+              class="cell-text"></span>
+      </ng-switch>
+    </span>
+            </ng-switch>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="clear-both"></div>
+  </div>
+
+
+  <div id="lossesAndAdjustments" modal="lossesAndAdjustmentsModal"
+       options="{'backdrop':'static', 'escape':false}">
+    <div class="modal-header"><h3 openlmis-message="label.losses.adjustments"></h3></div>
+    <div class="modal-body">
+      <div class="adjustment-field">
+        <h5 openlmis-message="label.add.losses.adjustments"></h5>
+
+        <div class="row-fluid">
+          <div class="span5">
+            <select ng-disabled="formDisabled || currentRnrLineItem.skipped"
+                    ng-model="lossAndAdjustment.type"
+                    ng-options="i as i.description for i in lossesAndAdjustmentTypesToDisplay">
+              <option value="" openlmis-message="label.select.type"></option>
+            </select>
+          </div>
+          <div class="span3">
+            <input ng-disabled="formDisabled || currentRnrLineItem.skipped" ng-trim="false"
+                   type="text" name="quantity{{currentRnrLineItem.id}}" ng-model="lossAndAdjustment.quantity"
+                   numeric-validator="positiveInteger" maxlength="8" openlmis-message="placeholder.quantity"/>
+
+            <div class="rnr-form-error"
+                 id="quantity{{currentRnrLineItem.id}}"
+                 style="display:none;" openlmis-message="error.number.only">
+            </div>
+          </div>
+          <div class="span4">
+            <input type="button" id="addLossesAndAdjustment"
+                   ng-click="addLossAndAdjustment(lossAndAdjustment)"
+                   ng-disabled="!(lossAndAdjustment.type && lossAndAdjustment.quantity)"
+                   class="btn btn-primary"
+                   openlmis-message="button.add"/>
+          </div>
+        </div>
+
+
+      </div>
+      <hr ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0"/>
+      <div class="adjustment-list"
+           ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0">
+        <ul>
+          <li ng-repeat="adjustment in currentRnrLineItem.lossesAndAdjustments"
+              class="clearfix">
+          <span class="tpl-adjustment-type"
+                ng-bind="adjustment.type.description"></span>
+          <span class="tpl-adjustment-delete">
+            <a href="" class="close"
+               ng-hide="formDisabled || currentRnrLineItem.skipped"
+               ng-click="removeLossAndAdjustment(adjustment)">&times;</a>
+          </span>
+          <span class="tpl-adjustment-qty">
+            <input ng-required="true"
+                   ng-disabled="formDisabled || currentRnrLineItem.skipped"
+                   name="{{adjustment.type.displayOrder}}"
+                   type="text"
+                   ng-model="adjustment.quantity"
+                   openlmis-message="placeholder.quantity"
+                   ng-change="currentRnrLineItem.reEvaluateTotalLossesAndAdjustments(rnr, programRnrColumnList); resetModalErrorAndSetFormDirty()"
+                   numeric-validator="positiveInteger"
+                   maxlength="8"
+                   ng-class="highlightRequiredFieldInModal(adjustment.quantity)"
+                   keyboard="false"
+              />
+
+            <div class="rnr-form-error"
+                 id="{{adjustment.type.displayOrder}}"
+                 style="display:none;" openlmis-message="error.number.only">
+            </div>
+          </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="adjustment-total clearfix alert alert-warning"
+           ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0">
+        <span class="pull-left" openlmis-message="label.losses.total"></span><span
+        ng-bind="currentRnrLineItem.totalLossesAndAdjustments"></span>
+      </div>
+      <div class="alert alert-danger" id="modalErrorMessage"
+           ng-show="currentRnrLineItem.lossesAndAdjustments.length > 0 && modalError"
+           ng-bind="modalError"></div>
+    </div>
+    <div class="modal-footer">
+      <input type="button" id="lossesAndAdjustmentsDone" class="btn btn-primary save-button"
+             ng-click="saveLossesAndAdjustmentsForRnRLineItem()"
+             openlmis-message="button.done"/>
+      <input type="button"
+             ng-click="cancelAndCloseLossesAndAdjustmentModal();modalError=''"
+             class="btn btn-cancel"
+             openlmis-message="button.cancel"/>
+
+    </div>
+  </div>
+  <form name="addSkippedProductForm">
+    <div id="addSkippedProductsModal" modal="addSkippedProductsModal"
+         options="{ backdrop: 'static', escape: false}">
+      <div class="modal-header"><h3 openlmis-message="rnr.add.product"></h3></div>
+      <div class="modal-body">
+
+        <div class="row-fluid">
+          <div class="span12">
+            <label for="filterSkipped">
+              <span openlmis-message="rnr.search.product"> </span>
+            </label>
+            <input id="filterSkipped" type="text" class="large" ng-model="filterText"/>
+          </div>
+          <div class="span12" style="max-height: 240px ; overflow:scroll">
+            <table class="table table-bordered">
+              <thead>
+              <tr class="gradient-header">
+                <th openlmis-message="rnr.header.add"></th>
+                <th openlmis-message="rnr.header.code"></th>
+                <th openlmis-message="rnr.header.product.name"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat-start="row in filtered = ($parent.$parent.rnr.skippedLineItems | filter: {product: filterText})"></tr>
+              <tr ng-show="($index == 0 || ($index > 0 && filtered[$index - 1].productCategory != row.productCategory))">
+                <td colspan="3" class="productCategory">
+                  {{row.productCategory}}
+                </td>
+              </tr>
+              <tr>
+                <td class="cell-input" style="text-align: center;">
+                  <input type="checkbox" id="skipped-row-{{row.id}}" ng-model="row.unskip"/>
+                </td>
+                <td class="cell-input">
+                  <label for="skipped-row-{{row.id}}">
+                  <span class="cell-text">{{row.productCode}}</span>
+                  </label>
+                </td>
+                <td class="cell-input">
+                  <label for="skipped-row-{{row.id}}">
+                    <span class="cell-text">{{row.product}}</span>
+                  </label>
+                </td>
+              </tr>
+              <tr ng-repeat-end></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="clearfix"></div>
+          <div class="span12">
+            <a href="" class="btn btn-primary" ng-click="unskipProducts($parent.$parent.rnr)">Add Selected Products</a>
+            <a href="" ng-click="addSkippedProductsModal=false;" class="btn btn-cancel">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
