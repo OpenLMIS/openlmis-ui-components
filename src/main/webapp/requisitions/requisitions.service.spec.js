@@ -50,6 +50,7 @@ describe('RequisitionService', function() {
             processingPeriodId: period.id,
             createdDate: createdDate,
             supplyingFacility: '2',
+            template: '1',
             program: {
                 id: 'program-id'
             },
