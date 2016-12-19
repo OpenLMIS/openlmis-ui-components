@@ -4,20 +4,28 @@ body>header>:first-child {
   box-shadow: 0 0 0.5em $shadow;
   border-bottom: 0.1em solid lighten($cyan, 45%);
   color: $dark-gray;
-  min-height: 4.7em;
   position: relative;
-  z-index: 3;
-  &.online-header {
-    @include linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
-
-    .user-info {
-      padding: 3em 1em 0 0;
-    }
-  }
-  &.offline-header {
-    background-color: #dddddd;
+  z-index: 1; // to be above navbar
+  @include linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
+  &.isOffline {
+    background: #dddddd;
   }
 }
+
+body > header > :first-child > *{
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  .logo{
+    display: block;
+    flex: 1 0 auto;
+  }
+  & > * {
+    flex: 0 0 auto;
+    padding: 0em 1em;
+  }
+}
+
 .logo {
   padding: 0.6em 0 0;
   img {
@@ -34,22 +42,6 @@ body>header>:first-child {
     color: $gray;
     text-shadow: 0 0.05em 0 $white;
     border-color: transparent;
-  }
-}
-
-@media screen and (max-width: 960px){
-  .logo {
-    h1{
-      width: 75%;
-    }
-  }
-}
-
-@media screen and (max-width: 840px){
-  .logo {
-    h1{
-      width: 50%;
-    }
   }
 }
 
@@ -109,13 +101,3 @@ markup:
 
 Styleguide 1.4
 */
-
-.user-info {
-  text-align: right;
-  padding: 2em 1em 0 0;
-  font-size: 0.9em;
-  text-shadow: 0 0.1em 0 $white;
-  a {
-    text-decoration: underline;
-  }
-}
