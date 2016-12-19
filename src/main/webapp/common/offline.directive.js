@@ -30,7 +30,7 @@
          * @methodOf openlmis-core.directive:offline
          *
          * @description
-         * Watch if connection isn't lost or back
+         * Watches status of connection and updates value in scope.
          *
          */
         function link(scope, element, attr) {

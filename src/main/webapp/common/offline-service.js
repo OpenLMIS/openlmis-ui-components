@@ -39,7 +39,7 @@
          * @methodOf openlmis-core.OfflineService
          *
          * @description
-         * Check periodically if user is online or not
+         * Checks periodically if user is online or not.
          *
          */
         service.checkConnection = function() {
