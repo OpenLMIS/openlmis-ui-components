@@ -166,19 +166,19 @@
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
 
             if (isSupervised) {
-                vm.error = "";
+                vm.error = '';
                 vm.programs = vm.supervisedPrograms;
                 vm.facilities = [];
                 vm.selectedFacilityId = undefined;
                 vm.selectedProgramId = undefined;
             } else {
-                vm.error = "";
+                vm.error = '';
                 vm.programs = vm.homePrograms;
                 vm.facilities = [facility];
                 vm.selectedFacilityId = facility.id;
                 
                 if (vm.programs.length <= 0) {
-                    vm.error = messageService.get("msg.no.program.available");
+                    vm.error = messageService.get('msg.no.program.available');
                 } else if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
                     vm.loadPeriods();
@@ -200,7 +200,7 @@
          * @return {String} localized message
          */
         function programOptionMessage() {
-            return vm.programs === undefined || _.isEmpty(vm.programs) ? messageService.get("label.none.assigned") : messageService.get("label.select.program");
+            return vm.programs === undefined || _.isEmpty(vm.programs) ? messageService.get('label.none.assigned') : messageService.get('label.select.program');
         };
 
         /**
@@ -226,13 +226,13 @@
                     Notification.error('msg.no.period.available');
                 } else {
                     vm.periodGridData = data;
-                    vm.error = "";
+                    vm.error = '';
                 }
                 data.forEach(function (period) {
                     if (vm.emergency && (period.rnrStatus == Status.AUTHORIZED ||
                     period.rnrStatus == Status.APPROVED ||
                     period.rnrStatus == Status.RELEASED)) {
-                        period.rnrStatus = messageService.get("msg.rnr.not.started");
+                        period.rnrStatus = messageService.get('msg.rnr.not.started');
                     }
                 });
                 LoadingModalService.close();
@@ -259,9 +259,9 @@
          * @param {Object} selectedPeriod  a period to initiate or proceed with the requisition for
          */
         function initRnr(selectedPeriod) {
-            vm.error = "";
+            vm.error = '';
             if (!selectedPeriod.rnrId ||
-            selectedPeriod.rnrStatus == messageService.get("msg.rnr.not.started")){
+            selectedPeriod.rnrStatus == messageService.get('msg.rnr.not.started')){
                 RequisitionService.initiate(vm.selectedFacilityId,
                 vm.selectedProgramId,
                 selectedPeriod.id,
@@ -304,7 +304,9 @@
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);
                         if (vm.facilities.length <= 0) {
-                            vm.error = messageService.get("msg.no.facility.available");
+                            vm.error = messageService.get('msg.no.facility.available');
+                        } else {
+                            vm.error = '';
                         }
                     })
                     .catch(function (error) {
