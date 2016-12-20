@@ -46,6 +46,7 @@
                 getBy: getBy,
                 getAll: getAll,
                 search: search,
+                remove: remove,
                 removeBy: removeBy,
                 clearAll: clearAll,
                 contains: contains
@@ -124,6 +125,12 @@
                 return copyList(searchItems(params, filter));
             }
 
+            function remove(item) {
+                executeWithStorageUpdate(function() {
+                    removeItem(item);
+                })
+            }
+
             /**
              * @ngdoc function
              * @name  getBy
@@ -171,10 +178,14 @@
                 return items.indexOf(object) !== -1;
             }
 
+            function removeItem(item) {
+                items.splice(items.indexOf(item), 1);
+            }
+
             function removeItemBy(property, value) {
                 var filtered = searchItems(toParams(property, value));
                 if (filtered.length) {
-                    items.splice(items.indexOf(filtered[0]), 1);
+                    removeItem(filtered[0]);
                 }
             }
 

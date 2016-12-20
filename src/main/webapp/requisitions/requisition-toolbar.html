@@ -1,7 +1,7 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
         <input id="deleteRnrButton" type="button" class="btn delete-button" ng-disabled="vm.isOffline()" openlmis-message="button.delete" ng-if="vm.displayDelete()" ng-click="vm.removeRnr()" />
-        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="vm.saveRnr()" class="btn btn-default save-button" openlmis-message="button.save" type="button" />
+        <input id="saveRnrButton" ng-disabled="!vm.requisition.$availableOffline" ng-click="vm.saveRnr()" class="btn btn-default save-button" openlmis-message="button.save.locally" type="button" />
         <input id="syncRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" class="btn btn-default save-button" openlmis-message="button.sync" type="button" />
         <input id="submitRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" class="btn btn-primary primary-action" openlmis-message="button.submit" type="button" ng-if="vm.displaySubmit()" />
         <input id="authorizeRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" openlmis-message="button.authorize" ng-if="vm.displayAuthorize()" ng-click="vm.authorizeRnr()" />

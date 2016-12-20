@@ -11,7 +11,7 @@
 describe('RequisitionFactory', function() {
 
     var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrl, openlmisUrl,
-        LineItemSpy;
+        LineItemSpy, offlineRequitions;
 
     var TemplateSpy;
 
@@ -68,9 +68,16 @@ describe('RequisitionFactory', function() {
             return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
         })
 
+        offlineRequitions = jasmine.createSpyObj('offlineRequitions', ['put', 'remove']);
+
     	$provide.service('Template', function(){
     		return TemplateSpy;
     	});
+        $provide.factory('localStorageFactory', function() {
+            return function() {
+                return offlineRequitions;
+            };
+        })
     }));
 
     beforeEach(module(function($provide){
