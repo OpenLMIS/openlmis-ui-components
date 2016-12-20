@@ -14,7 +14,7 @@ angular.module('openlmis.requisitions').filter('orderObjectBy', function(){
         for(var objectKey in input) {
             columns.push(input[objectKey]);
         }
-        return columns.sort(sort);;
+        return columns.sort(sort);
 
         function sort(a, b) {
             a = parseInt(a[attribute]);

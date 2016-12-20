@@ -56,7 +56,7 @@
          *
          * @description
          * Saves template from scope. After successful action displays
-         * sucess notification on screen and redirects user to template
+         * success notification on screen and redirects user to template
          * list view page. If saving is unsuccessful error notification is displayed.
          */
         function saveTemplate() {
@@ -74,7 +74,7 @@
          * @methodOf openlmis.requisitions.RequisitionTemplateAdminController
          * @param {Event} event Drop event
          * @param {integer} index Indicates where column was dropped
-         * @param {Object} item Dropped dolumn
+         * @param {Object} item Dropped column
          *
          * @description
          * Moves column using templateFactory method. If action is unsuccessful
@@ -85,7 +85,7 @@
                 Notification.error('msg.tempalte.column.drop.error');
             }
             return false; // disable default drop functionality
-        };
+        }
 
         /**
          * @ngdoc function

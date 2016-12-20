@@ -264,7 +264,7 @@ describe('templateFactory', function() {
         expect(data.columnsMap.total.displayOrder).toEqual(3);
     });
 
-    it('should check if template is valid when column is not displayed and columnn source is set to user input and there is more than one source to choose', function() {
+    it('should check if template is valid when column is not displayed and column source is set to user input and there is more than one source to choose', function() {
         var requisitionTemplate;
 
         TemplateFactory.get(template.id).then(function(response) {
@@ -346,7 +346,7 @@ describe('templateFactory', function() {
         expect(requisitionTemplate.columnsMap.total.displayOrder).toBe(1);
     });
 
-    it('should not move column if it is not beetwen the same pinned columns', function() {
+    it('should not move column if it is not between the same pinned columns', function() {
         var requisitionTemplate, columnCopy;
 
         template.columnsMap.beginningBalance = {

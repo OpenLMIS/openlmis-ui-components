@@ -107,7 +107,7 @@
             });
         }
 
-        // Cheks if all columns in template are valid.
+        // Checks if all columns in template are valid.
         function isTemplateValid() {
             var valid = true,
                 template = this;
@@ -163,7 +163,7 @@
                 angular.forEach(columns, function(column) {
                     if(isInDroppableArea(column.displayOrder) && column.columnDefinition.canChangeOrder) {
                         if(droppedItem.name === column.name) column.displayOrder = newDisplayOrder; // setting new displayOrder for dropped column
-                        else if(isMovingUpTheList && column.displayOrder >= newDisplayOrder && column.displayOrder < droppedItem.displayOrder) column.displayOrder++;  // columns beetwen old and new postion must be
+                        else if(isMovingUpTheList && column.displayOrder >= newDisplayOrder && column.displayOrder < droppedItem.displayOrder) column.displayOrder++;  // columns between old and new position must be
                         else if(column.displayOrder <= newDisplayOrder && column.displayOrder > droppedItem.displayOrder) column.displayOrder--;                       // incremented or decremented
                     }
                 });
@@ -190,7 +190,7 @@
                 return a - b;
             }
 
-            // Returns current index in array of gien column.
+            // Returns current index in array of given column.
             function getArrayIndexForColumn(column) {
                 var index
                 angular.forEach(columns, function(item, idx) {
