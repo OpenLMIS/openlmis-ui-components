@@ -29,4 +29,8 @@
             <dd>{{vm.periodDisplayName()}}</dd>
         </dl>
     </div>
+    <div class="info-box offline">
+        <input type="checkbox" ng-model="vm.requisition.$availableOffline" ng-change="vm.changeAvailablity(vm.requisition)">
+        <label for="availableOffline">Available offline</label>
+    </div>
 </div>

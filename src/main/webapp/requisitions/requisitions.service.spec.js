@@ -10,9 +10,10 @@
 describe('RequisitionService', function() {
 
     var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
-        allStatuses, requisitionUrl, openlmisUrl, requisitionsStorage,
+        allStatuses, requisitionUrl, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions,
         startDate, endDate, startDate1, endDate1, modifiedDate, createdDate, processingSchedule,
-        facility, program, period, emergency, requisition, requisitionDto, requisitionDto2, requisitionToConvert;
+        facility, program, period, emergency, requisition, requisitionDto, requisitionDto2, requisitionToConvert,
+        approvedProductsOffline, templateOffline;
 
     beforeEach(function() {
         module('openlmis.requisitions');
@@ -95,8 +96,14 @@ describe('RequisitionService', function() {
                 return confirmSpy;
             });
 
-            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search']);
-            var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
+            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search', 'put']);
+            onlineOnlyRequisitions = jasmine.createSpyObj('onlineOnly', ['contains']);
+            templateOffline = jasmine.createSpyObj('templates', ['put']);
+            approvedProducts = jasmine.createSpyObj('approvedProducts', ['put']);
+            var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(resourceName) {
+                if (resourceName === 'template') return templateOffline;
+                if (resourceName === 'approvedProducts') return approvedProductsOffline;
+                if (resourceName === 'onlineOnly') return onlineOnlyRequisitions;
                 return requisitionsStorage;
             });
 

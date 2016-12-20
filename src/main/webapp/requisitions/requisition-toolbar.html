@@ -1,35 +1,12 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
-        <input id="deleteRnrButton" type="button"
-               class="btn delete-button"
-               openlmis-message="button.delete"
-               ng-if="vm.displayDelete()"
-               ng-click="vm.removeRnr()"/>
-        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="vm.saveRnr()"
-               class="btn btn-default save-button"
-               openlmis-message="button.save" type="button"/>
-        <input id="submitRnrButton" ng-disabled="formDisabled" ng-click="vm.submitRnr()"
-               class="btn btn-primary primary-action"
-               openlmis-message="button.submit" type="button"
-               ng-if="vm.displaySubmit()"/>
-        <input id="authorizeRnrButton" type="button"
-              class="btn btn-primary primary-action"
-              openlmis-message="button.authorize"
-              ng-if="vm.displayAuthorize()"
-              ng-click="vm.authorizeRnr()"/>
-        <input id="approveRnrButton" type="button"
-               class="btn btn-primary primary-action"
-               openlmis-message="button.approve"
-               ng-if="vm.displayApproveAndReject()"
-               ng-click="vm.approveRnr()"/>
-        <input id="rejectRnrButton" type="button"
-               class="btn btn-danger primary-action"
-               openlmis-message="button.rnr.reject"
-               ng-if="vm.displayApproveAndReject()"
-               ng-click="vm.rejectRnr()"/>
-        <input type="button" ng-if="vm.displayConvertToOrder()"
-               class="btn btn-primary primary-action"
-               ng-click="vm.convertRnr()"
-               openlmis-message="button.convert.to.order"/>
+        <input id="deleteRnrButton" type="button" class="btn delete-button" ng-disabled="vm.isOffline()" openlmis-message="button.delete" ng-if="vm.displayDelete()" ng-click="vm.removeRnr()" />
+        <input id="saveRnrButton" ng-disabled="formDisabled" ng-click="vm.saveRnr()" class="btn btn-default save-button" openlmis-message="button.save" type="button" />
+        <input id="syncRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" class="btn btn-default save-button" openlmis-message="button.sync" type="button" />
+        <input id="submitRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" class="btn btn-primary primary-action" openlmis-message="button.submit" type="button" ng-if="vm.displaySubmit()" />
+        <input id="authorizeRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" openlmis-message="button.authorize" ng-if="vm.displayAuthorize()" ng-click="vm.authorizeRnr()" />
+        <input id="approveRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" openlmis-message="button.approve" ng-if="vm.displayApproveAndReject()" ng-click="vm.approveRnr()" />
+        <input id="rejectRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-danger primary-action" openlmis-message="button.rnr.reject" ng-if="vm.displayApproveAndReject()" ng-click="vm.rejectRnr()" />
+        <input type="button" ng-disabled="vm.isOffline()" ng-if="vm.displayConvertToOrder()" class="btn btn-primary primary-action" ng-click="vm.convertRnr()" openlmis-message="button.convert.to.order" />
     </div>
 </div>

@@ -23,13 +23,16 @@
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',
                                'Notification', 'Confirm', 'RequisitionRights',
-                               'ConvertToOrderModal'];
+                               'ConvertToOrderModal', 'OfflineService', 'localStorageFactory', '$rootScope'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              AuthorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, RequisitionRights, ConvertToOrderModal) {
+                             Notification, Confirm, RequisitionRights, ConvertToOrderModal,
+                             OfflineService, localStorageFactory, $rootScope) {
 
-        var vm = this;
+        var vm = this,
+            onlineOnly = localStorageFactory('onlineOnly'),
+            offlineRequitions = localStorageFactory('requisitions');
 
         /**
          * @ngdoc property
@@ -56,6 +59,7 @@
         // Functions
 
         vm.saveRnr = saveRnr;
+        vm.syncRnr = syncRnr;
         vm.submitRnr = submitRnr;
         vm.authorizeRnr = authorizeRnr;
         vm.removeRnr = removeRnr;
@@ -68,22 +72,31 @@
         vm.displayDelete = displayDelete;
         vm.displayApproveAndReject = displayApproveAndReject;
         vm.displayConvertToOrder = displayConvertToOrder;
+        vm.changeAvailablity = changeAvailablity;
+        vm.isOffline = OfflineService.isOffline;
+
+        function saveRnr() {
+            vm.requisition.$modified = true;
+            offlineRequitions.put(vm.requisition);
+            Notification.success('msg.rnr.save.success');
+        }
 
          /**
          * @ngdoc function
-         * @name saveRnr
+         * @name syncRnr
          * @methodOf openlmis.requisitions.RequisitionCtrl
          *
          * @description
-         * Responsible for saving requisition. If the requisition fails to save, an error
-         * notification modal will be displayed.
-         * Otherwise, a success notification modal will be shown.
+         * Responsible for syncing requisition with the server. If the requisition fails to sync,
+         * an error notification will be displayed. Otherwise, a success notification will be shown.
          */
-        function saveRnr() {
+        function syncRnr() {
             LoadingModalService.open();
+            vm.requisition.$modified = false;
+            offlineRequitions.put(vm.requisition);
             save().then(function(response) {
                 LoadingModalService.close();
-                Notification.success('msg.rnr.save.success');
+                Notification.success('msg.rnr.sync.success');
                 reloadState();
             });
         };
@@ -350,6 +363,20 @@
         function convertRnr() {
             ConvertToOrderModal.show(vm.requisition);
         };
+
+        function changeAvailablity(requisition) {
+            if (requisition.$availableOffline) {
+                onlineOnly.remove(requisition.id);
+                offlineRequitions.put(requisition);
+            } else {
+                Confirm('msg.question.confirmation.makeOnlineOnly').then(function() {
+                    onlineOnly.put(requisition.id);
+                    offlineRequitions.removeBy('id', requisition.id);
+                }, function() {
+                    requisition.$availableOffline = true;
+                });
+            }
+        }
 
         function save() {
             LoadingModalService.open();

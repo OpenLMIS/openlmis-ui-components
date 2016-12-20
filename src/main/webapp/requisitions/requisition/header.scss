@@ -1,58 +1,69 @@
+#requisition-header {
 
-#requisition-header .info-box{
-	@include clearfix();
-
-	display: flex;
-
-	> * {
-		flex: 0 0 auto;
-	}
-
-	.regular {
-	  @include right-arrow($light-gray);
-	}
-
-	.regular:after, .regular:before {
-	  @include right-arrow-after-before();
-	}
-
-	.regular:after {
-	  @include right-arrow-after($light-gray);
-	}
-
-	.emergency {
-	  @include right-arrow($red);
-	  color: $white;
-	}
-
-	.emergency:after, .emergency:before {
-	  @include right-arrow-after-before();
-	}
-
-	dl{
+	.info-box {
+		@include clearfix();
 		display: flex;
-		flex-grow: 1;
-		padding-top: 2.4em;
-		padding-bottom: 0;
-		margin-left: 1.2em;
-	}
-	dt{
-		display: block;
-		flex: 0 0 auto;
-		width: 0;
-		position: relative;
-		top: -1.2em;
-		white-space: nowrap;
-	}
-	dt::after{
-		content: ":";
-	}
-	dd{
-		display: block;
-		flex: 1 0 auto;
-		padding-right: 1em;
-		&:last-child{
-			padding-right: 0em;
+
+		> * {
+			flex: 0 0 auto;
 		}
+
+		.regular {
+			@include right-arrow($light-gray);
+		}
+
+		.regular:after,
+		.regular:before {
+			@include right-arrow-after-before();
+		}
+
+		.regular:after {
+			@include right-arrow-after($light-gray);
+		}
+
+		.emergency {
+			@include right-arrow($red);
+			color: $white;
+		}
+
+		.emergency:after,
+		.emergency:before {
+			@include right-arrow-after-before();
+		}
+
+		dl {
+			display: flex;
+			flex-grow: 1;
+			padding-top: 2.4em;
+			padding-bottom: 0;
+			margin-left: 1.2em;
+		}
+
+		dt {
+			display: block;
+			flex: 0 0 auto;
+			width: 0;
+			position: relative;
+			top: -1.2em;
+			white-space: nowrap;
+		}
+
+		dt::after {
+			content: ":";
+		}
+
+		dd {
+			display: block;
+			flex: 1 0 auto;
+			padding-right: 1em;
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+	}
+
+	.offline {
+		justify-content: flex-end;
 	}
 }

@@ -15,10 +15,17 @@
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
                                   'RequisitionURL', 'RequisitionFactory', 'Confirm',
-                                  'Notification', 'DateUtils', 'localStorageFactory'];
+                                  'Notification', 'DateUtils', 'localStorageFactory',
+                                  'OfflineService'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, DateUtils, localStorageFactory) {
+                                RequisitionFactory, Confirm, Notification, DateUtils,
+                                localStorageFactory, OfflineService) {
+
+        var offlineTemplates = localStorageFactory('templates'),
+            offlineRequitions = localStorageFactory('requisitions'),
+            onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
+            offlineApprovedProducts = localStorageFactory('approvedProducts');
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -85,24 +92,47 @@
         function get(id) {
             var deferred = $q.defer();
 
-            resource.get({
-                id: id
-            }).$promise.then(function(requisition) {
-                $q.all([
-                    resource.getTemplate({
-                        id: requisition.template
-                    }).$promise,
-                    resource.getApprovedProducts({
-                        id: requisition.facility.id,
-                        fullSupply: false,
-                        programId: requisition.program.id
-                    }).$promise
-                ]).then(function(responses) {
-                    resolve(requisition, responses[0], responses[1]);
-                }, function() {
-                    resolve(requisition);
+            if (OfflineService.isOffline()) {
+                var requisition = offlineRequitions.getBy('id', id),
+                    template = offlineTemplates.getBy('id', requisition.template),
+                    approvedProducts = offlineApprovedProducts.search({
+                        requisitionId: id
+                    });
+
+                resolve(requisition, template, approvedProducts);
+            } else {
+                var requisition = offlineRequitions.search({
+                    id: id,
+                    $modified: true
                 });
-            }, error);
+                if (!requisition || !requisition.length) {
+                    var i = 0;
+                    getRequisition(id).then(function(requisition) {
+                        requisition.$availableOffline = !onlineOnlyRequisitions.contains(id);
+                        $q.all([
+                            getTemplate(requisition),
+                            getApprovedProducts(requisition)
+                        ]).then(function(responses) {
+                            if (requisition.$availableOffline) {
+                                storeResponses(requisition, responses[0], responses[1]);
+                            }
+                            resolve(requisition, responses[0], responses[1]);
+                        }, function() {
+                            if (requisition.$availableOffline) {
+                                offlineRequitions.put(requisition);
+                            }
+                            resolve(requisition);
+                        });
+                    }, error);
+                } else {
+                    var template = offlineTemplates.getBy('id', requisition[0].template),
+                        approvedProducts = offlineApprovedProducts.search({
+                            requisitionId: id
+                        });
+
+                    resolve(requisition[0], template, approvedProducts);
+                }
+            }
 
             return deferred.promise;
 
@@ -230,6 +260,42 @@
             });
 
             return deferred.promise;
+        }
+
+        function getRequisition(id) {
+            return resource.get({
+                id: id
+            }).$promise;
+        }
+
+        function getOfflineRequisition(id) {
+            return offlineRequitions.getBy('id', id);
+        }
+
+        function getTemplate(requisition) {
+            return resource.getTemplate({
+                id: requisition.template
+            }).$promise;
+        }
+
+        function getApprovedProducts(requisition) {
+            return resource.getApprovedProducts({
+                id: requisition.facility.id,
+                fullSupply: false,
+                programId: requisition.program.id
+            }).$promise;
+        }
+
+        function storeResponses(requisition, template, approvedProducts) {
+            requisition.$modified = false;
+            offlineRequitions.put(requisition);
+            offlineTemplates.put(template);
+
+            var approvedProductsOffline = localStorageFactory('approvedProducts');
+            approvedProducts.forEach(function(product) {
+                product.requisitionId = requisition.id;
+                approvedProductsOffline.put(product);
+            });
         }
 
         function transformRequest(requisitionsWithDepots) {
