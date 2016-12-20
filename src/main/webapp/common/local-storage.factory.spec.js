@@ -75,7 +75,7 @@ describe('localStorageFactory', function() {
 
     });
 
-    describe('get', function() {
+    describe('getBy', function() {
 
         it('should get item by id', function() {
             var result = itemStorage.getBy('id', 1);
@@ -107,12 +107,83 @@ describe('localStorageFactory', function() {
 
     });
 
-    it('should get all items', function() {
-        var result = itemStorage.getAll();
+    describe('getAll', function() {
 
-        expect(result.length).toBe(2);
-        expect(result[0]).toEqual(items[0]);
-        expect(result[1]).toEqual(items[1]);
+        it('should get all items', function() {
+            var result = itemStorage.getAll();
+            result.sort(compare);
+
+            expect(result.length).toBe(2);
+            expect(result[0]).toEqual(items[0]);
+            expect(result[1]).toEqual(items[1]);
+        });
+    });
+
+    describe('search', function() {
+
+        it('should search with default filter by id', function() {
+            var result = itemStorage.search({id: items[0].id});
+
+            expect(result.length).toBe(1);
+            expect(result[0]).toEqual(items[0]);
+        });
+
+        it('should search with default filter by name', function() {
+            var result = itemStorage.search({name: items[1].name});
+
+            expect(result.length).toBe(1);
+            expect(result[0]).toEqual(items[1]);
+        });
+
+        it('should search with default filter by name and id', function() {
+            var result = itemStorage.search({name: items[1].name, id: items[1].id});
+
+            expect(result.length).toBe(1);
+            expect(result[0]).toEqual(items[1]);
+        });
+
+        it('should failed to search with default filter by wrong name', function() {
+            var result = itemStorage.search({name: items[0].name, id: items[1].id});
+
+            expect(result.length).toBe(0);
+        });
+    });
+
+    describe('removeBy', function() {
+
+        it('should remove item by id', function() {
+            var result,
+                id = items[0].id;
+
+            itemStorage.removeBy('id', id);
+            result = itemStorage.getAll();
+
+            expect(itemStorage.getBy('id', id)).toBe(undefined);
+            expect(result.length).toBe(1);
+        });
+
+        it('should remove item by name', function() {
+            var result,
+                name = items[0].name;
+
+            itemStorage.removeBy('name', name);
+            result = itemStorage.getAll();
+
+            expect(itemStorage.getBy('name', name)).toBe(undefined);
+            expect(result.length).toBe(1);
+        });
+
+        it('should not remove item with wrong value', function() {
+            var result;
+
+            itemStorage.removeBy('name', 'otherName');
+            result = itemStorage.getAll();
+            result.sort(compare);
+
+            expect(result.length).toBe(2);
+            expect(result[0]).toEqual(items[0]);
+            expect(result[1]).toEqual(items[1]);
+        });
     });
 
     function compare(a, b) {
