@@ -34,6 +34,23 @@ describe('offline', function() {
             expect(directiveElem.hasClass('ng-hide')).toBe(true);
         });
 
+        it('should update scope.isOffline if offline status changes', function(){
+            var offlineStatus = false;
+            spyOn(offlineService, 'isOffline').andCallFake(function(){
+                return offlineStatus;
+            });
+
+            var element = compile('<a offline ng-show="isOffline">Offline</a>')(scope);
+            scope.$digest();
+
+            expect(scope.isOffline).toBe(false);
+
+            offlineStatus = true;
+            scope.$apply();
+
+            expect(scope.isOffline).toBe(true);            
+        });
+
         it('should call connection check after clicking on offline label', function () {
             spyOn(offlineService, 'isOffline').andReturn(true);
             spyOn(offlineService, 'checkConnection');
