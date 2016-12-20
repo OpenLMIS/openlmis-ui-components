@@ -166,15 +166,17 @@
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
 
             if (isSupervised) {
+                vm.error = "";
                 vm.programs = vm.supervisedPrograms;
                 vm.facilities = [];
                 vm.selectedFacilityId = undefined;
                 vm.selectedProgramId = undefined;
             } else {
+                vm.error = "";
                 vm.programs = vm.homePrograms;
                 vm.facilities = [facility];
                 vm.selectedFacilityId = facility.id;
-
+                
                 if (vm.programs.length <= 0) {
                     vm.error = messageService.get("msg.no.program.available");
                 } else if (vm.programs.length === 1) {
