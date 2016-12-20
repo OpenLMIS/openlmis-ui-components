@@ -35,13 +35,16 @@
             resources[resourceName] = resource;
             return resource;
 
-            function put(object) {
-                executeWithStorageUpdate(function() {
-                    if (object.id) {
-                        removeItemBy('id', object.id);
-                    }
-                    items.push(copy(object));
-                });
+            function put(item) {
+                if (item && !contains(item)) {
+                    executeWithStorageUpdate(function() {
+                        if (item.id) {
+                            removeItemBy('id', item.id);
+                        }
+                        items.push(typeof item === 'object' ? copy(item) : item);
+                    });
+                }
+
             }
 
             function getBy(property, value) {
