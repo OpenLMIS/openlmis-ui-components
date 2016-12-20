@@ -48,7 +48,7 @@
 				deferred = $q.defer();
 
 			if(OfflineService.isOffline()) {
-				facility = facilitiesOffline.get(facilityId);
+				facility = facilitiesOffline.getBy('id', facilityId);
 				facility ? deferred.resolve(facility) : deferred.reject();
 			} else {
 	            resource.get({id: facilityId}, function(data) {

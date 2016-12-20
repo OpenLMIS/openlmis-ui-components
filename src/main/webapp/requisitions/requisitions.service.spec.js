@@ -95,7 +95,7 @@ describe('RequisitionService', function() {
                 return confirmSpy;
             });
 
-            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['get', 'getAll', 'put']);
+            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
                 return requisitionsStorage;
             });
@@ -262,7 +262,7 @@ describe('RequisitionService', function() {
                 facility: facility.id
             };
 
-        requisitionsStorage.getAll.andReturn([requisitionDto2]);
+        requisitionsStorage.search.andReturn([requisitionDto2]);
 
         requisitionService.search(true, params).then(function(response) {
             data = response;
@@ -271,6 +271,7 @@ describe('RequisitionService', function() {
         $rootScope.$apply();
 
         expect(angular.toJson(data)).toEqual(angular.toJson([requisitionDto2]));
+        expect(requisitionsStorage.search).toHaveBeenCalledWith(params, 'requisitionFilter');
     });
 
     function formatDatesInRequisition(requisition) {

@@ -15,10 +15,10 @@
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
                                   'RequisitionURL', 'RequisitionFactory', 'Confirm',
-                                  'Notification', 'DateUtils', 'localStorageFactory', '$filter'];
+                                  'Notification', 'DateUtils', 'localStorageFactory'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, DateUtils, localStorageFactory, $filter) {
+                                RequisitionFactory, Confirm, Notification, DateUtils, localStorageFactory) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
             'initiate': {
@@ -163,10 +163,7 @@
             var deferred = $q.defer();
 
             if(offline) {
-                var allRequisitions = requisitionsOffline.getAll(),
-                    filteredRequisitions = $filter('requisitionFilter')(allRequisitions, searchParams);
-
-                deferred.resolve(filteredRequisitions);
+                deferred.resolve(requisitionsOffline.search(searchParams, 'requisitionFilter'));
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
                     deferred.resolve(requisitions);

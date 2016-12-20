@@ -15,7 +15,7 @@ describe('FacilityService', function() {
         module('openlmis.requisitions');
 
         module(function($provide){
-            facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['get', 'getAll', 'put']);
+            facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
                 return facilitiesStorage;
             });
@@ -49,7 +49,7 @@ describe('FacilityService', function() {
         it('should get facility by id from storage while offline', function() {
             var data;
 
-            facilitiesStorage.get.andReturn(facility2);
+            facilitiesStorage.getBy.andReturn(facility2);
 
             spyOn(OfflineService, 'isOffline').andReturn(true);
 

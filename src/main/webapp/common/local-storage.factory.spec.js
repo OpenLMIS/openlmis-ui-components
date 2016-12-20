@@ -9,84 +9,113 @@
  */
 describe('localStorageFactory', function() {
 
-    var localStorageFactory, item1, item2, itemStorage;
+    var localStorageFactory, items, itemStorage, localStorageServiceSpy;
 
     beforeEach(function() {
-        module('openlmis-core');
+        items = [
+            {
+                id: 1,
+                name: 'item1'
+            },
+            {
+                id: 2,
+                name: 'item2'
+            }
+        ];
+
+        module('openlmis-core', function($provide) {
+            localStorageServiceSpy = jasmine.createSpyObj('localStorageService', ['add', 'get']);
+            localStorageServiceSpy.get.andCallFake(function(resourceName) {
+                return resourceName === 'items' ? items : undefined;
+            })
+            $provide.factory('localStorageService', function() {
+                return localStorageServiceSpy;
+            });
+        });
 
         inject(function(_localStorageFactory_) {
             localStorageFactory = _localStorageFactory_;
         });
 
-        item1 = {
-            id: '1',
-            name: 'item1'
-        };
-        item2 = {
-            id: '2',
-            name: 'item1'
-        };
-
         itemStorage = localStorageFactory('items');
     });
 
-    it('should get facility by id', function() {
-        itemStorage.clearAll();
+    describe('put', function() {
 
-        itemStorage.put(item1);
+        var item;
 
-        expect(itemStorage.get(item1.id)).toEqual(item1);
-    });
+        beforeEach(function() {
+            item = {
+                id: 3,
+                name: 'item3'
+            };
+        })
 
-    it('should update an object pulled from the datastore without saving it', function(){
-        itemStorage.clearAll();
+        it('should put item', function() {
+            itemStorage.put(item);
 
-        itemStorage.put({
-            id: 'foo',
-            name: 'Foo'
+            expect(items.length).toBe(3);
+            expect(items[2]).toEqual(item);
         });
-        var foo = itemStorage.get('foo');
-        foo.name = 'Bar';
-        // NOTE: foo has not been explicitly saved 
 
-        var otherFoo = itemStorage.get('foo');
-        expect(otherFoo.name).toBe('Bar');
+        it('should update object if item with the same id exist', function() {
+            item.id = 1;
+
+            itemStorage.put(item);
+
+            expect(items.length).toBe(2);
+            expect(items[1]).toEqual(item);
+        })
+
+        it('should update storage', function() {
+            itemStorage.put(item);
+
+            expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
+        });
+
     });
 
-    it('should get all facilities', function() {
-        itemStorage.clearAll();
+    describe('get', function() {
 
-        itemStorage.put(item1);
-        itemStorage.put(item2);
+        it('should get item by id', function() {
+            var result = itemStorage.getBy('id', 1);
 
-        expect(itemStorage.getAll().sort(compare)).toEqual([item1, item2].sort(compare));
+            expect(result).toEqual(items[0]);
+        });
+
+        it('should get item by name', function() {
+            var result = itemStorage.getBy('name', 'item2');
+
+            expect(result).toEqual(items[1]);
+        });
+
     });
 
-    it('should clear all facilies', function() {
-        itemStorage.clearAll();
+    describe('clearAll', function() {
 
-        expect(itemStorage.getAll()).toEqual([]);
+        it('should remove all items', function() {
+            itemStorage.clearAll();
 
-        itemStorage.put(item1);
-        itemStorage.put(item2);
+            expect(items.length).toBe(0);
+        });
 
-        expect(itemStorage.getAll().sort(compare)).toEqual([item1, item2].sort(compare));
+        it('should update storage', function() {
+            itemStorage.clearAll();
 
-        itemStorage.clearAll();
+            expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
+        })
 
-        expect(itemStorage.getAll()).toEqual([]);
     });
 
-    it('should set index for item if it has no id', function() {
-        var index;
+    it('should get all items', function() {
+        var result = itemStorage.getAll();
 
-        item1.id = undefined;
-        index = itemStorage.put(item1);
-
-        expect(itemStorage.get(index)).toEqual(item1);
+        expect(result.length).toBe(2);
+        expect(result[0]).toEqual(items[0]);
+        expect(result[1]).toEqual(items[1]);
     });
 
-    function compare(a,b) {
+    function compare(a, b) {
         if (a.id < b.id)
             return -1;
         if (a.id > b.id)

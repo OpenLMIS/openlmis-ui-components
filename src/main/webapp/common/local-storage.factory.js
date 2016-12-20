@@ -6,56 +6,115 @@
         .module('openlmis-core')
         .factory('localStorageFactory', factory);
 
-    factory.$inject = ['$localStorage'];
-    function factory($localStorage) {
+    factory.$inject = ['localStorageService', '$filter'];
+
+    function factory(localStorageService, $filter) {
+        var resources = {};
 
         return LocalStorageFactory;
 
         function LocalStorageFactory(resourceName) {
-            if(!$localStorage[resourceName]) $localStorage[resourceName] = {};
-            var resource = $localStorage[resourceName],
-                storage = {
-                    get: get,
-                    getAll: getAll,
-                    put: put,
-                    clearAll: clearAll
-                };
+            if (resources[resourceName]) {
+                return resources[resourceName];
+            }
 
-            return storage;
+            var items = getFromStorage(resourceName);
+            if (!items) {
+                items = [];
+            }
 
-            function get(id) {
-                return resource[id];
+            var resource = {
+                put: put,
+                getBy: getBy,
+                getAll: getAll,
+                search: search,
+                removeBy: removeBy,
+                clearAll: clearAll,
+                contains: contains
+            };
+            resources[resourceName] = resource;
+            return resource;
+
+            function put(object) {
+                executeWithStorageUpdate(function() {
+                    if (object.id) {
+                        removeItemBy('id', object.id);
+                    }
+                    items.push(copy(object));
+                });
+            }
+
+            function getBy(property, value) {
+                var filtered = searchItems(toParams(property, value));
+                return filtered.length ? copy(filtered[0]) : undefined;
             }
 
             function getAll() {
-                var items = [];
-                angular.forEach(resource, function(item) {
-                    items.push(item);
-                });
-                return items;
+                return copyList(items);
             }
 
-            function put(item) {
-                var index;
-                if(!item.id) index = generateIndex();
-                else index = item.id;
-                resource[index] = item;
-                return index;
+            function search(params, filter) {
+                return copyList(searchItems(params, filter));
+            }
+
+            function removeBy(property, value) {
+                executeWithStorageUpdate(function() {
+                    removeItemBy(property, value);
+                });
             }
 
             function clearAll() {
-                $localStorage[resourceName] = {};
-                resource = {};
+                executeWithStorageUpdate(function() {
+                    items.splice(0,items.length);
+                });
             }
 
-            function generateIndex() {
-                var index;
-                do {
-                    index = Math.random();
-                }
-                while(resource[index]);
-                return index;
+            function contains(object) {
+                return items.indexOf(object) !== -1;
             }
+
+            function removeItemBy(property, value) {
+                var filtered = searchItems(toParams(property, value));
+                if (filtered.length) {
+                    items.splice(items.indexOf(filtered[0]), 1);
+                }
+            }
+
+            function searchItems(params, filter) {
+                return $filter(filter ? filter : 'filter')(items, params);
+            }
+
+            function toParams(property, value) {
+                var params = {};
+                params[property] = value;
+                return params;
+            }
+
+            function executeWithStorageUpdate(functionToExecute) {
+                functionToExecute();
+                updateStorage(resourceName, items);
+            }
+        }
+
+        function getFromStorage(key) {
+            var json = localStorageService.get(key);
+            return json ? angular.fromJson(json) : undefined;
+        }
+
+        function updateStorage(key, data) {
+            localStorageService.add(key, angular.toJson(data));
+        }
+
+        function copy(object) {
+            return angular.extend({}, object);
+        }
+
+        function copyList(list) {
+            var copiedList = [];
+            list.forEach(function(item) {
+                copiedList.push(copy(item));
+            });
+            return copiedList;
         }
     }
 })();
