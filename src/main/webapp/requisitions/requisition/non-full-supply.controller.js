@@ -114,7 +114,8 @@
             AddProductModalService.show(vm.requisition.$approvedCategories)
                 .then(function(lineItem) {
                     lineItem.orderableProduct.programs = [{
-                        id: vm.requisition.program.id
+                        programId: vm.requisition.program.id,
+                        fullSupply: false
                     }];
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)

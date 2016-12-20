@@ -70,6 +70,7 @@
 
         function convertToOrderableProduct(product) {
             return {
+                id: product.productId,
                 name: product.productName,
                 productCode: product.productCode,
                 $program: {
