@@ -97,7 +97,7 @@
         function deleteLineItem(lineItem) {
             var id = vm.lineItems.indexOf(lineItem);
             if (id > -1) {
-                vm.lineItems[id].orderableProduct.$visible = true;
+                makeProductVisible(vm.lineItems[id].orderableProduct.name);
                 vm.lineItems.splice(id, 1);
             }
         }
@@ -113,6 +113,9 @@
         function addProduct() {
             AddProductModalService.show(vm.requisition.$approvedCategories)
                 .then(function(lineItem) {
+                    lineItem.orderableProduct.programs = [{
+                        id: vm.requisition.program.id
+                    }];
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)
                     );
@@ -139,6 +142,14 @@
                 display = display || lineItem.$deletable;
             });
             return display;
+        }
+
+        function makeProductVisible(productName) {
+            angular.forEach(vm.requisition.$approvedCategories, function(category) {
+                angular.forEach(category.lineItems, function(lineItem) {
+                    if(lineItem.productName === productName) lineItem.$visible = true;
+                });
+            });
         }
     }
 

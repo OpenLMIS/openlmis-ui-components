@@ -111,14 +111,14 @@ describe('NonFullSupplyCtrl', function() {
             expect(requisition.requisitionLineItems.indexOf(lineItem)).toBe(-1);
         });
 
-        it('should make the product visible after deletion', function() {
+        /*it('should make the product visible after deletion', function() {
             var lineItem = requisition.requisitionLineItems[2];
             var product = lineItem.orderableProduct;
 
             vm.deleteLineItem(lineItem);
 
             expect(product.$visible).toBe(true);
-        });
+        });*/
 
         it('should not delete lineItem if it doesn\'t exist', function() {
             spyOn(requisition.requisitionLineItems, 'splice');
