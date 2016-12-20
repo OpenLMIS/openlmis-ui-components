@@ -22,7 +22,11 @@
             checkOnLoad: true,
             interceptRequests: false,
             requests: false,
-            checks: {xhr: {url: 'favicon.ico'}}
+            checks: {xhr: {
+              url: function() {
+                return 'favicon.ico?_=' + new Date().getTime();
+              }
+            }}
         };
 
         Offline.on('confirmed-up', online);
