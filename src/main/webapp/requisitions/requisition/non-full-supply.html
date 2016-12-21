@@ -10,7 +10,7 @@
 			<tr>
 				<td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
 			</tr>
-			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems">
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 				<td ng-if="vm.displayDeleteColumn()">
 					<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
