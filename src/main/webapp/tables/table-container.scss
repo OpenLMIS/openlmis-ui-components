@@ -1,21 +1,31 @@
 /*
 Table Containers
 
-To create scrollable and complex table elements, wrap the table within a table
-container, which will constrain the layout of form elements and captions within
-a table. **Any table wider than the display area will horizontally scroll.**
+To create complex tables that are horizontally scrollable and search
+functionality, wrap the table within a table container, which will constrain
+the layout of form elements and captions within a table. **Any table wider than
+the display area will horizontally scroll.**
 
 All `.table-container` children that are not the table will be displayed to the
 left of the actual container. There will be no effort made to guess the size of
-the elements within the `.table-container`.
+the elements within the `.table-container`. *The exception to this is the
+[table-sort-order form.](../docs/#/api/openlmis.table:table-sort-order)*
 
-All elements within a `.table-container` will be pinned, so that all items are
-vertically visible and appear to be the same height.
+All elements within a `.table-container` will be pinned, so they are all visible
+and aligned while a user is scrolling what could be a large table.
 
-### Accessibility Guidelines
+### Form Guidelines
 Any form that modifies a table should use the `aria-described-by` attribute. This
 will ensure that accessiable technologies will be able to detect the relationship
 between a table and the forms that modify that table. 
+
+Forms  will enable or disable the primary form button if the form doesn't match
+the current state of the table. *This feature still needs to be implemented.*
+
+A table could have two form elements, a form displaying the current sort order
+of the items and a form that modifies the rows displayed within the form. Tables
+with container don't have to implement two forms, but *an element that describes
+the current table sort order is recommended.* 
 
 markup:
 <h2>Example Items</h2>
