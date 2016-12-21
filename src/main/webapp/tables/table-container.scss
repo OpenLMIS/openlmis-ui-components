@@ -33,27 +33,27 @@ markup:
   <form id="example-search-form">
     <fieldset>
       <legend>Show categories</legend>
-      <label>
+      <label class="checkbox">
         <input type="checkbox" checked="checked" />
         Anti-malarials
       </label>
-      <label>
+      <label class="checkbox">
         <input type="checkbox" />
         Anti-patterns
       </label>
-      <label>
+      <label class="checkbox">
         <input type="checkbox" checked="checked" />
         Anti-pyretics
       </label>
     </fieldset>
-    <input type="submit" value="Search" />
+    <input class="btn btn-primary" type="submit" value="Search" />
   </form>
-  <form id="example-sort-form" class="table-sort-order">
+  <form table-sort-order id="example-sort-form" class="form-inline">
     <label for="table-sort-order">Sort items by</label>
     <select id="table-sort-order">
       <option selected="selected">Name</option>
     </select>
-    <input type="submit" value="Sort items" />
+    <input type="submit" class="btn btn-primary" value="Sort items" />
   </form>
   <table aria-describedby="example-search-form example-sort-form" >
     <thead>

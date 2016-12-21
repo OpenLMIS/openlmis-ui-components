@@ -9,7 +9,6 @@ module.exports = function(grunt) {
   // registering promisies for gulp...
   require("any-promise/register")("bluebird");
   var sass = require('gulp-sass');
-  var bless = require('gulp-bless');
   var sourcemaps = require('gulp-sourcemaps');
   var concat = require('gulp-concat');
   var replace = require('gulp-replace');
@@ -385,7 +384,6 @@ module.exports = function(grunt) {
     .pipe(replace('select2.png','images/select2.png'))
     .pipe(replace('select2-spinner.gif','images/select2-spinner.gif'))
     .pipe(replace('select2x2.png','images/select2x2.png'))
-    .pipe(bless())
     .pipe(gulp.dest(
       path.join(config.app.dest, "webapp")
     ));
