@@ -5,9 +5,9 @@
     /**
      * @ngdoc service
      * @name openlmis.openlmis-core.localStorageFactory
-     *
      * @description
-     * It stores objects in browser cache to make them accessible offline
+     * It stores objects in browser cache to make them accessible offline.
+     * Each stored or retrieved object is copied, so
      */
     angular
         .module('openlmis-core')
@@ -24,12 +24,13 @@
          * @ngdoc function
          * @name  LocalStorageFactory
          * @methodOf openlmis.openlmis-core.localStorageFactory
-         * @param {String} resourceName Name of resource to be stored
-         * @returns {Object} Object with methods to save/get resource objects
          *
          * @description
          * Creates array in local storage that is named with resourceName.
          * It retruns object with methods to operate on this resource.
+         *
+         * @param {String} resourceName Name of resource to be stored
+         * @returns {Object} Object with methods to save/get resource objects
          */
         function LocalStorageFactory(resourceName) {
             if (resources[resourceName]) {
@@ -58,10 +59,11 @@
              * @ngdoc function
              * @name  put
              * @methodOf openlmis.openlmis-core.localStorageFactory
-             * @param {Object} object Object to store
              *
              * @description
              * Stores given object in local storage.
+             *
+             * @param {Object} object Object to store
              */
             function put(item) {
                 if (item && !contains(item)) {
@@ -78,15 +80,14 @@
              * @ngdoc function
              * @name  getBy
              * @methodOf openlmis.openlmis-core.localStorageFactory
+             *
+             * @description
+             * It searches for all objects that given property value is equal
+             * and returns first from the list. If there is no results method returns undefined.
+             *
              * @param {String} property Name of object property to be compared
              * @param {Object} value Value of proprty (equals found object property value)
              * @returns {Object} First found object with equal proprty value
-             *
-             * @description
-             * Method takes stored object proprty and desired value. It searches for all objects
-             * that given property value is equal and returns first from the list.
-             * Returned object is copied, so changes made outside factory will not affect one in
-             * local storage. If there is no results method returns undefined.
              */
             function getBy(property, value) {
                 var filtered = searchItems(toParams(property, value));
@@ -97,12 +98,11 @@
              * @ngdoc function
              * @name  getAll
              * @methodOf openlmis.openlmis-core.localStorageFactory
-             * @returns {Array} All objects stored in this resource
              *
              * @description
              * Method returns all resource objects stored in local storage.
-             * All of retruned objects are copied, so changes made outside factory
-             * will not affect any object in local storage.
+             *
+             * @returns {Array} All objects stored in this resource
              */
             function getAll() {
                 return angular.copy(items);
@@ -112,14 +112,14 @@
              * @ngdoc function
              * @name  search
              * @methodOf openlmis.openlmis-core.localStorageFactory
-             * @param {Object} params Criteria passed to filter
-             * @param {String} filter Name of the filter(optional)
-             * @returns {Array} Filtered objects
              *
              * @description
              * It takes params and passes it to filter. If filter name is
-             * not defined the default filter will be used. All found objects
-             * are copied, so changes made outside factory will not affect any object in local storage.
+             * not defined the default filter will be used.
+             *
+             * @param {Object} params Criteria passed to filter
+             * @param {String} filter Name of the filter(optional)
+             * @returns {Array} Filtered objects
              */
             function search(params, filter) {
                 return angular.copy(searchItems(params, filter));
@@ -135,13 +135,13 @@
              * @ngdoc function
              * @name  getBy
              * @methodOf openlmis.openlmis-core.localStorageFactory
-             * @param {String} property Name of object property to be compared
-             * @param {Object} value Value of proprty (equals found object property value)
              *
              * @description
-             * Method takes stored object proprty and desired value. It searches for all objects
-             * that given property value is equal and removes first from the list.
-             * If there is no results no object will be removed.
+             * It searches for all objects that given property value is equal
+             * and removes first from the list. If there is no results method returns undefined.
+             *
+             * @param {String} property Name of object property to be compared
+             * @param {Object} value Value of proprty (equals found object property value)
              */
             function removeBy(property, value) {
                 executeWithStorageUpdate(function() {
@@ -167,12 +167,13 @@
              * @ngdoc function
              * @name  contains
              * @methodOf openlmis.openlmis-core.localStorageFactory
-             * @param {Object} object Object to compare
-             * @returns {Boolean} if objects exista in storage
              *
              * @description
              * Check if exactly same object exist in storage and if so
              * returns true, otherwise false.
+             * 
+             * @param {Object} object Object to compare
+             * @returns {Boolean} if objects exista in storage
              */
             function contains(object) {
                 return items.indexOf(object) !== -1;
