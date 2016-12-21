@@ -22,7 +22,7 @@
                                 RequisitionFactory, Confirm, Notification, DateUtils,
                                 localStorageFactory, OfflineService) {
 
-        var offlineTemplates = localStorageFactory('templates'),
+        var offlineTemplates = localStorageFactory('requisitionTemplates'),
             offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
             offlineApprovedProducts = localStorageFactory('approvedProducts');
