@@ -166,7 +166,7 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
-            vm.refreshGridData();
+            refreshGridData();
 
             if (isSupervised) {
                 vm.error = '';
@@ -295,7 +295,7 @@
          * @param {Object} selectedProgramId id of selected program where user has supervisory permissions
          */
         function loadFacilitiesForProgram(selectedProgramId) {
-            vm.refreshGridData();
+            refreshGridData();
             if (selectedProgramId) {
                 LoadingModalService.open();
                 var createRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
