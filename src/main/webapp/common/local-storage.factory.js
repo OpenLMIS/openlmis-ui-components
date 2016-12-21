@@ -5,7 +5,7 @@
     /**
      * @ngdoc service
      * @name openlmis.openlmis-core.localStorageFactory
-     * 
+     *
      * @description
      * It stores objects in browser cache to make them accessible offline.
      * Each stored or retrieved object is copied, so
@@ -23,7 +23,7 @@
 
         /**
          * @ngdoc function
-         * @name  LocalStorageFactory
+         * @name LocalStorageFactory
          * @methodOf openlmis.openlmis-core.localStorageFactory
          *
          * @description
