@@ -69,7 +69,7 @@
                         if (item.id) {
                             removeItemBy('id', item.id);
                         }
-                        items.push(typeof item === 'object' ? copy(item) : item);
+                        items.push(typeof item === 'object' ? angular.copy(item) : item);
                     });
                 }
             }
@@ -90,7 +90,7 @@
              */
             function getBy(property, value) {
                 var filtered = searchItems(toParams(property, value));
-                return filtered.length ? copy(filtered[0]) : undefined;
+                return filtered.length ? angular.copy(filtered[0]) : undefined;
             }
 
             /**
@@ -105,7 +105,7 @@
              * will not affect any object in local storage.
              */
             function getAll() {
-                return copyList(items);
+                return angular.copy(items);
             }
 
             /**
@@ -122,7 +122,7 @@
              * are copied, so changes made outside factory will not affect any object in local storage.
              */
             function search(params, filter) {
-                return copyList(searchItems(params, filter));
+                return angular.copy(searchItems(params, filter));
             }
 
             function remove(item) {
@@ -214,16 +214,5 @@
             localStorageService.add(key, angular.toJson(data));
         }
 
-        function copy(object) {
-            return angular.extend({}, object);
-        }
-
-        function copyList(list) {
-            var copiedList = [];
-            list.forEach(function(item) {
-                copiedList.push(copy(item));
-            });
-            return copiedList;
-        }
     }
 })();

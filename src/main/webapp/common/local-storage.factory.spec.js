@@ -73,6 +73,24 @@ describe('localStorageFactory', function() {
             expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
         });
 
+        it('should not modify the storage object, unless the object is explicitly updated', function(){
+            itemStorage.put(item);
+
+            var firstItem = itemStorage.getBy('id', 3);
+            expect(firstItem.name).toEqual('item3');
+
+            firstItem.name = "foo bar"; // don't save this change
+
+            var secondItem = itemStorage.getBy('id', 3);
+            expect(secondItem.name).toEqual('item3');
+
+            secondItem.name = "foo baz";
+            itemStorage.put(secondItem); // just saved the item
+
+            var thirdItem = itemStorage.getBy('id', 3);
+            expect(thirdItem.name).toEqual('foo baz'); // a newly pulled item got the changes
+        });
+
     });
 
     describe('getBy', function() {
