@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.table.tbodyTitle
+	 * @name openlmis.table:tbodyTitle
 	 *
 	 * @description
 	 * Takes the title attribute from a tbody element and changes it into a stylable banner.
@@ -44,7 +44,7 @@
     	function link(scope, element, attrs) {
     		if(attrs.title && attrs.title != ""){
     			// Assume the table is formatted correctly (and fully rendered)
-    			var numCols = element.children('tr').children('td').length;
+    			var numCols = element.children('tr').children('td, th').length;
     			var title = attrs.title;
 
     			element.removeAttr('title');

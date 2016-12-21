@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.table:table-sort-order
+	 * @name openlmis.table:tableSortOrder
 	 *
 	 * @description
 	 * Positions the table sort order correctly in a table's container.

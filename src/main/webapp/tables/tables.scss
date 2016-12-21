@@ -6,12 +6,14 @@ read or edited across multiple attributes per item. If there isn't a need to
 look or interact with specific attributes of an item in the list, please use a
 list rather than a table. *Don't use tables for styling purposes.* 
 
-A table without a container will always try to fit into the current widow, and not horizontally scroll.
+A table without a container will always try to fit into the current widow, and
+not horizontally scroll.
 
 *Tables must include:*
 * `thead` that defines the column titles
 * `tbody` which will hold groups of items
 * Have an equal number of cells in each row
+* One cell in each row must be a title cell [(scope attributes are automatically added)](../../docs/#/api/openlmis.table:tableHeaderCell)
 
 *Tables do not:*
 * Include a title for the table, this should be styles as a page heading or
@@ -25,7 +27,7 @@ group, use a `<tbody>` element to group the items together.
 
 `<tbody>` elements will have their title properties transformed into the first
 row of the table, which will be treated as a title element. See the [tbody-title
-directive for more details.](../../docs/#/api/openlmis.table.tbodyTitle)
+directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
 
 markup:
 <table >
@@ -44,7 +46,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>P00833</td>
-      <td>Quinine Sulphate</td>
+      <th>Quinine Sulphate</th>
       <td>300</td>
       <td>mg</td>
     </tr>
@@ -55,7 +57,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>N-378013</td>
-      <td>Tramedol</td>
+      <th>Tramedol</th>
       <td>50mg/ml</td>
       <td>mg</td>
     </tr>
@@ -64,7 +66,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>A41099</td>
-      <td>Doxycycline</td>
+      <th>Doxycycline</th>
       <td>100</td>
       <td>mg</td>
     </tr>
@@ -73,7 +75,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>KM3375-2</td>
-      <td>Malaria Rapid Diagnostic Test</td>
+      <th>Malaria Rapid Diagnostic Test</th>
       <td>1</td>
       <td>each</td>
     </tr>
@@ -127,22 +129,22 @@ tbody tr.title:first-child{
 
 
 
-  table {
-    
-    tbody {
-      tr.invalid-row {
-        background-color: lighten($red, 45%);
-        border-color: darken($red, 20%);
+table {
+  
+  tbody {
+    tr.invalid-row {
+      background-color: lighten($red, 45%);
+      border-color: darken($red, 20%);
 
-        .cell-error-message {
-          color: $red;
-        }
-
+      .cell-error-message {
+        color: $red;
       }
 
     }
 
   }
+
+}
 
 
 

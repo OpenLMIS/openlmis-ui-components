@@ -9,7 +9,7 @@ the display area will horizontally scroll.**
 All `.table-container` children that are not the table will be displayed to the
 left of the actual container. There will be no effort made to guess the size of
 the elements within the `.table-container`. *The exception to this is the
-[table-sort-order form.](../docs/#/api/openlmis.table:table-sort-order)*
+[table-sort-order form.](../../docs/#/api/openlmis.table:table-sort-order)*
 
 All elements within a `.table-container` will be pinned, so they are all visible
 and aligned while a user is scrolling what could be a large table.
@@ -71,7 +71,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>P00833</td>
-        <td>Quinine Sulphate</td>
+        <th>Quinine Sulphate</th>
         <td>300</td>
         <td>mg</td>
       </tr>
@@ -82,7 +82,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>N-378013</td>
-        <td>Tramedol</td>
+        <th>Tramedol</th>
         <td>50mg/ml</td>
         <td>mg</td>
       </tr>
@@ -91,7 +91,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>A41099</td>
-        <td>Doxycycline</td>
+        <th>Doxycycline</th>
         <td>100</td>
         <td>mg</td>
       </tr>
@@ -100,7 +100,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>KM3375-2</td>
-        <td>Malaria Rapid Diagnostic Test</td>
+        <th>Malaria Rapid Diagnostic Test</th>
         <td>1</td>
         <td>each</td>
       </tr>
