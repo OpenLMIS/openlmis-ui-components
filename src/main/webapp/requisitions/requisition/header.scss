@@ -1,69 +1,66 @@
-#requisition-header {
+aside.requisition-info{
+	padding: $padding2px;
+	
+  display: flex;
+  > * {
+    flex: 0 0 auto;
+  }
 
-	.info-box {
-		@include clearfix();
-		display: flex;
+  dl {
+    display: flex;
+    flex-grow: 1;
+    padding-top: 2.4em;
+    padding-bottom: 0;
+    margin-left: 1.2em;
+  }
 
-		> * {
-			flex: 0 0 auto;
-		}
+  dt {
+    display: block;
+    flex: 0 0 auto;
+    width: 0;
+    position: relative;
+    top: -1.2em;
+    white-space: nowrap;
+  }
 
-		.regular {
-			@include right-arrow($light-gray);
-		}
+  dt::after {
+    content: ":";
+  }
 
-		.regular:after,
-		.regular:before {
-			@include right-arrow-after-before();
-		}
+  dd {
+    display: block;
+    flex: 1 0 auto;
+    padding-right: 1em;
 
-		.regular:after {
-			@include right-arrow-after($light-gray);
-		}
+    &:last-child {
+      padding-right: 0;
+    }
+  }
 
-		.emergency {
-			@include right-arrow($red);
-			color: $white;
-		}
+}
 
-		.emergency:after,
-		.emergency:before {
-			@include right-arrow-after-before();
-		}
-
-		dl {
-			display: flex;
-			flex-grow: 1;
-			padding-top: 2.4em;
-			padding-bottom: 0;
-			margin-left: 1.2em;
-		}
-
-		dt {
-			display: block;
-			flex: 0 0 auto;
-			width: 0;
-			position: relative;
-			top: -1.2em;
-			white-space: nowrap;
-		}
-
-		dt::after {
-			content: ":";
-		}
-
-		dd {
-			display: block;
-			flex: 1 0 auto;
-			padding-right: 1em;
-
-			&:last-child {
-				padding-right: 0;
-			}
-		}
+.requisition-type{
+    &.regular {
+		@include right-arrow($light-gray);
 	}
 
-	.offline {
-		justify-content: flex-end;
+	&.regular:after,
+	&.regular:before {
+		@include right-arrow-after-before();
+	}
+
+	&.regular:after {
+		@include right-arrow-after($light-gray);
+	}
+
+	&.emergency {
+		@include right-arrow($red);
+		color: $white;
+	}
+
+	&.emergency:after,
+	&.emergency:before {
+		@include right-arrow-after-before();
 	}
 }
+

@@ -10,15 +10,6 @@ table .productCategory,
   }
 }
 
-.info-box {
-  margin-bottom: 1.4em;
-  @include box-shadow(0.2em 0.2em 0 $light-shadow);
-  border: 0.1em solid $medium-gray;
-  background: $very-light-gray;
-  font-size: 0.9em;
-  text-shadow: 0 0.1em 0 white;
-}
-
 .grid {
   @include size(400px 100%);
   border: 0.1em solid rgb(212, 212, 212);
