@@ -7,34 +7,10 @@ aside.requisition-info{
   }
 
   dl {
-    display: flex;
     flex-grow: 1;
     padding-top: 2.4em;
     padding-bottom: 0;
     margin-left: 1.2em;
-  }
-
-  dt {
-    display: block;
-    flex: 0 0 auto;
-    width: 0;
-    position: relative;
-    top: -1.2em;
-    white-space: nowrap;
-  }
-
-  dt::after {
-    content: ":";
-  }
-
-  dd {
-    display: block;
-    flex: 1 0 auto;
-    padding-right: 1em;
-
-    &:last-child {
-      padding-right: 0;
-    }
   }
 
 }
