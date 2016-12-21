@@ -5,6 +5,7 @@
     /**
      * @ngdoc service
      * @name openlmis.openlmis-core.localStorageFactory
+     * 
      * @description
      * It stores objects in browser cache to make them accessible offline.
      * Each stored or retrieved object is copied, so
@@ -57,7 +58,7 @@
 
             /**
              * @ngdoc function
-             * @name  put
+             * @name put
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -78,7 +79,7 @@
 
             /**
              * @ngdoc function
-             * @name  getBy
+             * @name getBy
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -96,7 +97,7 @@
 
             /**
              * @ngdoc function
-             * @name  getAll
+             * @name getAll
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -110,7 +111,7 @@
 
             /**
              * @ngdoc function
-             * @name  search
+             * @name search
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -133,7 +134,7 @@
 
             /**
              * @ngdoc function
-             * @name  getBy
+             * @name getBy
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -151,7 +152,7 @@
 
             /**
              * @ngdoc function
-             * @name  clearAll
+             * @name clearAll
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
@@ -165,13 +166,13 @@
 
             /**
              * @ngdoc function
-             * @name  contains
+             * @name contains
              * @methodOf openlmis.openlmis-core.localStorageFactory
              *
              * @description
              * Check if exactly same object exist in storage and if so
              * returns true, otherwise false.
-             * 
+             *
              * @param {Object} object Object to compare
              * @returns {Boolean} if objects exista in storage
              */
