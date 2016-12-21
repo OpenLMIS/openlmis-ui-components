@@ -174,19 +174,23 @@
                 vm.facilities = [];
                 vm.selectedFacilityId = undefined;
                 vm.selectedProgramId = undefined;
+
+                if (vm.programs.length === 1) {
+                    vm.selectedProgramId = vm.programs[0].id;
+                    loadFacilitiesForProgram(vm.programs[0].id);
+                }
             } else {
                 vm.error = '';
                 vm.programs = vm.homePrograms;
                 vm.facilities = [facility];
                 vm.selectedFacilityId = facility.id;
+                vm.selectedProgramId = undefined;
                 
                 if (vm.programs.length <= 0) {
                     vm.error = messageService.get('msg.no.program.available');
                 } else if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
-                    vm.loadPeriods();
-                } else {
-                    vm.selectedProgramId = undefined;
+                    loadPeriods();
                 }
             }
         }

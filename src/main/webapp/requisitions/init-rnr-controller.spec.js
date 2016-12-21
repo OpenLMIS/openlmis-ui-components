@@ -17,7 +17,7 @@ describe("InitiateRnrController", function(){
 
         user = {"user_id": "user_id"};
         right = {"id": "right_id"};
-        programs = [{"code": "HIV", "id": 1}];
+        programs = [{"code": "HIV", "id": 1}, {"code": "programCode", "id": 2}];
         period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
         facility = {
             "id": "10134",
@@ -36,7 +36,7 @@ describe("InitiateRnrController", function(){
     it("should assign proper values when facility is assigned", function() {
         expect(vm.selectedFacilityId).toEqual(facility.id);
         expect(vm.programs).toEqual(programs);
-        expect(vm.selectedProgramId).toEqual(programs[0].id);
+        expect(vm.selectedProgramId).toEqual(undefined);
     });
 
     it("Should change page to requisitions.requisition for with selected period with rnrId", function(){
@@ -75,6 +75,9 @@ describe("InitiateRnrController", function(){
     });
 
     it("Should reload periods with proper data", function() {
+        vm.selectedProgramId = programs[0].id;
+        vm.selectedFacilityId = facility.id;
+        
         vm.loadPeriods();
         rootScope.$apply();
 
