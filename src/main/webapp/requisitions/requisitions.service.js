@@ -23,7 +23,7 @@
                                 localStorageFactory, OfflineService) {
 
         var offlineTemplates = localStorageFactory('templates'),
-            offlineRequitions = localStorageFactory('requisitions'),
+            offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
             offlineApprovedProducts = localStorageFactory('approvedProducts');
 
@@ -92,7 +92,7 @@
             var deferred = $q.defer();
 
             if (OfflineService.isOffline()) {
-                var requisition = offlineRequitions.getBy('id', id),
+                var requisition = offlineRequisitions.getBy('id', id),
                     template = offlineTemplates.getBy('id', requisition.template),
                     approvedProducts = offlineApprovedProducts.search({
                         requisitionId: id
@@ -100,7 +100,7 @@
 
                 resolve(requisition, template, approvedProducts);
             } else {
-                var requisition = offlineRequitions.search({
+                var requisition = offlineRequisitions.search({
                     id: id,
                     $modified: true
                 });
@@ -118,7 +118,7 @@
                             resolve(requisition, responses[0], responses[1]);
                         }, function() {
                             if (requisition.$availableOffline) {
-                                offlineRequitions.put(requisition);
+                                offlineRequisitions.put(requisition);
                             }
                             resolve(requisition);
                         });
@@ -192,7 +192,8 @@
             var deferred = $q.defer();
 
             if(offline) {
-                deferred.resolve(offlineRequitions.search(searchParams, 'requisitionFilter'));
+                var requisitions = offlineRequisitions.search(searchParams, 'requisitionFilter');
+                deferred.resolve(requisitions);
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
                     deferred.resolve(requisitions);
@@ -268,7 +269,7 @@
         }
 
         function getOfflineRequisition(id) {
-            return offlineRequitions.getBy('id', id);
+            return offlineRequisitions.getBy('id', id);
         }
 
         function getTemplate(requisition) {
@@ -287,7 +288,7 @@
 
         function storeResponses(requisition, template, approvedProducts) {
             requisition.$modified = false;
-            offlineRequitions.put(requisition);
+            offlineRequisitions.put(requisition);
             offlineTemplates.put(template);
 
             var approvedProductsOffline = localStorageFactory('approvedProducts');

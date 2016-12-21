@@ -5,7 +5,7 @@
  *
  * @description Filters requisitions by given params.
  */
-angular.module('openlmis.requisitions').filter('requisitionFilter', function(){
+angular.module('openlmis.requisitions').filter('requisitionFilter', ['DateUtils', function(DateUtils) {
     return function(input, params) {
         if(!angular.isObject(input)) return input;
 
@@ -13,6 +13,8 @@ angular.module('openlmis.requisitions').filter('requisitionFilter', function(){
 
         angular.forEach(input, function(requisition) {
             var match = true;
+
+            transformRequisition(requisition);
 
             if(params.program && params.program != requisition.program.id) match = false;
             if(params.facility && params.facility != requisition.facility.id) match = false;
@@ -33,5 +35,12 @@ angular.module('openlmis.requisitions').filter('requisitionFilter', function(){
             });
             return match;
         }
+
+        function transformRequisition(requisition) {
+            requisition.createdDate = DateUtils.toDate(requisition.createdDate);
+            requisition.processingPeriod.startDate = DateUtils.toDate(requisition.processingPeriod.startDate);
+            requisition.processingPeriod.endDate = DateUtils.toDate(requisition.processingPeriod.endDate);
+            requisition.processingPeriod.processingSchedule.modifiedDate = DateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
+        }
     }
-});
+}]);
