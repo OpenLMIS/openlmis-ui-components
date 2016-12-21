@@ -71,29 +71,29 @@ Styleguide 3.0
 
 */
 
-form {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	> * {
-		display: block;
-		clear: both;
-		width: auto;
-		flex: 1 0 auto;
-	}
-	> label, > fieldset{
-		min-width: 100%;
-	}
+// form {
+// 	display: flex;
+// 	flex-direction: row;
+// 	flex-wrap: wrap;
+// 	> * {
+// 		display: block;
+// 		clear: both;
+// 		width: auto;
+// 		flex: 1 0 auto;
+// 	}
+// 	> label, > fieldset{
+// 		min-width: 100%;
+// 	}
 
-	> input[type="submit"],
-	> input[type="button"],
-	> button {
-		flex: 0 0 auto;
-	}
-}
+// 	> input[type="submit"],
+// 	> input[type="button"],
+// 	> button {
+// 		flex: 0 0 auto;
+// 	}
+// }
 
-form > fieldset{
-	@extend form;
-}
+// form > fieldset{
+// 	@extend form;
+// }
 
 
