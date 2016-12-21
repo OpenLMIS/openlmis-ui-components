@@ -7,12 +7,9 @@
   ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
-<div id="requisition-header" class="toggleFullScreen">
-    <h2><span id='requisitionHeaderLabel' openlmis-message="label.requisition"></span>&nbsp;<span
-            ng-bind="vm.requisition.program.name + ' (' + vm.requisition.facility.type.name + ')'"></span>
-  </h2>
-    <div class="info-box padding2px">
-        <div ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">
+    <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})</h2>
+    <aside class="requisition-info">
+        <div class="requisition-type" ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">
             <span openlmis-message="vm.requisitionType"></span>
         </div>
 
@@ -28,9 +25,14 @@
             <dt>{{'label.facility.reportingPeriod' | message}}</dt>
             <dd>{{vm.periodDisplayName()}}</dd>
         </dl>
-    </div>
-    <div class="info-box offline">
-        <input type="checkbox" ng-model="vm.requisition.$availableOffline" ng-change="vm.changeAvailablity(vm.requisition)">
-        <label for="availableOffline">Available offline</label>
-    </div>
+    </aside>
+    <aside>
+      <h3 ng-if="vm.requisition.$availableOffline">{{'requisition.offline.available' | message}}</h3>
+      <button ng-if="vm.requisition.$availableOffline" ng-click="vm.changeAvailablity(vm.requisition)">
+        {{'requisition.offline.remove' | message}}
+      </button>
+      <button ng-if="!vm.requisition.$availableOffline" ng-click="vm.changeAvailablity(vm.requisition)">
+        {{'requisition.offline.add' | message}}
+      </button>
+    </aside>
 </div>

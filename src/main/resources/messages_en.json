@@ -2729,5 +2729,8 @@
   "label.filter.warehouses": "Filter warehouses",
   "requisition.convertToOrder.pickDepot": "Pick warehouse to convert requisition to order at",
   "label.convert.requisition.to.order": "Convert Requisition to Order",
-  "msg.requisition.view.offline": "Offline"
+  "msg.requisition.view.offline": "Offline",
+  "requisition.offline.remove": "Remove offline copy",
+  "requisition.offline.add": "Make requisition available offline",
+  "requisition.offline.available": "Available offline"
 }
