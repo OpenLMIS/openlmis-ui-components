@@ -54,17 +54,6 @@ markup:
 		Boolean checkbox, used to turn a value on or off
 	</label>
 	<fieldset>
-		<legend>Multiple checkbox elements</legend>
-		<label>
-			<input type="checkbox" ng-model="checkboxOptions" value="0" />
-			Option 1
-		</label>
-		<label>
-			<input type="checkbox" ng-model="checkboxOptions" value="1" />
-			Option 2
-		</label>
-	</fieldset>
-	<fieldset>
 		<legend>Radio elements</legend>
 		<label>
 			<input type="radio" ng-model="radioOptions" value="0" />
