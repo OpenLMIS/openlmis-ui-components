@@ -193,6 +193,10 @@
 
             if(offline) {
                 var requisitions = offlineRequisitions.search(searchParams, 'requisitionFilter');
+                angular.forEach(requisitions, function(requisition) {
+                    transformRequisition(requisition);
+                    requisition.$searchedOffline = true;
+                });
                 deferred.resolve(requisitions);
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
@@ -339,5 +343,4 @@
             requisition.processingPeriod.processingSchedule.modifiedDate = DateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
         }
     }
-
 })();
