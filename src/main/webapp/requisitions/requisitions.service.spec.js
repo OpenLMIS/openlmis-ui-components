@@ -96,7 +96,7 @@ describe('RequisitionService', function() {
                 return confirmSpy;
             });
 
-            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search', 'put']);
+            requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search', 'put', 'getBy']);
             onlineOnlyRequisitions = jasmine.createSpyObj('onlineOnly', ['contains']);
             templateOffline = jasmine.createSpyObj('templates', ['put']);
             approvedProducts = jasmine.createSpyObj('approvedProducts', ['put']);
@@ -232,6 +232,8 @@ describe('RequisitionService', function() {
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, [requisitionDto]);
 
+        requisitionsStorage.getBy.andReturn(false);
+
         requisitionService.search(false, params).then(function(response) {
             data = response;
         }, function(response) {
@@ -252,6 +254,8 @@ describe('RequisitionService', function() {
 
         httpBackend.when('GET', requisitionUrl('/api/requisitions/search?facility=' + facility.id))
         .respond(200, [requisitionDto2]);
+
+        requisitionsStorage.getBy.andReturn(false);
 
         requisitionService.search(false, params).then(function(response) {
             data = response;

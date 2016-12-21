@@ -200,6 +200,9 @@
                 deferred.resolve(requisitions);
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
+                    angular.forEach(requisitions, function(requisition) {
+                        if(offlineRequisitions.getBy('id', requisition.id)) requisition.$availableOffline = true;
+                    });
                     deferred.resolve(requisitions);
                 }, function() {
                     deferred.reject();
