@@ -12,9 +12,15 @@ the elements within the `.table-container`.
 All elements within a `.table-container` will be pinned, so that all items are
 vertically visible and appear to be the same height.
 
+### Accessibility Guidelines
+Any form that modifies a table should use the `aria-described-by` attribute. This
+will ensure that accessiable technologies will be able to detect the relationship
+between a table and the forms that modify that table. 
+
 markup:
+<h2>Example Items</h2>
 <section class="table-container">
-  <form>
+  <form id="example-search-form">
     <fieldset>
       <legend>Show categories</legend>
       <label>
@@ -30,8 +36,16 @@ markup:
         Anti-pyretics
       </label>
     </fieldset>
+    <input type="submit" value="Search" />
   </form>
-  <table >
+  <form id="example-sort-form" class="table-sort-order">
+    <label for="table-sort-order">Sort items by</label>
+    <select id="table-sort-order">
+      <option selected="selected">Name</option>
+    </select>
+    <input type="submit" value="Sort items" />
+  </form>
+  <table aria-describedby="example-search-form example-sort-form" >
     <thead>
       <tr>
         <th>Fully Supply</th>
@@ -110,18 +124,8 @@ Styleguide 4.1
 
 // Styles
 .table-container{
-  background-color: $light-gray;
+  background-color: $background-color-alt;
 
-  &:after{
-    content: "";
-    display: block;
-    height: 100%;
-    width: 1em;
-    position: absolute;
-    top: 0em;
-    right: -1px;
-    @include linear-gradient(to right, rgba($light-gray, 0), $light-gray);
-  }
 }
 
 .table-container > table{
@@ -129,3 +133,18 @@ Styleguide 4.1
 }
 
 
+// Forms
+.table-container > form {
+  width: $sidebar-width;
+}
+
+
+// Sort order
+.table-container > .table-sort-order {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width:100%;
+  margin: 0em;
+  padding: 1em;
+}

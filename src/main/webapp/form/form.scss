@@ -49,28 +49,28 @@ markup:
 		<option value="3">Family Planning</option>
 		<option value="4">Malaria</option>
 	</select>
-	<label class="checkbox">
+	<label>
 		<input type="checkbox" ng-model="booleanCheckbox" ng-value="true" />
 		Boolean checkbox, used to turn a value on or off
 	</label>
 	<fieldset>
 		<legend>Multiple checkbox elements</legend>
-		<label class="checkbox">
+		<label>
 			<input type="checkbox" ng-model="checkboxOptions" value="0" />
 			Option 1
 		</label>
-		<label class="checkbox">
+		<label>
 			<input type="checkbox" ng-model="checkboxOptions" value="1" />
 			Option 2
 		</label>
 	</fieldset>
 	<fieldset>
 		<legend>Radio elements</legend>
-		<label class="radio">
+		<label>
 			<input type="radio" ng-model="radioOptions" value="0" />
 			Radio 1
 		</label>
-		<label class="radio">
+		<label>
 			<input type="radio" ng-model="radioOptions" value="1" />
 			Radio 2
 		</label>
@@ -82,25 +82,29 @@ Styleguide 3.0
 
 */
 
-// form {
-// 	display: flex;
-// 	flex-direction: row;
-// 	flex-wrap: wrap;
-// 	> * {
-// 		display: block;
-// 		clear: both;
-// 		width: auto;
-// 		flex: 1 0 auto;
-// 	}
-// 	> label, > fieldset{
-// 		min-width: 100%;
-// 	}
+form {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	> * {
+		display: block;
+		clear: both;
+		width: auto;
+		flex: 1 0 auto;
+	}
+	> label, > fieldset{
+		min-width: 100%;
+	}
 
-// 	> input[type="submit"],
-// 	> input[type="button"],
-// 	> button {
-// 		flex: 0 0 auto;
-// 	}
-// }
+	> input[type="submit"],
+	> input[type="button"],
+	> button {
+		flex: 0 0 auto;
+	}
+}
+
+form > fieldset{
+	@extend form;
+}
 
 
