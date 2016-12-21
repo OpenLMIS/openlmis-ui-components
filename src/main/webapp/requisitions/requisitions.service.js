@@ -73,8 +73,7 @@
             forApproval: forApproval,
             forConvert: forConvert,
             convertToOrder: convertToOrder
-        },
-        requisitionsOffline = localStorageFactory('requisitions');
+        };
 
         return service;
 
@@ -193,7 +192,7 @@
             var deferred = $q.defer();
 
             if(offline) {
-                deferred.resolve(requisitionsOffline.search(searchParams, 'requisitionFilter'));
+                deferred.resolve(offlineRequitions.search(searchParams, 'requisitionFilter'));
             } else {
                 resource.search(searchParams).$promise.then(function(requisitions) {
                     deferred.resolve(requisitions);
