@@ -2,9 +2,13 @@
     <div class="page">
         <h2 openlmis-message="configure.rnr.header"></h2>
         <aside>
-            <div>{{'program.header' | message}}</div>
-            <div>{{vm.program.name}}</div>
-            <a ng-click="vm.goToTemplateList()">{{'template.change' | message}}</a>
+            <dl>
+                <dt>{{'program.header' | message}}</dt>
+                <dd>
+                    {{vm.program.name}}
+                    <a ng-click="vm.goToTemplateList()">{{'template.change' | message}}</a>
+                </dd>
+            </dl>
         </aside>
 
         <table>

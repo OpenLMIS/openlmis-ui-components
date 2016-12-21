@@ -365,13 +365,15 @@
         };
 
         function changeAvailablity(requisition) {
-            if (requisition.$availableOffline) {
+            if (!requisition.$availableOffline) {
                 onlineOnly.remove(requisition.id);
                 offlineRequitions.put(requisition);
+                requisition.$availableOffline = true;
             } else {
                 Confirm('msg.question.confirmation.makeOnlineOnly').then(function() {
                     onlineOnly.put(requisition.id);
                     offlineRequitions.removeBy('id', requisition.id);
+                    requisition.$availableOffline = false;
                 }, function() {
                     requisition.$availableOffline = true;
                 });
