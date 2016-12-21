@@ -145,6 +145,8 @@
 
         vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
 
+        vm.refreshGridData = refreshGridData;
+
         vm.updateFacilityType(vm.isSupervised);
 
         /**
@@ -164,6 +166,7 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
+            vm.refreshGridData();
 
             if (isSupervised) {
                 vm.error = '';
@@ -292,6 +295,7 @@
          * @param {Object} selectedProgramId id of selected program where user has supervisory permissions
          */
         function loadFacilitiesForProgram(selectedProgramId) {
+            vm.refreshGridData();
             if (selectedProgramId) {
                 LoadingModalService.open();
                 var createRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
@@ -317,6 +321,18 @@
             } else {
                 vm.facilities = [];
             }
+        }
+
+        /**
+         * @ngdoc function
+         * @name refreshGridData
+         * @methodOf openlmis.requisitions.InitiateRnrController
+         *
+         * @description
+         * Responsible for removing period grid data when choosing different program, facility or requisition type.
+         */
+        function refreshGridData() {
+            vm.periodGridData = [];
         }
     }
 })();

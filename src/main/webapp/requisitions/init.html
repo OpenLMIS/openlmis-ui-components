@@ -29,6 +29,7 @@
       <select
         id="programListMyFacility"
         ng-model="vm.selectedProgramId"
+        ng-change="vm.refreshGridData()"
         ng-options="program.id as program.name for program in vm.programs"
         placeholder="{{'label.select.program' | message}}" >
       </select>
@@ -48,6 +49,7 @@
       <select
         id="supervisedFacilityName"
         ng-model="vm.selectedFacilityId"
+        ng-change="vm.refreshGridData()"
         ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
         placeholder="{{'label.select.facility' | message}}" >
       </select>
@@ -56,11 +58,11 @@
       <legend openlmis-message="label.requisition.type"></legend>
       <label class="radio">
         <span openlmis-message="requisition.type.regular"></span>
-        <input type="radio" ng-model="vm.emergency" ng-value="false" />
+        <input type="radio" ng-model="vm.emergency" ng-value="false" ng-change="vm.refreshGridData()" />
       </label>
       <label class="radio">
         <span openlmis-message="requisition.type.emergency"></span>
-        <input type="radio" ng-model="vm.emergency" ng-value="true" />
+        <input type="radio" ng-model="vm.emergency" ng-value="true" ng-change="vm.refreshGridData()" />
       </label>
     </fieldset>
     <div class="form-group">
