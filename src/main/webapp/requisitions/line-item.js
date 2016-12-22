@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis.requisitions.LineItem
+     *
+     * @description
+     * Responsible for adding required methods for line items.
+     */
     angular
     .module('openlmis.requisitions')
     .factory('LineItem', lineItem);
@@ -15,6 +22,17 @@
 
         return LineItem;
 
+        /**
+         * @ngdoc function
+         * @name LineItem
+         * @methodOf openlmis.requisitions.LineItem
+         *
+         * @description
+         * Adds needed properties and methods to line items based on it and requisition parent.
+         *
+         * @param {Object} lineItem Requisition line item to be updated
+         * @param {Object} requisition Requisition that has given line item
+         */
         function LineItem(lineItem, requisition) {
             angular.copy(lineItem, this);
 
@@ -38,6 +56,17 @@
             return value;
         }
 
+        /**
+         * @ngdoc function
+         * @name updateFieldValue
+         * @methodOf openlmis.requisitions.LineItem
+         *
+         * @description
+         * Updates column value in line item based on column type and source.
+         *
+         * @param {Object} column Requisition template column
+         * @param {Object} status Requisition status
+         */
         function updateFieldValue(column, status) {
             var fullName = column.name,
                 object = getObject(this, fullName),

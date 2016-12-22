@@ -2,6 +2,14 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis.requisitions.AddProductModalService
+     *
+     * @description
+     * It shows modal with possibility to add non-full supplly line item
+     * with one of given products.
+     */
     angular
         .module('openlmis.requisitions')
         .service('AddProductModalService', service);
@@ -22,6 +30,17 @@
         this.show = show;
         this.close = close;
 
+        /**
+         * @ngdoc function
+         * @name show
+         * @methodOf openlmis.requisitions.AddProductModalService
+         *
+         * @description
+         * Shows modal that allows to add line item to requisition.
+         *
+         * @param {Array} categories Facility approved caegories
+         * @returns {Promise} resolved with line item when product is added
+         */
         function show(categories) {
             deferred = $q.defer();
 
@@ -43,11 +62,31 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name close
+         * @methodOf openlmis.requisitions.AddProductModalService
+         *
+         * @description
+         * Close add product modal and rejects modal promise.
+         */
         function close() {
             $ngBootbox.hideAll();
             deferred.reject();
         }
 
+        /**
+         * @ngdoc function
+         * @name addProduct
+         * @methodOf openlmis.requisitions.AddProductModalService
+         *
+         * @description
+         * Resolves promise with line item created from parameters.
+         *
+         * @param {Object} product Selected product
+         * @param {Integer} quantity Entered quantity of product
+         * @param {String} explanation Explanation for quantity of product
+         */
         function addProduct(product, quantity, explanation) {
             $ngBootbox.hideAll();
             product.$visible = false;
@@ -60,10 +99,32 @@
             });
         }
 
+        /**
+         * @ngdoc function
+         * @name categoryVisible
+         * @methodOf openlmis.requisitions.AddProductModalService
+         *
+         * @description
+         * Indicates if category should be displayed on modal
+         *
+         * @param {Object} category One of categories on the list
+         * @returns {Boolean} if category is visible
+         */
         function categoryVisible(category) {
             return category.isVisible();
         }
 
+        /**
+         * @ngdoc function
+         * @name productVisible
+         * @methodOf openlmis.requisitions.AddProductModalService
+         *
+         * @description
+         * Indicates if product should be displayed on modal
+         *
+         * @param {Object} category One of products on the list
+         * @returns {Boolean} if product is visible
+         */
         function productVisible(product) {
             return product.$visible;
         }
