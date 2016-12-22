@@ -16,6 +16,7 @@
         'openlmis-form',
         'openlmis.localStorage',
         'openlmis-templates',
+        'openlmis-config',
         'angular-google-analytics',
         'ui.directives',
         'ngCookies',

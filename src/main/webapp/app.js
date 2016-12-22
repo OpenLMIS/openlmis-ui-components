@@ -36,8 +36,6 @@
 		.when('', '/home')
 		.when('/', '/home')
 		.otherwise("/404");
-
-        $qProvider.errorOnUnhandledRejections(false);
 	}
 
 })();
