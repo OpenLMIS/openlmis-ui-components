@@ -1,97 +1,91 @@
-
 <div class="page">
-  <h2 openlmis-message="label.initiate.requisition"></h2>
-  <form ng-submit="vm.loadPeriods()" class="form-filter">
-    <fieldset class="form-group">
-      <legend openlmis-message="label.requisition.facilityType"></legend>
-      <label class="radio">
-        {{'label.myFacility'|message}}
-        <input type="radio" ng-model="vm.isSupervised" ng-value="false" ng-change="vm.updateFacilityType(vm.isSupervised)" />
-      </label>
-      <label class="radio">
-        {{'label.supervised.Facility'|message}}
-        <input type="radio" ng-model="vm.isSupervised" ng-value="true"
-               ng-change="vm.updateFacilityType(vm.isSupervised)"
-               ng-disabled="vm.supervisedFacilitiesDisabled"/>
-      </label>
-    </fieldset>
-    <div class="form-group" ng-show="!vm.isSupervised">
-      <label for="facilityName" openlmis-message="label.requisition.facilityName"></label>
-      <select
-        id="facilityName"
-        ng-model="vm.selectedFacilityId"
-        ng-options="facility.id as facility.name for facility in vm.facilities"
-        placeholder="label.select.facility" >
-      </select>
-    </div>
-    <div class="form-group" ng-show="!vm.isSupervised">
-      <label for="programListMyFacility" openlmis-message="label.program"></label>
-      <select
-        id="programListMyFacility"
-        ng-model="vm.selectedProgramId"
-        ng-change="vm.refreshGridData()"
-        ng-options="program.id as program.name for program in vm.programs"
-        placeholder="{{'label.select.program' | message}}" >
-      </select>
-    </div>
-    <div class="form-group" ng-show="vm.isSupervised">
-      <label for="programListSupervisedFacility" openlmis-message="label.program"></label>
-      <select
-        id="programListSupervisedFacility"
-        ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
-        ng-model="vm.selectedProgramId"
-        ng-options="program.id as program.name for program in vm.programs"
-        placeholder="{{'label.select.program' | message}}" >
-      </select>
-    </div>
-    <div class="form-group" ng-show="vm.isSupervised">
-      <label for="supervisedFacilityName" openlmis-message="label.requisition.facilityName"></label>
-      <select
-        id="supervisedFacilityName"
-        ng-model="vm.selectedFacilityId"
-        ng-change="vm.refreshGridData()"
-        ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
-        placeholder="{{'label.select.facility' | message}}" >
-      </select>
-    </div>
-    <fieldset class="form-group">
-      <legend openlmis-message="label.requisition.type"></legend>
-      <label class="radio">
-        <span openlmis-message="requisition.type.regular"></span>
-        <input type="radio" ng-model="vm.emergency" ng-value="false" ng-change="vm.refreshGridData()" />
-      </label>
-      <label class="radio">
-        <span openlmis-message="requisition.type.emergency"></span>
-        <input type="radio" ng-model="vm.emergency" ng-value="true" ng-change="vm.refreshGridData()" />
-      </label>
-    </fieldset>
-    <div class="form-group">
-      <input type="submit" value="{{'button.search'|message}}" class="btn btn-primary" />
-    </div>
-  </form>
-  <table ng-show="vm.selectedProgramId && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)">
-      <thead>
-          <tr>
-              <th>{{'label.periods' | message}}</th>
-              <th>{{'period.header.startDate' | message}}</th>
-              <th>{{'period.header.endDate' | message}}</th>
-              <th>{{'label.rnr.status' | message}}</th>
-              <th></th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr ng-repeat="period in vm.periodGridData">
-              <td>{{period.name}}</td>
-              <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
-              <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
-              <td>{{period.rnrStatus}}</td>
-              <td>
-                  <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
-                         openlmis-message="button.proceed" class="btn btn-primary grid-btn"
-                         ng-show="{{period.activeForRnr}}"/>
-              </td>
-          </tr>
-      </tbody>
-  </table>
-  <div ng-if="vm.error" class="alert is-error" openlmis-message="vm.error" ng-show="vm.error"></div>
+    <h2 openlmis-message="label.initiate.requisition"></h2>
+    <section class="table-container">
+        <form ng-submit="vm.loadPeriods()">
+            <fieldset>
+                <legend>{{'label.requisition.facilityType' | message}}</legend>
+                <label>
+                    <input type="radio" ng-model="vm.isSupervised" ng-value="false"
+                           ng-change="vm.updateFacilityType(vm.isSupervised)"/>
+                    {{'label.myFacility' | message}}
+                </label>
+                <label>
+                    <input type="radio" ng-model="vm.isSupervised" ng-value="true"
+                           ng-change="vm.updateFacilityType(vm.isSupervised)"
+                           ng-disabled="vm.supervisedFacilitiesDisabled"/>
+                    {{'label.supervised.Facility' | message}}
+                </label>
+            </fieldset>
+            <fieldset ng-show="!vm.isSupervised">
+                <legend>{{'label.requisition.facilityName' | message}}</legend>
+                <select id="facilityName" ng-model="vm.selectedFacilityId"
+                        ng-options="facility.id as facility.name for facility in vm.facilities"
+                        placeholder="label.select.facility">
+                </select>
+            </fieldset>
+            <fieldset ng-show="!vm.isSupervised">
+                <legend>{{'label.program' | message}}</legend>
+                <select id="programListMyFacility" ng-model="vm.selectedProgramId"
+                        ng-options="program.id as program.name for program in vm.programs"
+                        ng-change="vm.refreshGridData()"
+                        placeholder="{{'label.select.program' | message}}">
+                </select>
+            </fieldset>
+            <fieldset ng-show="vm.isSupervised">
+                <legend>{{'label.program' | message}}</legend>
+                <select id="programListSupervisedFacility" ng-model="vm.selectedProgramId"
+                        ng-options="program.id as program.name for program in vm.programs"
+                        ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
+                        placeholder="{{'label.select.program' | message}}">
+                </select>
+            </fieldset>
+            <fieldset ng-show="vm.isSupervised">
+                <legend>{{'label.requisition.facilityName' | message}}</legend>
+                <select id="supervisedFacilityName" ng-model="vm.selectedFacilityId"
+                        ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
+                        ng-change="vm.refreshGridData()"
+                        placeholder="{{'label.select.facility' | message}}">
+                </select>
+            </fieldset>
+            <fieldset>
+                <legend>{{'label.requisition.type' | message}}</legend>
+                <label>
+                    <input type="radio" ng-model="vm.emergency" ng-value="false"
+                           ng-change="vm.refreshGridData()"/>
+                    {{'requisition.type.regular' | message}}
+                </label>
+                <label>
+                    <input type="radio" ng-model="vm.emergency" ng-value="true"
+                           ng-change="vm.refreshGridData()"/>
+                    {{'requisition.type.emergency' | message}}
+                </label>
+            </fieldset>
+            <input class="btn btn-primary" type="submit" value="{{'button.search'|message}}"/>
+        </form>
+        <table ng-show="vm.selectedProgramId && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)">
+            <thead>
+                <tr>
+                    <th>{{'label.periods' | message}}</th>
+                    <th>{{'period.header.startDate' | message}}</th>
+                    <th>{{'period.header.endDate' | message}}</th>
+                    <th>{{'label.rnr.status' | message}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="period in vm.periodGridData">
+                    <td>{{period.name}}</td>
+                    <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{period.rnrStatus}}</td>
+                    <td>
+                        <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
+                               openlmis-message="button.proceed" class="btn btn-primary grid-btn"
+                               ng-show="{{period.activeForRnr}}"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <div ng-if="vm.error" class="alert is-error" openlmis-message="vm.error" ng-show="vm.error"></div>
 </div>
