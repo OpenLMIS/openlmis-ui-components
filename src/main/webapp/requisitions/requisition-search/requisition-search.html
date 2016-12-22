@@ -1,80 +1,67 @@
 <div class="page">
     <h2>{{'header.view.requisitions' | message}}</h2>
-    <form class="form-filter">
-        <div class="form-group">
+    <div ng-if="vm.error" class="alert is-info" ng-show="vm.error">
+        {{vm.error | message}}
+    </div>
+    <section class="table-container">
+        <form ng-submit="vm.search()">
             <label for="facility">{{'label.requisition.facilityName' | message}}</label>
-            <select
-                id="facility"
-                placeholder="{{'label.select.facility' | message}}"
-                ng-change="vm.loadPrograms()"
-                ng-model="vm.selectedFacility"
-                ng-options="facility as facility.name for facility in vm.facilities"
-                ng-required>
+            <select id="facility" placeholder="{{'label.select.facility' | message}}"
+                    ng-change="vm.loadPrograms()" ng-model="vm.selectedFacility"
+                    ng-options="facility as facility.name for facility in vm.facilities"
+                    ng-required>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="program">{{'label.program' | message}}</label>
-            <select
-                id="program"
-                placeholder="{{'label.select.program' | message}}"
-                ng-required
-                ng-model="vm.selectedProgram"
-                ng-options="program as program.name for program in vm.programs">
+            <label for=program>{{'label.program' | message}}</label>
+            <select id="program" placeholder="{{'label.select.program' | message}}" ng-required
+                    ng-options="program as program.name for program in vm.programs"
+                    ng-model="vm.selectedProgram">
             </select>
-        </div>
-        <div class="form-group">
-            <label for="startDate">{{'label.from' | message}}</label>
-            <openlmis-datepicker input-id="startDate" value="vm.startDate"></openlmis-datepicker>
-        </div>
-        <div class="form-group">
-            <label for="endDate">{{'label.to' | message}}</label>
-            <openlmis-datepicker input-id="endDate" value="vm.endDate"></openlmis-datepicker>
-        </div>
-        <div class="form-group">
-            <label for="offlineSearch">{{'msg.requisition.view.offline' | message}}</label>
-            <input id="offlineSearch" type="checkbox"
-                ng-model="vm.searchOffline" ng-disabled="vm.isOfflineDisabled()"/>
-        </div>
-        <div class="form-group">
-            <button id="searchButton" ng-click="vm.search()"
-                class="btn btn-primary">
-                {{'button.search' | message}}
-            </button>
-        </div>
-    </form>
-    <div class="requisition-search">
+            <label>
+                <input id="offlineSearch" type="checkbox" ng-model="vm.searchOffline"
+                       ng-disabled="vm.isOfflineDisabled()"/>
+                {{'msg.requisition.view.offline' | message}}
+            </label>
+            <fieldset>
+                <legend>Date</legend>
+                <label for=startDate>{{'label.from' | message}}</label>
+                <openlmis-datepicker input-id="startDate" value="vm.startDate"></openlmis-datepicker>
+                <label for=endDate>{{'label.to' | message}}</label>
+                <openlmis-datepicker input-id="endDate" value="vm.endDate"></openlmis-datepicker>
+            </fieldset>
+            <input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
+        </form>
         <table ng-if="vm.requisitionList.length">
             <thead>
-            <tr>
-                <th>{{'program.header' | message}}</th>
-                <th>{{'option.value.facility.code' | message}}</th>
-                <th>{{'option.value.facility.name' | message}}</th>
-                <th>{{'label.period.start.date' | message}}</th>
-                <th>{{'label.period.end.date' | message}}</th>
-                <th>{{'label.date.submitted' | message}}</th>
-                <th>{{'label.status' | message}}</th>
-                <th>{{'requisition.type.emergency' | message}}</th>
-                <th>{{'msg.requisition.view.offline' | message}}</th>
-            </tr>
+                <tr>
+                    <th>{{'program.header' | message}}</th>
+                    <th>{{'option.value.facility.code' | message}}</th>
+                    <th>{{'option.value.facility.name' | message}}</th>
+                    <th>{{'label.period.start.date' | message}}</th>
+                    <th>{{'label.period.end.date' | message}}</th>
+                    <th>{{'label.date.submitted' | message}}</th>
+                    <th>{{'label.status' | message}}</th>
+                    <th>{{'requisition.type.emergency' | message}}</th>
+                    <th>{{'msg.requisition.view.offline' | message}}</th>
+                </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="requisition in vm.requisitionList" ng-click="vm.openRnr(requisition.id)">
-                <td>{{requisition.program.name}}</th>
-                <td>{{requisition.facility.code}}</th>
-                <td>{{requisition.facility.name}}</th>
-                <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
-                <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
-                <td>{{requisition.createdDate | date:'shortDate'}}</th>
-                <td>{{requisition.status}}</th>
-                <td class="col-emergency">
-                    <i ng-class="{'icon-ok': requisition.emergency}"></i>
-                </td>
-                <td class="col-emergency">
-                    <i ng-class="{'icon-ok': requisition.$availableOffline}"></i>
-                </td>
-            </tr>
+                <tr ng-repeat="requisition in vm.requisitionList"
+                    ng-click="vm.openRnr(requisition.id)">
+                    <td>{{requisition.program.name}}</th>
+                    <td>{{requisition.facility.code}}</th>
+                    <td>{{requisition.facility.name}}</th>
+                    <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
+                    <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
+                    <td>{{requisition.createdDate | date:'shortDate'}}</th>
+                    <td>{{requisition.status}}</th>
+                    <td class="col-emergency">
+                        <i ng-class="{'icon-ok': requisition.emergency}"></i>
+                    </td>
+                    <td class="col-emergency">
+                        <i ng-class="{'icon-ok': requisition.$availableOffline}"></i>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        <div ng-if="vm.error" class="alert is-info" ng-show="vm.error">{{vm.error | message}}</div>
-    </div>
+    </section>
 </div>
