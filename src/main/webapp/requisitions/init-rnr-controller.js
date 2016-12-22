@@ -90,49 +90,6 @@
          */
         vm.isSupervised = false;
 
-        /**
-         * @ngdoc property
-         * @name periodGridOptions
-         * @propertyOf openlmis.requisitions.InitiateRnrController
-         *
-         * @description
-         * Holds configuration of the period grid
-         */
-        vm.periodGridOptions = {
-            appScopeProvider: this,
-            data: 'vm.periodGridData',
-            canSelectRows: false,
-            displayFooter: false,
-            displaySelectionCheckbox: false,
-            enableColumnResize: true,
-            showColumnMenu: false,
-            showFilter: false,
-            enableSorting: false,
-            columnDefs: [
-                {
-                    field: 'name',
-                    displayName: messageService.get('label.periods')
-                }, {
-                    field: 'startDate',
-                    displayName: messageService.get('period.header.startDate'),
-                    type: 'date',
-                    cellFilter: DateUtils.FILTER
-                }, {
-                    field: 'endDate',
-                    displayName: messageService.get('period.header.endDate'),
-                    type: 'date',
-                    cellFilter: DateUtils.FILTER
-                }, {
-                    field: 'rnrStatus',
-                    displayName: messageService.get('label.rnr.status')
-                }, {
-                    name: 'proceed',
-                    displayName: '',
-                    cellTemplate: 'requisitions/init-rnr-button.html'
-                }
-            ]
-        };
-
         // Functions
 
         vm.loadPeriods = loadPeriods;
@@ -185,7 +142,7 @@
                 vm.facilities = [facility];
                 vm.selectedFacilityId = facility.id;
                 vm.selectedProgramId = undefined;
-                
+
                 if (vm.programs.length <= 0) {
                     vm.error = messageService.get('msg.no.program.available');
                 } else if (vm.programs.length === 1) {

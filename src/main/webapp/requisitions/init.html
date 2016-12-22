@@ -69,10 +69,29 @@
       <input type="submit" value="{{'button.search'|message}}" class="btn btn-primary" />
     </div>
   </form>
-  <div ng-show="vm.selectedProgramId && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)"
-    ui-grid="vm.periodGridOptions"
-    class="grid grid-init-rnr"
-    id="periodGrid">
-  </div>
+  <table ng-show="vm.selectedProgramId && vm.selectedFacilityId && vm.periodGridData && !(vm.periodGridData.length == 0)">
+      <thead>
+          <tr>
+              <th>{{'label.periods' | message}}</th>
+              <th>{{'period.header.startDate' | message}}</th>
+              <th>{{'period.header.endDate' | message}}</th>
+              <th>{{'label.rnr.status' | message}}</th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr ng-repeat="period in vm.periodGridData">
+              <td>{{period.name}}</td>
+              <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
+              <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
+              <td>{{period.rnrStatus}}</td>
+              <td>
+                  <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
+                         openlmis-message="button.proceed" class="btn btn-primary grid-btn"
+                         ng-show="{{period.activeForRnr}}"/>
+              </td>
+          </tr>
+      </tbody>
+  </table>
   <div ng-if="vm.error" class="alert is-error" openlmis-message="vm.error" ng-show="vm.error"></div>
 </div>
