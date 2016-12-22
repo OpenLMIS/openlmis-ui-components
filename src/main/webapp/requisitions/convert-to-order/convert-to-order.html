@@ -4,20 +4,16 @@
 		<div class="info-message" ng-if="vm.infoMessage">{{vm.infoMessage | message}}</div>
 		<section class="table-container" ng-if="!vm.nothingToConvert">
 			<form ng-submit="vm.reload()">
-				<fieldset>
-					<legend>{{'search.by' | message}}</legend>
-					<select class="filter-by" ng-model="vm.searchParams.filterBy">
-						<option ng-repeat="filter in vm.filters" value="{{filter.value}}"
-								ng-selected="vm.searchParams.filterBy === filter.value">
-							{{filter.name | message}}
-						</option>
-					</select>
-				</fieldset>
-				<fieldset>
-					<legend>{{'search.phrase' | message}}</legend>
-					<input class="filter-value" ng-model="vm.searchParams.filterValue"
-						   maxlength="50"/>
-				</fieldset>
+				<label for="searchFor">{{'search.for' | message}}</label>
+				<input id="searchFor" class="filter-value" ng-model="vm.searchParams.filterValue"
+					   maxlength="50"/>
+				<label for="searchIn">{{'search.in' | message}}</label>
+				<select id="searchIn" class="filter-by" ng-model="vm.searchParams.filterBy">
+					<option ng-repeat="filter in vm.filters" value="{{filter.value}}"
+							ng-selected="vm.searchParams.filterBy === filter.value">
+						{{filter.name | message}}
+					</option>
+				</select>
 				<input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
 			</form>
 			<table ng-if="vm.requisitions.length">
