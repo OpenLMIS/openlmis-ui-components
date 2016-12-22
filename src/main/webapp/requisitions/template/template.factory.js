@@ -126,8 +126,8 @@
                 column = this;
 
             if(column.source === undefined || column.source === null  || column.source === '') return false;
+            if(column.name == 'numberOfNewPatientsAdded' && (column.option === undefined || column.option === null  || column.option === '')) return false;
             if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) return false;
-
 
             var circularDependencies = [];
             checkForCircularCalculatedDependencies(null, column.name, [],

@@ -2726,6 +2726,7 @@
   "msg.template.column.together.with": " together with: ",
   "msg.template.column.calculated.error": "Cannot be CALCULATED together with: ",
   "msg.template.column.source.empty": "Source cannot be empty!",
+  "msg.template.column.option.empty": "Option cannot be empty!",
   "label.filter.warehouses": "Filter warehouses",
   "requisition.convertToOrder.pickDepot": "Pick warehouse to convert requisition to order at",
   "label.convert.requisition.to.order": "Convert Requisition to Order",

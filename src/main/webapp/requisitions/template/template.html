@@ -47,10 +47,10 @@
                             </div>
                         </td>
                         <td>
-                            <div ng-if="!column.$isValid(vm.template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
                             <div ng-if="column.name == 'numberOfNewPatientsAdded'">
                                 <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options track by option.id"></select>
                             </div>
+                            <div ng-if="!column.$isValid(vm.template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
                         </td>
                     <dnd-nodrag>
                 </tr>

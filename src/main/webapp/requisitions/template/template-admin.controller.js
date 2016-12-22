@@ -132,6 +132,8 @@
 
             if(column.source === undefined || column.source === null  || column.source === '') return messageService.get('msg.template.column.source.empty');
 
+            if(column.name == 'numberOfNewPatientsAdded' && (column.option === undefined || column.option === null  || column.option === '')) return messageService.get('msg.template.column.option.empty');
+
             if(column.source === Source.CALCULATED) {
                 var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
                 angular.forEach(circularDependencyArray, function(dependency) {
