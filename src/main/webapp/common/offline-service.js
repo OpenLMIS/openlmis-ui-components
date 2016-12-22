@@ -8,8 +8,6 @@
      * Service allows to determine whether the browser can detect an internet connection.
      *
      */
-    
-    var checkConnectionInterval = 30000;
 
     angular.module('openlmis-core')
         .service('OfflineService', OfflineService);
@@ -18,7 +16,7 @@
 
     function OfflineService(Offline, $timeout) {
         var service = this,
-            isOffline = true; // Default to offline first
+            isOffline = false;
 
         Offline.options = {
             checkOnLoad: true,
@@ -49,9 +47,13 @@
          *
          */
         service.checkConnection = function() {
-            Offline.check();
-            $timeout(service.checkConnection, checkConnectionInterval);
+            $timeout(function() {
+                Offline.check();
+                service.checkConnection();
+            }, 30000);
         }
+
+        service.checkConnection();
 
         /**
          * @ngdoc function
