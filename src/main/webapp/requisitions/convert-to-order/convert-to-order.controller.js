@@ -16,9 +16,9 @@
 		.module('openlmis.requisitions')
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
 
-	convertToOrderCtrl.$inject = ['$scope', '$state', '$stateParams', 'requisitions', 'RequisitionService'];
+	convertToOrderCtrl.$inject = ['$scope', '$state', '$stateParams', 'requisitions', 'RequisitionService', 'Notification'];
 
-	function convertToOrderCtrl($scope, $state, $stateParams, requisitions, RequisitionService) {
+	function convertToOrderCtrl($scope, $state, $stateParams, requisitions, RequisitionService, Notification) {
 
         $scope.searchParams = {
             filterBy: $stateParams.filterBy,
@@ -88,7 +88,12 @@
         }
 
         function convertToOrder() {
-            RequisitionService.convertToOrder(getSelected()).then(reload);
+            var requisitions = getSelected();
+            if (requisitions.length > 0) {
+                RequisitionService.convertToOrder(requisitions).then(reload);
+            } else {
+                Notification.error('msg.select.at.least.one.rnr');
+            }
         }
 
         function getInfoMessage() {

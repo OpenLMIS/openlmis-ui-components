@@ -102,7 +102,7 @@
   "msg.question.confirmation.deletion": "Are you sure to delete this R&R? Please confirm.",
   "msg.question.confirmation.submit": "Are you sure to submit this R&R? Please confirm.",
   "msg.question.confirmation.makeOnlineOnly": "You are about to remove your local version of this requisition. This requisition will no longer be available offline. Do you want to proceed?",
-  "msg.select.atleast.one.rnr": "Please select at least one Requisition for Converting to Order.",
+  "msg.select.at.least.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.rnr.converted.to.order": "The requisition(s) have been successfully converted to Orders",
   "msg.error.occurred": "Error Occurred",
   "msg.rnr.submitted.without.supervisor": "There is no supervisory node to process the R&R further, Please contact the Administrator",
