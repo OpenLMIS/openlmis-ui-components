@@ -16,18 +16,20 @@
 		.module('openlmis.requisitions')
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
 
-	convertToOrderCtrl.$inject = ['$scope', '$state', '$stateParams', 'requisitions', 'RequisitionService', 'Notification'];
+	convertToOrderCtrl.$inject = ['$state', '$stateParams', 'requisitions', 'RequisitionService', 'Notification'];
 
-	function convertToOrderCtrl($scope, $state, $stateParams, requisitions, RequisitionService, Notification) {
+	function convertToOrderCtrl($state, $stateParams, requisitions, RequisitionService, Notification) {
 
-        $scope.searchParams = {
+	    var vm = this;
+
+        vm.searchParams = {
             filterBy: $stateParams.filterBy,
             filterValue: $stateParams.filterValue,
             sortBy: $stateParams.sortBy,
             descending: $stateParams.descending
         };
 
-        $scope.filters = [
+        vm.filters = [
             {
                 value: 'all',
                 name: 'option.value.all'
@@ -46,26 +48,26 @@
             }*/
         ];
 
-        $scope.requisitions = requisitions;
-        $scope.nothingToConvert = !requisitions.length && defaultSearchParams();
-        $scope.infoMessage = getInfoMessage();
-        $scope.selectAll = false;
+        vm.requisitions = requisitions;
+        vm.nothingToConvert = !requisitions.length && defaultSearchParams();
+        vm.infoMessage = getInfoMessage();
+        vm.selectAll = false;
 
-        $scope.convertToOrder = convertToOrder;
-        $scope.getSelected = getSelected;
-        $scope.reload = reload;
-        $scope.toggleSelectAll = toggleSelectAll;
-        $scope.setSelectAll = setSelectAll;
+        vm.convertToOrder = convertToOrder;
+        vm.getSelected = getSelected;
+        vm.reload = reload;
+        vm.toggleSelectAll = toggleSelectAll;
+        vm.setSelectAll = setSelectAll;
 
         function reload() {
-            $state.go($state.current.name, $scope.searchParams, {
+            $state.go($state.current.name, vm.searchParams, {
                 reload: true
             });
         }
 
         function getSelected() {
             var selected = [];
-            angular.forEach($scope.requisitions, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 if (requisition.$selected) {
                     selected.push(requisition);
                 }
@@ -74,17 +76,17 @@
         }
 
         function toggleSelectAll(selectAll) {
-            angular.forEach($scope.requisitions, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 requisition.$selected = selectAll;
             });
         }
 
         function setSelectAll() {
             var value = true;
-            angular.forEach($scope.requisitions, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 value = value && requisition.$selected;
             });
-            $scope.selectAll = value;
+            vm.selectAll = value;
         }
 
         function convertToOrder() {
@@ -97,21 +99,21 @@
         }
 
         function getInfoMessage() {
-            if ($scope.nothingToConvert) {
+            if (vm.nothingToConvert) {
                 return 'message.no.requisitions.for.conversion';
-            } else if (!$scope.requisitions.length) {
+            } else if (!vm.requisitions.length) {
                 return 'message.no.search.results';
             }
             return undefined;
         }
 
         function defaultSearchParams() {
-            return $scope.searchParams.filterBy === 'all'
-                && isEmpty($scope.searchParams.filterValue)
-                && isUndefined($scope.searchParams.sortBy)
-                && isUndefined($scope.searchParams.descending)
-                && isUndefined($scope.searchParams.pageNumber)
-                && isUndefined($scope.searchParams.pageSize);
+            return vm.searchParams.filterBy === 'all'
+                && isEmpty(vm.searchParams.filterValue)
+                && isUndefined(vm.searchParams.sortBy)
+                && isUndefined(vm.searchParams.descending)
+                && isUndefined(vm.searchParams.pageNumber)
+                && isUndefined(vm.searchParams.pageSize);
         }
 
         function isEmpty(value) {

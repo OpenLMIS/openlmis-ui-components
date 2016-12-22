@@ -1,19 +1,19 @@
 <div class="convert-to-order-list">
 	<div class="page">
 		<h2 openlmis-message="label.requisition.convertOrder"></h2>
-		<div class="filters" ng-if="!nothingToConvert">
-			<select class="filter-by" ng-model="searchParams.filterBy">
-				<option ng-repeat="filter in filters" value="{{filter.value}}" ng-selected="searchParams.filterBy === filter.value" openlmis-message="{{filter.name}}"></option>
+		<div class="filters" ng-if="!vm.nothingToConvert">
+			<select class="filter-by" ng-model="vm.searchParams.filterBy">
+				<option ng-repeat="filter in vm.filters" value="{{filter.value}}" ng-selected="vm.searchParams.filterBy === filter.value" openlmis-message="{{filter.name}}"></option>
 			</select>
-			<input class="filter-value" ng-model="searchParams.filterValue" maxlength="50"/>
-			<button class="search" ng-click="reload()"><span class="fa fa-search"></span></button>
+			<input class="filter-value" ng-model="vm.searchParams.filterValue" maxlength="50"/>
+			<button class="search" ng-click="vm.reload()"><span class="fa fa-search"></span></button>
 		</div>
-		<div class="info-message" ng-if="infoMessage" openlmis-message="{{infoMessage}}"></div>
+		<div class="info-message" ng-if="vm.infoMessage" openlmis-message="{{vm.infoMessage}}"></div>
 		
-		<table ng-if="requisitions.length">
+		<table ng-if="vm.requisitions.length">
 			<thead>
 				<tr>
-					<th><input type="checkbox" ng-model="selectAll" ng-change="toggleSelectAll(selectAll)"></th>
+					<th><input type="checkbox" ng-model="vm.selectAll" ng-change="vm.toggleSelectAll(vm.selectAll)"></th>
 					<th openlmis-message="program.header"></th>
 					<th openlmis-message="option.value.facility.code"></th>
 					<th openlmis-message="option.value.facility.name"></th>
@@ -26,8 +26,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in requisitions">
-					<td><input type="checkbox" ng-model="item.$selected" ng-change="setSelectAll()"></td>
+				<tr ng-repeat="item in vm.requisitions">
+					<td><input type="checkbox" ng-model="item.$selected" ng-change="vm.setSelectAll()"></td>
 					<td>{{item.requisition.program.name}}</td>
 					<td>{{item.requisition.facility.code}}</td>
 					<td>{{item.requisition.facility.name}}</td>
@@ -48,9 +48,9 @@
 		</table>
 
 	</div>
-	<div class="toolbar" ng-if="requisitions.length">
+	<div class="toolbar" ng-if="vm.requisitions.length">
 	    <button class="convert-to-order"
-	 			ng-click="convertToOrder()">
+	 			ng-click="vm.convertToOrder()">
 	 				<span openlmis-message="link.requisitions.convertToOrder"></span>
 	 	</button>
 	</div>
