@@ -1,9 +1,34 @@
-<div class="page">
+<div class="page approval-list">
     <h2 openlmis-message="label.approve.requisitions"></h2>
-    <div class="alert is-info" id="NoRequisitionsPendingMessage" ng-hide="requisitions.length"
+    <div class="alert is-info" id="NoRequisitionsPendingMessage" ng-hide="vm.requisitions.length"
          openlmis-message="message.no.rnr.pending.approval">
     </div>
-    <div class="approval-list" ng-show="requisitions.length">
-        <div id="approveReqList" class="grid" ui-grid="gridOptions" ng-show="requisitions.length"></div>
-    </div>
+    <table ng-if="vm.filteredRequisitions.length">
+        <thead>
+            <tr>
+                <th>{{'program.header' | message}}</th>
+                <th>{{'option.value.facility.code' | message}}</th>
+                <th>{{'option.value.facility.name' | message}}</th>
+                <th>{{'option.value.facility.type' | message}}</th>
+                <th>{{'label.period.start.date' | message}}</th>
+                <th>{{'label.period.end.date' | message}}</th>
+                <th>{{'label.date.submitted' | message}}</th>
+                <th>{{'requisition.type.emergency' | message}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="requisition in vm.filteredRequisitions" ng-click="vm.openRnr(requisition.id)">
+                <td>{{requisition.program.name}}</th>
+                <td>{{requisition.facility.code}}</th>
+                <td>{{requisition.facility.name}}</th>
+                <td>{{requisition.facility.type.name}}</th>
+                <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
+                <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
+                <td>{{requisition.createdDate | date:'shortDate'}}</th>
+                <td class="col-emergency">
+                    <i ng-class="{'icon-ok': requisition.emergency}"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
