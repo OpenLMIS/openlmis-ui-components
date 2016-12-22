@@ -1,57 +1,75 @@
 <div class="convert-to-order-list">
 	<div class="page">
-		<h2 openlmis-message="label.requisition.convertOrder"></h2>
-		<div class="filters" ng-if="!vm.nothingToConvert">
-			<select class="filter-by" ng-model="vm.searchParams.filterBy">
-				<option ng-repeat="filter in vm.filters" value="{{filter.value}}" ng-selected="vm.searchParams.filterBy === filter.value" openlmis-message="{{filter.name}}"></option>
-			</select>
-			<input class="filter-value" ng-model="vm.searchParams.filterValue" maxlength="50"/>
-			<button class="search" ng-click="vm.reload()"><span class="fa fa-search"></span></button>
-		</div>
-		<div class="info-message" ng-if="vm.infoMessage" openlmis-message="{{vm.infoMessage}}"></div>
-		
-		<table ng-if="vm.requisitions.length">
-			<thead>
-				<tr>
-					<th><input type="checkbox" ng-model="vm.selectAll" ng-change="vm.toggleSelectAll(vm.selectAll)"></th>
-					<th openlmis-message="program.header"></th>
-					<th openlmis-message="option.value.facility.code"></th>
-					<th openlmis-message="option.value.facility.name"></th>
-					<th openlmis-message="option.value.facility.district"></th>
-					<th openlmis-message="label.period.start.date"></th>
-					<th openlmis-message="label.period.end.date"></th>
-					<th openlmis-message="label.date.modified"></th>
-					<th openlmis-message="label.supplying.depot"></th>
-					<th openlmis-message="requisition.type.emergency"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in vm.requisitions">
-					<td><input type="checkbox" ng-model="item.$selected" ng-change="vm.setSelectAll()"></td>
-					<td>{{item.requisition.program.name}}</td>
-					<td>{{item.requisition.facility.code}}</td>
-					<td>{{item.requisition.facility.name}}</td>
-					<td>{{item.requisition.facility.geographicZone.parent.name}}</td>
-					<td>{{item.requisition.processingPeriod.startDate | date:'shortDate'}}</td>
-					<td>{{item.requisition.processingPeriod.endDate | date:'shortDate'}}</td>
-					<td>{{item.requisition.processingPeriod.processingSchedule.modifiedDate | date:'shortDate'}}</td>
-					<td>
-						<select ng-model="item.requisition.supplyingFacility" ng-options="depot.id as depot.name for depot in item.supplyingDepots">
-							<option ng-value="" ng-if="!item.requisition.supplyingFacility" openlmis-message="label.select.none"></option>
-						</select>
-					</td>
-					<td class="col-emergency">
-						<i ng-class="{'icon-ok': item.requisition.emergency}"></i>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
+		<h2>{{'label.requisition.convertOrder' | message}}</h2>
+		<div class="info-message" ng-if="vm.infoMessage">{{vm.infoMessage | message}}</div>
+		<section class="table-container" ng-if="!vm.nothingToConvert">
+			<form ng-submit="vm.reload()">
+				<fieldset>
+					<legend>{{'search.by' | message}}</legend>
+					<select class="filter-by" ng-model="vm.searchParams.filterBy">
+						<option ng-repeat="filter in vm.filters" value="{{filter.value}}"
+								ng-selected="vm.searchParams.filterBy === filter.value">
+							{{filter.name | message}}
+						</option>
+					</select>
+				</fieldset>
+				<fieldset>
+					<legend>{{'search.phrase' | message}}</legend>
+					<input class="filter-value" ng-model="vm.searchParams.filterValue"
+						   maxlength="50"/>
+				</fieldset>
+				<input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
+			</form>
+			<table ng-if="vm.requisitions.length">
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" ng-model="vm.selectAll"
+								   ng-change="vm.toggleSelectAll(vm.selectAll)">
+						</th>
+						<th>{{'program.header' | message}}</th>
+						<th>{{'option.value.facility.code' | message}}</th>
+						<th>{{'option.value.facility.name' | message}}</th>
+						<th>{{'option.value.facility.district' | message}}</th>
+						<th>{{'label.period.start.date' | message}}</th>
+						<th>{{'label.period.end.date' | message}}</th>
+						<th>{{'label.date.modified' | message}}</th>
+						<th>{{'label.supplying.depot' | message}}</th>
+						<th>{{'requisition.type.emergency' | message}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in vm.requisitions">
+						<td>
+							<input type="checkbox" ng-model="item.$selected"
+								   ng-change="vm.setSelectAll()">
+						</td>
+						<td>{{item.requisition.program.name}}</td>
+						<td>{{item.requisition.facility.code}}</td>
+						<td>{{item.requisition.facility.name}}</td>
+						<td>{{item.requisition.facility.geographicZone.parent.name}}</td>
+						<td>{{item.requisition.processingPeriod.startDate | date:'shortDate'}}</td>
+						<td>{{item.requisition.processingPeriod.endDate | date:'shortDate'}}</td>
+						<td>{{item.requisition.processingPeriod.processingSchedule.modifiedDate | date:'shortDate'}}</td>
+						<td>
+							<select ng-model="item.requisition.supplyingFacility"
+									ng-options="depot.id as depot.name for depot in item.supplyingDepots">
+								<option ng-value="" ng-if="!item.requisition.supplyingFacility">
+									{{'label.select.none' | message}}
+								</option>
+							</select>
+						</td>
+						<td class="col-emergency">
+							<i ng-class="{'icon-ok': item.requisition.emergency}"></i>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 	</div>
 	<div class="toolbar" ng-if="vm.requisitions.length">
-	    <button class="convert-to-order"
-	 			ng-click="vm.convertToOrder()">
-	 				<span openlmis-message="link.requisitions.convertToOrder"></span>
+	    <button class="convert-to-order" ng-click="vm.convertToOrder()">
+	 		{{'link.requisitions.convertToOrder' | message}}
 	 	</button>
 	</div>
 </div>
