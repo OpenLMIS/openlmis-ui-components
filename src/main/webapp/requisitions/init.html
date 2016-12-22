@@ -1,5 +1,5 @@
 <div class="page">
-    <h2 openlmis-message="label.initiate.requisition"></h2>
+    <h2>{{'label.initiate.requisition' | message}}</h2>
     <section class="table-container">
         <form ng-submit="vm.loadPeriods()">
             <fieldset>
@@ -16,37 +16,37 @@
                     {{'label.supervised.Facility' | message}}
                 </label>
             </fieldset>
-            <fieldset ng-show="!vm.isSupervised">
-                <legend>{{'label.requisition.facilityName' | message}}</legend>
-                <select id="facilityName" ng-model="vm.selectedFacilityId"
-                        ng-options="facility.id as facility.name for facility in vm.facilities"
-                        placeholder="label.select.facility">
-                </select>
-            </fieldset>
-            <fieldset ng-show="!vm.isSupervised">
-                <legend>{{'label.program' | message}}</legend>
-                <select id="programListMyFacility" ng-model="vm.selectedProgramId"
-                        ng-options="program.id as program.name for program in vm.programs"
-                        ng-change="vm.refreshGridData()"
-                        placeholder="{{'label.select.program' | message}}">
-                </select>
-            </fieldset>
-            <fieldset ng-show="vm.isSupervised">
-                <legend>{{'label.program' | message}}</legend>
-                <select id="programListSupervisedFacility" ng-model="vm.selectedProgramId"
-                        ng-options="program.id as program.name for program in vm.programs"
-                        ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
-                        placeholder="{{'label.select.program' | message}}">
-                </select>
-            </fieldset>
-            <fieldset ng-show="vm.isSupervised">
-                <legend>{{'label.requisition.facilityName' | message}}</legend>
-                <select id="supervisedFacilityName" ng-model="vm.selectedFacilityId"
-                        ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
-                        ng-change="vm.refreshGridData()"
-                        placeholder="{{'label.select.facility' | message}}">
-                </select>
-            </fieldset>
+            <label for="facilityName" ng-show="!vm.isSupervised">
+                {{'label.requisition.facilityName' | message}}
+            </label>
+            <select id="facilityName" ng-model="vm.selectedFacilityId"
+                    ng-options="facility.id as facility.name for facility in vm.facilities"
+                    placeholder="label.select.facility" ng-show="!vm.isSupervised">
+            </select>
+            <label for="programListMyFacility" ng-show="!vm.isSupervised">
+                {{'label.program' | message}}
+            </label>
+            <select id="programListMyFacility" ng-model="vm.selectedProgramId"
+                    ng-options="program.id as program.name for program in vm.programs"
+                    ng-change="vm.refreshGridData()" ng-show="!vm.isSupervised"
+                    placeholder="{{'label.select.program' | message}}">
+            </select>
+            <label for="programListSupervisedFacility" ng-show="vm.isSupervised">
+                {{'label.program' | message}}
+            </label>
+            <select id="programListSupervisedFacility" ng-model="vm.selectedProgramId"
+                    ng-options="program.id as program.name for program in vm.programs"
+                    ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
+                    placeholder="{{'label.select.program' | message}}" ng-show="vm.isSupervised">
+            </select>
+            <label for="supervisedFacilityName" ng-show="vm.isSupervised">
+                {{'label.requisition.facilityName' | message}}
+            </label>
+            <select id="supervisedFacilityName" ng-model="vm.selectedFacilityId"
+                    ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
+                    ng-change="vm.refreshGridData()" ng-show="vm.isSupervised"
+                    placeholder="{{'label.select.facility' | message}}">
+            </select>
             <fieldset>
                 <legend>{{'label.requisition.type' | message}}</legend>
                 <label>
