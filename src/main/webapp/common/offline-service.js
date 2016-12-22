@@ -12,9 +12,9 @@
     angular.module('openlmis-core')
         .service('OfflineService', OfflineService);
 
-    OfflineService.$inject = ['Offline', '$timeout'];
+    OfflineService.$inject = ['Offline', '$timeout', '$q'];
 
-    function OfflineService(Offline, $timeout) {
+    function OfflineService(Offline, $timeout, $q) {
         var service = this,
             isOffline = false;
 
@@ -47,13 +47,28 @@
          *
          */
         service.checkConnection = function() {
-            $timeout(function() {
-                Offline.check();
-                service.checkConnection();
-            }, 30000);
-        }
+            var deferred = $q.defer();
 
-        service.checkConnection();
+            Offline.check();
+
+            function confirmedOnline(){
+                clearEvents();
+                deferred.resolve();    
+            }
+            function confirmedOffline(){
+                clearEvents();
+                deferred.reject();
+            }
+            function clearEvents(){
+                Offline.off('confirmed-up', confirmedOnline);
+                Offline.off('confirmed-down', confirmedOffline);
+            }
+
+            Offline.on('confirmed-up', confirmedOnline);
+            Offline.on('confirmed-down', confirmedOffline);
+
+            return deferred.promise;
+        }
 
         /**
          * @ngdoc function

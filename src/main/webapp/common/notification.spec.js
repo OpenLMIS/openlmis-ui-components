@@ -42,7 +42,6 @@ describe("Notification", function() {
         notification.success('some.message');
         
         timeout.flush();
-        timeout.verifyNoPendingTasks();
 
         expect(angular.element(document.querySelector('.notification')).length).toBe(0);
     });
