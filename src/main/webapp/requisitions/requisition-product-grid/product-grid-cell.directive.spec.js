@@ -8,7 +8,7 @@ describe('ProductGridCell', function() {
         module('openlmis-templates');
     });
 
-    beforeEach(module('openlmis.requisitions', function($compileProvider) {
+    beforeEach(module('requisition-product-grid', function($compileProvider) {
         $compileProvider.directive('lossesAndAdjustments', function() {
             var def = {
                 priority: 100,

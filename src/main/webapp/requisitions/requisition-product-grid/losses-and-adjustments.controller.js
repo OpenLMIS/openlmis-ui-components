@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-product-grid')
         .controller('LossesAndAdjustmentsCtrl', lossesAndAdjustmentsCtrl);
 
     lossesAndAdjustmentsCtrl.$inject = ['$scope', '$filter', 'calculations'];

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-product-grid')
         .directive('lossesAndAdjustments', lossesAndAdjustments);
 
     lossesAndAdjustments.$inject = ['$compile', '$templateRequest', 'messageService'];
@@ -14,7 +14,7 @@
             replace: true,
             controller: 'LossesAndAdjustmentsCtrl',
             controllerAs: 'vm',
-            templateUrl: 'requisitions/requisition/losses-and-adjustments/losses-and-adjustments-cell.html',
+            templateUrl: 'requisitions/requisition-product-grid/losses-and-adjustments-cell.html',
             scope: {
                 lineItem: '=',
                 requisition: '='
@@ -30,7 +30,7 @@
             vm.hideModal = hideModal;
 
             function showModal() {
-                $templateRequest('requisitions/requisition/losses-and-adjustments/losses-and-adjustments-modal.html')
+                $templateRequest('requisitions/requisition-product-grid/losses-and-adjustments-modal.html')
                     .then(function(modal){
                         dialog = bootbox.dialog({
                             title: messageService.get('label.losses.adjustments'),

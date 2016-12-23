@@ -17,7 +17,7 @@
 	 * ```
 	 */
 	angular
-		.module('openlmis.requisitions')
+		.module('requisition-product-grid')
 		.directive('productGridCell', productGridCell);
 
 	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator',
@@ -47,7 +47,7 @@
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
 
 
-			$templateRequest('requisitions/requisition/product-grid-cell.html').then(function(template) {
+			$templateRequest('requisitions/requisition-product-grid/product-grid-cell.html').then(function(template) {
 				var cell = angular.element(template);
 				if (column.type === Type.NUMERIC && !scope.isReadOnly) {
 					cell.find('input').attr('positive-integer', '');
