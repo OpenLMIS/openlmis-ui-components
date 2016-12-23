@@ -6,7 +6,7 @@ describe('FullSupplyCtrl', function() {
     //mocks
     var requisition, requisitionValidator;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-full-supply'));
 
     beforeEach(function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
