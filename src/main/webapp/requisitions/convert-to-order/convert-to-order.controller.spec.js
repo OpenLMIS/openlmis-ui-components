@@ -1,16 +1,16 @@
 describe('ConvertToOrderCtrl', function(){
 
-    var vm, rootScope, $state, $q, stateParams, requisitionService, notification, requisitions;
+    var vm, rootScope, state, q, stateParams, requisitionService, notification, requisitions;
 
     beforeEach( function() {
         module('openlmis.requisitions');
 
         inject(function ($controller, $rootScope, _$state_, _$q_, _RequisitionService_, _Notification_) {
         rootScope = $rootScope;
-        $state = _$state_;
+        state = _$state_;
         requisitionService = _RequisitionService_;
         notification = _Notification_;
-        $q = _$q_;
+        q = _$q_;
 
         stateParams = {
             filterBy: 'all',
@@ -39,15 +39,47 @@ describe('ConvertToOrderCtrl', function(){
             }
         ];
 
-        vm = $controller('ConvertToOrderCtrl', {$stateParams: stateParams, requisitions: requisitions,
-            RequisitionService: requisitionService, Notification: notification});
+        vm = $controller('ConvertToOrderCtrl', {$stateParams: stateParams, requisitions: requisitions});
         });
     });
 
-    it('should show all requisitions if default filter is applied', function () {
+    it('should show all requisitions if default filter is applied', function() {
         expect(vm.searchParams.filterBy).toEqual('all');
         expect(vm.searchParams.filterValue).toEqual('');
         expect(vm.requisitions).toEqual(requisitions);
+    });
+
+    it('should reload state with proper params to filter requisitions by facility code', function() {
+        vm.searchParams.filterBy = 'facilityCode';
+        vm.searchParams.filterValue = 'code1';
+        state.current = {name: 'requisitions.convertToOrder'};
+        spyOn(state, 'go').andCallThrough();
+
+        vm.reload();
+
+        expect(state.go).toHaveBeenCalledWith('requisitions.convertToOrder', vm.searchParams, {reload: true});
+    });
+
+    it('should reload state with proper params to filter requisitions by facility name', function() {
+        vm.searchParams.filterBy = 'facilityName';
+        vm.searchParams.filterValue = 'facility1';
+        state.current = {name: 'requisitions.convertToOrder'};
+        spyOn(state, 'go').andCallThrough();
+
+        vm.reload();
+
+        expect(state.go).toHaveBeenCalledWith('requisitions.convertToOrder', vm.searchParams, {reload: true});
+    });
+
+    it('should reload state with proper params to filter requisitions by program name', function() {
+        vm.searchParams.filterBy = 'programName';
+        vm.searchParams.filterValue = 'program1';
+        state.current = {name: 'requisitions.convertToOrder'};
+        spyOn(state, 'go').andCallThrough();
+
+        vm.reload();
+
+        expect(state.go).toHaveBeenCalledWith('requisitions.convertToOrder', vm.searchParams, {reload: true});
     });
 
     it('should get all selected requisitions', function() {
@@ -66,7 +98,7 @@ describe('ConvertToOrderCtrl', function(){
 
     it('should convert to order selected requisitions', function() {
         vm.requisitions[0].$selected = true;
-        spyOn(requisitionService, 'convertToOrder').andReturn($q.when());
+        spyOn(requisitionService, 'convertToOrder').andReturn(q.when());
 
         vm.convertToOrder();
 
@@ -74,7 +106,7 @@ describe('ConvertToOrderCtrl', function(){
     });
 
     it('should show error when trying to convert to order with no requisition selected', function() {
-        spyOn(requisitionService, 'convertToOrder').andReturn($q.when());
+        spyOn(requisitionService, 'convertToOrder').andReturn(q.when());
         spyOn(notification, 'error').andCallThrough();
 
         vm.convertToOrder();
