@@ -7,7 +7,7 @@ describe("AddProductModalService", function(){
     categories;
 
     beforeEach(function() {
-        module('openlmis.requisitions');
+        module('requisition-non-full-supply');
 
         inject(function(_AddProductModalService_, _$ngBootbox_, _$rootScope_, _$q_){
             AddProductModalService = _AddProductModalService_;

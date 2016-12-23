@@ -11,7 +11,7 @@
      * with one of given products.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-non-full-supply')
         .service('AddProductModalService', service);
 
     service.$inject = ['$q', '$rootScope', '$compile', '$templateRequest', '$ngBootbox',
@@ -50,7 +50,7 @@
             scope.requestedQuantity = undefined;
             scope.requestedQuantityExplanation = undefined;
 
-            $templateRequest('requisitions/requisition/add-product/add-product-modal.html')
+            $templateRequest('requisitions/requisition-non-full-supply/add-product-modal.html')
                 .then(function(template) {
                     $ngBootbox.customDialog({
                         title: messageService.get('label.rnr.add.non.full.supply'),

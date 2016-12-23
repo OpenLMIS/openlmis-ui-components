@@ -36,12 +36,6 @@
             }
         });
 
-        $stateProvider.state('requisitions.requisition.nonFullSupply', {
-            url: '/nonFullSupply',
-            templateUrl: 'requisitions/requisition/non-full-supply.html',
-            controller: 'NonFullSupplyCtrl',
-            controllerAs: 'vm'
-        });
     }
 
 })();

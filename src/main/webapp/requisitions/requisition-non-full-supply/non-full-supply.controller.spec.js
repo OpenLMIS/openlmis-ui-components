@@ -4,7 +4,7 @@ describe('NonFullSupplyCtrl', function() {
         rootScope, controller, LineItem;
 
     beforeEach(function(){
-        module('openlmis.requisitions');
+        module('requisition-non-full-supply');
 
         inject(function($q, $controller, $rootScope) {
             controller = $controller;

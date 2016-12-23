@@ -10,7 +10,7 @@
      * Responsible for managing product grid for non full supply products.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-non-full-supply')
         .controller('NonFullSupplyCtrl', nonFullSupplyCtrl);
 
     nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'AddProductModalService',
