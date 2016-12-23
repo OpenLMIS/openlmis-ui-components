@@ -62,7 +62,7 @@
          * @methodOf openlmis.requisitions.LineItem
          *
          * @description
-         * Updates column value in line item based on column type and source.
+         * Updates column value in the line item based on column type and source.
          *
          * @param {Object} column Requisition template column
          * @param {Object} status Requisition status

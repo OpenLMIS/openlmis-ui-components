@@ -38,7 +38,7 @@
          * @description
          * Shows modal that allows to add line item to requisition.
          *
-         * @param {Array} categories Facility approved caegories
+         * @param {Array} categories Facility approved categories
          * @returns {Promise} resolved with line item when product is added
          */
         function show(categories) {
@@ -68,7 +68,7 @@
          * @methodOf openlmis.requisitions.AddProductModalService
          *
          * @description
-         * Close add product modal and rejects modal promise.
+         * Closes add product modal and rejects modal promise.
          */
         function close() {
             $ngBootbox.hideAll();
