@@ -10,7 +10,7 @@
      * Responsible for managing product grid for full supply products.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-full-supply')
         .controller('FullSupplyCtrl', fullSupplyCtrl);
 
     fullSupplyCtrl.$inject = ['requisition', 'requisitionValidator'];
