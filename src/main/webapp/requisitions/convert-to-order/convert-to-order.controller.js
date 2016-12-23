@@ -12,6 +12,14 @@
 
 	'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis.requisitions.ConvertToOrderCtrl
+     *
+     * @description
+     * Controller for converting requisitions to orders.
+     */
+
 	angular
 		.module('openlmis.requisitions')
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
@@ -22,6 +30,15 @@
 
 	    var vm = this;
 
+        /**
+         * @ngdoc property
+         * @name searchParams
+         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @type {Object}
+         *
+         * @description
+         * Holds parameters for searching requisitions.
+         */
         vm.searchParams = {
             filterBy: $stateParams.filterBy,
             filterValue: $stateParams.filterValue,
@@ -29,6 +46,15 @@
             descending: $stateParams.descending
         };
 
+        /**
+         * @ngdoc property
+         * @name filters
+         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @type {Array}
+         *
+         * @description
+         * Holds filters that can be chosen to search for requisitions.
+         */
         vm.filters = [
             {
                 value: 'all',
@@ -48,10 +74,50 @@
             }*/
         ];
 
+        /**
+         * @ngdoc property
+         * @name requisitions
+         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @type {Array}
+         *
+         * @description
+         * Holds requisitions that can be converted to orders.
+         */
         vm.requisitions = requisitions;
+
+        /**
+         * @ngdoc property
+         * @name nothingToConvert
+         * @type {boolean}
+         *
+         * @description
+         * Indicates if there is any requisition available to convert to order or not.
+         */
         vm.nothingToConvert = !requisitions.length && defaultSearchParams();
+
+        /**
+         * @ngdoc property
+         * @name infoMessage
+         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @type {Object}
+         *
+         * @description
+         * Holds message that should be displayed to user.
+         */
         vm.infoMessage = getInfoMessage();
+
+        /**
+         * @ngdoc property
+         * @name selectAll
+         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @type {boolean}
+         *
+         * @description
+         * Indicates if all requisitions from list all selected or not.
+         */
         vm.selectAll = false;
+
+        //Functions
 
         vm.convertToOrder = convertToOrder;
         vm.getSelected = getSelected;
@@ -59,12 +125,30 @@
         vm.toggleSelectAll = toggleSelectAll;
         vm.setSelectAll = setSelectAll;
 
+        /**
+         * @ngdoc function
+         * @name reload
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Responsible for reloading current state with chosen search parameters.
+         */
         function reload() {
             $state.go($state.current.name, vm.searchParams, {
                 reload: true
             });
         }
 
+        /**
+         * @ngdoc function
+         * @name getSelected
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Returns list of selected by user requisitions, that are supposed to be converted to orders.
+         *
+         * @return {Array} list of selected requisitions
+         */
         function getSelected() {
             var selected = [];
             angular.forEach(vm.requisitions, function(requisition) {
@@ -75,12 +159,30 @@
             return selected;
         }
 
+        /**
+         * @ngdoc function
+         * @name toggleSelectAll
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Responsible for marking/unmarking all requisitions as selected.
+         *
+         * @param {Boolean} selectAll Determines if all requisitions should be selected or not
+         */
         function toggleSelectAll(selectAll) {
             angular.forEach(vm.requisitions, function(requisition) {
                 requisition.$selected = selectAll;
             });
         }
 
+        /**
+         * @ngdoc function
+         * @name setSelectAll
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Responsible for making the checkbox "select all" checked when all requisitions are selected by user.
+         */
         function setSelectAll() {
             var value = true;
             angular.forEach(vm.requisitions, function(requisition) {
@@ -89,6 +191,14 @@
             vm.selectAll = value;
         }
 
+        /**
+         * @ngdoc function
+         * @name convertToOrder
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Responsible for converting seleted requisitions to orders.
+         */
         function convertToOrder() {
             var requisitions = getSelected();
             if (requisitions.length > 0) {
@@ -98,6 +208,16 @@
             }
         }
 
+        /**
+         * @ngdoc function
+         * @name getInfoMessage
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Responsible for setting proper info message to display to user.
+         *
+         * @return {Object} message that should be displayed to user
+         */
         function getInfoMessage() {
             if (vm.nothingToConvert) {
                 return 'message.no.requisitions.for.conversion';
@@ -107,6 +227,16 @@
             return undefined;
         }
 
+        /**
+         * @ngdoc function
+         * @name defaultSearchParams
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Determines whether default search parameters are set or not.
+         *
+         * @return {Boolean} are default parameters set
+         */
         function defaultSearchParams() {
             return vm.searchParams.filterBy === 'all'
                 && isEmpty(vm.searchParams.filterValue)
@@ -116,10 +246,32 @@
                 && isUndefined(vm.searchParams.pageSize);
         }
 
+        /**
+         * @ngdoc function
+         * @name isEmpty
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Determines if the given parameter is an empty string.
+         *
+         * @param {String} value value to be checked
+         * @return {Boolean} is given parameter empty
+         */
         function isEmpty(value) {
             return value === '';
         }
 
+        /**
+         * @ngdoc function
+         * @name isUndefined
+         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         *
+         * @description
+         * Determines if the given value is undefined.
+         *
+         * @param {Object} value value to be checked
+         * @return {Boolean} is given value undefined
+         */
         function isUndefined(value) {
             return value === undefined;
         }
