@@ -1,6 +1,17 @@
 (function() {
     'use strict';
 
+    /**
+     *
+     * @ngdoc service
+     * @name  openlmis-core.OfflineInterval
+     * @description 
+     * 
+     * Checks if browser is offline at a predetermined interval by calling
+     * OfflineService. Will immedately call OfflineService.checkConnection, 
+     * then continually call checkConnection every 30 seconds.
+     *
+     */
     angular
         .module('openlmis-core')
         .run(checkOfflineInterval);
