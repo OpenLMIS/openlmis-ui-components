@@ -73,9 +73,12 @@
 			var query = vm.query || "";
 			var searchField = vm.searchField.item.value;
 
-			vm.filteredRequisitions = $.grep(vm.requisitions, function (rnr) {
-				return (searchField) ? contains(getFieldValue(rnr,searchField), query)
-				 : matchesAnyField(query, rnr);
+			vm.filteredRequisitions = vm.requisitions.filter(function (rnr) {
+                if(searchField){
+                    return contains(getFieldValue(rnr, searchField), query);
+                } else {
+                    return matchesAnyField(query, rnr);
+                }
 			});
 
 			vm.resultCount = vm.filteredRequisitions.length;
