@@ -13,9 +13,9 @@
 			label: 'link.requisition.approve',
 			url: '/approvalList',
 			controller: 'ApprovalListCtrl',
+			controllerAs: 'vm',
 			templateUrl: 'requisitions/approval-list/approval-list.html',
 			accessRights: [RequisitionRights.REQUISITION_APPROVE],
-			controllerAs: 'vm',
 			resolve: {
 		        requisitionList: function (RequisitionService) {
                     return RequisitionService.forApproval();
