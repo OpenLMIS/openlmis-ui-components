@@ -5,7 +5,7 @@ describe('offline', function() {
     var scope, directiveElem, offlineService, compile;
 
     beforeEach(function() {
-        module('openlmis-core');
+        module('openlmis-offline');
 
         inject(function($rootScope, OfflineService, $compile){
             scope = $rootScope.$new();

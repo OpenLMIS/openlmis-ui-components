@@ -4,7 +4,7 @@
     /**
      *
      * @ngdoc service
-     * @name  openlmis-core.OfflineInterval
+     * @name  openlmis-offline.OfflineInterval
      * @description 
      * 
      * Checks if browser is offline at a predetermined interval by calling
@@ -13,7 +13,7 @@
      *
      */
     angular
-        .module('openlmis-core')
+        .module('openlmis-offline')
         .run(checkOfflineInterval);
 
     checkOfflineInterval.$inject = ['OfflineService', '$timeout'];

@@ -3,7 +3,7 @@ describe("OfflineService", function() {
     var offline, offlineService, timeout;
 
     beforeEach(function() {
-        module('openlmis-core');
+        module('openlmis-offline');
 
         inject(function(OfflineService, Offline, $timeout) {
             offlineService = OfflineService;

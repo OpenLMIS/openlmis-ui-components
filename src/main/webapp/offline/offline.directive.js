@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-core.directive:offline
+     * @name openlmis-offline.directive:offline
      * @restrict A
      *
      * @description
@@ -16,7 +16,7 @@
      */
 
     angular
-        .module('openlmis-core')
+        .module('openlmis-offline')
         .directive('offline', offline);
 
     offline.$inject = ['OfflineService'];
@@ -35,7 +35,7 @@
             /**
              * @ngdoc property
              * @name isOffline
-             * @propertyOf openlmis-core.directive:offline
+             * @propertyOf openlmis-offline.directive:offline
              * @type {Boolean}
              *
              * @description
@@ -51,7 +51,7 @@
             /**
              * @ngdoc property
              * @name checkConnection
-             * @propertyOf openlmis-core.directive:offline
+             * @propertyOf openlmis-offline.directive:offline
              * @type {Boolean}
              *
              * @description
