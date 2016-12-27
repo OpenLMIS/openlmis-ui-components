@@ -1,7 +1,6 @@
 <div class="convert-to-order-list">
 	<div class="page">
 		<h2>{{'label.requisition.convertOrder' | message}}</h2>
-		<div class="info-message" ng-if="vm.infoMessage">{{vm.infoMessage | message}}</div>
 		<section class="table-container" ng-if="!vm.nothingToConvert">
 			<form ng-submit="vm.reload()">
 				<label for="searchFor">{{'search.for' | message}}</label>
@@ -16,7 +15,8 @@
 				</select>
 				<input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
 			</form>
-			<table ng-if="vm.requisitions.length">
+			<table>
+				<caption ng-if="vm.infoMessage">{{vm.infoMessage | message}}</caption>
 				<thead>
 					<tr>
 						<th>
