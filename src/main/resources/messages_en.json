@@ -559,7 +559,7 @@
   "error.authorization": "You are not authorized to perform this action.",
   "email.sent.message": "Email Sent!",
   "email.check.message": "Please check your email and click on reset password link.",
-  "reset.password.message": "Please provide your email address OR username and we will send you a reset password link on your registered email id.",
+  "reset.password.message": "Please provide your email address and we will send you a reset password link on your registered email.",
   "label.or": "OR",
   "welcome.to.message": "Welcome to",
   "label.logistics.management": "Logistics Management",
@@ -2735,5 +2735,7 @@
   "msg.requisition.view.offline": "Offline",
   "requisition.offline.remove": "Remove offline copy",
   "requisition.offline.add": "Make requisition available offline",
-  "requisition.offline.available": "Available offline"
+  "requisition.offline.available": "Available offline",
+  "msg.forgot.password.failed": "Failed to reset password. No user with given email address assigned.",
+  "msg.change.password.failed": "Failed to change password."
 }

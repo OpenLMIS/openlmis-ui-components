@@ -34,6 +34,14 @@
             .state('auth.login.form', {
                 url: '/login',
                 templateUrl: 'auth/login-form.html'
+            })
+            .state('auth.login.forgotPassword', {
+                url: '/forgotPassword',
+                templateUrl: 'auth/forgot-password.html'
+            })
+            .state('auth.login.resetPassword', {
+                url: '/resetPassword/:token',
+                templateUrl: 'auth/reset-password.html'
             });
     }
 

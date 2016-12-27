@@ -22,6 +22,8 @@
 
         service.login = login;
         service.logout = logout;
+        service.forgotPassword = forgotPassword;
+        service.changePassword = changePassword;
 
         function makeAuthorizationHeader(clientId, clientSecret){
             var data = btoa(clientId + ':' + clientSecret);
@@ -175,6 +177,37 @@
                 });
             }
             return deferred.promise;
+        }
+
+        function forgotPassword(email) {
+            var forgotPasswordURL = OpenlmisURL('/api/users/forgotPassword?email=' + email);
+
+            return $http({
+                method: 'POST',
+                url: forgotPasswordURL,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+
+        function changePassword(newPassword, token) {
+            var changePasswordURL = OpenlmisURL('/api/users/changePassword'),
+                data = {
+                    token: token,
+                    newPassword: newPassword
+                };
+
+            if(AuthorizationService.isAuthenticated()) AuthorizationService.clearAccessToken();
+
+            return $http({
+                method: 'POST',
+                url: changePasswordURL,
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });;
         }
 
         return service;
