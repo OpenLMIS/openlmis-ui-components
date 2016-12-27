@@ -16,7 +16,7 @@
             url: '/convertToOrder?filterBy&filterValue&sortBy&descending',
             controller: 'ConvertToOrderCtrl',
             controllerAs: 'vm',
-            templateUrl: 'requisitions/convert-to-order/convert-to-order.html',
+            templateUrl: 'requisition-convert-to-order/convert-to-order.html',
             accessRights: [RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             params: {
                 filterBy: 'all',

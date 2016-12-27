@@ -11,8 +11,8 @@
      */
 
 	angular
-		.module('openlmis.requisitions')
-		.controller('RequistitionApprovalCtrl', ApprovalListCtrl);
+		.module('requisition-approval')
+		.controller('RequisitionApprovalListCtrl', ApprovalListCtrl);
 
 	ApprovalListCtrl.$inject = ['$state', 'requisitionList'];
 

@@ -8,7 +8,7 @@
 * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
 */
 
-describe('RequistitionApprovalCtrl', function () {
+describe('RequisitionApprovalListCtrl', function () {
 
     //injects
     var vm;
@@ -41,7 +41,7 @@ describe('RequistitionApprovalCtrl', function () {
                     }
                 }
             ];
-            vm = $controller("RequistitionApprovalCtrl", {requisitionList:requisitionList});
+            vm = $controller("RequisitionApprovalListCtrl", {requisitionList:requisitionList});
         });
     });
 
