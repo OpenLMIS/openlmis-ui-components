@@ -30,7 +30,7 @@ describe("ConvertToOrderModal", function(){
         supplyingDepotSpy(3)
     ]}];
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-view'));
 
     beforeEach(inject(function(_ConvertToOrderModal_, _$ngBootbox_, _$rootScope_,
     _RequisitionService_, _$q_){

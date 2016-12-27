@@ -10,7 +10,8 @@
      *
      */
 
-    angular.module('openlmis.requisitions')
+    angular
+        .module('requisition-view')
         .service('ConvertToOrderModal', convertToOrderModal);
 
     convertToOrderModal.$inject = ['$q', '$state', '$rootScope', '$ngBootbox', 'messageService',
@@ -47,7 +48,7 @@
 
             $q.all([
                 getDepotsForRequisition(),
-                $templateRequest('requisitions/requisition/convert-to-order-modal/convert-to-order-modal.html')
+                $templateRequest('requisition-view/convert-to-order-modal.html')
             ]).then(function(result) {
                 var depots = result[0],
                     template = result[1];

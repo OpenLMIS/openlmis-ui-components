@@ -18,7 +18,9 @@
      * Controller for managing requisitions.
      */
 
-    angular.module('openlmis.requisitions').controller('RequisitionCtrl', RequisitionCtrl);
+    angular
+        .module('requisition-view')
+        .controller('RequisitionCtrl', RequisitionCtrl);
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'AuthorizationService', 'messageService', 'LoadingModalService',

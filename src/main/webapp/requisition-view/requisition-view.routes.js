@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-view')
         .config(routes);
 
     routes.$inject = ['$stateProvider', 'RequisitionRights'];
@@ -14,7 +14,7 @@
             url: '^/requisition/:rnr',
             controller: 'RequisitionCtrl',
             controllerAs: 'vm',
-            templateUrl: 'requisitions/requisition/requisition.html',
+            templateUrl: 'requisition-view/requisition-view.html',
             accessRights: [RequisitionRights.REQUISITION_CREATE,
                 RequisitionRights.REQUISITION_DELETE,
                 RequisitionRights.REQUISITION_AUTHORIZE,
