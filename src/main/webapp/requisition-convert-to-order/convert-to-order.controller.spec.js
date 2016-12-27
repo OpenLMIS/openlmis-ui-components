@@ -3,7 +3,7 @@ describe('ConvertToOrderCtrl', function(){
     var vm, rootScope, state, q, stateParams, requisitionService, notification, requisitions;
 
     beforeEach( function() {
-        module('openlmis.requisitions');
+        module('requisition-convert-to-order');
 
         inject(function ($controller, $rootScope, _$state_, _$q_, _RequisitionService_, _Notification_) {
         rootScope = $rootScope;

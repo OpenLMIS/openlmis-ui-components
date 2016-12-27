@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-convert-to-order')
         .config(routes);
 
     routes.$inject = ['$stateProvider', 'RequisitionRights'];

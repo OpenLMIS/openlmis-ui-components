@@ -21,7 +21,7 @@
      */
 
 	angular
-		.module('openlmis.requisitions')
+		.module('requisition-convert-to-order')
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = ['$state', '$stateParams', 'requisitions', 'RequisitionService', 'Notification'];
@@ -278,5 +278,3 @@
 	}
 
 })();
-
-
