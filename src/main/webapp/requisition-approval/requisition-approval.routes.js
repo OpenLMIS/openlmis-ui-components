@@ -2,7 +2,9 @@
 
 	'use strict';
 
-	angular.module('openlmis.requisitions').config(routes);
+	angular
+		.module('requisition-approval')
+		.config(routes);
 
 	routes.$inject = ['$stateProvider', 'RequisitionRights'];
 
@@ -14,7 +16,7 @@
 			url: '/approvalList',
 			controller: 'ApprovalListCtrl',
 			controllerAs: 'vm',
-			templateUrl: 'requisitions/approval-list/approval-list.html',
+			templateUrl: 'requisition-approval/requisition-approval-list.html',
 			accessRights: [RequisitionRights.REQUISITION_APPROVE],
 			resolve: {
 		        requisitionList: function (RequisitionService) {
