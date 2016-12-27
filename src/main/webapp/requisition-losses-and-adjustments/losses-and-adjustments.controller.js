@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('requisition-product-grid')
+        .module('requisition-losses-and-adjustments')
         .controller('LossesAndAdjustmentsCtrl', lossesAndAdjustmentsCtrl);
 
     lossesAndAdjustmentsCtrl.$inject = ['$scope', '$filter', 'calculations'];

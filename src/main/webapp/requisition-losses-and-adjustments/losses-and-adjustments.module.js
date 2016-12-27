@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('requisition-product-grid', [
+    angular.module('requisition-losses-and-adjustments', [
         'openlmis.requisitions'
     ]);
 

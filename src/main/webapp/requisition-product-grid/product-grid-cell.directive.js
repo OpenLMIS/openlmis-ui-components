@@ -47,7 +47,7 @@
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
 
 
-			$templateRequest('requisitions/requisition-product-grid/product-grid-cell.html').then(function(template) {
+			$templateRequest('requisition-product-grid/product-grid-cell.html').then(function(template) {
 				var cell = angular.element(template);
 				if (column.type === Type.NUMERIC && !scope.isReadOnly) {
 					cell.find('input').attr('positive-integer', '');

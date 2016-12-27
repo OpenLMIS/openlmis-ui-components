@@ -8,7 +8,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
     beforeEach(function() {
 
-        module('requisition-product-grid');
+        module('requisition-losses-and-adjustments');
 
         adjustments = jasmine.createSpyObj('stockAdjustments', ['push', 'indexOf', 'splice']);
         requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);

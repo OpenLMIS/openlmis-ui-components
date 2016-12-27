@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('requisition-product-grid')
+        .module('requisition-losses-and-adjustments')
         .directive('lossesAndAdjustments', lossesAndAdjustments);
 
     lossesAndAdjustments.$inject = ['$compile', '$templateRequest', 'messageService'];
@@ -14,7 +14,7 @@
             replace: true,
             controller: 'LossesAndAdjustmentsCtrl',
             controllerAs: 'vm',
-            templateUrl: 'requisitions/requisition-product-grid/losses-and-adjustments-cell.html',
+            templateUrl: 'requisition-losses-and-adjustments/losses-and-adjustments-cell.html',
             scope: {
                 lineItem: '=',
                 requisition: '='
@@ -30,7 +30,7 @@
             vm.hideModal = hideModal;
 
             function showModal() {
-                $templateRequest('requisitions/requisition-product-grid/losses-and-adjustments-modal.html')
+                $templateRequest('requisition-losses-and-adjustments/losses-and-adjustments-modal.html')
                     .then(function(modal){
                         dialog = bootbox.dialog({
                             title: messageService.get('label.losses.adjustments'),
