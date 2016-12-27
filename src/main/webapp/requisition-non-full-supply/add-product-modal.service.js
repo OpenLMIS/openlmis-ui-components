@@ -50,7 +50,7 @@
             scope.requestedQuantity = undefined;
             scope.requestedQuantityExplanation = undefined;
 
-            $templateRequest('requisitions/requisition-non-full-supply/add-product-modal.html')
+            $templateRequest('requisition-non-full-supply/add-product-modal.html')
                 .then(function(template) {
                     $ngBootbox.customDialog({
                         title: messageService.get('label.rnr.add.non.full.supply'),
