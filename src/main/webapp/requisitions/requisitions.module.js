@@ -5,6 +5,7 @@
     angular.module('openlmis-requisitions', [
         'requisition',
         'requisition-view',
+        'requisition-search',
         'requisition-initiate',
         'requisition-template',
         'requisition-approval',
@@ -18,7 +19,8 @@
         'openlmis-core',
         'openlmis-templates',
         'ngSanitize',
-        'ngBootbox'
+        'ngBootbox',
+        'ui.router'
     ]);
 
 })();

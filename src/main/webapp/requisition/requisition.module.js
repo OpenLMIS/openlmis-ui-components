@@ -8,7 +8,8 @@
         'requisition-template',
         'openlmis-offline',
         'openlmis-core',
-        'ngResource'
+        'ngResource',
+        'ui.router'
     ]);
 
 })();

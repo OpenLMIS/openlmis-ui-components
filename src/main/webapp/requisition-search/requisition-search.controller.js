@@ -14,18 +14,23 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-requisition.RequisitionViewController
+     * @name requisition-search.RequisitionViewController
      * @description
      * Controller for requisition view page
      */
 
     angular
-        .module('openlmis-requisitions')
+        .module('requisition-search')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'OfflineService'];
+    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList',
+        'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification',
+        'OfflineService'
+    ];
 
-    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService, Status, DateUtils, LoadingModalService, Notification, OfflineService) {
+    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
+        Status, DateUtils, LoadingModalService, Notification, OfflineService) {
+
         var vm = this;
 
         vm.loadPrograms = loadPrograms;
@@ -43,14 +48,14 @@
         }
 
         function isOfflineDisabled() {
-            if(OfflineService.isOffline()) vm.searchOffline = true;
+            if (OfflineService.isOffline()) vm.searchOffline = true;
             return OfflineService.isOffline();
         }
         /**
          *
          * @ngdoc function
          * @name openRnr
-         * @methodOf openlmis-requisition.RequisitionViewController
+         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Redirect to requisition page after clicking on grid row.
@@ -66,7 +71,7 @@
          *
          * @ngdoc function
          * @name loadPrograms
-         * @methodOf openlmis-requisition.RequisitionViewController
+         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Loads selected facility supported programs to program select input.
@@ -86,7 +91,7 @@
          *
          * @ngdoc function
          * @name search
-         * @methodOf openlmis-requisition.RequisitionViewController
+         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Searches requisitions by criteria selected in form.
@@ -98,22 +103,22 @@
                 vm.error = null;
                 LoadingModalService.open();
                 RequisitionService.search(vm.searchOffline, {
-                    program: vm.selectedProgram ? vm.selectedProgram.id : null,
-                    facility: vm.selectedFacility ? vm.selectedFacility.id : null,
-                    createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
-                    createdDateTo: vm.endDate ? vm.endDate.toISOString() : null
-                })
-                .then(function(requisitionList) {
-                    vm.requisitionList = requisitionList;
-                    LoadingModalService.close();
-                    if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
-                        Notification.error('msg.no.requisitions.found');
-                    }
-                })
-                .catch(function() {
-                    Notification.error('msg.error.occurred');
-                })
-                .finally(LoadingModalService.close);
+                        program: vm.selectedProgram ? vm.selectedProgram.id : null,
+                        facility: vm.selectedFacility ? vm.selectedFacility.id : null,
+                        createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
+                        createdDateTo: vm.endDate ? vm.endDate.toISOString() : null
+                    })
+                    .then(function(requisitionList) {
+                        vm.requisitionList = requisitionList;
+                        LoadingModalService.close();
+                        if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
+                            Notification.error('msg.no.requisitions.found');
+                        }
+                    })
+                    .catch(function() {
+                        Notification.error('msg.error.occurred');
+                    })
+                    .finally(LoadingModalService.close);
             } else {
                 Notification.error('msg.no.facility.selected');
             }

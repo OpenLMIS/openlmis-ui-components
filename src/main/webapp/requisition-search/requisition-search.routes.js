@@ -2,7 +2,7 @@
 
 	'use strict';
 
-	angular.module('openlmis-requisitions').config(routes);
+	angular.module('requisition-search').config(routes);
 
 	routes.$inject = ['$stateProvider', 'RequisitionRights'];
 
@@ -13,8 +13,10 @@
 			label: 'link.requisition.view',
 			url: '/view',
 			controller: 'RequisitionSearchController',
-			templateUrl: 'requisitions/requisition-search/requisition-search.html',
-			accessRights: [RequisitionRights.REQUISITION_VIEW],
+			templateUrl: 'requisition-search/requisition-search.html',
+			accessRights: [
+				RequisitionRights.REQUISITION_VIEW
+			],
 			controllerAs: 'vm',
 			resolve: {
 		        facilityList: function ($q, FacilityService) {
