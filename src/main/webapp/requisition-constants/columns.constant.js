@@ -24,7 +24,7 @@
             PRICE_PER_PACK: 'pricePerPack',
             PRODUCT_NAME: 'orderableProduct.name',
             UNIT_UNIT_OF_ISSUE: 'dispensable',
-            TOTAL_COST: 'totalCost'
+            TOTAL_COST: 'totalCost',
             ADJUSTED_CONSUMPTION: 'adjustedConsumption'
         };
     }
