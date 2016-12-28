@@ -1,11 +1,11 @@
 /**
  * @ngdoc filter
- * @name .openlmis.requisitions.orderObjectBy
+ * @name .openlmis-requisitions.orderObjectBy
  * @function orderObjectBy
  *
  * @description Orders object properties by given attribute.
  */
-angular.module('openlmis.requisitions').filter('orderObjectBy', function(){
+angular.module('openlmis-requisitions').filter('orderObjectBy', function(){
     return function(input, attribute) {
         if (!angular.isObject(input)) return input;
 

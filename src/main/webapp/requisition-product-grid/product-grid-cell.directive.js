@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.requisitions.productGridCell
+	 * @name requisition-product-grid.productGridCell
 	 *
 	 * @description
 	 * Responsible for rendering the product grid cell based on the column source and requisitions type.

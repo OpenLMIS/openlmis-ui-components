@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.RequisitionService
+     * @name requisition.RequisitionService
      *
      * @description
      * Responsible for retriving all information from server.
@@ -80,7 +80,7 @@
         /**
          * @ngdoc function
          * @name get
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @param {String} id Requisition UUID
          * @return {Promise} requisition promise
          *
@@ -147,7 +147,7 @@
         /**
          * @ngdoc function
          * @name initiate
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @param {String} facility Facility UUID
          * @param {String} program Program UUID
          * @param {String} suggestedPeriod Period UUID
@@ -170,7 +170,7 @@
         /**
          * @ngdoc function
          * @name search
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @param {boolean} offline Indicates if searching in offline requisitions
          * @param {Object} searchParams Contains parameters for searching requisitions, i.e.
          * {
@@ -215,7 +215,7 @@
         /**
          * @ngdoc function
          * @name forApproval
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @return {Array} Array of requisitions for approval
          *
          * @description
@@ -229,7 +229,7 @@
         /**
          * @ngdoc function
          * @name forConvert
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @param {Object} params Request params, contains i.e.: filertBy, filterValue, sortBy, descending
          * @return {Array} Array of requisitions for convert
          *
@@ -244,7 +244,7 @@
         /**
          * @ngdoc function
          * @name convertToOrder
-         * @methodOf openlmis.requisitions.RequisitionService
+         * @methodOf requisition.RequisitionService
          * @param {Array} requisitions Array of requisitions to convert
          *
          * @description

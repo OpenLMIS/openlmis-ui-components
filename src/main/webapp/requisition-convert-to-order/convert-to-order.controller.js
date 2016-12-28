@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.ConvertToOrderCtrl
+     * @name requisition-convert-to-order.ConvertToOrderCtrl
      *
      * @description
      * Controller for converting requisitions to orders.
@@ -33,7 +33,7 @@
         /**
          * @ngdoc property
          * @name searchParams
-         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
          * @type {Object}
          *
          * @description
@@ -49,7 +49,7 @@
         /**
          * @ngdoc property
          * @name filters
-         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
          * @type {Array}
          *
          * @description
@@ -77,7 +77,7 @@
         /**
          * @ngdoc property
          * @name requisitions
-         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
          * @type {Array}
          *
          * @description
@@ -98,7 +98,7 @@
         /**
          * @ngdoc property
          * @name infoMessage
-         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
          * @type {Object}
          *
          * @description
@@ -109,7 +109,7 @@
         /**
          * @ngdoc property
          * @name selectAll
-         * @propertyOf openlmis.requisitions.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
          * @type {boolean}
          *
          * @description
@@ -128,7 +128,7 @@
         /**
          * @ngdoc function
          * @name reload
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Responsible for reloading current state with chosen search parameters.
@@ -142,7 +142,7 @@
         /**
          * @ngdoc function
          * @name getSelected
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Returns a list of requisitions selected by user, that are supposed to be converted to orders.
@@ -162,7 +162,7 @@
         /**
          * @ngdoc function
          * @name toggleSelectAll
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Responsible for marking/unmarking all requisitions as selected.
@@ -178,7 +178,7 @@
         /**
          * @ngdoc function
          * @name setSelectAll
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Responsible for making the checkbox "select all" checked when all requisitions are selected by user.
@@ -194,7 +194,7 @@
         /**
          * @ngdoc function
          * @name convertToOrder
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Responsible for converting seleted requisitions to orders.
@@ -211,7 +211,7 @@
         /**
          * @ngdoc function
          * @name getInfoMessage
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Responsible for setting proper info message to display to user.
@@ -230,7 +230,7 @@
         /**
          * @ngdoc function
          * @name defaultSearchParams
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Determines whether default search parameters are set or not.
@@ -249,7 +249,7 @@
         /**
          * @ngdoc function
          * @name isEmpty
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Determines if the given parameter is an empty string.
@@ -264,7 +264,7 @@
         /**
          * @ngdoc function
          * @name isUndefined
-         * @methodOf openlmis.requisitions.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
          *
          * @description
          * Determines if the given value is undefined.

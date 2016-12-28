@@ -4,7 +4,7 @@
 
   /**
    * @ngdoc service
-   * @name openlmis.requisitions.calculations
+   * @name requisition-calculations.calculations
    *
    * @description
    * Responsible for storing all the calculations related with the line item and product grid.
@@ -43,7 +43,7 @@
     /**
      * @ngdoc function
      * @name totalConsumedQuantity
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      *
      * @description
      * Calculates the value of the Total Consumed Quantity column based on the given line item.
@@ -58,7 +58,7 @@
     /**
      * @ngdoc function
      * @name  stockOnHand
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      *
      * @description
      * Calculates the value of the Stock On Hand column based on the given line item.
@@ -73,7 +73,7 @@
     /**
      * @ngdoc function
      * @name  total
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      *
      * @description
      * Calculates the value of the Total column based on the given line item.
@@ -88,7 +88,7 @@
     /**
      * @ngdocs function
      * @name  totalLossesAndAdjustments
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      *
      * @description
      * Calculates the value of the Total Losses and Adjustments column based on the given line item and adjustment reasons.
@@ -116,7 +116,7 @@
     /**
      * @ngdoc function
      * @name packsToShip
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      *
      * @description
      * Calculates the value of the Packs to Ship column based on the given line item and requisition status.
@@ -150,7 +150,7 @@
     /**
      * @ngdoc function
      * @name calculateTotalCost
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      * @private
      *
      * @description
@@ -174,7 +174,7 @@
       /**
        * @ngdoc function
        * @name adjustedConsumption
-       * @methodOf openlmis.requisitions.calculations
+       * @methodOf requisition-calculations.calculations
        *
        * @description
        * Calculates the value of the Adjusted Consumption column based on the given line item.
@@ -203,7 +203,7 @@
     /**
      * @ngdoc function
      * @name getOrderQuantity
-     * @methodOf openlmis.requisitions.calculations
+     * @methodOf requisition-calculations.calculations
      * @private
      *
      * @describtion

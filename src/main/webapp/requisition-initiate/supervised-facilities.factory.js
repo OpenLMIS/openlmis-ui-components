@@ -13,7 +13,7 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis.requisitions.SupervisedFacilities
+     * @name requisition-initiate.SupervisedFacilities
      *
      * @description
      * Returns facilities where program with given programId is active and where the given

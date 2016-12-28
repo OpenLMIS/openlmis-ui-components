@@ -13,7 +13,7 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis.requisitions.UserPrograms
+     * @name requisition-initiate.UserPrograms
      *
      * @description
      * Returns the programs at a user's home facility or programs that the user supervises.

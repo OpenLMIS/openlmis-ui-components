@@ -2,7 +2,7 @@
 
     "use strict";
 
-    angular.module('openlmis.requisitions', [
+    angular.module('openlmis-requisitions', [
         'requisition',
         'requisition-view',
         'requisition-initiate',

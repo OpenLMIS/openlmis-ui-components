@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.RequisitionApprovalListController
+     * @name requisition-approval.RequisitionApprovalListController
      *
      * @description
      * Controller for approval list of requisitions.
@@ -26,7 +26,7 @@
         /**
          * @ngdoc property
          * @name requisitions
-         * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @propertyOf requisition-approval.RequisitionApprovalListController
          * @type {Array}
          *
          * @description
@@ -37,7 +37,7 @@
         /**
          * @ngdoc property
          * @name filteredRequisitions
-         * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @propertyOf requisition-approval.RequisitionApprovalListController
          * @type {Array}
          *
          * @description
@@ -48,7 +48,7 @@
         /**
          * @ngdoc property
          * @name openRnr
-         * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @propertyOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Holds handler which redirects to requisition page after clicking on grid row.
@@ -63,7 +63,7 @@
         /**
          * @ngdoc property
          * @name filterRequisitions
-         * @propertyOf openlmis.requisitions.RequisitionApprovalListController
+         * @propertyOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Holds handler which filters requisitions after change query or searchField.
@@ -88,7 +88,7 @@
         /**
          * @ngdoc function
          * @name getFieldValue
-         * @methodOf openlmis.requisitions.RequisitionApprovalListController
+         * @methodOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Get value of field from object using dot char to split it.
@@ -106,7 +106,7 @@
         /**
          * @ngdoc function
          * @name contains
-         * @methodOf openlmis.requisitions.RequisitionApprovalListController
+         * @methodOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Check if string contains specific substring.
@@ -123,7 +123,7 @@
         /**
          * @ngdoc function
          * @name matchesAnyField
-         * @methodOf openlmis.requisitions.RequisitionApprovalListController
+         * @methodOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Concat strings: program name, facility name and code to one string. Check if this string

@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.NonFullSupplyCtrl
+     * @name requisition-non-full-supply.NonFullSupplyCtrl
      *
      * @description
      * Responsible for managing product grid for non full supply products.
@@ -27,7 +27,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name isLineItemValid
          *
          * @description
@@ -41,7 +41,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name requisition
          * @type {Object}
          *
@@ -52,7 +52,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name displayAddProductButton
          * @type {Boolean}
          *
@@ -63,7 +63,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name columns
          * @type {Array}
          *
@@ -74,7 +74,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name lineItems
          * @type {Array}
          *
@@ -85,7 +85,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name deleteLineItem
          *
          * @description
@@ -104,7 +104,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name addProduct
          *
          * @description
@@ -128,7 +128,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis.requisitions.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name displayDeleteColumn
          *
          * @description

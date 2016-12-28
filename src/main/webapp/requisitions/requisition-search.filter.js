@@ -1,11 +1,11 @@
 /**
  * @ngdoc filter
- * @name .openlmis.requisitions.requisitionFilter
+ * @name .openlmis-requisitions.requisitionFilter
  * @function requisitionFilter
  *
  * @description Filters requisitions by given params.
  */
-angular.module('openlmis.requisitions').filter('requisitionFilter', ['DateUtils', function(DateUtils) {
+angular.module('openlmis-requisitions').filter('requisitionFilter', ['DateUtils', function(DateUtils) {
     return function(input, params) {
         if(!angular.isObject(input)) return input;
 

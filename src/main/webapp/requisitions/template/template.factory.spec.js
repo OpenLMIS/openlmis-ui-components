@@ -11,7 +11,7 @@ describe('templateFactory', function() {
 
     var rootScope, TemplateFactory, template, q, dependencyTestColumns;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('openlmis-requisitions'));
 
     beforeEach(module(function($provide){
         var RequisitionTemplateServiceSpy = jasmine.createSpyObj('RequisitionTemplateService', ['get', 'getAll', 'search', 'save']),

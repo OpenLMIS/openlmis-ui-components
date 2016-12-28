@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.RequisitionFactory
+     * @name requisition.RequisitionFactory
      *
      * @description
      * Responsible for supplying requisition with additional methods.
@@ -56,7 +56,7 @@
         /**
          * @ngdoc function
          * @name requisition
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @param {Resource} requisition resource with requisition
          * @param {Resource} template resource with requisition template
          * @param {Resource} approvedProducts resource with approved products
@@ -97,7 +97,7 @@
         /**
          * @ngdoc function
          * @name getStockAdjustmentReasons
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} promise with reasons
          *
          * @description
@@ -130,7 +130,7 @@
         /**
          * @ngdoc function
          * @name authorize
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} requisition promise
          *
          * @description
@@ -149,7 +149,7 @@
         /**
          * @ngdoc function
          * @name remove
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} promise that resolves after requisition is deleted
          *
          * @description
@@ -168,7 +168,7 @@
         /**
          * @ngdoc function
          * @name save
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} requisition promise
          *
          * @description
@@ -187,7 +187,7 @@
         /**
          * @ngdoc function
          * @name submit
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} requisition promise
          *
          * @description
@@ -206,7 +206,7 @@
         /**
          * @ngdoc function
          * @name approve
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} promise that resolves when requisition is approved
          *
          * @description
@@ -225,7 +225,7 @@
         /**
          * @ngdoc function
          * @name reject
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          * @return {Promise} promise that resolves when requisition is rejected
          *
          * @description
@@ -244,7 +244,7 @@
         /**
          * @ngdoc function
          * @name isInitiated
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          *
          * @description
          * Responsible for checking if requisition is initiated.
@@ -259,7 +259,7 @@
         /**
          * @ngdoc function
          * @name isSubmitted
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          *
          * @description
          * Responsible for checking if requisition is submitted.
@@ -274,7 +274,7 @@
         /**
          * @ngdoc function
          * @name isAuthorized
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          *
          * @description
          * Responsible for checking if requisition is authorized.
@@ -289,7 +289,7 @@
         /**
          * @ngdoc function
          * @name isApproved
-         * @methodOf openlmis.requisitions.RequisitionFactory
+         * @methodOf requisition.RequisitionFactory
          *
          * @description
          * Responsible for checking if requisition is approved.

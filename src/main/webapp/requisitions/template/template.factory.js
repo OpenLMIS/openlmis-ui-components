@@ -14,13 +14,13 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.templateFactory
+     * @name openlmis-requisitions.templateFactory
      *
      * @description
      * Comunicates with templateDataService.
      *
      */
-    angular.module('openlmis.requisitions').factory('templateFactory', templateFactory);
+    angular.module('openlmis-requisitions').factory('templateFactory', templateFactory);
 
     templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn', 'Source'];
 
@@ -37,7 +37,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.requisitions.templateFactory
+         * @methodOf openlmis-requisitions.templateFactory
          * @param {String} id Template UUID
          * @returns {Promise} Template
          *
@@ -63,7 +63,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.requisitions.templateFactory
+         * @methodOf openlmis-requisitions.templateFactory
          * @returns {Promise} Array of requisition templates
          *
          * @description
@@ -76,7 +76,7 @@
         /**
          * @ngdoc function
          * @name  getByProgram
-         * @methodOf openlmis.requisitions.templateFactory
+         * @methodOf openlmis-requisitions.templateFactory
          * @param {String} programId Program UUID
          * @return {Promise} Template for given program
          *

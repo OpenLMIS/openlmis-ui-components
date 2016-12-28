@@ -14,12 +14,12 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.Program
+     * @name openlmis-requisitions.Program
      *
      * @description
      * Allows user to perform operations on program resource.
      */
-    angular.module('openlmis.requisitions').factory('Program', Program);
+    angular.module('openlmis-requisitions').factory('Program', Program);
 
     Program.$inject = ['OpenlmisURL', '$resource', '$q', 'templateFactory'];
 
@@ -44,7 +44,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis.requisitions.Program
+         * @methodOf openlmis-requisitions.Program
          * @param {String} id Program UUID
          * @returns {Promise} Program info
          *
@@ -58,7 +58,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf openlmis.requisitions.Program
+         * @methodOf openlmis-requisitions.Program
          * @returns {Promise} Array of all programs with templates
          *
          * @description

@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.requisitionValidator
+     * @name requisition-validation.requisitionValidator
      *
      * @description
      * Responsible for validating requisitions, lineItems and their fields.
@@ -45,7 +45,7 @@
         /**
          * @ngdoc function
          * @name validateRequisition
-         * @methodOf openlmis.requisitions.requisitionValidator
+         * @methodOf requisition-validation.requisitionValidator
          *
          * @description
          * Validates the given requisitions.
@@ -77,7 +77,7 @@
         /**
          * @ngdoc method
          * @name validateLineItem
-         * @methodOf openlmis.requisitions.requisitionValidator
+         * @methodOf requisition-validation.requisitionValidator
          *
          * @description
          * Validates the given line item.
@@ -99,7 +99,7 @@
         /**
          * @ngdoc method
          * @name validateLineItemField
-         * @methodOf openlmis.requisitions.requisitionValidator
+         * @methodOf requisition-validation.requisitionValidator
          *
          * @description
          * Validates the field of the given requisition for the given column. Columns list is
@@ -134,7 +134,7 @@
         /**
          * @ngdoc method
          * @name isLineItemValid
-         * @methodOf openlmis.requisitions.requisitionValidator
+         * @methodOf requisition-validation.requisitionValidator
          *
          * @description
          * Checks whether any field of the given line item has any error. It does not perform any

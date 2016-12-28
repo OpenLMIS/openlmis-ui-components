@@ -12,7 +12,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.RequisitionCtrl
+     * @name requisition-view.RequisitionCtrl
      *
      * @description
      * Controller for managing requisitions.
@@ -39,7 +39,7 @@
         /**
          * @ngdoc property
          * @name requisition
-         * @propertyOf openlmis.requisitions.RequisitionCtrl
+         * @propertyOf requisition-view.RequisitionCtrl
          * @type {Object}
          *
          * @description
@@ -50,7 +50,7 @@
         /**
         * @ngdoc property
         * @name requisitionType
-        * @propertyOf openlmis.requisitions.RequisitionCtrl
+        * @propertyOf requisition-view.RequisitionCtrl
         * @type {String}
         *
         * @description
@@ -86,7 +86,7 @@
          /**
          * @ngdoc function
          * @name syncRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for syncing requisition with the server. If the requisition fails to sync,
@@ -106,7 +106,7 @@
         /**
          * @ngdoc function
          * @name submitRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for submitting requisition. Displays confirmation dialog, and checks
@@ -138,7 +138,7 @@
         /**
          * @ngdoc function
          * @name authorizeRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for authorizing requisition. Displays confirmation dialog, and checks
@@ -171,7 +171,7 @@
         /**
          * @ngdoc function
          * @name removeRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for removing requisition. Displays confirmation dialog before deletion.
@@ -196,7 +196,7 @@
         /**
          * @ngdoc function
          * @name approveRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for approving requisition. Displays confirmation dialog, and checks
@@ -226,7 +226,7 @@
         /**
          * @ngdoc function
          * @name rejectRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Responsible for rejecting requisition. Displays confirmation dialog before rejection.
@@ -251,7 +251,7 @@
         /**
          * @ngdoc function
          * @name periodDisplayName
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Creates human readable duration of reporting period.
@@ -267,7 +267,7 @@
         /**
          * @ngdoc function
          * @name displayAuthorize
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Determines whether to display authorize button or not. Returns true only if requisition
@@ -285,7 +285,7 @@
         /**
          * @ngdoc function
          * @name displaySubmit
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Determines whether to display submit button or not. Returns true only if requisition
@@ -303,7 +303,7 @@
         /**
          * @ngdoc function
          * @name displayApproveAndReject
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Determines whether to display approve and reject buttons or not. Returns true only if
@@ -321,7 +321,7 @@
         /**
          * @ngdoc function
          * @name displayDelete
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Determines whether to display delete button or not. Returns true only if requisition
@@ -339,7 +339,7 @@
         /**
          * @ngdoc function
          * @name displayConvertToOrder
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Determines whether to display convert to order button or not. Returns true only if
@@ -357,7 +357,7 @@
         /**
          * @ngdoc function
          * @name convertRnr
-         * @methodOf openlmis.requisitions.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionCtrl
          *
          * @description
          * Displays convert to order modal.

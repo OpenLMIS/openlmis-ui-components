@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.AddProductModalService
+     * @name requisition-non-full-supply.AddProductModalService
      *
      * @description
      * It shows modal with possibility to add non-full supplly line item
@@ -33,7 +33,7 @@
         /**
          * @ngdoc function
          * @name show
-         * @methodOf openlmis.requisitions.AddProductModalService
+         * @methodOf requisition-non-full-supply.AddProductModalService
          *
          * @description
          * Shows modal that allows to add line item to requisition.
@@ -65,7 +65,7 @@
         /**
          * @ngdoc function
          * @name close
-         * @methodOf openlmis.requisitions.AddProductModalService
+         * @methodOf requisition-non-full-supply.AddProductModalService
          *
          * @description
          * Closes add product modal and rejects modal promise.
@@ -78,7 +78,7 @@
         /**
          * @ngdoc function
          * @name addProduct
-         * @methodOf openlmis.requisitions.AddProductModalService
+         * @methodOf requisition-non-full-supply.AddProductModalService
          *
          * @description
          * Resolves promise with line item created from parameters.
@@ -102,7 +102,7 @@
         /**
          * @ngdoc function
          * @name categoryVisible
-         * @methodOf openlmis.requisitions.AddProductModalService
+         * @methodOf requisition-non-full-supply.AddProductModalService
          *
          * @description
          * Indicates if category should be displayed on modal
@@ -117,7 +117,7 @@
         /**
          * @ngdoc function
          * @name productVisible
-         * @methodOf openlmis.requisitions.AddProductModalService
+         * @methodOf requisition-non-full-supply.AddProductModalService
          *
          * @description
          * Indicates if product should be displayed on modal

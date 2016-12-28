@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.requisitions.LineItem
+     * @name requisition.LineItem
      *
      * @description
      * Responsible for adding required methods for line items.
@@ -25,7 +25,7 @@
         /**
          * @ngdoc function
          * @name LineItem
-         * @methodOf openlmis.requisitions.LineItem
+         * @methodOf requisition.LineItem
          *
          * @description
          * Adds needed properties and methods to line items based on it and requisition parent.
@@ -59,7 +59,7 @@
         /**
          * @ngdoc function
          * @name updateFieldValue
-         * @methodOf openlmis.requisitions.LineItem
+         * @methodOf requisition.LineItem
          *
          * @description
          * Updates column value in the line item based on column type and source.

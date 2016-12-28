@@ -4,12 +4,12 @@
 
 	/**
      * @ngdoc service
-     * @name openlmis.requisitions.FacilityService
+     * @name openlmis-requisitions.FacilityService
      *
      * @description
      * Responsible for retriving all facility information from server.
      */
-	angular.module('openlmis.requisitions')
+	angular.module('openlmis-requisitions')
 	    .service('FacilityService', FacilityService);
 
     FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'OfflineService', 'localStorageFactory'];
@@ -34,7 +34,7 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf openlmis.requisitions.FacilityService
+         * @methodOf openlmis-requisitions.FacilityService
          * @param {String} facilityId Facility UUID
          * @return {Promise} facility promise
          *
@@ -65,7 +65,7 @@
 		/**
          * @ngdoc function
          * @name getAll
-         * @methodOf openlmis.requisitions.FacilityService
+         * @methodOf openlmis-requisitions.FacilityService
          * @return {Promise} Array of facilities
          *
          * @description

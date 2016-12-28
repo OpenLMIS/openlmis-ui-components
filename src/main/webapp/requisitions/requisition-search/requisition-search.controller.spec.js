@@ -13,7 +13,7 @@ describe('RequisitionSearchController', function() {
     var rootScope, httpBackend, endDate, startDate, notification, vm, facilityList, requisitionList;
 
     beforeEach(function() {
-        module('openlmis.requisitions');
+        module('openlmis-requisitions');
 
         facilityList = [
             {

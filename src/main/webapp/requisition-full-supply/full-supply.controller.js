@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.FullSupplyCtrl
+     * @name requisition-full-supply.FullSupplyCtrl
      *
      * @description
      * Responsible for managing product grid for full supply products.
@@ -20,7 +20,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyCtrl
          * @name requisition
          * @type {Object}
          *
@@ -31,7 +31,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyCtrl
          * @name categories
          * @type {Object}
          *
@@ -42,7 +42,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis.requisitions.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyCtrl
          * @name columns
          * @type {Array}
          *
@@ -54,7 +54,7 @@
         /**
          *
          * @ngdoc method
-         * @methodOf openlmis.requisitions.FullSupplyCtrl
+         * @methodOf requisition-full-supply.FullSupplyCtrl
          * @name isLineItemValid
          *
          * @description

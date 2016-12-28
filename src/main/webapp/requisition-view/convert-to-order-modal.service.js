@@ -4,7 +4,7 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis.requisitions.ConvertToOrderModal
+     * @name requisition-view.ConvertToOrderModal
      * @description
      * Directive to display modal for converting single requisition to order.
      *
@@ -32,7 +32,7 @@
         /**
          * @ngdoc function
          * @name show
-         * @methodOf openlmis.requisitions.ConvertToOrderModal
+         * @methodOf requisition-view.ConvertToOrderModal
          * @param {Object} requisition Requisition for convert
          * @return {Promises} depots for requisition and template for modal
          *
@@ -69,7 +69,7 @@
         /**
          * @ngdoc function
          * @name close
-         * @methodOf openlmis.requisitions.ConvertToOrderModal
+         * @methodOf requisition-view.ConvertToOrderModal
          *
          * @description
          * Close modal.
@@ -83,7 +83,7 @@
         /**
          * @ngdoc function
          * @name convertRnr
-         * @methodOf openlmis.requisitions.ConvertToOrderModal
+         * @methodOf requisition-view.ConvertToOrderModal
          *
          * @description
          * Converts given requisition into order and then reload page.
@@ -96,7 +96,7 @@
         /**
          * @ngdoc function
          * @name getDepotsForRequisition
-         * @methodOf openlmis.requisitions.ConvertToOrderModal
+         * @methodOf requisition-view.ConvertToOrderModal
          * @return {Promise} Depots for current requisition.
          *
          * @description

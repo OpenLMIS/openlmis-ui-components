@@ -14,13 +14,13 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.ProgramAdministrationListCtrl
+     * @name openlmis-requisitions.ProgramAdministrationListCtrl
      *
      * @description
      * Controller for template list view page
      */
 
-    angular.module('openlmis.requisitions').controller('ProgramAdministrationListCtrl', ProgramAdministrationListCtrl);
+    angular.module('openlmis-requisitions').controller('ProgramAdministrationListCtrl', ProgramAdministrationListCtrl);
 
     ProgramAdministrationListCtrl.$inject = ['$state', 'programList', 'AuthorizationService',
                                              'RequisitionRights'];
@@ -37,7 +37,7 @@
         /**
          * @ngdoc function
          * @name goToTemplate
-         * @methodOf openlmis.requisitions.ProgramAdministrationListCtrl
+         * @methodOf openlmis-requisitions.ProgramAdministrationListCtrl
          * @param {String} templateId Template UUID
          *
          * @description

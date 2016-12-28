@@ -20,7 +20,7 @@
      */
 
     angular
-        .module('openlmis.requisitions')
+        .module('openlmis-requisitions')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification', 'OfflineService'];
