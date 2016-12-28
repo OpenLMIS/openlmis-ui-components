@@ -9,7 +9,7 @@
 */
 
 (function(){
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc controller
@@ -19,35 +19,37 @@
      * Controller that drives the forgot password form.
      */
 
-    angular.module("openlmis-auth")
-    .controller("ResetPasswordController", ResetPasswordController);
+    angular.module('openlmis-auth')
+    .controller('ResetPasswordController', ResetPasswordController);
 
-    ResetPasswordController.$inject = ['$scope', '$state', '$stateParams', 'LoginService', 'Alert'];
+    ResetPasswordController.$inject = ['$state', '$stateParams', 'LoginService', 'Alert'];
 
-    function ResetPasswordController($scope, $state, $stateParams, LoginService, Alert) {
+    function ResetPasswordController($state, $stateParams, LoginService, Alert) {
 
-        $scope.changePassword = changePassword;
+        var vm = this;
 
-        $scope.token = $stateParams.token;
+        vm.changePassword = changePassword;
+
+        vm.token = $stateParams.token;
 
         /**
          * @ngdoc function
-         * @name forgotPassword
+         * @name changePassword
          * @methodOf openlmis-auth.ResetPasswordController
          *
          * @description
-         * Requests sending reset password token to email address given in form.
+         * Checks if both passwords are equal and sends change password request to server.
          */
         function changePassword() {
-            if($scope.password1 === $scope.password2) {
-                LoginService.changePassword($scope.password1, $scope.token).then(function() {
+            if(vm.password1 === vm.password2) {
+                LoginService.changePassword(vm.password1, vm.token).then(function() {
                     Alert('password.reset.success');
                     $state.go('auth.login.form');
                 }, function() {
-                    $scope.error = 'msg.change.password.failed';
+                    vm.error = 'msg.change.password.failed';
                 });
             } else {
-                $scope.error = 'error.password.mismatch';
+                vm.error = 'error.password.mismatch';
             }
         }
     }

@@ -1,108 +1,93 @@
 /*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
- */
+* This program is part of the OpenLMIS logistics management information system platform software.
+* Copyright © 2013 VillageReach
+*
+* This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+* You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
+*/
 describe("LoginController", function() {
 
-  beforeEach(module('openlmis-auth'));
+    var $rootScope, vm;
 
-  beforeEach(module(function($provide){
-    // Turn off AuthToken
-    $provide.factory('HttpAuthAccessToken', function(){
-      return {};
-    });
-  }));
+    beforeEach(function() {
+        module('openlmis-auth');
 
-  var $rootScope, scope, LoginController, messageService, controller;
+        module(function($provide){
+            // Turn off AuthToken
+            $provide.factory('HttpAuthAccessToken', function(){
+                return {};
+            });
+        });
 
-  beforeEach(inject(function(_$rootScope_, $controller, _messageService_) {
-    controller = $controller;
-    $rootScope = _$rootScope_;
+        inject(function(_$rootScope_, $controller, $q, LoginService) {
+            $rootScope = _$rootScope_;
 
-    scope = $rootScope.$new();
+            spyOn($rootScope, '$emit');
 
-    spyOn(scope, '$emit');
+            vm = $controller("LoginController", {});
 
-    scope.loginConfig = {
-      "preventReload":true
-    };
-
-    messageService = _messageService_;
-    spyOn(messageService, 'get');
-
-    LoginController = controller("LoginController", {
-      $scope: scope,
-      messageService: messageService
+            spyOn(LoginService, 'login').andCallFake(function(username, password) {
+                if(password == "bad-password"){
+                    return $q.reject();
+                } else {
+                    return $q.when();
+                }
+            });
+        });
     });
 
-  }));
+    var $rootScope, vm;
 
-  beforeEach(inject(function($q, LoginService){
-    spyOn(LoginService, 'login').andCallFake(function(username, password){
-      if(password == "bad-password"){
-        return $q.reject();
-      } else {
-        return $q.when();
-      }
+    it('should not login and show error when server returns error', function() {
+        vm.username = "john";
+        vm.password = "bad-password";
+
+        spyOn(location, 'reload');
+
+        vm.doLogin();
+        $rootScope.$apply();
+
+        expect(vm.loginError).toEqual('user.login.error');
     });
-  }));
 
-  it('should not login and show error when server returns error', function() {
-    scope.username = "john";
-    scope.password = "bad-password";
+    it('should show error when username is missing', function() {
+        vm.username = undefined;
+        vm.doLogin();
+        expect(vm.loginError).toEqual('error.login.username');
+    });
 
-    spyOn(messageService, 'populate');
-    spyOn(location, 'reload');
+    it('should show error when username is only whitespaces', function() {
+        vm.username = "   ";
+        vm.doLogin();
+        expect(vm.loginError).toEqual('error.login.username');
+    });
 
-    scope.doLogin();
-    $rootScope.$apply();
+    it('should show error when password is missing', function() {
+        vm.username = "someUser";
+        vm.password = undefined;
+        vm.doLogin();
+        expect(vm.loginError).toEqual('error.login.password');
+    });
 
-    expect(scope.loginError).toBe(messageService.get("user.login.error"));
-  });
+    it('should clear password on failed login attempt', function() {
+        vm.username = "john";
+        vm.password = "bad-password";
 
-  it('should show error when username is missing', function() {
-    scope.username = undefined;
-    scope.doLogin();
-    expect(messageService.get).toHaveBeenCalledWith('error.login.username');
-  });
+        vm.doLogin();
+        $rootScope.$apply();
 
-  it('should show error when username is only whitespaces', function() {
-    scope.username = "   ";
-    scope.doLogin();
-    expect(messageService.get).toHaveBeenCalledWith('error.login.username');
-  });
+        expect(vm.password).toBe(undefined);
+    });
 
-  it('should show error when password is missing', function() {
-    scope.username = "someUser";
-    scope.password = undefined;
-    scope.doLogin();
-    expect(messageService.get).toHaveBeenCalledWith('error.login.password');
-  });
+    it('should clear password on successful login attempt', function() {
+        vm.username = "john";
+        vm.password = "john-password";
 
-  it('should clear password on failed login attempt', function() {
-    scope.username = "john";
-    scope.password = "bad-password";
+        vm.doLogin();
+        $rootScope.$apply();
 
-    spyOn(messageService, 'populate');
-
-    scope.doLogin();
-    $rootScope.$apply();
-
-    expect(scope.password).toBe(undefined);
-  });
-
-  it('should clear password on successful login attempt', function() {
-    scope.username = "john";
-    scope.password = "john-password";
-
-    scope.doLogin();
-    $rootScope.$apply();
-
-    expect(scope.password).toBe(undefined);
-  });
+        expect(vm.password).toBe(undefined);
+    });
 });

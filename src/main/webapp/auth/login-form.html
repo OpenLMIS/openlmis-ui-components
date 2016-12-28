@@ -13,22 +13,22 @@
         <openlmis-locale class="locale-container"/>
     </div>
 
-    <div class="login-form" ng-controller="LoginController">
+    <div class="login-form" ng-controller="LoginController as vm">
         <h2 id="signInLabel">{{'label.sign.in' | message}}</h2>
 
         <form>
             <fieldset>
                 <div class="login-form-row">
                     <label for="login-username">{{'label.username' | message}}</label>
-                    <input ng-model="username" type="text" id="login-username" required autofocus/>
+                    <input ng-model="vm.username" type="text" id="login-username" required autofocus/>
                 </div>
                 <div class="login-form-row">
                     <label for="login-password">{{'label.password' | message}}</label>
-                    <input ng-model="password" type="password" id="login-password" required/>
+                    <input ng-model="vm.password" type="password" id="login-password" required/>
                 </div>
                 <div id="loginError" class="alert is-error" ng-bind="loginError" ng-show="loginError"></div>
                 <div class="login-form-row">
-                    <button class="btn btn-primary" ng-click="doLogin()" ng-disabled="disableSignInButton">{{'button.sign.in' | message}}</button>
+                    <button class="btn btn-primary" ng-click="vm.doLogin()" ng-disabled="vm.disableSignInButton">{{'button.sign.in' | message}}</button>
                 </div>
                 <div class="login-form-row forgot-link">
                     <a id="forgotPasswordLink" ui-sref="auth.login.forgotPassword">{{'link.forgot.password' | message}}</a>

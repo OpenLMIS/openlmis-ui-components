@@ -179,6 +179,17 @@
             return deferred.promise;
         }
 
+        /**
+        *
+        * @ngdoc function
+        * @name forgotPassword
+        * @methodOf openlmis-auth.LoginService
+        * @param {String} email Mail address where reset password link will be sent
+        * @returns {Promise} Forgot password promise
+        *
+        * @description
+        * Calls the server that sends message with reset password link to given email address.
+        */
         function forgotPassword(email) {
             var forgotPasswordURL = OpenlmisURL('/api/users/forgotPassword?email=' + email);
 
@@ -191,6 +202,18 @@
             });
         }
 
+        /**
+        *
+        * @ngdoc function
+        * @name changePassword
+        * @methodOf openlmis-auth.LoginService
+        * @param {String} newPassword New password for user account
+        * @param {String} token Token that identifies user
+        * @returns {Promise} Resolves when password is changed successfully.
+        *
+        * @description
+        * Calls the server that changes user account password.
+        */
         function changePassword(newPassword, token) {
             var changePasswordURL = OpenlmisURL('/api/users/changePassword'),
                 data = {

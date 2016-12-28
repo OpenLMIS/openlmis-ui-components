@@ -9,7 +9,7 @@
 */
 
 (function(){
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc controller
@@ -19,15 +19,17 @@
      * Controller that drives the forgot password form.
      */
 
-    angular.module("openlmis-auth")
-    .controller("ForgotPasswordController", ForgotPasswordController);
+    angular.module('openlmis-auth')
+    .controller('ForgotPasswordController', ForgotPasswordController);
 
-    ForgotPasswordController.$inject = ['$scope', '$state', 'LoginService', 'Alert'];
+    ForgotPasswordController.$inject = ['$state', 'LoginService', 'Alert'];
 
-    function ForgotPasswordController($scope, $state, LoginService, Alert) {
+    function ForgotPasswordController($state, LoginService, Alert) {
 
-        $scope.forgotPassword = forgotPassword;
-        $scope.goToLogin = goToLogin;
+        var vm = this;
+
+        vm.forgotPassword = forgotPassword;
+        vm.goToLogin = goToLogin;
 
         /**
          * @ngdoc function
@@ -38,11 +40,11 @@
          * Requests sending reset password token to email address given in form.
          */
         function forgotPassword() {
-            LoginService.forgotPassword($scope.email).then(function() {
+            LoginService.forgotPassword(vm.email).then(function() {
                 Alert('email.sent.message', 'email.check.message');
                 goToLogin();
             }, function() {
-                $scope.error = 'msg.forgot.password.failed';
+                vm.error = 'msg.forgot.password.failed';
             });
         }
 
