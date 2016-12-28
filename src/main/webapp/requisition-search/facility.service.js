@@ -9,7 +9,8 @@
      * @description
      * Responsible for retriving all facility information from server.
      */
-	angular.module('openlmis-requisitions')
+	angular
+		.module('requisition-search')
 	    .service('FacilityService', FacilityService);
 
     FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'OfflineService', 'localStorageFactory'];

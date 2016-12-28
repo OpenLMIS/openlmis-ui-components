@@ -12,7 +12,7 @@ describe('FacilityService', function() {
     var $rootScope, $httpBackend, $q, FacilityService, OfflineService, facilitiesStorage, facility1, facility2;
 
     beforeEach(function() {
-        module('openlmis-requisitions');
+        module('requisition-search');
 
         module(function($provide){
             facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put']);
