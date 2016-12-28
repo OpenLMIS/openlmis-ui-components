@@ -5,6 +5,7 @@
     angular.module('openlmis.requisitions', [
         'requisition',
         'requisition-view',
+        'requisition-initiate',
         'requisition-template',
         'requisition-approval',
         'requisition-constants',

@@ -2,13 +2,16 @@
 
     'use strict';
 
-    angular.module('openlmis.requisitions').factory('PeriodFactory', periodFactory);
+    angular
+        .module('requisition-initiate')
+        .factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService',
-    'messageService', '$q', 'DateUtils', 'Status'];
+    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService',
+        '$q', 'DateUtils', 'Status'
+    ];
 
     function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q,
-    DateUtils, Status) {
+        DateUtils, Status) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
             get: {

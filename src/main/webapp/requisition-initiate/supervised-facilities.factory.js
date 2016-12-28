@@ -9,7 +9,7 @@
  */
 
 (function(){
-    "use strict";
+    'use strict';
     /**
      *
      * @ngdoc service
@@ -19,12 +19,13 @@
      * Returns facilities where program with given programId is active and where the given
      * user has right with given rightId.
      */
-    angular.module("openlmis.requisitions")
-        .factory("SupervisedFacilities", factory);
+    angular
+        .module('requisition-initiate')
+        .factory('SupervisedFacilities', factory);
 
     factory.$inject = ['OpenlmisURL', '$q', '$http'];
-    function factory(OpenlmisURL, $q, $http){
 
+    function factory(OpenlmisURL, $q, $http){
         return function(id, programId, rightId) {
             var deferred = $q.defer();
             var facilitiesUrl = OpenlmisURL('api/users/' + id + '/supervisedFacilities');

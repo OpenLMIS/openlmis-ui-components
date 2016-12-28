@@ -14,20 +14,20 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis.requisitions.InitiateRnrController
+     * @name openlmis.requisitions.RequisitionInitiateCtrl
      * @description
      * Controller responsible for actions connected with displaying available periods and
      * initiating or navigating to an existing requisition.
      */
     angular
-        .module('openlmis.requisitions')
-        .controller('InitiateRnrController', InitiateRnrController);
+        .module('requisition-initiate')
+        .controller('RequisitionInitiateCtrl', RequisitionInitiateCtrl);
 
-    InitiateRnrController.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
+    RequisitionInitiateCtrl.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
     'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
      'AuthorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
-    function InitiateRnrController(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
+    function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
     RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
     AuthorizationService, $q, RequisitionRights, SupervisedFacilities) {
 
@@ -36,7 +36,7 @@
         /**
          * @ngdoc property
          * @name emergency
-         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @propertyOf openlmis.requisitions.RequisitionInitiateCtrl
          * @type {Boolean}
          *
          * @description
@@ -47,7 +47,7 @@
         /**
          * @ngdoc property
          * @name facilities
-         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @propertyOf openlmis.requisitions.RequisitionInitiateCtrl
          * @type {Array}
          *
          * @description
@@ -58,7 +58,7 @@
         /**
          * @ngdoc property
          * @name supervisedPrograms
-         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @propertyOf openlmis.requisitions.RequisitionInitiateCtrl
          * @type {Array}
          *
          * @description
@@ -69,7 +69,7 @@
         /**
          * @ngdoc property
          * @name homePrograms
-         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @propertyOf openlmis.requisitions.RequisitionInitiateCtrl
          * @type {Array}
          *
          * @description
@@ -80,7 +80,7 @@
         /**
          * @ngdoc property
          * @name isSupervised
-         * @propertyOf openlmis.requisitions.InitiateRnrController
+         * @propertyOf openlmis.requisitions.RequisitionInitiateCtrl
          * @type {Boolean}
          *
          * @description
@@ -109,7 +109,7 @@
         /**
          * @ngdoc function
          * @name loadFacilityData
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Responsible for displaying and updating select elements that allow to choose
@@ -156,7 +156,7 @@
         /**
          * @ngdoc function
          * @name programOptionMessage
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Determines a proper message for the programs dropdown, based on the presence of programs.
@@ -170,7 +170,7 @@
         /**
          * @ngdoc function
          * @name loadPeriods
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Responsible for displaying and updating a grid, containing available periods for the
@@ -209,7 +209,7 @@
         /**
          * @ngdoc function
          * @name initRnr
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Responsible for initiating and/or navigating to the requisition, based on the specified
@@ -247,7 +247,7 @@
         /**
          * @ngdoc function
          * @name loadFacilitiesForProgram
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Responsible for providing a list of facilities where selected program is active and
@@ -287,7 +287,7 @@
         /**
          * @ngdoc function
          * @name refreshGridData
-         * @methodOf openlmis.requisitions.InitiateRnrController
+         * @methodOf openlmis.requisitions.RequisitionInitiateCtrl
          *
          * @description
          * Responsible for removing period grid data when choosing different program, facility or requisition type.

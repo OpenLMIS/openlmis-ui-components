@@ -9,7 +9,7 @@
  */
 
 (function(){
-    "use strict";
+    'use strict';
     /**
      *
      * @ngdoc service
@@ -18,12 +18,13 @@
      * @description
      * Returns the programs at a user's home facility or programs that the user supervises.
      */
-    angular.module("openlmis.requisitions")
-        .factory("UserPrograms", UserPrograms);
+    angular
+        .module('requisition-initiate')
+        .factory('UserPrograms', factory);
 
-    UserPrograms.$inject = ['OpenlmisURL', '$q', '$http'];
-    function UserPrograms(OpenlmisURL, $q, $http){
+    factory.$inject = ['OpenlmisURL', '$q', '$http'];
 
+    function factory(OpenlmisURL, $q, $http){
         return function(id, isForHomeFacility) {
             var deferred = $q.defer();
             var programsUrl = OpenlmisURL('api/users/' + id + '/programs');

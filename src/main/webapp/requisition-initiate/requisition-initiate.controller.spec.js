@@ -1,9 +1,9 @@
-describe("InitiateRnrController", function(){
+describe("RequisitionInitiateCtrl", function(){
 
     var $q, programs, rootScope, requisitionService, authorizationService, supervisedFacilities,
         periodFactory, $state, period, facility;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-initiate'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _PeriodFactory_,
     _$state_, _RequisitionService_, _AuthorizationService_, _SupervisedFacilities_) {
 
@@ -29,7 +29,7 @@ describe("InitiateRnrController", function(){
 
         spyOn(periodFactory, 'get').andReturn($q.when(period));
 
-        vm = $controller('InitiateRnrController', {facility: facility, user: user, supervisedPrograms: programs,
+        vm = $controller('RequisitionInitiateCtrl', {facility: facility, user: user, supervisedPrograms: programs,
             homePrograms: programs, PeriodFactory: periodFactory, RequisitionService: requisitionService});
     }));
 
@@ -77,7 +77,7 @@ describe("InitiateRnrController", function(){
     it("Should reload periods with proper data", function() {
         vm.selectedProgramId = programs[0].id;
         vm.selectedFacilityId = facility.id;
-        
+
         vm.loadPeriods();
         rootScope.$apply();
 
