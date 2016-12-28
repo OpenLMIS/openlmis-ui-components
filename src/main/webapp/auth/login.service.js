@@ -2,13 +2,13 @@
     'use strict';
 
     /**
-    *
-    * @ngdoc service
-    * @name openlmis-auth.LoginService
-    * @description
-    * Facilitates the login process between the OpenLMIS Server and the UI client. This service works with the AuthorizationService, which is responsible for storing implementation details.
-    *
-    */
+     * @ngdoc service
+     * @name openlmis-auth.LoginService
+     *
+     * @description
+     * Facilitates the login process between the OpenLMIS Server and the UI client.
+     * This service works with the AuthorizationService, which is responsible for storing implementation details.
+     */
 
     angular
         .module('openlmis-auth')
@@ -46,20 +46,18 @@
         }
 
         /**
-        *
-        * @ngdoc function
-        * @name login
-        * @methodOf openlmis-auth.LoginService
-        *
-        * @param {String} username The name of the person trying to login
-        * @param {String} password The password the person is trying to login with
-        *
-        * @description
-        * Makes an HTTP request to login the user.
-        *
-        * This method returns a function that will return a promise with no value.
-        *
-        */
+         * @ngdoc function
+         * @name login
+         * @methodOf openlmis-auth.LoginService
+         *
+         * @description
+         * Makes an HTTP request to login the user.
+         *
+         * This method returns a function that will return a promise with no value.
+         *
+         * @param {String} username The name of the person trying to login
+         * @param {String} password The password the person is trying to login with
+         */
 
         function login(username, password){
             var deferred = $q.defer();
@@ -101,15 +99,13 @@
         }
 
         /**
-        *
-        * @ngdoc function
-        * @name logout
-        * @methodOf openlmis-auth.LoginService
-        *
-        * @description
-        * Calls the server, and removes from authorization service.
-        *
-        */
+         * @ngdoc function
+         * @name logout
+         * @methodOf openlmis-auth.LoginService
+         *
+         * @description
+         * Calls the server, and removes from authorization service.
+         */
 
         function logout(){
             var deferred = $q.defer();
@@ -180,16 +176,16 @@
         }
 
         /**
-        *
-        * @ngdoc function
-        * @name forgotPassword
-        * @methodOf openlmis-auth.LoginService
-        * @param {String} email Mail address where reset password link will be sent
-        * @returns {Promise} Forgot password promise
-        *
-        * @description
-        * Calls the server that sends message with reset password link to given email address.
-        */
+         * @ngdoc function
+         * @name forgotPassword
+         * @methodOf openlmis-auth.LoginService
+         *
+         * @description
+         * Calls the server that sends message with reset password link to given email address.
+         *
+         * @param {String} email Mail address where reset password link will be sent
+         * @returns {Promise} Forgot password promise
+         */
         function forgotPassword(email) {
             var forgotPasswordURL = OpenlmisURL('/api/users/forgotPassword?email=' + email);
 
@@ -203,17 +199,17 @@
         }
 
         /**
-        *
-        * @ngdoc function
-        * @name changePassword
-        * @methodOf openlmis-auth.LoginService
-        * @param {String} newPassword New password for user account
-        * @param {String} token Token that identifies user
-        * @returns {Promise} Resolves when password is changed successfully.
-        *
-        * @description
-        * Calls the server that changes user account password.
-        */
+         * @ngdoc function
+         * @name changePassword
+         * @methodOf openlmis-auth.LoginService
+         *
+         * @description
+         * Calls the server that changes user account password.
+         *
+         * @param {String} newPassword New password for user account
+         * @param {String} token Token that identifies user
+         * @returns {Promise} Resolves when password is changed successfully.
+         */
         function changePassword(newPassword, token) {
             var changePasswordURL = OpenlmisURL('/api/users/changePassword'),
                 data = {
