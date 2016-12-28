@@ -5,7 +5,7 @@ describe('RequisitionCategory', function() {
     var name = 'TestCategory',
         lineItems;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition'));
 
     beforeEach(inject(function(_RequisitionCategory_) {
         RequisitionCategory = _RequisitionCategory_;

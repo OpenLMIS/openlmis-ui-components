@@ -58,7 +58,7 @@ describe('RequisitionFactory', function() {
             }
         };
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition'));
 
     beforeEach(module(function($provide){
         var template = jasmine.createSpyObj('template', ['getColumns']),

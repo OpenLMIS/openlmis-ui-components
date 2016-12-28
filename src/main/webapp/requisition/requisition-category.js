@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition')
         .factory('RequisitionCategory', requisitionCategory);
 
     function requisitionCategory() {

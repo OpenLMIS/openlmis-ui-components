@@ -3,7 +3,7 @@ describe('LineItem', function() {
     var LineItem, requisitionLineItem, requisition, program;
 
     beforeEach(function() {
-        module('openlmis.requisitions');
+        module('requisition');
 
         var calculations = jasmine.createSpyObj('calculations', ['totalCost']);
         calculations.totalCost.andReturn(20);

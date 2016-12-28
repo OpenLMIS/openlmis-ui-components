@@ -10,7 +10,7 @@
      * Responsible for adding required methods for line items.
      */
     angular
-    .module('openlmis.requisitions')
+    .module('requisition')
     .factory('LineItem', lineItem);
 
     lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source', 'Type'];

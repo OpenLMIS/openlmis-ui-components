@@ -2,6 +2,13 @@
 
     'use strict';
 
-    angular.module('requisition', []);
+    angular.module('requisition', [
+        'requisition-validation',
+        'requisition-constants',
+        'requisition-template',
+        'openlmis-offline',
+        'openlmis-core',
+        'ngResource'
+    ]);
 
 })();

@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('requisition-convert-to-order', [
-        'openlmis.requisitions',
+        'requisition',
         'ui.router'
     ]);
 

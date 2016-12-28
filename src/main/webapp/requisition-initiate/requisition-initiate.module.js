@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('requisition-initiate', [
-        'openlmis.requisitions',
+        'requisition',
         'ngResource',
         'ui.router'
     ]);

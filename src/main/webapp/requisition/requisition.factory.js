@@ -10,7 +10,7 @@
      * Responsible for supplying requisition with additional methods.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition')
         .factory('RequisitionFactory', requisitionFactory);
 
     requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL',

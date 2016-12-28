@@ -16,7 +16,7 @@ describe('RequisitionService', function() {
         approvedProductsOffline, templateOffline;
 
     beforeEach(function() {
-        module('openlmis.requisitions');
+        module('requisition');
 
         startDate = [2016, 4, 30, 16, 21, 33];
         endDate = [2016, 4, 30, 16, 21, 33];

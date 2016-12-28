@@ -10,7 +10,7 @@
      * Responsible for retriving all information from server.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition')
         .service('RequisitionService', requisitionService);
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
