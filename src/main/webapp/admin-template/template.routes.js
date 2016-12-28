@@ -21,30 +21,17 @@
 		$stateProvider.state('administration.configure.template', {
 			url: '/template/:template',
 			controller: 'RequisitionTemplateAdminController',
-			templateUrl: 'requisitions/template/template.html',
+			templateUrl: 'admin-template/template.html',
 			controllerAs: 'vm',
-			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
+			accessRights: [
+				RequisitionRights.MANAGE_REQUISITION_TEMPLATES
+			],
 			resolve: {
 				template: function ($stateParams, templateFactory) {
 					return templateFactory.get($stateParams.template);
 				},
 				program: function (template, Program) {
 					return Program.get(template.programId);
-				}
-			}
-		});
-
-		$stateProvider.state('administration.configure.templateList', {
-			showInNavigation: true,
-			label: 'configure.rnr.header',
-			url: '/templateList',
-			controller: 'ProgramAdministrationListCtrl',
-			templateUrl: 'requisitions/template/program-administration-list/program-administration-list.html',
-			controllerAs: 'vm',
-			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
-			resolve: {
-				programList: function (Program) {
-					return Program.getAll();
 				}
 			}
 		});

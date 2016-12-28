@@ -23,7 +23,7 @@
 			label: 'configure.rnr.header',
 			url: '/templateList',
 			controller: 'ProgramAdministrationListCtrl',
-			templateUrl: 'requisitions/template/program-administration-list/program-administration-list.html',
+			templateUrl: 'admin-template-list/program-administration-list.html',
 			controllerAs: 'vm',
 			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
 			resolve: {

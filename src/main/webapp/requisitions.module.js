@@ -4,6 +4,7 @@
 
     angular.module('openlmis-requisitions', [
         'admin-template',
+        'admin-template-list',
         'angular.filter',
         'ngBootbox',
         'ngSanitize',
