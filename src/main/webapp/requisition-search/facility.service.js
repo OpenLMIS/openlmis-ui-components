@@ -4,7 +4,7 @@
 
 	/**
      * @ngdoc service
-     * @name openlmis-requisitions.FacilityService
+     * @name requisition-search.FacilityService
      *
      * @description
      * Responsible for retriving all facility information from server.
@@ -35,7 +35,7 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf openlmis-requisitions.FacilityService
+         * @methodOf requisition-search.FacilityService
          * @param {String} facilityId Facility UUID
          * @return {Promise} facility promise
          *
@@ -66,7 +66,7 @@
 		/**
          * @ngdoc function
          * @name getAll
-         * @methodOf openlmis-requisitions.FacilityService
+         * @methodOf requisition-search.FacilityService
          * @return {Promise} Array of facilities
          *
          * @description
