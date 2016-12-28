@@ -145,7 +145,7 @@
          * @methodOf openlmis.requisitions.ConvertToOrderCtrl
          *
          * @description
-         * Returns list of selected by user requisitions, that are supposed to be converted to orders.
+         * Returns a list of requisitions selected by user, that are supposed to be converted to orders.
          *
          * @return {Array} list of selected requisitions
          */
