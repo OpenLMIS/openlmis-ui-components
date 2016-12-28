@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('requisition-approval', [
-        'openlmis.requisitions',
+        'requisition',
         'ui.router'
     ]);
 
