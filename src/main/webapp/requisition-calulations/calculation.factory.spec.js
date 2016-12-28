@@ -14,7 +14,7 @@ describe('calculations', function() {
             beginningBalance: 20,
             totalConsumedQuantity: 15,
             totalReceivedQuantity: 10,
-            stockOnHand: 5,
+            stockOnHand: 5
         };
     });
 
@@ -156,4 +156,26 @@ describe('calculations', function() {
         });
     });
 
+    describe('Calculate adjusted consumption', function() {
+        beforeEach(lineItemInject);
+        var period = {
+            startDate: [2016, 4, 1],
+            endDate: [2016, 4, 30]
+        };
+
+        it('should return total consumed quantity when non-stockout days is zero', function() {
+            lineItem.totalStockoutDays = 30;
+            expect(calculations.adjustedConsumption(lineItem, period)).toBe(lineItem.totalConsumedQuantity);
+        });
+
+        it('should return zero when consumed quantity is not defined', function() {
+            lineItem.totalConsumedQuantity = 0;
+            expect(calculations.adjustedConsumption(lineItem, period)).toBe(0);
+        });
+
+        it('should calculate adjusted consumption', function() {
+            lineItem.totalStockoutDays = 15;
+            expect(calculations.adjustedConsumption(lineItem, period)).toBe(30);
+        });
+    });
 });

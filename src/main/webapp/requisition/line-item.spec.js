@@ -1,11 +1,11 @@
 describe('LineItem', function() {
 
-    var LineItem, requisitionLineItem, requisition, program;
+    var LineItem, requisitionLineItem, requisition, program, calculations;
 
     beforeEach(function() {
         module('requisition');
 
-        var calculations = jasmine.createSpyObj('calculations', ['totalCost']);
+        calculations = jasmine.createSpyObj('calculations', ['totalCost', 'adjustedConsumption']);
         calculations.totalCost.andReturn(20);
 
         module(function($provide) {
@@ -42,6 +42,10 @@ describe('LineItem', function() {
             ],
             program: program,
             status: 'SUBMITTED',
+            processingPeriod: {
+                startDate: [2016, 4, 1],
+                endDate: [2016, 4, 30]
+            },
             $template: {
                 columns: [
                     {
@@ -56,6 +60,11 @@ describe('LineItem', function() {
                     },
                     {
                         name: 'totalCost',
+                        source: 'CALCULATED',
+                        type: 'NUMERIC'
+                    },
+                    {
+                        name: 'adjustedConsumption',
                         source: 'CALCULATED',
                         type: 'NUMERIC'
                     }
@@ -100,6 +109,20 @@ describe('LineItem', function() {
             expect(lineItem.requestedQuantity).toEqual(0);
             expect(lineItem.requestedQuantityExplanation).toEqual('');
             expect(lineItem.totalCost).toEqual(20);
+        });
+
+        it('should call proper calculation method when column name is Adjusted Consumption', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+            lineItem.updateFieldValue(requisition.$template.columns[3], requisition);
+
+            expect(calculations.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition.processingPeriod);
+        });
+
+        it('should call proper calculation method when column name is calculated and not Adjusted Consumption', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+            lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
+
+            expect(calculations.totalCost).toHaveBeenCalledWith(lineItem, requisition.status);
         });
     });
 });

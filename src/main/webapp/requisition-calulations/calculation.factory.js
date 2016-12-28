@@ -224,7 +224,7 @@
         var startYear = period.startDate[0];
         var endYear = period.endDate[0];
 
-        return endMonth - startMonth + (12 * endYear - startYear) + 1;
+        return endMonth - startMonth + (12 * (endYear - startYear)) + 1;
     }
 
 })();
