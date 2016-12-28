@@ -44,7 +44,7 @@
 
             var newLineItem = this;
             requisition.$template.columns.forEach(function(column) {
-                newLineItem.updateFieldValue(column, requisition.status);
+                newLineItem.updateFieldValue(column, requisition);
             });
         }
 
@@ -67,14 +67,14 @@
          * @param {Object} column Requisition template column
          * @param {Object} status Requisition status
          */
-        function updateFieldValue(column, status) {
+        function updateFieldValue(column, requisition) {
             var fullName = column.name,
                 object = getObject(this, fullName),
                 propertyName = getPropertyName(column.name);
 
             if(object) {
                 if (column.source === Source.CALCULATED) {
-                    object[propertyName] = calculations[fullName](this, status);
+                    object[propertyName] = calculations[fullName](this, requisition.status);
                 } else if (column.type === Type.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {

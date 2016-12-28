@@ -14,7 +14,8 @@
             Columns.SKIPPED,
             Columns.REMARKS,
             Columns.TOTAL_LOSSES_AND_ADJUSTMENTS,
-            Columns.REQUESTED_QUANTITY_EXPLANATION
+            Columns.REQUESTED_QUANTITY_EXPLANATION,
+            Columns.ADJUSTED_CONSUMPTION
         ];
 
         var dependencies = {

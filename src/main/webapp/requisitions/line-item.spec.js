@@ -79,8 +79,8 @@ describe('LineItem', function() {
         it('should not update values in line item if they are set', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
 
-            lineItem.updateFieldValue(requisition.$template.columns[0], requisition.status);
-            lineItem.updateFieldValue(requisition.$template.columns[1], requisition.status);
+            lineItem.updateFieldValue(requisition.$template.columns[0], requisition);
+            lineItem.updateFieldValue(requisition.$template.columns[1], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(requisitionLineItem.requestedQuantity);
             expect(lineItem.requestedQuantityExplanation).toEqual(requisitionLineItem.requestedQuantityExplanation);
@@ -93,9 +93,9 @@ describe('LineItem', function() {
             lineItem.requestedQuantityExplanation = undefined;
             lineItem.totalCost = undefined;
 
-            lineItem.updateFieldValue(requisition.$template.columns[0], requisition.status);
-            lineItem.updateFieldValue(requisition.$template.columns[1], requisition.status);
-            lineItem.updateFieldValue(requisition.$template.columns[2], requisition.status);
+            lineItem.updateFieldValue(requisition.$template.columns[0], requisition);
+            lineItem.updateFieldValue(requisition.$template.columns[1], requisition);
+            lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(0);
             expect(lineItem.requestedQuantityExplanation).toEqual('');

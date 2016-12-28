@@ -26,7 +26,8 @@
         J = Columns.REQUESTED_QUANTITY,
         V = Columns.PACKS_TO_SHIP,
         Q = Columns.TOTAL_COST,
-        T = Columns.PRICE_PER_PACK;
+        T = Columns.PRICE_PER_PACK,
+        N = Columns.ADJUSTED_CONSUMPTION;
 
     var calculations = {
       totalConsumedQuantity: calculateTotalConsumedQuantity,
@@ -34,7 +35,8 @@
       totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
       total: calculateTotal,
       packsToShip: calculatePacksToShip,
-      totalCost: calculateTotalCost
+      totalCost: calculateTotalCost,
+      adjustedConsumption: calculateAdjustedConsumption
     };
     return calculations;
 
@@ -168,6 +170,34 @@
         }
         return pricePerPack * packsToShip;
     }
+
+      /**
+       * @ngdoc function
+       * @name adjustedConsumption
+       * @methodOf openlmis.requisitions.calculations
+       *
+       * @description
+       * Calculates the value of the Adjusted Consumption column based on the given line item.
+       *
+       * @param  {Object} lineItem the line item to calculate the value from
+       * @return {Number}          the calculated Adjusted Consumption value
+       */
+      function calculateAdjustedConsumption(lineItem) {
+        var consumedQuantity = lineItem[C];
+        if (consumedQuantity === undefined) {
+            return 0;
+        }
+
+        var totalDays = 30;
+        var stockoutDays = lineItem.totalStockoutDays === undefined ? 0: lineItem.totalStockoutDays;
+        var nonStockoutDays = totalDays - stockoutDays;
+        if (nonStockoutDays === 0) {
+            return consumedQuantity;
+        }
+
+        var adjustedConsumption = consumedQuantity * Math.ceil((totalDays / nonStockoutDays));
+        return adjustedConsumption;
+      }
 
     /**
      * @ngdoc function
