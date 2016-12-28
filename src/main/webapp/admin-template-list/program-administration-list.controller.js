@@ -20,13 +20,13 @@
      * Controller for template list view page
      */
 
-    angular.module('admin-template').controller('ProgramAdministrationListCtrl', ProgramAdministrationListCtrl);
+    angular
+        .module('admin-template-list')
+        .controller('ProgramAdministrationListCtrl', controller);
 
-    ProgramAdministrationListCtrl.$inject = ['$state', 'programList', 'AuthorizationService',
-                                             'RequisitionRights'];
+    controller.$inject = ['$state', 'programList', 'AuthorizationService', 'RequisitionRights'];
 
-    function ProgramAdministrationListCtrl($state, programList, AuthorizationService,
-                                           RequisitionRights) {
+    function controller($state, programList, AuthorizationService, RequisitionRights) {
         var vm = this;
 
         vm.programs = programList;
