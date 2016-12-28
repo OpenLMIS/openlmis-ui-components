@@ -65,7 +65,7 @@
          * Updates column value in the line item based on column type and source.
          *
          * @param {Object} column Requisition template column
-         * @param {Object} status Requisition status
+         * @param {Object} requisition Requisition to which line item belongs
          */
         function updateFieldValue(column, requisition) {
             var fullName = column.name,
@@ -74,7 +74,11 @@
 
             if(object) {
                 if (column.source === Source.CALCULATED) {
-                    object[propertyName] = calculations[fullName](this, requisition.status);
+                    if (fullName === 'adjustedConsumption') {
+                        object[propertyName] = calculations[fullName](this, requisition.processingPeriod);
+                    } else {
+                        object[propertyName] = calculations[fullName](this, requisition.status);
+                    }
                 } else if (column.type === Type.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {

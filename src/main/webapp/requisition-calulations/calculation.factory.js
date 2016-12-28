@@ -179,16 +179,17 @@
        * @description
        * Calculates the value of the Adjusted Consumption column based on the given line item.
        *
-       * @param  {Object} lineItem the line item to calculate the value from
-       * @return {Number}          the calculated Adjusted Consumption value
+       * @param  {Object} lineItem  the line item to calculate the value from
+       * @param  {Object} period    period that is used to calculations
+       * @return {Number}           the calculated Adjusted Consumption value
        */
-      function calculateAdjustedConsumption(lineItem) {
+      function calculateAdjustedConsumption(lineItem, period) {
         var consumedQuantity = lineItem[C];
         if (consumedQuantity === undefined) {
             return 0;
         }
 
-        var totalDays = 30;
+        var totalDays = 30 * getNumberOfMonthsInPeriod(period);
         var stockoutDays = lineItem.totalStockoutDays === undefined ? 0: lineItem.totalStockoutDays;
         var nonStockoutDays = totalDays - stockoutDays;
         if (nonStockoutDays === 0) {
@@ -216,5 +217,14 @@
         return status === Status.AUTHORIZED ? lineItem[K] : lineItem[J];
     }
   }
+
+    function getNumberOfMonthsInPeriod(period) {
+        var startMonth = period.startDate[1];
+        var endMonth = period.endDate[1];
+        var startYear = period.startDate[0];
+        var endYear = period.endDate[0];
+
+        return endMonth - startMonth + (12 * endYear - startYear) + 1;
+    }
 
 })();
