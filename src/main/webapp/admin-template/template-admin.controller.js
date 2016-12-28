@@ -14,13 +14,13 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-requisitions.RequisitionTemplateAdminController
+     * @name admin-template.RequisitionTemplateAdminController
      *
      * @description
      * Controller for template view page
      */
 
-    angular.module('openlmis-requisitions').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
+    angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
     RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService'];
 
@@ -40,7 +40,7 @@
         /**
          * @ngdoc function
          * @name goToTemplateList
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          *
          * @description
          * Redirects user to template list view page.
@@ -52,7 +52,7 @@
         /**
          * @ngdoc function
          * @name saveTemplate
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          *
          * @description
          * Saves template from scope. After successful action displays
@@ -71,7 +71,7 @@
         /**
          * @ngdoc function
          * @name dropCallback
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          * @param {Event} event Drop event
          * @param {integer} index Indicates where column was dropped
          * @param {Object} item Dropped column
@@ -90,7 +90,7 @@
         /**
          * @ngdoc function
          * @name canChangeSource
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          * @param {Object} columnDefinition Contains info about how column can be manipulated by user
          *
          * @description
@@ -104,7 +104,7 @@
         /**
          * @ngdoc function
          * @name sourceDisplayName
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          * @param {String} name Column source name
          * @returns {String} Column source display name
          *
@@ -118,7 +118,7 @@
         /**
          * @ngdoc function
          * @name errorMessage
-         * @methodOf openlmis-requisitions.RequisitionTemplateAdminController
+         * @methodOf admin-template.RequisitionTemplateAdminController
          * @param {Object} column Column
          * @returns {String} Column validation error message
          *

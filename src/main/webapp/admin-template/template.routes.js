@@ -12,7 +12,7 @@
 
 	'use strict';
 
-	angular.module('openlmis-requisitions').config(routes);
+	angular.module('admin-template').config(routes);
 
 	routes.$inject = ['$stateProvider', 'RequisitionRights'];
 

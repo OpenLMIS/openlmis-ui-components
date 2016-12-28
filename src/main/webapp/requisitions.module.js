@@ -3,23 +3,24 @@
     "use strict";
 
     angular.module('openlmis-requisitions', [
-        'requisition',
-        'requisition-view',
-        'requisition-search',
-        'requisition-initiate',
-        'requisition-template',
-        'requisition-approval',
-        'requisition-constants',
-        'requisition-validation',
-        'requisition-full-supply',
-        'requisition-calculations',
-        'requisition-non-full-supply',
-        'requisition-convert-to-order',
+        'admin-template',
         'angular.filter',
+        'ngBootbox',
+        'ngSanitize',
         'openlmis-core',
         'openlmis-templates',
-        'ngSanitize',
-        'ngBootbox',
+        'requisition',
+        'requisition-approval',
+        'requisition-calculations',
+        'requisition-constants',
+        'requisition-convert-to-order',
+        'requisition-full-supply',
+        'requisition-initiate',
+        'requisition-non-full-supply',
+        'requisition-search',
+        'requisition-template',
+        'requisition-validation',
+        'requisition-view',
         'ui.router'
     ]);
 
