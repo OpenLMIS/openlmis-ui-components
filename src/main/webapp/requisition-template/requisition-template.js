@@ -3,18 +3,18 @@
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
-        .factory('Template', template);
+        .module('requisition-template')
+        .factory('RequisitionTemplate', template);
 
     template.$inject = ['RequisitionColumn'];
 
     function template(RequisitionColumn) {
 
-        Template.prototype.getColumns = getColumns;
+        RequisitionTemplate.prototype.getColumns = getColumns;
 
-        return Template;
+        return RequisitionTemplate;
 
-        function Template(template, requisition) {
+        function RequisitionTemplate(template, requisition) {
             this.showNonFullSupplyTab = requisition.program.showNonFullSupplyTab;
 
             var columns = [];

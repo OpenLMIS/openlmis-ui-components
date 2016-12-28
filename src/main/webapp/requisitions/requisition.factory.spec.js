@@ -62,7 +62,7 @@ describe('RequisitionFactory', function() {
 
     beforeEach(module(function($provide){
         var template = jasmine.createSpyObj('template', ['getColumns']),
-            TemplateSpy = jasmine.createSpy('Template').andReturn(template);
+            TemplateSpy = jasmine.createSpy('RequisitionTemplate').andReturn(template);
 
         template.getColumns.andCallFake(function(nonFullSupply) {
             return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
@@ -70,7 +70,7 @@ describe('RequisitionFactory', function() {
 
         offlineRequitions = jasmine.createSpyObj('offlineRequitions', ['put', 'remove']);
 
-    	$provide.service('Template', function(){
+    	$provide.service('RequisitionTemplate', function(){
     		return TemplateSpy;
     	});
         $provide.factory('localStorageFactory', function() {

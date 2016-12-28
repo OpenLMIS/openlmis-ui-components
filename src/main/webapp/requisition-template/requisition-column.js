@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-    .module('openlmis.requisitions')
+    .module('requisition-template')
     .factory('RequisitionColumn', requisitionColumn);
 
     requisitionColumn.$inject = ['Columns', 'Source', 'Status'];

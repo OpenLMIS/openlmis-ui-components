@@ -13,12 +13,13 @@
         .module('openlmis.requisitions')
         .factory('RequisitionFactory', requisitionFactory);
 
-    requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL', 'Template',
-        'LineItem', 'CategoryFactory', 'Status', 'Source', 'localStorageFactory', 'OfflineService'
+    requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL',
+        'RequisitionTemplate', 'LineItem', 'CategoryFactory', 'Status', 'Source',
+        'localStorageFactory', 'OfflineService'
     ];
 
-    function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, Template, LineItem,
-        CategoryFactory, Status, Source, localStorageFactory, OfflineService) {
+    function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, RequisitionTemplate,
+        LineItem, CategoryFactory, Status, Source, localStorageFactory, OfflineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
@@ -79,7 +80,7 @@
             requisition.$isSubmitted = isSubmitted;
             requisition.$isApproved = isApproved;
             requisition.$isAuthorized = isAuthorized;
-            requisition.$template = new Template(template, requisition);
+            requisition.$template = new RequisitionTemplate(template, requisition);
 
             var lineItems = [];
             requisition.requisitionLineItems.forEach(function(lineItem) {

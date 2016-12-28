@@ -16,7 +16,7 @@ describe('NonFullSupplyCtrl', function() {
         AddProductModalService = jasmine.createSpyObj('AddProductModalService', ['show']);
 
         requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
-        requisition.$template = jasmine.createSpyObj('Template', ['getColumns']);
+        requisition.$template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
         requisition.requisitionLineItems = [
             lineItemSpy(0, 'One', true),
             lineItemSpy(1, 'Two', true),

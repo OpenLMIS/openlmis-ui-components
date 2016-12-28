@@ -4,7 +4,7 @@ describe('RequisitionColumn', function() {
 
     var columnDef, requisition;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-template'));
 
     beforeEach(inject(function(_RequisitionColumn_, _Status_, _Columns_, _Source_, _Type_) {
         RequisitionColumn = _RequisitionColumn_;
