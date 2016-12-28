@@ -2,7 +2,7 @@ describe('calculations', function() {
 
     var calculations, Status, lineItem;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-calculations'));
 
     var lineItemInject = inject(function(_calculations_, _Status_) {
         calculations = _calculations_;

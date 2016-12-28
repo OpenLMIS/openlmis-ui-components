@@ -10,7 +10,7 @@
    * Responsible for storing all the calculations related with the line item and product grid.
    */
   angular
-    .module('openlmis.requisitions')
+    .module('requisition-calculations')
     .factory('calculations', calculations);
 
   calculations.$inject = ['Columns', '$filter', 'Status'];

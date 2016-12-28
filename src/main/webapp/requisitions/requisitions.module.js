@@ -8,6 +8,7 @@
         'requisition-approval',
         'requisition-constants',
         'requisition-full-supply',
+        'requisition-calculations',
         'requisition-non-full-supply',
         'requisition-convert-to-order',
         'angular.filter',
