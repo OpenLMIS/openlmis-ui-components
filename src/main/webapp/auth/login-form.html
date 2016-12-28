@@ -26,7 +26,7 @@
                     <label for="login-password">{{'label.password' | message}}</label>
                     <input ng-model="vm.password" type="password" id="login-password" required/>
                 </div>
-                <div id="loginError" class="alert is-error" ng-bind="loginError" ng-show="loginError"></div>
+                <div id="loginError" class="alert is-error" ng-if="vm.loginError">{{vm.loginError | message}}</div>
                 <div class="login-form-row">
                     <button class="btn btn-primary" ng-click="vm.doLogin()" ng-disabled="vm.disableSignInButton">{{'button.sign.in' | message}}</button>
                 </div>
