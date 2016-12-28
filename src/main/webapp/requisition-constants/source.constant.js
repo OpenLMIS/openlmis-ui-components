@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-    .module('openlmis.requisitions')
+    .module('requisition-constants')
     .constant('Source', source());
 
     function source() {

@@ -6,6 +6,7 @@
         'requisition',
         'requisition-view',
         'requisition-approval',
+        'requisition-constants',
         'requisition-full-supply',
         'requisition-non-full-supply',
         'requisition-convert-to-order',

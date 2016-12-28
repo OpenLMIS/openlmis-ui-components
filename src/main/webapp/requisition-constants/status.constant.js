@@ -1,9 +1,9 @@
 (function() {
-  
+
     'use strict';
 
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-constants')
         .constant('Status', status());
 
     function status() {
