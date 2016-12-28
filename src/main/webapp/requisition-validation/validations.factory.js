@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('openlmis.requisitions')
+    .module('requisition-validation')
     .factory('validations', validationFactory);
 
   validationFactory.$inject = ['messageService'];

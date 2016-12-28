@@ -7,6 +7,7 @@
         'requisition-view',
         'requisition-approval',
         'requisition-constants',
+        'requisition-validation',
         'requisition-full-supply',
         'requisition-calculations',
         'requisition-non-full-supply',

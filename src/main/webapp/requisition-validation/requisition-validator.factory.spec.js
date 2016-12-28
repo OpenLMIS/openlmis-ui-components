@@ -6,7 +6,7 @@ describe('requisitionValidator', function() {
 
     var lineItem, column, columns;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-validation'));
 
     beforeEach(module(function($provide) {
         var methods = ['nonNegative', 'nonEmptyIfPropertyIsSet', 'nonEmpty', 'validateCalculation'];
@@ -17,8 +17,7 @@ describe('requisitionValidator', function() {
         });
     }));
 
-    beforeEach(inject(function(_requisitionValidator_, _RequisitionFactory_, _Columns_, _Source_,
-                               _calculations_) {
+    beforeEach(inject(function(_requisitionValidator_, _Columns_, _Source_, _calculations_) {
         validator = _requisitionValidator_;
         Columns = _Columns_;
         Source = _Source_;

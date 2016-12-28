@@ -3,7 +3,7 @@ describe('validations', function() {
 
     var validations, messageService;
 
-    beforeEach(module('openlmis.requisitions'));
+    beforeEach(module('requisition-validation'));
 
     beforeEach(inject(function(_validations_, _messageService_) {
         validations = _validations_;
@@ -48,7 +48,7 @@ describe('validations', function() {
     it('validates a calculation was performed correctly', function(){
         // will take a calculation
         function addFooToBar(obj){
-            return obj.foo + obj.bar; 
+            return obj.foo + obj.bar;
         }
 
         var checkCalculationFooBar = validations.validateCalculation(addFooToBar);
@@ -62,7 +62,7 @@ describe('validations', function() {
         expect(checkCalculationFooBar(7, item)).toBe('error.wrongCalculation');
 
         item.bar = 2;
-        expect(checkCalculationFooBar(2, item)).toBe('error.wrongCalculation');        
+        expect(checkCalculationFooBar(2, item)).toBe('error.wrongCalculation');
         expect(checkCalculationFooBar(3, item)).toBe(undefined);
     });
 

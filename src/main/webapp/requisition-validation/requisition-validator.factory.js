@@ -10,7 +10,7 @@
      * Responsible for validating requisitions, lineItems and their fields.
      */
     angular
-        .module('openlmis.requisitions')
+        .module('requisition-validation')
         .factory('requisitionValidator', requisitionValidator);
 
     requisitionValidator.$inject = ['validations', 'calculations', 'Columns', 'Source'];
