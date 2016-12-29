@@ -2,12 +2,11 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name openlmis-core.Alert
+     *
      * @description
      * Service allows to display alert modal with custom message.
-     *
      */
 
     angular.module('openlmis-core')
@@ -19,6 +18,7 @@
 
         var alert = warning;
         alert.error = error;
+        alert.success = success;
 
         return alert;
 
@@ -27,13 +27,13 @@
          * @ngdoc function
          * @name Alert
          * @methodOf openlmis-core.Alert
-         * @param {String} message Primary message to display at the top
-         * @param {String} additionalMessage Additional message to display below
-         * @return {Promise} alert promise
          *
          * @description
          * Shows warning modal with custom message and returns promise.
          *
+         * @param {String} message Primary message to display at the top
+         * @param {String} additionalMessage Additional message to display below
+         * @return {Promise} alert promise
          */
         function warning(message, additionalMessage) {
             var deferred = $q.defer();
@@ -42,20 +42,36 @@
         }
 
         /**
-         *
          * @ngdoc function
          * @name error
          * @methodOf openlmis-core.Alert
-         * @param {String} message Message to display
-         * @param {String} callback Function called after closing alert
          *
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
+         * @param {String} message Message to display
+         * @param {String} callback Function called after closing alert
          */
         function error(message, callback) {
-            showAlert('glyphicon-remove-circle', callback, messageService.get(message));
+            showAlert('glyphicon-remove-circle', callback, message);
         }
+
+        /**
+         * @ngdoc function
+         * @name success
+         * @methodOf openlmis-core.Alert
+         *
+         * @description
+         * Shows success modal with custom message and calls callback after closing alert.
+         *
+         * @param {String} message Message to display
+         * @param {String} additionalMessage Additional message to display below
+         * @param {String} callback Function called after closing alert
+         */
+        function success(message, additionalMessage, callback) {
+            showAlert('glyphicon-ok-circle', callback, message, additionalMessage);
+        }
+
 
         function showAlert(alertClass, callback, message, additionalMessage) {
 
@@ -74,8 +90,8 @@
                     scope = $rootScope.$new();
 
                 scope.icon = alertClass;
-                scope.message = messageService.get(message);
-                if (additionalMessage) scope.additionalMessage = messageService.get(additionalMessage);
+                scope.message = message;
+                if (additionalMessage) scope.additionalMessage = additionalMessage;
 
                 modal = bootbox.dialog({
                     message: $compile(html)(scope),

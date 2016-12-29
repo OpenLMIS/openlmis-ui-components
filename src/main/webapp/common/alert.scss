@@ -5,7 +5,7 @@
 		align-items: center;
 		font-size: 1.7em;
 	}
-	.alert-messages {		
+	.alert-messages {
 		padding: 0.3em;
 	}
 	.alert-message-additional{
@@ -20,6 +20,9 @@
 	}
 	.glyphicon-remove-circle {
 		color: $red;
+	}
+	.glyphicon-ok-circle {
+		color: $green;
 	}
 	footer{
 		@include clearfix();
