@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('requisition')
+        .module('requisition-constants')
         .constant('RequisitionRights', constant());
 
     function constant() {
