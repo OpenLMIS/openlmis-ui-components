@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis.administration.disableDrag
+     * @name admin-template.disableDrag
      *
      * @description
      * Disable drag action on html elements i.e. inputs.
