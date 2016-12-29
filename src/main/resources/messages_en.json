@@ -558,7 +558,7 @@
   "error.login.password": "Please enter your password.",
   "error.authorization": "You are not authorized to perform this action.",
   "email.sent.message": "Email Sent!",
-  "email.check.message": "Please check your email and click on reset password link.",
+  "email.check.message": "An email with a password reset token has been sent to the email address you provided.",
   "reset.password.message": "Please provide your email address and we will send you a reset password link on your registered email.",
   "label.or": "OR",
   "welcome.to.message": "Welcome to",
@@ -2736,6 +2736,9 @@
   "requisition.offline.remove": "Remove offline copy",
   "requisition.offline.add": "Make requisition available offline",
   "requisition.offline.available": "Available offline",
-  "msg.forgot.password.failed": "Failed to reset password. No user with given email address assigned.",
-  "msg.change.password.failed": "Failed to change password."
+  "msg.forgot.password.failed": "Failed to reset password. No user with given email address assigned was found.",
+  "msg.change.password.failed": "Failed to change password.",
+  "reset.password.requirements": "A password must contain at least 8 characters and 1 number.",
+  "error.password.short": "Password is to short. It must have at least 8 characters.",
+  "error.password.number": "Password must contain at least 1 number"
 }

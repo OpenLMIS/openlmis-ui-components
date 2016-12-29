@@ -48,6 +48,6 @@ describe("HeaderController", function() {
     scope.$apply();
     
     // Page state is on login page
-    expect($state.go).toHaveBeenCalledWith('auth.login.form');
+    expect($state.go).toHaveBeenCalledWith('auth.login');
   });
 });

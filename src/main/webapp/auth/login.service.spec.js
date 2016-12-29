@@ -153,7 +153,7 @@ describe("LoginService", function() {
     it('should emit "auth.login" event when logging in through auth page', function(){
         AuthorizationService.clearAccessToken();
 
-        $state.go('auth.login.form');
+        $state.go('auth.login');
         $rootScope.$apply();
 
         LoginService.login("john", "john-password");

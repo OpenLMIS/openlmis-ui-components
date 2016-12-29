@@ -10,18 +10,21 @@
 
 describe('ResetPasswordController', function() {
 
-    var $rootScope, LoginService, $q, $state, Alert, vm, alertSpyMethod, token;
+    var $rootScope, LoginService, $q, Alert, vm, alertSpy, token;
 
     beforeEach(function() {
-        alertSpyMethod = jasmine.createSpy();
         token = '1234';
 
         module('openlmis-auth');
 
         module(function($provide) {
-            var stateParamsSpy, alertSpy;
+            var stateParamsSpy = jasmine.createSpyObj('$stateParams', ['token']);
+            stateParamsSpy.token = token;
+            $provide.factory('$stateParams', function() {
+                return stateParamsSpy;
+            });
 
-            alertSpy = jasmine.createSpy('Alert').andCallFake(alertSpyMethod);
+            alertSpy = jasmine.createSpyObj('Alert', ['success']);
             $provide.factory('Alert', function() {
                 return alertSpy;
             });
@@ -30,18 +33,11 @@ describe('ResetPasswordController', function() {
             $provide.factory('LoginService', function() {
                 return LoginServiceSpy;
             });
-
-            stateParamsSpy = jasmine.createSpyObj('$stateParams', ['token']);
-            stateParamsSpy.token = token;
-            $provide.factory('$stateParams', function() {
-                return stateParamsSpy;
-            });
         });
 
-        inject(function (_$rootScope_, $controller, _$q_, _$state_, _LoginService_) {
+        inject(function (_$rootScope_, $controller, _$q_, _LoginService_) {
             $rootScope = _$rootScope_;
             $q = _$q_;
-            $state = _$state_;
             LoginService = _LoginService_;
 
             vm = $controller('ResetPasswordController', {});
@@ -50,33 +46,32 @@ describe('ResetPasswordController', function() {
 
     describe('changePassword', function() {
         it('should call change password from login service', function() {
-            var password = 'pass123',
-                stateGoSpy = jasmine.createSpy(),
-                passwordPassed = false;
+            var password = 'password123',
+                passwordPassed = false,
+                alertSpyMethod = jasmine.createSpy();
 
-            vm.password1 = password;
-            vm.password2 = password;
+            vm.password = password;
+            vm.reenteredPassword = password;
 
             LoginService.changePassword.andCallFake(function(pass, tk) {
                 if(password === pass && tk === token) passwordPassed = true;
                 return $q.when(true);
             });
-            spyOn($state, 'go').andCallFake(stateGoSpy);
+            alertSpy.success.andCallFake(alertSpyMethod);
 
             vm.changePassword();
             $rootScope.$apply();
 
             expect(passwordPassed).toBe(true);
-            expect(stateGoSpy).toHaveBeenCalledWith('auth.login.form');
-            expect(alertSpyMethod).toHaveBeenCalledWith('password.reset.success');
+            expect(alertSpyMethod).toHaveBeenCalled();
         });
 
         it('should set error message after rejecting change password call', function() {
-            var password = 'pass123',
+            var password = 'password123',
                 deferred = $q.defer();
 
-            vm.password1 = password;
-            vm.password2 = password;
+            vm.password = password;
+            vm.reenteredPassword = password;
 
             LoginService.changePassword.andCallFake(function() {
                 return deferred.promise;
@@ -91,12 +86,34 @@ describe('ResetPasswordController', function() {
         });
 
         it('should set error message if password are different', function() {
-            vm.password1 = 'pass1';
-            vm.password2 = 'pass2';
+            vm.password = 'password1';
+            vm.reenteredPassword = 'password2';
 
             vm.changePassword();
 
             expect(vm.error).toEqual('error.password.mismatch');
+        });
+
+        it('should set error message if password is too short', function() {
+            var password = 'pass1';
+
+            vm.password = password;
+            vm.reenteredPassword = password;
+
+            vm.changePassword();
+
+            expect(vm.error).toEqual('error.password.short');
+        });
+
+        it('should set error message if password is too short', function() {
+            var password = 'passwordWithoutNumber';
+
+            vm.password = password;
+            vm.reenteredPassword = password;
+
+            vm.changePassword();
+
+            expect(vm.error).toEqual('error.password.number');
         });
     });
 

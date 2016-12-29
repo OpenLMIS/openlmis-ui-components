@@ -9,7 +9,6 @@
      * Facilitates the login process between the OpenLMIS Server and the UI client.
      * This service works with the AuthorizationService, which is responsible for storing implementation details.
      */
-
     angular
         .module('openlmis-auth')
         .service('LoginService', LoginService);
@@ -18,12 +17,11 @@
                             'Right', '$state'];
 
     function LoginService($rootScope, $q, $http, AuthURL, OpenlmisURL, AuthorizationService, Right, $state) {
-        var service = {};
 
-        service.login = login;
-        service.logout = logout;
-        service.forgotPassword = forgotPassword;
-        service.changePassword = changePassword;
+        this.login = login;
+        this.logout = logout;
+        this.forgotPassword = forgotPassword;
+        this.changePassword = changePassword;
 
         function makeAuthorizationHeader(clientId, clientSecret){
             var data = btoa(clientId + ':' + clientSecret);
@@ -58,7 +56,6 @@
          * @param {String} username The name of the person trying to login
          * @param {String} password The password the person is trying to login with
          */
-
         function login(username, password){
             var deferred = $q.defer();
             var promise = getAuthorizationHeader()
@@ -75,7 +72,7 @@
                     AuthorizationService.setAccessToken(response.data.access_token);
                     getUserInfo(response.data.referenceDataUserId).then(function() {
                         getUserRights(response.data.referenceDataUserId).then(function() {
-                            if ($state.is('auth.login.form')) {
+                            if ($state.is('auth.login')) {
                                 $rootScope.$emit('auth.login');
                             } else {
                                 $rootScope.$emit('auth.login-modal');
@@ -106,7 +103,6 @@
          * @description
          * Calls the server, and removes from authorization service.
          */
-
         function logout(){
             var deferred = $q.defer();
             $http({
@@ -228,8 +224,6 @@
                 }
             });;
         }
-
-        return service;
     }
 
 })();

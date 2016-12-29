@@ -25,21 +25,17 @@
         $stateProvider
             .state('auth', {
                 abstract: true,
-                template: '<ui-view/>'
-            })
-            .state('auth.login', {
-                abstract: true,
                 templateUrl: 'auth/login-page.html'
             })
-            .state('auth.login.form', {
+            .state('auth.login', {
                 url: '/login',
                 templateUrl: 'auth/login-form.html'
             })
-            .state('auth.login.forgotPassword', {
+            .state('auth.forgotPassword', {
                 url: '/forgotPassword',
                 templateUrl: 'auth/forgot-password.html'
             })
-            .state('auth.login.resetPassword', {
+            .state('auth.resetPassword', {
                 url: '/resetPassword/:token',
                 templateUrl: 'auth/reset-password.html'
             });

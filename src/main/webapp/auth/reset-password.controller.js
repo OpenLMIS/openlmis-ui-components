@@ -18,7 +18,6 @@
      * @description
      * Controller that drives the forgot password form.
      */
-
     angular.module('openlmis-auth')
     .controller('ResetPasswordController', ResetPasswordController);
 
@@ -38,19 +37,36 @@
          * @methodOf openlmis-auth.ResetPasswordController
          *
          * @description
-         * Checks if both passwords are equal and sends change password request to server.
+         * Checks if both passwords are valid and sends change password request to server.
          */
         function changePassword() {
-            if(vm.password1 === vm.password2) {
-                LoginService.changePassword(vm.password1, vm.token).then(function() {
-                    Alert('password.reset.success');
-                    $state.go('auth.login.form');
+            if(arePasswordsValid()) {
+                LoginService.changePassword(vm.password, vm.token).then(function() {
+                    Alert.success('password.reset.success', null, redirectToLogin);
                 }, function() {
                     vm.error = 'msg.change.password.failed';
                 });
-            } else {
-                vm.error = 'error.password.mismatch';
             }
+        }
+
+        function arePasswordsValid() {
+            var regex = /\d/g;
+
+            if(vm.password !== vm.reenteredPassword) {
+                vm.error = 'error.password.mismatch';
+                return false;
+            } else if(vm.password.length < 8) {
+                vm.error = 'error.password.short';
+                return false;
+            } else if(!regex.test(vm.password)) {
+                vm.error = 'error.password.number';
+                return false;
+            }
+            return true;
+        }
+
+        function redirectToLogin() {
+            $state.go('auth.login');
         }
     }
 }());

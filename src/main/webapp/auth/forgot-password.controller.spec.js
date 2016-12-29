@@ -10,27 +10,21 @@
 
 describe('ForgotPasswordController', function() {
 
-    var $rootScope, LoginService, $q, $state, Alert, vm, alertSpyMethod;
+    var $rootScope, LoginService, $q, $state, vm, alertSpy;
 
     beforeEach(function() {
-        alertSpyMethod = jasmine.createSpy();
-
         module('openlmis-auth');
 
         module(function($provide) {
-            var alertSpy = jasmine.createSpy('Alert').andCallFake(alertSpyMethod);
-
+            alertSpy = jasmine.createSpyObj('Alert', ['success']);
             $provide.factory('Alert', function() {
                 return alertSpy;
             });
 
             LoginServiceSpy = jasmine.createSpyObj('LoginService', ['forgotPassword']);
-
             $provide.factory('LoginService', function() {
                 return LoginServiceSpy;
             });
-
-
         });
 
         inject(function (_$rootScope_, $controller, _$q_, _$state_, _LoginService_) {
@@ -46,8 +40,8 @@ describe('ForgotPasswordController', function() {
     describe('forgotPassword', function() {
         it('should call forgot password from login service', function() {
             var email = 'user@openlmis.org',
-                stateGoSpy = jasmine.createSpy(),
-                mailPassed = false;
+                mailPassed = false,
+                alertSpyMethod = jasmine.createSpy();
 
             vm.email = email;
 
@@ -55,18 +49,20 @@ describe('ForgotPasswordController', function() {
                 if(mail === email) mailPassed = true;
                 return $q.when(true);
             });
-            spyOn($state, 'go').andCallFake(stateGoSpy);
+            alertSpy.success.andCallFake(alertSpyMethod);
 
             vm.forgotPassword();
             $rootScope.$apply();
 
             expect(mailPassed).toBe(true);
-            expect(stateGoSpy).toHaveBeenCalled();
             expect(alertSpyMethod).toHaveBeenCalled();
         });
 
         it('should set error message after rejecting forgot password call', function() {
-            var deferred = $q.defer();
+            var email = 'user@openlmis.org',
+                deferred = $q.defer();
+
+            vm.email = email;
 
             LoginService.forgotPassword.andCallFake(function() {
                 return deferred.promise;
@@ -79,15 +75,23 @@ describe('ForgotPasswordController', function() {
 
             expect(vm.error).toEqual('msg.forgot.password.failed');
         });
+
+        it('should set error message when email is not valid', function() {
+            var email = 'openlmis.org';
+
+            vm.forgotPassword();
+
+            expect(vm.error).toEqual('user.email.invalid');
+        });
     });
 
     it('should redirect to login page', function() {
         var stateGoSpy = jasmine.createSpy();
         spyOn($state, 'go').andCallFake(stateGoSpy);
 
-        vm.goToLogin();
+        vm.redirectToLogin();
 
-        expect(stateGoSpy).toHaveBeenCalledWith('auth.login.form');
+        expect(stateGoSpy).toHaveBeenCalledWith('auth.login');
     });
 
 });

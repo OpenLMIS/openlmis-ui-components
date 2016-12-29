@@ -18,7 +18,6 @@
      * @description
      * Controller that drives the forgot password form.
      */
-
     angular.module('openlmis-auth')
     .controller('ForgotPasswordController', ForgotPasswordController);
 
@@ -26,10 +25,11 @@
 
     function ForgotPasswordController($state, LoginService, Alert) {
 
-        var vm = this;
+        var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            vm = this;
 
         vm.forgotPassword = forgotPassword;
-        vm.goToLogin = goToLogin;
+        vm.redirectToLogin = redirectToLogin;
 
         /**
          * @ngdoc function
@@ -40,24 +40,31 @@
          * Requests sending reset password token to email address given in form.
          */
         function forgotPassword() {
-            LoginService.forgotPassword(vm.email).then(function() {
-                Alert('email.sent.message', 'email.check.message');
-                goToLogin();
-            }, function() {
-                vm.error = 'msg.forgot.password.failed';
-            });
+            if(validateEmail()) {
+                LoginService.forgotPassword(vm.email).then(function() {
+                    Alert.success('email.sent.message', 'email.check.message', redirectToLogin);
+                }, function() {
+                    vm.error = 'msg.forgot.password.failed';
+                });
+            } else {
+                vm.error = 'user.email.invalid';
+            }
         }
 
         /**
          * @ngdoc function
-         * @name goToLogin
+         * @name redirectToLogin
          * @methodOf openlmis-auth.ForgotPasswordController
          *
          * @description
-         * Redirects to login page.
+         * Redirects to the login page.
          */
-        function goToLogin(){
-            $state.go('auth.login.form');
+        function redirectToLogin(){
+            $state.go('auth.login');
+        }
+
+        function validateEmail() {
+            return EMAIL_REGEX.test(vm.email);
         }
     }
 }());

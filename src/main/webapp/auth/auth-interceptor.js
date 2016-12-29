@@ -35,7 +35,7 @@
                 // if not authenticated and not on login page or home page
                 event.preventDefault();
                 LoadingModalService.close();
-                if (fromState.name.indexOf('auth.login.form') !== 0) {
+                if (fromState.name.indexOf('auth.login') !== 0) {
                     $rootScope.$emit('event:auth-loginRequired', true);
                 }
                 savedToState = toState;
@@ -43,7 +43,7 @@
             } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
                 // if not authenticated and on home page
                 event.preventDefault();
-                $state.go('auth.login.form');
+                $state.go('auth.login');
             } else if(AuthorizationService.isAuthenticated() && toState.name.indexOf('auth') == 0) {
                 // if authenticated and on login page
                 event.preventDefault();

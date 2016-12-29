@@ -62,7 +62,7 @@
           localStorageService.remove(idx);
         });
 
-        $state.go('auth.login.form');
+        $state.go('auth.login');
       });
     };
   }

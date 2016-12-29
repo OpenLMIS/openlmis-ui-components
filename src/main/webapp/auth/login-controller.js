@@ -32,7 +32,7 @@
 
         /**
          * @ngdoc property
-         * @name  vm.username
+         * @name  username
          * @propertyOf openlmis-auth.LoginController
          *
          * @returns {string} Username
@@ -40,7 +40,7 @@
 
         /**
          * @ngdoc property
-         * @name  vm.password
+         * @name  password
          * @propertyOf openlmis-auth.LoginController
          *
          * @returns {string} Password
@@ -48,7 +48,7 @@
 
         /**
          * @ngdoc property
-         * @name  vm.loginError
+         * @name  loginError
          * @propertyOf openlmis-auth.LoginController
          *
          * @returns {string} Error message from attempting a logging in
@@ -60,7 +60,7 @@
          * @methodOf openlmis-auth.LoginController
          *
          * @description
-         * Checks username and password vm variables, and returns true or shows an appropriate error message before the actual login request happens.
+         * Checks username and password  variables, and returns true or shows an appropriate error message before the actual login request happens.
          *
          * @returns {boolean} If login form is valid
          */
@@ -82,9 +82,9 @@
          * @methodOf openlmis-auth.LoginController
          *
          * @description
-         * Takes vm.username and vm.password variables and sends them to login service.
+         * Takes username and .password variables and sends them to login service.
          *
-         * On error response from the login service, vm.loginError is set.
+         * On error response from the login service, loginError is set.
          *
          * On success a 'auth.login' event is emitted —
          */

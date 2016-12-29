@@ -43,7 +43,7 @@ describe("AuthInterceptor", function() {
         $state.go('home');
         $rootScope.$apply();
 
-        expect($state.go).toHaveBeenCalledWith('auth.login.form');
+        expect($state.go).toHaveBeenCalledWith('auth.login');
     });
 
     it('will call event event:auth-loginRequired if auth token is not set and state is not home', function(){
@@ -55,10 +55,10 @@ describe("AuthInterceptor", function() {
         expect($rootScope.$emit).toHaveBeenCalledWith('event:auth-loginRequired', true);
     });
 
-    it('will not call event event:auth-loginRequired if auth token is not set and state is not home and fromState is auth.login.form', function(){
+    it('will not call event event:auth-loginRequired if auth token is not set and state is not home and fromState is auth.login', function(){
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
-        $state.go('auth.login.form');
+        $state.go('auth.login');
         $rootScope.$apply();
 
         $state.go('somewhere');
@@ -81,7 +81,7 @@ describe("AuthInterceptor", function() {
     it('will not redirect user if accessing pages in "auth.*" routes, and user is NOT authenticated', function(){
         spyOn(AuthorizationService, 'isAuthenticated').andReturn(false);
 
-        $state.go('auth.login.form');
+        $state.go('auth.login');
         $rootScope.$apply();
 
         // User not redirected, because only $state.go call is original.
@@ -100,7 +100,7 @@ describe("AuthInterceptor", function() {
         expect($state.go.calls.length).toEqual(1);
 
         // Call 2
-        $state.go('auth.login.form');
+        $state.go('auth.login');
         $rootScope.$apply();
 
         expect($state.go).toHaveBeenCalledWith('home');
