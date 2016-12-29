@@ -5,9 +5,6 @@
     angular.module('openlmis-requisitions', [
         'admin-template',
         'admin-template-list',
-        'angular.filter',
-        'ngBootbox',
-        'ngSanitize',
         'openlmis-core',
         'openlmis-templates',
         'requisition',
@@ -22,7 +19,6 @@
         'requisition-template',
         'requisition-validation',
         'requisition-view',
-        'ui.router'
     ]);
 
 })();
