@@ -30,13 +30,13 @@ describe('calculations', function() {
         it('should return zero if approved quantity is zero', function() {
             lineItem.approvedQuantity = 0;
 
-            expect(calculations.packsToShip(lineItem, Status.AUTHORIZED)).toBe(0);
+            expect(calculations.packsToShip(lineItem, {status: Status.AUTHORIZED})).toBe(0);
         });
 
         it('should return zero if requested quantity is zero', function() {
             lineItem.requestedQuantity = 0;
 
-            expect(calculations.packsToShip(lineItem, Status.SUBMITTED)).toBe(0);
+            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
         });
 
         it('should not round packs to ship if threshold is not exceeded', function() {
@@ -44,7 +44,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 6;
 
-            expect(calculations.packsToShip(lineItem, Status.SUBMITTED)).toBe(1);
+            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
         });
 
         it ('should round packs to ship if threshold is exceeded', function() {
@@ -52,7 +52,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 4;
 
-            expect(calculations.packsToShip(lineItem, Status.SUBMITTED)).toBe(2);
+            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(2);
         });
 
         it ('should return zero if round to zero is set', function() {
@@ -61,7 +61,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = true;
 
-            expect(calculations.packsToShip(lineItem, Status.SUBMITTED)).toBe(0);
+            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
         });
 
         it ('should return one if round to zero is not set', function() {
@@ -70,7 +70,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = false;
 
-            expect(calculations.packsToShip(lineItem, Status.SUBMITTED)).toBe(1);
+            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
         });
 
         it ('should calculate total properly', function() {
@@ -165,17 +165,17 @@ describe('calculations', function() {
 
         it('should return total consumed quantity when non-stockout days is zero', function() {
             lineItem.totalStockoutDays = 30;
-            expect(calculations.adjustedConsumption(lineItem, period)).toBe(lineItem.totalConsumedQuantity);
+            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(lineItem.totalConsumedQuantity);
         });
 
         it('should return zero when consumed quantity is not defined', function() {
             lineItem.totalConsumedQuantity = 0;
-            expect(calculations.adjustedConsumption(lineItem, period)).toBe(0);
+            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(0);
         });
 
         it('should calculate adjusted consumption', function() {
             lineItem.totalStockoutDays = 15;
-            expect(calculations.adjustedConsumption(lineItem, period)).toBe(30);
+            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(30);
         });
     });
 });

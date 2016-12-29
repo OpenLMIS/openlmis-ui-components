@@ -74,11 +74,7 @@
 
             if(object) {
                 if (column.source === Source.CALCULATED) {
-                    if (fullName === 'adjustedConsumption') {
-                        object[propertyName] = calculations[fullName](this, requisition.processingPeriod);
-                    } else {
-                        object[propertyName] = calculations[fullName](this, requisition.status);
-                    }
+                    object[propertyName] = calculations[fullName](this, requisition);
                 } else if (column.type === Type.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {

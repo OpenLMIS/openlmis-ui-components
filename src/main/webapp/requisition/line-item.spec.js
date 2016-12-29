@@ -115,14 +115,14 @@ describe('LineItem', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.updateFieldValue(requisition.$template.columns[3], requisition);
 
-            expect(calculations.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition.processingPeriod);
+            expect(calculations.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition);
         });
 
         it('should call proper calculation method when column name is calculated and not Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
 
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItem, requisition.status);
+            expect(calculations.totalCost).toHaveBeenCalledWith(lineItem, requisition);
         });
     });
 });
