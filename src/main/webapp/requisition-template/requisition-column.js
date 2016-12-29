@@ -15,7 +15,8 @@
             Columns.REMARKS,
             Columns.TOTAL_LOSSES_AND_ADJUSTMENTS,
             Columns.REQUESTED_QUANTITY_EXPLANATION,
-            Columns.ADJUSTED_CONSUMPTION
+            Columns.ADJUSTED_CONSUMPTION,
+            Columns.NUMBER_OF_NEW_PATIENTS_ADDED
         ];
 
         var dependencies = {

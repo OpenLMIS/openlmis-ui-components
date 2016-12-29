@@ -25,7 +25,8 @@
             PRODUCT_NAME: 'orderableProduct.name',
             UNIT_UNIT_OF_ISSUE: 'dispensable',
             TOTAL_COST: 'totalCost',
-            ADJUSTED_CONSUMPTION: 'adjustedConsumption'
+            ADJUSTED_CONSUMPTION: 'adjustedConsumption',
+            NUMBER_OF_NEW_PATIENTS_ADDED: 'numberOfNewPatientsAdded'
         };
     }
 
