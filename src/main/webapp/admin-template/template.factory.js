@@ -22,9 +22,9 @@
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn', 'Source'];
+    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn', 'Source', 'Columns'];
 
-    function templateFactory($q, RequisitionTemplateService, RequisitionColumn, Source) {
+    function templateFactory($q, RequisitionTemplateService, RequisitionColumn, Source, Columns) {
 
         var factory = {
             get: get,
@@ -126,7 +126,7 @@
                 column = this;
 
             if(column.source === undefined || column.source === null  || column.source === '') return false;
-            if(column.name == 'numberOfNewPatientsAdded' && (column.option === undefined || column.option === null  || column.option === '')) return false;
+            if(column.name === Columns.NUMBER_OF_NEW_PATIENTS_ADDED && (column.option === undefined || column.option === null  || column.option === '')) return false;
             if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) return false;
 
             var circularDependencies = [];
