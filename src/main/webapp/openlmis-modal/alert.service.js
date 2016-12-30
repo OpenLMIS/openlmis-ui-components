@@ -3,13 +3,13 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-core.Alert
+     * @name openlmis-modal.Alert
      *
      * @description
      * Service allows to display alert modal with custom message.
      */
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-modal')
         .service('Alert', Alert);
 
     Alert.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest', '$templateCache', 'bootbox', 'messageService'];
@@ -26,7 +26,7 @@
          *
          * @ngdoc function
          * @name Alert
-         * @methodOf openlmis-core.Alert
+         * @methodOf openlmis-modal.Alert
          *
          * @description
          * Shows warning modal with custom message and returns promise.
@@ -44,7 +44,7 @@
         /**
          * @ngdoc function
          * @name error
-         * @methodOf openlmis-core.Alert
+         * @methodOf openlmis-modal.Alert
          *
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
@@ -59,7 +59,7 @@
         /**
          * @ngdoc function
          * @name success
-         * @methodOf openlmis-core.Alert
+         * @methodOf openlmis-modal.Alert
          *
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
@@ -75,7 +75,7 @@
 
         function showAlert(alertClass, callback, message, additionalMessage) {
 
-            var templateURL = 'common/alert.html',
+            var templateURL = 'openlmis-modal/alert.html',
                 template = $templateCache.get(templateURL);
 
             if (template){

@@ -4,13 +4,13 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-core.Notification
+     * @name openlmis-modal.Notification
      * @description
      * Service allows to display info/error/success notification element that expires after short period with custom message.
      *
      */
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-modal')
         .service('Notification', Notification);
 
     Notification.$inject = ['$rootScope', '$timeout', '$templateCache', '$templateRequest', '$compile', 'messageService'];
@@ -31,7 +31,7 @@
          *
          * @ngdoc function
          * @name success
-         * @methodOf openlmis-core.Notification
+         * @methodOf openlmis-modal.Notification
          * @param {String} successMessage success message to display
          *
          * @description
@@ -46,7 +46,7 @@
          *
          * @ngdoc function
          * @name error
-         * @methodOf openlmis-core.Notification
+         * @methodOf openlmis-modal.Notification
          * @param {String} errorMessage info message to display
          *
          * @description
@@ -61,7 +61,7 @@
          *
          * @ngdoc function
          * @name Notification
-         * @methodOf openlmis-core.Notification
+         * @methodOf openlmis-modal.Notification
          * @param {String} infoMessage info message to display
          *
          * @description
@@ -74,7 +74,7 @@
         }
 
         function showMessage(message, type, icon) {
-            var templateURL = 'common/notification.html',
+            var templateURL = 'openlmis-modal/notification.html',
                 template = $templateCache.get(templateURL);
 
             if (template) makeNotification(template);
@@ -132,7 +132,7 @@
         }
 
         function createContainer() {
-            var templateURL = 'common/notification-container.html',
+            var templateURL = 'openlmis-modal/notification-container.html',
                 template = $templateCache.get(templateURL);
 
             if (template){

@@ -3,7 +3,7 @@ describe("LoadingModal", function(){
 
     var dialog, LoadingModalService, $timeout;
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-modal'));
 
     beforeEach(inject(function(_$timeout_, _LoadingModalService_, bootbox){
         LoadingModalService = _LoadingModalService_;

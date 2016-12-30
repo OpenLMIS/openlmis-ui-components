@@ -19,6 +19,7 @@
         'openlmis-templates',
         'openlmis-config',
         'openlmis-urls',
+        'openlmis-modal',
         'angular-google-analytics',
         'ui.directives',
         'ngCookies',

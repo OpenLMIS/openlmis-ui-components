@@ -4,8 +4,7 @@
 
     angular.module('requisition-validation', [
         'requisition-calculations',
-        'openlmis-i18n',
-        'openlmis-urls'
+        'openlmis-i18n'
     ]);
 
 })();

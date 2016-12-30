@@ -10,6 +10,7 @@
         'openlmis-core',
         'openlmis-i18n',
         'openlmis-local-storage',
+        'openlmis-modal',
         'openlmis-offline',
         'openlmis-urls',
         'ui.router'

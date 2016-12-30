@@ -4,6 +4,7 @@
 
     angular.module('requisition-search', [
         'requisition',
+        'openlmis-modal',
         'ui.router'
     ]);
 

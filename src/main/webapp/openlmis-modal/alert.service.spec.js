@@ -11,7 +11,7 @@ describe("Alert", function() {
 
     var timeout, alert, rootScope, Bootbox;
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-modal'));
 
     beforeEach(inject(function(_$rootScope_, _$timeout_, Alert, $templateCache, bootbox) {
         timeout = _$timeout_;
@@ -19,7 +19,7 @@ describe("Alert", function() {
         rootScope = _$rootScope_;
         Bootbox = bootbox;
 
-        $templateCache.put('common/alert.html', '<div class="alert-modal"></div>');
+        $templateCache.put('openlmis-modal/alert.html', '<div class="alert-modal"></div>');
     }));
 
     it('should close error alert then call callback function after clicking on it', function() {

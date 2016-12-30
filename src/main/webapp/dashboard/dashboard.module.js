@@ -10,7 +10,7 @@
 
     angular.module('openlmis-dashboard', [
         'openlmis-auth',
-        'openlmis-core',
+        'openlmis-modal',
         'openlmis-templates',
         'ui.router'
         ]);

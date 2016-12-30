@@ -2,7 +2,7 @@
 (function(){
     "use strict";
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-modal')
         .run(stateInterceptorListeners);
 
     stateInterceptorListeners.$inject = ["$rootScope", "LoadingModalService"];

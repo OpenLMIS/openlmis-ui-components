@@ -4,8 +4,9 @@
 
     angular.module('requisition-initiate', [
         'angular.filter',
-        'requisition',
         'ngResource',
+        'requisition',
+        'openlmis-modal',
         'ui.router'
     ]);
 

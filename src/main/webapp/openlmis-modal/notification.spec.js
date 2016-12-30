@@ -11,11 +11,11 @@ describe("Notification", function() {
 
     var timeout, notification, rootScope;
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-modal'));
 
     beforeEach(inject(function($templateCache) {
-        $templateCache.put('common/notification.html', '<div class="notification" ng-click="closeNotification()"></div>');
-        $templateCache.put('common/notification-container.html', "something");
+        $templateCache.put('openlmis-modal/notification.html', '<div class="notification" ng-click="closeNotification()"></div>');
+        $templateCache.put('openlmis-modal/notification-container.html', "something");
     }));
 
     beforeEach(inject(function(_$rootScope_, _$timeout_, Notification) {

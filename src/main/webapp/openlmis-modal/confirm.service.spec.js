@@ -11,7 +11,7 @@ describe("Confirm", function() {
 
     var timeout, confirm, rootScope, Bootbox;
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-modal'));
 
     beforeEach(inject(function(_$rootScope_, Confirm, bootbox) {
         confirm = Confirm;
