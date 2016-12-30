@@ -2,7 +2,7 @@
 (function(){
     "use strict";
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-i18n')
         .filter('message', messageFilter);
 
     messageFilter.$inject = ['messageService'];

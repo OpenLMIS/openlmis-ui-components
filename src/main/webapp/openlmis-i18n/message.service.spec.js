@@ -10,7 +10,7 @@
 
 describe("MessageService", function () {
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-i18n'));
 
     var $rootScope, messageService, localStorageService, httpBackend;
 
@@ -34,7 +34,7 @@ describe("MessageService", function () {
     //     .catch(function(){
     //         // dont care
     //     });
-        
+
     //     httpBackend.flush();
     //     $rootScope.$apply();
 
@@ -66,7 +66,7 @@ describe("MessageService", function () {
     //     });
 
     //     it("returns undefined when a translation doesn't exist", function(){
-    //        expect(messageService).get('foobar').toBe(undefined); 
+    //        expect(messageService).get('foobar').toBe(undefined);
     //     });
 
     // });

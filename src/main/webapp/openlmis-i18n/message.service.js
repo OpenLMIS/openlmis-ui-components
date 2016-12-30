@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-i18n')
         .factory('messageService', messageService);
 
     var LOCALE_STORAGE_KEY = 'current_locale',
