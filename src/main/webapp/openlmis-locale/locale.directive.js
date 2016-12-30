@@ -2,7 +2,7 @@
 (function(){
     "use strict";
 
-    angular.module('openlmis-core')
+    angular.module('openlmis-locale')
         .directive('openlmisLocale', localeDirective);
 
     localeDirective.$inject = [];
@@ -10,7 +10,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'common/locale-list.html',
+            templateUrl: 'openlmis-locale/locale-list.html',
             controller: 'LocaleController as locale'
         }
     }

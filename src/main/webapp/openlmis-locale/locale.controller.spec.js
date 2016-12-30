@@ -10,7 +10,7 @@
 
 describe("LocaleController", function () {
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-locale'));
 
     var messageService, Alert, Notification;
 
@@ -45,7 +45,7 @@ describe("LocaleController", function () {
         beforeEach(inject(function($rootScope){
             scope = $rootScope.$new();
         }))
-        
+
         it('loads the default locale when messageService locale not set', inject(function($controller){
             controller = $controller('LocaleController', {
                 $scope: scope,

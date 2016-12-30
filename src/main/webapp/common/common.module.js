@@ -14,18 +14,10 @@
         'openlmis.services',
         'openlmis-table',
         'openlmis-form',
-        'openlmis-offline',
-        'openlmis-local-storage',
         'openlmis-templates',
-        'openlmis-config',
         'openlmis-urls',
         'openlmis-modal',
-        'angular-google-analytics',
-        'ui.directives',
-        'ngCookies',
-        'ngRoute',
-        'ui.router',
-        'ngStorage'
+        'ui.router'
         ]);
 
 })();
