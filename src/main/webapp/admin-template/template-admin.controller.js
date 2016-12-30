@@ -22,9 +22,9 @@
 
     angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
-    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService', 'Columns'];
+    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService'];
 
-    function RequisitionTemplateAdminController($state, template, program, $q, Notification, Source, messageService, Columns) {
+    function RequisitionTemplateAdminController($state, template, program, $q, Notification, Source, messageService) {
         var vm = this;
 
         vm.template = template;
@@ -130,9 +130,9 @@
             var dependencies = '',
                 message;
 
-            if(column.source === undefined || column.source === null  || column.source === '') return messageService.get('msg.template.column.source.empty');
+            if(!column.source  || column.source === '') return messageService.get('msg.template.column.source.empty');
 
-            if(column.name === Columns.NUMBER_OF_NEW_PATIENTS_ADDED && (column.option === undefined || column.option === null  || column.option === '')) return messageService.get('msg.template.column.option.empty');
+            if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.option.empty');
 
             if(column.source === Source.CALCULATED) {
                 var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);

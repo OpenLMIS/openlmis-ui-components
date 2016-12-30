@@ -83,7 +83,17 @@ describe('templateFactory', function() {
                     columnDefinition: {
                         canChangeOrder: true,
                         sources: ['USER_INPUT'],
-                        isDisplayRequired: false
+                        isDisplayRequired: false,
+                        options: [
+                            {
+                                id: '1',
+                                optionLabel: 'option1'
+                            },
+                            {
+                                id: '2',
+                                optionLabel: 'option2'
+                            },
+                        ]
                     },
                     source: 'USER_INPUT'
                 },
@@ -95,7 +105,8 @@ describe('templateFactory', function() {
                     columnDefinition: {
                         canChangeOrder: true,
                         sources: ['USER_INPUT', 'CALCULATED'],
-                        isDisplayRequired: false
+                        isDisplayRequired: false,
+                        options: []
                     },
                     source: 'USER_INPUT'
                 }
@@ -111,7 +122,8 @@ describe('templateFactory', function() {
                 columnDefinition: {
                     canChangeOrder: true,
                     sources: ['REFERENCE_DATA'],
-                    isDisplayRequired: false
+                    isDisplayRequired: false,
+                    options: []
                 },
                 source: 'REFERENCE_DATA'
             },
@@ -123,7 +135,8 @@ describe('templateFactory', function() {
                 columnDefinition: {
                     canChangeOrder: true,
                     sources: ['CALCULATED'],
-                    isDisplayRequired: false
+                    isDisplayRequired: false,
+                    options: []
                 },
                 source: 'CALCULATED'
             },
@@ -135,7 +148,8 @@ describe('templateFactory', function() {
                columnDefinition: {
                    canChangeOrder: true,
                    sources: ['CALCULATED'],
-                   isDisplayRequired: false
+                   isDisplayRequired: false,
+                   options: []
                },
                source: 'CALCULATED'
            },
@@ -147,7 +161,8 @@ describe('templateFactory', function() {
               columnDefinition: {
                   canChangeOrder: true,
                   sources: ['USER_INPUT'],
-                  isDisplayRequired: false
+                  isDisplayRequired: false,
+                  options: []
               },
               source: 'USER_INPUT'
           },
@@ -159,7 +174,8 @@ describe('templateFactory', function() {
               columnDefinition: {
                   canChangeOrder: true,
                   sources: ['USER_INPUT'],
-                  isDisplayRequired: false
+                  isDisplayRequired: false,
+                  options: []
               },
               source: 'USER_INPUT'
           },
@@ -171,7 +187,8 @@ describe('templateFactory', function() {
               columnDefinition: {
                  canChangeOrder: true,
                  sources: ['USER_INPUT', 'CALCULATED'],
-                 isDisplayRequired: false
+                 isDisplayRequired: false,
+                 options: []
               },
               source: 'CALCULATED'
            },
@@ -183,7 +200,8 @@ describe('templateFactory', function() {
               columnDefinition: {
                  canChangeOrder: true,
                  sources: ['USER_INPUT', 'CALCULATED'],
-                 isDisplayRequired: false
+                 isDisplayRequired: false,
+                 options: []
               },
               source: 'USER_INPUT'
            },
@@ -195,7 +213,8 @@ describe('templateFactory', function() {
               columnDefinition: {
                  canChangeOrder: true,
                  sources: ['USER_INPUT'],
-                 isDisplayRequired: false
+                 isDisplayRequired: false,
+                 options: []
               },
               source: 'USER_INPUT'
            }
@@ -286,6 +305,19 @@ describe('templateFactory', function() {
         rootScope.$apply();
 
         requisitionTemplate.columnsMap.total.source = null;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when column has empty option and columnDefinition.options are not empty', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.option = null;
 
         expect(requisitionTemplate.$isValid()).toBe(false);
     });

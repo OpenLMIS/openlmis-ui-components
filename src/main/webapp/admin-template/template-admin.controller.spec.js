@@ -9,17 +9,9 @@ describe('RequisitionTemplateAdminController', function() {
     //injects
     var q, state, notification, source, rootScope;
 
-    beforeEach(module('admin-template'));
+    beforeEach(function() {
+        module('admin-template');
 
-    beforeEach(inject(function($controller, $q, $state, Notification, Source, messageService, $rootScope) {
-        q = $q;
-        state = $state;
-        notification = Notification;
-        source = Source;
-        message = messageService;
-        rootScope = $rootScope;
-
-        var mockFunction = function() {};
         template = jasmine.createSpyObj('template', ['$save', '$moveColumn', '$findCircularCalculatedDependencies']);
         template.id = '1';
         template.programId = '1';
@@ -45,11 +37,20 @@ describe('RequisitionTemplateAdminController', function() {
             mame: 'program1'
         };
 
-        vm = $controller('RequisitionTemplateAdminController', {
-            program: program,
-            template: template
+        inject(function($controller, $q, $state, Notification, Source, messageService, $rootScope) {
+            q = $q;
+            state = $state;
+            notification = Notification;
+            source = Source;
+            message = messageService;
+            rootScope = $rootScope;
+
+            vm = $controller('RequisitionTemplateAdminController', {
+                program: program,
+                template: template
+            });
         });
-    }));
+    });
 
     it('should set template and program', function() {
         expect(vm.program).toEqual(program);
@@ -99,7 +100,8 @@ describe('RequisitionTemplateAdminController', function() {
             $dependentOn: ['stockOnHand'],
             source: 'CALCULATED',
             columnDefinition: {
-                sources: ['USER_INPUT', 'CALCULATED']
+                sources: ['USER_INPUT', 'CALCULATED'],
+                options: []
             }
         };
         spyOn(message, 'get').andReturn('Circular error');
@@ -114,7 +116,8 @@ describe('RequisitionTemplateAdminController', function() {
             $dependentOn: ['stockOnHand'],
             source: 'CALCULATED',
             columnDefinition: {
-                sources: ['USER_INPUT', 'CALCULATED']
+                sources: ['USER_INPUT', 'CALCULATED'],
+                options: []
             }
         };
         spyOn(message, 'get').andReturn('Circular error');
@@ -122,5 +125,29 @@ describe('RequisitionTemplateAdminController', function() {
         template.$findCircularCalculatedDependencies.andReturn(['stockOnHand', 'total']);
 
         expect(vm.errorMessage(column)).toBe('Circular error Stock on Hand, Total');
+    });
+
+    it('should validate if option is not set and column definition has multiple options', function() {
+       var column = {
+            $dependentOn: ['stockOnHand'],
+            source: 'CALCULATED',
+            columnDefinition: {
+                options: [
+                    {
+                        id: '1',
+                        optionLabel: 'option1'
+                    },
+                    {
+                        id: '2',
+                        optionLabel: 'option2'
+                    },
+                ]
+            }
+        };
+        spyOn(message, 'get').andReturn('Empty option field');
+
+        template.$findCircularCalculatedDependencies.andReturn([]);
+
+        expect(vm.errorMessage(column)).toBe('Empty option field');
     });
 });
