@@ -4,7 +4,7 @@
 
     angular.module('openlmis-i18n', [
         'ngResource',
-        'openlmis.localStorage'
+        'openlmis-local-storage'
     ]);
 
 })();

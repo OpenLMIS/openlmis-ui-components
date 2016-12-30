@@ -4,14 +4,14 @@
 
     /**
      * @ngdoc service
-     * @name openlmis.openlmis-core.localStorageFactory
+     * @name openlmis-local-storage.localStorageFactory
      *
      * @description
      * It stores objects in browser cache to make them accessible offline.
      * Each stored or retrieved object is copied, so
      */
     angular
-        .module('openlmis-core')
+        .module('openlmis-local-storage')
         .factory('localStorageFactory', factory);
 
     factory.$inject = ['localStorageService', '$filter'];
@@ -24,7 +24,7 @@
         /**
          * @ngdoc function
          * @name LocalStorageFactory
-         * @methodOf openlmis.openlmis-core.localStorageFactory
+         * @methodOf openlmis-local-storage.localStorageFactory
          *
          * @description
          * Creates array in local storage that is named with resourceName.
@@ -59,7 +59,7 @@
             /**
              * @ngdoc function
              * @name put
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * Stores given object in local storage.
@@ -80,7 +80,7 @@
             /**
              * @ngdoc function
              * @name getBy
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * It searches for all objects that given property value is equal
@@ -98,7 +98,7 @@
             /**
              * @ngdoc function
              * @name getAll
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * Method returns all resource objects stored in local storage.
@@ -112,7 +112,7 @@
             /**
              * @ngdoc function
              * @name search
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * It takes params and passes it to filter. If filter name is
@@ -135,7 +135,7 @@
             /**
              * @ngdoc function
              * @name getBy
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * It searches for all objects that given property value is equal
@@ -153,7 +153,7 @@
             /**
              * @ngdoc function
              * @name clearAll
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * Removes all items from resource.
@@ -167,7 +167,7 @@
             /**
              * @ngdoc function
              * @name contains
-             * @methodOf openlmis.openlmis-core.localStorageFactory
+             * @methodOf openlmis-local-storage.localStorageFactory
              *
              * @description
              * Check if exactly same object exist in storage and if so

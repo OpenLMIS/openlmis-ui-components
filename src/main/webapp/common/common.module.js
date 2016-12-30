@@ -15,7 +15,7 @@
         'openlmis-table',
         'openlmis-form',
         'openlmis-offline',
-        'openlmis.localStorage',
+        'openlmis-local-storage',
         'openlmis-templates',
         'openlmis-config',
         'openlmis-urls',

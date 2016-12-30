@@ -23,7 +23,7 @@ describe('localStorageFactory', function() {
             }
         ];
 
-        module('openlmis-core', function($provide) {
+        module('openlmis-local-storage', function($provide) {
             localStorageServiceSpy = jasmine.createSpyObj('localStorageService', ['add', 'get']);
             localStorageServiceSpy.get.andCallFake(function(resourceName) {
                 return resourceName === 'items' ? items : undefined;

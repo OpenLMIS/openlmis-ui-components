@@ -1,6 +1,6 @@
 /* Start angularLocalStorage */
 
-var angularLocalStorage = angular.module('openlmis.localStorage', []);
+var angularLocalStorage = angular.module('openlmis-local-storage');
 
 // You should set a prefix to avoid overwriting any local storage variables from the rest of your app
 // e.g. angularLocalStorage.constant('prefix', 'youAppName');
@@ -11,8 +11,8 @@ angularLocalStorage.constant('prefix', 'openlmis');
 angularLocalStorage.constant('cookie', { expiry:30, path: '/'});
 
 angularLocalStorage.service('localStorageService', [
-  '$rootScope', 
-  'prefix', 
+  '$rootScope',
+  'prefix',
   'cookie',
   function($rootScope, prefix, cookie) {
 

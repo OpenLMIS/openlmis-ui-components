@@ -75,7 +75,7 @@
         return service;
     }
 
-    angular.module("openlmis-core")
+    angular.module("openlmis-urls")
         .factory("OpenlmisURL", OpenlmisURLFactory);
 
     OpenlmisURLFactory.$inject = ['OpenlmisURLService'];
