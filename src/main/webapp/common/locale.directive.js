@@ -11,7 +11,7 @@
             restrict: 'EA',
             replace: true,
             templateUrl: 'common/locale-list.html',
-            controller: 'LocaleController as vm'
+            controller: 'LocaleController as locale'
         }
     }
 
