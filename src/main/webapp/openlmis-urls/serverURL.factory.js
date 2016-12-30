@@ -1,7 +1,7 @@
 (function(){
     "use strict";
 
-    angular.module("openlmis-core")
+    angular.module("openlmis-urls")
         .service("OpenlmisURLService", OpenlmisURLService);
 
     OpenlmisURLService.$inject = ['PathFactory'];
@@ -35,7 +35,7 @@
             } else if(url.substr(0, 8).toLowerCase() == 'https://'){
                 offset = 8;
             }
-            
+
             var splitPosition = undefined;
             var firstBackslashPosition = url.substr(offset).indexOf("/");
             if(firstBackslashPosition >= 1){

@@ -12,7 +12,7 @@ describe("ServerURL", function () {
 
   var OpenlmisURLService;
 
-  beforeEach(module('openlmis-core'));
+  beforeEach(module('openlmis-urls'));
 
   beforeEach(inject(function (_OpenlmisURLService_) {
     OpenlmisURLService = _OpenlmisURLService_;

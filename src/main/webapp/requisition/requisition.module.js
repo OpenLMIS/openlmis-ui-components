@@ -3,12 +3,12 @@
     'use strict';
 
     angular.module('requisition', [
-        'requisition-validation',
+        'ngResource',
         'requisition-constants',
         'requisition-template',
+        'requisition-validation',
         'openlmis-offline',
-        'openlmis-core',
-        'ngResource',
+        'openlmis-urls',
         'ui.router'
     ]);
 

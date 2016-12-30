@@ -1,7 +1,7 @@
 (function(){
     "use strict";
 
-     angular.module("openlmis-core")
+     angular.module("openlmis-urls")
         .factory('PathFactory', PathFactory);
 
     function PathFactory(){

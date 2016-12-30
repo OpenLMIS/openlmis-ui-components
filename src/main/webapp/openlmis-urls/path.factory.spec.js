@@ -10,7 +10,7 @@
 
 describe("PathFactory", function () {
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-urls'));
 
     var PathFactory;
     beforeEach(inject(function(_PathFactory_){
