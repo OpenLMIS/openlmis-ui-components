@@ -196,7 +196,7 @@
                 return consumedQuantity;
             }
 
-            var adjustedConsumption = consumedQuantity * Math.ceil((totalDays / nonStockoutDays));
+            var adjustedConsumption = Math.ceil(consumedQuantity * (totalDays / nonStockoutDays));
             return adjustedConsumption;
         }
 
