@@ -25,7 +25,7 @@
         $stateProvider
             .state('auth', {
                 abstract: true,
-                templateUrl: 'openlmis-auth/login-page.html'
+                templateUrl: 'openlmis-auth/auth.html'
             })
             .state('auth.login', {
                 url: '/login',

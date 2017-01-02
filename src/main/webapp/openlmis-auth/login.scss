@@ -1,21 +1,5 @@
 @import 'bourbon';
 
-body {
-  background: $dark-gray;
-}
-
-.login-page {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50em;
-  margin-left: -24em;
-  margin-top: -15.5em;
-  box-shadow: 0 0 1em $dark-gray;
-  border: 0.1em solid white;
-  border-radius: 0.5em;
-}
-
 .login-container {
   @include linear-gradient(to bottom, $white 0%, $white 48%, $light-gray 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '$white', endColorstr = '$light-gray', GradientType = 0); /* IE6-9 */
