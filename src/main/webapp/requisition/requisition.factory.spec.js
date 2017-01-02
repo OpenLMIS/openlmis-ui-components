@@ -190,23 +190,6 @@ describe('RequisitionFactory', function() {
         expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
     });
 
-    it('should get stock adjustment reasons', function() {
-        var data;
-
-        httpBackend.when('GET', openlmisUrl
-        ('/api/stockAdjustmentReasons/search?program=' + program.id))
-        .respond(200, [stockAdjustmentReason]);
-
-        requisition.$getStockAdjustmentReasons().then(function(response) {
-            data = response;
-        });
-
-        httpBackend.flush();
-        $rootScope.$apply();
-
-        expect(angular.toJson(data)).toEqual(angular.toJson([stockAdjustmentReason]));
-    });
-
     it('should return true if requisition status is initiated', function() {
         requisition.status = allStatuses.INITIATED;
 

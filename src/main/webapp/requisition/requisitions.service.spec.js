@@ -130,6 +130,7 @@ describe('RequisitionService', function() {
     });
 
     it('should get requisition by id', function() {
+        var getReasonsUrl = '/api/stockAdjustmentReasons/search';
         var getTemplateUrl = '/api/requisitionTemplates/' + requisition.template;
         var getRequisitionUrl = '/api/requisitions/' + requisition.id;
         var getProductsUrl = '/api/facilities/' + requisition.facility.id +
@@ -139,6 +140,7 @@ describe('RequisitionService', function() {
         httpBackend.when('GET', requisitionUrl(getRequisitionUrl)).respond(200, requisition);
         httpBackend.when('GET', requisitionUrl(getTemplateUrl)).respond(200, {});
         httpBackend.when('GET', openlmisUrl(getProductsUrl)).respond(200, []);
+        httpBackend.when('GET', openlmisUrl(getReasonsUrl)).respond(200, []);
 
         var data;
         requisitionService.get('1').then(function(response) {

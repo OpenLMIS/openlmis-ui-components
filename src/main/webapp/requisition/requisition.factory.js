@@ -25,10 +25,6 @@
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
 
         var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
-            'getStockAdjustmentReasonsByProgram': {
-                url: OpenlmisURL('/api/stockAdjustmentReasons/search'),
-                isArray: true
-            },
             'authorize': {
                 url: RequisitionURL('/api/requisitions/:id/authorize'),
                 method: 'POST'
@@ -69,7 +65,6 @@
         function requisition(requisition, template, approvedProducts) {
             var programId = requisition.program.id;
 
-            requisition.$getStockAdjustmentReasons = getStockAdjustmentReasons;
             requisition.$authorize = authorize;
             requisition.$save = save;
             requisition.$submit = submit;
@@ -92,39 +87,6 @@
             requisition.$nonFullSupplyCategories = CategoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
             requisition.$approvedCategories = CategoryFactory.groupProducts(lineItems, approvedProducts);
             return requisition;
-        }
-
-        /**
-         * @ngdoc function
-         * @name getStockAdjustmentReasons
-         * @methodOf requisition.RequisitionFactory
-         * @return {Promise} promise with reasons
-         *
-         * @description
-         * Retrieves stock adjustment reasons based on requisition program.
-         *
-         */
-        function getStockAdjustmentReasons() {
-            var promise;
-
-            if (OfflineService.isOffline()) {
-                promise = $q.when(offlineStockAdjustmentReasons.search({
-                    program: {
-                        id: this.program.id
-                    }
-                }));
-            } else {
-                promise = resource.getStockAdjustmentReasonsByProgram({
-                    program: this.program.id
-                }).$promise;
-                promise.then(function(reasons) {
-                    reasons.forEach(function(reason) {
-                        offlineStockAdjustmentReasons.put(reason);
-                    });
-                });
-            }
-
-            return promise;
         }
 
         /**
