@@ -62,7 +62,7 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function requisition(requisition, template, approvedProducts) {
+        function requisition(requisition, template, approvedProducts, reasons) {
             var programId = requisition.program.id;
 
             requisition.$authorize = authorize;
@@ -76,6 +76,7 @@
             requisition.$isApproved = isApproved;
             requisition.$isAuthorized = isAuthorized;
             requisition.$template = new RequisitionTemplate(template, requisition);
+            requisition.$stockAdjustmentReasons = reasons;
 
             var lineItems = [];
             requisition.requisitionLineItems.forEach(function(lineItem) {

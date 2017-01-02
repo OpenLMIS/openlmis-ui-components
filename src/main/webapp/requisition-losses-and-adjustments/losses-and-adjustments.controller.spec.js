@@ -4,7 +4,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
     var rootScope, scope
 
-    var requisition, adjustments, reasons;
+    var requisition, adjustments, reasons, requisitionService;
 
     beforeEach(function() {
 
@@ -12,11 +12,9 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
         adjustments = jasmine.createSpyObj('stockAdjustments', ['push', 'indexOf', 'splice']);
         requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);
-        reasons = jasmine.createSpy();
 
         inject(function($rootScope, $q) {
             rootScope = $rootScope;
-            requisition.$getStockAdjustmentReasons.andReturn($q.when(reasons));
         });
 
         scope = rootScope.$new();
@@ -42,10 +40,6 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
         it('should expose adjustments', function() {
             expect(vm.adjustments).toBe(adjustments);
-        });
-
-        it('should fetch stock adjustmnet reasons', function() {
-            expect(vm.reasons).toBe(reasons);
         });
 
     });
@@ -160,18 +154,12 @@ describe('LossesAndAdjustmentsCtrl', function() {
             var result = vm.getReasonName(234);
 
             expect(result).toBe('reasonOne');
-            expect(filter).toHaveBeenCalledWith(reasons, {
-                id: 234
-            }, true);
         });
 
         it('should return undefined if no reason with the given id exists', function() {
             var result = vm.getReasonName(432);
 
             expect(result).toBe(undefined);
-            expect(filter).toHaveBeenCalledWith(reasons, {
-                id: 432
-            }, true);
         });
 
     });
@@ -196,10 +184,6 @@ describe('LossesAndAdjustmentsCtrl', function() {
             var result = vm.getTotal();
 
             expect(result).toBe(345);
-            expect(calculations.totalLossesAndAdjustments).toHaveBeenCalledWith(
-                scope.lineItem,
-                reasons
-            );
         })
 
     });

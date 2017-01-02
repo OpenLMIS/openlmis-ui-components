@@ -15,10 +15,6 @@
         vm.requisition = $scope.requisition;
         vm.adjustments = vm.lineItem.stockAdjustments;
 
-        vm.requisition.$getStockAdjustmentReasons().then(function(stockAdjustmentReasons) {
-            vm.reasons = stockAdjustmentReasons;
-        });
-
         vm.addAdjustment = addAdjustment;
         vm.removeAdjustment = removeAdjustment;
         vm.getReasonName = getReasonName;
