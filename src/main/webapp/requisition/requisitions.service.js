@@ -320,15 +320,13 @@
             offlineRequisitions.put(requisition);
             offlineTemplates.put(template);
 
-            var approvedProductsOffline = localStorageFactory('approvedProducts');
             approvedProducts.forEach(function(product) {
                 product.requisitionId = requisition.id;
-                approvedProductsOffline.put(product);
+                offlineApprovedProducts.put(product);
             });
 
-            var reasonsOffline = localStorageFactory('stockAdjustmentReasons');
             reasons.forEach(function(reason) {
-                reasonsOffline.put(reason);
+                offlineStockAdjustmentReasons.put(reason);
             });
         }
 
