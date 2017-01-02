@@ -12,7 +12,7 @@ describe("LoginController", function() {
     var $rootScope, vm;
 
     beforeEach(function() {
-        module('openlmis-auth');
+        module('openlmis-login');
 
         module(function($provide){
             // Turn off AuthToken

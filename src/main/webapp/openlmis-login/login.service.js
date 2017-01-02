@@ -3,14 +3,14 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-auth.LoginService
+     * @name openlmis-login.LoginService
      *
      * @description
      * Facilitates the login process between the OpenLMIS Server and the UI client.
      * This service works with the AuthorizationService, which is responsible for storing implementation details.
      */
     angular
-        .module('openlmis-auth')
+        .module('openlmis-login')
         .service('LoginService', LoginService);
 
     LoginService.$inject = ['$rootScope', '$q', '$http', 'AuthURL', 'OpenlmisURL', 'AuthorizationService',
@@ -46,7 +46,7 @@
         /**
          * @ngdoc function
          * @name login
-         * @methodOf openlmis-auth.LoginService
+         * @methodOf openlmis-login.LoginService
          *
          * @description
          * Makes an HTTP request to login the user.
@@ -98,7 +98,7 @@
         /**
          * @ngdoc function
          * @name logout
-         * @methodOf openlmis-auth.LoginService
+         * @methodOf openlmis-login.LoginService
          *
          * @description
          * Calls the server, and removes from authorization service.
@@ -174,7 +174,7 @@
         /**
          * @ngdoc function
          * @name forgotPassword
-         * @methodOf openlmis-auth.LoginService
+         * @methodOf openlmis-login.LoginService
          *
          * @description
          * Calls the server that sends message with reset password link to given email address.
@@ -197,7 +197,7 @@
         /**
          * @ngdoc function
          * @name changePassword
-         * @methodOf openlmis-auth.LoginService
+         * @methodOf openlmis-login.LoginService
          *
          * @description
          * Calls the server that changes user account password.

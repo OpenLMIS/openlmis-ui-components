@@ -12,7 +12,7 @@ describe("LoginService", function() {
     var $rootScope, httpBackend, LoginService, AuthorizationService, Right, $state;
 
     beforeEach(function() {
-        module('openlmis-auth');
+        module('openlmis-login');
 
         module(function($provide){
             $provide.factory('AuthURL', function(PathFactory){
@@ -151,10 +151,8 @@ describe("LoginService", function() {
     });
 
     it('should emit "auth.login" event when logging in through auth page', function(){
+        spyOn($state, 'is').andReturn('auth.login');
         AuthorizationService.clearAccessToken();
-
-        $state.go('auth.login');
-        $rootScope.$apply();
 
         LoginService.login("john", "john-password");
         httpBackend.flush();

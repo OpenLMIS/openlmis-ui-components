@@ -13,13 +13,13 @@
 
     /**
      * @ngdoc controller
-     * @name  openlmis-auth.LoginController
+     * @name  openlmis-login.LoginController
      *
      * @description
      * Controller that drives the login form.
      */
 
-    angular.module('openlmis-auth')
+    angular.module('openlmis-login')
     .controller('LoginController', LoginController);
 
     LoginController.$inject = ['LoginService', 'localStorageService'];
@@ -33,7 +33,7 @@
         /**
          * @ngdoc property
          * @name  username
-         * @propertyOf openlmis-auth.LoginController
+         * @propertyOf openlmis-login.LoginController
          *
          * @returns {string} Username
          */
@@ -41,7 +41,7 @@
         /**
          * @ngdoc property
          * @name  password
-         * @propertyOf openlmis-auth.LoginController
+         * @propertyOf openlmis-login.LoginController
          *
          * @returns {string} Password
          */
@@ -49,7 +49,7 @@
         /**
          * @ngdoc property
          * @name  loginError
-         * @propertyOf openlmis-auth.LoginController
+         * @propertyOf openlmis-login.LoginController
          *
          * @returns {string} Error message from attempting a logging in
          */
@@ -57,7 +57,7 @@
         /**
          * @ngdoc function
          * @name  validateLoginForm
-         * @methodOf openlmis-auth.LoginController
+         * @methodOf openlmis-login.LoginController
          *
          * @description
          * Checks username and password  variables, and returns true or shows an appropriate error message before the actual login request happens.
@@ -79,7 +79,7 @@
         /**
          * @ngdoc function
          * @name doLogin
-         * @methodOf openlmis-auth.LoginController
+         * @methodOf openlmis-login.LoginController
          *
          * @description
          * Takes username and .password variables and sends them to login service.

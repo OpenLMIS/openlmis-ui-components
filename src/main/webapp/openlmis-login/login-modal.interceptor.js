@@ -11,12 +11,12 @@
  (function(){
     "use strict";
 
-    angular.module('openlmis-auth')
+    angular.module('openlmis-login')
         .run(loginRequiredInterceptor);
 
     /**
     * @ngdoc function
-    * @name  openlmis-auth.loginRequiredInterceptor
+    * @name  openlmis-login.loginRequiredInterceptor
     *
     * @description
     * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
@@ -44,7 +44,7 @@
           var scope = $rootScope.$new();
           noRetryRequest = _noRetryRequest_;
 
-          $templateRequest('openlmis-auth/login-form.html').then(function (html) {
+          $templateRequest('openlmis-login/login-form.html').then(function (html) {
             dialog = bootbox.dialog({
               message: $compile(html)(scope),
               closeButton: false,

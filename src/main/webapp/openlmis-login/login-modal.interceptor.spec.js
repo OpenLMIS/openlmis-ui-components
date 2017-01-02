@@ -12,7 +12,7 @@ describe("LoginModalInterceptor", function() {
   var $rootScope, bootbox, $q, LoadingModalService;
 
   beforeEach(function() {
-      module('openlmis-auth');
+      module('openlmis-login');
 
       var mockDependency = function () {
         var deferred = $q.defer();

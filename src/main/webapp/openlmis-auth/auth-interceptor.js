@@ -38,7 +38,7 @@
                 if (fromState.name.indexOf('auth.login') !== 0) {
                     $rootScope.$emit('event:auth-loginRequired', true);
                 }
-                savedToState = toState;
+                savedToState = toState.name;
                 savedToParams = toParams;
             } else if(!AuthorizationService.isAuthenticated() &&  toState.name.indexOf('home') == 0){
                 // if not authenticated and on home page

@@ -27,12 +27,6 @@
                 abstract: true,
                 templateUrl: 'openlmis-auth/auth.html'
             })
-            .state('auth.login', {
-                url: '/login',
-                templateUrl: 'openlmis-auth/login-form.html',
-                controller: 'LoginController',
-                controllerAs: 'vm'
-            })
             .state('auth.forgotPassword', {
                 url: '/forgotPassword',
                 templateUrl: 'openlmis-auth/forgot-password.html',
