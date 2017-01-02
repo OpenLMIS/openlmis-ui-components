@@ -12,7 +12,7 @@
 
         $stateProvider.state('profile', {
             url: '/profile',
-            templateUrl: 'openlmis-userprofile.html',
+            templateUrl: 'openlmis-user/profile.html',
             controller: 'UserProfileController',
             resolve: {
                 user: function (AuthorizationService) {
