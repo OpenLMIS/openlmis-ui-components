@@ -4,14 +4,14 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-auth.UserFactory
+     * @name openlmis-user.UserFactory
      *
      * @description
      * 
      * Allows user to perform actions on user resource
      * 
      */
-    angular.module('openlmis-auth').factory('UserFactory', userFactory);
+    angular.module('openlmis-user').factory('UserFactory', userFactory);
 
     userFactory.$inject = ['OpenlmisURL', '$resource'];
 
@@ -33,7 +33,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis-auth.UserFactory
+         * @methodOf openlmis-user.UserFactory
          * @param {String} id User id 
          * @returns {Resource} User info
          * 

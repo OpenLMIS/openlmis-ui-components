@@ -8,27 +8,25 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('UserProfileController', function() {
+(function(){
+    "use strict";
 
-    var scope, ctrl, user;
+    /**
+     * @ngdoc controller
+     * @name openlmis-user.UserProfileController
+     *
+     * @description
+     *
+     * Allows user to change ist own profile info.
+     *
+     */
 
-    beforeEach(module('openlmis-dashboard'));
+    angular.module('openlmis-user')
+        .controller('UserProfileController', UserProfileController);
 
-    beforeEach(inject(function ($rootScope, $controller) {
-        scope = $rootScope.$new();
+    UserProfileController.$inject = ['$scope', 'user']
+    function UserProfileController($scope, user) {
+        $scope.userProfile = user;
+    }
 
-        user = {
-            firstName: 'Name',
-            lastName: 'Surname',
-            email: 'email@olmis.com'
-        }
-
-        ctrl = $controller('UserProfileController', {$scope:scope, user:user});
-    }));
-
-    it('should set user profile', function() {
-        expect(user).toEqual(scope.userProfile);
-    });
-
-});
-
+})();

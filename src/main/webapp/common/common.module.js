@@ -17,6 +17,7 @@
         'openlmis-templates',
         'openlmis-urls',
         'openlmis-modal',
+        'openlmis-user',
         'ui.router'
         ]);
 

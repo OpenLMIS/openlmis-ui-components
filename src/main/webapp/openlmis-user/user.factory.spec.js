@@ -17,7 +17,7 @@ describe('UserFactory', function() {
             email: 'email@olmis.com'
         };
 
-    beforeEach(module('openlmis-auth'));
+    beforeEach(module('openlmis-user'));
 
     beforeEach(module(function($provide){
         // Turn off AuthToken

@@ -16,16 +16,6 @@
             showInNavigation: true,
             label: 'link.home'
         })
-        .state('profile', {
-            url: '/profile',
-            templateUrl: 'dashboard/profile.html',
-            controller: 'UserProfileController',
-            resolve: {
-                user: function (AuthorizationService) {
-                    return AuthorizationService.getDetailedUser().$promise
-                }
-            }
-        })
         .state('404', {
             url: '/404',
             templateUrl: 'dashboard/404.html'
