@@ -15,7 +15,7 @@ describe('ResetPasswordCtrl', function() {
     beforeEach(function() {
         token = '1234';
 
-        module('openlmis-auth');
+        module('openlmis-user');
 
         module(function($provide) {
             var stateParamsSpy = jasmine.createSpyObj('$stateParams', ['token']);

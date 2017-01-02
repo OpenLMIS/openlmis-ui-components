@@ -32,12 +32,6 @@
                 templateUrl: 'openlmis-auth/forgot-password.html',
                 controller: 'ForgotPasswordCtrl',
                 controllerAs: 'vm'
-            })
-            .state('auth.resetPassword', {
-                url: '/resetPassword/:token',
-                templateUrl: 'openlmis-auth/reset-password.html',
-                controller: 'ResetPasswordCtrl',
-                controllerAs: 'vm'
             });
     }
 
