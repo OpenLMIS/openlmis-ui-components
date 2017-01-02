@@ -20,6 +20,7 @@
 		'openlmis-auth',
 		'openlmis-dashboard',
 		'openlmis-requisitions',
+        'openlmis-forgot-password',
 		'resetPassword',
 		'ui.router',
 		'ui.bootstrap.datepickerPopup',
