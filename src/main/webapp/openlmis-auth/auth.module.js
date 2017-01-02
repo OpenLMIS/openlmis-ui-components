@@ -25,23 +25,23 @@
         $stateProvider
             .state('auth', {
                 abstract: true,
-                templateUrl: 'auth/login-page.html'
+                templateUrl: 'openlmis-auth/login-page.html'
             })
             .state('auth.login', {
                 url: '/login',
-                templateUrl: 'auth/login-form.html',
+                templateUrl: 'openlmis-auth/login-form.html',
                 controller: 'LoginController',
                 controllerAs: 'vm'
             })
             .state('auth.forgotPassword', {
                 url: '/forgotPassword',
-                templateUrl: 'auth/forgot-password.html',
+                templateUrl: 'openlmis-auth/forgot-password.html',
                 controller: 'ForgotPasswordCtrl',
                 controllerAs: 'vm'
             })
             .state('auth.resetPassword', {
                 url: '/resetPassword/:token',
-                templateUrl: 'auth/reset-password.html',
+                templateUrl: 'openlmis-auth/reset-password.html',
                 controller: 'ResetPasswordCtrl',
                 controllerAs: 'vm'
             });
