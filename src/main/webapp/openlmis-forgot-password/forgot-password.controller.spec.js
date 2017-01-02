@@ -13,7 +13,7 @@ describe('ForgotPasswordCtrl', function() {
     var $rootScope, LoginService, $q, $state, vm, alertSpy;
 
     beforeEach(function() {
-        module('openlmis-auth');
+        module('openlmis-forgot-password');
 
         module(function($provide) {
             alertSpy = jasmine.createSpyObj('Alert', ['success']);
