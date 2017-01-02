@@ -62,7 +62,7 @@
             .then(function(AuthHeader) {
                 $http({
                     method: 'POST',
-                    url: AuthURL('/api/oopenlmis-auth/token?grant_type=password'),
+                    url: AuthURL('/api/oauth/token?grant_type=password'),
                     data: 'username=' + username + '&password=' + password,
                     headers: {
                         'Authorization': AuthHeader,

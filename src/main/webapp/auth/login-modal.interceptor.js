@@ -44,7 +44,7 @@
           var scope = $rootScope.$new();
           noRetryRequest = _noRetryRequest_;
 
-          $templateRequest('openlmis-auth/login-form.html').then(function (html) {
+          $templateRequest('auth/login-form.html').then(function (html) {
             dialog = bootbox.dialog({
               message: $compile(html)(scope),
               closeButton: false,
