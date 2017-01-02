@@ -55,7 +55,7 @@ describe("LoginService", function() {
                 'auth.server.clientSecret': 'secret'
             });
 
-            httpBackend.when('POST', '/api/oauth/token?grant_type=password')
+            httpBackend.when('POST', '/api/oopenlmis-auth/token?grant_type=password')
             .respond(function(method, url, data){
                 if(data.indexOf('bad-password') >= 0 ){
                     return [400];
