@@ -4,6 +4,7 @@
 
     angular.module('admin-template-list', [
         'admin-template',
+        'openlmis-admin',
         'requisition',
         'ui.router'
     ]);

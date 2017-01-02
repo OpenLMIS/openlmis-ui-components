@@ -12,7 +12,7 @@
 
 	'use strict';
 
-	angular.module('openlmis-core').config(routes);
+	angular.module('openlmis-admin').config(routes);
 
 	routes.$inject = ['$stateProvider'];
 
@@ -35,4 +35,5 @@
             template: '<div ui-view></div>'
         });
 	}
+
 })();
