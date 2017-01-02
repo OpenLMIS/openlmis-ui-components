@@ -17,17 +17,7 @@
         'ui.router',
         'http-auth-interceptor'
         ])
-    .config(routes)
     .run(setRootValues);
-
-    routes.$inject = ['$stateProvider'];
-    function routes($stateProvider){
-        $stateProvider
-            .state('auth', {
-                abstract: true,
-                templateUrl: 'openlmis-auth/auth.html'
-            });
-    }
 
     /**
      * @ngdoc function
