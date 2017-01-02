@@ -55,7 +55,16 @@ This gives us simpler markup, that could be restyled and reused depending on the
 See the UI-Styleguide for examples of how specific elements and components should should be constructed and used. 
 
 ### Naming Convention
-_descriptive-name_.html
+In general we follow the [John-Papa naming conventions,](https://github.com/johnpapa/angular-styleguide/tree/master/a1#naming) later sections go into specifics about how to name a specific file type, while this section focuses on general naming and file structure.
+
+Generally, all file names should use the following format `specific-name.file-type.ext` where:
+* `specific-name` is a dash-separated name for specific file-type
+* `file-type` is the type of object that is being added (ie 'controller', 'service', or 'layout')
+* `ext` is the extention of the file (ie '.js', '.scss')
+
+Folder structure should aim to follow the [LIFT principal](https://github.com/johnpapa/angular-styleguide/tree/master/a1#application-structure-lift-principle) as closely as possible, with a couple extra notes:
+* There should only be one *.module.js file per directory hiearchy
+* Only consider creating a sub-directory if file names are long and repatitive, such that a sub-directory would improve meaning 
 
 ## SASS & CSS Formatting Guidelines
 
@@ -151,15 +160,17 @@ It's also [useful to wrap 3rd party objects and libraries](https://github.com/jo
 #### Service
 [John Papa refers to services as Singletons,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#services) which means they should only be used for application information that has a single instance. Examples of this would include the current user, the application's connection state, or the current library of localization messages.
 
-*Naming Convention*
-*NameOfService*Service
-Always camel-case the name of the object, and append 'Service' to the end, so that people using the object know the service is persistant across other objects.
-
-*General Conventions:*
+##### Conventions
 * Services should always return an object
 * Services shouldn't have their state changed through properties, only method calls
 
-*Unit Testing Conventions*
+###### Naming Convention
+
+_**nameOfService**Service_
+
+Always lowercase camelCase the name of the object. Append 'Service' to the end of the service name so developers will know the object is a service, and changes will be persisted to other controllers.
+
+###### Unit Testing Conventions
 * Keep $httpBackend mock statements close to the specific places they are used (unless the statement is reusable)
 * Use Jasmine's spyOn method to mock the methods of other objects that are used
 * In some cases mocking an entire AngularJS Service, or a constant, will be required. This is possible by using [AngularJS's $provide object](https://docs.angularjs.org/api/auto/service/$provide) within a beforeEach block. This would look like
@@ -179,13 +190,18 @@ beforeEach(module($provide){
 #### Factory
 Factories should be the most used Angualr object type in any application. [John Papa insists that factories serve a single purpose,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#factories) and should be extended by variabled they are called with.
 
-This means that Factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't nessicarry.
+This means that factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't nessicarry.
 
-An example factory might look like:
+##### Naming Convention
+_**specificName**Factory_
+
+Factories should always be named lowercase camelCase. To avoid confussion between created objects and factories, all factories should have the word'Factory' appended to the end (this disagrees with John-Papa style).  
+
+##### Example
 
 ```
 angular.module('openlmis-sample')
-    .factory('SampleFactory', sample);
+    .factory('sampleFactory', sample);
 
 sample.$inject = [];
 function sample(){
@@ -202,6 +218,16 @@ Test a factory much like you would test a service, except be sure to:
 * Declare a new factory at the start of every test
 * Exercise the producted object, not just the callback function
 
+#### Javascript Class
+Pure javascript classes should only be used to ease the manipulation of data, but unlike factories, these object shouldn't create HTTP connections, and only focus on a single object. 
+
+Javascript classes should be injected and used within factories and services that have complex logic. Modules should be able to extend javascript classes by prototypical inheritance.
+
+##### Naming Conventions
+_SampleName_
+
+Classes should be uppercase CamelCased, which represents that they are a class and need to be instantiated like an object (ie `new SampleName()`). 
+
 #### Controller
 Controllers are all about connecting data and logic from Factories and Services to HTML Views. An ideal controller won't do much more than this, and will be as 'thin' as possible.
 
@@ -209,19 +235,19 @@ Controllers are typically specific in context, so as a rule controllers should n
 
 It is also worth noting that [John Papa insists that controllers don't directly manipulate properties](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#controllers) in $scope, but rather the [ControllerAs](https://docs.angularjs.org/api/ng/directive/ngController) syntax should be used which injects the controller into a HTML block's context. The main rationale is that it makes the $scope variables less cluttered, and makes the controller more testable as an object.
 
-*General Conventions*
+##### Conventions
 * Should be only object changing application $state
 * Is used in a single context
 * Doesn't directly manipulate $scope variables
 
-*Unit Testing Conventions*
+###### Unit Testing Conventions
 * Set all items that would be required from a route when the Controller is instantiated
 * Mock any services used by the controller
 
 #### Routes
 Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where a URL path is typically paired with an HTML View and Controller.
 
-*General Conventions*
+##### General Conventions
 * The [UI-Router resolve properties](https://github.com/angular-ui/ui-router/wiki#resolve) are used to ease loading on router
 * [Routes should define their own views,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271) if their layout is more complicated than a single section 
 
@@ -230,22 +256,22 @@ HTTP Interceptors are technically factories that have been configured to 'interc
 
 The Angular guide to writting [HTTP Interceptors is here](https://docs.angularjs.org/api/ng/service/$http#interceptors)
 
-*General Conventions*
+##### General Conventions
 * Write interceptors so they only chanage a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
 * Don't include HTTP Interceptors in openlmis-core, as the interceptor might be injected into all other unit tests — which could break everything
 
-*Unit Testing Conventions*
+###### Unit Testing Conventions
 The goal when unit testing an interceptor is to not only test input and output transformation functions, but to also make sure the interceptor is called at an appropriate time.
 
 #### Directive
 Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
 
-*General Conventions*
+##### Conventions
 * Restrict directives to only elements or attributes
 * Don't use an isolated scope unless you absolutely have to
 * If the directive needs extenal information, use a controller — don't manipulate data in a link function
 
-*Unit Testing*
+##### Unit Testing
 The bit secrect when unit testing a directive is to make sure to use the $compile function to return an element that is extended with jQuery. Once you have this object you will be able to interact with the directive by clicking, hovering, or triggering other DOM events.
 
 ```
@@ -276,9 +302,9 @@ describe('SampleDirective', function(){
 #### Modal
 A modal object isn't a 'native Angular object' — it is a service or factory that displays a modal window. This is done for convience and because it allows modal windows to not be declared in html files — and be used more easily by controllers (or even services, if appropriate).
 
-*General Conventions*
+##### Conventions
 
-*Unit Tests*
+##### Unit Tests
 When creating a unit test for a modal service, the unit tests should focus on event driven logic and avoid testing functionality that is tied to the DOM. Since we are using Bootbox to manage the creation of modal elements, we can mock Bootbox and trust the Bootbox will successfully interact with the DOM.
 
 ```
