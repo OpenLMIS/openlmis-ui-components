@@ -7,6 +7,7 @@
         'ngResource',
         'requisition',
         'openlmis-auth',
+        'openlmis-date',
         'openlmis-modal',
         'ui.router'
     ]);

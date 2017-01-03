@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('openlmis-core')
+        .module('openlmis-date')
         .factory('DateUtils', dateUtils);
 
     function dateUtils() {
