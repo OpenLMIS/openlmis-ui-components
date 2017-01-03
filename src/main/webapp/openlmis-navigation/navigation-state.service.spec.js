@@ -3,7 +3,7 @@ describe('NavigationStateService', function() {
     var service, states, state, AuthorizationService;
 
     beforeEach(function() {
-        module('openlmis-dashboard');
+        module('openlmis-navigation');
 
         state = jasmine.createSpyObj('$state', ['get']);
         AuthorizationService = jasmine.createSpyObj('AuthorizationService', ['hasRights']);

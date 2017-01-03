@@ -3,7 +3,7 @@ describe('NavigationController', function() {
     var vm, scope, NavigationStateService, $controller, mainRoot, subRoot, states;
 
     beforeEach(function() {
-        module('openlmis-dashboard');
+        module('openlmis-navigation');
 
         inject(function(_$controller_) {
             $controller = _$controller_;

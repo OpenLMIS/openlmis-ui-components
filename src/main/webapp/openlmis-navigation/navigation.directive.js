@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc directive
-     * @name  openlmis-dashboard.directive:openlmisNavigation
+     * @name  openlmis-navigation.directive:openlmisNavigation
      * @restrict E
      *
      * @description
@@ -34,7 +34,7 @@
      */
 
     angular
-        .module('openlmis-dashboard')
+        .module('openlmis-navigation')
         .directive('openlmisNavigation', directive);
 
     directive.$inject = [];
@@ -49,7 +49,7 @@
             },
             controller: 'NavigationController',
             controllerAs: 'vm',
-            templateUrl: 'dashboard/navigation.html'
+            templateUrl: 'openlmis-navigation/navigation.html'
         };
         return directive;
     }

@@ -13,7 +13,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-dashboard.NavigationController
+     * @name openlmis-navigation.NavigationController
      *
      * @description
      *
@@ -22,7 +22,7 @@
      */
 
     angular
-        .module('openlmis-dashboard')
+        .module('openlmis-navigation')
         .controller('NavigationController', NavigationController);
 
     NavigationController.$inject = ['$scope', 'NavigationStateService']

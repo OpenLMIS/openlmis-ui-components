@@ -19,6 +19,7 @@
 		'openlmis-core',
 		'openlmis-auth',
 		'openlmis-dashboard',
+        'openlmis-navigation',
 		'openlmis-requisitions',
         'openlmis-forgot-password',
 		'resetPassword',

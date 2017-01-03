@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-dashboard.NavigationStateService
+     * @name openlmis-navigation.NavigationStateService
      *
      * @description
      * Reads routes set in UI-Router and returns all routes that are visible to the user.
@@ -26,7 +26,7 @@
      */
 
     angular
-        .module('openlmis-dashboard')
+        .module('openlmis-navigation')
         .service('NavigationStateService', NavigationStateService);
 
     NavigationStateService.$inject = ['$state', '$filter', 'AuthorizationService'];
