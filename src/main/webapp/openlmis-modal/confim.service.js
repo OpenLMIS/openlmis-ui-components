@@ -62,12 +62,12 @@
                 buttons: {
                     cancel: {
                         label: messageService.get('msg.button.cancel'),
-                        callback: deferred.reject,
+                        callback: deferred.reject
                     },
                     success: {
                         label: messageService.get(buttonMessage ? buttonMessage : 'msg.button.ok'),
                         callback: deferred.resolve,
-                        className: remove ? "btn-danger" : "btn-primary",
+                        className: remove ? "btn-danger" : "btn-primary"
                     }
                 }
             });
