@@ -4,7 +4,7 @@
 
     /**
     *@ngdoc directive
-    *@name openlmis-core.directive:select-placeholder
+    *@name openlmis-form.directive:select-placeholder
     *@restrict E
     *@description
     *
@@ -41,7 +41,7 @@
     *
     */
 
-    angular.module("openlmis-core").directive('select', select);
+    angular.module("openlmis-form").directive('select', select);
 
     select.$inject = ['messageService'];
     function select(messageService) {

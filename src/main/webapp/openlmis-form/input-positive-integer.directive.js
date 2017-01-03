@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis-core.directive:positiveInteger
+	 * @name openlmis-form.directive:positiveInteger
 	 *
 	 * @description
 	 * Restricts the ngModel to only allow positive interegers.

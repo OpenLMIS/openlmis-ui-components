@@ -4,7 +4,7 @@
 
     /**
         *@ngdoc controller
-        *@name openlmis-core.controller:SelectController
+        *@name openlmis-form.controller:SelectController
         *@description
         *Controller for <openlmis-datepicker> directive
         */

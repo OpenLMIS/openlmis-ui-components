@@ -8,7 +8,7 @@ describe('Select one option directive', function() {
         module('openlmis-templates');
     });
 
-    beforeEach(module('openlmis-core'));
+    beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function(_$compile_, $rootScope){
         $compile = _$compile_;

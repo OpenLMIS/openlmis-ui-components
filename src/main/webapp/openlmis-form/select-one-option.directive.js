@@ -4,7 +4,7 @@
 
     /**
     *@ngdoc directive
-    *@name openlmis-core.directive:select-one-option
+    *@name openlmis-form.directive:select-one-option
     *@restrict E
     *@description
     *
@@ -27,7 +27,7 @@
     *
     */
 
-    angular.module("openlmis-core").directive('select', select);
+    angular.module("openlmis-form").directive('select', select);
 
     function select() {
         return {

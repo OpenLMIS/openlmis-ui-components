@@ -5,7 +5,7 @@
 	/**
       	* 
       	* @ngdoc directive
-      	* @name openlmis-core.openlmisDatepicker
+      	* @name openlmis-form.openlmisDatepicker
       	* @description
       	* Directive allows to add date picker input .
      	*
@@ -22,7 +22,7 @@
 				value: '=',
 				inputId: '@?'
 			},
-			templateUrl: 'form/datepicker.html',
+			templateUrl: 'openlmis-form/datepicker.html',
 			controller: 'DatepickerCtrl'
 		};
 		return directive;
