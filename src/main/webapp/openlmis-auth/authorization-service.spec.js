@@ -9,7 +9,7 @@
  */
 describe("AuthorizationService", function() {
 
-  beforeEach(module('openlmis-core'));
+  beforeEach(module('openlmis-auth'));
 
   var AuthorizationService, httpBackend, $rootScope, localStorageService;
 

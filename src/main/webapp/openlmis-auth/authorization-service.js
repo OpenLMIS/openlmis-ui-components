@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-common.AuthorizationService
+     * @name openlmis-auth.AuthorizationService
      *
      * @description
      * This service is responsible for storing user authentication details, such as the current
@@ -13,7 +13,7 @@
      * AuthorizationService.
      */
     angular
-        .module('openlmis-core')
+        .module('openlmis-auth')
         .service('AuthorizationService', service)
 
     var storageKeys = {
@@ -45,7 +45,7 @@
         /**
          * @ngdoc function
          * @name getAccessToken
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Retrives the current access token.
@@ -59,7 +59,7 @@
         /**
          * @ngdoc function
          * @name setAccessToken
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Sets the access token.
@@ -73,7 +73,7 @@
         /**
          * @ngdoc function
          * @name clearAccessToken
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Removed the stored token from the local storage.
@@ -85,7 +85,7 @@
         /**
          * @ngdoc function
          * @name isAuthenticated
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Checks whether user is authenticated.
@@ -99,7 +99,7 @@
         /**
          * @ngdoc function
          * @name getUser
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Retrieves basic information(usename and user ID) about the user.
@@ -131,7 +131,7 @@
         /**
          * @ngdoc function
          * @name setUser
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Saves the given user ID and username to the local storage.
@@ -147,7 +147,7 @@
         /**
          * @ngdoc function
          * @name clearUser
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Removes the username and user ID from the local storage.
@@ -160,7 +160,7 @@
         /**
          * @ngdoc function
          * @name setRights
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Saves the given rights to the local storage.
@@ -177,7 +177,7 @@
         /**
          * @ngdoc function
          * @name  getRights
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Retrieves the list of user rights from the local storage.
@@ -191,7 +191,7 @@
         /**
          * @ngdoc function
          * @name hasRight
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Checks whether user has the given right. If the details object is passed the validation
@@ -256,7 +256,7 @@
         /**
          * @ngdoc function
          * @name  clearRights
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Removes user rights from the local storage.
@@ -268,7 +268,7 @@
         /**
          * @ngdoc function
          * @name  getRightByName
-         * @methodOf openlmis-common.AuthorizationService
+         * @methodOf openlmis-auth.AuthorizationService
          *
          * @description
          * Returns id of right with given name.

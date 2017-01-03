@@ -6,6 +6,7 @@
         'angular.filter',
         'ngResource',
         'requisition',
+        'openlmis-auth',
         'openlmis-modal',
         'ui.router'
     ]);

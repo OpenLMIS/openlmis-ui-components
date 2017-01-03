@@ -12,8 +12,10 @@
     */
 
     angular.module('openlmis-auth', [
-        'openlmis-core',
+        'openlmis-local-storage',
+        'openlmis-modal',
         'openlmis-templates',
+        'openlmis-urls',
         'ui.router',
         'http-auth-interceptor'
         ]);
