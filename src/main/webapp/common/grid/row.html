@@ -1,8 +1,0 @@
-<div ng-mouseover="rowStyle={'background-color': 'red'}; grid.appScope.onRowHover(this);" 
-	 ng-mouseleave="rowStyle={}">
-	<div class="ui-grid-cell"
-		 ng-class="col.colIndex()"
-		 ng-click="grid.appScope.openRnr(row)"
-		 ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.uid"
-		 ui-grid-cell></div>
-</div>
