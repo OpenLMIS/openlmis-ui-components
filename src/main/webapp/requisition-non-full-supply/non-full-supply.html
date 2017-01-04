@@ -6,7 +6,7 @@
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.lineItems | filter:{$program: {fullSupply:false}} | groupBy:'$program.productCategoryDisplayName'">
+		<tbody ng-repeat="(category, lineItems) in vm.getLineItems() | groupBy:'$program.productCategoryDisplayName'">
 			<tr>
 				<td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
 			</tr>

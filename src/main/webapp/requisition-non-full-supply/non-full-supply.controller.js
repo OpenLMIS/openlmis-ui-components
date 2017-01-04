@@ -14,16 +14,17 @@
         .controller('NonFullSupplyCtrl', nonFullSupplyCtrl);
 
     nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'AddProductModalService',
-                                 'LineItem'];
+                                 'LineItem', '$filter'];
 
     function nonFullSupplyCtrl(requisition, requisitionValidator, AddProductModalService,
-                               LineItem) {
+                               LineItem, $filter) {
 
         var vm = this;
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
+        vm.getLineItems = getLineItems;
 
         /**
          * @ngdoc method
@@ -73,17 +74,6 @@
         vm.columns = vm.requisition.$template.getColumns(true);
 
         /**
-         * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
-         * @name lineItems
-         * @type {Array}
-         *
-         * @description
-         * The list of all line items.
-         */
-        vm.lineItems = vm.requisition.requisitionLineItems;
-
-        /**
          * @ngdoc method
          * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
          * @name deleteLineItem
@@ -95,10 +85,10 @@
          * @param  {Object} lineItem   the line item to be deleted
          */
         function deleteLineItem(lineItem) {
-            var id = vm.lineItems.indexOf(lineItem);
+            var id = vm.requisition.requisitionLineItems.indexOf(lineItem);
             if (id > -1) {
-                makeProductVisible(vm.lineItems[id].orderableProduct.name);
-                vm.lineItems.splice(id, 1);
+                makeProductVisible(vm.requisition.requisitionLineItems[id].orderableProduct.name);
+                vm.requisition.requisitionLineItems.splice(id, 1);
             }
         }
 
@@ -139,10 +129,28 @@
          */
         function displayDeleteColumn() {
             var display = false;
-            vm.lineItems.forEach(function(lineItem) {
+            vm.requisition.requisitionLineItems.forEach(function(lineItem) {
                 display = display || lineItem.$deletable;
             });
             return display;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @name getLineItems
+         *
+         * @description
+         * Filters the list of all line items and returns only those that are non full supply ones.
+         *
+         * @return  {List}  the filtered list of line items
+         */
+        function getLineItems() {
+            return $filter('filter')(vm.requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply:false
+                }
+            });
         }
 
         function makeProductVisible(productName) {

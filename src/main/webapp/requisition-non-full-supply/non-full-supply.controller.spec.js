@@ -55,15 +55,6 @@ describe('NonFullSupplyCtrl', function() {
             expect(vm.columns).toBe(requisition.$template.getColumns());
         });
 
-        it('should bind requisitionLineItems property to vm', function() {
-            requisition.$isApproved.andReturn(false);
-            requisition.$isAuthorized.andReturn(false);
-
-            initController();
-
-            expect(vm.lineItems).toBe(requisition.requisitionLineItems);
-        });
-
         it('should display add product button if reqisition is not authorized nor approved', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
@@ -190,6 +181,39 @@ describe('NonFullSupplyCtrl', function() {
             var result = vm.displayDeleteColumn();
 
             expect(result).not.toBe(true);
+        });
+
+    });
+
+    describe('getLineItems', function() {
+
+        beforeEach(function() {
+            initController();
+        });
+
+        it('should filter line items', function() {
+            var result = vm.getLineItems();
+
+            expect(result.length).toBe(1);
+        });
+
+        it('should contain only non full supply line items', function() {
+            var result = vm.getLineItems();
+
+            result.forEach(function(lineItem) {
+                expect(lineItem.$program.fullSupply).toBe(false);
+            });
+        });
+
+        it('should return empty list if there is no non full supply line items', function() {
+            requisition.requisitionLineItems = [
+                lineItemSpy('0', 'One', true),
+                lineItemSpy('1', 'Two', true)
+            ];
+
+            var result = vm.getLineItems();
+
+            expect(result).toEqual([]);
         });
 
     });
