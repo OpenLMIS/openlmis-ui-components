@@ -16,7 +16,7 @@
     <div class="login-form">
         <h2 id="signInLabel">{{'label.sign.in' | message}}</h2>
 
-        <form>
+        <form ng-controller="LoginController as vm">
             <fieldset>
                 <div class="login-form-row">
                     <label for="login-username">{{'label.username' | message}}</label>
@@ -31,7 +31,7 @@
                     <button class="btn btn-primary" ng-click="vm.doLogin()" ng-disabled="vm.disableSignInButton">{{'button.sign.in' | message}}</button>
                 </div>
                 <div class="login-form-row forgot-link">
-                    <a id="forgotPasswordLink" ui-sref="auth.forgotPassword">{{'link.forgot.password' | message}}</a>
+                    <a id="forgotPasswordLink" ng-click="vm.goToForgotPassword()">{{'link.forgot.password' | message}}</a>
                 </div>
             </fieldset>
         </form>

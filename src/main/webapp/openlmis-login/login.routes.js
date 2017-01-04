@@ -12,9 +12,7 @@
 
         $stateProvider.state('auth.login', {
             url: '/login',
-            templateUrl: 'openlmis-login/login-form.html',
-            controller: 'LoginController',
-            controllerAs: 'vm'
+            templateUrl: 'openlmis-login/login-form.html'
         });
 
     }

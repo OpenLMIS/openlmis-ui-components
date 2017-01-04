@@ -9,7 +9,7 @@
 */
 describe("LoginController", function() {
 
-    var $rootScope, vm;
+    var $rootScope, $state, vm;
 
     beforeEach(function() {
         module('openlmis-login');
@@ -21,8 +21,9 @@ describe("LoginController", function() {
             });
         });
 
-        inject(function(_$rootScope_, $controller, $q, LoginService) {
+        inject(function(_$rootScope_, $controller, $q, LoginService, _$state_) {
             $rootScope = _$rootScope_;
+            $state = _$state_;
 
             spyOn($rootScope, '$emit');
 
@@ -89,5 +90,14 @@ describe("LoginController", function() {
         $rootScope.$apply();
 
         expect(vm.password).toBe(undefined);
+    });
+
+    it('should should go to forgot password state', function() {
+        var spy = jasmine.createSpy();
+        spyOn($state, 'go').andCallFake(spy);
+
+        vm.goToForgotPassword();
+
+        expect(spy).toHaveBeenCalledWith('auth.forgotPassword');
     });
 });

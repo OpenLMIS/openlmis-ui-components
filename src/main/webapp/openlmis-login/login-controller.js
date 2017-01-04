@@ -22,13 +22,14 @@
     angular.module('openlmis-login')
     .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['LoginService', 'localStorageService'];
+    LoginController.$inject = ['$state', 'bootbox', 'LoginService', 'localStorageService'];
 
-    function LoginController(LoginService, localStorageService) {
+    function LoginController($state, bootbox, LoginService, localStorageService) {
 
         var vm = this;
 
         vm.doLogin = doLogin;
+        vm.goToForgotPassword = goToForgotPassword;
 
         /**
          * @ngdoc property
@@ -103,6 +104,23 @@
                 vm.password = undefined;
             });
         };
+
+        /**
+         * @ngdoc function
+         * @name doLogin
+         * @methodOf openlmis-login.LoginController
+         *
+         * @description
+         * Takes username and .password variables and sends them to login service.
+         *
+         * On error response from the login service, loginError is set.
+         *
+         * On success a 'auth.login' event is emitted —
+         */
+        function goToForgotPassword() {
+            bootbox.hideAll();
+            $state.go('auth.forgotPassword');
+        }
 
     }
 }());
