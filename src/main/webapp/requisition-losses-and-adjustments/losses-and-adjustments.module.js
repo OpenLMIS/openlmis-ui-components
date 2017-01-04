@@ -3,7 +3,8 @@
     'use strict';
 
     angular.module('requisition-losses-and-adjustments', [
-        'requisition'
+        'requisition-calculations',
+        'openlmis-i18n'
     ]);
 
 })();

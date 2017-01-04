@@ -13,26 +13,22 @@
  */
 
 (function() {
-    "use strict";
+
+    'use strict';
 
 	angular.module('openlmis', [
 		'openlmis-404',
-		'openlmis-auth',
-		'openlmis-dashboard',
+		'openlmis-forgot-password',
+		'openlmis-home',
 		'openlmis-header',
+        'openlmis-i18n',
         'openlmis-navigation',
 		'openlmis-requisitions',
-        'openlmis-forgot-password',
-		'resetPassword',
-		'ui.router',
-		'ui.bootstrap.datepickerPopup',
-		'ui.bootstrap',
-		'ui.bootstrap.dropdown',
-		'http-auth-interceptor',
-        'dndLists'
-		]).config(defaultRoutes);
+		'openlmis-reset-password'
+	]).config(defaultRoutes);
 
 	defaultRoutes.$inject = ['$urlRouterProvider', '$qProvider'];
+
 	function defaultRoutes($urlRouterProvider, $qProvider){
 		$urlRouterProvider
 		.when('', '/home')

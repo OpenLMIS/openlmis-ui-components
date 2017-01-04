@@ -6,6 +6,7 @@
         'ngBootbox',
         'openlmis-templates',
         'requisition',
+        'requisition-validation',
         'ui.router'
     ]);
 

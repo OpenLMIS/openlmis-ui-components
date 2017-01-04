@@ -3,7 +3,9 @@
     'use strict';
 
     angular.module('openlmis-navigation', [
-        'openlmis-auth'
+        'openlmis-auth',
+        'ui.bootstrap',
+		'ui.bootstrap.dropdown'
     ]);
 
 })();

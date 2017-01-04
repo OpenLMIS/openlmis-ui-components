@@ -3,7 +3,9 @@
     'use strict';
 
     angular.module('openlmis-reset-password', [
-        'openlmis-auth'
+        'openlmis-login',
+        'openlmis-modal',
+        'ui.router'
     ]);
 
 })();

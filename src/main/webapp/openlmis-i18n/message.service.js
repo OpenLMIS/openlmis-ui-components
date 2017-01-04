@@ -7,7 +7,7 @@
     var LOCALE_STORAGE_KEY = 'current_locale',
     DEFAULT_LANGUAGE = 'en';
 
-    messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope', '$resource'];
+    messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope'];
     function messageService($q, $http, localStorageService, $rootScope) {
         var service = {
             getCurrentLocale: getCurrentLocale,

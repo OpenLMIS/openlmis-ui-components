@@ -3,9 +3,10 @@
     'use strict';
 
     angular.module('requisition-search', [
-        'requisition',
         'openlmis-date',
         'openlmis-modal',
+        'requisition',
+        'requisition-constants',
         'ui.router'
     ]);
 

@@ -3,8 +3,9 @@
     'use strict';
 
     angular.module('requisition-product-grid', [
-        'requisition',
-        'requisition-losses-and-adjustments'
+        'requisition-constants',
+        'requisition-losses-and-adjustments',
+        'requisition-validation'
     ]);
 
 })();

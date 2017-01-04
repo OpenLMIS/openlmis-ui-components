@@ -6,8 +6,11 @@
         'angular.filter',
         'ngResource',
         'requisition',
+        'requisition-constants',
+        'openlmis-i18n',
         'openlmis-auth',
         'openlmis-date',
+        'openlmis-form',
         'openlmis-modal',
         'ui.router'
     ]);
