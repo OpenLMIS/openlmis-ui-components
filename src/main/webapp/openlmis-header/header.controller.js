@@ -14,8 +14,8 @@
   angular.module('openlmis-header')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', 'localStorageService', '$window', 'AuthorizationService', 'LoginService', '$http', '$state'];
-  function HeaderController($scope, localStorageService, $window, AuthorizationService, LoginService, $http, $state) {
+  HeaderController.$inject = ['$scope', 'AuthorizationService', 'LoginService', '$state'];
+  function HeaderController($scope, AuthorizationService, LoginService, $state) {
 
     $scope.$watch(function(){
       return AuthorizationService.getUser();
@@ -28,20 +28,7 @@
 
     $scope.logout = function() {
       LoginService.logout()
-      .then(function(){
-        localStorageService.remove('ENABLE_GOOGLE_ANALYTICS');
-        localStorageService.remove('GOOGLE_ANALYTICS_TRACKING_CODE');
-
-        $.each(localStorageKeys.REPORTS, function(itm, idx) {
-          localStorageService.remove(idx);
-        });
-        $.each(localStorageKeys.PREFERENCE, function(item, idx) {
-          localStorageService.remove(idx);
-        });
-        $.each(localStorageKeys.DASHBOARD_FILTERS, function(item, idx) {
-          localStorageService.remove(idx);
-        });
-
+      .then(function() {
         $state.go('auth.login');
       });
     };

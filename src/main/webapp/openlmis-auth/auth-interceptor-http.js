@@ -45,7 +45,7 @@
             request: function(config){
                 if(OpenlmisURLService.check(config.url) && AuthorizationService.isAuthenticated()
                         // we don't want to add the token to template requests
-                        && !config.url.endsWith('.html')){
+                        && !isHtml(config.url)){
                     config.url = AccessTokenFactory.addAccessToken(config.url);
                 }
                 return config;
@@ -76,5 +76,9 @@
                 return $q.reject(response);
             }
         };
+
+        function isHtml(url) {
+            return url.lastIndexOf('.html') === url.length - '.html'.length;
+        }
     }
 })();
