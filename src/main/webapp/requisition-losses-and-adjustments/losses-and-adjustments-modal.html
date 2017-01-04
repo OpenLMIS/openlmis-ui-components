@@ -4,7 +4,7 @@
         <label for="reason">{{'label.equipment.maintenance.request.reason' | message}}</label>
         <select id="reason"
          ng-model="vm.adjustment.reason"
-         ng-options="reason as reason.name for reason in requisition.$stockAdjustmentReasons"
+         ng-options="reason as reason.name for reason in vm.reasons"
          ></select>
     </div>
     <div class="form-group">

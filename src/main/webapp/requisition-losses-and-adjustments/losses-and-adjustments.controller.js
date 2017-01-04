@@ -14,6 +14,7 @@
         vm.lineItem = $scope.lineItem;
         vm.requisition = $scope.requisition;
         vm.adjustments = vm.lineItem.stockAdjustments;
+        vm.reasons = vm.requisition.$stockAdjustmentReasons;
 
         vm.addAdjustment = addAdjustment;
         vm.removeAdjustment = removeAdjustment;
