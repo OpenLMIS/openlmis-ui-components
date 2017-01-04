@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.table:tbodyTitle
+	 * @name openlmis-table:tbodyTitle
 	 *
 	 * @description
 	 * Takes the title attribute from a tbody element and changes it into a stylable banner.

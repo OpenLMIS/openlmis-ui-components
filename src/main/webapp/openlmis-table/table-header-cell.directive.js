@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.table:tableHeaderCell
+	 * @name openlmis-table:tableHeaderCell
 	 *
 	 * @description
 	 * Adds `scope` attributes to table heading cells to meet [accessibility
@@ -16,7 +16,7 @@
 	 * 
 	 * This directive will also change the first element in each a row if a
 	 * `<th>` element isn't defined in the row.
-	 *  
+	 *
 	 * ```
 	 * <table>
 	 * 	 <thead>
@@ -30,7 +30,7 @@
 	 *     <tr><td>Foo</td><td>Bar</td></tr>
 	 *   </tbody>
 	 * </table>
-	 * 
+	 *
 	 */
 	angular
 		.module('openlmis-table')

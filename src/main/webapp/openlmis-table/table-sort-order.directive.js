@@ -4,7 +4,7 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis.table:tableSortOrder
+	 * @name openlmis-table:tableSortOrder
 	 *
 	 * @description
 	 * Positions the table sort order correctly in a table's container.
@@ -14,7 +14,7 @@
 	 * <div class="table-container">
 	 * <form table-sort-order>
 	 * 	 <label for="table-sort-order">Sort items by</label>
-	 *   <select id="table-sort-order"> 
+	 *   <select id="table-sort-order">
 	 *     <option selected="selected">Name</option>
 	 *   </select>
 	 *   <input type="submit" value="Sort items" />
