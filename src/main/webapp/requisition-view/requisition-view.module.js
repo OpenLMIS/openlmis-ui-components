@@ -3,8 +3,9 @@
     'use strict';
 
     angular.module('requisition-view', [
-        'requisition',
         'ngBootbox',
+        'openlmis-templates',
+        'requisition',
         'ui.router'
     ]);
 

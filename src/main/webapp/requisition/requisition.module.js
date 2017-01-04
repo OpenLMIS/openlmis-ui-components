@@ -7,7 +7,6 @@
         'requisition-constants',
         'requisition-template',
         'requisition-validation',
-        'openlmis-core',
         'openlmis-date',
         'openlmis-i18n',
         'openlmis-local-storage',

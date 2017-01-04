@@ -11,17 +11,13 @@ describe("HeaderController", function() {
   beforeEach(module('openlmis-dashboard'));
   beforeEach(module('ui.directives'));
 
-  var scope, loginConfig, window, localStorageService, httpBackend, $state;
+  var scope, window, localStorageService, httpBackend, $state;
 
   beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
     $state = _$state_;
     spyOn($state, 'go');
 
     httpBackend = _$httpBackend_;
-    loginConfig = {
-      a: {},
-      b: {}
-    };
     scope = $rootScope.$new();
     window = {};
     localStorageService = _localStorageService_;
@@ -31,22 +27,17 @@ describe("HeaderController", function() {
     $controller('HeaderController', {
       $scope: scope,
       localStorageService: localStorageService,
-      loginConfig: loginConfig,
       $window: window
     });
 
     spyOn(LoginService, 'logout').andReturn($q.when());
   }));
 
-  it('should set login config in scope', function() {
-    expect(scope.loginConfig).toEqual(loginConfig);
-  });
-
   it('should navigate to login page when user logs out', function() {
 
     scope.logout();
     scope.$apply();
-    
+
     // Page state is on login page
     expect($state.go).toHaveBeenCalledWith('auth.login');
   });

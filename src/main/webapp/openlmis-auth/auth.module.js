@@ -12,12 +12,13 @@
     */
 
     angular.module('openlmis-auth', [
+        'http-auth-interceptor',
         'openlmis-local-storage',
         'openlmis-modal',
         'openlmis-templates',
         'openlmis-urls',
-        'ui.router',
-        'http-auth-interceptor'
+        'openlmis-user',
+        'ui.router'
         ]);
 
 })();

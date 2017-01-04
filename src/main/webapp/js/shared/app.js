@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-var app = angular.module('openlmis-core');
+var app = angular.module('openlmis-core', []);
 
 app.value("loginConfig", {modalShown: false, preventReload: false});
 
@@ -378,7 +378,7 @@ angular.module('angular-google-analytics', []).run(
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
-      } 
+      }
     }
 
   }])

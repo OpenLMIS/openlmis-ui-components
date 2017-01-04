@@ -3,7 +3,8 @@
     'use strict';
 
     angular.module('openlmis-locale', [
-        'openlmis-core',
+        'openlmis-i18n',
+        'openlmis-modal',
         'openlmis-templates'
     ]);
 

@@ -5,7 +5,6 @@
     angular.module('openlmis-requisitions', [
         'admin-template',
         'admin-template-list',
-        'openlmis-core',
         'openlmis-templates',
         'requisition',
         'requisition-approval',
