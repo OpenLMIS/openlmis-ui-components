@@ -15,10 +15,6 @@
             priority: 2,
             showInNavigation: true,
             label: 'link.home'
-        })
-        .state('404', {
-            url: '/404',
-            templateUrl: 'dashboard/404.html'
         });
 
     }

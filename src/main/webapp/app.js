@@ -16,6 +16,7 @@
     "use strict";
 
 	angular.module('openlmis', [
+		'openlmis-404',
 		'openlmis-auth',
 		'openlmis-dashboard',
 		'openlmis-header',
