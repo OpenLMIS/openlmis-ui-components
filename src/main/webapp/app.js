@@ -18,6 +18,7 @@
 	angular.module('openlmis', [
 		'openlmis-auth',
 		'openlmis-dashboard',
+		'openlmis-header',
         'openlmis-navigation',
 		'openlmis-requisitions',
         'openlmis-forgot-password',

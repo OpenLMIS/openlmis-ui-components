@@ -11,7 +11,7 @@
 (function(){
   "use strict";
 
-  angular.module('openlmis-dashboard')
+  angular.module('openlmis-header')
     .controller('HeaderController', HeaderController);
 
   HeaderController.$inject = ['$scope', 'localStorageService', '$window', 'AuthorizationService', 'LoginService', '$http', '$state'];
