@@ -2,9 +2,9 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
     var vm;
 
-    var rootScope, scope
+    var rootScope, scope;
 
-    var requisition, adjustments, reasons, requisitionService;
+    var requisition, adjustments, reasons;
 
     beforeEach(function() {
 
@@ -14,7 +14,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
         requisition = jasmine.createSpyObj('requisition', ['$stockAdjustmentReasons']);
         reasons = requisition.$stockAdjustmentReasons;
 
-        inject(function($rootScope, $q) {
+        inject(function($rootScope) {
             rootScope = $rootScope;
         });
 
