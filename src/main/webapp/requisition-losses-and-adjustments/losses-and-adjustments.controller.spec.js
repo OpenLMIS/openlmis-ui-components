@@ -11,7 +11,8 @@ describe('LossesAndAdjustmentsCtrl', function() {
         module('requisition-losses-and-adjustments');
 
         adjustments = jasmine.createSpyObj('stockAdjustments', ['push', 'indexOf', 'splice']);
-        requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);
+        requisition = jasmine.createSpyObj('requisition', ['$stockAdjustmentReasons']);
+        reasons = requisition.$stockAdjustmentReasons;
 
         inject(function($rootScope, $q) {
             rootScope = $rootScope;
@@ -42,6 +43,9 @@ describe('LossesAndAdjustmentsCtrl', function() {
             expect(vm.adjustments).toBe(adjustments);
         });
 
+        it('should fetch stock adjustment reasons', function() {
+            expect(vm.reasons).toBe(reasons);
+        });
     });
 
     describe('addAdjustment', function() {
@@ -154,12 +158,18 @@ describe('LossesAndAdjustmentsCtrl', function() {
             var result = vm.getReasonName(234);
 
             expect(result).toBe('reasonOne');
+            expect(filter).toHaveBeenCalledWith(reasons, {
+                id: 234
+            }, true);
         });
 
         it('should return undefined if no reason with the given id exists', function() {
             var result = vm.getReasonName(432);
 
             expect(result).toBe(undefined);
+            expect(filter).toHaveBeenCalledWith(reasons, {
+                id: 432
+            }, true);
         });
 
     });
@@ -184,6 +194,10 @@ describe('LossesAndAdjustmentsCtrl', function() {
             var result = vm.getTotal();
 
             expect(result).toBe(345);
+            expect(calculations.totalLossesAndAdjustments).toHaveBeenCalledWith(
+                scope.lineItem,
+                reasons
+            );
         })
 
     });
