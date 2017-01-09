@@ -13,7 +13,7 @@
         $stateProvider.state('auth.forgotPassword', {
             url: '/forgotPassword',
             templateUrl: 'openlmis-forgot-password/forgot-password.html',
-            controller: 'ForgotPasswordCtrl',
+            controller: 'ForgotPasswordController',
             controllerAs: 'vm'
         })
 

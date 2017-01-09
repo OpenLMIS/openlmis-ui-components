@@ -9,21 +9,23 @@
 */
 
 (function(){
+
     'use strict';
 
     /**
      * @ngdoc controller
-     * @name openlmis-forgot-password.ForgotPasswordCtrl
+     * @name openlmis-forgot-password.ForgotPasswordController
      *
      * @description
      * Controller that drives the forgot password form.
      */
-    angular.module('openlmis-forgot-password')
-    .controller('ForgotPasswordCtrl', ForgotPasswordCtrl);
+    angular
+        .module('openlmis-forgot-password')
+        .controller('ForgotPasswordController', controller);
 
-    ForgotPasswordCtrl.$inject = ['$state', 'LoginService', 'Alert'];
+    controller.$inject = ['$state', 'LoginService', 'Alert'];
 
-    function ForgotPasswordCtrl($state, LoginService, Alert) {
+    function controller($state, LoginService, Alert) {
 
         var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             vm = this;
@@ -34,7 +36,7 @@
         /**
          * @ngdoc function
          * @name forgotPassword
-         * @methodOf openlmis-forgot-password.ForgotPasswordCtrl
+         * @methodOf openlmis-forgot-password.ForgotPasswordController
          *
          * @description
          * Requests sending reset password token to email address given in form.
@@ -54,7 +56,7 @@
         /**
          * @ngdoc function
          * @name redirectToLogin
-         * @methodOf openlmis-forgot-password.ForgotPasswordCtrl
+         * @methodOf openlmis-forgot-password.ForgotPasswordController
          *
          * @description
          * Redirects to the login page.
