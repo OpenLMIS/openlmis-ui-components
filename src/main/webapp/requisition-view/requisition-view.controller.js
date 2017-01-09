@@ -123,7 +123,7 @@
                         loadingModalService.open();
                         vm.requisition.$submit()
                         .then(function(response) {
-                            Notification.success('msg.rnr.submitted.success');
+                            Notification.success('msg.requisitionSubmitted');
                             reloadState();
                         })
                         .catch(function(response) {

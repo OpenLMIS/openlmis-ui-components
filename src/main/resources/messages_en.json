@@ -153,7 +153,7 @@
   "msg.rnr.skip.failure": "Failed to skip R&R!",
   "msg.rnr.skip.success": "R&R skipped!",
   "msg.rnr.submitted.failure": "Failed to submit R&R!",
-  "msg.rnr.submitted.success": "R&R submitted!",
+  "msg.requisitionSubmitted": "Requisition submitted!",
   "msg.rnr.sync.success": "R&R synchronized successfully!",
   "msg.select.at.least.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.server.error": "Server error",
