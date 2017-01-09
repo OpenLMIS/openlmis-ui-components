@@ -27,8 +27,8 @@
         $httpProvider.interceptors.push('HttpAuthAccessToken');
     }
 
-    HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService', 'AccessTokenFactory'];
-    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService, AccessTokenFactory){
+    HttpAuthAccessToken.$inject = ['$q', '$injector', 'OpenlmisURLService', 'AuthorizationService', 'AccessTokenFactory', 'bootbox'];
+    function HttpAuthAccessToken($q, $injector, OpenlmisURLService, AuthorizationService, AccessTokenFactory, bootbox){
        return {
             /**
              *
@@ -70,8 +70,9 @@
                     AuthorizationService.clearRights();
                 } else if (response.status === 403) {
                     $injector.get('Alert').error('error.authorization');
-                } else if(response.status === 500) {
-                    $injector.get('Alert').error('msg.server.error');
+                } else if(response.status >= 500) {
+                    bootbox.hideAll();
+                    $injector.get('Alert').error(response.statusText);
                 }
                 return $q.reject(response);
             }
