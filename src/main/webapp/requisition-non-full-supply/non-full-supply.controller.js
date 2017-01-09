@@ -25,6 +25,7 @@
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
         vm.getLineItems = getLineItems;
+        vm.setSkipAll = setSkipAll;
 
         /**
          * @ngdoc method
@@ -152,6 +153,24 @@
                 }
             });
         }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @name setSkipAll
+         *
+         * @description
+         * Sets all line items from a requisition as skipped or not skipped.
+         *
+         * @param  {Boolean} value   determines if all line items should be skipped or not
+         */
+        function setSkipAll(value) {
+            getLineItems().forEach(function(lineItem) {
+                if (lineItem.canBeSkipped(vm.requisition)) {
+                    lineItem.skipped = value;
+                }
+            });
+        };
 
         function makeProductVisible(productName) {
             angular.forEach(vm.requisition.$approvedCategories, function(category) {

@@ -13,10 +13,13 @@
         .module('requisition-full-supply')
         .controller('FullSupplyCtrl', fullSupplyCtrl);
 
-    fullSupplyCtrl.$inject = ['requisition', 'requisitionValidator'];
+    fullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', '$filter'];
 
-    function fullSupplyCtrl(requisition, requisitionValidator) {
+    function fullSupplyCtrl(requisition, requisitionValidator, $filter) {
+
         var vm = this;
+
+        vm.setSkipAll = setSkipAll;
 
         /**
          * @ngdoc property
@@ -66,6 +69,24 @@
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyCtrl
+         * @name setSkipAll
+         *
+         * @description
+         * Sets all line items from a requisition as skipped or not skipped.
+         *
+         * @param  {Boolean} value   determines if all line items should be skipped or not
+         */
+        function setSkipAll(value) {
+            getLineItems().forEach(function(lineItem) {
+                if (lineItem.canBeSkipped(vm.requisition)) {
+                    lineItem.skipped = value;
+                }
+            });
+        }
+
         function groupByCategory(lineItems) {
             var categories = {};
             lineItems.forEach(function(lineItem) {
@@ -78,6 +99,14 @@
                 }
             });
             return categories;
+        }
+
+        function getLineItems() {
+            return $filter('filter')(vm.requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply:true
+                }
+            });
         }
     }
 

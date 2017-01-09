@@ -45,6 +45,8 @@
 			scope.isReadOnly = isReadOnly();
 			scope.validate = validate;
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
+			scope.isSkipped = isSkipped(column);
+			scope.canNotSkip = canNotSkip;
 
 
 			$templateRequest('requisition-product-grid/product-grid-cell.html').then(function(template) {
@@ -81,6 +83,14 @@
 			function isTotalLossesAndAdjustments(column) {
 				return column.name === Columns.TOTAL_LOSSES_AND_ADJUSTMENTS;
 			}
+
+			function isSkipped(column) {
+      			return column.name === Columns.SKIPPED;
+			}
+
+			function canNotSkip() {
+				return !(scope.lineItem.canBeSkipped(scope.requisition));
+            }
 		}
 	}
 

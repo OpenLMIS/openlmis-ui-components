@@ -19,6 +19,7 @@
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
+        LineItem.prototype.canBeSkipped = canBeSkipped;
 
         return LineItem;
 
@@ -81,6 +82,38 @@
                     object[propertyName] = object[propertyName] ? object[propertyName] : '';
                 }
             }
+        }
+
+        /**
+         * @ngdoc function
+         * @name canBeSkipped
+         * @methodOf requisition.LineItem
+         *
+         * @description
+         * Determines whether the line item from given requisition can be marked as skipped.
+         *
+         * @param {Object} requisition Requisition to which line item belongs
+         * @return {Boolean} true if line item can be skipped
+         */
+        function canBeSkipped(requisition) {
+            var result = true;
+            var lineItem = this;
+            var columns = requisition.$template.getColumns(!this.$program.fullSupply);
+            columns.forEach(function (column) {
+                if (column.display && column.source === Source.USER_INPUT && column.type !== Type.BOOLEAN) {
+                    if (!isEmpty(lineItem[column.name])) {
+                        result = false;
+                    }
+                }
+            });
+            return result;
+        }
+
+        function isEmpty(value) {
+            return value === undefined
+                || value === null
+                || value === 0
+                || value.toString().trim().length === 0;
         }
 
         function getProgramById(programs, programId) {
