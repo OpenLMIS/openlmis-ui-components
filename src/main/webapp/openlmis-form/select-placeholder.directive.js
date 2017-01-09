@@ -1,49 +1,47 @@
-
 (function(){
-    "use strict";
+
+    'use strict';
 
     /**
-    *@ngdoc directive
-    *@name openlmis-form.directive:select-placeholder
-    *@restrict E
-    *@description
-    *
-    * Sets a default placeholder message on select elements, if one isn't
-    * previously set as an attribute or as the first option element with an
-    * empty string as it's value. 
-    *
-    * @example
-    * 
-    * ```
-    * <select placeholder="Custom placeholder"></select>
-    * ```
-    *
-    * This will also work with ngOptions and setting a placeholder with an
-    * option element that has it's value set to an empty string, or has the
-    * class placeholder.
-    *
-    * Setting a placeholder without a value attribute will not work, because
-    * ngOption will set the value to the option's text.
-    * ```
-    * <select ng-model="value" ng-options="for something in whatever">
-    *    <option value="">Placeholder text goes here</option>
-    * </select>
-    * ```
-    *
-    * To not set a placeholder, use the no-placeholder attribute. If you don't
-    * want a placeholder, you should make sure the element always has a value.
-    * ```
-    * <select no-placeholder>
-    *   <option value="1">This will be immedately selected</option>
-    *   <option value="2">This is another option</option>
-    * </select>
-    * ```
-    *
-    */
-
-    angular.module("openlmis-form").directive('select', select);
+     * @ngdoc directive
+     * @name openlmis-form.directive:select-placeholder
+     * @restrict E
+     *
+     * @description
+     * Sets a default placeholder message on select elements, if one isn't previously set as an
+     * attribute or as the first option element with an empty string as it's value.
+     *
+     * @example
+     * ```
+     * <select placeholder="Custom placeholder"></select>
+     * ```
+     *
+     * This will also work with ngOptions and setting a placeholder with an option element that has
+     * it's value set to an empty string, or has the class placeholder.
+     *
+     * Setting a placeholder without a value attribute will not work, because ngOption will set the
+     * value to the option's text.
+     * ```
+     * <select ng-model="value" ng-options="for something in whatever">
+     *    <option value="">Placeholder text goes here</option>
+     * </select>
+     * ```
+     *
+     * To not set a placeholder, use the no-placeholder attribute. If you don't want a placeholder,
+     * you should make sure the element always has a value.
+     * ```
+     * <select no-placeholder>
+     *   <option value="1">This will be immedately selected</option>
+     *   <option value="2">This is another option</option>
+     * </select>
+     * ```
+     */
+    angular
+        .module('openlmis-form')
+        .directive('select', select);
 
     select.$inject = ['messageService'];
+
     function select(messageService) {
         return {
             restrict: 'E',
@@ -70,7 +68,7 @@
                         dispayPlaceholder();
                     });
                 }
-                
+
                 function dispayPlaceholder(){
                     if(!element.children('option[selected="selected"]:not(.placeholder)').length){
                         createEmptyOption();
@@ -82,7 +80,7 @@
                     }
                 }
 
-                function createEmptyOption(){                    
+                function createEmptyOption(){
                     element.children('option').each(function(index, option){
                         option = angular.element(option);
                         if(!option.val() || option.val() == ""){
@@ -93,9 +91,9 @@
                     if(!element.children('option.placeholder').length){
                         element.prepend(emptyOption);
                     }
-                    emptyOption.attr("selected", "selected");
+                    emptyOption.attr('selected', 'selected');
 
-                    if(emptyOption.text()==""){
+                    if(emptyOption.text()==''){
                         if(attrs.placeholder){
                             element.children('option.placeholder').text(attrs.placeholder);
                         } else {
@@ -110,7 +108,7 @@
                     element.children('option').each(function(index, option){
                         option = angular.element(option);
                         if(option.val() == newValue){
-                            option.attr("selected", "selected");
+                            option.attr('selected', 'selected');
                         }
                     });
                     dispayPlaceholder();

@@ -1,16 +1,14 @@
 (function() {
-	
+
 	'use strict';
 
 	/**
-      	* 
-      	* @ngdoc directive
-      	* @name openlmis-form.openlmisDatepicker
-      	* @description
-      	* Directive allows to add date picker input .
-     	*
-      	*/
-
+     * @ngdoc directive
+     * @name openlmis-form.openlmisDatepicker
+     *
+     * @description
+     * Directive allows to add date picker input.
+     */
 	angular
 		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
@@ -23,7 +21,7 @@
 				inputId: '@?'
 			},
 			templateUrl: 'openlmis-form/datepicker.html',
-			controller: 'DatepickerCtrl'
+			controller: 'DatepickerController'
 		};
 		return directive;
 	}

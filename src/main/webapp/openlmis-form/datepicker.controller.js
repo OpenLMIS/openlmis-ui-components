@@ -3,19 +3,19 @@
     'use strict';
 
     /**
-        *@ngdoc controller
-        *@name openlmis-form.controller:SelectController
-        *@description
-        *Controller for <openlmis-datepicker> directive
-        */
-
+     * @ngdoc controller
+     * @name openlmis-form.controller:SelectController
+     *
+     * @description
+     * Controller for <openlmis-datepicker> directive
+     */
     angular
         .module('openlmis-form')
-        .controller('DatepickerCtrl', DatepickerCtrl);
+        .controller('DatepickerController', controller);
 
-    DatepickerCtrl.$inject = ['$scope'];
+    controller.$inject = ['$scope'];
 
-    function DatepickerCtrl($scope) {
+    function controller($scope) {
 
         $scope.isOpened = false;
 
