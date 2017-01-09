@@ -121,7 +121,7 @@
                         LoadingModalService.open();
                         vm.requisition.$submit()
                         .then(function(response) {
-                            Notification.success('msg.rnr.save.success');
+                            Notification.success('msg.rnr.submitted.success');
                             reloadState();
                         })
                         .catch(function(response) {
@@ -390,10 +390,8 @@
             return promise;
         }
 
-        function failedToSave(response) {
-            if (response.status !== 403) {
-                Notification.error(messageService.get('msg.rnr.save.failure'));
-            }
+        function failedToSave() {
+            Notification.error(messageService.get('msg.rnr.save.failure'));
         }
 
         function reloadState() {

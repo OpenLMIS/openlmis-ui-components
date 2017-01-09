@@ -149,6 +149,7 @@
   "msg.rnr.reject.success": "Rejected R&R!",
   "msg.rnr.save.success": "R&R saved successfully!",
   "msg.rnr.submitted.failure": "Failed to submitt R&R!",
+  "msg.rnr.submitted.success": "R&R Submitted!",
   "msg.rnr.sync.success": "R&R synchronized successfully!",
   "msg.select.at.least.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.server.error": "Server error",
