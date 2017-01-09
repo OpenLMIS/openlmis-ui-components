@@ -62,13 +62,13 @@ describe('authStateRouter', function() {
         expect($rootScope.$emit).not.toHaveBeenCalled();
     });
 
-      it('should close loading dialog if auth token is not set and state is not home', inject(function (LoadingModalService) {
+      it('should close loading dialog if auth token is not set and state is not home', inject(function (loadingModalService) {
         authorizationServiceSpy.isAuthenticated.andReturn(false);
-        spyOn(LoadingModalService, 'close');
+        spyOn(loadingModalService, 'close');
 
         $rootScope.$broadcast('$stateChangeStart', createState('somewhere'), {}, createState(''));
 
-        expect(LoadingModalService.close).toHaveBeenCalled();
+        expect(loadingModalService.close).toHaveBeenCalled();
       }));
 
 

@@ -24,11 +24,11 @@
         .controller('RequisitionInitiateCtrl', RequisitionInitiateCtrl);
 
     RequisitionInitiateCtrl.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
-    'RequisitionService', '$state', 'dateUtils', 'Status', 'LoadingModalService', 'Notification',
+    'RequisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService', 'Notification',
      'authorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
     function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
-    RequisitionService, $state, dateUtils, Status, LoadingModalService, Notification,
+    RequisitionService, $state, dateUtils, Status, loadingModalService, Notification,
     authorizationService, $q, RequisitionRights, SupervisedFacilities) {
 
         var vm = this;
@@ -183,7 +183,7 @@
             if (!(vm.selectedProgramId && vm.selectedFacilityId)) {
                 return;
             }
-            LoadingModalService.open();
+            loadingModalService.open();
             PeriodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
                 if (data.length === 0) {
@@ -199,10 +199,10 @@
                         period.rnrStatus = messageService.get('msg.rnr.not.started');
                     }
                 });
-                LoadingModalService.close();
+                loadingModalService.close();
             }).catch(function() {
                 Notification.error('msg.no.period.available');
-                LoadingModalService.close();
+                loadingModalService.close();
             });
         };
 
@@ -258,7 +258,7 @@
         function loadFacilitiesForProgram(selectedProgramId) {
             refreshGridData();
             if (selectedProgramId) {
-                LoadingModalService.open();
+                loadingModalService.open();
                 var createRight = authorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
                 var authorizeRight = authorizationService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE);
 
@@ -276,9 +276,9 @@
                     })
                     .catch(function (error) {
                         Notification.error('msg.error.occurred');
-                        LoadingModalService.close();
+                        loadingModalService.close();
                     })
-                    .finally(LoadingModalService.close());
+                    .finally(loadingModalService.close());
             } else {
                 vm.facilities = [];
             }

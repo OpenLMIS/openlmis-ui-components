@@ -24,12 +24,12 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList',
-        'RequisitionService', 'Status', 'dateUtils', 'LoadingModalService', 'Notification',
+        'RequisitionService', 'Status', 'dateUtils', 'loadingModalService', 'Notification',
         'OfflineService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
-        Status, dateUtils, LoadingModalService, Notification, OfflineService) {
+        Status, dateUtils, loadingModalService, Notification, OfflineService) {
 
         var vm = this;
 
@@ -101,7 +101,7 @@
             vm.requisitionList = [];
             if (vm.selectedFacility) {
                 vm.error = null;
-                LoadingModalService.open();
+                loadingModalService.open();
                 RequisitionService.search(vm.searchOffline, {
                         program: vm.selectedProgram ? vm.selectedProgram.id : null,
                         facility: vm.selectedFacility ? vm.selectedFacility.id : null,
@@ -110,7 +110,7 @@
                     })
                     .then(function(requisitionList) {
                         vm.requisitionList = requisitionList;
-                        LoadingModalService.close();
+                        loadingModalService.close();
                         if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
                             Notification.error('msg.no.requisitions.found');
                         }
@@ -118,7 +118,7 @@
                     .catch(function() {
                         Notification.error('msg.error.occurred');
                     })
-                    .finally(LoadingModalService.close);
+                    .finally(loadingModalService.close);
             } else {
                 Notification.error('msg.no.facility.selected');
             }

@@ -9,7 +9,7 @@
  */
 describe("LoginModalInterceptor", function() {
 
-  var $rootScope, bootbox, $q, LoadingModalService;
+  var $rootScope, bootbox, $q, loadingModalService;
 
   beforeEach(function() {
       module('openlmis-login');
@@ -25,14 +25,14 @@ describe("LoginModalInterceptor", function() {
       });
   });
 
-  beforeEach(inject(function(_$rootScope_, _bootbox_, _$q_, _LoadingModalService_) {
+  beforeEach(inject(function(_$rootScope_, _bootbox_, _$q_, _loadingModalService_) {
       $rootScope = _$rootScope_;
       bootbox = _bootbox_;
       $q = _$q_;
-      LoadingModalService = _LoadingModalService_;
+      loadingModalService = _loadingModalService_;
 
       spyOn(bootbox, 'dialog').andReturn({modal: jasmine.createSpy('modal')});
-      spyOn(LoadingModalService, 'close');
+      spyOn(loadingModalService, 'close');
   }));
 
   it('should open login modal dialog on event:auth-loginRequired', function () {
@@ -46,7 +46,7 @@ describe("LoginModalInterceptor", function() {
       $rootScope.$broadcast('event:auth-loginRequired');
       $rootScope.$apply();
 
-      expect(LoadingModalService.close).toHaveBeenCalled();
+      expect(loadingModalService.close).toHaveBeenCalled();
   });
 
   it('should emit event:auth-loggedIn on auth.login-modal if no retry request', function () {

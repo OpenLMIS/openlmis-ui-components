@@ -15,10 +15,10 @@
         .service('ConvertToOrderModal', convertToOrderModal);
 
     convertToOrderModal.$inject = ['$q', '$state', '$rootScope', '$ngBootbox', 'messageService',
-        '$compile', '$templateRequest', 'RequisitionService', '$stateParams', 'LoadingModalService'];
+        '$compile', '$templateRequest', 'RequisitionService', '$stateParams', 'loadingModalService'];
 
     function convertToOrderModal($q, $state, $rootScope, $ngBootbox, messageService, $compile,
-        $templateRequest, RequisitionService, $stateParams, LoadingModalService) {
+        $templateRequest, RequisitionService, $stateParams, loadingModalService) {
 
         var deferred, scope = $rootScope.$new();
 
@@ -104,7 +104,7 @@
          *
          */
         function getDepotsForRequisition() {
-            LoadingModalService.open();
+            loadingModalService.open();
             RequisitionService.forConvert({
                 filterBy: $stateParams.filterBy,
                 filterValue: $stateParams.filterValue,
@@ -117,7 +117,7 @@
                     }
                 });
             }).finally(function() {
-                LoadingModalService.close();
+                loadingModalService.close();
             });
 
             return deferred.promise;

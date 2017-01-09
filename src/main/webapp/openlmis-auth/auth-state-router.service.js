@@ -7,10 +7,10 @@
         .service('authStateRouter', router);
 
     router.$inject = ['$rootScope', '$state', 'authorizationService', 'alertService',
-        'LoadingModalService'
+        'loadingModalService'
     ];
 
-    function router($rootScope, $state, authorizationService, alertService, LoadingModalService) {
+    function router($rootScope, $state, authorizationService, alertService, loadingModalService) {
         var savedToState, savedToParams;
 
         this.initialize = initialize;
@@ -33,7 +33,7 @@
             if(!authorizationService.isAuthenticated() && toState.name.indexOf('auth') != 0 && toState.name.indexOf('home') != 0){
                 // if not authenticated and not on login page or home page
                 event.preventDefault();
-                LoadingModalService.close();
+                loadingModalService.close();
                 if (fromState.name.indexOf('auth.login') !== 0) {
                     $rootScope.$emit('event:auth-loginRequired', true);
                 }

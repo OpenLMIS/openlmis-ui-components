@@ -13,11 +13,11 @@
     'use strict';
 
     angular.module('openlmis-modal')
-      .service('LoadingModalService', LoadingModal);
+      .service('loadingModalService', LoadingModal);
 
     /**
      * @ngdoc service
-     * @name  openlmis-modal.LoadingModalService
+     * @name  openlmis-modal.loadingModalService
      *
      * @description
      *
@@ -37,7 +37,7 @@
         /**
          * @ngdoc function
          * @name open
-         * @methodOf openlmis-modal.LoadingModalService
+         * @methodOf openlmis-modal.loadingModalService
          *
          * @description Shows the loading modal after a half second delay.
          */
@@ -54,7 +54,7 @@
         /**
          * @ngdoc function
          * @name close
-         * @methodOf openlmis-modal.LoadingModalService
+         * @methodOf openlmis-modal.loadingModalService
          *
          * @description Hides the loading modal OR cancels the promise that was showing the modal.
          */

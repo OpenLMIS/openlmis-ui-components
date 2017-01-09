@@ -23,12 +23,12 @@
         .controller('RequisitionCtrl', RequisitionCtrl);
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
-                               'authorizationService', 'messageService', 'LoadingModalService',
+                               'authorizationService', 'messageService', 'loadingModalService',
                                'Notification', 'confirmService', 'RequisitionRights',
                                'ConvertToOrderModal', 'OfflineService', 'localStorageFactory', '$rootScope'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
-                             authorizationService, messageService, LoadingModalService,
+                             authorizationService, messageService, loadingModalService,
                              Notification, confirmService, RequisitionRights, ConvertToOrderModal,
                              OfflineService, localStorageFactory, $rootScope) {
 
@@ -93,11 +93,11 @@
          * an error notification will be displayed. Otherwise, a success notification will be shown.
          */
         function syncRnr() {
-            LoadingModalService.open();
+            loadingModalService.open();
             vm.requisition.$modified = false;
             offlineRequitions.put(vm.requisition);
             save().then(function(response) {
-                LoadingModalService.close();
+                loadingModalService.close();
                 Notification.success('msg.rnr.sync.success');
                 reloadState();
             });
@@ -118,7 +118,7 @@
             confirmService.confirm('msg.question.confirmation.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
-                        LoadingModalService.open();
+                        loadingModalService.open();
                         vm.requisition.$submit()
                         .then(function(response) {
                             Notification.success('msg.rnr.submitted.success');
@@ -127,7 +127,7 @@
                         .catch(function(response) {
                             Notification.error('msg.rnr.submitted.failure');
                         })
-                        .finally(LoadingModalService.close);
+                        .finally(loadingModalService.close);
                     });
                 } else {
                     Notification.error('error.rnr.validation');
@@ -151,7 +151,7 @@
             confirmService.confirm('msg.question.confirmation.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
-                        LoadingModalService.open();
+                        loadingModalService.open();
                         vm.requisition.$authorize()
                         .then(function(response) {
                             Notification.success('msg.rnr.authorized.success');
@@ -160,7 +160,7 @@
                         .catch(function(response) {
                             Notification.error('msg.rnr.authorized.failure');
                         })
-                        .finally(LoadingModalService.close);
+                        .finally(loadingModalService.close);
                     });
                 } else {
                     Notification.error('error.rnr.validation');
@@ -180,7 +180,7 @@
          */
         function removeRnr() {
             confirmService.confirmDestroy('msg.question.confirmation.deletion').then(function() {
-                LoadingModalService.open();
+                loadingModalService.open();
                 vm.requisition.$remove()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
@@ -189,7 +189,7 @@
                 .catch(function(response) {
                     Notification.error('msg.rnr.deletion.failure');
                 })
-                .finally(LoadingModalService.close);
+                .finally(loadingModalService.close);
             });
         };
 
@@ -209,13 +209,13 @@
                 if(requisitionValidator.validateRequisition(requisition)) {
                     save()
                     .then(function() {
-                        LoadingModalService.open();
+                        loadingModalService.open();
                         vm.requisition.$approve()
                         .then(function(response) {
                             $state.go('requisitions.approvalList');
                             Notification.success('msg.rnr.approved.success');
                         })
-                        .finally(LoadingModalService.close);
+                        .finally(loadingModalService.close);
                     });
                 } else {
                     Notification.error('error.rnr.validation');
@@ -235,7 +235,7 @@
          */
         function rejectRnr() {
             confirmService.confirm('msg.question.confirmation').then(function() {
-                LoadingModalService.open();
+                loadingModalService.open();
                 vm.requisition.$reject()
                 .then(function(response) {
                     $state.go('requisitions.approvalList');
@@ -244,7 +244,7 @@
                 .catch(function(response) {
                     Notification.error('msg.rejected.failure');
                 })
-                .finally(LoadingModalService.close);
+                .finally(loadingModalService.close);
             });
         };
 
@@ -383,10 +383,10 @@
         }
 
         function save() {
-            LoadingModalService.open();
+            loadingModalService.open();
             var promise = vm.requisition.$save();
             promise.catch(failedToSave);
-            promise.finally(LoadingModalService.close)
+            promise.finally(loadingModalService.close)
             return promise;
         }
 
