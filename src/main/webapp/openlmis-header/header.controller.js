@@ -7,31 +7,33 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
+(function() {
 
-(function(){
-  "use strict";
+    'use strict';
 
-  angular.module('openlmis-header')
-    .controller('HeaderController', HeaderController);
+    angular
+        .module('openlmis-header')
+        .controller('HeaderController', controller);
 
-  HeaderController.$inject = ['$scope', 'authorizationService', 'LoginService', '$state'];
-  function HeaderController($scope, authorizationService, LoginService, $state) {
+    controller.$inject = ['$scope', 'authorizationService', 'LoginService', '$state'];
 
-    $scope.$watch(function(){
-      return authorizationService.getUser();
-    }, function(user){
-      $scope.user = user.username;
-      $scope.userId = user.user_id;
+    function controller($scope, authorizationService, LoginService, $state) {
 
-      $scope.hasPermission = authorizationService.hasPermission;
-    }, true);
+        $scope.$watch(function() {
+            return authorizationService.getUser();
+        }, function(user) {
+            $scope.user = user.username;
+            $scope.userId = user.user_id;
 
-    $scope.logout = function() {
-      LoginService.logout()
-      .then(function() {
-        $state.go('auth.login');
-      });
-    };
-  }
+            $scope.hasPermission = authorizationService.hasPermission;
+        }, true);
+
+        $scope.logout = function() {
+            LoginService.logout()
+                .then(function() {
+                    $state.go('auth.login');
+                });
+        };
+    }
 
 })();

@@ -7,37 +7,37 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("HeaderController", function() {
-  beforeEach(module('openlmis-header'));
+describe('HeaderController', function() {
+    beforeEach(module('openlmis-header'));
 
-  var scope, window, localStorageService, httpBackend, $state;
+    var scope, window, localStorageService, httpBackend, $state;
 
-  beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
-    $state = _$state_;
-    spyOn($state, 'go');
+    beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
+        $state = _$state_;
+        spyOn($state, 'go');
 
-    httpBackend = _$httpBackend_;
-    scope = $rootScope.$new();
-    window = {};
-    localStorageService = _localStorageService_;
-    access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
-    spyOn(localStorageService, 'get').andReturn(access_token);
-    spyOn(localStorageService, 'remove');
-    $controller('HeaderController', {
-      $scope: scope,
-      localStorageService: localStorageService,
-      $window: window
+        httpBackend = _$httpBackend_;
+        scope = $rootScope.$new();
+        window = {};
+        localStorageService = _localStorageService_;
+        access_token = '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de';
+        spyOn(localStorageService, 'get').andReturn(access_token);
+        spyOn(localStorageService, 'remove');
+        $controller('HeaderController', {
+            $scope: scope,
+            localStorageService: localStorageService,
+            $window: window
+        });
+
+        spyOn(LoginService, 'logout').andReturn($q.when());
+    }));
+
+    it('should navigate to login page when user logs out', function() {
+
+        scope.logout();
+        scope.$apply();
+
+        // Page state is on login page
+        expect($state.go).toHaveBeenCalledWith('auth.login');
     });
-
-    spyOn(LoginService, 'logout').andReturn($q.when());
-  }));
-
-  it('should navigate to login page when user logs out', function() {
-
-    scope.logout();
-    scope.$apply();
-
-    // Page state is on login page
-    expect($state.go).toHaveBeenCalledWith('auth.login');
-  });
 });
