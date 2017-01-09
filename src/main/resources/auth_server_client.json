@@ -1,4 +1,4 @@
 {
-  "auth.server.clientId": "trusted-client",
-  "auth.server.clientSecret": "secret"
+  "auth.server.clientId": "user-client",
+  "auth.server.clientSecret": "changeme"
 }
