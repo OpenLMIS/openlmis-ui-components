@@ -24,12 +24,12 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList',
-        'RequisitionService', 'Status', 'DateUtils', 'LoadingModalService', 'Notification',
+        'RequisitionService', 'Status', 'dateUtils', 'LoadingModalService', 'Notification',
         'OfflineService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
-        Status, DateUtils, LoadingModalService, Notification, OfflineService) {
+        Status, dateUtils, LoadingModalService, Notification, OfflineService) {
 
         var vm = this;
 

@@ -15,11 +15,11 @@
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
                                   'RequisitionURL', 'RequisitionFactory', 'Confirm',
-                                  'Notification', 'DateUtils', 'localStorageFactory',
+                                  'Notification', 'dateUtils', 'localStorageFactory',
                                   'OfflineService'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, DateUtils,
+                                RequisitionFactory, Confirm, Notification, dateUtils,
                                 localStorageFactory, OfflineService) {
 
         var offlineTemplates = localStorageFactory('requisitionTemplates'),
@@ -365,10 +365,10 @@
         }
 
         function transformRequisition(requisition) {
-            requisition.createdDate = DateUtils.toDate(requisition.createdDate);
-            requisition.processingPeriod.startDate = DateUtils.toDate(requisition.processingPeriod.startDate);
-            requisition.processingPeriod.endDate = DateUtils.toDate(requisition.processingPeriod.endDate);
-            requisition.processingPeriod.processingSchedule.modifiedDate = DateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
+            requisition.createdDate = dateUtils.toDate(requisition.createdDate);
+            requisition.processingPeriod.startDate = dateUtils.toDate(requisition.processingPeriod.startDate);
+            requisition.processingPeriod.endDate = dateUtils.toDate(requisition.processingPeriod.endDate);
+            requisition.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
         }
     }
 })();

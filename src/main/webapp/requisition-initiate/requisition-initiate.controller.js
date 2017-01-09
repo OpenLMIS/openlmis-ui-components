@@ -24,11 +24,11 @@
         .controller('RequisitionInitiateCtrl', RequisitionInitiateCtrl);
 
     RequisitionInitiateCtrl.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
-    'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
+    'RequisitionService', '$state', 'dateUtils', 'Status', 'LoadingModalService', 'Notification',
      'authorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
     function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
-    RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
+    RequisitionService, $state, dateUtils, Status, LoadingModalService, Notification,
     authorizationService, $q, RequisitionRights, SupervisedFacilities) {
 
         var vm = this;

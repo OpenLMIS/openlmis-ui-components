@@ -7,11 +7,11 @@
         .factory('PeriodFactory', periodFactory);
 
     periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService',
-        '$q', 'DateUtils', 'Status'
+        '$q', 'dateUtils', 'Status'
     ];
 
     function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q,
-        DateUtils, Status) {
+        dateUtils, Status) {
 
         var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
             get: {
@@ -117,8 +117,8 @@
             if (status === 200) {
                 var periods = angular.fromJson(data);
                 periods.forEach(function(period) {
-                    period.startDate = DateUtils.toDate(period.startDate);
-                    period.endDate = DateUtils.toDate(period.endDate);
+                    period.startDate = dateUtils.toDate(period.startDate);
+                    period.endDate = dateUtils.toDate(period.endDate);
                 })
                 return periods;
             }

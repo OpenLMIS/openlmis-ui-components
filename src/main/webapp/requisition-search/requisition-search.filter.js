@@ -13,9 +13,9 @@
         .module('requisition-search')
         .filter('requisitionFilter', filter);
 
-    filter.$inject = ['DateUtils'];
+    filter.$inject = ['dateUtils'];
 
-    function filter(DateUtils) {
+    function filter(dateUtils) {
         return function(input, params) {
             if(!angular.isObject(input)) return input;
 
@@ -23,7 +23,7 @@
 
             angular.forEach(input, function(requisition) {
                 var match = true,
-                    createdDate = DateUtils.toDate(requisition.createdDate);
+                    createdDate = dateUtils.toDate(requisition.createdDate);
 
                 if(params.program && params.program != requisition.program.id) match = false;
                 if(params.facility && params.facility != requisition.facility.id) match = false;

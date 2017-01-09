@@ -4,7 +4,7 @@
 
     angular
         .module('openlmis-date')
-        .factory('DateUtils', dateUtils);
+        .factory('dateUtils', dateUtils);
 
     function dateUtils() {
         var factory = {
