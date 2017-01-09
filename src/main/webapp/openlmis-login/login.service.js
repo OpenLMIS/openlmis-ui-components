@@ -3,7 +3,7 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-login.LoginService
+     * @name openlmis-login.loginService
      *
      * @description
      * Facilitates the login process between the OpenLMIS Server and the UI client.
@@ -11,12 +11,12 @@
      */
     angular
         .module('openlmis-login')
-        .service('LoginService', LoginService);
+        .service('loginService', loginService);
 
-    LoginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'OpenlmisURL', 'authorizationService',
+    loginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'OpenlmisURL', 'authorizationService',
                             'Right', '$state'];
 
-    function LoginService($rootScope, $q, $http, authUrl, OpenlmisURL, authorizationService, Right, $state) {
+    function loginService($rootScope, $q, $http, authUrl, OpenlmisURL, authorizationService, Right, $state) {
 
         this.login = login;
         this.logout = logout;
@@ -46,7 +46,7 @@
         /**
          * @ngdoc function
          * @name login
-         * @methodOf openlmis-login.LoginService
+         * @methodOf openlmis-login.loginService
          *
          * @description
          * Makes an HTTP request to login the user.
@@ -98,7 +98,7 @@
         /**
          * @ngdoc function
          * @name logout
-         * @methodOf openlmis-login.LoginService
+         * @methodOf openlmis-login.loginService
          *
          * @description
          * Calls the server, and removes from authorization service.
@@ -174,7 +174,7 @@
         /**
          * @ngdoc function
          * @name forgotPassword
-         * @methodOf openlmis-login.LoginService
+         * @methodOf openlmis-login.loginService
          *
          * @description
          * Calls the server that sends message with reset password link to given email address.
@@ -197,7 +197,7 @@
         /**
          * @ngdoc function
          * @name changePassword
-         * @methodOf openlmis-login.LoginService
+         * @methodOf openlmis-login.loginService
          *
          * @description
          * Calls the server that changes user account password.

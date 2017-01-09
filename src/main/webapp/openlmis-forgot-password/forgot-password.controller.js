@@ -23,9 +23,9 @@
         .module('openlmis-forgot-password')
         .controller('ForgotPasswordController', controller);
 
-    controller.$inject = ['$state', 'LoginService', 'Alert'];
+    controller.$inject = ['$state', 'loginService', 'Alert'];
 
-    function controller($state, LoginService, Alert) {
+    function controller($state, loginService, Alert) {
 
         var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             vm = this;
@@ -43,7 +43,7 @@
          */
         function forgotPassword() {
             if(validateEmail()) {
-                LoginService.forgotPassword(vm.email).then(function() {
+                loginService.forgotPassword(vm.email).then(function() {
                     Alert.success('email.sent.message', 'email.check.message', redirectToLogin);
                 }, function() {
                     vm.error = 'msg.forgot.password.failed';

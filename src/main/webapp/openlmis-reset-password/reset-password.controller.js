@@ -21,9 +21,9 @@
     angular.module('openlmis-reset-password')
     .controller('ResetPasswordCtrl', ResetPasswordCtrl);
 
-    ResetPasswordCtrl.$inject = ['$state', '$stateParams', 'LoginService', 'Alert'];
+    ResetPasswordCtrl.$inject = ['$state', '$stateParams', 'loginService', 'Alert'];
 
-    function ResetPasswordCtrl($state, $stateParams, LoginService, Alert) {
+    function ResetPasswordCtrl($state, $stateParams, loginService, Alert) {
 
         var vm = this;
 
@@ -41,7 +41,7 @@
          */
         function changePassword() {
             if(arePasswordsValid()) {
-                LoginService.changePassword(vm.password, vm.token).then(function() {
+                loginService.changePassword(vm.password, vm.token).then(function() {
                     Alert.success('password.reset.success', null, redirectToLogin);
                 }, function() {
                     vm.error = 'msg.change.password.failed';

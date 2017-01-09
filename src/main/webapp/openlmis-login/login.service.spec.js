@@ -7,9 +7,9 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("LoginService", function() {
+describe("loginService", function() {
 
-    var $rootScope, httpBackend, LoginService, authorizationService, Right, $state;
+    var $rootScope, httpBackend, loginService, authorizationService, Right, $state;
 
     beforeEach(function() {
         module('openlmis-login');
@@ -42,10 +42,10 @@ describe("LoginService", function() {
             $stateProvider.state('somewhere', {});
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _authorizationService_, _$state_){
+        inject(function(_$httpBackend_, _$rootScope_, _loginService_, _authorizationService_, _$state_){
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
-            LoginService = _LoginService_;
+            loginService = _loginService_;
             authorizationService = _authorizationService_;
             $state = _$state_;
 
@@ -89,7 +89,7 @@ describe("LoginService", function() {
     describe('login', function() {
         it('should reject bad logins', function() {
             var error = false;
-            LoginService.login("john", "bad-password")
+            loginService.login("john", "bad-password")
             .catch(function(){
                 error = true;
             });
@@ -103,7 +103,7 @@ describe("LoginService", function() {
         it('should resolve successful logins', function() {
             var success = false;
 
-            LoginService.login("john", "john-password")
+            loginService.login("john", "john-password")
             .then(function(){
                 success = true;
             });
@@ -115,7 +115,7 @@ describe("LoginService", function() {
         });
 
         it('login will get user data', function(){
-            LoginService.login("john", "john-password");
+            loginService.login("john", "john-password");
             httpBackend.flush();
             $rootScope.$apply();
 
@@ -131,14 +131,14 @@ describe("LoginService", function() {
         spyOn(authorizationService, "clearRights");
 
         // Login a user
-        LoginService.login("john", "john-password");
+        loginService.login("john", "john-password");
         httpBackend.flush();
         $rootScope.$apply();
 
         httpBackend.when('POST', '/api/users/logout')
         .respond(200);
 
-        LoginService.logout();
+        loginService.logout();
 
         httpBackend.flush();
         $rootScope.$apply();
@@ -154,7 +154,7 @@ describe("LoginService", function() {
         spyOn($state, 'is').andReturn('auth.login');
         authorizationService.clearAccessToken();
 
-        LoginService.login("john", "john-password");
+        loginService.login("john", "john-password");
         httpBackend.flush();
         $rootScope.$apply();
 
@@ -167,7 +167,7 @@ describe("LoginService", function() {
         $state.go('somewhere');
         $rootScope.$apply();
 
-        LoginService.login("john", "john-password");
+        loginService.login("john", "john-password");
         httpBackend.flush();
         $rootScope.$apply();
 
@@ -181,7 +181,7 @@ describe("LoginService", function() {
         httpBackend.when('POST', '/api/users/forgotPassword?email=' + email)
         .respond(200, {});
 
-        LoginService.forgotPassword(email).then(spy);
+        loginService.forgotPassword(email).then(spy);
 
         httpBackend.flush();
         $rootScope.$apply();
@@ -205,7 +205,7 @@ describe("LoginService", function() {
             }
         });
 
-        LoginService.changePassword(data.newPassword, data.token).then(spy);
+        loginService.changePassword(data.newPassword, data.token).then(spy);
 
         httpBackend.flush();
         $rootScope.$apply();

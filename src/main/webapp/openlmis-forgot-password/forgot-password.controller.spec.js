@@ -10,7 +10,7 @@
 
 describe('ForgotPasswordController', function() {
 
-    var $rootScope, LoginService, $q, $state, vm, alertSpy;
+    var $rootScope, loginService, $q, $state, vm, alertSpy;
 
     beforeEach(function() {
         module('openlmis-forgot-password');
@@ -21,17 +21,17 @@ describe('ForgotPasswordController', function() {
                 return alertSpy;
             });
 
-            LoginServiceSpy = jasmine.createSpyObj('LoginService', ['forgotPassword']);
-            $provide.factory('LoginService', function() {
-                return LoginServiceSpy;
+            loginServiceSpy = jasmine.createSpyObj('loginService', ['forgotPassword']);
+            $provide.factory('loginService', function() {
+                return loginServiceSpy;
             });
         });
 
-        inject(function (_$rootScope_, $controller, _$q_, _$state_, _LoginService_) {
+        inject(function (_$rootScope_, $controller, _$q_, _$state_, _loginService_) {
             $rootScope = _$rootScope_;
             $q = _$q_;
             $state = _$state_;
-            LoginService = _LoginService_;
+            loginService = _loginService_;
 
             vm = $controller('ForgotPasswordController', {});
         });
@@ -45,7 +45,7 @@ describe('ForgotPasswordController', function() {
 
             vm.email = email;
 
-            LoginService.forgotPassword.andCallFake(function(mail) {
+            loginService.forgotPassword.andCallFake(function(mail) {
                 if(mail === email) mailPassed = true;
                 return $q.when(true);
             });
@@ -64,7 +64,7 @@ describe('ForgotPasswordController', function() {
 
             vm.email = email;
 
-            LoginService.forgotPassword.andCallFake(function() {
+            loginService.forgotPassword.andCallFake(function() {
                 return deferred.promise;
             });
 

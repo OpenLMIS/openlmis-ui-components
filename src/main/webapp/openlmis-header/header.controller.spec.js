@@ -12,7 +12,7 @@ describe('HeaderController', function() {
 
     var scope, window, localStorageService, httpBackend, $state;
 
-    beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, LoginService, $q) {
+    beforeEach(inject(function($rootScope, $controller, _localStorageService_, _$httpBackend_, _$state_, loginService, $q) {
         $state = _$state_;
         spyOn($state, 'go');
 
@@ -29,7 +29,7 @@ describe('HeaderController', function() {
             $window: window
         });
 
-        spyOn(LoginService, 'logout').andReturn($q.when());
+        spyOn(loginService, 'logout').andReturn($q.when());
     }));
 
     it('should navigate to login page when user logs out', function() {

@@ -15,9 +15,9 @@
         .module('openlmis-header')
         .controller('HeaderController', controller);
 
-    controller.$inject = ['$scope', 'authorizationService', 'LoginService', '$state'];
+    controller.$inject = ['$scope', 'authorizationService', 'loginService', '$state'];
 
-    function controller($scope, authorizationService, LoginService, $state) {
+    function controller($scope, authorizationService, loginService, $state) {
 
         $scope.$watch(function() {
             return authorizationService.getUser();
@@ -29,7 +29,7 @@
         }, true);
 
         $scope.logout = function() {
-            LoginService.logout()
+            loginService.logout()
                 .then(function() {
                     $state.go('auth.login');
                 });

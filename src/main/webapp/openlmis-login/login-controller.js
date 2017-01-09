@@ -22,9 +22,9 @@
     angular.module('openlmis-login')
     .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', 'bootbox', 'LoginService', 'localStorageService'];
+    LoginController.$inject = ['$state', 'bootbox', 'loginService', 'localStorageService'];
 
-    function LoginController($state, bootbox, LoginService, localStorageService) {
+    function LoginController($state, bootbox, loginService, localStorageService) {
 
         var vm = this;
 
@@ -95,7 +95,7 @@
             }
 
             vm.disableSignInButton = true;
-            LoginService.login(vm.username, vm.password)
+            loginService.login(vm.username, vm.password)
             .catch(function(){
                 vm.loginError = 'user.login.error';
             })

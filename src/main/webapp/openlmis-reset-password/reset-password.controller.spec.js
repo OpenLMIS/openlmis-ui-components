@@ -10,7 +10,7 @@
 
 describe('ResetPasswordCtrl', function() {
 
-    var $rootScope, LoginService, $q, Alert, vm, alertSpy, token;
+    var $rootScope, loginService, $q, Alert, vm, alertSpy, token;
 
     beforeEach(function() {
         token = '1234';
@@ -29,16 +29,16 @@ describe('ResetPasswordCtrl', function() {
                 return alertSpy;
             });
 
-            LoginServiceSpy = jasmine.createSpyObj('LoginService', ['changePassword']);
-            $provide.factory('LoginService', function() {
-                return LoginServiceSpy;
+            loginServiceSpy = jasmine.createSpyObj('loginService', ['changePassword']);
+            $provide.factory('loginService', function() {
+                return loginServiceSpy;
             });
         });
 
-        inject(function (_$rootScope_, $controller, _$q_, _LoginService_) {
+        inject(function (_$rootScope_, $controller, _$q_, _loginService_) {
             $rootScope = _$rootScope_;
             $q = _$q_;
-            LoginService = _LoginService_;
+            loginService = _loginService_;
 
             vm = $controller('ResetPasswordCtrl', {});
         });
@@ -53,7 +53,7 @@ describe('ResetPasswordCtrl', function() {
             vm.password = password;
             vm.reenteredPassword = password;
 
-            LoginService.changePassword.andCallFake(function(pass, tk) {
+            loginService.changePassword.andCallFake(function(pass, tk) {
                 if(password === pass && tk === token) passwordPassed = true;
                 return $q.when(true);
             });
@@ -73,7 +73,7 @@ describe('ResetPasswordCtrl', function() {
             vm.password = password;
             vm.reenteredPassword = password;
 
-            LoginService.changePassword.andCallFake(function() {
+            loginService.changePassword.andCallFake(function() {
                 return deferred.promise;
             });
 

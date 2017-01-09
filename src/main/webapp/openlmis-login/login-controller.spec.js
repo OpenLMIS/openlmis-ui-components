@@ -21,7 +21,7 @@ describe("LoginController", function() {
             });
         });
 
-        inject(function(_$rootScope_, $controller, $q, LoginService, _$state_) {
+        inject(function(_$rootScope_, $controller, $q, loginService, _$state_) {
             $rootScope = _$rootScope_;
             $state = _$state_;
 
@@ -29,7 +29,7 @@ describe("LoginController", function() {
 
             vm = $controller("LoginController", {});
 
-            spyOn(LoginService, 'login').andCallFake(function(username, password) {
+            spyOn(loginService, 'login').andCallFake(function(username, password) {
                 if(password == "bad-password"){
                     return $q.reject();
                 } else {
