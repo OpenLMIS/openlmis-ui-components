@@ -3,30 +3,31 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-modal.Alert
+     * @name openlmis-modal.alertService
      *
      * @description
      * Service allows to display alert modal with custom message.
      */
 
     angular.module('openlmis-modal')
-        .service('Alert', Alert);
+        .service('alertService', alertService);
 
-    Alert.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest', '$templateCache', 'bootbox', 'messageService'];
+    alertService.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest',
+        '$templateCache', 'bootbox', 'messageService'
+    ];
 
-    function Alert($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache, bootbox, messageService) {
+    function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
+        bootbox, messageService) {
 
-        var alert = warning;
-        alert.error = error;
-        alert.success = success;
-
-        return alert;
+        this.warning = warning;
+        this.error = error;
+        this.success = success;
 
         /**
          *
          * @ngdoc function
-         * @name Alert
-         * @methodOf openlmis-modal.Alert
+         * @name alertService
+         * @methodOf openlmis-modal.alertService
          *
          * @description
          * Shows warning modal with custom message and returns promise.
@@ -44,7 +45,7 @@
         /**
          * @ngdoc function
          * @name error
-         * @methodOf openlmis-modal.Alert
+         * @methodOf openlmis-modal.alertService
          *
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
@@ -59,7 +60,7 @@
         /**
          * @ngdoc function
          * @name success
-         * @methodOf openlmis-modal.Alert
+         * @methodOf openlmis-modal.alertService
          *
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
@@ -71,7 +72,6 @@
         function success(message, additionalMessage, callback) {
             showAlert('glyphicon-ok-circle', callback, message, additionalMessage);
         }
-
 
         function showAlert(alertClass, callback, message, additionalMessage) {
 

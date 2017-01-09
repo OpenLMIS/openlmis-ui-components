@@ -14,7 +14,7 @@ describe('authStateRouter', function() {
     beforeEach(function() {
         module('openlmis-auth', function($provide) {
             stateSpy = jasmine.createSpyObj('$state', ['go']);
-            alertSpy = jasmine.createSpyObj('Alert', ['error']);
+            alertSpy = jasmine.createSpyObj('alertService', ['error']);
             authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRights',
                 'isAuthenticated']);
 
@@ -22,7 +22,7 @@ describe('authStateRouter', function() {
                 return stateSpy;
             });
 
-            $provide.factory('Alert', function() {
+            $provide.factory('alertService', function() {
                 return alertSpy;
             });
 

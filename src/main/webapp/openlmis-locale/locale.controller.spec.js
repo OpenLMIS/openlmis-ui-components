@@ -12,11 +12,11 @@ describe("LocaleController", function () {
 
     beforeEach(module('openlmis-locale'));
 
-    var messageService, Alert, Notification;
+    var messageService, alertService, Notification;
 
-    beforeEach(inject(function ($rootScope, $q, _messageService_, _Alert_, _Notification_) {
+    beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_, _Notification_) {
         messageService = _messageService_;
-        Alert = _Alert_;
+        alertService = _alertService_;
         Notification = _Notification_;
 
         var mockLocale = undefined;
@@ -36,7 +36,7 @@ describe("LocaleController", function () {
         });
 
         spyOn(Notification, 'success');
-        spyOn(Alert, 'error');
+        spyOn(alertService, 'error');
     }));
 
     describe('on start up', function(){
@@ -50,7 +50,7 @@ describe("LocaleController", function () {
             controller = $controller('LocaleController', {
                 $scope: scope,
                 messageService: messageService,
-                Alert: Alert,
+                alertService: alertService,
                 Notification: Notification
             });
 
@@ -63,7 +63,7 @@ describe("LocaleController", function () {
             controller = $controller('LocaleController', {
                 $scope: scope,
                 messageService: messageService,
-                Alert: Alert,
+                alertService: alertService,
                 Notification: Notification
             });
 
@@ -82,7 +82,7 @@ describe("LocaleController", function () {
             controller = $controller('LocaleController', {
                 $scope: scope,
                 messageService: messageService,
-                Alert: Alert,
+                alertService: alertService,
                 Notification: Notification
             });
         }));
@@ -100,7 +100,7 @@ describe("LocaleController", function () {
             controller.changeLocale('fail');
             scope.$apply();
 
-            expect(Alert.error).toHaveBeenCalled();
+            expect(alertService.error).toHaveBeenCalled();
         });
 
         it("updates selectedLocale when messages are populated", function(){

@@ -10,7 +10,7 @@
 
 describe('ResetPasswordCtrl', function() {
 
-    var $rootScope, loginService, $q, Alert, vm, alertSpy, token;
+    var $rootScope, loginService, $q, alertService, vm, alertSpy, token;
 
     beforeEach(function() {
         token = '1234';
@@ -24,8 +24,8 @@ describe('ResetPasswordCtrl', function() {
                 return stateParamsSpy;
             });
 
-            alertSpy = jasmine.createSpyObj('Alert', ['success']);
-            $provide.factory('Alert', function() {
+            alertSpy = jasmine.createSpyObj('alertService', ['success']);
+            $provide.factory('alertService', function() {
                 return alertSpy;
             });
 

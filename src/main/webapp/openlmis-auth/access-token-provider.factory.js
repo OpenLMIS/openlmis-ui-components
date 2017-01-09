@@ -78,9 +78,9 @@
                 authorizationService.clearUser();
                 authorizationService.clearRights();
             } else if (response.status === 403) {
-                $injector.get('Alert').error('error.authorization');
+                $injector.get('alertService').error('error.authorization');
             } else if(response.status === 500) {
-                $injector.get('Alert').error('msg.server.error');
+                $injector.get('alertService').error('msg.server.error');
             }
             return $q.reject(response);
         }

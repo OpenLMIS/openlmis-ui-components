@@ -14,8 +14,8 @@
     angular.module('openlmis-locale')
         .controller('LocaleController', LocaleController);
 
-    LocaleController.$inject = ['$scope', 'messageService', 'Alert', 'Notification']
-    function LocaleController($scope, messageService, Alert, Notification) {
+    LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'Notification']
+    function LocaleController($scope, messageService, alertService, Notification) {
         var vm = this;
         // this should be fetched...
         vm.locales = ['en', 'es', 'fr', 'pt'];
@@ -35,7 +35,7 @@
                 Notification.success('locale.load.success');
             })
             .catch(function(){
-                Alert.error('locale.load.error');
+                alertService.error('locale.load.error');
             });
         };
     }

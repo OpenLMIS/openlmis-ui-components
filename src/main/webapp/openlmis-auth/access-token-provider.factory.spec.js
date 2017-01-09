@@ -76,9 +76,9 @@ describe('accessTokenProvider', function() {
                 $injector = _$injector_;
             });
 
-            alertMock = mockAlert();
+            alertMock = mockAlertService();
             spyOn($injector, 'get').andCallFake(function(name) {
-                if (name === 'Alert') return alertMock;
+                if (name === 'alertService') return alertMock;
             })
 
             response = {};
@@ -161,8 +161,8 @@ describe('accessTokenProvider', function() {
         return authorizationServiceMock;
     }
 
-    function mockAlert() {
-        return jasmine.createSpyObj('Alert', ['error']);
+    function mockAlertService() {
+        return jasmine.createSpyObj('alertService', ['error']);
     }
 
 });

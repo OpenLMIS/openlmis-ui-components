@@ -6,11 +6,11 @@
         .module('openlmis-auth')
         .service('authStateRouter', router);
 
-    router.$inject = ['$rootScope', '$state', 'authorizationService', 'Alert',
+    router.$inject = ['$rootScope', '$state', 'authorizationService', 'alertService',
         'LoadingModalService'
     ];
 
-    function router($rootScope, $state, authorizationService, Alert, LoadingModalService) {
+    function router($rootScope, $state, authorizationService, alertService, LoadingModalService) {
         var savedToState, savedToParams;
 
         this.initialize = initialize;
@@ -50,7 +50,7 @@
             } else if(toState.accessRights && !authorizationService.hasRights(toState.accessRights, toState.areAllRightsRequired)) {
                 // checking rights to enter state
                 event.preventDefault();
-                Alert.error('error.authorization');
+                alertService.error('error.authorization');
             }
         }
 

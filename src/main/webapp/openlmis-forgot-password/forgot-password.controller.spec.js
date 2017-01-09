@@ -16,8 +16,8 @@ describe('ForgotPasswordController', function() {
         module('openlmis-forgot-password');
 
         module(function($provide) {
-            alertSpy = jasmine.createSpyObj('Alert', ['success']);
-            $provide.factory('Alert', function() {
+            alertSpy = jasmine.createSpyObj('alertService', ['success']);
+            $provide.factory('alertService', function() {
                 return alertSpy;
             });
 
