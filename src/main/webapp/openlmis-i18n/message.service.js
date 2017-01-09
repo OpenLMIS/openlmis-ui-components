@@ -1,13 +1,16 @@
 (function() {
-    "use strict";
 
-    angular.module('openlmis-i18n')
+    'use strict';
+
+    angular
+        .module('openlmis-i18n')
         .factory('messageService', messageService);
 
     var LOCALE_STORAGE_KEY = 'current_locale',
-    DEFAULT_LANGUAGE = 'en';
+        DEFAULT_LANGUAGE = 'en';
 
     messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope'];
+
     function messageService($q, $http, localStorageService, $rootScope) {
         var service = {
             getCurrentLocale: getCurrentLocale,
@@ -17,7 +20,7 @@
 
         return service;
 
-        function getCurrentLocale(){
+        function getCurrentLocale() {
             return localStorageService.get(LOCALE_STORAGE_KEY);
         }
 
@@ -50,7 +53,7 @@
             if (keyWithArgs.length > 1 && displayMessage) {
                 $.each(keyWithArgs, function(index, arg) {
                     if (index > 0) {
-                        displayMessage = displayMessage.replace("{" + (index - 1) + "}", arg);
+                        displayMessage = displayMessage.replace('{' + (index - 1) + '}', arg);
                     }
                 });
             }
