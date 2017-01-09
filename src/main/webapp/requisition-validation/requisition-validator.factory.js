@@ -152,9 +152,11 @@
         }
 
         function shouldValidateCalculation(lineItem, column, columns) {
+            var counterpart = getCounterpart(columns, column.name);
             return calculations[column.name]
                     && !isCalculated(column)
-                    && !isCalculated(getCounterpart(columns, column.name));
+                    && counterpart
+                    && !isCalculated(counterpart);
         }
 
         function validateCalculation(calculation, lineItem, name) {
