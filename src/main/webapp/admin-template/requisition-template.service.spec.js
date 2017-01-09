@@ -7,16 +7,16 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('RequisitionTemplateService', function() {
+describe('requisitionTemplateService', function() {
 
     var rootScope, httpBackend, requisitionTemplateService, requisitionURL, template1, template2;
 
     beforeEach(module('admin-template'));
 
-    beforeEach(inject(function($httpBackend, $rootScope, RequisitionTemplateService, RequisitionURL) {
+    beforeEach(inject(function($httpBackend, $rootScope, _requisitionTemplateService_, RequisitionURL) {
         httpBackend = $httpBackend;
         rootScope = $rootScope;
-        requisitionTemplateService = RequisitionTemplateService;
+        requisitionTemplateService = _requisitionTemplateService_;
         requisitionURL = RequisitionURL;
 
         template1 = {

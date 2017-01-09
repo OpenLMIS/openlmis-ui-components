@@ -22,9 +22,9 @@
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = ['$q', 'RequisitionTemplateService', 'RequisitionColumn', 'Source'];
+    templateFactory.$inject = ['$q', 'requisitionTemplateService', 'RequisitionColumn', 'Source'];
 
-    function templateFactory($q, RequisitionTemplateService, RequisitionColumn, Source) {
+    function templateFactory($q, requisitionTemplateService, RequisitionColumn, Source) {
 
         var factory = {
             get: get,
@@ -46,7 +46,7 @@
          */
         function get(id) {
             var deferred = $q.defer();
-            RequisitionTemplateService.get(id).then(function(template) {
+            requisitionTemplateService.get(id).then(function(template) {
                 template.$save = save;
                 template.$isValid = isTemplateValid;
                 template.$moveColumn = moveColumn;
@@ -70,7 +70,7 @@
          * Gets all requisition templates from templateDataService.
          */
         function getAll() {
-            return RequisitionTemplateService.getAll();
+            return requisitionTemplateService.getAll();
         }
 
         /**
@@ -84,13 +84,13 @@
          * Gets requisition template for given program UUID.
          */
         function getByProgram(programId) {
-            return RequisitionTemplateService.search(programId);
+            return requisitionTemplateService.search(programId);
         }
 
 
         // Saves template
         function save() {
-            return RequisitionTemplateService.save(this);
+            return requisitionTemplateService.save(this);
         }
 
         // Creates a array with dependent column names.

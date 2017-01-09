@@ -14,33 +14,37 @@ describe('templateFactory', function() {
     beforeEach(module('admin-template'));
 
     beforeEach(module(function($provide){
-        var RequisitionTemplateServiceSpy = jasmine.createSpyObj('RequisitionTemplateService', ['get', 'getAll', 'search', 'save']),
-            RequisitionColumnSpy =  jasmine.createSpyObj('RequisitionColumn', ['columnDependencies']);
+        var requisitionTemplateServiceSpy = jasmine.createSpyObj('requisitionTemplateService', [
+                'get', 'getAll', 'search', 'save'
+            ]),
+            RequisitionColumnSpy =  jasmine.createSpyObj('RequisitionColumn', [
+                'columnDependencies'
+            ]);
 
-        RequisitionTemplateServiceSpy.get.andCallFake(function() {
+        requisitionTemplateServiceSpy.get.andCallFake(function() {
             return q.when(template);
         });
 
-        RequisitionTemplateServiceSpy.getAll.andCallFake(function() {
+        requisitionTemplateServiceSpy.getAll.andCallFake(function() {
             return q.when([template]);
         });
 
-        RequisitionTemplateServiceSpy.search.andCallFake(function(programId) {
+        requisitionTemplateServiceSpy.search.andCallFake(function(programId) {
             if(programId === template.programId) {
                 return q.when(template);
             }
             return q.when(true);
         });
 
-        RequisitionTemplateServiceSpy.save.andCallFake(function(requisitionTemplate) {
+        requisitionTemplateServiceSpy.save.andCallFake(function(requisitionTemplate) {
             if(requisitionTemplate.id === template.id && requisitionTemplate.columnsMap.total.displayOrder === 3) {
                 return q.when(requisitionTemplate);
             }
             return q.when(true);
         });
 
-        $provide.factory('RequisitionTemplateService', function(){
-    		return RequisitionTemplateServiceSpy;
+        $provide.factory('requisitionTemplateService', function(){
+    		return requisitionTemplateServiceSpy;
     	});
 
         RequisitionColumnSpy.columnDependencies.andCallFake(function(column) {

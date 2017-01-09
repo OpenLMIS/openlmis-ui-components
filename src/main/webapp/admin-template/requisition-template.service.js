@@ -14,17 +14,17 @@
 
     /**
      * @ngdoc service
-     * @name admin-template.RequisitionTemplateService
+     * @name admin-template.requisitionTemplateService
      *
      * @description
      * Allows user to perform operations on requisition template resource.
      *
      */
-    angular.module('admin-template').service('RequisitionTemplateService', RequisitionTemplateService);
+    angular.module('admin-template').service('requisitionTemplateService', requisitionTemplateService);
 
-    RequisitionTemplateService.$inject = ['RequisitionURL', '$resource'];
+    requisitionTemplateService.$inject = ['RequisitionURL', '$resource'];
 
-    function RequisitionTemplateService(RequisitionURL, $resource) {
+    function requisitionTemplateService(RequisitionURL, $resource) {
 
         var resource = $resource(RequisitionURL('/api/requisitionTemplates/:id'), {}, {
             'getAll': {
@@ -49,7 +49,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf admin-template.RequisitionTemplateService
+         * @methodOf admin-template.requisitionTemplateService
          * @param {String} id Requsition template UUID
          * @returns {Promise} Requisition template info
          *
@@ -63,7 +63,7 @@
         /**
          * @ngdoc function
          * @name  getAll
-         * @methodOf admin-template.RequisitionTemplateService
+         * @methodOf admin-template.requisitionTemplateService
          * @returns {Promise} Array of all requisition templates
          *
          * @description
@@ -76,7 +76,7 @@
         /**
          * @ngdoc function
          * @name  search
-         * @methodOf admin-template.RequisitionTemplateService
+         * @methodOf admin-template.requisitionTemplateService
          * @param {String} programId Program UUID
          * @return {Promise} Requisition template for given program
          *
@@ -90,7 +90,7 @@
         /**
          * @ngdoc function
          * @name  save
-         * @methodOf admin-template.RequisitionTemplateService
+         * @methodOf admin-template.requisitionTemplateService
          * @return {Promise} Saved requisition template
          *
          * @description
