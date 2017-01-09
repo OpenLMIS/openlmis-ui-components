@@ -16,16 +16,14 @@ describe('RequisitionCtrl', function() {
         module('requisition-view');
 
         module(function($provide) {
-            var confirmSpy = jasmine.createSpy('confirmService').andCallFake(function(argumentObject) {
-                    return $q.when(true);
-                }),
-                authorizationServiceSpy = jasmine.createSpyObj('AuthorizationService', ['hasRight']);
+            var confirmSpy = authorizationServiceSpy = jasmine.createSpyObj('confirmService', ['confirm']),
+                authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
 
             $provide.service('confirmService', function() {
                 return confirmSpy;
             });
 
-            $provide.service('AuthorizationService', function() {
+            $provide.service('authorizationService', function() {
                 return authorizationServiceSpy;
             });
         });
@@ -36,6 +34,10 @@ describe('RequisitionCtrl', function() {
             $q = _$q_;
             Notification = _Notification_;
             confirmService = _confirmService_;
+
+            confirmService.confirm.andCallFake(function() {
+                return $q.when(true);
+            });
 
             deferred = $q.defer();
             requisition = {

@@ -23,12 +23,12 @@
         .controller('RequisitionCtrl', RequisitionCtrl);
 
     RequisitionCtrl.$inject = ['$state', 'requisition', 'requisitionValidator',
-                               'AuthorizationService', 'loadingModalService',
+                               'authorizationService', 'loadingModalService',
                                'Notification', 'confirmService', 'RequisitionRights',
                                'ConvertToOrderModal', 'OfflineService', 'localStorageFactory'];
 
     function RequisitionCtrl($state, requisition, requisitionValidator,
-                             AuthorizationService, loadingModalService,
+                             authorizationService, loadingModalService,
                              Notification, confirmService, RequisitionRights,
                              ConvertToOrderModal, OfflineService, localStorageFactory) {
 
@@ -261,7 +261,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function skipRnr() {
-            confirmService('msg.question.confirmation.skip').then(function() {
+            confirmService.confirm('msg.question.confirmation.skip').then(function() {
                 loadingModalService.open();
                 vm.requisition.$skip()
                 .then(function(response) {
