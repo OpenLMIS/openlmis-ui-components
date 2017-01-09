@@ -24,12 +24,12 @@
 
     RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
                                'authorizationService', 'messageService', 'LoadingModalService',
-                               'Notification', 'Confirm', 'RequisitionRights',
+                               'Notification', 'confirmService', 'RequisitionRights',
                                'ConvertToOrderModal', 'OfflineService', 'localStorageFactory', '$rootScope'];
 
     function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
                              authorizationService, messageService, LoadingModalService,
-                             Notification, Confirm, RequisitionRights, ConvertToOrderModal,
+                             Notification, confirmService, RequisitionRights, ConvertToOrderModal,
                              OfflineService, localStorageFactory, $rootScope) {
 
         var vm = this,
@@ -115,7 +115,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function submitRnr() {
-            Confirm('msg.question.confirmation.submit').then(function() {
+            confirmService.confirm('msg.question.confirmation.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
@@ -148,7 +148,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function authorizeRnr() {
-            Confirm('msg.question.confirmation.authorize').then(function() {
+            confirmService.confirm('msg.question.confirmation.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     save().then(function() {
                         LoadingModalService.open();
@@ -179,7 +179,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function removeRnr() {
-            Confirm.destroy('msg.question.confirmation.deletion').then(function() {
+            confirmService.confirmDestroy('msg.question.confirmation.deletion').then(function() {
                 LoadingModalService.open();
                 vm.requisition.$remove()
                 .then(function(response) {
@@ -205,7 +205,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function approveRnr() {
-            Confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation').then(function() {
                 if(requisitionValidator.validateRequisition(requisition)) {
                     save()
                     .then(function() {
@@ -234,7 +234,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function rejectRnr() {
-            Confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation').then(function() {
                 LoadingModalService.open();
                 vm.requisition.$reject()
                 .then(function(response) {
@@ -372,7 +372,7 @@
                 offlineRequitions.put(requisition);
                 requisition.$availableOffline = true;
             } else {
-                Confirm('msg.question.confirmation.makeOnlineOnly').then(function() {
+                confirmService.confirm('msg.question.confirmation.makeOnlineOnly').then(function() {
                     onlineOnly.put(requisition.id);
                     offlineRequitions.removeBy('id', requisition.id);
                     requisition.$availableOffline = false;

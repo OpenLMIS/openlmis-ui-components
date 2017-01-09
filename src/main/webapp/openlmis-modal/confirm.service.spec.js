@@ -7,14 +7,14 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("Confirm", function() {
+describe("confirmService", function() {
 
-    var timeout, confirm, rootScope, Bootbox;
+    var timeout, confirmService, rootScope, Bootbox;
 
     beforeEach(module('openlmis-modal'));
 
-    beforeEach(inject(function(_$rootScope_, Confirm, bootbox) {
-        confirm = Confirm;
+    beforeEach(inject(function(_$rootScope_, _confirmService_, bootbox) {
+        confirmService = _confirmService_;
         rootScope = _$rootScope_;
         Bootbox = bootbox;
     }));
@@ -32,7 +32,7 @@ describe("Confirm", function() {
             return {};
         });
 
-        promise = confirm.destroy('some.message').then(promiseResolveSpy, promiseRejectSpy);
+        promise = confirmService.confirmDestroy('some.message').then(promiseResolveSpy, promiseRejectSpy);
 
         expect(buttonClass).toEqual('btn-danger');
         expect(promiseResolveSpy).not.toHaveBeenCalled();
@@ -59,7 +59,7 @@ describe("Confirm", function() {
             return {};
         });
 
-        promise = confirm('some.message', button).then(promiseSpy);
+        promise = confirmService.confirm('some.message', button).then(promiseSpy);
 
         expect(buttonMessage).toEqual(button);
         expect(promiseSpy).not.toHaveBeenCalled();

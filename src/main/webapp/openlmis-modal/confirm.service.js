@@ -1,32 +1,31 @@
-(function(){
-    "use strict";
+(function() {
+
+    'use strict';
 
     /**
      *
      * @ngdoc service
-     * @name openlmis-modal.Confirm
+     * @name openlmis-modal.confirmService
      * @description
      * Service allows to display confirm modal with custom message.
      *
      */
 
     angular.module('openlmis-modal')
-        .service('Confirm', Confirm);
+        .service('confirmService', confirmService);
 
-    Confirm.$inject = ['bootbox', 'messageService', '$q'];
+    confirmService.$inject = ['bootbox', 'messageService', '$q'];
 
-    function Confirm(bootbox, messageService, $q) {
+    function confirmService(bootbox, messageService, $q) {
 
-        var Confirm = confirm;
-        Confirm.destroy = destroy
-
-        return Confirm;
+        this.confirm = confirm;
+        this.confirmDestroy = destroy;
 
         /**
          *
          * @ngdoc function
-         * @name Confirm
-         * @methodOf openlmis-modal.Confirm
+         * @name confirmService
+         * @methodOf openlmis-modal.confirmService
          * @param {String} message Primary message to display at the top
          * @param {Function} additionalMessage Additional message to display below
          * @param {String} buttonMessage Optional message to display on confirm button
@@ -43,7 +42,7 @@
          *
          * @ngdoc function
          * @name destroy
-         * @methodOf openlmis-modal.Confirm
+         * @methodOf openlmis-modal.confirmService
          * @param {String} message Message to display
          * @return {Promise} confirm promise
          *

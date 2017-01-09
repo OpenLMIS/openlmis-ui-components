@@ -14,12 +14,12 @@
         .service('RequisitionService', requisitionService);
 
     requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
-                                  'RequisitionURL', 'RequisitionFactory', 'Confirm',
+                                  'RequisitionURL', 'RequisitionFactory', 'confirmService',
                                   'Notification', 'dateUtils', 'localStorageFactory',
                                   'OfflineService'];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, Confirm, Notification, dateUtils,
+                                RequisitionFactory, confirmService, Notification, dateUtils,
                                 localStorageFactory, OfflineService) {
 
         var offlineTemplates = localStorageFactory('requisitionTemplates'),
@@ -270,7 +270,7 @@
         function convertToOrder(requisitions) {
             var deferred = $q.defer();
 
-            Confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation').then(function() {
                 resource.convertToOrder(requisitions).$promise.then(function() {
                     deferred.resolve();
                     Notification.success('msg.rnr.converted.to.order');

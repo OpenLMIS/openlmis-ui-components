@@ -84,7 +84,8 @@ describe('RequisitionService', function() {
 
         module(function($provide){
             var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition),
-                confirmSpy = jasmine.createSpy('Confirm').andCallFake(function(argumentObject) {
+                confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm'])
+                confirmServiceMock.confirm.andCallFake(function(argumentObject) {
                     return q.when(true);
                 });
 
@@ -92,8 +93,8 @@ describe('RequisitionService', function() {
                 return requisitionFactorySpy;
             });
 
-            $provide.service('Confirm', function() {
-                return confirmSpy;
+            $provide.service('confirmService', function() {
+                return confirmServiceMock;
             });
 
             requisitionsStorage = jasmine.createSpyObj('requisitionsStorage', ['search', 'put', 'getBy']);
