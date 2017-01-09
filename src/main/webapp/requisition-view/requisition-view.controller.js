@@ -22,15 +22,15 @@
         .module('requisition-view')
         .controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$scope', '$state', 'requisition', 'requisitionValidator',
-                               'authorizationService', 'messageService', 'loadingModalService',
+    RequisitionCtrl.$inject = ['$state', 'requisition', 'requisitionValidator',
+                               'AuthorizationService', 'loadingModalService',
                                'Notification', 'confirmService', 'RequisitionRights',
-                               'ConvertToOrderModal', 'OfflineService', 'localStorageFactory', '$rootScope'];
+                               'ConvertToOrderModal', 'OfflineService', 'localStorageFactory'];
 
-    function RequisitionCtrl($scope, $state, requisition, requisitionValidator,
-                             authorizationService, messageService, loadingModalService,
-                             Notification, confirmService, RequisitionRights, ConvertToOrderModal,
-                             OfflineService, localStorageFactory, $rootScope) {
+    function RequisitionCtrl($state, requisition, requisitionValidator,
+                             AuthorizationService, loadingModalService,
+                             Notification, confirmService, RequisitionRights,
+                             ConvertToOrderModal, OfflineService, localStorageFactory) {
 
         var vm = this,
             onlineOnly = localStorageFactory('onlineOnly'),
@@ -68,12 +68,14 @@
         vm.convertRnr = convertRnr;
         vm.approveRnr = approveRnr;
         vm.rejectRnr = rejectRnr;
+        vm.skipRnr = skipRnr;
         vm.periodDisplayName = periodDisplayName;
         vm.displaySubmit = displaySubmit;
         vm.displayAuthorize = displayAuthorize;
         vm.displayDelete = displayDelete;
         vm.displayApproveAndReject = displayApproveAndReject;
         vm.displayConvertToOrder = displayConvertToOrder;
+        vm.displaySkip = displaySkip;
         vm.changeAvailablity = changeAvailablity;
         vm.isOffline = OfflineService.isOffline;
 
@@ -250,6 +252,31 @@
 
         /**
          * @ngdoc function
+         * @name skipRnr
+         * @methodOf requisition-view.RequisitionCtrl
+         *
+         * @description
+         * Responsible for skipping requisition. Displays confirmation dialog before skipping.
+         * If an error occurs during skipping it will display an error notification modal.
+         * Otherwise, a success notification modal will be shown.
+         */
+        function skipRnr() {
+            confirmService('msg.question.confirmation.skip').then(function() {
+                loadingModalService.open();
+                vm.requisition.$skip()
+                .then(function(response) {
+                    $state.go('requisitions.initRnr');
+                    Notification.success('msg.rnr.skip.success');
+                })
+                .catch(function() {
+                    Notification.error('msg.rnr.skip.failure');
+                })
+                .finally(loadingModalService.close);
+            });
+        };
+
+        /**
+         * @ngdoc function
          * @name periodDisplayName
          * @methodOf requisition-view.RequisitionCtrl
          *
@@ -356,6 +383,21 @@
 
         /**
          * @ngdoc function
+         * @name displayConvertToOrder
+         * @methodOf requisition-view.RequisitionCtrl
+         *
+         * @description
+         * Determines whether to display skip requisition button or not. Returns true only if
+         * requisition program allows to skip requisition.
+         *
+         * @return {boolean} should skip requisition button be displayed
+         */
+        function displaySkip() {
+            return vm.requisition.$isInitiated() && vm.requisition.program.periodsSkippable;
+        };
+
+        /**
+         * @ngdoc function
          * @name convertRnr
          * @methodOf requisition-view.RequisitionCtrl
          *
@@ -391,7 +433,7 @@
         }
 
         function failedToSave() {
-            Notification.error(messageService.get('msg.rnr.save.failure'));
+            Notification.error('msg.rnr.save.failure');
         }
 
         function reloadState() {

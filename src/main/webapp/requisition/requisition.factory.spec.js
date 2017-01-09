@@ -68,7 +68,7 @@ describe('RequisitionFactory', function() {
             return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
         })
 
-        offlineRequitions = jasmine.createSpyObj('offlineRequitions', ['put', 'remove']);
+        offlineRequitions = jasmine.createSpyObj('offlineRequitions', ['put', 'remove', 'removeBy']);
 
     	$provide.service('RequisitionTemplate', function(){
     		return TemplateSpy;
@@ -163,6 +163,22 @@ describe('RequisitionFactory', function() {
         .respond(200, requisition);
 
         requisition.$reject().then(function(response) {
+            data = response;
+        });
+
+        httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+    });
+
+    it('should skip requisition', function() {
+        var data;
+
+        httpBackend.when('PUT', requisitionUrl('/api/requisitions/' + requisition.id + '/skip'))
+        .respond(200, requisition);
+
+        requisition.$skip().then(function(response) {
             data = response;
         });
 

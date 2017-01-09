@@ -4,6 +4,7 @@
         <input id="saveRnrButton" ng-disabled="!vm.requisition.$availableOffline" ng-click="vm.saveRnr()" class="btn btn-default save-button" openlmis-message="button.save.locally" type="button" />
         <input id="syncRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" class="btn btn-default save-button" openlmis-message="button.sync" type="button" />
         <input id="submitRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" class="btn btn-primary primary-action" openlmis-message="button.submit" type="button" ng-if="vm.displaySubmit()" />
+        <input id="skipRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" class="btn btn-default primary-action" openlmis-message="button.skip" type="button" ng-if="vm.displaySkip()" />
         <input id="authorizeRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" openlmis-message="button.authorize" ng-if="vm.displayAuthorize()" ng-click="vm.authorizeRnr()" />
         <input id="approveRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" openlmis-message="button.approve" ng-if="vm.displayApproveAndReject()" ng-click="vm.approveRnr()" />
         <input id="rejectRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-danger primary-action" openlmis-message="button.rnr.reject" ng-if="vm.displayApproveAndReject()" ng-click="vm.rejectRnr()" />

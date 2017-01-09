@@ -44,6 +44,10 @@
             'reject': {
                 url: RequisitionURL('/api/requisitions/:id/reject'),
                 method: 'PUT'
+            },
+            'skip': {
+                url: RequisitionURL('/api/requisitions/:id/skip'),
+                method: 'PUT'
             }
         });
 
@@ -71,6 +75,7 @@
             requisition.$remove = remove;
             requisition.$approve = approve;
             requisition.$reject = reject;
+            requisition.$skip = skip;
             requisition.$isInitiated = isInitiated;
             requisition.$isSubmitted = isSubmitted;
             requisition.$isApproved = isApproved;
@@ -201,6 +206,24 @@
                 id: this.id
             }, {}).$promise, function(rejected) {
                 saveToStorage(rejected, availableOffline);
+            });
+        }
+
+        /**
+         * @ngdoc function
+         * @name reject
+         * @methodOf requisition.RequisitionFactory
+         * @return {Promise} promise that resolves when requisition is rejected
+         *
+         * @description
+         * Rejects requisition.
+         *
+         */
+        function skip() {
+            return handlePromise(resource.skip({
+                id: this.id
+            }, {}).$promise, function(requisition) {
+                offlineRequitions.removeBy('id', requisition.id);
             });
         }
 
