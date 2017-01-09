@@ -18,6 +18,7 @@
 
 	angular.module('openlmis', [
 		'openlmis-404',
+        'openlmis-500',
 		'openlmis-forgot-password',
 		'openlmis-home',
 		'openlmis-header',

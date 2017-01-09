@@ -114,14 +114,6 @@ describe('accessTokenProvider', function() {
             expect(alertMock.error).toHaveBeenCalledWith('error.authorization');
         });
 
-        it('should show msg.server.error alert on 500 status', function() {
-            response.status = 500;
-
-            provider.responseError(response);
-
-            expect(alertMock.error).toHaveBeenCalledWith('msg.server.error');
-        });
-
         it('should reject response', function() {
             spyOn($q, 'reject').andCallThrough();
 
