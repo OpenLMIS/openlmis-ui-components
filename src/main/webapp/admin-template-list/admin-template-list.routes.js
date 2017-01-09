@@ -22,7 +22,7 @@
 			showInNavigation: true,
 			label: 'configure.rnr.header',
 			url: '/templateList',
-			controller: 'ProgramAdministrationListCtrl',
+			controller: 'ProgramAdministrationListController',
 			templateUrl: 'admin-template-list/program-administration-list.html',
 			controllerAs: 'vm',
 			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],

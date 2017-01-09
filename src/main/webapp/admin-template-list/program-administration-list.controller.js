@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc controller
-     * @name admin-template.ProgramAdministrationListCtrl
+     * @name admin-template.ProgramAdministrationListController
      *
      * @description
      * Controller for template list view page
@@ -22,7 +22,7 @@
 
     angular
         .module('admin-template-list')
-        .controller('ProgramAdministrationListCtrl', controller);
+        .controller('ProgramAdministrationListController', controller);
 
     controller.$inject = ['$state', 'programList', 'AuthorizationService', 'RequisitionRights'];
 
@@ -37,7 +37,7 @@
         /**
          * @ngdoc function
          * @name goToTemplate
-         * @methodOf admin-template.ProgramAdministrationListCtrl
+         * @methodOf admin-template.ProgramAdministrationListController
          * @param {String} templateId Template UUID
          *
          * @description
