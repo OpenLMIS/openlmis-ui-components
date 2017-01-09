@@ -1,12 +1,14 @@
+(function() {
 
-(function(){
-    "use strict";
+    'use strict';
 
-    angular.module('openlmis-locale')
-        .directive('openlmisLocale', localeDirective);
+    angular
+        .module('openlmis-locale')
+        .directive('openlmisLocale', directive);
 
-    localeDirective.$inject = [];
-    function localeDirective(){
+    directive.$inject = [];
+
+    function directive() {
         return {
             restrict: 'EA',
             replace: true,
