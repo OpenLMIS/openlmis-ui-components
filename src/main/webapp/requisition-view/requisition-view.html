@@ -14,5 +14,6 @@
       <li ui-sref-active="active" ng-if="vm.requisition.$template.showNonFullSupplyTab" role="presentation"><a ui-sref="requisitions.requisition.nonFullSupply">{{'label.non.full.supply.products' | message}}</a></li>
     </ul>
     <div ui-view=""></div>
+    <requisition-summary requisition="vm.requisition"></requisition-summary>
 </div>
 <ng-include src="'requisition-view/requisition-toolbar.html'"></ng-include>

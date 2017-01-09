@@ -1,0 +1,35 @@
+div.requisition-summary {
+    text-align: right;
+    color: $green;
+    font-weight: bold;
+    background-color: $light-green;
+    border: darken($light-green, 20%) solid 1px;
+    width: 100%;
+    margin: 1em 0;
+    padding: 0.5em;
+
+    h5 {
+        font-weight: bold;
+        color: $green;
+    }
+
+    dl {
+        color: black;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        dt {
+            flex: 0, 1, content;
+            font-weight: normal;
+        }
+
+        dd {
+            flex: 0, 1, content;
+            font-weight: bold;
+            text-align: right;
+        }
+
+    }
+
+}

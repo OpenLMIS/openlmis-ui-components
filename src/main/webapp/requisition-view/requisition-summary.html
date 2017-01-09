@@ -1,0 +1,8 @@
+<div class="requisition-summary">
+    {{'message.totalRnrCost' | message}}
+    {{vm.calculateNonFullSupplyCost() | currency}}
+    <button class="btn btn-primary" uib-popover-template="'requisition-view/requisition-summary-popover.html'"
+        popover-placement="top-right">
+            <i class="fa fa-list-ul"></i>
+    </button>
+</div>

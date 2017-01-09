@@ -120,6 +120,8 @@
   "message.no.rnr.pending.approval": "No R&Rs pending for approval",
   "message.no.search.results": "No search results",
   "message.reset.password": "Reset password for",
+  "message.rnrCost": "R&R Cost",
+  "message.totalRnrCost": "Total R&R Cost:",
   "msg.alert.modal.footer": "Press ESC button or click anywhere to continue",
   "msg.button.cancel": "Cancel",
   "msg.button.ok": "OK",

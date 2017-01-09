@@ -7,6 +7,7 @@
         'openlmis-templates',
         'requisition',
         'requisition-validation',
+        'ui.bootstrap',
         'ui.router'
     ]);
 

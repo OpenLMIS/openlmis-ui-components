@@ -1,0 +1,7 @@
+<h5>{{'message.rnrCost' | message}}</h5>
+<dl>
+   <dt>{{'label.full.supply.products' | message}}</dt>
+   <dd>{{vm.calculateFullSupplyCost() | currency}}</dd>
+   <dt>{{'label.non.full.supply.products' | message}}</dt>
+   <dd>{{vm.calculateNonFullSupplyCost() | currency}}</dd>
+</dl>
