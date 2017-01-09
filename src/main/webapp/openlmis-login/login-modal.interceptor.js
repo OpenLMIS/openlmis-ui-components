@@ -22,8 +22,8 @@
     * When there is 401 unauthorized status code after request, the user is shown login modal window. After authenticate request is retried.
     *
     */
-    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'authService', 'AccessTokenFactory'];
-    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, authService, AccessTokenFactory) {
+    loginRequiredInterceptor.$inject = ['$rootScope', '$compile', 'bootbox', '$templateRequest', 'LoadingModalService', 'authService', 'accessTokenFactory'];
+    function loginRequiredInterceptor($rootScope, $compile, bootbox, $templateRequest, LoadingModalService, authService, accessTokenFactory) {
         var noRetryRequest;
         var dialog;
 
@@ -60,7 +60,7 @@
             $rootScope.$emit('event:auth-loggedIn');
           } else {
             authService.loginConfirmed(null, function (config) {
-              config.url = AccessTokenFactory.updateAccessToken(config.url);
+              config.url = accessTokenFactory.updateAccessToken(config.url);
               return config;
             });
           }

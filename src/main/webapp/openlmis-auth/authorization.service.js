@@ -4,17 +4,17 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-auth.AuthorizationService
+     * @name openlmis-auth.authorizationService
      *
      * @description
      * This service is responsible for storing user authentication details, such as the current
      * user's authorization rights and user object. This service only stores information, other
      * services and factories are responsible for writing user information to the
-     * AuthorizationService.
+     * authorizationService.
      */
     angular
         .module('openlmis-auth')
-        .service('AuthorizationService', service)
+        .service('authorizationService', service)
 
     var storageKeys = {
         'ACCESS_TOKEN': 'ACCESS_TOKEN',
@@ -45,7 +45,7 @@
         /**
          * @ngdoc function
          * @name getAccessToken
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Retrives the current access token.
@@ -59,7 +59,7 @@
         /**
          * @ngdoc function
          * @name setAccessToken
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Sets the access token.
@@ -73,7 +73,7 @@
         /**
          * @ngdoc function
          * @name clearAccessToken
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Removed the stored token from the local storage.
@@ -85,7 +85,7 @@
         /**
          * @ngdoc function
          * @name isAuthenticated
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Checks whether user is authenticated.
@@ -99,7 +99,7 @@
         /**
          * @ngdoc function
          * @name getUser
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Retrieves basic information(usename and user ID) about the user.
@@ -131,7 +131,7 @@
         /**
          * @ngdoc function
          * @name setUser
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Saves the given user ID and username to the local storage.
@@ -147,7 +147,7 @@
         /**
          * @ngdoc function
          * @name clearUser
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Removes the username and user ID from the local storage.
@@ -160,7 +160,7 @@
         /**
          * @ngdoc function
          * @name setRights
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Saves the given rights to the local storage.
@@ -177,7 +177,7 @@
         /**
          * @ngdoc function
          * @name  getRights
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Retrieves the list of user rights from the local storage.
@@ -191,7 +191,7 @@
         /**
          * @ngdoc function
          * @name hasRight
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Checks whether user has the given right. If the details object is passed the validation
@@ -256,7 +256,7 @@
         /**
          * @ngdoc function
          * @name  clearRights
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Removes user rights from the local storage.
@@ -268,7 +268,7 @@
         /**
          * @ngdoc function
          * @name  getRightByName
-         * @methodOf openlmis-auth.AuthorizationService
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Returns id of right with given name.

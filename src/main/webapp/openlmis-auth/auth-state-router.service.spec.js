@@ -7,7 +7,7 @@
 * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
 */
-describe("AuthInterceptor", function() {
+describe('authStateRouter', function() {
 
     var $rootScope, authorizationServiceSpy, stateSpy, alertSpy;
 
@@ -15,7 +15,7 @@ describe("AuthInterceptor", function() {
         module('openlmis-auth', function($provide) {
             stateSpy = jasmine.createSpyObj('$state', ['go']);
             alertSpy = jasmine.createSpyObj('Alert', ['error']);
-            authorizationServiceSpy = jasmine.createSpyObj('AuthorizationService', ['hasRights',
+            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRights',
                 'isAuthenticated']);
 
             $provide.factory('$state', function() {
@@ -26,7 +26,7 @@ describe("AuthInterceptor", function() {
                 return alertSpy;
             });
 
-            $provide.factory('AuthorizationService', function() {
+            $provide.factory('authorizationService', function() {
                 return authorizationServiceSpy;
             })
         });

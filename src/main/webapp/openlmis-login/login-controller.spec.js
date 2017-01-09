@@ -16,7 +16,7 @@ describe("LoginController", function() {
 
         module(function($provide){
             // Turn off AuthToken
-            $provide.factory('HttpAuthAccessToken', function(){
+            $provide.factory('accessTokenProvider', function(){
                 return {};
             });
         });

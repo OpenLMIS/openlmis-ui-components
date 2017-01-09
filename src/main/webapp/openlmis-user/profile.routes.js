@@ -15,8 +15,8 @@
             templateUrl: 'openlmis-user/profile.html',
             controller: 'UserProfileController',
             resolve: {
-                user: function (AuthorizationService) {
-                    return AuthorizationService.getDetailedUser().$promise
+                user: function (authorizationService) {
+                    return authorizationService.getDetailedUser().$promise
                 }
             }
         });

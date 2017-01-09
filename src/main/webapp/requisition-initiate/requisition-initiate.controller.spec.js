@@ -5,13 +5,13 @@ describe("RequisitionInitiateCtrl", function(){
 
     beforeEach(module('requisition-initiate'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _PeriodFactory_,
-    _$state_, _RequisitionService_, _AuthorizationService_, _SupervisedFacilities_) {
+    _$state_, _RequisitionService_, _authorizationService_, _SupervisedFacilities_) {
 
         rootScope = $rootScope;
         periodFactory =_PeriodFactory_;
         $state = _$state_;
         requisitionService = _RequisitionService_;
-        authorizationService = _AuthorizationService_;
+        authorizationService = _authorizationService_;
         supervisedFacilities = _SupervisedFacilities_;
         $q = _$q_;
 

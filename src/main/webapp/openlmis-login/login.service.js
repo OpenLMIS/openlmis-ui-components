@@ -7,16 +7,16 @@
      *
      * @description
      * Facilitates the login process between the OpenLMIS Server and the UI client.
-     * This service works with the AuthorizationService, which is responsible for storing implementation details.
+     * This service works with the authorizationService, which is responsible for storing implementation details.
      */
     angular
         .module('openlmis-login')
         .service('LoginService', LoginService);
 
-    LoginService.$inject = ['$rootScope', '$q', '$http', 'AuthURL', 'OpenlmisURL', 'AuthorizationService',
+    LoginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'OpenlmisURL', 'authorizationService',
                             'Right', '$state'];
 
-    function LoginService($rootScope, $q, $http, AuthURL, OpenlmisURL, AuthorizationService, Right, $state) {
+    function LoginService($rootScope, $q, $http, authUrl, OpenlmisURL, authorizationService, Right, $state) {
 
         this.login = login;
         this.logout = logout;
@@ -62,14 +62,14 @@
             .then(function(AuthHeader) {
                 $http({
                     method: 'POST',
-                    url: AuthURL('/api/oauth/token?grant_type=password'),
+                    url: authUrl('/api/oauth/token?grant_type=password'),
                     data: 'username=' + username + '&password=' + password,
                     headers: {
                         'Authorization': AuthHeader,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).then(function(response) {
-                    AuthorizationService.setAccessToken(response.data.access_token);
+                    authorizationService.setAccessToken(response.data.access_token);
                     getUserInfo(response.data.referenceDataUserId).then(function() {
                         getUserRights(response.data.referenceDataUserId).then(function() {
                             if ($state.is('auth.login')) {
@@ -79,11 +79,11 @@
                             }
                             deferred.resolve();
                         }, function(){
-                            AuthorizationService.clearAccessToken();
+                            authorizationService.clearAccessToken();
                             deferred.reject();
                         });
                     }, function(){
-                        AuthorizationService.clearAccessToken();
+                        authorizationService.clearAccessToken();
                         deferred.reject();
                     });
                 }, function() { // catch HTTP error
@@ -107,12 +107,12 @@
             var deferred = $q.defer();
             $http({
                 method: 'POST',
-                url: AuthURL('/api/users/logout')
+                url: authUrl('/api/users/logout')
             }).then(function() {
 
-                AuthorizationService.clearAccessToken();
-                AuthorizationService.clearUser();
-                AuthorizationService.clearRights();
+                authorizationService.clearAccessToken();
+                authorizationService.clearUser();
+                authorizationService.clearRights();
 
                 deferred.resolve();
             }).catch(function(){
@@ -123,10 +123,10 @@
 
         function getUserInfo(userId){
             var deferred = $q.defer();
-            if(!AuthorizationService.isAuthenticated()) {
+            if(!authorizationService.isAuthenticated()) {
                 deferred.reject();
             } else {
-                var userInfoURL = AuthURL(
+                var userInfoURL = authUrl(
                     '/api/users/' + userId
                 );
                 $http({
@@ -136,7 +136,7 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(function(response) {
-                    AuthorizationService.setUser(userId, response.data.username);
+                    authorizationService.setUser(userId, response.data.username);
                     //getUserRights(userId);
                     deferred.resolve();
                 }).catch(function() {
@@ -149,7 +149,7 @@
         function getUserRights(userId) {
             var deferred = $q.defer();
 
-            if(!AuthorizationService.isAuthenticated()) {
+            if(!authorizationService.isAuthenticated()) {
                 deferred.reject();
             } else {
                 var userRoleAssignmentsURL = OpenlmisURL(
@@ -162,7 +162,7 @@
                         'Content-Type': 'application/json'
                     }
                 }).then(function(response) {
-                    AuthorizationService.setRights(Right.buildRights(response.data));
+                    authorizationService.setRights(Right.buildRights(response.data));
                     deferred.resolve();
                 }).catch(function() {
                     deferred.reject();
@@ -213,7 +213,7 @@
                     newPassword: newPassword
                 };
 
-            if(AuthorizationService.isAuthenticated()) AuthorizationService.clearAccessToken();
+            if(authorizationService.isAuthenticated()) authorizationService.clearAccessToken();
 
             return $http({
                 method: 'POST',

@@ -24,10 +24,10 @@
                 RequisitionRights.REQUISITION_AUTHORIZED
             ],
             resolve: {
-                facility: function (AuthorizationService, $q) {
+                facility: function (authorizationService, $q) {
                     var deferred = $q.defer();
 
-                    AuthorizationService.getDetailedUser().$promise.then(function(response) {
+                    authorizationService.getDetailedUser().$promise.then(function(response) {
                         deferred.resolve(response.homeFacility);
                     }, function(response) {
                         deferred.reject();
@@ -35,8 +35,8 @@
 
                     return deferred.promise;
                 },
-                user: function(AuthorizationService) {
-                    return AuthorizationService.getUser();
+                user: function(authorizationService) {
+                    return authorizationService.getUser();
                 },
                 supervisedPrograms: function (UserPrograms, $q, user) {
                     var deferred = $q.defer();

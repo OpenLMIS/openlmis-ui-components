@@ -25,11 +25,11 @@
 
     RequisitionInitiateCtrl.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
     'RequisitionService', '$state', 'DateUtils', 'Status', 'LoadingModalService', 'Notification',
-     'AuthorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
+     'authorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
 
     function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
     RequisitionService, $state, DateUtils, Status, LoadingModalService, Notification,
-    AuthorizationService, $q, RequisitionRights, SupervisedFacilities) {
+    authorizationService, $q, RequisitionRights, SupervisedFacilities) {
 
         var vm = this;
 
@@ -259,8 +259,8 @@
             refreshGridData();
             if (selectedProgramId) {
                 LoadingModalService.open();
-                var createRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
-                var authorizeRight = AuthorizationService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE);
+                var createRight = authorizationService.getRightByName(RequisitionRights.REQUISITION_CREATE);
+                var authorizeRight = authorizationService.getRightByName(RequisitionRights.REQUISITION_AUTHORIZE);
 
                 $q.all([
                     SupervisedFacilities(user.user_id, selectedProgramId, createRight.id),

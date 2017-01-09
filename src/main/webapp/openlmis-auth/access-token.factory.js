@@ -4,17 +4,18 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-auth.AccessTokenFactory
+     * @name openlmis-auth.accessTokenFactory
      *
      * @description
      *
      * Functions for add/update access token
      *
      */
-    angular.module('openlmis-auth').factory('AccessTokenFactory', accessTokenFactory);
+    angular.module('openlmis-auth').factory('accessTokenFactory', accessTokenFactory);
 
-    accessTokenFactory.$inject = ['AuthorizationService'];
-    function accessTokenFactory(AuthorizationService) {
+    accessTokenFactory.$inject = ['authorizationService'];
+
+    function accessTokenFactory(authorizationService) {
         var factory = {
             updateAccessToken: updateAccessToken,
             updateQueryStringParameter: updateQueryStringParameter,
@@ -24,7 +25,7 @@
         /**
          * @ngdoc function
          * @name  Add access token
-         * @methodOf openlmis-auth.AccessTokenFactory
+         * @methodOf openlmis-auth.accessTokenFactory
          * @private
          *
          * @description Added a get request variable to the end of the url
@@ -35,7 +36,7 @@
          */
         function addAccessToken(url){
             if (url.indexOf('access_token=') === -1) {
-                var token = AuthorizationService.getAccessToken();
+                var token = authorizationService.getAccessToken();
                 if (token) {
                     url += (url.indexOf('?') === -1 ? '?' : '&') + 'access_token=' + token;
                 }
@@ -46,7 +47,7 @@
         /**
          * @ngdoc function
          * @name  updateAccessToken
-         * @methodOf openlmis-auth.AccessTokenFactory
+         * @methodOf openlmis-auth.accessTokenFactory
          *
          * @description
          * Update access token in URI string
@@ -55,13 +56,13 @@
          * @return {String} Updated uri
          */
         function updateAccessToken(uri) {
-            return updateQueryStringParameter(uri, 'access_token', AuthorizationService.getAccessToken());
+            return updateQueryStringParameter(uri, 'access_token', authorizationService.getAccessToken());
         }
 
         /**
          * @ngdoc function
          * @name  updateQueryStringParameter
-         * @methodOf openlmis-auth.AccessTokenFactory
+         * @methodOf openlmis-auth.accessTokenFactory
          *
          * @description
          * Update query parameter if exist

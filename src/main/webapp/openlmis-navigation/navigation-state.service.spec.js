@@ -1,19 +1,19 @@
 describe('NavigationStateService', function() {
 
-    var service, states, state, AuthorizationService;
+    var service, states, state, authorizationService;
 
     beforeEach(function() {
         module('openlmis-navigation');
 
         state = jasmine.createSpyObj('$state', ['get']);
-        AuthorizationService = jasmine.createSpyObj('AuthorizationService', ['hasRights']);
+        authorizationService = jasmine.createSpyObj('authorizationService', ['hasRights']);
 
         module(function($provide) {
             $provide.factory('$state', function() {
                 return state;
             });
-            $provide.factory('AuthorizationService', function() {
-                return AuthorizationService;
+            $provide.factory('authorizationService', function() {
+                return authorizationService;
             });
         });
 
@@ -78,12 +78,12 @@ describe('NavigationStateService', function() {
         });
 
         it('should return true if user has required rights', function() {
-            AuthorizationService.hasRights.andReturn(true);
+            authorizationService.hasRights.andReturn(true);
             expect(service.shouldDisplay(states[1])).toBe(true);
         });
 
         it('should return false if used does not have required rights', function() {
-            AuthorizationService.hasRights.andReturn(false);
+            authorizationService.hasRights.andReturn(false);
             expect(service.shouldDisplay(states[4])).not.toBe(true);
         });
 
@@ -92,7 +92,7 @@ describe('NavigationStateService', function() {
         });
 
         it('should return true if state is abstract but has visible children', function() {
-            AuthorizationService.hasRights.andReturn(true);
+            authorizationService.hasRights.andReturn(true);
             expect(service.shouldDisplay(states[3])).toBe(true);
         });
 
@@ -101,7 +101,7 @@ describe('NavigationStateService', function() {
     describe('hasChildren', function() {
 
         it('should return true if state has visible children', function() {
-            AuthorizationService.hasRights.andReturn(true);
+            authorizationService.hasRights.andReturn(true);
             expect(service.hasChildren(states[3])).toBe(true);
         });
 

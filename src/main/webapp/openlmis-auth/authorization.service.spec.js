@@ -7,23 +7,23 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("AuthorizationService", function() {
+describe("authorizationService", function() {
 
   beforeEach(module('openlmis-auth'));
 
-  var AuthorizationService, httpBackend, $rootScope, localStorageService;
+  var authorizationService, httpBackend, $rootScope, localStorageService;
 
   beforeEach(module(function($provide){
-    $provide.factory('AuthURL', function(PathFactory){
+    $provide.factory('authUrl', function(PathFactory){
       return function(url){
         return PathFactory('/', url);
       }
     })
   }));
 
-  beforeEach(inject(function(_AuthorizationService_, _$httpBackend_, _$rootScope_, _localStorageService_) {
+  beforeEach(inject(function(_authorizationService_, _$httpBackend_, _$rootScope_, _localStorageService_) {
     httpBackend = _$httpBackend_;
-    AuthorizationService = _AuthorizationService_;
+    authorizationService = _authorizationService_;
     $rootScope = _$rootScope_;
     localStorageService = _localStorageService_;
 

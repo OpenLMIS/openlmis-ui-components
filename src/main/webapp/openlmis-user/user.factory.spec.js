@@ -21,7 +21,7 @@ describe('UserFactory', function() {
 
     beforeEach(module(function($provide){
         // Turn off AuthToken
-        $provide.factory('HttpAuthAccessToken', function(){
+        $provide.factory('accessTokenProvider', function(){
           return {};
         });
     }));

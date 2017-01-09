@@ -7,61 +7,61 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('AccessTokenFactory', function() {
-    var AccessTokenFactory;
+describe('accessTokenFactory', function() {
+    var accessTokenFactory;
 
     beforeEach(module('openlmis-auth'));
 
-    beforeEach(inject(function(_AccessTokenFactory_){
-        AccessTokenFactory  = _AccessTokenFactory_;
+    beforeEach(inject(function(_accessTokenFactory_){
+        accessTokenFactory  = _accessTokenFactory_;
     }));
 
     it('should update query param value when key exists', function() {
         var uri = 'http://example.com/requisitions?program=abc&access_token=123';
-        var updatedUri = AccessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
+        var updatedUri = accessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=321');
     });
 
     it('should not update query param value when key not exists', function() {
         var uri = 'http://example.com/requisitions?program=abc';
-        var updatedUri = AccessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
+        var updatedUri = accessTokenFactory.updateQueryStringParameter(uri, 'access_token', '321');
 
         expect(updatedUri).toEqual(uri);
     });
 
-    it('should add access_token if not already in URI', inject(function(AuthorizationService) {
-        spyOn(AuthorizationService, 'getAccessToken').andReturn('123');
+    it('should add access_token if not already in URI', inject(function(authorizationService) {
+        spyOn(authorizationService, 'getAccessToken').andReturn('123');
 
         var uri = 'http://example.com/requisitions?program=abc';
-        var updatedUri = AccessTokenFactory.addAccessToken(uri);
+        var updatedUri = accessTokenFactory.addAccessToken(uri);
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=123');
     }));
 
-    it('should not add access_token if already in URI', inject(function(AuthorizationService) {
-        spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
+    it('should not add access_token if already in URI', inject(function(authorizationService) {
+        spyOn(authorizationService, 'getAccessToken').andReturn('321');
 
         var uri = 'http://example.com/requisitions?program=abc&access_token=123';
-        var updatedUri = AccessTokenFactory.addAccessToken(uri);
+        var updatedUri = accessTokenFactory.addAccessToken(uri);
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=123');
     }));
 
-    it('should update access_token when "access_token" key in query params', inject(function(AuthorizationService) {
-        spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
+    it('should update access_token when "access_token" key in query params', inject(function(authorizationService) {
+        spyOn(authorizationService, 'getAccessToken').andReturn('321');
 
         var uri = 'http://example.com/requisitions?program=abc&access_token=123';
-        var updatedUri = AccessTokenFactory.updateAccessToken(uri);
+        var updatedUri = accessTokenFactory.updateAccessToken(uri);
 
         expect(updatedUri).toEqual('http://example.com/requisitions?program=abc&access_token=321');
     }));
 
-    it('should not update access_token when "access_token" key not in query params', inject(function(AuthorizationService) {
-        spyOn(AuthorizationService, 'getAccessToken').andReturn('321');
+    it('should not update access_token when "access_token" key not in query params', inject(function(authorizationService) {
+        spyOn(authorizationService, 'getAccessToken').andReturn('321');
 
         var uri = 'http://example.com/requisitions?program=abc';
-        var updatedUri = AccessTokenFactory.updateAccessToken(uri);
+        var updatedUri = accessTokenFactory.updateAccessToken(uri);
 
         expect(updatedUri).toEqual(uri);
     }));

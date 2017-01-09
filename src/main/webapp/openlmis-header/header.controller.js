@@ -14,16 +14,16 @@
   angular.module('openlmis-header')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', 'AuthorizationService', 'LoginService', '$state'];
-  function HeaderController($scope, AuthorizationService, LoginService, $state) {
+  HeaderController.$inject = ['$scope', 'authorizationService', 'LoginService', '$state'];
+  function HeaderController($scope, authorizationService, LoginService, $state) {
 
     $scope.$watch(function(){
-      return AuthorizationService.getUser();
+      return authorizationService.getUser();
     }, function(user){
       $scope.user = user.username;
       $scope.userId = user.user_id;
 
-      $scope.hasPermission = AuthorizationService.hasPermission;
+      $scope.hasPermission = authorizationService.hasPermission;
     }, true);
 
     $scope.logout = function() {

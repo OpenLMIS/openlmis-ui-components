@@ -8,9 +8,9 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe("AuthURL", function () {
+describe("authUrl", function () {
 
-  var AuthURL;
+  var authUrl;
 
   beforeEach(module('openlmis-auth'));
 
@@ -22,18 +22,18 @@ describe("AuthURL", function () {
     });
   }));
 
-  beforeEach(inject(function (_AuthURL_) {
-    AuthURL = _AuthURL_;
+  beforeEach(inject(function (_authUrl_) {
+    authUrl = _authUrl_;
   }));
 
   it('should return string', function () {
-    var url = AuthURL("/someURL");
+    var url = authUrl("/someURL");
     expect(typeof(url)).toBe("string");
   });
 
   it("should format relative and absolute urls the same", function(){
-    var relativeURL = AuthURL("someURL");
-    var absoluteURL = AuthURL("/someURL");
+    var relativeURL = authUrl("someURL");
+    var absoluteURL = authUrl("/someURL");
 
     expect(relativeURL).toEqual(absoluteURL);
   });

@@ -9,13 +9,13 @@
  */
 describe("LoginService", function() {
 
-    var $rootScope, httpBackend, LoginService, AuthorizationService, Right, $state;
+    var $rootScope, httpBackend, LoginService, authorizationService, Right, $state;
 
     beforeEach(function() {
         module('openlmis-login');
 
         module(function($provide){
-            $provide.factory('AuthURL', function(PathFactory){
+            $provide.factory('authUrl', function(PathFactory){
                 return function(url){
                     return PathFactory('', url);
                 };
@@ -27,7 +27,7 @@ describe("LoginService", function() {
             });
 
             // Turn off AuthToken
-            $provide.factory('HttpAuthAccessToken', function(){
+            $provide.factory('accessTokenProvider', function(){
                 return {};
             });
 
@@ -42,11 +42,11 @@ describe("LoginService", function() {
             $stateProvider.state('somewhere', {});
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _AuthorizationService_, _$state_){
+        inject(function(_$httpBackend_, _$rootScope_, _LoginService_, _authorizationService_, _$state_){
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             LoginService = _LoginService_;
-            AuthorizationService = _AuthorizationService_;
+            authorizationService = _authorizationService_;
             $state = _$state_;
 
             httpBackend.when('GET', 'credentials/auth_server_client.json')
@@ -119,16 +119,16 @@ describe("LoginService", function() {
             httpBackend.flush();
             $rootScope.$apply();
 
-            var user = AuthorizationService.getUser();
+            var user = authorizationService.getUser();
 
             expect(user.user_id).toBe("35316636-6264-6331-2d34-3933322d3462");
         });
     });
 
     it('will clear user data on logout', function(){
-        spyOn(AuthorizationService, "clearAccessToken");
-        spyOn(AuthorizationService, "clearUser");
-        spyOn(AuthorizationService, "clearRights");
+        spyOn(authorizationService, "clearAccessToken");
+        spyOn(authorizationService, "clearUser");
+        spyOn(authorizationService, "clearRights");
 
         // Login a user
         LoginService.login("john", "john-password");
@@ -144,15 +144,15 @@ describe("LoginService", function() {
         $rootScope.$apply();
 
         // User credentials are removed.
-        expect(AuthorizationService.clearAccessToken).toHaveBeenCalled();
-        expect(AuthorizationService.clearUser).toHaveBeenCalled();
-        expect(AuthorizationService.clearRights).toHaveBeenCalled();
+        expect(authorizationService.clearAccessToken).toHaveBeenCalled();
+        expect(authorizationService.clearUser).toHaveBeenCalled();
+        expect(authorizationService.clearRights).toHaveBeenCalled();
 
     });
 
     it('should emit "auth.login" event when logging in through auth page', function(){
         spyOn($state, 'is').andReturn('auth.login');
-        AuthorizationService.clearAccessToken();
+        authorizationService.clearAccessToken();
 
         LoginService.login("john", "john-password");
         httpBackend.flush();
@@ -162,7 +162,7 @@ describe("LoginService", function() {
     });
 
     it('should emit "auth.login-modal" event when logging in through page other than auth', inject(function($rootScope){
-        AuthorizationService.clearAccessToken();
+        authorizationService.clearAccessToken();
 
         $state.go('somewhere');
         $rootScope.$apply();
