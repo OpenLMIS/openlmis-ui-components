@@ -1,0 +1,10 @@
+<div class="requisition-summary">
+    <span class="label">{{'msg.totalRequisitionCost' | message}}</span>
+    <span>{{vm.calculateTotalCost() | currency}}</span>
+    <button class="btn btn-primary"
+            uib-popover-template="'requisition-summary/requisition-summary-popover.html'"
+            popover-placement="top-right"
+            popover-is-open="vm.popoverOpen">
+            <i class="fa fa-list-ul"></i>
+    </button>
+</div>

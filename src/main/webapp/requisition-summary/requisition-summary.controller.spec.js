@@ -1,10 +1,10 @@
-describe('RequisitionSummaryCtrl', function() {
+describe('RequisitionSummaryController', function() {
 
     var $filter, calculations, lineItems, vm;
 
     beforeEach(function() {
 
-        module('requisition-view');
+        module('requisition-summary');
 
         lineItems = [
             createLineItem(5, 10.30, false, true),
@@ -19,13 +19,10 @@ describe('RequisitionSummaryCtrl', function() {
             calculations = _calculations_;
             spyOn(calculations, 'totalCost').andCallThrough();
 
-            vm = $controller('RequisitionSummaryCtrl', {
-                $scope: {
-                    requisition: {
-                        requisitionLineItems: lineItems
-                    }
-                }
-            });
+            vm = $controller('RequisitionSummaryController');
+            vm.requisition = {
+                requisitionLineItems: lineItems
+            };
         });
 
     });

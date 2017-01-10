@@ -4,28 +4,29 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-view.RequisitionSummaryCtrl
+     * @name requisition-summary.RequisitionSummaryController
      *
      * @description
      * Responsible for managing Requisition Total Cost popover.
      */
     angular
-        .module('requisition-view')
-        .controller('RequisitionSummaryCtrl', controller);
+        .module('requisition-summary')
+        .controller('RequisitionSummaryController', controller);
 
-    controller.$inject = ['$scope', '$filter', 'calculations'];
+    controller.$inject = ['$filter', 'calculations'];
 
-    function controller($scope, $filter, calculations) {
+    function controller($filter, calculations) {
         var vm = this;
 
         vm.calculateFullSupplyCost = calculateFullSupplyCost;
         vm.calculateNonFullSupplyCost = calculateNonFullSupplyCost;
         vm.calculateTotalCost = calculateTotalCost;
+        vm.closePopover = closePopover;
 
         /**
          * @ngdoc method
          * @name calculateFullSupplyCost
-         * @methodOf requisition-view.RequisitionSummaryCtrl
+         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all full supply line items. This method will ignore skipped
@@ -40,7 +41,7 @@
         /**
          * @ngdoc method
          * @name calculateNonFullSupplyCost
-         * @methodOf requisition-view.RequisitionSummaryCtrl
+         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all non full supply line items. This method will ignore skipped
@@ -55,7 +56,7 @@
         /**
          * @ngdoc method
          * @name calculateTotalCost
-         * @methodOf requisition-view.RequisitionSummaryCtrl
+         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all line items. This method will ignore skipped line items.
@@ -64,6 +65,10 @@
          */
         function calculateTotalCost() {
             return calculateCost();
+        }
+
+        function closePopover() {
+            vm.popoverOpen = false;
         }
 
         function calculateCost(fullSupply) {
@@ -82,9 +87,9 @@
             var lineItems;
 
             if (fullSupply === undefined) {
-                lineItems = $scope.requisition.requisitionLineItems;
+                lineItems = vm.requisition.requisitionLineItems;
             } else {
-                lineItems = $filter('filter')($scope.requisition.requisitionLineItems, {
+                lineItems = $filter('filter')(vm.requisition.requisitionLineItems, {
                     $program: {
                         fullSupply: fullSupply
                     }
