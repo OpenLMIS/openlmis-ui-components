@@ -19,7 +19,7 @@ module.exports = function (config) {
       'build/webapp/**/*.html'
     ],
     exclude: [],
-    
+
     /* REPORTERS */
     reporters: ['progress', 'coverage', 'html', 'junit'],
     junitReporter: {
@@ -46,10 +46,13 @@ module.exports = function (config) {
     singleRun: true,
     autoWatch: true,
 
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS']/*,
+    //commented to fix random PhantomJS crashes
+    //https://github.com/karma-runner/karma-phantomjs-launcher/issues/125
     phantomjsLauncher: {
       // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
       exitOnResourceError: true
     }
+    */
   });
 };
