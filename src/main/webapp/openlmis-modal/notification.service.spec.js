@@ -7,9 +7,9 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("Notification", function() {
+describe('notificationService', function() {
 
-    var timeout, notification, rootScope;
+    var timeout, notificationService, rootScope;
 
     beforeEach(module('openlmis-modal'));
 
@@ -18,29 +18,29 @@ describe("Notification", function() {
         $templateCache.put('openlmis-modal/notification-container.html', "something");
     }));
 
-    beforeEach(inject(function(_$rootScope_, _$timeout_, Notification) {
+    beforeEach(inject(function(_$rootScope_, _$timeout_, _notificationService_) {
         timeout = _$timeout_;
-        notification = Notification;
+        notificationService = _notificationService_;
         rootScope = _$rootScope_;
     }));
 
     it('should hide error notification after clicking on it', function() {
-        notification.error('some.message');
-        
+        notificationService.error('some.message');
+
         angular.element(document.querySelector('.notification')).trigger('click');
 
         waitsFor(function() {
             return angular.element(document.querySelector('.notification')).length < 1;
         }, "notification to close.", 1000);
-         
+
         runs(function() {
             expect(angular.element(document.querySelector('.notification')).length).toBe(0);
         });
     });
 
     it('should close success notification after delay', function() {
-        notification.success('some.message');
-        
+        notificationService.success('some.message');
+
         timeout.flush();
 
         expect(angular.element(document.querySelector('.notification')).length).toBe(0);

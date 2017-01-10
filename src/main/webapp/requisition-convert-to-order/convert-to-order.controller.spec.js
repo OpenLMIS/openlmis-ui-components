@@ -1,15 +1,17 @@
 describe('ConvertToOrderCtrl', function(){
 
-    var vm, rootScope, state, q, stateParams, requisitionService, notification, requisitions;
+    var vm, rootScope, state, q, stateParams, requisitionService, notificationService, requisitions;
 
     beforeEach( function() {
         module('requisition-convert-to-order');
 
-        inject(function ($controller, $rootScope, _$state_, _$q_, _RequisitionService_, _Notification_) {
+        inject(function ($controller, $rootScope, _$state_, _$q_, _RequisitionService_,
+                         _notificationService_) {
+
         rootScope = $rootScope;
         state = _$state_;
         requisitionService = _RequisitionService_;
-        notification = _Notification_;
+        notificationService = _notificationService_;
         q = _$q_;
 
         stateParams = {
@@ -107,12 +109,12 @@ describe('ConvertToOrderCtrl', function(){
 
     it('should show error when trying to convert to order with no requisition selected', function() {
         spyOn(requisitionService, 'convertToOrder').andReturn(q.when());
-        spyOn(notification, 'error').andCallThrough();
+        spyOn(notificationService, 'error').andCallThrough();
 
         vm.convertToOrder();
 
         expect(requisitionService.convertToOrder).not.toHaveBeenCalled();
-        expect(notification.error).toHaveBeenCalledWith('msg.select.at.least.one.rnr');
+        expect(notificationService.error).toHaveBeenCalledWith('msg.select.at.least.one.rnr');
     });
 
     it('should select all requisitions', function() {

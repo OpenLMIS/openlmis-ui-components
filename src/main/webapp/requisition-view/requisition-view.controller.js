@@ -22,15 +22,16 @@
         .module('requisition-view')
         .controller('RequisitionCtrl', RequisitionCtrl);
 
-    RequisitionCtrl.$inject = ['$state', 'requisition', 'requisitionValidator',
-                               'authorizationService', 'loadingModalService',
-                               'Notification', 'confirmService', 'RequisitionRights',
-                               'ConvertToOrderModal', 'OfflineService', 'localStorageFactory'];
+    RequisitionCtrl.$inject = [
+        '$state', 'requisition', 'requisitionValidator', 'authorizationService',
+        'loadingModalService', 'notificationService', 'confirmService', 'RequisitionRights',
+        'ConvertToOrderModal', 'OfflineService', 'localStorageFactory'
+    ];
 
-    function RequisitionCtrl($state, requisition, requisitionValidator,
-                             authorizationService, loadingModalService,
-                             Notification, confirmService, RequisitionRights,
-                             ConvertToOrderModal, OfflineService, localStorageFactory) {
+    function RequisitionCtrl($state, requisition, requisitionValidator, authorizationService,
+                             loadingModalService, notificationService, confirmService,
+                             RequisitionRights, ConvertToOrderModal, OfflineService,
+                             localStorageFactory) {
 
         var vm = this,
             onlineOnly = localStorageFactory('onlineOnly'),
@@ -82,7 +83,7 @@
         function saveRnr() {
             vm.requisition.$modified = true;
             offlineRequitions.put(vm.requisition);
-            Notification.success('msg.rnr.save.success');
+            notificationService.success('msg.rnr.save.success');
         }
 
          /**
@@ -100,7 +101,7 @@
             offlineRequitions.put(vm.requisition);
             save().then(function(response) {
                 loadingModalService.close();
-                Notification.success('msg.rnr.sync.success');
+                notificationService.success('msg.rnr.sync.success');
                 reloadState();
             });
         };
@@ -123,16 +124,16 @@
                         loadingModalService.open();
                         vm.requisition.$submit()
                         .then(function(response) {
-                            Notification.success('msg.requisitionSubmitted');
+                            notificationService.success('msg.requisitionSubmitted');
                             reloadState();
                         })
                         .catch(function(response) {
-                            Notification.error('msg.rnr.submitted.failure');
+                            notificationService.error('msg.rnr.submitted.failure');
                         })
                         .finally(loadingModalService.close);
                     });
                 } else {
-                    Notification.error('error.rnr.validation');
+                    notificationService.error('error.rnr.validation');
                 }
             });
         };
@@ -156,16 +157,16 @@
                         loadingModalService.open();
                         vm.requisition.$authorize()
                         .then(function(response) {
-                            Notification.success('msg.rnr.authorized.success');
+                            notificationService.success('msg.rnr.authorized.success');
                             reloadState();
                         })
                         .catch(function(response) {
-                            Notification.error('msg.rnr.authorized.failure');
+                            notificationService.error('msg.rnr.authorized.failure');
                         })
                         .finally(loadingModalService.close);
                     });
                 } else {
-                    Notification.error('error.rnr.validation');
+                    notificationService.error('error.rnr.validation');
                 }
             });
         };
@@ -186,10 +187,10 @@
                 vm.requisition.$remove()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
-                    Notification.success('msg.rnr.deletion.success');
+                    notificationService.success('msg.rnr.deletion.success');
                 })
                 .catch(function(response) {
-                    Notification.error('msg.rnr.deletion.failure');
+                    notificationService.error('msg.rnr.deletion.failure');
                 })
                 .finally(loadingModalService.close);
             });
@@ -215,12 +216,12 @@
                         vm.requisition.$approve()
                         .then(function(response) {
                             $state.go('requisitions.approvalList');
-                            Notification.success('msg.rnr.approved.success');
+                            notificationService.success('msg.rnr.approved.success');
                         })
                         .finally(loadingModalService.close);
                     });
                 } else {
-                    Notification.error('error.rnr.validation');
+                    notificationService.error('error.rnr.validation');
                 }
              });
         };
@@ -241,10 +242,10 @@
                 vm.requisition.$reject()
                 .then(function(response) {
                     $state.go('requisitions.approvalList');
-                    Notification.success('msg.rnr.reject.success');
+                    notificationService.success('msg.rnr.reject.success');
                 })
                 .catch(function(response) {
-                    Notification.error('msg.rejected.failure');
+                    notificationService.error('msg.rejected.failure');
                 })
                 .finally(loadingModalService.close);
             });
@@ -266,10 +267,10 @@
                 vm.requisition.$skip()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
-                    Notification.success('msg.rnr.skip.success');
+                    notificationService.success('msg.rnr.skip.success');
                 })
                 .catch(function() {
-                    Notification.error('msg.rnr.skip.failure');
+                    notificationService.error('msg.rnr.skip.failure');
                 })
                 .finally(loadingModalService.close);
             });
@@ -433,7 +434,7 @@
         }
 
         function failedToSave() {
-            Notification.error('msg.rnr.save.failure');
+            notificationService.error('msg.rnr.save.failure');
         }
 
         function reloadState() {

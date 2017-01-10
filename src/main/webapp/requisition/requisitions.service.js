@@ -13,13 +13,14 @@
         .module('requisition')
         .service('RequisitionService', requisitionService);
 
-    requisitionService.$inject = ['$q', '$resource', 'messageService', 'OpenlmisURL',
-                                  'RequisitionURL', 'RequisitionFactory', 'confirmService',
-                                  'Notification', 'dateUtils', 'localStorageFactory',
-                                  'OfflineService'];
+    requisitionService.$inject = [
+        '$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory',
+        'confirmService', 'notificationService', 'dateUtils', 'localStorageFactory',
+        'OfflineService'
+    ];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
-                                RequisitionFactory, confirmService, Notification, dateUtils,
+                                RequisitionFactory, confirmService, notificationService, dateUtils,
                                 localStorageFactory, OfflineService) {
 
         var offlineTemplates = localStorageFactory('requisitionTemplates'),
@@ -273,10 +274,10 @@
             confirmService.confirm('msg.question.confirmation').then(function() {
                 resource.convertToOrder(requisitions).$promise.then(function() {
                     deferred.resolve();
-                    Notification.success('msg.rnr.converted.to.order');
+                    notificationService.success('msg.rnr.converted.to.order');
                 }, function() {
                     deferred.reject();
-                    Notification.error('msg.error.occurred');
+                    notificationService.error('msg.error.occurred');
                 });
             }, function() {
                 deferred.reject();

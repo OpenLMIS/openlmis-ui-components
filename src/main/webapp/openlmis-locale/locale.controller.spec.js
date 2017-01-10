@@ -12,12 +12,14 @@ describe("LocaleController", function () {
 
     beforeEach(module('openlmis-locale'));
 
-    var messageService, alertService, Notification;
+    var messageService, alertService, notificationService;
 
-    beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_, _Notification_) {
+    beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
+                                _notificationService_) {
+
         messageService = _messageService_;
         alertService = _alertService_;
-        Notification = _Notification_;
+        notificationService = _notificationService_;
 
         var mockLocale = undefined;
         spyOn(messageService, 'populate').andCallFake(function(lang){
@@ -35,7 +37,7 @@ describe("LocaleController", function () {
             return mockLocale;
         });
 
-        spyOn(Notification, 'success');
+        spyOn(notificationService, 'success');
         spyOn(alertService, 'error');
     }));
 
@@ -51,7 +53,7 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                Notification: Notification
+                notificationService: notificationService
             });
 
             expect(messageService.populate).toHaveBeenCalled();
@@ -64,7 +66,7 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                Notification: Notification
+                notificationService: notificationService
             });
 
             // messageService.populate was only called at top
@@ -83,7 +85,7 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                Notification: Notification
+                notificationService: notificationService
             });
         }));
 
@@ -92,7 +94,7 @@ describe("LocaleController", function () {
             scope.$apply();
 
             expect(messageService.populate).toHaveBeenCalledWith('pt');
-            expect(Notification.success).toHaveBeenCalled();
+            expect(notificationService.success).toHaveBeenCalled();
         });
 
         it("will throw an error if changing locale is unsuccessful", function () {

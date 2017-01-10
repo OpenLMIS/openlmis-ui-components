@@ -10,7 +10,7 @@
 
 describe('RequisitionCtrl', function() {
 
-    var $rootScope, $q, $state, Notification, confirmService, vm, requisition, deferred;
+    var $rootScope, $q, $state, notificationService, confirmService, vm, requisition, deferred;
 
     beforeEach(function() {
         module('requisition-view');
@@ -28,11 +28,13 @@ describe('RequisitionCtrl', function() {
             });
         });
 
-        inject(function (_$rootScope_, $controller, _$q_, _$state_, _Notification_, _confirmService_) {
+        inject(function(_$rootScope_, $controller, _$q_, _$state_, _notificationService_,
+                        _confirmService_) {
+
             $rootScope = _$rootScope_;
             $state = _$state_;
             $q = _$q_;
-            Notification = _Notification_;
+            notificationService = _notificationService_;
             confirmService = _confirmService_;
 
             confirmService.confirm.andCallFake(function() {
@@ -74,10 +76,10 @@ describe('RequisitionCtrl', function() {
     });
 
     it('should display message when successfully skiped requisition', function() {
-        var notificationSpy = jasmine.createSpy(),
+        var notificationServiceSpy = jasmine.createSpy(),
             stateGoSpy = jasmine.createSpy();
 
-        spyOn(Notification, 'success').andCallFake(notificationSpy);
+        spyOn(notificationService, 'success').andCallFake(notificationServiceSpy);
         spyOn($state, 'go').andCallFake(stateGoSpy);
 
         vm.skipRnr();
@@ -85,20 +87,20 @@ describe('RequisitionCtrl', function() {
         deferred.resolve();
         $rootScope.$apply();
 
-        expect(notificationSpy).toHaveBeenCalledWith('msg.rnr.skip.success');
+        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.rnr.skip.success');
         expect(stateGoSpy).toHaveBeenCalledWith('requisitions.initRnr');
     });
 
     it('should diplay error message when skip requisition failed', function() {
-        var notificationSpy = jasmine.createSpy();
+        var notificationServiceSpy = jasmine.createSpy();
 
-        spyOn(Notification, 'error').andCallFake(notificationSpy);
+        spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
 
         vm.skipRnr();
 
         deferred.reject();
         $rootScope.$apply();
 
-        expect(notificationSpy).toHaveBeenCalledWith('msg.rnr.skip.failure');
+        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.rnr.skip.failure');
     });
 });

@@ -23,13 +23,18 @@
         .module('requisition-initiate')
         .controller('RequisitionInitiateCtrl', RequisitionInitiateCtrl);
 
-    RequisitionInitiateCtrl.$inject = ['messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
-    'RequisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService', 'Notification',
-     'authorizationService', '$q', 'RequisitionRights', 'SupervisedFacilities'];
+    RequisitionInitiateCtrl.$inject = [
+        'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
+        'RequisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService',
+        'notificationService', 'authorizationService', '$q', 'RequisitionRights',
+        'SupervisedFacilities'
+    ];
 
-    function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms, homePrograms, PeriodFactory,
-    RequisitionService, $state, dateUtils, Status, loadingModalService, Notification,
-    authorizationService, $q, RequisitionRights, SupervisedFacilities) {
+    function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms,
+                                     homePrograms, PeriodFactory, RequisitionService, $state,
+                                     dateUtils, Status, loadingModalService, notificationService,
+                                     authorizationService, $q, RequisitionRights,
+                                     SupervisedFacilities) {
 
         var vm = this;
 
@@ -187,7 +192,7 @@
             PeriodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
                 if (data.length === 0) {
-                    Notification.error('msg.no.period.available');
+                    notificationService.error('msg.no.period.available');
                 } else {
                     vm.periodGridData = data;
                     vm.error = '';
@@ -201,7 +206,7 @@
                 });
                 loadingModalService.close();
             }).catch(function() {
-                Notification.error('msg.no.period.available');
+                notificationService.error('msg.no.period.available');
                 loadingModalService.close();
             });
         };
@@ -235,7 +240,7 @@
                         rnr: data.id
                     });
                 }, function () {
-                    Notification.error('error.requisition.not.initiated');
+                    notificationService.error('error.requisition.not.initiated');
                 });
             } else {
                 $state.go('requisitions.requisition.fullSupply', {
@@ -275,7 +280,7 @@
                         }
                     })
                     .catch(function (error) {
-                        Notification.error('msg.error.occurred');
+                        notificationService.error('msg.error.occurred');
                         loadingModalService.close();
                     })
                     .finally(loadingModalService.close());

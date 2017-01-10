@@ -4,34 +4,35 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-modal.Notification
+     * @name openlmis-modal.notificationService
      * @description
      * Service allows to display info/error/success notification element that expires after short period with custom message.
      *
      */
 
     angular.module('openlmis-modal')
-        .service('Notification', Notification);
+        .service('notificationService', service);
 
-    Notification.$inject = ['$rootScope', '$timeout', '$templateCache', '$templateRequest', '$compile', 'messageService'];
+    service.$inject = [
+        '$rootScope', '$timeout', '$templateCache', '$templateRequest', '$compile', 'messageService'
+    ];
 
-    function Notification($rootScope, $timeout, $templateCache, $templateRequest, $compile, messageService) {
+    function service($rootScope, $timeout, $templateCache, $templateRequest, $compile,
+                     messageService) {
 
         var container, notify;
 
         if(!container) createContainer();
 
-        notify = info;
-        notify.success = success;
-        notify.error = error;
-
-        return notify;
+        this.info = info;
+        this.success = success
+        this.error = error;
 
         /**
          *
          * @ngdoc function
          * @name success
-         * @methodOf openlmis-modal.Notification
+         * @methodOf openlmis-modal.notificationService
          * @param {String} successMessage success message to display
          *
          * @description
@@ -46,7 +47,7 @@
          *
          * @ngdoc function
          * @name error
-         * @methodOf openlmis-modal.Notification
+         * @methodOf openlmis-modal.notificationService
          * @param {String} errorMessage info message to display
          *
          * @description
@@ -60,8 +61,8 @@
         /**
          *
          * @ngdoc function
-         * @name Notification
-         * @methodOf openlmis-modal.Notification
+         * @name info
+         * @methodOf openlmis-modal.notificationService
          * @param {String} infoMessage info message to display
          *
          * @description

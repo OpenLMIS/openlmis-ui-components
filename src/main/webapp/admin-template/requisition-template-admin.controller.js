@@ -22,9 +22,9 @@
 
     angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
-    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'Notification', 'Source', 'messageService'];
+    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'notificationService', 'Source', 'messageService'];
 
-    function RequisitionTemplateAdminController($state, template, program, $q, Notification, Source, messageService) {
+    function RequisitionTemplateAdminController($state, template, program, $q, notificationService, Source, messageService) {
         var vm = this;
 
         vm.template = template;
@@ -61,10 +61,10 @@
          */
         function saveTemplate() {
             vm.template.$save().then(function() {
-                Notification.success('template.save.success');
+                notificationService.success('template.save.success');
                 goToTemplateList();
             }, function() {
-                Notification.error('template.save.failed');
+                notificationService.error('template.save.failed');
             });
         }
 
@@ -82,7 +82,7 @@
          */
         function dropCallback(event, index, item) {
             if(!vm.template.$moveColumn(item, index)) {
-                Notification.error('msg.tempalte.column.drop.error');
+                notificationService.error('msg.tempalte.column.drop.error');
             }
             return false; // disable default drop functionality
         }

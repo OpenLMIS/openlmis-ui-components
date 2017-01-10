@@ -10,7 +10,8 @@
 
 describe('RequisitionSearchController', function() {
 
-    var rootScope, httpBackend, endDate, startDate, notification, vm, facilityList, requisitionList;
+    var rootScope, httpBackend, endDate, startDate, notificationService, vm, facilityList,
+        requisitionList;
 
     beforeEach(function() {
         module('requisition-search');
@@ -55,7 +56,9 @@ describe('RequisitionSearchController', function() {
             }
         }];
 
-        inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL, Notification, RequisitionService, $q) {
+        inject(function ($httpBackend, $rootScope, $controller, Status, RequisitionURL,
+                         _notificationService_, RequisitionService, $q) {
+
             var response = $q.when(requisitionList);
             spyOn(RequisitionService, 'search').andReturn(response);
 
@@ -63,7 +66,7 @@ describe('RequisitionSearchController', function() {
             httpBackend = $httpBackend;
             startDate = new Date();
             endDate = new Date();
-            notification = Notification;
+            notificationService = _notificationService_;
 
             vm = $controller('RequisitionSearchController', {facilityList:facilityList});
         });
@@ -100,7 +103,7 @@ describe('RequisitionSearchController', function() {
     it('search should give an error if facility is not selected', function() {
         var callback = jasmine.createSpy();
         expect(vm.selectedFacility).toBe(undefined);
-        spyOn(notification, 'error').andCallFake(callback);
+        spyOn(notificationService, 'error').andCallFake(callback);
         vm.search();
         expect(callback).toHaveBeenCalled();
     });

@@ -7,7 +7,7 @@ describe('RequisitionTemplateAdminController', function() {
     var template, program;
 
     //injects
-    var q, state, notification, source, rootScope;
+    var q, state, notificationService, source, rootScope;
 
     beforeEach(function() {
         module('admin-template');
@@ -37,10 +37,12 @@ describe('RequisitionTemplateAdminController', function() {
             mame: 'program1'
         };
 
-        inject(function($controller, $q, $state, Notification, Source, messageService, $rootScope) {
+        inject(function($controller, $q, $state, _notificationService_, Source, messageService,
+                        $rootScope) {
+
             q = $q;
             state = $state;
-            notification = Notification;
+            notificationService = _notificationService_;
             source = Source;
             message = messageService;
             rootScope = $rootScope;
@@ -59,31 +61,31 @@ describe('RequisitionTemplateAdminController', function() {
 
     it('should save template and then display success notification and change state', function() {
         var stateGoSpy = jasmine.createSpy(),
-            notificationSpy = jasmine.createSpy();
+            notificationServiceSpy = jasmine.createSpy();
 
         template.$save.andReturn(q.when(true));
 
         spyOn(state, 'go').andCallFake(stateGoSpy);
-        spyOn(notification, 'success').andCallFake(notificationSpy);
+        spyOn(notificationService, 'success').andCallFake(notificationServiceSpy);
 
         vm.saveTemplate();
 
         rootScope.$apply();
 
         expect(stateGoSpy).toHaveBeenCalled();
-        expect(notificationSpy).toHaveBeenCalled();
+        expect(notificationServiceSpy).toHaveBeenCalled();
     });
 
     it('should call column drop method and display error notification when drop failed', function() {
-        var notificationSpy = jasmine.createSpy();
+        var notificationServiceSpy = jasmine.createSpy();
 
         template.$moveColumn.andReturn(false);
 
-        spyOn(notification, 'error').andCallFake(notificationSpy);
+        spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
 
         vm.dropCallback(null, 1, template.columnsMap.total);
 
-        expect(notificationSpy).toHaveBeenCalled();
+        expect(notificationServiceSpy).toHaveBeenCalled();
     });
 
     it('can change source works correctly', function() {

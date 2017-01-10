@@ -23,13 +23,14 @@
         .module('requisition-search')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
-    RequisitionSearchController.$inject = ['$rootScope', '$state', 'facilityList',
-        'RequisitionService', 'Status', 'dateUtils', 'loadingModalService', 'Notification',
-        'OfflineService'
+    RequisitionSearchController.$inject = [
+        '$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'dateUtils',
+        'loadingModalService', 'notificationService', 'OfflineService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
-        Status, dateUtils, loadingModalService, Notification, OfflineService) {
+                                         Status, dateUtils, loadingModalService,
+                                         notificationService, OfflineService) {
 
         var vm = this;
 
@@ -83,7 +84,7 @@
             } else if (vm.selectedFacility.supportedPrograms) {
                 vm.programs = vm.selectedFacility.supportedPrograms;
             } else {
-                Notification.error('msg.no.program.available');
+                notificationService.error('msg.no.program.available');
             }
         }
 
@@ -112,15 +113,15 @@
                         vm.requisitionList = requisitionList;
                         loadingModalService.close();
                         if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
-                            Notification.error('msg.no.requisitions.found');
+                            notificationService.error('msg.no.requisitions.found');
                         }
                     })
                     .catch(function() {
-                        Notification.error('msg.error.occurred');
+                        notificationService.error('msg.error.occurred');
                     })
                     .finally(loadingModalService.close);
             } else {
-                Notification.error('msg.no.facility.selected');
+                notificationService.error('msg.no.facility.selected');
             }
         }
     }
