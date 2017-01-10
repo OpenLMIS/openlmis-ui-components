@@ -2,9 +2,9 @@
     "use strict";
 
      angular.module("openlmis-urls")
-        .factory('PathFactory', PathFactory);
+        .factory('pathFactory', pathFactory);
 
-    function PathFactory(){
+    function pathFactory(){
         return function(){
             // Make arguments object into array
             // PhantomJS treats arguments as object

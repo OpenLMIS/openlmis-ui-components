@@ -4,8 +4,8 @@
     angular.module("openlmis-urls")
         .service("OpenlmisURLService", OpenlmisURLService);
 
-    OpenlmisURLService.$inject = ['PathFactory'];
-    function OpenlmisURLService(PathFactory){
+    OpenlmisURLService.$inject = ['pathFactory'];
+    function OpenlmisURLService(pathFactory){
         var service = {};
 
         service.url = "/";
@@ -54,7 +54,7 @@
                 }
                 parts.push(arg);
             });
-            return PathFactory.apply(this, parts);
+            return pathFactory.apply(this, parts);
         }
 
         function checkURL(url){

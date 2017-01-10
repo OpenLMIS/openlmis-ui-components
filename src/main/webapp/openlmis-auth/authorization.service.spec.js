@@ -14,9 +14,9 @@ describe("authorizationService", function() {
   var authorizationService, httpBackend, $rootScope, localStorageService;
 
   beforeEach(module(function($provide){
-    $provide.factory('authUrl', function(PathFactory){
+    $provide.factory('authUrl', function(pathFactory){
       return function(url){
-        return PathFactory('/', url);
+        return pathFactory('/', url);
       }
     })
   }));

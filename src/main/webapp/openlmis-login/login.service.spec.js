@@ -15,14 +15,14 @@ describe("loginService", function() {
         module('openlmis-login');
 
         module(function($provide){
-            $provide.factory('authUrl', function(PathFactory){
+            $provide.factory('authUrl', function(pathFactory){
                 return function(url){
-                    return PathFactory('', url);
+                    return pathFactory('', url);
                 };
             });
-            $provide.factory('OpenlmisURL', function(PathFactory){
+            $provide.factory('OpenlmisURL', function(pathFactory){
                return function(url){
-                   return PathFactory('', url);
+                   return pathFactory('', url);
                };
             });
 

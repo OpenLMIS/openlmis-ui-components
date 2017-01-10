@@ -23,9 +23,9 @@
         .module('openlmis-auth')
  		.factory('authUrl', factory);
 
- 	factory.$inject = ['OpenlmisURL', 'PathFactory'];
+ 	factory.$inject = ['OpenlmisURL', 'pathFactory'];
 
- 	function factory(OpenlmisURL, PathFactory){
+ 	function factory(OpenlmisURL, pathFactory){
 
  		// String that gets replaced by AUTH_SERVICE_URL config variable
  		var authUrl = '@@AUTH_SERVICE_URL';
@@ -38,7 +38,7 @@
 		 * @return {String} A url that is directed towards the OpenLMIS AuthService
 		 */
  		return function(url){
- 			url = PathFactory(authUrl, url);
+ 			url = pathFactory(authUrl, url);
  			return OpenlmisURL(url);
  		}
  	}

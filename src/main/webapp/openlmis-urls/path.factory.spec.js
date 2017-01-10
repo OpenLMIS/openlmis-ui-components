@@ -8,51 +8,51 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe("PathFactory", function () {
+describe("pathFactory", function () {
 
     beforeEach(module('openlmis-urls'));
 
-    var PathFactory;
-    beforeEach(inject(function(_PathFactory_){
-        PathFactory = _PathFactory_;
+    var pathFactory;
+    beforeEach(inject(function(_pathFactory_){
+        pathFactory = _pathFactory_;
     }));
 
     it("drops empty arguments", function(){
-        url = PathFactory("/", false, "");
+        url = pathFactory("/", false, "");
         expect(url).toBe("/");
 
-        url = PathFactory("/foo", "", "bar/");
+        url = pathFactory("/foo", "", "bar/");
         expect(url).toBe("/foo/bar/");
 
-        url = PathFactory("", "bar/");
+        url = pathFactory("", "bar/");
         expect(url).toBe("bar/");
     });
 
     it("leaves the first slash, if entered", function(){
-        url = PathFactory("/foo", "bar/");
+        url = pathFactory("/foo", "bar/");
         expect(url).toBe("/foo/bar/");
 
-        url = PathFactory("foo", "bar/");
+        url = pathFactory("foo", "bar/");
         expect(url).toBe("foo/bar/");
     });
 
     it("leaves trailing slash on last argument, if entered", function(){
-        url = PathFactory("/foo", "bar/");
+        url = pathFactory("/foo", "bar/");
         expect(url).toBe("/foo/bar/");
 
-        url = PathFactory("/foo", "/baz/", "bar/");
+        url = pathFactory("/foo", "/baz/", "bar/");
         expect(url).toBe("/foo/baz/bar/");
 
-        url = PathFactory("/foo", "/baz/", "bar");
+        url = pathFactory("/foo", "/baz/", "bar");
         expect(url).toBe("/foo/baz/bar");
     });
 
     it("should combine trailing slashes from arguments", function(){
         // Two arguments
-        url = PathFactory("/foo/","/bar/");
+        url = pathFactory("/foo/","/bar/");
         expect(url).toBe("/foo/bar/");
         // n arguments, varried slashes
-        url = PathFactory("/foo/", "/baz/bar/", "blip");
+        url = pathFactory("/foo/", "/baz/bar/", "blip");
         expect(url).toBe("/foo/baz/bar/blip");
     });
 
