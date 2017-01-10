@@ -87,7 +87,7 @@ describe('RequisitionCtrl', function() {
         deferred.resolve();
         $rootScope.$apply();
 
-        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.rnr.skip.success');
+        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionSkipped');
         expect(stateGoSpy).toHaveBeenCalledWith('requisitions.initRnr');
     });
 
@@ -101,6 +101,6 @@ describe('RequisitionCtrl', function() {
         deferred.reject();
         $rootScope.$apply();
 
-        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.rnr.skip.failure');
+        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionSkipFailed');
     });
 });

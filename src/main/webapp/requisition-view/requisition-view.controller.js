@@ -128,7 +128,7 @@
                             reloadState();
                         })
                         .catch(function(response) {
-                            notificationService.error('msg.rnr.submitted.failure');
+                            notificationService.error('msg.requisitionSubmitFailed');
                         })
                         .finally(loadingModalService.close);
                     });
@@ -267,10 +267,10 @@
                 vm.requisition.$skip()
                 .then(function(response) {
                     $state.go('requisitions.initRnr');
-                    notificationService.success('msg.rnr.skip.success');
+                    notificationService.success('msg.requisitionSkipped');
                 })
                 .catch(function() {
-                    notificationService.error('msg.rnr.skip.failure');
+                    notificationService.error('msg.requisitionSkipFailed');
                 })
                 .finally(loadingModalService.close);
             });
