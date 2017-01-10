@@ -1,6 +1,6 @@
 describe('LineItem', function() {
 
-    var LineItem, requisitionLineItem, requisition, program, calculations;
+    var LineItem, requisitionLineItem, requisition, program, calculations, template;
 
     beforeEach(function() {
         module('requisition');
@@ -18,11 +18,45 @@ describe('LineItem', function() {
             LineItem = _LineItem_;
         });
 
+        var template = jasmine.createSpyObj('template', ['getColumns']);
+        template.columns = [
+            {
+                name: 'requestedQuantity',
+                source: 'USER_INPUT',
+                type: 'NUMERIC',
+                display: true
+            },
+            {
+                name: 'requestedQuantityExplanation',
+                source: 'USER_INPUT',
+                type: 'TEXT',
+                display: true
+            },
+            {
+                name: 'totalCost',
+                source: 'CALCULATED',
+                type: 'NUMERIC',
+                display: true
+            },
+            {
+                name: 'adjustedConsumption',
+                source: 'CALCULATED',
+                type: 'NUMERIC',
+                display: true
+            }
+        ];
+        template.getColumns.andCallFake(function (nonFullSupply) {
+            return template.columns;
+        });
+
         program = {
             id: '1',
             name: 'program1'
         };
         requisitionLineItem = {
+            $program: {
+                fullSupply: true
+            },
             orderableProduct: {
                 id: '1',
                 name: 'product',
@@ -46,30 +80,7 @@ describe('LineItem', function() {
                 startDate: [2016, 4, 1],
                 endDate: [2016, 4, 30]
             },
-            $template: {
-                columns: [
-                    {
-                        name: 'requestedQuantity',
-                        source: 'USER_INPUT',
-                        type: 'NUMERIC'
-                    },
-                    {
-                        name: 'requestedQuantityExplanation',
-                        source: 'USER_INPUT',
-                        type: 'TEXT'
-                    },
-                    {
-                        name: 'totalCost',
-                        source: 'CALCULATED',
-                        type: 'NUMERIC'
-                    },
-                    {
-                        name: 'adjustedConsumption',
-                        source: 'CALCULATED',
-                        type: 'NUMERIC'
-                    }
-                ]
-            }
+            $template: template
         };
     });
 
@@ -124,5 +135,27 @@ describe('LineItem', function() {
 
             expect(calculations.totalCost).toHaveBeenCalledWith(lineItem, requisition);
         });
+    });
+
+    describe('canBeSkipped', function() {
+
+        it('should return true if line item can be skipped', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+
+            lineItem.requestedQuantity = 0;
+            lineItem.requestedQuantityExplanation = '';
+
+            var result = lineItem.canBeSkipped(requisition);
+
+            expect(result).toBe(true);
+       });
+
+       it('should return false if line item cannot be skipped', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+
+            var result = lineItem.canBeSkipped(requisition);
+
+            expect(result).toBe(false);
+       });
     });
 });

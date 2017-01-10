@@ -218,6 +218,32 @@ describe('NonFullSupplyCtrl', function() {
 
     });
 
+    describe('setSkipAll', function() {
+
+        beforeEach(function() {
+            initController();
+        });
+
+        it('should mark all non full supply line items as skipped', function() {
+            vm.setSkipAll(true);
+            expect(requisition.requisitionLineItems[0].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[1].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[2].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[3].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[4].skipped).toBe(true);
+        });
+
+        it('should mark all non full supply line items as not skipped', function() {
+            vm.setSkipAll(false);
+            expect(requisition.requisitionLineItems[0].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[1].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[2].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[3].skipped).toBe(false);
+            expect(requisition.requisitionLineItems[4].skipped).toBe(false);
+        });
+
+    });
+
     function initController() {
         vm = controller('NonFullSupplyCtrl', {
             requisition: requisition,
@@ -228,16 +254,18 @@ describe('NonFullSupplyCtrl', function() {
     }
 
     function lineItemSpy(id, category, fullSupply) {
-        return {
-            $id: id,
-            $program: {
-                productCategoryDisplayName: category,
-                fullSupply: fullSupply
-            },
-            orderableProduct: {
-                $visible: false
-            }
+        var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
+        lineItem.canBeSkipped.andReturn(true);
+        lineItem.skipped = false;
+        lineItem.$id = id;
+        lineItem.orderableProduct = {
+            $visible: false
         };
+        lineItem.$program = {
+            productCategoryDisplayName: category,
+            fullSupply: fullSupply
+        };
+        return lineItem;
     }
 
 });
