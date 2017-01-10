@@ -391,7 +391,7 @@
          * Determines whether to display skip requisition button or not. Returns true only if
          * requisition program allows to skip requisition.
          *
-         * @return {boolean} should skip requisition button be displayed
+         * @return {boolean} true if skip button should be visible, false otherwise
          */
         function displaySkip() {
             return vm.requisition.$isInitiated() && vm.requisition.program.periodsSkippable;
