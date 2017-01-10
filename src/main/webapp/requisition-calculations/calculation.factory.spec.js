@@ -159,8 +159,7 @@ describe('calculations', function() {
     describe('Calculate adjusted consumption', function() {
         beforeEach(lineItemInject);
         var period = {
-            startDate: [2016, 4, 1],
-            endDate: [2016, 4, 30]
+            durationInMonths: 1
         };
 
         it('should return total consumed quantity when non-stockout days is zero', function() {

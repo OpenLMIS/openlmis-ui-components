@@ -189,7 +189,7 @@
                 return 0;
             }
 
-            var totalDays = 30 * getNumberOfMonthsInPeriod(requisition.processingPeriod);
+            var totalDays = 30 * requisition.processingPeriod.durationInMonths;
             var stockoutDays = lineItem.totalStockoutDays === undefined ? 0: lineItem.totalStockoutDays;
             var nonStockoutDays = totalDays - stockoutDays;
             if (nonStockoutDays === 0) {
@@ -217,14 +217,4 @@
             return requisition && requisition.status === Status.AUTHORIZED ? lineItem[K] : lineItem[J];
         }
     }
-
-    function getNumberOfMonthsInPeriod(period) {
-        var startMonth = period.startDate[1];
-        var endMonth = period.endDate[1];
-        var startYear = period.startDate[0];
-        var endYear = period.endDate[0];
-
-        return endMonth - startMonth + (12 * (endYear - startYear)) + 1;
-    }
-
 })();
