@@ -3,18 +3,16 @@ describe('serverErrorHandler', function() {
     var handler, $q, serverErrorModalService;
 
     beforeEach(function() {
-        module('openlmis-500', function($provide) {
-            var serviceSpy = jasmine.createSpyObj('serverErrorModalService', ['displayAlert']);
+        module('openlmis-500');
 
-            $provide.service('serverErrorModalService', function() {
-                return serviceSpy;
-            });
-        });
-
-        inject(function(serverErrorHandler, _$q_, _serverErrorModalService_) {
-            handler = serverErrorHandler;
+        inject(function(_serverErrorHandler_, $injector, _$q_) {
+            handler = _serverErrorHandler_;
             $q = _$q_;
-            serverErrorModalService = _serverErrorModalService_;
+
+            alertMock = jasmine.createSpyObj('alertService', ['error']);
+            spyOn($injector, 'get').andCallFake(function(name) {
+                if (name === 'alertService') return alertMock;
+            })
         });
     });
 
@@ -24,8 +22,11 @@ describe('serverErrorHandler', function() {
                 statusText: 'Server error!'
             };
 
+        spyOn($q, 'reject').andCallThrough();
+
         handler.responseError(response);
 
-        expect(serverErrorModalService.displayAlert).toHaveBeenCalledWith(response.statusText);
+        expect(alertMock.error).toHaveBeenCalledWith(response.statusText);
+        expect($q.reject).toHaveBeenCalledWith(response);
     });
 });

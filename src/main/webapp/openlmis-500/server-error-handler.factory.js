@@ -23,9 +23,9 @@
         .module('openlmis-500')
         .factory('serverErrorHandler', handler);
 
-    handler.$inject = ['$q', 'serverErrorModalService'];
+    handler.$inject = ['$q', '$injector'];
 
-    function handler($q, serverErrorModalService) {
+    function handler($q, $injector) {
 
         var provider = {
             responseError: responseError
@@ -47,7 +47,7 @@
          */
         function responseError(response) {
             if(response.status >= 500) {
-                serverErrorModalService.displayAlert(response.statusText);
+                $injector.get('alertService').error(response.statusText);
             }
             return $q.reject(response);
         }

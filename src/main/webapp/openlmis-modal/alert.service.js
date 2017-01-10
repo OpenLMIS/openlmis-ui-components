@@ -19,6 +19,8 @@
     function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
         bootbox, messageService) {
 
+        var canDisplayModal = true;
+
         this.warning = warning;
         this.error = error;
         this.success = success;
@@ -85,29 +87,32 @@
             }
 
             function makeAlert(html) {
+                if(canDisplayModal) {
+                    var modal,
+                        scope = $rootScope.$new();
 
-                var modal,
-                    scope = $rootScope.$new();
+                    scope.icon = alertClass;
+                    scope.message = message;
+                    if (additionalMessage) scope.additionalMessage = additionalMessage;
 
-                scope.icon = alertClass;
-                scope.message = message;
-                if (additionalMessage) scope.additionalMessage = additionalMessage;
-
-                modal = bootbox.dialog({
-                    message: $compile(html)(scope),
-                    callback: callback,
-                    backdrop: true,
-                    onEscape: callback ? callback : true,
-                    closeButton: false,
-                    className: 'alert-modal'
-                });
-                modal.on('click.bs.modal', function(){
-                    if(callback) callback();
-                    modal.modal('hide');
-                });
-                modal.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.alert-modal')).remove();
-                });
+                    modal = bootbox.dialog({
+                        message: $compile(html)(scope),
+                        callback: callback,
+                        backdrop: true,
+                        onEscape: callback ? callback : true,
+                        closeButton: false,
+                        className: 'alert-modal'
+                    });
+                    canDisplayModal = false;
+                    modal.on('click.bs.modal', function(){
+                        if(callback) callback();
+                        modal.modal('hide');
+                    });
+                    modal.on('hidden.bs.modal', function(){
+                        angular.element(document.querySelector('.alert-modal')).remove();
+                        canDisplayModal = true;
+                    });
+                }
             }
 
         }
