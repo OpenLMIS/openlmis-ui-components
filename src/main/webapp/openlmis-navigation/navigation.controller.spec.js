@@ -1,6 +1,6 @@
 describe('NavigationController', function() {
 
-    var vm, scope, NavigationStateService, $controller, mainRoot, subRoot, states;
+    var vm, scope, navigationStateService, $controller, mainRoot, subRoot, states;
 
     beforeEach(function() {
         module('openlmis-navigation');
@@ -11,13 +11,13 @@ describe('NavigationController', function() {
 
         scope = jasmine.createSpy();
 
-        NavigationStateService = jasmine.createSpyObj('NavigationStateService', [
+        navigationStateService = jasmine.createSpyObj('navigationStateService', [
             'hasChildren',
             'isSubmenu',
             'shouldDisplay'
         ]);
 
-        NavigationStateService.roots = {};
+        navigationStateService.roots = {};
     });
 
     describe('initialization', function() {
@@ -40,22 +40,22 @@ describe('NavigationController', function() {
                 'state2'
             ];
 
-            NavigationStateService.roots = {
+            navigationStateService.roots = {
                 '': mainRoot,
                 subRoot: subRoot
             };
         })
 
-        it('should expose NavigationStateService.isSubmenu method', function() {
+        it('should expose navigationStateService.isSubmenu method', function() {
             initController();
 
-            expect(vm.isSubmenu).toBe(NavigationStateService.isSubmenu);
+            expect(vm.isSubmenu).toBe(navigationStateService.isSubmenu);
         });
 
-        it('should expose NavigationStateService.shouldDisplay method', function() {
+        it('should expose navigationStateService.shouldDisplay method', function() {
             initController();
 
-            expect(vm.shouldDisplay).toBe(NavigationStateService.shouldDisplay);
+            expect(vm.shouldDisplay).toBe(navigationStateService.shouldDisplay);
         });
 
         it('should get root children if no root state or state list was given', function() {
@@ -85,7 +85,7 @@ describe('NavigationController', function() {
     describe('hasChildren', function() {
 
         beforeEach(function() {
-            NavigationStateService.hasChildren.andCallFake(function(state, visibleOnly) {
+            navigationStateService.hasChildren.andCallFake(function(state, visibleOnly) {
                 return state === 'state' && visibleOnly;
             })
 
@@ -98,10 +98,10 @@ describe('NavigationController', function() {
             expect(result).toBe(true);
         });
 
-        it('should call NavigationStateService.hasChildren', function() {
+        it('should call navigationStateService.hasChildren', function() {
             vm.hasChildren('state');
 
-            expect(NavigationStateService.hasChildren).toHaveBeenCalledWith('state', true);
+            expect(navigationStateService.hasChildren).toHaveBeenCalledWith('state', true);
         });
 
     });
@@ -109,7 +109,7 @@ describe('NavigationController', function() {
     function initController() {
         vm = $controller('NavigationController', {
             $scope: scope,
-            NavigationStateService: NavigationStateService
+            navigationStateService: navigationStateService
         });
     }
 

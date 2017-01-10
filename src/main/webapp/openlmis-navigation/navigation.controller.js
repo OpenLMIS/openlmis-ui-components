@@ -25,24 +25,24 @@
         .module('openlmis-navigation')
         .controller('NavigationController', NavigationController);
 
-    NavigationController.$inject = ['$scope', 'NavigationStateService']
+    NavigationController.$inject = ['$scope', 'navigationStateService']
 
-    function NavigationController($scope, NavigationStateService) {
+    function NavigationController($scope, navigationStateService) {
         var vm = this;
 
         vm.states = getStates();
 
         vm.hasChildren = hasChildren;
-        vm.isSubmenu = NavigationStateService.isSubmenu;
-        vm.shouldDisplay = NavigationStateService.shouldDisplay;
+        vm.isSubmenu = navigationStateService.isSubmenu;
+        vm.shouldDisplay = navigationStateService.shouldDisplay;
 
         function getStates() {
             var states = [];
 
             if (!$scope.rootState && !$scope.states) {
-                states = NavigationStateService.roots[''];
+                states = navigationStateService.roots[''];
             } else if ($scope.rootState) {
-                states = NavigationStateService.roots[$scope.rootState];
+                states = navigationStateService.roots[$scope.rootState];
             } else {
                 states = $scope.states;
             }
@@ -50,7 +50,7 @@
         }
 
         function hasChildren(state) {
-            return NavigationStateService.hasChildren(state, true);
+            return navigationStateService.hasChildren(state, true);
         }
     }
 
