@@ -1,6 +1,11 @@
 .product-grid {
 	overflow: auto;
 
+	.skip {
+		margin: 0 auto;
+		display: table;
+	}
+
 	button {
 		@extend .btn;
 	}

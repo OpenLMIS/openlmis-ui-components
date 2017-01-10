@@ -85,7 +85,7 @@
 			}
 
 			function isSkipped(column) {
-      			return column.name === Columns.SKIPPED;
+				return column.name === Columns.SKIPPED;
 			}
 
 			function canNotSkip() {
