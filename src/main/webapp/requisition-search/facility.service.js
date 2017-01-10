@@ -13,9 +13,9 @@
 		.module('requisition-search')
 	    .service('FacilityService', FacilityService);
 
-    FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'OfflineService', 'localStorageFactory'];
+    FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'offlineService', 'localStorageFactory'];
 
-    function FacilityService($q, $resource, OpenlmisURL, OfflineService, localStorageFactory) {
+    function FacilityService($q, $resource, OpenlmisURL, offlineService, localStorageFactory) {
         var resource = $resource(OpenlmisURL('/api/facilities/:id'), {}, {
             'getAll': {
                 url: OpenlmisURL('/api/facilities/'),
@@ -48,7 +48,7 @@
             var facility,
 				deferred = $q.defer();
 
-			if(OfflineService.isOffline()) {
+			if(offlineService.isOffline()) {
 				facility = facilitiesOffline.getBy('id', facilityId);
 				facility ? deferred.resolve(facility) : deferred.reject();
 			} else {
@@ -77,7 +77,7 @@
         function getAll() {
             var deferred = $q.defer();
 
-			if(OfflineService.isOffline()) {
+			if(offlineService.isOffline()) {
 				deferred.resolve(facilitiesOffline.getAll());
 			} else {
 				resource.getAll(function(facilities) {

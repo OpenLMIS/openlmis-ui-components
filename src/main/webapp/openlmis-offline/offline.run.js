@@ -8,7 +8,7 @@
      * @description 
      * 
      * Checks if browser is offline at a predetermined interval by calling
-     * OfflineService. Will immedately call OfflineService.checkConnection, 
+     * offlineService. Will immedately call offlineService.checkConnection, 
      * then continually call checkConnection every 30 seconds.
      *
      */
@@ -16,18 +16,18 @@
         .module('openlmis-offline')
         .run(checkOfflineInterval);
 
-    checkOfflineInterval.$inject = ['OfflineService', '$timeout'];
+    checkOfflineInterval.$inject = ['offlineService', '$timeout'];
 
-    function checkOfflineInterval(OfflineService, $timeout){
+    function checkOfflineInterval(offlineService, $timeout){
 
         function checkConnectionDelay(){
             $timeout(function() {
-                OfflineService.checkConnection()
+                offlineService.checkConnection()
                 .finally(checkConnectionDelay);
             }, 30000);
         }
 
-        OfflineService.checkConnection()
+        offlineService.checkConnection()
         .finally(checkConnectionDelay);
     }
 

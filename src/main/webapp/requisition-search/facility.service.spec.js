@@ -9,7 +9,7 @@
  */
 describe('FacilityService', function() {
 
-    var $rootScope, $httpBackend, $q, FacilityService, OfflineService, facilitiesStorage, facility1, facility2;
+    var $rootScope, $httpBackend, $q, FacilityService, offlineService, facilitiesStorage, facility1, facility2;
 
     beforeEach(function() {
         module('requisition-search');
@@ -25,12 +25,12 @@ describe('FacilityService', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _OpenlmisURL_, _$q_, _OfflineService_, _localStorageFactory_, _FacilityService_) {
+        inject(function(_$httpBackend_, _$rootScope_, _OpenlmisURL_, _$q_, _offlineService_, _localStorageFactory_, _FacilityService_) {
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $q = _$q_;
             OpenlmisUrl = _OpenlmisURL_;
-            OfflineService = _OfflineService_;
+            offlineService = _offlineService_;
             FacilityService = _FacilityService_;
         });
 
@@ -51,7 +51,7 @@ describe('FacilityService', function() {
 
             facilitiesStorage.getBy.andReturn(facility2);
 
-            spyOn(OfflineService, 'isOffline').andReturn(true);
+            spyOn(offlineService, 'isOffline').andReturn(true);
 
             FacilityService.get(facility2.id).then(function(response) {
                 data = response;
@@ -69,7 +69,7 @@ describe('FacilityService', function() {
             $httpBackend.when('GET', OpenlmisUrl('/api/facilities/' + facility1.id)).respond(200, facility1);
             facilitiesStorage.put.andCallFake(spy);
 
-            spyOn(OfflineService, 'isOffline').andReturn(false);
+            spyOn(offlineService, 'isOffline').andReturn(false);
 
             FacilityService.get(facility1.id).then(function(response) {
                 data = response;
@@ -90,7 +90,7 @@ describe('FacilityService', function() {
 
             facilitiesStorage.getAll.andReturn([facility1, facility2]);
 
-            spyOn(OfflineService, 'isOffline').andReturn(true);
+            spyOn(offlineService, 'isOffline').andReturn(true);
 
             FacilityService.getAll().then(function(response) {
                 data = response;
@@ -109,7 +109,7 @@ describe('FacilityService', function() {
             $httpBackend.when('GET', OpenlmisUrl('/api/facilities')).respond(200, [facility1, facility2]);
             facilitiesStorage.put.andCallFake(spy);
 
-            spyOn(OfflineService, 'isOffline').andReturn(false);
+            spyOn(offlineService, 'isOffline').andReturn(false);
 
             FacilityService.getAll().then(function(response) {
                 data = response;

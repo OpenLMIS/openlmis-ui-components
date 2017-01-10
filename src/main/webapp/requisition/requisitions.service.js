@@ -16,12 +16,12 @@
     requisitionService.$inject = [
         '$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory',
         'confirmService', 'notificationService', 'dateUtils', 'localStorageFactory',
-        'OfflineService'
+        'offlineService'
     ];
 
     function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
                                 RequisitionFactory, confirmService, notificationService, dateUtils,
-                                localStorageFactory, OfflineService) {
+                                localStorageFactory, offlineService) {
 
         var offlineTemplates = localStorageFactory('requisitionTemplates'),
             offlineRequisitions = localStorageFactory('requisitions'),
@@ -98,7 +98,7 @@
         function get(id) {
             var deferred = $q.defer();
 
-            if (OfflineService.isOffline()) {
+            if (offlineService.isOffline()) {
                 var requisition = offlineRequisitions.getBy('id', id),
                     template = offlineTemplates.getBy('id', requisition.template),
                     approvedProducts = offlineApprovedProducts.search({

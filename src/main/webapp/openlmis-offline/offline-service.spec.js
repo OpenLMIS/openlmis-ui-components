@@ -1,12 +1,12 @@
-describe("OfflineService", function() {
+describe("offlineService", function() {
 
     var offline, offlineService, timeout;
 
     beforeEach(function() {
         module('openlmis-offline');
 
-        inject(function(OfflineService, Offline, $timeout) {
-            offlineService = OfflineService;
+        inject(function(_offlineService_, Offline, $timeout) {
+            offlineService = _offlineService_;
             offline = Offline;
             timeout = $timeout;
         });

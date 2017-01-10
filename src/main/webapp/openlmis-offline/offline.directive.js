@@ -19,9 +19,9 @@
         .module('openlmis-offline')
         .directive('offline', offline);
 
-    offline.$inject = ['OfflineService'];
+    offline.$inject = ['offlineService'];
 
-    function offline(OfflineService) {
+    function offline(offlineService) {
         var directive = {
             restrict: 'A',
             scope: false,
@@ -43,7 +43,7 @@
              * determined by the offlineService.
              */
             scope.$watch(function(){
-                return OfflineService.isOffline();
+                return offlineService.isOffline();
             }, function(isOffline) {
                 scope.isOffline = isOffline;
             }, true);
@@ -58,7 +58,7 @@
              * Makes the offlineService check if there is a connection to the internet.
              */
             scope.checkConnection = function() {
-                return OfflineService.checkConnection();
+                return offlineService.checkConnection();
             };
         }
     }

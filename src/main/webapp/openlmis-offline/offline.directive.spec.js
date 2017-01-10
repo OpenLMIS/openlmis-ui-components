@@ -7,9 +7,9 @@ describe('offline', function() {
     beforeEach(function() {
         module('openlmis-offline');
 
-        inject(function($rootScope, OfflineService, $compile){
+        inject(function($rootScope, _offlineService_, $compile){
             scope = $rootScope.$new();
-            offlineService = OfflineService;
+            offlineService = _offlineService_;
             compile = $compile;
         });
     });
@@ -48,7 +48,7 @@ describe('offline', function() {
             offlineStatus = true;
             scope.$apply();
 
-            expect(scope.isOffline).toBe(true);            
+            expect(scope.isOffline).toBe(true);
         });
 
         it('should call connection check after clicking on offline label', function () {

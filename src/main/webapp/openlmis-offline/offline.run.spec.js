@@ -1,21 +1,21 @@
 describe("OfflineRun", function() {
 
-    var OfflineService, $timeout, $rootScope;
+    var offlineService, $timeout, $rootScope;
 
     beforeEach(function() {
         module('openlmis-offline', function($provide){
             var injector = angular.injector(['ng']);
             var $q = injector.get('$q');
 
-            OfflineService = {
+            offlineService = {
                 checkConnection: function(){
                     return $q.when(true);
                 }
             };
-            spyOn(OfflineService, 'checkConnection').andCallThrough();
+            spyOn(offlineService, 'checkConnection').andCallThrough();
             
-            $provide.service('OfflineService', function(){
-                return OfflineService;
+            $provide.service('offlineService', function(){
+                return offlineService;
             });
         });
 
@@ -26,7 +26,7 @@ describe("OfflineRun", function() {
     });
 
     it('checks connection immedately', function() {
-        expect(OfflineService.checkConnection).toHaveBeenCalled();
+        expect(offlineService.checkConnection).toHaveBeenCalled();
     });
 
     it('checks connection on an interval', function(){
@@ -44,7 +44,7 @@ describe("OfflineRun", function() {
         }, 'scope apply needs to run', 15);
 
         runs(function(){
-            expect(OfflineService.checkConnection.calls.length).toBe(2);
+            expect(offlineService.checkConnection.calls.length).toBe(2);
         });
     });
 });

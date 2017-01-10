@@ -25,12 +25,12 @@
     RequisitionCtrl.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'RequisitionRights',
-        'ConvertToOrderModal', 'OfflineService', 'localStorageFactory'
+        'ConvertToOrderModal', 'offlineService', 'localStorageFactory'
     ];
 
     function RequisitionCtrl($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
-                             RequisitionRights, ConvertToOrderModal, OfflineService,
+                             RequisitionRights, ConvertToOrderModal, offlineService,
                              localStorageFactory) {
 
         var vm = this,
@@ -78,7 +78,7 @@
         vm.displayConvertToOrder = displayConvertToOrder;
         vm.displaySkip = displaySkip;
         vm.changeAvailablity = changeAvailablity;
-        vm.isOffline = OfflineService.isOffline;
+        vm.isOffline = offlineService.isOffline;
 
         function saveRnr() {
             vm.requisition.$modified = true;

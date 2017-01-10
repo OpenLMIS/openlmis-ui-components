@@ -25,12 +25,12 @@
 
     RequisitionSearchController.$inject = [
         '$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'dateUtils',
-        'loadingModalService', 'notificationService', 'OfflineService'
+        'loadingModalService', 'notificationService', 'offlineService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
                                          Status, dateUtils, loadingModalService,
-                                         notificationService, OfflineService) {
+                                         notificationService, offlineService) {
 
         var vm = this;
 
@@ -39,7 +39,7 @@
         vm.openRnr = openRnr;
 
         vm.isOfflineDisabled = isOfflineDisabled;
-        vm.searchOffline = OfflineService.isOffline();
+        vm.searchOffline = offlineService.isOffline();
         vm.facilities = facilityList;
         vm.statuses = Status.$toList();
         vm.selectedStatuses = [];
@@ -49,8 +49,8 @@
         }
 
         function isOfflineDisabled() {
-            if (OfflineService.isOffline()) vm.searchOffline = true;
-            return OfflineService.isOffline();
+            if (offlineService.isOffline()) vm.searchOffline = true;
+            return offlineService.isOffline();
         }
         /**
          *

@@ -15,11 +15,11 @@
 
     requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL',
         'RequisitionTemplate', 'LineItem', 'CategoryFactory', 'Status', 'Source',
-        'localStorageFactory', 'OfflineService'
+        'localStorageFactory', 'offlineService'
     ];
 
     function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, RequisitionTemplate,
-        LineItem, CategoryFactory, Status, Source, localStorageFactory, OfflineService) {
+        LineItem, CategoryFactory, Status, Source, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
