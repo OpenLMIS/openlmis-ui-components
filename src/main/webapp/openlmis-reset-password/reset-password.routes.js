@@ -13,7 +13,7 @@
         $stateProvider.state('auth.resetPassword', {
             url: '/resetPassword/:token',
             templateUrl: 'openlmis-reset-password/reset-password.html',
-            controller: 'ResetPasswordCtrl',
+            controller: 'ResetPasswordController',
             controllerAs: 'vm'
         });
 

@@ -13,17 +13,17 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-reset-password.ResetPasswordCtrl
+     * @name openlmis-reset-password.ResetPasswordController
      *
      * @description
      * Controller that drives the forgot password form.
      */
     angular.module('openlmis-reset-password')
-    .controller('ResetPasswordCtrl', ResetPasswordCtrl);
+    .controller('ResetPasswordController', ResetPasswordController);
 
-    ResetPasswordCtrl.$inject = ['$state', '$stateParams', 'loginService', 'alertService'];
+    ResetPasswordController.$inject = ['$state', '$stateParams', 'loginService', 'alertService'];
 
-    function ResetPasswordCtrl($state, $stateParams, loginService, alertService) {
+    function ResetPasswordController($state, $stateParams, loginService, alertService) {
 
         var vm = this;
 
@@ -34,7 +34,7 @@
         /**
          * @ngdoc function
          * @name changePassword
-         * @methodOf openlmis-reset-password.ResetPasswordCtrl
+         * @methodOf openlmis-reset-password.ResetPasswordController
          *
          * @description
          * Checks if both passwords are valid and sends change password request to server.

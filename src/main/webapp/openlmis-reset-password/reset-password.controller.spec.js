@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('ResetPasswordCtrl', function() {
+describe('ResetPasswordController', function() {
 
     var $rootScope, loginService, $q, alertService, vm, alertSpy, token;
 
@@ -40,7 +40,7 @@ describe('ResetPasswordCtrl', function() {
             $q = _$q_;
             loginService = _loginService_;
 
-            vm = $controller('ResetPasswordCtrl', {});
+            vm = $controller('ResetPasswordController', {});
         });
     });
 
