@@ -4,8 +4,8 @@
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}
 					<div ng-if="column.name == 'skipped'">
-						<a href="" ng-click="vm.setSkipAll(true)">All</a> |
-						<a href="" ng-click="vm.setSkipAll(false)">None</a>
+						<a href="" ng-click="vm.skipAll()">All</a> |
+						<a href="" ng-click="vm.unskipAll()">None</a>
 					</div>
 				</th>
 			</tr>
@@ -14,7 +14,8 @@
 			<tr>
 				<td class="productCategory" colspan="{{vm.columns.length}}">{{category}}</td>
 			</tr>
-			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem['skipped']}"
+				ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 			</tr>
 		</tbody>

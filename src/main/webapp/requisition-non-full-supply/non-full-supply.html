@@ -2,12 +2,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}
-					<div ng-if="column.name == 'skipped'">
-						<a href="" ng-click="vm.setSkipAll(true)">All</a> |
-						<a href="" ng-click="vm.setSkipAll(false)">None</a>
-					</div>
-				</th>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}</th>
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>

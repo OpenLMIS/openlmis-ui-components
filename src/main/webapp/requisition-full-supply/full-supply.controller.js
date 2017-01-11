@@ -19,7 +19,8 @@
 
         var vm = this;
 
-        vm.setSkipAll = setSkipAll;
+        vm.skipAll = skipAll;
+        vm.unskipAll = unskipAll;
 
         /**
          * @ngdoc property
@@ -72,13 +73,27 @@
         /**
          * @ngdoc method
          * @methodOf requisition-full-supply.FullSupplyCtrl
-         * @name setSkipAll
+         * @name skipAll
          *
          * @description
-         * Sets all line items from a requisition as skipped or not skipped.
-         *
-         * @param  {Boolean} value   determines if all line items should be skipped or not
+         * Sets all line items from a requisition as skipped.
          */
+        function skipAll() {
+            setSkipAll(true);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyCtrl
+         * @name unskipAll
+         *
+         * @description
+         * Sets all line items from a requisition as not skipped.
+         */
+        function unskipAll() {
+            setSkipAll(false);
+        }
+
         function setSkipAll(value) {
             getLineItems().forEach(function(lineItem) {
                 if (lineItem.canBeSkipped(vm.requisition)) {

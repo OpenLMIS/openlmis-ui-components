@@ -153,6 +153,9 @@ describe('LineItem', function() {
        it('should return false if line item cannot be skipped', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
 
+            lineItem.requestedQuantity = 100;
+            lineItem.requestedQuantityExplanation = 'we need more';
+
             var result = lineItem.canBeSkipped(requisition);
 
             expect(result).toBe(false);

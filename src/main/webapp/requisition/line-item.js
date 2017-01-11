@@ -96,24 +96,26 @@
          * @return {Boolean} true if line item can be skipped
          */
         function canBeSkipped(requisition) {
-            var result = true;
-            var lineItem = this;
-            var columns = requisition.$template.getColumns(!this.$program.fullSupply);
+            var result = true,
+            lineItem = this,
+            columns = requisition.$template.getColumns(!this.$program.fullSupply);
             columns.forEach(function (column) {
-                if (column.display && column.source === Source.USER_INPUT && column.type !== Type.BOOLEAN) {
-                    if (!isEmpty(lineItem[column.name])) {
-                        result = false;
-                    }
+                if (isInputDisplayedAndNotEmpty(column, lineItem)) {
+                    result = false;
                 }
             });
             return result;
         }
 
+        function isInputDisplayedAndNotEmpty(column, lineItem) {
+            return column.display
+                && column.source === Source.USER_INPUT
+                && column.type !== Type.BOOLEAN
+                && !isEmpty(lineItem[column.name]);
+        }
+
         function isEmpty(value) {
-            return value === undefined
-                || value === null
-                || value === 0
-                || value.toString().trim().length === 0;
+            return !value || !value.toString().trim();
         }
 
         function getProgramById(programs, programId) {

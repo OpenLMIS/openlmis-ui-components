@@ -58,7 +58,7 @@ describe('FullSupplyCtrl', function() {
     });
 
     it('should mark all full supply line items as skipped', function() {
-        vm.setSkipAll(true);
+        vm.skipAll();
         expect(requisition.requisitionLineItems[0].skipped).toBe(true);
         expect(requisition.requisitionLineItems[1].skipped).toBe(true);
         expect(requisition.requisitionLineItems[2].skipped).toBe(true);
@@ -67,7 +67,7 @@ describe('FullSupplyCtrl', function() {
     });
 
     it('should mark all full supply line items as not skipped', function() {
-        vm.setSkipAll(false);
+        vm.unskipAll();
         expect(requisition.requisitionLineItems[0].skipped).toBe(false);
         expect(requisition.requisitionLineItems[1].skipped).toBe(false);
         expect(requisition.requisitionLineItems[2].skipped).toBe(false);

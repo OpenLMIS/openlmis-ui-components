@@ -6,6 +6,10 @@
 		display: table;
 	}
 
+	.skipped-line-item {
+		background: $light-gray;
+	}
+
 	button {
 		@extend .btn;
 	}
@@ -18,5 +22,4 @@
 	button.hide-line-item {
 		@include button-color($red);
 	}
-
 }

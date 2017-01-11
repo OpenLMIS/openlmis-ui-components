@@ -218,32 +218,6 @@ describe('NonFullSupplyCtrl', function() {
 
     });
 
-    describe('setSkipAll', function() {
-
-        beforeEach(function() {
-            initController();
-        });
-
-        it('should mark all non full supply line items as skipped', function() {
-            vm.setSkipAll(true);
-            expect(requisition.requisitionLineItems[0].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[1].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[2].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[3].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[4].skipped).toBe(true);
-        });
-
-        it('should mark all non full supply line items as not skipped', function() {
-            vm.setSkipAll(false);
-            expect(requisition.requisitionLineItems[0].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[1].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[2].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[3].skipped).toBe(false);
-            expect(requisition.requisitionLineItems[4].skipped).toBe(false);
-        });
-
-    });
-
     function initController() {
         vm = controller('NonFullSupplyCtrl', {
             requisition: requisition,
