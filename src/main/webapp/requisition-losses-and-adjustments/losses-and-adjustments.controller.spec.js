@@ -1,4 +1,4 @@
-describe('LossesAndAdjustmentsCtrl', function() {
+describe('LossesAndAdjustmentsController', function() {
 
     var vm;
 
@@ -28,7 +28,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
     describe('initialization', function() {
 
         beforeEach(inject(function($controller) {
-            vm = $controller('LossesAndAdjustmentsCtrl', {
+            vm = $controller('LossesAndAdjustmentsController', {
                 $scope: scope
             });
 
@@ -61,7 +61,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             };
 
             inject(function($controller) {
-                vm = $controller('LossesAndAdjustmentsCtrl', {
+                vm = $controller('LossesAndAdjustmentsController', {
                     $scope: scope
                 });
             });
@@ -109,7 +109,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             adjustment = jasmine.createSpy();
 
             inject(function($controller) {
-                vm = $controller('LossesAndAdjustmentsCtrl', {
+                vm = $controller('LossesAndAdjustmentsController', {
                     $scope: scope
                 });
             });
@@ -146,7 +146,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
                 return arguments[1].id === 234 ? filteredReasons : [];
             });
 
-            vm = $controller('LossesAndAdjustmentsCtrl', {
+            vm = $controller('LossesAndAdjustmentsController', {
                 $scope: scope,
                 $filter: jasmine.createSpy().andReturn(filter)
             });
@@ -182,7 +182,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             calculationFactory = jasmine.createSpyObj('calculationFactory', ['totalLossesAndAdjustments']);
             calculationFactory.totalLossesAndAdjustments.andReturn(345);
 
-            vm = $controller('LossesAndAdjustmentsCtrl', {
+            vm = $controller('LossesAndAdjustmentsController', {
                 $scope: scope,
                 calculationFactory: calculationFactory
             });

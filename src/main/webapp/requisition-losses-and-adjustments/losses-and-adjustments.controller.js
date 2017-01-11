@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-losses-and-adjustments')
-        .controller('LossesAndAdjustmentsCtrl', lossesAndAdjustmentsCtrl);
+        .controller('LossesAndAdjustmentsController', lossesAndAdjustmentsCtrl);
 
     lossesAndAdjustmentsCtrl.$inject = ['$scope', '$filter', 'calculationFactory'];
 

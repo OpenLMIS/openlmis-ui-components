@@ -12,7 +12,7 @@
         var directive = {
             restrict: 'A',
             replace: true,
-            controller: 'LossesAndAdjustmentsCtrl',
+            controller: 'LossesAndAdjustmentsController',
             controllerAs: 'vm',
             templateUrl: 'requisition-losses-and-adjustments/losses-and-adjustments-cell.html',
             scope: {
