@@ -132,7 +132,7 @@
   "msg.no.program.available": "There is no programs for facility. Please contact the Admin.",
   "msg.no.requisitions.found": "No requisitions found",
   "msg.question.confirmation": "Are you sure? Please confirm.",
-  "msg.question.confirmation.authorize": "Are you sure to authorize this R&R? Please confirm.",
+  "msg.question.confirmation.authorize": "Are you sure you want to authorize this R&R? Please confirm.",
   "msg.question.confirmation.deletion": "Are you sure to delete this R&R? Please confirm.",
   "msg.question.confirmation.makeOnlineOnly": "You are about to remove your local version of this requisition. This requisition will no longer be available offline. Do you want to proceed?",
   "msg.question.confirmation.skip": "Are you sure to skip this requisiton? Please confirm.",
