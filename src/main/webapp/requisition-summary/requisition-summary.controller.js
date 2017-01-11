@@ -27,6 +27,7 @@
          * @ngdoc property
          * @propertyOf requisition-summary.RequisitionSummaryController
          * @type {Object}
+         * @name requisition
          *
          * @description
          * The requisition to render the summary for.
@@ -37,6 +38,7 @@
          * @ngdoc property
          * @propertyOf requisition-summary.RequisitionSummaryController
          * @type {Boolean}
+         * @name showNonFullSupplySummary
          *
          * @description
          * Flag dictating whether non full supply summary should be visible inside the popover.
