@@ -6,9 +6,9 @@
 		.module('requisition-approval')
 		.config(routes);
 
-	routes.$inject = ['$stateProvider', 'RequisitionRights'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, RequisitionRights) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('requisitions.approvalList', {
 			showInNavigation: true,
@@ -17,7 +17,7 @@
 			controller: 'RequisitionApprovalListController',
 			controllerAs: 'vm',
 			templateUrl: 'requisition-approval/requisition-approval-list.html',
-			accessRights: [RequisitionRights.REQUISITION_APPROVE],
+			accessRights: [REQUISITION_RIGHTS.REQUISITION_APPROVE],
 			resolve: {
 		        requisitionList: function (requisitionService) {
                     return requisitionService.forApproval();

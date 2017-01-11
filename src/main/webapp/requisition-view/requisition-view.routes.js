@@ -6,20 +6,20 @@
         .module('requisition-view')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'RequisitionRights'];
+    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-    function routes($stateProvider, RequisitionRights) {
+    function routes($stateProvider, REQUISITION_RIGHTS) {
 
         $stateProvider.state('requisitions.requisition', {
             url: '^/requisition/:rnr',
             controller: 'RequisitionCtrl',
             controllerAs: 'vm',
             templateUrl: 'requisition-view/requisition-view.html',
-            accessRights: [RequisitionRights.REQUISITION_CREATE,
-                RequisitionRights.REQUISITION_DELETE,
-                RequisitionRights.REQUISITION_AUTHORIZE,
-                RequisitionRights.REQUISITION_APPROVE,
-                RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
+            accessRights: [REQUISITION_RIGHTS.REQUISITION_CREATE,
+                REQUISITION_RIGHTS.REQUISITION_DELETE,
+                REQUISITION_RIGHTS.REQUISITION_AUTHORIZE,
+                REQUISITION_RIGHTS.REQUISITION_APPROVE,
+                REQUISITION_RIGHTS.REQUISITION_CONVERT_TO_ORDER],
             resolve: {
                 requisition: function ($location, $q, $stateParams, requisitionService) {
                     var deferred = $q.defer();

@@ -6,9 +6,9 @@
         .module('requisition-initiate')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'RequisitionRights'];
+    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-    function routes($stateProvider, RequisitionRights) {
+    function routes($stateProvider, REQUISITION_RIGHTS) {
 
         $stateProvider.state('requisitions.initRnr', {
             url: '/initialize',
@@ -19,9 +19,9 @@
             controllerAs: 'vm',
             templateUrl: 'requisition-initiate/requisition-initiate.html',
             accessRights: [
-                RequisitionRights.REQUISITION_CREATE,
-                RequisitionRights.REQUISITION_DELETE,
-                RequisitionRights.REQUISITION_AUTHORIZED
+                REQUISITION_RIGHTS.REQUISITION_CREATE,
+                REQUISITION_RIGHTS.REQUISITION_DELETE,
+                REQUISITION_RIGHTS.REQUISITION_AUTHORIZED
             ],
             resolve: {
                 facility: function (authorizationService, $q) {

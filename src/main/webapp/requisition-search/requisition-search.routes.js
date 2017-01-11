@@ -4,9 +4,9 @@
 
 	angular.module('requisition-search').config(routes);
 
-	routes.$inject = ['$stateProvider', 'RequisitionRights'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, RequisitionRights) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
@@ -15,7 +15,7 @@
 			controller: 'RequisitionSearchController',
 			templateUrl: 'requisition-search/requisition-search.html',
 			accessRights: [
-				RequisitionRights.REQUISITION_VIEW
+				REQUISITION_RIGHTS.REQUISITION_VIEW
 			],
 			controllerAs: 'vm',
 			resolve: {

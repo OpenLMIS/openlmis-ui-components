@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-constants')
-        .constant('RequisitionRights', constant());
+        .constant('REQUISITION_RIGHTS', constant());
 
     function constant() {
         return {

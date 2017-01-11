@@ -6,9 +6,9 @@
         .module('requisition-convert-to-order')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'RequisitionRights'];
+    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-    function routes($stateProvider, RequisitionRights) {
+    function routes($stateProvider, REQUISITION_RIGHTS) {
 
         $stateProvider.state('requisitions.convertToOrder', {
             showInNavigation: true,
@@ -17,7 +17,7 @@
             controller: 'ConvertToOrderCtrl',
             controllerAs: 'vm',
             templateUrl: 'requisition-convert-to-order/convert-to-order.html',
-            accessRights: [RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
+            accessRights: [REQUISITION_RIGHTS.REQUISITION_CONVERT_TO_ORDER],
             params: {
                 filterBy: 'all',
                 filterValue: ''

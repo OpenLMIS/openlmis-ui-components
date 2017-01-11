@@ -14,9 +14,9 @@
 
 	angular.module('admin-template-list').config(routes);
 
-	routes.$inject = ['$stateProvider', 'RequisitionRights'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, RequisitionRights) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('administration.configure.templateList', {
 			showInNavigation: true,
@@ -25,7 +25,7 @@
 			controller: 'ProgramAdministrationListController',
 			templateUrl: 'admin-template-list/program-administration-list.html',
 			controllerAs: 'vm',
-			accessRights: [RequisitionRights.MANAGE_REQUISITION_TEMPLATES],
+			accessRights: [REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES],
 			resolve: {
 				programList: function (Program) {
 					return Program.getAll();

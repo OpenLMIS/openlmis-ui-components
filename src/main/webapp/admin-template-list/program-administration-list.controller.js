@@ -24,9 +24,9 @@
         .module('admin-template-list')
         .controller('ProgramAdministrationListController', controller);
 
-    controller.$inject = ['$state', 'programList', 'authorizationService', 'RequisitionRights'];
+    controller.$inject = ['$state', 'programList', 'authorizationService', 'REQUISITION_RIGHTS'];
 
-    function controller($state, programList, authorizationService, RequisitionRights) {
+    function controller($state, programList, authorizationService, REQUISITION_RIGHTS) {
         var vm = this;
 
         vm.programs = programList;
@@ -50,7 +50,7 @@
         }
 
         function canConfigureTemplates() {
-            return authorizationService.hasRight(RequisitionRights.MANAGE_REQUISITION_TEMPLATES);
+            return authorizationService.hasRight(REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES);
         }
     }
 })();

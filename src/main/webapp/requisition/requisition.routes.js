@@ -4,9 +4,9 @@
 
     angular.module('requisition').config(routes);
 
-    routes.$inject = ['$stateProvider', 'RequisitionRights'];
+    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-    function routes($stateProvider, RequisitionRights) {
+    function routes($stateProvider, REQUISITION_RIGHTS) {
 
         $stateProvider.state('requisitions', {
             abstract: true,

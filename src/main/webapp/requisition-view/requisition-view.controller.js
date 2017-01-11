@@ -24,13 +24,13 @@
 
     RequisitionCtrl.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
-        'loadingModalService', 'notificationService', 'confirmService', 'RequisitionRights',
+        'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
         'ConvertToOrderModal', 'offlineService', 'localStorageFactory'
     ];
 
     function RequisitionCtrl($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
-                             RequisitionRights, ConvertToOrderModal, offlineService,
+                             REQUISITION_RIGHTS, ConvertToOrderModal, offlineService,
                              localStorageFactory) {
 
         var vm = this,
@@ -304,7 +304,7 @@
          * @return {boolean} should authorize button be displayed
          */
         function displayAuthorize() {
-            var hasRight = authorizationService.hasRight(RequisitionRights.REQUISITION_AUTHORIZE, {
+            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isSubmitted() && hasRight;
@@ -322,7 +322,7 @@
          * @return {boolean} should submit button be displayed
          */
         function displaySubmit() {
-            var hasRight = authorizationService.hasRight(RequisitionRights.REQUISITION_CREATE, {
+            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isInitiated() && hasRight;
@@ -340,7 +340,7 @@
          * @return {boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
-            var hasRight = authorizationService.hasRight(RequisitionRights.REQUISITION_APPROVE, {
+            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isAuthorized() && hasRight;
@@ -358,7 +358,7 @@
          * @return {boolean} should delete button be displayed
          */
         function displayDelete() {
-            var hasRight = authorizationService.hasRight(RequisitionRights.REQUISITION_DELETE, {
+            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isInitiated() && hasRight;
@@ -376,7 +376,7 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            var hasRight = authorizationService.hasRight(RequisitionRights.CONVERT_TO_ORDER, {
+            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.CONVERT_TO_ORDER, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isApproved() && hasRight;

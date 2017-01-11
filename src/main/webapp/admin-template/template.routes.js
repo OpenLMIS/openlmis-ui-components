@@ -14,9 +14,9 @@
 
 	angular.module('admin-template').config(routes);
 
-	routes.$inject = ['$stateProvider', 'RequisitionRights'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, RequisitionRights) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('administration.configure.template', {
 			url: '/template/:template',
@@ -24,7 +24,7 @@
 			templateUrl: 'admin-template/template.html',
 			controllerAs: 'vm',
 			accessRights: [
-				RequisitionRights.MANAGE_REQUISITION_TEMPLATES
+				REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES
 			],
 			resolve: {
 				template: function ($stateParams, templateFactory) {
