@@ -19,10 +19,29 @@ describe('RequisitionSummaryController', function() {
             calculationFactory = _calculationFactory_;
             spyOn(calculationFactory, 'totalCost').andCallThrough();
 
-            vm = $controller('RequisitionSummaryController');
-            vm.requisition = {
-                requisitionLineItems: lineItems
-            };
+            vm = $controller('RequisitionSummaryController', {
+                $scope: {
+                    requisition: {
+                        requisitionLineItems: lineItems,
+                        $template: {
+                            showNonFullSupplyTab: true
+                        }
+                    }
+                }
+            });
+        });
+
+    });
+
+    describe('initialization', function() {
+
+        it('should expose requistion', function() {
+            expect(vm.requisition).not.toBeUndefined();
+        });
+
+
+        it('should set showNonFullSupplySummary property', function() {
+            expect(vm.showNonFullSupplySummary).not.toBeUndefined();
         });
 
     });

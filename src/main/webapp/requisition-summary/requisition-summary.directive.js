@@ -17,7 +17,6 @@
         var directive = {
             controller: 'RequisitionSummaryController',
             controllerAs: 'vm',
-            link: link,
             restrict: 'E',
             replace: true,
             scope: {
@@ -26,10 +25,6 @@
             templateUrl: 'requisition-summary/requisition-summary.html'
         }
         return directive;
-    }
-
-    function link(scope, elements, attrs, vm) {
-        vm.requisition = scope.requisition;
     }
 
 })();

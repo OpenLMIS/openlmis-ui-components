@@ -13,15 +13,35 @@
         .module('requisition-summary')
         .controller('RequisitionSummaryController', controller);
 
-    controller.$inject = ['$filter', 'calculationFactory'];
+    controller.$inject = ['$scope', '$filter', 'calculationFactory'];
 
-    function controller($filter, calculationFactory) {
+    function controller($scope, $filter, calculationFactory) {
         var vm = this;
 
         vm.calculateFullSupplyCost = calculateFullSupplyCost;
         vm.calculateNonFullSupplyCost = calculateNonFullSupplyCost;
         vm.calculateTotalCost = calculateTotalCost;
         vm.closePopover = closePopover;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-summary.RequisitionSummaryController
+         * @type {Object}
+         *
+         * @description
+         * The requisition to render the summary for.
+         */
+        vm.requisition = $scope.requisition;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-summary.RequisitionSummaryController
+         * @type {Boolean}
+         *
+         * @description
+         * Flag dictating whether non full supply summary should be visible inside the popover.
+         */
+        vm.showNonFullSupplySummary = vm.requisition.$template.showNonFullSupplyTab;
 
         /**
          * @ngdoc method
