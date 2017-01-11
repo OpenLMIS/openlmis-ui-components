@@ -7,7 +7,7 @@ describe('RequisitionTemplateAdminController', function() {
     var template, program;
 
     //injects
-    var q, state, notificationService, source, rootScope;
+    var q, state, notificationService, COLUMN_SOURCES, rootScope;
 
     beforeEach(function() {
         module('admin-template');
@@ -37,13 +37,13 @@ describe('RequisitionTemplateAdminController', function() {
             mame: 'program1'
         };
 
-        inject(function($controller, $q, $state, _notificationService_, Source, messageService,
-                        $rootScope) {
+        inject(function($controller, $q, $state, _notificationService_, _COLUMN_SOURCES_,
+                        messageService, $rootScope) {
 
             q = $q;
             state = $state;
             notificationService = _notificationService_;
-            source = Source;
+            COLUMN_SOURCES = _COLUMN_SOURCES_;
             message = messageService;
             rootScope = $rootScope;
 
@@ -90,10 +90,10 @@ describe('RequisitionTemplateAdminController', function() {
 
     it('can change source works correctly', function() {
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT, source.CALCULATED]
+            sources: [COLUMN_SOURCES.USER_INPUT, COLUMN_SOURCES.CALCULATED]
         })).toBe(true);
         expect(vm.canChangeSource({
-            sources: [source.USER_INPUT]
+            sources: [COLUMN_SOURCES.USER_INPUT]
         })).toBe(false);
     });
 

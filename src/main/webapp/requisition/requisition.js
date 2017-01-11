@@ -14,12 +14,12 @@
         .factory('Requisition', requisitionFactory);
 
     requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory',
-        'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'Source',
+        'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'COLUMN_SOURCES',
         'localStorageFactory', 'offlineService'
     ];
 
     function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory, RequisitionTemplate,
-        LineItem, categoryFactory, Status, Source, localStorageFactory, offlineService) {
+        LineItem, categoryFactory, Status, COLUMN_SOURCES, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
@@ -327,7 +327,7 @@
 
         function transformLineItem(lineItem, columns) {
             angular.forEach(columns, function(column) {
-                if (!column.display || column.source === Source.CALCULATED) {
+                if (!column.display || column.source === COLUMN_SOURCES.CALCULATED) {
                     lineItem[column.name] = null;
                 }
             });

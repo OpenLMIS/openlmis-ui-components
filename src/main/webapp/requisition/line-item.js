@@ -13,9 +13,9 @@
     .module('requisition')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validations', 'calculationFactory', 'Source', 'Type'];
+    lineItem.$inject = ['validations', 'calculationFactory', 'COLUMN_SOURCES', 'Type'];
 
-    function lineItem(validations, calculationFactory, Source, Type) {
+    function lineItem(validations, calculationFactory, COLUMN_SOURCES, Type) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
@@ -74,7 +74,7 @@
                 propertyName = getPropertyName(column.name);
 
             if(object) {
-                if (column.source === Source.CALCULATED) {
+                if (column.source === COLUMN_SOURCES.CALCULATED) {
                     object[propertyName] = calculationFactory[fullName](this, requisition);
                 } else if (column.type === Type.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
@@ -109,7 +109,7 @@
 
         function isInputDisplayedAndNotEmpty(column, lineItem) {
             return column.display
-                && column.source === Source.USER_INPUT
+                && column.source === COLUMN_SOURCES.USER_INPUT
                 && column.type !== Type.BOOLEAN
                 && !isEmpty(lineItem[column.name]);
         }

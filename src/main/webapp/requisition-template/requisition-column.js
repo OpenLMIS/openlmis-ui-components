@@ -6,9 +6,9 @@
     .module('requisition-template')
     .factory('RequisitionColumn', requisitionColumn);
 
-    requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'Source', 'Status'];
+    requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'COLUMN_SOURCES', 'Status'];
 
-    function requisitionColumn(TEMPLATE_COLUMNS, Source, Status) {
+    function requisitionColumn(TEMPLATE_COLUMNS, COLUMN_SOURCES, Status) {
 
         var nonMandatoryFields = [
             TEMPLATE_COLUMNS.SKIPPED,
@@ -73,7 +73,8 @@
             this.label = column.label;
             this.display = displayColumn(column, requisition);
             this.displayOrder = column.displayOrder;
-            this.required = (nonMandatoryFields.indexOf(name) === -1 && source == Source.USER_INPUT);
+            this.required = (nonMandatoryFields.indexOf(name) === -1
+                && source == COLUMN_SOURCES.USER_INPUT);
             this.fullSupplyOnly = nonFullSupplyColumns.indexOf(name) === -1;
             this.dependencies = dependencies[name];
         }

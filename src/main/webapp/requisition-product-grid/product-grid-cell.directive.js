@@ -20,11 +20,13 @@
 		.module('requisition-product-grid')
 		.directive('productGridCell', productGridCell);
 
-	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator',
-							   'TEMPLATE_COLUMNS', 'Source', 'Type'];
+	productGridCell.$inject = [
+		'$q', '$templateRequest', '$compile', 'requisitionValidator', 'TEMPLATE_COLUMNS',
+		'COLUMN_SOURCES', 'Type'
+	];
 
 	function productGridCell($q, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
-							 Source, Type) {
+							 COLUMN_SOURCES, Type) {
 
     	var directive = {
       		restrict: 'A',
@@ -60,7 +62,7 @@
 	      	angular.forEach(column.dependencies, function(dependency) {
 	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
 	          		if (newValue !== oldValue) {
-						if (column.source === Source.CALCULATED) {
+						if (column.source === COLUMN_SOURCES.CALCULATED) {
 							scope.lineItem.updateFieldValue(column, requisition);
 						}
 	            		validate();
@@ -79,7 +81,7 @@
 						TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS
 					].indexOf(column.name) === -1;
 				}
-				return column.source !== Source.USER_INPUT;
+				return column.source !== COLUMN_SOURCES.USER_INPUT;
 			}
 
 			function isTotalLossesAndAdjustments(column) {

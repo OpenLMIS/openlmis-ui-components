@@ -14,10 +14,10 @@
         .factory('requisitionValidator', requisitionValidator);
 
     requisitionValidator.$inject = [
-        'validations', 'calculationFactory', 'TEMPLATE_COLUMNS', 'Source'
+        'validations', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES'
     ];
 
-    function requisitionValidator(validations, calculationFactory, TEMPLATE_COLUMNS, Source) {
+    function requisitionValidator(validations, calculationFactory, TEMPLATE_COLUMNS, COLUMN_SOURCES) {
 
         var validationsToPass = {
             stockOnHand: [
@@ -168,7 +168,7 @@
         }
 
         function isCalculated(column) {
-            return column.source === Source.CALCULATED;
+            return column.source === COLUMN_SOURCES.CALCULATED;
         }
 
         function getCounterpart(columns, name) {

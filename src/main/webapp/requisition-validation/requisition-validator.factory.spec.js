@@ -1,6 +1,6 @@
 describe('requisitionValidator', function() {
 
-    var validator, TEMPLATE_COLUMNS, Source, calculationFactory;
+    var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory;
 
     var validations;
 
@@ -17,12 +17,12 @@ describe('requisitionValidator', function() {
         });
     }));
 
-    beforeEach(inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _Source_,
+    beforeEach(inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _COLUMN_SOURCES_,
                                _calculationFactory_) {
 
         validator = _requisitionValidator_;
         TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
-        Source = _Source_;
+        COLUMN_SOURCES = _COLUMN_SOURCES_;
         calculationFactory = _calculationFactory_;
     }));
 
@@ -172,7 +172,7 @@ describe('requisitionValidator', function() {
             lineItem[TEMPLATE_COLUMNS.STOCK_ON_HAND] = -10;
             column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             column.required = true;
-            column.source = Source.CALCULATED;
+            column.source = COLUMN_SOURCES.CALCULATED;
             validations.nonNegative.andReturn('negative');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
@@ -188,11 +188,11 @@ describe('requisitionValidator', function() {
                 calculationSpy = jasmine.createSpy();
 
             calculationSpy.andReturn('invalidCalculation');
-            column.source = Source.USER_INPUT;
+            column.source = COLUMN_SOURCES.USER_INPUT;
             column.name = name;
             columns.push({
                 name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
-                source: Source.USER_INPUT
+                source: COLUMN_SOURCES.USER_INPUT
             });
             validations.validateCalculation.andReturn(calculationSpy);
 
@@ -204,11 +204,11 @@ describe('requisitionValidator', function() {
         });
 
         it('should skip calculation validation if counterpart is calculated', function() {
-            column.source = Source.CALCULATED;
+            column.source = COLUMN_SOURCES.CALCULATED;
             column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             columns.push({
                 name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
-                source: Source.CALCULATED
+                source: COLUMN_SOURCES.CALCULATED
             });
 
             var result = validator.validateLineItemField(lineItem, column, columns);

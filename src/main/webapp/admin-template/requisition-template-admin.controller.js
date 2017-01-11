@@ -22,9 +22,14 @@
 
     angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
-    RequisitionTemplateAdminController.$inject = ['$state', 'template', 'program', '$q', 'notificationService', 'Source', 'messageService'];
+    RequisitionTemplateAdminController.$inject = [
+        '$state', 'template', 'program', '$q', 'notificationService', 'COLUMN_SOURCES',
+        'messageService'
+    ];
 
-    function RequisitionTemplateAdminController($state, template, program, $q, notificationService, Source, messageService) {
+    function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
+                                                COLUMN_SOURCES, messageService) {
+
         var vm = this;
 
         vm.template = template;
@@ -112,7 +117,7 @@
          * Gives diplay name of given source type.
          */
         function sourceDisplayName(name) {
-            return messageService.get(Source.getLabel(name));
+            return messageService.get(COLUMN_SOURCES.getLabel(name));
         }
 
         /**
@@ -134,7 +139,7 @@
 
             if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.option.empty');
 
-            if(column.source === Source.CALCULATED) {
+            if(column.source === COLUMN_SOURCES.CALCULATED) {
                 var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
                 angular.forEach(circularDependencyArray, function(dependency) {
                     dependencies = dependencies + ' ' + vm.template.columnsMap[dependency].label + ',';
@@ -146,7 +151,7 @@
                 return messageService.get('msg.template.column.calculated.error') + dependencies;
             }
             message = messageService.get('msg.template.column.should.be.displayed');
-            if(!column.isDisplayed && column.source === Source.USER_INPUT && column.columnDefinition.sources.length > 1) {
+            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
                 message = message + messageService.get('msg.template.column.is.user.input');
             }
             return message;

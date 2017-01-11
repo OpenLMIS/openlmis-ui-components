@@ -2,7 +2,7 @@ describe('ProductGridCell', function() {
 
     'use strict';
 
-    var compile, scope, directiveElem, Source;
+    var compile, scope, directiveElem, COLUMN_SOURCES;
 
     beforeEach(function() {
         module('openlmis-templates');
@@ -22,16 +22,16 @@ describe('ProductGridCell', function() {
 
     beforeEach(function() {
 
-        inject(function($compile, $rootScope, Type, _Source_) {
+        inject(function($compile, $rootScope, Type, _COLUMN_SOURCES_) {
             compile = $compile;
             scope = $rootScope.$new();
-            Source = _Source_;
+            COLUMN_SOURCES = _COLUMN_SOURCES_;
             scope.requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);
 
             scope.column = {
                 type: Type.NUMERIC,
                 name: "beginningBalance",
-                source: Source.USER_INPUT
+                source: COLUMN_SOURCES.USER_INPUT
             };
             scope.lineItem = {
                 getFieldValue: function() {
