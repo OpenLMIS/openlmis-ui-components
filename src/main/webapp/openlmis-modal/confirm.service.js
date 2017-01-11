@@ -24,7 +24,7 @@
         /**
          *
          * @ngdoc function
-         * @name confirmService
+         * @name confirm
          * @methodOf openlmis-modal.confirmService
          * @param {String} message Primary message to display at the top
          * @param {Function} additionalMessage Additional message to display below

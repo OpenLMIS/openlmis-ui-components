@@ -26,7 +26,7 @@
         /**
          *
          * @ngdoc function
-         * @name alertService
+         * @name warning
          * @methodOf openlmis-modal.alertService
          *
          * @description
