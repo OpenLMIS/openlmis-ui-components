@@ -4,14 +4,14 @@
 
     /**
      * @ngdoc filter
-     * @name .openlmis.requisitions.requisitionFilter
-     * @function requisitionFilter
+     * @name .openlmis.requisitions.requisitionSearch
+     * @function requisitionSearch
      *
      * @description Filters requisitions by given params.
      */
     angular
         .module('requisition-search')
-        .filter('requisitionFilter', filter);
+        .filter('requisitionSearch', filter);
 
     filter.$inject = ['dateUtils'];
 

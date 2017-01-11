@@ -286,7 +286,7 @@ describe('requisitionService', function() {
         $rootScope.$apply();
 
         expect(angular.toJson(data)).toEqual(angular.toJson([requisitionDto2]));
-        expect(requisitionsStorage.search).toHaveBeenCalledWith(params, 'requisitionFilter');
+        expect(requisitionsStorage.search).toHaveBeenCalledWith(params, 'requisitionSearch');
     });
 
     function formatDatesInRequisition(requisition) {

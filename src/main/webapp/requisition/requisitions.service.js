@@ -209,7 +209,7 @@
             var deferred = $q.defer();
 
             if(offline) {
-                var requisitions = offlineRequisitions.search(searchParams, 'requisitionFilter');
+                var requisitions = offlineRequisitions.search(searchParams, 'requisitionSearch');
                 angular.forEach(requisitions, function(requisition) {
                     transformRequisition(requisition);
                     requisition.$searchedOffline = true;
