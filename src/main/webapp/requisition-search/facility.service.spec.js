@@ -22,11 +22,11 @@ describe('FacilityService', function() {
                 return localStorageFactorySpy;
             });
 
-            supervisedFacilities = jasmine.createSpy('SupervisedFacilities').andCallFake(function(argumentObject) {
+            supervisedFacilities = jasmine.createSpy('supervisedFacilitiesFactory').andCallFake(function(argumentObject) {
                 return $q.when([facility1]);
             });
 
-            $provide.service('SupervisedFacilities', function() {
+            $provide.service('supervisedFacilitiesFactory', function() {
                 return supervisedFacilities;
             });
         });
@@ -131,7 +131,7 @@ describe('FacilityService', function() {
         });
     });
 
-    describe('getSupervisedFacilities', function() {
+    describe('getsupervisedFacilitiesFactory', function() {
 
         it('should get all facilities and save them to storage', function() {
             var data,
@@ -149,7 +149,7 @@ describe('FacilityService', function() {
 
             spyOn(authorizationService, 'getRightByName').andReturn({id: '1'});
 
-            FacilityService.getSupervisedFacilities(supervisedPrograms, userId).then(function(response) {
+            FacilityService.getsupervisedFacilitiesFactory(supervisedPrograms, userId).then(function(response) {
                 data = response;
             });
 

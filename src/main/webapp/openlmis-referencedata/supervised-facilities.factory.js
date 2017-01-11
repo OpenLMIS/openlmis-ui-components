@@ -13,7 +13,7 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-referencedata.SupervisedFacilities
+     * @name openlmis-referencedata.supervisedFacilitiesFactory
      *
      * @description
      * Returns facilities where program with given programId is active and where the given
@@ -22,7 +22,7 @@
      */
     angular
         .module('openlmis-referencedata')
-        .factory('SupervisedFacilities', factory);
+        .factory('supervisedFacilitiesFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$http', 'offlineService', 'localStorageFactory'];
 

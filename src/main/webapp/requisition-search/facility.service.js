@@ -13,9 +13,9 @@
 		.module('requisition-search')
 	    .service('FacilityService', FacilityService);
 
-    FacilityService.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory', 'SupervisedFacilities', 'authorizationService', 'REQUISITION_RIGHTS'];
+    FacilityService.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory', 'supervisedFacilitiesFactory', 'authorizationService', 'REQUISITION_RIGHTS'];
 
-    function FacilityService($q, $filter, $resource, openlmisUrlFactory, offlineService, localStorageFactory, SupervisedFacilities, authorizationService, REQUISITION_RIGHTS) {
+    function FacilityService($q, $filter, $resource, openlmisUrlFactory, offlineService, localStorageFactory, supervisedFacilitiesFactory, authorizationService, REQUISITION_RIGHTS) {
         var resource = $resource(openlmisUrlFactory('/api/facilities/:id'), {}, {
             'getAll': {
                 url: openlmisUrlFactory('/api/facilities/'),
@@ -29,7 +29,7 @@
         service = {
             get: get,
             getAll: getAll,
-			getSupervisedFacilities: getSupervisedFacilities
+			getsupervisedFacilitiesFactory: getsupervisedFacilitiesFactory
         };
         return service;
 
@@ -96,7 +96,7 @@
 
 		/**
          * @ngdoc function
-         * @name getSupervisedFacilities
+         * @name getsupervisedFacilitiesFactory
          * @methodOf requisition-search.FacilityService
          * @return {Promise} Array of facilities
          *
@@ -106,14 +106,14 @@
          * If user is online it stores all facilities into offline storage.
          *
          */
-        function getSupervisedFacilities(supervisedPrograms, userId) {
+        function getsupervisedFacilitiesFactory(supervisedPrograms, userId) {
             var promises = [],
 				facilities = [],
 				viewRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_VIEW),
 				deferred = $q.defer();
 
 			angular.forEach(supervisedPrograms, function(program) {
-				promises.push(SupervisedFacilities(userId, program.id, viewRight.id));
+				promises.push(supervisedFacilitiesFactory(userId, program.id, viewRight.id));
 			});
 			$q.all(promises).then(function(results) {
 				angular.forEach(results, function(result) {

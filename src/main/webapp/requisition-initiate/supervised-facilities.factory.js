@@ -13,7 +13,7 @@
     /**
      *
      * @ngdoc service
-     * @name requisition-initiate.SupervisedFacilities
+     * @name requisition-initiate.supervisedFacilitiesFactory
      *
      * @description
      * Returns facilities where program with given programId is active and where the given
@@ -21,7 +21,7 @@
      */
     angular
         .module('requisition-initiate')
-        .factory('SupervisedFacilities', factory);
+        .factory('supervisedFacilitiesFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$http'];
 
