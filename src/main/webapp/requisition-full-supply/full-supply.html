@@ -4,8 +4,8 @@
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}
 					<div ng-if="column.name == 'skipped'">
-						<a href="" ng-click="vm.skipAll()">All</a> |
-						<a href="" ng-click="vm.unskipAll()">None</a>
+						<a href="" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</a> |
+						<a href="" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</a>
 					</div>
 				</th>
 			</tr>

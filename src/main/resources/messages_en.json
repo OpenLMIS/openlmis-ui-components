@@ -187,6 +187,8 @@
   "requisition.offline.remove": "Remove offline copy",
   "requisition.type.emergency": "Emergency",
   "requisition.type.regular": "Regular",
+  "requisition.lineItem.skip.all": "All",
+  "requisition.lineItem.skip.none": "None",
   "reset.password.message": "Please provide your email address and we will send you a reset password link on your registered email.",
   "reset.password.requirements": "A password must contain at least 8 characters and 1 number.",
   "search.for": "Search for",
