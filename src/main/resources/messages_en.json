@@ -149,6 +149,7 @@
   "msg.rnr.previous.pending": "Previous R&R pending",
   "msg.rnr.reject.success": "Rejected R&R!",
   "msg.rnr.save.success": "R&R saved successfully!",
+  "msg.rnr.save.failure": "Failed to save R&R!",
   "msg.requisitionSkipFailed": "Failed to skip requisiton!",
   "msg.requisitionSkipped": "Requisition skipped!",
   "msg.requisitionSubmitFailed": "Failed to submit requisiton!",
