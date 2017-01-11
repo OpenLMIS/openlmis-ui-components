@@ -4,7 +4,7 @@
     /**
      *
      * @ngdoc service
-     * @name requisition-view.ConvertToOrderModal
+     * @name requisition-view.convertToOrderModalService
      * @description
      * Directive to display modal for converting single requisition to order.
      *
@@ -12,7 +12,7 @@
 
     angular
         .module('requisition-view')
-        .service('ConvertToOrderModal', convertToOrderModal);
+        .service('convertToOrderModalService', convertToOrderModal);
 
     convertToOrderModal.$inject = ['$q', '$state', '$rootScope', '$ngBootbox', 'messageService',
         '$compile', '$templateRequest', 'requisitionService', '$stateParams', 'loadingModalService'];
@@ -32,7 +32,7 @@
         /**
          * @ngdoc function
          * @name show
-         * @methodOf requisition-view.ConvertToOrderModal
+         * @methodOf requisition-view.convertToOrderModalService
          * @param {Object} requisition Requisition for convert
          * @return {Promises} depots for requisition and template for modal
          *
@@ -69,7 +69,7 @@
         /**
          * @ngdoc function
          * @name close
-         * @methodOf requisition-view.ConvertToOrderModal
+         * @methodOf requisition-view.convertToOrderModalService
          *
          * @description
          * Close modal.
@@ -83,7 +83,7 @@
         /**
          * @ngdoc function
          * @name convertRnr
-         * @methodOf requisition-view.ConvertToOrderModal
+         * @methodOf requisition-view.convertToOrderModalService
          *
          * @description
          * Converts given requisition into order and then reload page.
@@ -96,7 +96,7 @@
         /**
          * @ngdoc function
          * @name getDepotsForRequisition
-         * @methodOf requisition-view.ConvertToOrderModal
+         * @methodOf requisition-view.convertToOrderModalService
          * @return {Promise} Depots for current requisition.
          *
          * @description

@@ -1,4 +1,4 @@
-describe("ConvertToOrderModal", function(){
+describe("convertToOrderModalService", function(){
 
     var convertToOrderModal, ngBootbox, rootScope, requisitionService, q, state;
     var type = {
@@ -32,9 +32,9 @@ describe("ConvertToOrderModal", function(){
 
     beforeEach(module('requisition-view'));
 
-    beforeEach(inject(function(_ConvertToOrderModal_, _$ngBootbox_, _$rootScope_,
+    beforeEach(inject(function(_convertToOrderModalService_, _$ngBootbox_, _$rootScope_,
     _requisitionService_, _$q_){
-        convertToOrderModal = _ConvertToOrderModal_;
+        convertToOrderModal = _convertToOrderModalService_;
         ngBootbox = _$ngBootbox_;
         rootScope = _$rootScope_;
         requisitionService = _requisitionService_;

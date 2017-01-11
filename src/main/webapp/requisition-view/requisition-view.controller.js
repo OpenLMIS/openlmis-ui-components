@@ -25,12 +25,12 @@
     RequisitionCtrl.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
-        'ConvertToOrderModal', 'offlineService', 'localStorageFactory'
+        'convertToOrderModalService', 'offlineService', 'localStorageFactory'
     ];
 
     function RequisitionCtrl($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
-                             REQUISITION_RIGHTS, ConvertToOrderModal, offlineService,
+                             REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
                              localStorageFactory) {
 
         var vm = this,
@@ -406,7 +406,7 @@
          * Displays convert to order modal.
          */
         function convertRnr() {
-            ConvertToOrderModal.show(vm.requisition);
+            convertToOrderModalService.show(vm.requisition);
         };
 
         function changeAvailablity(requisition) {
