@@ -211,12 +211,12 @@
 
         /**
          * @ngdoc function
-         * @name reject
+         * @name skip
          * @methodOf requisition.RequisitionFactory
-         * @return {Promise} promise that resolves when requisition is rejected
+         * @return {Promise} promise that resolves when requisition is skipped
          *
          * @description
-         * Rejects requisition.
+         * Skips requisition.
          *
          */
         function skip() {
