@@ -4,7 +4,7 @@
 
   angular
     .module('requisition-validation')
-    .factory('validations', validationFactory);
+    .factory('validationFactory', validationFactory);
 
   validationFactory.$inject = ['messageService'];
 

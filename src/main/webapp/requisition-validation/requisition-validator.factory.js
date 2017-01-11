@@ -14,20 +14,20 @@
         .factory('requisitionValidator', requisitionValidator);
 
     requisitionValidator.$inject = [
-        'validations', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES'
+        'validationFactory', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES'
     ];
 
-    function requisitionValidator(validations, calculationFactory, TEMPLATE_COLUMNS, COLUMN_SOURCES) {
+    function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS, COLUMN_SOURCES) {
 
         var validationsToPass = {
             stockOnHand: [
-                validations.nonNegative,
+                validationFactory.nonNegative,
             ],
             totalConsumedQuantity: [
-                validations.nonNegative
+                validationFactory.nonNegative
             ],
             requestedQuantityExplanation: [
-                validations.nonEmptyIfPropertyIsSet(TEMPLATE_COLUMNS.REQUESTED_QUANTITY)
+                validationFactory.nonEmptyIfPropertyIsSet(TEMPLATE_COLUMNS.REQUESTED_QUANTITY)
             ]
         };
 
@@ -121,7 +121,7 @@
             if (name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
 
             if (column.required) {
-                error = error || validations.nonEmpty(lineItem[name]);
+                error = error || validationFactory.nonEmpty(lineItem[name]);
             }
 
             angular.forEach(validationsToPass[name], function(validation) {
@@ -164,7 +164,7 @@
         }
 
         function validateCalculation(calculation, lineItem, name) {
-            return validations.validateCalculation(calculation)(lineItem[name], lineItem);
+            return validationFactory.validateCalculation(calculation)(lineItem[name], lineItem);
         }
 
         function isCalculated(column) {

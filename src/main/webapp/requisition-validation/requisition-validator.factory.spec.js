@@ -2,7 +2,7 @@ describe('requisitionValidator', function() {
 
     var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory;
 
-    var validations;
+    var validationFactory;
 
     var lineItem, column, columns;
 
@@ -10,10 +10,10 @@ describe('requisitionValidator', function() {
 
     beforeEach(module(function($provide) {
         var methods = ['nonNegative', 'nonEmptyIfPropertyIsSet', 'nonEmpty', 'validateCalculation'];
-        validations = jasmine.createSpyObj('validations', methods);
+        validationFactory = jasmine.createSpyObj('validationFactory', methods);
 
-        $provide.service('validations', function() {
-            return validations;
+        $provide.service('validationFactory', function() {
+            return validationFactory;
         });
     }));
 
@@ -160,12 +160,12 @@ describe('requisitionValidator', function() {
             lineItem['requiredButNotSet'] = undefined;
             column.required = true;
             column.name = 'requiredButNotSet';
-            validations.nonEmpty.andReturn('required');
+            validationFactory.nonEmpty.andReturn('required');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(validations.nonEmpty).toHaveBeenCalledWith(undefined);
+            expect(validationFactory.nonEmpty).toHaveBeenCalledWith(undefined);
         });
 
         it('should return false if any validation fails', function() {
@@ -173,14 +173,14 @@ describe('requisitionValidator', function() {
             column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             column.required = true;
             column.source = COLUMN_SOURCES.CALCULATED;
-            validations.nonNegative.andReturn('negative');
+            validationFactory.nonNegative.andReturn('negative');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
             expect(lineItem.$errors[TEMPLATE_COLUMNS.STOCK_ON_HAND]).toBe('negative');
-            expect(validations.nonEmpty).toHaveBeenCalledWith(-10);
-            expect(validations.nonNegative).toHaveBeenCalledWith(-10, lineItem);
+            expect(validationFactory.nonEmpty).toHaveBeenCalledWith(-10);
+            expect(validationFactory.nonNegative).toHaveBeenCalledWith(-10, lineItem);
         });
 
         it('should return false if calculation validation fails', function() {
@@ -194,12 +194,12 @@ describe('requisitionValidator', function() {
                 name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
                 source: COLUMN_SOURCES.USER_INPUT
             });
-            validations.validateCalculation.andReturn(calculationSpy);
+            validationFactory.validateCalculation.andReturn(calculationSpy);
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(validations.validateCalculation).toHaveBeenCalledWith(calculationFactory[name])
+            expect(validationFactory.validateCalculation).toHaveBeenCalledWith(calculationFactory[name])
             expect(calculationSpy).toHaveBeenCalledWith(lineItem[name], lineItem);
         });
 
@@ -214,7 +214,7 @@ describe('requisitionValidator', function() {
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(true);
-            expect(validations.validateCalculation).not.toHaveBeenCalled();
+            expect(validationFactory.validateCalculation).not.toHaveBeenCalled();
         });
 
     });
