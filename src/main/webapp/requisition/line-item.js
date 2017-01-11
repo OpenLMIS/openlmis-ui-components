@@ -13,9 +13,9 @@
     .module('requisition')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validations', 'calculations', 'Columns', 'Source', 'Type'];
+    lineItem.$inject = ['validations', 'calculationFactory', 'Columns', 'Source', 'Type'];
 
-    function lineItem(validations, calculations, Columns, Source, Type) {
+    function lineItem(validations, calculationFactory, Columns, Source, Type) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
@@ -75,7 +75,7 @@
 
             if(object) {
                 if (column.source === Source.CALCULATED) {
-                    object[propertyName] = calculations[fullName](this, requisition);
+                    object[propertyName] = calculationFactory[fullName](this, requisition);
                 } else if (column.type === Type.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {

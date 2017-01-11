@@ -1,6 +1,6 @@
 describe('requisitionValidator', function() {
 
-    var validator, Columns, Source, calculations;
+    var validator, Columns, Source, calculationFactory;
 
     var validations;
 
@@ -17,11 +17,11 @@ describe('requisitionValidator', function() {
         });
     }));
 
-    beforeEach(inject(function(_requisitionValidator_, _Columns_, _Source_, _calculations_) {
+    beforeEach(inject(function(_requisitionValidator_, _Columns_, _Source_, _calculationFactory_) {
         validator = _requisitionValidator_;
         Columns = _Columns_;
         Source = _Source_;
-        calculations = _calculations_;
+        calculationFactory = _calculationFactory_;
     }));
 
     beforeEach(function() {
@@ -197,7 +197,7 @@ describe('requisitionValidator', function() {
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(validations.validateCalculation).toHaveBeenCalledWith(calculations[name])
+            expect(validations.validateCalculation).toHaveBeenCalledWith(calculationFactory[name])
             expect(calculationSpy).toHaveBeenCalledWith(lineItem[name], lineItem);
         });
 

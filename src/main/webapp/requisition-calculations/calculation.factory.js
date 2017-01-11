@@ -4,18 +4,18 @@
 
     /**
      * @ngdoc service
-     * @name requisition-calculations.calculations
+     * @name requisition-calculations.calculationFactory
      *
      * @description
      * Responsible for storing all the calculations related with the line item and product grid.
      */
     angular
     .module('requisition-calculations')
-    .factory('calculations', calculations);
+    .factory('calculationFactory', factory);
 
-    calculations.$inject = ['Columns', '$filter', 'Status'];
+    factory.$inject = ['Columns', '$filter', 'Status'];
 
-    function calculations(Columns, $filter, Status) {
+    function factory(Columns, $filter, Status) {
         var A = Columns.BEGINNING_BALANCE,
         B = Columns.TOTAL_RECEIVED_QUANTITY,
         C = Columns.TOTAL_CONSUMED_QUANTITY,
@@ -29,7 +29,7 @@
         T = Columns.PRICE_PER_PACK,
         N = Columns.ADJUSTED_CONSUMPTION;
 
-        var calculations = {
+        var calculationFactory = {
             totalConsumedQuantity: calculateTotalConsumedQuantity,
             stockOnHand: calculateStockOnHand,
             totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
@@ -38,12 +38,12 @@
             totalCost: calculateTotalCost,
             adjustedConsumption: calculateAdjustedConsumption
         };
-        return calculations;
+        return calculationFactory;
 
         /**
          * @ngdoc function
          * @name totalConsumedQuantity
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Total Consumed Quantity column based on the given line item.
@@ -58,7 +58,7 @@
         /**
          * @ngdoc function
          * @name  stockOnHand
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Stock On Hand column based on the given line item.
@@ -73,7 +73,7 @@
         /**
          * @ngdoc function
          * @name  total
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Total column based on the given line item.
@@ -88,7 +88,7 @@
         /**
          * @ngdocs function
          * @name  totalLossesAndAdjustments
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Total Losses and Adjustments column based on the given line item and adjustment reasons.
@@ -116,7 +116,7 @@
         /**
          * @ngdoc function
          * @name packsToShip
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Packs to Ship column based on the given line item and requisition status.
@@ -150,7 +150,7 @@
         /**
          * @ngdoc function
          * @name calculateTotalCost
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          * @private
          *
          * @description
@@ -174,7 +174,7 @@
         /**
          * @ngdoc function
          * @name adjustedConsumption
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          *
          * @description
          * Calculates the value of the Adjusted Consumption column based on the given line item.
@@ -203,7 +203,7 @@
         /**
          * @ngdoc function
          * @name getOrderQuantity
-         * @methodOf requisition-calculations.calculations
+         * @methodOf requisition-calculations.calculationFactory
          * @private
          *
          * @description

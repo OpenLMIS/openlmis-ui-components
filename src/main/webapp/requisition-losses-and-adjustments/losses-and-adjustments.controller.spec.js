@@ -176,15 +176,15 @@ describe('LossesAndAdjustmentsCtrl', function() {
 
     describe('getTotal', function() {
 
-        var calculations;
+        var calculationFactory;
 
         beforeEach(inject(function($controller) {
-            calculations = jasmine.createSpyObj('calculations', ['totalLossesAndAdjustments']);
-            calculations.totalLossesAndAdjustments.andReturn(345);
+            calculationFactory = jasmine.createSpyObj('calculationFactory', ['totalLossesAndAdjustments']);
+            calculationFactory.totalLossesAndAdjustments.andReturn(345);
 
             vm = $controller('LossesAndAdjustmentsCtrl', {
                 $scope: scope,
-                calculations: calculations
+                calculationFactory: calculationFactory
             });
 
             rootScope.$apply();
@@ -194,7 +194,7 @@ describe('LossesAndAdjustmentsCtrl', function() {
             var result = vm.getTotal();
 
             expect(result).toBe(345);
-            expect(calculations.totalLossesAndAdjustments).toHaveBeenCalledWith(
+            expect(calculationFactory.totalLossesAndAdjustments).toHaveBeenCalledWith(
                 scope.lineItem,
                 reasons
             );

@@ -1,16 +1,16 @@
 describe('LineItem', function() {
 
-    var LineItem, requisitionLineItem, requisition, program, calculations, template;
+    var LineItem, requisitionLineItem, requisition, program, calculationFactory, template;
 
     beforeEach(function() {
         module('requisition');
 
-        calculations = jasmine.createSpyObj('calculations', ['totalCost', 'adjustedConsumption']);
-        calculations.totalCost.andReturn(20);
+        calculationFactory = jasmine.createSpyObj('calculationFactory', ['totalCost', 'adjustedConsumption']);
+        calculationFactory.totalCost.andReturn(20);
 
         module(function($provide) {
-            $provide.factory('calculations', function() {
-                return calculations;
+            $provide.factory('calculationFactory', function() {
+                return calculationFactory;
             });
         });
 
@@ -126,14 +126,14 @@ describe('LineItem', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.updateFieldValue(requisition.$template.columns[3], requisition);
 
-            expect(calculations.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition);
+            expect(calculationFactory.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition);
         });
 
         it('should call proper calculation method when column name is calculated and not Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
 
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItem, requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItem, requisition);
         });
     });
 

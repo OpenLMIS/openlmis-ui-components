@@ -13,9 +13,9 @@
         .module('requisition-validation')
         .factory('requisitionValidator', requisitionValidator);
 
-    requisitionValidator.$inject = ['validations', 'calculations', 'Columns', 'Source'];
+    requisitionValidator.$inject = ['validations', 'calculationFactory', 'Columns', 'Source'];
 
-    function requisitionValidator(validations, calculations, Columns, Source) {
+    function requisitionValidator(validations, calculationFactory, Columns, Source) {
 
         var validationsToPass = {
             stockOnHand: [
@@ -127,7 +127,7 @@
             });
 
             if (shouldValidateCalculation(lineItem, column, columns)) {
-                error = error || validateCalculation(calculations[name], lineItem, name);
+                error = error || validateCalculation(calculationFactory[name], lineItem, name);
             }
 
             return !(lineItem.$errors[name] = error);
@@ -155,7 +155,7 @@
 
         function shouldValidateCalculation(lineItem, column, columns) {
             var counterpart = getCounterpart(columns, column.name);
-            return calculations[column.name]
+            return calculationFactory[column.name]
                     && !isCalculated(column)
                     && counterpart
                     && !isCalculated(counterpart);

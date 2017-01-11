@@ -1,6 +1,6 @@
 describe('RequisitionSummaryController', function() {
 
-    var $filter, calculations, lineItems, vm;
+    var $filter, calculationFactory, lineItems, vm;
 
     beforeEach(function() {
 
@@ -13,11 +13,11 @@ describe('RequisitionSummaryController', function() {
             createLineItem(6, 2.3, false, false)
         ];
 
-        inject(function(_$filter_, _calculations_, $controller) {
+        inject(function(_$filter_, _calculationFactory_, $controller) {
             $filter = _$filter_;
 
-            calculations = _calculations_;
-            spyOn(calculations, 'totalCost').andCallThrough();
+            calculationFactory = _calculationFactory_;
+            spyOn(calculationFactory, 'totalCost').andCallThrough();
 
             vm = $controller('RequisitionSummaryController');
             vm.requisition = {
@@ -36,10 +36,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include full supply line items', function() {
             vm.calculateFullSupplyCost();
 
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[0]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[1]);
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[3]);
         });
 
         it('should skip skipped lineItems', function() {
@@ -47,7 +47,7 @@ describe('RequisitionSummaryController', function() {
 
             vm.calculateFullSupplyCost();
 
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
         });
 
     });
@@ -61,10 +61,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include non full supply line items', function() {
             vm.calculateNonFullSupplyCost();
 
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[1]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[2]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[1]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3]);
         });
 
         it('should skip skipped line items', function() {
@@ -72,7 +72,7 @@ describe('RequisitionSummaryController', function() {
 
             vm.calculateNonFullSupplyCost();
 
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
         });
 
     });
@@ -86,10 +86,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include all non-skipped line items', function() {
             vm.calculateTotalCost();
 
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[0]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[1]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[2]);
-            expect(calculations.totalCost).toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3]);
         });
 
         it('should skip skipped line items', function() {
@@ -98,8 +98,8 @@ describe('RequisitionSummaryController', function() {
 
             vm.calculateTotalCost();
 
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
-            expect(calculations.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
         });
 
     });

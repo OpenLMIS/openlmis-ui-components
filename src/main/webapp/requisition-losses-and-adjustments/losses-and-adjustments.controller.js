@@ -6,9 +6,9 @@
         .module('requisition-losses-and-adjustments')
         .controller('LossesAndAdjustmentsCtrl', lossesAndAdjustmentsCtrl);
 
-    lossesAndAdjustmentsCtrl.$inject = ['$scope', '$filter', 'calculations'];
+    lossesAndAdjustmentsCtrl.$inject = ['$scope', '$filter', 'calculationFactory'];
 
-    function lossesAndAdjustmentsCtrl($scope, $filter, calculations) {
+    function lossesAndAdjustmentsCtrl($scope, $filter, calculationFactory) {
         var vm = this;
 
         vm.lineItem = $scope.lineItem;
@@ -48,7 +48,7 @@
         }
 
         function getTotal() {
-            return calculations.totalLossesAndAdjustments(vm.lineItem, vm.reasons);
+            return calculationFactory.totalLossesAndAdjustments(vm.lineItem, vm.reasons);
         }
     }
 

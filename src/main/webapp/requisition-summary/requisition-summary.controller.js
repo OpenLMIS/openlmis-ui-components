@@ -13,9 +13,9 @@
         .module('requisition-summary')
         .controller('RequisitionSummaryController', controller);
 
-    controller.$inject = ['$filter', 'calculations'];
+    controller.$inject = ['$filter', 'calculationFactory'];
 
-    function controller($filter, calculations) {
+    function controller($filter, calculationFactory) {
         var vm = this;
 
         vm.calculateFullSupplyCost = calculateFullSupplyCost;
@@ -76,7 +76,7 @@
 
             getLineItems(fullSupply).forEach(function(lineItem) {
                 if (!lineItem.skipped) {
-                    sum += calculations.totalCost(lineItem);
+                    sum += calculationFactory.totalCost(lineItem);
                 }
             });
 

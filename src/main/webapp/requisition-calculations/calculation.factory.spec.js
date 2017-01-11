@@ -1,11 +1,11 @@
-describe('calculations', function() {
+describe('calculationFactory', function() {
 
-    var calculations, Status, lineItem;
+    var calculationFactory, Status, lineItem;
 
     beforeEach(module('requisition-calculations'));
 
-    var lineItemInject = inject(function(_calculations_, _Status_) {
-        calculations = _calculations_;
+    var lineItemInject = inject(function(_calculationFactory_, _Status_) {
+        calculationFactory = _calculationFactory_;
         Status = _Status_;
 
         lineItem = {
@@ -24,19 +24,19 @@ describe('calculations', function() {
         it('should return zero if pack size is zero', function() {
             lineItem.orderableProduct.packSize = 0;
 
-            expect(calculations.packsToShip(lineItem)).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem)).toBe(0);
         });
 
         it('should return zero if approved quantity is zero', function() {
             lineItem.approvedQuantity = 0;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.AUTHORIZED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.AUTHORIZED})).toBe(0);
         });
 
         it('should return zero if requested quantity is zero', function() {
             lineItem.requestedQuantity = 0;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
         });
 
         it('should not round packs to ship if threshold is not exceeded', function() {
@@ -44,7 +44,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 6;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
         });
 
         it ('should round packs to ship if threshold is exceeded', function() {
@@ -52,7 +52,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 4;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(2);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(2);
         });
 
         it ('should return zero if round to zero is set', function() {
@@ -61,7 +61,7 @@ describe('calculations', function() {
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = true;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
         });
 
         it ('should return one if round to zero is not set', function() {
@@ -70,43 +70,43 @@ describe('calculations', function() {
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = false;
 
-            expect(calculations.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
+            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
         });
 
         it ('should calculate total properly', function() {
-            expect(calculations.total(lineItem)).toBe(30);
+            expect(calculationFactory.total(lineItem)).toBe(30);
         });
 
         it ('should calculate stock on hand properly', function() {
-            expect(calculations.stockOnHand(lineItem)).toBe(40);
+            expect(calculationFactory.stockOnHand(lineItem)).toBe(40);
         });
 
         it ('should calculate total consumed quantity', function() {
-            expect(calculations.totalConsumedQuantity(lineItem)).toBe(50);
+            expect(calculationFactory.totalConsumedQuantity(lineItem)).toBe(50);
         });
 
         it ('should calculate total cost', function() {
             lineItem.pricePerPack = 30.20;
             lineItem.packsToShip = 4;
 
-            expect(calculations.totalCost(lineItem)).toBe(120.8);
+            expect(calculationFactory.totalCost(lineItem)).toBe(120.8);
         });
 
         it ('should calculate zero total cost if value missing', function() {
             lineItem.pricePerPack = undefined;
             lineItem.packsToShip = 4;
 
-            expect(calculations.totalCost(lineItem)).toBe(0);
+            expect(calculationFactory.totalCost(lineItem)).toBe(0);
 
             lineItem.pricePerPack = 4;
             lineItem.packsToShip = undefined;
 
-            expect(calculations.totalCost(lineItem)).toBe(0);
+            expect(calculationFactory.totalCost(lineItem)).toBe(0);
 
             lineItem.pricePerPack = undefined;
             lineItem.packsToShip = undefined;
 
-            expect(calculations.totalCost(lineItem)).toBe(0);
+            expect(calculationFactory.totalCost(lineItem)).toBe(0);
         });
 
     });
@@ -126,7 +126,7 @@ describe('calculations', function() {
         beforeEach(lineItemInject);
 
         it ('should return zero when calculating totalLossesAndAdjustments and no reason present', function() {
-            expect(calculations.totalLossesAndAdjustments(lineItem, {})).toBe(0);
+            expect(calculationFactory.totalLossesAndAdjustments(lineItem, {})).toBe(0);
         });
 
         it ('should use positive values when calculating totalLossesAndAdjustments and additive parameter is true', function() {
@@ -139,7 +139,7 @@ describe('calculations', function() {
                     quantity:1
                 }
             ];
-            expect(calculations.totalLossesAndAdjustments(lineItem, {})).toBe(11);
+            expect(calculationFactory.totalLossesAndAdjustments(lineItem, {})).toBe(11);
         });
 
         it ('should use negative values when calculating totalLossesAndAdjustments and additive parameter is false', function() {
@@ -152,7 +152,7 @@ describe('calculations', function() {
                     quantity:1
                 }
             ];
-            expect(calculations.totalLossesAndAdjustments(lineItem, {})).toBe(-11);
+            expect(calculationFactory.totalLossesAndAdjustments(lineItem, {})).toBe(-11);
         });
     });
 
@@ -164,17 +164,17 @@ describe('calculations', function() {
 
         it('should return total consumed quantity when non-stockout days is zero', function() {
             lineItem.totalStockoutDays = 30;
-            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(lineItem.totalConsumedQuantity);
+            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(lineItem.totalConsumedQuantity);
         });
 
         it('should return zero when consumed quantity is not defined', function() {
             lineItem.totalConsumedQuantity = 0;
-            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(0);
+            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(0);
         });
 
         it('should calculate adjusted consumption', function() {
             lineItem.totalStockoutDays = 15;
-            expect(calculations.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(30);
+            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(30);
         });
     });
 });
