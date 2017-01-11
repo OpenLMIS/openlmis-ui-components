@@ -6,11 +6,11 @@
         .module('requisition-initiate')
         .factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'requisitionUrlFactory', 'RequisitionService', 'messageService',
+    periodFactory.$inject = ['$resource', 'requisitionUrlFactory', 'requisitionService', 'messageService',
         '$q', 'dateUtils', 'Status'
     ];
 
-    function periodFactory($resource, requisitionUrlFactory, RequisitionService, messageService, $q,
+    function periodFactory($resource, requisitionUrlFactory, requisitionService, messageService, $q,
         dateUtils, Status) {
 
         var resource = $resource(requisitionUrlFactory('/api/requisitions/periodsForInitiate'), {}, {
@@ -55,7 +55,7 @@
             return deferred.promise;
 
             function search(lineItems) {
-                RequisitionService.search(false, {
+                requisitionService.search(false, {
                     program: programId,
                     facility: facilityId
                 }).then(function(data) {
@@ -83,7 +83,7 @@
             var statuses = [Status.INITIATED, Status.SUBMITTED],
                 deferred = $q.defer();
 
-            RequisitionService.search(false, {
+            requisitionService.search(false, {
                 program: programId,
                 facility: facilityId,
                 requisitionStatus: statuses,

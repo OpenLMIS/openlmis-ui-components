@@ -24,11 +24,11 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$rootScope', '$state', 'facilityList', 'RequisitionService', 'Status', 'dateUtils',
+        '$rootScope', '$state', 'facilityList', 'requisitionService', 'Status', 'dateUtils',
         'loadingModalService', 'notificationService', 'offlineService'
     ];
 
-    function RequisitionSearchController($rootScope, $state, facilityList, RequisitionService,
+    function RequisitionSearchController($rootScope, $state, facilityList, requisitionService,
                                          Status, dateUtils, loadingModalService,
                                          notificationService, offlineService) {
 
@@ -103,7 +103,7 @@
             if (vm.selectedFacility) {
                 vm.error = null;
                 loadingModalService.open();
-                RequisitionService.search(vm.searchOffline, {
+                requisitionService.search(vm.searchOffline, {
                         program: vm.selectedProgram ? vm.selectedProgram.id : null,
                         facility: vm.selectedFacility ? vm.selectedFacility.id : null,
                         createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,

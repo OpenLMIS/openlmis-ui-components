@@ -21,10 +21,10 @@
                 RequisitionRights.REQUISITION_APPROVE,
                 RequisitionRights.REQUISITION_CONVERT_TO_ORDER],
             resolve: {
-                requisition: function ($location, $q, $stateParams, RequisitionService) {
+                requisition: function ($location, $q, $stateParams, requisitionService) {
                     var deferred = $q.defer();
 
-                    RequisitionService.get($stateParams.rnr).then(function(response) {
+                    requisitionService.get($stateParams.rnr).then(function(response) {
                         deferred.resolve(response);
                     }, function(response) {
                         deferred.reject();

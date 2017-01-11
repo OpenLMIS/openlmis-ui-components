@@ -25,13 +25,13 @@
 
     RequisitionInitiateCtrl.$inject = [
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
-        'RequisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService',
+        'requisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'RequisitionRights',
         'SupervisedFacilities'
     ];
 
     function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms,
-                                     homePrograms, PeriodFactory, RequisitionService, $state,
+                                     homePrograms, PeriodFactory, requisitionService, $state,
                                      dateUtils, Status, loadingModalService, notificationService,
                                      authorizationService, $q, RequisitionRights,
                                      SupervisedFacilities) {
@@ -231,7 +231,7 @@
             vm.error = '';
             if (!selectedPeriod.rnrId ||
             selectedPeriod.rnrStatus == messageService.get('msg.rnr.not.started')){
-                RequisitionService.initiate(vm.selectedFacilityId,
+                requisitionService.initiate(vm.selectedFacilityId,
                 vm.selectedProgramId,
                 selectedPeriod.id,
                 vm.emergency).then(

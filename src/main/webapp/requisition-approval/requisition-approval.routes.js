@@ -19,8 +19,8 @@
 			templateUrl: 'requisition-approval/requisition-approval-list.html',
 			accessRights: [RequisitionRights.REQUISITION_APPROVE],
 			resolve: {
-		        requisitionList: function (RequisitionService) {
-                    return RequisitionService.forApproval();
+		        requisitionList: function (requisitionService) {
+                    return requisitionService.forApproval();
 		        }
 		    }
 		});

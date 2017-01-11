@@ -57,10 +57,10 @@ describe('RequisitionSearchController', function() {
         }];
 
         inject(function ($httpBackend, $rootScope, $controller, Status, requisitionUrlFactory,
-                         _notificationService_, RequisitionService, $q) {
+                         _notificationService_, requisitionService, $q) {
 
             var response = $q.when(requisitionList);
-            spyOn(RequisitionService, 'search').andReturn(response);
+            spyOn(requisitionService, 'search').andReturn(response);
 
             rootScope = $rootScope;
             httpBackend = $httpBackend;

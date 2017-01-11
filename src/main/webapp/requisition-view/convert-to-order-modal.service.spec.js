@@ -33,11 +33,11 @@ describe("ConvertToOrderModal", function(){
     beforeEach(module('requisition-view'));
 
     beforeEach(inject(function(_ConvertToOrderModal_, _$ngBootbox_, _$rootScope_,
-    _RequisitionService_, _$q_){
+    _requisitionService_, _$q_){
         convertToOrderModal = _ConvertToOrderModal_;
         ngBootbox = _$ngBootbox_;
         rootScope = _$rootScope_;
-        requisitionService = _RequisitionService_;
+        requisitionService = _requisitionService_;
         q = _$q_;
     }));
 

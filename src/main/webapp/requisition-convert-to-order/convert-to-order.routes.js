@@ -27,8 +27,8 @@
             }
         });
 
-        function requisitionsResolve($stateParams, RequisitionService) {
-            return RequisitionService.forConvert({
+        function requisitionsResolve($stateParams, requisitionService) {
+            return requisitionService.forConvert({
                 filterBy: $stateParams.filterBy,
                 filterValue: $stateParams.filterValue,
                 sortBy: $stateParams.sortBy,

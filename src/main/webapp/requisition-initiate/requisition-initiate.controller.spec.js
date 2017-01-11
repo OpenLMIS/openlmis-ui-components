@@ -5,12 +5,12 @@ describe("RequisitionInitiateCtrl", function(){
 
     beforeEach(module('requisition-initiate'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _PeriodFactory_,
-    _$state_, _RequisitionService_, _authorizationService_, _SupervisedFacilities_) {
+    _$state_, _requisitionService_, _authorizationService_, _SupervisedFacilities_) {
 
         rootScope = $rootScope;
         periodFactory =_PeriodFactory_;
         $state = _$state_;
-        requisitionService = _RequisitionService_;
+        requisitionService = _requisitionService_;
         authorizationService = _authorizationService_;
         supervisedFacilities = _SupervisedFacilities_;
         $q = _$q_;
@@ -30,7 +30,7 @@ describe("RequisitionInitiateCtrl", function(){
         spyOn(periodFactory, 'get').andReturn($q.when(period));
 
         vm = $controller('RequisitionInitiateCtrl', {facility: facility, user: user, supervisedPrograms: programs,
-            homePrograms: programs, PeriodFactory: periodFactory, RequisitionService: requisitionService});
+            homePrograms: programs, PeriodFactory: periodFactory, requisitionService: requisitionService});
     }));
 
     it("should assign proper values when facility is assigned", function() {

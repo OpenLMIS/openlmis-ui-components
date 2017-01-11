@@ -5,12 +5,12 @@ describe('ConvertToOrderCtrl', function(){
     beforeEach( function() {
         module('requisition-convert-to-order');
 
-        inject(function ($controller, $rootScope, _$state_, _$q_, _RequisitionService_,
+        inject(function ($controller, $rootScope, _$state_, _$q_, _requisitionService_,
                          _notificationService_) {
 
         rootScope = $rootScope;
         state = _$state_;
-        requisitionService = _RequisitionService_;
+        requisitionService = _requisitionService_;
         notificationService = _notificationService_;
         q = _$q_;
 

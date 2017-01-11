@@ -25,10 +25,10 @@
 		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = [
-        '$state', '$stateParams', 'requisitions', 'RequisitionService', 'notificationService'
+        '$state', '$stateParams', 'requisitions', 'requisitionService', 'notificationService'
     ];
 
-	function convertToOrderCtrl($state, $stateParams, requisitions, RequisitionService,
+	function convertToOrderCtrl($state, $stateParams, requisitions, requisitionService,
                                 notificationService) {
 
 	    var vm = this;
@@ -205,7 +205,7 @@
         function convertToOrder() {
             var requisitions = getSelected();
             if (requisitions.length > 0) {
-                RequisitionService.convertToOrder(requisitions).then(reload);
+                requisitionService.convertToOrder(requisitions).then(reload);
             } else {
                 notificationService.error('msg.select.at.least.one.rnr');
             }

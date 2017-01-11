@@ -7,7 +7,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('RequisitionService', function() {
+describe('requisitionService', function() {
 
     var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
         allStatuses, requisitionUrlFactory, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions,
@@ -113,13 +113,13 @@ describe('RequisitionService', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, _requisitionUrlFactory_,
+        inject(function(_$httpBackend_, _$rootScope_, _requisitionService_, _requisitionUrlFactory_,
                         openlmisUrlFactory, Status, RequisitionFactory, _dateUtils_, $q,
                         $templateCache) {
 
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
-            requisitionService = RequisitionService;
+            requisitionService = _requisitionService_;
             allStatuses = Status.$toList();
             requisitionFactory = RequisitionFactory;
             dateUtils = _dateUtils_;

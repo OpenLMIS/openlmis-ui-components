@@ -4,22 +4,22 @@
 
     /**
      * @ngdoc service
-     * @name requisition.RequisitionService
+     * @name requisition.requisitionService
      *
      * @description
      * Responsible for retriving all information from server.
      */
     angular
         .module('requisition')
-        .service('RequisitionService', requisitionService);
+        .service('requisitionService', service);
 
-    requisitionService.$inject = [
-        '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionFactory',
-        'confirmService', 'notificationService', 'dateUtils', 'localStorageFactory',
-        'offlineService'
+    service.$inject = [
+        '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory',
+        'RequisitionFactory', 'confirmService', 'notificationService', 'dateUtils',
+        'localStorageFactory', 'offlineService'
     ];
 
-    function requisitionService($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
+    function service($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
                                 RequisitionFactory, confirmService, notificationService, dateUtils,
                                 localStorageFactory, offlineService) {
 
@@ -87,7 +87,7 @@
         /**
          * @ngdoc function
          * @name get
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @param {String} id Requisition UUID
          * @return {Promise} requisition promise
          *
@@ -164,7 +164,7 @@
         /**
          * @ngdoc function
          * @name initiate
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @param {String} facility Facility UUID
          * @param {String} program Program UUID
          * @param {String} suggestedPeriod Period UUID
@@ -187,7 +187,7 @@
         /**
          * @ngdoc function
          * @name search
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @param {boolean} offline Indicates if searching in offline requisitions
          * @param {Object} searchParams Contains parameters for searching requisitions, i.e.
          * {
@@ -232,7 +232,7 @@
         /**
          * @ngdoc function
          * @name forApproval
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @return {Array} Array of requisitions for approval
          *
          * @description
@@ -246,7 +246,7 @@
         /**
          * @ngdoc function
          * @name forConvert
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @param {Object} params Request params, contains i.e.: filertBy, filterValue, sortBy, descending
          * @return {Array} Array of requisitions for convert
          *
@@ -261,7 +261,7 @@
         /**
          * @ngdoc function
          * @name convertToOrder
-         * @methodOf requisition.RequisitionService
+         * @methodOf requisition.requisitionService
          * @param {Array} requisitions Array of requisitions to convert
          *
          * @description
