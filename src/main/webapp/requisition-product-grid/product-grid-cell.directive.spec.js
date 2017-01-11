@@ -22,14 +22,14 @@ describe('ProductGridCell', function() {
 
     beforeEach(function() {
 
-        inject(function($compile, $rootScope, Type, _COLUMN_SOURCES_) {
+        inject(function($compile, $rootScope, COLUMN_TYPES, _COLUMN_SOURCES_) {
             compile = $compile;
             scope = $rootScope.$new();
             COLUMN_SOURCES = _COLUMN_SOURCES_;
             scope.requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);
 
             scope.column = {
-                type: Type.NUMERIC,
+                type: COLUMN_TYPES.NUMERIC,
                 name: "beginningBalance",
                 source: COLUMN_SOURCES.USER_INPUT
             };

@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-constants')
-        .constant('Type', type());
+        .constant('COLUMN_TYPES', type());
 
     function type() {
         return {

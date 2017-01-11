@@ -22,11 +22,11 @@
 
 	productGridCell.$inject = [
 		'$q', '$templateRequest', '$compile', 'requisitionValidator', 'TEMPLATE_COLUMNS',
-		'COLUMN_SOURCES', 'Type'
+		'COLUMN_SOURCES', 'COLUMN_TYPES'
 	];
 
 	function productGridCell($q, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
-							 COLUMN_SOURCES, Type) {
+							 COLUMN_SOURCES, COLUMN_TYPES) {
 
     	var directive = {
       		restrict: 'A',
@@ -53,7 +53,7 @@
 
 			$templateRequest('requisition-product-grid/product-grid-cell.html').then(function(template) {
 				var cell = angular.element(template);
-				if (column.type === Type.NUMERIC && !scope.isReadOnly) {
+				if (column.type === COLUMN_TYPES.NUMERIC && !scope.isReadOnly) {
 					cell.find('input').attr('positive-integer', '');
 				}
 				element.replaceWith($compile(cell)(scope));

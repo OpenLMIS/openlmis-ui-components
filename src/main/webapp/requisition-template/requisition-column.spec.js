@@ -1,19 +1,19 @@
 describe('RequisitionColumn', function() {
 
-    var RequisitionColumn, REQUISITION_STATUS, TEMPLATE_COLUMNS, COLUMN_SOURCES, Type;
+    var RequisitionColumn, REQUISITION_STATUS, TEMPLATE_COLUMNS, COLUMN_SOURCES, COLUMN_TYPES;
 
     var columnDef, requisition;
 
     beforeEach(module('requisition-template'));
 
     beforeEach(inject(function(_RequisitionColumn_, _REQUISITION_STATUS_, _TEMPLATE_COLUMNS_,
-                               _COLUMN_SOURCES_, _Type_) {
+                               _COLUMN_SOURCES_, _COLUMN_TYPES_) {
 
         RequisitionColumn = _RequisitionColumn_;
         REQUISITION_STATUS = _REQUISITION_STATUS_;
         TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
         COLUMN_SOURCES = _COLUMN_SOURCES_;
-        Type = _Type_;
+        COLUMN_TYPES = _COLUMN_TYPES_;
     }));
 
     beforeEach(function() {
@@ -24,7 +24,7 @@ describe('RequisitionColumn', function() {
             isDisplayed: true,
             displayOrder: 1,
             columnDefinition: {
-                columnType: Type.NUMERIC
+                columnType: COLUMN_TYPES.NUMERIC
             }
         };
         requisition = {
@@ -37,7 +37,7 @@ describe('RequisitionColumn', function() {
 
         expect(column.name).toBe(TEMPLATE_COLUMNS.STOCK_ON_HAND);
         expect(column.source).toBe(COLUMN_SOURCES.CALCULATED);
-        expect(column.type).toBe(Type.NUMERIC);
+        expect(column.type).toBe(COLUMN_TYPES.NUMERIC);
         expect(column.label).toBe('Stock on Hand');
         expect(column.display).toBe(true);
         expect(column.displayOrder).toBe(1);
