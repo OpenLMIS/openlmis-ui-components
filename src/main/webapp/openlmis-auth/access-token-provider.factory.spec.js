@@ -137,7 +137,7 @@ describe('accessTokenProvider', function() {
 
     function mockOpenlmisUrlService($provide) {
         var openlmisUrlServiceMock = jasmine.createSpyObj('openlmisUrlService', ['check']);
-        $provide.factory('OpenlmisURLService', function() {
+        $provide.factory('openlmisUrlService', function() {
             return openlmisUrlServiceMock;
         });
         return openlmisUrlServiceMock;

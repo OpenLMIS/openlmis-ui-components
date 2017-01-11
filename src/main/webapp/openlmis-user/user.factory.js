@@ -13,13 +13,13 @@
      */
     angular.module('openlmis-user').factory('UserFactory', userFactory);
 
-    userFactory.$inject = ['OpenlmisURL', '$resource'];
+    userFactory.$inject = ['openlmisUrlFactory', '$resource'];
 
-    function userFactory(OpenlmisURL, $resource) {
+    function userFactory(openlmisUrlFactory, $resource) {
 
-        var resource = $resource(OpenlmisURL('/api/users/:id'), {}, {
+        var resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
             'update': {
-                url: OpenlmisURL('/api/users/update/:id'),
+                url: openlmisUrlFactory('/api/users/update/:id'),
                 method: 'POST'
             }
         });

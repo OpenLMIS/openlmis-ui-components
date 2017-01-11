@@ -14,12 +14,12 @@
         .service('RequisitionService', requisitionService);
 
     requisitionService.$inject = [
-        '$q', '$resource', 'messageService', 'OpenlmisURL', 'RequisitionURL', 'RequisitionFactory',
+        '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'RequisitionURL', 'RequisitionFactory',
         'confirmService', 'notificationService', 'dateUtils', 'localStorageFactory',
         'offlineService'
     ];
 
-    function requisitionService($q, $resource, messageService, OpenlmisURL, RequisitionURL,
+    function requisitionService($q, $resource, messageService, openlmisUrlFactory, RequisitionURL,
                                 RequisitionFactory, confirmService, notificationService, dateUtils,
                                 localStorageFactory, offlineService) {
 
@@ -62,12 +62,12 @@
                 transformRequest: transformRequest
             },
             'getApprovedProducts': {
-                url: OpenlmisURL('/api/facilities/:id/approvedProducts'),
+                url: openlmisUrlFactory('/api/facilities/:id/approvedProducts'),
                 method: 'GET',
                 isArray: true
             },
             'getStockAdjustmentReasonsByProgram': {
-                url: OpenlmisURL('/api/stockAdjustmentReasons/search'),
+                url: openlmisUrlFactory('/api/stockAdjustmentReasons/search'),
                 method: 'GET',
                 isArray: true
             }

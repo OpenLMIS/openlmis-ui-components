@@ -13,12 +13,12 @@
         .module('requisition')
         .factory('RequisitionFactory', requisitionFactory);
 
-    requisitionFactory.$inject = ['$q', '$resource', 'OpenlmisURL', 'RequisitionURL',
+    requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'RequisitionURL',
         'RequisitionTemplate', 'LineItem', 'CategoryFactory', 'Status', 'Source',
         'localStorageFactory', 'offlineService'
     ];
 
-    function requisitionFactory($q, $resource, OpenlmisURL, RequisitionURL, RequisitionTemplate,
+    function requisitionFactory($q, $resource, openlmisUrlFactory, RequisitionURL, RequisitionTemplate,
         LineItem, CategoryFactory, Status, Source, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),

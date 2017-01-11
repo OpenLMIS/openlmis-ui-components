@@ -15,7 +15,7 @@ describe("authUrl", function () {
   beforeEach(module('openlmis-auth'));
 
   beforeEach(module(function($provide){
-    $provide.factory('OpenlmisURL', function(){
+    $provide.factory('openlmisUrlFactory', function(){
       return function(url){
         return '/' + url;
       }

@@ -13,12 +13,12 @@
 		.module('requisition-search')
 	    .service('FacilityService', FacilityService);
 
-    FacilityService.$inject = ['$q', '$resource', 'OpenlmisURL', 'offlineService', 'localStorageFactory'];
+    FacilityService.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory'];
 
-    function FacilityService($q, $resource, OpenlmisURL, offlineService, localStorageFactory) {
-        var resource = $resource(OpenlmisURL('/api/facilities/:id'), {}, {
+    function FacilityService($q, $resource, openlmisUrlFactory, offlineService, localStorageFactory) {
+        var resource = $resource(openlmisUrlFactory('/api/facilities/:id'), {}, {
             'getAll': {
-                url: OpenlmisURL('/api/facilities/'),
+                url: openlmisUrlFactory('/api/facilities/'),
                 method: 'GET',
                 isArray: true
             }

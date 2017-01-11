@@ -96,12 +96,12 @@ describe('RequisitionFactory', function() {
         spyOn(CategoryFactory, 'groupProducts').andReturn([]);
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, OpenlmisURL, Status, $q){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, openlmisUrlFactory, Status, $q){
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         requisitionFactory = RequisitionFactory;
         requisitionUrl = RequisitionURL;
-        openlmisUrl = OpenlmisURL;
+        openlmisUrl = openlmisUrlFactory;
         allStatuses = Status;
         q = $q;
 

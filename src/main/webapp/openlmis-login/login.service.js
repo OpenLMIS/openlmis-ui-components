@@ -13,10 +13,10 @@
         .module('openlmis-login')
         .service('loginService', loginService);
 
-    loginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'OpenlmisURL', 'authorizationService',
+    loginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'openlmisUrlFactory', 'authorizationService',
                             'Right', '$state'];
 
-    function loginService($rootScope, $q, $http, authUrl, OpenlmisURL, authorizationService, Right, $state) {
+    function loginService($rootScope, $q, $http, authUrl, openlmisUrlFactory, authorizationService, Right, $state) {
 
         this.login = login;
         this.logout = logout;
@@ -152,7 +152,7 @@
             if(!authorizationService.isAuthenticated()) {
                 deferred.reject();
             } else {
-                var userRoleAssignmentsURL = OpenlmisURL(
+                var userRoleAssignmentsURL = openlmisUrlFactory(
                     '/api/users/' + userId + '/roleAssignments'
                 );
                 $http({
@@ -183,7 +183,7 @@
          * @returns {Promise} Forgot password promise
          */
         function forgotPassword(email) {
-            var forgotPasswordURL = OpenlmisURL('/api/users/forgotPassword?email=' + email);
+            var forgotPasswordURL = openlmisUrlFactory('/api/users/forgotPassword?email=' + email);
 
             return $http({
                 method: 'POST',
@@ -207,7 +207,7 @@
          * @returns {Promise} Resolves when password is changed successfully.
          */
         function changePassword(newPassword, token) {
-            var changePasswordURL = OpenlmisURL('/api/users/changePassword'),
+            var changePasswordURL = openlmisUrlFactory('/api/users/changePassword'),
                 data = {
                     token: token,
                     newPassword: newPassword

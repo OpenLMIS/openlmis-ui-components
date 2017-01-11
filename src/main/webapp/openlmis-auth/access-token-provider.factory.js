@@ -24,10 +24,10 @@
         .factory('accessTokenProvider', provider);
 
     provider.$inject = [
-        '$q', '$injector', 'OpenlmisURLService', 'authorizationService', 'accessTokenFactory'
+        '$q', '$injector', 'openlmisUrlService', 'authorizationService', 'accessTokenFactory'
     ];
 
-    function provider($q, $injector, OpenlmisURLService, authorizationService,
+    function provider($q, $injector, openlmisUrlService, authorizationService,
                      accessTokenFactory) {
 
         var provider = {
@@ -46,11 +46,11 @@
          * @return {object} A modified configuration object
          *
          * @description
-         * Checks the request config url with OpenlmisURLService, and if there is a match an access
+         * Checks the request config url with openlmisUrlService, and if there is a match an access
          * token is added to the url
          */
         function request(config) {
-            if(OpenlmisURLService.check(config.url) && authorizationService.isAuthenticated()
+            if(openlmisUrlService.check(config.url) && authorizationService.isAuthenticated()
                     // we don't want to add the token to template requests
                     && !isHtml(config.url)) {
                 config.url = accessTokenFactory.addAccessToken(config.url);

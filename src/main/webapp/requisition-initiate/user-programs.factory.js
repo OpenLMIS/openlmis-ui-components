@@ -22,12 +22,12 @@
         .module('requisition-initiate')
         .factory('UserPrograms', factory);
 
-    factory.$inject = ['OpenlmisURL', '$q', '$http'];
+    factory.$inject = ['openlmisUrlFactory', '$q', '$http'];
 
-    function factory(OpenlmisURL, $q, $http){
+    function factory(openlmisUrlFactory, $q, $http){
         return function(id, isForHomeFacility) {
             var deferred = $q.defer();
-            var programsUrl = OpenlmisURL('api/users/' + id + '/programs');
+            var programsUrl = openlmisUrlFactory('api/users/' + id + '/programs');
             $http({
                 method: 'GET',
                 url: programsUrl,

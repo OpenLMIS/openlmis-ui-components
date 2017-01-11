@@ -25,11 +25,11 @@ describe('FacilityService', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _OpenlmisURL_, _$q_, _offlineService_, _localStorageFactory_, _FacilityService_) {
+        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _offlineService_, _localStorageFactory_, _FacilityService_) {
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $q = _$q_;
-            OpenlmisUrl = _OpenlmisURL_;
+            OpenlmisUrl = _openlmisUrlFactory_;
             offlineService = _offlineService_;
             FacilityService = _FacilityService_;
         });

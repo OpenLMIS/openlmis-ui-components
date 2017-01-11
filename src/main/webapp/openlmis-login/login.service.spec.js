@@ -20,7 +20,7 @@ describe("loginService", function() {
                     return pathFactory('', url);
                 };
             });
-            $provide.factory('OpenlmisURL', function(pathFactory){
+            $provide.factory('openlmisUrlFactory', function(pathFactory){
                return function(url){
                    return pathFactory('', url);
                };

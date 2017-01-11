@@ -6,9 +6,9 @@
         .module('requisition')
         .factory('RequisitionURL', RequisitionUrl);
 
-    RequisitionUrl.$inject = ['OpenlmisURL', 'pathFactory'];
+    RequisitionUrl.$inject = ['openlmisUrlFactory', 'pathFactory'];
 
-    function RequisitionUrl(OpenlmisURL, pathFactory) {
+    function RequisitionUrl(openlmisUrlFactory, pathFactory) {
 
         var requisitionUrl = "@@REQUISITION_SERVICE_URL";
 
@@ -18,7 +18,7 @@
 
         return function(url) {
             url = pathFactory(requisitionUrl, url);
-            return OpenlmisURL(url);
+            return openlmisUrlFactory(url);
         }
     }
 

@@ -69,10 +69,10 @@ describe('templateFactory', function() {
     	});
     }));
 
-    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, OpenlmisURL, $q) {
+    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, openlmisUrlFactory, $q) {
         rootScope = $rootScope;
         TemplateFactory = templateFactory;
-        openlmisURL = OpenlmisURL;
+        openlmisURL = openlmisUrlFactory;
         q = $q
 
         template = {

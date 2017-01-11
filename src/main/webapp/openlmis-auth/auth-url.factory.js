@@ -23,9 +23,9 @@
         .module('openlmis-auth')
  		.factory('authUrl', factory);
 
- 	factory.$inject = ['OpenlmisURL', 'pathFactory'];
+ 	factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
 
- 	function factory(OpenlmisURL, pathFactory){
+ 	function factory(openlmisUrlFactory, pathFactory){
 
  		// String that gets replaced by AUTH_SERVICE_URL config variable
  		var authUrl = '@@AUTH_SERVICE_URL';
@@ -39,7 +39,7 @@
 		 */
  		return function(url){
  			url = pathFactory(authUrl, url);
- 			return OpenlmisURL(url);
+ 			return openlmisUrlFactory(url);
  		}
  	}
 

@@ -21,13 +21,13 @@
      */
     angular.module('admin-template').factory('Program', Program);
 
-    Program.$inject = ['OpenlmisURL', '$resource', '$q', 'templateFactory'];
+    Program.$inject = ['openlmisUrlFactory', '$resource', '$q', 'templateFactory'];
 
-    function Program(OpenlmisURL, $resource, $q, templateFactory) {
+    function Program(openlmisUrlFactory, $resource, $q, templateFactory) {
 
-        var resource = $resource(OpenlmisURL('/api/programs/:id'), {}, {
+        var resource = $resource(openlmisUrlFactory('/api/programs/:id'), {}, {
             'getAll': {
-                url: OpenlmisURL('/api/programs'),
+                url: openlmisUrlFactory('/api/programs'),
                 method: 'GET',
                 isArray: true
             }

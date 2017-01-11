@@ -23,12 +23,12 @@
         .module('requisition-initiate')
         .factory('SupervisedFacilities', factory);
 
-    factory.$inject = ['OpenlmisURL', '$q', '$http'];
+    factory.$inject = ['openlmisUrlFactory', '$q', '$http'];
 
-    function factory(OpenlmisURL, $q, $http){
+    function factory(openlmisUrlFactory, $q, $http){
         return function(id, programId, rightId) {
             var deferred = $q.defer();
-            var facilitiesUrl = OpenlmisURL('api/users/' + id + '/supervisedFacilities');
+            var facilitiesUrl = openlmisUrlFactory('api/users/' + id + '/supervisedFacilities');
             $http({
                 method: 'GET',
                 url: facilitiesUrl,

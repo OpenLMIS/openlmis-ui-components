@@ -25,11 +25,11 @@ describe('Program', function() {
     	});
     }));
 
-    beforeEach(inject(function($httpBackend, $rootScope, Program, OpenlmisURL, $q) {
+    beforeEach(inject(function($httpBackend, $rootScope, Program, openlmisUrlFactory, $q) {
         httpBackend = $httpBackend;
         rootScope = $rootScope;
         programFactory = Program;
-        openlmisURL = OpenlmisURL;
+        openlmisURL = openlmisUrlFactory;
         q = $q;
 
         program1 = {

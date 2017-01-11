@@ -10,68 +10,68 @@
 
 describe("ServerURL", function () {
 
-  var OpenlmisURLService;
+  var openlmisUrlService;
 
   beforeEach(module('openlmis-urls'));
 
-  beforeEach(inject(function (_OpenlmisURLService_) {
-    OpenlmisURLService = _OpenlmisURLService_;
-    OpenlmisURLService.url = "http://localhost";
+  beforeEach(inject(function (_openlmisUrlService_) {
+    openlmisUrlService = _openlmisUrlService_;
+    openlmisUrlService.url = "http://localhost";
   }));
 
   it('format should always return string', function () {
-    var url = OpenlmisURLService.format("/someURL");
+    var url = openlmisUrlService.format("/someURL");
     expect(typeof(url)).toBe("string");
   });
 
   it("should format relative and absolute urls the same", function(){
-    var relativeURL = OpenlmisURLService.format("someURL");
-    var absoluteURL = OpenlmisURLService.format("/someURL");
+    var relativeURL = openlmisUrlService.format("someURL");
+    var absoluteURL = openlmisUrlService.format("/someURL");
 
     expect(relativeURL).toEqual(absoluteURL);
   });
 
   it("can take N-arguments", function(){
-    var url = OpenlmisURLService.format("sample", "url");
+    var url = openlmisUrlService.format("sample", "url");
     expect(url).toEqual("http://localhost/sample/url");
 
-    url = OpenlmisURLService.format("sample", "url", "with/three/arguments");
+    url = openlmisUrlService.format("sample", "url", "with/three/arguments");
     expect(url).toEqual("http://localhost/sample/url/with/three/arguments");
 
-    url = OpenlmisURLService.format("sample", "url", "with", "more", "than", "three/arguments");
+    url = openlmisUrlService.format("sample", "url", "with", "more", "than", "three/arguments");
     expect(url).toEqual("http://localhost/sample/url/with/more/than/three/arguments");
   });
 
   it("won't replace urls that start with http", function(){
-    var url = OpenlmisURLService.format("http://this.is/my", "service");
+    var url = openlmisUrlService.format("http://this.is/my", "service");
     expect(url).toEqual("http://this.is/my/service");
 
-    var url2 = OpenlmisURLService.format("/this/will/be", "prefixed");
+    var url2 = openlmisUrlService.format("/this/will/be", "prefixed");
     expect(url2).toEqual("http://localhost/this/will/be/prefixed");
   });
 
   it("can check urls that belong to the service", function(){
     // Our service
     var url = "http://localhost/sampleURL";
-    var bool = OpenlmisURLService.check(url);
+    var bool = openlmisUrlService.check(url);
     expect(bool).toEqual(true);
 
     // Not our service
     url = "http://www.google.com";
-    bool = OpenlmisURLService.check(url);
+    bool = openlmisUrlService.check(url);
     expect(bool).toEqual(false);
   });
 
   it("records urls to http endpoints and thinks they are a service", function(){
-    OpenlmisURLService.format("http://sample.url");
-    OpenlmisURLService.format("https://more.complicated/url", "with/appended", "sections");
+    openlmisUrlService.format("http://sample.url");
+    openlmisUrlService.format("https://more.complicated/url", "with/appended", "sections");
 
     var url = "http://sample.url/endpoint";
-    var bool = OpenlmisURLService.check(url);
+    var bool = openlmisUrlService.check(url);
     expect(bool).toEqual(true);
 
     url = "https://more.complicated/endpoint";
-    bool = OpenlmisURLService.check(url);
+    bool = openlmisUrlService.check(url);
     expect(bool).toEqual(true);
   });
 

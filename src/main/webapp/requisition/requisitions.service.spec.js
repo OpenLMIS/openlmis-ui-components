@@ -113,7 +113,7 @@ describe('RequisitionService', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, OpenlmisURL,
+        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, openlmisUrlFactory,
                 Status, RequisitionFactory, _dateUtils_, $q, $templateCache) {
 
             httpBackend = _$httpBackend_;
@@ -124,7 +124,7 @@ describe('RequisitionService', function() {
             dateUtils = _dateUtils_;
             q = $q;
             requisitionUrl = RequisitionURL;
-            openlmisUrl = OpenlmisURL;
+            openlmisUrl = openlmisUrlFactory;
 
             $templateCache.put('common/notification-modal.html', "something");
         });

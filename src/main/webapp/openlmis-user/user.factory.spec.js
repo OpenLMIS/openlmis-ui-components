@@ -26,12 +26,12 @@ describe('UserFactory', function() {
         });
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, UserFactory, OpenlmisURL) {
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, UserFactory, openlmisUrlFactory) {
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         userFactory = UserFactory;
 
-        httpBackend.when('GET', OpenlmisURL('/api/users/' + user.id))
+        httpBackend.when('GET', openlmisUrlFactory('/api/users/' + user.id))
         .respond(200, user);
     }));
 
