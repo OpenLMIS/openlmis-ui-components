@@ -92,7 +92,7 @@
          *
          * @return {Boolean} true if the user is authenticated, false otherwise
          */
-        function isAuthenticated() {;
+        function isAuthenticated() {
             return !!getAccessToken();
         }
 

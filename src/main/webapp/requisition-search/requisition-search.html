@@ -13,7 +13,7 @@
             </select>
             <label for=program>{{'label.program' | message}}</label>
             <select id="program" placeholder="{{'label.select.program' | message}}" ng-required
-                    ng-options="program as program.name for program in vm.programs"
+                    ng-options="program as program.program.name for program in vm.programs"
                     ng-model="vm.selectedProgram">
             </select>
             <label>

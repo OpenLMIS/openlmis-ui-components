@@ -12,6 +12,7 @@
         'openlmis-date',
         'openlmis-form',
         'openlmis-modal',
+        'openlmis-referencedata',
         'ui.router'
     ]);
 

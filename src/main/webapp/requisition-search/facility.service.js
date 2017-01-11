@@ -13,9 +13,9 @@
 		.module('requisition-search')
 	    .service('FacilityService', FacilityService);
 
-    FacilityService.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory'];
+    FacilityService.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory', 'SupervisedFacilities', 'authorizationService', 'REQUISITION_RIGHTS'];
 
-    function FacilityService($q, $resource, openlmisUrlFactory, offlineService, localStorageFactory) {
+    function FacilityService($q, $filter, $resource, openlmisUrlFactory, offlineService, localStorageFactory, SupervisedFacilities, authorizationService, REQUISITION_RIGHTS) {
         var resource = $resource(openlmisUrlFactory('/api/facilities/:id'), {}, {
             'getAll': {
                 url: openlmisUrlFactory('/api/facilities/'),
@@ -28,7 +28,8 @@
 
         service = {
             get: get,
-            getAll: getAll
+            getAll: getAll,
+			getSupervisedFacilities: getSupervisedFacilities
         };
         return service;
 
@@ -71,7 +72,7 @@
          *
          * @description
          * Retrieves all facilities. When user is offline it gets facilities from offline storage.
-         * If user is online it stores all facilities into offline storage
+         * If user is online it stores all facilities into offline storage.
          *
          */
         function getAll() {
@@ -89,6 +90,39 @@
 	                deferred.reject();
 	            });
 			}
+
+            return deferred.promise;
+        }
+
+		/**
+         * @ngdoc function
+         * @name getSupervisedFacilities
+         * @methodOf requisition-search.FacilityService
+         * @return {Promise} Array of facilities
+         *
+         * @description
+         * Retrieves all user supervised facilities.
+         * When user is offline it gets facilities from offline storage.
+         * If user is online it stores all facilities into offline storage.
+         *
+         */
+        function getSupervisedFacilities(supervisedPrograms, userId) {
+            var promises = [],
+				facilities = [],
+				viewRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_VIEW),
+				deferred = $q.defer();
+
+			angular.forEach(supervisedPrograms, function(program) {
+				promises.push(SupervisedFacilities(userId, program.id, viewRight.id));
+			});
+			$q.all(promises).then(function(results) {
+				angular.forEach(results, function(result) {
+					facilities = facilities.concat(result);
+				});
+				deferred.resolve($filter('unique')(facilities, 'id'));
+			}, function() {
+				deferred.reject();
+			});
 
             return deferred.promise;
         }

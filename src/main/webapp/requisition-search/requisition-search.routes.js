@@ -19,16 +19,14 @@
 			],
 			controllerAs: 'vm',
 			resolve: {
-		        facilityList: function ($q, FacilityService) {
-		        	var deferred = $q.defer();
-
-		        	FacilityService.getAll().then(function(response) {
-		        		deferred.resolve(response);
-		        	}, function() {
-		        		deferred.reject();
-		        	});
-
-		        	return deferred.promise;
+				user: function(authorizationService) {
+                    return authorizationService.getUser();
+                },
+				supervisedPrograms: function (UserPrograms, user) {
+                    return UserPrograms(user.user_id, false);
+                },
+		        facilityList: function (supervisedPrograms, FacilityService, user) {
+		        	return FacilityService.getSupervisedFacilities(supervisedPrograms, user.user_id);
 		        }
 		    }
 		});

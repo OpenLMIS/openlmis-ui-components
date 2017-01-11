@@ -22,12 +22,16 @@ describe('RequisitionSearchController', function() {
                 name: 'facility1',
                 supportedPrograms: [
                     {
-                        id: '1',
-                        name: 'program1'
+                        program: {
+                            id: '1',
+                            name: 'program1'
+                        }
                     },
                     {
-                        id: '2',
-                        name: 'program2'
+                        program: {
+                            id: '2',
+                            name: 'program2'
+                        }
                     }
                 ]
             },
@@ -36,12 +40,16 @@ describe('RequisitionSearchController', function() {
                 name: 'facility2',
                 supportedPrograms: [
                     {
-                        id: '3',
-                        name: 'program3'
+                        program: {
+                            name: 'program3',
+                            id: '3'
+                        }
                     },
                     {
-                        id: '4',
-                        name: 'program4'
+                        program: {
+                            id: '4',
+                            name: 'program4'
+                        }
                     }
                 ]
             }

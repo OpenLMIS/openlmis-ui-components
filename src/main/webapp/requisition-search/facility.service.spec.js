@@ -9,12 +9,10 @@
  */
 describe('FacilityService', function() {
 
-    var $rootScope, $httpBackend, $q, FacilityService, offlineService, facilitiesStorage, facility1, facility2;
+    var $rootScope, $httpBackend, $q, OpenlmisUrl, FacilityService, offlineService, facilitiesStorage, facility1, facility2, supervisedFacilities, authorizationService;
 
     beforeEach(function() {
-        module('requisition-search');
-
-        module(function($provide){
+        module('requisition-search', function($provide){
             facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
                 return facilitiesStorage;
@@ -23,15 +21,24 @@ describe('FacilityService', function() {
             $provide.service('localStorageFactory', function() {
                 return localStorageFactorySpy;
             });
+
+            supervisedFacilities = jasmine.createSpy('SupervisedFacilities').andCallFake(function(argumentObject) {
+                return $q.when([facility1]);
+            });
+
+            $provide.service('SupervisedFacilities', function() {
+                return supervisedFacilities;
+            });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _offlineService_, _localStorageFactory_, _FacilityService_) {
+        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _offlineService_, _localStorageFactory_, _FacilityService_, _authorizationService_) {
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $q = _$q_;
             OpenlmisUrl = _openlmisUrlFactory_;
             offlineService = _offlineService_;
             FacilityService = _FacilityService_;
+            authorizationService = _authorizationService_;
         });
 
         facility1 = {
@@ -121,6 +128,35 @@ describe('FacilityService', function() {
             expect(data[0].id).toBe(facility1.id);
             expect(data[1].id).toBe(facility2.id);
             expect(spy.callCount).toEqual(2);
+        });
+    });
+
+    describe('getSupervisedFacilities', function() {
+
+        it('should get all facilities and save them to storage', function() {
+            var data,
+                supervisedPrograms = [
+                    {
+                        name: 'program1',
+                        id: '1'
+                    },
+                    {
+                        name: 'program2',
+                        id: '2'
+                    }
+                ],
+                userId = '1';
+
+            spyOn(authorizationService, 'getRightByName').andReturn({id: '1'});
+
+            FacilityService.getSupervisedFacilities(supervisedPrograms, userId).then(function(response) {
+                data = response;
+            });
+
+            $rootScope.$apply();
+
+            expect(data[0].id).toBe(facility1.id);
+            expect(supervisedFacilities.callCount).toEqual(2);
         });
     });
 });

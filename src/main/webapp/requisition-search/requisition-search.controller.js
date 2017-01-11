@@ -104,7 +104,7 @@
                 vm.error = null;
                 loadingModalService.open();
                 requisitionService.search(vm.searchOffline, {
-                        program: vm.selectedProgram ? vm.selectedProgram.id : null,
+                        program: vm.selectedProgram ? vm.selectedProgram.program.id : null,
                         facility: vm.selectedFacility ? vm.selectedFacility.id : null,
                         createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
                         createdDateTo: vm.endDate ? vm.endDate.toISOString() : null
