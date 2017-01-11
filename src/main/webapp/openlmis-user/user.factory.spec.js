@@ -7,7 +7,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('UserFactory', function() {
+describe('userFactory', function() {
 
     var $rootScope, httpBackend, userFactory,
         user = {
@@ -26,10 +26,10 @@ describe('UserFactory', function() {
         });
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, UserFactory, openlmisUrlFactory) {
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _userFactory_, openlmisUrlFactory) {
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
-        userFactory = UserFactory;
+        userFactory = _userFactory_;
 
         httpBackend.when('GET', openlmisUrlFactory('/api/users/' + user.id))
         .respond(200, user);

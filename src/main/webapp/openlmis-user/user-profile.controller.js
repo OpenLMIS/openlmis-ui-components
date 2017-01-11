@@ -8,24 +8,24 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+
+    'use strict';
 
     /**
      * @ngdoc controller
      * @name openlmis-user.UserProfileController
      *
      * @description
-     *
      * Allows user to change ist own profile info.
-     *
      */
+    angular
+        .module('openlmis-user')
+        .controller('UserProfileController', controller);
 
-    angular.module('openlmis-user')
-        .controller('UserProfileController', UserProfileController);
+    controller.$inject = ['$scope', 'user'];
 
-    UserProfileController.$inject = ['$scope', 'user']
-    function UserProfileController($scope, user) {
+    function controller($scope, user) {
         $scope.userProfile = user;
     }
 

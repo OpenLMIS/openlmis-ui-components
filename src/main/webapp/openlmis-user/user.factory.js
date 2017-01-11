@@ -1,21 +1,21 @@
 (function() {
-  
+
     'use strict';
 
     /**
      * @ngdoc service
-     * @name openlmis-user.UserFactory
+     * @name openlmis-user.userFactory
      *
      * @description
-     * 
      * Allows user to perform actions on user resource
-     * 
      */
-    angular.module('openlmis-user').factory('UserFactory', userFactory);
+    angular
+        .module('openlmis-user')
+        .factory('userFactory', factory);
 
-    userFactory.$inject = ['openlmisUrlFactory', '$resource'];
+    factory.$inject = ['openlmisUrlFactory', '$resource'];
 
-    function userFactory(openlmisUrlFactory, $resource) {
+    function factory(openlmisUrlFactory, $resource) {
 
         var resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
             'update': {
@@ -24,22 +24,22 @@
             }
         });
 
-        var service = {
+        var factory = {
             get: get
         };
-        return service;
+        return factory;
 
 
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis-user.UserFactory
-         * @param {String} id User id 
-         * @returns {Resource} User info
-         * 
-         * @description
+         * @methodOf openlmis-user.userFactory
          *
-         * Get user by id
+         * @description
+         * Gets user by id.
+         *
+         * @param   {String}    id  User id
+         * @returns {Resource}      User info
          */
         function get(id) {
             return resource.get({id: id});

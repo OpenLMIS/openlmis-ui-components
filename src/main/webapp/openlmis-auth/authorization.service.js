@@ -125,7 +125,7 @@
          */
         function getDetailedUser() {
             var user = getUser();
-            return $injector.get('UserFactory').get(user.user_id);
+            return $injector.get('userFactory').get(user.user_id);
         }
 
         /**
