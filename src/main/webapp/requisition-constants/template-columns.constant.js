@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-constants')
-        .constant('Columns', columns());
+        .constant('TEMPLATE_COLUMNS', columns());
 
     function columns() {
         return {

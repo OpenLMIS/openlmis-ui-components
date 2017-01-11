@@ -6,57 +6,57 @@
     .module('requisition-template')
     .factory('RequisitionColumn', requisitionColumn);
 
-    requisitionColumn.$inject = ['Columns', 'Source', 'Status'];
+    requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'Source', 'Status'];
 
-    function requisitionColumn(Columns, Source, Status) {
+    function requisitionColumn(TEMPLATE_COLUMNS, Source, Status) {
 
         var nonMandatoryFields = [
-            Columns.SKIPPED,
-            Columns.REMARKS,
-            Columns.TOTAL_LOSSES_AND_ADJUSTMENTS,
-            Columns.REQUESTED_QUANTITY_EXPLANATION,
-            Columns.ADJUSTED_CONSUMPTION,
-            Columns.NUMBER_OF_NEW_PATIENTS_ADDED
+            TEMPLATE_COLUMNS.SKIPPED,
+            TEMPLATE_COLUMNS.REMARKS,
+            TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS,
+            TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION,
+            TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION,
+            TEMPLATE_COLUMNS.NUMBER_OF_NEW_PATIENTS_ADDED
         ];
 
         var dependencies = {
             stockOnHand: [
-                Columns.BEGINNING_BALANCE,
-                Columns.TOTAL_RECEIVED_QUANTITY,
-                Columns.TOTAL_CONSUMED_QUANTITY,
-                Columns.TOTAL_LOSSES_AND_ADJUSTMENTS
+                TEMPLATE_COLUMNS.BEGINNING_BALANCE,
+                TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
+                TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+                TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS
 
             ],
             totalConsumedQuantity: [
-                Columns.BEGINNING_BALANCE,
-                Columns.TOTAL_RECEIVED_QUANTITY,
-                Columns.STOCK_ON_HAND,
-                Columns.TOTAL_LOSSES_AND_ADJUSTMENTS
+                TEMPLATE_COLUMNS.BEGINNING_BALANCE,
+                TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
+                TEMPLATE_COLUMNS.STOCK_ON_HAND,
+                TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS
             ],
             total: [
-                Columns.BEGINNING_BALANCE,
-                Columns.TOTAL_RECEIVED_QUANTITY
+                TEMPLATE_COLUMNS.BEGINNING_BALANCE,
+                TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY
             ],
 
             packsToShip: [
-                Columns.REQUESTED_QUANTITY,
-                Columns.APPROVED_QUANTITY
+                TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
+                TEMPLATE_COLUMNS.APPROVED_QUANTITY
             ],
             totalCost: [
-                Columns.PACKS_TO_SHIP,
-                Columns.PRICE_PER_PACK
+                TEMPLATE_COLUMNS.PACKS_TO_SHIP,
+                TEMPLATE_COLUMNS.PRICE_PER_PACK
             ]
         };
 
         var nonFullSupplyColumns = [
-            Columns.REQUESTED_QUANTITY,
-            Columns.REQUESTED_QUANTITY_EXPLANATION,
-            Columns.PRODUCT_CODE,
-            Columns.PRODUCT_NAME,
-            Columns.UNIT_UNIT_OF_ISSUE,
-            Columns.PACKS_TO_SHIP,
-            Columns.APPROVED_QUANTITY,
-            Columns.REMARKS
+            TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
+            TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION,
+            TEMPLATE_COLUMNS.PRODUCT_CODE,
+            TEMPLATE_COLUMNS.PRODUCT_NAME,
+            TEMPLATE_COLUMNS.UNIT_UNIT_OF_ISSUE,
+            TEMPLATE_COLUMNS.PACKS_TO_SHIP,
+            TEMPLATE_COLUMNS.APPROVED_QUANTITY,
+            TEMPLATE_COLUMNS.REMARKS
         ];
 
         RequisitionColumn.columnDependencies = columnDependencies;
@@ -80,7 +80,7 @@
 
         function displayColumn(column, requisition) {
             return column.isDisplayed && (
-                [Columns.APPROVED_QUANTITY, Columns.REMARKS].indexOf(column.name) === -1 ||
+                [TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS].indexOf(column.name) === -1 ||
                 [Status.AUTHORIZED, Status.APPROVED].indexOf(requisition.status) > -1);
             }
 

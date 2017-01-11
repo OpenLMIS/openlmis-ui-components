@@ -13,9 +13,9 @@
     .module('requisition')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validations', 'calculationFactory', 'Columns', 'Source', 'Type'];
+    lineItem.$inject = ['validations', 'calculationFactory', 'Source', 'Type'];
 
-    function lineItem(validations, calculationFactory, Columns, Source, Type) {
+    function lineItem(validations, calculationFactory, Source, Type) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;

@@ -21,10 +21,10 @@
 		.directive('productGridCell', productGridCell);
 
 	productGridCell.$inject = ['$q', '$templateRequest', '$compile', 'requisitionValidator',
-							   'Columns', 'Source', 'Type'];
+							   'TEMPLATE_COLUMNS', 'Source', 'Type'];
 
-	function productGridCell($q, $templateRequest, $compile, requisitionValidator, Columns, Source,
-							 Type) {
+	function productGridCell($q, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
+							 Source, Type) {
 
     	var directive = {
       		restrict: 'A',
@@ -45,7 +45,7 @@
 			scope.isReadOnly = isReadOnly();
 			scope.validate = validate;
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
-			scope.isSkipped = column.name === Columns.SKIPPED;
+			scope.isSkipped = column.name === TEMPLATE_COLUMNS.SKIPPED;
 			scope.canNotSkip = canNotSkip;
 
 
@@ -75,13 +75,15 @@
 			function isReadOnly() {
 				if (requisition.$isApproved()) return true;
 				if (requisition.$isAuthorized()) {
-					return [Columns.APPROVED_QUANTITY, Columns.REMARKS].indexOf(column.name) === -1;
+					return [
+						TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS
+					].indexOf(column.name) === -1;
 				}
 				return column.source !== Source.USER_INPUT;
 			}
 
 			function isTotalLossesAndAdjustments(column) {
-				return column.name === Columns.TOTAL_LOSSES_AND_ADJUSTMENTS;
+				return column.name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS;
 			}
 
 			function canNotSkip() {

@@ -13,21 +13,21 @@
     .module('requisition-calculations')
     .factory('calculationFactory', factory);
 
-    factory.$inject = ['Columns', '$filter', 'Status'];
+    factory.$inject = ['TEMPLATE_COLUMNS', '$filter', 'Status'];
 
-    function factory(Columns, $filter, Status) {
-        var A = Columns.BEGINNING_BALANCE,
-        B = Columns.TOTAL_RECEIVED_QUANTITY,
-        C = Columns.TOTAL_CONSUMED_QUANTITY,
-        D = Columns.TOTAL_LOSSES_AND_ADJUSTMENTS,
-        E = Columns.STOCK_ON_HAND,
-        Y = Columns.TOTAL,
-        K = Columns.APPROVED_QUANTITY,
-        J = Columns.REQUESTED_QUANTITY,
-        V = Columns.PACKS_TO_SHIP,
-        Q = Columns.TOTAL_COST,
-        T = Columns.PRICE_PER_PACK,
-        N = Columns.ADJUSTED_CONSUMPTION;
+    function factory(TEMPLATE_COLUMNS, $filter, Status) {
+        var A = TEMPLATE_COLUMNS.BEGINNING_BALANCE,
+        B = TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
+        C = TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+        D = TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS,
+        E = TEMPLATE_COLUMNS.STOCK_ON_HAND,
+        Y = TEMPLATE_COLUMNS.TOTAL,
+        K = TEMPLATE_COLUMNS.APPROVED_QUANTITY,
+        J = TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
+        V = TEMPLATE_COLUMNS.PACKS_TO_SHIP,
+        Q = TEMPLATE_COLUMNS.TOTAL_COST,
+        T = TEMPLATE_COLUMNS.PRICE_PER_PACK,
+        N = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION;
 
         var calculationFactory = {
             totalConsumedQuantity: calculateTotalConsumedQuantity,

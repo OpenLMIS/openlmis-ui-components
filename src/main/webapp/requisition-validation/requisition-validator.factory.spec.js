@@ -1,6 +1,6 @@
 describe('requisitionValidator', function() {
 
-    var validator, Columns, Source, calculationFactory;
+    var validator, TEMPLATE_COLUMNS, Source, calculationFactory;
 
     var validations;
 
@@ -17,9 +17,11 @@ describe('requisitionValidator', function() {
         });
     }));
 
-    beforeEach(inject(function(_requisitionValidator_, _Columns_, _Source_, _calculationFactory_) {
+    beforeEach(inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _Source_,
+                               _calculationFactory_) {
+
         validator = _requisitionValidator_;
-        Columns = _Columns_;
+        TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
         Source = _Source_;
         calculationFactory = _calculationFactory_;
     }));
@@ -97,9 +99,9 @@ describe('requisitionValidator', function() {
 
         beforeEach(function() {
             columns = [
-                column(Columns.TOTAL_CONSUMED_QUANTITY),
-                column(Columns.BEGINNING_BALANCE),
-                column(Columns.STOCK_ON_HAND)
+                column(TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY),
+                column(TEMPLATE_COLUMNS.BEGINNING_BALANCE),
+                column(TEMPLATE_COLUMNS.STOCK_ON_HAND)
             ];
         });
 
@@ -139,7 +141,7 @@ describe('requisitionValidator', function() {
         });
 
         it('should return true if field is valid', function() {
-            column.name = Columns.BEGINNING_BALANCE;
+            column.name = TEMPLATE_COLUMNS.BEGINNING_BALANCE;
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
@@ -147,7 +149,7 @@ describe('requisitionValidator', function() {
         })
 
         it('should return true if column is Total Losses and Adjustments', function() {
-            column.name = Columns.TOTAL_LOSSES_AND_ADJUSTMENTS;
+            column.name = TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS;
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
@@ -167,8 +169,8 @@ describe('requisitionValidator', function() {
         });
 
         it('should return false if any validation fails', function() {
-            lineItem[Columns.STOCK_ON_HAND] = -10;
-            column.name = Columns.STOCK_ON_HAND;
+            lineItem[TEMPLATE_COLUMNS.STOCK_ON_HAND] = -10;
+            column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             column.required = true;
             column.source = Source.CALCULATED;
             validations.nonNegative.andReturn('negative');
@@ -176,20 +178,20 @@ describe('requisitionValidator', function() {
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(lineItem.$errors[Columns.STOCK_ON_HAND]).toBe('negative');
+            expect(lineItem.$errors[TEMPLATE_COLUMNS.STOCK_ON_HAND]).toBe('negative');
             expect(validations.nonEmpty).toHaveBeenCalledWith(-10);
             expect(validations.nonNegative).toHaveBeenCalledWith(-10, lineItem);
         });
 
         it('should return false if calculation validation fails', function() {
-            var name = Columns.STOCK_ON_HAND,
+            var name = TEMPLATE_COLUMNS.STOCK_ON_HAND,
                 calculationSpy = jasmine.createSpy();
 
             calculationSpy.andReturn('invalidCalculation');
             column.source = Source.USER_INPUT;
             column.name = name;
             columns.push({
-                name: Columns.TOTAL_CONSUMED_QUANTITY,
+                name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
                 source: Source.USER_INPUT
             });
             validations.validateCalculation.andReturn(calculationSpy);
@@ -203,9 +205,9 @@ describe('requisitionValidator', function() {
 
         it('should skip calculation validation if counterpart is calculated', function() {
             column.source = Source.CALCULATED;
-            column.name = Columns.STOCK_ON_HAND;
+            column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             columns.push({
-                name: Columns.TOTAL_CONSUMED_QUANTITY,
+                name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
                 source: Source.CALCULATED
             });
 
@@ -224,7 +226,7 @@ describe('requisitionValidator', function() {
         });
 
         it('should return true if no field has error', function() {
-            lineItem.$errors[Columns.STOCK_ON_HAND] = undefined;
+            lineItem.$errors[TEMPLATE_COLUMNS.STOCK_ON_HAND] = undefined;
 
             var result = validator.isLineItemValid(lineItem);
 
@@ -232,8 +234,8 @@ describe('requisitionValidator', function() {
         });
 
         it('should return false if any field has error', function() {
-            lineItem.$errors[Columns.STOCK_ON_HAND] = 'invalid';
-            lineItem.$errors[Columns.TOTAL_CONSUMED_QUANTITY] = undefined;
+            lineItem.$errors[TEMPLATE_COLUMNS.STOCK_ON_HAND] = 'invalid';
+            lineItem.$errors[TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY] = undefined;
 
             var result = validator.isLineItemValid(lineItem);
 

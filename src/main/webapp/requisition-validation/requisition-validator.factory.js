@@ -13,9 +13,11 @@
         .module('requisition-validation')
         .factory('requisitionValidator', requisitionValidator);
 
-    requisitionValidator.$inject = ['validations', 'calculationFactory', 'Columns', 'Source'];
+    requisitionValidator.$inject = [
+        'validations', 'calculationFactory', 'TEMPLATE_COLUMNS', 'Source'
+    ];
 
-    function requisitionValidator(validations, calculationFactory, Columns, Source) {
+    function requisitionValidator(validations, calculationFactory, TEMPLATE_COLUMNS, Source) {
 
         var validationsToPass = {
             stockOnHand: [
@@ -25,13 +27,13 @@
                 validations.nonNegative
             ],
             requestedQuantityExplanation: [
-                validations.nonEmptyIfPropertyIsSet(Columns.REQUESTED_QUANTITY)
+                validations.nonEmptyIfPropertyIsSet(TEMPLATE_COLUMNS.REQUESTED_QUANTITY)
             ]
         };
 
         var counterpart = {
-            stockOnHand: Columns.TOTAL_CONSUMED_QUANTITY,
-            totalConsumedQuantity: Columns.STOCK_ON_HAND
+            stockOnHand: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+            totalConsumedQuantity: TEMPLATE_COLUMNS.STOCK_ON_HAND
         };
 
         var validator = {
@@ -114,9 +116,9 @@
             var name = column.name,
                 error;
 
-            if (lineItem[Columns.SKIPPED]) return true;
+            if (lineItem[TEMPLATE_COLUMNS.SKIPPED]) return true;
 
-            if (name === Columns.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
+            if (name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
 
             if (column.required) {
                 error = error || validations.nonEmpty(lineItem[name]);

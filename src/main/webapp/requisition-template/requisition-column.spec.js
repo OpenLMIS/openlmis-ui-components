@@ -1,22 +1,22 @@
 describe('RequisitionColumn', function() {
 
-    var RequisitionColumn, Status, Columns, Source, Type;
+    var RequisitionColumn, Status, TEMPLATE_COLUMNS, Source, Type;
 
     var columnDef, requisition;
 
     beforeEach(module('requisition-template'));
 
-    beforeEach(inject(function(_RequisitionColumn_, _Status_, _Columns_, _Source_, _Type_) {
+    beforeEach(inject(function(_RequisitionColumn_, _Status_, _TEMPLATE_COLUMNS_, _Source_, _Type_) {
         RequisitionColumn = _RequisitionColumn_;
         Status = _Status_;
-        Columns = _Columns_;
+        TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
         Source = _Source_;
         Type = _Type_;
     }));
 
     beforeEach(function() {
         columnDef = {
-            name: Columns.STOCK_ON_HAND,
+            name: TEMPLATE_COLUMNS.STOCK_ON_HAND,
             source: Source.CALCULATED,
             label: 'Stock on Hand',
             isDisplayed: true,
@@ -33,7 +33,7 @@ describe('RequisitionColumn', function() {
     it('should create RequisitionColumn from definition', function() {
         var column = new RequisitionColumn(columnDef, requisition);
 
-        expect(column.name).toBe(Columns.STOCK_ON_HAND);
+        expect(column.name).toBe(TEMPLATE_COLUMNS.STOCK_ON_HAND);
         expect(column.source).toBe(Source.CALCULATED);
         expect(column.type).toBe(Type.NUMERIC);
         expect(column.label).toBe('Stock on Hand');
@@ -42,10 +42,10 @@ describe('RequisitionColumn', function() {
         expect(column.required).toBe(false);
         expect(column.fullSupplyOnly).toBe(true);
         expect(column.dependencies).toEqual([
-            Columns.BEGINNING_BALANCE,
-            Columns.TOTAL_RECEIVED_QUANTITY,
-            Columns.TOTAL_CONSUMED_QUANTITY,
-            Columns.TOTAL_LOSSES_AND_ADJUSTMENTS
+            TEMPLATE_COLUMNS.BEGINNING_BALANCE,
+            TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
+            TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+            TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS
         ]);
     });
 
