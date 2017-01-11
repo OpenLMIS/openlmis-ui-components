@@ -14,7 +14,7 @@
 			showInNavigation: true,
 			label: 'link.requisition.approve',
 			url: '/approvalList',
-			controller: 'RequisitionApprovalListCtrl',
+			controller: 'RequisitionApprovalListController',
 			controllerAs: 'vm',
 			templateUrl: 'requisition-approval/requisition-approval-list.html',
 			accessRights: [RequisitionRights.REQUISITION_APPROVE],

@@ -12,11 +12,11 @@
 
 	angular
 		.module('requisition-approval')
-		.controller('RequisitionApprovalListCtrl', ApprovalListCtrl);
+		.controller('RequisitionApprovalListController', controller);
 
-	ApprovalListCtrl.$inject = ['$state', 'requisitionList'];
+	controller.$inject = ['$state', 'requisitionList'];
 
-	function ApprovalListCtrl($state, requisitionList) {
+	function controller($state, requisitionList) {
 
 		var vm = this;
 
