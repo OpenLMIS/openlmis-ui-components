@@ -9,11 +9,11 @@
  */
 describe('requisitionService', function() {
 
-    var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
-        allStatuses, requisitionUrlFactory, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions,
-        startDate, endDate, startDate1, endDate1, modifiedDate, createdDate, processingSchedule,
-        facility, program, period, emergency, requisition, requisitionDto, requisitionDto2, requisitionToConvert,
-        approvedProductsOffline, templateOffline;
+    var $rootScope, $httpBackend, requisitionService, dateUtils, confirm, q, allStatuses,
+        requisitionUrlFactory, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions, startDate,
+        endDate, startDate1, endDate1, modifiedDate, createdDate, processingSchedule, facility,
+        program, period, emergency, requisition, requisitionDto, requisitionDto2,
+        requisitionToConvert, approvedProductsOffline, templateOffline;
 
     beforeEach(function() {
         module('requisition');
@@ -83,14 +83,14 @@ describe('requisitionService', function() {
         };
 
         module(function($provide){
-            var requisitionFactorySpy = jasmine.createSpy('Requisition').andReturn(requisition),
+            var RequisitionSpy = jasmine.createSpy('Requisition').andReturn(requisition),
                 confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm'])
                 confirmServiceMock.confirm.andCallFake(function(argumentObject) {
                     return q.when(true);
                 });
 
         	$provide.service('Requisition', function() {
-                return requisitionFactorySpy;
+                return RequisitionSpy;
             });
 
             $provide.service('confirmService', function() {
@@ -114,14 +114,13 @@ describe('requisitionService', function() {
         });
 
         inject(function(_$httpBackend_, _$rootScope_, _requisitionService_, _requisitionUrlFactory_,
-                        openlmisUrlFactory, REQUISITION_STATUS, Requisition, _dateUtils_, $q,
+                        openlmisUrlFactory, REQUISITION_STATUS, _dateUtils_, $q,
                         $templateCache) {
 
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             requisitionService = _requisitionService_;
             allStatuses = REQUISITION_STATUS.$toList();
-            requisitionFactory = Requisition;
             dateUtils = _dateUtils_;
             q = $q;
             requisitionUrlFactory = _requisitionUrlFactory_;
