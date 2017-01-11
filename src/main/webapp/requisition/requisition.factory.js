@@ -14,12 +14,12 @@
         .factory('RequisitionFactory', requisitionFactory);
 
     requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'RequisitionURL',
-        'RequisitionTemplate', 'LineItem', 'CategoryFactory', 'Status', 'Source',
+        'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'Source',
         'localStorageFactory', 'offlineService'
     ];
 
     function requisitionFactory($q, $resource, openlmisUrlFactory, RequisitionURL, RequisitionTemplate,
-        LineItem, CategoryFactory, Status, Source, localStorageFactory, offlineService) {
+        LineItem, categoryFactory, Status, Source, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
@@ -89,9 +89,9 @@
             });
             requisition.requisitionLineItems = lineItems;
 
-            requisition.$fullSupplyCategories = CategoryFactory.groupFullSupplyLineItems(lineItems, programId);
-            requisition.$nonFullSupplyCategories = CategoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
-            requisition.$approvedCategories = CategoryFactory.groupProducts(lineItems, approvedProducts);
+            requisition.$fullSupplyCategories = categoryFactory.groupFullSupplyLineItems(lineItems, programId);
+            requisition.$nonFullSupplyCategories = categoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
+            requisition.$approvedCategories = categoryFactory.groupProducts(lineItems, approvedProducts);
             return requisition;
         }
 

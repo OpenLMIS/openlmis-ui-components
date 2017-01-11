@@ -4,7 +4,7 @@
 
     angular
         .module('requisition')
-        .factory('CategoryFactory', categoryFactory);
+        .factory('categoryFactory', categoryFactory);
 
     categoryFactory.$inject = ['RequisitionCategory'];
 

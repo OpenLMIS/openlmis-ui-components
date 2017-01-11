@@ -90,10 +90,10 @@ describe('RequisitionFactory', function() {
         });
     }));
 
-    beforeEach(inject(function(CategoryFactory) {
-        spyOn(CategoryFactory, 'groupFullSupplyLineItems').andReturn(fullSupplyCategories());
-        spyOn(CategoryFactory, 'groupNonFullSupplyLineItems').andReturn(nonFullSupplyCategories());
-        spyOn(CategoryFactory, 'groupProducts').andReturn([]);
+    beforeEach(inject(function(categoryFactory) {
+        spyOn(categoryFactory, 'groupFullSupplyLineItems').andReturn(fullSupplyCategories());
+        spyOn(categoryFactory, 'groupNonFullSupplyLineItems').andReturn(nonFullSupplyCategories());
+        spyOn(categoryFactory, 'groupProducts').andReturn([]);
     }));
 
     beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, openlmisUrlFactory, Status, $q){
