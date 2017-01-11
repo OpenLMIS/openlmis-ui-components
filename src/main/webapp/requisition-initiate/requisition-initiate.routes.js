@@ -38,10 +38,10 @@
                 user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-                supervisedPrograms: function (UserPrograms, $q, user) {
+                supervisedPrograms: function (useProgramsFactory, $q, user) {
                     var deferred = $q.defer();
 
-                    UserPrograms(user.user_id, false).then(function (response) {
+                    useProgramsFactory(user.user_id, false).then(function (response) {
                         deferred.resolve(response);
                     }, function (response) {
                         deferred.reject();
@@ -49,10 +49,10 @@
 
                     return deferred.promise;
                 },
-                homePrograms: function (UserPrograms, $q, user) {
+                homePrograms: function (useProgramsFactory, $q, user) {
                     var deferred = $q.defer();
 
-                    UserPrograms(user.user_id, true).then(function (response) {
+                    useProgramsFactory(user.user_id, true).then(function (response) {
                         deferred.resolve(response);
                     }, function (response) {
                         deferred.reject();

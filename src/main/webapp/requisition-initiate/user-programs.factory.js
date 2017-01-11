@@ -13,14 +13,14 @@
     /**
      *
      * @ngdoc service
-     * @name requisition-initiate.UserPrograms
+     * @name requisition-initiate.useProgramsFactory
      *
      * @description
      * Returns the programs at a user's home facility or programs that the user supervises.
      */
     angular
         .module('requisition-initiate')
-        .factory('UserPrograms', factory);
+        .factory('useProgramsFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$http'];
 

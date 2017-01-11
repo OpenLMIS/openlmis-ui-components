@@ -22,8 +22,8 @@
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-				supervisedPrograms: function (UserPrograms, user) {
-                    return UserPrograms(user.user_id, false);
+				supervisedPrograms: function (useProgramsFactory, user) {
+                    return useProgramsFactory(user.user_id, false);
                 },
 		        facilityList: function (supervisedPrograms, FacilityService, user) {
 		        	return FacilityService.getsupervisedFacilitiesFactory(supervisedPrograms, user.user_id);

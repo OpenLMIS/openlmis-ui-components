@@ -13,14 +13,14 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-referencedata.UserPrograms
+     * @name openlmis-referencedata.useProgramsFactory
      *
      * @description
      * Returns the programs at a user's home facility or programs that the user supervises.
      */
     angular
         .module('openlmis-referencedata')
-        .factory('UserPrograms', factory);
+        .factory('useProgramsFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$http', 'offlineService', 'localStorageFactory'];
 
