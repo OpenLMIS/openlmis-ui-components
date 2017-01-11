@@ -1,4 +1,4 @@
-describe('NonFullSupplyCtrl', function() {
+describe('NonFullSupplyController', function() {
 
     var vm, requisitionValidator, RequisitionCategory, AddProductModalService, requisition, q,
         rootScope, controller, LineItem;
@@ -219,7 +219,7 @@ describe('NonFullSupplyCtrl', function() {
     });
 
     function initController() {
-        vm = controller('NonFullSupplyCtrl', {
+        vm = controller('NonFullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             AddProductModalService: AddProductModalService,

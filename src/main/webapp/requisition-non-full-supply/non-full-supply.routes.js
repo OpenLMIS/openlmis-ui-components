@@ -13,7 +13,7 @@
         $stateProvider.state('requisitions.requisition.nonFullSupply', {
             url: '/nonFullSupply',
             templateUrl: 'requisition-non-full-supply/non-full-supply.html',
-            controller: 'NonFullSupplyCtrl',
+            controller: 'NonFullSupplyController',
             controllerAs: 'vm'
         });
 

@@ -4,14 +4,14 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-non-full-supply.NonFullSupplyCtrl
+     * @name requisition-non-full-supply.NonFullSupplyController
      *
      * @description
      * Responsible for managing product grid for non full supply products.
      */
     angular
         .module('requisition-non-full-supply')
-        .controller('NonFullSupplyCtrl', nonFullSupplyCtrl);
+        .controller('NonFullSupplyController', nonFullSupplyCtrl);
 
     nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'AddProductModalService',
                                  'LineItem', '$filter'];
@@ -28,7 +28,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
          * @name isLineItemValid
          *
          * @description
@@ -42,7 +42,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
          * @name requisition
          * @type {Object}
          *
@@ -53,7 +53,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
          * @name displayAddProductButton
          * @type {Boolean}
          *
@@ -64,7 +64,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
          * @name columns
          * @type {Array}
          *
@@ -75,7 +75,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
          * @name deleteLineItem
          *
          * @description
@@ -94,7 +94,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
          * @name addProduct
          *
          * @description
@@ -118,7 +118,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
          * @name displayDeleteColumn
          *
          * @description
@@ -137,7 +137,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyCtrl
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
          * @name getLineItems
          *
          * @description
