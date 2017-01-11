@@ -14,23 +14,23 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-initiate.RequisitionInitiateCtrl
+     * @name requisition-initiate.RequisitionInitiateController
      * @description
      * Controller responsible for actions connected with displaying available periods and
      * initiating or navigating to an existing requisition.
      */
     angular
         .module('requisition-initiate')
-        .controller('RequisitionInitiateCtrl', RequisitionInitiateCtrl);
+        .controller('RequisitionInitiateController', RequisitionInitiateController);
 
-    RequisitionInitiateCtrl.$inject = [
+    RequisitionInitiateController.$inject = [
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
         'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
         'SupervisedFacilities'
     ];
 
-    function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms,
+    function RequisitionInitiateController(messageService, facility, user, supervisedPrograms,
                                      homePrograms, PeriodFactory, requisitionService, $state,
                                      dateUtils, REQUISITION_STATUS, loadingModalService,
                                      notificationService, authorizationService, $q,
@@ -41,7 +41,7 @@
         /**
          * @ngdoc property
          * @name emergency
-         * @propertyOf requisition-initiate.RequisitionInitiateCtrl
+         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Boolean}
          *
          * @description
@@ -52,7 +52,7 @@
         /**
          * @ngdoc property
          * @name facilities
-         * @propertyOf requisition-initiate.RequisitionInitiateCtrl
+         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -63,7 +63,7 @@
         /**
          * @ngdoc property
          * @name supervisedPrograms
-         * @propertyOf requisition-initiate.RequisitionInitiateCtrl
+         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -74,7 +74,7 @@
         /**
          * @ngdoc property
          * @name homePrograms
-         * @propertyOf requisition-initiate.RequisitionInitiateCtrl
+         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -85,7 +85,7 @@
         /**
          * @ngdoc property
          * @name isSupervised
-         * @propertyOf requisition-initiate.RequisitionInitiateCtrl
+         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Boolean}
          *
          * @description
@@ -114,7 +114,7 @@
         /**
          * @ngdoc function
          * @name loadFacilityData
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for displaying and updating select elements that allow to choose
@@ -161,7 +161,7 @@
         /**
          * @ngdoc function
          * @name programOptionMessage
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Determines a proper message for the programs dropdown, based on the presence of programs.
@@ -175,7 +175,7 @@
         /**
          * @ngdoc function
          * @name loadPeriods
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for displaying and updating a grid, containing available periods for the
@@ -214,7 +214,7 @@
         /**
          * @ngdoc function
          * @name initRnr
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for initiating and/or navigating to the requisition, based on the specified
@@ -252,7 +252,7 @@
         /**
          * @ngdoc function
          * @name loadFacilitiesForProgram
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for providing a list of facilities where selected program is active and
@@ -292,7 +292,7 @@
         /**
          * @ngdoc function
          * @name refreshGridData
-         * @methodOf requisition-initiate.RequisitionInitiateCtrl
+         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for removing period grid data when choosing different program, facility or requisition type.

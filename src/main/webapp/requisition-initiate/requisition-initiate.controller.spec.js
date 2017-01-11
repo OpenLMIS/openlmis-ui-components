@@ -1,4 +1,4 @@
-describe("RequisitionInitiateCtrl", function(){
+describe("RequisitionInitiateController", function(){
 
     var $q, programs, rootScope, requisitionService, authorizationService, supervisedFacilities,
         periodFactory, $state, period, facility;
@@ -29,7 +29,7 @@ describe("RequisitionInitiateCtrl", function(){
 
         spyOn(periodFactory, 'get').andReturn($q.when(period));
 
-        vm = $controller('RequisitionInitiateCtrl', {facility: facility, user: user, supervisedPrograms: programs,
+        vm = $controller('RequisitionInitiateController', {facility: facility, user: user, supervisedPrograms: programs,
             homePrograms: programs, PeriodFactory: periodFactory, requisitionService: requisitionService});
     }));
 

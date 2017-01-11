@@ -15,7 +15,7 @@
             showInNavigation: true,
             priority: 11,
             label: 'link.requisitions.create.authorize',
-            controller: 'RequisitionInitiateCtrl',
+            controller: 'RequisitionInitiateController',
             controllerAs: 'vm',
             templateUrl: 'requisition-initiate/requisition-initiate.html',
             accessRights: [
