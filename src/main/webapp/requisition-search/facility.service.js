@@ -119,7 +119,7 @@
 				deferred = $q.defer();
 
 			angular.forEach(supervisedPrograms, function(program) {
-				promises.push(supervisedFacilitiesFactory(userId, program.id, viewRight.id));
+				promises.push(supervisedFacilitiesFactory.get(userId, program.id, viewRight.id));
 			});
 			$q.all(promises).then(function(results) {
 				angular.forEach(results, function(result) {

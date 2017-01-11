@@ -13,21 +13,38 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-referencedata.useProgramsFactory
+     * @name openlmis-referencedata.userProgramsFactory
      *
      * @description
-     * Returns the programs at a user's home facility or programs that the user supervises.
+     * Resposible for retriving user programs.
      */
     angular
         .module('openlmis-referencedata')
-        .factory('useProgramsFactory', factory);
+        .factory('userProgramsFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$http', 'offlineService', 'localStorageFactory'];
 
     function factory(openlmisUrlFactory, $q, $http, offlineService, localStorageFactory){
-        var programsOffline = localStorageFactory('userPrograms');
+        var programsOffline = localStorageFactory('userPrograms'),
+            factory = {
+                get: get
+            };
 
-        return function(userId, isForHomeFacility) {
+        return factory;
+
+        /**
+         * @name get
+         * @methodOf openlmis-referencedata.userProgramsFactory
+         *
+         * @description
+         * Retrieves programs for current user and saves it in local storage.
+         * If user is offline program are retreived from local storage.
+         *
+         * @param {String} userId User UUID
+         * @param {Boolean} isForHomeFacility Indicates if programs should be for home or supervised facilities
+         * @return {Promise} array of programs
+         */
+        function get(userId, isForHomeFacility) {
             var deferred = $q.defer();
             if(offlineService.isOffline()) {
                 var programs = programsOffline.search({

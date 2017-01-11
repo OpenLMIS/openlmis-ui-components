@@ -268,8 +268,8 @@
                 var authorizeRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
 
                 $q.all([
-                    supervisedFacilitiesFactory(user.user_id, selectedProgramId, createRight.id),
-                    supervisedFacilitiesFactory(user.user_id, selectedProgramId, authorizeRight.id)
+                    supervisedFacilitiesFactory.get(user.user_id, selectedProgramId, createRight.id),
+                    supervisedFacilitiesFactory.get(user.user_id, selectedProgramId, authorizeRight.id)
                 ])
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);

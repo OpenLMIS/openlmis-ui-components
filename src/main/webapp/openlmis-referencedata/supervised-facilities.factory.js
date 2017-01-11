@@ -16,9 +16,7 @@
      * @name openlmis-referencedata.supervisedFacilitiesFactory
      *
      * @description
-     * Returns facilities where program with given programId is active and where the given
-     * user has right with given rightId. Facilities are stored in local storage.
-     * If user is offline facilities are retreived from local storage.
+     * Returns supervised facilities for user.
      */
     angular
         .module('openlmis-referencedata')
@@ -27,9 +25,28 @@
     factory.$inject = ['openlmisUrlFactory', '$q', '$http', 'offlineService', 'localStorageFactory'];
 
     function factory(openlmisUrlFactory, $q, $http, offlineService, localStorageFactory){
-        var facilitiesOffline = localStorageFactory('supervisedFacilities');
+        var facilitiesOffline = localStorageFactory('supervisedFacilities'),
+            factory = {
+                get: get
+            };
 
-        return function(userId, programId, rightId) {
+        return factory;
+
+        /**
+         * @name get
+         * @methodOf openlmis-referencedata.supervisedFacilitiesFactory
+         *
+         * @description
+         * Returns facilities where program with given programId is active and where the given
+         * user has right with given rightId. Facilities are stored in local storage.
+         * If user is offline facilities are retreived from local storage.
+         *
+         * @param {String} userId User UUID
+         * @param {String} programId Program UUID
+         * @param {String} rightId Right UUID
+         * @return {Promise}
+         */
+        function get(userId, programId, rightId) {
             var deferred = $q.defer();
             if(offlineService.isOffline()) {
                 var facilities = facilitiesOffline.search({

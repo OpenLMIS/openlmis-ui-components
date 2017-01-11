@@ -38,27 +38,11 @@
                 user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-                supervisedPrograms: function (useProgramsFactory, $q, user) {
-                    var deferred = $q.defer();
-
-                    useProgramsFactory(user.user_id, false).then(function (response) {
-                        deferred.resolve(response);
-                    }, function (response) {
-                        deferred.reject();
-                    });
-
-                    return deferred.promise;
+                supervisedPrograms: function (userProgramsFactory, user) {
+                    return userProgramsFactory.get(user.user_id, false);
                 },
-                homePrograms: function (useProgramsFactory, $q, user) {
-                    var deferred = $q.defer();
-
-                    useProgramsFactory(user.user_id, true).then(function (response) {
-                        deferred.resolve(response);
-                    }, function (response) {
-                        deferred.reject();
-                    });
-
-                    return deferred.promise;
+                homePrograms: function (userProgramsFactory, user) {
+                    return userProgramsFactory.get(user.user_id, true);
                 }
             }
         });

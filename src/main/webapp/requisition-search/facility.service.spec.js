@@ -9,12 +9,12 @@
  */
 describe('facilityService', function() {
 
-    var $rootScope, $httpBackend, $q, OpenlmisUrl, facilityService, offlineService, facilitiesStorage, facility1, facility2, supervisedFacilities, authorizationService;
+    var $rootScope, $httpBackend, $q, OpenlmisUrl, FacilityService, offlineService, facilitiesStorage, facility1, facility2, supervisedFacilities, authorizationService;
 
     beforeEach(function() {
         module('requisition-search', function($provide){
             facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put']);
-            var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(argumentObject) {
+            var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
                 return facilitiesStorage;
             });
 
@@ -22,11 +22,9 @@ describe('facilityService', function() {
                 return localStorageFactorySpy;
             });
 
-            supervisedFacilities = jasmine.createSpy('supervisedFacilitiesFactory').andCallFake(function(argumentObject) {
-                return $q.when([facility1]);
-            });
+            supervisedFacilities = jasmine.createSpyObj('supervisedFacilities', ['get']);
 
-            $provide.service('supervisedFacilitiesFactory', function() {
+            $provide.factory('supervisedFacilitiesFactory', function() {
                 return supervisedFacilities;
             });
         });
@@ -148,6 +146,10 @@ describe('facilityService', function() {
                 userId = '1';
 
             spyOn(authorizationService, 'getRightByName').andReturn({id: '1'});
+            supervisedFacilities.get.andCallFake(function() {
+                return $q.when([facility1]);
+            });
+
 
             facilityService.getsupervisedFacilitiesFactory(supervisedPrograms, userId).then(function(response) {
                 data = response;
@@ -156,7 +158,7 @@ describe('facilityService', function() {
             $rootScope.$apply();
 
             expect(data[0].id).toBe(facility1.id);
-            expect(supervisedFacilities.callCount).toEqual(2);
+            expect(supervisedFacilities.get.callCount).toEqual(2);
         });
     });
 });

@@ -102,9 +102,7 @@ describe("RequisitionInitiateController", function(){
     });
 
     it("should load list of facilities for selected program", function() {
-        var spyObj = {};
-        spyObj.spyMethod = supervisedFacilities;
-        spyOn(spyObj, 'spyMethod').andReturn([facility]);
+        spyOn(supervisedFacilities, 'get').andReturn([facility]);
         spyOn(authorizationService, 'getRightByName').andReturn(right);
 
         vm.loadFacilitiesForProgram(vm.supervisedPrograms[0]);
