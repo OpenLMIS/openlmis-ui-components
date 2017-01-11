@@ -1,4 +1,4 @@
-describe('ConvertToOrderCtrl', function(){
+describe('ConvertToOrderController', function(){
 
     var vm, rootScope, state, q, stateParams, requisitionService, notificationService, requisitions;
 
@@ -41,7 +41,7 @@ describe('ConvertToOrderCtrl', function(){
             }
         ];
 
-        vm = $controller('ConvertToOrderCtrl', {$stateParams: stateParams, requisitions: requisitions});
+        vm = $controller('ConvertToOrderController', {$stateParams: stateParams, requisitions: requisitions});
         });
     });
 

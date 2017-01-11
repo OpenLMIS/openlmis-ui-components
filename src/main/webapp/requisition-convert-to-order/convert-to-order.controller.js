@@ -14,7 +14,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-convert-to-order.ConvertToOrderCtrl
+     * @name requisition-convert-to-order.ConvertToOrderController
      *
      * @description
      * Controller for converting requisitions to orders.
@@ -22,7 +22,7 @@
 
 	angular
 		.module('requisition-convert-to-order')
-		.controller('ConvertToOrderCtrl', convertToOrderCtrl);
+		.controller('ConvertToOrderController', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = [
         '$state', '$stateParams', 'requisitions', 'requisitionService', 'notificationService'
@@ -36,7 +36,7 @@
         /**
          * @ngdoc property
          * @name searchParams
-         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Object}
          *
          * @description
@@ -52,7 +52,7 @@
         /**
          * @ngdoc property
          * @name filters
-         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Array}
          *
          * @description
@@ -80,7 +80,7 @@
         /**
          * @ngdoc property
          * @name requisitions
-         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Array}
          *
          * @description
@@ -101,7 +101,7 @@
         /**
          * @ngdoc property
          * @name infoMessage
-         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Object}
          *
          * @description
@@ -112,7 +112,7 @@
         /**
          * @ngdoc property
          * @name selectAll
-         * @propertyOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {boolean}
          *
          * @description
@@ -131,7 +131,7 @@
         /**
          * @ngdoc function
          * @name reload
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for reloading current state with chosen search parameters.
@@ -145,7 +145,7 @@
         /**
          * @ngdoc function
          * @name getSelected
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Returns a list of requisitions selected by user, that are supposed to be converted to orders.
@@ -165,7 +165,7 @@
         /**
          * @ngdoc function
          * @name toggleSelectAll
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for marking/unmarking all requisitions as selected.
@@ -181,7 +181,7 @@
         /**
          * @ngdoc function
          * @name setSelectAll
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for making the checkbox "select all" checked when all requisitions are selected by user.
@@ -197,7 +197,7 @@
         /**
          * @ngdoc function
          * @name convertToOrder
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for converting seleted requisitions to orders.
@@ -214,7 +214,7 @@
         /**
          * @ngdoc function
          * @name getInfoMessage
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for setting proper info message to display to user.
@@ -233,7 +233,7 @@
         /**
          * @ngdoc function
          * @name defaultSearchParams
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines whether default search parameters are set or not.
@@ -252,7 +252,7 @@
         /**
          * @ngdoc function
          * @name isEmpty
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines if the given parameter is an empty string.
@@ -267,7 +267,7 @@
         /**
          * @ngdoc function
          * @name isUndefined
-         * @methodOf requisition-convert-to-order.ConvertToOrderCtrl
+         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines if the given value is undefined.

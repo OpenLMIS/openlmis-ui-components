@@ -14,7 +14,7 @@
             showInNavigation: true,
             label: 'link.requisitions.convertToOrder',
             url: '/convertToOrder?filterBy&filterValue&sortBy&descending',
-            controller: 'ConvertToOrderCtrl',
+            controller: 'ConvertToOrderController',
             controllerAs: 'vm',
             templateUrl: 'requisition-convert-to-order/convert-to-order.html',
             accessRights: [REQUISITION_RIGHTS.REQUISITION_CONVERT_TO_ORDER],
