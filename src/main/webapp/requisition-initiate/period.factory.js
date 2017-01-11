@@ -6,12 +6,13 @@
         .module('requisition-initiate')
         .factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'requisitionUrlFactory', 'requisitionService', 'messageService',
-        '$q', 'dateUtils', 'Status'
+    periodFactory.$inject = [
+        '$resource', 'requisitionUrlFactory', 'requisitionService', 'messageService', '$q',
+        'dateUtils', 'REQUISITION_STATUS'
     ];
 
     function periodFactory($resource, requisitionUrlFactory, requisitionService, messageService, $q,
-        dateUtils, Status) {
+        dateUtils, REQUISITION_STATUS) {
 
         var resource = $resource(requisitionUrlFactory('/api/requisitions/periodsForInitiate'), {}, {
             get: {
@@ -80,7 +81,7 @@
         }
 
         function getPreviousPeriodLineItems(programId, facilityId, emergency) {
-            var statuses = [Status.INITIATED, Status.SUBMITTED],
+            var statuses = [REQUISITION_STATUS.INITIATED, REQUISITION_STATUS.SUBMITTED],
                 deferred = $q.defer();
 
             requisitionService.search(false, {

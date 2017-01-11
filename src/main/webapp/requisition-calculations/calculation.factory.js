@@ -13,9 +13,9 @@
     .module('requisition-calculations')
     .factory('calculationFactory', factory);
 
-    factory.$inject = ['TEMPLATE_COLUMNS', '$filter', 'Status'];
+    factory.$inject = ['TEMPLATE_COLUMNS', '$filter'];
 
-    function factory(TEMPLATE_COLUMNS, $filter, Status) {
+    function factory(TEMPLATE_COLUMNS, $filter) {
         var A = TEMPLATE_COLUMNS.BEGINNING_BALANCE,
         B = TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
         C = TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -214,7 +214,7 @@
          * @return {Number}             the value of the order quantity
          */
         function getOrderQuantity(lineItem, requisition) {
-            return requisition && requisition.status === Status.AUTHORIZED ? lineItem[K] : lineItem[J];
+            return requisition && requisition.$isAuthorized() ? lineItem[K] : lineItem[J];
         }
     }
 })();

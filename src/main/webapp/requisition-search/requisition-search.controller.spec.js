@@ -64,7 +64,7 @@ describe('RequisitionSearchController', function() {
             }
         }];
 
-        inject(function ($httpBackend, $rootScope, $controller, Status, requisitionUrlFactory,
+        inject(function ($httpBackend, $rootScope, $controller, requisitionUrlFactory,
                          _notificationService_, requisitionService, $q) {
 
             var response = $q.when(requisitionList);

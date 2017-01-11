@@ -1,16 +1,16 @@
 describe('RequisitionColumn', function() {
 
-    var RequisitionColumn, Status, TEMPLATE_COLUMNS, COLUMN_SOURCES, Type;
+    var RequisitionColumn, REQUISITION_STATUS, TEMPLATE_COLUMNS, COLUMN_SOURCES, Type;
 
     var columnDef, requisition;
 
     beforeEach(module('requisition-template'));
 
-    beforeEach(inject(function(_RequisitionColumn_, _Status_, _TEMPLATE_COLUMNS_, _COLUMN_SOURCES_,
-                               _Type_) {
+    beforeEach(inject(function(_RequisitionColumn_, _REQUISITION_STATUS_, _TEMPLATE_COLUMNS_,
+                               _COLUMN_SOURCES_, _Type_) {
 
         RequisitionColumn = _RequisitionColumn_;
-        Status = _Status_;
+        REQUISITION_STATUS = _REQUISITION_STATUS_;
         TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
         COLUMN_SOURCES = _COLUMN_SOURCES_;
         Type = _Type_;
@@ -28,7 +28,7 @@ describe('RequisitionColumn', function() {
             }
         };
         requisition = {
-            status: Status.SUBMITTED
+            status: REQUISITION_STATUS.SUBMITTED
         };
     });
 

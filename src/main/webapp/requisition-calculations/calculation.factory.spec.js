@@ -1,12 +1,12 @@
 describe('calculationFactory', function() {
 
-    var calculationFactory, Status, lineItem;
+    var calculationFactory, REQUISITION_STATUS, lineItem, requisitionMock;
 
     beforeEach(module('requisition-calculations'));
 
-    var lineItemInject = inject(function(_calculationFactory_, _Status_) {
+    var lineItemInject = inject(function(_calculationFactory_, _REQUISITION_STATUS_) {
         calculationFactory = _calculationFactory_;
-        Status = _Status_;
+        REQUISITION_STATUS = _REQUISITION_STATUS_;
 
         lineItem = {
             orderableProduct: {},
@@ -16,6 +16,8 @@ describe('calculationFactory', function() {
             totalReceivedQuantity: 10,
             stockOnHand: 5
         };
+
+        requisitionMock = jasmine.createSpyObj('requisition', ['$isAuthorized']);
     });
 
     describe('Calculate packs to ship', function(){
@@ -28,49 +30,61 @@ describe('calculationFactory', function() {
         });
 
         it('should return zero if approved quantity is zero', function() {
+            requisitionMock.$isAuthorized.andReturn(true);
+
             lineItem.approvedQuantity = 0;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.AUTHORIZED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
 
         it('should return zero if requested quantity is zero', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
             lineItem.requestedQuantity = 0;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
 
         it('should not round packs to ship if threshold is not exceeded', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
             lineItem.requestedQuantity = 15;
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 6;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(1);
         });
 
         it ('should round packs to ship if threshold is exceeded', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
             lineItem.requestedQuantity = 15;
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 4;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(2);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(2);
         });
 
         it ('should return zero if round to zero is set', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
             lineItem.requestedQuantity = 1;
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = true;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
 
         it ('should return one if round to zero is not set', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
             lineItem.requestedQuantity = 1;
             lineItem.orderableProduct.packSize = 10;
             lineItem.orderableProduct.packRoundingThreshold = 5;
             lineItem.orderableProduct.roundToZero = false;
 
-            expect(calculationFactory.packsToShip(lineItem, {status: Status.SUBMITTED})).toBe(1);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(1);
         });
 
         it ('should calculate total properly', function() {

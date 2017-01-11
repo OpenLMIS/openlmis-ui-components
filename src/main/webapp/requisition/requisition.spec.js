@@ -10,7 +10,7 @@
 
 describe('Requisition', function() {
 
-    var $rootScope, $httpBackend, q, allStatuses, requisitionUrlFactory, openlmisUrl,
+    var $rootScope, $httpBackend, q, REQUISITION_STATUS, requisitionUrlFactory, openlmisUrl,
         LineItemSpy, offlineRequitions;
 
     var TemplateSpy;
@@ -98,13 +98,13 @@ describe('Requisition', function() {
     }));
 
     beforeEach(inject(function(_$httpBackend_, _$rootScope_, Requisition, _requisitionUrlFactory_,
-                               openlmisUrlFactory, Status, $q) {
+                               openlmisUrlFactory, _REQUISITION_STATUS_, $q) {
 
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         requisitionUrlFactory = _requisitionUrlFactory_;
         openlmisUrl = openlmisUrlFactory;
-        allStatuses = Status;
+        REQUISITION_STATUS = _REQUISITION_STATUS_;
         q = $q;
 
         requisition = new Requisition(sourceRequisition, requisitionTemplate, {});
@@ -113,7 +113,7 @@ describe('Requisition', function() {
     it('should submit requisition', function() {
         expect(requisition.$isSubmitted()).toBe(false);
 
-        requisition.status = allStatuses.SUBMITTED;
+        requisition.status = REQUISITION_STATUS.SUBMITTED;
 
         httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/submit'))
         .respond(200, requisition);
@@ -129,7 +129,7 @@ describe('Requisition', function() {
     it('should authorize requisition', function() {
         expect(requisition.$isAuthorized()).toBe(false);
 
-        requisition.status = allStatuses.AUTHORIZED;
+        requisition.status = REQUISITION_STATUS.AUTHORIZED;
 
         httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/authorize'))
         .respond(200, requisition);
@@ -145,7 +145,7 @@ describe('Requisition', function() {
     it('should approve requisition', function() {
         expect(requisition.$isApproved()).toBe(false);
 
-        requisition.status = allStatuses.APPROVED;
+        requisition.status = REQUISITION_STATUS.APPROVED;
 
         httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/approve'))
         .respond(200, requisition);
@@ -209,7 +209,7 @@ describe('Requisition', function() {
     });
 
     it('should return true if requisition status is initiated', function() {
-        requisition.status = allStatuses.INITIATED;
+        requisition.status = REQUISITION_STATUS.INITIATED;
 
         var isInitiated = requisition.$isInitiated();
 
@@ -217,7 +217,7 @@ describe('Requisition', function() {
     });
 
     it('should return false if requisition status is not initiated', function() {
-        requisition.status = allStatuses.SUBMITTED;
+        requisition.status = REQUISITION_STATUS.SUBMITTED;
 
         var isInitiated = requisition.$isInitiated();
 
@@ -225,7 +225,7 @@ describe('Requisition', function() {
     });
 
     it('should return true if requisition status is submitted', function() {
-        requisition.status = allStatuses.SUBMITTED;
+        requisition.status = REQUISITION_STATUS.SUBMITTED;
 
         var isSubmitted = requisition.$isSubmitted();
 
@@ -233,7 +233,7 @@ describe('Requisition', function() {
     });
 
     it('should return false if requisition status is not submitted', function() {
-        requisition.status = allStatuses.INITIATED;
+        requisition.status = REQUISITION_STATUS.INITIATED;
 
         var isSubmitted = requisition.$isSubmitted();
 
@@ -241,7 +241,7 @@ describe('Requisition', function() {
     });
 
     it('should return true if requisition status is authorized', function() {
-        requisition.status = allStatuses.AUTHORIZED;
+        requisition.status = REQUISITION_STATUS.AUTHORIZED;
 
         var isAuthorized = requisition.$isAuthorized();
 
@@ -249,7 +249,7 @@ describe('Requisition', function() {
     });
 
     it('should return false if requisition status is not authorized', function() {
-        requisition.status = allStatuses.INITIATED;
+        requisition.status = REQUISITION_STATUS.INITIATED;
 
         var isAuthorized = requisition.$isAuthorized();
 
@@ -257,7 +257,7 @@ describe('Requisition', function() {
     });
 
     it('should return true if requisition status is approved', function() {
-        requisition.status = allStatuses.APPROVED;
+        requisition.status = REQUISITION_STATUS.APPROVED;
 
         var isApproved = requisition.$isApproved();
 
@@ -265,7 +265,7 @@ describe('Requisition', function() {
     });
 
     it('should return false if requisition status is not approved', function() {
-        requisition.status = allStatuses.INITIATED;
+        requisition.status = REQUISITION_STATUS.INITIATED;
 
         var isApproved = requisition.$isApproved();
 

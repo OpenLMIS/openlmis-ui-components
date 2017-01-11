@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-constants')
-        .constant('Status', status());
+        .constant('REQUISITION_STATUS', status());
 
     function status() {
 

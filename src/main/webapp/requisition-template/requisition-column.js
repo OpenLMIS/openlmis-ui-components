@@ -6,9 +6,9 @@
     .module('requisition-template')
     .factory('RequisitionColumn', requisitionColumn);
 
-    requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'COLUMN_SOURCES', 'Status'];
+    requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'COLUMN_SOURCES', 'REQUISITION_STATUS'];
 
-    function requisitionColumn(TEMPLATE_COLUMNS, COLUMN_SOURCES, Status) {
+    function requisitionColumn(TEMPLATE_COLUMNS, COLUMN_SOURCES, REQUISITION_STATUS) {
 
         var nonMandatoryFields = [
             TEMPLATE_COLUMNS.SKIPPED,
@@ -82,7 +82,7 @@
         function displayColumn(column, requisition) {
             return column.isDisplayed && (
                 [TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS].indexOf(column.name) === -1 ||
-                [Status.AUTHORIZED, Status.APPROVED].indexOf(requisition.status) > -1);
+                [REQUISITION_STATUS.AUTHORIZED, REQUISITION_STATUS.APPROVED].indexOf(requisition.status) > -1);
             }
 
         function columnDependencies(column) {

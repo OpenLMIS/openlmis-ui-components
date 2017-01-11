@@ -13,13 +13,15 @@
         .module('requisition')
         .factory('Requisition', requisitionFactory);
 
-    requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory',
-        'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'COLUMN_SOURCES',
+    requisitionFactory.$inject = [
+        '$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionTemplate',
+        'LineItem', 'categoryFactory', 'REQUISITION_STATUS', 'COLUMN_SOURCES',
         'localStorageFactory', 'offlineService'
     ];
 
-    function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory, RequisitionTemplate,
-        LineItem, categoryFactory, Status, COLUMN_SOURCES, localStorageFactory, offlineService) {
+    function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory,
+                                RequisitionTemplate, LineItem, categoryFactory, REQUISITION_STATUS,
+                                COLUMN_SOURCES, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
@@ -240,7 +242,7 @@
          * @return {boolean} is requisition initiated
          */
         function isInitiated() {
-            return this.status === Status.INITIATED;
+            return this.status === REQUISITION_STATUS.INITIATED;
         }
 
         /**
@@ -255,7 +257,7 @@
          * @return {boolean} is requisition submitted
          */
         function isSubmitted() {
-            return this.status === Status.SUBMITTED;
+            return this.status === REQUISITION_STATUS.SUBMITTED;
         }
 
         /**
@@ -270,7 +272,7 @@
          * @return {boolean} is requisition authorized
          */
         function isAuthorized() {
-            return this.status === Status.AUTHORIZED;
+            return this.status === REQUISITION_STATUS.AUTHORIZED;
         }
 
         /**
@@ -285,7 +287,7 @@
          * @return {boolean} is requisition approved
          */
         function isApproved() {
-            return this.status === Status.APPROVED;
+            return this.status === REQUISITION_STATUS.APPROVED;
         }
 
         function handlePromise(promise, success, failure) {

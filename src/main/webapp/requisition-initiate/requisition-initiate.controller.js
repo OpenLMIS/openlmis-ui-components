@@ -25,16 +25,16 @@
 
     RequisitionInitiateCtrl.$inject = [
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
-        'requisitionService', '$state', 'dateUtils', 'Status', 'loadingModalService',
+        'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
         'SupervisedFacilities'
     ];
 
     function RequisitionInitiateCtrl(messageService, facility, user, supervisedPrograms,
                                      homePrograms, PeriodFactory, requisitionService, $state,
-                                     dateUtils, Status, loadingModalService, notificationService,
-                                     authorizationService, $q, REQUISITION_RIGHTS,
-                                     SupervisedFacilities) {
+                                     dateUtils, REQUISITION_STATUS, loadingModalService,
+                                     notificationService, authorizationService, $q,
+                                     REQUISITION_RIGHTS, SupervisedFacilities) {
 
         var vm = this;
 
@@ -198,9 +198,9 @@
                     vm.error = '';
                 }
                 data.forEach(function (period) {
-                    if (vm.emergency && (period.rnrStatus == Status.AUTHORIZED ||
-                    period.rnrStatus == Status.APPROVED ||
-                    period.rnrStatus == Status.RELEASED)) {
+                    if (vm.emergency && (period.rnrStatus == REQUISITION_STATUS.AUTHORIZED ||
+                    period.rnrStatus == REQUISITION_STATUS.APPROVED ||
+                    period.rnrStatus == REQUISITION_STATUS.RELEASED)) {
                         period.rnrStatus = messageService.get('msg.rnr.not.started');
                     }
                 });

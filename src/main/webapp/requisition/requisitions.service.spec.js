@@ -114,13 +114,13 @@ describe('requisitionService', function() {
         });
 
         inject(function(_$httpBackend_, _$rootScope_, _requisitionService_, _requisitionUrlFactory_,
-                        openlmisUrlFactory, Status, Requisition, _dateUtils_, $q,
+                        openlmisUrlFactory, REQUISITION_STATUS, Requisition, _dateUtils_, $q,
                         $templateCache) {
 
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             requisitionService = _requisitionService_;
-            allStatuses = Status.$toList();
+            allStatuses = REQUISITION_STATUS.$toList();
             requisitionFactory = Requisition;
             dateUtils = _dateUtils_;
             q = $q;

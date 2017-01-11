@@ -24,12 +24,12 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$rootScope', '$state', 'facilityList', 'requisitionService', 'Status', 'dateUtils',
-        'loadingModalService', 'notificationService', 'offlineService'
+        '$rootScope', '$state', 'facilityList', 'requisitionService', 'REQUISITION_STATUS',
+        'dateUtils', 'loadingModalService', 'notificationService', 'offlineService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, requisitionService,
-                                         Status, dateUtils, loadingModalService,
+                                         REQUISITION_STATUS, dateUtils, loadingModalService,
                                          notificationService, offlineService) {
 
         var vm = this;
@@ -41,7 +41,7 @@
         vm.isOfflineDisabled = isOfflineDisabled;
         vm.searchOffline = offlineService.isOffline();
         vm.facilities = facilityList;
-        vm.statuses = Status.$toList();
+        vm.statuses = REQUISITION_STATUS.$toList();
         vm.selectedStatuses = [];
 
         if (!angular.isArray(vm.facilities) || vm.facilities.length < 1) {
