@@ -26,7 +26,9 @@ describe('FullSupplyCtrl', function() {
 
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
-            lineItem.canBeSkipped.andReturn(true);
+            lineItem.canBeSkipped.andCallFake(function() {
+                return lineItem.$program.productCategoryDisplayName === 'One';
+            });
             lineItem.skipped = false;
             lineItem.$program =  {
                 productCategoryDisplayName: category,
@@ -59,15 +61,18 @@ describe('FullSupplyCtrl', function() {
 
     it('should mark all full supply line items as skipped', function() {
         vm.skipAll();
+
         expect(requisition.requisitionLineItems[0].skipped).toBe(true);
-        expect(requisition.requisitionLineItems[1].skipped).toBe(true);
         expect(requisition.requisitionLineItems[2].skipped).toBe(true);
-        expect(requisition.requisitionLineItems[3].skipped).toBe(true);
+
+        expect(requisition.requisitionLineItems[1].skipped).toBe(false);
+        expect(requisition.requisitionLineItems[3].skipped).toBe(false);
         expect(requisition.requisitionLineItems[4].skipped).toBe(false);
     });
 
     it('should mark all full supply line items as not skipped', function() {
         vm.unskipAll();
+
         expect(requisition.requisitionLineItems[0].skipped).toBe(false);
         expect(requisition.requisitionLineItems[1].skipped).toBe(false);
         expect(requisition.requisitionLineItems[2].skipped).toBe(false);

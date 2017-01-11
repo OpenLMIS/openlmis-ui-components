@@ -88,7 +88,7 @@
          */
         function validateLineItem(lineItem, columns) {
             var valid = true,
-                vlidator = this;
+                validator = this;
 
             columns.forEach(function(column) {
                 valid = validator.validateLineItemField(lineItem, column, columns) && valid;
@@ -113,6 +113,8 @@
         function validateLineItemField(lineItem, column, columns) {
             var name = column.name,
                 error;
+
+            if (lineItem[Columns.SKIPPED]) return true;
 
             if (name === Columns.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
 

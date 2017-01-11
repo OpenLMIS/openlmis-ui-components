@@ -17,5 +17,5 @@
 		 losses-and-adjustments
 		 line-item="lineItem"
 		 requisition="requisition"></div>
-	 <div class="cell-error-message">{{lineItem.$errors[column.name]}}</div>
+	 <div ng-if="!lineItem.skipped" class="cell-error-message">{{lineItem.$errors[column.name]}}</div>
 </td>

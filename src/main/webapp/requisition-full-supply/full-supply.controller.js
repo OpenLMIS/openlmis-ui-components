@@ -76,7 +76,7 @@
          * @name skipAll
          *
          * @description
-         * Sets all line items from a requisition as skipped.
+         * Sets all line items that are skippable from a requisition as skipped.
          */
         function skipAll() {
             setSkipAll(true);
