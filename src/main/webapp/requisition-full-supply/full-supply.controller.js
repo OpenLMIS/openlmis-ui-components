@@ -4,18 +4,18 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-full-supply.FullSupplyCtrl
+     * @name requisition-full-supply.FullSupplyController
      *
      * @description
      * Responsible for managing product grid for full supply products.
      */
     angular
         .module('requisition-full-supply')
-        .controller('FullSupplyCtrl', fullSupplyCtrl);
+        .controller('FullSupplyController', controller);
 
-    fullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', '$filter'];
+    controller.$inject = ['requisition', 'requisitionValidator', '$filter'];
 
-    function fullSupplyCtrl(requisition, requisitionValidator, $filter) {
+    function controller(requisition, requisitionValidator, $filter) {
 
         var vm = this;
 
@@ -24,7 +24,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyController
          * @name requisition
          * @type {Object}
          *
@@ -35,7 +35,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyController
          * @name categories
          * @type {Object}
          *
@@ -46,7 +46,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyCtrl
+         * @propertyOf requisition-full-supply.FullSupplyController
          * @name columns
          * @type {Array}
          *
@@ -58,7 +58,7 @@
         /**
          *
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyCtrl
+         * @methodOf requisition-full-supply.FullSupplyController
          * @name isLineItemValid
          *
          * @description
@@ -72,7 +72,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyCtrl
+         * @methodOf requisition-full-supply.FullSupplyController
          * @name skipAll
          *
          * @description
@@ -84,7 +84,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyCtrl
+         * @methodOf requisition-full-supply.FullSupplyController
          * @name unskipAll
          *
          * @description

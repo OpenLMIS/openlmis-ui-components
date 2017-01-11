@@ -1,4 +1,4 @@
-describe('FullSupplyCtrl', function() {
+describe('FullSupplyController', function() {
 
     //tested
     var vm;
@@ -39,7 +39,7 @@ describe('FullSupplyCtrl', function() {
     });
 
     beforeEach(inject(function($controller) {
-        vm = $controller('FullSupplyCtrl', {
+        vm = $controller('FullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator
         });
