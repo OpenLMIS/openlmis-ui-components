@@ -24,14 +24,14 @@
         .controller('RequisitionInitiateController', RequisitionInitiateController);
 
     RequisitionInitiateController.$inject = [
-        'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'PeriodFactory',
+        'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'periodFactory',
         'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
         'supervisedFacilitiesFactory'
     ];
 
     function RequisitionInitiateController(messageService, facility, user, supervisedPrograms,
-                                     homePrograms, PeriodFactory, requisitionService, $state,
+                                     homePrograms, periodFactory, requisitionService, $state,
                                      dateUtils, REQUISITION_STATUS, loadingModalService,
                                      notificationService, authorizationService, $q,
                                      REQUISITION_RIGHTS, supervisedFacilitiesFactory) {
@@ -189,7 +189,7 @@
                 return;
             }
             loadingModalService.open();
-            PeriodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
+            periodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
                 if (data.length === 0) {
                     notificationService.error('msg.no.period.available');

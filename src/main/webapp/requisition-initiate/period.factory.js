@@ -4,7 +4,7 @@
 
     angular
         .module('requisition-initiate')
-        .factory('PeriodFactory', periodFactory);
+        .factory('periodFactory', periodFactory);
 
     periodFactory.$inject = [
         '$resource', 'requisitionUrlFactory', 'requisitionService', 'messageService', '$q',
