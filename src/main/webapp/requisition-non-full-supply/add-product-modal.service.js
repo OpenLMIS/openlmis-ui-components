@@ -94,6 +94,7 @@
             deferred.resolve({
                 requestedQuantity: quantity,
                 requestedQuantityExplanation: explanation,
+                pricePerPack: product.pricePerPack,
                 orderableProduct: convertToOrderableProduct(product),
                 $deletable: true
             });
@@ -134,6 +135,7 @@
                 id: product.productId,
                 name: product.productName,
                 productCode: product.productCode,
+                packSize: product.productPackSize,
                 $program: {
                     productCategoryDisplayName: product.productCategoryDisplayName,
                     fullSupply: product.fullSupply
