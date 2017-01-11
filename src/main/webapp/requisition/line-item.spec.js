@@ -43,6 +43,12 @@ describe('LineItem', function() {
                 source: 'CALCULATED',
                 type: 'NUMERIC',
                 display: true
+            },
+            {
+                name: 'columnWithoutCalculations',
+                source: 'CALCULATED',
+                type: 'NUMERIC',
+                display: true
             }
         ];
         template.getColumns.andCallFake(function (nonFullSupply) {
@@ -134,6 +140,15 @@ describe('LineItem', function() {
             lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
 
             expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItem, requisition);
+        });
+
+        it('should set null if there is no calculation method for given column', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+            lineItem.columnWithoutCalculations = 100;
+            
+            lineItem.updateFieldValue(requisition.$template.columns[4], requisition);
+
+            expect(lineItem.columnWithoutCalculations).toBe(null);
         });
     });
 
