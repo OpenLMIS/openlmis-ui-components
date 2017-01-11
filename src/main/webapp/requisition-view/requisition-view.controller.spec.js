@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('RequisitionCtrl', function() {
+describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition, deferred;
 
@@ -57,7 +57,7 @@ describe('RequisitionCtrl', function() {
                 }
             }
 
-            vm = $controller('RequisitionCtrl', {requisition: requisition});
+            vm = $controller('RequisitionViewController', {requisition: requisition});
         });
     });
 

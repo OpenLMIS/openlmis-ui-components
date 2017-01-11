@@ -12,7 +12,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-view.RequisitionCtrl
+     * @name requisition-view.RequisitionViewController
      *
      * @description
      * Controller for managing requisitions.
@@ -20,15 +20,15 @@
 
     angular
         .module('requisition-view')
-        .controller('RequisitionCtrl', RequisitionCtrl);
+        .controller('RequisitionViewController', RequisitionViewController);
 
-    RequisitionCtrl.$inject = [
+    RequisitionViewController.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
         'convertToOrderModalService', 'offlineService', 'localStorageFactory'
     ];
 
-    function RequisitionCtrl($state, requisition, requisitionValidator, authorizationService,
+    function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
                              localStorageFactory) {
@@ -40,7 +40,7 @@
         /**
          * @ngdoc property
          * @name requisition
-         * @propertyOf requisition-view.RequisitionCtrl
+         * @propertyOf requisition-view.RequisitionViewController
          * @type {Object}
          *
          * @description
@@ -51,7 +51,7 @@
         /**
         * @ngdoc property
         * @name requisitionType
-        * @propertyOf requisition-view.RequisitionCtrl
+        * @propertyOf requisition-view.RequisitionViewController
         * @type {String}
         *
         * @description
@@ -89,7 +89,7 @@
          /**
          * @ngdoc function
          * @name syncRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for syncing requisition with the server. If the requisition fails to sync,
@@ -109,7 +109,7 @@
         /**
          * @ngdoc function
          * @name submitRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for submitting requisition. Displays confirmation dialog, and checks
@@ -141,7 +141,7 @@
         /**
          * @ngdoc function
          * @name authorizeRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for authorizing requisition. Displays confirmation dialog, and checks
@@ -174,7 +174,7 @@
         /**
          * @ngdoc function
          * @name removeRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for removing requisition. Displays confirmation dialog before deletion.
@@ -199,7 +199,7 @@
         /**
          * @ngdoc function
          * @name approveRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for approving requisition. Displays confirmation dialog, and checks
@@ -229,7 +229,7 @@
         /**
          * @ngdoc function
          * @name rejectRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for rejecting requisition. Displays confirmation dialog before rejection.
@@ -254,7 +254,7 @@
         /**
          * @ngdoc function
          * @name skipRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for skipping requisition. Displays confirmation dialog before skipping.
@@ -279,7 +279,7 @@
         /**
          * @ngdoc function
          * @name periodDisplayName
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Creates human readable duration of reporting period.
@@ -295,7 +295,7 @@
         /**
          * @ngdoc function
          * @name displayAuthorize
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display authorize button or not. Returns true only if requisition
@@ -313,7 +313,7 @@
         /**
          * @ngdoc function
          * @name displaySubmit
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display submit button or not. Returns true only if requisition
@@ -331,7 +331,7 @@
         /**
          * @ngdoc function
          * @name displayApproveAndReject
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display approve and reject buttons or not. Returns true only if
@@ -349,7 +349,7 @@
         /**
          * @ngdoc function
          * @name displayDelete
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display delete button or not. Returns true only if requisition
@@ -367,7 +367,7 @@
         /**
          * @ngdoc function
          * @name displayConvertToOrder
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display convert to order button or not. Returns true only if
@@ -385,7 +385,7 @@
         /**
          * @ngdoc function
          * @name displayConvertToOrder
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display skip requisition button or not. Returns true only if
@@ -400,7 +400,7 @@
         /**
          * @ngdoc function
          * @name convertRnr
-         * @methodOf requisition-view.RequisitionCtrl
+         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Displays convert to order modal.
