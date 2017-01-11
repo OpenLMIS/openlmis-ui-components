@@ -191,4 +191,47 @@ describe('calculationFactory', function() {
             expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(30);
         });
     });
+
+    describe('Calculate Maximum Stock Quantity', function () {
+        beforeEach(lineItemInject);
+
+        var column = {
+            name: 'maximumStockQuantity',
+            option: {
+                optionName: 'default'
+            }
+        }
+
+        it('should return zero if requsition does not exist', function () {
+            expect(calculationFactory.maximumStockQuantity(lineItem)).toBe(0);
+            expect(calculationFactory.maximumStockQuantity(lineItem, null)).toBe(0);
+            expect(calculationFactory.maximumStockQuantity(lineItem, undefined)).toBe(0);
+        });
+
+        it('should return zero if requisition does not have template', function () {
+            expect(calculationFactory.maximumStockQuantity(lineItem, {})).toBe(0);
+        });
+
+        it('should return zero if requisition template does not have columns', function () {
+            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { } })).toBe(0);
+        });
+
+        it('should return zero if requisition template does not contain maximumStockQuantity column', function () {
+            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [] } })).toBe(0);
+        });
+
+        it ('should return zero if selected option is not equal to default', function () {
+            column.option.optionName = 'test_option';
+            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [column] } })).toBe(0);
+        });
+
+        it('should return maximum stock quantity when default option was selected', function () {
+            lineItem.maxMonthsOfStock = 7.25;
+            lineItem.averageConsumption = 2;
+
+            column.option.optionName = 'default';
+
+            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [column] } })).toBe(14.5);
+        });
+    })
 });

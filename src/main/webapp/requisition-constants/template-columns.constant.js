@@ -27,7 +27,9 @@
             TOTAL_COST: 'totalCost',
             ADJUSTED_CONSUMPTION: 'adjustedConsumption',
             NUMBER_OF_NEW_PATIENTS_ADDED: 'numberOfNewPatientsAdded',
-            TOTAL_STOCKOUT_DAYS: 'totalStockoutDays'
+            TOTAL_STOCKOUT_DAYS: 'totalStockoutDays',
+            AVERAGE_CONSUMPTION: 'averageConsumption',
+            MAXIMUM_STOCK_QUANTITY: 'maximumStockQuantity'
         };
     }
 

@@ -27,7 +27,9 @@
         V = TEMPLATE_COLUMNS.PACKS_TO_SHIP,
         Q = TEMPLATE_COLUMNS.TOTAL_COST,
         T = TEMPLATE_COLUMNS.PRICE_PER_PACK,
-        N = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION;
+        N = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION,
+        P = TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION,
+        H = TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY;
 
         var calculationFactory = {
             totalConsumedQuantity: calculateTotalConsumedQuantity,
@@ -36,7 +38,8 @@
             total: calculateTotal,
             packsToShip: calculatePacksToShip,
             totalCost: calculateTotalCost,
-            adjustedConsumption: calculateAdjustedConsumption
+            adjustedConsumption: calculateAdjustedConsumption,
+            maximumStockQuantity: calculateMaximumStockQuantity
         };
         return calculationFactory;
 
@@ -215,6 +218,40 @@
          */
         function getOrderQuantity(lineItem, requisition) {
             return requisition && requisition.$isAuthorized() ? lineItem[K] : lineItem[J];
+        }
+
+        /**
+         * @ngdoc function
+         * @name maximumStockQuantity
+         * @methodOf requisition-calculations.calculationFactory
+         * @private
+         *
+         * @description
+         * Calculates the value of the Maximum Stock Quantity column based on the given line item.
+         *
+         * @param  {Object} lineItem    the line item to get the order quantity from
+         * @param  {String} requisition the requisition with template
+         * @return {Number}             the calculated Maximum Stock Quantity value
+         */
+        function calculateMaximumStockQuantity(lineItem, requisition) {
+            if (!requisition || !requisition.$template || !requisition.$template.columns) {
+                return 0;
+            }
+
+            var column;
+
+            requisition.$template.columns.every(function(col) {
+                if (col.name === H) {
+                    column = col;
+                    return false;
+                }
+
+                return true;
+            });
+
+            return column && column.option.optionName === 'default'
+                ? lineItem[P] * lineItem.maxMonthsOfStock
+                : 0;
         }
     }
 })();
