@@ -25,8 +25,8 @@
 				supervisedPrograms: function (useProgramsFactory, user) {
                     return useProgramsFactory(user.user_id, false);
                 },
-		        facilityList: function (supervisedPrograms, FacilityService, user) {
-		        	return FacilityService.getsupervisedFacilitiesFactory(supervisedPrograms, user.user_id);
+		        facilityList: function (supervisedPrograms, facilityService, user) {
+		        	return facilityService.getsupervisedFacilitiesFactory(supervisedPrograms, user.user_id);
 		        }
 		    }
 		});

@@ -4,18 +4,24 @@
 
 	/**
      * @ngdoc service
-     * @name requisition-search.FacilityService
+     * @name requisition-search.facilityService
      *
      * @description
      * Responsible for retriving all facility information from server.
      */
 	angular
 		.module('requisition-search')
-	    .service('FacilityService', FacilityService);
+	    .service('facilityService', service);
 
-    FacilityService.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory', 'supervisedFacilitiesFactory', 'authorizationService', 'REQUISITION_RIGHTS'];
+    service.$inject = [
+		'$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory',
+		'supervisedFacilitiesFactory', 'authorizationService', 'REQUISITION_RIGHTS'
+	];
 
-    function FacilityService($q, $filter, $resource, openlmisUrlFactory, offlineService, localStorageFactory, supervisedFacilitiesFactory, authorizationService, REQUISITION_RIGHTS) {
+    function service($q, $filter, $resource, openlmisUrlFactory, offlineService,
+					 localStorageFactory, supervisedFacilitiesFactory, authorizationService,
+					 REQUISITION_RIGHTS) {
+
         var resource = $resource(openlmisUrlFactory('/api/facilities/:id'), {}, {
             'getAll': {
                 url: openlmisUrlFactory('/api/facilities/'),
@@ -36,7 +42,7 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf requisition-search.FacilityService
+         * @methodOf requisition-search.facilityService
          * @param {String} facilityId Facility UUID
          * @return {Promise} facility promise
          *
@@ -67,7 +73,7 @@
 		/**
          * @ngdoc function
          * @name getAll
-         * @methodOf requisition-search.FacilityService
+         * @methodOf requisition-search.facilityService
          * @return {Promise} Array of facilities
          *
          * @description
@@ -97,7 +103,7 @@
 		/**
          * @ngdoc function
          * @name getsupervisedFacilitiesFactory
-         * @methodOf requisition-search.FacilityService
+         * @methodOf requisition-search.facilityService
          * @return {Promise} Array of facilities
          *
          * @description
