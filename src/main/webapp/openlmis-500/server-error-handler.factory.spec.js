@@ -26,7 +26,22 @@ describe('serverErrorHandler', function() {
 
         handler.responseError(response);
 
-        expect(alertMock.error).toHaveBeenCalledWith(response.statusText);
+        expect(alertMock.error).toHaveBeenCalled();
         expect($q.reject).toHaveBeenCalledWith(response);
     });
+
+    it('should not show alert modal when other is shown', function() {
+        var response = {
+                status: 500,
+                statusText: 'Server error!'
+            };
+
+        spyOn($q, 'reject').andCallThrough();
+
+        handler.responseError(response);
+        handler.responseError(response);
+
+        expect(alertMock.error.callCount).toEqual(1);
+        expect($q.reject).toHaveBeenCalledWith(response);
+    })
 });

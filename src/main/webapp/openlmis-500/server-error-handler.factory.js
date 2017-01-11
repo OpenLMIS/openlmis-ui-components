@@ -27,7 +27,8 @@
 
     function handler($q, $injector) {
 
-        var provider = {
+        var canDisplayModal = true,
+            provider = {
             responseError: responseError
         };
         return provider;
@@ -46,10 +47,15 @@
          *
          */
         function responseError(response) {
-            if(response.status >= 500) {
-                $injector.get('alertService').error(response.statusText);
+            if(response.status >= 500 && canDisplayModal) {
+                canDisplayModal = false;
+                $injector.get('alertService').error(response.statusText, modalClosed);
             }
             return $q.reject(response);
+        }
+
+        function modalClosed(){
+            canDisplayModal = true;
         }
     }
 })();
