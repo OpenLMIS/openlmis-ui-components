@@ -1,6 +1,6 @@
 describe('NonFullSupplyController', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, AddProductModalService, requisition, q,
+    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, q,
         rootScope, controller, LineItem;
 
     beforeEach(function(){
@@ -13,7 +13,7 @@ describe('NonFullSupplyController', function() {
         });
 
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
-        AddProductModalService = jasmine.createSpyObj('AddProductModalService', ['show']);
+        addProductModalService = jasmine.createSpyObj('addProductModalService', ['show']);
 
         requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
         requisition.$template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
@@ -142,25 +142,25 @@ describe('NonFullSupplyController', function() {
         });
 
         it('should add product', function() {
-            AddProductModalService.show.andReturn(q.when(lineItemSpy(5, 'Three', false)));
+            addProductModalService.show.andReturn(q.when(lineItemSpy(5, 'Three', false)));
 
             vm.addProduct();
             rootScope.$apply();
 
-            expect(AddProductModalService.show).toHaveBeenCalled();
+            expect(addProductModalService.show).toHaveBeenCalled();
             expect(requisition.requisitionLineItems.length).toBe(6);
         });
 
         it('should not add product if modal was dismissed', function() {
             var deferred = q.defer();
             spyOn(requisition.requisitionLineItems, 'push');
-            AddProductModalService.show.andReturn(deferred.promise);
+            addProductModalService.show.andReturn(deferred.promise);
 
             vm.addProduct();
             deferred.reject();
             rootScope.$apply();
 
-            expect(AddProductModalService.show).toHaveBeenCalled();
+            expect(addProductModalService.show).toHaveBeenCalled();
             expect(requisition.requisitionLineItems.length).toBe(5);
             expect(requisition.requisitionLineItems.push).not.toHaveBeenCalled();
         });
@@ -222,7 +222,7 @@ describe('NonFullSupplyController', function() {
         vm = controller('NonFullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
-            AddProductModalService: AddProductModalService,
+            addProductModalService: addProductModalService,
             LineItem: LineItem
         });
     }

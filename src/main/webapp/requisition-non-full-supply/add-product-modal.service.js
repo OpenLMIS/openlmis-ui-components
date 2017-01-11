@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc service
-     * @name requisition-non-full-supply.AddProductModalService
+     * @name requisition-non-full-supply.addProductModalService
      *
      * @description
      * It shows modal with possibility to add non-full supplly line item
@@ -12,7 +12,7 @@
      */
     angular
         .module('requisition-non-full-supply')
-        .service('AddProductModalService', service);
+        .service('addProductModalService', service);
 
     service.$inject = ['$q', '$rootScope', '$compile', '$templateRequest', '$ngBootbox',
         'messageService'
@@ -33,7 +33,7 @@
         /**
          * @ngdoc function
          * @name show
-         * @methodOf requisition-non-full-supply.AddProductModalService
+         * @methodOf requisition-non-full-supply.addProductModalService
          *
          * @description
          * Shows modal that allows to add line item to requisition.
@@ -65,7 +65,7 @@
         /**
          * @ngdoc function
          * @name close
-         * @methodOf requisition-non-full-supply.AddProductModalService
+         * @methodOf requisition-non-full-supply.addProductModalService
          *
          * @description
          * Closes add product modal and rejects modal promise.
@@ -78,7 +78,7 @@
         /**
          * @ngdoc function
          * @name addProduct
-         * @methodOf requisition-non-full-supply.AddProductModalService
+         * @methodOf requisition-non-full-supply.addProductModalService
          *
          * @description
          * Resolves promise with line item created from parameters.
@@ -103,7 +103,7 @@
         /**
          * @ngdoc function
          * @name categoryVisible
-         * @methodOf requisition-non-full-supply.AddProductModalService
+         * @methodOf requisition-non-full-supply.addProductModalService
          *
          * @description
          * Indicates if category should be displayed on modal
@@ -118,7 +118,7 @@
         /**
          * @ngdoc function
          * @name productVisible
-         * @methodOf requisition-non-full-supply.AddProductModalService
+         * @methodOf requisition-non-full-supply.addProductModalService
          *
          * @description
          * Indicates if product should be displayed on modal

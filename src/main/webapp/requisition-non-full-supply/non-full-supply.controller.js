@@ -13,10 +13,10 @@
         .module('requisition-non-full-supply')
         .controller('NonFullSupplyController', nonFullSupplyCtrl);
 
-    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'AddProductModalService',
+    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'addProductModalService',
                                  'LineItem', '$filter'];
 
-    function nonFullSupplyCtrl(requisition, requisitionValidator, AddProductModalService,
+    function nonFullSupplyCtrl(requisition, requisitionValidator, addProductModalService,
                                LineItem, $filter) {
 
         var vm = this;
@@ -101,7 +101,7 @@
          * Opens modal that lets the user add new product to the grid.
          */
         function addProduct() {
-            AddProductModalService.show(vm.requisition.$approvedCategories)
+            addProductModalService.show(vm.requisition.$approvedCategories)
                 .then(function(lineItem) {
                     lineItem.orderableProduct.programs = [{
                         programId: vm.requisition.program.id,

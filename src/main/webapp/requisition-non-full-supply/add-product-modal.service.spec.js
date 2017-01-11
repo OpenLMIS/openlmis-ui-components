@@ -1,4 +1,4 @@
-describe("AddProductModalService", function(){
+describe("addProductModalService", function(){
 
     // injections
     var addProductModal, $ngBootbox, $rootScope, $q,
@@ -9,8 +9,8 @@ describe("AddProductModalService", function(){
     beforeEach(function() {
         module('requisition-non-full-supply');
 
-        inject(function(_AddProductModalService_, _$ngBootbox_, _$rootScope_, _$q_){
-            AddProductModalService = _AddProductModalService_;
+        inject(function(_addProductModalService_, _$ngBootbox_, _$rootScope_, _$q_){
+            addProductModalService = _addProductModalService_;
             $ngBootbox = _$ngBootbox_;
             $rootScope = _$rootScope_;
             $q = _$q_;
@@ -33,7 +33,7 @@ describe("AddProductModalService", function(){
         var spy = jasmine.createSpy();
         spyOn($ngBootbox, 'customDialog').andCallFake(spy);
 
-        AddProductModalService.show(categories);
+        addProductModalService.show(categories);
         $rootScope.$apply();
 
         expect(spy).toHaveBeenCalled();
@@ -46,7 +46,7 @@ describe("AddProductModalService", function(){
         spyOn($ngBootbox, 'customDialog').andCallFake(showSpy);
         spyOn($ngBootbox, 'hideAll').andCallFake(closeSpy);
 
-        AddProductModalService.show(categories).then(function() {
+        addProductModalService.show(categories).then(function() {
             result = true;
         }, function() {
             result = false;
@@ -55,7 +55,7 @@ describe("AddProductModalService", function(){
 
         expect(showSpy).toHaveBeenCalled();
 
-        AddProductModalService.close();
+        addProductModalService.close();
         $rootScope.$apply();
 
         expect(closeSpy).toHaveBeenCalled();
