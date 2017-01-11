@@ -13,20 +13,20 @@
         .module('requisition')
         .factory('RequisitionFactory', requisitionFactory);
 
-    requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'RequisitionURL',
+    requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory',
         'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'Source',
         'localStorageFactory', 'offlineService'
     ];
 
-    function requisitionFactory($q, $resource, openlmisUrlFactory, RequisitionURL, RequisitionTemplate,
+    function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory, RequisitionTemplate,
         LineItem, categoryFactory, Status, Source, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
 
-        var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
+        var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
             'authorize': {
-                url: RequisitionURL('/api/requisitions/:id/authorize'),
+                url: requisitionUrlFactory('/api/requisitions/:id/authorize'),
                 method: 'POST'
             },
             'save': {
@@ -34,19 +34,19 @@
                 transformRequest: transformRequisition
             },
             'submit': {
-                url: RequisitionURL('/api/requisitions/:id/submit'),
+                url: requisitionUrlFactory('/api/requisitions/:id/submit'),
                 method: 'POST'
             },
             'approve': {
-                url: RequisitionURL('/api/requisitions/:id/approve'),
+                url: requisitionUrlFactory('/api/requisitions/:id/approve'),
                 method: 'POST'
             },
             'reject': {
-                url: RequisitionURL('/api/requisitions/:id/reject'),
+                url: requisitionUrlFactory('/api/requisitions/:id/reject'),
                 method: 'PUT'
             },
             'skip': {
-                url: RequisitionURL('/api/requisitions/:id/skip'),
+                url: requisitionUrlFactory('/api/requisitions/:id/skip'),
                 method: 'PUT'
             }
         });

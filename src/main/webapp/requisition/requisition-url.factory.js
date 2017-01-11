@@ -4,16 +4,16 @@
 
     angular
         .module('requisition')
-        .factory('RequisitionURL', RequisitionUrl);
+        .factory('requisitionUrlFactory', factory);
 
-    RequisitionUrl.$inject = ['openlmisUrlFactory', 'pathFactory'];
+    factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
 
-    function RequisitionUrl(openlmisUrlFactory, pathFactory) {
+    function factory(openlmisUrlFactory, pathFactory) {
 
-        var requisitionUrl = "@@REQUISITION_SERVICE_URL";
+        var requisitionUrl = '@@REQUISITION_SERVICE_URL';
 
-        if (requisitionUrl.substr(0, 2) == "@@") {
-            requisitionUrl = "";
+        if (requisitionUrl.substr(0, 2) == '@@') {
+            requisitionUrl = '';
         }
 
         return function(url) {

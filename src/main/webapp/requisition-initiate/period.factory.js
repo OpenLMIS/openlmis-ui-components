@@ -6,14 +6,14 @@
         .module('requisition-initiate')
         .factory('PeriodFactory', periodFactory);
 
-    periodFactory.$inject = ['$resource', 'RequisitionURL', 'RequisitionService', 'messageService',
+    periodFactory.$inject = ['$resource', 'requisitionUrlFactory', 'RequisitionService', 'messageService',
         '$q', 'dateUtils', 'Status'
     ];
 
-    function periodFactory($resource, RequisitionURL, RequisitionService, messageService, $q,
+    function periodFactory($resource, requisitionUrlFactory, RequisitionService, messageService, $q,
         dateUtils, Status) {
 
-        var resource = $resource(RequisitionURL('/api/requisitions/periodsForInitiate'), {}, {
+        var resource = $resource(requisitionUrlFactory('/api/requisitions/periodsForInitiate'), {}, {
             get: {
                 method: 'GET',
                 isArray: true,

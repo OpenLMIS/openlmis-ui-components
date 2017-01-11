@@ -10,7 +10,7 @@
 describe('RequisitionService', function() {
 
     var $rootScope, $httpBackend, requisitionService, requisitionFactory, dateUtils, confirm, q,
-        allStatuses, requisitionUrl, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions,
+        allStatuses, requisitionUrlFactory, openlmisUrl, requisitionsStorage, onlineOnlyRequisitions,
         startDate, endDate, startDate1, endDate1, modifiedDate, createdDate, processingSchedule,
         facility, program, period, emergency, requisition, requisitionDto, requisitionDto2, requisitionToConvert,
         approvedProductsOffline, templateOffline;
@@ -113,8 +113,9 @@ describe('RequisitionService', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, RequisitionURL, openlmisUrlFactory,
-                Status, RequisitionFactory, _dateUtils_, $q, $templateCache) {
+        inject(function(_$httpBackend_, _$rootScope_, RequisitionService, _requisitionUrlFactory_,
+                        openlmisUrlFactory, Status, RequisitionFactory, _dateUtils_, $q,
+                        $templateCache) {
 
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
@@ -123,7 +124,7 @@ describe('RequisitionService', function() {
             requisitionFactory = RequisitionFactory;
             dateUtils = _dateUtils_;
             q = $q;
-            requisitionUrl = RequisitionURL;
+            requisitionUrlFactory = _requisitionUrlFactory_;
             openlmisUrl = openlmisUrlFactory;
 
             $templateCache.put('common/notification-modal.html', "something");
@@ -138,8 +139,8 @@ describe('RequisitionService', function() {
                              '/approvedProducts?fullSupply=false&programId=' +
                              requisition.program.id;
 
-        httpBackend.when('GET', requisitionUrl(getRequisitionUrl)).respond(200, requisition);
-        httpBackend.when('GET', requisitionUrl(getTemplateUrl)).respond(200, {});
+        httpBackend.when('GET', requisitionUrlFactory(getRequisitionUrl)).respond(200, requisition);
+        httpBackend.when('GET', requisitionUrlFactory(getTemplateUrl)).respond(200, {});
         httpBackend.when('GET', openlmisUrl(getProductsUrl)).respond(200, []);
         httpBackend.when('GET', openlmisUrl(getReasonsUrl)).respond(200, []);
 
@@ -158,7 +159,7 @@ describe('RequisitionService', function() {
     it('should initiate requisition', function() {
         var data;
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/initiate?emergency=' + emergency +
+        httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/initiate?emergency=' + emergency +
             '&facility=' + facility.id + '&program=' + program.id + '&suggestedPeriod=' + period.id))
         .respond(200, requisition);
 
@@ -182,7 +183,7 @@ describe('RequisitionService', function() {
                 descending: 'true'
             };
 
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/requisitionsForConvert?descending=' + params.descending +
+        httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/requisitionsForConvert?descending=' + params.descending +
             '&filterBy=' + params.filterBy + '&filterValue=' + params.filterValue + '&sortBy=' + params.sortBy))
         .respond(200, [{requisition: requisitionDto}]);
 
@@ -199,7 +200,7 @@ describe('RequisitionService', function() {
     it('should convert requisitions', function() {
         var callback = jasmine.createSpy();
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/convertToOrder'))
+        httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/convertToOrder'))
         .respond(function(method, url, data){
           if(!angular.equals(data, angular.toJson([requisitionToConvert]))){
             return [404];
@@ -229,7 +230,7 @@ describe('RequisitionService', function() {
             },
             requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
 
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
+        httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
             '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + params.emergency +
             '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
@@ -255,7 +256,7 @@ describe('RequisitionService', function() {
                 facility: facility.id
             };
 
-        httpBackend.when('GET', requisitionUrl('/api/requisitions/search?facility=' + facility.id))
+        httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/search?facility=' + facility.id))
         .respond(200, [requisitionDto2]);
 
         requisitionsStorage.getBy.andReturn(false);

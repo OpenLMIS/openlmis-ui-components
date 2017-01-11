@@ -14,12 +14,12 @@
         .service('RequisitionService', requisitionService);
 
     requisitionService.$inject = [
-        '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'RequisitionURL', 'RequisitionFactory',
+        '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionFactory',
         'confirmService', 'notificationService', 'dateUtils', 'localStorageFactory',
         'offlineService'
     ];
 
-    function requisitionService($q, $resource, messageService, openlmisUrlFactory, RequisitionURL,
+    function requisitionService($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
                                 RequisitionFactory, confirmService, notificationService, dateUtils,
                                 localStorageFactory, offlineService) {
 
@@ -29,35 +29,35 @@
             offlineApprovedProducts = localStorageFactory('approvedProducts'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
 
-        var resource = $resource(RequisitionURL('/api/requisitions/:id'), {}, {
+        var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
             'initiate': {
-                url: RequisitionURL('/api/requisitions/initiate'),
+                url: requisitionUrlFactory('/api/requisitions/initiate'),
                 method: 'POST'
             },
             'search': {
-                url: RequisitionURL('/api/requisitions/search'),
+                url: requisitionUrlFactory('/api/requisitions/search'),
                 method: 'GET',
                 isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
             'forApproval': {
-                url: RequisitionURL('/api/requisitions/requisitionsForApproval'),
+                url: requisitionUrlFactory('/api/requisitions/requisitionsForApproval'),
                 method: 'GET',
                 isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
             'getTemplate': {
-                url: RequisitionURL('/api/requisitionTemplates/:id'),
+                url: requisitionUrlFactory('/api/requisitionTemplates/:id'),
                 method: 'GET'
             },
             'forConvert': {
-                url: RequisitionURL('/api/requisitions/requisitionsForConvert'),
+                url: requisitionUrlFactory('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
                 isArray: true,
                 transformResponse: transformResponseForConvert
             },
             'convertToOrder': {
-                url: RequisitionURL('/api/requisitions/convertToOrder'),
+                url: requisitionUrlFactory('/api/requisitions/convertToOrder'),
                 method: 'POST',
                 transformRequest: transformRequest
             },

@@ -22,18 +22,18 @@
      */
     angular.module('admin-template').service('requisitionTemplateService', requisitionTemplateService);
 
-    requisitionTemplateService.$inject = ['RequisitionURL', '$resource'];
+    requisitionTemplateService.$inject = ['requisitionUrlFactory', '$resource'];
 
-    function requisitionTemplateService(RequisitionURL, $resource) {
+    function requisitionTemplateService(requisitionUrlFactory, $resource) {
 
-        var resource = $resource(RequisitionURL('/api/requisitionTemplates/:id'), {}, {
+        var resource = $resource(requisitionUrlFactory('/api/requisitionTemplates/:id'), {}, {
             'getAll': {
-                url: RequisitionURL('/api/requisitionTemplates'),
+                url: requisitionUrlFactory('/api/requisitionTemplates'),
                 method: 'GET',
                 isArray: true
             },
             'search': {
-                url: RequisitionURL('/api/requisitionTemplates/search'),
+                url: requisitionUrlFactory('/api/requisitionTemplates/search'),
                 method: 'GET'
             },
             'save': {

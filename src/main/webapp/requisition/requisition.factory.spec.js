@@ -10,7 +10,7 @@
 
 describe('RequisitionFactory', function() {
 
-    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrl, openlmisUrl,
+    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrlFactory, openlmisUrl,
         LineItemSpy, offlineRequitions;
 
     var TemplateSpy;
@@ -96,11 +96,13 @@ describe('RequisitionFactory', function() {
         spyOn(categoryFactory, 'groupProducts').andReturn([]);
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, RequisitionURL, openlmisUrlFactory, Status, $q){
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, _requisitionUrlFactory_,
+                               openlmisUrlFactory, Status, $q) {
+
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
         requisitionFactory = RequisitionFactory;
-        requisitionUrl = RequisitionURL;
+        requisitionUrlFactory = _requisitionUrlFactory_;
         openlmisUrl = openlmisUrlFactory;
         allStatuses = Status;
         q = $q;
@@ -113,7 +115,7 @@ describe('RequisitionFactory', function() {
 
         requisition.status = allStatuses.SUBMITTED;
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/submit'))
+        httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/submit'))
         .respond(200, requisition);
 
         requisition.$submit();
@@ -129,7 +131,7 @@ describe('RequisitionFactory', function() {
 
         requisition.status = allStatuses.AUTHORIZED;
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/authorize'))
+        httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/authorize'))
         .respond(200, requisition);
 
         requisition.$authorize();
@@ -145,7 +147,7 @@ describe('RequisitionFactory', function() {
 
         requisition.status = allStatuses.APPROVED;
 
-        httpBackend.when('POST', requisitionUrl('/api/requisitions/' + requisition.id + '/approve'))
+        httpBackend.when('POST', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/approve'))
         .respond(200, requisition);
 
         requisition.$approve();
@@ -159,7 +161,7 @@ describe('RequisitionFactory', function() {
     it('should reject requisition', function() {
         var data;
 
-        httpBackend.when('PUT', requisitionUrl('/api/requisitions/' + requisition.id + '/reject'))
+        httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/reject'))
         .respond(200, requisition);
 
         requisition.$reject().then(function(response) {
@@ -175,7 +177,7 @@ describe('RequisitionFactory', function() {
     it('should skip requisition', function() {
         var data;
 
-        httpBackend.when('PUT', requisitionUrl('/api/requisitions/' + requisition.id + '/skip'))
+        httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id + '/skip'))
         .respond(200, requisition);
 
         requisition.$skip().then(function(response) {
@@ -191,7 +193,7 @@ describe('RequisitionFactory', function() {
     it('should save requisition', function() {
         var data;
 
-        httpBackend.when('PUT', requisitionUrl('/api/requisitions/' + requisition.id))
+        httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id))
         .respond(200, requisition);
 
         requisition.name = 'Saved requisition';
