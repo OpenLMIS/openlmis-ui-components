@@ -83,13 +83,13 @@ describe('requisitionService', function() {
         };
 
         module(function($provide){
-            var requisitionFactorySpy = jasmine.createSpy('RequisitionFactory').andReturn(requisition),
+            var requisitionFactorySpy = jasmine.createSpy('Requisition').andReturn(requisition),
                 confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm'])
                 confirmServiceMock.confirm.andCallFake(function(argumentObject) {
                     return q.when(true);
                 });
 
-        	$provide.service('RequisitionFactory', function() {
+        	$provide.service('Requisition', function() {
                 return requisitionFactorySpy;
             });
 
@@ -114,14 +114,14 @@ describe('requisitionService', function() {
         });
 
         inject(function(_$httpBackend_, _$rootScope_, _requisitionService_, _requisitionUrlFactory_,
-                        openlmisUrlFactory, Status, RequisitionFactory, _dateUtils_, $q,
+                        openlmisUrlFactory, Status, Requisition, _dateUtils_, $q,
                         $templateCache) {
 
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             requisitionService = _requisitionService_;
             allStatuses = Status.$toList();
-            requisitionFactory = RequisitionFactory;
+            requisitionFactory = Requisition;
             dateUtils = _dateUtils_;
             q = $q;
             requisitionUrlFactory = _requisitionUrlFactory_;

@@ -15,12 +15,12 @@
 
     service.$inject = [
         '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory',
-        'RequisitionFactory', 'confirmService', 'notificationService', 'dateUtils',
+        'Requisition', 'confirmService', 'notificationService', 'dateUtils',
         'localStorageFactory', 'offlineService'
     ];
 
     function service($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
-                                RequisitionFactory, confirmService, notificationService, dateUtils,
+                                Requisition, confirmService, notificationService, dateUtils,
                                 localStorageFactory, offlineService) {
 
         var offlineTemplates = localStorageFactory('requisitionTemplates'),
@@ -153,7 +153,7 @@
             return deferred.promise;
 
             function resolve(requisition, template, approvedProducts, reasons) {
-                deferred.resolve(RequisitionFactory(requisition, template, approvedProducts, reasons));
+                deferred.resolve(new Requisition(requisition, template, approvedProducts, reasons));
             }
 
             function error() {

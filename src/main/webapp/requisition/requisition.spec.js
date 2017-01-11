@@ -8,14 +8,15 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-describe('RequisitionFactory', function() {
+describe('Requisition', function() {
 
-    var $rootScope, $httpBackend, requisitionFactory, q, allStatuses, requisitionUrlFactory, openlmisUrl,
+    var $rootScope, $httpBackend, q, allStatuses, requisitionUrlFactory, openlmisUrl,
         LineItemSpy, offlineRequitions;
 
     var TemplateSpy;
 
-    var facility = {
+    var requisition,
+        facility = {
             id: '1',
             name: 'facility'
         },
@@ -23,7 +24,7 @@ describe('RequisitionFactory', function() {
             id: '1',
             name: 'program'
         },
-        requisition = {
+        sourceRequisition = {
             id: '1',
             name: 'requisition',
             status: 'INITIATED',
@@ -96,18 +97,17 @@ describe('RequisitionFactory', function() {
         spyOn(categoryFactory, 'groupProducts').andReturn([]);
     }));
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, RequisitionFactory, _requisitionUrlFactory_,
+    beforeEach(inject(function(_$httpBackend_, _$rootScope_, Requisition, _requisitionUrlFactory_,
                                openlmisUrlFactory, Status, $q) {
 
         httpBackend = _$httpBackend_;
         $rootScope = _$rootScope_;
-        requisitionFactory = RequisitionFactory;
         requisitionUrlFactory = _requisitionUrlFactory_;
         openlmisUrl = openlmisUrlFactory;
         allStatuses = Status;
         q = $q;
 
-        requisitionFactory(requisition, requisitionTemplate, {});
+        requisition = new Requisition(sourceRequisition, requisitionTemplate, {});
     }));
 
     it('should submit requisition', function() {

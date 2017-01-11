@@ -4,14 +4,14 @@
 
     /**
      * @ngdoc service
-     * @name requisition.RequisitionFactory
+     * @name requisition.Requisition
      *
      * @description
      * Responsible for supplying requisition with additional methods.
      */
     angular
         .module('requisition')
-        .factory('RequisitionFactory', requisitionFactory);
+        .factory('Requisition', requisitionFactory);
 
     requisitionFactory.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory',
         'RequisitionTemplate', 'LineItem', 'categoryFactory', 'Status', 'Source',
@@ -22,9 +22,8 @@
         LineItem, categoryFactory, Status, Source, localStorageFactory, offlineService) {
 
         var offlineRequitions = localStorageFactory('requisitions'),
-            offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
-
-        var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
+            offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
+            resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
             'authorize': {
                 url: requisitionUrlFactory('/api/requisitions/:id/authorize'),
                 method: 'POST'
@@ -51,12 +50,24 @@
             }
         });
 
-        return requisition;
+        Requisition.prototype.$authorize = authorize;
+        Requisition.prototype.$save = save;
+        Requisition.prototype.$submit = submit;
+        Requisition.prototype.$remove = remove;
+        Requisition.prototype.$approve = approve;
+        Requisition.prototype.$reject = reject;
+        Requisition.prototype.$skip = skip;
+        Requisition.prototype.$isInitiated = isInitiated;
+        Requisition.prototype.$isSubmitted = isSubmitted;
+        Requisition.prototype.$isApproved = isApproved;
+        Requisition.prototype.$isAuthorized = isAuthorized;
+
+        return Requisition;
 
         /**
          * @ngdoc function
          * @name requisition
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @param {Resource} requisition resource with requisition
          * @param {Resource} template resource with requisition template
          * @param {Resource} approvedProducts resource with approved products
@@ -66,39 +77,29 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function requisition(requisition, template, approvedProducts, reasons) {
-            var programId = requisition.program.id;
+        function Requisition(source, template, approvedProducts, reasons) {
+            var programId = source.program.id,
+                requisition = this;
 
-            requisition.$authorize = authorize;
-            requisition.$save = save;
-            requisition.$submit = submit;
-            requisition.$remove = remove;
-            requisition.$approve = approve;
-            requisition.$reject = reject;
-            requisition.$skip = skip;
-            requisition.$isInitiated = isInitiated;
-            requisition.$isSubmitted = isSubmitted;
-            requisition.$isApproved = isApproved;
-            requisition.$isAuthorized = isAuthorized;
-            requisition.$template = new RequisitionTemplate(template, requisition);
-            requisition.$stockAdjustmentReasons = reasons;
+            angular.copy(source, this);
 
-            var lineItems = [];
-            requisition.requisitionLineItems.forEach(function(lineItem) {
-                lineItems.push(new LineItem(lineItem, requisition));
+            this.$stockAdjustmentReasons = reasons;
+            this.$template = new RequisitionTemplate(template, source);
+
+            this.requisitionLineItems = [];
+            source.requisitionLineItems.forEach(function(lineItem) {
+                requisition.requisitionLineItems.push(new LineItem(lineItem, requisition));
             });
-            requisition.requisitionLineItems = lineItems;
 
-            requisition.$fullSupplyCategories = categoryFactory.groupFullSupplyLineItems(lineItems, programId);
-            requisition.$nonFullSupplyCategories = categoryFactory.groupNonFullSupplyLineItems(lineItems, programId);
-            requisition.$approvedCategories = categoryFactory.groupProducts(lineItems, approvedProducts);
-            return requisition;
+            this.$fullSupplyCategories = categoryFactory.groupFullSupplyLineItems(this.requisitionLineItems, programId);
+            this.$nonFullSupplyCategories = categoryFactory.groupNonFullSupplyLineItems(this.requisitionLineItems, programId);
+            this.$approvedCategories = categoryFactory.groupProducts(this.requisitionLineItems, approvedProducts);
         }
 
         /**
          * @ngdoc function
          * @name authorize
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} requisition promise
          *
          * @description
@@ -117,7 +118,7 @@
         /**
          * @ngdoc function
          * @name remove
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} promise that resolves after requisition is deleted
          *
          * @description
@@ -136,7 +137,7 @@
         /**
          * @ngdoc function
          * @name save
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} requisition promise
          *
          * @description
@@ -155,7 +156,7 @@
         /**
          * @ngdoc function
          * @name submit
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} requisition promise
          *
          * @description
@@ -174,7 +175,7 @@
         /**
          * @ngdoc function
          * @name approve
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} promise that resolves when requisition is approved
          *
          * @description
@@ -193,7 +194,7 @@
         /**
          * @ngdoc function
          * @name reject
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} promise that resolves when requisition is rejected
          *
          * @description
@@ -212,7 +213,7 @@
         /**
          * @ngdoc function
          * @name skip
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          * @return {Promise} promise that resolves when requisition is skipped
          *
          * @description
@@ -230,7 +231,7 @@
         /**
          * @ngdoc function
          * @name isInitiated
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          *
          * @description
          * Responsible for checking if requisition is initiated.
@@ -245,7 +246,7 @@
         /**
          * @ngdoc function
          * @name isSubmitted
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          *
          * @description
          * Responsible for checking if requisition is submitted.
@@ -260,7 +261,7 @@
         /**
          * @ngdoc function
          * @name isAuthorized
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          *
          * @description
          * Responsible for checking if requisition is authorized.
@@ -275,7 +276,7 @@
         /**
          * @ngdoc function
          * @name isApproved
-         * @methodOf requisition.RequisitionFactory
+         * @methodOf requisition.Requisition
          *
          * @description
          * Responsible for checking if requisition is approved.
