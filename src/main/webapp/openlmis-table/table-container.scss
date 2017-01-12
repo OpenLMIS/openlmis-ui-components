@@ -17,7 +17,7 @@ and aligned while a user is scrolling what could be a large table.
 ### Form Guidelines
 Any form that modifies a table should use the `aria-described-by` attribute. This
 will ensure that accessiable technologies will be able to detect the relationship
-between a table and the forms that modify that table. 
+between a table and the forms that modify that table.
 
 Forms  will enable or disable the primary form button if the form doesn't match
 the current state of the table. *This feature still needs to be implemented.*
@@ -25,7 +25,7 @@ the current state of the table. *This feature still needs to be implemented.*
 A table could have two form elements, a form displaying the current sort order
 of the items and a form that modifies the rows displayed within the form. Tables
 with container don't have to implement two forms, but *an element that describes
-the current table sort order is recommended.* 
+the current table sort order is recommended.*
 
 markup:
 <h2>Example Items</h2>
@@ -113,48 +113,41 @@ Styleguide 4.1
 
 @import 'bourbon';
 
-// Layout
-.table-container{
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: flex-start;
+.table-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: 100%;
 
-  > * {
-    flex: 0 0 auto;
-    order: 0;
-    margin: 1em;
-  }
-  > table{
-    flex: 1 0 auto;
-    order: 10;
-  }
+    > * {
+        margin: 1em;
+    }
+
+    > form {
+        flex: 0 0 auto;
+        order: 0;
+        width: $sidebar-width;
+    }
+
+    > .flex-table {
+        flex: 1 1 auto;
+        overflow: auto;
+
+        table {
+            width: 100%;
+        }
+    }
+
 }
-
-// Styles
-.table-container{
-  background-color: $background-color-alt;
-
-}
-
-.table-container > table{
-
-}
-
-
-// Forms
-.table-container > form {
-  width: $sidebar-width;
-}
-
 
 // Sort order
 .table-container > .table-sort-order {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width:100%;
-  margin: 0em;
-  padding: 1em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 1em;
 }
