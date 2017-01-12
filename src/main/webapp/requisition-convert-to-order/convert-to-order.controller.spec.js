@@ -1,6 +1,7 @@
 describe('ConvertToOrderController', function(){
 
-    var vm, rootScope, state, q, stateParams, requisitionService, notificationService, requisitions;
+    var vm, rootScope, state, q, stateParams, requisitionService, notificationService,
+        requisitions, supplyingDepots;
 
     beforeEach( function() {
         module('requisition-convert-to-order');
@@ -20,6 +21,7 @@ describe('ConvertToOrderController', function(){
         };
         requisitions = [
             {
+                requisition: {
                 id: 'requisitionId1',
                 facility: {
                     name: 'facility1',
@@ -28,8 +30,11 @@ describe('ConvertToOrderController', function(){
                 program: {
                     name: 'program1'
                 }
+                },
+                supplyingDepots: supplyingDepots
             },
             {
+                requisition: {
                 id: 'requisitonId2',
                 facility: {
                     name: 'facility2',
@@ -38,6 +43,20 @@ describe('ConvertToOrderController', function(){
                 program: {
                     name: 'program2'
                 }
+                },
+                supplyingDepots: supplyingDepots
+            }
+        ];
+        supplyingDepots = [
+            {
+                id: 'depotId1',
+                name: 'facility1',
+                code: 'code1'
+            },
+            {
+                id: 'depotId2',
+                name: 'facility2',
+                code: 'code2'
             }
         ];
 
@@ -100,11 +119,25 @@ describe('ConvertToOrderController', function(){
 
     it('should convert to order selected requisitions', function() {
         vm.requisitions[0].$selected = true;
+        vm.requisitions[0].requisition.supplyingFacility = {id: 'supplyingFacilityId'};
+
         spyOn(requisitionService, 'convertToOrder').andReturn(q.when());
 
         vm.convertToOrder();
 
         expect(requisitionService.convertToOrder).toHaveBeenCalled();
+    });
+
+    it('should show error when trying to convert to order with no supplying depot selected', function() {
+        vm.requisitions[0].$selected = true;
+
+        spyOn(requisitionService, 'convertToOrder').andReturn(q.when());
+        spyOn(notificationService, 'error').andCallThrough();
+
+        vm.convertToOrder();
+
+        expect(requisitionService.convertToOrder).not.toHaveBeenCalled();
+        expect(notificationService.error).toHaveBeenCalledWith('msg.no.supplyingDepot.selected');
     });
 
     it('should show error when trying to convert to order with no requisition selected', function() {
