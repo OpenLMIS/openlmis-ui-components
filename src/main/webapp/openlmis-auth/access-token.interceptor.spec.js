@@ -4,13 +4,15 @@ describe('accessTokenInterceptor', function() {
 
     describe('request', function() {
 
-        var config, accessTokenFactoryMock, openlmisUrlServiceMock, authorizationServiceMock;
+        var config, accessTokenFactoryMock, openlmisUrlServiceMock, authorizationServiceMock,
+            interceptors;
 
         beforeEach(function() {
-            module('openlmis-auth', function($provide) {
+            module('openlmis-auth', function($provide, $httpProvider) {
                 accessTokenFactoryMock = mockAccessTokenFactory($provide);
                 openlmisUrlServiceMock = mockOpenlmisUrlService($provide);
                 authorizationServiceMock = mockAuthorizationServiceMock($provide);
+                interceptors = $httpProvider.interceptors;
             });
 
             inject(function(accessTokenInterceptor) {
@@ -23,6 +25,10 @@ describe('accessTokenInterceptor', function() {
             config = {
                 url: 'some.url'
             };
+        });
+
+        it('should be registered', function() {
+            expect(interceptors.indexOf('accessTokenInterceptor') > -1).toBe(true);
         });
 
         it('should append token', function() {
