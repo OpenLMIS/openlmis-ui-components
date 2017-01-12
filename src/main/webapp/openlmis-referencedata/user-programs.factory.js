@@ -25,11 +25,11 @@
     factory.$inject = ['openlmisUrlFactory', '$q', '$http', 'offlineService', 'localStorageFactory'];
 
     function factory(openlmisUrlFactory, $q, $http, offlineService, localStorageFactory){
+
         var programsOffline = localStorageFactory('userPrograms'),
             factory = {
                 get: get
             };
-
         return factory;
 
         /**
@@ -37,8 +37,8 @@
          * @methodOf openlmis-referencedata.userProgramsFactory
          *
          * @description
-         * Retrieves programs for current user and saves it in local storage.
-         * If user is offline program are retreived from local storage.
+         * Retrieves programs for the current user and saves it in local storage.
+         * If the user is offline program are retreived from local storage.
          *
          * @param {String} userId User UUID
          * @param {Boolean} isForHomeFacility Indicates if programs should be for home or supervised facilities

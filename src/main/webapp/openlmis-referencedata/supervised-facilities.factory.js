@@ -37,14 +37,14 @@
          * @methodOf openlmis-referencedata.supervisedFacilitiesFactory
          *
          * @description
-         * Returns facilities where program with given programId is active and where the given
-         * user has right with given rightId. Facilities are stored in local storage.
-         * If user is offline facilities are retreived from local storage.
+         * Returns facilities where program with the given programId is active and where the given
+         * user has right with the given rightId. Facilities are stored in local storage.
+         * If user is offline facilities are retreived from the local storage.
          *
          * @param {String} userId User UUID
          * @param {String} programId Program UUID
          * @param {String} rightId Right UUID
-         * @return {Promise}
+         * @return {Promise} supervised facilities for user
          */
         function get(userId, programId, rightId) {
             var deferred = $q.defer();

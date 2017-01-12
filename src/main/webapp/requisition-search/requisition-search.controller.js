@@ -82,7 +82,11 @@
             if (!vm.selectedFacility) {
                 return;
             } else if (vm.selectedFacility.supportedPrograms) {
-                vm.programs = vm.selectedFacility.supportedPrograms;
+                var programs = [];
+                angular.forEach(vm.selectedFacility.supportedPrograms, function(program) {
+                    programs.push(program.program);
+                });
+                vm.programs = programs;
             } else {
                 notificationService.error('msg.no.program.available');
             }
@@ -104,7 +108,7 @@
                 vm.error = null;
                 loadingModalService.open();
                 requisitionService.search(vm.searchOffline, {
-                        program: vm.selectedProgram ? vm.selectedProgram.program.id : null,
+                        program: vm.selectedProgram ? vm.selectedProgram.id : null,
                         facility: vm.selectedFacility ? vm.selectedFacility.id : null,
                         createdDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
                         createdDateTo: vm.endDate ? vm.endDate.toISOString() : null

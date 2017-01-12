@@ -87,12 +87,12 @@ describe('RequisitionSearchController', function() {
         vm.selectedFacility = vm.facilities[0];
         vm.loadPrograms();
         expect(vm.selectedFacility.id).toEqual('1');
-        expect(vm.programs).toEqual(vm.facilities[0].supportedPrograms);
+        expect(vm.programs).toEqual(getPrograms(vm.facilities[0].supportedPrograms));
 
         vm.selectedFacility = vm.facilities[1];
         vm.loadPrograms();
         expect(vm.selectedFacility.id).toEqual('2');
-        expect(vm.programs).toEqual(vm.facilities[1].supportedPrograms);
+        expect(vm.programs).toEqual(getPrograms(vm.facilities[1].supportedPrograms));
     });
 
     it('should load requisitions after search', function() {
@@ -115,5 +115,13 @@ describe('RequisitionSearchController', function() {
         vm.search();
         expect(callback).toHaveBeenCalled();
     });
+
+    function getPrograms(programs) {
+        var filteredPrograms = [];
+        angular.forEach(programs, function(program) {
+            filteredPrograms.push(program.program);
+        });
+        return filteredPrograms;
+    }
 
 });
