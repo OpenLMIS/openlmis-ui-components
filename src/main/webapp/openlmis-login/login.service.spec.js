@@ -27,7 +27,7 @@ describe("loginService", function() {
             });
 
             // Turn off AuthToken
-            $provide.factory('accessTokenProvider', function(){
+            $provide.factory('accessTokenInterceptor', function(){
                 return {};
             });
 

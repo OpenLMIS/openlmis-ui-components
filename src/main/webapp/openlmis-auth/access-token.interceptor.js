@@ -15,32 +15,39 @@
     /**
      *
      * @ngdoc service
-     * @name  openlmis-auth.accessTokenProviderInterceptor
+     * @name  openlmis-auth.accessTokenInterceptorInterceptor
      * @description Adds access token stored by the Authorization Service to all requests to the OpenLMIS Server
      *
      */
     angular
         .module('openlmis-auth')
-        .factory('accessTokenProvider', provider);
+        .factory('accessTokenInterceptor', factory)
+        .config(config);
 
-    provider.$inject = [
+    config.$inject = ['$httpProvider'];
+
+    factory.$inject = [
         '$q', '$injector', 'openlmisUrlService', 'authorizationService', 'accessTokenFactory'
     ];
 
-    function provider($q, $injector, openlmisUrlService, authorizationService,
+    function config($httpProvider) {
+        $httpProvider.interceptors.push('accessTokenInterceptor');
+    }
+
+    function factory($q, $injector, openlmisUrlService, authorizationService,
                      accessTokenFactory) {
 
-        var provider = {
+        var interceptor = {
             request: request,
             responseError: responseError
         };
-        return provider;
+        return interceptor;
 
         /**
          *
          * @ngdoc function
          * @name request
-         * @methodOf openlmis-auth.accessTokenProviderInterceptor
+         * @methodOf openlmis-auth.accessTokenInterceptorInterceptor
          *
          * @param  {object} config HTTP Config object
          * @return {object} A modified configuration object
@@ -62,7 +69,7 @@
          *
          * @ngdoc function
          * @name  response
-         * @methodOf openlmis-auth.accessTokenProviderInterceptor
+         * @methodOf openlmis-auth.accessTokenInterceptorInterceptor
          *
          * @param  {object} response HTTP Response
          * @return {Promise} Rejected promise
@@ -87,4 +94,5 @@
             return url.lastIndexOf('.html') === url.length - '.html'.length;
         }
     }
+
 })();

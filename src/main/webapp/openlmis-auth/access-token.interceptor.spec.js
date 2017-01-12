@@ -1,4 +1,4 @@
-describe('accessTokenProvider', function() {
+describe('accessTokenInterceptor', function() {
 
     var provider, authorizationServiceMock;
 
@@ -13,8 +13,8 @@ describe('accessTokenProvider', function() {
                 authorizationServiceMock = mockAuthorizationServiceMock($provide);
             });
 
-            inject(function(accessTokenProvider) {
-                provider = accessTokenProvider;
+            inject(function(accessTokenInterceptor) {
+                provider = accessTokenInterceptor;
             });
 
             openlmisUrlServiceMock.check.andReturn(true);
@@ -70,8 +70,8 @@ describe('accessTokenProvider', function() {
                 authorizationServiceMock = mockAuthorizationServiceMock($provide);
             });
 
-            inject(function(accessTokenProvider, _$q_, _$injector_) {
-                provider = accessTokenProvider;
+            inject(function(accessTokenInterceptor, _$q_, _$injector_) {
+                provider = accessTokenInterceptor;
                 $q = _$q_;
                 $injector = _$injector_;
             });
