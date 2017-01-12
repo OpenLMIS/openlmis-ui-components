@@ -109,7 +109,7 @@
          * @description
          * Retrieves all user supervised facilities.
          * When user is offline it gets facilities from the local storage.
-         * If theuser is online it stores all facilities into the local storage.
+         * If the user is online it stores all facilities into the local storage.
          *
          */
         function getsupervisedFacilitiesFactory(supervisedPrograms, userId) {
