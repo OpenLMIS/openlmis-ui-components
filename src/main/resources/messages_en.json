@@ -136,7 +136,7 @@
   "msg.question.confirmation.makeOnlineOnly": "You are about to remove your local version of this requisition. This requisition will no longer be available offline. Do you want to proceed?",
   "msg.question.confirmation.skip": "Are you sure you want to skip this requisiton?",
   "msg.question.confirmation.submit": "Are you sure you want to submit this R&R?",
-  "msg.question.confirmation.convertToOrder": "Are you sure you want to convert this R&R to order?",
+  "msg.question.confirmation.convertToOrder": "Are you sure you want to convert this R&R(s) to order(s)?",
   "msg.question.confirmation.reject": "Are you sure you want to reject this R&R?",
   "msg.question.confirmation.approve": "Are you sure you want to approve this R&R?",
   "msg.requisition.view.offline": "Offline",
