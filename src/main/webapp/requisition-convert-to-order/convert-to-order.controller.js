@@ -204,8 +204,17 @@
          */
         function convertToOrder() {
             var requisitions = getSelected();
+            var noSelectedDepots = 0;
             if (requisitions.length > 0) {
-                requisitionService.convertToOrder(requisitions).then(reload);
+                angular.forEach(requisitions, function(item) {
+                    if (!item.requisition.supplyingFacility) {
+                        noSelectedDepots += 1;
+                        notificationService.error('msg.no.supplyingDepot.selected');
+                    }
+                });
+                if (noSelectedDepots == 0) {
+                    requisitionService.convertToOrder(requisitions).then(reload);
+                }
             } else {
                 notificationService.error('msg.select.at.least.one.rnr');
             }
