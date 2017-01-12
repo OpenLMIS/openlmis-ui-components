@@ -208,7 +208,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function approveRnr() {
-            confirmService.confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation.approve').then(function() {
                 if(requisitionValidator.validateRequisition(requisition)) {
                     save()
                     .then(function() {
@@ -237,7 +237,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function rejectRnr() {
-            confirmService.confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation.reject').then(function() {
                 loadingModalService.open();
                 vm.requisition.$reject()
                 .then(function(response) {

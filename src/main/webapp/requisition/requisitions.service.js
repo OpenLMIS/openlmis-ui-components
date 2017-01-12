@@ -271,7 +271,7 @@
         function convertToOrder(requisitions) {
             var deferred = $q.defer();
 
-            confirmService.confirm('msg.question.confirmation').then(function() {
+            confirmService.confirm('msg.question.confirmation.convertToOrder').then(function() {
                 resource.convertToOrder(requisitions).$promise.then(function() {
                     deferred.resolve();
                     notificationService.success('msg.rnr.converted.to.order');
