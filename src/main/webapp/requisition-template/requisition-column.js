@@ -45,6 +45,10 @@
             totalCost: [
                 TEMPLATE_COLUMNS.PACKS_TO_SHIP,
                 TEMPLATE_COLUMNS.PRICE_PER_PACK
+            ],
+            adjustedConsumption: [
+                TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+                TEMPLATE_COLUMNS.TOTAL_STOCKOUT_DAYS
             ]
         };
 

@@ -26,7 +26,8 @@
             UNIT_UNIT_OF_ISSUE: 'dispensable',
             TOTAL_COST: 'totalCost',
             ADJUSTED_CONSUMPTION: 'adjustedConsumption',
-            NUMBER_OF_NEW_PATIENTS_ADDED: 'numberOfNewPatientsAdded'
+            NUMBER_OF_NEW_PATIENTS_ADDED: 'numberOfNewPatientsAdded',
+            TOTAL_STOCKOUT_DAYS: 'totalStockoutDays'
         };
     }
 
