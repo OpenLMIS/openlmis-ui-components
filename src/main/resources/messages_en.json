@@ -175,7 +175,7 @@
   "option.value.program": "Program",
   "password.reset.success": "Password has been reset successfully",
   "period.end.date": "End Date(dd/mm/yyyy)",
-  "period.header.endDate": "End date",
+  "period.header.endDate": "End Date",
   "period.header.startDate": "Start Date",
   "period.start.date": "Start Date(dd/mm/yyyy)",
   "placeholder.email": "Email",
