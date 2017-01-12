@@ -15,7 +15,7 @@
     /**
      *
      * @ngdoc service
-     * @name  openlmis-auth.accessTokenInterceptorInterceptor
+     * @name  openlmis-auth.accessTokenInterceptor
      * @description Adds access token stored by the Authorization Service to all requests to the OpenLMIS Server
      *
      */
@@ -47,7 +47,7 @@
          *
          * @ngdoc function
          * @name request
-         * @methodOf openlmis-auth.accessTokenInterceptorInterceptor
+         * @methodOf openlmis-auth.accessTokenInterceptor
          *
          * @param  {object} config HTTP Config object
          * @return {object} A modified configuration object
@@ -69,7 +69,7 @@
          *
          * @ngdoc function
          * @name  response
-         * @methodOf openlmis-auth.accessTokenInterceptorInterceptor
+         * @methodOf openlmis-auth.accessTokenInterceptor
          *
          * @param  {object} response HTTP Response
          * @return {Promise} Rejected promise
