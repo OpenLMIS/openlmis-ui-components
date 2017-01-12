@@ -131,7 +131,6 @@
   "msg.no.period.available": "No current period defined. Please contact the Admin.",
   "msg.no.program.available": "There are no programs for this facility. Please contact the Admin.",
   "msg.no.requisitions.found": "No requisitions found.",
-  "msg.no.supplyingDepot.selected": "Supplying depot not selected",
   "msg.question.confirmation.authorize": "Are you sure you want to authorize this R&R?",
   "msg.question.confirmation.deletion": "Are you sure you want to delete this R&R?",
   "msg.question.confirmation.makeOnlineOnly": "You are about to remove your local version of this requisition. This requisition will no longer be available offline. Do you want to proceed?",
