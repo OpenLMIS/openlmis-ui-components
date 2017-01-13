@@ -4,14 +4,15 @@
 		overflow: hidden;
 
 		.form-group {
+		    margin: 0 1em 0 1em;
 		    input.filter {
 		        width: 100%;
 		    }
 		}
 
 		.form-group.depots {
-		    margin-left: 20px;
-		    label {
+		    label.radio {
+		        margin-left: 1em;
 		        font-weight: normal;
 		    }
 		}

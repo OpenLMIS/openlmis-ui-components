@@ -1,18 +1,19 @@
-<form name="convertForm" ng-submit="convertRnr()">
+<form name="convertForm" ng-submit="convertForm.$valid && convertRnr()" novalidate>
     <div class="form-group">
-      <label for="searchWarehouses">{{'label.filter.warehouses' | message}}</label>
-      <input id="searchWarehouses" type="text" ng-model="searchText"/>
+        <label for="searchWarehouses">{{'label.filter.warehouses' | message}}</label>
+        <input id="searchWarehouses" type="text" ng-model="searchText"/>
     </div>
     <fieldset class="form-group depots">
         <legend>{{'requisition.convertToOrder.pickDepot' | message}}</legend>
         <label ng-repeat="depot in requisitionWithDepots.supplyingDepots |
                filter:searchText"
                class="radio" >
-            <input type="radio" name="radioBtn" ng-value="depot.id"
-                   ng-model="requisitionWithDepots.requisition.supplyingFacility"/>
+            <input type="radio" name="radioBtn" ng-value="depot.id" ng-model="requisitionWithDepots.requisition.supplyingFacility" required/>
             {{depot.name}}
         </label>
+        <div class="alert is-error" ng-if="convertForm.$invalid && convertForm.$submitted">
+            {{ 'msg.no.supplyingDepot.selected' | message }}
+        </div>
     </fieldset>
-    <button class="convert-rnr" type="submit" ng-click="close()">
-        {{'button.convert.to.order' | message}}</button>
+    <button class="convert-rnr" type="submit">{{'button.convert.to.order' | message}}</button>
 </form>

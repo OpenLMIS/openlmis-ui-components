@@ -55,17 +55,6 @@ describe("convertToOrderModalService", function(){
         expect(result).toEqual(requisitions[0]);
     });
 
-    it('should close modal for convert requisition for order', function(){
-        spyOn(requisitionService, 'forConvert').andReturn(q.when(requisitions));
-        spyOn(ngBootbox, 'customDialog');
-        spyOn(ngBootbox, 'hideAll');
-
-        convertToOrderModal.show(requisition);
-        convertToOrderModal.close();
-
-        expect(ngBootbox.hideAll).toHaveBeenCalled();
-    });
-
     function supplyingDepotSpy(id) {
         return {
             $id: id

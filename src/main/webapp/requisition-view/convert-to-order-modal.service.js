@@ -22,11 +22,9 @@
 
         var deferred, scope = $rootScope.$new();
 
-        scope.close = close;
         scope.convertRnr = convertRnr;
 
         this.show = show;
-        this.close = close;
 
 
         /**
@@ -90,6 +88,7 @@
          *
          */
         function convertRnr(){
+            close();
             requisitionService.convertToOrder([scope.requisitionWithDepots]).then($state.reload);
         }
 
