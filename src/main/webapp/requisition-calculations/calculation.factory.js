@@ -13,9 +13,9 @@
     .module('requisition-calculations')
     .factory('calculationFactory', factory);
 
-    factory.$inject = ['TEMPLATE_COLUMNS', '$filter'];
+    factory.$inject = ['TEMPLATE_COLUMNS', 'COLUMN_SOURCES', '$filter'];
 
-    function factory(TEMPLATE_COLUMNS, $filter) {
+    function factory(TEMPLATE_COLUMNS, COLUMN_SOURCES, $filter) {
         var A = TEMPLATE_COLUMNS.BEGINNING_BALANCE,
         B = TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
         C = TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -32,6 +32,7 @@
         H = TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY;
 
         var calculationFactory = {
+            calculatedOrderQuantity: calculateOrderQuantity,
             totalConsumedQuantity: calculateTotalConsumedQuantity,
             stockOnHand: calculateStockOnHand,
             totalLossesAndAdjustments: calculateTotalLossesAndAdjustments,
@@ -243,6 +244,37 @@
             return column && column.option.optionName === 'default'
                 ? lineItem[P] * lineItem.maxMonthsOfStock
                 : 0;
+        }
+
+        /**
+         * @ngdoc function
+         * @name calculatedOrderQuantity
+         * @methodOf requisition-calculations.calculationFactory
+         *
+         * @description
+         * Calculates the value of the Calculated Order Quantity column.
+         *
+         * @param  {Object} lineItem    the line item to calculate the value for
+         * @param  {Object} requisition the requisition used with calculation
+         * @return {Number}             the calculated order quantity
+         */
+        function calculateOrderQuantity(lineItem, requisition) {
+            var eColumn = getColumn(requisition, E),
+                hColumn = getColumn(requisition, H);
+
+            if (!eColumn || !hColumn) return null;
+
+            var stockOnHand = getColumnValue(lineItem, requisition, eColumn),
+                maximumStockQuantity = getColumnValue(lineItem, requisition, hColumn);
+
+            return maximumStockQuantity - stockOnHand;
+        }
+
+        function getColumnValue(lineItem, requisition, column) {
+            if (column.source === COLUMN_SOURCES.CALCULATED) {
+                return calculationFactory[column.name](lineItem, requisition);
+            }
+            return lineItem[column.name];
         }
 
         function getColumn(requisition, name) {
