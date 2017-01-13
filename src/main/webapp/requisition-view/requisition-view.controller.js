@@ -262,7 +262,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function skipRnr() {
-            confirmService.confirm('msg.question.confirmation.skip').then(function() {
+            confirmService.confirm('msg.question.confirmation.skip', 'button.skipRequisition').then(function() {
                 loadingModalService.open();
                 vm.requisition.$skip()
                 .then(function(response) {
