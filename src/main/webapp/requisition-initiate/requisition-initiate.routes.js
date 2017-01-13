@@ -38,11 +38,11 @@
                 user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-                supervisedPrograms: function (userProgramsFactory, user) {
-                    return userProgramsFactory.get(user.user_id, false);
+                supervisedPrograms: function (programService, user) {
+                    return programService.getUserPrograms(user.user_id, false);
                 },
-                homePrograms: function (userProgramsFactory, user) {
-                    return userProgramsFactory.get(user.user_id, true);
+                homePrograms: function (programService, user) {
+                    return programService.getUserPrograms(user.user_id, true);
                 }
             }
         });

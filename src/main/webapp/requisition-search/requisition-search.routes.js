@@ -22,11 +22,8 @@
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-				supervisedPrograms: function (userProgramsFactory, user) {
-                    return userProgramsFactory.get(user.user_id, false);
-                },
-		        facilityList: function (supervisedPrograms, facilityService, user) {
-		        	return facilityService.getsupervisedFacilitiesFactory(supervisedPrograms, user.user_id);
+		        facilityList: function (facilityFactory, user, REQUISITION_RIGHTS) {
+		        	return facilityFactory.getUserFacilities(user.user_id, REQUISITION_RIGHTS.REQUISITION_VIEW);
 		        }
 		    }
 		});

@@ -10,9 +10,10 @@
         'openlmis-i18n',
         'openlmis-auth',
         'openlmis-date',
+        'openlmis-facility',
         'openlmis-form',
         'openlmis-modal',
-        'openlmis-referencedata',
+        'openlmis-program',
         'ui.router'
     ]);
 

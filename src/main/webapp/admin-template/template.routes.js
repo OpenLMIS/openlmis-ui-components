@@ -30,8 +30,8 @@
 				template: function ($stateParams, templateFactory) {
 					return templateFactory.get($stateParams.template);
 				},
-				program: function (template, Program) {
-					return Program.get(template.programId);
+				program: function (template, programService) {
+					return programService.get(template.programId);
 				}
 			}
 		});

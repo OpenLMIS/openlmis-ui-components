@@ -27,8 +27,8 @@
 			controllerAs: 'vm',
 			accessRights: [REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES],
 			resolve: {
-				programList: function (Program) {
-					return Program.getAll();
+				programList: function (programFactory) {
+					return programFactory.getAllProgramsWithTemplates();
 				}
 			}
 		});

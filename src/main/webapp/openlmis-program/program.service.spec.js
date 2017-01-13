@@ -7,12 +7,12 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe('supervisedFacilitiesFactory', function() {
+describe('programService', function() {
 
-    var $rootScope, $httpBackend, $q, OpenlmisUrl, offlineService, programsStorage, program1, program2;
+    var $rootScope, $httpBackend, $q, openlmisUrlFactory, offlineService, programsStorage, program1, program2;
 
     beforeEach(function() {
-        module('openlmis-referencedata', function($provide){
+        module('openlmis-program', function($provide){
             programsStorage = jasmine.createSpyObj('programsStorage', ['getBy', 'getAll', 'put', 'search']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
                 return programsStorage;
@@ -27,12 +27,12 @@ describe('supervisedFacilitiesFactory', function() {
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _userProgramsFactory_) {
+        inject(function(_$httpBackend_, _$rootScope_, _$q_, _openlmisUrlFactory_, _programService_) {
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             $q = _$q_;
-            OpenlmisUrl = _openlmisUrlFactory_;
-            userProgramsFactory = _userProgramsFactory_;
+            openlmisUrlFactory = _openlmisUrlFactory_;
+            programService = _programService_;
         });
 
         program1 = {
@@ -45,6 +45,41 @@ describe('supervisedFacilitiesFactory', function() {
         };
     });
 
+    it('should get program by id', function() {
+        var data;
+
+        $httpBackend.when('GET', openlmisUrlFactory('/api/programs/' + program1.id))
+        .respond(200, program1);
+
+        programService.get(program1.id).then(function(response) {
+            data = response;
+        });
+
+        $httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(data.id).toEqual(program1.id);
+        expect(data.name).toEqual(program1.name);
+    });
+
+    it('should get all programs', function() {
+        var data,
+            programWithTemplate = angular.copy(program2);
+
+        $httpBackend.when('GET', openlmisUrlFactory('/api/programs'))
+        .respond(200, [program1, program2]);
+
+        programService.getAll().then(function(response) {
+            data = response;
+        });
+
+        $httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(data[0].id).toEqual(program1.id);
+        expect(data[1].id).toEqual(program2.id);
+    });
+
     it('should get user programs from storage while offline', function() {
         var data,
             userId = '1',
@@ -54,7 +89,7 @@ describe('supervisedFacilitiesFactory', function() {
 
         offlineService.isOffline.andReturn(true);
 
-        userProgramsFactory.get(userId, isForHomeFacility).then(function(response) {
+        programService.getUserPrograms(userId, isForHomeFacility).then(function(response) {
             data = response;
         });
 
@@ -68,11 +103,11 @@ describe('supervisedFacilitiesFactory', function() {
             userId = '1',
             isForHomeFacility = '2';
 
-        $httpBackend.when('GET', OpenlmisUrl('api/users/' + userId + '/programs?forHomeFacility=' + isForHomeFacility)).respond(200, [program1, program2]);
+        $httpBackend.when('GET', openlmisUrlFactory('api/users/' + userId + '/programs?forHomeFacility=' + isForHomeFacility)).respond(200, [program1, program2]);
 
         offlineService.isOffline.andReturn(false);
 
-        userProgramsFactory.get(userId, isForHomeFacility).then(function(response) {
+        programService.getUserPrograms(userId, isForHomeFacility).then(function(response) {
             data = response;
         });
 

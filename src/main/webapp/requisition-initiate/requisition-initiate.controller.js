@@ -27,14 +27,14 @@
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'periodFactory',
         'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
-        'supervisedFacilitiesFactory'
+        'facilityService'
     ];
 
     function RequisitionInitiateController(messageService, facility, user, supervisedPrograms,
                                      homePrograms, periodFactory, requisitionService, $state,
                                      dateUtils, REQUISITION_STATUS, loadingModalService,
                                      notificationService, authorizationService, $q,
-                                     REQUISITION_RIGHTS, supervisedFacilitiesFactory) {
+                                     REQUISITION_RIGHTS, facilityService) {
 
         var vm = this;
 
@@ -268,8 +268,8 @@
                 var authorizeRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
 
                 $q.all([
-                    supervisedFacilitiesFactory.get(user.user_id, selectedProgramId, createRight.id),
-                    supervisedFacilitiesFactory.get(user.user_id, selectedProgramId, authorizeRight.id)
+                    facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, createRight.id),
+                    facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, authorizeRight.id)
                 ])
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);

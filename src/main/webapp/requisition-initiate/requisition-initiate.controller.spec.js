@@ -1,18 +1,18 @@
 describe("RequisitionInitiateController", function(){
 
-    var $q, programs, rootScope, requisitionService, authorizationService, supervisedFacilities,
+    var $q, programs, rootScope, requisitionService, authorizationService, facilityService,
         periodFactory, $state, period, facility;
 
     beforeEach(module('requisition-initiate'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _periodFactory_,
-    _$state_, _requisitionService_, _authorizationService_, _supervisedFacilitiesFactory_) {
+    _$state_, _requisitionService_, _authorizationService_, _facilityService_) {
 
         rootScope = $rootScope;
         periodFactory =_periodFactory_;
         $state = _$state_;
         requisitionService = _requisitionService_;
         authorizationService = _authorizationService_;
-        supervisedFacilities = _supervisedFacilitiesFactory_;
+        facilityService = _facilityService_;
         $q = _$q_;
 
         user = {"user_id": "user_id"};
@@ -102,7 +102,7 @@ describe("RequisitionInitiateController", function(){
     });
 
     it("should load list of facilities for selected program", function() {
-        spyOn(supervisedFacilities, 'get').andReturn([facility]);
+        spyOn(facilityService, 'getUserSupervisedFacilities').andReturn([facility]);
         spyOn(authorizationService, 'getRightByName').andReturn(right);
 
         vm.loadFacilitiesForProgram(vm.supervisedPrograms[0]);

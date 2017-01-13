@@ -9,34 +9,31 @@
  */
 describe('facilityService', function() {
 
-    var $rootScope, $httpBackend, $q, OpenlmisUrl, FacilityService, offlineService, facilitiesStorage, facility1, facility2, supervisedFacilities, authorizationService;
+    var $rootScope, $httpBackend, openlmisUrlFactory, facilityService, offlineService, facilitiesStorage, facility1, facility2;
 
     beforeEach(function() {
-        module('requisition-search', function($provide){
-            facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put']);
+        module('openlmis-facility', function($provide){
+
+            facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put', 'search']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
                 return facilitiesStorage;
             });
-
             $provide.service('localStorageFactory', function() {
                 return localStorageFactorySpy;
             });
 
-            supervisedFacilities = jasmine.createSpyObj('supervisedFacilities', ['get']);
-
-            $provide.factory('supervisedFacilitiesFactory', function() {
-                return supervisedFacilities;
+            offlineService = jasmine.createSpyObj('offineService', ['isOffline']);
+            $provide.service('offlineService', function() {
+                return offlineService;
             });
+
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _offlineService_, _localStorageFactory_, _facilityService_, _authorizationService_) {
+        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _localStorageFactory_, _facilityService_) {
             $httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
-            $q = _$q_;
-            OpenlmisUrl = _openlmisUrlFactory_;
-            offlineService = _offlineService_;
+            openlmisUrlFactory = _openlmisUrlFactory_;
             facilityService = _facilityService_;
-            authorizationService = _authorizationService_;
         });
 
         facility1 = {
@@ -56,7 +53,7 @@ describe('facilityService', function() {
 
             facilitiesStorage.getBy.andReturn(facility2);
 
-            spyOn(offlineService, 'isOffline').andReturn(true);
+            offlineService.isOffline.andReturn(true);
 
             facilityService.get(facility2.id).then(function(response) {
                 data = response;
@@ -71,10 +68,10 @@ describe('facilityService', function() {
             var data,
                 spy = jasmine.createSpy();
 
-            $httpBackend.when('GET', OpenlmisUrl('/api/facilities/' + facility1.id)).respond(200, facility1);
+            $httpBackend.when('GET', openlmisUrlFactory('/api/facilities/' + facility1.id)).respond(200, facility1);
             facilitiesStorage.put.andCallFake(spy);
 
-            spyOn(offlineService, 'isOffline').andReturn(false);
+            offlineService.isOffline.andReturn(false);
 
             facilityService.get(facility1.id).then(function(response) {
                 data = response;
@@ -95,7 +92,7 @@ describe('facilityService', function() {
 
             facilitiesStorage.getAll.andReturn([facility1, facility2]);
 
-            spyOn(offlineService, 'isOffline').andReturn(true);
+            offlineService.isOffline.andReturn(true);
 
             facilityService.getAll().then(function(response) {
                 data = response;
@@ -111,10 +108,10 @@ describe('facilityService', function() {
             var data,
                 spy = jasmine.createSpy();
 
-            $httpBackend.when('GET', OpenlmisUrl('/api/facilities')).respond(200, [facility1, facility2]);
+            $httpBackend.when('GET', openlmisUrlFactory('/api/facilities')).respond(200, [facility1, facility2]);
             facilitiesStorage.put.andCallFake(spy);
 
-            spyOn(offlineService, 'isOffline').andReturn(false);
+            offlineService.isOffline.andReturn(false);
 
             facilityService.getAll().then(function(response) {
                 data = response;
@@ -129,36 +126,46 @@ describe('facilityService', function() {
         });
     });
 
-    describe('getsupervisedFacilitiesFactory', function() {
-
-        it('should get all facilities and save them to storage', function() {
+    describe('getUserSupervisedFacilities', function() {
+        it('should get supervised facilities from storage while offline', function() {
             var data,
-                supervisedPrograms = [
-                    {
-                        name: 'program1',
-                        id: '1'
-                    },
-                    {
-                        name: 'program2',
-                        id: '2'
-                    }
-                ],
-                userId = '1';
+                userId = '1',
+                programId = '2',
+                rightId = '3';
 
-            spyOn(authorizationService, 'getRightByName').andReturn({id: '1'});
-            supervisedFacilities.get.andCallFake(function() {
-                return $q.when([facility1]);
-            });
+            facilitiesStorage.search.andReturn([facility1]);
 
+            offlineService.isOffline.andReturn(true);
 
-            facilityService.getsupervisedFacilitiesFactory(supervisedPrograms, userId).then(function(response) {
+            facilityService.getUserSupervisedFacilities(userId, programId, rightId).then(function(response) {
                 data = response;
             });
 
             $rootScope.$apply();
 
             expect(data[0].id).toBe(facility1.id);
-            expect(supervisedFacilities.get.callCount).toEqual(2);
+        });
+
+        it('should get supervised facilities and save them to storage', function() {
+            var data,
+                userId = '1',
+                programId = '2',
+                rightId = '3';
+
+            $httpBackend.when('GET', openlmisUrlFactory('api/users/' + userId + '/supervisedFacilities?programId=' + programId + '&rightId=' + rightId)).respond(200, [facility1, facility2]);
+
+            offlineService.isOffline.andReturn(false);
+
+            facilityService.getUserSupervisedFacilities(userId, programId, rightId).then(function(response) {
+                data = response;
+            });
+
+            $httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(data[0].id).toBe(facility1.id);
+            expect(data[1].id).toBe(facility2.id);
+            expect(facilitiesStorage.put.callCount).toEqual(2);
         });
     });
 });
