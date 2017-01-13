@@ -204,15 +204,15 @@
          */
         function convertToOrder() {
             var requisitions = getSelected();
-            var noSelectedDepots = 0;
+            var missedDepots = false;
             if (requisitions.length > 0) {
                 angular.forEach(requisitions, function(item) {
                     if (!item.requisition.supplyingFacility) {
-                        noSelectedDepots += 1;
+                        missedDepots = true;
                         notificationService.error('msg.no.supplyingDepot.selected');
                     }
                 });
-                if (noSelectedDepots == 0) {
+                if (!missedDepots) {
                     requisitionService.convertToOrder(requisitions).then(reload);
                 }
             } else {

@@ -52,6 +52,7 @@
                     template = result[1];
 
                 scope.requisitionWithDepots = depots;
+                scope.requisitionWithDepots.requisition.supplyingFacility = undefined;
 
                 $ngBootbox.customDialog({
                     title: scope.requisition.program.name + ' (' + scope.requisition.facility.type.name +
