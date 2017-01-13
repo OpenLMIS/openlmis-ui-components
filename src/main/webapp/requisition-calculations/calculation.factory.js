@@ -238,20 +238,18 @@
                 return 0;
             }
 
-            var column;
-
-            requisition.$template.columns.every(function(col) {
-                if (col.name === H) {
-                    column = col;
-                    return false;
-                }
-
-                return true;
-            });
+            var column = getColumn(requisition, H);
 
             return column && column.option.optionName === 'default'
                 ? lineItem[P] * lineItem.maxMonthsOfStock
                 : 0;
+        }
+
+        function getColumn(requisition, name) {
+            var filtered = $filter('filter')(requisition.$template.columns, {
+                name: name
+            });
+            return filtered.length === 1 ? filtered[0] : undefined;
         }
     }
 })();
