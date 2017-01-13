@@ -27,21 +27,21 @@ _Example_
 Do: "Search Facilities"
 Do Not: "SEARCH"
 
-*Messages*
+### Messages
 Messages represent a response from the system to a user. These strings should be written as a command, where the first word is the action that has happened. The first letter of a message is capitalized, but there is no puncuation.
 
 _Example_
 Do: "Failed to save user profile"
 Do Not: "Saving user profile failed."
 
-*Confirmations*
+### Confirmations
 Confirmations are messages shown to the user to confirm that they actually want to take an action. These messages should address the user directly and be phrased as a single sentence.
 
 _Example_
 Do: "Are you sure you want to submit this requisition?"
 Do Not: "Submitting requisition, are you sure? Please confirm."
 
-*Instructions*
+### Instructions
 Instructions might be placed at the top of a form or after a confirmation to clarify the action a user is taking. These should be written as full paragraphs.
 
 _Example_
