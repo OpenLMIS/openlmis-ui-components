@@ -82,6 +82,7 @@
             this.fullSupplyOnly = nonFullSupplyColumns.indexOf(name) === -1;
             this.dependencies = dependencies[name];
             this.option = column.option;
+            this.canChangeOrder = column.columnDefinition.canChangeOrder;
         }
 
         function displayColumn(column, requisition) {

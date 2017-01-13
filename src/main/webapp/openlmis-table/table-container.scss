@@ -120,6 +120,7 @@ Styleguide 4.1
     flex-wrap: nowrap;
     align-items: flex-start;
     width: 100%;
+    background-color: $background-color-alt;
 
     > * {
         margin: 1em;
@@ -140,6 +141,10 @@ Styleguide 4.1
         }
     }
 
+    div table {
+        max-width: 100%;
+        word-wrap: break-word;
+    }
 }
 
 // Sort order

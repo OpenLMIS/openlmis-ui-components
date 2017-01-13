@@ -57,3 +57,7 @@ input, a {
     @include button-color($red);
   }
 }
+
+.grid-btn {
+  margin: 0.2em 0.2em;
+}

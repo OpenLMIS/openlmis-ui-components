@@ -1,8 +1,8 @@
 <div class="product-grid">
-	<table>
+	<table table-pinned-columns>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{pinned: !column.canChangeOrder}">{{column.label}}
 					<div ng-if="column.name == 'skipped'">
 						<a href="" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</a> |
 						<a href="" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</a>
@@ -12,11 +12,13 @@
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.categories">
 			<tr>
-				<td class="productCategory" colspan="{{vm.columns.length}}">{{category}}</td>
+				<td class="productCategory pinned" colspan="3">{{category}}</td>
+				<td ng-repeat="column in vm.columns | limitTo:vm.columns.length - 3" class="productCategory"></td>
 			</tr>
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem.skipped}"
 				ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
-				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
+				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
+					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 			</tr>
 		</tbody>
 	</table>

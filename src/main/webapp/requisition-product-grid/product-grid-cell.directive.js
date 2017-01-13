@@ -56,6 +56,7 @@
 				if (column.type === COLUMN_TYPES.NUMERIC && !scope.isReadOnly) {
 					cell.find('input').attr('positive-integer', '');
 				}
+				if(!column.canChangeOrder) cell.addClass('pinned');
 				element.replaceWith($compile(cell)(scope));
 			});
 

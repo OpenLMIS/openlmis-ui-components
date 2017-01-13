@@ -1,17 +1,19 @@
 <div class="product-grid">
-	<table>
+	<table table-pinned-columns>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'">{{column.label}}</th>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{pinned: !column.canChangeOrder}">{{column.label}}</th>
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.getLineItems() | groupBy:'$program.productCategoryDisplayName'">
 			<tr>
-				<td class="productCategory" colspan="{{vm.columns.length + 1}}">{{category}}</td>
+				<td class="productCategory pinned" colspan="3">{{category}}</td>
+				<td ng-repeat="column in vm.columns | limitTo:vm.columns.length - 3" class="productCategory"></td>
 			</tr>
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
-				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'" product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
+				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
+					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 				<td ng-if="vm.displayDeleteColumn()">
 					<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
 						<i class="fa fa-remove"></i>

@@ -4,7 +4,7 @@ Tables
 Tables in the OpenLMIS-UI should be used to represent data that needs to be
 read or edited across multiple attributes per item. If there isn't a need to
 look or interact with specific attributes of an item in the list, please use a
-list rather than a table. *Don't use tables for styling purposes.* 
+list rather than a table. *Don't use tables for styling purposes.*
 
 A table without a container will always try to fit into the current widow, and
 not horizontally scroll.
@@ -88,64 +88,58 @@ Styleguide 4.0
 @import 'bourbon';
 
 table{
-  @extend .table;
-  @extend .table-bordered;
-  background-color: $white;
+    @extend .table;
+    border-collapse: separate;
 
-  td, th{
-    padding: 1em;
-    vertical-align: middle !important; // from requisition template screen
-  }
-
-  th {
-    white-space: nowrap;
-  }
-
-  thead{
-    background-color: $light-gray;
-    tr:first-child{
-      @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+    td, th{
+        padding: 1em;
+        vertical-align: middle !important; // from requisition template screen
+        border: 1px $gray solid;
     }
-  }
 
-  > thead > tr > th{
-    border-bottom-width: 1px;
-  }
-  
-  > tbody + tbody{
-    border-top-width: 1px;
-  }
+    td {
+        background-color: white;
+    }
+
+    th {
+        @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+        white-space: nowrap;
+    }
+
+    thead{
+        background-color: $light-gray;
+        tr:first-child{
+            @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+        }
+    }
 }
 
 tbody tr.title:first-child{
-  background-color: $brand-primary;
-  color: $white;
-  font-weight: bold;
-  text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
-  td {
-    padding: 1em 2em;
-  }
+    background-color: $brand-primary;
+    color: $white;
+    font-weight: bold;
+    text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
+    td {
+        padding: 1em 2em;
+    }
 }
-
-
 
 table {
-  
-  tbody {
-    tr.invalid-row {
-      background-color: lighten($red, 45%);
-      border-color: darken($red, 20%);
 
-      .cell-error-message {
-        color: $red;
-      }
+    tbody {
 
+        tr.invalid-row {
+            background-color: lighten($red, 45%);
+            border-color: darken($red, 20%);
+
+            .cell-error-message {
+                color: $red;
+            }
+
+        }
     }
 
-  }
-
+    .pinned {
+        position: relative !important;
+    }
 }
-
-
-
-

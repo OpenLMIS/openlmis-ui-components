@@ -25,7 +25,8 @@
     }
 
     function link(scope, element) {
-        element.wrap('<div class="flex-table"></div>');
+        var parent = angular.element(element.parent()[0]);
+        if(parent.hasClass('table-container')) element.wrap('<div class="flex-table"></div>');
     }
 
 })();
