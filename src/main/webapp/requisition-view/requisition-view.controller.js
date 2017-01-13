@@ -394,7 +394,9 @@
          * @return {boolean} true if skip button should be visible, false otherwise
          */
         function displaySkip() {
-            return vm.requisition.$isInitiated() && vm.requisition.program.periodsSkippable;
+            return vm.requisition.$isInitiated() &&
+                vm.requisition.program.periodsSkippable &&
+                !vm.requisition.emergency;
         };
 
         /**

@@ -70,6 +70,11 @@ describe('RequisitionViewController', function() {
         expect(vm.displaySkip()).toBe(false);
     });
 
+    it('should not display skip button if requisition has emergency type', function() {
+        vm.requisition.emergency = true;
+        expect(vm.displaySkip()).toBe(false);
+    });
+
     it('should display skip button if requisition is not in initiated status', function() {
         vm.requisition.status = 'SUBMITTED';
         expect(vm.displaySkip()).toBe(false);
