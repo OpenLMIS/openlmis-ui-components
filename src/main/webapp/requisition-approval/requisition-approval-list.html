@@ -1,9 +1,9 @@
 <div class="page approval-list">
     <h2 openlmis-message="label.approve.requisitions"></h2>
-    <div class="alert is-info" id="NoRequisitionsPendingMessage" ng-hide="vm.requisitions.length"
-         openlmis-message="message.no.rnr.pending.approval">
-    </div>
-    <table ng-if="vm.filteredRequisitions.length">
+    <table ng-if="vm.filteredRequisitions">
+        <caption ng-if="!vm.filteredRequisitions.length">
+            {{'message.no.rnr.pending.approval' | message}}
+        </caption>
         <thead>
             <tr>
                 <th>{{'program.header' | message}}</th>
