@@ -103,7 +103,6 @@
          *
          */
         function search() {
-            vm.requisitionList = [];
             if (vm.selectedFacility) {
                 vm.error = null;
                 loadingModalService.open();
@@ -116,9 +115,6 @@
                     .then(function(requisitionList) {
                         vm.requisitionList = requisitionList;
                         loadingModalService.close();
-                        if (!angular.isArray(vm.requisitionList) || vm.requisitionList.length < 1) {
-                            notificationService.error('msg.no.requisitions.found');
-                        }
                     })
                     .catch(function() {
                         notificationService.error('msg.error.occurred');
