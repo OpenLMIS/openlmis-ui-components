@@ -121,6 +121,7 @@ Styleguide 4.1
     align-items: flex-start;
     width: 100%;
     background-color: $background-color-alt;
+    overflow: auto;
 
     > * {
         margin: 1em;
@@ -134,10 +135,11 @@ Styleguide 4.1
 
     > .flex-table {
         flex: 1 1 auto;
-        overflow: auto;
-
+        overflow: visible;
+        margin: 0px;
         table {
             width: 100%;
+            margin: 1em;
         }
     }
 

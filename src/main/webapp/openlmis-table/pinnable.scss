@@ -1,0 +1,102 @@
+/*
+Sticky Columns
+
+Tables can have sticky columns to keep important elements within view.
+
+markup:
+<div class="table-container">
+<table class="nowrap" ng-init="rows=[
+{
+  'id' : 'c9287c65-67fa-4958-adb6-52069f2b1379',
+  'name' : 'Apr2017',
+  'description' : null,
+  'startDate' : [ 2017, 4, 1 ],
+  'endDate' : [ 2017, 4, 30 ],
+  'durationInMonths' : 1
+}, {
+  'id' : '2d490229-02f8-4235-9be4-1443fd8f7b4f',
+  'name' : 'May2017',
+  'description' : null,
+  'startDate' : [ 2017, 5, 1 ],
+  'endDate' : [ 2017, 5, 31 ],
+  'durationInMonths' : 1
+}, {
+  'id' : 'a91dfbdf-0d9b-4cb1-9d46-0a47b17d22d0',
+  'name' : 'Jun2017',
+  'description' : null,
+  'startDate' : [ 2017, 6, 1 ],
+  'endDate' : [ 2017, 6, 30 ],
+  'durationInMonths' : 1
+}, {
+  'id' : 'f55d9dda-d440-40c0-a793-914e0fe1f579',
+  'name' : 'Jul2017',
+  'description' : null,
+  'startDate' : [ 2017, 7, 1 ],
+  'endDate' : [ 2017, 7, 31 ],
+  'durationInMonths' : 1
+}, {
+  'id' : 'ecd6c3c8-f80c-4c4e-af9a-d0529b55424a',
+  'name' : 'Aug2017',
+  'description' : null,
+  'startDate' : [ 2017, 8, 1 ],
+  'endDate' : [ 2017, 8, 31 ],
+  'durationInMonths' : 1
+}, {
+  'id' : 'c08e1295-793f-4550-933b-571e117f15d9',
+  'name' : 'Sep2017',
+  'description' : null,
+  'startDate' : [ 2017, 9, 1 ],
+  'endDate' : [ 2017, 9, 30 ],
+  'durationInMonths' : 1
+}, {
+  'id' : '2a9fddb6-5dd3-4dde-81f3-c19629257986',
+  'name' : 'Oct2017',
+  'description' : null,
+  'startDate' : [ 2017, 10, 1 ],
+  'endDate' : [ 2017, 10, 31 ],
+  'durationInMonths' : 1
+}, {
+  'id' : '1f3c89b2-13e4-4a72-9ef2-228302cc5a25',
+  'name' : 'Nov2017',
+  'description' : null,
+  'startDate' : [ 2017, 11, 1 ],
+  'endDate' : [ 2017, 11, 30 ],
+  'durationInMonths' : 1
+}
+];" >
+  <thead>
+    <tr>
+      <th class="sticky">Checkbox</th>
+      <th>Code</th>
+      <th>Description</th>
+      <th>Date range</th>
+      <th>Duration</th>
+      <th class="sticky">Actions</th>
+    </tr>
+  </thead>
+  <tbody title="Anti-malarials">
+    <tr ng-repeat="row in rows">
+      <td class="sticky"><input type="checkbox" /></td>
+      <td>1f3c89b2-13e4-4a72-9ef2-228302cc5a25</td>
+      <th>1f3c89b2-13e4-4a72-9ef2-228302cc5a25</th>
+      <td>1f3c89b2-13e4-4a72-9ef2-228302cc5a25</td>
+      <td>1f3c89b2-13e4-4a72-9ef2-228302cc5a25</td>
+      <td class="sticky"><button>Action</button>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+Styleguide 4.4
+*/
+
+
+
+td, table th, tr.title > td > div  {
+	&.sticky{ }
+
+	&.stuck{
+		position: relative;
+	}
+}
+

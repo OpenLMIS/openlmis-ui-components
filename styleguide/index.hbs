@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="openlmis.css">
   {{{styles}}}
 </head>
-<body ng-app="openlmis-core">
+<body ng-app="openlmis">
   <header>
     <div>
       <div class="logo">
@@ -166,6 +166,20 @@
     <a href="https://github.com/kss-node/kss-node"><img src="kss-assets/github-fork--black.png" alt="Fork me on GitHub"></a>
   </footer>
 {{/if}}
+
+<script type="text/javascript">
+(function(){
+  angular.module('openlmis-styleguide', [
+    'openlmis-date',
+    'openlmis-form',
+    'openlmis-i18n',
+    'openlmis-local-storage',
+    'openlmis-modal',
+    'openlmis-offline',
+    'openlmis-table'
+  ]);
+})();
+</script>
 
 <!-- Automatically built using <a href="https://github.com/kss-node/kss-node">kss-node</a>. -->
 </body>

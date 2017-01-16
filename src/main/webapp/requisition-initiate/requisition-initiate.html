@@ -80,7 +80,7 @@
                     <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{period.rnrStatus}}</td>
-                    <td>
+                    <td class="sticky">
                         <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
                                openlmis-message="button.proceed" class="btn btn-primary grid-btn"
                                ng-show="{{period.activeForRnr}}"/>

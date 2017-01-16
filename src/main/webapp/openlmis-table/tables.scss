@@ -114,13 +114,16 @@ table{
     }
 }
 
-tbody tr.title:first-child{
-    background-color: $brand-primary;
-    color: $white;
-    font-weight: bold;
-    text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
-    td {
-        padding: 1em 2em;
+tbody > tr.title:first-child > td{
+    margin: 0px;
+    padding: 0px;
+    > div{
+      background-color: $brand-primary;
+      color: $white;
+      font-weight: bold;
+      text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
+      position: relative;
+      padding: 1em 2em;
     }
 }
 
@@ -138,8 +141,11 @@ table {
 
         }
     }
-
-    .pinned {
-        position: relative !important;
-    }
 }
+
+table.nowrap{
+  td{
+    white-space: pre;
+  }
+}
+
