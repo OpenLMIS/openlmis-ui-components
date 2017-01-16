@@ -76,17 +76,16 @@ describe('LineItem', function() {
             requestedQuantity: 10,
             requestedQuantityExplanation: 'explanation'
         };
-        requisition = {
-            requisitionLineItems: [
-                requisitionLineItem
-            ],
-            program: program,
-            status: 'SUBMITTED',
-            processingPeriod: {
-                startDate: [2016, 4, 1],
-                endDate: [2016, 4, 30]
-            },
-            $template: template
+        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
+        requisition.$isApproved.andReturn(false);
+        requisition.$isAuthorized.andReturn(false);
+        requisition.requisitionLineItems = [requisitionLineItem];
+        requisition.program = program;
+        requisition.status = 'SUBMITTED';
+        requisition.$template = template;
+        requisition.processingPeriod = {
+            startDate: [2016, 4, 1],
+            endDate: [2016, 4, 30]
         };
     });
 
@@ -181,7 +180,7 @@ describe('LineItem', function() {
 
             lineItem.requestedQuantity = 0;
             lineItem.requestedQuantityExplanation = '';
-            requisition.status = 'AUTHORIZED';
+            requisition.$isAuthorized.andReturn(true);
 
             var result = lineItem.canBeSkipped(requisition);
 
@@ -193,7 +192,7 @@ describe('LineItem', function() {
 
             lineItem.requestedQuantity = 0;
             lineItem.requestedQuantityExplanation = '';
-            requisition.status = 'APPROVED';
+            requisition.$isApproved.andReturn(true);
 
             var result = lineItem.canBeSkipped(requisition);
 

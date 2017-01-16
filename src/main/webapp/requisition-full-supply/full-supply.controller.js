@@ -21,7 +21,7 @@
 
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
-        vm.isColumnSkip = isColumnSkip;
+        vm.isSkipColumn = isSkipColumn;
 
         /**
          * @ngdoc property
@@ -98,13 +98,13 @@
         /**
          * @ngdoc method
          * @methodOf requisition-full-supply.FullSupplyController
-         * @name isColumnSkip
+         * @name isSkipColumn
          *
          * @description
          * Determines wheter column name is 'skipped'.
          * @return {Boolean} true is column name is 'skipped'
          */
-        function isColumnSkip(column) {
+        function isSkipColumn(column) {
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
 

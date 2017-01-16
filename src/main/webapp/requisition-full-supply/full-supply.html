@@ -3,7 +3,7 @@
 		<thead>
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.canChangeOrder}">{{column.label}}
-					<div ng-if="vm.isColumnSkip(column)">
+					<div ng-if="vm.isSkipColumn(column)">
 						<a href="" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</a> |
 						<a href="" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</a>
 					</div>
