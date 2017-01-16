@@ -170,7 +170,7 @@ describe('RequisitionTemplateAdminController', function() {
         expect(result).toBe('Number of periods to average must be greater than or equal to 2');
     });
 
-    it('should validate if anumber of periods to average is empty', function() {
+    it('should validate if number of periods to average is empty', function() {
         vm.template.numberOfPeriodsToAverage = '';
         spyOn(message, 'get').andReturn('Number of periods cannot be empty!');
 
