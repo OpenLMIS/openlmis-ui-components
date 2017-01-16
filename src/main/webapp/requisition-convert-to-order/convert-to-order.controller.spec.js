@@ -137,7 +137,7 @@ describe('ConvertToOrderController', function(){
         vm.convertToOrder();
 
         expect(requisitionService.convertToOrder).not.toHaveBeenCalled();
-        expect(notificationService.error).toHaveBeenCalledWith('msg.no.supplyingDepot.selected');
+        expect(notificationService.error).toHaveBeenCalledWith('msg.noSupplyingDepotSelected');
     });
 
     it('should show error when trying to convert to order with no requisition selected', function() {

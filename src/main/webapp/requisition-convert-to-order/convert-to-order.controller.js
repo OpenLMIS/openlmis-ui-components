@@ -209,7 +209,7 @@
                 angular.forEach(requisitions, function(item) {
                     if (!item.requisition.supplyingFacility) {
                         missedDepots = true;
-                        notificationService.error('msg.no.supplyingDepot.selected');
+                        notificationService.error('msg.noSupplyingDepotSelected');
                     }
                 });
                 if (!missedDepots) {
