@@ -78,7 +78,7 @@ describe('templateFactory', function() {
         template = {
             id: '1',
             programId: '2',
-            numberOfPeriodsToAverage: '2',
+            numberOfPeriodsToAverage: 2,
             columnsMap : {
                 total: {
                     isDisplayed: true,
@@ -362,7 +362,7 @@ describe('templateFactory', function() {
         });
         rootScope.$apply();
 
-        requisitionTemplate.numberOfPeriodsToAverage = '0';
+        requisitionTemplate.numberOfPeriodsToAverage = 0;
 
         expect(requisitionTemplate.$isValid()).toBe(false);
     });

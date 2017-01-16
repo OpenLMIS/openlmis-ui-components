@@ -141,7 +141,7 @@
                 message;
 
             if(isAverageConsumption(column)
-                && (vm.template.numberOfPeriodsToAverage === '0' || vm.template.numberOfPeriodsToAverage === '1')) {
+                && (vm.template.numberOfPeriodsToAverage === 0 || vm.template.numberOfPeriodsToAverage === 1)) {
                 return messageService.get('msg.template.invalidNumberOfPeriods');
             }
 

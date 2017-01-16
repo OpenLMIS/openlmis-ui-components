@@ -282,8 +282,7 @@
         function isAverageConsumtpionInvalid(numberOfPeriods) {
             return !numberOfPeriods
                 || !numberOfPeriods.toString().trim()
-                || numberOfPeriods === '0'
-                || numberOfPeriods === '1';
+                || numberOfPeriods < 2;
         }
     }
 

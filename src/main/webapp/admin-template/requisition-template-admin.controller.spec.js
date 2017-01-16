@@ -161,7 +161,7 @@ describe('RequisitionTemplateAdminController', function() {
     });
 
     it('should validate if number of periods to average is not greater than or equal to 2', function() {
-        vm.template.numberOfPeriodsToAverage = '1';
+        vm.template.numberOfPeriodsToAverage = 1;
         spyOn(message, 'get').andReturn('Number of periods to average must be greater than or equal to 2');
 
         var result = vm.errorMessage(vm.template.columnsMap.averageConsumption);
