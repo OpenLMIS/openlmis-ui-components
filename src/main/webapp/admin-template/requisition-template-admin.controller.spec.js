@@ -30,8 +30,15 @@ describe('RequisitionTemplateAdminController', function() {
                 displayOrder: 3,
                 isDisplayed: true,
                 label: "Stock on Hand"
+            },
+            averageConsumption: {
+                name: 'averageConsumption',
+                displayOrder: 4,
+                isDisplayed: true,
+                label: "Average Consumption"
             }
         };
+        template.numberOfPeriodsToAverage = 3;
         program = {
             id: '1',
             mame: 'program1'
@@ -151,5 +158,25 @@ describe('RequisitionTemplateAdminController', function() {
         template.$findCircularCalculatedDependencies.andReturn([]);
 
         expect(vm.errorMessage(column)).toBe('Empty option field');
+    });
+
+    it('should validate if number of periods to average is not greater than or equal to 2', function() {
+        vm.template.numberOfPeriodsToAverage = '1';
+        spyOn(message, 'get').andReturn('Number of periods to average must be greater than or equal to 2');
+
+        var result = vm.errorMessage(vm.template.columnsMap.averageConsumption);
+
+        expect(message.get).toHaveBeenCalledWith('msg.template.invalid.number.of.periods');
+        expect(result).toBe('Number of periods to average must be greater than or equal to 2');
+    });
+
+    it('should validate if anumber of periods to average is empty', function() {
+        vm.template.numberOfPeriodsToAverage = '';
+        spyOn(message, 'get').andReturn('Number of periods cannot be empty!');
+
+        var result = vm.errorMessage(vm.template.columnsMap.averageConsumption);
+
+        expect(message.get).toHaveBeenCalledWith('msg.template.empty.number.of.periods');
+        expect(result).toBe('Number of periods cannot be empty!');
     });
 });

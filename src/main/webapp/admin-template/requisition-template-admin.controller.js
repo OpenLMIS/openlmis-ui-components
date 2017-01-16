@@ -136,9 +136,14 @@
             var dependencies = '',
                 message;
 
-            if(column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
+            if(isAverageConsumption(column)
                 && (vm.template.numberOfPeriodsToAverage === '0' || vm.template.numberOfPeriodsToAverage === '1')) {
                 return messageService.get('msg.template.invalid.number.of.periods');
+            }
+
+            if (isAverageConsumption(column)
+                && (!vm.template.numberOfPeriodsToAverage.toString().trim() || !vm.template.numberOfPeriodsToAverage)) {
+                return messageService.get('msg.template.empty.number.of.periods');
             }
 
             if(!column.source  || column.source === '') return messageService.get('msg.template.column.source.empty');

@@ -78,6 +78,7 @@ describe('templateFactory', function() {
         template = {
             id: '1',
             programId: '2',
+            numberOfPeriodsToAverage: '2',
             columnsMap : {
                 total: {
                     isDisplayed: true,
@@ -99,7 +100,11 @@ describe('templateFactory', function() {
                             },
                         ]
                     },
-                    source: 'USER_INPUT'
+                    source: 'USER_INPUT',
+                    option: {
+                        'id': '1',
+                        'optionLabel': 'option1'
+                    }
                 },
                 remarks: {
                     isDisplayed: true,
@@ -113,6 +118,18 @@ describe('templateFactory', function() {
                         options: []
                     },
                     source: 'USER_INPUT'
+                },
+                averageConsumption: {
+                    isDisplayed: true,
+                    displayOrder: 3,
+                    name: 'averageConsumption',
+                    source: 'CALCULATED',
+                    columnDefinition: {
+                        canChangeOrder: true,
+                        sources: ['CALCULATED'],
+                        isDisplayRequired: false,
+                        options: [ ]
+                    }
                 }
             }
         };
@@ -287,6 +304,17 @@ describe('templateFactory', function() {
         expect(data.columnsMap.total.displayOrder).toEqual(3);
     });
 
+    it('should check if template is valid and return true', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+        
+        expect(requisitionTemplate.$isValid()).toBe(true);
+    });
+
     it('should check if template is valid when column is not displayed and column source is set to user input and there is more than one source to choose', function() {
         var requisitionTemplate;
 
@@ -322,6 +350,32 @@ describe('templateFactory', function() {
         rootScope.$apply();
 
         requisitionTemplate.columnsMap.total.option = null;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when number of periods to average is not greater than or equal to 2', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.numberOfPeriodsToAverage = '0';
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if template is valid when number of periods to average is empty', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.numberOfPeriodsToAverage = '';
 
         expect(requisitionTemplate.$isValid()).toBe(false);
     });

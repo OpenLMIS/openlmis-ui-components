@@ -129,7 +129,7 @@
                 columns = template.columnsMap;
 
             if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
-            && (template.numberOfPeriodsToAverage === '0' || template.numberOfPeriodsToAverage === '1')) {
+                && isAverageConsumtpionInvalidOrEmpty(template.numberOfPeriodsToAverage)) {
                 return false;
             }
             if(!column.source || column.source === '') return false;
@@ -277,6 +277,13 @@
                     }
                 });
             }
+        }
+
+        function isAverageConsumtpionInvalidOrEmpty(numberOfPeriods) {
+            return !numberOfPeriods
+                || !numberOfPeriods.toString().trim()
+                || numberOfPeriods === '0'
+                || numberOfPeriods === '1';
         }
     }
 
