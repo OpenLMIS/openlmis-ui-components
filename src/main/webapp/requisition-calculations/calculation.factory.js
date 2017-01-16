@@ -40,7 +40,8 @@
             packsToShip: calculatePacksToShip,
             totalCost: calculateTotalCost,
             adjustedConsumption: calculateAdjustedConsumption,
-            maximumStockQuantity: calculateMaximumStockQuantity
+            maximumStockQuantity: calculateMaximumStockQuantity,
+            averageConsumption: calculateAverageConsumption
         };
         return calculationFactory;
 
@@ -202,6 +203,42 @@
 
             var adjustedConsumption = Math.ceil(consumedQuantity * (totalDays / nonStockoutDays));
             return adjustedConsumption;
+        }
+
+        /**
+         * @ngdoc function
+         * @name averageConsumption
+         * @methodOf requisition-calculations.calculationFactory
+         *
+         * @description
+         * Calculates the value of the Average Consumption column based on the given line item.
+         *
+         * @param  {Object} lineItem    the line item to calculate the value from
+         * @param  {Object} requisition the requisition with required period
+         * @return {Number}             the calculated Average Consumption value
+         */
+        function calculateAverageConsumption(lineItem, requisition) {
+            var adjustedConsumptions = lineItem.previousAdjustedConsumptions;
+            adjustedConsumptions.push(calculateAdjustedConsumption(lineItem, requisition));
+
+            var numberOfPeriods = adjustedConsumptions.length;
+
+            //if there is no previous adjusted consumption
+            if (numberOfPeriods === 1) {
+                return adjustedConsumptions[0];
+            }
+            //if there is only one previous adjusted consumption
+            else if (numberOfPeriods === 2) {
+                return Math.ceil((adjustedConsumptions[0] + adjustedConsumptions[1])/2);
+            }
+            //if more than one previous adjusted consumption
+            else {
+                var sum = 0;
+                adjustedConsumptions.forEach(function (adjustedConsumption) {
+                    sum += adjustedConsumption;
+                });
+                return sum / numberOfPeriods;
+            }
         }
 
         /**
