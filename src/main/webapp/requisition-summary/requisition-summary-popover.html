@@ -1,8 +1,8 @@
 <h1>{{'msg.requisitionCost' | message}}</h1>
 <i class="fa fa-times" ng-click="vm.closePopover()"></i>
-<dl>
-    <dt>{{'label.full.supply.products' | message}}</dt>
-    <dd>{{vm.calculateFullSupplyCost() | currency}}</dd>
-    <dt ng-if="vm.showNonFullSupplySummary">{{'label.non.full.supply.products' | message}}</dt>
-    <dd ng-if="vm.showNonFullSupplySummary">{{vm.calculateNonFullSupplyCost() | currency}}</dd>
+<dl class="summary">
+    <dt class="summary-name">{{'label.full.supply.products' | message}}</dt>
+    <dd class="summary-value">{{vm.calculateFullSupplyCost() | currency}}</dd>
+    <dt class="summary-name" ng-if="vm.showNonFullSupplySummary">{{'label.non.full.supply.products' | message}}</dt>
+    <dd class="summary-value" ng-if="vm.showNonFullSupplySummary">{{vm.calculateNonFullSupplyCost() | currency}}</dd>
 </dl>

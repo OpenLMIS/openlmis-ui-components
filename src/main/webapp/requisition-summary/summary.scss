@@ -1,0 +1,17 @@
+.summary {
+    color: black;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.summary-name {
+    flex: 1 0 auto;
+    font-weight: initial;
+}
+
+.summary-value {
+    flex: 0 0 auto;
+    font-weight: bold;
+}
