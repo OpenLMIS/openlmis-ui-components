@@ -1,58 +1,176 @@
-describe("convertToOrderModalService", function(){
+describe("convertToOrderModalService", function() {
 
-    var convertToOrderModal, ngBootbox, rootScope, requisitionService, q, state;
-    var type = {
-        name: 'facilityType'
-    },
-    facility = {
-        id: '1',
-        name: 'facility',
-        type: type
-    },
-    program = {
-        id: '1',
-        name: 'program'
-    },
-    requisition = {
-        id: '1',
-        name: 'requisition',
-        status: 'INITIATED',
-        supplyingFacility: supplyingDepotSpy(0),
-        program: program,
-        facility: facility
-    },
-    requisitions = [{
-        requisition: requisition,
-        supplyingDepots: [
-        supplyingDepotSpy(0),
-        supplyingDepotSpy(1),
-        supplyingDepotSpy(2),
-        supplyingDepotSpy(3)
-    ]}];
+    var convertToOrderModalService, loadingModalServiceSpy, $ngBootbox, $rootScope, $compile,
+        requisitionServiceSpy, templateRequestSpy, templateSpy, compiledTemplateSpy, scope, $state,
+        type, facility, program, requisition, requisitions;
 
-    beforeEach(module('requisition-view'));
+    beforeEach(function() {
+        type = {
+            name: 'facilityType'
+        };
 
-    beforeEach(inject(function(_convertToOrderModalService_, _$ngBootbox_, _$rootScope_,
-    _requisitionService_, _$q_){
-        convertToOrderModal = _convertToOrderModalService_;
-        ngBootbox = _$ngBootbox_;
-        rootScope = _$rootScope_;
-        requisitionService = _requisitionService_;
-        q = _$q_;
-    }));
+        facility = {
+            id: '1',
+            name: 'facility',
+            type: type
+        };
 
-    it('should open modal for convert requisition to order', function(){
-        var result;
-        spyOn(requisitionService, 'forConvert').andReturn(q.when(requisitions));
-        spyOn(ngBootbox, 'customDialog');
+        program = {
+            id: '1',
+            name: 'program'
+        };
 
-        convertToOrderModal.show(requisition).then(function(data) {
-            result = data;
+        requisition = {
+            id: '1',
+            name: 'requisition',
+            status: 'INITIATED',
+            supplyingFacility: supplyingDepotSpy(0),
+            program: program,
+            facility: facility
+        };
+
+        requisitions = [{
+            requisition: requisition,
+            supplyingDepots: [
+                supplyingDepotSpy(0),
+                supplyingDepotSpy(1),
+                supplyingDepotSpy(2),
+                supplyingDepotSpy(3)
+            ]
+        }];
+
+        module('requisition-view', function($provide) {
+            loadingModalServiceSpy = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
+            $provide.factory('loadingModalService', function() {
+                return loadingModalServiceSpy;
+            });
+
+            requisitionServiceSpy = jasmine.createSpyObj('requisitionService', [
+                'forConvert', 'convertToOrder'
+            ]);
+            $provide.factory('requisitionService', function() {
+                return requisitionServiceSpy;
+            });
+
+            templateRequestSpy = jasmine.createSpy('$templateRequest');
+            $provide.factory('$templateRequest', function() {
+                return templateRequestSpy;
+            });
         });
-        rootScope.$apply();
 
-        expect(ngBootbox.customDialog).toHaveBeenCalled();
-        expect(result).toEqual(requisitions[0]);
+        inject(function(_convertToOrderModalService_, _$ngBootbox_, _$rootScope_, $templateRequest,
+                        $q, _$compile_, _$state_) {
+
+            convertToOrderModalService = _convertToOrderModalService_;
+            $ngBootbox = _$ngBootbox_;
+            $rootScope = _$rootScope_;
+            $compile = _$compile_;
+            $state = _$state_;
+
+            templateSpy = jasmine.createSpy('template');
+            compiledTemplateSpy = jasmine.createSpy('compiledTemplate');
+
+            spyOn($ngBootbox, 'customDialog');
+            spyOn($ngBootbox, 'hideAll');
+            spyOn($state, 'reload');
+
+            scope = {};
+
+            templateRequestSpy.andReturn(templateSpy);
+            spyOn($rootScope, '$new').andReturn(scope);
+            requisitionServiceSpy.forConvert.andReturn($q.when(requisitions));
+            requisitionServiceSpy.convertToOrder.andReturn($q.when(requisitions));
+        });
+    });
+
+    describe('show', function() {
+
+        it('should request template', function() {
+            convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+
+            expect(templateRequestSpy)
+                .toHaveBeenCalledWith('requisition-view/convert-to-order-modal.html');
+        });
+
+        it('should open modal', function() {
+            convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+
+            expect($ngBootbox.customDialog).toHaveBeenCalled();
+        });
+
+        it('should fetch requisitions for convert', function() {
+            convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+
+            expect(requisitionServiceSpy.forConvert).toHaveBeenCalled();
+        });
+
+        it('should display loading modal while modal is loading', function() {
+            convertToOrderModalService.show(requisition);
+
+            expect(loadingModalServiceSpy.open).toHaveBeenCalled();
+            expect(loadingModalServiceSpy.close).not.toHaveBeenCalled();
+
+            $rootScope.$apply();
+
+            expect(loadingModalServiceSpy.close).toHaveBeenCalled();
+        });
+
+        it('should expose requisition through vm', function() {
+            convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+
+            expect(scope.vm.requisition).toBe(requisition);
+        });
+
+        it('should expose requisitions wth depots through vm', function() {
+            convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+
+            expect(scope.vm.requisitionWithDepots).toEqual(requisitions[0]);
+        });
+
+    });
+
+    describe('vm.convertRnr', function() {
+
+        var vm, modalPromise;
+
+        beforeEach(function() {
+            modalPromise = convertToOrderModalService.show(requisition);
+            $rootScope.$apply();
+            scope.vm.convertRnr();
+            $rootScope.$apply();
+            vm = scope.vm;
+        })
+
+        it('should convert to order', function() {
+            expect(requisitionServiceSpy.convertToOrder)
+                .toHaveBeenCalledWith(requisitions);
+        });
+
+        it('should close modal', function() {
+            expect($ngBootbox.hideAll).toHaveBeenCalled();
+        });
+
+        it('should reload state', function() {
+            expect($state.reload).toHaveBeenCalled();
+        });
+
+        it('should resolve promise', function() {
+            var resolved;
+
+            modalPromise.then(function() {
+                resolved = true;
+            });
+
+            $rootScope.$apply();
+
+            expect(resolved).toBe(true);
+        });
+
     });
 
     function supplyingDepotSpy(id) {

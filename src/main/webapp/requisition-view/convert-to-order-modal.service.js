@@ -20,12 +20,9 @@
     function convertToOrderModal($q, $state, $rootScope, $ngBootbox, messageService, $compile,
         $templateRequest, requisitionService, $stateParams, loadingModalService) {
 
-        var deferred, scope = $rootScope.$new();
-
-        scope.convertRnr = convertRnr;
+        var deferred, vm;
 
         this.show = show;
-
 
         /**
          * @ngdoc function
@@ -39,10 +36,17 @@
          *
          */
         function show(requisition) {
+            var scope = $rootScope.$new();
+
             deferred = $q.defer();
 
-            scope.requisition = requisition;
-            scope.searchText = undefined;
+            scope.vm = {};
+            vm = scope.vm;
+
+            vm.convertRnr = convertRnr;
+
+            vm.requisition = requisition;
+            vm.searchText = undefined;
 
             $q.all([
                 getDepotsForRequisition(),
@@ -51,32 +55,18 @@
                 var depots = result[0],
                     template = result[1];
 
-                scope.requisitionWithDepots = depots;
-                scope.requisitionWithDepots.requisition.supplyingFacility = undefined;
+                vm.requisitionWithDepots = depots;
+                vm.requisitionWithDepots.requisition.supplyingFacility = undefined;
 
                 $ngBootbox.customDialog({
-                    title: scope.requisition.program.name + ' (' + scope.requisition.facility.type.name +
+                    title: vm.requisition.program.name + ' (' + vm.requisition.facility.type.name +
                            '): ' + messageService.get('label.convert.requisition.to.order'),
                     message: $compile(angular.element(template))(scope),
                     className: 'convert-to-order-modal'
                 });
-            });
+            }, reject);
 
             return deferred.promise;
-        }
-
-        /**
-         * @ngdoc function
-         * @name close
-         * @methodOf requisition-view.convertToOrderModalService
-         *
-         * @description
-         * Close modal.
-         *
-         */
-        function close() {
-            $ngBootbox.hideAll();
-            deferred.reject();
         }
 
         /**
@@ -86,11 +76,15 @@
          *
          * @description
          * Converts given requisition into order and then reload page.
-         *
          */
-        function convertRnr(){
-            close();
-            requisitionService.convertToOrder([scope.requisitionWithDepots]).then($state.reload);
+        function convertRnr() {
+            requisitionService.convertToOrder([
+                vm.requisitionWithDepots
+            ]).then(function() {
+                $ngBootbox.hideAll();
+                deferred.resolve();
+                $state.reload();
+            }, reject);
         }
 
         /**
@@ -104,23 +98,29 @@
          *
          */
         function getDepotsForRequisition() {
+            var deferred = $q.defer();
+
             loadingModalService.open();
             requisitionService.forConvert({
                 filterBy: $stateParams.filterBy,
                 filterValue: $stateParams.filterValue,
                 sortBy: $stateParams.sortBy,
                 descending: $stateParams.descending
-            }).then(function(requisitions){
+            }).then(function(requisitions) {
                 requisitions.forEach(function(rnr) {
-                    if (rnr.requisition.id == scope.requisition.id) {
+                    if (rnr.requisition.id == vm.requisition.id) {
                         deferred.resolve(rnr);
                     }
                 });
-            }).finally(function() {
+            }, reject).finally(function() {
                 loadingModalService.close();
             });
 
             return deferred.promise;
+        }
+
+        function reject(deferred) {
+            deferred.reject();
         }
     }
 })();
