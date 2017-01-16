@@ -107,8 +107,6 @@
 
         vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
 
-        vm.refreshGridData = refreshGridData;
-
         vm.updateFacilityType(vm.isSupervised);
 
         /**
@@ -128,7 +126,6 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
-            refreshGridData();
 
             if (isSupervised) {
                 vm.error = '';
@@ -152,7 +149,6 @@
                     vm.error = messageService.get('msg.no.program.available');
                 } else if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
-                    loadPeriods();
                 }
             }
         }
@@ -184,20 +180,14 @@
          * already exists a requisition with an AUTHORIZED, APPROVED or RELEASED status.
          */
         function loadPeriods() {
-            vm.periodGridData = [];
             if (!(vm.selectedProgramId && vm.selectedFacilityId)) {
                 return;
             }
             loadingModalService.open();
             periodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {
-                if (data.length === 0) {
-                    notificationService.error('msg.no.period.available');
-                } else {
-                    vm.periodGridData = data;
-                    vm.error = '';
-                }
-                data.forEach(function (period) {
+                vm.periodGridData = data;
+                vm.periodGridData.forEach(function (period) {
                     if (vm.emergency && (period.rnrStatus == REQUISITION_STATUS.AUTHORIZED ||
                     period.rnrStatus == REQUISITION_STATUS.APPROVED ||
                     period.rnrStatus == REQUISITION_STATUS.RELEASED)) {
@@ -206,7 +196,7 @@
                 });
                 loadingModalService.close();
             }).catch(function() {
-                notificationService.error('msg.no.period.available');
+                notificationService.error('msg.error.occurred');
                 loadingModalService.close();
             });
         };
@@ -261,7 +251,6 @@
          * @param {Object} selectedProgramId id of selected program where user has supervisory permissions
          */
         function loadFacilitiesForProgram(selectedProgramId) {
-            refreshGridData();
             if (selectedProgramId) {
                 loadingModalService.open();
                 var createRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_CREATE);
@@ -287,18 +276,6 @@
             } else {
                 vm.facilities = [];
             }
-        }
-
-        /**
-         * @ngdoc function
-         * @name refreshGridData
-         * @methodOf requisition-initiate.RequisitionInitiateController
-         *
-         * @description
-         * Responsible for removing period grid data when choosing different program, facility or requisition type.
-         */
-        function refreshGridData() {
-            vm.periodGridData = [];
         }
     }
 })();
