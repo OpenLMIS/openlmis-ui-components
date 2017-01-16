@@ -48,7 +48,8 @@
                         </td>
                         <td>
                             <div ng-if="vm.isAverageConsumption(column)">
-                                <input type="text" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control input-sm"/>
+                                <label for="numberOfPeriods">{{'msg.template.numberOfPeriodsToAverage' | message}}</label>
+                                <input type="text" id="numberOfPeriods" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control input-sm"/>
                             </div>
                             <div ng-if="column.columnDefinition.options.length > 0">
                                 <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options"></select>

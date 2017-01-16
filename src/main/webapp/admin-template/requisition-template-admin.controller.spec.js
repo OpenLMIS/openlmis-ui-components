@@ -166,7 +166,7 @@ describe('RequisitionTemplateAdminController', function() {
 
         var result = vm.errorMessage(vm.template.columnsMap.averageConsumption);
 
-        expect(message.get).toHaveBeenCalledWith('msg.template.invalid.number.of.periods');
+        expect(message.get).toHaveBeenCalledWith('msg.template.invalidNumberOfPeriods');
         expect(result).toBe('Number of periods to average must be greater than or equal to 2');
     });
 
@@ -176,7 +176,7 @@ describe('RequisitionTemplateAdminController', function() {
 
         var result = vm.errorMessage(vm.template.columnsMap.averageConsumption);
 
-        expect(message.get).toHaveBeenCalledWith('msg.template.empty.number.of.periods');
+        expect(message.get).toHaveBeenCalledWith('msg.template.emptyNumberOfPeriods');
         expect(result).toBe('Number of periods cannot be empty!');
     });
 });

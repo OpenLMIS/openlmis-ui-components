@@ -78,17 +78,18 @@
          * @ngdoc function
          * @name dropCallback
          * @methodOf admin-template.RequisitionTemplateAdminController
-         * @param {Event} event Drop event
-         * @param {integer} index Indicates where column was dropped
-         * @param {Object} item Dropped column
          *
          * @description
          * Moves column using templateFactory method. If action is unsuccessful
          * it displays notification error on screen.
+         *
+         * @param {Event} event Drop event
+         * @param {integer} index Indicates where column was dropped
+         * @param {Object} item Dropped column
          */
         function dropCallback(event, index, item) {
             if(!vm.template.$moveColumn(item, index)) {
-                notificationService.error('msg.tempalte.column.drop.error');
+                notificationService.error('msg.template.column.dropError');
             }
             return false; // disable default drop functionality
         }
@@ -97,11 +98,12 @@
          * @ngdoc function
          * @name canChangeSource
          * @methodOf admin-template.RequisitionTemplateAdminController
-         * @param {Object} columnDefinition Contains info about how column can be manipulated by user
          *
          * @description
          * Indicates if column source can be changed based on canBeChanged property
          * and if there is more then one possible source to choose from.
+         *
+         * @param {Object} columnDefinition Contains info about how column can be manipulated by user
          */
         function canChangeSource(columnDefinition) {
             return columnDefinition.sources.length > 1;
@@ -111,11 +113,12 @@
          * @ngdoc function
          * @name sourceDisplayName
          * @methodOf admin-template.RequisitionTemplateAdminController
-         * @param {String} name Column source name
-         * @returns {String} Column source display name
          *
          * @description
          * Gives diplay name of given source type.
+         *
+         * @param {String} name Column source name
+         * @returns {String} Column source display name
          */
         function sourceDisplayName(name) {
             return messageService.get(COLUMN_SOURCES.getLabel(name));
@@ -125,12 +128,13 @@
          * @ngdoc function
          * @name errorMessage
          * @methodOf admin-template.RequisitionTemplateAdminController
-         * @param {Object} column Column
-         * @returns {String} Column validation error message
          *
          * @description
          * Gives error message with all displayed dependent column names
          * when column validation failed.
+         *
+         * @param {Object} column Column
+         * @returns {String} Column validation error message
          */
         function errorMessage(column) {
             var dependencies = '',
@@ -138,17 +142,17 @@
 
             if(isAverageConsumption(column)
                 && (vm.template.numberOfPeriodsToAverage === '0' || vm.template.numberOfPeriodsToAverage === '1')) {
-                return messageService.get('msg.template.invalid.number.of.periods');
+                return messageService.get('msg.template.invalidNumberOfPeriods');
             }
 
             if (isAverageConsumption(column)
-                && (!vm.template.numberOfPeriodsToAverage.toString().trim() || !vm.template.numberOfPeriodsToAverage)) {
-                return messageService.get('msg.template.empty.number.of.periods');
+                && (!vm.template.numberOfPeriodsToAverage || !vm.template.numberOfPeriodsToAverage.toString().trim())) {
+                return messageService.get('msg.template.emptyNumberOfPeriods');
             }
 
-            if(!column.source  || column.source === '') return messageService.get('msg.template.column.source.empty');
+            if(!column.source  || column.source === '') return messageService.get('msg.template.column.sourceEmpty');
 
-            if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.option.empty');
+            if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.optionEmpty');
 
             if(column.source === COLUMN_SOURCES.CALCULATED) {
                 var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
@@ -159,11 +163,11 @@
 
             if(dependencies.length > 0) {
                 dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
-                return messageService.get('msg.template.column.calculated.error') + dependencies;
+                return messageService.get('msg.template.column.calculatedError') + dependencies;
             }
-            message = messageService.get('msg.template.column.should.be.displayed');
+            message = messageService.get('msg.template.column.shouldBeDisplayed');
             if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
-                message = message + messageService.get('msg.template.column.is.user.input');
+                message = message + messageService.get('msg.template.column.isUserInput');
             }
             return message;
         }
@@ -172,11 +176,12 @@
          * @ngdoc function
          * @name isAverageConsumption
          * @methodOf admin-template.RequisitionTemplateAdminController
-         * @param {Object} column Column
-         * @returns {Boolean} True if column name is 'averageConsumption'.
          *
          * @description
          * Determines whether displayed column is an average consumption.
+         *
+         * @param {Object} column Column
+         * @returns {Boolean} True if column name is 'averageConsumption'.
          */
         function isAverageConsumption(column) {
             return column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION;

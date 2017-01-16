@@ -129,7 +129,7 @@
                 columns = template.columnsMap;
 
             if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
-                && isAverageConsumtpionInvalidOrEmpty(template.numberOfPeriodsToAverage)) {
+                && isAverageConsumtpionInvalid(template.numberOfPeriodsToAverage)) {
                 return false;
             }
             if(!column.source || column.source === '') return false;
@@ -279,7 +279,7 @@
             }
         }
 
-        function isAverageConsumtpionInvalidOrEmpty(numberOfPeriods) {
+        function isAverageConsumtpionInvalid(numberOfPeriods) {
             return !numberOfPeriods
                 || !numberOfPeriods.toString().trim()
                 || numberOfPeriods === '0'
