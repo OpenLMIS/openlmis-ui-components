@@ -25,7 +25,7 @@
 			controller: 'ProgramAdministrationListController',
 			templateUrl: 'admin-template-list/program-administration-list.html',
 			controllerAs: 'vm',
-			accessRights: [REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES],
+			accessRights: [REQUISITION_RIGHTS.REQUISITION_TEMPLATES_MANAGE],
 			resolve: {
 				programList: function (programFactory) {
 					return programFactory.getAllProgramsWithTemplates();

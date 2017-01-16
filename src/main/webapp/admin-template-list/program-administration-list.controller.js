@@ -50,7 +50,7 @@
         }
 
         function canConfigureTemplates() {
-            return authorizationService.hasRight(REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES);
+            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_TEMPLATES_MANAGE);
         }
     }
 })();

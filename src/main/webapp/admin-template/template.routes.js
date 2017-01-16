@@ -24,7 +24,7 @@
 			templateUrl: 'admin-template/template.html',
 			controllerAs: 'vm',
 			accessRights: [
-				REQUISITION_RIGHTS.MANAGE_REQUISITION_TEMPLATES
+				REQUISITION_RIGHTS.REQUISITION_TEMPLATES_MANAGE
 			],
 			resolve: {
 				template: function ($stateParams, templateFactory) {
