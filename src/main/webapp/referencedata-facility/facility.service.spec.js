@@ -12,7 +12,7 @@ describe('facilityService', function() {
     var $rootScope, $httpBackend, openlmisUrlFactory, facilityService, offlineService, facilitiesStorage, facility1, facility2;
 
     beforeEach(function() {
-        module('openlmis-facility', function($provide){
+        module('referencedata-facility', function($provide){
 
             facilitiesStorage = jasmine.createSpyObj('facilitiesStorage', ['getBy', 'getAll', 'put', 'search']);
             var localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {

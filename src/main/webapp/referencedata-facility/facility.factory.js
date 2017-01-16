@@ -13,13 +13,13 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-facility.facilitiesFactory
+     * @name referencedata-facility.facilitiesFactory
      *
      * @description
      * Alows the user to retrieve facilities.
      */
     angular
-        .module('openlmis-facility')
+        .module('referencedata-facility')
         .factory('facilityFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', '$q', '$filter', 'programService', 'authorizationService', 'facilityService'];
@@ -34,10 +34,10 @@
         /**
          * @ngdoc function
          * @name getUserFacilities
-         * @methodOf openlmis-facility.facilitiesFactory
+         * @methodOf referencedata-facility.facilitiesFactory
          *
          * @description
-         * Retrieves all user supervised facilities depending on given access right.
+         * Retrieves all user supervised facilities depending on the given access right.
          *
          * @param {String} userId User UUID
          * @param {String} rightName Name of access right

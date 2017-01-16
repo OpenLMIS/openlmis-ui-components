@@ -4,13 +4,13 @@
 
 	/**
      * @ngdoc service
-     * @name openlmis-facility.facilityService
+     * @name referencedata-facility.facilityService
      *
      * @description
      * Responsible for retriving all facility information from server.
      */
 	angular
-		.module('openlmis-facility')
+		.module('referencedata-facility')
 	    .service('facilityService', service);
 
     service.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory'];
@@ -42,11 +42,11 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf openlmis-facility.facilityService
+         * @methodOf referencedata-facility.facilityService
          *
          * @description
          * Retrieves facility by id. When user is offline it gets facility from offline storage.
-         * If user is online it stores facilitiy into offline storage
+         * If user is online it stores facilitiy into offline storage.
          *
          * @param {String} facilityId Facility UUID
          * @return {Promise} facility promise
@@ -73,7 +73,7 @@
 		/**
          * @ngdoc function
          * @name getAll
-         * @methodOf openlmis-facility.facilityService
+         * @methodOf referencedata-facility.facilityService
          *
          * @description
          * Retrieves all facilities. When user is offline it gets facilities from offline storage.
@@ -103,7 +103,7 @@
 		/**
 		 * @ngdoc function
          * @name getUserSupervisedFacilities
-         * @methodOf openlmis-facility.facilityService
+         * @methodOf referencedata-facility.facilityService
          *
          * @description
          * Returns facilities where program with the given programId is active and where the given

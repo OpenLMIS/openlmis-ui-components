@@ -13,13 +13,13 @@
     /**
      *
      * @ngdoc service
-     * @name openlmis-program.programService
+     * @name referencedata-program.programService
      *
      * @description
-     * Resposible for retriving programs from server.
+     * Resposible for retriving programs from the server.
      */
     angular
-        .module('openlmis-program')
+        .module('referencedata-program')
         .factory('programService', service);
 
     service.$inject = ['openlmisUrlFactory', '$resource', '$q', 'offlineService', 'localStorageFactory'];
@@ -49,7 +49,7 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis-program.programService
+         * @methodOf referencedata-program.programService
          *
          * @description
          * Gets program by id.
@@ -64,10 +64,10 @@
         /**
          * @ngdoc function
          * @name  get
-         * @methodOf openlmis-program.programService
+         * @methodOf referencedata-program.programService
          *
          * @description
-         * Gets all programs and adds requisition template to it.
+         * Gets all programs and adds requisition templates to them.
          *
          * @returns {Promise} Array of all programs with templates
          */
@@ -77,10 +77,10 @@
 
         /**
          * @name getUserPrograms
-         * @methodOf openlmis-program.programService
+         * @methodOf referencedata-program.programService
          *
          * @description
-         * Retrieves programs for the current user and saves it in local storage.
+         * Retrieves programs for the current user and saves them in the local storage.
          * If the user is offline program are retreived from the local storage.
          *
          * @param {String} userId User UUID

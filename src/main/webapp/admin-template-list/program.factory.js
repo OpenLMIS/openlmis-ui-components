@@ -37,7 +37,7 @@
          * @methodOf admin-template-list.programFactory
          *
          * @description
-         * Retrieves all programs and adds template to it if one exists.
+         * Retrieves all programs and adds templates to them if one exists.
          *
          * @return {Promise} Array of programs with templates
          */

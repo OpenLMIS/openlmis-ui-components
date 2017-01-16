@@ -12,7 +12,7 @@ describe('facilityFactory', function() {
     var $rootScope, $q, facility1, facility2, userPrograms, programService, facilityService, authorizationService, facilityFactory;
 
     beforeEach(function() {
-        module('openlmis-facility', function($provide){
+        module('referencedata-facility', function($provide){
             programService = jasmine.createSpyObj('programService', ['getUserPrograms']);
 
             $provide.factory('programService', function() {

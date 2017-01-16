@@ -4,7 +4,7 @@
 
     angular.module('requisition-search', [
         'openlmis-date',
-        'openlmis-facility',
+        'referencedata-facility',
         'openlmis-modal',
         'requisition',
         'requisition-constants',

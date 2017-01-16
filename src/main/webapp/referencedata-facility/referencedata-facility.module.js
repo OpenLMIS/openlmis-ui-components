@@ -2,10 +2,11 @@
 
     'use strict';
 
-    angular.module('openlmis-program', [
+    angular.module('referencedata-facility', [
         'ngResource',
+        'openlmis-auth',
         'openlmis-local-storage',
-        'openlmis-urls'
+        'referencedata-program'
     ]);
 
 })();
