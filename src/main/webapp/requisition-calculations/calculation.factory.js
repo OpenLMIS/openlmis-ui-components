@@ -218,7 +218,7 @@
          * @return {Number}             the calculated Average Consumption value
          */
         function calculateAverageConsumption(lineItem, requisition) {
-            var adjustedConsumptions = lineItem.previousAdjustedConsumptions;
+            var adjustedConsumptions = angular.copy(lineItem.previousAdjustedConsumptions);
             adjustedConsumptions.push(calculateAdjustedConsumption(lineItem, requisition));
 
             var numberOfPeriods = adjustedConsumptions.length;

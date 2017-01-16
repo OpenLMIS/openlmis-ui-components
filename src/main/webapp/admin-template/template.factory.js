@@ -23,10 +23,10 @@
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
     templateFactory.$inject = [
-        '$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES'
+        '$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS'
     ];
 
-    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES) {
+    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS) {
 
         var factory = {
             get: get,
@@ -115,7 +115,7 @@
                 template = this;
 
             angular.forEach(template.columnsMap, function(column) {
-                if(!column.$isValid(template.columnsMap)) valid = false;
+                if(!column.$isValid(template)) valid = false;
             });
 
             return valid;
@@ -123,10 +123,15 @@
 
         // Checks if column is valid.
         // Column is not valid when isn't displayed, but at least one is dependent column is displayed.
-        function isColumnValid(columns) {
+        function isColumnValid(template) {
             var valid = true,
-                column = this;
+                column = this,
+                columns = template.columnsMap;
 
+            if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
+            && (template.numberOfPeriodsToAverage === '0' || template.numberOfPeriodsToAverage === '1')) {
+                return false;
+            }
             if(!column.source || column.source === '') return false;
             if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
             if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) return false;

@@ -24,11 +24,11 @@
 
     RequisitionTemplateAdminController.$inject = [
         '$state', 'template', 'program', '$q', 'notificationService', 'COLUMN_SOURCES',
-        'messageService'
+        'messageService', 'TEMPLATE_COLUMNS'
     ];
 
     function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
-                                                COLUMN_SOURCES, messageService) {
+                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS) {
 
         var vm = this;
 
@@ -41,6 +41,7 @@
         vm.canChangeSource = canChangeSource;
         vm.sourceDisplayName = sourceDisplayName;
         vm.errorMessage = errorMessage;
+        vm.isAverageConsumption = isAverageConsumption;
 
         /**
          * @ngdoc function
@@ -135,6 +136,11 @@
             var dependencies = '',
                 message;
 
+            if(column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
+                && (vm.template.numberOfPeriodsToAverage === '0' || vm.template.numberOfPeriodsToAverage === '1')) {
+                return messageService.get('msg.template.invalid.number.of.periods');
+            }
+
             if(!column.source  || column.source === '') return messageService.get('msg.template.column.source.empty');
 
             if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.option.empty');
@@ -155,6 +161,20 @@
                 message = message + messageService.get('msg.template.column.is.user.input');
             }
             return message;
+        }
+
+        /**
+         * @ngdoc function
+         * @name isAverageConsumption
+         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @param {Object} column Column
+         * @returns {Boolean} True if column name is 'averageConsumption'.
+         *
+         * @description
+         * Determines whether displayed column is an average consumption.
+         */
+        function isAverageConsumption(column) {
+            return column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION;
         }
     }
 })();

@@ -167,6 +167,7 @@
   "msg.template.column.option.empty": "Option cannot be empty!",
   "msg.template.column.should.be.displayed": "Should be displayed",
   "msg.template.column.source.empty": "Source cannot be empty!",
+  "msg.template.invalid.number.of.periods": "Number of periods to average must be greater than or equal to 2",
   "msg.totalRequisitionCost": "Total Requisition Cost",
   "option.value.all": "All",
   "option.value.facility.code": "Facility Code",

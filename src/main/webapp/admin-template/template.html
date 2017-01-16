@@ -47,10 +47,13 @@
                             </div>
                         </td>
                         <td>
+                            <div ng-if="vm.isAverageConsumption(column)">
+                                <input type="text" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control input-sm"/>
+                            </div>
                             <div ng-if="column.columnDefinition.options.length > 0">
                                 <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options"></select>
                             </div>
-                            <div ng-if="!column.$isValid(vm.template.columnsMap)" class="error">{{vm.errorMessage(column)}}</div>
+                            <div ng-if="!column.$isValid(vm.template)" class="error">{{vm.errorMessage(column)}}</div>
                         </td>
                     <dnd-nodrag>
                 </tr>
