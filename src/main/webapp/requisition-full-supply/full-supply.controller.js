@@ -13,14 +13,15 @@
         .module('requisition-full-supply')
         .controller('FullSupplyController', controller);
 
-    controller.$inject = ['requisition', 'requisitionValidator', '$filter'];
+    controller.$inject = ['requisition', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS'];
 
-    function controller(requisition, requisitionValidator, $filter) {
+    function controller(requisition, requisitionValidator, $filter, TEMPLATE_COLUMNS) {
 
         var vm = this;
 
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
+        vm.isColumnSkip = isColumnSkip;
 
         /**
          * @ngdoc property
@@ -92,6 +93,19 @@
          */
         function unskipAll() {
             setSkipAll(false);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyController
+         * @name isColumnSkip
+         *
+         * @description
+         * Determines wheter column name is 'skipped'.
+         * @return {Boolean} true is column name is 'skipped'
+         */
+        function isColumnSkip(column) {
+            return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
 
         function setSkipAll(value) {

@@ -175,5 +175,29 @@ describe('LineItem', function() {
 
             expect(result).toBe(false);
        });
+
+        it('should return false if requisition status is authorized', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+
+            lineItem.requestedQuantity = 0;
+            lineItem.requestedQuantityExplanation = '';
+            requisition.status = 'AUTHORIZED';
+
+            var result = lineItem.canBeSkipped(requisition);
+
+            expect(result).toBe(false);
+        });
+
+        it('should return false if requisition status is approved', function() {
+            var lineItem = new LineItem(requisitionLineItem, requisition);
+
+            lineItem.requestedQuantity = 0;
+            lineItem.requestedQuantityExplanation = '';
+            requisition.status = 'APPROVED';
+
+            var result = lineItem.canBeSkipped(requisition);
+
+            expect(result).toBe(false);
+        });
     });
 });

@@ -13,9 +13,9 @@
     .module('requisition')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validationFactory', 'calculationFactory', 'COLUMN_SOURCES', 'COLUMN_TYPES'];
+    lineItem.$inject = ['validationFactory', 'calculationFactory', 'COLUMN_SOURCES', 'COLUMN_TYPES', 'REQUISITION_STATUS'];
 
-    function lineItem(validationFactory, calculationFactory, COLUMN_SOURCES, COLUMN_TYPES) {
+    function lineItem(validationFactory, calculationFactory, COLUMN_SOURCES, COLUMN_TYPES, REQUISITION_STATUS) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
@@ -99,6 +99,11 @@
             var result = true,
             lineItem = this,
             columns = requisition.$template.getColumns(!this.$program.fullSupply);
+
+            if (requisition.status === REQUISITION_STATUS.AUTHORIZED || requisition.status === REQUISITION_STATUS.APPROVED) {
+                return false;
+            }
+
             columns.forEach(function (column) {
                 if (isInputDisplayedAndNotEmpty(column, lineItem)) {
                     result = false;
