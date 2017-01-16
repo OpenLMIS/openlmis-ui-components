@@ -135,11 +135,11 @@ Styleguide 4.1
 
     > .flex-table {
         flex: 1 1 auto;
-        overflow: visible;
+        overflow: auto;
         margin: 0px;
         table {
-            width: 100%;
-            margin: 1em;
+            margin: 0px;
+            padding: 0px;
         }
     }
 

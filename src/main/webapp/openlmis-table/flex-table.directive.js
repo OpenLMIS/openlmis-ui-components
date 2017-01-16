@@ -19,14 +19,16 @@
     function directive() {
         var directive = {
             restrict: 'E',
-            link: link
+            compile: function(){
+                return {
+                    pre: function(scope, element){
+                        var parent = element.parent();
+                        if(parent.hasClass('table-container')) element.wrap('<div class="flex-table"></div>');                        
+                    }
+                }
+            }
         }
         return directive;
-    }
-
-    function link(scope, element) {
-        var parent = angular.element(element.parent()[0]);
-        if(parent.hasClass('table-container')) element.wrap('<div class="flex-table"></div>');
     }
 
 })();

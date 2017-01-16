@@ -85,6 +85,7 @@
                         if(cellOffset > parentWidth){ // if the column is far away on the right...
                             offset =  rightOffset;
                         }
+                        
                         cell.css('left', offset + 'px');
                     });
                 });
