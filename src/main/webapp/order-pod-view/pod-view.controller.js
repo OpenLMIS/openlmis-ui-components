@@ -12,9 +12,9 @@
     angular.module('order-pod-view')
     .controller('PodViewController', controller);
 
-    controller.$inject = ['pod', 'notificationService', 'confirmService'];
+    controller.$inject = ['$state', 'pod', 'notificationService', 'confirmService'];
 
-    function controller(pod, notificationService, confirmService) {
+    function controller($state, pod, notificationService, confirmService) {
 
         var vm = this;
 
@@ -88,7 +88,7 @@
          * @returns {String} Period formated dates.
          */
         function typeMessage() {
-            vm.pod.order.emergency ? 'msg.emergency' : 'msg.regular';
+            return vm.pod.order.emergency ? 'msg.emergency' : 'msg.regular';
         }
 
         function reloadState() {
