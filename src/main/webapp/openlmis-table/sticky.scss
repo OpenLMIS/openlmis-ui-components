@@ -94,6 +94,8 @@ Styleguide 4.4
 
 td, table th, tr.title > td > div  {
 	&.sticky{ }
-	&.stuck{ }
+	&.stuck{ 
+    position: relative;
+  }
 }
 

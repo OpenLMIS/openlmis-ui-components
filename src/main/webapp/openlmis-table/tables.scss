@@ -117,11 +117,11 @@ table{
 tbody > tr.title:first-child > td{
     margin: 0px;
     padding: 0px;
+    background-color: $brand-primary;
+    color: $white;
+    font-weight: bold;
+    text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
     > div{
-      background-color: $brand-primary;
-      color: $white;
-      font-weight: bold;
-      text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
       position: relative;
       padding: 1em 2em;
     }

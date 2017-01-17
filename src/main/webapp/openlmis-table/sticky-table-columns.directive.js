@@ -35,8 +35,8 @@
         .module('openlmis-table')
         .directive('table', directive);
 
-    directive.$inject = ['$window'];
-    function directive($window) {
+    directive.$inject = ['$window', '$timeout'];
+    function directive($window, $timeout) {
 
         return {
             restrict: 'E',
@@ -149,13 +149,26 @@
                         return; // if the end of the table has been reached, stop
                     }
 
-                    if(cellOffset + cellWidth > rightEdge){ // if the column is far away on the right...
+                    var leftOffset = 0;
+                    angular.forEach(
+                        cell.parent().children('.stuck-left'),
+                        function(sibling){
+                            leftOffset += angular.element(sibling).outerWidth();
+                        });
+
+                    var rightOffset = 0;
+                    angular.forEach(
+                        cell.parent().children('.stuck-right'),
+                        function(sibling){
+                            rightOffset += angular.element(sibling).outerWidth();
+                        });
+
+                    if(cellOffset + cellWidth > rightEdge - rightOffset){ // if the column is far away on the right...
                         setPosition(rightEdge - tableWidth);
                         cell.addClass('stuck');
                         cell.addClass('stuck-right');
-                    } else if(cellOffset < leftEdge) {
+                    } else if(cellOffset < leftEdge + leftOffset) {
                         setPosition(leftEdge);
-                        cell.css('left', offset + 'px');
                         cell.addClass('stuck');
                         cell.addClass('stuck-left');
                     } else {
@@ -172,17 +185,14 @@
                  * @methodOf openlmis-table:stickyTableColumns
                  *
                  * @description
-                 * Updates an element's transform property to take advantage of simpler rendering.
-                 * See the following article for an explination of why we are using transform.
+                 * Updates an element's relative position, but should used transform to take
+                 * advantage of simpler rendering. See the following article for an explination
+                 * of what and why we would like to achieve this.
                  * https://www.kirupa.com/html5/animating_movement_smoothly_using_css.htm
                  *
                  */
                 function setPosition(position){
-                    var transformProperties = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"];
-                    
-                    angular.forEach(transformProperties, function(property){
-                        cell.css(property, 'translate3d(' + position + 'px, 0px, 0px);');
-                    });
+                    cell.css('left', position + 'px');
                 }
             }
 
