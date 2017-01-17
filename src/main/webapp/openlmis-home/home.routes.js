@@ -15,7 +15,8 @@
             templateUrl: 'openlmis-home/home.html',
             priority: 3,
             showInNavigation: true,
-            label: 'link.home'
+            label: 'link.home',
+            isOffline: true
         });
 
     }

@@ -10,6 +10,7 @@
 
 		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
+			isOffline: true,
 			label: 'link.requisition.view',
 			url: '/view',
 			controller: 'RequisitionSearchController',

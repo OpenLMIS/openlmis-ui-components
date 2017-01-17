@@ -152,6 +152,11 @@ header > .navbar {
         text-decoration: none;
         color: $cyan;
       }
+      &.disabled,
+      &.disabled:hover,
+      &.disabled:focus{
+        color: $text-color-disabled;
+      }
     }
 
     > li {
@@ -165,6 +170,11 @@ header > .navbar {
         &:hover,
         &:focus {
           color: $white;
+        }
+        &.disabled,
+        &.disabled:hover,
+        &.disabled:focus{
+          color: darken($white, 15%);
         }
       }
       &.open > a,
