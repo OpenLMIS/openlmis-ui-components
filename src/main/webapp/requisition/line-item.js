@@ -44,7 +44,7 @@
             this.$program = this.orderableProduct.$program ? this.orderableProduct.$program : getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
 
             var newLineItem = this;
-            requisition.$template.columns.forEach(function(column) {
+            requisition.$template.getColumns(!this.$program.fullSupply).forEach(function(column) {
                 newLineItem.updateFieldValue(column, requisition);
             });
         }
