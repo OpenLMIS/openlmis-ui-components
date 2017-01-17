@@ -89,12 +89,16 @@ Styleguide 4.0
 
 table{
     @extend .table;
+
+    border: 1px $light-gray solid;
     border-collapse: separate;
 
     td, th{
         padding: 1em;
         vertical-align: middle !important; // from requisition template screen
-        border: 1px $gray solid;
+        border-top: none !important;
+        border-bottom: 1px $light-gray solid !important;   // all those important are needed to override borders from
+        border-right: 1px $light-gray solid !important;
     }
 
     td {
