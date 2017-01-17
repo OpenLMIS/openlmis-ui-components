@@ -7,32 +7,22 @@
   ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
-    <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})</h2>
-    <aside class="requisition-info">
-        <div class="requisition-type" ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">
-            <span openlmis-message="vm.requisitionType"></span>
-        </div>
+<h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})</h2>
+<aside class="requisition-info">
+    <div class="requisition-type" ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">
+        <span openlmis-message="vm.requisitionType"></span>
+    </div>
 
-        <dl class="requisition-head-block">
-            <dt>{{'label.facility'|message}}</dt>
-            <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
-            <dt>{{'label.facility.operatedBy' | message}}</dt>
-            <dd>{{vm.requisition.facility.operator.name}}</dd>
-            <dt>{{'label.region' | message}}</dt>
-            <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
-            <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
-            <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
-            <dt>{{'label.facility.reportingPeriod' | message}}</dt>
-            <dd>{{vm.periodDisplayName()}}</dd>
-        </dl>
-    </aside>
-    <aside>
-      <h3 ng-if="vm.requisition.$availableOffline">{{'requisition.offline.available' | message}}</h3>
-      <button ng-if="vm.requisition.$availableOffline" ng-click="vm.changeAvailablity(vm.requisition)">
-        {{'requisition.offline.remove' | message}}
-      </button>
-      <button ng-if="!vm.requisition.$availableOffline" ng-click="vm.changeAvailablity(vm.requisition)">
-        {{'requisition.offline.add' | message}}
-      </button>
-    </aside>
-</div>
+    <dl class="requisition-head-block">
+        <dt>{{'label.facility'|message}}</dt>
+        <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
+        <dt>{{'label.facility.operatedBy' | message}}</dt>
+        <dd>{{vm.requisition.facility.operator.name}}</dd>
+        <dt>{{'label.region' | message}}</dt>
+        <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
+        <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
+        <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
+        <dt>{{'label.facility.reportingPeriod' | message}}</dt>
+        <dd>{{vm.periodDisplayName()}}</dd>
+    </dl>
+</aside>
