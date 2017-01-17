@@ -7,7 +7,7 @@
      * @name openlmis-table:stickyTableColumns
      *
      * @description
-     * Allows a user to stick a table heading or table cell element by adding the class
+     * Allows the user to stick a table heading or table cell element by adding the class
      * sticky to the element. This will automatically stick the element to the left or
      * right side of the table using relative positioning.
      *
@@ -65,7 +65,7 @@
             scope.$watch(function(){
                 return element[0].querySelectorAll('.sticky:not(.sticky-added)').length;
             }, updateStickyElements);
-            // If the window changes sizes, update the view 
+            // If the window changes sizes, update the view
             angular.element($window).bind('resize', updateStickyElements);
 
             /**
@@ -87,7 +87,7 @@
                 });
 
                 // Create blit functions
-                var pinnedCellsQuery = element[0].querySelectorAll('.sticky'); 
+                var pinnedCellsQuery = element[0].querySelectorAll('.sticky');
                 angular.forEach(pinnedCellsQuery, function(cell) {
                     cell = angular.element(cell);
                     cell.addClass('sticky-added');
@@ -141,11 +141,11 @@
                  * @methodOf openlmis-table:stickyTableColumns
                  *
                  * @description
-                 * Calculation and manipulation of position for each cell 
+                 * Calculation and manipulation of position for each cell
                  *
                  */
                 function blitCell(offset){
-                    if(rightEdge - tableWidth > 0){ 
+                    if(rightEdge - tableWidth > 0){
                         return; // if the end of the table has been reached, stop
                     }
 
