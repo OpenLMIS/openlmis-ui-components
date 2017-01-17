@@ -14,5 +14,6 @@
   },
   "openlmisServerURL": "",
   "authServiceURL": "/",
-  "requisitionServiceURL": "/"
+  "requisitionServiceURL": "/",
+  "ordersServiceURL": "/"
 }

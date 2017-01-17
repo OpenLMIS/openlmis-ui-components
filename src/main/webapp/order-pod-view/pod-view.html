@@ -1,0 +1,39 @@
+<div class="page">
+    <ng-include src="'order-pod-view/pod-header.html'"></ng-include>
+    <div class="product-grid">
+    	<table table-pinned-columns>
+    		<thead>
+    			<tr>
+    				<th ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.canChangeOrder}">{{column.label}}</th>
+                    <th>{{'msg.productName' | message}}</th>
+                    <th>{{'msg.productUnit' | message}}</th>
+                    <th>{{'msg.packsToShip' | message}}</th>
+                    <th>{{'msg.quantityShipped' | message}}</th>
+                    <th>{{'msg.quantityReceived' | message}}</th>
+                    <th>{{'msg.quantityReturned' | message}}</th>
+                    <th>{{'msg.replacedProductCode' | message}}</th>
+                    <th>{{'msg.notes' | message}}</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="lineItem in vm.pod.proofOfDeliveryLineItems">
+                    <td>{{lineItem.orderLineItem.$orderableProduct.name}}</td>
+                    <td>{{lineItem.orderLineItem.$orderableProduct.dispensable.dispensingUnit}}</td>
+                    <td>{{lineItem.packToShip}}</td>
+                    <td>{{lineItem.quantityShipped}}</td>
+                    <td>
+                        <input positive-integer type="text" ng-model="lineItem.quantityReceived" required/>
+                    </td>
+                    <td>
+                        <input positive-integer type="text" ng-model="lineItem.quantityReturned"/>
+                    </td>
+                    <td>{{lineItem.replacedProductCode}}</td>
+                    <td>
+                        <input positive-integer type="text" ng-model="lineItem.notes"/>
+                    </td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
+</div>
+<ng-include src="'order-pod-view/pod-toolbar.html'"></ng-include>

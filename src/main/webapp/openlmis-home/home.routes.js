@@ -13,7 +13,7 @@
         $stateProvider.state('home', {
             url: '/home',
             templateUrl: 'openlmis-home/home.html',
-            priority: 2,
+            priority: 3,
             showInNavigation: true,
             label: 'link.home'
         });

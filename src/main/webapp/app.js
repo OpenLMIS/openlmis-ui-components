@@ -24,6 +24,7 @@
 		'openlmis-header',
         'openlmis-i18n',
         'openlmis-navigation',
+        'openlmis-orders',
 		'openlmis-requisitions',
 		'openlmis-reset-password',
         'openlmis-table'

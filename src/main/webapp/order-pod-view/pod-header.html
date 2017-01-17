@@ -1,0 +1,23 @@
+<h2>{{'label.podFor' | message}} {{vm.pod.order.$program.name}}</h2>
+<aside class="pod-info">
+    <div class="pod-type" ng-class="{'emergency': vm.pod.order.emergency, 'regular': !vm.pod.order.emergency}">
+        <span>{{vm.typeMessage() | message}}</span>
+    </div>
+
+    <dl>
+        <dt>{{'label.orderNumber' | message}}</dt>
+        <dd>{{vm.pod.order.orderCode}}</dd>
+        <dt>{{'label.facility' | message}}</dt>
+        <dd>{{vm.pod.order.$facility.code}} - {{vm.pod.order.$facility.name}}</dd>
+        <dt>{{'label.orderDate' | message}}</dt>
+        <dd>{{vm.pod.order.createdDate}}</dd>
+        <dt>{{'label.supplyingDepot' | message}}</dt>
+        <dd>{{vm.pod.order.$supplyingFacility.name}}</dd>
+        <dt>{{'label.reportingPeriod' | message}}</dt>
+        <dd>{{vm.periodDisplayName()}}</dd>
+        <dt ng-if="vm.pod.order.$facility.geographicZone.parent.name">{{'label.district' | message}}</dt>
+        <dd ng-if="vm.pod.order.$facility.geographicZone.parent.name">{{vm.pod.order.$facility.geographicZone.parent.name}}</dd>
+        <dt>{{'label.region' | message}}</dt>
+        <dd>{{vm.pod.order.$facility.geographicZone.name}}</dd>
+    </dl>
+</aside>

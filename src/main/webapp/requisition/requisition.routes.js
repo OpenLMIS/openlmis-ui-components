@@ -11,7 +11,7 @@
         $stateProvider.state('requisitions', {
             abstract: true,
             showInNavigation: true,
-            priority: 1,
+            priority: 2,
             label: 'link.requisitions',
             url: '/requisitions',
             template: '<div ui-view></div>'

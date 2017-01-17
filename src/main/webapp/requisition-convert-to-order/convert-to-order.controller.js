@@ -73,7 +73,7 @@
                 name: 'option.value.facility.name'
             }/*, {
                 value: 'supplyingDepot',
-                name: 'label.supplying.depot'
+                name: 'label.supplyingDepot'
             }*/
         ];
 
