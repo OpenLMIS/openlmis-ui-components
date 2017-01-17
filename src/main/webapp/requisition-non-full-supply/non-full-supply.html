@@ -1,16 +1,12 @@
-<div class="product-grid">
-	<table table-pinned-columns>
+<div class="product-grid table-container">
+	<table>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{pinned: !column.canChangeOrder}">{{column.label}}</th>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.canChangeOrder}">{{column.label}}</th>
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.getLineItems() | groupBy:'$program.productCategoryDisplayName'">
-			<tr>
-				<td class="productCategory pinned" colspan="3">{{category}}</td>
-				<td ng-repeat="column in vm.columns | limitTo:vm.columns.length - 3" class="productCategory"></td>
-			</tr>
+		<tbody ng-repeat="(category, lineItems) in vm.getLineItems() | groupBy:'$program.productCategoryDisplayName'" title="{{category}}">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
