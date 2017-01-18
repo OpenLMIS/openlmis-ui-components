@@ -27,20 +27,16 @@
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'periodFactory',
         'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
-        'facilityService', '$rootScope'
+        'facilityService'
     ];
 
     function RequisitionInitiateController(messageService, facility, user, supervisedPrograms,
                                      homePrograms, periodFactory, requisitionService, $state,
                                      dateUtils, REQUISITION_STATUS, loadingModalService,
                                      notificationService, authorizationService, $q,
-                                     REQUISITION_RIGHTS, facilityService, $rootScope) {
+                                     REQUISITION_RIGHTS, facilityService) {
 
         var vm = this;
-
-        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-            console.log(error);
-        });
 
         /**
          * @ngdoc property

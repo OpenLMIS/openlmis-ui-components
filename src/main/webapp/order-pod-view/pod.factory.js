@@ -1,52 +1,49 @@
-(function(){
+(function() {
+
     'use strict';
+
     /**
      *
      * @ngdoc service
-     * @name order-pod-view.podFactory
+     * @name proof-of-delivery-view.podFactory
      *
      * @description
      * Alows the user to retrieve proofs of deliveries.
      */
     angular
-        .module('order-pod-view')
+        .module('proof-of-delivery-view')
         .factory('podFactory', factory);
 
-    factory.$inject = ['$q', 'POD', 'podService', 'orderFactory'];
+    factory.$inject = ['$q', 'ProofOfDelivery', 'podService'];
 
-    function factory($q, POD, podService, orderFactory){
-
-        return {
-            get: get
-        };
-
+    function factory($q, ProofOfDelivery, podService){
 
         /**
          * @ngdoc function
          * @name get
-         * @methodOf order-pod-view.podFactory
+         * @methodOf proof-of-delivery-view.podFactory
          *
          * @description
          * Retrieves proof of deliery by given UUID.
          *
-         * @param {String} podId POD UUID
-         * @return {Promise} POD
+         * @param {String} podId Proof of Delivery UUID
+         * @return {Promise} ProofOfDelivery
          */
         function get(podId) {
             var deferred = $q.defer();
 
             podService.get(podId).then(function(pod) {
-                orderFactory.get(pod.order).then(function(order) {
-                    deferred.resolve(new POD(pod, order));
-                }, function() {
-                    deferred.reject();
-                });
+                deferred.resolve(new ProofOfDelivery(pod));
             }, function() {
                 deferred.reject();
             });
 
             return deferred.promise;
         }
+
+        return {
+            get: get
+        };
     }
 
 })();

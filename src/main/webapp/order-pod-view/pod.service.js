@@ -4,26 +4,31 @@
 
 	/**
      * @ngdoc service
-     * @name order-pod-view.podService
+     * @name proof-of-delivery-view.podService
      *
      * @description
-     * Responsible for retriving all proofs of delivery from server.
+     * Responsible for retrieving proofs of delivery from the server.
      */
 	angular
-		.module('order-pod-view')
+		.module('proof-of-delivery-view')
 	    .service('podService', service);
 
-    service.$inject = ['$resource', 'ordersUrlFactory'];
+    service.$inject = ['$resource', 'fullfilmentUrlFactory', 'dateUtils'];
 
-    function service($resource, ordersUrlFactory) {
+    function service($resource, fullfilmentUrlFactory, dateUtils) {
 
-        var resource = $resource(ordersUrlFactory('/api/proofOfDeliveries/:id'), {}, {
-			'save': {
-				method: 'PUT'
+        var resource = $resource(fullfilmentUrlFactory('/api/proofOfDeliveries/:id'), {}, {
+			get: {
+				method: 'GET',
+				transformResponse: transformResponse
 			},
-			'submit': {
+			save: {
 				method: 'PUT',
-				url: ordersUrlFactory('/api/proofOfDeliveries/:id/submit')
+				transformRequest: transformRequest
+			},
+			submit: {
+				method: 'PUT',
+				url: fullfilmentUrlFactory('/api/proofOfDeliveries/:id/submit')
 			}
 		});
 
@@ -36,7 +41,7 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf order-pod-view.podService
+         * @methodOf proof-of-delivery-view.podService
          *
          * @description
          * Retrieves proof of deliery by id.
@@ -45,13 +50,15 @@
          * @return {Promise} POD
          */
         function get(podId) {
-            return resource.get({id: podId}).$promise;
+            return resource.get({
+				id: podId
+			}).$promise;
         }
 
 		/**
          * @ngdoc function
          * @name save
-         * @methodOf order-pod-view.podService
+         * @methodOf proof-of-delivery-view.podService
          *
          * @description
          * Saves proof of deliery.
@@ -59,13 +66,15 @@
          * @return {Promise} POD
          */
         function save(pod) {
-            return resource.save({id: pod.id}, pod).$promise;
+            return resource.save({
+				id: pod.id
+			}, pod).$promise;
         }
 
 		/**
          * @ngdoc function
          * @name submit
-         * @methodOf order-pod-view.podService
+         * @methodOf proof-of-delivery-view.podService
          *
          * @description
          * Submits proof of deliery.
@@ -73,7 +82,28 @@
          * @return {Promise} POD
          */
         function submit(pod) {
-            return resource.submit({id: pod.id}, pod).$promise;
+            return resource.submit({
+				id: pod.id
+			}, pod).$promise;
+        }
+
+		function transformResponse(data, headers, status) {
+			var pod = data;
+
+            if (status === 200) {
+                pod = angular.fromJson(data);
+
+				if(pod.receivedDate) pod.receivedDate = dateUtils.toDate(pod.receivedDate);
+				if(pod.order.createdDate) pod.order.createdDate = dateUtils.toDate(pod.order.createdDate);
+            }
+
+            return pod;
+        }
+
+		function transformRequest(pod) {
+			if(pod.receivedDate) pod.receivedDate = dateUtils.toArray(pod.receivedDate);
+			if(pod.order.createdDate) pod.order.createdDate = dateUtils.toArray(pod.order.createdDate);
+            return angular.toJson(pod);
         }
     }
 })();

@@ -1,0 +1,19 @@
+<aside class="pod-info">
+    <dl>
+        <dt>{{'label.deliveredBy' | message}}</dt>
+        <dd>
+            <input type="text" ng-model="vm.pod.deliveredBy"/>
+            <div ng-if="!vm.pod.deliveredBy || vm.pod.deliveredBy === ''" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+        </dd>
+        <dt>{{'label.receivedBy' | message}}</dt>
+        <dd>
+            <input type="text" ng-model="vm.pod.receivedBy"/>
+            <div ng-if="!vm.pod.receivedBy || vm.pod.receivedBy === ''" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+        </dd>
+        <dt>{{'label.receivedDate' | message}}</dt>
+        <dd>
+            <openlmis-datepicker input-id="receivedDate" value="vm.pod.receivedDate"></openlmis-datepicker>
+            <div ng-if="!vm.pod.receivedDate" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+        </dd>
+    </dl>
+</aside>

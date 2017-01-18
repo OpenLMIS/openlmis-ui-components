@@ -2,9 +2,9 @@
 
     "use strict";
 
-    angular.module('openlmis-orders', [
+    angular.module('openlmis-fullfilment', [
         'order',
-        'order-pod-view'
+        'proof-of-delivery-view'
     ]);
 
 })();

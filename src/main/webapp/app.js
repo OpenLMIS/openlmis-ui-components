@@ -20,11 +20,11 @@
 		'openlmis-404',
         'openlmis-500',
 		'openlmis-forgot-password',
+        'openlmis-fullfilment',
 		'openlmis-home',
 		'openlmis-header',
         'openlmis-i18n',
         'openlmis-navigation',
-        'openlmis-orders',
 		'openlmis-requisitions',
 		'openlmis-reset-password',
         'openlmis-table'

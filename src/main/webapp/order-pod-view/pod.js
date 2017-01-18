@@ -3,70 +3,84 @@
     /**
      *
      * @ngdoc service
-     * @name order-pod-view.POD
+     * @name proof-of-delivery-view.ProofOfDelivery
      *
      * @description
      * Responsible for supplying pod with additional methods and information.
      */
     angular
-        .module('order-pod-view')
-        .factory('POD', factory);
+        .module('proof-of-delivery-view')
+        .factory('ProofOfDelivery', factory);
 
     factory.$inject = ['podService'];
 
     function factory(podService){
 
+        ProofOfDelivery.prototype.$isPodValid = isPodValid;
+        ProofOfDelivery.prototype.$isLineItemValid = isLineItemValid;
 
-        POD.prototype.$save = save;
-        POD.prototype.$submit = submit;
-
-        return POD;
+        return ProofOfDelivery;
 
 
         /**
-         * @ngdoc function
-         * @name POD
-         * @methodOf order-pod-view.POD
+         * @ngdoc method
+         * @name ProofOfDelivery
+         * @methodOf proof-of-delivery-view.ProofOfDelivery
          *
          * @description
-         * Adds all needed methods and information to given POD.
+         * Adds all needed methods and information to given ProofOfDelivery.
          *
-         * @param {Resource} source POD object
+         * @param {Resource} source ProofOfDelivery object
          * @param {Resource} order Order with additional info
-         * @return {Object} POD
+         * @return {Object} ProofOfDelivery
          */
-        function POD(source, order) {
+        function ProofOfDelivery(source) {
+            var pod = this;
+
             angular.copy(source, this);
 
-            this.order = order;
+            angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
+                lineItem.$program = lineItem.orderLineItem.orderableProduct.programs[0]; //TODO should iterate through programs and validate id, but demo data is invalid :(
+            });
         }
 
         /**
-         * @ngdoc function
-         * @name save
-         * @methodOf order-pod-view.POD
+         * @ngdoc method
+         * @name isLineItemValid
+         * @methodOf proof-of-delivery-view.ProofOfDelivery
          *
          * @description
-         * Saves current POD.
+         * Checks if POD line item is valid.
          *
-         * @return {Promise} POD
+         * @param {Object} lineItem POD line item
+         * @return {boolean} true if line item is valid
          */
-        function save() {
-            return podService.save(this);
+        function isLineItemValid(lineItem) {
+            return !lineItem.quantityReceived === undefined && !lineItem.quantityReceived === null;
         }
 
         /**
-         * @ngdoc function
-         * @name submit
-         * @methodOf order-pod-view.POD
+         * @ngdoc method
+         * @name isPodValid
+         * @methodOf proof-of-delivery-view.ProofOfDelivery
          *
          * @description
-         * Submits current POD.
+         * Checks if POD is valid.
          *
-         * @return {Promise} POD
+         * @return {boolean} true if POD is valid
          */
-        function submit() {
-            return podService.submit(this);
+        function isPodValid() {
+            var isValid = true;
+
+            if(!this.receivedBy || this.receivedBy === '') return false;
+            if(!this.deliveredBy || this.deliveredBy === '') return false;
+            if(!this.receivedDate) return false;
+
+            angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
+                if(!isLineItemValid(lineItem)) isValid = false;
+            });
+
+            return isValid;
         }
     }
 

@@ -4,21 +4,18 @@
 
     /**
      * @ngdoc controller
-     * @name order-pod-view.PodViewController
+     * @name proof-of-delivery-view.PodViewController
      *
      * @description
      * Controller that drives the POD view screen.
      */
-    angular.module('order-pod-view')
+    angular.module('proof-of-delivery-view')
     .controller('PodViewController', controller);
 
-    controller.$inject = ['$state', 'pod', 'notificationService', 'confirmService'];
+    controller.$inject = ['$state', 'pod', 'podService', 'notificationService', 'confirmService'];
 
-    function controller($state, pod, notificationService, confirmService) {
-
+    function controller($state, pod, podService, notificationService, confirmService) {
         var vm = this;
-
-        vm.pod = pod;
 
         vm.savePod = savePod;
         vm.submitPod = submitPod;
@@ -26,18 +23,30 @@
         vm.typeMessage = typeMessage;
 
         /**
-         * @ngdoc function
+         * @ngdoc property
+         * @name proof of delivery
+         * @propertyOf proof-of-delivery-view.PodViewController
+         * @type {Object}
+         *
+         * @description
+         * Holds Proof of Delivery.
+         */
+        vm.pod = pod;
+        vm.categories = groupByCategory(vm.pod.proofOfDeliveryLineItems);
+
+        /**
+         * @ngdoc method
          * @name savePod
-         * @methodOf order-pod-view.PodViewController
+         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Saves current POD after confirming it.
          */
         function savePod() {
             confirmService.confirm('msg.orders.savePodQuestion').then(function() {
-                vm.pod.$save().then(function() {
+                podService.save(vm.pod).then(function() {
                     notificationService.success('msg.podSaved');
-                    reloadState();
+                    $state.reload();
                 }, function() {
                     notificationService.error('msg.podSavedFailed');
                 });
@@ -45,18 +54,18 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name submitPod
-         * @methodOf order-pod-view.PodViewController
+         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Submits current POD after confirming it.
          */
         function submitPod() {
             confirmService.confirm('msg.orders.submitPodQuestion').then(function() {
-                vm.pod.$submit().then(function() {
+                podService.submit(vm.pod).then(function() {
                     notificationService.success('msg.podSubmit');
-                    reloadState();
+                    $state.reload();
                 }, function() {
                     notificationService.error('msg.podSubmitFailed');
                 });
@@ -64,9 +73,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name periodDisplayName
-         * @methodOf order-pod-view.PodViewController
+         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Formats processing period dates.
@@ -74,25 +83,33 @@
          * @returns {String} Period formated dates.
          */
         function periodDisplayName() {
-            return vm.pod.order.$processingPeriod.startDate.slice(0,3).join('/') + ' - ' + vm.pod.order.$processingPeriod.endDate.slice(0,3).join('/');
+            return vm.pod.order.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + vm.pod.order.processingPeriod.endDate.slice(0,3).join('/');
         }
 
         /**
-         * @ngdoc function
-         * @name periodDisplayName
-         * @methodOf order-pod-view.PodViewController
+         * @ngdoc method
+         * @name typeMessage
+         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
-         * Formats processing period dates.
+         * Provides display messages for order types.
          *
-         * @returns {String} Period formated dates.
+         * @returns {String} Order type message
          */
         function typeMessage() {
             return vm.pod.order.emergency ? 'msg.emergency' : 'msg.regular';
         }
 
-        function reloadState() {
-            $state.reload();
+        function groupByCategory(lineItems) {
+            var categories = {};
+            angular.forEach(lineItems, function(lineItem) {
+                var category = lineItem.$program.productCategoryDisplayName;
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+                categories[category].push(lineItem);
+            });
+            return categories;
         }
     }
 }());

@@ -1,7 +1,10 @@
 aside.pod-info{
+
+    margin-top: 1em;
     padding: $padding2px;
 
     display: flex;
+
     > * {
         flex: 0 0 auto;
     }
@@ -14,27 +17,25 @@ aside.pod-info{
     }
 }
 
-.pod-type{
-    &.regular {
-		@include right-arrow($light-gray);
-	}
+.pod-regular {
+	@include right-arrow($light-gray);
+}
 
-	&.regular:after,
-	&.regular:before {
-		@include right-arrow-after-before();
-	}
+.pod-regular:after,
+.pod-regular:after {
+    @include right-arrow-after-before();
+}
 
-	&.regular:after {
-		@include right-arrow-after($light-gray);
-	}
+.pod-regular:after {
+    @include right-arrow-after($light-gray);
+}
 
-	&.emergency {
-		@include right-arrow($red);
-		color: $white;
-	}
+.pod-emergency {
+	@include right-arrow($red);
+	color: $white;
+}
 
-	&.emergency:after,
-	&.emergency:before {
-		@include right-arrow-after-before();
-	}
+.pod-emergency:after,
+.pod-emergency:before {
+    @include right-arrow-after-before();
 }

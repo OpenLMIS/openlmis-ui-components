@@ -2,7 +2,8 @@
 
     'use strict';
 
-    angular.module('order-pod-view', [
+    angular.module('proof-of-delivery-view', [
+        'openlmis-date',
         'order',
         'ui.router'
     ]);

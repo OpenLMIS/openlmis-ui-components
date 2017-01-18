@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('order-pod-view')
+        .module('proof-of-delivery-view')
         .config(routes);
 
     routes.$inject = ['$stateProvider'];

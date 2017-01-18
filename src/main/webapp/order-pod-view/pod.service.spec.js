@@ -2,27 +2,40 @@ describe('podService', function() {
 
     var POD_ID = 'some-pod-id';
 
-    var podService, $httpBackend, ordersUrlFactory, pod, url;
+    var podService, $httpBackend, fullfilmentUrlFactory, pod, url;
 
     beforeEach(function() {
-        module('order-pod-view');
+        dateUtilsMock = jasmine.createSpyObj('dateUtils', ['toDate', 'toArray']);
+
+        module('proof-of-delivery-view', function($provide) {
+            $provide.service('dateUtils', function() {
+                return dateUtilsMock;
+            });
+        });
 
         inject(function($injector) {
             podService = $injector.get('podService');
             $httpBackend = $injector.get('$httpBackend');
-            ordersUrlFactory = $injector.get('ordersUrlFactory');
+            fullfilmentUrlFactory = $injector.get('fullfilmentUrlFactory');
         });
 
         pod = {
-            id: POD_ID
+            id: POD_ID,
+            receivedDate: [2017, 1, 17],
+            order: {
+                createdDate: [2017, 1, 17]
+            }
         };
+
+        dateUtilsMock.toDate.andCallFake(parseDateMock);
+        dateUtilsMock.toArray.andCallFake(parseDateMock);
     });
 
     describe('get', function() {
 
         beforeEach(function() {
-            url = ordersUrlFactory('/api/proofOfDeliveries/' + POD_ID);
-            $httpBackend.when('GET', url).respond();
+            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
+            $httpBackend.when('GET', url).respond(pod);
         });
 
         it('should return promise', function() {
@@ -30,19 +43,26 @@ describe('podService', function() {
             $httpBackend.flush();
         });
 
-        it('should make a proper request ', function() {
+        it('should make a proper request', function() {
             $httpBackend.expectGET(url);
 
             podService.get(POD_ID);
             $httpBackend.flush();
         });
 
+        it('should call format date method', function() {
+            podService.get(POD_ID);
+            $httpBackend.flush();
+
+            expect(dateUtilsMock.toDate).toHaveBeenCalledWith(pod.receivedDate);
+            expect(dateUtilsMock.toDate).toHaveBeenCalledWith(pod.order.createdDate);
+        });
     });
 
     describe('save', function() {
 
         beforeEach(function() {
-            url = ordersUrlFactory('/api/proofOfDeliveries/' + POD_ID);
+            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
             $httpBackend.when('PUT', url, pod).respond();
         });
 
@@ -58,12 +78,19 @@ describe('podService', function() {
             $httpBackend.flush();
         });
 
+        it('should call format date method', function() {
+            podService.save(pod);
+            $httpBackend.flush();
+
+            expect(dateUtilsMock.toArray).toHaveBeenCalledWith(pod.receivedDate);
+            expect(dateUtilsMock.toArray).toHaveBeenCalledWith(pod.order.createdDate);
+        });
     });
 
     describe('submit', function() {
 
         beforeEach(function() {
-            url = ordersUrlFactory('/api/proofOfDeliveries/' + POD_ID + '/submit');
+            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID + '/submit');
             $httpBackend.when('PUT', url, pod).respond();
         });
 
@@ -73,17 +100,20 @@ describe('podService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expectPUT(url, pod);
+            $httpBackend.expectPUT(url);
 
             podService.submit(pod);
             $httpBackend.flush();
         });
-
     });
 
     afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
     });
+
+    function parseDateMock(date) {
+        return date;
+    }
 
 });

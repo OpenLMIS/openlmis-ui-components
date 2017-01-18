@@ -1,20 +1,24 @@
 describe('PodViewController', function() {
 
-    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock,
-        confirmPromise;
+    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise;
 
     beforeEach(function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
-        podSpy = jasmine.createSpyObj('pod', ['$save', '$submit']);
+        podServiceMock = jasmine.createSpyObj('podService', ['save', 'submit']);
+        podSpy = jasmine.createSpyObj('pod', ['$isPodValid', '$isLineItemValid']);
 
-        module('order-pod-view', function($provide) {
+        module('proof-of-delivery-view', function($provide) {
             $provide.service('notificationService', function() {
                 return notificationServiceMock;
             });
 
             $provide.service('confirmService', function() {
                 return confirmServiceMock;
+            });
+
+            $provide.service('podService', function() {
+                return podServiceMock;
             });
         });
 
@@ -29,6 +33,7 @@ describe('PodViewController', function() {
         });
 
         spyOn($state, 'reload').andReturn();
+
         confirmPromise = $q.when();
         confirmServiceMock.confirm.andReturn(confirmPromise);
     });
@@ -43,7 +48,7 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             deferred = $q.defer();
-            podSpy.$save.andReturn(deferred.promise);
+            podServiceMock.save.andReturn(deferred.promise);
 
             vm.savePod();
             $rootScope.$apply();
@@ -54,7 +59,7 @@ describe('PodViewController', function() {
         });
 
         it('should save pod', function() {
-            expect(podSpy.$save).toHaveBeenCalled();
+            expect(podServiceMock.save).toHaveBeenCalled();
         });
 
         it('should show success notification if save was successful', function() {
@@ -93,7 +98,7 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             deferred = $q.defer();
-            podSpy.$submit.andReturn(deferred.promise);
+            podServiceMock.submit.andReturn(deferred.promise);
 
             vm.submitPod();
             $rootScope.$apply();
@@ -104,7 +109,7 @@ describe('PodViewController', function() {
         });
 
         it('should submit pod', function() {
-            expect(podSpy.$submit).toHaveBeenCalled();
+            expect(podServiceMock.submit).toHaveBeenCalled();
         });
 
         it('should show success notification if save was successful', function() {
@@ -141,7 +146,7 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             podSpy.order = {
-                $processingPeriod: {
+                processingPeriod: {
                     startDate: [2015, 5, 1],
                     endDate: [2015, 5, 31]
                 }
