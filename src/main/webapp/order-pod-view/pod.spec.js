@@ -1,6 +1,6 @@
 describe('POD', function() {
 
-    var POD, sourceMock, orderMock;
+    var POD, sourceMock, orderMock, proofOfDelivery;
 
     beforeEach(function() {
         module('proof-of-delivery-view');
@@ -23,4 +23,51 @@ describe('POD', function() {
         });
     });
 
+    describe('isLineItemValid', function() {
+
+        beforeEach(function() {
+            proofOfDelivery = new POD(sourceMock);
+            proofOfDelivery.proofOfDeliveryLineItems = [
+                    {
+                        quantityReceived: 10
+                    }
+            ];
+        });
+
+        it('should return true when line item is valid', function() {
+            expect(proofOfDelivery.isLineItemValid(proofOfDelivery.proofOfDeliveryLineItems[0])).toBe(true);
+        });
+
+        it('should return false when line item is not valid', function() {
+            proofOfDelivery.proofOfDeliveryLineItems[0].quantityReceived = undefined;
+            expect(proofOfDelivery.isLineItemValid(proofOfDelivery.proofOfDeliveryLineItems[0])).toBe(false);
+        });
+    });
+
+    describe('isValid', function() {
+
+        beforeEach(function() {
+            proofOfDelivery = new POD(sourceMock);
+            proofOfDelivery.proofOfDeliveryLineItems = [
+                {
+                    quantityReceived: 10
+                },
+                {
+                    quantityReceived: 20
+                }
+            ];
+            proofOfDelivery.receivedBy = 'someone';
+            proofOfDelivery.deliveredBy = 'someone';
+            proofOfDelivery.receivedDate = [2017,1,1];
+        });
+
+        it('should return true when pod is valid', function() {
+            expect(proofOfDelivery.isValid()).toBe(true);
+        });
+
+        it('should return false when pod is not valid', function() {
+            proofOfDelivery.proofOfDeliveryLineItems[0].quantityReceived = undefined;
+            expect(proofOfDelivery.isValid()).toBe(false);
+        });
+    });
 });
