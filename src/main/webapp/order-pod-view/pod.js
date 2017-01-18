@@ -40,7 +40,9 @@
             angular.copy(source, this);
 
             angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
-                lineItem.$program = lineItem.orderLineItem.orderableProduct.programs[0]; //TODO should iterate through programs and validate id, but demo data is invalid :(
+                angular.forEach(lineItem.orderLineItem.orderableProduct.programs, function(program) {
+                    if(program.programId === pod.order.program.id) lineItem.$program = program;
+                });
             });
         }
 
