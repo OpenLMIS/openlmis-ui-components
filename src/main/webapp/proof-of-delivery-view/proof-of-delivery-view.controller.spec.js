@@ -47,7 +47,7 @@ describe('PodViewController', function() {
             $state = _$state_;
             $q = _$q_;
 
-            vm = $controller('PodViewController', {
+            vm = $controller('ProofOfDeliveryViewController', {
                 pod: podSpy
             });
         });

@@ -10,7 +10,7 @@
      * Controller that drives the POD view screen.
      */
     angular.module('proof-of-delivery-view')
-    .controller('PodViewController', controller);
+    .controller('ProofOfDeliveryViewController', controller);
 
     controller.$inject = ['$state', 'pod', 'podService', 'notificationService', 'confirmService'];
 

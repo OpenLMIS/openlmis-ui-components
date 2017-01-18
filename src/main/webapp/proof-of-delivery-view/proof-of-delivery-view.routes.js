@@ -13,7 +13,7 @@
         $stateProvider.state('orders.podView', {
             url: '^/pod/:podId',
             templateUrl: 'proof-of-delivery-view/proof-of-delivery-view.html',
-            controller: 'PodViewController',
+            controller: 'ProofOfDeliveryViewController',
             controllerAs: 'vm',
             resolve: {
                 pod: function($stateParams, podFactory) {
