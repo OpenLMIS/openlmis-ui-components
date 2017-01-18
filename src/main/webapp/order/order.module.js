@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('order', [
-        'openlmis-urls',
+        'fulfillment',
         'referencedata-facility',
         'referencedata-period',
         'referencedata-program',

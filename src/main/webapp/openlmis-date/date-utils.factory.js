@@ -25,7 +25,7 @@
 
         function toArray(date, includeTime) {
             var array = [];
-            array.push(date.getYear());
+            array.push(date.getFullYear());
             array.push(date.getMonth());
             array.push(date.getDay());
             if(includeTime) {

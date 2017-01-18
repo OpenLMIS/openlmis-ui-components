@@ -5,13 +5,13 @@
     /**
      *
      * @ngdoc service
-     * @name order.fulfillmentUrlFactory
+     * @name fulfillment.fulfillmentUrlFactory
      *
      * @description
      * Supplies application with fulfillment URL.
      */
     angular
-        .module('order')
+        .module('fulfillment')
         .factory('fulfillmentUrlFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
@@ -27,7 +27,7 @@
         /**
          * @ngdoc function
          * @name fulfillmentUrlFactory
-         * @methodOf order.fulfillmentUrlFactory
+         * @methodOf fulfillment.fulfillmentUrlFactory
          *
          * @description
          * It parses the given URL and prepend fulfillment service URL to it.
