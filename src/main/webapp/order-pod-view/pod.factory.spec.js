@@ -2,14 +2,13 @@ describe('podFactory', function() {
 
     var POD_ID = 'pod-id';
 
-    var podFactory, podServiceMock, orderFactoryMock, $q, $rootScope, pod, PODMock, order;
+    var podFactory, podServiceMock, $q, $rootScope, pod, PODMock;
 
     beforeEach(function() {
-        orderFactoryMock = jasmine.createSpyObj('orderFactory', ['get']);
         podServiceMock = jasmine.createSpyObj('podService', ['get']);
         PODMock = jasmine.createSpy('POD');
 
-        module('order-pod-view', function($provide) {
+        module('proof-of-delivery-view', function($provide) {
             $provide.factory('orderFactory', function() {
                 return orderFactoryMock;
             });
@@ -18,7 +17,7 @@ describe('podFactory', function() {
                 return podServiceMock;
             });
 
-            $provide.factory('POD', function() {
+            $provide.factory('ProofOfDelivery', function() {
                 return PODMock;
             });
         });
@@ -29,14 +28,11 @@ describe('podFactory', function() {
             $rootScope = $injector.get('$rootScope');
         });
 
-        order = {};
-
         pod = {
             order: 'order'
         };
 
         podServiceMock.get.andReturn($q.when(pod));
-        orderFactoryMock.get.andReturn($q.when(order));
     });
 
     describe('get', function() {
@@ -51,16 +47,10 @@ describe('podFactory', function() {
             expect(podServiceMock.get).toHaveBeenCalledWith(POD_ID);
         });
 
-        it('should fetch order from the service', function() {
-            $rootScope.$apply();
-
-            expect(orderFactoryMock.get).toHaveBeenCalledWith(pod.order);
-        });
-
         it('should create new POD object', function() {
             $rootScope.$apply();
 
-            expect(PODMock).toHaveBeenCalledWith(pod, order);
+            expect(PODMock).toHaveBeenCalledWith(pod);
         });
 
         it('should resolve to pod', function() {
