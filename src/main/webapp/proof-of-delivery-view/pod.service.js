@@ -44,7 +44,7 @@
          * @methodOf proof-of-delivery-view.podService
          *
          * @description
-         * Retrieves proof of deliery by id.
+         * Retrieves proof of delivery by id.
          *
          * @param {String} podId POD UUID
          * @return {Promise} POD
@@ -61,7 +61,7 @@
          * @methodOf proof-of-delivery-view.podService
          *
          * @description
-         * Saves proof of deliery.
+         * Saves proof of delivery.
          *
          * @return {Promise} POD
          */
@@ -77,7 +77,7 @@
          * @methodOf proof-of-delivery-view.podService
          *
          * @description
-         * Submits proof of deliery.
+         * Submits proof of delivery.
          *
          * @return {Promise} POD
          */
