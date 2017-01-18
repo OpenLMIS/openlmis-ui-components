@@ -7,6 +7,26 @@ describe('PodViewController', function() {
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
         podServiceMock = jasmine.createSpyObj('podService', ['save', 'submit']);
         podSpy = jasmine.createSpyObj('pod', ['isValid', 'isLineItemValid']);
+        podSpy.proofOfDeliveryLineItems = [
+            {
+                id: '1',
+                $program: {
+                    productCategoryDisplayName: 'firstCategory'
+                }
+            },
+            {
+                id: '2',
+                $program: {
+                    productCategoryDisplayName: 'secondCategory'
+                }
+            },
+            {
+                id: '3',
+                $program: {
+                    productCategoryDisplayName: 'secondCategory'
+                }
+            }
+        ];
 
         module('proof-of-delivery-view', function($provide) {
             $provide.service('notificationService', function() {
@@ -40,6 +60,19 @@ describe('PodViewController', function() {
 
     it('initialization should expose pod', function() {
         expect(vm.pod).toEqual(podSpy);
+    });
+
+    it('initalization should expose product categories with attached programs', function() {
+        var result = {
+            firstCategory: [
+                podSpy.proofOfDeliveryLineItems[0]
+            ],
+            secondCategory: [
+                podSpy.proofOfDeliveryLineItems[1],
+                podSpy.proofOfDeliveryLineItems[2]
+            ]
+        };
+        expect(vm.categories).toEqual(result);
     });
 
     describe('savePod', function() {
