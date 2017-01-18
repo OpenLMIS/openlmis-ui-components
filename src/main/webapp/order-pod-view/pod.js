@@ -16,8 +16,8 @@
 
     function factory(podService){
 
-        ProofOfDelivery.prototype.$isValid = isValid;
-        ProofOfDelivery.prototype.$isLineItemValid = isLineItemValid;
+        ProofOfDelivery.prototype.isValid = isValid;
+        ProofOfDelivery.prototype.isLineItemValid = isLineItemValid;
 
         return ProofOfDelivery;
 
@@ -58,7 +58,7 @@
          * @return {boolean} true if line item is valid
          */
         function isLineItemValid(lineItem) {
-            return !lineItem.quantityReceived === undefined && !lineItem.quantityReceived === null;
+            return !(lineItem.quantityReceived === undefined) && !(lineItem.quantityReceived === null);
         }
 
         /**

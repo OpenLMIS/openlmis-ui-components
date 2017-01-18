@@ -15,7 +15,7 @@
     			</tr>
     		</thead>
     		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.categories">
-    			<tr ng-class="{'invalid-row': !vm.pod.$isLineItemValid(lineItem)}"
+    			<tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
                     ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderableProduct.name'">
                     <td>{{lineItem.orderLineItem.orderableProduct.name}}</td>
                     <td>{{lineItem.orderLineItem.orderableProduct.dispensable.dispensingUnit}}</td>

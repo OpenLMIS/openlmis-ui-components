@@ -6,7 +6,7 @@ describe('PodViewController', function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
         podServiceMock = jasmine.createSpyObj('podService', ['save', 'submit']);
-        podSpy = jasmine.createSpyObj('pod', ['$isValid', '$isLineItemValid']);
+        podSpy = jasmine.createSpyObj('pod', ['isValid', 'isLineItemValid']);
 
         module('proof-of-delivery-view', function($provide) {
             $provide.service('notificationService', function() {
