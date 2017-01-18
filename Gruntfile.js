@@ -127,8 +127,8 @@ module.exports = function(grunt) {
           from: '@@REQUISITION_SERVICE_URL',
           to: makeURL('requisitionServiceURL')
         },{
-          from: '@@FULLFILMENT_SERVICE_URL',
-          to: makeURL('fullfilmentServiceURL')
+          from: '@@FULFILLMENT_SERVICE_URL',
+          to: makeURL('fulfillmentServiceURL')
         }]
       }
     },

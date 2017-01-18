@@ -20,7 +20,7 @@
 		'openlmis-404',
         'openlmis-500',
 		'openlmis-forgot-password',
-        'openlmis-fullfilment',
+        'openlmis-fulfillment',
 		'openlmis-home',
 		'openlmis-header',
         'openlmis-i18n',

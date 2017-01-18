@@ -2,7 +2,7 @@ describe('podService', function() {
 
     var POD_ID = 'some-pod-id';
 
-    var podService, $httpBackend, fullfilmentUrlFactory, pod, url;
+    var podService, $httpBackend, fulfillmentUrlFactory, pod, url;
 
     beforeEach(function() {
         dateUtilsMock = jasmine.createSpyObj('dateUtils', ['toDate', 'toArray']);
@@ -16,7 +16,7 @@ describe('podService', function() {
         inject(function($injector) {
             podService = $injector.get('podService');
             $httpBackend = $injector.get('$httpBackend');
-            fullfilmentUrlFactory = $injector.get('fullfilmentUrlFactory');
+            fulfillmentUrlFactory = $injector.get('fulfillmentUrlFactory');
         });
 
         pod = {
@@ -34,7 +34,7 @@ describe('podService', function() {
     describe('get', function() {
 
         beforeEach(function() {
-            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
+            url = fulfillmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
             $httpBackend.when('GET', url).respond(pod);
         });
 
@@ -62,7 +62,7 @@ describe('podService', function() {
     describe('save', function() {
 
         beforeEach(function() {
-            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
+            url = fulfillmentUrlFactory('/api/proofOfDeliveries/' + POD_ID);
             $httpBackend.when('PUT', url, pod).respond();
         });
 
@@ -90,7 +90,7 @@ describe('podService', function() {
     describe('submit', function() {
 
         beforeEach(function() {
-            url = fullfilmentUrlFactory('/api/proofOfDeliveries/' + POD_ID + '/submit');
+            url = fulfillmentUrlFactory('/api/proofOfDeliveries/' + POD_ID + '/submit');
             $httpBackend.when('PUT', url, pod).respond();
         });
 

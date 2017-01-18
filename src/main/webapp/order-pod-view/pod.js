@@ -16,7 +16,7 @@
 
     function factory(podService){
 
-        ProofOfDelivery.prototype.$isPodValid = isPodValid;
+        ProofOfDelivery.prototype.$isValid = isValid;
         ProofOfDelivery.prototype.$isLineItemValid = isLineItemValid;
 
         return ProofOfDelivery;
@@ -61,7 +61,7 @@
 
         /**
          * @ngdoc method
-         * @name isPodValid
+         * @name isValid
          * @methodOf proof-of-delivery-view.ProofOfDelivery
          *
          * @description
@@ -69,7 +69,7 @@
          *
          * @return {boolean} true if POD is valid
          */
-        function isPodValid() {
+        function isValid() {
             var isValid = true;
 
             if(!this.receivedBy || this.receivedBy === '') return false;

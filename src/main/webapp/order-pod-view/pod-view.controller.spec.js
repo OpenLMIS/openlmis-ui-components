@@ -6,7 +6,7 @@ describe('PodViewController', function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
         podServiceMock = jasmine.createSpyObj('podService', ['save', 'submit']);
-        podSpy = jasmine.createSpyObj('pod', ['$isPodValid', '$isLineItemValid']);
+        podSpy = jasmine.createSpyObj('pod', ['$isValid', '$isLineItemValid']);
 
         module('proof-of-delivery-view', function($provide) {
             $provide.service('notificationService', function() {
@@ -59,7 +59,7 @@ describe('PodViewController', function() {
         });
 
         it('should save pod', function() {
-            expect(podServiceMock.save).toHaveBeenCalled();
+            expect(podServiceMock.save).toHaveBeenCalledWith(podSpy);
         });
 
         it('should show success notification if save was successful', function() {
@@ -109,7 +109,7 @@ describe('PodViewController', function() {
         });
 
         it('should submit pod', function() {
-            expect(podServiceMock.submit).toHaveBeenCalled();
+            expect(podServiceMock.submit).toHaveBeenCalledWith(podSpy);
         });
 
         it('should show success notification if save was successful', function() {

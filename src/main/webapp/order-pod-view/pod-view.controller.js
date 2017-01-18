@@ -32,6 +32,16 @@
          * Holds Proof of Delivery.
          */
         vm.pod = pod;
+
+        /**
+         * @ngdoc property
+         * @name categories
+         * @propertyOf proof-of-delivery-view.PodViewController
+         * @type {Object}
+         *
+         * @description
+         * Holds product categories with attached programs.
+         */
         vm.categories = groupByCategory(vm.pod.proofOfDeliveryLineItems);
 
         /**

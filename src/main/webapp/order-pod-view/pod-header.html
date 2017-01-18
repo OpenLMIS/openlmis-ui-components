@@ -1,6 +1,6 @@
 <h2>{{'label.podFor' | message}} {{vm.pod.order.program.name}}</h2>
 <aside class="pod-info">
-    <div class="pod-type" ng-class="{'emergency': vm.pod.order.emergency, 'regular': !vm.pod.order.emergency}">
+    <div ng-class="{'pod-emergency': vm.pod.order.emergency, 'pod-regular': !vm.pod.order.emergency}">
         <span>{{vm.typeMessage() | message}}</span>
     </div>
 

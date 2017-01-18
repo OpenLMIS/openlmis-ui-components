@@ -8,7 +8,7 @@
      * @name proof-of-delivery-view.podFactory
      *
      * @description
-     * Alows the user to retrieve proofs of deliveries.
+     * Allows the user to retrieve proofs of deliveries.
      */
     angular
         .module('proof-of-delivery-view')
@@ -17,6 +17,12 @@
     factory.$inject = ['$q', 'ProofOfDelivery', 'podService'];
 
     function factory($q, ProofOfDelivery, podService){
+
+        var factory = {
+            get: get
+        }
+
+        return factory;
 
         /**
          * @ngdoc function
@@ -40,10 +46,6 @@
 
             return deferred.promise;
         }
-
-        return {
-            get: get
-        };
     }
 
 })();

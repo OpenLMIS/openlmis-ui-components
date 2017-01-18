@@ -5,38 +5,38 @@
     /**
      *
      * @ngdoc service
-     * @name order.fullfilmentUrlFactory
+     * @name order.fulfillmentUrlFactory
      *
      * @description
-     * Supplies application with fullfilment URL.
+     * Supplies application with fulfillment URL.
      */
     angular
         .module('order')
-        .factory('fullfilmentUrlFactory', factory);
+        .factory('fulfillmentUrlFactory', factory);
 
     factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
 
     function factory(openlmisUrlFactory, pathFactory) {
 
-        var fullfilmentUrl = '@@FULLFILMENT_SERVICE_URL';
+        var fulfillmentUrl = '@@FULLFILMENT_SERVICE_URL';
 
-        if (fullfilmentUrl.substr(0, 2) == '@@') {
-            fullfilmentUrl = '';
+        if (fulfillmentUrl.substr(0, 2) == '@@') {
+            fulfillmentUrl = '';
         }
 
         /**
          * @ngdoc function
-         * @name fullfilmentUrlFactory
-         * @methodOf order.fullfilmentUrlFactory
+         * @name fulfillmentUrlFactory
+         * @methodOf order.fulfillmentUrlFactory
          *
          * @description
-         * Returns fullfilment URL based on flag from grunt file.
+         * It parses the given URL and prepend fulfillment service URL to it.
          *
-         * @param {String} url fullfilment URL from grunt file
-         * @return {String} fullfilment URL
+         * @param {String} url fulfillment URL from grunt file
+         * @return {String} fulfillment URL
          */
         return function(url) {
-            url = pathFactory(fullfilmentUrl, url);
+            url = pathFactory(fulfillmentUrl, url);
             return openlmisUrlFactory(url);
         }
     }

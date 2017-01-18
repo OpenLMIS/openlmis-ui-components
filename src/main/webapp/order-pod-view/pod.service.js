@@ -13,11 +13,11 @@
 		.module('proof-of-delivery-view')
 	    .service('podService', service);
 
-    service.$inject = ['$resource', 'fullfilmentUrlFactory', 'dateUtils'];
+    service.$inject = ['$resource', 'fulfillmentUrlFactory', 'dateUtils'];
 
-    function service($resource, fullfilmentUrlFactory, dateUtils) {
+    function service($resource, fulfillmentUrlFactory, dateUtils) {
 
-        var resource = $resource(fullfilmentUrlFactory('/api/proofOfDeliveries/:id'), {}, {
+        var resource = $resource(fulfillmentUrlFactory('/api/proofOfDeliveries/:id'), {}, {
 			get: {
 				method: 'GET',
 				transformResponse: transformResponse
@@ -28,7 +28,7 @@
 			},
 			submit: {
 				method: 'PUT',
-				url: fullfilmentUrlFactory('/api/proofOfDeliveries/:id/submit')
+				url: fulfillmentUrlFactory('/api/proofOfDeliveries/:id/submit')
 			}
 		});
 
