@@ -1,7 +1,7 @@
 <div class="page">
     <h2>{{'label.initiate.requisition' | message}}</h2>
     <section class="table-container">
-        <form ng-submit="vm.loadPeriods()">
+        <form name="initiateForm" ng-submit="initiateForm.$valid && vm.loadPeriods()" novalidate>
             <fieldset>
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
                 <label>
@@ -20,14 +20,14 @@
                 <label for="facilityName">{{'label.requisition.facilityName' | message}}</label>
                 <select id="facilityName" ng-model="vm.selectedFacilityId"
                         ng-options="facility.id as facility.name for facility in vm.facilities"
-                        placeholder="label.select.facility">
+                        placeholder="label.select.facility" required>
                 </select>
             </fieldset>
             <fieldset ng-show="!vm.isSupervised">
                 <label for="programListMyFacility">{{'label.program' | message}}</label>
                 <select id="programListMyFacility" ng-model="vm.selectedProgramId"
                         ng-options="program.id as program.name for program in vm.programs"
-                        placeholder="{{'label.select.program' | message}}">
+                        placeholder="{{'label.select.program' | message}}" required>
                 </select>
             </fieldset>
             <fieldset ng-show="vm.isSupervised">
@@ -35,7 +35,7 @@
                 <select id="programListSupervisedFacility" ng-model="vm.selectedProgramId"
                         ng-options="program.id as program.name for program in vm.programs"
                         ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
-                        placeholder="{{'label.select.program' | message}}">
+                        placeholder="{{'label.select.program' | message}}" required>
                 </select>
             </fieldset>
             <fieldset ng-show="vm.isSupervised">
@@ -44,7 +44,7 @@
                 </label>
                 <select id="supervisedFacilityName" ng-model="vm.selectedFacilityId"
                         ng-options="facility.id as facility.name for facility in vm.facilities | unique:'id'"
-                        placeholder="{{'label.select.facility' | message}}">
+                        placeholder="{{'label.select.facility' | message}}" required>
                 </select>
             </fieldset>
             <fieldset>

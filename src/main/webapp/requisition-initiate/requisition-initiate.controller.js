@@ -180,9 +180,6 @@
          * already exists a requisition with an AUTHORIZED, APPROVED or RELEASED status.
          */
         function loadPeriods() {
-            if (!(vm.selectedProgramId && vm.selectedFacilityId)) {
-                return;
-            }
             loadingModalService.open();
             periodFactory.get(vm.selectedProgramId, vm.selectedFacilityId, vm.emergency).then
             (function(data) {

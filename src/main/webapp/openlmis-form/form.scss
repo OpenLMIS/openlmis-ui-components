@@ -23,12 +23,12 @@ Bootstrap 3 markup will work.
   * Unless the element is `<select>`
 
 ## Error Messages
-There are two types of error messages in a form, input-level messages and 
+There are two types of error messages in a form, input-level messages and
 form-level messages.
 
 Form-level messages should be shown at the top for the form. These elements are
 only shown after a form is submitted, and recieve focus when the form
-submission fails. Once a form is resubmitted the error is removed. 
+submission fails. Once a form is resubmitted the error is removed.
 
 Input-level messages are shown below the input element that has an error. All
 error messages must use ARIA labels so they are associated with the input
@@ -96,4 +96,22 @@ Styleguide 3.0
 // 	@extend form;
 // }
 
+.ng-submitted {
 
+    label.ng-invalid {
+        color: $red;
+    }
+
+    select.ng-invalid {
+        border-color: $red;
+        color: $red;
+    }
+
+    select.ng-invalid:focus {
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $red;
+    }
+
+    select.ng-invalid > option {
+        color: black;
+    }
+}

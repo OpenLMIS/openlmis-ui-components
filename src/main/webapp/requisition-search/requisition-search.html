@@ -4,12 +4,12 @@
         {{vm.error | message}}
     </div>
     <section class="table-container">
-        <form ng-submit="vm.search()">
+        <form name="searchForm" ng-submit="searchForm.$valid && vm.search()" novalidate>
             <label for="facility">{{'label.requisition.facilityName' | message}}</label>
             <select id="facility" placeholder="{{'label.select.facility' | message}}"
                     ng-change="vm.loadPrograms()" ng-model="vm.selectedFacility"
                     ng-options="facility as facility.name for facility in vm.facilities"
-                    ng-required>
+                    required>
             </select>
             <label for=program>{{'label.program' | message}}</label>
             <select id="program" placeholder="{{'label.select.program' | message}}" ng-required
