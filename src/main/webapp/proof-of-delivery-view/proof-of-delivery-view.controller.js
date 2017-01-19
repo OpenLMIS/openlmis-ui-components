@@ -12,9 +12,9 @@
     angular.module('proof-of-delivery-view')
     .controller('ProofOfDeliveryViewController', controller);
 
-    controller.$inject = ['$state', 'pod', 'podService', 'notificationService', 'confirmService'];
+    controller.$inject = ['$state', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService'];
 
-    function controller($state, pod, podService, notificationService, confirmService) {
+    function controller($state, pod, proofOfDeliveryService, notificationService, confirmService) {
         var vm = this;
 
         vm.savePod = savePod;
@@ -54,12 +54,16 @@
          */
         function savePod() {
             confirmService.confirm('msg.orders.savePodQuestion').then(function() {
-                podService.save(vm.pod).then(function() {
-                    notificationService.success('msg.podSaved');
-                    $state.reload();
-                }, function() {
-                    notificationService.error('msg.podSavedFailed');
-                });
+                if(vm.pod.isValid()) {
+                    proofOfDeliveryService.save(vm.pod).then(function() {
+                        notificationService.success('msg.podSaved');
+                        $state.reload();
+                    }, function() {
+                        notificationService.error('msg.podSavedFailed');
+                    });
+                } else {
+                    notificationService.error('error.podInvalid');
+                }
             });
         }
 
@@ -73,12 +77,16 @@
          */
         function submitPod() {
             confirmService.confirm('msg.orders.submitPodQuestion').then(function() {
-                podService.submit(vm.pod).then(function() {
-                    notificationService.success('msg.podSubmit');
-                    $state.reload();
-                }, function() {
-                    notificationService.error('msg.podSubmitFailed');
-                });
+                if(vm.pod.isValid()) {
+                    proofOfDeliveryService.submit(vm.pod).then(function() {
+                        notificationService.success('msg.podSubmit');
+                        $state.reload();
+                    }, function() {
+                        notificationService.error('msg.podSubmitFailed');
+                    });
+                } else {
+                    notificationService.error('error.podInvalid');
+                }
             });
         }
 

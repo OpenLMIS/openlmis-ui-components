@@ -12,9 +12,9 @@
         .module('proof-of-delivery-view')
         .factory('ProofOfDelivery', factory);
 
-    factory.$inject = ['podService'];
+    factory.$inject = ['proofOfDeliveryService'];
 
-    function factory(podService){
+    function factory(proofOfDeliveryService){
 
         ProofOfDelivery.prototype.isValid = isValid;
         ProofOfDelivery.prototype.isLineItemValid = isLineItemValid;

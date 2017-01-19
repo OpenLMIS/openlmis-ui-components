@@ -1,8 +1,8 @@
-describe('podService', function() {
+describe('proofOfDeliveryService', function() {
 
     var POD_ID = 'some-pod-id';
 
-    var podService, $httpBackend, fulfillmentUrlFactory, pod, url;
+    var proofOfDeliveryService, $httpBackend, fulfillmentUrlFactory, pod, url;
 
     beforeEach(function() {
         dateUtilsMock = jasmine.createSpyObj('dateUtils', ['toDate', 'toArray']);
@@ -14,7 +14,7 @@ describe('podService', function() {
         });
 
         inject(function($injector) {
-            podService = $injector.get('podService');
+            proofOfDeliveryService = $injector.get('proofOfDeliveryService');
             $httpBackend = $injector.get('$httpBackend');
             fulfillmentUrlFactory = $injector.get('fulfillmentUrlFactory');
         });
@@ -39,19 +39,19 @@ describe('podService', function() {
         });
 
         it('should return promise', function() {
-            expect(podService.get(POD_ID).then).not.toBeUndefined();
+            expect(proofOfDeliveryService.get(POD_ID).then).not.toBeUndefined();
             $httpBackend.flush();
         });
 
         it('should make a proper request', function() {
             $httpBackend.expectGET(url);
 
-            podService.get(POD_ID);
+            proofOfDeliveryService.get(POD_ID);
             $httpBackend.flush();
         });
 
         it('should call format date method', function() {
-            podService.get(POD_ID);
+            proofOfDeliveryService.get(POD_ID);
             $httpBackend.flush();
 
             expect(dateUtilsMock.toDate).toHaveBeenCalledWith(pod.receivedDate);
@@ -67,19 +67,19 @@ describe('podService', function() {
         });
 
         it('should return promise', function() {
-            expect(podService.save(pod).then).not.toBeUndefined();
+            expect(proofOfDeliveryService.save(pod).then).not.toBeUndefined();
             $httpBackend.flush();
         });
 
         it('should make a proper request', function() {
             $httpBackend.expectPUT(url, pod);
 
-            podService.save(pod);
+            proofOfDeliveryService.save(pod);
             $httpBackend.flush();
         });
 
         it('should call format date method', function() {
-            podService.save(pod);
+            proofOfDeliveryService.save(pod);
             $httpBackend.flush();
 
             expect(dateUtilsMock.toArray).toHaveBeenCalledWith(pod.receivedDate);
@@ -95,14 +95,14 @@ describe('podService', function() {
         });
 
         it('should return promise', function() {
-            expect(podService.submit(pod).then).not.toBeUndefined();
+            expect(proofOfDeliveryService.submit(pod).then).not.toBeUndefined();
             $httpBackend.flush();
         });
 
         it('should make a proper request', function() {
             $httpBackend.expectPUT(url);
 
-            podService.submit(pod);
+            proofOfDeliveryService.submit(pod);
             $httpBackend.flush();
         });
     });

@@ -1,11 +1,11 @@
-describe('podFactory', function() {
+describe('proofOfDeliveryFactory', function() {
 
     var POD_ID = 'pod-id';
 
-    var podFactory, podServiceMock, $q, $rootScope, pod, PODMock;
+    var proofOfDeliveryFactory, proofOfDeliveryServiceMock, $q, $rootScope, pod, PODMock;
 
     beforeEach(function() {
-        podServiceMock = jasmine.createSpyObj('podService', ['get']);
+        proofOfDeliveryServiceMock = jasmine.createSpyObj('proofOfDeliveryService', ['get']);
         PODMock = jasmine.createSpy('POD');
 
         module('proof-of-delivery-view', function($provide) {
@@ -13,8 +13,8 @@ describe('podFactory', function() {
                 return orderFactoryMock;
             });
 
-            $provide.factory('podService', function() {
-                return podServiceMock;
+            $provide.factory('proofOfDeliveryService', function() {
+                return proofOfDeliveryServiceMock;
             });
 
             $provide.factory('ProofOfDelivery', function() {
@@ -23,7 +23,7 @@ describe('podFactory', function() {
         });
 
         inject(function($injector) {
-            podFactory = $injector.get('podFactory');
+            proofOfDeliveryFactory = $injector.get('proofOfDeliveryFactory');
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
         });
@@ -32,7 +32,7 @@ describe('podFactory', function() {
             order: 'order'
         };
 
-        podServiceMock.get.andReturn($q.when(pod));
+        proofOfDeliveryServiceMock.get.andReturn($q.when(pod));
     });
 
     describe('get', function() {
@@ -40,11 +40,11 @@ describe('podFactory', function() {
         var promise;
 
         beforeEach(function() {
-            promise = podFactory.get(POD_ID);
+            promise = proofOfDeliveryFactory.get(POD_ID);
         });
 
         it('should fetch pod from the service', function() {
-            expect(podServiceMock.get).toHaveBeenCalledWith(POD_ID);
+            expect(proofOfDeliveryServiceMock.get).toHaveBeenCalledWith(POD_ID);
         });
 
         it('should create new POD object', function() {

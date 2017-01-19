@@ -5,32 +5,32 @@
     /**
      *
      * @ngdoc service
-     * @name proof-of-delivery-view.podFactory
+     * @name proof-of-delivery-view.proofOfDeliveryFactory
      *
      * @description
      * Allows the user to retrieve proofs of deliveries.
      */
     angular
         .module('proof-of-delivery-view')
-        .factory('podFactory', factory);
+        .factory('proofOfDeliveryFactory', factory);
 
-    factory.$inject = ['$q', 'ProofOfDelivery', 'podService'];
+    factory.$inject = ['$q', 'ProofOfDelivery', 'proofOfDeliveryService'];
 
-    function factory($q, ProofOfDelivery, podService){
+    function factory($q, ProofOfDelivery, proofOfDeliveryService){
 
         var factory = {
             get: get
-        }
+        };
 
         return factory;
 
         /**
          * @ngdoc function
          * @name get
-         * @methodOf proof-of-delivery-view.podFactory
+         * @methodOf proof-of-delivery-view.proofOfDeliveryFactory
          *
          * @description
-         * Retrieves proof of deliery by given UUID.
+         * Retrieves proof of delivery by given UUID.
          *
          * @param {String} podId Proof of Delivery UUID
          * @return {Promise} ProofOfDelivery
@@ -38,7 +38,7 @@
         function get(podId) {
             var deferred = $q.defer();
 
-            podService.get(podId).then(function(pod) {
+            proofOfDeliveryService.get(podId).then(function(pod) {
                 deferred.resolve(new ProofOfDelivery(pod));
             }, function() {
                 deferred.reject();

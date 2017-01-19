@@ -1,11 +1,11 @@
 describe('PodViewController', function() {
 
-    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise;
+    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise, isValid;
 
     beforeEach(function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
-        podServiceMock = jasmine.createSpyObj('podService', ['save', 'submit']);
+        proofOfDeliveryServiceMock = jasmine.createSpyObj('proofOfDeliveryService', ['save', 'submit']);
         podSpy = jasmine.createSpyObj('pod', ['isValid', 'isLineItemValid']);
         podSpy.proofOfDeliveryLineItems = [
             {
@@ -37,8 +37,8 @@ describe('PodViewController', function() {
                 return confirmServiceMock;
             });
 
-            $provide.service('podService', function() {
-                return podServiceMock;
+            $provide.service('proofOfDeliveryService', function() {
+                return proofOfDeliveryServiceMock;
             });
         });
 
@@ -62,7 +62,7 @@ describe('PodViewController', function() {
         expect(vm.pod).toEqual(podSpy);
     });
 
-    it('initalization should expose product categories with attached programs', function() {
+    it('initialization should expose product categories with attached programs', function() {
         var result = {
             firstCategory: [
                 podSpy.proofOfDeliveryLineItems[0]
@@ -81,21 +81,29 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             deferred = $q.defer();
-            podServiceMock.save.andReturn(deferred.promise);
-
-            vm.savePod();
-            $rootScope.$apply();
+            proofOfDeliveryServiceMock.save.andReturn(deferred.promise);
         });
 
         it('should show confirmation modal', function() {
+            callSave(true);
+
             expect(confirmServiceMock.confirm).toHaveBeenCalledWith('msg.orders.savePodQuestion');
         });
 
         it('should save pod', function() {
-            expect(podServiceMock.save).toHaveBeenCalledWith(podSpy);
+            callSave(true);
+
+            expect(proofOfDeliveryServiceMock.save).toHaveBeenCalledWith(podSpy);
+        });
+
+        it('should show error notification if validation was not successful', function() {
+            callSave(false);
+
+            expect(notificationServiceMock.error).toHaveBeenCalledWith('error.podInvalid');
         });
 
         it('should show success notification if save was successful', function() {
+            callSave(true);
             deferred.resolve();
             $rootScope.$apply();
 
@@ -103,6 +111,7 @@ describe('PodViewController', function() {
         });
 
         it('should reload state if save was successful', function() {
+            callSave(true);
             deferred.resolve();
             $rootScope.$apply();
 
@@ -110,6 +119,7 @@ describe('PodViewController', function() {
         });
 
         it('should show error notification if save failed', function() {
+            callSave(true);
             deferred.reject();
             $rootScope.$apply();
 
@@ -117,12 +127,18 @@ describe('PodViewController', function() {
         });
 
         it('should not reload state if save failed', function() {
+            callSave(true);
             deferred.reject();
             $rootScope.$apply();
 
             expect($state.reload).not.toHaveBeenCalled();
         });
 
+        function callSave(isValid) {
+            podSpy.isValid.andReturn(isValid);
+            vm.savePod();
+            $rootScope.$apply();
+        }
     });
 
     describe('submitPod', function() {
@@ -131,21 +147,29 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             deferred = $q.defer();
-            podServiceMock.submit.andReturn(deferred.promise);
-
-            vm.submitPod();
-            $rootScope.$apply();
+            proofOfDeliveryServiceMock.submit.andReturn(deferred.promise);
         });
 
         it('should show confirmation modal', function() {
+            callSubmit(true);
+
             expect(confirmServiceMock.confirm).toHaveBeenCalledWith('msg.orders.submitPodQuestion');
         });
 
         it('should submit pod', function() {
-            expect(podServiceMock.submit).toHaveBeenCalledWith(podSpy);
+            callSubmit(true);
+
+            expect(proofOfDeliveryServiceMock.submit).toHaveBeenCalledWith(podSpy);
+        });
+
+        it('should show error notification if validation was not successful', function() {
+            callSubmit(false);
+
+            expect(notificationServiceMock.error).toHaveBeenCalledWith('error.podInvalid');
         });
 
         it('should show success notification if save was successful', function() {
+            callSubmit(true);
             deferred.resolve();
             $rootScope.$apply();
 
@@ -153,6 +177,7 @@ describe('PodViewController', function() {
         });
 
         it('should reload state if save was successful', function() {
+            callSubmit(true);
             deferred.resolve();
             $rootScope.$apply();
 
@@ -160,6 +185,7 @@ describe('PodViewController', function() {
         });
 
         it('should show error notification if save failed', function() {
+            callSubmit(true);
             deferred.reject();
             $rootScope.$apply();
 
@@ -167,12 +193,18 @@ describe('PodViewController', function() {
         });
 
         it('should not reload state if save failed', function() {
+            callSubmit(true);
             deferred.reject();
             $rootScope.$apply();
 
             expect($state.reload).not.toHaveBeenCalled();
         });
 
+        function callSubmit(isValid) {
+            podSpy.isValid.andReturn(isValid);
+            vm.submitPod();
+            $rootScope.$apply();
+        }
     });
 
     describe('periodDisplayName', function() {

@@ -4,14 +4,14 @@
 
 	/**
      * @ngdoc service
-     * @name proof-of-delivery-view.podService
+     * @name proof-of-delivery-view.proofOfDeliveryService
      *
      * @description
      * Responsible for retrieving proofs of delivery from the server.
      */
 	angular
 		.module('proof-of-delivery-view')
-	    .service('podService', service);
+	    .service('proofOfDeliveryService', service);
 
     service.$inject = ['$resource', 'fulfillmentUrlFactory', 'dateUtils'];
 
@@ -41,7 +41,7 @@
 		/**
          * @ngdoc function
          * @name get
-         * @methodOf proof-of-delivery-view.podService
+         * @methodOf proof-of-delivery-view.proofOfDeliveryService
          *
          * @description
          * Retrieves proof of delivery by id.
@@ -58,7 +58,7 @@
 		/**
          * @ngdoc function
          * @name save
-         * @methodOf proof-of-delivery-view.podService
+         * @methodOf proof-of-delivery-view.proofOfDeliveryService
          *
          * @description
          * Saves proof of delivery.
@@ -74,7 +74,7 @@
 		/**
          * @ngdoc function
          * @name submit
-         * @methodOf proof-of-delivery-view.podService
+         * @methodOf proof-of-delivery-view.proofOfDeliveryService
          *
          * @description
          * Submits proof of delivery.

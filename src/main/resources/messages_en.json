@@ -38,6 +38,7 @@
   "error.required": "This field is required",
   "error.requisition.not.initiated": "Requisition not initiated yet",
   "error.rnr.validation": "R&R has errors, please correct them to proceed.",
+  "error.podInvalid": "Proof of Delivery is invalid!",
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
   "forgot.password.email.subject": "Forgot Password",
   "header.view.requisitions": "View Requisitions",

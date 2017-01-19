@@ -16,8 +16,8 @@
             controller: 'ProofOfDeliveryViewController',
             controllerAs: 'vm',
             resolve: {
-                pod: function($stateParams, podFactory) {
-                    return podFactory.get($stateParams.podId);
+                pod: function($stateParams, proofOfDeliveryFactory) {
+                    return proofOfDeliveryFactory.get($stateParams.podId);
                 }
             }
         });
