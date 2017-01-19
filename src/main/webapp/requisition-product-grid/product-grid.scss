@@ -24,3 +24,7 @@
 		@include button-color($red);
 	}
 }
+
+.cell-error-message {
+	color: $red;
+}

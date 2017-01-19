@@ -87,66 +87,65 @@ Styleguide 4.0
 
 @import 'bourbon';
 
-table{
-    @extend .table;
+.table-container, .product-grid {
 
-    border-collapse: separate;
+    table{
+        @extend .table;
 
-    th:first-child, td:first-child {
-        border-left: $table-border;
-    }
+        border-collapse: separate;
 
-    td, th {
-        padding: 1em;
-        vertical-align: middle !important; // from requisition template screen
-        border-top: none !important;
-        border-bottom: $table-border;
-        border-right: $table-border;
-    }
+        th:first-child, td:first-child {
+            border-left: $table-border;
+        }
 
-    td {
-        background-color: white;
-    }
+        td, th {
+            padding: 1em;
+            vertical-align: middle !important; // from requisition template screen
+            border-top: none !important;
+            border-bottom: $table-border;
+            border-right: $table-border;
+        }
 
-    th {
-        border-top: $table-border;
-        @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
-        white-space: nowrap;
-    }
+        td {
+            background-color: $white;
+        }
 
-    thead{
-        background-color: $light-gray;
-        tr:first-child{
+        th {
+            border-top: $table-border;
             @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+            white-space: nowrap;
         }
-    }
-}
 
-tbody > tr.title:first-child > td{
-    margin: 0px;
-    padding: 0px;
-    background-color: $brand-primary;
-    color: $white;
-    font-weight: bold;
-    text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
-    > div{
-      position: relative;
-      padding: 1em 2em;
-    }
-}
-
-table {
-
-    tbody {
-
-        tr.invalid-row {
-            background-color: lighten($red, 45%);
-            border-color: darken($red, 20%);
-
-            .cell-error-message {
-                color: $red;
+        thead{
+            background-color: $light-gray;
+            tr:first-child{
+                @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
             }
-
         }
     }
+
+    tbody > tr.title:first-child > td{
+        margin: 0px;
+        padding: 0px;
+        background-color: $brand-primary;
+        color: $white;
+        font-weight: bold;
+        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
+        > div{
+          position: relative;
+          padding: 1em 2em;
+        }
+    }
+
+    table {
+
+        tbody {
+
+            tr.invalid-row td {
+                background-color: lighten($red, 45%);
+                border-color: darken($red, 20%);
+            }
+        }
+    }
+
 }
