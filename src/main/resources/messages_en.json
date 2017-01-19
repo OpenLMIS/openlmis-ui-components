@@ -40,6 +40,7 @@
   "error.rnr.validation": "R&R has errors, please correct them to proceed.",
   "error.podInvalid": "Proof of Delivery is invalid!",
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
+  "error.columnDisplayMismatch": "This column should be displayed/not displayed together with: ",
   "forgot.password.email.subject": "Forgot Password",
   "header.view.requisitions": "View Requisitions",
   "label.add.loss.adjustment": "Add new loss or adjustment",

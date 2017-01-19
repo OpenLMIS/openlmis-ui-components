@@ -1,28 +1,30 @@
 <div class="program-template-list">
     <div class="page">
         <h2>{{'configure.rnr.header' | message}}</h2>
-        <table ng-if="vm.programs.length">
-    		<thead>
-    		<tr>
-    			<th>{{'program.header' | message}}</th>
-    			<th></th>
-    		</tr>
-    		</thead>
-    		<tbody>
-    		<tr ng-repeat="program in vm.programs">
-    			<td>{{program.name}}</td>
-    			<td>
-    				<div ng-if="program.$template">
-                        <i class="fa fa-check"></i>
-                        {{'template.configured' | message}}
-                        <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.edit' | message}})</a>
-                	</div>
-                    <div ng-if="!program.$template">
-                        <div>{{'template.create' | message}}</div>
-    				</div>
-    			</td>
-    		</tr>
-    		</tbody>
-        </table>
+        <div class="table-container">
+            <table ng-if="vm.programs.length">
+        		<thead>
+        		<tr>
+        			<th>{{'program.header' | message}}</th>
+        			<th></th>
+        		</tr>
+        		</thead>
+        		<tbody>
+        		<tr ng-repeat="program in vm.programs">
+        			<td>{{program.name}}</td>
+        			<td>
+        				<div ng-if="program.$template">
+                            <i class="fa fa-check"></i>
+                            {{'template.configured' | message}}
+                            <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.edit' | message}})</a>
+                    	</div>
+                        <div ng-if="!program.$template">
+                            <div>{{'template.create' | message}}</div>
+        				</div>
+        			</td>
+        		</tr>
+        		</tbody>
+            </table>
+        </div>
     </div>
 </div>

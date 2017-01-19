@@ -1,13 +1,3 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
- */
-
 (function() {
 
     'use strict';
@@ -115,7 +105,7 @@
          * @methodOf admin-template.RequisitionTemplateAdminController
          *
          * @description
-         * Gives diplay name of given source type.
+         * Gives display name of given source type.
          *
          * @param {String} name Column source name
          * @returns {String} Column source display name
@@ -140,15 +130,16 @@
             var dependencies = '',
                 message;
 
-            if(isAverageConsumption(column)
-                && (vm.template.numberOfPeriodsToAverage === 0 || vm.template.numberOfPeriodsToAverage === 1)) {
+            if(isAverageConsumption(column) && (vm.template.numberOfPeriodsToAverage === 0 || vm.template.numberOfPeriodsToAverage === 1))
                 return messageService.get('msg.template.invalidNumberOfPeriods');
-            }
 
-            if (isAverageConsumption(column)
-                && (!vm.template.numberOfPeriodsToAverage || !vm.template.numberOfPeriodsToAverage.toString().trim())) {
+            if (isAverageConsumption(column) && (!vm.template.numberOfPeriodsToAverage || !vm.template.numberOfPeriodsToAverage.toString().trim()))
                 return messageService.get('msg.template.emptyNumberOfPeriods');
-            }
+
+            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].isDisplayed != column.isDisplayed)
+                return messageService.get('error.columnDisplayMismatch') + column.label;
+            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].isDisplayed != column.isDisplayed)
+                return messageService.get('error.columnDisplayMismatch') + column.label;
 
             if(!column.source  || column.source === '') return messageService.get('msg.template.column.sourceEmpty');
 
@@ -166,7 +157,8 @@
                 return messageService.get('msg.template.column.calculatedError') + dependencies;
             }
             message = messageService.get('msg.template.column.shouldBeDisplayed');
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
+            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT &&
+                (column.columnDefinition.sources.length > 1 || column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY)) {
                 message = message + messageService.get('msg.template.column.isUserInput');
             }
             return message;
@@ -181,7 +173,7 @@
          * Determines whether displayed column is an average consumption.
          *
          * @param {Object} column Column
-         * @returns {Boolean} True if column name is 'averageConsumption'.
+         * @returns {Boolean} True if column name is averageConsumption.
          */
         function isAverageConsumption(column) {
             return column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION;

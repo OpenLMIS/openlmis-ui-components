@@ -1,13 +1,3 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
- */
-
 (function() {
 
     'use strict';
@@ -17,7 +7,7 @@
      * @name admin-template.templateFactory
      *
      * @description
-     * Comunicates with templateDataService.
+     * Communicates with templateDataService.
      *
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
@@ -128,13 +118,24 @@
                 column = this,
                 columns = template.columnsMap;
 
-            if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
-                && isAverageConsumtpionInvalid(template.numberOfPeriodsToAverage)) {
+            if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION &&
+                isAverageConsumptionInvalid(template.numberOfPeriodsToAverage)) {
                 return false;
             }
+
+            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY &&
+                template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].isDisplayed != column.isDisplayed) return false;
+            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION &&
+                template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].isDisplayed != column.isDisplayed) return false;
+
+            if((column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY) &&
+                column.source == COLUMN_SOURCES.USER_INPUT && !column.isDisplayed) return false;
+
             if(!column.source || column.source === '') return false;
             if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) return false;
+            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT &&
+                (column.columnDefinition.sources.length > 1 || column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY))
+                return false;
 
             var circularDependencies = [];
             checkForCircularCalculatedDependencies(null, column.name, [],
@@ -148,7 +149,7 @@
         }
 
         // Checks if column can be dropped in area and if so,
-        // changes display order of columns beetwen old and new position of dropped column.
+        // changes display order of columns between old and new position of dropped column.
         function moveColumn(droppedItem, dropSpotIndex) {
             var maxNumber = 999999999999999,
                 pinnedColumns = [], // columns that position can't be changed
@@ -186,28 +187,30 @@
                     columns.push(column);
                 });
 
-                pinnedColumns.sort(sort)
+                pinnedColumns.sort(sort);
                 columns.sort(sort);
             }
 
             // Sorting function for column arrays
             function sort(a, b) {
-                a = parseInt(a['displayOrder']);
-                b = parseInt(b['displayOrder']);
+                a = parseInt(a.displayOrder);
+                b = parseInt(b.displayOrder);
                 return a - b;
             }
 
             // Returns current index in array of given column.
             function getArrayIndexForColumn(column) {
-                var index
+                var index;
+
                 angular.forEach(columns, function(item, idx) {
                     if(column.name === item.name) index = idx;
                 });
+
                 return index;
             }
 
-            // Sets min and max diplay order value.
-            // In other words it tells you beetwen which "pinned" columns was our dropped column located.
+            // Sets min and max display order value.
+            // In other words it tells you between which "pinned" columns was our dropped column located.
             // This column can be dropped only in this area.
             function setMinMaxDisplayOrder(displayOrder) {
                 min = 0;
@@ -279,10 +282,10 @@
             }
         }
 
-        function isAverageConsumtpionInvalid(numberOfPeriods) {
-            return !numberOfPeriods
-                || !numberOfPeriods.toString().trim()
-                || numberOfPeriods < 2;
+        function isAverageConsumptionInvalid(numberOfPeriods) {
+            return !numberOfPeriods ||
+                !numberOfPeriods.toString().trim() ||
+                numberOfPeriods < 2;
         }
     }
 

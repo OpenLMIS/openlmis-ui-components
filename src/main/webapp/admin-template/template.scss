@@ -24,16 +24,16 @@
 				cursor: move;
 			}
 
-			.moveable:hover {
+			.moveable:hover td {
 				background-color: $very-light-gray;
 			}
 
-			.dndPlaceholder {
+			.dndPlaceholder td {
 				background-color: $light-shadow;
 				height: 3em;
 			}
 
-			.pinned {
+			.pinned td {
 				background-color: $medium-gray;
 			}
 
