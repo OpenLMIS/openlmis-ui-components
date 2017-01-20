@@ -85,8 +85,8 @@ describe('NavigationController', function() {
     describe('hasChildren', function() {
 
         beforeEach(function() {
-            navigationStateService.hasChildren.andCallFake(function(state, visibleOnly) {
-                return state === 'state' && visibleOnly;
+            navigationStateService.hasChildren.andCallFake(function(state) {
+                return state === 'state';
             })
 
             initController();

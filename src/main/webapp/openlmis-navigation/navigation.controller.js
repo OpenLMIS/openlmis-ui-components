@@ -32,7 +32,7 @@
 
         vm.states = getStates();
 
-        vm.hasChildren = hasChildren;
+        vm.hasChildren = navigationStateService.hasChildren;
         vm.isSubmenu = navigationStateService.isSubmenu;
         vm.shouldDisplay = navigationStateService.shouldDisplay;
         vm.isOffline = navigationStateService.isOffline;
@@ -48,10 +48,6 @@
                 states = $scope.states;
             }
             return states;
-        }
-
-        function hasChildren(state) {
-            return navigationStateService.hasChildren(state);
         }
     }
 
