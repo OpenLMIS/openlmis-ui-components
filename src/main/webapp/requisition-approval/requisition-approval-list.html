@@ -1,34 +1,36 @@
 <div class="page approval-list">
     <h2 openlmis-message="label.approve.requisitions"></h2>
-    <table ng-if="vm.filteredRequisitions">
-        <caption ng-if="!vm.filteredRequisitions.length">
-            {{'message.no.rnr.pending.approval' | message}}
-        </caption>
-        <thead>
-            <tr>
-                <th>{{'program.header' | message}}</th>
-                <th>{{'option.value.facility.code' | message}}</th>
-                <th>{{'option.value.facility.name' | message}}</th>
-                <th>{{'option.value.facility.type' | message}}</th>
-                <th>{{'label.period.start.date' | message}}</th>
-                <th>{{'label.period.end.date' | message}}</th>
-                <th>{{'label.date.submitted' | message}}</th>
-                <th>{{'msg.emergency' | message}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="requisition in vm.filteredRequisitions" ng-click="vm.openRnr(requisition.id)">
-                <td>{{requisition.program.name}}</th>
-                <td>{{requisition.facility.code}}</th>
-                <td>{{requisition.facility.name}}</th>
-                <td>{{requisition.facility.type.name}}</th>
-                <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
-                <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
-                <td>{{requisition.createdDate | date:'shortDate'}}</th>
-                <td class="col-emergency">
-                    <span ng-if="requisition.emergency" class="icon-ok"></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table ng-if="vm.filteredRequisitions">
+            <caption ng-if="!vm.filteredRequisitions.length">
+                {{'message.no.rnr.pending.approval' | message}}
+            </caption>
+            <thead>
+                <tr>
+                    <th>{{'program.header' | message}}</th>
+                    <th>{{'option.value.facility.code' | message}}</th>
+                    <th>{{'option.value.facility.name' | message}}</th>
+                    <th>{{'option.value.facility.type' | message}}</th>
+                    <th>{{'label.period.start.date' | message}}</th>
+                    <th>{{'label.period.end.date' | message}}</th>
+                    <th>{{'label.date.submitted' | message}}</th>
+                    <th>{{'msg.emergency' | message}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="requisition in vm.filteredRequisitions" ng-click="vm.openRnr(requisition.id)">
+                    <td>{{requisition.program.name}}</th>
+                    <td>{{requisition.facility.code}}</th>
+                    <td>{{requisition.facility.name}}</th>
+                    <td>{{requisition.facility.type.name}}</th>
+                    <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
+                    <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
+                    <td>{{requisition.createdDate | date:'shortDate'}}</th>
+                    <td class="col-emergency">
+                        <span ng-if="requisition.emergency" class="icon-ok"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
