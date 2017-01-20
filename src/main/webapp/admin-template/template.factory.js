@@ -133,8 +133,7 @@
 
             if(!column.source || column.source === '') return false;
             if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT &&
-                (column.columnDefinition.sources.length > 1 || column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY))
+            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1)
                 return false;
 
             var circularDependencies = [];

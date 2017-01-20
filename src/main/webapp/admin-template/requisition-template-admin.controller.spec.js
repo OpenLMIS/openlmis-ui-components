@@ -41,7 +41,7 @@ describe('RequisitionTemplateAdminController', function() {
         template.numberOfPeriodsToAverage = 3;
         program = {
             id: '1',
-            mame: 'program1'
+            name: 'program1'
         };
 
         inject(function($controller, $q, $state, _notificationService_, _COLUMN_SOURCES_,
@@ -178,5 +178,56 @@ describe('RequisitionTemplateAdminController', function() {
 
         expect(message.get).toHaveBeenCalledWith('msg.template.emptyNumberOfPeriods');
         expect(result).toBe('Number of periods cannot be empty!');
+    });
+
+    it('should validate if requestedQuantity and requestedQuantityExplanation have the same display', function() {
+        var errorMessage = 'This column should be displayed/not displayed together with: ';
+
+        vm.template.columnsMap.requestedQuantity = {
+            name: 'requestedQuantity',
+            displayOrder: 5,
+            isDisplayed: true,
+            label: "Requested Quantity"
+        };
+        vm.template.columnsMap.requestedQuantityExplanation = {
+            name: 'requestedQuantityExplanation',
+            displayOrder: 7,
+            isDisplayed: false,
+            label: "Requested Quantity Explanation"
+        };
+
+        spyOn(message, 'get').andReturn(errorMessage);
+
+        expect(vm.errorMessage(vm.template.columnsMap.requestedQuantity)).toEqual(errorMessage + vm.template.columnsMap.requestedQuantityExplanation.label);
+        expect(message.get).toHaveBeenCalledWith('error.columnDisplayMismatch');
+
+        expect(vm.errorMessage(vm.template.columnsMap.requestedQuantityExplanation)).toEqual(errorMessage + vm.template.columnsMap.requestedQuantity.label);
+        expect(message.get).toHaveBeenCalledWith('error.columnDisplayMismatch');
+    });
+
+    it('should validate if column is not displayed when has USER_INPUT source', function() {
+        var shouldBeDisplayedMessage = 'Should be displayed',
+            isUserInputMessage = ' if source is USER INPUT';
+
+        vm.template.columnsMap.stockOnHand = {
+            name: 'stockOnHand',
+            displayOrder: 5,
+            isDisplayed: false,
+            source: COLUMN_SOURCES.USER_INPUT,
+            columnDefinition: {
+                options: [],
+                sources: [COLUMN_SOURCES.USER_INPUT, COLUMN_SOURCES.CALCULATED]
+            }
+        };
+
+        spyOn(message, 'get').andCallFake(function(msg) {
+            if(msg === 'msg.template.column.shouldBeDisplayed') return shouldBeDisplayedMessage;
+            else if(msg === 'msg.template.column.isUserInput') return isUserInputMessage;
+            else return '';
+        });
+
+        expect(vm.errorMessage(vm.template.columnsMap.stockOnHand)).toEqual(shouldBeDisplayedMessage + isUserInputMessage);
+        expect(message.get).toHaveBeenCalledWith('msg.template.column.shouldBeDisplayed');
+        expect(message.get).toHaveBeenCalledWith('msg.template.column.isUserInput');
     });
 });

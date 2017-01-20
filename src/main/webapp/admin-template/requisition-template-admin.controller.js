@@ -137,9 +137,9 @@
                 return messageService.get('msg.template.emptyNumberOfPeriods');
 
             if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].isDisplayed != column.isDisplayed)
-                return messageService.get('error.columnDisplayMismatch') + column.label;
+                return messageService.get('error.columnDisplayMismatch') + template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].label;
             if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].isDisplayed != column.isDisplayed)
-                return messageService.get('error.columnDisplayMismatch') + column.label;
+                return messageService.get('error.columnDisplayMismatch') + template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].label;
 
             if(!column.source  || column.source === '') return messageService.get('msg.template.column.sourceEmpty');
 
@@ -157,8 +157,7 @@
                 return messageService.get('msg.template.column.calculatedError') + dependencies;
             }
             message = messageService.get('msg.template.column.shouldBeDisplayed');
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT &&
-                (column.columnDefinition.sources.length > 1 || column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY)) {
+            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
                 message = message + messageService.get('msg.template.column.isUserInput');
             }
             return message;
