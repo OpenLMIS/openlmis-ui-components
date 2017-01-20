@@ -69,6 +69,10 @@ select{
 	}
 }
 
+select {
+  box-shadow: none;
+}
+
 // form > select{
 // 	width: auto;
 // 	border: $gray-light 1px solid;

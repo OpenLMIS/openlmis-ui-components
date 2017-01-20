@@ -17,11 +17,40 @@
      * @name openlmis-navigation.navigationStateService
      *
      * @description
-     * Reads routes set in UI-Router and returns all routes that are visible to the user.
+     * Reads routes set in UI-Router and returns all routes that are visible to
+     * the user.
      *
-     * When writting UI-Router routes, set the route with 'showInNavigation: true' which will add the route to the navigation service. The parent state from the UI-Router definition is used to create a hiearchy for navigation states.
+     * When writting UI-Router routes, set the route with 'showInNavigation: true'
+     * which will add the route to the navigation service. The parent state
+     * from the UI-Router definition is used to create a hiearchy for navigation
+     * states.
      *
-     * TODO: Check if a user has authorization to view the URL
+     * The UI-Router State definitions can also be set with access rights, and
+     * if the user has one of the rights, the route will be visiable to the
+     * user. To use this feature set 'accessRights' on the state definition
+     * object.
+     *
+     * Lastly, navigation states can be marked if they have offline
+     * functionality, which will make the UI-State appear accessiable when a
+     * user's browser is offline. This can be set by setting 'isOffline' to
+     * true on the state definition object.
+     *
+     * @example
+     * To use the navigation service, and related directives, add UI-Router
+     * states similar to the following.
+     *
+     * ```
+     * angular.module('example')
+     * .config(function($stateProvider){
+     *     $stateProvider.state('example', {
+     *         url: '/example', // default argument from UI-Router
+     *         showInNavigation: true, // allows navigation service to show items
+     *         accessRights: ['example.right'], // an array of access rights that is checked against the user's rights
+     *         isOffline: true, // make the UI display that the screen is functional offline
+     *         label: 'message.key' // Label that is displayed in the navigation
+     *     });
+     * });
+     * ```
      *
      */
 
@@ -41,6 +70,21 @@
 
         service.roots = initialize();
 
+        /**
+         *
+         * @ngdoc function
+         * @name hasChildren
+         * @methodOf openlmis-navigation.navigationStateService
+         *
+         * @description
+         * Takes a state object and returns if the state should be displayed or
+         * not.
+         *
+         * @param {object} state A state object as returned by UI-Router
+         *
+         * @returns {Boolean} If the state has visible child states.
+         *
+         */
 		function hasChildren(state) {
             var result = false;
             angular.forEach(state.children, function(child) {
@@ -49,10 +93,40 @@
 			return result;
 		}
 
+        /**
+         *
+         * @ngdoc function
+         * @name isSubmenu
+         * @methodOf openlmis-navigation.navigationStateService
+         *
+         * @description
+         * Takes a state object and returns if the state has child states, but
+         * isn't a root state.
+         *
+         * @param {object} state A state object as returned by UI-Router
+         *
+         * @returns {Boolean} If the state is a sub-menu
+         *
+         */
 		function isSubmenu(state){
 			return !isRoot(state) && hasChildren(state);
 		}
 
+        /**
+         *
+         * @ngdoc function
+         * @name shouldDisplay
+         * @methodOf openlmis-navigation.navigationStateService
+         *
+         * @description
+         * Takes a state object and returns if the state can be viewed by the
+         * current user in the navigaiton hiearchy because of access rights.
+         *
+         * @param {object} state A state object as returned by UI-Router
+         *
+         * @returns {Boolean} If the state can be viewed byt the current user.
+         *
+         */
 		function shouldDisplay(state) {
 			return state.showInNavigation
                 && (!state.accessRights || authorizationService.hasRights(state.accessRights))
@@ -126,6 +200,21 @@
             return false;
         }
 
+        /**
+         *
+         * @ngdoc function
+         * @name isOffline
+         * @methodOf openlmis-navigation.navigationStateService
+         *
+         * @description
+         * If the state is should be able to be viewed while the browser is
+         * offline.
+         *
+         * @param {object} state A state object as returned by UI-Router
+         *
+         * @returns {Boolean} If the state can be viewed while offline.
+         *
+         */
         function isOffline(state) {
             if (state && state.isOffline) {
                 return true;
