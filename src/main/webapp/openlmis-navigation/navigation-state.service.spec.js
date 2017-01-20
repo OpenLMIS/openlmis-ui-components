@@ -1,16 +1,16 @@
 describe('navigationStateService', function() {
 
-    var service, states, state, authorizationService;
+    var service, states, $state, authorizationService;
 
     beforeEach(function() {
         module('openlmis-navigation');
 
-        state = jasmine.createSpyObj('$state', ['get']);
+        $state = jasmine.createSpyObj('$state', ['get']);
         authorizationService = jasmine.createSpyObj('authorizationService', ['hasRights']);
 
         module(function($provide) {
             $provide.factory('$state', function() {
-                return state;
+                return $state;
             });
             $provide.factory('authorizationService', function() {
                 return authorizationService;
@@ -22,7 +22,7 @@ describe('navigationStateService', function() {
             createState('state2.subState4', true, 5, false, 'rights'),
             createState('state4', true, 1),
             createState('state2', true, 2, true),
-            createState('state2.subState3', true, 43, false, 'rights'),
+            createState('state2.subState3', true, 43, false, 'rights', true),
             createState('state1', true, 0, true),
             createState('state3', false),
             createState('state3.subState16', true, 0),
@@ -33,7 +33,19 @@ describe('navigationStateService', function() {
             createState('state2.subState4.subSubState1', true)
         ];
 
-        state.get.andReturn(states);
+        $state.get.andCallFake(function(stateName){
+            if(!stateName){
+                return states;
+            } else {
+                var foundState = false;
+                angular.forEach(states, function(state){
+                    if(state.name == stateName){
+                        foundState = state;
+                    }
+                });
+                return foundState;
+            }
+        });
 
         inject(function(navigationStateService) {
             service = navigationStateService;
@@ -127,13 +139,21 @@ describe('navigationStateService', function() {
 
     });
 
-    function createState(name, showInNavigation, priority, abstract, rights) {
+    describe('isOffline', function(){
+        it('should return true if the state has isOffline defined', function(){
+            var state = $state.get('state2.subState3');
+            expect(service.isOffline(state)).toBe(true);
+        });
+    });
+
+    function createState(name, showInNavigation, priority, abstract, rights, offline) {
         return {
             name: name,
             showInNavigation: showInNavigation,
             priority: priority,
             abstract: abstract,
-            accessRights: rights
+            accessRights: rights,
+            isOffline: offline
         };
     }
 

@@ -37,6 +37,7 @@
         service.shouldDisplay = shouldDisplay;
         service.hasChildren = hasChildren;
         service.isSubmenu = isSubmenu;
+        service.isOffline = isOffline;
 
         service.roots = initialize();
 
@@ -123,6 +124,14 @@
                 }
             }
             return false;
+        }
+
+        function isOffline(state) {
+            if (state && state.isOffline) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
