@@ -24,10 +24,9 @@
      * Will show and hide a loading modal that will block the UI and show a simple loading symbol.
      *
      */
-     LoadingModal.$inject = ['$timeout', 'bootbox', 'messageService'];
-    function LoadingModal($timeout, bootbox, messageService) {
-        var dialog;
-        var timeoutPromise;
+     LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
+    function LoadingModal($q, $timeout, bootbox, messageService) {
+        var dialog, timeoutPromise, deferred;
 
         return {
               open: showModal,
@@ -42,13 +41,23 @@
          * @description Shows the loading modal after a half second delay.
          */
 
-        function showModal() {
-            if(!dialog && !timeoutPromise){
+        function showModal(delay) {
+            if (dialog) {
+                return deferred.promise;
+            }
+
+            deferred = $q.defer();
+
+            if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
                     makeModal();
                     timeoutPromise = null;
                 }, 500);
+            } else {
+                makeModal();
             }
+
+            return deferred.promise;
         }
 
         /**
@@ -63,8 +72,10 @@
             if(timeoutPromise){
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = null;
+                deferred.resolve();
             } else if(dialog){
                 removeModal();
+                deferred.resolve();
             }
         }
 

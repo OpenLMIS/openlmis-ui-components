@@ -10,7 +10,8 @@
 
 describe('RequisitionViewController', function() {
 
-    var $rootScope, $q, $state, notificationService, confirmService, vm, requisition, deferred;
+    var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
+        loadingModalService, deferred;
 
     beforeEach(function() {
         module('requisition-view');
@@ -29,33 +30,28 @@ describe('RequisitionViewController', function() {
         });
 
         inject(function(_$rootScope_, $controller, _$q_, _$state_, _notificationService_,
-                        _confirmService_) {
+                        _confirmService_, _loadingModalService_) {
 
             $rootScope = _$rootScope_;
             $state = _$state_;
             $q = _$q_;
             notificationService = _notificationService_;
             confirmService = _confirmService_;
+            loadingModalService = _loadingModalService_;
 
             confirmService.confirm.andCallFake(function() {
                 return $q.when(true);
             });
 
             deferred = $q.defer();
-            requisition = {
-                id: '1',
-                status: 'INITIATED',
-                program: {
-                    id: '2',
-                    periodsSkippable: true
-                },
-                $skip: function() {
-                    return deferred.promise;
-                },
-                $isInitiated: function() {
-                    return this.status === 'INITIATED';
-                }
-            }
+            requisition = jasmine.createSpyObj('requisition', ['$skip', '$isInitiated']);
+            requisition.id = '1';
+            requisition.program = {
+                id: '2',
+                periodsSkippable: true
+            };
+            requisition.$isInitiated.andReturn(true);
+            requisition.$skip.andReturn(deferred.promise);
 
             vm = $controller('RequisitionViewController', {requisition: requisition});
         });
@@ -76,20 +72,25 @@ describe('RequisitionViewController', function() {
     });
 
     it('should display skip button if requisition is not in initiated status', function() {
-        vm.requisition.status = 'SUBMITTED';
+        vm.requisition.$isInitiated.andReturn(false);
         expect(vm.displaySkip()).toBe(false);
     });
 
     it('should display message when successfully skiped requisition', function() {
         var notificationServiceSpy = jasmine.createSpy(),
-            stateGoSpy = jasmine.createSpy();
+            stateGoSpy = jasmine.createSpy(),
+            loadingDeferred = $q.defer();
+
 
         spyOn(notificationService, 'success').andCallFake(notificationServiceSpy);
+        spyOn(loadingModalService, 'open').andReturn(loadingDeferred.promise);
         spyOn($state, 'go').andCallFake(stateGoSpy);
 
         vm.skipRnr();
 
         deferred.resolve();
+        $rootScope.$apply();
+        loadingDeferred.resolve();
         $rootScope.$apply();
 
         expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionSkipped');

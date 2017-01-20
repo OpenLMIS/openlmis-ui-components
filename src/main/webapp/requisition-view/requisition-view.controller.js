@@ -100,11 +100,10 @@
             vm.requisition.$modified = false;
             offlineRequitions.put(vm.requisition);
             save().then(function(response) {
-                loadingModalService.close();
                 notificationService.success('msg.rnr.sync.success');
                 reloadState();
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -120,23 +119,23 @@
         function submitRnr() {
             confirmService.confirm('msg.question.confirmation.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
-                    save().then(function() {
-                        loadingModalService.open();
-                        vm.requisition.$submit()
-                        .then(function(response) {
-                            notificationService.success('msg.requisitionSubmitted');
+                    var loadingPromise = loadingModalService.open();
+                    vm.requisition.$save().then(function() {
+                        vm.requisition.$submit().then(function(response) {
+                            loadingPromise.then(function() {
+                                notificationService.success('msg.requisitionSubmitted');
+                            });
                             reloadState();
-                        })
-                        .catch(function(response) {
+                        }, function(response) {
+                            loadingModalService.close();
                             notificationService.error('msg.requisitionSubmitFailed');
-                        })
-                        .finally(loadingModalService.close);
+                        });
                     });
                 } else {
                     notificationService.error('error.rnr.validation');
                 }
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -153,23 +152,23 @@
         function authorizeRnr() {
             confirmService.confirm('msg.question.confirmation.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
-                    save().then(function() {
-                        loadingModalService.open();
-                        vm.requisition.$authorize()
-                        .then(function(response) {
-                            notificationService.success('msg.rnr.authorized.success');
+                    var loadingPromise = loadingModalService.open();
+                    vm.requisition.$save().then(function() {
+                        vm.requisition.$authorize().then(function(response) {
+                            loadingPromise.then(function() {
+                                notificationService.success('msg.rnr.authorized.success');
+                            });
                             reloadState();
-                        })
-                        .catch(function(response) {
+                        }, function(response) {
                             notificationService.error('msg.rnr.authorized.failure');
-                        })
-                        .finally(loadingModalService.close);
+                            loadingModalService.close();
+                        });
                     });
                 } else {
                     notificationService.error('error.rnr.validation');
                 }
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -183,18 +182,18 @@
          */
         function removeRnr() {
             confirmService.confirmDestroy('msg.question.confirmation.deletion').then(function() {
-                loadingModalService.open();
-                vm.requisition.$remove()
-                .then(function(response) {
+                var loadingPromise = loadingModalService.open();
+                vm.requisition.$remove().then(function(response) {
+                    loadingPromise.then(function() {
+                        notificationService.success('msg.rnr.deletion.success');
+                    });
                     $state.go('requisitions.initRnr');
-                    notificationService.success('msg.rnr.deletion.success');
-                })
-                .catch(function(response) {
+                }, function(response) {
                     notificationService.error('msg.rnr.deletion.failure');
-                })
-                .finally(loadingModalService.close);
+                    loadingModalService.close();
+                });
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -210,21 +209,20 @@
         function approveRnr() {
             confirmService.confirm('msg.question.confirmation.approve').then(function() {
                 if(requisitionValidator.validateRequisition(requisition)) {
-                    save()
-                    .then(function() {
-                        loadingModalService.open();
-                        vm.requisition.$approve()
-                        .then(function(response) {
+                    var loadingPromise = loadingModalService.open();
+                    vm.requisition.$save().then(function() {
+                        vm.requisition.$approve().then(function(response) {
+                            loadingPromise.then(function() {
+                                notificationService.success('msg.rnr.approved.success');
+                            });
                             $state.go('requisitions.approvalList');
-                            notificationService.success('msg.rnr.approved.success');
-                        })
-                        .finally(loadingModalService.close);
+                        }, loadingModalService.close);
                     });
                 } else {
                     notificationService.error('error.rnr.validation');
                 }
              });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -238,18 +236,18 @@
          */
         function rejectRnr() {
             confirmService.confirm('msg.question.confirmation.reject').then(function() {
-                loadingModalService.open();
-                vm.requisition.$reject()
-                .then(function(response) {
+                var loadingPromise = loadingModalService.open();
+                vm.requisition.$reject().then(function(response) {
+                    loadingPromise.then(function() {
+                        notificationService.success('msg.rnr.reject.success');
+                    });
                     $state.go('requisitions.approvalList');
-                    notificationService.success('msg.rnr.reject.success');
-                })
-                .catch(function(response) {
+                }, function(response) {
+                    loadingModalService.close();
                     notificationService.error('msg.rejected.failure');
-                })
-                .finally(loadingModalService.close);
+                });
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -263,18 +261,18 @@
          */
         function skipRnr() {
             confirmService.confirm('msg.question.confirmation.skip', 'button.skipRequisition').then(function() {
-                loadingModalService.open();
-                vm.requisition.$skip()
-                .then(function(response) {
+                var loadingPromise = loadingModalService.open();
+                vm.requisition.$skip().then(function(response) {
+                    loadingPromise.then(function() {
+                        notificationService.success('msg.requisitionSkipped');
+                    });
                     $state.go('requisitions.initRnr');
-                    notificationService.success('msg.requisitionSkipped');
-                })
-                .catch(function() {
+                }, function() {
                     notificationService.error('msg.requisitionSkipFailed');
-                })
-                .finally(loadingModalService.close);
+                    loadingModalService.close();
+                });
             });
-        };
+        }
 
         /**
          * @ngdoc function

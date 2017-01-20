@@ -22,7 +22,7 @@ describe("LoadingModal", function(){
     }));
 
     it('opens a modal after a timeout', function(){
-        loadingModalService.open();
+        loadingModalService.open(true);
 
         $timeout.flush();
 
@@ -30,7 +30,7 @@ describe("LoadingModal", function(){
     });
 
     it("won't open a modal if it was closed before the timeout", function(){
-        loadingModalService.open();
+        loadingModalService.open(true);
         loadingModalService.close();
 
         $timeout.flush(); // clear any timeouts (nothing should happen)
@@ -44,7 +44,7 @@ describe("LoadingModal", function(){
         // Dialog didn't get loaded
         expect(dialog.modal.calls.length).toEqual(0);
 
-        loadingModalService.open();
+        loadingModalService.open(true);
         $timeout.flush();
         loadingModalService.close();
 
