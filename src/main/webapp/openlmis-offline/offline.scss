@@ -19,9 +19,8 @@ a.is-offline,
 button.is-offline{
 	&::before{
 		content: "\f0e7";
-		font-family: 'FontAwesome';
+		font-family: FontAwesome;
 		display: inline-block;
-		padding-right: 1em;
-		line-height: 1em; 
+		padding-right: $space-size/2; 
 	}
 }

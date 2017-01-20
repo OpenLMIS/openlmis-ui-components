@@ -101,7 +101,7 @@ describe('NavigationController', function() {
         it('should call navigationStateService.hasChildren', function() {
             vm.hasChildren('state');
 
-            expect(navigationStateService.hasChildren).toHaveBeenCalledWith('state', true);
+            expect(navigationStateService.hasChildren).toHaveBeenCalledWith('state');
         });
 
     });

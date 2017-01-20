@@ -94,11 +94,10 @@ header > .navbar {
   padding: 0em 1em;
 
 
-  /*  GENERAL NAVIGATION STYLE  */
+  /*  GENERAL RESETS  */
   a{
     color: $white;
     text-decoration: none;
-    cursor: pointer;
     &:hover{
       color: darken($white, 15%);
     }
@@ -110,7 +109,6 @@ header > .navbar {
   li {
     position: relative;
   }
-
   .navbar-right{
     margin-right: 0em;
   }
@@ -147,14 +145,15 @@ header > .navbar {
       display: block;
       text-decoration: none;
       padding: 0.5em 1em;
+      color: $link-color;
       &:hover,
       &:focus{
         text-decoration: none;
-        color: $cyan;
+        color: $link-hover-color;
       }
-      &.disabled,
-      &.disabled:hover,
-      &.disabled:focus{
+      &[disabled],
+      &[disabled]:hover,
+      &[disabled]:focus{
         color: $text-color-disabled;
       }
     }
@@ -171,9 +170,9 @@ header > .navbar {
         &:focus {
           color: $white;
         }
-        &.disabled,
-        &.disabled:hover,
-        &.disabled:focus{
+        &[disabled],
+        &[disabled]:hover,
+        &[disabled]:focus{
           color: darken($white, 15%);
         }
       }

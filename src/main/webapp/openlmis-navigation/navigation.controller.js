@@ -35,6 +35,7 @@
         vm.hasChildren = hasChildren;
         vm.isSubmenu = navigationStateService.isSubmenu;
         vm.shouldDisplay = navigationStateService.shouldDisplay;
+        vm.isOffline = navigationStateService.isOffline;
 
         function getStates() {
             var states = [];
@@ -50,7 +51,7 @@
         }
 
         function hasChildren(state) {
-            return navigationStateService.hasChildren(state, true);
+            return navigationStateService.hasChildren(state);
         }
     }
 

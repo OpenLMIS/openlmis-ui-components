@@ -141,8 +141,11 @@ describe('navigationStateService', function() {
 
     describe('isOffline', function(){
         it('should return true if the state has isOffline defined', function(){
-            var state = $state.get('state2.subState3');
-            expect(service.isOffline(state)).toBe(true);
+            var offlineState = $state.get('state2.subState3');
+            var state = $state.get('state2.subState0');
+
+            expect(service.isOffline(state)).toBe(false);
+            expect(service.isOffline(offlineState)).toBe(true);
         });
     });
 

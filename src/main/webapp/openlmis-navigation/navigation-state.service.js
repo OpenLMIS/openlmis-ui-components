@@ -45,7 +45,7 @@
             var result = false;
             angular.forEach(state.children, function(child) {
                 result = result || shouldDisplay(child);
-            })
+            });
 			return result;
 		}
 
