@@ -30,7 +30,7 @@
          * @methodOf fulfillment.fulfillmentUrlFactory
          *
          * @description
-         * It parses the given URL and prepend fulfillment service URL to it.
+         * It parses the given URL and appends fulfillment service URL to it.
          *
          * @param {String} url fulfillment URL from grunt file
          * @return {String} fulfillment URL
