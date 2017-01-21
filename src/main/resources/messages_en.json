@@ -197,6 +197,7 @@
   "msg.template.invalidNumberOfPeriods": "Number of periods to average must be greater than or equal to 2",
   "msg.template.emptyNumberOfPeriods": "Number of periods cannot be empty!",
   "msg.totalRequisitionCost": "Total Requisition Cost",
+  "navigation.state.offline": "This page can't be loaded while offline.",
   "option.value.all": "All",
   "option.value.facility.code": "Facility Code",
   "option.value.facility.district": "District Name",
