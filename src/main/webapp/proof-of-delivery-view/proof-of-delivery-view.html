@@ -19,7 +19,7 @@
                     ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderableProduct.name'">
                     <td>{{lineItem.orderLineItem.orderableProduct.name}}</td>
                     <td>{{lineItem.orderLineItem.orderableProduct.dispensable.dispensingUnit}}</td>
-                    <td>{{lineItem.packsToShip}}</td>
+                    <td>{{lineItem.orderLineItem.packsToShip}}</td>
                     <td>{{lineItem.quantityShipped}}</td>
                     <td>
                         <input positive-integer type="text" ng-model="lineItem.quantityReceived"/>
