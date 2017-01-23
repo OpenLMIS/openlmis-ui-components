@@ -1,0 +1,61 @@
+<div class="page">
+    <h1>{{'header.viewOrders' | message}}</h1>
+    <section class="table-container">
+        <form name="orderViewForm" ng-submit="orderViewForm.$valid && vm.loadOrders()" novalidate>
+            <label for="supplyingFacility">{{'label.supplyingFacility' | message}}</label>
+            <select id="supplyingFacility"
+                    ng-model="vm.supplyingFacility"
+                    ng-options="facility.name for facility in vm.supplyingFacilities"
+                    required></select>
+            <label for="requestingFacility">{{'label.requestingFacility' | message}}</label>
+            <select id="requestestingFacility"
+                    ng-model="vm.requestingFacility"
+                    ng-options="facility.name for facility in vm.requestingFacilities"></select>
+            <label>{{'label.program' | message}}</label>
+            <select id="program"
+                    ng-model="vm.program"
+                    ng-options="program.name for program in vm.programs"></select>
+            <input type="submit" class="btn btn-primary" value="{{'button.search' | message}}"/>
+        </form>
+        <table ng-if="vm.orders">
+            <caption ng-if="!vm.orders.length">{{'msg.noOrdersFound' | message}}</caption>
+            <thead>
+                <tr>
+                    <th>{{'label.orderNumber' | message}}</th>
+                    <th>{{'label.facility' | message}}</th>
+                    <th>{{'label.district' | message}}</th>
+                    <th>{{'label.program' | message}}</th>
+                    <th>{{'label.period' | message}}</th>
+                    <th>{{'label.supplyingDistrict' | message}}</th>
+                    <th>{{'label.status' | message}}</th>
+                    <th>{{'label.comment' | message}}</th>
+                    <th>{{'label.emergency' | message}}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="order in vm.orders">
+                    <td>{{order.orderCode}}</td>
+                    <td>{{order.facility.name}}</td>
+                    <td>{{order.facility.geographicZone.name}}</td>
+                    <td>{{order.program.name}}</td>
+                    <td>{{order.processingPeriod | period:true}}</td>
+                    <td>{{order.supplyingFacility.geographicZone.name}}</td>
+                    <td>{{order.status}}</td>
+                    <td></td>
+                    <td class="col-emergency">
+                        <i ng-class="{'icon-ok': order.emergency}"></i>
+                    </td>
+                    <td>
+                        <button class="btn btn-print"
+                            openlmis-download="{{vm.getPrintUrl(order)}}">
+                        </button>
+                        <button class="btn btn-download"
+                            openlmis-download="{{vm.getDownloadUrl(order)}}">
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

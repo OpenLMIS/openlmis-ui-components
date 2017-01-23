@@ -16,7 +16,7 @@
      * @name referencedata-facility.facilitiesFactory
      *
      * @description
-     * Alows the user to retrieve facilities.
+     * Allows the user to retrieve facilities.
      */
     angular
         .module('referencedata-facility')
@@ -27,7 +27,9 @@
     function factory(openlmisUrlFactory, $q, $filter, programService, authorizationService, facilityService){
 
         return {
-            getUserFacilities: getUserFacilities
+            getUserFacilities: getUserFacilities,
+            getSupplyingFacilities: getSupplyingFacilities,
+            getRequestingFacilities: getRequestingFacilities
         };
 
 
@@ -66,6 +68,65 @@
             });
 
             return deferred.promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-facility.facilityFactory
+         * @name getSupplyingFacilities
+         *
+         * @description
+         * Returns a set of all supplying facilities available to the user.
+         *
+         * @param   {String}    userId  the ID of the user
+         * @return  {Array}             the set of all supplying facilities
+         */
+        function getSupplyingFacilities(userId) {
+            var deferred = $q.defer();
+
+            $q.all([
+                getFulfillmentFacilities(userId, 'ORDERS_VIEW'),
+                getFulfillmentFacilities(userId, 'PODS_MANAGE')
+            ]).then(function(results) {
+                deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
+            }, function() {
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-facility.facilityFactory
+         * @name getRequestingFacilities
+         *
+         * @description
+         * Returns a set of all requesting facilities available to the user.
+         *
+         * @param   {String}    userId  the ID of the user to fetch the facilities for
+         * @return  {Array}             the set of all requesting facilities
+         */
+        function getRequestingFacilities(userId) {
+            var deferred = $q.defer();
+
+            $q.all([
+                getUserFacilities(userId, 'REQUISITION_CREATE'),
+                getUserFacilities(userId, 'REQUISITION_AUTHORIZE')
+            ]).then(function(results) {
+                deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
+            }, function() {
+                deferred.reject();
+            });
+
+            return deferred.promise;
+        }
+
+        function getFulfillmentFacilities(userId, rightName) {
+            return resource.getFulfillmentFacilities({
+                userId: userId,
+                rightId: authorizationService.getRightByName(rightName).id
+            });
         }
     }
 

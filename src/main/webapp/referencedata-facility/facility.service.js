@@ -7,37 +7,44 @@
      * @name referencedata-facility.facilityService
      *
      * @description
-     * Responsible for retriving all facility information from server.
+     * Responsible for retrieving all facility information from server.
      */
 	angular
 		.module('referencedata-facility')
 	    .service('facilityService', service);
 
-    service.$inject = ['$q', '$filter', '$resource', 'openlmisUrlFactory', 'offlineService', 'localStorageFactory'];
+    service.$inject = [
+		'$q', '$filter', '$resource', 'referencedataUrlFactory', 'offlineService',
+		'localStorageFactory', 'authorizationService'
+	];
 
-    function service($q, $filter, $resource, openlmisUrlFactory, offlineService, localStorageFactory) {
+    function service($q, $filter, $resource, referencedataUrlFactory, offlineService,
+					 localStorageFactory, authorizationService) {
 
-        var resource = $resource(openlmisUrlFactory('/api/facilities/:id'), {}, {
-            'getAll': {
-                url: openlmisUrlFactory('/api/facilities/'),
-                method: 'GET',
-                isArray: true
-            },
-			'getUserSupervisedFacilities': {
-				url: openlmisUrlFactory('api/users/:userId/supervisedFacilities'),
-				method: 'GET',
-                isArray: true
-			}
-        }),
+        var facilitiesOffline = localStorageFactory('facilities'),
+			supervisedFacilitiesOffline = localStorageFactory('supervisedFacilities'),
+			resource = $resource(referencedataUrlFactory('/api/facilities/:id'), {}, {
+	            getAll: {
+	                url: referencedataUrlFactory('/api/facilities/'),
+	                method: 'GET',
+	                isArray: true
+	            },
+				getUserSupervisedFacilities: {
+					url: referencedataUrlFactory('api/users/:userId/supervisedFacilities'),
+					method: 'GET',
+	                isArray: true
+				},
+				getFulfillmentFacilities: {
+					url: referencedataUrlFactory('/api/users/:userId/fulfillmentFacilities'),
+					method: 'GET',
+					isArray: true
+				}
+	        });
 
-		facilitiesOffline = localStorageFactory('facilities'),
-		supervisedFacilitiesOffline = localStorageFactory('supervisedFacilities');
-
-        return {
-            get: get,
-            getAll: getAll,
-			getUserSupervisedFacilities: getUserSupervisedFacilities
-        };
+        this.get = get;
+        this.getAll = getAll;
+		this.getUserSupervisedFacilities = getUserSupervisedFacilities;
+        this.getFulfillmentFacilities = getFulfillmentFacilities;
 
 		/**
          * @ngdoc function
@@ -46,7 +53,7 @@
          *
          * @description
          * Retrieves facility by id. When user is offline it gets facility from offline storage.
-         * If user is online it stores facilitiy into offline storage.
+         * If user is online it stores facility into offline storage.
          *
          * @param {String} facilityId Facility UUID
          * @return {Promise} facility promise
@@ -108,7 +115,7 @@
          * @description
          * Returns facilities where program with the given programId is active and where the given
          * user has right with the given rightId. Facilities are stored in local storage.
-         * If user is offline facilities are retreived from the local storage.
+         * If user is offline facilities are retrieved from the local storage.
          *
          * @param {String} userId User UUID
          * @param {String} programId Program UUID
@@ -143,6 +150,13 @@
                 });
             }
             return deferred.promise;
-        };
+        }
+
+		function getFulfillmentFacilities(userId, rightId) {
+			return resource.getFulfillmentFacilities({
+				userId: userId,
+				rightId: rightId
+			}).$promise;
+		}
     }
 })();
