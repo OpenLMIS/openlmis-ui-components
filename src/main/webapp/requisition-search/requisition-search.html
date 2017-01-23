@@ -4,7 +4,7 @@
         {{vm.error | message}}
     </div>
     <section class="table-container">
-        <form name="searchForm" ng-submit="searchForm.$valid && vm.search()" novalidate>
+        <form name="searchForm" ng-submit="searchForm.$valid && vm.search()">
             <label for="facility">{{'label.requisition.facilityName' | message}}</label>
             <select id="facility" placeholder="{{'label.select.facility' | message}}"
                     ng-change="vm.loadPrograms()" ng-model="vm.selectedFacility"
