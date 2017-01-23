@@ -13,7 +13,7 @@
     /**
      *
      * @ngdoc service
-     * @name referencedata-facility.facilitiesFactory
+     * @name referencedata-facility.facilityFactory
      *
      * @description
      * Allows the user to retrieve facilities.
@@ -36,7 +36,7 @@
         /**
          * @ngdoc function
          * @name getUserFacilities
-         * @methodOf referencedata-facility.facilitiesFactory
+         * @methodOf referencedata-facility.facilityFactory
          *
          * @description
          * Retrieves all user supervised facilities depending on the given access right.
