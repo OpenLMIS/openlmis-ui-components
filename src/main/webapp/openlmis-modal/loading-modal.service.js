@@ -72,10 +72,13 @@
             if(timeoutPromise){
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = null;
+            }
+
+            removeModal();
+
+            if (deferred) {
                 deferred.resolve();
-            } else if(dialog){
-                removeModal();
-                deferred.resolve();
+                deferred = undefined;
             }
         }
 
