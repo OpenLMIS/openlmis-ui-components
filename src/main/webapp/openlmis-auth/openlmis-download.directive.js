@@ -31,7 +31,11 @@
 
         function link(scope, element, attrs) {
             element.bind('click', function() {
-                $window.location = accessTokenFactory.addAccessToken(attrs.openlmisDownload);
+                if (attrs.target == '_blank') {
+                    $window.open(accessTokenFactory.addAccessToken(attrs.openlmisDownload), '_blank');
+                } else {
+                    $window.location = accessTokenFactory.addAccessToken(attrs.openlmisDownload);
+                }
             });
         }
     }

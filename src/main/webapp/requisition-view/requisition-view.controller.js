@@ -25,13 +25,13 @@
     RequisitionViewController.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
-        'convertToOrderModalService', 'offlineService', 'localStorageFactory'
+        'convertToOrderModalService', 'offlineService', 'localStorageFactory', 'requisitionUrlFactory'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
-                             localStorageFactory) {
+                             localStorageFactory, requisitionUrlFactory) {
 
         var vm = this,
             onlineOnly = localStorageFactory('onlineOnly'),
@@ -79,6 +79,7 @@
         vm.displaySkip = displaySkip;
         vm.changeAvailablity = changeAvailablity;
         vm.isOffline = offlineService.isOffline;
+        vm.getPrintUrl = getPrintUrl;
 
         function saveRnr() {
             vm.requisition.$modified = true;
@@ -424,6 +425,10 @@
                 });
             }
         }
+
+        function getPrintUrl() {
+            return requisitionUrlFactory('/api/requisitions/' + vm.requisition.id + '/print');
+        };
 
         function save() {
             loadingModalService.open();

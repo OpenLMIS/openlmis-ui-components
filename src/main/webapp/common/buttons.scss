@@ -56,6 +56,11 @@ input {
         @extend .button;
         @include button-color($red);
     }
+
+    &.btn-print-rnr {
+        @include button-color($green);
+        @extend .pull-right;
+    }
 }
 
 .grid-btn {
