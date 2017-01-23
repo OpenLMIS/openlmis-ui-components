@@ -107,7 +107,7 @@
             var deferred = $q.defer();
             $http({
                 method: 'POST',
-                url: authUrl('/api/users/logout')
+                url: authUrl('/api/users/auth/logout')
             }).then(function() {
 
                 authorizationService.clearAccessToken();
@@ -183,7 +183,7 @@
          * @returns {Promise} Forgot password promise
          */
         function forgotPassword(email) {
-            var forgotPasswordURL = openlmisUrlFactory('/api/users/forgotPassword?email=' + email);
+            var forgotPasswordURL = openlmisUrlFactory('/api/users/auth/forgotPassword?email=' + email);
 
             return $http({
                 method: 'POST',
@@ -207,7 +207,7 @@
          * @returns {Promise} Resolves when password is changed successfully.
          */
         function changePassword(newPassword, token) {
-            var changePasswordURL = openlmisUrlFactory('/api/users/changePassword'),
+            var changePasswordURL = openlmisUrlFactory('/api/users/auth/changePassword'),
                 data = {
                     token: token,
                     newPassword: newPassword

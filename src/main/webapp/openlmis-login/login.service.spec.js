@@ -135,7 +135,7 @@ describe("loginService", function() {
         httpBackend.flush();
         $rootScope.$apply();
 
-        httpBackend.when('POST', '/api/users/logout')
+        httpBackend.when('POST', '/api/users/auth/logout')
         .respond(200);
 
         loginService.logout();
@@ -178,7 +178,7 @@ describe("loginService", function() {
         var email = 'user@openlmis.org',
             spy = jasmine.createSpy();
 
-        httpBackend.when('POST', '/api/users/forgotPassword?email=' + email)
+        httpBackend.when('POST', '/api/users/auth/forgotPassword?email=' + email)
         .respond(200, {});
 
         loginService.forgotPassword(email).then(spy);
@@ -196,7 +196,7 @@ describe("loginService", function() {
             },
             spy = jasmine.createSpy();
 
-        httpBackend.when('POST', '/api/users/changePassword')
+        httpBackend.when('POST', '/api/users/auth/changePassword')
         .respond(function(method, url, body){
             if(body === angular.toJson(data)){
                 return [200];
