@@ -1,4 +1,4 @@
-ddescribe('Offline navigation interceptor', function(){
+describe('Offline navigation interceptor', function(){
 	var $state, alertService, loadingModalService, isOffline;
 
 	beforeEach(module('openlmis-navigation'));
