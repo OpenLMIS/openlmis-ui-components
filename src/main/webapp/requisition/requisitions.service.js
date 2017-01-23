@@ -38,7 +38,7 @@
                 url: requisitionUrlFactory('/api/requisitions/search'),
                 method: 'GET',
                 isArray: true,
-                transformResponse: transformRequisitionListResponse
+                transformResponse: transformRequisitionSearchResponse
             },
             'forApproval': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForApproval'),
@@ -340,6 +340,13 @@
                 });
             });
             return angular.toJson(body);
+        }
+
+        function transformRequisitionSearchResponse(data, headers, status) {
+            return transformResponse(data, status, function(response) {
+                angular.forEach(response.content, transformRequisition);
+                return response.content;
+            });
         }
 
         function transformRequisitionListResponse(data, headers, status) {

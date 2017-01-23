@@ -233,7 +233,7 @@ describe('requisitionService', function() {
             '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + params.emergency +
             '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
-        .respond(200, [requisitionDto]);
+        .respond(200, {content: [requisitionDto]});
 
         requisitionsStorage.getBy.andReturn(false);
 
@@ -256,7 +256,7 @@ describe('requisitionService', function() {
             };
 
         httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/search?facility=' + facility.id))
-        .respond(200, [requisitionDto2]);
+        .respond(200, {content: [requisitionDto2]});
 
         requisitionsStorage.getBy.andReturn(false);
 
