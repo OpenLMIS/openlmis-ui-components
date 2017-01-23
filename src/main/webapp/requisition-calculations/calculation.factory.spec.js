@@ -231,7 +231,7 @@ describe('calculationFactory', function() {
 
             column.option.optionName = 'default';
 
-            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [column] } })).toBe(14.5);
+            expect(calculationFactory.maximumStockQuantity(lineItem, { 'template': { columns: [column] } })).toBe(14.5);
         });
     });
 
@@ -267,7 +267,7 @@ describe('calculationFactory', function() {
             };
 
             requisition = {
-                $template: template
+                template: template
             };
         });
 

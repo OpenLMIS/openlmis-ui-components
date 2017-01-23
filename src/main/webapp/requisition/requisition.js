@@ -71,7 +71,6 @@
          * @name requisition
          * @methodOf requisition.Requisition
          * @param {Resource} requisition resource with requisition
-         * @param {Resource} template resource with requisition template
          * @param {Resource} approvedProducts resource with approved products
          * @return {Object} requisition with methods
          *
@@ -79,14 +78,14 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function Requisition(source, template, approvedProducts, reasons) {
+        function Requisition(source, approvedProducts, reasons) {
             var programId = source.program.id,
                 requisition = this;
 
             angular.copy(source, this);
 
             this.$stockAdjustmentReasons = reasons;
-            this.$template = new RequisitionTemplate(template, source);
+            this.template = new RequisitionTemplate(this.template, source);
 
             this.requisitionLineItems = [];
             source.requisitionLineItems.forEach(function(lineItem) {
@@ -312,7 +311,7 @@
         }
 
         function transformRequisition(requisition) {
-            var columns = requisition.$template.columns;
+            var columns = requisition.template.columns;
             angular.forEach(requisition.requisitionLineItems, function(lineItem) {
                 transformLineItem(lineItem, columns);
             });

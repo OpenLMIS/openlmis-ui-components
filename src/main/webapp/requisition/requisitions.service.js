@@ -46,10 +46,6 @@
                 isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
-            'getTemplate': {
-                url: requisitionUrlFactory('/api/requisitionTemplates/:id'),
-                method: 'GET'
-            },
             'forConvert': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
@@ -110,7 +106,7 @@
                         }
                     });
 
-                resolve(requisition, template, approvedProducts, reasons);
+                resolve(requisition, approvedProducts, reasons);
             } else {
                 var requisition = offlineRequisitions.search({
                     id: id,
@@ -121,15 +117,13 @@
                     getRequisition(id).then(function(requisition) {
                         requisition.$availableOffline = !onlineOnlyRequisitions.contains(id);
                         $q.all([
-                            getTemplate(requisition),
                             getApprovedProducts(requisition),
                             getStockAdjustmentReasons(requisition)
                         ]).then(function(responses) {
                             if (requisition.$availableOffline) {
-                                storeResponses(requisition, responses[0], responses[1],
-                                responses[2]);
+                                storeResponses(requisition, responses[0], responses[1]);
                             }
-                            resolve(requisition, responses[0], responses[1], responses[2]);
+                            resolve(requisition, responses[0], responses[1]);
                         }, function() {
                             if (requisition.$availableOffline) {
                                 offlineRequisitions.put(requisition);
@@ -152,8 +146,8 @@
 
             return deferred.promise;
 
-            function resolve(requisition, template, approvedProducts, reasons) {
-                deferred.resolve(new Requisition(requisition, template, approvedProducts, reasons));
+            function resolve(requisition, approvedProducts, reasons) {
+                deferred.resolve(new Requisition(requisition, approvedProducts, reasons));
             }
 
             function error() {
@@ -296,12 +290,6 @@
             return offlineRequisitions.getBy('id', id);
         }
 
-        function getTemplate(requisition) {
-            return resource.getTemplate({
-                id: requisition.template
-            }).$promise;
-        }
-
         function getApprovedProducts(requisition) {
             return resource.getApprovedProducts({
                 id: requisition.facility.id,
@@ -316,10 +304,10 @@
             }).$promise;
         }
 
-        function storeResponses(requisition, template, approvedProducts, reasons) {
+        function storeResponses(requisition, approvedProducts, reasons) {
             requisition.$modified = false;
             offlineRequisitions.put(requisition);
-            offlineTemplates.put(template);
+            offlineTemplates.put(requisition.template);
 
             approvedProducts.forEach(function(product) {
                 product.requisitionId = requisition.id;

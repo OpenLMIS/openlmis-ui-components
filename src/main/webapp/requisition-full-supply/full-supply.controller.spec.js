@@ -14,7 +14,7 @@ describe('FullSupplyController', function() {
 
     beforeEach(function($rootScope) {
         requisition = {
-            $template: jasmine.createSpyObj('RequisitionTemplate', ['getColumns']),
+            template: jasmine.createSpyObj('RequisitionTemplate', ['getColumns']),
             requisitionLineItems: [
                 lineItem('One', true),
                 lineItem('Two', true),

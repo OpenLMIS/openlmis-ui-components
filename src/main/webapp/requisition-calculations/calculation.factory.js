@@ -272,7 +272,7 @@
          * @return {Number}             the calculated Maximum Stock Quantity value
          */
         function calculateMaximumStockQuantity(lineItem, requisition) {
-            if (!requisition || !requisition.$template || !requisition.$template.columns) {
+            if (!requisition || !requisition.template || !requisition.template.columns) {
                 return 0;
             }
 
@@ -315,7 +315,7 @@
         }
 
         function getColumn(requisition, name) {
-            var filtered = $filter('filter')(requisition.$template.columns, {
+            var filtered = $filter('filter')(requisition.template.columns, {
                 name: name
             });
             return filtered.length === 1 ? filtered[0] : undefined;

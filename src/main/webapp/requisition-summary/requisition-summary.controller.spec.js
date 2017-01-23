@@ -23,7 +23,7 @@ describe('RequisitionSummaryController', function() {
                 $scope: {
                     requisition: {
                         requisitionLineItems: lineItems,
-                        $template: {
+                        template: {
                             showNonFullSupplyTab: true
                         }
                     }

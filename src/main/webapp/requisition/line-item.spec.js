@@ -82,7 +82,7 @@ describe('LineItem', function() {
         requisition.requisitionLineItems = [requisitionLineItem];
         requisition.program = program;
         requisition.status = 'SUBMITTED';
-        requisition.$template = template;
+        requisition.template = template;
         requisition.processingPeriod = {
             startDate: [2016, 4, 1],
             endDate: [2016, 4, 30]
@@ -104,8 +104,8 @@ describe('LineItem', function() {
         it('should not update values in line item if they are set', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
 
-            lineItem.updateFieldValue(requisition.$template.columns[0], requisition);
-            lineItem.updateFieldValue(requisition.$template.columns[1], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[0], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[1], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(requisitionLineItem.requestedQuantity);
             expect(lineItem.requestedQuantityExplanation).toEqual(requisitionLineItem.requestedQuantityExplanation);
@@ -118,9 +118,9 @@ describe('LineItem', function() {
             lineItem.requestedQuantityExplanation = undefined;
             lineItem.totalCost = undefined;
 
-            lineItem.updateFieldValue(requisition.$template.columns[0], requisition);
-            lineItem.updateFieldValue(requisition.$template.columns[1], requisition);
-            lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[0], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[1], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[2], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(0);
             expect(lineItem.requestedQuantityExplanation).toEqual('');
@@ -129,14 +129,14 @@ describe('LineItem', function() {
 
         it('should call proper calculation method when column name is Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
-            lineItem.updateFieldValue(requisition.$template.columns[3], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[3], requisition);
 
             expect(calculationFactory.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition);
         });
 
         it('should call proper calculation method when column name is calculated and not Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
-            lineItem.updateFieldValue(requisition.$template.columns[2], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[2], requisition);
 
             expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItem, requisition);
         });
@@ -145,7 +145,7 @@ describe('LineItem', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.columnWithoutCalculations = 100;
             
-            lineItem.updateFieldValue(requisition.$template.columns[4], requisition);
+            lineItem.updateFieldValue(requisition.template.columns[4], requisition);
 
             expect(lineItem.columnWithoutCalculations).toBe(null);
         });

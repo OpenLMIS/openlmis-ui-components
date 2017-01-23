@@ -44,7 +44,7 @@
             this.$program = this.orderableProduct.$program ? this.orderableProduct.$program : getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
 
             var newLineItem = this;
-            requisition.$template.getColumns(!this.$program.fullSupply).forEach(function(column) {
+            requisition.template.getColumns(!this.$program.fullSupply).forEach(function(column) {
                 newLineItem.updateFieldValue(column, requisition);
             });
         }
@@ -98,7 +98,7 @@
         function canBeSkipped(requisition) {
             var result = true,
             lineItem = this,
-            columns = requisition.$template.getColumns(!this.$program.fullSupply);
+            columns = requisition.template.getColumns(!this.$program.fullSupply);
 
             if (requisition.$isAuthorized() || requisition.$isApproved()) {
                 return false;

@@ -43,7 +43,7 @@
          * @description
          * Flag dictating whether non full supply summary should be visible inside the popover.
          */
-        vm.showNonFullSupplySummary = vm.requisition.$template.showNonFullSupplyTab;
+        vm.showNonFullSupplySummary = vm.requisition.template.showNonFullSupplyTab;
 
         /**
          * @ngdoc method

@@ -16,7 +16,7 @@ describe('NonFullSupplyController', function() {
         addProductModalService = jasmine.createSpyObj('addProductModalService', ['show']);
 
         requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
-        requisition.$template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
+        requisition.template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
         requisition.requisitionLineItems = [
             lineItemSpy(0, 'One', true),
             lineItemSpy(1, 'Two', true),
@@ -52,7 +52,7 @@ describe('NonFullSupplyController', function() {
 
             initController();
 
-            expect(vm.columns).toBe(requisition.$template.getColumns());
+            expect(vm.columns).toBe(requisition.template.getColumns());
         });
 
         it('should display add product button if reqisition is not authorized nor approved', function() {

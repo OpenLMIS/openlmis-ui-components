@@ -71,7 +71,7 @@
          * @description
          * Holds the list of columns visible on this screen.
          */
-        vm.columns = vm.requisition.$template.getColumns(true);
+        vm.columns = vm.requisition.template.getColumns(true);
 
         /**
          * @ngdoc method

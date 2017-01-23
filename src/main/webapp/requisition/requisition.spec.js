@@ -31,7 +31,13 @@ describe('Requisition', function() {
             facility: facility,
             program: program,
             supplyingFacility: facility,
-            requisitionLineItems: []
+            requisitionLineItems: [],
+            template: {
+                id: '1',
+                programId: '1',
+                columnsMap : {
+                begginingBalance : begginingBalance
+            }}
         },
         stockAdjustmentReason = {
             program: program,
@@ -50,13 +56,6 @@ describe('Requisition', function() {
             label: 'BG',
             source: 'USER_INPUT',
             columnDefinition: columnDefinition
-        },
-        requisitionTemplate = {
-            id: '1',
-            programId: '1',
-            columnsMap : {
-                begginingBalance : begginingBalance
-            }
         };
 
     beforeEach(module('requisition'));
@@ -107,7 +106,7 @@ describe('Requisition', function() {
         REQUISITION_STATUS = _REQUISITION_STATUS_;
         q = $q;
 
-        requisition = new Requisition(sourceRequisition, requisitionTemplate, {});
+        requisition = new Requisition(sourceRequisition, {});
     }));
 
     it('should submit requisition', function() {

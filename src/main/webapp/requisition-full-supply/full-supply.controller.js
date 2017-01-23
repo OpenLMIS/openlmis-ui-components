@@ -54,7 +54,7 @@
          * @description
          * Holds the list of columns visible on this screen.
          */
-        vm.columns = vm.requisition.$template.getColumns();
+        vm.columns = vm.requisition.template.getColumns();
 
         /**
          *

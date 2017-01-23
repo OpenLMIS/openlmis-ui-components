@@ -58,8 +58,8 @@
         function validateRequisition(requisition) {
             var valid = true,
                 validator = this,
-                fullSupplyColumns = requisition.$template.getColumns(),
-                nonFullSupplyColumns = requisition.$template.getColumns(true);
+                fullSupplyColumns = requisition.template.getColumns(),
+                nonFullSupplyColumns = requisition.template.getColumns(true);
 
             requisition.$fullSupplyCategories.forEach(function(category) {
               category.lineItems.forEach(function(lineItem) {
