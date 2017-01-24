@@ -21,11 +21,18 @@ body{
 }
 
 .page {
-  flex-grow: 0;
-  margin: 0.9em 0.9em 0;
-  box-shadow: 0 0 0.5em $shadow;
-  outline: 0.1em solid $light-gray;
-  outline-offset: -0.5em;
-  background: $white;
-  padding: 1em 1.5em 2.8em;
+    flex-grow: 0;
+    margin: 0.9em 0.9em 0;
+    box-shadow: 0 0 0.5em $shadow;
+    outline: 0.1em solid $light-gray;
+    outline-offset: -0.5em;
+    background: $white;
+    padding: 1em 1.5em 2.8em;
+}
+
+
+a {
+    &.btn-primary {
+        float: right;
+    }
 }
