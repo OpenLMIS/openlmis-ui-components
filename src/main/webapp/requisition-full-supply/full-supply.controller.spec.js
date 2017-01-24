@@ -45,16 +45,6 @@ describe('FullSupplyController', function() {
         });
     }));
 
-    it('should group line items by category', function() {
-        expect(vm.categories['One'].length).toBe(2);
-        expect(vm.categories['One'][0]).toBe(requisition.requisitionLineItems[0]);
-        expect(vm.categories['One'][1]).toBe(requisition.requisitionLineItems[2]);
-
-        expect(vm.categories['Two'].length).toBe(2);
-        expect(vm.categories['Two'][0]).toBe(requisition.requisitionLineItems[1]);
-        expect(vm.categories['Two'][1]).toBe(requisition.requisitionLineItems[3]);
-    });
-
     it('should expose requisitionValidator.isLineItemValid method', function() {
         expect(vm.isLineItemValid).toBe(requisitionValidator.isLineItemValid);
     });

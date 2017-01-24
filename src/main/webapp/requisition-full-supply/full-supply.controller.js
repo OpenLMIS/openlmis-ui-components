@@ -13,15 +13,16 @@
         .module('requisition-full-supply')
         .controller('FullSupplyController', controller);
 
-    controller.$inject = ['requisition', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS'];
+    controller.$inject = ['requisition', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS', 'categoryFactory'];
 
-    function controller(requisition, requisitionValidator, $filter, TEMPLATE_COLUMNS) {
+    function controller(requisition, requisitionValidator, $filter, TEMPLATE_COLUMNS, categoryFactory) {
 
         var vm = this;
 
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
+        vm.isPageValid = isPageValid;
 
         /**
          * @ngdoc property
@@ -43,7 +44,7 @@
          * @description
          * Holds list of line items grouped by category.
          */
-        vm.categories = groupByCategory(vm.requisition.requisitionLineItems);
+        vm.categories = categoryFactory.groupByCategoryWithPages(vm.requisition.requisitionLineItems, true, '@@PAGE_SIZE');
 
         /**
          * @ngdoc property
@@ -66,7 +67,7 @@
          * Checks whether any field of the given line item has any error. It does not perform any
          * validation. It is an exposure of the isLineItemValid method of the requisitionValidator.
          *
-         * @param  {Object}  lineItem the line item ot be checked
+         * @param  {Object}  lineItem the line item to be checked
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
@@ -101,8 +102,8 @@
          * @name isSkipColumn
          *
          * @description
-         * Determines wheter column name is 'skipped'.
-         * @return {Boolean} true is column name is 'skipped'
+         * Determines whether column name is 'skipped'.
+         * @return {Boolean} true if column name is 'skipped'
          */
         function isSkipColumn(column) {
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
@@ -116,18 +117,25 @@
             });
         }
 
-        function groupByCategory(lineItems) {
-            var categories = {};
-            lineItems.forEach(function(lineItem) {
-                if (lineItem.$program.fullSupply) {
-                    var category = lineItem.$program.productCategoryDisplayName;
-                    if (!categories[category]) {
-                        categories[category] = [];
-                    }
-                    categories[category].push(lineItem);
-                }
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyController
+         * @name isPageValid
+         *
+         * @description
+         * Validates all line items that are present on page.
+         *
+         * @param {integer} pageNumber number of page to valid
+         * @return {Boolean} true when all page line items are valid
+         */
+        function isPageValid(pageNumber) {
+            var valid = true;
+            angular.forEach(vm.categories[pageNumber - 1], function(lineItems) {
+                angular.forEach(lineItems, function(lineItem) {
+                    if(!vm.isLineItemValid(lineItem)) valid = false;
+                });
             });
-            return categories;
+            return valid;
         }
 
         function getLineItems() {

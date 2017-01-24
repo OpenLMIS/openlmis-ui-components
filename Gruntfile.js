@@ -129,6 +129,9 @@ module.exports = function(grunt) {
         },{
           from: '@@FULFILLMENT_SERVICE_URL',
           to: makeURL('fulfillmentServiceURL')
+        },{
+          from: '@@PAGE_SIZE',
+          to: config['pageSize']
         }]
       }
     },

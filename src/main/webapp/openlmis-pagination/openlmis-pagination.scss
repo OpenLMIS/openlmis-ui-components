@@ -1,0 +1,16 @@
+.pagination {
+
+    display: flex;
+    justify-content: flex-end;
+    border-color: $light-gray !important;
+
+    .invalid {
+        @include button-color($very-light-red);
+        border-color: $very-light-red;
+    }
+
+    .active .invalid {
+        @include button-color($light-red);
+        border-color: $light-red;
+    }
+}

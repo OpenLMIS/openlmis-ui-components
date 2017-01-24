@@ -1,0 +1,19 @@
+<ul class="pagination pagination-sm">
+	<li ng-class="{disabled :currentPage === 1}">
+		<a ng-click="currentPage === 1 || changePage(currentPage - 1)">
+			{{'label.previousPage' | message}}
+		</a>
+	</li>
+	<li ng-class="{active: currentPage === $index + 1}"
+		ng-repeat="i in getPageNumbers() track by $index">
+		<a ng-class="{invalid: !isPageValid($index + 1)}"
+			ng-click="changePage($index + 1)">
+			{{$index + 1}}
+		</a>
+	</li>
+	<li ng-class="{disabled :currentPage === numberOfPages}">
+		<a ng-click="currentPage === numberOfPages || changePage(currentPage + 1)">
+			{{'label.nextPage' | message}}
+		</a>
+	</li>
+</ul>

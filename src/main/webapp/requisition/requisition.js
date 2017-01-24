@@ -23,7 +23,7 @@
                                 RequisitionTemplate, LineItem, categoryFactory, REQUISITION_STATUS,
                                 COLUMN_SOURCES, localStorageFactory, offlineService) {
 
-        var offlineRequitions = localStorageFactory('requisitions'),
+        var offlineRequisitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
             resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
             'authorize': {
@@ -131,7 +131,7 @@
             return handlePromise(resource.remove({
                 id: this.id
             }).$promise, function() {
-                offlineRequitions.removeBy('id', id);
+                offlineRequisitions.removeBy('id', id);
             });
         }
 
@@ -225,7 +225,7 @@
             return handlePromise(resource.skip({
                 id: this.id
             }, {}).$promise, function(requisition) {
-                offlineRequitions.removeBy('id', requisition.id);
+                offlineRequisitions.removeBy('id', requisition.id);
             });
         }
 
@@ -306,7 +306,7 @@
         function saveToStorage(requisition, shouldSave) {
             if (shouldSave) {
                 requisition.$modified = false;
-                offlineRequitions.put(requisition);
+                offlineRequisitions.put(requisition);
             }
         }
 

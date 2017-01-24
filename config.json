@@ -15,5 +15,6 @@
   "openlmisServerURL": "",
   "authServiceURL": "/",
   "requisitionServiceURL": "/",
-  "fulfillmentServiceURL": "/"
+  "fulfillmentServiceURL": "/",
+  "pageSize": 10
 }
