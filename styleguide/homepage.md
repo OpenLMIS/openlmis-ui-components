@@ -14,7 +14,7 @@ Titles should be written so they describe a specific object and state. If there 
 See [APA article about title case](http://blog.apastyle.org/apastyle/2012/03/title-case-and-sentence-case-capitalization-in-apa-style.html) for more guidance.
 
 _Examples_
-Do: "Initiate Requisitions"
+Do: "Initiate Requisition"
 Do Not: "REQUISITION - INITIATE"
 
 ### Labels
