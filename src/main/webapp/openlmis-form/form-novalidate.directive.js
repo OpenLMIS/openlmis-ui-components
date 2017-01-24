@@ -22,9 +22,7 @@
     }
 
     function link(scope, element, attrs) {
-        if (!attrs.hasOwnProperty('novalidate')) {
-            element.attr('novalidate', '');
-        }
+        element.attr('novalidate', '');
     }
 
 })();
