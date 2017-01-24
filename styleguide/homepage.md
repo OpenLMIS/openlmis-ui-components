@@ -7,16 +7,20 @@ This is the styleguide for the OpenLMIS-UI, and establishes HTML patterns that s
 The following are general stylistic rules for the OpenLMIS-UI, which implementers and developers should keep in mind while crafting content.
 
 ### Titles
+Titles include page titles, report titles, headings within a page (H2, H3, etc), and the subject line of email notifcations. Links in the main navigation menu are generally page titles. Most other strings that appear on-screen are Labels, Buttons or others described further below.
+
 Titles should be written so they describe a specific object and state. If there is a state that is being applied to the object in a title, the state is first in the present tense. The first letter of each word in a title should be capitalized, except for the articles of the sentence. Titles do not contain punctuation.
 
 See [APA article about title case](http://blog.apastyle.org/apastyle/2012/03/title-case-and-sentence-case-capitalization-in-apa-style.html) for more guidance.
 
 _Examples_
-Do: "Initiate a Requisition"
+Do: "Initiate Requisitions"
 Do Not: "REQUISITION - INITIATE"
 
 ### Labels
 Labels are generally used in form elements to describe the content a user should input. Labels have the first letter of the first word capitalized, and should not have any punctuation such as a colon.
+
+Labels also include table column headers and dividers for sections or categories.
 
 _Note:_ Colons should be added using CSS pseudo-selector, if an implementation requires labels to be formatted with a colon. As a community, we feel that less allows for easier customization.
 
