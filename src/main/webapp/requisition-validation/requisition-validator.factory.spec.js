@@ -1,51 +1,48 @@
 describe('requisitionValidator', function() {
 
-    var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory;
-
-    var validationFactory;
-
-    var lineItem, column, columns;
-
-    beforeEach(module('requisition-validation'));
-
-    beforeEach(module(function($provide) {
-        var methods = ['nonNegative', 'nonEmptyIfPropertyIsSet', 'nonEmpty', 'validateCalculation'];
-        validationFactory = jasmine.createSpyObj('validationFactory', methods);
-
-        $provide.service('validationFactory', function() {
-            return validationFactory;
-        });
-    }));
-
-    beforeEach(inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _COLUMN_SOURCES_,
-                               _calculationFactory_) {
-
-        validator = _requisitionValidator_;
-        TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
-        COLUMN_SOURCES = _COLUMN_SOURCES_;
-        calculationFactory = _calculationFactory_;
-    }));
+    var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory, validationFactory,
+        lineItem, column, columns, requisition;
 
     beforeEach(function() {
+        module('requisition-validation', function($provide) {
+            var methods = [
+                'stockOnHand',
+                'totalConsumedQuantity',
+                'requestedQuantityExplanation'
+            ];
+            validationFactory = jasmine.createSpyObj('validationFactory', methods);
+
+            $provide.service('validationFactory', function() {
+                return validationFactory;
+            });
+        });
+
+        inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _COLUMN_SOURCES_,
+                                   _calculationFactory_) {
+
+            validator = _requisitionValidator_;
+            TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
+            COLUMN_SOURCES = _COLUMN_SOURCES_;
+            calculationFactory = _calculationFactory_;
+        });
+
         lineItem = lineItemSpy('One');
+
+        var template = jasmine.createSpyObj('template', ['getColumns']);
+        template.getColumns.andCallFake(function (nonFullSupply) {
+            return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
+        });
+
+        requisition = {
+            template: template,
+            $fullSupplyCategories: fullSupplyCategories(),
+            $nonFullSupplyCategories: nonFullSupplyCategories()
+        };
     });
 
     describe('validateRequisition', function() {
 
         var lineItems;
-
-        beforeEach(function() {
-            var template = jasmine.createSpyObj('template', ['getColumns']);
-            template.getColumns.andCallFake(function (nonFullSupply) {
-                return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
-            });
-
-            requisition = {
-                template: template,
-                $fullSupplyCategories: fullSupplyCategories(),
-                $nonFullSupplyCategories: nonFullSupplyCategories()
-            };
-        });
 
         it('should return true if requisition is valid', function() {
             spyOn(validator, 'validateLineItem').andReturn(true);
@@ -108,12 +105,12 @@ describe('requisitionValidator', function() {
         it('should return true if all fields are valid', function() {
             spyOn(validator, 'validateLineItemField').andReturn(true);
 
-            var result = validator.validateLineItem(lineItem, columns);
+            var result = validator.validateLineItem(lineItem, columns, requisition);
 
             expect(result).toBe(true);
             columns.forEach(function(column) {
                 expect(validator.validateLineItemField)
-                    .toHaveBeenCalledWith(lineItem, column, columns);
+                    .toHaveBeenCalledWith(lineItem, column, columns, requisition);
             });
         });
 
@@ -122,12 +119,12 @@ describe('requisitionValidator', function() {
                 return column !== columns[1];
             });
 
-            var result = validator.validateLineItem(lineItem, columns);
+            var result = validator.validateLineItem(lineItem, columns, requisition);
 
             expect(result).toBe(false);
             columns.forEach(function(column) {
                 expect(validator.validateLineItemField)
-                    .toHaveBeenCalledWith(lineItem, column, columns);
+                    .toHaveBeenCalledWith(lineItem, column, columns, requisition);
             });
         })
 
@@ -160,12 +157,10 @@ describe('requisitionValidator', function() {
             lineItem['requiredButNotSet'] = undefined;
             column.required = true;
             column.name = 'requiredButNotSet';
-            validationFactory.nonEmpty.andReturn('required');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(validationFactory.nonEmpty).toHaveBeenCalledWith(undefined);
         });
 
         it('should return false if any validation fails', function() {
@@ -173,34 +168,27 @@ describe('requisitionValidator', function() {
             column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
             column.required = true;
             column.source = COLUMN_SOURCES.CALCULATED;
-            validationFactory.nonNegative.andReturn('negative');
+            validationFactory.stockOnHand.andReturn('negative');
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
             expect(lineItem.$errors[TEMPLATE_COLUMNS.STOCK_ON_HAND]).toBe('negative');
-            expect(validationFactory.nonEmpty).toHaveBeenCalledWith(-10);
-            expect(validationFactory.nonNegative).toHaveBeenCalledWith(-10, lineItem);
         });
 
         it('should return false if calculation validation fails', function() {
-            var name = TEMPLATE_COLUMNS.STOCK_ON_HAND,
-                calculationSpy = jasmine.createSpy();
+            var name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
 
-            calculationSpy.andReturn('invalidCalculation');
             column.source = COLUMN_SOURCES.USER_INPUT;
             column.name = name;
             columns.push({
                 name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
                 source: COLUMN_SOURCES.USER_INPUT
             });
-            validationFactory.validateCalculation.andReturn(calculationSpy);
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
-            expect(validationFactory.validateCalculation).toHaveBeenCalledWith(calculationFactory[name])
-            expect(calculationSpy).toHaveBeenCalledWith(lineItem[name], lineItem);
         });
 
         it('should skip calculation validation if counterpart is calculated', function() {
@@ -214,7 +202,6 @@ describe('requisitionValidator', function() {
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(true);
-            expect(validationFactory.validateCalculation).not.toHaveBeenCalled();
         });
 
     });

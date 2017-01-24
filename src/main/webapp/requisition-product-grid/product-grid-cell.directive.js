@@ -72,7 +72,12 @@
 	      	});
 
       		function validate() {
-				requisitionValidator.validateLineItemField(scope.lineItem, column, scope.requisition.template.columns);
+				requisitionValidator.validateLineItemField(
+					scope.lineItem,
+					column,
+					requisition.template.columns,
+					requisition
+				);
       		}
 
 			function isReadOnly() {

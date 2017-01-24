@@ -14,22 +14,12 @@
         .factory('requisitionValidator', requisitionValidator);
 
     requisitionValidator.$inject = [
-        'validationFactory', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES'
+        'validationFactory', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES',
+        'messageService'
     ];
 
-    function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS, COLUMN_SOURCES) {
-
-        var validationsToPass = {
-            stockOnHand: [
-                validationFactory.nonNegative,
-            ],
-            totalConsumedQuantity: [
-                validationFactory.nonNegative
-            ],
-            requestedQuantityExplanation: [
-                validationFactory.nonEmptyIfPropertyIsSet(TEMPLATE_COLUMNS.REQUESTED_QUANTITY)
-            ]
-        };
+    function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS,
+                                  COLUMN_SOURCES, messageService) {
 
         var counterpart = {
             stockOnHand: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -88,12 +78,12 @@
          * @param  {Object} columns  the list of columns to validate the line item for
          * @return {Boolean}         true if the line item is valid, false otherwise
          */
-        function validateLineItem(lineItem, columns) {
+        function validateLineItem(lineItem, columns, requisition) {
             var valid = true,
                 validator = this;
 
             columns.forEach(function(column) {
-                valid = validator.validateLineItemField(lineItem, column, columns) && valid;
+                valid = validator.validateLineItemField(lineItem, column, columns, requisition) && valid;
             });
             return valid;
         }
@@ -112,7 +102,7 @@
          * @param  {Object} columns  the list of columns used for validating the line item
          * @return {Boolean}         true of the line item field is valid, false otherwise
          */
-        function validateLineItemField(lineItem, column, columns) {
+        function validateLineItemField(lineItem, column, columns, requisition) {
             var name = column.name,
                 error;
 
@@ -121,12 +111,12 @@
             if (name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
 
             if (column.required) {
-                error = error || validationFactory.nonEmpty(lineItem[name]);
+                error = error || nonEmpty(lineItem[name]);
             }
 
-            angular.forEach(validationsToPass[name], function(validation) {
-                error = error || validation(lineItem[name], lineItem);
-            });
+            if (validationFactory[name]) {
+                error = error || validationFactory[name](lineItem, requisition);
+            }
 
             if (shouldValidateCalculation(lineItem, column, columns)) {
                 error = error || validateCalculation(calculationFactory[name], lineItem, name);
@@ -163,8 +153,16 @@
                     && !isCalculated(counterpart);
         }
 
+        function nonEmpty(value) {
+            if (value === null || value === undefined || value === '') {
+                return messageService.get('error.required');
+            }
+        }
+
         function validateCalculation(calculation, lineItem, name) {
-            return validationFactory.validateCalculation(calculation)(lineItem[name], lineItem);
+            if (lineItem[name] !== calculation(lineItem)) {
+                return messageService.get('error.wrongCalculation');
+            }
         }
 
         function isCalculated(column) {

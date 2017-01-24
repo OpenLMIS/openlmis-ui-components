@@ -3,8 +3,9 @@
     'use strict';
 
     angular.module('requisition-validation', [
+        'openlmis-i18n',
         'requisition-calculations',
-        'openlmis-i18n'
+        'requisition-template'
     ]);
 
 })();

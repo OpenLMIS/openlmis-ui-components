@@ -1,69 +1,173 @@
-
 describe('validationFactory', function() {
 
-    var validationFactory, messageService;
+    var validationFactory, TEMPLATE_COLUMNS, messageServiceMock, columnUtilsMock,
+        calculationFactoryMock, requisitionMock, lineItem;
 
-    beforeEach(module('requisition-validation'));
+    beforeEach(function() {
+        module('requisition-validation', function($provide) {
+            messageServiceMock = jasmine.createSpyObj('messageService', ['get']);
+            calculationFactoryMock = jasmine.createSpyObj('calculationFactory', ['calculatedOrderQuantity']);
 
-    beforeEach(inject(function(_validationFactory_, _messageService_) {
-        validationFactory = _validationFactory_;
-        messageService = _messageService_;
+            $provide.factory('messageService', function() {
+                return messageServiceMock;
+            });
 
-        spyOn(messageService, 'get').andCallFake(function(str){
-            return str;
+            $provide.factory('calculationFactory', function() {
+                return calculationFactoryMock;
+            });
         });
-    }));
 
-    it('should perform validation for negative values correctly', function() {
+        inject(function($injector) {
+            validationFactory = $injector.get('validationFactory');
+            TEMPLATE_COLUMNS = $injector.get('TEMPLATE_COLUMNS');
+        });
 
-        expect(validationFactory.nonNegative(-1)).toBe('error.negative');
-        expect(validationFactory.nonNegative(0)).toBeUndefined();
-        expect(validationFactory.nonNegative(1)).toBeUndefined();
-
-    });
-
-    it('should perform validation for blank values correctly', function() {
-
-        expect(validationFactory.nonEmpty("")).toBe('error.required');
-        expect(validationFactory.nonEmpty(null)).toBe('error.required');
-        expect(validationFactory.nonEmpty(2)).toBeUndefined();
-        expect(validationFactory.nonEmpty("some string")).toBeUndefined();
-
-    });
-
-    it('validates if method set property is non-empty', function(){
-
-        var checkPropertyFoo = validationFactory.nonEmptyIfPropertyIsSet('foo');
-
-        expect(checkPropertyFoo("",{})).toBe(undefined);
-        expect(checkPropertyFoo("bar",{foo:"something"})).toBe(undefined);
-        expect(checkPropertyFoo("",{foo:"something"})).toBe('error.required');
-
-        var checkPropertyBar = validationFactory.nonEmptyIfPropertyIsSet('bar');
-        expect(checkPropertyBar("",{})).toBe(undefined);
-        expect(checkPropertyBar("foo",{bar:"something"})).toBe(undefined);
-        expect(checkPropertyBar("",{bar:"something"})).toBe('error.required');
-    });
-
-    it('validates a calculation was performed correctly', function(){
-        // will take a calculation
-        function addFooToBar(obj){
-            return obj.foo + obj.bar;
-        }
-
-        var checkCalculationFooBar = validationFactory.validateCalculation(addFooToBar);
-
-        var item = {
-            foo: 1,
-            bar: 1
+        requisitionMock = {
+            template: jasmine.createSpyObj('template', ['getColumn'])
         };
 
-        expect(checkCalculationFooBar(2, item)).toBe(undefined);
-        expect(checkCalculationFooBar(7, item)).toBe('error.wrongCalculation');
+        lineItem = {};
+    });
 
-        item.bar = 2;
-        expect(checkCalculationFooBar(2, item)).toBe('error.wrongCalculation');
-        expect(checkCalculationFooBar(3, item)).toBe(undefined);
+    describe('stockOnHand', function() {
+
+        beforeEach(function() {
+            messageServiceMock.get.andReturn('negative');
+        });
+
+        it('should return undefined if stock on hand is non negative', function() {
+            lineItem.stockOnHand = 0;
+
+            expect(validationFactory.stockOnHand(lineItem)).toBeUndefined();
+        });
+
+        it('should return "negative" if stock on hand is negative', function() {
+            lineItem.stockOnHand = -1;
+
+            expect(validationFactory.stockOnHand(lineItem)).toEqual('negative');
+        });
+
+    });
+
+    describe('totalConsumedQuantity', function() {
+
+        beforeEach(function() {
+            messageServiceMock.get.andReturn('negative');
+        });
+
+        it('should return undefined if stock on hand is non negative', function() {
+            lineItem.totalConsumedQuantity = 0;
+
+            expect(validationFactory.totalConsumedQuantity(lineItem)).toBeUndefined();
+        });
+
+        it('should return "negative" if stock on hand is negative', function() {
+            lineItem.totalConsumedQuantity = -1;
+
+            expect(validationFactory.totalConsumedQuantity(lineItem)).toEqual('negative');
+        });
+
+    });
+
+    describe('requestedQuantityExplanation', function() {
+
+        var jColumn, iColumn;
+
+        beforeEach(function() {
+            jColumn = {
+                name: TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
+                display: true
+            };
+
+            iColumn = {
+                name: TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY,
+                display: true
+            };
+
+            messageServiceMock.get.andReturn('required');
+            requisitionMock.template.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
+                if (name === TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY) return iColumn;
+            });
+        });
+
+        it('should return undefined if requestedQuantity column is not present', function() {
+            requisitionMock.template.getColumn.andReturn(undefined);
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return undefined if requestedQuantity column is not displayed', function() {
+            jColumn.display = false;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return undefined if requestedQuantity is null', function() {
+            lineItem.requestedQuantity = null;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return undefined if requestedQuantity is undefined', function() {
+            lineItem.requestedQuantity = undefined;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return "required" if quantities differ and explanation is missing', function() {
+            lineItem.requestedQuantity = 10;
+            lineItem.requestedQuantityExplanation = undefined;
+            calculationFactoryMock.calculatedOrderQuantity.andReturn(5);
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toEqual('required');
+        });
+
+        it('should return undefined if quantities differ and explanation is given', function() {
+            lineItem.requestedQuantity = 10;
+            lineItem.requestedQuantityExplanation = 'explanation';
+            calculationFactoryMock.calculatedOrderQuantity.andReturn(5);
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return undefined if quantities are equal and explanation is missing', function() {
+            lineItem.requestedQuantity = 10;
+            lineItem.requestedQuantityExplanation = undefined;
+            calculationFactoryMock.calculatedOrderQuantity.andReturn(10);
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return "required" if requestedQuantity is greater than 0 and explanation is missing', function() {
+            requisitionMock.template.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
+            });
+            lineItem.requestedQuantity = 10;
+            lineItem.requestedQuantityExplanation = undefined;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toEqual('required');
+        });
+
+        it('should return undefined if requestedQuantity is greater than 0 and explanation is given', function() {
+            requisitionMock.template.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
+            });
+            lineItem.requestedQuantity = 10;
+            lineItem.requestedQuantityExplanation = 'explanation';
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
     });
 
 });

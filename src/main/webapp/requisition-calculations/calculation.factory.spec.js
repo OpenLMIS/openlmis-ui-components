@@ -1,12 +1,15 @@
 describe('calculationFactory', function() {
 
-    var calculationFactory, REQUISITION_STATUS, lineItem, requisitionMock;
+    var calculationFactory, REQUISITION_STATUS, TEMPLATE_COLUMNS, lineItem, requisitionMock,
+        templateMock;
 
     beforeEach(module('requisition-calculations'));
 
-    var lineItemInject = inject(function(_calculationFactory_, _REQUISITION_STATUS_) {
+    var lineItemInject = inject(function(_calculationFactory_, _REQUISITION_STATUS_,
+                                         _TEMPLATE_COLUMNS_) {
         calculationFactory = _calculationFactory_;
         REQUISITION_STATUS = _REQUISITION_STATUS_;
+        TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
 
         lineItem = {
             orderableProduct: {},
@@ -18,15 +21,24 @@ describe('calculationFactory', function() {
         };
 
         requisitionMock = jasmine.createSpyObj('requisition', ['$isAuthorized']);
+        templateMock = jasmine.createSpyObj('template', ['getColumn']);
+        requisitionMock.template = templateMock;
     });
 
     describe('Calculate packs to ship', function(){
-        beforeEach(lineItemInject);
+        beforeEach(function() {
+            lineItemInject();
+
+            templateMock.getColumn.andReturn({
+                name: 'requestedQuantity',
+                display: true
+            });
+        });
 
         it('should return zero if pack size is zero', function() {
             lineItem.orderableProduct.packSize = 0;
 
-            expect(calculationFactory.packsToShip(lineItem)).toBe(0);
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
 
         it('should return zero if approved quantity is zero', function() {
@@ -193,36 +205,32 @@ describe('calculationFactory', function() {
     });
 
     describe('Calculate Maximum Stock Quantity', function () {
-        beforeEach(lineItemInject);
 
-        var column = {
-            name: 'maximumStockQuantity',
-            option: {
-                optionName: 'default'
-            }
-        }
+        var column;
 
-        it('should return zero if requsition does not exist', function () {
-            expect(calculationFactory.maximumStockQuantity(lineItem)).toBe(0);
-            expect(calculationFactory.maximumStockQuantity(lineItem, null)).toBe(0);
-            expect(calculationFactory.maximumStockQuantity(lineItem, undefined)).toBe(0);
-        });
+        beforeEach(function() {
+            lineItemInject();
 
-        it('should return zero if requisition does not have template', function () {
-            expect(calculationFactory.maximumStockQuantity(lineItem, {})).toBe(0);
-        });
+            column = {
+                name: 'maximumStockQuantity',
+                option: {
+                    optionName: 'default'
+                }
+            };
 
-        it('should return zero if requisition template does not have columns', function () {
-            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { } })).toBe(0);
+            templateMock.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY) return column;
+            });
         });
 
         it('should return zero if requisition template does not contain maximumStockQuantity column', function () {
-            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [] } })).toBe(0);
+            templateMock.getColumn.andReturn(undefined);
+            expect(calculationFactory.maximumStockQuantity(lineItem, requisitionMock)).toBe(0);
         });
 
         it ('should return zero if selected option is not equal to default', function () {
             column.option.optionName = 'test_option';
-            expect(calculationFactory.maximumStockQuantity(lineItem, { '$template': { columns: [column] } })).toBe(0);
+            expect(calculationFactory.maximumStockQuantity(lineItem, requisitionMock)).toBe(0);
         });
 
         it('should return maximum stock quantity when default option was selected', function () {
@@ -231,23 +239,21 @@ describe('calculationFactory', function() {
 
             column.option.optionName = 'default';
 
-            expect(calculationFactory.maximumStockQuantity(lineItem, { 'template': { columns: [column] } })).toBe(14.5);
+            expect(calculationFactory.maximumStockQuantity(lineItem, requisitionMock)).toBe(14.5);
         });
     });
 
     describe('calculatedOrderQuantity', function() {
 
-        var stockOnHandColumn, maximumStockQuantityColumn, template, requisition, TEMPLATE_COLUMNS,
-            COLUMN_SOURCES;
+        var stockOnHandColumn, maximumStockQuantityColumn, COLUMN_SOURCES;
 
         beforeEach(function() {
             spyOn(calculationFactory, 'stockOnHand');
             spyOn(calculationFactory, 'maximumStockQuantity');
 
-            inject(function(_TEMPLATE_COLUMNS_, _COLUMN_SOURCES_) {
-                TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
+            inject(function(_COLUMN_SOURCES_) {
                 COLUMN_SOURCES = _COLUMN_SOURCES_;
-            })
+            });
 
             stockOnHandColumn = {
                 name: TEMPLATE_COLUMNS.STOCK_ON_HAND,
@@ -257,44 +263,40 @@ describe('calculationFactory', function() {
             maximumStockQuantityColumn = {
                 name: TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY,
                 source: COLUMN_SOURCES.USER_INPUT
-            }
-
-            template = {
-                columns: [
-                    stockOnHandColumn,
-                    maximumStockQuantityColumn
-                ]
             };
 
-            requisition = {
-                template: template
+            requisitionMock = {
+                template: templateMock
             };
+
+            templateMock.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.STOCK_ON_HAND) return stockOnHandColumn;
+                if (name === TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY) return maximumStockQuantityColumn;
+            });
         });
 
         it('should return null if stock on hand column is not present', function() {
-            template.columns = [maximumStockQuantityColumn];
-
-            result = calculationFactory.calculatedOrderQuantity(lineItem, requisition);
-
-            expect(result).toBe(null);
+            templateMock.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY) return maximumStockQuantityColumn;
+            });
+            expect(calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock)).toBe(null);
         });
 
         it('should return null if maximum stock quantity column is not present', function() {
-            template.columns = [stockOnHandColumn];
-
-            result = calculationFactory.calculatedOrderQuantity(lineItem, requisition);
-
-            expect(result).toBe(null);
+            templateMock.getColumn.andCallFake(function(name) {
+                if(name === TEMPLATE_COLUMNS.STOCK_ON_HAND) return stockOnHandColumn;
+            });
+            expect(calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock)).toBe(null);
         });
 
         it('should not call calculation if the stockOnHand is not calculated', function() {
-            calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
             expect(calculationFactory.stockOnHand).not.toHaveBeenCalled();
         });
 
         it('should not call calculation if the maximum stock quantity is not calculated', function() {
-            calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
             expect(calculationFactory.maximumStockQuantity).not.toHaveBeenCalled();
         });
@@ -302,24 +304,24 @@ describe('calculationFactory', function() {
         it('should call calculation if stockOnHand is calculated', function() {
             stockOnHandColumn.source = COLUMN_SOURCES.CALCULATED;
 
-            calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
-            expect(calculationFactory.stockOnHand).toHaveBeenCalledWith(lineItem, requisition);
+            expect(calculationFactory.stockOnHand).toHaveBeenCalledWith(lineItem, requisitionMock);
         });
 
         it('should call calculation if maximum stock quantity is calculated', function() {
             maximumStockQuantityColumn.source = COLUMN_SOURCES.CALCULATED;
 
-            calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
-            expect(calculationFactory.maximumStockQuantity).toHaveBeenCalledWith(lineItem, requisition);
+            expect(calculationFactory.maximumStockQuantity).toHaveBeenCalledWith(lineItem, requisitionMock);
         });
 
         it('should calculate properly if both fields are user inputs', function() {
             lineItem.stockOnHand = 5;
             lineItem.maximumStockQuantity = 12;
 
-            result = calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            result = calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
             expect(result).toBe(7);
         });
@@ -330,7 +332,7 @@ describe('calculationFactory', function() {
             calculationFactory.stockOnHand.andReturn(6);
             calculationFactory.maximumStockQuantity.andReturn(14);
 
-            result = calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            result = calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
             expect(result).toBe(8);
         });
@@ -340,7 +342,7 @@ describe('calculationFactory', function() {
             lineItem.stockOnHand = 9;
             calculationFactory.maximumStockQuantity.andReturn(145);
 
-            result = calculationFactory.calculatedOrderQuantity(lineItem, requisition);
+            result = calculationFactory.calculatedOrderQuantity(lineItem, requisitionMock);
 
             expect(result).toBe(136);
         });

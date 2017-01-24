@@ -52,6 +52,9 @@
             ],
             averageConsumption: [
                 TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION
+            ],
+            requestedQuantityExplanation: [
+                TEMPLATE_COLUMNS.REQUESTED_QUANTITY
             ]
         };
 

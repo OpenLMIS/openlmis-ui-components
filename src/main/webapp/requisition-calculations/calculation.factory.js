@@ -21,15 +21,16 @@
         C = TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
         D = TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS,
         E = TEMPLATE_COLUMNS.STOCK_ON_HAND,
-        Y = TEMPLATE_COLUMNS.TOTAL,
-        K = TEMPLATE_COLUMNS.APPROVED_QUANTITY,
+        H = TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY,
         J = TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
-        V = TEMPLATE_COLUMNS.PACKS_TO_SHIP,
+        K = TEMPLATE_COLUMNS.APPROVED_QUANTITY,
+        N = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION,
+        M = TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY,
+        P = TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION,
         Q = TEMPLATE_COLUMNS.TOTAL_COST,
         T = TEMPLATE_COLUMNS.PRICE_PER_PACK,
-        N = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION,
-        P = TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION,
-        H = TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY;
+        V = TEMPLATE_COLUMNS.PACKS_TO_SHIP,
+        Y = TEMPLATE_COLUMNS.TOTAL;
 
         var calculationFactory = {
             calculatedOrderQuantity: calculateOrderQuantity,
@@ -255,7 +256,22 @@
          * @return {Number}             the value of the order quantity
          */
         function getOrderQuantity(lineItem, requisition) {
-            return requisition && requisition.$isAuthorized() ? lineItem[K] : lineItem[J];
+            var orderQuantity = null;
+
+            if (requisition.$isAuthorized()) {
+                orderQuantity = lineItem[K];
+            } else {
+                var jColumn = requisition.template.getColumn(J),
+                    mColumn = requisition.template.getColumn(M);
+
+                if (jColumn && jColumn.display) {
+                    orderQuantity = lineItem[J];
+                } else if (mColumn) {
+                    orderQuantity = calculateOrderQuantity(lineItem, requisition);
+                }
+            }
+
+            return orderQuantity;
         }
 
         /**
@@ -272,12 +288,7 @@
          * @return {Number}             the calculated Maximum Stock Quantity value
          */
         function calculateMaximumStockQuantity(lineItem, requisition) {
-            if (!requisition || !requisition.template || !requisition.template.columns) {
-                return 0;
-            }
-
-            var column = getColumn(requisition, H);
-
+            var column = requisition.template.getColumn(H);
             return column && column.option.optionName === 'default'
                 ? lineItem[P] * lineItem.maxMonthsOfStock
                 : 0;
@@ -296,15 +307,15 @@
          * @return {Number}             the calculated order quantity
          */
         function calculateOrderQuantity(lineItem, requisition) {
-            var eColumn = getColumn(requisition, E),
-                hColumn = getColumn(requisition, H);
+            var eColumn = requisition.template.getColumn(E),
+                hColumn = requisition.template.getColumn(H);
 
             if (!eColumn || !hColumn) return null;
 
             var stockOnHand = getColumnValue(lineItem, requisition, eColumn),
                 maximumStockQuantity = getColumnValue(lineItem, requisition, hColumn);
 
-            return maximumStockQuantity - stockOnHand;
+            return Math.max(maximumStockQuantity - stockOnHand, 0);
         }
 
         function getColumnValue(lineItem, requisition, column) {
@@ -312,13 +323,6 @@
                 return calculationFactory[column.name](lineItem, requisition);
             }
             return lineItem[column.name];
-        }
-
-        function getColumn(requisition, name) {
-            var filtered = $filter('filter')(requisition.template.columns, {
-                name: name
-            });
-            return filtered.length === 1 ? filtered[0] : undefined;
         }
     }
 })();
