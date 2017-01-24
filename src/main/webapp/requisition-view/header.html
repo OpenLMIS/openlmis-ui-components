@@ -8,7 +8,7 @@
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
 <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})
-    <a class="btn btn-print-rnr" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</a>
+    <a class="btn btn-primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</a>
 </h2>
 <aside class="requisition-info">
     <div class="requisition-type" ng-class="{'emergency': vm.requisition.emergency, 'regular': !vm.requisition.emergency}">

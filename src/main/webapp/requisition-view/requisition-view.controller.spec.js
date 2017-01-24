@@ -11,7 +11,7 @@
 describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
-        loadingModalService, deferred;
+        loadingModalService, deferred, requisitionUrlFactoryMock;
 
     beforeEach(function() {
         module('requisition-view');
@@ -20,12 +20,18 @@ describe('RequisitionViewController', function() {
             var confirmSpy = authorizationServiceSpy = jasmine.createSpyObj('confirmService', ['confirm']),
                 authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
 
+            requisitionUrlFactoryMock = jasmine.createSpy();
+
             $provide.service('confirmService', function() {
                 return confirmSpy;
             });
 
             $provide.service('authorizationService', function() {
                 return authorizationServiceSpy;
+            });
+
+            $provide.factory('requisitionUrlFactory', function() {
+                return requisitionUrlFactoryMock;
             });
         });
 
@@ -54,6 +60,10 @@ describe('RequisitionViewController', function() {
             requisition.$skip.andReturn(deferred.promise);
 
             vm = $controller('RequisitionViewController', {requisition: requisition});
+        });
+
+        requisitionUrlFactoryMock.andCallFake(function(url) {
+            return 'http://some.url' + url;
         });
     });
 
@@ -108,5 +118,9 @@ describe('RequisitionViewController', function() {
         $rootScope.$apply();
 
         expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionSkipFailed');
+    });
+
+    it('getPrintUrl should prepare URL correctly', function() {
+        expect(vm.getPrintUrl()).toEqual('http://some.url/api/requisitions/1/print');
     });
 });

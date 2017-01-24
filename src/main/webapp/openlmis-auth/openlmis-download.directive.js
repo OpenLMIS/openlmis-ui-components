@@ -7,8 +7,9 @@
      * @name openlmis-auth.openlmisDownload
      *
      * @description
-     * Adds an on-click action that will download file from the the url passed as the attribute
+     * Adds an on-click action that will download file from the url passed as the attribute
      * value. If the given URL doesn't include an access token this directive will add it.
+     * If target attribute is set as _blank resource will be opened in new tab.
      *
      * @example
      * Add a on click action to a button that will cause it to download a file.

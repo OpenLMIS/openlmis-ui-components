@@ -426,6 +426,16 @@
             }
         }
 
+        /**
+         * @ngdoc function
+         * @methodOf requisition-view.RequisitionViewController
+         * @name getPrintUrl
+         *
+         * @description
+         * Prepares a print URL for the given requisition.
+         *
+         * @return {String} the prepared URL
+         */
         function getPrintUrl() {
             return requisitionUrlFactory('/api/requisitions/' + vm.requisition.id + '/print');
         };
