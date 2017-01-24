@@ -30,7 +30,8 @@
         return directive;
 
         function link(scope, element, attrs) {
-            element.bind('click', function() {
+            element.bind('click', function(event) {
+                event.preventDefault();
                 if (attrs.target == '_blank') {
                     $window.open(accessTokenFactory.addAccessToken(attrs.openlmisDownload), '_blank');
                 } else {
