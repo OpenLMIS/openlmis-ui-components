@@ -39,9 +39,3 @@ aside.requisition-info{
 		@include right-arrow-after-before();
 	}
 }
-
-a {
-    &.btn-primary {
-        float: right;
-    }
-}
