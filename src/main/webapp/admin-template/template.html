@@ -1,6 +1,6 @@
 <div class="requisition-template-admin">
     <div class="page">
-        <h2 openlmis-message="configure.rnr.header"></h2>
+        <h2>{{'configure.rnr.header' | message}}</h2>
         <aside>
             <dl>
                 <dt>{{'program.header' | message}}</dt>
@@ -74,7 +74,7 @@
         </button>
         <button id="cancelButton" ng-click="vm.goToTemplateList()"
             class="btn btn-default save-button"
-            openlmis-message="button.cancel" type="button">
+            type="button">
             {{'button.cancel' | message}}
         </button>
     </div>

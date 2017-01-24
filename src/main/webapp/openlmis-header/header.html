@@ -1,7 +1,7 @@
 <div ng-controller="HeaderController" >
   <div class="logo">
     <img src="images/logo.png"/>
-    <h1 openlmis-message="label.app.header"></h1>
+    <h1>{{'label.app.header' | message}}</h1>
   </div>
   <div class="status">
     <a offline ng-show="isOffline" class="status status-offline" ng-click="checkConnection()">{{'msg.requisition.view.offline' | message }}</a>
