@@ -12,8 +12,7 @@
         var factory = {
             groupFullSupplyLineItems: groupFullSupplyLineItems,
             groupNonFullSupplyLineItems: groupNonFullSupplyLineItems,
-            groupProducts: groupProducts,
-            groupByCategoryWithPages: groupByCategoryWithPages
+            groupProducts: groupProducts
         };
         return factory;
 
@@ -76,57 +75,6 @@
                 isLineItem = isLineItem || (lineItem.orderableProduct.id === product.product.productId);
             });
             return isLineItem;
-        }
-
-        function groupByCategoryWithPages(lineItems, isFullSupply, pageSize) {
-            var categoryPages = [],
-                index = 0,
-                currentPageSize = 0,
-                categories = groupByCategory(lineItems, isFullSupply);
-
-            angular.forEach(categories, function(products, categoryName) {
-                var page,
-                    nextPage;
-
-                if(!categoryPages[index]) categoryPages[index] = {};
-                page = categoryPages[index];
-
-                if(currentPageSize + products.length < pageSize) {
-                    page[categoryName] = products;
-                    currentPageSize = currentPageSize + products.length;
-                } else if(currentPageSize + products.length === pageSize) {
-                    currentPageSize = 0;
-                    page[categoryName] = products;
-                    index++;
-                } else {
-                    page[categoryName] = products.splice(0, pageSize - currentPageSize - 1);
-
-                    index++;
-                    categoryPages[index + 1] = {};
-                    nextPage = categoryPages[index + 1];
-                    nextPage[categoryName] = products.splice(pageSize - currentPageSize, products.length - 1);
-
-                    currentPageSize = products.length - (pageSize - currentPageSize);
-                }
-            });
-
-            return categoryPages;
-        }
-
-        function groupByCategory(lineItems, isFullSupply) {
-            var categories = {};
-
-            angular.forEach(lineItems, function(lineItem) {
-                if (lineItem.$program.fullSupply === isFullSupply) {
-                    var category = lineItem.$program.productCategoryDisplayName;
-                    if (!categories[category]) {
-                        categories[category] = [];
-                    }
-                    categories[category].push(lineItem);
-                }
-            });
-
-            return categories;
         }
     }
 })();

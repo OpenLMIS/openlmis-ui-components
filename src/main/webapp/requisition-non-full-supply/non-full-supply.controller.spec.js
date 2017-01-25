@@ -1,6 +1,6 @@
 describe('NonFullSupplyController', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, q,
+    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, q, lineItems,
         rootScope, controller, LineItem;
 
     beforeEach(function(){
@@ -24,6 +24,11 @@ describe('NonFullSupplyController', function() {
             lineItemSpy(3, 'Two', true),
             lineItemSpy(4, 'Three', false)
         ];
+        lineItems = {
+            currentPage: 1,
+            items: [requisition.requisitionLineItems],
+            pages: 1
+        };
     });
 
     describe('initialization', function() {
@@ -185,45 +190,13 @@ describe('NonFullSupplyController', function() {
 
     });
 
-    describe('getLineItems', function() {
-
-        beforeEach(function() {
-            initController();
-        });
-
-        it('should filter line items', function() {
-            var result = vm.getLineItems();
-
-            expect(result.length).toBe(1);
-        });
-
-        it('should contain only non full supply line items', function() {
-            var result = vm.getLineItems();
-
-            result.forEach(function(lineItem) {
-                expect(lineItem.$program.fullSupply).toBe(false);
-            });
-        });
-
-        it('should return empty list if there is no non full supply line items', function() {
-            requisition.requisitionLineItems = [
-                lineItemSpy('0', 'One', true),
-                lineItemSpy('1', 'Two', true)
-            ];
-
-            var result = vm.getLineItems();
-
-            expect(result).toEqual([]);
-        });
-
-    });
-
     function initController() {
         vm = controller('NonFullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             addProductModalService: addProductModalService,
-            LineItem: LineItem
+            LineItem: LineItem,
+            lineItems: lineItems
         });
     }
 

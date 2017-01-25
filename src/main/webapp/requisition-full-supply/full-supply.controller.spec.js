@@ -4,7 +4,7 @@ describe('FullSupplyController', function() {
     var vm;
 
     //mocks
-    var requisition, requisitionValidator;
+    var requisition, requisitionValidator, lineItems;
 
     beforeEach(module('requisition-full-supply'));
 
@@ -22,6 +22,11 @@ describe('FullSupplyController', function() {
                 lineItem('Two', true),
                 lineItem('Three', false)
             ]
+        };
+        lineItems = {
+            currentPage: 1,
+            items: [requisition.requisitionLineItems],
+            pages: 1
         };
 
         function lineItem(category, fullSupply) {
@@ -41,7 +46,9 @@ describe('FullSupplyController', function() {
     beforeEach(inject(function($controller) {
         vm = $controller('FullSupplyController', {
             requisition: requisition,
-            requisitionValidator: requisitionValidator
+            requisitionValidator: requisitionValidator,
+            lineItems: lineItems
+
         });
     }));
 

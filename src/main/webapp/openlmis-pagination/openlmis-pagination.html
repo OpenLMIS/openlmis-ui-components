@@ -1,18 +1,18 @@
 <ul class="pagination pagination-sm">
-	<li ng-class="{disabled :currentPage === 1}">
-		<a ng-click="currentPage === 1 || changePage(currentPage - 1)">
+	<li ng-class="{disabled : vm.isFirstPage()}">
+		<a ng-click="vm.isFirstPage() || vm.previousPage()">
 			{{'label.previousPage' | message}}
 		</a>
 	</li>
-	<li ng-class="{active: currentPage === $index + 1}"
-		ng-repeat="i in getPageNumbers() track by $index">
-		<a ng-class="{invalid: !isPageValid($index + 1)}"
-			ng-click="changePage($index + 1)">
+	<li ng-class="{active: vm.isCurrentPage($index + 1)}"
+		ng-repeat="i in vm.getPageNumbers() track by $index">
+		<a ng-class="{invalid: !vm.isPageValid($index + 1)}"
+			ng-click="vm.changePage($index + 1)">
 			{{$index + 1}}
 		</a>
 	</li>
-	<li ng-class="{disabled :currentPage === numberOfPages}">
-		<a ng-click="currentPage === numberOfPages || changePage(currentPage + 1)">
+	<li ng-class="{disabled : vm.isLastPage()}">
+		<a ng-click="vm.isLastPage() || vm.nextPage()">
 			{{'label.nextPage' | message}}
 		</a>
 	</li>

@@ -13,4 +13,12 @@
         @include button-color($light-red);
         border-color: $light-red;
     }
+
+    li:last-child a::after {
+        content: " >>";
+    }
+
+    li:first-child a::before {
+        content: "<< ";
+    }
 }

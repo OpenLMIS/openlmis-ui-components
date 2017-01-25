@@ -4,6 +4,7 @@
 
     angular.module('requisition-non-full-supply', [
         'ngBootbox',
+        'openlmis-pagination',
         'openlmis-templates',
         'openlmis-urls',
         'requisition-validation',

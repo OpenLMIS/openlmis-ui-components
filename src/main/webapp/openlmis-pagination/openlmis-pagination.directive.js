@@ -17,12 +17,14 @@
 		return {
 			restrict: 'E',
 			scope: {
-				isPageValid: '=',
+				isPageValid: '=?',
+				changePage: '=?',
 				numberOfPages: '=',
 				currentPage: '='
 			},
 			templateUrl: 'openlmis-pagination/openlmis-pagination.html',
 			controller: 'PaginationController',
+			controllerAs: 'vm',
 			link: link
 		};
 

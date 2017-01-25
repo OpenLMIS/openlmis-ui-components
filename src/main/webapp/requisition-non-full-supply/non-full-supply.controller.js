@@ -13,18 +13,17 @@
         .module('requisition-non-full-supply')
         .controller('NonFullSupplyController', nonFullSupplyCtrl);
 
-    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'addProductModalService',
-                                 'LineItem', '$filter'];
+    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'addProductModalService', 'LineItem', '$filter', 'lineItems', 'paginatedListFactory', '$state'];
 
-    function nonFullSupplyCtrl(requisition, requisitionValidator, addProductModalService,
-                               LineItem, $filter) {
+    function nonFullSupplyCtrl(requisition, requisitionValidator, addProductModalService, LineItem, $filter, lineItems, paginatedListFactory, $state) {
 
         var vm = this;
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
-        vm.getLineItems = getLineItems;
+        vm.changePage = changePage;
+        vm.isPageValid = isPageValid;
 
         /**
          * @ngdoc method
@@ -50,6 +49,28 @@
          * Holds requisition. This object is shared with the parent and fullSupply states.
          */
         vm.requisition = requisition;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @name paginatedLineItems
+         * @type {Object}
+         *
+         * @description
+         * Holds line items divided into pages with properties like current page etc.
+         */
+        vm.paginatedLineItems = lineItems;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @name lineItems
+         * @type {Object}
+         *
+         * @description
+         * Holds list of line items grouped by category.
+         */
+        vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
 
         /**
          * @ngdoc property
@@ -89,6 +110,7 @@
             if (id > -1) {
                 makeProductVisible(vm.requisition.requisitionLineItems[id].orderableProduct.name);
                 vm.requisition.requisitionLineItems.splice(id, 1);
+                reloadLineItems();
             }
         }
 
@@ -110,6 +132,7 @@
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)
                     );
+                    reloadLineItems();
                 })
                 .catch(function(){
                     // don't do anything
@@ -138,19 +161,40 @@
         /**
          * @ngdoc method
          * @methodOf requisition-non-full-supply.NonFullSupplyController
-         * @name getLineItems
+         * @name changePage
          *
          * @description
-         * Filters the list of all line items and returns only those that are non full supply ones.
+         * Loads line items when page is changed.
          *
-         * @return  {List}  the filtered list of line items
+         * @param {integer} newPage new page number
          */
-        function getLineItems() {
-            return $filter('filter')(vm.requisition.requisitionLineItems, {
-                $program: {
-                    fullSupply:false
-                }
+        function changePage(newPage) {
+            vm.lineItems = vm.paginatedLineItems.items[newPage - 1];
+            $state.go('requisitions.requisition.nonFullSupply', {
+                rnr: vm.requisition.id,
+                page: newPage
+            }, {
+                notify: false
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @name isPageValid
+         *
+         * @description
+         * Validates all line items that are present on page.
+         *
+         * @param {integer} pageNumber number of page to valid
+         * @return {Boolean} true when all page line items are valid
+         */
+        function isPageValid(pageNumber) {
+            var valid = true;
+            angular.forEach(vm.paginatedLineItems[pageNumber - 1], function(lineItem) {
+                if(!vm.isLineItemValid(lineItem)) valid = false;
+            });
+            return valid;
         }
 
         function makeProductVisible(productName) {
@@ -159,6 +203,11 @@
                     if(lineItem.productName === productName) lineItem.$visible = true;
                 });
             });
+        }
+
+        function reloadLineItems(items) {
+            vm.paginatedLineItems = paginatedListFactory.getPaginatedItems(vm.requisition.requisitionLineItems, vm.paginatedLineItems.currentPage);
+            vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
         }
     }
 

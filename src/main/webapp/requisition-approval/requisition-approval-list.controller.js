@@ -56,7 +56,8 @@
          */
 		function openRnr(requisitionId) {
 			$state.go('requisitions.requisition.fullSupply', {
-				rnr: requisitionId
+				rnr: requisitionId,
+				page: 1
 			});
 		};
 

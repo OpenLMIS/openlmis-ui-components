@@ -13,9 +13,9 @@
         .module('requisition-full-supply')
         .controller('FullSupplyController', controller);
 
-    controller.$inject = ['requisition', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS', 'categoryFactory'];
+    controller.$inject = ['requisition', 'lineItems', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS', '$state'];
 
-    function controller(requisition, requisitionValidator, $filter, TEMPLATE_COLUMNS, categoryFactory) {
+    function controller(requisition, lineItems, requisitionValidator, $filter, TEMPLATE_COLUMNS, $state) {
 
         var vm = this;
 
@@ -23,6 +23,7 @@
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
         vm.isPageValid = isPageValid;
+        vm.changePage = changePage;
 
         /**
          * @ngdoc property
@@ -38,13 +39,24 @@
         /**
          * @ngdoc property
          * @propertyOf requisition-full-supply.FullSupplyController
-         * @name categories
+         * @name paginatedLineItems
+         * @type {Object}
+         *
+         * @description
+         * Holds line items divided into pages with properties like current page etc.
+         */
+        vm.paginatedLineItems = lineItems;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-full-supply.FullSupplyController
+         * @name lineItems
          * @type {Object}
          *
          * @description
          * Holds list of line items grouped by category.
          */
-        vm.categories = categoryFactory.groupByCategoryWithPages(vm.requisition.requisitionLineItems, true, '@@PAGE_SIZE');
+        vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
 
         /**
          * @ngdoc property
@@ -71,6 +83,26 @@
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyController
+         * @name changePage
+         *
+         * @description
+         * Loads line items when page is changed.
+         *
+         * @param {integer} newPage new page number
+         */
+        function changePage(newPage) {
+            vm.lineItems = vm.paginatedLineItems.items[newPage - 1];
+            $state.go('requisitions.requisition.fullSupply', {
+                rnr: vm.requisition.id,
+                page: newPage
+            }, {
+                notify: false
+            });
+        }
 
         /**
          * @ngdoc method
@@ -110,10 +142,12 @@
         }
 
         function setSkipAll(value) {
-            getLineItems().forEach(function(lineItem) {
-                if (lineItem.canBeSkipped(vm.requisition)) {
-                    lineItem.skipped = value;
-                }
+            angular.forEach(vm.paginatedLineItems.items, function(page) {
+                angular.forEach(page, function(lineItem) {
+                    if (lineItem.canBeSkipped(vm.requisition)) {
+                        lineItem.skipped = value;
+                    }
+                });
             });
         }
 
@@ -130,20 +164,10 @@
          */
         function isPageValid(pageNumber) {
             var valid = true;
-            angular.forEach(vm.categories[pageNumber - 1], function(lineItems) {
-                angular.forEach(lineItems, function(lineItem) {
-                    if(!vm.isLineItemValid(lineItem)) valid = false;
-                });
+            angular.forEach(vm.paginatedLineItems[pageNumber - 1], function(lineItem) {
+                if(!vm.isLineItemValid(lineItem)) valid = false;
             });
             return valid;
-        }
-
-        function getLineItems() {
-            return $filter('filter')(vm.requisition.requisitionLineItems, {
-                $program: {
-                    fullSupply:true
-                }
-            });
         }
     }
 

@@ -6,7 +6,7 @@
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.getLineItems() | groupBy:'$program.productCategoryDisplayName'" title="{{category}}">
+		<tbody ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.productCategoryDisplayName'" title="{{category}}">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
@@ -23,3 +23,8 @@
 			{{'button.add' | message}}
 	</button>
 </div>
+<openlmis-pagination current-page="vm.paginatedLineItems.currentPage"
+	is-page-valid="vm.isPageValid"
+	number-of-pages="vm.paginatedLineItems.pages"
+	change-page="vm.changePage">
+</openlmis-pagination>
