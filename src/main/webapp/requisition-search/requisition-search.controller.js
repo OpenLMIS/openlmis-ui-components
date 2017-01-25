@@ -82,11 +82,7 @@
             if (!vm.selectedFacility) {
                 return;
             } else if (vm.selectedFacility.supportedPrograms) {
-                var programs = [];
-                angular.forEach(vm.selectedFacility.supportedPrograms, function(program) {
-                    programs.push(program.program);
-                });
-                vm.programs = programs;
+                vm.programs = vm.selectedFacility.supportedPrograms;
             } else {
                 notificationService.error('msg.no.program.available');
             }

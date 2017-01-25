@@ -22,16 +22,12 @@ describe('RequisitionSearchController', function() {
                 name: 'facility1',
                 supportedPrograms: [
                     {
-                        program: {
-                            id: '1',
-                            name: 'program1'
-                        }
+                        id: '1',
+                        name: 'program1'
                     },
                     {
-                        program: {
-                            id: '2',
-                            name: 'program2'
-                        }
+                        id: '2',
+                        name: 'program2'
                     }
                 ]
             },
@@ -40,16 +36,12 @@ describe('RequisitionSearchController', function() {
                 name: 'facility2',
                 supportedPrograms: [
                     {
-                        program: {
-                            name: 'program3',
-                            id: '3'
-                        }
+                        name: 'program3',
+                        id: '3'
                     },
                     {
-                        program: {
-                            id: '4',
-                            name: 'program4'
-                        }
+                        id: '4',
+                        name: 'program4'
                     }
                 ]
             }
@@ -87,12 +79,12 @@ describe('RequisitionSearchController', function() {
         vm.selectedFacility = vm.facilities[0];
         vm.loadPrograms();
         expect(vm.selectedFacility.id).toEqual('1');
-        expect(vm.programs).toEqual(getPrograms(vm.facilities[0].supportedPrograms));
+        expect(vm.programs).toEqual(vm.facilities[0].supportedPrograms);
 
         vm.selectedFacility = vm.facilities[1];
         vm.loadPrograms();
         expect(vm.selectedFacility.id).toEqual('2');
-        expect(vm.programs).toEqual(getPrograms(vm.facilities[1].supportedPrograms));
+        expect(vm.programs).toEqual(vm.facilities[1].supportedPrograms);
     });
 
     it('should load requisitions after search', function() {
@@ -115,13 +107,4 @@ describe('RequisitionSearchController', function() {
         vm.search();
         expect(callback).toHaveBeenCalled();
     });
-
-    function getPrograms(programs) {
-        var filteredPrograms = [];
-        angular.forEach(programs, function(program) {
-            filteredPrograms.push(program.program);
-        });
-        return filteredPrograms;
-    }
-
 });
