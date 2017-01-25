@@ -30,6 +30,10 @@
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
 
         var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
+            'get': {
+                method: 'GET',
+                transformResponse: transformGetResponse
+            },
             'initiate': {
                 url: requisitionUrlFactory('/api/requisitions/initiate'),
                 method: 'POST'
@@ -328,6 +332,13 @@
                 });
             });
             return angular.toJson(body);
+        }
+
+        function transformGetResponse(data, headers, status) {
+            return transformResponse(data, status, function(response) {
+                transformRequisition(response);
+                return response;
+            });
         }
 
         function transformRequisitionSearchResponse(data, headers, status) {
