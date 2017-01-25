@@ -115,7 +115,7 @@
          * @returns {String} Order type message
          */
         function typeMessage() {
-            return vm.pod.order.emergency ? 'msg.emergency' : 'msg.regular';
+            return vm.pod.order.emergency ? 'label.emergency' : 'msg.regular';
         }
 
         function groupByCategory(lineItems) {

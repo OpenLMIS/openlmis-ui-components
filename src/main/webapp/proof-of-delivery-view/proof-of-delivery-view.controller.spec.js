@@ -238,7 +238,7 @@ describe('PodViewController', function() {
 
             var result = vm.typeMessage();
 
-            expect(result).toEqual('msg.emergency');
+            expect(result).toEqual('label.emergency');
         });
 
         it('should return regular if pod order is not emergency', function() {

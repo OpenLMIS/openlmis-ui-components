@@ -19,18 +19,21 @@ describe('facilityFactory', function() {
                 return programService;
             });
 
-            facilityService = jasmine.createSpyObj('facilityService', ['getUserSupervisedFacilities']);
+            facilityService = jasmine.createSpyObj('facilityService', [
+                'getUserSupervisedFacilities',
+                'getFulfillmentFacilities'
+            ]);
 
             $provide.factory('facilityService', function() {
                 return facilityService;
             });
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _openlmisUrlFactory_, _$q_, _localStorageFactory_, _facilityFactory_, _authorizationService_) {
-            $rootScope = _$rootScope_;
-            $q = _$q_;
-            authorizationService = _authorizationService_;
-            facilityFactory = _facilityFactory_;
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $q = $injector.get('$q');
+            authorizationService = $injector.get('authorizationService');
+            facilityFactory = $injector.get('facilityFactory');
         });
 
         facility1 = {
@@ -76,4 +79,135 @@ describe('facilityFactory', function() {
         expect(data[1].id).toBe(facility2.id);
         expect(facilityService.getUserSupervisedFacilities.callCount).toEqual(2);
     });
+
+    describe('getSupplyingFacilities', function() {
+
+        var userId, ordersViewFacilities, podsManageFacilities;
+
+        beforeEach(function() {
+            userId = 'user-id';
+
+            ordersViewFacilities = [
+                createFacility('facility-one', 'facilityOne'),
+                createFacility('facility-two', 'facilityTwo')
+            ];
+
+            podsManageFacilities = [
+                createFacility('facility-two', 'facilityTwo'),
+                createFacility('facility-three', 'facilityThree')
+            ];
+
+            spyOn(authorizationService, 'getRightByName').andCallFake(function(name) {
+                if (name === 'ORDERS_VIEW') return {
+                    id: 'orders-view-id'
+                };
+                if (name === 'PODS_MANAGE') return {
+                    id: 'pods-manage-id'
+                };
+            });
+
+            facilityService.getFulfillmentFacilities.andCallFake(function(params) {
+                if (params.rightId === 'orders-view-id') return $q.when(ordersViewFacilities);
+                if (params.rightId === 'pods-manage-id') return $q.when(podsManageFacilities);
+            });
+        });
+
+        it('should fetch facilities for ORDERS_VIEW right', function() {
+            facilityFactory.getSupplyingFacilities(userId);
+
+            expect(facilityService.getFulfillmentFacilities).toHaveBeenCalledWith({
+                userId: userId,
+                rightId: 'orders-view-id'
+            });
+        });
+
+        it('should fetch facilities for PODS_MANAGE right', function() {
+            facilityFactory.getSupplyingFacilities(userId);
+
+            expect(facilityService.getFulfillmentFacilities).toHaveBeenCalledWith({
+                userId: userId,
+                rightId: 'pods-manage-id'
+            });
+        });
+
+        it('should resolve to set of facilities', function() {
+            var result;
+
+            facilityFactory.getSupplyingFacilities(userId).then(function(facilities) {
+                result = facilities;
+            });
+            $rootScope.$apply();
+
+            expect(result.length).toBe(3);
+            expect(result[0]).toEqual(ordersViewFacilities[0]);
+            expect(result[1]).toEqual(podsManageFacilities[0]);
+            expect(result[2]).toEqual(podsManageFacilities[1]);
+        });
+
+    });
+
+    describe('getRequestingFacilities', function() {
+
+        var userId, requisitionCreateFacilities, requisitionAuthorizeFacilities;
+
+        beforeEach(function() {
+            userId = 'user-id';
+
+            requisitionCreateFacilities = [
+                createFacility('facility-one', 'facilityOne'),
+                createFacility('facility-two', 'facilityTwo')
+            ];
+
+            requisitionAuthorizeFacilities = [
+                createFacility('facility-two', 'facilityTwo'),
+                createFacility('facility-three', 'facilityThree')
+            ];
+
+            spyOn(facilityFactory, 'getUserFacilities').andCallFake(function(userId, rightName) {
+                if (rightName === 'REQUISITION_CREATE') {
+                    return $q.when(requisitionCreateFacilities);
+                }
+                if (rightName === 'REQUISITION_AUTHORIZE') {
+                    return $q.when(requisitionAuthorizeFacilities);
+                }
+            });
+        });
+
+        it('should fetch facilities for REQUISITION_CREATE right', function() {
+            facilityFactory.getRequestingFacilities(userId);
+
+            expect(facilityFactory.getUserFacilities)
+                .toHaveBeenCalledWith(userId, 'REQUISITION_CREATE');
+        });
+
+        it('should fetch facilities for REQUISITION_AUTHORIZE right', function() {
+            facilityFactory.getRequestingFacilities(userId);
+
+            expect(facilityFactory.getUserFacilities)
+                .toHaveBeenCalledWith(userId, 'REQUISITION_AUTHORIZE');
+        });
+
+        it('should resolve to set of facilities', function() {
+            var result;
+
+            facilityFactory.getRequestingFacilities(userId).then(function(facilities) {
+                result = facilities;
+            });
+            $rootScope.$apply();
+
+            expect(result.length).toBe(3);
+            expect(result[0]).toEqual(requisitionCreateFacilities[0]);
+            expect(result[1]).toEqual(requisitionAuthorizeFacilities[0]);
+            expect(result[2]).toEqual(requisitionAuthorizeFacilities[1]);
+        });
+
+    });
+
+    function createFacility(id, name) {
+        return {
+            id: id,
+            name: name
+        };
+    }
+
 });

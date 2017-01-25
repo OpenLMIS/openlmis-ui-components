@@ -57,7 +57,7 @@
         * @description
         * Holds message key to display, depending on the requisition type (regular/emergency).
         */
-        vm.requisitionType = vm.requisition.emergency ? 'msg.emergency' : 'msg.regular';
+        vm.requisitionType = vm.requisition.emergency ? 'label.emergency' : 'msg.regular';
 
         // Functions
 

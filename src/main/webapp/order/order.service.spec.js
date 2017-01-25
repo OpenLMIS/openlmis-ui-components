@@ -1,9 +1,20 @@
 describe('orderService', function() {
 
-    var orderService, $rootScope, $httpBackend, fulfillmentUrlFactory, orders, transformedOrders;
+    var orderService, $rootScope, $httpBackend, fulfillmentUrlFactory, orders, transformedOrders,
+        dateUtilsMock;
 
     beforeEach(function() {
-        module('order');
+        module('order', function($provide) {
+            dateUtilsMock = jasmine.createSpyObj('dateUtils', ['toDate']);
+
+            $provide.factory('dateUtils', function() {
+                return dateUtilsMock;
+            });
+
+            dateUtilsMock.toDate.andCallFake(function(array) {
+                return new Date(array[0], array[1] - 1, array[2]);
+            });
+        });
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');

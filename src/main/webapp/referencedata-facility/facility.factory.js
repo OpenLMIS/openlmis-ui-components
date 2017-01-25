@@ -111,8 +111,8 @@
             var deferred = $q.defer();
 
             $q.all([
-                getUserFacilities(userId, 'REQUISITION_CREATE'),
-                getUserFacilities(userId, 'REQUISITION_AUTHORIZE')
+                this.getUserFacilities(userId, 'REQUISITION_CREATE'),
+                this.getUserFacilities(userId, 'REQUISITION_AUTHORIZE')
             ]).then(function(results) {
                 deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
             }, function() {
@@ -123,7 +123,7 @@
         }
 
         function getFulfillmentFacilities(userId, rightName) {
-            return resource.getFulfillmentFacilities({
+            return facilityService.getFulfillmentFacilities({
                 userId: userId,
                 rightId: authorizationService.getRightByName(rightName).id
             });

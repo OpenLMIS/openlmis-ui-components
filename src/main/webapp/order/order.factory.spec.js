@@ -23,6 +23,14 @@ describe('orderFactory', function() {
         });
     });
 
+    it('should call orderService with only one param', function() {
+        orderFactory.search('id-one');
+
+        expect(orderServiceMock.search).toHaveBeenCalledWith({
+            supplyingFacility: 'id-one'
+        });
+    });
+
 });
 
 function createMock($provide, name, methods) {
