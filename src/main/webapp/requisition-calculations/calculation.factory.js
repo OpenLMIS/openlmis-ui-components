@@ -238,7 +238,7 @@
                 adjustedConsumptions.forEach(function (adjustedConsumption) {
                     sum += adjustedConsumption;
                 });
-                return sum / numberOfPeriods;
+                return Math.ceil(sum / numberOfPeriods);
             }
         }
 
