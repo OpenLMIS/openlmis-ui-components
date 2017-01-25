@@ -53,15 +53,21 @@ describe('requisitionValidator', function() {
 
             requisition.$fullSupplyCategories.forEach(function(category) {
                 category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem)
-                        .toHaveBeenCalledWith(lineItem, requisition.template.getColumns());
+                    expect(validator.validateLineItem).toHaveBeenCalledWith(
+                        lineItem,
+                        requisition.template.getColumns(),
+                        requisition
+                    );
                 });
             });
 
             requisition.$nonFullSupplyCategories.forEach(function(category) {
                 category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem)
-                        .toHaveBeenCalledWith(lineItem, requisition.template.getColumns(true));
+                    expect(validator.validateLineItem).toHaveBeenCalledWith(
+                        lineItem,
+                        requisition.template.getColumns(true),
+                        requisition
+                    );
                 });
             });
         });
@@ -77,15 +83,21 @@ describe('requisitionValidator', function() {
 
             requisition.$fullSupplyCategories.forEach(function(category) {
                 category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem)
-                        .toHaveBeenCalledWith(lineItem, requisition.template.getColumns());
+                    expect(validator.validateLineItem).toHaveBeenCalledWith(
+                        lineItem,
+                        requisition.template.getColumns(),
+                        requisition
+                    );
                 });
             });
 
             requisition.$nonFullSupplyCategories.forEach(function(category) {
                 category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem)
-                        .toHaveBeenCalledWith(lineItem, requisition.template.getColumns(true));
+                    expect(validator.validateLineItem).toHaveBeenCalledWith(
+                        lineItem,
+                        requisition.template.getColumns(true),
+                        requisition
+                    );
                 });
             });
         });
