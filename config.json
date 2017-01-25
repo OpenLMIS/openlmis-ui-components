@@ -20,5 +20,9 @@
   "currencyCode": "USD",
   "currencySymbol": "$",
   "currencySymbolSide": "left",
-  "currencyDecimalPlaces": 2
+  "currencyDecimalPlaces": 2,
+  "orderedApplicationDirectories": [
+    "/openlmis/dev-ui",
+    "/openlmis/openlmis-requisition-ui"
+  ]
 }
