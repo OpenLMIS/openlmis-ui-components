@@ -53,13 +53,13 @@
 
             requisition.$fullSupplyCategories.forEach(function(category) {
               category.lineItems.forEach(function(lineItem) {
-                valid = validator.validateLineItem(lineItem, fullSupplyColumns) && valid;
+                valid = validator.validateLineItem(lineItem, fullSupplyColumns, requisition) && valid;
               });
             });
 
             requisition.$nonFullSupplyCategories.forEach(function(category) {
               category.lineItems.forEach(function(lineItem) {
-                valid = validator.validateLineItem(lineItem, nonFullSupplyColumns) && valid;
+                valid = validator.validateLineItem(lineItem, nonFullSupplyColumns, requisition) && valid;
               });
             });
 
