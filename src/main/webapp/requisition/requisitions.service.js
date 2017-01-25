@@ -336,7 +336,12 @@
 
         function transformGetResponse(data, headers, status) {
             return transformResponse(data, status, function(response) {
-                transformRequisition(response);
+                if (response.processingPeriod.startDate) {
+                    response.processingPeriod.startDate = dateUtils.toDate(response.processingPeriod.startDate);
+                }
+                if (response.processingPeriod.endDate) {
+                    response.processingPeriod.endDate = dateUtils.toDate(response.processingPeriod.endDate);
+                }
                 return response;
             });
         }

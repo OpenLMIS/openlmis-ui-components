@@ -48,7 +48,7 @@ describe('requisitionService', function() {
             status: 'INITIATED',
             facilityId: facility.id,
             programId: program.id,
-            processingPeriodId: period.id,
+            processingPeriod: period,
             createdDate: createdDate,
             supplyingFacility: '2',
             template: '1',
