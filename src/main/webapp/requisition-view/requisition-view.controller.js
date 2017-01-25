@@ -25,13 +25,14 @@
     RequisitionViewController.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
-        'convertToOrderModalService', 'offlineService', 'localStorageFactory', 'requisitionUrlFactory'
+        'convertToOrderModalService', 'offlineService', 'localStorageFactory',
+        'requisitionUrlFactory', '$filter'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
-                             localStorageFactory, requisitionUrlFactory) {
+                             localStorageFactory, requisitionUrlFactory, $filter) {
 
         var vm = this,
             onlineOnly = localStorageFactory('onlineOnly'),
@@ -80,6 +81,8 @@
         vm.changeAvailablity = changeAvailablity;
         vm.isOffline = offlineService.isOffline;
         vm.getPrintUrl = getPrintUrl;
+        vm.isFullSupplyTabValid = isFullSupplyTabValid;
+        vm.isNonFullSupplyTabValid = isNonFullSupplyTabValid;
 
         function saveRnr() {
             vm.requisition.$modified = true;
@@ -438,7 +441,45 @@
          */
         function getPrintUrl() {
             return requisitionUrlFactory('/api/requisitions/' + vm.requisition.id + '/print');
-        };
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-view.RequisitionViewController
+         * @name isFullSupplyTabValid
+         *
+         * @description
+         * Checks whether full supply tab has any errors. This does not trigger validation.
+         *
+         * @return  {Boolean}   true if full supply tab has any errors, false otherwise
+         */
+        function isFullSupplyTabValid() {
+            var fullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply: true
+                }
+            });
+            return requisitionValidator.areLinItemsValid(fullSupplyItems);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-view.RequisitionViewController
+         * @name isNonFullSupplyTabValid
+         *
+         * @description
+         * Checks whether non full supply tab has any errors. This does not trigger validation.
+         *
+         * @return  {Boolean}   true if non full supply tab has any errors, false otherwise
+         */
+        function isNonFullSupplyTabValid() {
+            var nonFullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply: false
+                }
+            });
+            return requisitionValidator.areLinItemsValid(nonFullSupplyItems);
+        }
 
         function save() {
             loadingModalService.open();

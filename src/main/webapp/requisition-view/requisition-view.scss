@@ -1,6 +1,11 @@
-
 .requisition-view > h2 > a {
     &.btn-primary {
         float: right;
     }
+}
+
+.error-indicator:after {
+    color: $red;
+    content: ' \f06a';
+    font-family: 'FontAwesome';
 }

@@ -30,7 +30,8 @@
             validateRequisition: validateRequisition,
             validateLineItem: validateLineItem,
             validateLineItemField: validateLineItemField,
-            isLineItemValid: isLineItemValid
+            isLineItemValid: isLineItemValid,
+            areLinItemsValid: areLinItemsValid
         };
         return validator;
 
@@ -141,6 +142,26 @@
             var valid = true;
             angular.forEach(lineItem.$errors, function(error) {
                 valid = valid && !error;
+            });
+            return valid;
+        }
+
+        /**
+         * @ngdoc method
+         * @name areLineItemsValid
+         * @methodOf requisition-validation.requisitionValidator
+         *
+         * @description
+         * Checks whether any field of the given line items has any error. It does not perform any
+         * validation.
+         *
+         * @param   {Array} lineItem    the list of line items to be checked
+         * @return  {Boolean}           true if any of the line items has error, false otherwise
+         */
+        function areLinItemsValid(lineItems) {
+            var valid = true;
+            lineItems.forEach(function(lineItem) {
+                valid = valid && isLineItemValid(lineItem);
             });
             return valid;
         }
