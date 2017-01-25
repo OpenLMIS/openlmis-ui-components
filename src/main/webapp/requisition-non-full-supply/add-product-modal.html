@@ -1,4 +1,4 @@
-<form name="addProductForm" ng-submit="addProduct(selectedProduct, requestedQuantity, requestedQuantityExplanation)">
+<form ng-submit="addProduct(selectedProduct, requestedQuantity, requestedQuantityExplanation)">
 	<div class="form-group">
 		<label for="category">{{'label.product.category' | message}}</label>
 		<select class="form-control" ng-model="selectedCategory" ng-disabled="!categories.length" ng-options="category.name for category in categories | filter:categoryVisible" required>

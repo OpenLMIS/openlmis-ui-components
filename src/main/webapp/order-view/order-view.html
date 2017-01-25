@@ -1,7 +1,7 @@
 <div class="page">
     <h1>{{'header.viewOrders' | message}}</h1>
     <section class="table-container">
-        <form name="orderViewForm" ng-submit="orderViewForm.$valid && vm.loadOrders()" novalidate>
+        <form ng-submit="vm.loadOrders()" novalidate>
             <label for="supplyingFacility">{{'label.supplyingFacility' | message}}</label>
             <select id="supplyingFacility"
                     ng-model="vm.supplyingFacility"
