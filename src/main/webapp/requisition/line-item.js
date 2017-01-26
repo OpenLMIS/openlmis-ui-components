@@ -100,7 +100,7 @@
             lineItem = this,
             columns = requisition.template.getColumns(!this.$program.fullSupply);
 
-            if (requisition.$isAuthorized() || requisition.$isApproved()) {
+            if (requisition.$isApproved() || requisition.$isApprovable()) {
                 return false;
             }
 

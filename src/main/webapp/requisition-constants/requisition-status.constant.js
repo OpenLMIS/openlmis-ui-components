@@ -12,6 +12,7 @@
             INITIATED: 'INITIATED',
             SUBMITTED: 'SUBMITTED',
             AUTHORIZED: 'AUTHORIZED',
+            IN_APPROVAL: 'IN_APPROVAL',
             APPROVED: 'APPROVED',
             RELEASED: 'RELEASED',
             SKIPPED: 'SKIPPED',

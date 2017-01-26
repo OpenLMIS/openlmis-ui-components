@@ -76,7 +76,7 @@ describe('LineItem', function() {
             requestedQuantity: 10,
             requestedQuantityExplanation: 'explanation'
         };
-        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
+        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized', '$isApprovable']);
         requisition.$isApproved.andReturn(false);
         requisition.$isAuthorized.andReturn(false);
         requisition.requisitionLineItems = [requisitionLineItem];
@@ -180,7 +180,7 @@ describe('LineItem', function() {
 
             lineItem.requestedQuantity = 0;
             lineItem.requestedQuantityExplanation = '';
-            requisition.$isAuthorized.andReturn(true);
+            requisition.$isApprovable.andReturn(true);
 
             var result = lineItem.canBeSkipped(requisition);
 

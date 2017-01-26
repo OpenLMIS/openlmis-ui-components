@@ -15,7 +15,7 @@ describe('NonFullSupplyController', function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
         addProductModalService = jasmine.createSpyObj('addProductModalService', ['show']);
 
-        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized']);
+        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized', '$isApprovable']);
         requisition.template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
         requisition.requisitionLineItems = [
             lineItemSpy(0, 'One', true),
@@ -56,7 +56,7 @@ describe('NonFullSupplyController', function() {
             expect(vm.columns).toBe(requisition.template.getColumns());
         });*/
 
-        it('should display add product button if reqisition is not authorized nor approved', function() {
+        it('should display add product button if reqisition is not authorized or approved', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
 
@@ -67,7 +67,7 @@ describe('NonFullSupplyController', function() {
 
         it('should not display add product button if requisition is authorized', function() {
             requisition.$isApproved.andReturn(false);
-            requisition.$isAuthorized.andReturn(true);
+            requisition.$isApprovable.andReturn(true);
 
             initController();
 

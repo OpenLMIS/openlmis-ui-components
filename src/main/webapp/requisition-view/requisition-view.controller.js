@@ -337,7 +337,7 @@
          *
          * @description
          * Determines whether to display approve and reject buttons or not. Returns true only if
-         * requisition is authorized and user has permission to approve requisition.
+         * requisition is authorized or in_approval and user has permission to approve requisition.
          *
          * @return {boolean} should approve and reject buttons be displayed
          */
@@ -345,7 +345,7 @@
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
                 programCode: vm.requisition.program.code
             });
-            return vm.requisition.$isAuthorized() && hasRight;
+            return vm.requisition.$isApprovable() && hasRight;
         };
 
         /**

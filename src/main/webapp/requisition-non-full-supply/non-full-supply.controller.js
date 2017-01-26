@@ -82,7 +82,7 @@
          * @description
          * Flag responsible for hiding/showing the Add Product button.
          */
-        vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isAuthorized();
+        vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isApprovable();
 
         /**
          * @ngdoc property
