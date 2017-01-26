@@ -43,7 +43,7 @@
          * @param  {integer} newPage New page number
          */
         function changePage(newPage) {
-            if(newPage > 0 && newPage <= $scope.numberOfPages) {
+            if(newPage > 0 && newPage <= $scope.items.length) {
                 $scope.currentPage = newPage;
                 if($scope.changePage && angular.isFunction($scope.changePage)) $scope.changePage(newPage);
             }
@@ -108,7 +108,7 @@
          * Checks if current page is last one on the list.
          */
         function isLastPage() {
-            return $scope.currentPage === $scope.numberOfPages;
+            return $scope.currentPage === $scope.items.length;
         }
 
         /**
@@ -122,7 +122,7 @@
          * @return {Array} generated numbers for pagination
          */
         function getPageNumbers() {
-            return new Array($scope.numberOfPages);
+            return new Array($scope.items.length);
         }
 
         /**
@@ -131,14 +131,20 @@
          * @methodOf openlmis-pagination.PaginationController
          *
          * @description
-         * Uses provided function to validate page. If there is validation method
+         * Uses provided function to validate item. If there is no validation method
          * it will always return true.
          *
          * @param {integer} pageNumber number of page
          * @return {boolean} true if page is validated successfully or there is no validation method
          */
         function isPageValid(pageNumber) {
-            return $scope.isPageValid && angular.isFunction($scope.isPageValid) ? $scope.isPageValid(pageNumber) : true;
+            var valid = true;
+            if($scope.isItemValid && angular.isFunction($scope.isItemValid)) {
+                angular.forEach($scope.items.getPage(pageNumber), function(item) {
+                    if(!$scope.isItemValid(item)) valid = false;
+                });
+            }
+            return valid;
         }
     }
 

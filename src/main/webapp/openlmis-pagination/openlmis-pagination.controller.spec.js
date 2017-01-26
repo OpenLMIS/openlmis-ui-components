@@ -10,10 +10,16 @@ describe('PaginationController', function() {
 
             scope = $rootScope.$new();
 
+            scope.items = [
+                [1, 2],
+                [3, 4]
+            ];
             scope.currentPage = 1;
-            scope.numberOfPages = 3;
-            scope.isPageValid = jasmine.createSpy();
+            scope.items.getPage = jasmine.createSpy();
+            scope.isItemValid = jasmine.createSpy();
             scope.changePage = jasmine.createSpy();
+
+            scope.items.getPage.andReturn(scope.items[0]);
 
             vm = $controller('PaginationController', {
                 $scope: scope
@@ -45,7 +51,7 @@ describe('PaginationController', function() {
         it('should not change current page if number is out of range', function() {
             expect(scope.currentPage).toEqual(newPage);
 
-            vm.changePage(scope.numberOfPages + 1);
+            vm.changePage(scope.items.length + 1);
             expect(scope.currentPage).toEqual(newPage);
         });
     });
@@ -58,7 +64,7 @@ describe('PaginationController', function() {
     });
 
     it('should change page to the last one', function() {
-        var lastPage = scope.numberOfPages;
+        var lastPage = scope.items.length;
         vm.changePage(lastPage);
 
         vm.previousPage();
@@ -92,12 +98,12 @@ describe('PaginationController', function() {
     describe('isLastPage', function() {
 
         it('should check if page is last one', function() {
-            vm.changePage(scope.numberOfPages);
+            vm.changePage(scope.items.length);
             expect(vm.isLastPage()).toBe(true);
         });
 
         it('should call change page callback', function() {
-            vm.changePage(scope.numberOfPages - 1);
+            vm.changePage(scope.items.length - 1);
             expect(vm.isLastPage()).toBe(false);
         });
     });
@@ -115,7 +121,7 @@ describe('PaginationController', function() {
         });
 
         it('should return correct number of elements', function() {
-            expect(array.length).toBe(scope.numberOfPages);
+            expect(array.length).toBe(scope.items.length);
         });
 
         it('should return correct elements', function() {
@@ -132,13 +138,13 @@ describe('PaginationController', function() {
 
         var page = 1;
 
-        it('should call isPageValid callback', function() {
+        it('should call isItemValid callback', function() {
             vm.isPageValid(page);
-            expect(scope.isPageValid).toHaveBeenCalledWith(page);
+            expect(scope.isItemValid).toHaveBeenCalled();
         });
 
-        it('should not call isPageValid callback when it is not present and return true', function() {
-            scope.isPageValid = undefined;
+        it('should not call isItemValid callback when it is not present and return true', function() {
+            scope.isItemValid = undefined;
             expect(vm.isPageValid(page)).toBe(true);
         });
     });

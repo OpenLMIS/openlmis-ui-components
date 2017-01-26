@@ -17,9 +17,9 @@
 		return {
 			restrict: 'E',
 			scope: {
-				isPageValid: '=?',
+				isItemValid: '=?',
 				changePage: '=?',
-				numberOfPages: '=',
+				items: '=',
 				currentPage: '='
 			},
 			templateUrl: 'openlmis-pagination/openlmis-pagination.html',

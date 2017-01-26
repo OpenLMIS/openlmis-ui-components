@@ -22,7 +22,6 @@
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
-        vm.isPageValid = isPageValid;
         vm.changePage = changePage;
         vm.getCurrentPage = getCurrentPage;
 
@@ -96,7 +95,6 @@
          * @param {integer} newPage new page number
          */
         function changePage(newPage) {
-            vm.currentPage = newPage;
             $state.go('requisitions.requisition.fullSupply', {
                 rnr: vm.requisition.id,
                 page: newPage
@@ -164,25 +162,6 @@
                     }
                 });
             });
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
-         * @name isPageValid
-         *
-         * @description
-         * Validates all line items that are present on page.
-         *
-         * @param {integer} pageNumber number of page to valid
-         * @return {Boolean} true when all page line items are valid
-         */
-        function isPageValid(pageNumber) {
-            var valid = true;
-            angular.forEach(vm.paginatedLineItems.getPage(pageNumber), function(lineItem) {
-                if(!vm.isLineItemValid(lineItem)) valid = false;
-            });
-            return valid;
         }
     }
 

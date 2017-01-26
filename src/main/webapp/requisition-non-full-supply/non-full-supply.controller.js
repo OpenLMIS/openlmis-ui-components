@@ -23,7 +23,6 @@
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
         vm.changePage = changePage;
-        vm.isPageValid = isPageValid;
         vm.getCurrentPage = getCurrentPage;
 
         /**
@@ -102,7 +101,7 @@
          *
          * @description
          * Deletes the given line item, removing it from the grid and returning the product to the
-         * list od approved products.
+         * list of approved products.
          *
          * @param  {Object} lineItem   the line item to be deleted
          */
@@ -170,7 +169,6 @@
          * @param {integer} newPage new page number
          */
         function changePage(newPage) {
-            vm.currentPage = newPage;
             $state.go('requisitions.requisition.nonFullSupply', {
                 rnr: vm.requisition.id,
                 page: newPage
@@ -191,25 +189,6 @@
          */
         function getCurrentPage() {
             return vm.paginatedLineItems.getPage(vm.currentPage);
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
-         * @name isPageValid
-         *
-         * @description
-         * Validates all line items that are present on page.
-         *
-         * @param {integer} pageNumber number of page to valid
-         * @return {Boolean} true when all page line items are valid
-         */
-        function isPageValid(pageNumber) {
-            var valid = true;
-            angular.forEach(vm.paginatedLineItems.getPage(pageNumber), function(lineItem) {
-                if(!vm.isLineItemValid(lineItem)) valid = false;
-            });
-            return valid;
         }
 
         function makeProductVisible(productName) {
