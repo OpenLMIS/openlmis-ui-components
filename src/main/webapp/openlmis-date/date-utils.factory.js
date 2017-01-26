@@ -6,11 +6,14 @@
         .module('openlmis-date')
         .factory('dateUtils', dateUtils);
 
-    function dateUtils() {
+    dateUtils.$inject = ['$filter'];
+
+    function dateUtils($filter) {
         var factory = {
             FILTER: 'date: \'dd/MM/yyyy\'',
             toDate: toDate,
-            toArray: toArray
+            toArray: toArray,
+            toStringDate: toStringDate
         };
         return factory;
 
@@ -35,6 +38,10 @@
                 array.push(date.getSeconds());
             }
             return array;
+        }
+
+        function toStringDate(date) {
+            return $filter('date')(date, 'yyyy-MM-dd');
         }
     }
 

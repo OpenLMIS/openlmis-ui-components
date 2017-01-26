@@ -37,7 +37,11 @@ describe('Requisition', function() {
                 programId: '1',
                 columnsMap : {
                 begginingBalance : begginingBalance
-            }}
+            }},
+            processingPeriod: {
+                startDate: new Date(2017, 0, 1),
+                endDate: new Date(2017, 0, 31)
+            }
         },
         stockAdjustmentReason = {
             program: program,

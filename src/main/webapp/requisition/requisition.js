@@ -16,12 +16,12 @@
     requisitionFactory.$inject = [
         '$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionTemplate',
         'LineItem', 'categoryFactory', 'REQUISITION_STATUS', 'COLUMN_SOURCES',
-        'localStorageFactory', 'offlineService'
+        'localStorageFactory', 'offlineService', 'dateUtils'
     ];
 
     function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory,
                                 RequisitionTemplate, LineItem, categoryFactory, REQUISITION_STATUS,
-                                COLUMN_SOURCES, localStorageFactory, offlineService) {
+                                COLUMN_SOURCES, localStorageFactory, offlineService, dateUtils) {
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
@@ -322,6 +322,10 @@
                     }
                 });
             });
+
+            requisition.processingPeriod.startDate = dateUtils.toStringDate(requisition.processingPeriod.startDate);
+            requisition.processingPeriod.endDate = dateUtils.toStringDate(requisition.processingPeriod.endDate);
+
             return angular.toJson(requisition);
         }
 
