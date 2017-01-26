@@ -191,7 +191,7 @@
          */
         function isPageValid(pageNumber) {
             var valid = true;
-            angular.forEach(vm.paginatedLineItems[pageNumber - 1], function(lineItem) {
+            angular.forEach(vm.paginatedLineItems.items[pageNumber - 1], function(lineItem) {
                 if(!vm.isLineItemValid(lineItem)) valid = false;
             });
             return valid;
@@ -205,8 +205,15 @@
             });
         }
 
-        function reloadLineItems(items) {
-            vm.paginatedLineItems = paginatedListFactory.getPaginatedItems(vm.requisition.requisitionLineItems, vm.paginatedLineItems.currentPage);
+        function reloadLineItems() {
+            var items = $filter('filter')(vm.requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply:false
+                }
+            });
+
+            items = $filter('orderBy')(items, '$program.productCategoryDisplayName');
+            vm.paginatedLineItems = paginatedListFactory.getPaginatedItems(items, vm.paginatedLineItems.currentPage);
             vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
         }
     }
