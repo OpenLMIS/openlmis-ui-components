@@ -4,14 +4,12 @@
     justify-content: flex-end;
     border-color: $light-gray !important;
 
-    .invalid {
-        @include button-color($very-light-red);
-        border-color: $very-light-red;
+    .invalid a {
+        @include button-color(lighten($red, 30%));
     }
 
-    .active .invalid {
-        @include button-color($light-red);
-        border-color: $light-red;
+    .active.invalid a {
+        @include button-color(lighten($red, 15%));
     }
 
     li:last-child a::after {

@@ -11,11 +11,11 @@
      */
     angular
         .module('requisition-non-full-supply')
-        .controller('NonFullSupplyController', nonFullSupplyCtrl);
+        .controller('NonFullSupplyController', nonFullSupplyController);
 
-    nonFullSupplyCtrl.$inject = ['requisition', 'requisitionValidator', 'addProductModalService', 'LineItem', '$filter', 'lineItems', 'paginatedListFactory', '$state'];
+    nonFullSupplyController.$inject = ['requisition', 'columns', 'requisitionValidator', 'addProductModalService', 'LineItem', '$filter', 'lineItems', 'paginatedListFactory', '$state', '$stateParams'];
 
-    function nonFullSupplyCtrl(requisition, requisitionValidator, addProductModalService, LineItem, $filter, lineItems, paginatedListFactory, $state) {
+    function nonFullSupplyController(requisition, columns, requisitionValidator, addProductModalService, LineItem, $filter, lineItems, paginatedListFactory, $state, $stateParams) {
 
         var vm = this;
 
@@ -24,6 +24,7 @@
         vm.displayDeleteColumn = displayDeleteColumn;
         vm.changePage = changePage;
         vm.isPageValid = isPageValid;
+        vm.getCurrentPage = getCurrentPage;
 
         /**
          * @ngdoc method
@@ -38,6 +39,17 @@
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @name currentPage
+         * @type {Object}
+         *
+         * @description
+         * Holds current page
+         */
+        vm.currentPage = $stateParams.page ?  parseInt($stateParams.page) : 1;
 
         /**
          * @ngdoc property
@@ -57,20 +69,9 @@
          * @type {Object}
          *
          * @description
-         * Holds line items divided into pages with properties like current page etc.
+         * Holds line items divided into pages with get method.
          */
-        vm.paginatedLineItems = lineItems;
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
-         * @name lineItems
-         * @type {Object}
-         *
-         * @description
-         * Holds list of line items grouped by category.
-         */
-        vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
+        vm.paginatedLineItems = loadPaginatedLineItems(lineItems);
 
         /**
          * @ngdoc property
@@ -79,7 +80,7 @@
          * @type {Boolean}
          *
          * @description
-         * Flag reponsible for hiding/showing the Add Product button.
+         * Flag responsible for hiding/showing the Add Product button.
          */
         vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isAuthorized();
 
@@ -92,7 +93,7 @@
          * @description
          * Holds the list of columns visible on this screen.
          */
-        vm.columns = vm.requisition.template.getColumns(true);
+        vm.columns = columns;
 
         /**
          * @ngdoc method
@@ -110,7 +111,7 @@
             if (id > -1) {
                 makeProductVisible(vm.requisition.requisitionLineItems[id].orderableProduct.name);
                 vm.requisition.requisitionLineItems.splice(id, 1);
-                reloadLineItems();
+                vm.paginatedLineItems = loadPaginatedLineItems(filterRequisitionLineItems());
             }
         }
 
@@ -132,7 +133,7 @@
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)
                     );
-                    reloadLineItems();
+                    vm.paginatedLineItems = loadPaginatedLineItems(filterRequisitionLineItems());
                 })
                 .catch(function(){
                     // don't do anything
@@ -169,13 +170,27 @@
          * @param {integer} newPage new page number
          */
         function changePage(newPage) {
-            vm.lineItems = vm.paginatedLineItems.items[newPage - 1];
+            vm.currentPage = newPage;
             $state.go('requisitions.requisition.nonFullSupply', {
                 rnr: vm.requisition.id,
                 page: newPage
             }, {
                 notify: false
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @name getCurrentPage
+         *
+         * @description
+         * Gives current page of line items.
+         *
+         * @return {Array} page with line items
+         */
+        function getCurrentPage() {
+            return vm.paginatedLineItems.getPage(vm.currentPage - 1);
         }
 
         /**
@@ -191,7 +206,7 @@
          */
         function isPageValid(pageNumber) {
             var valid = true;
-            angular.forEach(vm.paginatedLineItems.items[pageNumber - 1], function(lineItem) {
+            angular.forEach(vm.paginatedLineItems.getPage(pageNumber - 1), function(lineItem) {
                 if(!vm.isLineItemValid(lineItem)) valid = false;
             });
             return valid;
@@ -205,16 +220,17 @@
             });
         }
 
-        function reloadLineItems() {
-            var items = $filter('filter')(vm.requisition.requisitionLineItems, {
+        function loadPaginatedLineItems(lineItems) {
+            var items = $filter('orderBy')(lineItems, '$program.productCategoryDisplayName');
+            return paginatedListFactory.getPaginatedItems(items, vm.currentPage);
+        }
+
+        function filterRequisitionLineItems() {
+            return $filter('filter')(vm.requisition.requisitionLineItems, {
                 $program: {
                     fullSupply:false
                 }
             });
-
-            items = $filter('orderBy')(items, '$program.productCategoryDisplayName');
-            vm.paginatedLineItems = paginatedListFactory.getPaginatedItems(items, vm.paginatedLineItems.currentPage);
-            vm.lineItems = vm.paginatedLineItems.items[vm.paginatedLineItems.currentPage - 1];
         }
     }
 

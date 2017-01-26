@@ -45,11 +45,14 @@
 
             if(toSplit.length > 0) pages[i] = toSplit;
 
-            return {
-                items: pages,
-                pages: pages.length,
-                currentPage: currentPage ? currentPage : 1
-            };
+            pages.getPage = getPage;
+            pages.items = items;
+
+            return pages;
+        }
+
+        function getPage(pageNumber) {
+            return this[pageNumber];
         }
     }
 

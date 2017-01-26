@@ -4,10 +4,9 @@
 			{{'label.previousPage' | message}}
 		</a>
 	</li>
-	<li ng-class="{active: vm.isCurrentPage($index + 1)}"
+	<li ng-class="{active: vm.isCurrentPage($index + 1), invalid: !vm.isPageValid($index + 1)}"
 		ng-repeat="i in vm.getPageNumbers() track by $index">
-		<a ng-class="{invalid: !vm.isPageValid($index + 1)}"
-			ng-click="vm.changePage($index + 1)">
+		<a ng-click="vm.changePage($index + 1)">
 			{{$index + 1}}
 		</a>
 	</li>

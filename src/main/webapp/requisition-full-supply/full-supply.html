@@ -10,7 +10,7 @@
 				</th>
 			</tr>
 		</thead>
-		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.productCategoryDisplayName'">
+		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.productCategoryDisplayName'">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem.skipped}"
 				ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
@@ -19,8 +19,8 @@
 		</tbody>
 	</table>
 </div>
-<openlmis-pagination current-page="vm.paginatedLineItems.currentPage"
+<openlmis-pagination current-page="vm.currentPage"
 	is-page-valid="vm.isPageValid"
-	number-of-pages="vm.paginatedLineItems.pages"
+	number-of-pages="vm.paginatedLineItems.length"
 	change-page="vm.changePage">
 </openlmis-pagination>

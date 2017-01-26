@@ -23,11 +23,7 @@ describe('FullSupplyController', function() {
                 lineItem('Three', false)
             ]
         };
-        lineItems = {
-            currentPage: 1,
-            items: [requisition.requisitionLineItems],
-            pages: 1
-        };
+        lineItems = [requisition.requisitionLineItems];
 
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
@@ -47,8 +43,8 @@ describe('FullSupplyController', function() {
         vm = $controller('FullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
-            lineItems: lineItems
-
+            lineItems: lineItems,
+            columns: []
         });
     }));
 

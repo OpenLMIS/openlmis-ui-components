@@ -24,13 +24,8 @@
 			},
 			templateUrl: 'openlmis-pagination/openlmis-pagination.html',
 			controller: 'PaginationController',
-			controllerAs: 'vm',
-			link: link
+			controllerAs: 'vm'
 		};
-
-		function link(scope, element, attributes, controller) {
-			scope.currentPage = 1;
-		}
 	}
 
 })();

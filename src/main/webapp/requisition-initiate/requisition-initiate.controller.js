@@ -224,16 +224,14 @@
                 vm.emergency).then(
                 function (data) {
                     $state.go('requisitions.requisition.fullSupply', {
-                        rnr: data.id,
-                        page: 1
+                        rnr: data.id
                     });
                 }, function () {
                     notificationService.error('error.requisition.not.initiated');
                 });
             } else {
                 $state.go('requisitions.requisition.fullSupply', {
-                    rnr: selectedPeriod.rnrId,
-                    page: 1
+                    rnr: selectedPeriod.rnrId
                 });
             }
         };

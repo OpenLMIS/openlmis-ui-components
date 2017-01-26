@@ -16,20 +16,15 @@
             controller: 'NonFullSupplyController',
             controllerAs: 'vm',
             resolve: {
-                lineItems: function($q, $filter, requisition, paginatedListFactory, $stateParams) {
-                    var deferred = $q.defer(),
-                        page = $stateParams.page ? parseInt($stateParams.page) : 1,
-                        items = $filter('filter')(requisition.requisitionLineItems, {
-                            $program: {
-                                fullSupply:false
-                            }
-                        });
-
-                    items = $filter('orderBy')(items, '$program.productCategoryDisplayName');
-
-                    deferred.resolve(paginatedListFactory.getPaginatedItems(items, page));
-
-                    return deferred.promise;
+                lineItems: function(requisition, $filter) {
+                    return $filter('filter')(requisition.requisitionLineItems, {
+                        $program: {
+                            fullSupply:false
+                        }
+                    });
+                },
+                columns: function(requisition) {
+                    return requisition.template.getColumns();
                 }
             }
         });
