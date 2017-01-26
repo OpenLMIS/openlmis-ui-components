@@ -33,7 +33,7 @@
          * @param {String} items items that will be split into pages
          * @return {Object} contains all pages, their amount and current page
          */
-        function getPaginatedItems(items, currentPage) {
+        function getPaginatedItems(items) {
             var toSplit = items,
                 i = 0,
                 pages = [];
@@ -52,7 +52,7 @@
         }
 
         function getPage(pageNumber) {
-            return this[pageNumber];
+            return pageNumber <= this.length && pageNumber > 0 ? this[pageNumber - 1] : undefined;
         }
     }
 

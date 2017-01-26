@@ -190,7 +190,7 @@
          * @return {Array} page with line items
          */
         function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.currentPage - 1);
+            return vm.paginatedLineItems.getPage(vm.currentPage);
         }
 
         /**
@@ -206,7 +206,7 @@
          */
         function isPageValid(pageNumber) {
             var valid = true;
-            angular.forEach(vm.paginatedLineItems.getPage(pageNumber - 1), function(lineItem) {
+            angular.forEach(vm.paginatedLineItems.getPage(pageNumber), function(lineItem) {
                 if(!vm.isLineItemValid(lineItem)) valid = false;
             });
             return valid;
@@ -222,7 +222,7 @@
 
         function loadPaginatedLineItems(lineItems) {
             var items = $filter('orderBy')(lineItems, '$program.productCategoryDisplayName');
-            return paginatedListFactory.getPaginatedItems(items, vm.currentPage);
+            return paginatedListFactory.getPaginatedItems(items);
         }
 
         function filterRequisitionLineItems() {

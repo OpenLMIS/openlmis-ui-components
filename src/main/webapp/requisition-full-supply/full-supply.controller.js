@@ -57,7 +57,7 @@
          * @description
          * Holds line items divided into pages with properties like current page etc.
          */
-        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(lineItems, '$program.productCategoryDisplayName'), vm.currentPage);
+        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(lineItems, '$program.productCategoryDisplayName'));
 
         /**
          * @ngdoc property
@@ -116,7 +116,7 @@
          * @param {integer} newPage new page number
          */
         function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.currentPage - 1);
+            return vm.paginatedLineItems.getPage(vm.currentPage);
         }
 
         /**
@@ -179,7 +179,7 @@
          */
         function isPageValid(pageNumber) {
             var valid = true;
-            angular.forEach(vm.paginatedLineItems.getPage(pageNumber - 1), function(lineItem) {
+            angular.forEach(vm.paginatedLineItems.getPage(pageNumber), function(lineItem) {
                 if(!vm.isLineItemValid(lineItem)) valid = false;
             });
             return valid;

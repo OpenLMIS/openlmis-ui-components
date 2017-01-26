@@ -43,8 +43,10 @@
          * @param  {integer} newPage New page number
          */
         function changePage(newPage) {
-            $scope.currentPage = newPage;
-            if($scope.changePage && angular.isFunction($scope.changePage)) $scope.changePage(newPage);
+            if(newPage > 0 && newPage <= $scope.numberOfPages) {
+                $scope.currentPage = newPage;
+                if($scope.changePage && angular.isFunction($scope.changePage)) $scope.changePage(newPage);
+            }
         }
 
         /**
@@ -79,7 +81,7 @@
          * @description
          * Checks if the page number is current one.
          *
-         * @param  {integer} newPage number of page to check
+         * @param {integer} newPage number of page to check
          */
         function isCurrentPage(pageNumber) {
             return $scope.currentPage === pageNumber;
