@@ -31,7 +31,7 @@
             validateLineItem: validateLineItem,
             validateLineItemField: validateLineItemField,
             isLineItemValid: isLineItemValid,
-            areLinItemsValid: areLinItemsValid
+            areLineItemsValid: areLineItemsValid
         };
         return validator;
 
@@ -158,11 +158,14 @@
          * @param   {Array} lineItem    the list of line items to be checked
          * @return  {Boolean}           true if any of the line items has error, false otherwise
          */
-        function areLinItemsValid(lineItems) {
-            var valid = true;
+        function areLineItemsValid(lineItems) {
+            var valid = true,
+                validator = this;
+
             lineItems.forEach(function(lineItem) {
-                valid = valid && isLineItemValid(lineItem);
+                valid = valid && validator.isLineItemValid(lineItem);
             });
+
             return valid;
         }
 

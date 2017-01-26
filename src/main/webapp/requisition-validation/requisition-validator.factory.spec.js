@@ -241,7 +241,34 @@ describe('requisitionValidator', function() {
             expect(result).toBe(false);
         });
 
-    })
+    });
+
+    describe('areLineItemsValid', function() {
+
+        var lineItems;
+
+        beforeEach(function() {
+            lineItems = [
+                lineItemSpy('one'),
+                lineItemSpy('two')
+            ];
+
+            spyOn(validator, 'isLineItemValid').andReturn(true);
+        });
+
+        it('should return true if all line items are valid', function() {
+            expect(validator.areLineItemsValid(lineItems)).toBe(true);
+        });
+
+        it('should return false if any of the line items is invalid', function() {
+            validator.isLineItemValid.andCallFake(function(lineItem) {
+                return lineItem !== lineItems[1];
+            });
+
+            expect(validator.areLineItemsValid(lineItems)).toBe(false);
+        });
+
+    });
 
     function fullSupplyCategories() {
         return [

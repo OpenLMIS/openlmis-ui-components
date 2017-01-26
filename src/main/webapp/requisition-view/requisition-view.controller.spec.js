@@ -11,7 +11,8 @@
 describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
-        loadingModalService, deferred, requisitionUrlFactoryMock;
+        loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
+        fullSupplyItem, nonFullSupplyItem, lineItems;
 
     beforeEach(function() {
         module('requisition-view');
@@ -20,6 +21,9 @@ describe('RequisitionViewController', function() {
             var confirmSpy = authorizationServiceSpy = jasmine.createSpyObj('confirmService', ['confirm']),
                 authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
 
+            requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator', [
+                'areLineItemsValid'
+            ]);
             requisitionUrlFactoryMock = jasmine.createSpy();
 
             $provide.service('confirmService', function() {
@@ -33,6 +37,10 @@ describe('RequisitionViewController', function() {
             $provide.factory('requisitionUrlFactory', function() {
                 return requisitionUrlFactoryMock;
             });
+
+            $provide.factory('requisitionValidator', function() {
+                return requisitionValidatorMock;
+            })
         });
 
         inject(function(_$rootScope_, $controller, _$q_, _$state_, _notificationService_,
@@ -65,6 +73,23 @@ describe('RequisitionViewController', function() {
         requisitionUrlFactoryMock.andCallFake(function(url) {
             return 'http://some.url' + url;
         });
+
+        fullSupplyItem = {
+            $program: {
+                fullSupply: true
+            }
+        };
+
+        nonFullSupplyItem = {
+            $program: {
+                fullSupply: false
+            }
+        };
+
+        requisition.requisitionLineItems = [
+            fullSupplyItem,
+            nonFullSupplyItem
+        ];
     });
 
     it('should display skip button', function() {
@@ -122,5 +147,53 @@ describe('RequisitionViewController', function() {
 
     it('getPrintUrl should prepare URL correctly', function() {
         expect(vm.getPrintUrl()).toEqual('http://some.url/api/requisitions/1/print');
+    });
+
+    describe('isFullSupplyTabValid', function() {
+
+        it('should return true if all line items are valid', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] === fullSupplyItem;
+            });
+
+            expect(vm.isFullSupplyTabValid()).toBe(true);
+            expect(requisitionValidatorMock.areLineItemsValid)
+                .toHaveBeenCalledWith([fullSupplyItem]);
+        });
+
+        it('should return true if all line items are valid', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] !== fullSupplyItem;
+            });
+
+            expect(vm.isFullSupplyTabValid()).toBe(false);
+            expect(requisitionValidatorMock.areLineItemsValid)
+                .toHaveBeenCalledWith([fullSupplyItem]);
+        });
+
+    });
+
+    describe('isNonFullSupplyTabValid', function() {
+
+        it('should return true if all line items are valid', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] === nonFullSupplyItem;
+            });
+
+            expect(vm.isNonFullSupplyTabValid()).toBe(true);
+            expect(requisitionValidatorMock.areLineItemsValid)
+                .toHaveBeenCalledWith([nonFullSupplyItem]);
+        });
+
+        it('should return true if all line items are valid', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] !== nonFullSupplyItem;
+            });
+
+            expect(vm.isNonFullSupplyTabValid()).toBe(false);
+            expect(requisitionValidatorMock.areLineItemsValid)
+                .toHaveBeenCalledWith([nonFullSupplyItem]);
+        });
+
     });
 });

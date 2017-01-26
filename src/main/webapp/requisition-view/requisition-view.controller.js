@@ -459,7 +459,7 @@
                     fullSupply: true
                 }
             });
-            return requisitionValidator.areLinItemsValid(fullSupplyItems);
+            return requisitionValidator.areLineItemsValid(fullSupplyItems);
         }
 
         /**
@@ -478,7 +478,7 @@
                     fullSupply: false
                 }
             });
-            return requisitionValidator.areLinItemsValid(nonFullSupplyItems);
+            return requisitionValidator.areLineItemsValid(nonFullSupplyItems);
         }
 
         function save() {

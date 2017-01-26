@@ -4,7 +4,7 @@
     }
 }
 
-.error-indicator:after {
+.nav > li.error > a:after {
     color: $red;
     content: ' \f06a';
     font-family: 'FontAwesome';

@@ -13,19 +13,16 @@
     </h2>
     <ng-include src="'requisition-view/header.html'"></ng-include>
     <ul class="nav nav-tabs">
-        <li ui-sref-active="active"
-            role="presentation">
-                <a ui-sref="requisitions.requisition.fullSupply"
-                   ng-class="{'error-indicator': !vm.isFullSupplyTabValid()}">
+        <li ui-sref-active="active" role="presentation"
+            ng-class="{'error': !vm.isFullSupplyTabValid()}">
+                <a ui-sref="requisitions.requisition.fullSupply">
                     {{'label.full.supply.products' | message}}
                 </a>
         </li>
-        <li ui-sref-active="active"
-            ng-if="vm.requisition.template.showNonFullSupplyTab"
-            role="presentation">
-                <a ui-sref="requisitions.requisition.nonFullSupply"
-                   ng-class="{'error-indicator': !vm.isNonFullSupplyTabValid()}">
-                        {{'label.non.full.supply.products' | message}}
+        <li ui-sref-active="active" ng-if="vm.requisition.template.showNonFullSupplyTab"
+            role="presentation" ng-class="{'error': !vm.isNonFullSupplyTabValid()}">
+                <a ui-sref="requisitions.requisition.nonFullSupply">
+                    {{'label.non.full.supply.products' | message}}
                 </a>
         </li>
     </ul>
