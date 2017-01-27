@@ -1,6 +1,7 @@
 {
   "app.title": "OpenLMIS",
   "button.add": "Add",
+  "button.addComment": "Add comment",
   "button.approve": "Approve",
   "button.authorize": "Authorize",
   "button.cancel": "Cancel",
@@ -13,6 +14,7 @@
   "button.remove": "Remove",
   "button.reset.password": "Reset Password",
   "button.rnr.reject": "Reject",
+  "button.removeComment": "Remove comment",
   "button.save": "Save",
   "button.save.locally": "Save Locally",
   "button.search": "Search",

@@ -1,0 +1,7 @@
+<div class="status-message" ng-show="vm.displayAddComment()">
+    <textarea ng-model="vm.requisition.draftStatusMessage" ng-show="vm.isAddClicked"></textarea>
+    <input type="button" class="btn btn-primary" value="{{'button.addComment' | message}}"
+           ng-click="vm.showTextArea()" ng-hide="vm.isAddClicked"/>
+    <input type="button" class="btn delete-button" value="{{'button.removeComment' | message}}"
+           ng-click="vm.hideTextArea()" ng-show="vm.isAddClicked"/>
+</div>

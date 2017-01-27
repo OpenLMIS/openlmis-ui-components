@@ -12,6 +12,7 @@
         <a class="btn btn-primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</a>
     </h2>
     <ng-include src="'requisition-view/header.html'"></ng-include>
+    <status-messages requisition="vm.requisition"></status-messages>
     <ul class="nav nav-tabs">
         <li ui-sref-active="active" role="presentation"
             ng-class="{'error': !vm.isFullSupplyTabValid()}">
