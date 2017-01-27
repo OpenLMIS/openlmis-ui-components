@@ -55,6 +55,9 @@
             ],
             requestedQuantityExplanation: [
                 TEMPLATE_COLUMNS.REQUESTED_QUANTITY
+            ],
+            maximumStockQuantity: [
+                TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
             ]
         };
 
