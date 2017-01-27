@@ -1,6 +1,6 @@
 describe('templateFactory', function() {
 
-    var rootScope, TemplateFactory, template, q, dependencyTestColumns;
+    var rootScope, TemplateFactory, template, q, dependencyTestColumns, TEMPLATE_CONSTANTS;
 
     beforeEach(module('admin-template'));
 
@@ -60,11 +60,12 @@ describe('templateFactory', function() {
     	});
     }));
 
-    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, openlmisUrlFactory, $q) {
+    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, openlmisUrlFactory, $q, _TEMPLATE_CONSTANTS_) {
         rootScope = $rootScope;
         TemplateFactory = templateFactory;
         openlmisURL = openlmisUrlFactory;
         q = $q;
+        TEMPLATE_CONSTANTS = _TEMPLATE_CONSTANTS_;
 
         template = {
             id: '1',
@@ -544,5 +545,24 @@ describe('templateFactory', function() {
 
         requisitionTemplate.columnsMap.requestedQuantity.isDisplayed = false;
         expect(requisitionTemplate.$isValid()).toBe(true);
+    });
+
+    it('should check if column definition has no more characters then maximum allowed', function() {
+        var requisitionTemplate, longString = 'd';
+
+        for(var i = 0; i < TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH; i++){
+            longString = longString.concat('d');
+        }
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$isValid()).toBe(true);
+
+        requisitionTemplate.columnsMap.total.definition = longString;
+
+        expect(requisitionTemplate.$isValid()).toBe(false);
     });
 });

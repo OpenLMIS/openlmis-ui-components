@@ -7,7 +7,7 @@ describe('RequisitionTemplateAdminController', function() {
     var template, program;
 
     //injects
-    var q, state, notificationService, COLUMN_SOURCES, rootScope;
+    var q, state, notificationService, COLUMN_SOURCES, rootScope, TEMPLATE_CONSTANTS;
 
     beforeEach(function() {
         module('admin-template');
@@ -45,12 +45,13 @@ describe('RequisitionTemplateAdminController', function() {
         };
 
         inject(function($controller, $q, $state, _notificationService_, _COLUMN_SOURCES_,
-                        messageService, $rootScope) {
+                        messageService, $rootScope, _TEMPLATE_CONSTANTS_) {
 
             q = $q;
             state = $state;
             notificationService = _notificationService_;
             COLUMN_SOURCES = _COLUMN_SOURCES_;
+            TEMPLATE_CONSTANTS = _TEMPLATE_CONSTANTS_;
             message = messageService;
             rootScope = $rootScope;
 
@@ -178,6 +179,22 @@ describe('RequisitionTemplateAdminController', function() {
 
         expect(message.get).toHaveBeenCalledWith('msg.template.emptyNumberOfPeriods');
         expect(result).toBe('Number of periods cannot be empty!');
+    });
+
+    it('should validate if requestedQuantity and requestedQuantityExplanation have the same display', function() {
+        var errorMessage = 'message',
+            longString = 'd';
+
+        for(var i = 0; i < TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH; i++){
+            longString = longString.concat('d');
+        }
+
+        vm.template.columnsMap.total.definition = longString;
+
+        spyOn(message, 'get').andReturn(errorMessage);
+
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual(errorMessage);
+        expect(message.get).toHaveBeenCalledWith('error.columnDescriptionTooLong');
     });
 
     it('should validate if requestedQuantity and requestedQuantityExplanation have the same display', function() {

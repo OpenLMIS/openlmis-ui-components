@@ -13,10 +13,10 @@
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
     templateFactory.$inject = [
-        '$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS'
+        '$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS', 'TEMPLATE_CONSTANTS'
     ];
 
-    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS) {
+    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS, TEMPLATE_CONSTANTS) {
 
         var factory = {
             get: get,
@@ -117,6 +117,8 @@
             var valid = true,
                 column = this,
                 columns = template.columnsMap;
+
+            if(column.definition && column.definition.length > TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH) return false;
 
             if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION &&
                 isAverageConsumptionInvalid(template.numberOfPeriodsToAverage)) {

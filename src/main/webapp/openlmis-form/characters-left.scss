@@ -1,0 +1,15 @@
+.characters-left {
+
+    display: flex;
+    flex-direction: row;
+    font-size: 0.8em;
+
+    div:first-child::after {
+        content: ':';
+        margin-right: 0.5em;
+    }
+}
+
+.characters-left.no-left {
+    color: $red;
+}

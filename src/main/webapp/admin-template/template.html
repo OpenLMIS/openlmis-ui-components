@@ -17,6 +17,7 @@
                         <th>{{'template.header.display' | message}}</th>
                         <th></th>
     					<th>{{'template.header.label' | message}}</th>
+                        <th>{{'label.description' | message}}</th>
     					<th>{{'template.header.source' | message}}</th>
                         <th></th>
                     </tr>
@@ -39,6 +40,11 @@
                             </td>
                             <td>
                                 <input disable-drag type="text" ng-model="column.label" class="form-control input-sm"/>
+                            </td>
+                            <td>
+                                <textarea characters-left max-length="vm.maxColumnDescriptionLength"
+                                    disable-drag ng-model="column.definition" class="form-control input-sm">
+                                </textarea>
                             </td>
                             <td>
                                 <div ng-if="!vm.canChangeSource(column.columnDefinition)">{{vm.sourceDisplayName(column.source)}}</div>
