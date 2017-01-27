@@ -337,7 +337,7 @@
          *
          * @description
          * Determines whether to display approve and reject buttons or not. Returns true only if
-         * requisition is authorized or in_approval and user has permission to approve requisition.
+         * requisition is authorized or in approval and user has permission to approve requisition.
          *
          * @return {boolean} should approve and reject buttons be displayed
          */
