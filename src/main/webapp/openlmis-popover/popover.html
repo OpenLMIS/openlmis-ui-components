@@ -1,0 +1,6 @@
+<div class="popover {{cssClass}}" role="tooltip" ng-mouseenter="onPopoverEnter()" ng-mouseleave="onPopoverLeave()">
+	<div class="arrow"></div>
+	<button class="close" ng-click="closePopover()">{{ 'popover.close' | message}}</button>
+	<h3 ng-if="title">{{title}}</h3>
+	<div class="popover-content"></div>
+</div>

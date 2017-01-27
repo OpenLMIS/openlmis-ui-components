@@ -27,7 +27,8 @@
         'openlmis-navigation',
 		'openlmis-requisitions',
 		'openlmis-reset-password',
-        'openlmis-table'
+        'openlmis-table',
+        'openlmis-popover'
 	]).config(defaultRoutes);
 
 	defaultRoutes.$inject = ['$urlRouterProvider', '$qProvider'];

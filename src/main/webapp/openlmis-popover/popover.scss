@@ -1,0 +1,63 @@
+/*
+Popovers
+
+Popovers are used to provide additional content to a user on pages that have
+limited space.
+
+markup:
+<div>
+	<button popover="Look a popover!">Sample Popover</button>
+    <button popover popover-template="">Complex Popover</button>
+	<p popover="Some extra information about this paragraph" popover-title="Sample Title">
+		Very soon the Rabbit noticed Alice, as she went hunting about, and called out to her in an angry tone, `Why, Mary Ann, what are you doing out here? Run home this moment, and fetch me a pair of gloves and a fan! Quick, now!' And Alice was so much frightened that she ran off at once in the direction it pointed to, without trying to explain the mistake it had made.
+	</p>
+    <form>
+		<label for="examplePopoverInput">Example Input Popover</label>
+		<input id="examplePopoverInput" type="text" popover="This is how an input popover looks" />
+		<!-- <label><input type="checkbox" ng-value="disableInputPopover" />Disable input popover</label> -->
+    </form>
+</div>
+
+Styleguide 1.5
+*/
+
+.popover > h3 {
+	background-color: $background-color-alt;
+	color: $brand-primary;
+	font-size: 1em;
+	line-height: 1em;
+	padding: $space-size/2 $space-size;
+	margin: 0em;
+}
+
+.popover > .popover-content{
+	padding: $space-size/2 $space-size;
+}
+
+.popover > button.close{
+	opacity: 1;
+	position: absolute;
+	top: $space-size/4;
+	right: $space-size/4;
+	display:block;
+	width: $space-size;
+	height: $space-size;
+
+	font-size: 1em;
+
+	overflow: hidden;
+	text-indent: 30000px;
+
+	&::after{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		font-family: "FontAwesome";
+		content: "\f00d";
+		text-indent: 0em;
+		line-height: $space-size;
+		text-align: center;
+		width: $space-size;
+		height: $space-size;
+	}
+}

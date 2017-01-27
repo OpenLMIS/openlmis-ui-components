@@ -254,5 +254,6 @@
   "title.logistics.management": "Logistics Management",
   "user.email.invalid": "Invalid email address format",
   "user.login.error": "The username or password you entered is incorrect. Please try again.",
-  "welcome.to.message": "Welcome to"
+  "welcome.to.message": "Welcome to",
+  "popover.showButton": "More Information"
 }
