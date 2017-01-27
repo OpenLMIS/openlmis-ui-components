@@ -22,9 +22,13 @@
         .module('referencedata-facility')
         .factory('facilityFactory', factory);
 
-    factory.$inject = ['openlmisUrlFactory', '$q', '$filter', 'programService', 'authorizationService', 'facilityService'];
+    factory.$inject = [
+        'openlmisUrlFactory', '$q', '$filter', 'programService', 'authorizationService',
+        'facilityService', 'REQUISITION_RIGHTS', 'FULFILLMENT_RIGHTS'
+    ];
 
-    function factory(openlmisUrlFactory, $q, $filter, programService, authorizationService, facilityService){
+    function factory(openlmisUrlFactory, $q, $filter, programService, authorizationService,
+                     facilityService, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS) {
 
         return {
             getUserFacilities: getUserFacilities,
@@ -85,8 +89,8 @@
             var deferred = $q.defer();
 
             $q.all([
-                getFulfillmentFacilities(userId, 'ORDERS_VIEW'),
-                getFulfillmentFacilities(userId, 'PODS_MANAGE')
+                getFulfillmentFacilities(userId, FULFILLMENT_RIGHTS.ORDERS_VIEW),
+                getFulfillmentFacilities(userId, FULFILLMENT_RIGHTS.PODS_MANAGE)
             ]).then(function(results) {
                 deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
             }, function() {
@@ -111,8 +115,8 @@
             var deferred = $q.defer();
 
             $q.all([
-                this.getUserFacilities(userId, 'REQUISITION_CREATE'),
-                this.getUserFacilities(userId, 'REQUISITION_AUTHORIZE')
+                this.getUserFacilities(userId, REQUISITION_RIGHTS.REQUISITION_CREATE),
+                this.getUserFacilities(userId, REQUISITION_RIGHTS.REQUISITION_AUTHORIZE)
             ]).then(function(results) {
                 deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
             }, function() {

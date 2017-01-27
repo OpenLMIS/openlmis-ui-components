@@ -128,9 +128,9 @@
          *
          */
 		function shouldDisplay(state) {
-			return state.showInNavigation
-                && (!state.accessRights || authorizationService.hasRights(state.accessRights))
-                && (!state.abstract || hasChildren(state, true));
+			return state.showInNavigation && (!state.accessRights ||
+                authorizationService.hasRights(state.accessRights, state.areAllRightsRequired)) &&
+                (!state.abstract || hasChildren(state, true));
 		}
 
         function initialize() {

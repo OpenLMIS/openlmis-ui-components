@@ -9,7 +9,8 @@
  */
 describe('facilityFactory', function() {
 
-    var $rootScope, $q, facility1, facility2, userPrograms, programService, facilityService, authorizationService, facilityFactory;
+    var $rootScope, $q, facility1, facility2, userPrograms, programService, facilityService,
+        authorizationService, facilityFactory, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS;
 
     beforeEach(function() {
         module('referencedata-facility', function($provide){
@@ -34,6 +35,8 @@ describe('facilityFactory', function() {
             $q = $injector.get('$q');
             authorizationService = $injector.get('authorizationService');
             facilityFactory = $injector.get('facilityFactory');
+            REQUISITION_RIGHTS = $injector.get('REQUISITION_RIGHTS');
+            FULFILLMENT_RIGHTS = $injector.get('FULFILLMENT_RIGHTS');
         });
 
         facility1 = {
@@ -69,7 +72,7 @@ describe('facilityFactory', function() {
             return $q.when([facility1, facility2]);
         });
 
-        facilityFactory.getUserFacilities(userId, 'REQUISITION_VIEW').then(function(response) {
+        facilityFactory.getUserFacilities(userId, REQUISITION_RIGHTS.REQUISITION_VIEW).then(function(response) {
             data = response;
         });
         $rootScope.$apply();
@@ -98,10 +101,10 @@ describe('facilityFactory', function() {
             ];
 
             spyOn(authorizationService, 'getRightByName').andCallFake(function(name) {
-                if (name === 'ORDERS_VIEW') return {
+                if (name === FULFILLMENT_RIGHTS.ORDERS_VIEW) return {
                     id: 'orders-view-id'
                 };
-                if (name === 'PODS_MANAGE') return {
+                if (name === FULFILLMENT_RIGHTS.PODS_MANAGE) return {
                     id: 'pods-manage-id'
                 };
             });
@@ -164,10 +167,10 @@ describe('facilityFactory', function() {
             ];
 
             spyOn(facilityFactory, 'getUserFacilities').andCallFake(function(userId, rightName) {
-                if (rightName === 'REQUISITION_CREATE') {
+                if (rightName === REQUISITION_RIGHTS.REQUISITION_CREATE) {
                     return $q.when(requisitionCreateFacilities);
                 }
-                if (rightName === 'REQUISITION_AUTHORIZE') {
+                if (rightName === REQUISITION_RIGHTS.REQUISITION_AUTHORIZE) {
                     return $q.when(requisitionAuthorizeFacilities);
                 }
             });
@@ -177,14 +180,14 @@ describe('facilityFactory', function() {
             facilityFactory.getRequestingFacilities(userId);
 
             expect(facilityFactory.getUserFacilities)
-                .toHaveBeenCalledWith(userId, 'REQUISITION_CREATE');
+                .toHaveBeenCalledWith(userId, REQUISITION_RIGHTS.REQUISITION_CREATE);
         });
 
         it('should fetch facilities for REQUISITION_AUTHORIZE right', function() {
             facilityFactory.getRequestingFacilities(userId);
 
             expect(facilityFactory.getUserFacilities)
-                .toHaveBeenCalledWith(userId, 'REQUISITION_AUTHORIZE');
+                .toHaveBeenCalledWith(userId, REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
         });
 
         it('should resolve to set of facilities', function() {

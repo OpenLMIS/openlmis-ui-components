@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('requisition-constants')
+        .module('openlmis-rights')
         .constant('REQUISITION_RIGHTS', constant());
 
     function constant() {

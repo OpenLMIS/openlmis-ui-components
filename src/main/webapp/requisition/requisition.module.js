@@ -12,6 +12,7 @@
         'openlmis-local-storage',
         'openlmis-modal',
         'openlmis-offline',
+        'openlmis-rights',
         'openlmis-urls',
         'ui.router'
     ]);

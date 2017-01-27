@@ -6,6 +6,7 @@
         'ngResource',
         'openlmis-auth',
         'openlmis-local-storage',
+        'openlmis-rights',
         'referencedata',
         'referencedata-program'
     ]);
