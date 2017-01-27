@@ -75,12 +75,14 @@ describe('RequisitionViewController', function() {
         });
 
         fullSupplyItem = {
+            skipped: '',
             $program: {
                 fullSupply: true
             }
         };
 
         nonFullSupplyItem = {
+            skipped: '',
             $program: {
                 fullSupply: false
             }

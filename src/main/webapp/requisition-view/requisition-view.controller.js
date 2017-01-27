@@ -455,10 +455,11 @@
          */
         function isFullSupplyTabValid() {
             var fullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
+                skipped: '',
                 $program: {
                     fullSupply: true
                 }
-            });
+            }, true);
             return requisitionValidator.areLineItemsValid(fullSupplyItems);
         }
 
@@ -474,10 +475,11 @@
          */
         function isNonFullSupplyTabValid() {
             var nonFullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
+                skipped: '',
                 $program: {
                     fullSupply: false
                 }
-            });
+            }, true);
             return requisitionValidator.areLineItemsValid(nonFullSupplyItems);
         }
 
