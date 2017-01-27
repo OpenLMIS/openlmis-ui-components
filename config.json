@@ -1,8 +1,6 @@
 {
   "app": {
-    "src": "./src/main",
-    "dest": "./build",
-    "bower_components": "./bower_components"
+    "src": "./src/main/webapp"
   },
   "styleguide": {
   	"src": "src/",
