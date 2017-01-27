@@ -449,7 +449,8 @@
          * @name isFullSupplyTabValid
          *
          * @description
-         * Checks whether full supply tab has any errors. This does not trigger validation.
+         * Checks whether full supply tab has any errors. This method ignores skipped line items and
+         * does not trigger validation.
          *
          * @return  {Boolean}   true if full supply tab has any errors, false otherwise
          */
@@ -469,7 +470,8 @@
          * @name isNonFullSupplyTabValid
          *
          * @description
-         * Checks whether non full supply tab has any errors. This does not trigger validation.
+         * Checks whether non full supply tab has any errors. This method ignores skipped line items
+         * and does not trigger validation.
          *
          * @return  {Boolean}   true if non full supply tab has any errors, false otherwise
          */

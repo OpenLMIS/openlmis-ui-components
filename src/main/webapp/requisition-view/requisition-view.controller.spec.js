@@ -12,7 +12,7 @@ describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
         loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
-        fullSupplyItem, nonFullSupplyItem, lineItems;
+        fullSupplyItems, nonFullSupplyItems, lineItems;
 
     beforeEach(function() {
         module('requisition-view');
@@ -74,24 +74,31 @@ describe('RequisitionViewController', function() {
             return 'http://some.url' + url;
         });
 
-        fullSupplyItem = {
+        fullSupplyItems = [{
             skipped: '',
             $program: {
                 fullSupply: true
             }
-        };
+        }, {
+            skipped: true,
+            $program: {
+                fullSupply: true
+            }
+        }];
 
-        nonFullSupplyItem = {
+        nonFullSupplyItems = [{
+            skipped: true,
+            $program: {
+                fullSupply: false
+            }
+        }, {
             skipped: '',
             $program: {
                 fullSupply: false
             }
-        };
+        }];
 
-        requisition.requisitionLineItems = [
-            fullSupplyItem,
-            nonFullSupplyItem
-        ];
+        requisition.requisitionLineItems = fullSupplyItems.concat(nonFullSupplyItems);
     });
 
     it('should display skip button', function() {
@@ -155,22 +162,33 @@ describe('RequisitionViewController', function() {
 
         it('should return true if all line items are valid', function() {
             requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
-                return lineItems[0] === fullSupplyItem;
+                return lineItems[0] === fullSupplyItems[0];
             });
 
             expect(vm.isFullSupplyTabValid()).toBe(true);
             expect(requisitionValidatorMock.areLineItemsValid)
-                .toHaveBeenCalledWith([fullSupplyItem]);
+                .toHaveBeenCalledWith([fullSupplyItems[0]]);
+        });
+
+        it('should ignore skipped line items', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] === fullSupplyItems[0];
+            });
+
+            vm.isFullSupplyTabValid();
+
+            expect(requisitionValidatorMock.areLineItemsValid).not
+                .toHaveBeenCalledWith([fullSupplyItems[1]]);
         });
 
         it('should return true if all line items are valid', function() {
             requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
-                return lineItems[0] !== fullSupplyItem;
+                return lineItems[0] !== fullSupplyItems[0];
             });
 
             expect(vm.isFullSupplyTabValid()).toBe(false);
             expect(requisitionValidatorMock.areLineItemsValid)
-                .toHaveBeenCalledWith([fullSupplyItem]);
+                .toHaveBeenCalledWith([fullSupplyItems[0]]);
         });
 
     });
@@ -179,22 +197,33 @@ describe('RequisitionViewController', function() {
 
         it('should return true if all line items are valid', function() {
             requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
-                return lineItems[0] === nonFullSupplyItem;
+                return lineItems[0] === nonFullSupplyItems[1];
             });
 
             expect(vm.isNonFullSupplyTabValid()).toBe(true);
             expect(requisitionValidatorMock.areLineItemsValid)
-                .toHaveBeenCalledWith([nonFullSupplyItem]);
+                .toHaveBeenCalledWith([nonFullSupplyItems[1]]);
+        });
+
+        it('should ignore skipped line items', function() {
+            requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
+                return lineItems[0] === nonFullSupplyItems[1];
+            });
+
+            vm.isNonFullSupplyTabValid();
+
+            expect(requisitionValidatorMock.areLineItemsValid).not
+                .toHaveBeenCalledWith([nonFullSupplyItems[0]]);
         });
 
         it('should return true if all line items are valid', function() {
             requisitionValidatorMock.areLineItemsValid.andCallFake(function(lineItems) {
-                return lineItems[0] !== nonFullSupplyItem;
+                return lineItems[0] !== nonFullSupplyItems[1];
             });
 
             expect(vm.isNonFullSupplyTabValid()).toBe(false);
             expect(requisitionValidatorMock.areLineItemsValid)
-                .toHaveBeenCalledWith([nonFullSupplyItem]);
+                .toHaveBeenCalledWith([nonFullSupplyItems[1]]);
         });
 
     });
