@@ -1,12 +1,13 @@
 describe('PodViewController', function() {
 
-    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise, isValid;
+    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise, isValid, ORDER_STATUS;
 
     beforeEach(function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
         proofOfDeliveryServiceMock = jasmine.createSpyObj('proofOfDeliveryService', ['save', 'submit']);
         podSpy = jasmine.createSpyObj('pod', ['isValid', 'isLineItemValid']);
+        podSpy.id = '1';
         podSpy.proofOfDeliveryLineItems = [
             {
                 id: '1',
@@ -42,10 +43,11 @@ describe('PodViewController', function() {
             });
         });
 
-        inject(function(_$rootScope_, _$state_, _$q_, $controller) {
+        inject(function(_$rootScope_, _$state_, _$q_, $controller, _ORDER_STATUS_) {
             $rootScope = _$rootScope_;
             $state = _$state_;
             $q = _$q_;
+            ORDER_STATUS = _ORDER_STATUS_;
 
             vm = $controller('ProofOfDeliveryViewController', {
                 pod: podSpy
@@ -147,6 +149,9 @@ describe('PodViewController', function() {
 
         beforeEach(function() {
             deferred = $q.defer();
+            proofOfDeliveryServiceMock.save.andCallFake(function() {
+                return $q.when(true);
+            });
             proofOfDeliveryServiceMock.submit.andReturn(deferred.promise);
         });
 
@@ -156,10 +161,16 @@ describe('PodViewController', function() {
             expect(confirmServiceMock.confirm).toHaveBeenCalledWith('msg.orders.submitPodQuestion');
         });
 
+        it('should save POD before submit', function() {
+            callSubmit(true);
+
+            expect(proofOfDeliveryServiceMock.save).toHaveBeenCalledWith(podSpy);
+        });
+
         it('should submit pod', function() {
             callSubmit(true);
 
-            expect(proofOfDeliveryServiceMock.submit).toHaveBeenCalledWith(podSpy);
+            expect(proofOfDeliveryServiceMock.submit).toHaveBeenCalledWith(podSpy.id);
         });
 
         it('should show error notification if validation was not successful', function() {
@@ -173,7 +184,7 @@ describe('PodViewController', function() {
             deferred.resolve();
             $rootScope.$apply();
 
-            expect(notificationServiceMock.success).toHaveBeenCalledWith('msg.podSubmit');
+            expect(notificationServiceMock.success).toHaveBeenCalledWith('msg.podSubmitted');
         });
 
         it('should reload state if save was successful', function() {
@@ -207,19 +218,20 @@ describe('PodViewController', function() {
         }
     });
 
-    describe('periodDisplayName', function() {
+    describe('isSubmitted', function() {
 
         beforeEach(function() {
-            podSpy.order = {
-                processingPeriod: {
-                    startDate: [2015, 5, 1],
-                    endDate: [2015, 5, 31]
-                }
-            };
+            podSpy.order = {};
         });
 
-        it('should parse period properly', function() {
-            expect(vm.periodDisplayName()).toEqual('2015/5/1 - 2015/5/31');
+        it('should return false if order status is oder than RECEIVED', function() {
+            podSpy.order.status = ORDER_STATUS.IN_TRANSIT;
+            expect(vm.isSubmitted()).toBe(false);
+        });
+
+        it('should not display submit if order status is RECEIVED', function() {
+            podSpy.order.status = ORDER_STATUS.RECEIVED;
+            expect(vm.isSubmitted()).toBe(true);
         });
 
     });

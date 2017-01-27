@@ -12,15 +12,16 @@
     angular.module('proof-of-delivery-view')
     .controller('ProofOfDeliveryViewController', controller);
 
-    controller.$inject = ['$state', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService'];
+    controller.$inject = ['$state', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService', 'ORDER_STATUS'];
 
-    function controller($state, pod, proofOfDeliveryService, notificationService, confirmService) {
+    function controller($state, pod, proofOfDeliveryService, notificationService, confirmService, ORDER_STATUS) {
         var vm = this;
 
         vm.savePod = savePod;
         vm.submitPod = submitPod;
-        vm.periodDisplayName = periodDisplayName;
         vm.typeMessage = typeMessage;
+
+        vm.isSubmitted = isSubmitted;
 
         /**
          * @ngdoc property
@@ -78,11 +79,15 @@
         function submitPod() {
             confirmService.confirm('msg.orders.submitPodQuestion').then(function() {
                 if(vm.pod.isValid()) {
-                    proofOfDeliveryService.submit(vm.pod).then(function() {
-                        notificationService.success('msg.podSubmit');
-                        $state.reload();
+                    proofOfDeliveryService.save(vm.pod).then(function() {
+                        proofOfDeliveryService.submit(vm.pod.id).then(function() {
+                            notificationService.success('msg.podSubmitted');
+                            $state.reload();
+                        }, function() {
+                            notificationService.error('msg.podSubmitFailed');
+                        });
                     }, function() {
-                        notificationService.error('msg.podSubmitFailed');
+                        notificationService.error('msg.podSavedFailed');
                     });
                 } else {
                     notificationService.error('error.podInvalid');
@@ -90,18 +95,8 @@
             });
         }
 
-        /**
-         * @ngdoc method
-         * @name periodDisplayName
-         * @methodOf proof-of-delivery-view.PodViewController
-         *
-         * @description
-         * Formats processing period dates.
-         *
-         * @returns {String} Period formated dates.
-         */
-        function periodDisplayName() {
-            return vm.pod.order.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + vm.pod.order.processingPeriod.endDate.slice(0,3).join('/');
+        function isSubmitted() {
+            return vm.pod.order.status === ORDER_STATUS.RECEIVED;
         }
 
         /**

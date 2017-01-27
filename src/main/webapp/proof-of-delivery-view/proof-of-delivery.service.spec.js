@@ -91,18 +91,18 @@ describe('proofOfDeliveryService', function() {
 
         beforeEach(function() {
             url = fulfillmentUrlFactory('/api/proofOfDeliveries/' + POD_ID + '/submit');
-            $httpBackend.when('PUT', url, pod).respond();
+            $httpBackend.when('POST', url).respond(pod);
         });
 
         it('should return promise', function() {
-            expect(proofOfDeliveryService.submit(pod).then).not.toBeUndefined();
+            expect(proofOfDeliveryService.submit(pod.id).then).not.toBeUndefined();
             $httpBackend.flush();
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expectPUT(url);
+            $httpBackend.expectPOST(url);
 
-            proofOfDeliveryService.submit(pod);
+            proofOfDeliveryService.submit(pod.id);
             $httpBackend.flush();
         });
     });

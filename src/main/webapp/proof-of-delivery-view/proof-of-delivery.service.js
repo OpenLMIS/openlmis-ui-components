@@ -27,7 +27,7 @@
 				transformRequest: transformRequest
 			},
 			submit: {
-				method: 'PUT',
+				method: 'POST',
 				url: fulfillmentUrlFactory('/api/proofOfDeliveries/:id/submit')
 			}
 		});
@@ -63,6 +63,7 @@
          * @description
          * Saves proof of delivery.
          *
+         * @param {Object} pod POD
          * @return {Promise} POD
          */
         function save(pod) {
@@ -79,12 +80,13 @@
          * @description
          * Submits proof of delivery.
          *
+         * @param {String} podId POD UUID
          * @return {Promise} POD
          */
-        function submit(pod) {
+        function submit(podId) {
             return resource.submit({
-				id: pod.id
-			}, pod).$promise;
+				id: podId
+			}, {}).$promise;
         }
 
 		function transformResponse(data, headers, status) {

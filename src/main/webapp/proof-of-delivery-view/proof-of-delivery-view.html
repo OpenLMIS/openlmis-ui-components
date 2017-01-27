@@ -22,15 +22,20 @@
                     <td>{{lineItem.orderLineItem.packsToShip}}</td>
                     <td>{{lineItem.quantityShipped}}</td>
                     <td>
-                        <input positive-integer type="text" ng-model="lineItem.quantityReceived"/>
-                        <div ng-if="lineItem.quantityReceived === null || lineItem.quantityReceived === undefined" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+                        <div ng-if="!vm.isSubmitted()">
+                            <input positive-integer type="text" ng-model="lineItem.quantityReceived"/>
+                            <div ng-if="lineItem.quantityReceived === null || lineItem.quantityReceived === undefined" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+                        </div>
+                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
                     </td>
                     <td>
-                        <input positive-integer type="text" ng-model="lineItem.quantityReturned"/>
+                        <input ng-if="!vm.isSubmitted()" positive-integer type="text" ng-model="lineItem.quantityReturned"/>
+                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReturned}}</div>
                     </td>
                     <td>{{lineItem.replacedProductCode}}</td>
                     <td>
-                        <input type="text" ng-model="lineItem.notes"/>
+                        <input ng-if="!vm.isSubmitted()" type="text" ng-model="lineItem.notes"/>
+                        <div ng-if="vm.isSubmitted()">{{lineItem.notes}}</div>
                     </td>
     			</tr>
     		</tbody>
