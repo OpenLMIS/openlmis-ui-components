@@ -141,7 +141,8 @@
         function isLineItemValid(lineItem) {
             var valid = true;
             angular.forEach(lineItem.$errors, function(error) {
-                valid = valid && !error;
+                var isSkipped = lineItem.skipped ? lineItem.skipped : false;
+                valid = valid && (!error || isSkipped);
             });
             return valid;
         }
