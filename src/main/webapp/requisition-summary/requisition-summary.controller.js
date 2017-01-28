@@ -21,7 +21,6 @@
         vm.calculateFullSupplyCost = calculateFullSupplyCost;
         vm.calculateNonFullSupplyCost = calculateNonFullSupplyCost;
         vm.calculateTotalCost = calculateTotalCost;
-        vm.closePopover = closePopover;
 
         /**
          * @ngdoc property
@@ -87,10 +86,6 @@
          */
         function calculateTotalCost() {
             return calculateCost();
-        }
-
-        function closePopover() {
-            vm.popoverOpen = false;
         }
 
         function calculateCost(fullSupply) {
