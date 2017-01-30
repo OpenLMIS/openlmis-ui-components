@@ -2,11 +2,17 @@
 Popovers
 
 Popovers are used to provide additional content to a user on pages that have
-limited space.
+limited space. Content elements, such as paragraphs, divs, or table cells,
+will have an icon inserted at the end of the element automatically to provide
+an obvious interaction point for a user.
+
+Action elements, such as buttons, links, or inputs, will have a popup on focus
+or hover, but it is up to the implementer to provide an icon.
 
 markup:
 <div>
 	<button popover="Look a popover!">Sample Popover</button>
+    <button popover popover-title="Example Popover Title" popover="This is a popover with a title">Popover With Title</button>
     <button popover popover-template="">Complex Popover</button>
 	<p popover="Some extra information about this paragraph" popover-title="Sample Title">
 		Very soon the Rabbit noticed Alice, as she went hunting about, and called out to her in an angry tone, `Why, Mary Ann, what are you doing out here? Run home this moment, and fetch me a pair of gloves and a fan! Quick, now!' And Alice was so much frightened that she ran off at once in the direction it pointed to, without trying to explain the mistake it had made.

@@ -20,16 +20,12 @@
      * styleguide documentation for examples of where to apply the popover
      * directive on specific elements. 
      *
-     * *Note:* If you apply a popover to a button or link element, the popover
-     * will override the original click action of the button or link.
-     *
      * There are two main ways to use this directive, as either a showing a 
      * string, or rendering a template into the element's context.
      *
-     * Once the popover is rendered, there is no way to change the popover's
-     * content or behavior. Popovers that use a template will have their
-     * internal mark-up changed, but the template that is rendered won't
-     * change.
+     * If you need to update the title, content, css class, or template in a 
+     * popover, be sure to write the attribute as a variable, as Angular will
+     * not register changes otherwise. See examples for more information.
      *
      * @example
      * ```
@@ -39,6 +35,11 @@
      * element it is applied to.
      * ```
      * <button popover-template="/example/popover.html">Complex Popover</button>
+     * ```
+     * If you want to update the popover content at a different time, pass the 
+     * string as an angular variable.
+     * ```
+     * <button popover={{popoverContent}}>Popover</button>
      * ```
      * 
      */
