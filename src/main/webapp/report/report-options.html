@@ -1,0 +1,20 @@
+<div class="report-options">
+    <div class="page">
+        <h2>{{'choose.report.options.header' | message}}</h2>
+        <section class="table-container">
+            <div>
+                <div ng-repeat="parameter in vm.report.templateParameters">
+                    <label for="{{parameter.name}}">{{parameter.displayName}}</label>
+                    <select id="{{parameter.name}}" ng-model="vm.selectedValues[parameter.name]"
+                            ng-options="selectValue as selectValue for selectValue in parameter.selectValues"
+                            required>
+                    </select>
+                </div>
+                <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('pdf')}}" target="_blank">{{'button.report.pdf' | message}}</a>
+                <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('csv')}}" target="_blank">{{'button.report.csv' | message}}</a>
+                <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('xls')}}" target="_blank">{{'button.report.xls' | message}}</a>
+                <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('html')}}" target="_blank">{{'button.report.html' | message}}</a>
+            </div>
+        </section>
+    </div>
+</div>
