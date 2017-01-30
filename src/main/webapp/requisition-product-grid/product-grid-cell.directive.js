@@ -60,16 +60,7 @@
 				element.replaceWith($compile(cell)(scope));
 			});
 
-	      	angular.forEach(column.dependencies, function(dependency) {
-	        	scope.$watch('lineItem.' + dependency, function(newValue, oldValue) {
-	          		if (newValue !== oldValue) {
-						if (column.source === COLUMN_SOURCES.CALCULATED) {
-							scope.lineItem.updateFieldValue(column, requisition);
-						}
-	            		validate();
-	          		}
-	        	});
-	      	});
+	      	angular.forEach(column.dependencies, watchDependency);
 
       		function validate() {
 				requisitionValidator.validateLineItemField(
@@ -97,6 +88,22 @@
 			function canNotSkip() {
 				return !(scope.lineItem.canBeSkipped(scope.requisition));
             }
+
+			function watchDependency(name) {
+				var dependent = requisition.template.getColumn(name);
+				if (dependent.display) {
+					scope.$watch('lineItem.' + name, function(newValue, oldValue) {
+		          		if (newValue !== oldValue) {
+							if (column.source === COLUMN_SOURCES.CALCULATED) {
+								scope.lineItem.updateFieldValue(column, requisition);
+							}
+		            		validate();
+		          		}
+		        	});
+				} else {
+					angular.forEach(dependent.dependencies, watchDependency);
+				}
+			}
 		}
 	}
 
