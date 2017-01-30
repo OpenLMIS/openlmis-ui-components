@@ -1,45 +1,47 @@
-.requisition-summary {
-    background-color: $very-light-gray;
-    border: darken($very-light-gray, 20%) solid 1px;
-    color: $green;
-    display: block;
-    font-size: 1em;
-    font-weight: bold;
-    margin: 1em 0;
-    padding: 1em;
-    text-align: right;
-    width: 100%;
-
-    & > * {
-        vertical-align: middle;
-        margin-left: 0.5em;
-    }
-
-    .label {
-        color: $green;
-        font-size: 1em;
-        font-weight: bold;
-        padding: 0;
-    }
-
-    .label:after {
+.requisition-summary dl > dt{
+    &::after{
         content: ":";
     }
+}
 
-    .popover-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 1em;
-        width: 100%;
-
-        h1, h1 + i {
-            border: initial;
-            font-size: 1.1em;
-            font-weight: bold;
-            line-height: 1.1em;
+aside.requisition-summary {
+    @include clearfix();
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    > * {
+        display: block;
+        flex: 1 0 auto;
+    }
+    > button{
+        flex-grow: 0;
+    }
+    > dl{
+        justify-content: flex-end;
+        margin-right: $space-size;
+        > dt {
+            width: auto;
+            position: relative;
+            top: 0;
+            margin-right: 0.5em;
         }
+        > dd{
+            flex-grow: 0;
+        }
+    }
 
+    > button {
+        @include button-color($brand-primary);
+        @include button-icon-only("list");
+        
+    }
+}
 
+.popover.requisition-summary{
+    dl > dt {
+        white-space: nowrap;
+    }
+    dl > dd {
+        text-align: right;
     }
 }

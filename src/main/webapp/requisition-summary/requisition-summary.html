@@ -1,9 +1,13 @@
-<div class="requisition-summary">
-    <span class="label">{{'msg.totalRequisitionCost' | message}}</span>
-    <span>{{vm.calculateTotalCost() | currency}}</span>
-    <button class="btn btn-primary"
+<aside class="requisition-summary">
+	<dl>
+		<dt>{{'msg.totalRequisitionCost' | message}}</dt>
+		<dd>{{vm.calculateTotalCost() | currency}}</dd>
+	</dl>
+    <button
     		popover
+    		popover-title="{{'msg.requisitionCost' | message}}"
+    		popover-class="requisition-summary"
             popover-template="requisition-summary/requisition-summary-popover.html">
-            <i class="fa fa-list-ul"></i>
+            {{'requisitionSummary.showDetails' | message}}
     </button>
 </div>
