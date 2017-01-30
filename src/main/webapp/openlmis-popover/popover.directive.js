@@ -192,7 +192,7 @@
                     var trigger = 'click hover focus';
 
                     if(element.is(NO_BUTTON_ELEMENTS.join(', '))){
-                        trigger = 'click hover focus';
+                        trigger = 'hover focus';
                     }
 
                     var popoverConfig = {
