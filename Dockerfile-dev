@@ -1,8 +1,7 @@
 FROM openlmis/dev-ui
 
-RUN mkdir -p /openlmis/openlmis-requisition-ui
-VOLUME ["/openlmis/openlmis-requisition-ui"]
-
 WORKDIR /openlmis/openlmis-requisition-ui
+
+VOLUME ["/openlmis/openlmis-requisition-ui"]
 
 CMD bash
