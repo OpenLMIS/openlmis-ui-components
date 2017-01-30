@@ -22,12 +22,12 @@
          * @ngdoc property
          * @propertyOf requisition-status-messages.StatusMessagesController
          * @type {Boolean}
-         * @name isAddClicked
+         * @name isTextAreaVisible
          *
          * @description
          * True if text area for requisition comment is shown.
          */
-        vm.isAddClicked = false;
+        vm.isTextAreaVisible = false;
 
         /**
          * @ngdoc property
@@ -55,7 +55,7 @@
          * Responsible for showing text area to input requisition comment.
          */
         function showTextArea() {
-            vm.isAddClicked = true;
+            vm.isTextAreaVisible = true;
         }
 
          /**
@@ -68,7 +68,7 @@
          */
         function hideTextArea() {
             vm.requisition.draftStatusMessage = null;
-            vm.isAddClicked = false;
+            vm.isTextAreaVisible = false;
         }
 
          /**
@@ -82,11 +82,9 @@
          */
         function displayAddComment() {
             var canAddComment = true;
-            angular.forEach(vm.requisition.$statusMessages, function(statusMessage) {
-                if(statusMessage.status == vm.requisition.status) {
-                    canAddComment = false;
-                }
-            });
+            if (vm.requisition.draftStatusMessage || vm.isTextAreaVisible) {
+                canAddComment = false;
+            }
             return canAddComment;
         }
 

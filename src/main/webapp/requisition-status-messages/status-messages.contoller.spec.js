@@ -36,36 +36,38 @@ describe('StatusMessagesController', function() {
         });
 
         it('should expose adjustments', function() {
-            expect(vm.isAddClicked).toBe(false);
+            expect(vm.isTextAreaVisible).toBe(false);
         });
     });
 
     describe('displayAddComment', function() {
 
-        it('should show button if requisition has no status messages for current status', function() {
-            vm.requisition.$statusMessages = [];
-            expect(vm.displayAddComment()).toBe(true);
+        it('should show button if requisition has no draft for status message', function() {
+            vm.requisition.draftStatusMessage = null;
+            vm.isTextAreaVisible = false;
+            var result = vm.displayAddComment();
+            expect(result).toBe(true);
         });
 
-        it('should not show button if requisition has status message for current status', function() {
-            vm.requisition.$statusMessages = [{
-                status: "INITIATED"
-            }];
-            expect(vm.displayAddComment()).toBe(false);
+        it('should not show button if requisition has draft for status message', function() {
+            vm.requisition.draftStatusMessage = 'Draft';
+            vm.isTextAreaVisible = true;
+            var result = vm.displayAddComment();
+            expect(result).toBe(false);
         });
 
     });
 
-    describe('isAddClicked', function() {
+    describe('isTextAreaVisible', function() {
 
-        it('should set isAddClicked true when add button was clicked', function() {
+        it('should set isTextAreaVisible true when add button was clicked', function() {
             vm.showTextArea();
-            expect(vm.isAddClicked).toBe(true);
+            expect(vm.isTextAreaVisible).toBe(true);
         });
 
-        it('should set isAddClicked false when remove button was clicked', function() {
+        it('should set isTextAreaVisible false when remove button was clicked', function() {
             vm.hideTextArea();
-            expect(vm.isAddClicked).toBe(false);
+            expect(vm.isTextAreaVisible).toBe(false);
         });
     });
 
