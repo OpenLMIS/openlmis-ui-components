@@ -1,0 +1,21 @@
+<div class="report-list">
+    <div class="page">
+        <h2>{{'header.viewReports' | message}}</h2>
+        <div class="table-container">
+            <table ng-if="vm.reports.length">
+                <thead>
+                <tr>
+                    <th>{{'report.header' | message}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="report in vm.reports">
+                    <td>
+                        <a ng-click="vm.goToReport(report.id)">{{report.name}}</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
