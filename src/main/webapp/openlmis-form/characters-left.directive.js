@@ -29,10 +29,10 @@
 
         function link(scope, element, attributes, ngModelController) {
 
-			var content;
+			$templateRequest('openlmis-form/characters-left.html').then(function(template) {
+				var content;
 
-			element.on('focus', function() {
-				$templateRequest('openlmis-form/characters-left.html').then(function(template) {
+				element.on('focus', function() {
 					content = $compile(template)(scope);
 					if (element.next().length) {
 		                element.next().insertBefore(content);
@@ -40,11 +40,11 @@
 						element.parent().append(content);
 					}
 				});
-			});
 
-			element.on('blur', function() {
-				if(content) content.remove();
-				content = null;
+				element.on('blur', function() {
+					if(content) content.remove();
+					content = null;
+				});
 			});
         }
 	}

@@ -4,11 +4,5 @@
 
     angular
         .module('admin-template')
-        .constant('MAX_COLUMN_DESCRIPTION_LENGTH', constant());
-
-    function constant() {
-
-        return 140;
-    }
-
+        .constant('MAX_COLUMN_DESCRIPTION_LENGTH', 140);
 })();
