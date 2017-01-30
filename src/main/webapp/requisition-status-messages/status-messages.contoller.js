@@ -66,7 +66,7 @@
          *
          * @description
          * Responsible for checking if requisition has draft.
-         * If true text area and remove button will be displayed.
+         * If false text area and remove button will be displayed.
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
