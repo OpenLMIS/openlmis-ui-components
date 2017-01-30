@@ -12,8 +12,13 @@ describe('Select directive', function() {
 
     beforeEach(inject(function(_$compile_, $rootScope){
         $compile = _$compile_;
-
         scope = $rootScope.$new();
+    }));
+
+    beforeEach(inject(function(messageService){
+        spyOn(messageService, 'get').andCallFake(function(key){
+            return key;
+        });
     }));
 
     function makeElement(string){
