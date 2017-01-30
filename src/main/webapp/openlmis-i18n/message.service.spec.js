@@ -8,68 +8,81 @@
 * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
 */
 
-describe("MessageService", function () {
+ddescribe("MessageService", function () {
+    var $rootScope, messageService;
+    beforeEach(function(){
 
+        angular.mock.module("openlmis-config", function($provide){
+            $provide.constant('OPENLMIS_MESSAGES', {
+                "en": {
+                    "language.name": "English",
+                    "sample": "message"
+                },
+                "test": {
+                    "language.name": "Test",
+                    "sample": "foo"
+                }
+            })
+        })
+
+    });
     beforeEach(module('openlmis-i18n'));
 
-    var $rootScope, messageService, localStorageService, httpBackend;
+    beforeEach(inject(function (_$rootScope_, _messageService_) {
+        $rootScope = _$rootScope_;
+        messageService = _messageService_;
 
-    // beforeEach(inject(function (_$httpBackend_, _$rootScope_, _messageService_, _localStorageService_) {
-    //     $rootScope = _$rootScope_;
-    //     messageService = _messageService_;
-    //     httpBackend = _$httpBackend_;
-    //     localStorageService = _localStorageService_;
+        spyOn($rootScope, '$broadcast');
+    }));
 
-    //     localStorageService.clearAll();
+    it("loads a default languge when first populated", function(){
+        expect(messageService.getCurrentLocale()).toBe("en");
+    });
 
-    //     httpBackend.when('GET', 'messages/message_en.json')
-    //     .respond(200, "hello");
+    it("returns existing translation", function(){
+        expect(messageService.get('sample')).toBe('message');
+    });
 
-    // }));
+    it("returns the message string when a translation doesn't exist", function(){
+       expect(messageService.get('foobar')).toBe('foobar');
+    });
 
-    // it("loads a default languge when first populated", function(){
-    //     expect(messageService.getCurrentLocale()).toBe(null);
+    it("can change the current locale", function(){
+        messageService.populate('test');
+        expect(messageService.getCurrentLocale()).toBe('test');
 
-    //     messageService.populate()
-    //     .catch(function(){
-    //         // dont care
-    //     });
+        expect(messageService.get('sample')).toBe('foo');
+    });
 
-    //     httpBackend.flush();
-    //     $rootScope.$apply();
+    it("broadcasts an event when the locale is successfully changed", function(){
+        messageService.populate('test');
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('openlmis.messages.populated');
+    });
 
-    //     expect(messageService.getCurrentLocale()).toBe("en");
-    // });
+    it("resolves a promise when the locale is changed", function(){
+        var success = false;
 
-    // describe("once loaded", function(){
+        var promise = messageService.populate('test');
+        promise.then(function(){
+            success = true;
+        });
 
-    //     beforeEach(function(){
-    //         httpBackend.when('GET', 'messages/message_en.json')
-    //             .respond(200, {
-    //                 sample: 'message'
-    //             });
+        $rootScope.$apply();
 
-    //         messageService.populate('test')
-    //         .catch(function(){});
+        expect(success).toBe(true);
+    });
 
-    //         httpBackend.flush();
-    //         $rootScope.$apply();
-    //     });
+    it("rejects the promise when locale isn't changed", function(){
+        var success = false;
 
-    //     it("returns the current locale", function(){
-    //         var lang = messageService.getCurrentLocale();
-    //         expect(lang).toBe('test');
-    //     });
+        var promise = messageService.populate('foo');
+        promise.catch(function(){
+            success = true;
+        });
 
-    //     it("returns existing translation", function(){
-    //         expect(messageService).get('sample').toBe('message');
-    //     });
+        $rootScope.$apply();
 
-    //     it("returns undefined when a translation doesn't exist", function(){
-    //        expect(messageService).get('foobar').toBe(undefined);
-    //     });
-
-    // });
-
+        expect(success).toBe(true);
+    });
 
 });

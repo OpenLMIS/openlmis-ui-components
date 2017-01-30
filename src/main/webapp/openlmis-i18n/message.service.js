@@ -9,9 +9,9 @@
     var LOCALE_STORAGE_KEY = 'current_locale',
         DEFAULT_LANGUAGE = 'en';
 
-    messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope', 'OPENLMIS_MESSAGES'];
+    messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES'];
 
-    function messageService($q, $http, localStorageService, $rootScope, OPENLMIS_MESSAGES) {
+    function messageService($q, $rootScope, OPENLMIS_MESSAGES) {
         var currentLocale = DEFAULT_LANGUAGE;
 
         var service = {
@@ -35,7 +35,6 @@
                 $rootScope.$broadcast('openlmis.messages.populated');
                 return $q.when();
             } else {
-                $rootScope.$broadcast('openlmis.messages.error');
                 return $q.reject();
             }
         };

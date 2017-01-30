@@ -470,7 +470,7 @@ module.exports = function(grunt) {
     });
 
     var fileContents = '(function(){' + '\n';
-    fileContents += 'angular.module("openlmis-i18n").constant("OPENLMIS_MESSAGES", ' + JSON.stringify(messages) + ');' + '\n';
+    fileContents += 'angular.module("openlmis-config").constant("OPENLMIS_MESSAGES", ' + JSON.stringify(messages) + ');' + '\n';
     fileContents += '})();'
 
     grunt.file.write(path.join(tmpDir, 'messages.js'), fileContents, {
