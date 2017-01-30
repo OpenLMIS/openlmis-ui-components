@@ -58,6 +58,10 @@
             ],
             maximumStockQuantity: [
                 TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION
+            ],
+            calculatedOrderQuantity: [
+                TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY,
+                TEMPLATE_COLUMNS.STOCK_ON_HAND
             ]
         };
 
