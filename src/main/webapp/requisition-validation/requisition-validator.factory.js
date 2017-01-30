@@ -135,14 +135,15 @@
          * Checks whether any field of the given line item has any error. It does not perform any
          * validation.
          *
-         * @param  {Object}  lineItem the line item ot be checked
+         * @param  {Object}  lineItem the line item to be checked
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         function isLineItemValid(lineItem) {
-            var valid = true;
+            var valid = true,
+                isSkipped = lineItem.skipped ? lineItem.skipped : false;
+            if(isSkipped) return true;
             angular.forEach(lineItem.$errors, function(error) {
-                var isSkipped = lineItem.skipped ? lineItem.skipped : false;
-                valid = valid && (!error || isSkipped);
+                valid = valid && !error;
             });
             return valid;
         }
