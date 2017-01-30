@@ -456,7 +456,6 @@
          */
         function isFullSupplyTabValid() {
             var fullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
-                skipped: '',
                 $program: {
                     fullSupply: true
                 }
@@ -477,7 +476,6 @@
          */
         function isNonFullSupplyTabValid() {
             var nonFullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
-                skipped: '',
                 $program: {
                     fullSupply: false
                 }
