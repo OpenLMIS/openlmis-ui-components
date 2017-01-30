@@ -92,6 +92,7 @@
             this.dependencies = dependencies[name];
             this.option = column.option;
             this.canChangeOrder = column.columnDefinition.canChangeOrder;
+            this.definition = column.definition;
         }
 
         function displayColumn(column, requisition) {

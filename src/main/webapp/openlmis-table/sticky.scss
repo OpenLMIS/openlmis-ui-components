@@ -96,5 +96,6 @@ td, table th, tr.title > td > div  {
 	&.sticky{ }
 	&.stuck{
     position: relative;
+	z-index: 1;
   }
 }
