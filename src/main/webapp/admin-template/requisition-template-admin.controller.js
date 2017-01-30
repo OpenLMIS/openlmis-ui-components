@@ -14,15 +14,15 @@
 
     RequisitionTemplateAdminController.$inject = [
         '$state', 'template', 'program', '$q', 'notificationService', 'COLUMN_SOURCES',
-        'messageService', 'TEMPLATE_COLUMNS', 'TEMPLATE_CONSTANTS'
+        'messageService', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH'
     ];
 
     function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
-                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS, TEMPLATE_CONSTANTS) {
+                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH) {
 
         var vm = this;
 
-        vm.maxColumnDescriptionLength = TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH;
+        vm.maxColumnDescriptionLength = MAX_COLUMN_DESCRIPTION_LENGTH;
 
         vm.template = template;
         vm.program = program;
@@ -132,7 +132,7 @@
             var dependencies = '',
                 message;
 
-            if(column.definition && column.definition.length > TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH) return messageService.get('error.columnDescriptionTooLong');
+            if(column.definition && column.definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) return messageService.get('error.columnDescriptionTooLong');
 
             if(isAverageConsumption(column) && (vm.template.numberOfPeriodsToAverage === 0 || vm.template.numberOfPeriodsToAverage === 1))
                 return messageService.get('msg.template.invalidNumberOfPeriods');

@@ -1,6 +1,6 @@
 describe('templateFactory', function() {
 
-    var rootScope, TemplateFactory, template, q, dependencyTestColumns, TEMPLATE_CONSTANTS;
+    var rootScope, TemplateFactory, template, q, dependencyTestColumns, MAX_COLUMN_DESCRIPTION_LENGTH;
 
     beforeEach(module('admin-template'));
 
@@ -60,12 +60,12 @@ describe('templateFactory', function() {
     	});
     }));
 
-    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, openlmisUrlFactory, $q, _TEMPLATE_CONSTANTS_) {
+    beforeEach(inject(function($httpBackend, $rootScope, templateFactory, openlmisUrlFactory, $q, _MAX_COLUMN_DESCRIPTION_LENGTH_) {
         rootScope = $rootScope;
         TemplateFactory = templateFactory;
         openlmisURL = openlmisUrlFactory;
         q = $q;
-        TEMPLATE_CONSTANTS = _TEMPLATE_CONSTANTS_;
+        MAX_COLUMN_DESCRIPTION_LENGTH = _MAX_COLUMN_DESCRIPTION_LENGTH_;
 
         template = {
             id: '1',
@@ -550,7 +550,7 @@ describe('templateFactory', function() {
     it('should check if column definition has no more characters then maximum allowed', function() {
         var requisitionTemplate, longString = 'd';
 
-        for(var i = 0; i < TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH; i++){
+        for(var i = 0; i < MAX_COLUMN_DESCRIPTION_LENGTH; i++){
             longString = longString.concat('d');
         }
 

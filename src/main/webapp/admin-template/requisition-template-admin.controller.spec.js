@@ -7,7 +7,7 @@ describe('RequisitionTemplateAdminController', function() {
     var template, program;
 
     //injects
-    var q, state, notificationService, COLUMN_SOURCES, rootScope, TEMPLATE_CONSTANTS;
+    var q, state, notificationService, COLUMN_SOURCES, rootScope, MAX_COLUMN_DESCRIPTION_LENGTH;
 
     beforeEach(function() {
         module('admin-template');
@@ -45,13 +45,13 @@ describe('RequisitionTemplateAdminController', function() {
         };
 
         inject(function($controller, $q, $state, _notificationService_, _COLUMN_SOURCES_,
-                        messageService, $rootScope, _TEMPLATE_CONSTANTS_) {
+                        messageService, $rootScope, _MAX_COLUMN_DESCRIPTION_LENGTH_) {
 
             q = $q;
             state = $state;
             notificationService = _notificationService_;
             COLUMN_SOURCES = _COLUMN_SOURCES_;
-            TEMPLATE_CONSTANTS = _TEMPLATE_CONSTANTS_;
+            MAX_COLUMN_DESCRIPTION_LENGTH = _MAX_COLUMN_DESCRIPTION_LENGTH_;
             message = messageService;
             rootScope = $rootScope;
 
@@ -185,7 +185,7 @@ describe('RequisitionTemplateAdminController', function() {
         var errorMessage = 'message',
             longString = 'd';
 
-        for(var i = 0; i < TEMPLATE_CONSTANTS.MAX_COLUMN_DESCRIPTION_LENGTH; i++){
+        for(var i = 0; i < MAX_COLUMN_DESCRIPTION_LENGTH; i++){
             longString = longString.concat('d');
         }
 
