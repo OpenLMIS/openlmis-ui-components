@@ -345,7 +345,7 @@
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
                 programCode: vm.requisition.program.code
             });
-            return vm.requisition.$isApprovable() && hasRight;
+            return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasRight;
         };
 
         /**

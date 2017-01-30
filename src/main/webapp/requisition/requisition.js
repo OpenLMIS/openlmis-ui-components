@@ -63,7 +63,7 @@
         Requisition.prototype.$isSubmitted = isSubmitted;
         Requisition.prototype.$isApproved = isApproved;
         Requisition.prototype.$isAuthorized = isAuthorized;
-        Requisition.prototype.$isApprovable = isApprovable;
+        Requisition.prototype.$isInApproval = isInApproval;
 
         return Requisition;
 
@@ -292,17 +292,17 @@
 
         /**
          * @ngdoc function
-         * @name isApprovable
+         * @name isInApproval
          * @methodOf requisition.Requisition
          *
          * @description
-         * Responsible for checking if requisition is approvable.
-         * Returns true only if requisition status equals authorized or in_approval.
+         * Responsible for checking if requisition is in approval.
+         * Returns true only if requisition status equals in approval.
          *
-         * @return {boolean} is requisition approvable
+         * @return {boolean} is requisition in approval
          */
-        function isApprovable() {
-            return this.status === REQUISITION_STATUS.AUTHORIZED || this.status === REQUISITION_STATUS.IN_APPROVAL;
+        function isInApproval() {
+            return this.status === REQUISITION_STATUS.IN_APPROVAL;
         }
 
         function handlePromise(promise, success, failure) {
