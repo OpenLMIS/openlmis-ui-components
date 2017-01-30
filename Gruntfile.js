@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   var path = require('path');
   var wiredep = require('wiredep');
   var cors_proxy = require('cors-anywhere');
+  var glob = require('glob');
 
   var gulp = require('gulp');
   // registering promisies for gulp...
@@ -159,6 +160,8 @@ module.exports = function(grunt) {
             '!' + config.app.src + '/**/*.spec.js',
             '!' + config.app.src + '/webapp/app.js',
             '!' + config.app.src + '/webapp/app.routes.js',
+            // Include messages file
+            '.tmp/messagesJS/messages.js',
             // Run time
             // NEED file to declare openlmis-app
             config.app.src + '/webapp/app.js',
@@ -236,16 +239,6 @@ module.exports = function(grunt) {
             dest: config.app.dest + '/webapp'
           }
         ],
-      },
-      messages: {
-        files: [
-          {
-            expand: true,
-            cwd: config.app.src + '/resources',
-            src: ['messages_*.json'],
-            dest: config.app.dest + '/webapp/messages'
-          }
-        ]
       },
       credentials: {
         files: [
@@ -461,7 +454,32 @@ module.exports = function(grunt) {
 
   grunt.registerTask('serve', ['serve:proxy', 'connect:server']);
 
-  var buildTasks = ['clean', 'ngtemplates', 'copy', 'concat', 'sass', 'replace', 'appcache'];
+  grunt.registerTask('messages:make', function(){
+    var fse = require('fs-extra');
+    var tmpDir = path.join(process.cwd(), '.tmp', 'messagesJS');
+    fse.emptyDir(tmpDir);
+
+    var messages = {};
+    glob.sync('messages*', {
+      cwd: 'src/main/resources/'
+    }).forEach(function(filename){
+      var filepath = path.join(process.cwd(), 'src/main/resources', filename);
+      var messageObj = grunt.file.readJSON(filepath);
+      var fileLanguage = filename.substr(filename.lastIndexOf('.')-2, 2);
+      messages[fileLanguage] = messageObj;
+    });
+
+    var fileContents = '(function(){' + '\n';
+    fileContents += 'angular.module("openlmis-i18n").constant("OPENLMIS_MESSAGES", ' + JSON.stringify(messages) + ');' + '\n';
+    fileContents += '})();'
+
+    grunt.file.write(path.join(tmpDir, 'messages.js'), fileContents, {
+      encoding: 'utf8'
+    });
+
+  });
+
+  var buildTasks = ['clean', 'ngtemplates', 'messages:make', 'copy', 'concat', 'sass', 'replace', 'appcache'];
   var styleguideTasks = ['kssSetup', 'kss', 'copy:kssCopyAppAssets'];
 
   var fullBuildTasks = [].concat(buildTasks);
