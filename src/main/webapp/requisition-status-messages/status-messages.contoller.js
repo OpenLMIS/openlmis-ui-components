@@ -70,11 +70,7 @@
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
-            var canAddComment = true;
-            if (vm.requisition.draftStatusMessage !== null) {
-                canAddComment = false;
-            }
-            return canAddComment;
+            return vm.requisition.draftStatusMessage === null;
         }
 
     }
