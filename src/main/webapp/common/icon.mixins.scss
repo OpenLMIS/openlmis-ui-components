@@ -1,0 +1,30 @@
+@mixin icon($icon-code){
+  &::before{
+    content: $icon-code;
+    font-family: "FontAwesome";
+    display: inline-block;
+    font-size: 1em;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1.2em;
+    text-align: center;
+  }
+}
+
+@mixin icon-only($icon-code){
+  @include icon($icon-code);
+  overflow: hidden;
+  display: inline-block;
+  position: relative;
+  font-size: 1em;
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.2em;
+  text-indent: -20000em;
+  &::before{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    text-indent: 0em;
+  }
+}

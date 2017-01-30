@@ -31,33 +31,22 @@ Styleguide 1.5
 }
 
 .popover > .popover-content{
-	padding: $space-size/2 $space-size;
+	padding: $space-size/2;
+	padding-right: $space-size * 2;
+}
+
+.popover > h3 + .popover-content{
+	padding-right: $space-size/2;
 }
 
 .popover > button.close{
+	@include icon-only("\f057");
 	opacity: 1;
 	position: absolute;
-	top: $space-size/4;
+	top: $space-size/2;
 	right: $space-size/4;
-	display:block;
-	width: $space-size;
-	height: $space-size;
+}
 
-	font-size: 1em;
-
-	overflow: hidden;
-	text-indent: 30000px;
-
-	&::after{
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		font-family: "FontAwesome";
-		content: "\f00d";
-		text-indent: 0em;
-		line-height: $space-size;
-		text-align: center;
-		width: $space-size;
-		height: $space-size;
-	}
+.has-popover > .show-popover{
+	@include icon-only("\f05a");
 }
