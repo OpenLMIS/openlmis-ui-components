@@ -4,12 +4,17 @@ describe('FullSupplyController', function() {
     var vm;
 
     //mocks
-    var requisition, requisitionValidator, lineItems;
+    var requisition, requisitionValidator, lineItems, paginatedListFactory;
 
     beforeEach(module('requisition-full-supply'));
 
     beforeEach(function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
+
+        paginatedListFactory = jasmine.createSpyObj('paginatedListFactory', ['getPaginatedItems']);
+        paginatedListFactory.getPaginatedItems.andCallFake(function(lineItems) {
+            return [lineItems];
+        });
     });
 
     beforeEach(function($rootScope) {
@@ -23,7 +28,12 @@ describe('FullSupplyController', function() {
                 lineItem('Three', false)
             ]
         };
-        lineItems = [requisition.requisitionLineItems];
+        lineItems = [
+            requisition.requisitionLineItems[0],
+            requisition.requisitionLineItems[1],
+            requisition.requisitionLineItems[2],
+            requisition.requisitionLineItems[3],
+        ];
 
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
@@ -44,6 +54,7 @@ describe('FullSupplyController', function() {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             lineItems: lineItems,
+            paginatedListFactory: paginatedListFactory,
             columns: []
         });
     }));

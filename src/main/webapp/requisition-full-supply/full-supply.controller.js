@@ -155,7 +155,7 @@
         }
 
         function setSkipAll(value) {
-            angular.forEach(vm.paginatedLineItems.items, function(page) {
+            angular.forEach(vm.paginatedLineItems, function(page) {
                 angular.forEach(page, function(lineItem) {
                     if (lineItem.canBeSkipped(vm.requisition)) {
                         lineItem.skipped = value;
