@@ -23,18 +23,19 @@
         return RequisitionTemplate;
 
         function RequisitionTemplate(template, requisition) {
-            this.showNonFullSupplyTab = requisition.program.showNonFullSupplyTab;
+            angular.copy(template, this);
 
-            var columns = [];
+            var columnsMap = {};
             angular.forEach(template.columnsMap, function(column) {
-                columns.push(new RequisitionColumn(column, requisition));
+                columnsMap[column.name] = new RequisitionColumn(column, requisition);
             });
-            this.columns = columns;
+            this.columnsMap = columnsMap;
         }
+
         function getColumns(nonFullSupply) {
             var columns = [];
-            this.columns.forEach(function(column) {
-                if (column.display && (!nonFullSupply || !column.fullSupplyOnly)) {
+            angular.forEach(this.columnsMap, function(column) {
+                if (column.$display && (!nonFullSupply || !column.$fullSupplyOnly)) {
                     columns.push(column);
                 }
             });
@@ -53,10 +54,7 @@
          * @return  {Object}            the matching column
          */
         function getColumn(name) {
-            var filtered = $filter('filter')(this.columns, {
-                name: name
-            }, true);
-            return filtered.length === 1 ? filtered[0] : undefined;
+            return this.columnsMap[name];
         }
     }
 

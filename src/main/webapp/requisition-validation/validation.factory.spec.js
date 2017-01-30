@@ -76,12 +76,12 @@ describe('validationFactory', function() {
         beforeEach(function() {
             jColumn = {
                 name: TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
-                display: true
+                $display: true
             };
 
             iColumn = {
                 name: TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY,
-                display: true
+                $display: true
             };
 
             messageServiceMock.get.andReturn('required');
@@ -99,7 +99,7 @@ describe('validationFactory', function() {
         });
 
         it('should return undefined if requestedQuantity column is not displayed', function() {
-            jColumn.display = false;
+            jColumn.$display = false;
 
             expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
                 .toBeUndefined();

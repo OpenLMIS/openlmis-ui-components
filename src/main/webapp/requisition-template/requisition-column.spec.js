@@ -37,13 +37,13 @@ describe('RequisitionColumn', function() {
 
         expect(column.name).toBe(TEMPLATE_COLUMNS.STOCK_ON_HAND);
         expect(column.source).toBe(COLUMN_SOURCES.CALCULATED);
-        expect(column.type).toBe(COLUMN_TYPES.NUMERIC);
+        expect(column.$type).toBe(COLUMN_TYPES.NUMERIC);
         expect(column.label).toBe('Stock on Hand');
-        expect(column.display).toBe(true);
+        expect(column.$display).toBe(true);
         expect(column.displayOrder).toBe(1);
-        expect(column.required).toBe(false);
-        expect(column.fullSupplyOnly).toBe(true);
-        expect(column.dependencies).toEqual([
+        expect(column.$required).toBe(false);
+        expect(column.$fullSupplyOnly).toBe(true);
+        expect(column.$dependencies).toEqual([
             TEMPLATE_COLUMNS.BEGINNING_BALANCE,
             TEMPLATE_COLUMNS.TOTAL_RECEIVED_QUANTITY,
             TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -56,7 +56,7 @@ describe('RequisitionColumn', function() {
 
         var column = new RequisitionColumn(columnDef, requisition);
 
-        expect(column.display).toBe(false);
+        expect(column.$display).toBe(false);
     });
 
     [
@@ -83,7 +83,7 @@ describe('RequisitionColumn', function() {
 
             var column = new RequisitionColumn(columnDef, requisition);
 
-            expect(column.required).toBe(testCase.result);
+            expect(column.$required).toBe(testCase.result);
         });
     });
 
@@ -131,7 +131,7 @@ describe('RequisitionColumn', function() {
 
             var column = new RequisitionColumn(columnDef, requisition);
 
-            expect(column.display).toBe(testCase.result);
+            expect(column.$display).toBe(testCase.result);
         });
     });
 

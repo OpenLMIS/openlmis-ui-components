@@ -1,7 +1,6 @@
 <div id="action_buttons" class="action-buttons">
     <div class="form-cell button-row">
         <input id="deleteRnrButton" type="button" class="btn delete-button" ng-disabled="vm.isOffline()" value="{{'button.delete' | message}}" ng-if="vm.displayDelete()" ng-click="vm.removeRnr()" />
-        <input id="saveRnrButton" ng-disabled="!vm.requisition.$availableOffline" ng-click="vm.saveRnr()" class="btn btn-default save-button" value="{{'button.save.locally' | message}}" type="button" />
         <input id="syncRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" class="btn btn-default save-button" value="{{'button.sync' | message}}" type="button" />
         <input id="submitRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" class="btn btn-primary primary-action" value="{{'button.submit' | message}}" type="button" ng-if="vm.displaySubmit()" />
         <input id="skipRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" class="btn btn-default primary-action" value="{{'button.skip' | message}}" type="button" ng-if="vm.displaySkip()" />

@@ -2,7 +2,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
 				<th ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>

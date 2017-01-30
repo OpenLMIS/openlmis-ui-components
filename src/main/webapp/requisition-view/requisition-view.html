@@ -20,7 +20,7 @@
                     {{'label.full.supply.products' | message}}
                 </a>
         </li>
-        <li ui-sref-active="active" ng-if="vm.requisition.template.showNonFullSupplyTab"
+        <li ui-sref-active="active" ng-if="vm.requisition.program.showNonFullSupplyTab"
             role="presentation" ng-class="{'error': !vm.isNonFullSupplyTabValid()}">
                 <a ui-sref="requisitions.requisition.nonFullSupply">
                     {{'label.non.full.supply.products' | message}}

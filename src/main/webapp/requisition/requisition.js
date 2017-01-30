@@ -327,7 +327,7 @@
         }
 
         function transformRequisition(requisition) {
-            var columns = requisition.template.columns;
+            var columns = requisition.template.columnsMap;
             angular.forEach(requisition.requisitionLineItems, function(lineItem) {
                 transformLineItem(lineItem, columns);
             });
@@ -348,7 +348,7 @@
 
         function transformLineItem(lineItem, columns) {
             angular.forEach(columns, function(column) {
-                if (!column.display || column.source === COLUMN_SOURCES.CALCULATED) {
+                if (!column.$display || column.source === COLUMN_SOURCES.CALCULATED) {
                     lineItem[column.name] = null;
                 }
             });

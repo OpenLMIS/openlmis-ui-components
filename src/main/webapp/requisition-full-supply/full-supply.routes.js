@@ -14,6 +14,7 @@
             templateUrl: 'requisition-full-supply/full-supply.html',
             controller: 'FullSupplyController',
             controllerAs: 'vm',
+            isOffline: true,
             resolve: {
                 lineItems: function($filter, requisition) {
                     return $filter('filter')(requisition.requisitionLineItems, {

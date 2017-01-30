@@ -19,40 +19,40 @@ describe('LineItem', function() {
         });
 
         var template = jasmine.createSpyObj('template', ['getColumns']);
-        template.columns = [
+        template.columnsMap = [
             {
                 name: 'requestedQuantity',
                 source: 'USER_INPUT',
-                type: 'NUMERIC',
-                display: true
+                $type: 'NUMERIC',
+                $display: true
             },
             {
                 name: 'requestedQuantityExplanation',
                 source: 'USER_INPUT',
-                type: 'TEXT',
-                display: true
+                $type: 'TEXT',
+                $display: true
             },
             {
                 name: 'totalCost',
                 source: 'CALCULATED',
-                type: 'NUMERIC',
-                display: true
+                $type: 'NUMERIC',
+                $display: true
             },
             {
                 name: 'adjustedConsumption',
                 source: 'CALCULATED',
-                type: 'NUMERIC',
-                display: true
+                $type: 'NUMERIC',
+                $display: true
             },
             {
                 name: 'columnWithoutCalculations',
                 source: 'CALCULATED',
-                type: 'NUMERIC',
-                display: true
+                $type: 'NUMERIC',
+                $display: true
             }
         ];
         template.getColumns.andCallFake(function (nonFullSupply) {
-            return template.columns;
+            return template.columnsMap;
         });
 
         program = {
@@ -104,8 +104,8 @@ describe('LineItem', function() {
         it('should not update values in line item if they are set', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
 
-            lineItem.updateFieldValue(requisition.template.columns[0], requisition);
-            lineItem.updateFieldValue(requisition.template.columns[1], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[0], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[1], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(requisitionLineItem.requestedQuantity);
             expect(lineItem.requestedQuantityExplanation).toEqual(requisitionLineItem.requestedQuantityExplanation);
@@ -118,9 +118,9 @@ describe('LineItem', function() {
             lineItem.requestedQuantityExplanation = undefined;
             lineItem.totalCost = undefined;
 
-            lineItem.updateFieldValue(requisition.template.columns[0], requisition);
-            lineItem.updateFieldValue(requisition.template.columns[1], requisition);
-            lineItem.updateFieldValue(requisition.template.columns[2], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[0], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[1], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[2], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(0);
             expect(lineItem.requestedQuantityExplanation).toEqual('');
@@ -129,14 +129,14 @@ describe('LineItem', function() {
 
         it('should call proper calculation method when column name is Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
-            lineItem.updateFieldValue(requisition.template.columns[3], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[3], requisition);
 
             expect(calculationFactory.adjustedConsumption).toHaveBeenCalledWith(lineItem, requisition);
         });
 
         it('should call proper calculation method when column name is calculated and not Adjusted Consumption', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
-            lineItem.updateFieldValue(requisition.template.columns[2], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[2], requisition);
 
             expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItem, requisition);
         });
@@ -144,8 +144,8 @@ describe('LineItem', function() {
         it('should set null if there is no calculation method for given column', function() {
             var lineItem = new LineItem(requisitionLineItem, requisition);
             lineItem.columnWithoutCalculations = 100;
-            
-            lineItem.updateFieldValue(requisition.template.columns[4], requisition);
+
+            lineItem.updateFieldValue(requisition.template.columnsMap[4], requisition);
 
             expect(lineItem.columnWithoutCalculations).toBe(null);
         });

@@ -53,20 +53,20 @@
 
 			$templateRequest('requisition-product-grid/product-grid-cell.html').then(function(template) {
 				var cell = angular.element(template);
-				if (column.type === COLUMN_TYPES.NUMERIC && !scope.isReadOnly) {
+				if (column.$type === COLUMN_TYPES.NUMERIC && !scope.isReadOnly) {
 					cell.find('input').attr('positive-integer', '');
 				}
-				if(!column.canChangeOrder) cell.addClass('sticky');
+				if(!column.$canChangeOrder) cell.addClass('sticky');
 				element.replaceWith($compile(cell)(scope));
 			});
 
-	      	angular.forEach(column.dependencies, watchDependency);
+			angular.forEach(column.$dependencies, watchDependency);
 
       		function validate() {
 				requisitionValidator.validateLineItemField(
 					scope.lineItem,
 					column,
-					requisition.template.columns,
+					requisition.template.columnsMap,
 					requisition
 				);
       		}
@@ -91,7 +91,7 @@
 
 			function watchDependency(name) {
 				var dependent = requisition.template.getColumn(name);
-				if (dependent.display) {
+				if (dependent.$display) {
 					scope.$watch('lineItem.' + name, function(newValue, oldValue) {
 		          		if (newValue !== oldValue) {
 							if (column.source === COLUMN_SOURCES.CALCULATED) {
@@ -101,7 +101,7 @@
 		          		}
 		        	});
 				} else {
-					angular.forEach(dependent.dependencies, watchDependency);
+					angular.forEach(dependent.$dependencies, watchDependency);
 				}
 			}
 		}

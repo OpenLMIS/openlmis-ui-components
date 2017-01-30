@@ -26,17 +26,19 @@
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
         'convertToOrderModalService', 'offlineService', 'localStorageFactory',
-        'requisitionUrlFactory', '$filter'
+        'requisitionUrlFactory', '$filter', '$scope', '$timeout'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
-                             localStorageFactory, requisitionUrlFactory, $filter) {
+                             localStorageFactory, requisitionUrlFactory, $filter, $scope,
+                             $timeout) {
 
         var vm = this,
+            timeoutPromise,
             onlineOnly = localStorageFactory('onlineOnly'),
-            offlineRequitions = localStorageFactory('requisitions');
+            offlineRequisitions = localStorageFactory('requisitions');
 
         /**
          * @ngdoc property
@@ -62,7 +64,6 @@
 
         // Functions
 
-        vm.saveRnr = saveRnr;
         vm.syncRnr = syncRnr;
         vm.submitRnr = submitRnr;
         vm.authorizeRnr = authorizeRnr;
@@ -78,17 +79,22 @@
         vm.displayApproveAndReject = displayApproveAndReject;
         vm.displayConvertToOrder = displayConvertToOrder;
         vm.displaySkip = displaySkip;
-        vm.changeAvailablity = changeAvailablity;
         vm.isOffline = offlineService.isOffline;
         vm.getPrintUrl = getPrintUrl;
         vm.isFullSupplyTabValid = isFullSupplyTabValid;
         vm.isNonFullSupplyTabValid = isNonFullSupplyTabValid;
 
-        function saveRnr() {
-            vm.requisition.$modified = true;
-            offlineRequitions.put(vm.requisition);
-            notificationService.success('msg.rnr.save.success');
-        }
+        $scope.$watch('vm.requisition', function(oldValue, newValue) {
+            if (oldValue !== newValue) {
+                vm.requisition.$modified = true;
+                offlineRequisitions.put(vm.requisition);
+                $timeout.cancel(timeoutPromise);
+                timeoutPromise = $timeout(function() {
+                    notificationService.success('msg.rnr.save.success');
+                    timeoutPromise = undefined;
+                }, 3000);
+            }
+        }, true);
 
          /**
          * @ngdoc function
@@ -102,7 +108,6 @@
         function syncRnr() {
             loadingModalService.open();
             vm.requisition.$modified = false;
-            offlineRequitions.put(vm.requisition);
             save().then(function(response) {
                 notificationService.success('msg.rnr.sync.success');
                 reloadState();
@@ -292,7 +297,7 @@
         function periodDisplayName() {
             //TODO: This is a temporary solution.
             return vm.requisition.processingPeriod.startDate.slice(0,3).join('/') + ' - ' + vm.requisition.processingPeriod.endDate.slice(0,3).join('/');
-        };
+        }
 
         /**
          * @ngdoc function
@@ -310,7 +315,7 @@
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isSubmitted() && hasRight;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -328,7 +333,7 @@
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isInitiated() && hasRight;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -346,7 +351,7 @@
                 programCode: vm.requisition.program.code
             });
             return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasRight;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -364,7 +369,7 @@
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isInitiated() && hasRight;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -382,7 +387,7 @@
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isApproved() && hasRight;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -399,7 +404,7 @@
             return vm.requisition.$isInitiated() &&
                 vm.requisition.program.periodsSkippable &&
                 !vm.requisition.emergency;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -411,22 +416,6 @@
          */
         function convertRnr() {
             convertToOrderModalService.show(vm.requisition);
-        };
-
-        function changeAvailablity(requisition) {
-            if (!requisition.$availableOffline) {
-                onlineOnly.remove(requisition.id);
-                offlineRequitions.put(requisition);
-                requisition.$availableOffline = true;
-            } else {
-                confirmService.confirm('msg.question.confirmation.makeOnlineOnly').then(function() {
-                    onlineOnly.put(requisition.id);
-                    offlineRequitions.removeBy('id', requisition.id);
-                    requisition.$availableOffline = false;
-                }, function() {
-                    requisition.$availableOffline = true;
-                });
-            }
         }
 
         /**

@@ -21,7 +21,7 @@
     function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS,
                                   COLUMN_SOURCES, messageService) {
 
-        var counterpart = {
+        var counterparts = {
             stockOnHand: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
             totalConsumedQuantity: TEMPLATE_COLUMNS.STOCK_ON_HAND
         };
@@ -111,7 +111,7 @@
 
             if (name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
 
-            if (column.required) {
+            if (column.$required) {
                 error = error || nonEmpty(lineItem[name]);
             }
 
@@ -172,11 +172,9 @@
         }
 
         function shouldValidateCalculation(lineItem, column, columns) {
-            var counterpart = getCounterpart(columns, column.name);
-            return calculationFactory[column.name]
-                    && !isCalculated(column)
-                    && counterpart
-                    && !isCalculated(counterpart);
+            var counterpart = columns[counterparts[column.name]];
+            return calculationFactory[column.name] && !isCalculated(column) && counterpart &&
+                !isCalculated(counterpart);
         }
 
         function nonEmpty(value) {
@@ -193,16 +191,6 @@
 
         function isCalculated(column) {
             return column.source === COLUMN_SOURCES.CALCULATED;
-        }
-
-        function getCounterpart(columns, name) {
-            var match;
-            columns.forEach(function(column) {
-                if (column.name === counterpart[name]) {
-                    match = column;
-                }
-            });
-            return match;
         }
     }
 

@@ -167,7 +167,7 @@ describe('requisitionValidator', function() {
 
         it('should return false if field is required but no set', function() {
             lineItem['requiredButNotSet'] = undefined;
-            column.required = true;
+            column.$required = true;
             column.name = 'requiredButNotSet';
 
             var result = validator.validateLineItemField(lineItem, column, columns);
@@ -178,7 +178,7 @@ describe('requisitionValidator', function() {
         it('should return false if any validation fails', function() {
             lineItem[TEMPLATE_COLUMNS.STOCK_ON_HAND] = -10;
             column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
-            column.required = true;
+            column.$required = true;
             column.source = COLUMN_SOURCES.CALCULATED;
             validationFactory.stockOnHand.andReturn('negative');
 
@@ -193,10 +193,15 @@ describe('requisitionValidator', function() {
 
             column.source = COLUMN_SOURCES.USER_INPUT;
             column.name = name;
-            columns.push({
-                name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
-                source: COLUMN_SOURCES.USER_INPUT
-            });
+
+
+            columns = {
+                stockOnHand: column,
+                totalConsumedQuantity: {
+                    name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
+                    source: COLUMN_SOURCES.USER_INPUT
+                }
+            };
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 

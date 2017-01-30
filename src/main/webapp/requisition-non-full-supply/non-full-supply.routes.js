@@ -15,6 +15,7 @@
             templateUrl: 'requisition-non-full-supply/non-full-supply.html',
             controller: 'NonFullSupplyController',
             controllerAs: 'vm',
+            isOffline: true,
             resolve: {
                 lineItems: function(requisition, $filter) {
                     return $filter('filter')(requisition.requisitionLineItems, {

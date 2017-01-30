@@ -95,7 +95,7 @@
         }
 
         function isDisplayed(column) {
-            return column && column.display;
+            return column && column.$display;
         }
     }
 

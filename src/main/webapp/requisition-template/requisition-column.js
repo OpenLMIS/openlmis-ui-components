@@ -81,22 +81,15 @@
         return RequisitionColumn;
 
         function RequisitionColumn(column, requisition) {
-            var name = column.name,
-            source = column.source;
+            angular.copy(column, this);
 
-            this.name = name;
-            this.type = column.columnDefinition.columnType;
-            this.source = source;
-            this.label = column.label;
-            this.display = displayColumn(column, requisition);
-            this.displayOrder = column.displayOrder;
-            this.required = (nonMandatoryFields.indexOf(name) === -1
-                && source == COLUMN_SOURCES.USER_INPUT);
-            this.fullSupplyOnly = nonFullSupplyColumns.indexOf(name) === -1;
-            this.dependencies = dependencies[name];
-            this.option = column.option;
-            this.canChangeOrder = column.columnDefinition.canChangeOrder;
-            this.definition = column.definition;
+            this.$type = column.columnDefinition.columnType;
+            this.$display = displayColumn(column, requisition);
+            this.$required = (nonMandatoryFields.indexOf(this.name) === -1 &&
+                this.source == COLUMN_SOURCES.USER_INPUT);
+            this.$fullSupplyOnly = nonFullSupplyColumns.indexOf(this.name) === -1;
+            this.$dependencies = dependencies[this.name];
+            this.$canChangeOrder = column.columnDefinition.canChangeOrder;
         }
 
         function displayColumn(column, requisition) {

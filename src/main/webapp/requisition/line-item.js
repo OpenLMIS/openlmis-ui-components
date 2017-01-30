@@ -76,7 +76,7 @@
             if(object) {
                 if (column.source === COLUMN_SOURCES.CALCULATED) {
                     object[propertyName] = calculationFactory[fullName] ? calculationFactory[fullName](this, requisition) : null;
-                } else if (column.type === COLUMN_TYPES.NUMERIC) {
+                } else if (column.$type === COLUMN_TYPES.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {
                     object[propertyName] = object[propertyName] ? object[propertyName] : '';
@@ -113,9 +113,9 @@
         }
 
         function isInputDisplayedAndNotEmpty(column, lineItem) {
-            return column.display
+            return column.$display
                 && column.source === COLUMN_SOURCES.USER_INPUT
-                && column.type !== COLUMN_TYPES.BOOLEAN
+                && column.$type !== COLUMN_TYPES.BOOLEAN
                 && !isEmpty(lineItem[column.name]);
         }
 
