@@ -10,7 +10,6 @@
   dl {
     display: flex;
     margin: 0em;
-    padding-top: 1em; // offsets dt;
   }
 
   dt {
@@ -20,10 +19,6 @@
     position: relative;
     top: -1.2em;
     white-space: nowrap;
-  }
-
-  dt::after {
-    content: ":";
   }
 
   dd {

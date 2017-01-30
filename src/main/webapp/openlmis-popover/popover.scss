@@ -32,7 +32,7 @@ Styleguide 1.5
 	color: $brand-primary;
 	font-size: 1em;
 	line-height: 1em;
-	padding: $space-size/2 $space-size;
+	padding: $space-size/2;
 	margin: 0em;
 }
 
@@ -46,7 +46,7 @@ Styleguide 1.5
 }
 
 .popover > button.close{
-	@include icon-only("\f057");
+	@include button-icon-only("times");
 	opacity: 1;
 	position: absolute;
 	top: $space-size/2;
@@ -54,5 +54,5 @@ Styleguide 1.5
 }
 
 .has-popover > .show-popover{
-	@include icon-only("\f05a");
+	@include icon-only("info-circle");
 }

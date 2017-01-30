@@ -13,7 +13,8 @@
 @mixin button-color($color){
   color: $white;
   border-color: $color;
-  @include linear-gradient(to bottom,  lighten($color, 15%), lighten($color, 10%) 10%, $color);
+  border-width: 1px;
+  @include linear-gradient(to bottom,  lighten($color, 10%), lighten($color, 5%) 10%, $color);
   &:hover,
   &:active,
   &.active,
