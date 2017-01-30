@@ -34,40 +34,34 @@ describe('StatusMessagesController', function() {
         it('should expose requisition', function() {
             expect(vm.requisition).toBe(requisition);
         });
-
-        it('should expose adjustments', function() {
-            expect(vm.isTextAreaVisible).toBe(false);
-        });
     });
 
     describe('displayAddComment', function() {
 
         it('should show button if requisition has no draft for status message', function() {
             vm.requisition.draftStatusMessage = null;
-            vm.isTextAreaVisible = false;
             var result = vm.displayAddComment();
             expect(result).toBe(true);
         });
 
         it('should not show button if requisition has draft for status message', function() {
             vm.requisition.draftStatusMessage = 'Draft';
-            vm.isTextAreaVisible = true;
             var result = vm.displayAddComment();
             expect(result).toBe(false);
         });
 
     });
 
-    describe('isTextAreaVisible', function() {
+    describe('draftStatusMessage', function() {
 
-        it('should set isTextAreaVisible true when add button was clicked', function() {
-            vm.showTextArea();
-            expect(vm.isTextAreaVisible).toBe(true);
+        it('should set draft to empty string when add button was clicked', function() {
+            vm.addComment();
+            expect(vm.requisition.draftStatusMessage).toBe("");
         });
 
-        it('should set isTextAreaVisible false when remove button was clicked', function() {
-            vm.hideTextArea();
-            expect(vm.isTextAreaVisible).toBe(false);
+        it('should set draft to null when remove button was clicked', function() {
+            vm.removeComment();
+            expect(vm.requisition.draftStatusMessage).toBe(null);
         });
     });
 

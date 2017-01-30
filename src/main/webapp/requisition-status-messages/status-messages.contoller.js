@@ -21,17 +21,6 @@
         /**
          * @ngdoc property
          * @propertyOf requisition-status-messages.StatusMessagesController
-         * @type {Boolean}
-         * @name isTextAreaVisible
-         *
-         * @description
-         * True if text area for requisition comment is shown.
-         */
-        vm.isTextAreaVisible = false;
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-status-messages.StatusMessagesController
          * @type {Object}
          * @name requisition
          *
@@ -43,32 +32,31 @@
         // Functions
 
         vm.displayAddComment = displayAddComment;
-        vm.showTextArea = showTextArea;
-        vm.hideTextArea = hideTextArea;
+        vm.addComment = addComment;
+        vm.removeComment = removeComment;
 
          /**
          * @ngdoc function
-         * @name showTextArea
+         * @name addComment
          * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
-         * Responsible for showing text area to input requisition comment.
+         * Responsible for adding draft of comment to requisition.
          */
-        function showTextArea() {
-            vm.isTextAreaVisible = true;
+        function addComment() {
+            vm.requisition.draftStatusMessage = "";
         }
 
          /**
          * @ngdoc function
-         * @name hideTextArea
+         * @name removeComment
          * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
-         * Responsible for hiding text area to input requisition status message.
+         * Responsible for clearing draft.
          */
-        function hideTextArea() {
+        function removeComment() {
             vm.requisition.draftStatusMessage = null;
-            vm.isTextAreaVisible = false;
         }
 
          /**
@@ -77,12 +65,13 @@
          * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
-         * Responsible for checking if requisition has some status message for current status.
-         * If no add button will be displayed.
+         * Responsible for checking if requisition has draft.
+         * If true text area and remove button will be displayed.
+         * Otherwise add button will be displayed.
          */
         function displayAddComment() {
             var canAddComment = true;
-            if (vm.requisition.draftStatusMessage || vm.isTextAreaVisible) {
+            if (vm.requisition.draftStatusMessage !== null) {
                 canAddComment = false;
             }
             return canAddComment;

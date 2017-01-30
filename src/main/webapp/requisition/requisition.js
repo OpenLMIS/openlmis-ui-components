@@ -79,14 +79,13 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function Requisition(source, approvedProducts, reasons, statusMessages) {
+        function Requisition(source, approvedProducts, reasons) {
             var programId = source.program.id,
                 requisition = this;
 
             angular.copy(source, this);
 
             this.$stockAdjustmentReasons = reasons;
-            this.$statusMessages = statusMessages;
             this.template = new RequisitionTemplate(this.template, source);
 
             this.requisitionLineItems = [];
