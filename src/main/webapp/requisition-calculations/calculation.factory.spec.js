@@ -239,7 +239,7 @@ describe('calculationFactory', function() {
 
             column.option.optionName = 'default';
 
-            expect(calculationFactory.maximumStockQuantity(lineItem, requisitionMock)).toBe(14.5);
+            expect(calculationFactory.maximumStockQuantity(lineItem, requisitionMock)).toBe(15);
         });
     });
 
