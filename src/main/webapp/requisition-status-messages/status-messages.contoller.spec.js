@@ -56,7 +56,7 @@ describe('StatusMessagesController', function() {
 
         it('should set draft to empty string when add button was clicked', function() {
             vm.addComment();
-            expect(vm.requisition.draftStatusMessage).toBe("");
+            expect(vm.requisition.draftStatusMessage).toBe('');
         });
 
         it('should set draft to null when remove button was clicked', function() {

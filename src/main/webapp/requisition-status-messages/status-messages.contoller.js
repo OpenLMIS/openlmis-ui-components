@@ -44,7 +44,7 @@
          * Responsible for adding draft of comment to requisition.
          */
         function addComment() {
-            vm.requisition.draftStatusMessage = "";
+            vm.requisition.draftStatusMessage = '';
         }
 
          /**
