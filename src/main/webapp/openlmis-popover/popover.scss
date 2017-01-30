@@ -46,7 +46,7 @@ Styleguide 1.5
 }
 
 .popover > button.close{
-	@include button-icon-only("times");
+	@include icon-only("times");
 	opacity: 1;
 	position: absolute;
 	top: $space-size/2;
