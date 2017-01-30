@@ -60,8 +60,8 @@
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
 
-    popoverDirective.$inject = ['jQuery', '$compile', '$timeout', '$templateRequest', '$rootScope'];
-    function popoverDirective(jQuery, $compile, $timeout, $templateRequest, $rootScope){
+    popoverDirective.$inject = ['jQuery', '$compile', '$timeout', '$templateRequest', '$rootScope', '$window'];
+    function popoverDirective(jQuery, $compile, $timeout, $templateRequest, $rootScope, $window){
         return {
             restrict: 'A',
             link: popoverLink
@@ -183,6 +183,8 @@
                     lastOpenPopover = targetElement;
                 });
 
+                jQuery($window).on('resize', onWindowResize);
+
 
                 $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
                     var template = $compile(templateHtml)(templateScope);
@@ -195,6 +197,7 @@
 
                     var popoverConfig = {
                         template: template,
+                        container: 'body',
                         placement: POPOVER_PLACEMENT,
                         trigger: trigger
                     };
@@ -252,8 +255,15 @@
             function destroyPopover(){
                 element.removeClass('has-popover');
                 element.children('.show-popover').remove();
+                jQuery($window).off('resize', onWindowResize);
                 if (lastOpenPopover == targetElement) lastOpenPopover = null;
                 if (targetElement) targetElement.popover('destroy');
+            }
+
+            function onWindowResize(){
+                if(targetElement){
+                    targetElement.popover('hide');
+                }
             }
         }
     }
