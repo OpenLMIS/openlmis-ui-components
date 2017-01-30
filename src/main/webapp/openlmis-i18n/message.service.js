@@ -9,9 +9,11 @@
     var LOCALE_STORAGE_KEY = 'current_locale',
         DEFAULT_LANGUAGE = 'en';
 
-    messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope'];
+    messageService.$inject = ['$q', '$http', 'localStorageService', '$rootScope', 'OPENLMIS_MESSAGES'];
 
-    function messageService($q, $http, localStorageService, $rootScope) {
+    function messageService($q, $http, localStorageService, $rootScope, OPENLMIS_MESSAGES) {
+        var currentLocale = DEFAULT_LANGUAGE;
+
         var service = {
             getCurrentLocale: getCurrentLocale,
             populate: populate,
@@ -21,43 +23,30 @@
         return service;
 
         function getCurrentLocale() {
-            return localStorageService.get(LOCALE_STORAGE_KEY);
+            return currentLocale;
         }
 
         function populate (locale) {
             if(!locale) locale = DEFAULT_LANGUAGE;
 
             var deferred = $q.defer();
-            $http({
-                method:'GET',
-                url:'messages/messages_' + locale + '.json'
-            })
-            .then(function(response) {
-                var data = response.data;
-                for (var attr in data) {
-                    localStorageService.add('message.' + attr, data[attr]);
-                }
-                localStorageService.add(LOCALE_STORAGE_KEY, locale);
+            if(OPENLMIS_MESSAGES[locale]){
+                currentLocale = locale;
                 $rootScope.$broadcast('openlmis.messages.populated');
-                deferred.resolve();
-            }, function() {
+                return $q.when();
+            } else {
                 $rootScope.$broadcast('openlmis.messages.error');
-                deferred.reject();
-            });
-            return deferred.promise;
+                return $q.reject();
+            }
         };
 
         function get () {
             var keyWithArgs = Array.prototype.slice.call(arguments);
-            var displayMessage = localStorageService.get('message.' + keyWithArgs[0]);
-            if (keyWithArgs.length > 1 && displayMessage) {
-                $.each(keyWithArgs, function(index, arg) {
-                    if (index > 0) {
-                        displayMessage = displayMessage.replace('{' + (index - 1) + '}', arg);
-                    }
-                });
+            var displayMessage = keyWithArgs[0];
+            if(OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]){
+                displayMessage = OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]
             }
-            return displayMessage || keyWithArgs[0];
+            return displayMessage;
         };
     }
 
