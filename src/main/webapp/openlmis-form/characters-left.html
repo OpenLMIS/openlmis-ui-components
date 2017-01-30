@@ -1,4 +1,4 @@
-<div class="characters-left" ng-class="{'no-left': text.length > maxLength}">
-    <div>{{'msg.charactersLeft' | message}}</div>
-    <div>{{maxLength - text.length}}</div>
+<div class="characters-left">
+    <div ng-if="text.length <= maxLength">{{'msg.charactersLeft' | message}}: {{maxLength - text.length}}</div>
+    <div ng-if="text.length > maxLength" class="no-left">{{'error.tooManyCharacters' | message}}: {{text.length - maxLength}}</div>
 </div>

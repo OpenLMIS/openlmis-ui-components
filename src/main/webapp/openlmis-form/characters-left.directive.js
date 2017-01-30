@@ -21,24 +21,31 @@
 			restrict: 'A',
             require: 'ngModel',
             scope: {
-                maxLength: '='
+                maxLength: '=',
+				text: '=ngModel'
             },
             link: link
 		};
 
-        function link(scope, element, attrs, ngModelController) {
+        function link(scope, element, attributes, ngModelController) {
 
-			$templateRequest('openlmis-form/characters-left.html').then(function(template) {
-				if (element.next().length) {
-	                element.next().insertBefore($compile(template)(scope));
-	            } else {
-					element.parent().append($compile(template)(scope));
-				}
+			var content;
+
+			element.on('focus', function() {
+				$templateRequest('openlmis-form/characters-left.html').then(function(template) {
+					content = $compile(template)(scope);
+					if (element.next().length) {
+		                element.next().insertBefore(content);
+		            } else {
+						element.parent().append(content);
+					}
+				});
 			});
 
-			scope.$watch(function() {
-                scope.text = ngModelController.$modelValue;
-            });
+			element.on('blur', function() {
+				if(content) content.remove();
+				content = null;
+			});
         }
 	}
 
