@@ -42,9 +42,6 @@
     	function link(scope, element, attrs) {
     		element.addClass('table-sort-order');
     		var parent = angular.element(element.parent()[0]);
-    		if(parent.hasClass('table-container')){
-    			parent.css('padding-top', element.outerHeight());
-    		}
     	}
 	}
 

@@ -23,6 +23,11 @@
 	button.hide-line-item {
 		@include button-color($red);
 	}
+
+	.openlmis-pagination {
+		flex: 0 1 auto;
+		width: inherit;
+	}
 }
 
 .cell-error-message {

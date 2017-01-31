@@ -1,5 +1,5 @@
 <div class="product-grid table-container">
-	<div class="table-sort-order">
+	<div class="table-control">
 		<a href="" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</a> |
 		<a href="" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</a>
 	</div>
@@ -18,9 +18,9 @@
 			</tr>
 		</tbody>
 	</table>
+	<openlmis-pagination current-page="vm.currentPage"
+		is-item-valid="vm.isLineItemValid"
+		change-page="vm.changePage"
+		paginated-items="vm.paginatedLineItems">
+	</openlmis-pagination>
 </div>
-<openlmis-pagination current-page="vm.currentPage"
-	is-item-valid="vm.isLineItemValid"
-	change-page="vm.changePage"
-	paginated-items="vm.paginatedLineItems">
-</openlmis-pagination>

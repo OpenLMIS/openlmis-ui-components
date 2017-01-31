@@ -1,4 +1,11 @@
-<div class="product-grid table-container">
+<div class="product-grid product-grid-non-full-supply table-container">
+	<div class="table-control">
+		<input class="btn btn-primary"
+			type="button"
+			ng-if="vm.displayAddProductButton"
+			ng-click="vm.addProduct()"
+			value="{{'button.add' | message}}"/>
+	</div>
 	<table>
 		<caption ng-if="!vm.paginatedLineItems.items.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
@@ -20,12 +27,9 @@
 		</tbody>
 	</table>
 
-	<button class="add-product" ng-if="vm.displayAddProductButton" ng-click="vm.addProduct()">
-			{{'button.add' | message}}
-	</button>
+	<openlmis-pagination ng-if="vm.paginatedLineItems.items.length" current-page="vm.currentPage"
+		is-item-valid="vm.isLineItemValid"
+		change-page="vm.changePage"
+		paginated-items="vm.paginatedLineItems">
+	</openlmis-pagination>
 </div>
-<openlmis-pagination ng-if="vm.paginatedLineItems.items.length" current-page="vm.currentPage"
-	is-item-valid="vm.isLineItemValid"
-	change-page="vm.changePage"
-	paginated-items="vm.paginatedLineItems">
-</openlmis-pagination>

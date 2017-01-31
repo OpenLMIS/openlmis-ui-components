@@ -16,6 +16,7 @@
 	function directive() {
 		return {
 			restrict: 'E',
+			replace: true,
 			scope: {
 				isItemValid: '=?',
 				changePage: '=?',

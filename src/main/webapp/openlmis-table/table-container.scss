@@ -30,6 +30,13 @@ the current table sort order is recommended.*
 markup:
 <h2>Example Items</h2>
 <section class="table-container">
+  <form id="example-sort-form" class="form-inline table-control">
+    <label for="table-sort-order">Sort items by</label>
+    <select id="table-sort-order">
+      <option selected="selected">Name</option>
+    </select>
+    <input type="submit" class="btn btn-primary" value="Sort items" />
+  </form>
   <form id="example-search-form">
     <fieldset>
       <legend>Show categories</legend>
@@ -47,13 +54,6 @@ markup:
       </label>
     </fieldset>
     <input class="btn btn-primary" type="submit" value="Search" />
-  </form>
-  <form table-sort-order id="example-sort-form" class="form-inline">
-    <label for="table-sort-order">Sort items by</label>
-    <select id="table-sort-order">
-      <option selected="selected">Name</option>
-    </select>
-    <input type="submit" class="btn btn-primary" value="Sort items" />
   </form>
   <table aria-describedby="example-search-form example-sort-form" >
     <thead>
@@ -117,14 +117,10 @@ Styleguide 4.1
     position: relative;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
     width: 100%;
     overflow: auto;
-
-    > * {
-        margin: 1em;
-    }
 
     > form {
         flex: 0 0 auto;
@@ -146,11 +142,9 @@ Styleguide 4.1
 }
 
 // Sort order
-.table-container > .table-sort-order {
-    position: absolute;
-    top: 0;
-    left: 0;
+.table-container > .table-control {
+    display: flex;
+    flex: 0 1 auto;
+    padding: 1em 0;
     width: 100%;
-    margin: 0;
-    padding: 1em;
 }
