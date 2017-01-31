@@ -267,7 +267,7 @@
   "template.save.success": "Template saved successfully!",
   "user.email.invalid": "Invalid email address format",
   "user.login.error": "The username or password you entered is incorrect. Please try again.",
-  "welcome.to.message": "Welcome to",
+  "welcome.message": "Welcome to \n Logistics Management Information Systems",
   "popover.showButton": "More Information",
   "requisitionSummary.showDetails": "View Budget Details",
   "requisition.nonFullSupply.empty": "No non-full supply items have been added."
