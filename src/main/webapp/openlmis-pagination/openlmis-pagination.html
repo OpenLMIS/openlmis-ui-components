@@ -1,6 +1,6 @@
 <div class="openlmis-pagination">
 	<div class="pagination-info">
-		{{vm.getAllItemsCount()}} {{'msg.lineItems' | message}}, {{'msg.showing' | message}} {{vm.getCurrentPageSize()}} {{'msg.lineItems' | message}}
+		{{'msg.showing' | message}} {{vm.getCurrentPageSize()}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.getAllItemsCount()}} {{'msg.total' | message}}
 	</div>
 	<ul class="pagination pagination-sm">
 		<li ng-class="{disabled : vm.isFirstPage()}">
