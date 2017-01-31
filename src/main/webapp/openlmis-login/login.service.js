@@ -23,24 +23,9 @@
         this.forgotPassword = forgotPassword;
         this.changePassword = changePassword;
 
-        function makeAuthorizationHeader(clientId, clientSecret){
-            var data = btoa(clientId + ':' + clientSecret);
+        function authorizationHeader(){
+            var data = btoa('@@AUTH_SERVER_CLIENT_ID' + ':' + '@@AUTH_SERVER_CLIENT_SECRET');
             return 'Basic ' + data;
-        }
-
-        function getAuthorizationHeader(){
-            var deferred = $q.defer();
-            $http.get('credentials/auth_server_client.json')
-            .then(function(response){
-                var header = makeAuthorizationHeader(
-                    response.data['auth.server.clientId'],
-                    response.data['auth.server.clientSecret']
-                );
-                deferred.resolve(header);
-            }).catch(function(){
-                deferred.reject();
-            });
-            return deferred.promise;
         }
 
         /**
@@ -58,38 +43,36 @@
          */
         function login(username, password){
             var deferred = $q.defer();
-            var promise = getAuthorizationHeader()
-            .then(function(AuthHeader) {
-                $http({
-                    method: 'POST',
-                    url: authUrl('/api/oauth/token?grant_type=password'),
-                    data: 'username=' + username + '&password=' + password,
-                    headers: {
-                        'Authorization': AuthHeader,
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }).then(function(response) {
-                    authorizationService.setAccessToken(response.data.access_token);
-                    getUserInfo(response.data.referenceDataUserId).then(function() {
-                        getUserRights(response.data.referenceDataUserId).then(function() {
+            var httpPromise = $http({
+                method: 'POST',
+                url: authUrl('/api/oauth/token?grant_type=password'),
+                data: 'username=' + username + '&password=' + password,
+                headers: {
+                    'Authorization': authorizationHeader(),
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            httpPromise.then(function(response) {
+                authorizationService.setAccessToken(response.data.access_token);
+                getUserInfo(response.data.referenceDataUserId).then(function() {
+                    getUserRights(response.data.referenceDataUserId).then(function() {
                             currencyService.getCurrencySettings().then(function() {
                                 emitEventAndResolve(deferred);
                             }, function(){
                                 currencyService.getCurrencySettingsFromConfig();
                                 emitEventAndResolve(deferred);
                             });
-                        }, function(){
-                            authorizationService.clearAccessToken();
-                            deferred.reject();
-                        });
+                        deferred.resolve();
                     }, function(){
                         authorizationService.clearAccessToken();
                         deferred.reject();
                     });
-                }, function() { // catch HTTP error
+                }, function(){
+                    authorizationService.clearAccessToken();
                     deferred.reject();
                 });
-            }, function(){
+            });
+            httpPromise.catch(function(){
                 deferred.reject();
             });
             return deferred.promise;
