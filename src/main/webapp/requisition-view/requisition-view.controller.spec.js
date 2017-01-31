@@ -141,7 +141,7 @@ describe('RequisitionViewController', function() {
         deferred.reject();
         $scope.$apply();
 
-        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionSkipFailed');
+        expect(notificationServiceSpy).toHaveBeenCalledWith('msg.failedToSkipRequisition');
     });
 
     it('getPrintUrl should prepare URL correctly', function() {

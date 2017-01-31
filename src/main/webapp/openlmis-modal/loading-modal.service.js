@@ -42,7 +42,7 @@
          */
 
         function showModal(delay) {
-            if (dialog) {
+            if (deferred) {
                 return deferred.promise;
             }
 

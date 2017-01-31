@@ -26,19 +26,17 @@
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
         'convertToOrderModalService', 'offlineService', 'localStorageFactory',
-        'requisitionUrlFactory', '$filter', '$scope', '$timeout'
+        'requisitionUrlFactory', '$filter', '$scope', '$timeout', 'RequisitionWatcher'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
                              localStorageFactory, requisitionUrlFactory, $filter, $scope,
-                             $timeout) {
+                             $timeout, RequisitionWatcher) {
 
         var vm = this,
-            timeoutPromise,
-            onlineOnly = localStorageFactory('onlineOnly'),
-            offlineRequisitions = localStorageFactory('requisitions');
+            watcher = new RequisitionWatcher(requisition);
 
         /**
          * @ngdoc property
@@ -84,18 +82,6 @@
         vm.isFullSupplyTabValid = isFullSupplyTabValid;
         vm.isNonFullSupplyTabValid = isNonFullSupplyTabValid;
 
-        $scope.$watch('vm.requisition', function(oldValue, newValue) {
-            if (oldValue !== newValue) {
-                vm.requisition.$modified = true;
-                offlineRequisitions.put(vm.requisition);
-                $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
-                    notificationService.success('msg.rnr.save.success');
-                    timeoutPromise = undefined;
-                }, 3000);
-            }
-        }, true);
-
          /**
          * @ngdoc function
          * @name syncRnr
@@ -106,12 +92,15 @@
          * an error notification will be displayed. Otherwise, a success notification will be shown.
          */
         function syncRnr() {
-            loadingModalService.open();
+            watcher.makeSilent();
+            var loadingPromise = loadingModalService.open();
             vm.requisition.$modified = false;
             save().then(function(response) {
-                notificationService.success('msg.rnr.sync.success');
+                loadingPromise.then(function() {
+                    notificationService.success('msg.requisitionSynced');
+                });
                 reloadState();
-            });
+            }, failWithMessage('msg.failedToSyncRequisition'));
         }
 
         /**
@@ -126,6 +115,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function submitRnr() {
+            watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
@@ -135,14 +125,13 @@
                                 notificationService.success('msg.requisitionSubmitted');
                             });
                             reloadState();
-                        }, function(response) {
-                            loadingModalService.close();
-                            notificationService.error('msg.requisitionSubmitFailed');
-                        });
-                    });
+                        }, failWithMessage('msg.failedToSubmitRequisition'));
+                    }, failWithMessage('msg.failedToSyncRequisition'));
                 } else {
-                    notificationService.error('error.rnr.validation');
+                    failWithMessage('error.rnr.validation')();
                 }
+            }, function() {
+                watcher.makeLoud();
             });
         }
 
@@ -159,23 +148,23 @@
          * Otherwise, a success notification modal will be shown.
          */
         function authorizeRnr() {
+            watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
                     vm.requisition.$save().then(function() {
                         vm.requisition.$authorize().then(function(response) {
                             loadingPromise.then(function() {
-                                notificationService.success('msg.rnr.authorized.success');
+                                notificationService.success('msg.requisitionAuthorized');
                             });
                             reloadState();
-                        }, function(response) {
-                            notificationService.error('msg.rnr.authorized.failure');
-                            loadingModalService.close();
-                        });
-                    });
+                        }, failWithMessage('msg.failedToAuthorizeRequisition'));
+                    }, failWithMessage('msg.failedToSyncRequisition'));
                 } else {
-                    notificationService.error('error.rnr.validation');
+                    failWithMessage('error.rnr.validation');
                 }
+            }, function() {
+                watcher.makeLoud();
             });
         }
 
@@ -190,17 +179,17 @@
          * Otherwise, a success notification modal will be shown.
          */
         function removeRnr() {
+            watcher.makeSilent();
             confirmService.confirmDestroy('msg.question.confirmation.deletion').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$remove().then(function(response) {
                     loadingPromise.then(function() {
-                        notificationService.success('msg.rnr.deletion.success');
+                        notificationService.success('msg.requisitionDeleted');
                     });
                     $state.go('requisitions.initRnr');
-                }, function(response) {
-                    notificationService.error('msg.rnr.deletion.failure');
-                    loadingModalService.close();
-                });
+                }, failWithMessage('failedToDeleteRequisition'));
+            }, function() {
+                watcher.makeLoud();
             });
         }
 
@@ -216,21 +205,24 @@
          * Otherwise, a success notification modal will be shown.
          */
         function approveRnr() {
+            watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.approve').then(function() {
                 if(requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
                     vm.requisition.$save().then(function() {
                         vm.requisition.$approve().then(function(response) {
                             loadingPromise.then(function() {
-                                notificationService.success('msg.rnr.approved.success');
+                                notificationService.success('msg.requisitionApproved');
                             });
                             $state.go('requisitions.approvalList');
-                        }, loadingModalService.close);
-                    });
+                        }, failWithMessage('msg.failedToApproveRequisition'));
+                    }, failWithMessage('msg.failedToSyncRequisition'));
                 } else {
-                    notificationService.error('error.rnr.validation');
+                    failWithMessage('error.rnr.validation');
                 }
-             });
+            }, function() {
+                watcher.makeLoud();
+            });
         }
 
         /**
@@ -244,17 +236,17 @@
          * Otherwise, a success notification modal will be shown.
          */
         function rejectRnr() {
+            watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.reject').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$reject().then(function(response) {
                     loadingPromise.then(function() {
-                        notificationService.success('msg.rnr.reject.success');
+                        notificationService.success('msg.requisitionRejected');
                     });
                     $state.go('requisitions.approvalList');
-                }, function(response) {
-                    loadingModalService.close();
-                    notificationService.error('msg.rejected.failure');
-                });
+                }, failWithMessage('msg.failedToRejectRequisition'));
+            }, function() {
+                watcher.makeLoud();
             });
         }
 
@@ -269,6 +261,7 @@
          * Otherwise, a success notification modal will be shown.
          */
         function skipRnr() {
+            watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.skip', 'button.skipRequisition').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$skip().then(function(response) {
@@ -276,10 +269,9 @@
                         notificationService.success('msg.requisitionSkipped');
                     });
                     $state.go('requisitions.initRnr');
-                }, function() {
-                    notificationService.error('msg.requisitionSkipFailed');
-                    loadingModalService.close();
-                });
+                }, failWithMessage('msg.failedToSkipRequisition'));
+            }, function() {
+                watcher.makeLoud();
             });
         }
 
@@ -486,6 +478,14 @@
 
         function reloadState() {
             $state.reload();
+        }
+
+        function failWithMessage(message) {
+            return function() {
+                notificationService.error(message);
+                loadingModalService.close();
+                watcher.makeLoud();
+            };
         }
 
     }
