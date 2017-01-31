@@ -152,11 +152,8 @@
             return deferred.promise;
         }
 
-		function getFulfillmentFacilities(userId, rightId) {
-			return resource.getFulfillmentFacilities({
-				userId: userId,
-				rightId: rightId
-			}).$promise;
+		function getFulfillmentFacilities(params) {
+			return resource.getFulfillmentFacilities(params).$promise;
 		}
     }
 })();

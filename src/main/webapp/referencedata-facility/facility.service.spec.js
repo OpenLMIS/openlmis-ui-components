@@ -184,14 +184,18 @@ describe('facilityService', function() {
         it('should make correct request', function() {
             $httpBackend.expectGET(url);
 
-            facilityService.getFulfillmentFacilities(userId);
+            facilityService.getFulfillmentFacilities({
+                userId: userId
+            });
             $httpBackend.flush();
         });
 
         it('should resolve to facility list', function() {
             var result;
 
-            facilityService.getFulfillmentFacilities(userId).then(function(facilities) {
+            facilityService.getFulfillmentFacilities({
+                userId: userId
+            }).then(function(facilities) {
                 result = facilities;
             });
             $httpBackend.flush();
