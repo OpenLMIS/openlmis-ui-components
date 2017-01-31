@@ -158,6 +158,7 @@
   "message.no.requisitions.for.conversion": "No requisitions to be converted to orders",
   "message.no.rnr.pending.approval": "No R&Rs pending for approval",
   "message.no.search.results": "No search results",
+  "message.no.reports": "No reports exist",
   "msg.alert.modal.footer": "Press ESC button or click anywhere to continue",
   "msg.button.cancel": "Cancel",
   "msg.button.ok": "OK",

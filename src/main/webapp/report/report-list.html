@@ -2,7 +2,8 @@
     <div class="page">
         <h2>{{'header.viewReports' | message}}</h2>
         <div class="table-container">
-            <table ng-if="vm.reports.length">
+            <table>
+                <caption class="error" ng-if="!vm.reports.length">{{'message.no.reports' | message}}</caption>
                 <thead>
                 <tr>
                     <th>{{'report.header' | message}}</th>
