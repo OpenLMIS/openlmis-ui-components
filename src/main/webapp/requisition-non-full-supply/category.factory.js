@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name requisition-non-full-supply.categoryFactory
+     *
+     * @description
+     * Responsible for grouping products into categories to be displayed on the Add Product modal.
+     */
     angular
         .module('requisition-non-full-supply')
         .factory('categoryFactory', factory);
@@ -14,6 +21,19 @@
         };
         return factory;
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.categoryFactory
+         * @name groupProducts
+         *
+         * @description
+         * Groups the given products into categories. Program with the given ID is used to group
+         * the products.
+         *
+         * @param   {Array}     products    the list of products
+         * @param   {String}    programId   the ID of the program
+         * @return  {Array}                 the list of categories with related products
+         */
         function groupProducts(products, programId) {
             var categories = {};
             angular.forEach(products, function(product) {
