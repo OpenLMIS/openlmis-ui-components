@@ -16,9 +16,8 @@
 	function datepicker() {
 		var directive = {
 			restrict: 'EA',
-			require: 'ngModel',
 			scope: {
-				value: '=ngModel',
+				value: '=',
 				inputId: '@?'
 			},
 			templateUrl: 'openlmis-form/datepicker.html',
