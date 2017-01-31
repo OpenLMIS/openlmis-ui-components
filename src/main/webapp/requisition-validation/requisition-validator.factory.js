@@ -15,11 +15,11 @@
 
     requisitionValidator.$inject = [
         'validationFactory', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES',
-        'messageService'
+        'messageService', '$filter'
     ];
 
     function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS,
-                                  COLUMN_SOURCES, messageService) {
+                                  COLUMN_SOURCES, messageService, $filter) {
 
         var counterparts = {
             stockOnHand: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -52,16 +52,20 @@
                 fullSupplyColumns = requisition.template.getColumns(),
                 nonFullSupplyColumns = requisition.template.getColumns(true);
 
-            requisition.$fullSupplyCategories.forEach(function(category) {
-              category.lineItems.forEach(function(lineItem) {
+            angular.forEach($filter('filter')(requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply: true
+                }
+            }), function(lineItem) {
                 valid = validator.validateLineItem(lineItem, fullSupplyColumns, requisition) && valid;
-              });
             });
 
-            requisition.$nonFullSupplyCategories.forEach(function(category) {
-              category.lineItems.forEach(function(lineItem) {
+            angular.forEach($filter('filter')(requisition.requisitionLineItems, {
+                $program: {
+                    fullSupply: false
+                }
+            }), function(lineItem) {
                 valid = validator.validateLineItem(lineItem, nonFullSupplyColumns, requisition) && valid;
-              });
             });
 
             return valid;

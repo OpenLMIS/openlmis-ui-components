@@ -1,7 +1,7 @@
 describe('requisitionValidator', function() {
 
     var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory, validationFactory,
-        lineItem, column, columns, requisition;
+        lineItem, lineItems, column, columns, requisition;
 
     beforeEach(function() {
         module('requisition-validation', function($provide) {
@@ -33,16 +33,31 @@ describe('requisitionValidator', function() {
             return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
         });
 
+        lineItems = [{
+            $program: {
+                fullSupply: true
+            }
+        }, {
+            $program: {
+                fullSupply: false
+            }
+        },{
+            $program: {
+                fullSupply: true
+            }
+        }, {
+            $program: {
+                fullSupply: false
+            }
+        }];
+
         requisition = {
             template: template,
-            $fullSupplyCategories: fullSupplyCategories(),
-            $nonFullSupplyCategories: nonFullSupplyCategories()
+            requisitionLineItems: lineItems
         };
     });
 
     describe('validateRequisition', function() {
-
-        var lineItems;
 
         it('should return true if requisition is valid', function() {
             spyOn(validator, 'validateLineItem').andReturn(true);
@@ -51,54 +66,46 @@ describe('requisitionValidator', function() {
 
             expect(result).toBe(true);
 
-            requisition.$fullSupplyCategories.forEach(function(category) {
-                category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem).toHaveBeenCalledWith(
-                        lineItem,
-                        requisition.template.getColumns(),
-                        requisition
-                    );
-                });
+            [lineItems[0], lineItems[2]].forEach(function(lineItem) {
+                expect(validator.validateLineItem).toHaveBeenCalledWith(
+                    lineItem,
+                    requisition.template.getColumns(),
+                    requisition
+                );
             });
 
-            requisition.$nonFullSupplyCategories.forEach(function(category) {
-                category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem).toHaveBeenCalledWith(
-                        lineItem,
-                        requisition.template.getColumns(true),
-                        requisition
-                    );
-                });
+            [lineItems[1], lineItems[3]].forEach(function(lineItem) {
+                expect(validator.validateLineItem).toHaveBeenCalledWith(
+                    lineItem,
+                    requisition.template.getColumns(true),
+                    requisition
+                );
             });
         });
 
         it('should return false if any of the line items is invalid', function() {
             spyOn(validator, 'validateLineItem').andCallFake(function(lineItem) {
-                return lineItem !== requisition.$fullSupplyCategories[0].lineItems[0];
+                return lineItem !== lineItems[0];
             });
 
             var result = validator.validateRequisition(requisition);
 
             expect(result).toBe(false);
 
-            requisition.$fullSupplyCategories.forEach(function(category) {
-                category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem).toHaveBeenCalledWith(
-                        lineItem,
-                        requisition.template.getColumns(),
-                        requisition
-                    );
-                });
+            [lineItems[0], lineItems[2]].forEach(function(lineItem) {
+                expect(validator.validateLineItem).toHaveBeenCalledWith(
+                    lineItem,
+                    requisition.template.getColumns(),
+                    requisition
+                );
             });
 
-            requisition.$nonFullSupplyCategories.forEach(function(category) {
-                category.lineItems.forEach(function(lineItem) {
-                    expect(validator.validateLineItem).toHaveBeenCalledWith(
-                        lineItem,
-                        requisition.template.getColumns(true),
-                        requisition
-                    );
-                });
+            [lineItems[1], lineItems[3]].forEach(function(lineItem) {
+                expect(validator.validateLineItem).toHaveBeenCalledWith(
+                    lineItem,
+                    requisition.template.getColumns(true),
+                    requisition
+                );
             });
         });
 
