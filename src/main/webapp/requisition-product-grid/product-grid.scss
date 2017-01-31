@@ -23,6 +23,16 @@
 	button.hide-line-item {
 		@include button-color($red);
 	}
+
+    table tr > th.has-popover{
+      position:relative;
+      padding-right: 1.5em;
+      .show-popover{
+        position:absolute;
+        top: 1.25em;
+        right: 0.25em;
+      }
+    }
 }
 
 .cell-error-message {
