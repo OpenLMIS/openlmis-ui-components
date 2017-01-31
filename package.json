@@ -7,7 +7,7 @@
   },
   "license": "AGPL-3.0",
   "devDependencies": {
-    "openlmis-ui": "file:///openlmis/dev-ui"
+    "openlmis-ui": "file:///dev-ui"
   },
   "dependencies": {}
 }

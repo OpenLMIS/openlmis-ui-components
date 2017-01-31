@@ -1,7 +1,5 @@
 FROM openlmis/dev-ui
 
-WORKDIR /openlmis/openlmis-requisition-ui
-
-VOLUME ["/openlmis/openlmis-requisition-ui"]
+WORKDIR /app
 
 CMD bash

@@ -20,9 +20,5 @@
   "currencySymbolSide": "left",
   "currencyDecimalPlaces": 2,
   "authServerClientId": "user-client",
-  "authServerClientSecret": "changeme",
-  "orderedBuildDirectories": [
-    "/openlmis/dev-ui",
-    "/openlmis/openlmis-requisition-ui"
-  ]
+  "authServerClientSecret": "changeme"
 }
