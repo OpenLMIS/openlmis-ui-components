@@ -25,7 +25,7 @@
                     });
                 },
                 columns: function(requisition) {
-                    return requisition.template.getColumns();
+                    return requisition.template.getColumns(true);
                 }
             }
         });

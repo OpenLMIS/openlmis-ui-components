@@ -31,7 +31,7 @@ describe('calculationFactory', function() {
 
             templateMock.getColumn.andReturn({
                 name: 'requestedQuantity',
-                display: true
+                $display: true
             });
         });
 

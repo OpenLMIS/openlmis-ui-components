@@ -1,68 +1,71 @@
-describe("addProductModalService", function(){
+describe('addProductModalService', function() {
 
-    // injections
-    var addProductModal, $ngBootbox, $rootScope, $q,
-
-    // variables
-    categories;
+    var addProductModalService, $q, $ngBootbox, $rootScope, $compileMock, $controllerMock,
+        $templateRequestMock, compiledMock, template;
 
     beforeEach(function() {
-        module('requisition-non-full-supply');
+        module('requisition-non-full-supply', function($provide) {
+            $controllerMock = jasmine.createSpy('$controller');
+            $templateRequestMock = jasmine.createSpy('$templateRequestMock');
+            $compileMock = jasmine.createSpy('$compile');
 
-        inject(function(_addProductModalService_, _$ngBootbox_, _$rootScope_, _$q_){
-            addProductModalService = _addProductModalService_;
-            $ngBootbox = _$ngBootbox_;
-            $rootScope = _$rootScope_;
-            $q = _$q_;
+            $provide.factory('$controller', function() {
+                return $controllerMock;
+            });
+
+            $provide.factory('$templateRequest', function() {
+                return $templateRequestMock;
+            });
+
+            $provide.factory('$compile', function() {
+                return $compileMock;
+            });
         });
 
-
-        categories = [
-            {
-                displayName: 'category1',
-                isVisible: isVisible
-            },
-            {
-                displayName: 'category2',
-                isVisible: isVisible
-            }
-        ];
-    });
-
-    it('should open add product modal', function(){
-        var spy = jasmine.createSpy();
-        spyOn($ngBootbox, 'customDialog').andCallFake(spy);
-
-        addProductModalService.show(categories);
-        $rootScope.$apply();
-
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it('should close add product modal', function(){
-        var showSpy = jasmine.createSpy(),
-            closeSpy = jasmine.createSpy();
-
-        spyOn($ngBootbox, 'customDialog').andCallFake(showSpy);
-        spyOn($ngBootbox, 'hideAll').andCallFake(closeSpy);
-
-        addProductModalService.show(categories).then(function() {
-            result = true;
-        }, function() {
-            result = false;
+        inject(function($injector) {
+            addProductModalService = $injector.get('addProductModalService');
+            $q = $injector.get('$q');
+            $ngBootbox = $injector.get('$ngBootbox');
+            $rootScope = $injector.get('$rootScope');
         });
-        $rootScope.$apply();
 
-        expect(showSpy).toHaveBeenCalled();
+        template = 'template';
+        compiledMock = jasmine.createSpy('compiled');
 
-        addProductModalService.close();
-        $rootScope.$apply();
+        $templateRequestMock.andReturn($q.when(template));
+        $compileMock.andReturn(compiledMock);
 
-        expect(closeSpy).toHaveBeenCalled();
-        expect(result).toBe(false);
+        spyOn($ngBootbox, 'customDialog');
     });
 
-    function isVisible() {
-        return true;
-    }
+    it('show should should spawn new controller', function() {
+        addProductModalService.show();
+
+        expect($controllerMock).toHaveBeenCalled();
+    });
+
+    it('show should request template', function() {
+        addProductModalService.show();
+
+        expect($templateRequestMock).toHaveBeenCalled();
+    });
+
+    it('show should compile template', function() {
+        var scope = {};
+        spyOn($rootScope, '$new').andReturn(scope);
+
+        addProductModalService.show();
+        $rootScope.$apply();
+
+        expect($compileMock).toHaveBeenCalledWith(angular.element(template));
+        expect(compiledMock).toHaveBeenCalledWith(scope);
+    });
+
+    it('show should open modal', function() {
+        addProductModalService.show();
+        $rootScope.$apply();
+
+        expect($ngBootbox.customDialog).toHaveBeenCalled();
+    });
+
 });

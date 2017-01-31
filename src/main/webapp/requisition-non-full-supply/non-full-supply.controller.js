@@ -123,12 +123,8 @@
          * Opens modal that lets the user add new product to the grid.
          */
         function addProduct() {
-            addProductModalService.show(vm.requisition.$approvedCategories)
+            addProductModalService.show(vm.requisition.availableNonFullSupplyProducts, vm.requisition.program.id)
                 .then(function(lineItem) {
-                    lineItem.orderableProduct.programs = [{
-                        programId: vm.requisition.program.id,
-                        fullSupply: false
-                    }];
                     vm.requisition.requisitionLineItems.push(
                         new LineItem(lineItem, vm.requisition)
                     );
@@ -192,10 +188,8 @@
         }
 
         function makeProductVisible(productName) {
-            angular.forEach(vm.requisition.$approvedCategories, function(category) {
-                angular.forEach(category.lineItems, function(lineItem) {
-                    if(lineItem.productName === productName) lineItem.$visible = true;
-                });
+            angular.forEach(vm.requisition.availableNonFullSupplyProducts, function(product) {
+                if (product.name === productName) product.$visible = true;
             });
         }
 

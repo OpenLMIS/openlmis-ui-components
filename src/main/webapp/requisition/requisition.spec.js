@@ -94,12 +94,6 @@ describe('Requisition', function() {
         });
     }));
 
-    beforeEach(inject(function(categoryFactory) {
-        spyOn(categoryFactory, 'groupFullSupplyLineItems').andReturn(fullSupplyCategories());
-        spyOn(categoryFactory, 'groupNonFullSupplyLineItems').andReturn(nonFullSupplyCategories());
-        spyOn(categoryFactory, 'groupProducts').andReturn([]);
-    }));
-
     beforeEach(inject(function(_$httpBackend_, _$rootScope_, Requisition, _requisitionUrlFactory_,
                                openlmisUrlFactory, _REQUISITION_STATUS_, $q) {
 

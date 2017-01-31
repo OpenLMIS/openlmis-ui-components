@@ -15,13 +15,13 @@
 
     requisitionFactory.$inject = [
         '$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionTemplate',
-        'LineItem', 'categoryFactory', 'REQUISITION_STATUS', 'COLUMN_SOURCES',
-        'localStorageFactory', 'offlineService', 'dateUtils'
+        'LineItem', 'REQUISITION_STATUS', 'COLUMN_SOURCES', 'localStorageFactory', 'offlineService',
+        'dateUtils'
     ];
 
     function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory,
-                                RequisitionTemplate, LineItem, categoryFactory, REQUISITION_STATUS,
-                                COLUMN_SOURCES, localStorageFactory, offlineService, dateUtils) {
+                                RequisitionTemplate, LineItem, REQUISITION_STATUS, COLUMN_SOURCES,
+                                localStorageFactory, offlineService, dateUtils) {
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
@@ -79,7 +79,7 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function Requisition(source, approvedProducts, reasons) {
+        function Requisition(source, reasons) {
             var programId = source.program.id,
                 requisition = this;
 
@@ -92,10 +92,6 @@
             source.requisitionLineItems.forEach(function(lineItem) {
                 requisition.requisitionLineItems.push(new LineItem(lineItem, requisition));
             });
-
-            this.$fullSupplyCategories = categoryFactory.groupFullSupplyLineItems(this.requisitionLineItems, programId);
-            this.$nonFullSupplyCategories = categoryFactory.groupNonFullSupplyLineItems(this.requisitionLineItems, programId);
-            this.$approvedCategories = categoryFactory.groupProducts(this.requisitionLineItems, approvedProducts);
         }
 
         /**
@@ -330,13 +326,6 @@
             var columns = requisition.template.columnsMap;
             angular.forEach(requisition.requisitionLineItems, function(lineItem) {
                 transformLineItem(lineItem, columns);
-            });
-            requisition.$nonFullSupplyCategories.forEach(function(category) {
-                category.lineItems.forEach(function(lineItem) {
-                    if (requisition.requisitionLineItems.indexOf(lineItem) === -1) {
-                        requisition.requisitionLineItems.push(lineItem);
-                    }
-                });
             });
 
             requisition.processingPeriod.startDate = dateUtils.toStringDate(requisition.processingPeriod.startDate);

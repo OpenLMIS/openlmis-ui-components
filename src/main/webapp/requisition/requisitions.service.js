@@ -23,10 +23,8 @@
                                 Requisition, confirmService, notificationService, dateUtils,
                                 localStorageFactory, offlineService) {
 
-        var offlineTemplates = localStorageFactory('requisitionTemplates'),
-            offlineRequisitions = localStorageFactory('requisitions'),
+        var offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
-            offlineApprovedProducts = localStorageFactory('approvedProducts'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
 
         var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
@@ -60,11 +58,6 @@
                 url: requisitionUrlFactory('/api/requisitions/convertToOrder'),
                 method: 'POST',
                 transformRequest: transformRequest
-            },
-            'getApprovedProducts': {
-                url: openlmisUrlFactory('/api/facilities/:id/approvedProducts'),
-                method: 'GET',
-                isArray: true
             },
             'getStockAdjustmentReasonsByProgram': {
                 url: openlmisUrlFactory('/api/stockAdjustmentReasons/search'),
@@ -100,17 +93,13 @@
 
             if (offlineService.isOffline()) {
                 var requisition = offlineRequisitions.getBy('id', id),
-                    template = offlineTemplates.getBy('id', requisition.template),
-                    approvedProducts = offlineApprovedProducts.search({
-                        requisitionId: id
-                    }),
                     reasons = offlineStockAdjustmentReasons.search({
                         program: {
                             id: requisition.program.id
                         }
                     });
 
-                resolve(requisition, approvedProducts, reasons);
+                resolve(requisition, reasons);
             } else {
                 var requisition = offlineRequisitions.search({
                     id: id,
@@ -121,13 +110,12 @@
                     getRequisition(id).then(function(requisition) {
                         requisition.$availableOffline = !onlineOnlyRequisitions.contains(id);
                         $q.all([
-                            getApprovedProducts(requisition),
                             getStockAdjustmentReasons(requisition)
                         ]).then(function(responses) {
                             if (requisition.$availableOffline) {
-                                storeResponses(requisition, responses[0], responses[1]);
+                                storeResponses(requisition, responses[0]);
                             }
-                            resolve(requisition, responses[0], responses[1]);
+                            resolve(requisition, responses[0]);
                         }, function() {
                             if (requisition.$availableOffline) {
                                 offlineRequisitions.put(requisition);
@@ -136,22 +124,18 @@
                         });
                     }, error);
                 } else {
-                    var template = offlineTemplates.getBy('id', requisition[0].template),
-                        approvedProducts = offlineApprovedProducts.search({
-                            requisitionId: id
-                        }),
-                        reasons = offlineStockAdjustmentReasons.search({
+                    var reasons = offlineStockAdjustmentReasons.search({
                             program: requisition[0].program.id
                         });
 
-                    resolve(requisition[0], approvedProducts, reasons);
+                    resolve(requisition[0], reasons);
                 }
             }
 
             return deferred.promise;
 
-            function resolve(requisition, approvedProducts, reasons) {
-                deferred.resolve(new Requisition(requisition, approvedProducts, reasons));
+            function resolve(requisition, reasons) {
+                deferred.resolve(new Requisition(requisition, reasons));
             }
 
             function error() {
@@ -294,29 +278,15 @@
             return offlineRequisitions.getBy('id', id);
         }
 
-        function getApprovedProducts(requisition) {
-            return resource.getApprovedProducts({
-                id: requisition.facility.id,
-                fullSupply: false,
-                programId: requisition.program.id
-            }).$promise;
-        }
-
         function getStockAdjustmentReasons(requisition) {
             return resource.getStockAdjustmentReasonsByProgram({
                 program: requisition.program.id
             }).$promise;
         }
 
-        function storeResponses(requisition, approvedProducts, reasons) {
+        function storeResponses(requisition, reasons) {
             requisition.$modified = false;
             offlineRequisitions.put(requisition);
-            offlineTemplates.put(requisition.template);
-
-            approvedProducts.forEach(function(product) {
-                product.requisitionId = requisition.id;
-                offlineApprovedProducts.put(product);
-            });
 
             reasons.forEach(function(reason) {
                 offlineStockAdjustmentReasons.put(reason);
