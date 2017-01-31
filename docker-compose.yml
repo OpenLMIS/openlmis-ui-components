@@ -1,10 +1,10 @@
 version: "2"
 services:
-  requisition-refui:
+  requisition-ui:
     build:
       context: .
       dockerfile: Dockerfile-dev
-    image: openlmis/requisition-refui-dev
+    image: openlmis/requisition-ui
     ports:
       - "9000:9000"
     volumes:
