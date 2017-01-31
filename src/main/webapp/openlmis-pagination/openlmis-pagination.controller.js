@@ -155,7 +155,7 @@
          * @methodOf openlmis-pagination.PaginationController
          *
          * @description
-         * Gives number of elements displayed on current page.
+         * Gives number of elements displayed on the current page.
          *
          * @return {Array} current page size
          */
