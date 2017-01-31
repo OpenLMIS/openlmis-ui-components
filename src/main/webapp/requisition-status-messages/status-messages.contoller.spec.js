@@ -40,12 +40,14 @@ describe('StatusMessagesController', function() {
 
         it('should show button if requisition has no draft for status message', function() {
             vm.requisition.draftStatusMessage = null;
+            vm.isTextAreaVisible = false;
             var result = vm.displayAddComment();
             expect(result).toBe(true);
         });
 
         it('should not show button if requisition has draft for status message', function() {
             vm.requisition.draftStatusMessage = 'Draft';
+            vm.isTextAreaVisible = true;
             var result = vm.displayAddComment();
             expect(result).toBe(false);
         });
@@ -54,14 +56,22 @@ describe('StatusMessagesController', function() {
 
     describe('draftStatusMessage', function() {
 
-        it('should set draft to empty string when add button was clicked', function() {
-            vm.addComment();
-            expect(vm.requisition.draftStatusMessage).toBe('');
-        });
-
         it('should set draft to null when remove button was clicked', function() {
             vm.removeComment();
             expect(vm.requisition.draftStatusMessage).toBe(null);
+        });
+    });
+
+    describe('isTextAreaVisible', function() {
+
+        it('should set isTextAreaVisible as true when add button was clicked', function() {
+            vm.addComment();
+            expect(vm.isTextAreaVisible).toBe(true);
+        });
+
+        it('should set set isTextAreaVisible as false when remove button was clicked', function() {
+            vm.removeComment();
+            expect(vm.isTextAreaVisible).toBe(false);
         });
     });
 

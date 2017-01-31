@@ -29,6 +29,17 @@
          */
         vm.requisition = $scope.requisition;
 
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-status-messages.StatusMessagesController
+         * @type {Boolean}
+         * @name isTextAreaVisible
+         *
+         * @description
+         * Visibility of text area.
+         */
+        vm.isTextAreaVisible = false;
+
         // Functions
 
         vm.displayAddComment = displayAddComment;
@@ -44,7 +55,7 @@
          * Responsible for adding draft of comment to requisition.
          */
         function addComment() {
-            vm.requisition.draftStatusMessage = '';
+            vm.isTextAreaVisible = true;
         }
 
          /**
@@ -57,6 +68,7 @@
          */
         function removeComment() {
             vm.requisition.draftStatusMessage = null;
+            vm.isTextAreaVisible = false;
         }
 
          /**
@@ -70,7 +82,7 @@
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
-            return vm.requisition.draftStatusMessage === null;
+            return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible;
         }
 
     }
