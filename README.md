@@ -11,63 +11,41 @@ This repository holds the files for the OpenLMIS Requisition Reference UI Module
  ```shell
  git clone https://github.com/OpenLMIS/openlmis-requisition-refUI.git
  ```
-2. Develop w/ Docker by running `docker-compose run --service-ports requisition-refui`.
-3. You should now be in an interactive shell inside the newly created development environment, build the project with: `grunt build` and then you can start it with `grunt serve`.
-4. Go to `http://<yourDockerIPAddress>:9000/pages/login.html` to see the login page. Note that you can determine yourDockerIPAddress by running `docker-machine ip`.
+2. Develop w/ Docker by running `docker-compose run --service-ports requisition-ui`.
+3. You should now be in an interactive shell inside the newly created development environment, build the project with: `npm install && grunt bower` and then you can build and start it with `grunt build --serve`.
+4. Go to `http://localhost:9000/webapp/` to see the login page.
+
+*Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build --openlmisServerUrl=<openlmis server url> --serve`.
 
 ## Building & Testing
-Grunt is our build tool. Grunt tasks available:
-- `grunt serve` to run project
-- `grunt build` to build all sources. After building sources, it also runs unit tests. Build will be successful only if all tests pass.
-- `grunt watch` will rebuild all the sources after every change — it doesn't run unit tests.
-- `grunt clean` to remove build artifacts.
-- `grunt karma:unit` to run Jasmine unit tests.
-- `grunt karma:tdd` run Jasmine unit tests in test driven development mode, where test will automatically rerun when openlmis.js is rebuilt or any test file is updated.
-- `grunt check` to run JSHint and LessLint tasks that perform code quality check.
-- `grunt docs` will build the ngDocs documentation website
-
-### Flags
-- `--production` will compress all UI related files to be used in production. Otherwise files are not compressed and include sourcemaps for easier debugging.
-- `--docs` Will generate ngDocumentation at build time
-- `--styleguide` will create a styleguide from KSS pages
-- `--openlmisServerURL` takes an argument that will change the location where the OpenLMIS UI application will look for a OpenLMIS Server. This variable can also be set in config.json. 
-- `--authServiceURL` just like openlmisServerURL, but for the location of the Openlmis Authentication Service. If this url doesn't start with 'http' it will be prefixed by the openlmisServerURL. 
-- `--requisitionServiceURL` just like authServiceURL, but for the OpenLMIS Requisitions Service. 
-- `--addProxyService` for working with OpenLMIS servers or services that are on a different domain and don't implement CORs. This flag when run with `gulp serve` will start a [CORS Anywhere](https://github.com/Rob--W/cors-anywhere) server at `http://127.0.0.1:3030` — Adding this flag to `grunt build` or `grunt watch` will prepend any OpenLMIS URL with `http://127.0.0.1:3030/` so that all requests to OpenLMIS are CORS compliant. 
-
-
-
-### Development Environment
-Launches into shell with Grunt and all needed plugins needed for building UI module.
-
-If you run the UI module, it should be available on port 9000.
+See the OpenLMIS/dev-ui project for more information on what commands are available, below are the command you might use during a normal work day.
 
 ```shell
-> docker-compose run --service-ports requisition-refui
-$ grunt build
-$ grunt serve
+// Open docker in an interactive shell
+> docker-compose run --service-ports requisition-ui
+
+// Install dependencies 
+$ npm install
+$ grunt bower
+
+// Build and run the UI against a OpenLMIS server
+$ grunt build --openlmisServerUrl=<openlmis server url> --serve
+
+// Run unit tests
+$ grunt karma:unit
+
+// Run a watch process that will build and test your code
+// NOTE: You must change a file at least once before your code is rebuilt
+$ grunt watch --openlmisServerUrl=<openlmis server url> --serve
+
 ```
-In order to run a development server that rebuilds the UI every time you make changes to the files run:
 
-```shell
-> docker-compose run --service-ports requisition-refui
-$ grunt watch --openlmisServerURL=<server_url> --addProxyService
-$ grunt serve --addProxyService
-```
-`<server_url>` should point to the base adress of your OpenLmis server (usually this is your IP address).
+### Built Artifacts
+After the OpenLMIS-UI is built and being served, you can access the following documents:
+- `http://localhost:9000/webapp/` The compiled OpenLMIS application
+- `http://localhost:9000/docs/` JS Documentation created from the source code
+- `http://localhost:9000/styleguide/` KSS Documentation created from the CSS
 
-Note that `grunt watch` will require you to change the files at least once in order to build the UI. Alternatively you can run `grunt build` beforehand. This is the recommended way to develop the UI, as it is the fastest one.
-
-### Running complete application with nginx
-To run OpenLMIS Requisition Reference UI Module with Requisition and Auth services, use [OpenLMIS-Blue] (https://github.com/OpenLMIS/openlmis-blue).
-
-When the application is up and running, you should be able to access UI with http://localhost/pages/index.html
-
-To log into the UI you can use following credentials:
-```
-login: admin
-password: password
-```
 
 ### Build Deployment Image
 The specialized docker-compose.builder.yml is geared toward CI and build
