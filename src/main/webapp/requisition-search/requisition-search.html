@@ -24,9 +24,9 @@
             <fieldset>
                 <legend>Date</legend>
                 <label for=startDate>{{'label.from' | message}}</label>
-                <openlmis-datepicker input-id="startDate" value="vm.startDate"></openlmis-datepicker>
+                <openlmis-datepicker input-id="startDate" ng-model="vm.startDate"></openlmis-datepicker>
                 <label for=endDate>{{'label.to' | message}}</label>
-                <openlmis-datepicker input-id="endDate" value="vm.endDate"></openlmis-datepicker>
+                <openlmis-datepicker input-id="endDate" ng-model="vm.endDate"></openlmis-datepicker>
             </fieldset>
             <input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
         </form>

@@ -12,12 +12,12 @@
         .module('proof-of-delivery-view')
         .factory('ProofOfDelivery', factory);
 
-    factory.$inject = ['proofOfDeliveryService'];
+    factory.$inject = ['proofOfDeliveryService', 'messageService'];
 
-    function factory(proofOfDeliveryService){
+    function factory(proofOfDeliveryService, messageService){
 
         ProofOfDelivery.prototype.isValid = isValid;
-        ProofOfDelivery.prototype.isLineItemValid = isLineItemValid;
+        ProofOfDelivery.prototype.validateRequiredField = validateRequiredField;
 
         return ProofOfDelivery;
 
@@ -39,7 +39,14 @@
 
             angular.copy(source, this);
 
+            this.$errors = {};
+
             angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
+
+                lineItem.$errors = {};
+                lineItem.isValid = isLineItemValid;
+                lineItem.validate = validateLineItem;
+
                 angular.forEach(lineItem.orderLineItem.orderableProduct.programs, function(program) {
                     if(program.programId === pod.order.program.id) lineItem.$program = program;
                 });
@@ -57,8 +64,22 @@
          * @param {Object} lineItem POD line item
          * @return {boolean} true if line item is valid
          */
-        function isLineItemValid(lineItem) {
-            return !(lineItem.quantityReceived === undefined) && !(lineItem.quantityReceived === null);
+        function isLineItemValid() {
+            var lineItem = this,
+                valid = true;
+
+            angular.forEach(lineItem.$errors, function(error) {
+                valid = valid && !error;
+            });
+
+            return valid;
+        }
+
+        function validateLineItem() {
+            var lineItem = this;
+
+            if(lineItem.quantityReceived === undefined || lineItem.quantityReceived === null) lineItem.$errors.quantityReceived = messageService.get('msg.fieldRequired');
+            else delete lineItem.$errors.quantityReceived;
         }
 
         /**
@@ -74,15 +95,25 @@
         function isValid() {
             var isValid = true;
 
-            if(!this.receivedBy || this.receivedBy === '') return false;
-            if(!this.deliveredBy || this.deliveredBy === '') return false;
-            if(!this.receivedDate) return false;
-
             angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
-                if(!isLineItemValid(lineItem)) isValid = false;
+                lineItem.validate();
+                if(!lineItem.isValid()) isValid = false;
+            });
+
+            this.validateRequiredField('receivedBy');
+            this.validateRequiredField('deliveredBy');
+            this.validateRequiredField('receivedDate');
+
+            angular.forEach(this.$errors, function(error) {
+                isValid = isValid && !error;
             });
 
             return isValid;
+        }
+
+        function validateRequiredField(fieldName) {
+            if(!this[fieldName] || this[fieldName] === '') this.$errors[fieldName] = messageService.get('msg.fieldRequired');
+            else delete this.$errors[fieldName];
         }
     }
 

@@ -15,7 +15,7 @@
     			</tr>
     		</thead>
     		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.categories">
-    			<tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
+    			<tr ng-class="{'invalid-row': !lineItem.isValid()}"
                     ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderableProduct.name'">
                     <td>{{lineItem.orderLineItem.orderableProduct.name}}</td>
                     <td>{{lineItem.orderLineItem.orderableProduct.dispensable.dispensingUnit}}</td>
@@ -23,8 +23,8 @@
                     <td>{{lineItem.quantityShipped}}</td>
                     <td>
                         <div ng-if="!vm.isSubmitted()">
-                            <input positive-integer type="text" ng-model="lineItem.quantityReceived"/>
-                            <div ng-if="lineItem.quantityReceived === null || lineItem.quantityReceived === undefined" class="cell-error-message">{{'msg.fieldRequired' | message}}</div>
+                            <input positive-integer type="text" ng-model="lineItem.quantityReceived" ng-change="lineItem.validate()" ng-blur="lineItem.validate()"/>
+                            <div ng-if="lineItem.$errors.quantityReceived" class="cell-error-message">{{lineItem.$errors.quantityReceived}}</div>
                         </div>
                         <div ng-if="vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
                     </td>
