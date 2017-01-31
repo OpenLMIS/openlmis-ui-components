@@ -19,7 +19,7 @@
 			scope: {
 				isItemValid: '=?',
 				changePage: '=?',
-				items: '=',
+				paginatedItems: '=',
 				currentPage: '='
 			},
 			templateUrl: 'openlmis-pagination/openlmis-pagination.html',

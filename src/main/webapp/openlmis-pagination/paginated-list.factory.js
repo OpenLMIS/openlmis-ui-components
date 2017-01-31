@@ -39,7 +39,8 @@
                 pages = [];
 
             while(toSplit.length > PAGINATION_CONSTANTS.PAGE_SIZE) {
-                pages[i] = toSplit.splice(0, PAGINATION_CONSTANTS.PAGE_SIZE);
+                pages[i] = toSplit.slice(0, PAGINATION_CONSTANTS.PAGE_SIZE);
+                toSplit = toSplit.slice(PAGINATION_CONSTANTS.PAGE_SIZE, toSplit.length);
                 i++;
             }
 

@@ -1,18 +1,23 @@
-<ul class="pagination pagination-sm">
-	<li ng-class="{disabled : vm.isFirstPage()}">
-		<a ng-click="vm.isFirstPage() || vm.previousPage()">
-			{{'label.previousPage' | message}}
-		</a>
-	</li>
-	<li ng-class="{active: vm.isCurrentPage($index + 1), invalid: !vm.isPageValid($index + 1)}"
-		ng-repeat="i in vm.getPageNumbers() track by $index">
-		<a ng-click="vm.changePage($index + 1)">
-			{{$index + 1}}
-		</a>
-	</li>
-	<li ng-class="{disabled : vm.isLastPage()}">
-		<a ng-click="vm.isLastPage() || vm.nextPage()">
-			{{'label.nextPage' | message}}
-		</a>
-	</li>
-</ul>
+<div class="openlmis-pagination">
+	<div class="pagination-info">
+		{{vm.getAllItemsCount()}} {{'msg.lineItems' | message}}, {{'msg.showing' | message}} {{vm.getCurrentPageSize()}} {{'msg.lineItems' | message}}
+	</div>
+	<ul class="pagination pagination-sm">
+		<li ng-class="{disabled : vm.isFirstPage()}">
+			<a ng-click="vm.isFirstPage() || vm.previousPage()">
+				{{'label.previousPage' | message}}
+			</a>
+		</li>
+		<li ng-class="{active: vm.isCurrentPage($index + 1), invalid: !vm.isPageValid($index + 1)}"
+			ng-repeat="i in vm.getPageNumbers() track by $index">
+			<a ng-click="vm.changePage($index + 1)">
+				{{$index + 1}}
+			</a>
+		</li>
+		<li ng-class="{disabled : vm.isLastPage()}">
+			<a ng-click="vm.isLastPage() || vm.nextPage()">
+				{{'label.nextPage' | message}}
+			</a>
+		</li>
+	</ul>
+</div>

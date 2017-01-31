@@ -28,6 +28,8 @@
         vm.isLastPage = isLastPage;
 
         vm.getPageNumbers = getPageNumbers;
+        vm.getCurrentPageSize = getCurrentPageSize;
+        vm.getAllItemsCount = getAllItemsCount;
 
         vm.isPageValid = isPageValid;
 
@@ -43,7 +45,7 @@
          * @param  {integer} newPage New page number
          */
         function changePage(newPage) {
-            if(newPage > 0 && newPage <= $scope.items.length) {
+            if(newPage > 0 && newPage <= $scope.paginatedItems.length) {
                 $scope.currentPage = newPage;
                 if($scope.changePage && angular.isFunction($scope.changePage)) $scope.changePage(newPage);
             }
@@ -108,7 +110,7 @@
          * Checks if current page is last one on the list.
          */
         function isLastPage() {
-            return $scope.currentPage === $scope.items.length;
+            return $scope.currentPage === $scope.paginatedItems.length;
         }
 
         /**
@@ -122,7 +124,7 @@
          * @return {Array} generated numbers for pagination
          */
         function getPageNumbers() {
-            return new Array($scope.items.length);
+            return new Array($scope.paginatedItems.length);
         }
 
         /**
@@ -140,11 +142,39 @@
         function isPageValid(pageNumber) {
             var valid = true;
             if($scope.isItemValid && angular.isFunction($scope.isItemValid)) {
-                angular.forEach($scope.items.getPage(pageNumber), function(item) {
+                angular.forEach($scope.paginatedItems.getPage(pageNumber), function(item) {
                     if(!$scope.isItemValid(item)) valid = false;
                 });
             }
             return valid;
+        }
+
+        /**
+         * @ngdoc method
+         * @name getCurrentPageSize
+         * @methodOf openlmis-pagination.PaginationController
+         *
+         * @description
+         * Gives number of elements displayed on current page.
+         *
+         * @return {Array} current page size
+         */
+        function getCurrentPageSize() {
+            return $scope.paginatedItems.getPage($scope.currentPage).length;
+        }
+
+        /**
+         * @ngdoc method
+         * @name getAllItemsCount
+         * @methodOf openlmis-pagination.PaginationController
+         *
+         * @description
+         * Gives number of elements on all pages.
+         *
+         * @return {Array} number of elements on all pages
+         */
+        function getAllItemsCount() {
+            return $scope.paginatedItems.items.length;
         }
     }
 

@@ -1,7 +1,15 @@
-.pagination {
+.openlmis-pagination {
 
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+
+    .pagination-info {
+        margin-top: 20px; // to match margin of bootstrap pagination element
+    }
+}
+
+.pagination {
+
     border-color: $light-gray !important;
 
     .invalid a {

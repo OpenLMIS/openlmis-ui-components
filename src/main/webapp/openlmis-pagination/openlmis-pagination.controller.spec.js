@@ -10,16 +10,17 @@ describe('PaginationController', function() {
 
             scope = $rootScope.$new();
 
-            scope.items = [
+            scope.paginatedItems = [
                 [1, 2],
                 [3, 4]
             ];
             scope.currentPage = 1;
-            scope.items.getPage = jasmine.createSpy();
+            scope.paginatedItems.getPage = jasmine.createSpy();
+            scope.paginatedItems.items = [1, 2, 3, 4];
             scope.isItemValid = jasmine.createSpy();
             scope.changePage = jasmine.createSpy();
 
-            scope.items.getPage.andReturn(scope.items[0]);
+            scope.paginatedItems.getPage.andReturn(scope.paginatedItems[0]);
 
             vm = $controller('PaginationController', {
                 $scope: scope
@@ -51,24 +52,30 @@ describe('PaginationController', function() {
         it('should not change current page if number is out of range', function() {
             expect(scope.currentPage).toEqual(newPage);
 
-            vm.changePage(scope.items.length + 1);
+            vm.changePage(scope.paginatedItems.length + 1);
             expect(scope.currentPage).toEqual(newPage);
         });
     });
 
-    it('should change page to the next one', function() {
-        var currentPage = scope.currentPage;
+    describe('nextPage', function() {
+        it('should change page to the next one', function() {
+            var currentPage = scope.currentPage;
 
-        vm.nextPage();
-        expect(scope.currentPage).toEqual(currentPage + 1);
+            vm.nextPage();
+            expect(scope.currentPage).toEqual(currentPage + 1);
+        });
     });
 
-    it('should change page to the last one', function() {
-        var lastPage = scope.items.length;
-        vm.changePage(lastPage);
 
-        vm.previousPage();
-        expect(scope.currentPage).toEqual(lastPage - 1);
+
+    describe('previousPage', function() {
+        it('should change page to the last one', function() {
+            var lastPage = scope.paginatedItems.length;
+            vm.changePage(lastPage);
+
+            vm.previousPage();
+            expect(scope.currentPage).toEqual(lastPage - 1);
+        });
     });
 
     describe('isCurrentPage', function() {
@@ -98,12 +105,12 @@ describe('PaginationController', function() {
     describe('isLastPage', function() {
 
         it('should check if page is last one', function() {
-            vm.changePage(scope.items.length);
+            vm.changePage(scope.paginatedItems.length);
             expect(vm.isLastPage()).toBe(true);
         });
 
         it('should call change page callback', function() {
-            vm.changePage(scope.items.length - 1);
+            vm.changePage(scope.paginatedItems.length - 1);
             expect(vm.isLastPage()).toBe(false);
         });
     });
@@ -121,7 +128,7 @@ describe('PaginationController', function() {
         });
 
         it('should return correct number of elements', function() {
-            expect(array.length).toBe(scope.items.length);
+            expect(array.length).toBe(scope.paginatedItems.length);
         });
 
         it('should return correct elements', function() {
@@ -131,6 +138,18 @@ describe('PaginationController', function() {
                 expect(element).toEqual(i);
                 i++;
             });
+        });
+    });
+
+    describe('getCurrentPageSize', function() {
+        it('should get size of current page', function() {
+            expect(vm.getCurrentPageSize()).toEqual(scope.paginatedItems[scope.currentPage - 1].length);
+        });
+    });
+
+    describe('getAllItemsCount', function() {
+        it('should get number of all items', function() {
+            expect(vm.getAllItemsCount()).toEqual(scope.paginatedItems.items.length);
         });
     });
 
