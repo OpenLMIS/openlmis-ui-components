@@ -270,5 +270,6 @@
   "user.login.error": "The username or password you entered is incorrect. Please try again.",
   "welcome.to.message": "Welcome to",
   "popover.showButton": "More Information",
-  "requisitionSummary.showDetails": "View Budget Details"
+  "requisitionSummary.showDetails": "View Budget Details",
+  "requisition.nonFullSupply.empty": "No non-full supply items have been added."
 }

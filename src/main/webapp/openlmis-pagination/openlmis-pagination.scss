@@ -3,8 +3,9 @@
     display: flex;
     justify-content: space-between;
 
-    .pagination-info {
-        margin-top: 20px; // to match margin of bootstrap pagination element
+    margin-bottom: $space-size;
+    .pagination{
+        margin: 0px;
     }
 }
 

@@ -1,5 +1,6 @@
 <div class="product-grid table-container">
 	<table>
+		<caption ng-if="!vm.paginatedLineItems.items.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
@@ -23,7 +24,7 @@
 			{{'button.add' | message}}
 	</button>
 </div>
-<openlmis-pagination current-page="vm.currentPage"
+<openlmis-pagination ng-if="vm.paginatedLineItems.items.length" current-page="vm.currentPage"
 	is-item-valid="vm.isLineItemValid"
 	change-page="vm.changePage"
 	paginated-items="vm.paginatedLineItems">
