@@ -52,7 +52,7 @@
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
   "error.columnDisplayMismatch": "This column should be displayed/not displayed together with: ",
   "forgot.password.email.subject": "Forgot password",
-  "header.viewOrder": "View orders",
+  "header.viewOrders": "View orders",
   "header.view.requisitions": "View requisitions",
   "header.viewReports": "View Reports",
   "label.add.loss.adjustment": "Add new loss or adjustment",
