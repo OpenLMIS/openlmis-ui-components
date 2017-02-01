@@ -1,6 +1,6 @@
 <dl>
     <dt>{{'label.full.supply.products' | message}}</dt>
-    <dd>{{vm.calculateFullSupplyCost() | currency}}</dd>
+    <dd><openlmis-currency value="vm.calculateFullSupplyCost()"></openlmis-currency></dd>
     <dt ng-if="vm.showNonFullSupplySummary">{{'label.non.full.supply.products' | message}}</dt>
-    <dd ng-if="vm.showNonFullSupplySummary">{{vm.calculateNonFullSupplyCost() | currency}}</dd>
+    <dd ng-if="vm.showNonFullSupplySummary"><openlmis-currency value="vm.calculateNonFullSupplyCost()"></openlmis-currency></dd>
 </dl>

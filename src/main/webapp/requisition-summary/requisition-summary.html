@@ -1,7 +1,7 @@
 <aside class="requisition-summary">
 	<dl>
 		<dt>{{'msg.totalRequisitionCost' | message}}</dt>
-		<dd>{{vm.calculateTotalCost() | currency}}</dd>
+		<dd><openlmis-currency value="vm.calculateTotalCost()"></openlmis-currency></dd>
 	</dl>
     <button
     		popover
@@ -10,4 +10,4 @@
             popover-template="requisition-summary/requisition-summary-popover.html">
             {{'requisitionSummary.showDetails' | message}}
     </button>
-</div>
+</aside>

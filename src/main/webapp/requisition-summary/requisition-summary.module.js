@@ -3,7 +3,8 @@
     'use strict';
 
     angular.module('requisition-summary', [
-        'requisition-calculations'
+        'requisition-calculations',
+        'openlmis-currency'
     ]);
 
 })();
