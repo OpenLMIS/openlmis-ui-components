@@ -1,11 +1,22 @@
 describe('PodViewController', function() {
 
-    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise, isValid, ORDER_STATUS;
+    var vm, $rootScope, $state, $q, podSpy, notificationServiceMock, confirmServiceMock, confirmPromise, isValid, ORDER_STATUS, getPageMock, stateParams;
 
     beforeEach(function() {
         notificationServiceMock = jasmine.createSpyObj('notificationService', ['success', 'error']);
         confirmServiceMock = jasmine.createSpyObj('confirmService', ['confirm']);
         proofOfDeliveryServiceMock = jasmine.createSpyObj('proofOfDeliveryService', ['save', 'submit']);
+        paginatedListFactoryMock = jasmine.createSpyObj('paginatedListFactory', ['getPaginatedItems']);
+
+        getPageMock = jasmine.createSpy();
+        paginatedListFactoryMock.getPaginatedItems.andCallFake(function(items) {
+            return {
+                items: items,
+                pages: [items],
+                getPage: getPageMock
+            }
+        });
+
         podSpy = jasmine.createSpyObj('pod', ['isValid', 'isLineItemValid']);
         podSpy.id = '1';
         podSpy.proofOfDeliveryLineItems = [
@@ -28,6 +39,9 @@ describe('PodViewController', function() {
                 }
             }
         ];
+        stateParams = {
+            page: 1
+        }
 
         module('proof-of-delivery-view', function($provide) {
             $provide.service('notificationService', function() {
@@ -50,7 +64,9 @@ describe('PodViewController', function() {
             ORDER_STATUS = _ORDER_STATUS_;
 
             vm = $controller('ProofOfDeliveryViewController', {
-                pod: podSpy
+                pod: podSpy,
+                $stateParams: stateParams,
+                paginatedListFactory: paginatedListFactoryMock
             });
         });
 
@@ -64,17 +80,18 @@ describe('PodViewController', function() {
         expect(vm.pod).toEqual(podSpy);
     });
 
-    it('initialization should expose product categories with attached programs', function() {
-        var result = {
-            firstCategory: [
-                podSpy.proofOfDeliveryLineItems[0]
-            ],
-            secondCategory: [
-                podSpy.proofOfDeliveryLineItems[1],
-                podSpy.proofOfDeliveryLineItems[2]
-            ]
-        };
-        expect(vm.categories).toEqual(result);
+    it('initialization should expose current page', function() {
+        expect(vm.currentPage).toEqual(stateParams.page);
+    });
+
+    it('initialization should expose paginatedLineItems', function() {
+        var paginatedItems = {
+            items: vm.pod.proofOfDeliveryLineItems,
+            pages: [vm.pod.proofOfDeliveryLineItems],
+            getPage: getPageMock
+        }
+
+        expect(vm.paginatedLineItems).toEqual(paginatedItems);
     });
 
     describe('savePod', function() {
@@ -259,6 +276,38 @@ describe('PodViewController', function() {
             var result = vm.typeMessage();
 
             expect(result).toEqual('msg.regular');
+        });
+
+    });
+
+    describe('changePage', function() {
+
+        var newPage = 2;
+
+        beforeEach(function() {
+            spyOn($state, 'go').andCallThrough();
+            vm.changePage(newPage);
+        });
+
+        it('should call state go after changing page', function() {
+            expect($state.go).toHaveBeenCalledWith('orders.podView', {
+                podId: vm.pod.id,
+                page: newPage
+            }, {
+                notify: false
+            });
+        });
+
+    });
+
+    describe('getCurrentPage', function() {
+
+        beforeEach(function() {
+            vm.getCurrentPage();
+        });
+
+        it('should get current page', function() {
+            expect(getPageMock).toHaveBeenCalledWith(vm.currentPage);
         });
 
     });

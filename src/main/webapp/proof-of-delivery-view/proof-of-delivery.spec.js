@@ -68,13 +68,13 @@ describe('POD', function() {
 
         it('should return true when line item is valid', function() {
             proofOfDelivery.proofOfDeliveryLineItems[0].validate();
-            expect(proofOfDelivery.proofOfDeliveryLineItems[0].isValid()).toBe(true);
+            expect(proofOfDelivery.isLineItemValid(proofOfDelivery.proofOfDeliveryLineItems[0])).toBe(true);
         });
 
         it('should return false when line item is not valid', function() {
             proofOfDelivery.proofOfDeliveryLineItems[0].quantityReceived = undefined;
             proofOfDelivery.proofOfDeliveryLineItems[0].validate();
-            expect(proofOfDelivery.proofOfDeliveryLineItems[0].isValid()).toBe(false);
+            expect(proofOfDelivery.isLineItemValid(proofOfDelivery.proofOfDeliveryLineItems[0])).toBe(false);
         });
     });
 

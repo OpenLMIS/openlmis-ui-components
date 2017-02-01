@@ -14,8 +14,8 @@
                     <th>{{'label.notes' | message}}</th>
     			</tr>
     		</thead>
-    		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.categories">
-    			<tr ng-class="{'invalid-row': !lineItem.isValid()}"
+    		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.productCategoryDisplayName'">
+    			<tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
                     ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
                     <td>{{lineItem.orderLineItem.orderable.name}}</td>
                     <td>{{lineItem.orderLineItem.orderable.dispensable.dispensingUnit}}</td>
@@ -40,6 +40,11 @@
     			</tr>
     		</tbody>
     	</table>
+        <openlmis-pagination current-page="vm.currentPage"
+    		is-item-valid="vm.pod.isLineItemValid"
+    		change-page="vm.changePage"
+    		paginated-items="vm.paginatedLineItems">
+    	</openlmis-pagination>
     </div>
     <ng-include src="'proof-of-delivery-view/footer.html'"></ng-include>
 </div>

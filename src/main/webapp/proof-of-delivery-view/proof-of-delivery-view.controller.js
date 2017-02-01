@@ -12,16 +12,29 @@
     angular.module('proof-of-delivery-view')
     .controller('ProofOfDeliveryViewController', controller);
 
-    controller.$inject = ['$state', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService', 'ORDER_STATUS'];
+    controller.$inject = ['$state', '$stateParams', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService', 'ORDER_STATUS', 'paginatedListFactory', '$filter'];
 
-    function controller($state, pod, proofOfDeliveryService, notificationService, confirmService, ORDER_STATUS) {
+    function controller($state, $stateParams, pod, proofOfDeliveryService, notificationService, confirmService, ORDER_STATUS, paginatedListFactory, $filter) {
         var vm = this;
 
         vm.savePod = savePod;
         vm.submitPod = submitPod;
-        vm.typeMessage = typeMessage;
+        vm.changePage = changePage;
+        vm.getCurrentPage = getCurrentPage;
 
         vm.isSubmitted = isSubmitted;
+        vm.typeMessage = typeMessage;
+
+        /**
+         * @ngdoc property
+         * @propertyOf proof-of-delivery-view.PodViewController
+         * @name requisition
+         * @type {Object}
+         *
+         * @description
+         * Holds requisition. This object is shared with the parent and nonFullSupply states.
+         */
+        vm.currentPage = $stateParams.page ?  parseInt($stateParams.page) : 1;
 
         /**
          * @ngdoc property
@@ -36,14 +49,14 @@
 
         /**
          * @ngdoc property
-         * @name categories
          * @propertyOf proof-of-delivery-view.PodViewController
+         * @name paginatedLineItems
          * @type {Object}
          *
          * @description
-         * Holds product categories with attached programs.
+         * Holds line items divided into pages.
          */
-        vm.categories = groupByCategory(vm.pod.proofOfDeliveryLineItems);
+        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(vm.pod.proofOfDeliveryLineItems, '$program.productCategoryDisplayName'));
 
         /**
          * @ngdoc method
@@ -113,16 +126,37 @@
             return vm.pod.order.emergency ? 'label.emergency' : 'msg.regular';
         }
 
-        function groupByCategory(lineItems) {
-            var categories = {};
-            angular.forEach(lineItems, function(lineItem) {
-                var category = lineItem.$program.productCategoryDisplayName;
-                if (!categories[category]) {
-                    categories[category] = [];
-                }
-                categories[category].push(lineItem);
+        /**
+         * @ngdoc method
+         * @methodOf proof-of-delivery-view.PodViewController
+         * @name changePage
+         *
+         * @description
+         * Loads line items when page is changed.
+         *
+         * @param {integer} newPage new page number
+         */
+        function changePage(newPage) {
+            $state.go('orders.podView', {
+                podId: vm.pod.id,
+                page: newPage
+            }, {
+                notify: false
             });
-            return categories;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf proof-of-delivery-view.PodViewController
+         * @name changePage
+         *
+         * @description
+         * Loads line items when page is changed.
+         *
+         * @param {integer} newPage new page number
+         */
+        function getCurrentPage() {
+            return vm.paginatedLineItems.getPage(vm.currentPage);
         }
     }
 }());

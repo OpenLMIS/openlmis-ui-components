@@ -11,7 +11,7 @@
     function routes($stateProvider) {
 
         $stateProvider.state('orders.podView', {
-            url: '^/pod/:podId',
+            url: '^/pod/:podId/:page',
             templateUrl: 'proof-of-delivery-view/proof-of-delivery-view.html',
             controller: 'ProofOfDeliveryViewController',
             controllerAs: 'vm',

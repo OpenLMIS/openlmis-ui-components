@@ -18,6 +18,7 @@
 
         ProofOfDelivery.prototype.isValid = isValid;
         ProofOfDelivery.prototype.validateRequiredField = validateRequiredField;
+        ProofOfDelivery.prototype.isLineItemValid = isLineItemValid;
 
         return ProofOfDelivery;
 
@@ -44,7 +45,6 @@
             angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
 
                 lineItem.$errors = {};
-                lineItem.isValid = isLineItemValid;
                 lineItem.validate = validateLineItem;
 
                 angular.forEach(lineItem.orderLineItem.orderable.programs, function(program) {
@@ -64,9 +64,8 @@
          * @param {Object} lineItem POD line item
          * @return {boolean} true if line item is valid
          */
-        function isLineItemValid() {
-            var lineItem = this,
-                valid = true;
+        function isLineItemValid(lineItem) {
+            var valid = true;
 
             angular.forEach(lineItem.$errors, function(error) {
                 valid = valid && !error;
@@ -97,7 +96,7 @@
 
             angular.forEach(this.proofOfDeliveryLineItems, function(lineItem) {
                 lineItem.validate();
-                if(!lineItem.isValid()) isValid = false;
+                if(!isLineItemValid(lineItem)) isValid = false;
             });
 
             this.validateRequiredField('receivedBy');
