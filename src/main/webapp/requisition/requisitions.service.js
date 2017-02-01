@@ -331,11 +331,11 @@
         }
 
         function transformResponseForConvert(data, headers, status) {
-            return transformResponse(data, status, function(items) {
-                angular.forEach(items, function(item) {
+            return transformResponse(data, status, function(response) {
+                angular.forEach(response.content, function(item) {
                     transformRequisition(item.requisition);
                 });
-                return items;
+                return response.content;
             });
         }
 

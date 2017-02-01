@@ -184,7 +184,7 @@ describe('requisitionService', function() {
 
         httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/requisitionsForConvert?descending=' + params.descending +
             '&filterBy=' + params.filterBy + '&filterValue=' + params.filterValue + '&sortBy=' + params.sortBy))
-        .respond(200, [{requisition: requisitionDto}]);
+        .respond(200, {content: [{requisition: requisitionDto}]});
 
         requisitionService.forConvert(params).then(function(response) {
             data = response;
