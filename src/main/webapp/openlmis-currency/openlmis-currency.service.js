@@ -27,11 +27,39 @@
         '$q', '$resource', 'referencedataUrlFactory', 'localStorageService', 'offlineService'
     ];
 
-    function service($q, $resource, referencedataUrlFactory, localStorageService, offlineService) {
+    function service($q, $resource, referencedataUrlFactory, localStorageService) {
 
         var resource = $resource(referencedataUrlFactory('/api/currencySettings'));
 
-        this.get = get;
+        this.getFromStorage = getFromStorage;
+        this.getCurrencySettings = getCurrencySettings;
+
+        /**
+         * @ngdoc function
+         * @name getCurrencySettings
+         * @methodOf openlmis-currency.currencyService
+         *
+         * @description
+         * Retrieves currency settings from reference data.
+         *
+         * @return {Promise} promise that resolves when settings are taken.
+         */
+        function getCurrencySettings() {
+                var deferred = $q.defer(), currencySettings = {};
+
+                resource.get({}, function(data) {
+                    currencySettings['currencyCode'] = data.currencyCode;
+                    currencySettings['currencySymbol'] = data.currencySymbol;
+                    currencySettings['currencySymbolSide'] = data.currencySymbolSide;
+                    currencySettings['currencyDecimalPlaces'] = data.currencyDecimalPlaces;
+                    localStorageService.add('currencySettings', angular.toJson(currencySettings));
+                    deferred.resolve();
+                }, function() {
+                    deferred.reject();
+                });
+
+            return deferred.promise;
+        }
 
         /**
          * @ngdoc function
@@ -39,37 +67,14 @@
          * @methodOf openlmis-currency.currencyService
          *
          * @description
-         * Retrieves currency settings.
+         * Retrieves currency settings from local storage.
          *
-         * @return {Promise} currency settings promise.
+         * @return {Object} currency settings.
          */
-        function get() {
-            var currencySettings = localStorageService.get('currencySettings'),
-                deferred = $q.defer();
+        function getFromStorage() {
+            var currencySettings = localStorageService.get('currencySettings');
 
-            if(offlineService.isOffline()) {
-                currencySettings
-                    ? deferred.resolve(angular.fromJson(currencySettings))
-                    : deferred.reject();
-            } else {
-                if (currencySettings) {
-                    deferred.resolve(angular.fromJson(currencySettings));
-                } else {
-                    resource.get({}, function(data) {
-                        currencySettings = {};
-                        currencySettings['currencyCode'] = data.currencyCode;
-                        currencySettings['currencySymbol'] = data.currencySymbol;
-                        currencySettings['currencySymbolSide'] = data.currencySymbolSide;
-                        currencySettings['currencyDecimalPlaces'] = data.currencyDecimalPlaces;
-                        localStorageService.add('currencySettings', angular.toJson(currencySettings));
-                        deferred.resolve(currencySettings);
-                    }, function() {
-                        deferred.reject();
-                    });
-                }
-            }
-
-            return deferred.promise;
+            return angular.fromJson(currencySettings);
         }
     }
 })();

@@ -12,26 +12,21 @@
 
     'use strict';
 
-    /**
-     * @ngdoc directive
-     * @name openlmis-currency.openlmisCurrency
-     *
-     * @description
-     * Provides wrapping currency value with currency symbol.
-     */
-     angular
+    angular
         .module('openlmis-currency')
-        .directive('openlmisCurrency', directive);
+        .filter('openlmisCurrency', filter);
 
-    function directive() {
-        return {
-            restrict: 'E',
-            scope: {
-                value: '='
-            },
-            templateUrl: 'openlmis-currency/openlmis-currency.html',
-            controller: 'CurrencyController',
-            controllerAs: 'vm'
+    filter.$inject = ['currencyService'];
+
+    function filter(currencyService) {
+        return function(value) {
+            var settings = currencyService.getFromStorage();
+            var currencyValue = value.toFixed(settings.currencyDecimalPlaces);
+            if (settings.currencySymbolSide === 'right') {
+                return currencyValue + ' ' + settings.currencySymbol;
+            } else {
+                return settings.currencySymbol + ' ' + currencyValue;
+            }
         };
     }
 

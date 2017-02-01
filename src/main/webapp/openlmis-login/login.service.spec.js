@@ -9,7 +9,7 @@
  */
 describe("loginService", function() {
 
-    var $rootScope, httpBackend, loginService, authorizationService, Right, $state;
+    var $rootScope, httpBackend, loginService, authorizationService, Right, $state, $q, currencyService;
 
     beforeEach(function() {
         module('openlmis-login');
@@ -42,12 +42,14 @@ describe("loginService", function() {
             $stateProvider.state('somewhere', {});
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _loginService_, _authorizationService_, _$state_){
+        inject(function(_$httpBackend_, _$rootScope_, _loginService_, _authorizationService_, _$state_, _$q_, _currencyService_){
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             loginService = _loginService_;
             authorizationService = _authorizationService_;
             $state = _$state_;
+            $q = _$q_;
+            currencyService = _currencyService_;
 
             httpBackend.when('GET', 'credentials/auth_server_client.json')
             .respond(200, {
@@ -82,6 +84,7 @@ describe("loginService", function() {
             httpBackend.when('GET', '/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
             .respond(200, {});
 
+            spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
             spyOn($rootScope, '$emit');
         });
     });

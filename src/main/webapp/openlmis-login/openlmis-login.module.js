@@ -6,7 +6,8 @@
         'openlmis-auth',
         'openlmis-locale',
         'openlmis-modal',
-        'ui.router'
+        'ui.router',
+        'openlmis-currency'
     ]);
 
 })();

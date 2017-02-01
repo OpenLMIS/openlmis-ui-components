@@ -76,7 +76,7 @@
             if(object) {
                 if (column.source === COLUMN_SOURCES.CALCULATED) {
                     object[propertyName] = calculationFactory[fullName] ? calculationFactory[fullName](this, requisition) : null;
-                } else if (column.$type === COLUMN_TYPES.NUMERIC || column.$type === COLUMN_TYPES.CURRENCY) {
+                } else if (column.$type === COLUMN_TYPES.NUMERIC) {
                     object[propertyName] = object[propertyName] ? object[propertyName] : 0;
                 } else {
                     object[propertyName] = object[propertyName] ? object[propertyName] : '';

@@ -1,9 +1,9 @@
 <td>
-	<div ng-if="isReadOnly && !isTotalLossesAndAdjustments && !isPricePerPack && !isTotalCost && !isSkipped">
+	<div ng-if="isReadOnly && !isTotalLossesAndAdjustments && !isCurrency && !isSkipped">
 		{{lineItem.getFieldValue(column.name)}}
 	</div>
-	<div ng-if="(isPricePerPack || isTotalCost) && !isSkipped">
-		<openlmis-currency value="lineItem.getFieldValue(column.name)"></openlmis-currency>
+	<div ng-if="isCurrency && !isSkipped">
+		{{lineItem.getFieldValue(column.name) | openlmisCurrency}}
 	</div>
 	<input type="text"
 		   ng-model="lineItem[column.name]"

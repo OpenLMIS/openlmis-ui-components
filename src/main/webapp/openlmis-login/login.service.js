@@ -14,9 +14,9 @@
         .service('loginService', loginService);
 
     loginService.$inject = ['$rootScope', '$q', '$http', 'authUrl', 'openlmisUrlFactory', 'authorizationService',
-                            'Right', '$state'];
+                            'Right', '$state', 'currencyService'];
 
-    function loginService($rootScope, $q, $http, authUrl, openlmisUrlFactory, authorizationService, Right, $state) {
+    function loginService($rootScope, $q, $http, authUrl, openlmisUrlFactory, authorizationService, Right, $state, currencyService) {
 
         this.login = login;
         this.logout = logout;
@@ -72,12 +72,14 @@
                     authorizationService.setAccessToken(response.data.access_token);
                     getUserInfo(response.data.referenceDataUserId).then(function() {
                         getUserRights(response.data.referenceDataUserId).then(function() {
-                            if ($state.is('auth.login')) {
-                                $rootScope.$emit('auth.login');
-                            } else {
-                                $rootScope.$emit('auth.login-modal');
-                            }
-                            deferred.resolve();
+                            currencyService.getCurrencySettings().then(function() {
+                                if ($state.is('auth.login')) {
+                                    $rootScope.$emit('auth.login');
+                                } else {
+                                    $rootScope.$emit('auth.login-modal');
+                                }
+                                deferred.resolve();
+                            });
                         }, function(){
                             authorizationService.clearAccessToken();
                             deferred.reject();

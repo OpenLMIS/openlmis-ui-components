@@ -47,11 +47,9 @@
 			scope.isReadOnly = isReadOnly();
 			scope.validate = validate;
 			scope.isTotalLossesAndAdjustments = isTotalLossesAndAdjustments(column);
-			scope.isPricePerPack = isPricePerPack(column);
-			scope.isTotalCost = isTotalCost(column);
+			scope.isCurrency = isCurrency(column);
 			scope.isSkipped = column.name === TEMPLATE_COLUMNS.SKIPPED;
 			scope.canNotSkip = canNotSkip;
-
 
 			$templateRequest('requisition-product-grid/product-grid-cell.html').then(function(template) {
 				var cell = angular.element(template);
@@ -87,12 +85,8 @@
 				return column.name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS;
 			}
 
-			function isPricePerPack(column) {
-				return column.name === TEMPLATE_COLUMNS.PRICE_PER_PACK;
-			}
-
-			function isTotalCost(column) {
-				return column.name === TEMPLATE_COLUMNS.TOTAL_COST;
+			function isCurrency(column) {
+				return column.$type === COLUMN_TYPES.CURRENCY;
 			}
 
 			function canNotSkip() {
