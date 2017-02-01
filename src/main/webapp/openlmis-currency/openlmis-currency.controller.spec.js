@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-describe('ForgotPasswordController', function() {
+describe('CurrencyController', function() {
 
     var $rootScope, $q, vm, currencyService, $scope;
 
@@ -30,6 +30,7 @@ describe('ForgotPasswordController', function() {
         var currencySettings = {};
         currencySettings['currencySymbol'] = '$';
         currencySettings['currencySymbolSide'] = 'left';
+        currencySettings['currencyDecimalPlaces'] = 2;
 
         spyOn(currencyService, 'get').andReturn($q.when(currencySettings));
 
@@ -43,6 +44,7 @@ describe('ForgotPasswordController', function() {
         var currencySettings = {};
         currencySettings['currencySymbol'] = 'zł';
         currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 2;
 
         spyOn(currencyService, 'get').andReturn($q.when(currencySettings));
 
