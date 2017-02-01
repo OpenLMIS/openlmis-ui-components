@@ -6,7 +6,7 @@
 			ng-click="vm.addProduct()"
 			value="{{'button.add' | message}}"/>
 	</div>
-	<table>
+	<table class="openlmis-table">
 		<caption ng-if="!vm.paginatedLineItems.items.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
 			<tr>

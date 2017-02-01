@@ -15,13 +15,12 @@
 
 	function datepicker() {
 		var directive = {
-			restrict: 'EA',
+			restrict: 'E',
 			scope: {
 				value: '=',
 				inputId: '@?'
 			},
-			templateUrl: 'openlmis-form/datepicker.html',
-			controller: 'DatepickerController'
+			templateUrl: 'openlmis-form/datepicker.html'
 		};
 		return directive;
 	}

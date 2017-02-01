@@ -30,7 +30,8 @@
     "angular-filter": "^0.5",
     "angular-http-auth": "^1.5",
     "angular-drag-and-drop-lists": "*",
-    "ngstorage": "^0.3.11"
+    "ngstorage": "^0.3.11",
+    "angular-strap": "*"
   },
   "overrides": {
     "jquery": {

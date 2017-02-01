@@ -87,40 +87,37 @@ Styleguide 4.0
 
 @import 'bourbon';
 
-.table-container, .product-grid, .template-container {
+.openlmis-table {
+    @extend .table;
 
-    table{
-        @extend .table;
+    border-collapse: separate;
 
-        border-collapse: separate;
+    th:first-child, td:first-child {
+        border-left: $table-border;
+    }
 
-        th:first-child, td:first-child {
-            border-left: $table-border;
-        }
+    td, th {
+        padding: 1em;
+        vertical-align: middle !important; // from requisition template screen
+        border-top: none !important;
+        border-bottom: $table-border;
+        border-right: $table-border;
+    }
 
-        td, th {
-            padding: 1em;
-            vertical-align: middle !important; // from requisition template screen
-            border-top: none !important;
-            border-bottom: $table-border;
-            border-right: $table-border;
-        }
+    td {
+        background-color: $white;
+    }
 
-        td {
-            background-color: $white;
-        }
+    th {
+        border-top: $table-border;
+        @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
+        white-space: nowrap;
+    }
 
-        th {
-            border-top: $table-border;
+    thead{
+        background-color: $light-gray;
+        tr:first-child{
             @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
-            white-space: nowrap;
-        }
-
-        thead{
-            background-color: $light-gray;
-            tr:first-child{
-                @include linear-gradient(to top, $light-gray, lighten($light-gray, 15%), $fallback: $light-gray);
-            }
         }
     }
 
@@ -137,15 +134,11 @@ Styleguide 4.0
         }
     }
 
-    table {
+    tbody {
 
-        tbody {
-
-            tr.invalid-row td {
-                background-color: lighten($red, 45%);
-                border-color: darken($red, 20%);
-            }
+        tr.invalid-row td {
+            background-color: lighten($red, 45%);
+            border-color: darken($red, 20%);
         }
     }
-
 }
