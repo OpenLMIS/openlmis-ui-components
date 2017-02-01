@@ -23,9 +23,7 @@
         .module('openlmis-currency')
         .service('currencyService', service);
 
-    service.$inject = [
-        '$q', '$resource', 'referencedataUrlFactory', 'localStorageService', 'offlineService'
-    ];
+    service.$inject = ['$q', '$resource', 'referencedataUrlFactory', 'localStorageService'];
 
     function service($q, $resource, referencedataUrlFactory, localStorageService) {
 
@@ -67,14 +65,12 @@
          * @methodOf openlmis-currency.currencyService
          *
          * @description
-         * Retrieves currency settings from local storage.
+         * Retrieves currency settings from the local storage.
          *
          * @return {Object} currency settings.
          */
         function getFromStorage() {
-            var currencySettings = localStorageService.get('currencySettings');
-
-            return angular.fromJson(currencySettings);
+            return angular.fromJson(localStorageService.get('currencySettings'));
         }
     }
 })();

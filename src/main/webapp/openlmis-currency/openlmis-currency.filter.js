@@ -12,6 +12,18 @@
 
     'use strict';
 
+    /**
+     * @ngdoc filter
+     * @name openlmis-date.period
+     *
+     * @description
+     * Parses the given currency into more readable form. Depending on whether the settings from
+     * referencedata are set it will parse the currency respectively.
+     *
+     * @param   {integer}    value      the currency to be formated
+     *
+     * @return  {String}                the formated currency
+     */
     angular
         .module('openlmis-currency')
         .filter('openlmisCurrency', filter);
