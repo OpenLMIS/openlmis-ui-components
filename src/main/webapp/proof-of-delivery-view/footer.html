@@ -22,7 +22,7 @@
                 <openlmis-datepicker input-id="receivedDate" value="vm.pod.receivedDate"></openlmis-datepicker>
                 <div ng-if="vm.pod.$errors.receivedDate" class="cell-error-message">{{vm.pod.$errors.receivedDate}}</div>
             </div>
-            <div ng-if="vm.isSubmitted()">{{vm.pod.receivedDate.toDateString()}}</div>
+            <div ng-if="vm.isSubmitted()">{{vm.pod.receivedDate | date: 'dd/MM/yyyy'}}</div>
         </dd>
     </dl>
 </aside>
