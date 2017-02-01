@@ -135,7 +135,7 @@
             var orderQuantity = getOrderQuantity(lineItem, requisition),
             packSize = lineItem.orderable.packSize;
 
-            if (orderQuantity === 0 || packSize === 0) {
+            if (!orderQuantity || !packSize) {
                 return 0;
             } else {
                 var remainderQuantity = orderQuantity % packSize,
