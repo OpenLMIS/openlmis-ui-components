@@ -54,4 +54,46 @@ describe('CurrencyController', function() {
         expect(vm.valueCurrency).toEqual('23.43 zł');
     });
 
+    it('should properly round up money values', function() {
+        var currencySettings = {};
+        currencySettings['currencySymbol'] = 'zł';
+        currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 2;
+
+        spyOn(currencyService, 'get').andReturn($q.when(currencySettings));
+
+        $scope.value = 23.439999997;
+        $scope.$apply();
+
+        expect(vm.valueCurrency).toEqual('23.44 zł');
+    });
+
+    it('should properly round up money values', function() {
+        var currencySettings = {};
+        currencySettings['currencySymbol'] = '¥';
+        currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 0;
+
+        spyOn(currencyService, 'get').andReturn($q.when(currencySettings));
+
+        $scope.value = 23.5;
+        $scope.$apply();
+
+        expect(vm.valueCurrency).toEqual('24 ¥');
+    });
+
+    it('should properly round up money values', function() {
+        var currencySettings = {};
+        currencySettings['currencySymbol'] = '¥';
+        currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 0;
+
+        spyOn(currencyService, 'get').andReturn($q.when(currencySettings));
+
+        $scope.value = 23.49;
+        $scope.$apply();
+
+        expect(vm.valueCurrency).toEqual('23 ¥');
+    });
+
 });
