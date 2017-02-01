@@ -14,7 +14,8 @@
                     <th>{{'label.notes' | message}}</th>
     			</tr>
     		</thead>
-    		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.productCategoryDisplayName'">
+    		<tbody title="{{category}}"
+                   ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.orderableCategoryDisplayName'">
     			<tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
                     ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
                     <td>{{lineItem.orderLineItem.orderable.name}}</td>

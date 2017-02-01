@@ -56,7 +56,7 @@
          * @description
          * Holds line items divided into pages.
          */
-        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(vm.pod.proofOfDeliveryLineItems, '$program.productCategoryDisplayName'));
+        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(vm.pod.proofOfDeliveryLineItems, '$program.orderableCategoryDisplayName'));
 
         /**
          * @ngdoc method
