@@ -25,7 +25,8 @@
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
-            offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons');
+            offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
+            offlineStatusMessages = localStorageFactory('statusMessages');
 
         var resource = $resource(requisitionUrlFactory('/api/requisitions/:id'), {}, {
             'get': {
@@ -63,6 +64,11 @@
                 url: openlmisUrlFactory('/api/stockAdjustmentReasons/search'),
                 method: 'GET',
                 isArray: true
+            },
+            'getStatusMessages': {
+                url: requisitionUrlFactory('/api/requisitions/:id/statusMessages'),
+                method: 'GET',
+                isArray: true
             }
         });
 
@@ -97,9 +103,12 @@
                         program: {
                             id: requisition.program.id
                         }
+                    }),
+                    statusMessages = offlineStatusMessages.search({
+                        requisitionId: requisition.id
                     });
 
-                resolve(requisition, reasons);
+                resolve(requisition, reasons, statusMessages);
             } else {
                 var requisition = offlineRequisitions.search({
                     id: id,
@@ -110,12 +119,13 @@
                     getRequisition(id).then(function(requisition) {
                         requisition.$availableOffline = !onlineOnlyRequisitions.contains(id);
                         $q.all([
-                            getStockAdjustmentReasons(requisition)
+                            getStockAdjustmentReasons(requisition),
+                            getStatusMessages(requisition)
                         ]).then(function(responses) {
                             if (requisition.$availableOffline) {
-                                storeResponses(requisition, responses[0]);
+                                storeResponses(requisition, responses[0], responses[1]);
                             }
-                            resolve(requisition, responses[0]);
+                            resolve(requisition, responses[0], responses[1]);
                         }, function() {
                             if (requisition.$availableOffline) {
                                 offlineRequisitions.put(requisition);
@@ -126,16 +136,19 @@
                 } else {
                     var reasons = offlineStockAdjustmentReasons.search({
                             program: requisition[0].program.id
+                        }),
+                        statusMessages = offlineStatusMessages.search({
+                            requisitionId: requisition[0].id
                         });
 
-                    resolve(requisition[0], reasons);
+                    resolve(requisition[0], reasons, statusMessages);
                 }
             }
 
             return deferred.promise;
 
-            function resolve(requisition, reasons) {
-                deferred.resolve(new Requisition(requisition, reasons));
+            function resolve(requisition, reasons, statusMessages) {
+                deferred.resolve(new Requisition(requisition, reasons, statusMessages));
             }
 
             function error() {
@@ -284,12 +297,22 @@
             }).$promise;
         }
 
-        function storeResponses(requisition, reasons) {
+        function getStatusMessages(requisition) {
+            return resource.getStatusMessages({
+                id: requisition.id
+            }).$promise;
+        }
+
+        function storeResponses(requisition, reasons, statusMessages) {
             requisition.$modified = false;
             offlineRequisitions.put(requisition);
 
             reasons.forEach(function(reason) {
                 offlineStockAdjustmentReasons.put(reason);
+            });
+
+            statusMessages.forEach(function(statusMessage) {
+                offlineStatusMessages.put(statusMessage);
             });
         }
 

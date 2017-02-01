@@ -15,3 +15,28 @@
         height: 2.7em;
     }
 }
+
+aside.status-history {
+	padding: $padding2px;
+    font-weight: normal;
+    width: 100%;
+    height: auto;
+    > dl {
+        display: block;
+        margin: 0.3em 0.3em 0.3em 0.8em;
+    }
+}
+
+.status-header {
+    background: $light-gray;
+    > span {
+        font-weight: bold;
+        margin-left: 0.8em;
+    }
+    > input {
+        background: none;
+        border: none;
+        float: right;
+        text-decoration: underline;
+    }
+}

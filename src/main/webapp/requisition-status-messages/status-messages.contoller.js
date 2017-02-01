@@ -13,9 +13,9 @@
         .module('requisition-status-messages')
         .controller('StatusMessagesController', controller);
 
-    controller.$inject = ['$scope'];
+    controller.$inject = ['$scope', 'statusMessagesHistoryService'];
 
-    function controller($scope) {
+    function controller($scope, statusMessagesHistoryService) {
         var vm = this;
 
         /**
@@ -42,6 +42,7 @@
 
         // Functions
 
+        vm.displayRequisitionHistory = displayRequisitionHistory;
         vm.displayAddComment = displayAddComment;
         vm.addComment = addComment;
         vm.removeComment = removeComment;
@@ -83,6 +84,18 @@
          */
         function displayAddComment() {
             return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible;
+        }
+
+         /**
+         * @ngdoc function
+         * @name displayRequisitionHistory
+         * @methodOf requisition-status-messages.StatusMessagesController
+         *
+         * @description
+         * Responsible for displaying requisition status message history
+         */
+        function displayRequisitionHistory() {
+            statusMessagesHistoryService.show(vm.requisition);
         }
 
     }

@@ -1,4 +1,15 @@
 <div class="status-message">
+    <aside class="status-history" ng-if="vm.requisition.$statusMessages.length">
+        <div class="status-header">
+            <span>{{vm.requisition.$statusMessages[0].status | capitalize }}</span>
+            by {{vm.requisition.$statusMessages[0].authorFirstName}} {{vm.requisition.$statusMessages[0].authorLastName}}
+            on {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
+            <input type="button" value="{{'label.viewHistory' | message}}" ng-click="vm.displayRequisitionHistory()"/>
+        </div>
+        <dl>
+            <dd>{{vm.requisition.$statusMessages[0].body}}</dd>
+        </dl>
+    </aside>
     <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
     <input type="button" class="btn btn-primary" value="{{'button.addComment' | message}}"
            ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>

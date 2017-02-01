@@ -4,7 +4,7 @@ describe('StatusMessagesController', function() {
 
     var rootScope, scope;
 
-    var requisition, statusMessages;
+    var requisition, statusMessagesHistoryServiceSpy;
 
     beforeEach(function() {
 
@@ -12,13 +12,13 @@ describe('StatusMessagesController', function() {
 
         requisition = jasmine.createSpyObj('requisition', ['$statusMessages']);
 
-        inject(function($rootScope) {
+        inject(function($rootScope, statusMessagesHistoryService) {
             rootScope = $rootScope;
+            statusMessagesHistoryServiceSpy = statusMessagesHistoryService;
         });
 
         scope = rootScope.$new();
         scope.requisition = requisition;
-        scope.requisition.status = "INITIATED";
     });
 
     describe('initialization', function() {
@@ -72,6 +72,23 @@ describe('StatusMessagesController', function() {
         it('should set set isTextAreaVisible as false when remove button was clicked', function() {
             vm.removeComment();
             expect(vm.isTextAreaVisible).toBe(false);
+        });
+    });
+
+    describe('displayRequisitionHistory', function() {
+
+        beforeEach(inject(function($controller) {
+            vm = $controller('StatusMessagesController', {
+                $scope: scope
+            });
+
+            rootScope.$apply();
+        }));
+
+        it('should call statusMessageService', function() {
+            spyOn(statusMessagesHistoryServiceSpy, 'show');
+            vm.displayRequisitionHistory();
+            expect(statusMessagesHistoryServiceSpy.show).toHaveBeenCalled();
         });
     });
 

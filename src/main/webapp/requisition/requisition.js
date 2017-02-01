@@ -16,12 +16,12 @@
     requisitionFactory.$inject = [
         '$q', '$resource', 'openlmisUrlFactory', 'requisitionUrlFactory', 'RequisitionTemplate',
         'LineItem', 'REQUISITION_STATUS', 'COLUMN_SOURCES', 'localStorageFactory', 'offlineService',
-        'dateUtils'
+        'dateUtils', '$filter'
     ];
 
     function requisitionFactory($q, $resource, openlmisUrlFactory, requisitionUrlFactory,
                                 RequisitionTemplate, LineItem, REQUISITION_STATUS, COLUMN_SOURCES,
-                                localStorageFactory, offlineService, dateUtils) {
+                                localStorageFactory, offlineService, dateUtils, $filter) {
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             offlineStockAdjustmentReasons = localStorageFactory('stockAdjustmentReasons'),
@@ -79,7 +79,7 @@
          * Adds all needed methods and information from template to given requisition.
          *
          */
-        function Requisition(source, reasons) {
+        function Requisition(source, reasons, statusMessages) {
             var programId = source.program.id,
                 requisition = this;
 
@@ -87,6 +87,7 @@
 
             this.$stockAdjustmentReasons = reasons;
             this.template = new RequisitionTemplate(this.template, source);
+            this.$statusMessages = $filter('orderBy')(statusMessages, '-createdDate');
 
             this.requisitionLineItems = [];
             source.requisitionLineItems.forEach(function(lineItem) {
