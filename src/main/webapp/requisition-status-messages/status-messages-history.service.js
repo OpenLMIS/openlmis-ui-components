@@ -21,7 +21,6 @@
         var deferred, vm;
 
         this.show = show;
-        this.hide = hide;
 
         /**
          * @ngdoc function
@@ -54,10 +53,6 @@
             }, reject);
 
             return deferred.promise;
-        }
-
-        function hide() {
-            dialog.template('hide');
         }
 
         function reject(deferred) {
