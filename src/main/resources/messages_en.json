@@ -114,7 +114,7 @@
   "label.quantityReturned": "Quantity returned",
   "label.quantityShipped": "Quantity shipped",
   "label.receivedBy": "Received by",
-  "label.receivedDate": "Received date",
+  "label.receivedIn": "Received in",
   "label.region": "Region",
   "label.replacedProductCode": "Replaced product code",
   "label.requestingFacility": "Requesting facility",

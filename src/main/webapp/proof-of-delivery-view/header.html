@@ -11,10 +11,10 @@
         <dd>{{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}</dd>
         <dt>{{'label.orderDate' | message}}</dt>
         <dd>{{vm.pod.order.createdDate.toLocaleString()}}</dd>
-        <dt>{{'label.supplyingDepot' | message}}</dt>
-        <dd>{{vm.pod.order.supplyingFacility.name}}</dd>
         <dt>{{'label.reportingPeriod' | message}}</dt>
         <dd>{{vm.pod.order.processingPeriod | period}}</dd>
+        <dt>{{'label.supplyingDepot' | message}}</dt>
+        <dd>{{vm.pod.order.supplyingFacility.name}}</dd>
         <dt ng-if="vm.pod.order.facility.geographicZone.parent.name">{{'label.district' | message}}</dt>
         <dd ng-if="vm.pod.order.facility.geographicZone.parent.name">{{vm.pod.order.facility.geographicZone.parent.name}}</dd>
         <dt>{{'label.region' | message}}</dt>
