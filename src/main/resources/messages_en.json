@@ -207,7 +207,7 @@
   "msg.requisitionRejected": "Requisition has been rejected!",
   "msg.requisitionSaved": "Requisition has been saved!",
   "msg.requisitionSkipped": "Requisition has been skipped!",
-  "msg.requisitionSubmitted": "Requisition submitted!",
+  "msg.requisitionSubmitted": "Requisition has been submitted!",
   "msg.requisitionSynced": "Requisition has been synchronized!",
   "msg.podSavedFailed": "Failed to save Proof of Delivery!",
   "msg.podSaved": "Proof of Delivery saved!",
