@@ -23,19 +23,19 @@ describe('PodViewController', function() {
             {
                 id: '1',
                 $program: {
-                    productCategoryDisplayName: 'firstCategory'
+                    orderableCategoryDisplayName: 'firstCategory'
                 }
             },
             {
                 id: '2',
                 $program: {
-                    productCategoryDisplayName: 'secondCategory'
+                    orderableCategoryDisplayName: 'secondCategory'
                 }
             },
             {
                 id: '3',
                 $program: {
-                    productCategoryDisplayName: 'secondCategory'
+                    orderableCategoryDisplayName: 'secondCategory'
                 }
             }
         ];

@@ -38,11 +38,11 @@ describe('FullSupplyController', function() {
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
             lineItem.canBeSkipped.andCallFake(function() {
-                return lineItem.$program.productCategoryDisplayName === 'One';
+                return lineItem.$program.orderableCategoryDisplayName === 'One';
             });
             lineItem.skipped = false;
             lineItem.$program =  {
-                productCategoryDisplayName: category,
+                orderableCategoryDisplayName: category,
                 fullSupply: fullSupply
             };
             return lineItem;

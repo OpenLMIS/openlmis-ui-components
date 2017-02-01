@@ -10,7 +10,7 @@
 				</th>
 			</tr>
 		</thead>
-		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.productCategoryDisplayName'">
+		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.orderableCategoryDisplayName'">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem.skipped}"
 				ng-repeat="lineItem in lineItems | orderBy : 'orderable.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"

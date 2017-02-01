@@ -13,27 +13,27 @@ describe('categoryFactory', function() {
             $visible: true,
             programs: [{
                 programId: '1',
-                productCategoryDisplayName: 'Category Two'
+                orderableCategoryDisplayName: 'Category Two'
             }, {
                 programId: '2',
-                productCategoryDisplayName: 'Category Three'
+                orderableCategoryDisplayName: 'Category Three'
             }]
         }, {
             programs: [{
                 programId: '4',
-                productCategoryDisplayName: 'Category Four'
+                orderableCategoryDisplayName: 'Category Four'
             }, {
                 programId: '1',
-                productCategoryDisplayName: 'Category Two'
+                orderableCategoryDisplayName: 'Category Two'
             }]
         }, {
             $visible: true,
             programs: [{
                 programId: '1',
-                productCategoryDisplayName: 'Category One'
+                orderableCategoryDisplayName: 'Category One'
             }, {
                 programId: '3',
-                productCategoryDisplayName: 'Category Three'
+                orderableCategoryDisplayName: 'Category Three'
             }]
         }];
     });

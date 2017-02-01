@@ -56,7 +56,7 @@
          * @description
          * Holds line items divided into pages with properties like current page etc.
          */
-        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(lineItems, '$program.productCategoryDisplayName'));
+        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(lineItems, '$program.orderableCategoryDisplayName'));
 
         /**
          * @ngdoc property

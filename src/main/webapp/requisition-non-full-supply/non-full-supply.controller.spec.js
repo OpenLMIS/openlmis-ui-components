@@ -206,7 +206,7 @@ describe('NonFullSupplyController', function() {
             $visible: false
         };
         lineItem.$program = {
-            productCategoryDisplayName: category,
+            orderableCategoryDisplayName: category,
             fullSupply: fullSupply
         };
         return lineItem;

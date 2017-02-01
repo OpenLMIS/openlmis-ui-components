@@ -37,7 +37,7 @@
         function groupProducts(products, programId) {
             var categories = {};
             angular.forEach(products, function(product) {
-                var category = getProgram(product, programId).productCategoryDisplayName;
+                var category = getProgram(product, programId).orderableCategoryDisplayName;
                 if (!categories[category]) {
                     categories[category] = [];
                 }

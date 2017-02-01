@@ -194,7 +194,7 @@
         }
 
         function loadPaginatedLineItems(lineItems) {
-            var items = $filter('orderBy')(lineItems, '$program.productCategoryDisplayName');
+            var items = $filter('orderBy')(lineItems, '$program.orderableCategoryDisplayName');
             return paginatedListFactory.getPaginatedItems(items);
         }
 

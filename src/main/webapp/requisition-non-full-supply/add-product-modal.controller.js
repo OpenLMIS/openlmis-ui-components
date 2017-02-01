@@ -101,7 +101,7 @@
                 productCode: product.productCode,
                 packSize: product.packSize,
                 $program: {
-                    productCategoryDisplayName: getProgram(product, programId).productCategoryDisplayName,
+                    orderableCategoryDisplayName: getProgram(product, programId).orderableCategoryDisplayName,
                     fullSupply: product.fullSupply
                 }
             };
