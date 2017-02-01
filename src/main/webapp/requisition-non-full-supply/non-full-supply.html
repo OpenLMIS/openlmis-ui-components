@@ -15,7 +15,7 @@
 			</tr>
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.productCategoryDisplayName'" title="{{category}}">
-			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderableProduct.name'">
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderable.name'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 				<td ng-if="vm.displayDeleteColumn()">

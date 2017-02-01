@@ -37,11 +37,11 @@
         function LineItem(lineItem, requisition) {
             angular.copy(lineItem, this);
 
-            this.orderableProduct = lineItem.orderableProduct;
+            this.orderable = lineItem.orderable;
             this.stockAdjustments = lineItem.stockAdjustments;
 
             this.$errors = {};
-            this.$program = this.orderableProduct.$program ? this.orderableProduct.$program : getProgramById(lineItem.orderableProduct.programs, requisition.program.id);
+            this.$program = this.orderable.$program ? this.orderable.$program : getProgramById(lineItem.orderable.programs, requisition.program.id);
 
             var newLineItem = this;
             requisition.template.getColumns(!this.$program.fullSupply).forEach(function(column) {

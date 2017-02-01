@@ -63,7 +63,7 @@ describe('LineItem', function() {
             $program: {
                 fullSupply: true
             },
-            orderableProduct: {
+            orderable: {
                 id: '1',
                 name: 'product',
                 productCode: 'P1',
@@ -92,9 +92,9 @@ describe('LineItem', function() {
     it('should add needed properties and methods to requisition line item', function() {
         var lineItem = new LineItem(requisitionLineItem, requisition);
 
-        expect(lineItem.orderableProduct).toEqual(requisitionLineItem.orderableProduct);
+        expect(lineItem.orderable).toEqual(requisitionLineItem.orderable);
         expect(lineItem.$errors).toEqual({});
-        expect(lineItem.$program).toEqual(requisitionLineItem.orderableProduct.programs[0]);
+        expect(lineItem.$program).toEqual(requisitionLineItem.orderable.programs[0]);
         expect(angular.isFunction(lineItem.getFieldValue)).toBe(true);
         expect(angular.isFunction(lineItem.updateFieldValue)).toBe(true);
     });

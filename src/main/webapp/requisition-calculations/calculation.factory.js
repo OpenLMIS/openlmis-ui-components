@@ -133,7 +133,7 @@
          */
         function calculatePacksToShip(lineItem, requisition) {
             var orderQuantity = getOrderQuantity(lineItem, requisition),
-            packSize = lineItem.orderableProduct.packSize;
+            packSize = lineItem.orderable.packSize;
 
             if (orderQuantity === 0 || packSize === 0) {
                 return 0;
@@ -141,11 +141,11 @@
                 var remainderQuantity = orderQuantity % packSize,
                 packsToShip = (orderQuantity - remainderQuantity) / packSize;
 
-                if (remainderQuantity > 0 && remainderQuantity > lineItem.orderableProduct.packRoundingThreshold) {
+                if (remainderQuantity > 0 && remainderQuantity > lineItem.orderable.packRoundingThreshold) {
                     packsToShip += 1;
                 }
 
-                if (packsToShip == 0 && !lineItem.orderableProduct.roundToZero) {
+                if (packsToShip == 0 && !lineItem.orderable.roundToZero) {
                     packsToShip = 1;
                 }
 

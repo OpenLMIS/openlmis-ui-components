@@ -47,7 +47,7 @@
                 lineItem.isValid = isLineItemValid;
                 lineItem.validate = validateLineItem;
 
-                angular.forEach(lineItem.orderLineItem.orderableProduct.programs, function(program) {
+                angular.forEach(lineItem.orderLineItem.orderable.programs, function(program) {
                     if(program.programId === pod.order.program.id) lineItem.$program = program;
                 });
             });

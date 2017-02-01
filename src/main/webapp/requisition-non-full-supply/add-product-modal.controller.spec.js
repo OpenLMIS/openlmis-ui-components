@@ -129,7 +129,7 @@ describe('AddProductModalController', function() {
                 requestedQuantity: 100,
                 requestedQuantityExplanation: 'some explanation',
                 pricePerPack: 10,
-                orderableProduct: vm.selectedProduct,
+                orderable: vm.selectedProduct,
                 $deletable: true
             });
         });

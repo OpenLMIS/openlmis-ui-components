@@ -95,7 +95,7 @@ describe('NonFullSupplyController', function() {
 
         it('should delete line item if it exist', function() {
             var lineItem = requisition.requisitionLineItems[2];
-            var product = lineItem.orderableProduct;
+            var product = lineItem.orderable;
 
             vm.deleteLineItem(lineItem);
 
@@ -105,7 +105,7 @@ describe('NonFullSupplyController', function() {
 
         /*it('should make the product visible after deletion', function() {
             var lineItem = requisition.requisitionLineItems[2];
-            var product = lineItem.orderableProduct;
+            var product = lineItem.orderable;
 
             vm.deleteLineItem(lineItem);
 
@@ -123,7 +123,7 @@ describe('NonFullSupplyController', function() {
 
         it('should not make the product visible if the item wasn\'t removed', function() {
             var lineItem = lineItemSpy(5, 'Three', false);
-            var product = lineItem.orderableProduct;
+            var product = lineItem.orderable;
 
             vm.deleteLineItem(lineItem);
 
@@ -202,7 +202,7 @@ describe('NonFullSupplyController', function() {
         lineItem.canBeSkipped.andReturn(true);
         lineItem.skipped = false;
         lineItem.$id = id;
-        lineItem.orderableProduct = {
+        lineItem.orderable = {
             $visible: false
         };
         lineItem.$program = {

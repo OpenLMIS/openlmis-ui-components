@@ -16,7 +16,7 @@ describe('POD', function() {
                 {
                     quantityReceived: 10,
                     orderLineItem: {
-                        orderableProduct: {
+                        orderable: {
                             programs: [
                                 {
                                     programId: '1'
@@ -28,7 +28,7 @@ describe('POD', function() {
                 {
                     quantityReceived: 20,
                     orderLineItem: {
-                        orderableProduct: {
+                        orderable: {
                             programs: [
                                 {
                                     programId: '1'

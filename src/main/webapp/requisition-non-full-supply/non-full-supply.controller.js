@@ -108,7 +108,7 @@
         function deleteLineItem(lineItem) {
             var id = vm.requisition.requisitionLineItems.indexOf(lineItem);
             if (id > -1) {
-                makeProductVisible(vm.requisition.requisitionLineItems[id].orderableProduct.name);
+                makeProductVisible(vm.requisition.requisitionLineItems[id].orderable.name);
                 vm.requisition.requisitionLineItems.splice(id, 1);
                 vm.paginatedLineItems = loadPaginatedLineItems(filterRequisitionLineItems());
             }

@@ -55,7 +55,7 @@
                 requestedQuantity: vm.requestedQuantity,
                 requestedQuantityExplanation: vm.requestedQuantityExplanation,
                 pricePerPack: getProgram(vm.selectedProduct, programId).pricePerPack,
-                orderableProduct: vm.selectedProduct,
+                orderable: vm.selectedProduct,
                 $deletable: true
             });
         }

@@ -12,7 +12,7 @@ describe('calculationFactory', function() {
         TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
 
         lineItem = {
-            orderableProduct: {},
+            orderable: {},
             totalLossesAndAdjustments: 25,
             beginningBalance: 20,
             totalConsumedQuantity: 15,
@@ -36,7 +36,7 @@ describe('calculationFactory', function() {
         });
 
         it('should return zero if pack size is zero', function() {
-            lineItem.orderableProduct.packSize = 0;
+            lineItem.orderable.packSize = 0;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
@@ -61,8 +61,8 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 15;
-            lineItem.orderableProduct.packSize = 10;
-            lineItem.orderableProduct.packRoundingThreshold = 6;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 6;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(1);
         });
@@ -71,8 +71,8 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 15;
-            lineItem.orderableProduct.packSize = 10;
-            lineItem.orderableProduct.packRoundingThreshold = 4;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(2);
         });
@@ -81,9 +81,9 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 1;
-            lineItem.orderableProduct.packSize = 10;
-            lineItem.orderableProduct.packRoundingThreshold = 5;
-            lineItem.orderableProduct.roundToZero = true;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 5;
+            lineItem.orderable.roundToZero = true;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
@@ -92,9 +92,9 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 1;
-            lineItem.orderableProduct.packSize = 10;
-            lineItem.orderableProduct.packRoundingThreshold = 5;
-            lineItem.orderableProduct.roundToZero = false;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 5;
+            lineItem.orderable.roundToZero = false;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(1);
         });
