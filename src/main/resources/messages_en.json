@@ -213,7 +213,6 @@
   "msg.podSaved": "Proof of Delivery saved!",
   "msg.podSubmitFailed": "Failed to submit Proof of Delivery!",
   "msg.podSubmitted": "Proof of Delivery submitted!",
-  "msg.requisitionSynced": "R&R synchronized successfully!",
   "msg.select.at.least.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.server.error": "Server error",
   "msg.showing": "Showing",
