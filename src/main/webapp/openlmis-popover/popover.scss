@@ -37,6 +37,7 @@ Styleguide 1.5
 }
 
 .popover > .popover-content{
+	overflow: hidden;
 	padding: $space-size/2;
 	padding-right: $space-size * 2;
 }
