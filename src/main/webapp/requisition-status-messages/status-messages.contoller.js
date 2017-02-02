@@ -92,7 +92,7 @@
          * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
-         * Responsible for displaying requisition status message history
+         * Responsible for displaying requisition status message history.
          */
         function displayRequisitionHistory() {
             statusMessagesHistoryService.show(vm.requisition);

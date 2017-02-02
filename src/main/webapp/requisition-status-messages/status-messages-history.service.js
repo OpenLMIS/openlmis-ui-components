@@ -2,12 +2,11 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name requisition-status-messages.statusMessagesHistoryService
+     *
      * @description
      * Displays modal with status messages history.
-     *
      */
 
     angular
@@ -26,12 +25,12 @@
          * @ngdoc function
          * @name show
          * @methodOf requisition-status-messages.statusMessagesHistoryService
-         * @param {Object} requisition Requisition to get its history
-         * @return {Promises} status messages for requisition and template for modal
          *
          * @description
          * Shows modal with status messages history.
          *
+         * @param {Object} requisition Requisition to get its history
+         * @return {Promises} status messages for requisition and template for modal
          */
         function show(requisition) {
             var scope = $rootScope.$new();

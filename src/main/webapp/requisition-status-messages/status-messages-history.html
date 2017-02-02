@@ -1,12 +1,12 @@
-<form class="status-messages-history">
-    <aside class="status-history" ng-repeat="statusMessage in vm.requisition.$statusMessages">
+<div class="status-message">
+    <aside ng-repeat="statusMessage in vm.requisition.$statusMessages">
         <div class="status-header">
-            <span>{{statusMessage.status | capitalize }}</span>
-            by {{statusMessage.authorFirstName}} {{statusMessages.authorLastName}}
+            <span>{{statusMessage.status | requisitionStatus}}</span>
+            by {{statusMessage.authorFirstName}} {{statusMessage.authorLastName}}
             on {{statusMessage.createdDate | date: 'longDate'}}
         </div>
         <dl>
             <dd>{{statusMessage.body}}</dd>
         </dl>
     </aside>
-</form>
+</div>

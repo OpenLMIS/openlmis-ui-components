@@ -16,7 +16,8 @@
             APPROVED: 'APPROVED',
             RELEASED: 'RELEASED',
             SKIPPED: 'SKIPPED',
-            $toList: toList
+            $toList: toList,
+            $getDisplayName: getDisplayName
         };
 
         function toList() {
@@ -32,6 +33,26 @@
                 }
             });
             return list;
+        }
+
+        function getDisplayName(status) {
+            var displayName;
+            if (status == this.INITIATED) {
+               displayName = 'Initiated';
+            } else if (status == this.SUBMITTED) {
+               displayName = 'Submitted';
+            } else if (status == this.AUTHORIZED) {
+                displayName = 'Authorized';
+            } else if (status == this.IN_APPROVAL) {
+                displayName = 'In approval';
+            } else if (status == this.APPROVED) {
+                displayName = 'Approved';
+            } else if (status == this.RELEASED) {
+                displayName = 'Released';
+            } else if (status == this.SKIPPED) {
+                displayName = 'Skipped';
+            }
+            return displayName;
         }
     }
 

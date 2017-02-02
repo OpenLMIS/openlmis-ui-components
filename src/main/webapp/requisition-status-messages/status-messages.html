@@ -1,7 +1,7 @@
 <div class="status-message">
-    <aside class="status-history" ng-if="vm.requisition.$statusMessages.length">
+    <aside ng-if="vm.requisition.$statusMessages.length">
         <div class="status-header">
-            <span>{{vm.requisition.$statusMessages[0].status | capitalize }}</span>
+            <span>{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</span>
             by {{vm.requisition.$statusMessages[0].authorFirstName}} {{vm.requisition.$statusMessages[0].authorLastName}}
             on {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
             <input type="button" value="{{'label.viewHistory' | message}}" ng-click="vm.displayRequisitionHistory()"/>
