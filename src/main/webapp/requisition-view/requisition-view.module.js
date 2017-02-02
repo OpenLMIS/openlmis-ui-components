@@ -5,6 +5,7 @@
     angular.module('requisition-view', [
         'ngBootbox',
         'openlmis-templates',
+        'openlmis-toolbar',
         'requisition',
         'requisition-summary',
         'requisition-validation',

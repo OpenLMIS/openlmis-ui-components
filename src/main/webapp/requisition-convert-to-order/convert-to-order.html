@@ -63,9 +63,7 @@
 			</table>
 		</section>
 	</div>
-	<div class="toolbar" ng-if="vm.requisitions.length">
-	    <button class="convert-to-order" ng-click="vm.convertToOrder()">
-	 		{{'link.requisitions.convertToOrder' | message}}
-	 	</button>
-	</div>
+	<openlmis-toolbar ng-if="vm.requisitions.length">
+	    <input type="button" class="btn btn-primary primary-action" ng-click="vm.convertToOrder()" value="{{'link.requisitions.convertToOrder' | message}}">
+	</openlmis-toolbar>
 </div>

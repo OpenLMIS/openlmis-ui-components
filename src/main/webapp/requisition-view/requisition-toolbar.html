@@ -1,12 +1,10 @@
-<div id="action_buttons" class="action-buttons">
-    <div class="form-cell button-row">
-        <input id="deleteRnrButton" type="button" class="btn delete-button" ng-disabled="vm.isOffline()" value="{{'button.delete' | message}}" ng-if="vm.displayDelete()" ng-click="vm.removeRnr()" />
-        <input id="syncRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" class="btn btn-default save-button" value="{{'button.sync' | message}}" type="button" />
-        <input id="submitRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" class="btn btn-primary primary-action" value="{{'button.submit' | message}}" type="button" ng-if="vm.displaySubmit()" />
-        <input id="skipRnrButton" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" class="btn btn-default primary-action" value="{{'button.skip' | message}}" type="button" ng-if="vm.displaySkip()" />
-        <input id="authorizeRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" value="{{'button.authorize' | message}}" ng-if="vm.displayAuthorize()" ng-click="vm.authorizeRnr()" />
-        <input id="approveRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-primary primary-action" value="{{'button.approve' | message}}" ng-if="vm.displayApproveAndReject()" ng-click="vm.approveRnr()" />
-        <input id="rejectRnrButton" ng-disabled="vm.isOffline()" type="button" class="btn btn-danger primary-action" value="{{'button.rnr.reject' | message}}" ng-if="vm.displayApproveAndReject()" ng-click="vm.rejectRnr()" />
-        <input type="button" ng-disabled="vm.isOffline()" ng-if="vm.displayConvertToOrder()" class="btn btn-primary primary-action" ng-click="vm.convertRnr()" value="{{'button.convert.to.order' | message}}" />
-    </div>
-</div>
+<openlmis-toolbar>
+    <input type="button" class="btn btn-default" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" value="{{'button.sync' | message}}"/>
+    <input type="button" class="btn btn-default primary-action" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" value="{{'button.skip' | message}}" ng-if="vm.displaySkip()"/>
+    <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()" value="{{'button.delete' | message}}" ng-if="vm.displayDelete()"/>
+    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" value="{{'button.submit' | message}}" ng-if="vm.displaySubmit()"/>
+    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.authorizeRnr()" value="{{'button.authorize' | message}}" ng-if="vm.displayAuthorize()"/>
+    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()" value="{{'button.rnr.reject' | message}}" ng-if="vm.displayApproveAndReject()"/>
+    <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.approveRnr()" value="{{'button.approve' | message}}" ng-if="vm.displayApproveAndReject()"/>
+    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.convertRnr()" value="{{'button.convert.to.order' | message}}" ng-if="vm.displayConvertToOrder()"/>
+</openlmis-toolbar>

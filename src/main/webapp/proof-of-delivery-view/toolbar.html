@@ -1,6 +1,4 @@
-<div id="action_buttons" class="action-buttons">
-    <div class="form-cell button-row">
-        <button id="savePodButton" ng-click="vm.savePod()" class="btn btn-default save-button" ng-if="!vm.isSubmitted()">{{'button.sync' | message}}</button>
-        <button id="submitPodButton" ng-click="vm.submitPod()" class="btn btn-primary primary-action" ng-if="!vm.isSubmitted()">{{'button.submit' | message}}</button>
-    </div>
-</div>
+<openlmis-toolbar ng-if="!vm.isSubmitted()">
+    <input type="button" id="savePodButton" ng-click="vm.savePod()" class="btn btn-default" value="{{'button.sync' | message}}"/>
+    <input type="button" id="submitPodButton" ng-click="vm.submitPod()" class="btn btn-primary primary-action" value="{{'button.submit' | message}}"/>
+</openlmis-toolbar>

@@ -72,16 +72,7 @@
         </div>
     </div>
 </div>
-<div id="action_buttons" class="action-buttons">
-    <div class="form-cell button-row">
-        <button id="saveButton" ng-click="vm.saveTemplate()"
-            class="btn btn-primary save-button" ng-disabled="!vm.template.$isValid()">
-            {{'button.save' | message}}
-        </button>
-        <button id="cancelButton" ng-click="vm.goToTemplateList()"
-            class="btn btn-default save-button"
-            type="button">
-            {{'button.cancel' | message}}
-        </button>
-    </div>
-</div>
+<openlmis-toolbar>
+    <input type="button" id="saveButton" ng-click="vm.saveTemplate()" class="btn btn-primary" ng-disabled="!vm.template.$isValid()" value="{{'button.save' | message}}"/>
+    <input type="button" id="cancelButton" ng-click="vm.goToTemplateList()" class="btn btn-default" value="{{'button.cancel' | message}}">
+</openlmis-toolbar>

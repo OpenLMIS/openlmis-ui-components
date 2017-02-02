@@ -34,28 +34,17 @@ markup:
 
 Styleguide 1.3
 */
-.button {
-    text-shadow: 0.1em 0.1em 0.1em $shadow;
-    @include button-color($gray);
-    padding: 0.5em 1em;
-    line-height: 1em;
-    border-color: rgba($white, 0.3) $shadow $light-shadow;
+
+.btn-primary {
+    @include button-color($green);
 }
 
-a,
-input {
-    &.btn-default {
-        @extend .button;
-    }
+.delete-button {
+    @include button-color($red);
+}
 
-    &.btn-primary {
-        @include button-color($green);
-    }
-
-    &.delete-button {
-        @extend .button;
-        @include button-color($red);
-    }
+.btn-default {
+    @include button-color($gray);
 }
 
 .grid-btn {

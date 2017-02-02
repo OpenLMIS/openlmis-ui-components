@@ -360,7 +360,7 @@
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
                 programCode: vm.requisition.program.code
             });
-            return vm.requisition.$isInitiated() && hasRight;
+            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasRight;
         }
 
         /**
