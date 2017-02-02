@@ -73,12 +73,10 @@
                     getUserInfo(response.data.referenceDataUserId).then(function() {
                         getUserRights(response.data.referenceDataUserId).then(function() {
                             currencyService.getCurrencySettings().then(function() {
-                                if ($state.is('auth.login')) {
-                                    $rootScope.$emit('auth.login');
-                                } else {
-                                    $rootScope.$emit('auth.login-modal');
-                                }
-                                deferred.resolve();
+                                emitEventAndResolve(deferred);
+                            }, function(){
+                                currencyService.getCurrencySettingsFromConfig();
+                                emitEventAndResolve(deferred);
                             });
                         }, function(){
                             authorizationService.clearAccessToken();
@@ -215,7 +213,8 @@
                     newPassword: newPassword
                 };
 
-            if(authorizationService.isAuthenticated()) authorizationService.clearAccessToken();
+            if(authorizationService.isAuthenticated())
+                authorizationService.clearAccessToken();
 
             return $http({
                 method: 'POST',
@@ -225,6 +224,15 @@
                     'Content-Type': 'application/json'
                 }
             });;
+        }
+
+        function emitEventAndResolve (deferred) {
+            if ($state.is('auth.login')) {
+                $rootScope.$emit('auth.login');
+            } else {
+                $rootScope.$emit('auth.login-modal');
+            }
+            deferred.resolve();
         }
     }
 

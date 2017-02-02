@@ -12,7 +12,7 @@ describe('currencyService', function() {
 
     var $httpBackend, currencyService, referencedataUrlFactory,
         localStorageService, currencySettings = {},
-        settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left"}';
+        settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left","currencyDecimalPlaces":2}';
 
 
     beforeEach(function () {
@@ -28,28 +28,35 @@ describe('currencyService', function() {
         currencySettings['currencyCode'] = 'USD';
         currencySettings['currencySymbol'] = '$';
         currencySettings['currencySymbolSide'] = 'left';
+        currencySettings['currencyDecimalPlaces'] = 2;
     });
 
-    describe('get', function () {
+    it('should get currency settings from storage', function () {
+        spyOn(localStorageService, 'get').andReturn(settingsJson);
+        expect(currencyService.getFromStorage()).toEqual(currencySettings);
+    });
 
-        it('should get currency settings from storage', function () {
-            spyOn(localStorageService, 'get').andReturn(settingsJson);
-            expect(currencyService.getFromStorage()).toEqual(currencySettings);
-        });
+    it('should get currency settings and save it to storage', function () {
+        $httpBackend
+            .when('GET', referencedataUrlFactory('/api/currencySettings'))
+            .respond(200, currencySettings);
+        spyOn(localStorageService, 'add');
 
-        it('should get currency settings and save it to storage', function () {
-            $httpBackend
-                .when('GET', referencedataUrlFactory('/api/currencySettings'))
-                .respond(200, currencySettings);
-            spyOn(localStorageService, 'add');
+        currencyService.getCurrencySettings();
 
-            currencyService.getCurrencySettings();
+        $httpBackend.flush();
 
-            $httpBackend.flush();
+        expect(localStorageService.add)
+            .toHaveBeenCalledWith('currencySettings', settingsJson);
+    });
 
-            expect(localStorageService.add)
-                .toHaveBeenCalledWith('currencySettings', settingsJson);
-        });
+    it('should get currency settings from config and save it to storage', function () {
+        spyOn(localStorageService, 'add');
+
+        currencyService.getCurrencySettingsFromConfig();
+
+        expect(localStorageService.add)
+            .toHaveBeenCalledWith('currencySettings', settingsJson);
     });
 
     afterEach(function () {

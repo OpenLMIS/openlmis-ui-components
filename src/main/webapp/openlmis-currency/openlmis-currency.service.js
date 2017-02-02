@@ -31,6 +31,7 @@
 
         this.getFromStorage = getFromStorage;
         this.getCurrencySettings = getCurrencySettings;
+        this.getCurrencySettingsFromConfig = getCurrencySettingsFromConfig;
 
         /**
          * @ngdoc function
@@ -43,20 +44,38 @@
          * @return {Promise} promise that resolves when settings are taken.
          */
         function getCurrencySettings() {
-                var deferred = $q.defer(), currencySettings = {};
+            var deferred = $q.defer(), currencySettings = {};
 
-                resource.get({}, function(data) {
-                    currencySettings['currencyCode'] = data.currencyCode;
-                    currencySettings['currencySymbol'] = data.currencySymbol;
-                    currencySettings['currencySymbolSide'] = data.currencySymbolSide;
-                    currencySettings['currencyDecimalPlaces'] = data.currencyDecimalPlaces;
-                    localStorageService.add('currencySettings', angular.toJson(currencySettings));
-                    deferred.resolve();
-                }, function() {
-                    deferred.reject();
-                });
+            resource.get({}, function(data) {
+                currencySettings['currencyCode'] = data.currencyCode;
+                currencySettings['currencySymbol'] = data.currencySymbol;
+                currencySettings['currencySymbolSide'] = data.currencySymbolSide;
+                currencySettings['currencyDecimalPlaces'] = data.currencyDecimalPlaces;
+                localStorageService.add('currencySettings', angular.toJson(currencySettings));
+                deferred.resolve();
+            }, function() {
+                deferred.reject();
+            });
 
             return deferred.promise;
+        }
+
+        /**
+         * @ngdoc function
+         * @name getCurrencySettingsFromConfig
+         * @methodOf openlmis-currency.currencyService
+         *
+         * @description
+         * Retrieves currency settings from config file.
+         */
+        function getCurrencySettingsFromConfig () {
+            var currencySettings = {};
+
+            currencySettings['currencyCode'] = '@@CURRENCY_CODE';
+            currencySettings['currencySymbol'] = '@@CURRENCY_SYMBOL';
+            currencySettings['currencySymbolSide'] = '@@CURRENCY_SIDE';
+            currencySettings['currencyDecimalPlaces'] = @@CURRENCY_DECIMAL_PLACES;
+            localStorageService.add('currencySettings', angular.toJson(currencySettings));
         }
 
         /**

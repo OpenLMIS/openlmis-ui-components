@@ -133,6 +133,18 @@ module.exports = function(grunt) {
         },{
           from: '@@PAGE_SIZE',
           to: config['pageSize']
+        },{
+          from: '@@CURRENCY_CODE',
+          to: config['currencyCode']
+        },{
+          from: '@@CURRENCY_SYMBOL',
+          to: config['currencySymbol']
+        },{
+          from: '@@CURRENCY_SIDE',
+          to: config['currencySymbolSide']
+        },{
+          from: '@@CURRENCY_DECIMAL_PLACES',
+          to: config['currencyDecimalPlaces']
         }]
       }
     },

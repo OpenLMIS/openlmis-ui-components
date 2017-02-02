@@ -84,7 +84,6 @@ describe("loginService", function() {
             httpBackend.when('GET', '/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
             .respond(200, {});
 
-            spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
             spyOn($rootScope, '$emit');
         });
     });
@@ -105,6 +104,7 @@ describe("loginService", function() {
 
         it('should resolve successful logins', function() {
             var success = false;
+            spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
 
             loginService.login("john", "john-password")
             .then(function(){
@@ -156,6 +156,7 @@ describe("loginService", function() {
     it('should emit "auth.login" event when logging in through auth page', function(){
         spyOn($state, 'is').andReturn('auth.login');
         authorizationService.clearAccessToken();
+        spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
 
         loginService.login("john", "john-password");
         httpBackend.flush();
@@ -166,6 +167,7 @@ describe("loginService", function() {
 
     it('should emit "auth.login-modal" event when logging in through page other than auth', inject(function($rootScope){
         authorizationService.clearAccessToken();
+        spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
 
         $state.go('somewhere');
         $rootScope.$apply();
@@ -175,6 +177,18 @@ describe("loginService", function() {
         $rootScope.$apply();
 
         expect($rootScope.$emit).toHaveBeenCalledWith('auth.login-modal');
+    }));
+
+    it('should call getCurrencySettingsFromConfig when retrieve settings from refdata rejected', inject(function($rootScope){
+        authorizationService.clearAccessToken();
+        spyOn(currencyService, 'getCurrencySettings').andReturn($q.reject());
+        spyOn(currencyService, 'getCurrencySettingsFromConfig');
+
+        loginService.login("john", "john-password");
+        httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(currencyService.getCurrencySettingsFromConfig).toHaveBeenCalled();
     }));
 
     it('should call forgot password endpoint', inject(function() {

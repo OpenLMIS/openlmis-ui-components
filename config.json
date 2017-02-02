@@ -16,5 +16,9 @@
   "authServiceURL": "/",
   "requisitionServiceURL": "/",
   "fulfillmentServiceURL": "/",
-  "pageSize": 10
+  "pageSize": 10,
+  "currencyCode": "USD",
+  "currencySymbol": "$",
+  "currencySymbolSide": "left",
+  "currencyDecimalPlaces": 2
 }
