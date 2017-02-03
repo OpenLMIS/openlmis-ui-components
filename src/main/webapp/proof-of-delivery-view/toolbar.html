@@ -1,4 +1,4 @@
-<openlmis-toolbar ng-if="!vm.isSubmitted()">
+<div class="openlmis-toolbar" ng-if="!vm.isSubmitted()">
     <input type="button" id="savePodButton" ng-click="vm.savePod()" class="btn btn-default" value="{{'button.sync' | message}}"/>
     <input type="button" id="submitPodButton" ng-click="vm.submitPod()" class="btn btn-primary primary-action" value="{{'button.submit' | message}}"/>
-</openlmis-toolbar>
+</div>

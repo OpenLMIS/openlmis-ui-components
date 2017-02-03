@@ -1,4 +1,4 @@
-<openlmis-toolbar>
+<div class="openlmis-toolbar">
     <input type="button" class="btn btn-default" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" value="{{'button.sync' | message}}"/>
     <input type="button" class="btn btn-default primary-action" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" value="{{'button.skip' | message}}" ng-if="vm.displaySkip()"/>
     <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()" value="{{'button.delete' | message}}" ng-if="vm.displayDelete()"/>
@@ -7,4 +7,4 @@
     <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()" value="{{'button.rnr.reject' | message}}" ng-if="vm.displayApproveAndReject()"/>
     <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.approveRnr()" value="{{'button.approve' | message}}" ng-if="vm.displayApproveAndReject()"/>
     <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.convertRnr()" value="{{'button.convert.to.order' | message}}" ng-if="vm.displayConvertToOrder()"/>
-</openlmis-toolbar>
+</div>
