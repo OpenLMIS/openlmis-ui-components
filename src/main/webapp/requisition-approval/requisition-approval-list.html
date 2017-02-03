@@ -15,10 +15,11 @@
                     <th>{{'label.period.end.date' | message}}</th>
                     <th>{{'label.date.submitted' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
+                    <th class="sticky"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="requisition in vm.filteredRequisitions" ng-click="vm.openRnr(requisition.id)">
+                <tr ng-repeat="requisition in vm.filteredRequisitions">
                     <td>{{requisition.program.name}}</th>
                     <td>{{requisition.facility.code}}</th>
                     <td>{{requisition.facility.name}}</th>
@@ -28,6 +29,11 @@
                     <td>{{requisition.createdDate | date:'shortDate'}}</th>
                     <td class="col-emergency">
                         <span ng-if="requisition.emergency" class="icon-ok"></span>
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-primary"
+                               value="{{ 'button.viewRequisition' | message }}"
+                               ng-click="vm.openRnr(requisition.id)"/>
                     </td>
                 </tr>
             </tbody>
