@@ -73,7 +73,7 @@
 
             currencySettings['currencyCode'] = '@@CURRENCY_CODE';
             currencySettings['currencySymbol'] = '@@CURRENCY_SYMBOL';
-            currencySettings['currencySymbolSide'] = '@@CURRENCY_SIDE';
+            currencySettings['currencySymbolSide'] = '@@CURRENCY_SYMBOL_SIDE';
             currencySettings['currencyDecimalPlaces'] = @@CURRENCY_DECIMAL_PLACES;
             localStorageService.add('currencySettings', angular.toJson(currencySettings));
         }
