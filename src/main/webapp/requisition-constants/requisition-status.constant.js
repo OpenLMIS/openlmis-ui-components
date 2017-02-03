@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+    * @ngdoc object
+    * @name requisition-constants.REQUISITION_STATUS
+    *
+    * @description
+    * This is constant for requisition statuses
+    */
     angular
         .module('requisition-constants')
         .constant('REQUISITION_STATUS', status());
@@ -20,6 +27,14 @@
             $getDisplayName: getDisplayName
         };
 
+        /**
+         * @ngdoc function
+         * @methodOf requisition-constants.REQUISITION_STATUS
+         * @name toList
+         *
+         * @description
+         * Retrieves all requisition statuses.
+         */
         function toList() {
             var list = [],
                 id = 0;
@@ -35,6 +50,14 @@
             return list;
         }
 
+        /**
+         * @ngdoc function
+         * @methodOf requisition-constants.REQUISITION_STATUS
+         * @name getDisplayName
+         *
+         * @description
+         * Retrieves display name for current requisition.
+         */
         function getDisplayName(status) {
             var displayName;
             if (status == this.INITIATED) {

@@ -2,7 +2,6 @@
     /**
     * @ngdoc filter
     * @name requisition-status-messages.requisitionStatus
-    * @function requisitionStatus
     *
     * @description Change text to start with upperCase letter.
     *
