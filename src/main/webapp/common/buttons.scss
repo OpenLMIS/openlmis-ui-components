@@ -35,16 +35,21 @@ markup:
 Styleguide 1.3
 */
 
-.btn-primary {
-    @include button-color($green);
-}
+a,
+input {
 
-.delete-button {
-    @include button-color($red);
-}
+    &.btn-primary {
+        @include button-color($green);
+    }
 
-.btn-default {
-    @include button-color($gray);
+    &.delete-button {
+        @include button-color($red);
+    }
+
+    &.btn-default {
+        @include button-color($gray);
+    }
+
 }
 
 .grid-btn {
