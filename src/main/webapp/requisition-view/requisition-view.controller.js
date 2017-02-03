@@ -237,7 +237,7 @@
          */
         function rejectRnr() {
             watcher.makeSilent();
-            confirmService.confirm('msg.question.confirmation.reject').then(function() {
+            confirmService.confirmDestroy('msg.question.confirmation.reject').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$reject().then(function(response) {
                     loadingPromise.then(function() {
