@@ -13,10 +13,46 @@ describe("REQUISITION_STATUS", function() {
 
     describe('getDisplayName', function() {
 
-        it('should get display name for provided status', function() {
+        it('should get display name for INITIATED status', function() {
             var displayName = RequisitionStatus.$getDisplayName('INITIATED');
 
             expect(displayName).toBe('Initiated');
+        });
+
+        it('should get display name for SUBMITTED status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('SUBMITTED');
+
+            expect(displayName).toBe('Submitted');
+        });
+
+        it('should get display name for AUTHORIZED status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('AUTHORIZED');
+
+            expect(displayName).toBe('Authorized');
+        });
+
+        it('should get display name for IN_APPROVAL status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('IN_APPROVAL');
+
+            expect(displayName).toBe('In approval');
+        });
+
+        it('should get display name for APPROVED status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('APPROVED');
+
+            expect(displayName).toBe('Approved');
+        });
+
+        it('should get display name for RELEASED status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('RELEASED');
+
+            expect(displayName).toBe('Released');
+        });
+
+        it('should get display name for SKIPPED status', function() {
+            var displayName = RequisitionStatus.$getDisplayName('SKIPPED');
+
+            expect(displayName).toBe('Skipped');
         });
     });
 
