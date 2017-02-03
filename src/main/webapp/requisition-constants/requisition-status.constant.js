@@ -56,7 +56,7 @@
          * @name getDisplayName
          *
          * @description
-         * Retrieves display name for given requisition.
+         * Retrieves display name for given requisition status.
          */
         function getDisplayName(status) {
             var displayName;
