@@ -1,4 +1,4 @@
-<div class="page approval-list">
+<div class="page">
     <h2>{{'label.approve.requisitions' | message}}</h2>
     <div class="table-container">
         <table class="openlmis-table" ng-if="vm.filteredRequisitions">
@@ -30,9 +30,9 @@
                     <td class="col-emergency">
                         <span ng-if="requisition.emergency" class="icon-ok"></span>
                     </td>
-                    <td>
+                    <td class="sticky">
                         <input type="button" class="btn btn-primary"
-                               value="{{ 'button.viewRequisition' | message }}"
+                               value="{{'button.viewRequisition' | message}}"
                                ng-click="vm.openRnr(requisition.id)"/>
                     </td>
                 </tr>
