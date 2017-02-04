@@ -6,6 +6,7 @@ services:
       - '.:/app'
     command:
       - './build.sh'
+    env_file: .env
   image:
     build: .
     image: openlmis/requisition-refui
