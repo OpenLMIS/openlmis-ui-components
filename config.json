@@ -20,5 +20,6 @@
   "currencySymbolSide": "left",
   "currencyDecimalPlaces": 2,
   "authServerClientId": "user-client",
-  "authServerClientSecret": "changeme"
+  "authServerClientSecret": "changeme",
+  "applicationTitle": "OpenLMIS"
 }
