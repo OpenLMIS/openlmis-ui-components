@@ -8,6 +8,7 @@
 
     function rights() {
         return {
+            ORDERS_EDIT: 'ORDERS_EDIT',
             ORDERS_VIEW: 'ORDERS_VIEW',
             PODS_MANAGE: 'PODS_MANAGE'
         };

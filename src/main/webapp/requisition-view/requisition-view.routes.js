@@ -6,9 +6,9 @@
         .module('requisition-view')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
+    routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'FULFILLMENT_RIGHTS'];
 
-    function routes($stateProvider, REQUISITION_RIGHTS) {
+    function routes($stateProvider, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS) {
 
         $stateProvider.state('requisitions.requisition', {
             url: '^/requisition/:rnr',
@@ -19,7 +19,7 @@
                 REQUISITION_RIGHTS.REQUISITION_DELETE,
                 REQUISITION_RIGHTS.REQUISITION_AUTHORIZE,
                 REQUISITION_RIGHTS.REQUISITION_APPROVE,
-                REQUISITION_RIGHTS.REQUISITION_CONVERT_TO_ORDER],
+                FULFILLMENT_RIGHTS.ORDERS_EDIT],
             resolve: {
                 requisition: function ($location, $q, $stateParams, requisitionService) {
                     var deferred = $q.defer();
