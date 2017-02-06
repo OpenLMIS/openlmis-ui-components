@@ -308,9 +308,9 @@
             promise.then(function(response) {
                 if (success) success(response);
                 deferred.resolve(response);
-            }, function() {
-                if (failure) failure();
-                deferred.reject();
+            }, function(response) {
+                if (failure) failure(response);
+                deferred.reject(response);
             });
 
             return deferred.promise;

@@ -12,14 +12,23 @@ describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
         loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
-        fullSupplyItems, nonFullSupplyItems, lineItems;
+        fullSupplyItems, nonFullSupplyItems, lineItems, offlineRequisitions;
 
     beforeEach(function() {
         module('requisition-view');
 
         module(function($provide) {
+            offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['removeBy']);
+
             var confirmSpy = authorizationServiceSpy = jasmine.createSpyObj('confirmService', ['confirm']),
-                authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
+                authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
+                localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(resource) {
+                    if (resource === 'requisitions') {
+                        return offlineRequisitions;
+                    } else {
+                        return undefined;
+                    }
+                });
 
             requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator', [
                 'areLineItemsValid'
@@ -40,6 +49,10 @@ describe('RequisitionViewController', function() {
 
             $provide.factory('requisitionValidator', function() {
                 return requisitionValidatorMock;
+            });
+
+            $provide.factory('localStorageFactory', function() {
+                return localStorageFactorySpy;
             })
         });
 
@@ -58,7 +71,7 @@ describe('RequisitionViewController', function() {
             });
 
             deferred = $q.defer();
-            requisition = jasmine.createSpyObj('requisition', ['$skip', '$isInitiated']);
+            requisition = jasmine.createSpyObj('requisition', ['$skip', '$isInitiated', '$save']);
             requisition.id = '1';
             requisition.program = {
                 id: '2',
@@ -66,6 +79,7 @@ describe('RequisitionViewController', function() {
             };
             requisition.$isInitiated.andReturn(true);
             requisition.$skip.andReturn(deferred.promise);
+            requisition.$save.andReturn(deferred.promise);
 
             vm = $controller('RequisitionViewController', {$scope: $scope, requisition: requisition});
         });
@@ -110,7 +124,7 @@ describe('RequisitionViewController', function() {
         expect(vm.displaySkip()).toBe(false);
     });
 
-    it('should display message when successfully skiped requisition', function() {
+    it('should display message when successfully skipped requisition', function() {
         var notificationServiceSpy = jasmine.createSpy(),
             stateGoSpy = jasmine.createSpy(),
             loadingDeferred = $q.defer();
@@ -146,6 +160,53 @@ describe('RequisitionViewController', function() {
 
     it('getPrintUrl should prepare URL correctly', function() {
         expect(vm.getPrintUrl()).toEqual('http://some.url/api/requisitions/1/print');
+    });
+
+    describe('Offline conflict handling', function() {
+
+        it('should reload requisition when conflict response received', function() {
+            var notificationServiceSpy = jasmine.createSpy(),
+                stateSpy = jasmine.createSpy(),
+                conflictResponse = { status: 409 };
+
+            spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
+            spyOn($state, 'reload').andCallFake(stateSpy);
+
+            vm.syncRnr();
+
+            deferred.reject(conflictResponse);
+            $scope.$apply();
+
+            expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
+            expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionVersionError');
+            expect(stateSpy).toHaveBeenCalled();
+        });
+
+        it('should not reload requisition when bad request response received', function() {
+            verifyNoReloadOnError(400);
+        });
+
+        it('should not reload requisition when internal server error request response received', function() {
+            verifyNoReloadOnError(500);
+        });
+
+        function verifyNoReloadOnError(responseStatus) {
+            var notificationServiceSpy = jasmine.createSpy(),
+                stateSpy = jasmine.createSpy(),
+                conflictResponse = { status: responseStatus };
+
+            spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
+            spyOn($state, 'reload').andCallFake(stateSpy);
+
+            vm.syncRnr();
+
+            deferred.reject(conflictResponse);
+            $scope.$apply();
+
+            expect(offlineRequisitions.removeBy).not.toHaveBeenCalled();
+            expect(notificationServiceSpy).toHaveBeenCalledWith('msg.failedToSyncRequisition');
+            expect(stateSpy).not.toHaveBeenCalled();
+        }
     });
 
     describe('isFullSupplyTabValid', function() {

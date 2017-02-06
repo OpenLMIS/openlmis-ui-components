@@ -28,7 +28,7 @@
          *
          * @description
          * Creates array in local storage that is named with resourceName.
-         * It retruns object with methods to operate on this resource.
+         * It returns object with methods to operate on this resource.
          *
          * @param {String} resourceName Name of resource to be stored
          * @returns {Object} Object with methods to save/get resource objects

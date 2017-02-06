@@ -90,17 +90,29 @@
          * @description
          * Responsible for syncing requisition with the server. If the requisition fails to sync,
          * an error notification will be displayed. Otherwise, a success notification will be shown.
+         * If the error status is 409 (conflict), the requisition will be reloaded, since this
+         * indicates a version conflict.
          */
         function syncRnr() {
             watcher.makeSilent();
             var loadingPromise = loadingModalService.open();
             vm.requisition.$modified = false;
-            save().then(function(response) {
+            save().then(function() {
                 loadingPromise.then(function() {
                     notificationService.success('msg.requisitionSynced');
                 });
                 reloadState();
-            }, failWithMessage('msg.failedToSyncRequisition'));
+            }, function(response) {
+               if (response.status === 409) {
+                    // in case of conflict, use the server version
+                    notificationService.error('msg.requisitionVersionError');
+                    var offlineRequisitions = localStorageFactory('requisitions');
+                    offlineRequisitions.removeBy('id', requisition.id);
+                    reloadState();
+               } else {
+                    failWithMessage('msg.failedToSyncRequisition')();
+               }
+            });
         }
 
         /**
@@ -467,13 +479,8 @@
         function save() {
             loadingModalService.open();
             var promise = vm.requisition.$save();
-            promise.catch(failedToSave);
             promise.finally(loadingModalService.close)
             return promise;
-        }
-
-        function failedToSave() {
-            notificationService.error('msg.rnr.save.failure');
         }
 
         function reloadState() {
