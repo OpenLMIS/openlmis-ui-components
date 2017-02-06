@@ -32,12 +32,14 @@
 
     function filter(currencyService) {
         return function(value) {
-            var settings = currencyService.getFromStorage();
-            var currencyValue = value.toFixed(settings.currencyDecimalPlaces);
-            if (settings.currencySymbolSide === 'right') {
-                return currencyValue + ' ' + settings.currencySymbol;
-            } else {
-                return settings.currencySymbol + ' ' + currencyValue;
+            if (value != null) {
+                var settings = currencyService.getFromStorage();
+                var currencyValue = value.toFixed(settings.currencyDecimalPlaces);
+                if (settings.currencySymbolSide === 'right') {
+                    return currencyValue + ' ' + settings.currencySymbol;
+                } else {
+                    return settings.currencySymbol + ' ' + currencyValue;
+                }
             }
         };
     }
