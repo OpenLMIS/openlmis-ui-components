@@ -166,7 +166,7 @@
          */
         function programOptionMessage() {
             return vm.programs === undefined || _.isEmpty(vm.programs) ? messageService.get('label.none.assigned') : messageService.get('label.select.program');
-        };
+        }
 
         /**
          * @ngdoc function
@@ -196,7 +196,7 @@
                 notificationService.error('msg.error.occurred');
                 loadingModalService.close();
             });
-        };
+        }
 
         /**
          * @ngdoc function
@@ -234,7 +234,7 @@
                     rnr: selectedPeriod.rnrId
                 });
             }
-        };
+        }
 
         /**
          * @ngdoc function
@@ -250,13 +250,19 @@
         function loadFacilitiesForProgram(selectedProgramId) {
             if (selectedProgramId) {
                 loadingModalService.open();
-                var createRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_CREATE);
-                var authorizeRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
+                var createRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_CREATE),
+                    authorizeRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE),
+                    promises = [];
 
-                $q.all([
-                    facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, createRight.id),
-                    facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, authorizeRight.id)
-                ])
+                if(createRight) {
+                    promises.push(facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, createRight.id))
+                }
+                if(authorizeRight) {
+                    promises.push(facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, authorizeRight.id))
+                }
+
+                if(promises.length > 0) {
+                    $q.all(promises)
                     .then(function (facilities) {
                         vm.facilities = facilities[0].concat(facilities[1]);
                         if (vm.facilities.length <= 0) {
@@ -270,6 +276,9 @@
                         loadingModalService.close();
                     })
                     .finally(loadingModalService.close());
+                } else {
+                    notificationService.error('error.noActionRight');
+                }
             } else {
                 vm.facilities = [];
             }
