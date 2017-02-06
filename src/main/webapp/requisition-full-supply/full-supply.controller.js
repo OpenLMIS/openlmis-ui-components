@@ -13,9 +13,15 @@
         .module('requisition-full-supply')
         .controller('FullSupplyController', controller);
 
-    controller.$inject = ['requisition', 'lineItems', 'columns', 'requisitionValidator', '$filter', 'TEMPLATE_COLUMNS', '$state', '$stateParams', 'paginatedListFactory'];
+    controller.$inject = [
+        'requisition', 'items', 'columns', 'requisitionValidator', '$filter',
+        'TEMPLATE_COLUMNS', '$state', '$stateParams', 'paginationFactory', 'page', 'totalItems',
+        'pageSize'
+    ];
 
-    function controller(requisition, lineItems, columns, requisitionValidator, $filter, TEMPLATE_COLUMNS, $state, $stateParams, paginatedListFactory) {
+    function controller(requisition, items, columns, requisitionValidator, $filter,
+                        TEMPLATE_COLUMNS, $state, $stateParams, paginationFactory, page, totalItems,
+                        pageSize) {
 
         var vm = this;
 
@@ -23,7 +29,13 @@
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
         vm.changePage = changePage;
-        vm.getCurrentPage = getCurrentPage;
+        vm.isPageValid = isPageValid;
+
+        vm.page = page;
+        vm.totalItems = totalItems;
+        vm.pageSize = pageSize;
+
+        vm.lineItems = getPage(page);
 
         /**
          * @ngdoc property
@@ -35,28 +47,6 @@
          * Holds requisition. This object is shared with the parent and nonFullSupply states.
          */
         vm.requisition = requisition;
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyController
-         * @name requisition
-         * @type {Object}
-         *
-         * @description
-         * Holds requisition. This object is shared with the parent and nonFullSupply states.
-         */
-        vm.currentPage = $stateParams.page ?  parseInt($stateParams.page) : 1;
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyController
-         * @name paginatedLineItems
-         * @type {Object}
-         *
-         * @description
-         * Holds line items divided into pages with properties like current page etc.
-         */
-        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(lineItems, '$program.orderableCategoryDisplayName'));
 
         /**
          * @ngdoc property
@@ -91,30 +81,17 @@
          *
          * @description
          * Loads line items when page is changed.
-         *
-         * @param {integer} newPage new page number
          */
-        function changePage(newPage) {
+        function changePage(page) {
+            vm.lineItems = getPage(page);
+
             $state.go('requisitions.requisition.fullSupply', {
                 rnr: vm.requisition.id,
-                page: newPage
+                page: vm.page,
+                size: vm.pageSize
             }, {
                 notify: false
             });
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
-         * @name changePage
-         *
-         * @description
-         * Loads line items when page is changed.
-         *
-         * @param {integer} newPage new page number
-         */
-        function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.currentPage);
         }
 
         /**
@@ -154,13 +131,26 @@
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
 
+        function getPage(page) {
+            return paginationFactory.getPage($filter('orderBy')(
+                items,
+                '$program.productCategoryDisplayName'
+            ), page, vm.pageSize);
+        }
+
+        function isPageValid(number) {
+            return requisitionValidator.areLineItemsValid(paginationFactory.getPage(
+                items,
+                number,
+                vm.pageSize
+            ));
+        }
+
         function setSkipAll(value) {
-            angular.forEach(vm.paginatedLineItems, function(page) {
-                angular.forEach(page, function(lineItem) {
-                    if (lineItem.canBeSkipped(vm.requisition)) {
-                        lineItem.skipped = value;
-                    }
-                });
+            angular.forEach(items, function(lineItem) {
+                if (lineItem.canBeSkipped(vm.requisition)) {
+                    lineItem.skipped = value;
+                }
             });
         }
     }

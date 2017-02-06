@@ -6,6 +6,7 @@
         'requisition',
         'openlmis-date',
         'openlmis-modal',
+        'openlmis-pagination',
         'ui.router'
     ]);
 

@@ -25,11 +25,12 @@
 		.controller('ConvertToOrderController', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = [
-        '$state', '$stateParams', 'requisitions', 'requisitionService', 'notificationService'
+        '$state', '$stateParams', 'items', 'requisitionService', 'notificationService', 'page',
+        'totalItems', 'pageSize'
     ];
 
-	function convertToOrderCtrl($state, $stateParams, requisitions, requisitionService,
-                                notificationService) {
+	function convertToOrderCtrl($state, $stateParams, items, requisitionService, notificationService,
+                                page, totalItems, pageSize) {
 
 	    var vm = this;
 
@@ -46,7 +47,9 @@
             filterBy: $stateParams.filterBy,
             filterValue: $stateParams.filterValue,
             sortBy: $stateParams.sortBy,
-            descending: $stateParams.descending
+            descending: $stateParams.descending,
+			size: pageSize,
+			page: page
         };
 
         /**
@@ -86,7 +89,9 @@
          * @description
          * Holds requisitions that can be converted to orders.
          */
-        vm.requisitions = requisitions;
+        vm.requisitions = items;
+
+		vm.totalItems = totalItems;
 
         /**
          * @ngdoc property
@@ -96,7 +101,7 @@
          * @description
          * Indicates if there is any requisition available to convert to order or not.
          */
-        vm.nothingToConvert = !requisitions.length && defaultSearchParams();
+        vm.nothingToConvert = !items.length && defaultSearchParams();
 
         /**
          * @ngdoc property
@@ -254,8 +259,8 @@
                 && isEmpty(vm.searchParams.filterValue)
                 && isUndefined(vm.searchParams.sortBy)
                 && isUndefined(vm.searchParams.descending)
-                && isUndefined(vm.searchParams.pageNumber)
-                && isUndefined(vm.searchParams.pageSize);
+                && isUndefined(vm.searchParams.page)
+                && isUndefined(vm.searchParams.size);
         }
 
         /**

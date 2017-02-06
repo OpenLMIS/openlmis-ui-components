@@ -6,13 +6,14 @@ functionality, wrap the table within a table container, which will constrain
 the layout of form elements and captions within a table. **Any table wider than
 the display area will horizontally scroll.**
 
-All `.table-container` children that are not the table will be displayed to the
-left of the actual container. There will be no effort made to guess the size of
-the elements within the `.table-container`. *The exception to this is the
+All `.openlmis-table-container` children that are not the table will be displayed
+to the left of the actual container. There will be no effort made to guess the
+size of the elements within the `.openlmis-table-container`. *The exception to
+this is the
 [table-sort-order form.](../../docs/#/api/openlmis.table:table-sort-order)*
 
-All elements within a `.table-container` will be pinned, so they are all visible
-and aligned while a user is scrolling what could be a large table.
+All elements within a `.openlmis-table-container` will be pinned, so they are all
+visible and aligned while a user is scrolling what could be a large table.
 
 ### Form Guidelines
 Any form that modifies a table should use the `aria-described-by` attribute. This
@@ -29,15 +30,15 @@ the current table sort order is recommended.*
 
 markup:
 <h2>Example Items</h2>
-<section class="table-container">
-  <form id="example-sort-form" class="form-inline table-control">
+<section class="openlmis-table-container">
+  <form id="example-sort-form" class="openlmis-table-controls form-inline">
     <label for="table-sort-order">Sort items by</label>
     <select id="table-sort-order">
       <option selected="selected">Name</option>
     </select>
     <input type="submit" class="btn btn-primary" value="Sort items" />
   </form>
-  <form id="example-search-form">
+  <form class="openlmis-table-filters" id="example-search-form">
     <fieldset>
       <legend>Show categories</legend>
       <label class="checkbox">
@@ -55,6 +56,7 @@ markup:
     </fieldset>
     <input class="btn btn-primary" type="submit" value="Search" />
   </form>
+  <div class="openlmis-table">
   <table aria-describedby="example-search-form example-sort-form" >
     <thead>
       <tr>
@@ -71,7 +73,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>P00833</td>
-        <th>Quinine Sulphate</th>
+        <td>Quinine Sulphate</td>
         <td>300</td>
         <td>mg</td>
       </tr>
@@ -82,7 +84,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>N-378013</td>
-        <th>Tramedol</th>
+        <td>Tramedol</td>
         <td>50mg/ml</td>
         <td>mg</td>
       </tr>
@@ -91,7 +93,7 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>A41099</td>
-        <th>Doxycycline</th>
+        <td>Doxycycline</td>
         <td>100</td>
         <td>mg</td>
       </tr>
@@ -100,51 +102,66 @@ markup:
           <i class="icon-ok"/>
         </td>
         <td>KM3375-2</td>
-        <th>Malaria Rapid Diagnostic Test</th>
+        <td>Malaria Rapid Diagnostic Test</td>
         <td>1</td>
         <td>each</td>
       </tr>
     </tbody>
   </table>
+  </div>
 </section>
 
 Styleguide 4.1
 */
-
-@import 'bourbon';
-
-.table-container {
+.openlmis-table-container {
     position: relative;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: flex-start;
     width: 100%;
     overflow: auto;
+    flex-wrap: nowrap;
+}
 
-    > form {
-        flex: 0 0 auto;
-        order: 0;
-        width: $sidebar-width;
-    }
+.openlmis-table-controls {
+    display: flex;
+    left: 0;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    width: inherit;
+}
 
-    > .flex-table {
-        flex: 1 1 auto;
-        overflow: auto;
-        margin: 0px;
-        position: relative; // tell JS to calculate offset from here
-    }
+.openlmis-table {
+    flex: 1 1 auto;
+    padding: 1em 0;
+    overflow: auto;
+    margin: 0;
+    position: relative; // tell JS to calculate offset from here
 
-    div table {
-        max-width: 100%;
-        word-wrap: break-word;
+    & > .openlmis-pagination {
+        position: relative;
     }
 }
 
-// Sort order
-.table-container > .table-control {
-    display: flex;
-    flex: 0 1 auto;
-    padding: 1em 0;
-    width: 100%;
+.openlmis-table-filters {
+    flex: 0 0 auto;
+    order: 0;
+    padding: 1em 0.5em 1em 0;
+    width: $sidebar-width;
+
+    & + .openlmis-table {
+        padding-left: 0.5em;
+    }
+}
+
+.openlmis-table {
+    & > table {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    & > .openlmis-pagination {
+        margin-top: 1em;
+    }
 }

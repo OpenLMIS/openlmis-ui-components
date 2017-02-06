@@ -13,9 +13,15 @@
         .module('requisition-non-full-supply')
         .controller('NonFullSupplyController', nonFullSupplyController);
 
-    nonFullSupplyController.$inject = ['requisition', 'columns', 'requisitionValidator', 'addProductModalService', 'LineItem', '$filter', 'lineItems', 'paginatedListFactory', '$state', '$stateParams'];
+    nonFullSupplyController.$inject = [
+        'requisition', 'columns', 'requisitionValidator', 'addProductModalService', 'LineItem',
+        '$filter', 'paginationFactory', '$state', 'page', 'pageSize'
+    ];
 
-    function nonFullSupplyController(requisition, columns, requisitionValidator, addProductModalService, LineItem, $filter, lineItems, paginatedListFactory, $state, $stateParams) {
+    function nonFullSupplyController(requisition, columns, requisitionValidator,
+                                     addProductModalService, LineItem, $filter,
+                                     paginationFactory, $state, page,
+                                     pageSize) {
 
         var vm = this;
 
@@ -24,6 +30,8 @@
         vm.displayDeleteColumn = displayDeleteColumn;
         vm.changePage = changePage;
         vm.getCurrentPage = getCurrentPage;
+        vm.isPageValid = isPageValid;
+        vm.getTotalItems = getTotalItems;
 
         /**
          * @ngdoc method
@@ -42,17 +50,6 @@
         /**
          * @ngdoc property
          * @propertyOf requisition-non-full-supply.NonFullSupplyController
-         * @name currentPage
-         * @type {Object}
-         *
-         * @description
-         * Holds current page
-         */
-        vm.currentPage = $stateParams.page ?  parseInt($stateParams.page) : 1;
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
          * @name requisition
          * @type {Object}
          *
@@ -61,16 +58,10 @@
          */
         vm.requisition = requisition;
 
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
-         * @name paginatedLineItems
-         * @type {Object}
-         *
-         * @description
-         * Holds line items divided into pages with get method.
-         */
-        vm.paginatedLineItems = loadPaginatedLineItems(lineItems);
+        vm.page = page;
+        vm.pageSize = pageSize;
+
+        vm.lineItems = getPage();
 
         /**
          * @ngdoc property
@@ -110,7 +101,7 @@
             if (id > -1) {
                 makeProductVisible(vm.requisition.requisitionLineItems[id].orderable.name);
                 vm.requisition.requisitionLineItems.splice(id, 1);
-                vm.paginatedLineItems = loadPaginatedLineItems(filterRequisitionLineItems());
+                reload();
             }
         }
 
@@ -123,16 +114,15 @@
          * Opens modal that lets the user add new product to the grid.
          */
         function addProduct() {
-            addProductModalService.show(vm.requisition.availableNonFullSupplyProducts, vm.requisition.program.id)
-                .then(function(lineItem) {
-                    vm.requisition.requisitionLineItems.push(
-                        new LineItem(lineItem, vm.requisition)
-                    );
-                    vm.paginatedLineItems = loadPaginatedLineItems(filterRequisitionLineItems());
-                })
-                .catch(function(){
-                    // don't do anything
-                });
+            addProductModalService.show(
+                vm.requisition.availableNonFullSupplyProducts,
+                vm.requisition.program.id
+            ).then(function(lineItem) {
+                vm.requisition.requisitionLineItems.push(
+                    new LineItem(lineItem, vm.requisition)
+                );
+                reload();
+            });
         }
 
         /**
@@ -164,10 +154,12 @@
          *
          * @param {integer} newPage new page number
          */
-        function changePage(newPage) {
+        function changePage(page) {
+            reload();
             $state.go('requisitions.requisition.nonFullSupply', {
                 rnr: vm.requisition.id,
-                page: newPage
+                page: vm.page,
+                size: vm.pageSize
             }, {
                 notify: false
             });
@@ -184,18 +176,36 @@
          * @return {Array} page with line items
          */
         function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.currentPage);
+            return vm.paginatedLineItems.getPage(vm.page);
+        }
+
+        function reload() {
+            vm.lineItems = getPage();
+        }
+
+        function getPage() {
+            return paginationFactory.getPage($filter('orderBy')(
+                filterRequisitionLineItems(),
+                '$program.productCategoryDisplayName'
+            ), vm.page, vm.pageSize);
+        }
+
+        function isPageValid(number) {
+            return requisitionValidator.areLineItemsValid(paginationFactory.getPage(
+                filterRequisitionLineItems(),
+                number,
+                vm.pageSize
+            ));
+        }
+
+        function getTotalItems() {
+            return filterRequisitionLineItems().length;
         }
 
         function makeProductVisible(productName) {
             angular.forEach(vm.requisition.availableNonFullSupplyProducts, function(product) {
                 if (product.name === productName) product.$visible = true;
             });
-        }
-
-        function loadPaginatedLineItems(lineItems) {
-            var items = $filter('orderBy')(lineItems, '$program.orderableCategoryDisplayName');
-            return paginatedListFactory.getPaginatedItems(items);
         }
 
         function filterRequisitionLineItems() {

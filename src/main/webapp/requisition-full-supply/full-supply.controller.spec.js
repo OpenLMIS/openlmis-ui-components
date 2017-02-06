@@ -53,9 +53,12 @@ describe('FullSupplyController', function() {
         vm = $controller('FullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
-            lineItems: lineItems,
+            items: lineItems,
             paginatedListFactory: paginatedListFactory,
-            columns: []
+            columns: [],
+            page: 0,
+            pageSize: 10,
+            totalItems: 4
         });
     }));
 

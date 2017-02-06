@@ -13,20 +13,51 @@
 		.module('openlmis-pagination')
 		.directive('openlmisPagination', directive);
 
-	function directive() {
+	directive.$inject = ['PAGINATION_CONSTANTS'];
+
+	function directive(PAGINATION_CONSTANTS) {
 		return {
-			restrict: 'E',
-			replace: true,
-			scope: {
-				isItemValid: '=?',
-				changePage: '=?',
-				paginatedItems: '=',
-				currentPage: '='
-			},
-			templateUrl: 'openlmis-pagination/openlmis-pagination.html',
 			controller: 'PaginationController',
-			controllerAs: 'vm'
+			controllerAs: 'vm',
+			link: link,
+			replace: true,
+			require: ['openlmisPagination', 'ngModel'],
+			restrict: 'E',
+			scope: {
+				pageValidator: '=',
+				totalItems: '=',
+				items: '=',
+				pageSize: '='
+			},
+			templateUrl: 'openlmis-pagination/openlmis-pagination.html'
 		};
+
+		function link(scope, element, attrs, controllers) {
+			var vm = controllers[0],
+				ngModelCtrl = controllers[1];
+
+			vm.isPageValid = scope.pageValidator;
+			vm.totalItems = scope.totalItems;
+			vm.items = scope.items;
+			vm.pageSize = scope.pageSize ? scope.pageSize : PAGINATION_CONSTANTS.PAGE_SIZE;
+
+			ngModelCtrl.$render = render;
+
+			scope.$watch('vm.page', function(oldPage, newPage) {
+				if (oldPage !== newPage) {
+					ngModelCtrl.$setViewValue(vm.page);
+				}
+			});
+
+			scope.$watch('items + totalItems', function() {
+				vm.items = scope.items;
+				vm.totalItems = scope.totalItems;
+			})
+
+			function render() {
+				vm.page = ngModelCtrl.$viewValue;
+			}
+		}
 	}
 
 })();

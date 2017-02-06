@@ -1,7 +1,7 @@
 <div class="page">
     <h2>{{'label.initiate.requisition' | message}}</h2>
-    <section class="table-container">
-        <form ng-submit="vm.loadPeriods()">
+    <section class="openlmis-table-container">
+        <form class="openlmis-table-filters" ng-submit="vm.loadPeriods()">
             <fieldset>
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
                 <label>
@@ -60,33 +60,35 @@
             </fieldset>
             <input class="btn btn-primary" type="submit" value="{{'button.search'|message}}"/>
         </form>
-        <table class="openlmis-table" ng-show="vm.periodGridData">
-            <caption ng-if="!vm.periodGridData.length">
-                {{'msg.no.period.available' | message}}
-            </caption>
-            <thead>
-                <tr>
-                    <th>{{'label.periods' | message}}</th>
-                    <th>{{'period.header.startDate' | message}}</th>
-                    <th>{{'period.header.endDate' | message}}</th>
-                    <th>{{'label.rnr.status' | message}}</th>
-                    <th class="sticky"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="period in vm.periodGridData">
-                    <td>{{period.name}}</td>
-                    <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
-                    <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
-                    <td>{{period.rnrStatus}}</td>
-                    <td class="sticky">
-                        <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
-                               value="{{'button.proceed'| message}}" class="btn btn-primary grid-btn"
-                               ng-show="period.activeForRnr"/>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="openlmis-table">
+            <table ng-show="vm.periodGridData">
+                <caption ng-if="!vm.periodGridData.length">
+                    {{'msg.no.period.available' | message}}
+                </caption>
+                <thead>
+                    <tr>
+                        <th>{{'label.periods' | message}}</th>
+                        <th>{{'period.header.startDate' | message}}</th>
+                        <th>{{'period.header.endDate' | message}}</th>
+                        <th>{{'label.rnr.status' | message}}</th>
+                        <th class="sticky"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="period in vm.periodGridData">
+                        <td>{{period.name}}</td>
+                        <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
+                        <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
+                        <td>{{period.rnrStatus}}</td>
+                        <td class="sticky">
+                            <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
+                                   value="{{'button.proceed'| message}}" class="btn btn-primary grid-btn"
+                                   ng-show="period.activeForRnr"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
     <div ng-if="vm.error" class="alert is-error" ng-show="vm.error">{{vm.error}}</div>
 </div>

@@ -3,8 +3,8 @@
     <div ng-if="vm.error" class="alert is-info" ng-show="vm.error">
         {{vm.error | message}}
     </div>
-    <section class="table-container">
-        <form ng-submit="vm.search()">
+    <section class="openlmis-table-container">
+        <form class="openlmis-table-filters" ng-submit="vm.search()">
             <label for="facility">{{'label.requisition.facilityName' | message}}</label>
             <select id="facility" placeholder="{{'label.select.facility' | message}}"
                     ng-change="vm.loadPrograms()" ng-model="vm.selectedFacility"

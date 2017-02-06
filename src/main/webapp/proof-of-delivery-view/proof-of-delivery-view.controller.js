@@ -12,29 +12,27 @@
     angular.module('proof-of-delivery-view')
     .controller('ProofOfDeliveryViewController', controller);
 
-    controller.$inject = ['$state', '$stateParams', 'pod', 'proofOfDeliveryService', 'notificationService', 'confirmService', 'ORDER_STATUS', 'paginatedListFactory', '$filter'];
+    controller.$inject = [
+        '$state', '$stateParams', 'pod', 'proofOfDeliveryService', 'notificationService',
+        'confirmService', 'ORDER_STATUS', '$filter', 'page', 'pageSize', 'totalItems',
+        'paginationFactory'
+    ];
 
-    function controller($state, $stateParams, pod, proofOfDeliveryService, notificationService, confirmService, ORDER_STATUS, paginatedListFactory, $filter) {
+    function controller($state, $stateParams, pod, proofOfDeliveryService, notificationService,
+                        confirmService, ORDER_STATUS, $filter, page, pageSize, totalItems,
+                        paginationFactory) {
         var vm = this;
 
         vm.savePod = savePod;
         vm.submitPod = submitPod;
         vm.changePage = changePage;
-        vm.getCurrentPage = getCurrentPage;
 
         vm.isSubmitted = isSubmitted;
         vm.typeMessage = typeMessage;
 
-        /**
-         * @ngdoc property
-         * @propertyOf proof-of-delivery-view.PodViewController
-         * @name requisition
-         * @type {Object}
-         *
-         * @description
-         * Holds requisition. This object is shared with the parent and nonFullSupply states.
-         */
-        vm.currentPage = $stateParams.page ?  parseInt($stateParams.page) : 1;
+        vm.page = page;
+        vm.pageSize = pageSize;
+        vm.totalItems = totalItems;
 
         /**
          * @ngdoc property
@@ -47,16 +45,7 @@
          */
         vm.pod = pod;
 
-        /**
-         * @ngdoc property
-         * @propertyOf proof-of-delivery-view.PodViewController
-         * @name paginatedLineItems
-         * @type {Object}
-         *
-         * @description
-         * Holds line items divided into pages.
-         */
-        vm.paginatedLineItems = paginatedListFactory.getPaginatedItems($filter('orderBy')(vm.pod.proofOfDeliveryLineItems, '$program.orderableCategoryDisplayName'));
+        vm.lineItems = getPage(vm.page);
 
         /**
          * @ngdoc method
@@ -133,30 +122,20 @@
          *
          * @description
          * Loads line items when page is changed.
-         *
-         * @param {integer} newPage new page number
          */
-        function changePage(newPage) {
+        function changePage(page) {
+            vm.lineItems = getPage(page);
             $state.go('orders.podView', {
                 podId: vm.pod.id,
-                page: newPage
+                page: page,
+                size: vm.pageSize
             }, {
                 notify: false
             });
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf proof-of-delivery-view.PodViewController
-         * @name changePage
-         *
-         * @description
-         * Loads line items when page is changed.
-         *
-         * @param {integer} newPage new page number
-         */
-        function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.currentPage);
+        function getPage(page) {
+            return paginationFactory.getPage(pod.proofOfDeliveryLineItems, page, vm.pageSize);
         }
     }
 }());

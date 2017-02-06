@@ -6,34 +6,44 @@
         .module('requisition-convert-to-order')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'FULFILLMENT_RIGHTS'];
+    routes.$inject = [
+        '$stateProvider', 'FULFILLMENT_RIGHTS', 'paginatedRouterProvider'
+    ];
 
-    function routes($stateProvider, FULFILLMENT_RIGHTS) {
+    function routes($stateProvider, FULFILLMENT_RIGHTS, paginatedRouterProvider) {
 
         $stateProvider.state('requisitions.convertToOrder', {
             showInNavigation: true,
             label: 'link.requisitions.convertToOrder',
-            url: '/convertToOrder?filterBy&filterValue&sortBy&descending',
+            url: '/convertToOrder?filterBy&filterValue&sortBy&descending&page&size',
             controller: 'ConvertToOrderController',
             controllerAs: 'vm',
             templateUrl: 'requisition-convert-to-order/convert-to-order.html',
             accessRights: [FULFILLMENT_RIGHTS.ORDERS_EDIT],
             params: {
                 filterBy: 'all',
-                filterValue: ''
+                filterValue: '',
+                page: '0',
             },
-            resolve: {
-                requisitions: requisitionsResolve
-            }
+            resolve: paginatedRouterProvider.resolve({
+                response: responseResolve,
+                items: itemsResolve
+            })
         });
 
-        function requisitionsResolve($stateParams, requisitionService) {
+        function responseResolve($stateParams, requisitionService) {
             return requisitionService.forConvert({
                 filterBy: $stateParams.filterBy,
                 filterValue: $stateParams.filterValue,
                 sortBy: $stateParams.sortBy,
-                descending: $stateParams.descending
+                descending: $stateParams.descending,
+                page: $stateParams.page,
+                size: $stateParams.size
             });
+        }
+
+        function itemsResolve(response) {
+            return response.content;
         }
 
     }

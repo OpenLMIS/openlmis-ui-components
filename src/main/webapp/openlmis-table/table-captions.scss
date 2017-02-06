@@ -35,7 +35,7 @@ Blocking messages should be shown if:
 
 markup:
 <h3>An empty table</h3>
-<table >
+<table class="openlmis-table">
   <caption>There are no results</caption>
   <thead>
     <tr>
@@ -62,4 +62,3 @@ table > caption{
     @extend .alert-danger;
   }
 }
-

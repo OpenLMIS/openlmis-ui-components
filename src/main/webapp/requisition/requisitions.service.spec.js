@@ -193,7 +193,11 @@ describe('requisitionService', function() {
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson([{requisition: requisitionCopy}]));
+        expect(angular.toJson(data)).toEqual(angular.toJson({
+            content: [{
+                requisition: requisitionCopy
+            }]
+        }));
     });
 
     it('should convert requisitions', function() {

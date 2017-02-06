@@ -45,7 +45,7 @@
 
         function link(scope, element, attrs) {
             // Only check for sticky elements if within a table container
-            if(element.parents('.table-container').length == 0){
+            if(element.parents('.openlmis-table-container').length == 0){
                 return ;
             }
 
@@ -93,6 +93,14 @@
                     cell.addClass('sticky-added');
                     blits.push(setUpCell(cell));
                 });
+
+                // Create blits functions for pagination control
+                var paginationDivsQuery = parent[0].querySelectorAll('.openlmis-pagination');
+                angular.forEach(paginationDivsQuery, function(div) {
+                    div = angular.element(div);
+                    div.addClass('sticky-added');
+                    blits.push(setUpCell(div));
+                })
 
                 blit();
             }

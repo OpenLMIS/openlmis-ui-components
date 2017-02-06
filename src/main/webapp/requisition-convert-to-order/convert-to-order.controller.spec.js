@@ -9,58 +9,66 @@ describe('ConvertToOrderController', function(){
         inject(function ($controller, $rootScope, _$state_, _$q_, _requisitionService_,
                          _notificationService_) {
 
-        rootScope = $rootScope;
-        state = _$state_;
-        requisitionService = _requisitionService_;
-        notificationService = _notificationService_;
-        q = _$q_;
+            rootScope = $rootScope;
+            state = _$state_;
+            requisitionService = _requisitionService_;
+            notificationService = _notificationService_;
+            q = _$q_;
 
-        stateParams = {
-            filterBy: 'all',
-            filterValue: ''
-        };
-        requisitions = [
-            {
-                requisition: {
-                id: 'requisitionId1',
-                facility: {
+            stateParams = {
+                filterBy: 'all',
+                filterValue: '',
+                page: 0,
+                size: undefined
+            };
+            requisitions = [
+                {
+                    requisition: {
+                    id: 'requisitionId1',
+                    facility: {
+                        name: 'facility1',
+                        code: 'code1'
+                    },
+                    program: {
+                        name: 'program1'
+                    }
+                    },
+                    supplyingDepots: supplyingDepots
+                },
+                {
+                    requisition: {
+                    id: 'requisitonId2',
+                    facility: {
+                        name: 'facility2',
+                        code: 'code2'
+                    },
+                    program: {
+                        name: 'program2'
+                    }
+                    },
+                    supplyingDepots: supplyingDepots
+                }
+            ];
+            supplyingDepots = [
+                {
+                    id: 'depotId1',
                     name: 'facility1',
                     code: 'code1'
                 },
-                program: {
-                    name: 'program1'
-                }
-                },
-                supplyingDepots: supplyingDepots
-            },
-            {
-                requisition: {
-                id: 'requisitonId2',
-                facility: {
+                {
+                    id: 'depotId2',
                     name: 'facility2',
                     code: 'code2'
-                },
-                program: {
-                    name: 'program2'
                 }
-                },
-                supplyingDepots: supplyingDepots
-            }
-        ];
-        supplyingDepots = [
-            {
-                id: 'depotId1',
-                name: 'facility1',
-                code: 'code1'
-            },
-            {
-                id: 'depotId2',
-                name: 'facility2',
-                code: 'code2'
-            }
-        ];
+            ];
 
-        vm = $controller('ConvertToOrderController', {$stateParams: stateParams, requisitions: requisitions});
+            vm = $controller('ConvertToOrderController', {
+                $stateParams: stateParams,
+                items: requisitions,
+                totalItems: 2,
+                page: 0,
+                pageSize: 10
+            });
         });
     });
 

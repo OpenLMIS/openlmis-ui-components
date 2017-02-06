@@ -1,51 +1,55 @@
 <div class="page">
     <ng-include src="'proof-of-delivery-view/header.html'"></ng-include>
-    <div class="product-grid table-container">
-    	<table class="openlmis-table" table-pinned-columns>
-    		<thead>
-    			<tr>
-                    <th>{{'label.productName' | message}}</th>
-                    <th>{{'label.productUnit' | message}}</th>
-                    <th>{{'label.packsToShip' | message}}</th>
-                    <th>{{'label.quantityShipped' | message}}</th>
-                    <th>{{'label.quantityReceived' | message}}</th>
-                    <th>{{'label.quantityReturned' | message}}</th>
-                    <th>{{'label.replacedProductCode' | message}}</th>
-                    <th>{{'label.notes' | message}}</th>
-    			</tr>
-    		</thead>
-    		<tbody title="{{category}}"
-                   ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.orderableCategoryDisplayName'">
-    			<tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
-                    ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
-                    <td>{{lineItem.orderLineItem.orderable.name}}</td>
-                    <td>{{lineItem.orderLineItem.orderable.dispensable.dispensingUnit}}</td>
-                    <td>{{lineItem.orderLineItem.packsToShip}}</td>
-                    <td>{{lineItem.quantityShipped}}</td>
-                    <td>
-                        <div ng-if="!vm.isSubmitted()">
-                            <input positive-integer type="text" ng-model="lineItem.quantityReceived" ng-change="lineItem.validate()" ng-blur="lineItem.validate()"/>
-                            <div ng-if="lineItem.$errors.quantityReceived" class="cell-error-message">{{lineItem.$errors.quantityReceived}}</div>
-                        </div>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
-                    </td>
-                    <td>
-                        <input ng-if="!vm.isSubmitted()" positive-integer type="text" ng-model="lineItem.quantityReturned"/>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReturned}}</div>
-                    </td>
-                    <td>{{lineItem.replacedProductCode}}</td>
-                    <td>
-                        <input ng-if="!vm.isSubmitted()" type="text" ng-model="lineItem.notes"/>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.notes}}</div>
-                    </td>
-    			</tr>
-    		</tbody>
-    	</table>
-        <openlmis-pagination current-page="vm.currentPage"
-    		is-item-valid="vm.pod.isLineItemValid"
-    		change-page="vm.changePage"
-    		paginated-items="vm.paginatedLineItems">
-    	</openlmis-pagination>
+    <div class="product-grid openlmis-table-container">
+        <div class="openlmis-table">
+            <table table-pinned-columns>
+                <thead>
+                    <tr>
+                        <th>{{'label.productName' | message}}</th>
+                        <th>{{'label.productUnit' | message}}</th>
+                        <th>{{'label.packsToShip' | message}}</th>
+                        <th>{{'label.quantityShipped' | message}}</th>
+                        <th>{{'label.quantityReceived' | message}}</th>
+                        <th>{{'label.quantityReturned' | message}}</th>
+                        <th>{{'label.replacedProductCode' | message}}</th>
+                        <th>{{'label.notes' | message}}</th>
+                    </tr>
+                </thead>
+                <tbody title="{{category}}"
+                        ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.orderableCategoryDisplayName'">
+                    <tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
+                        ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
+                        <td>{{lineItem.orderLineItem.orderable.name}}</td>
+                        <td>{{lineItem.orderLineItem.orderable.dispensable.dispensingUnit}}</td>
+                        <td>{{lineItem.orderLineItem.packsToShip}}</td>
+                        <td>{{lineItem.quantityShipped}}</td>
+                        <td>
+                            <div ng-if="!vm.isSubmitted()">
+                                <input positive-integer type="text" ng-model="lineItem.quantityReceived" ng-change="lineItem.validate()" ng-blur="lineItem.validate()"/>
+                                <div ng-if="lineItem.$errors.quantityReceived" class="cell-error-message">{{lineItem.$errors.quantityReceived}}</div>
+                            </div>
+                            <div ng-if="vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
+                        </td>
+                        <td>
+                            <input ng-if="!vm.isSubmitted()" positive-integer type="text" ng-model="lineItem.quantityReturned"/>
+                            <div ng-if="vm.isSubmitted()">{{lineItem.quantityReturned}}</div>
+                        </td>
+                        <td>{{lineItem.replacedProductCode}}</td>
+                        <td>
+                            <input ng-if="!vm.isSubmitted()" type="text" ng-model="lineItem.notes"/>
+                            <div ng-if="vm.isSubmitted()">{{lineItem.notes}}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <openlmis-pagination ng-model="vm.page"
+                ng-change="vm.changePage(vm.page)"
+                total-items="vm.totalItems"
+                items="vm.lineItems.length"
+                page-size="vm.pageSize"
+                page-validator="vm.pod.isLineItemValid">
+            </openlmis-pagination>
+        </div>
     </div>
     <ng-include src="'proof-of-delivery-view/footer.html'"></ng-include>
 </div>

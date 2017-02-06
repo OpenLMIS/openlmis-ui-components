@@ -170,6 +170,10 @@ describe('NonFullSupplyController', function() {
 
     describe('displayDeleteColumn', function() {
 
+        beforeEach(function() {
+            initController();
+        });
+
         it('should return true if any line item is deletable', function() {
             requisition.requisitionLineItems[1].$deletable = true;
 
@@ -193,7 +197,9 @@ describe('NonFullSupplyController', function() {
             addProductModalService: addProductModalService,
             LineItem: LineItem,
             lineItems: lineItems,
-            columns: []
+            columns: [],
+            page: 0,
+            pageSize: 10
         });
     }
 

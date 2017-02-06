@@ -1,6 +1,6 @@
 <div class="openlmis-pagination">
 	<div class="pagination-info">
-		{{'msg.showing' | message}} {{vm.getCurrentPageSize()}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.getAllItemsCount()}} {{'msg.total' | message}}
+		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>
 	<ul class="pagination pagination-sm">
 		<li ng-class="{disabled : vm.isFirstPage()}">
@@ -8,9 +8,9 @@
 				{{'label.previousPage' | message}}
 			</a>
 		</li>
-		<li ng-class="{active: vm.isCurrentPage($index + 1), invalid: !vm.isPageValid($index + 1)}"
-			ng-repeat="i in vm.getPageNumbers() track by $index">
-			<a ng-click="vm.changePage($index + 1)">
+		<li ng-class="{active: vm.isCurrentPage($index), invalid: vm.isPageValid && !vm.isPageValid($index)}"
+			ng-repeat="i in vm.getPages() track by $index">
+			<a ng-click="vm.changePage($index)">
 				{{$index + 1}}
 			</a>
 		</li>

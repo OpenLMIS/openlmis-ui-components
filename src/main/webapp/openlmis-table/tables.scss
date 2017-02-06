@@ -30,7 +30,7 @@ row of the table, which will be treated as a title element. See the [tbody-title
 directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
 
 markup:
-<table >
+<table class="openlmis-table">
   <thead>
     <tr>
       <th>Fully Supply</th>
@@ -46,7 +46,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>P00833</td>
-      <th>Quinine Sulphate</th>
+      <td>Quinine Sulphate</td>
       <td>300</td>
       <td>mg</td>
     </tr>
@@ -57,7 +57,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>N-378013</td>
-      <th>Tramedol</th>
+      <td>Tramedol</td>
       <td>50mg/ml</td>
       <td>mg</td>
     </tr>
@@ -66,7 +66,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>A41099</td>
-      <th>Doxycycline</th>
+      <td>Doxycycline</td>
       <td>100</td>
       <td>mg</td>
     </tr>
@@ -75,7 +75,7 @@ markup:
         <i class="icon-ok"/>
       </td>
       <td>KM3375-2</td>
-      <th>Malaria Rapid Diagnostic Test</th>
+      <td>Malaria Rapid Diagnostic Test</td>
       <td>1</td>
       <td>each</td>
     </tr>
@@ -87,17 +87,23 @@ Styleguide 4.0
 
 @import 'bourbon';
 
+table.openlmis-table {
+    border-collapse: separate;
+}
+
 .openlmis-table {
     @extend .table;
 
-    border-collapse: separate;
+    table {
+        border-collapse: separate;
+    }
 
     th:first-child, td:first-child {
         border-left: $table-border;
     }
 
     td, th {
-        padding: 1em;
+        padding: 0.5em;
         vertical-align: middle !important; // from requisition template screen
         border-top: none !important;
         border-bottom: $table-border;

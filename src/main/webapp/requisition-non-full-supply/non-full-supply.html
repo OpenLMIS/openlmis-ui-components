@@ -1,35 +1,38 @@
-<div class="product-grid product-grid-non-full-supply table-container">
-	<div class="table-control">
+<div class="non-full-supply openlmis-table-container">
+	<div class="openlmis-table-controls">
 		<input class="btn btn-primary"
 			type="button"
 			ng-if="vm.displayAddProductButton"
 			ng-click="vm.addProduct()"
 			value="{{'button.add' | message}}"/>
 	</div>
-	<table class="openlmis-table">
-		<caption ng-if="!vm.paginatedLineItems.items.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
-		<thead>
-			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
-				<th ng-if="vm.displayDeleteColumn()"></th>
-			</tr>
-		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.getCurrentPage() | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
-			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderable.name'">
-				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
-					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
-				<td ng-if="vm.displayDeleteColumn()">
-					<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
-						<i class="fa fa-remove"></i>
-					</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<openlmis-pagination ng-if="vm.paginatedLineItems.items.length" current-page="vm.currentPage"
-		is-item-valid="vm.isLineItemValid"
-		change-page="vm.changePage"
-		paginated-items="vm.paginatedLineItems">
-	</openlmis-pagination>
+	<div class="openlmis-table">
+		<table>
+			<caption ng-if="!vm.lineItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
+			<thead>
+				<tr>
+					<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
+					<th ng-if="vm.displayDeleteColumn()"></th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
+				<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderable.name'">
+					<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
+						product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
+					<td ng-if="vm.displayDeleteColumn()">
+						<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
+							<i class="fa fa-remove"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<openlmis-pagination ng-if="vm.lineItems.length" ng-model="vm.page"
+			ng-change="vm.changePage(vm.page)"
+			total-items="vm.getTotalItems()"
+			items="vm.lineItems.length"
+			page-size="vm.pageSize"
+			page-validator="vm.isPageValid">
+		</openlmis-pagination>
+	</div>
 </div>

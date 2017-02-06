@@ -52,7 +52,6 @@
             'forConvert': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForConvert'),
                 method: 'GET',
-                isArray: true,
                 transformResponse: transformResponseForConvert
             },
             'convertToOrder': {
@@ -358,7 +357,7 @@
                 angular.forEach(response.content, function(item) {
                     transformRequisition(item.requisition);
                 });
-                return response.content;
+                return response;
             });
         }
 
