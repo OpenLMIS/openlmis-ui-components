@@ -9,7 +9,6 @@
  */
 
 (function() {
-
     'use strict';
 
     /**
@@ -74,7 +73,7 @@
             currencySettings['currencyCode'] = '@@CURRENCY_CODE';
             currencySettings['currencySymbol'] = '@@CURRENCY_SYMBOL';
             currencySettings['currencySymbolSide'] = '@@CURRENCY_SYMBOL_SIDE';
-            currencySettings['currencyDecimalPlaces'] = @@CURRENCY_DECIMAL_PLACES;
+            currencySettings['currencyDecimalPlaces'] = parseInt('@@CURRENCY_DECIMAL_PLACES');
             localStorageService.add('currencySettings', angular.toJson(currencySettings));
         }
 
@@ -92,4 +91,5 @@
             return angular.fromJson(localStorageService.get('currencySettings'));
         }
     }
+    
 })();

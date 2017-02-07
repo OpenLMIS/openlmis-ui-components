@@ -1,4 +1,3 @@
-@import 'bourbon';
 
 body>header>:first-child {
   box-shadow: 0 0 0.5em $shadow;
@@ -6,7 +5,7 @@ body>header>:first-child {
   color: $dark-gray;
   position: relative;
   z-index: 1; // to be above navbar
-  @include linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
+  background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
   &.isOffline {
     background: #dddddd;
   }

@@ -1,5 +1,3 @@
-@import "bourbon";
-
 /*
 Navigation
 
@@ -85,7 +83,7 @@ header > .navbar {
   @include clearfix();
   @extend .navbar-default;
 
-  @include linear-gradient(to bottom, $heading-green 0%, darken($heading-green, 10%) 100%);
+  background-image: linear-gradient(to bottom, $heading-green 0%, darken($heading-green, 10%) 100%);
   margin-bottom: 0em;
   box-shadow: 0.2em 0 0.4em $shadow;
   border-width: 0em;
@@ -206,7 +204,7 @@ header > .navbar {
 
   .dropdown-menu {
     top: 90%;
-    @include linear-gradient(to bottom, $white 10%, $light-gray 100%);
+    background-image: linear-gradient(to bottom, $white 10%, $light-gray 100%);
 
     a {
       color: $text-color;
