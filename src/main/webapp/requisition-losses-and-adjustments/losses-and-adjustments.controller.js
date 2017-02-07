@@ -20,6 +20,7 @@
         vm.removeAdjustment = removeAdjustment;
         vm.getReasonName = getReasonName;
         vm.getTotal = getTotal;
+        vm.recalculateTotal = recalculateTotal;
 
         function addAdjustment() {
             vm.adjustments.push({
@@ -28,13 +29,13 @@
             });
             vm.adjustment.quantity = undefined;
             vm.adjustment.reason = undefined;
-            vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
+            vm.recalculateTotal();
         }
 
         function removeAdjustment(adjustment) {
             var index = vm.adjustments.indexOf(adjustment);
             vm.adjustments.splice(index, 1);
-            vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
+            vm.recalculateTotal();
         }
 
         function getReasonName(reasonId) {
@@ -49,6 +50,10 @@
 
         function getTotal() {
             return calculationFactory.totalLossesAndAdjustments(vm.lineItem, vm.reasons);
+        }
+
+        function recalculateTotal() {
+            vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
         }
     }
 

@@ -35,6 +35,7 @@
             <input id="adjustment-quantity-{{$index}}"
                    class="form-control"
                    ng-model="adjustment.quantity"
+                   ng-change="vm.recalculateTotal()"
                    required positive-integer />
             <button class="btn btn-danger" ng-click="vm.removeAdjustment(adjustment)">
                 {{'button.remove' | message}}

@@ -202,4 +202,11 @@ describe('LossesAndAdjustmentsController', function() {
 
     });
 
+    describe('recalculateTotal', function() {
+        it ('should recalculate total', function() {
+            vm.recalculateTotal();
+            expect(vm.lineItem.totalLossesAndAdjustments).toBe(345);
+        });
+    });
+
 });
