@@ -36,9 +36,9 @@
                 var settings = currencyService.getFromStorage();
                 var currencyValue = value.toFixed(settings.currencyDecimalPlaces);
                 if (settings.currencySymbolSide === 'right') {
-                    return currencyValue + ' ' + settings.currencySymbol;
+                    return currencyValue + '\u00A0' + settings.currencySymbol;
                 } else {
-                    return settings.currencySymbol + ' ' + currencyValue;
+                    return settings.currencySymbol + currencyValue;
                 }
             }
         };

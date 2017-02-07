@@ -31,7 +31,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'left';
         currencySettings['currencyDecimalPlaces'] = 2;
 
-        expect($filter('openlmisCurrency')(23.43)).toEqual('$ 23.43');
+        expect($filter('openlmisCurrency')(23.43)).toEqual('$23.43');
     }));
 
     it('should format money with currency symbol on right', inject(function ($filter) {
@@ -39,7 +39,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 2;
 
-        expect($filter('openlmisCurrency')(23.43)).toEqual('23.43 zł');
+        expect($filter('openlmisCurrency')(23.43)).toEqual('23.43\u00A0zł');
     }));
 
     it('should properly round up money values', inject(function ($filter) {
@@ -47,7 +47,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 2;
 
-        expect($filter('openlmisCurrency')(23.439999997)).toEqual('23.44 zł');
+        expect($filter('openlmisCurrency')(23.439999997)).toEqual('23.44\u00A0zł');
     }));
 
     it('should properly round up money values', inject(function ($filter) {
@@ -55,7 +55,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 0;
 
-        expect($filter('openlmisCurrency')(23.5)).toEqual('24 ¥');
+        expect($filter('openlmisCurrency')(23.5)).toEqual('24\u00A0¥');
     }));
 
     it('should properly round up money values', inject(function ($filter) {
@@ -63,7 +63,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 0;
 
-        expect($filter('openlmisCurrency')(23.49)).toEqual('23 ¥');
+        expect($filter('openlmisCurrency')(23.49)).toEqual('23\u00A0¥');
     }));
 
 });
