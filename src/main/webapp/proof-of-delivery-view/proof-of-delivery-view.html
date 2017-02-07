@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody title="{{category}}"
-                        ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.orderableCategoryDisplayName'">
+                        ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'">
                     <tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
                         ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
                         <td>{{lineItem.orderLineItem.orderable.name}}</td>
@@ -42,11 +42,11 @@
                     </tr>
                 </tbody>
             </table>
-            <openlmis-pagination ng-model="vm.page"
-                ng-change="vm.changePage(vm.page)"
+            <openlmis-pagination ng-model="vm.stateParams.page"
+                ng-change="vm.changePage()"
                 total-items="vm.totalItems"
-                items="vm.lineItems.length"
-                page-size="vm.pageSize"
+                items="vm.pageItems.length"
+                page-size="vm.stateParams.size"
                 page-validator="vm.pod.isLineItemValid">
             </openlmis-pagination>
         </div>

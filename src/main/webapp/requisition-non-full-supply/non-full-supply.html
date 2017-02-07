@@ -8,14 +8,14 @@
 	</div>
 	<div class="openlmis-table">
 		<table>
-			<caption ng-if="!vm.lineItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
+			<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 			<thead>
 				<tr>
 					<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
 					<th ng-if="vm.displayDeleteColumn()"></th>
 				</tr>
 			</thead>
-			<tbody ng-repeat="(category, lineItems) in vm.lineItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
+			<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
 				<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : 'orderable.name'">
 					<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 						product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
@@ -27,11 +27,11 @@
 				</tr>
 			</tbody>
 		</table>
-		<openlmis-pagination ng-if="vm.lineItems.length" ng-model="vm.page"
+		<openlmis-pagination ng-if="vm.pageItems.length" ng-model="vm.stateParams.page"
 			ng-change="vm.changePage(vm.page)"
 			total-items="vm.getTotalItems()"
-			items="vm.lineItems.length"
-			page-size="vm.pageSize"
+			items="vm.pageItems.length"
+			page-size="vm.stateParams.size"
 			page-validator="vm.isPageValid">
 		</openlmis-pagination>
 	</div>

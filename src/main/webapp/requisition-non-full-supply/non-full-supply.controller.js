@@ -14,22 +14,28 @@
         .controller('NonFullSupplyController', nonFullSupplyController);
 
     nonFullSupplyController.$inject = [
-        'requisition', 'columns', 'requisitionValidator', 'addProductModalService', 'LineItem',
-        '$filter', 'paginationFactory', '$state', 'page', 'pageSize'
+        '$controller', '$filter', 'requisitionValidator', 'addProductModalService', 'LineItem',
+        'requisition', 'columns', 'items', 'page', 'pageSize',
     ];
 
-    function nonFullSupplyController(requisition, columns, requisitionValidator,
-                                     addProductModalService, LineItem, $filter,
-                                     paginationFactory, $state, page,
-                                     pageSize) {
+    function nonFullSupplyController($controller, $filter, requisitionValidator,
+                                     addProductModalService, LineItem, requisition, columns, items,
+                                     page, pageSize) {
 
         var vm = this;
+
+        $controller('BasePaginationController', {
+            vm: vm,
+            items: items,
+            page: page,
+            pageSize: pageSize,
+            totalItems: undefined,
+            externalPagination: false
+        });
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
-        vm.changePage = changePage;
-        vm.getCurrentPage = getCurrentPage;
         vm.isPageValid = isPageValid;
         vm.getTotalItems = getTotalItems;
 
@@ -57,11 +63,6 @@
          * Holds requisition. This object is shared with the parent and fullSupply states.
          */
         vm.requisition = requisition;
-
-        vm.page = page;
-        vm.pageSize = pageSize;
-
-        vm.lineItems = getPage();
 
         /**
          * @ngdoc property
@@ -145,59 +146,30 @@
         }
 
         /**
-         * @ngdoc method
+         * @ngdoc methodOf
          * @methodOf requisition-non-full-supply.NonFullSupplyController
-         * @name changePage
+         * @name isPageValid
          *
          * @description
-         * Loads line items when page is changed.
+         * Checks whether items on the given page are valid.
          *
-         * @param {integer} newPage new page number
+         * @param   {Number}    page    the number of the page
+         * @return  {Boolean}           true if alle the items are valid, false otherwise
          */
-        function changePage(page) {
-            reload();
-            $state.go('requisitions.requisition.nonFullSupply', {
-                rnr: vm.requisition.id,
-                page: vm.page,
-                size: vm.pageSize
-            }, {
-                notify: false
-            });
+        function isPageValid(page) {
+            return requisitionValidator.areLineItemsValid(vm.getPage(page));
         }
 
         /**
-         * @ngdoc method
+         * @ngdoc methodOf
          * @methodOf requisition-non-full-supply.NonFullSupplyController
-         * @name getCurrentPage
+         * @name getTotalItems
          *
          * @description
-         * Gives current page of line items.
+         * Returns the number of all visible non full supply line items.
          *
-         * @return {Array} page with line items
+         * @return  {Number}    the total number of visible non full supply line items
          */
-        function getCurrentPage() {
-            return vm.paginatedLineItems.getPage(vm.page);
-        }
-
-        function reload() {
-            vm.lineItems = getPage();
-        }
-
-        function getPage() {
-            return paginationFactory.getPage($filter('orderBy')(
-                filterRequisitionLineItems(),
-                '$program.productCategoryDisplayName'
-            ), vm.page, vm.pageSize);
-        }
-
-        function isPageValid(number) {
-            return requisitionValidator.areLineItemsValid(paginationFactory.getPage(
-                filterRequisitionLineItems(),
-                number,
-                vm.pageSize
-            ));
-        }
-
         function getTotalItems() {
             return filterRequisitionLineItems().length;
         }
@@ -214,6 +186,11 @@
                     fullSupply:false
                 }
             });
+        }
+
+        function reload() {
+            vm.items = filterRequisitionLineItems();
+            vm.changePage();
         }
     }
 

@@ -13,9 +13,9 @@
         .module('openlmis-pagination')
         .factory('paginationFactory', factory);
 
-    factory.$inject = ['PAGINATION_CONSTANTS'];
+    factory.$inject = ['PAGE_SIZE'];
 
-    function factory(PAGINATION_CONSTANTS) {
+    function factory(PAGE_SIZE) {
         var factory = {
             getPage: getPage
         };
@@ -35,7 +35,7 @@
          * @return  {Array}             the size-long sublist of the given list
          */
         function getPage(items, page, size) {
-            var pageSize = size ? size : PAGINATION_CONSTANTS.PAGE_SIZE,
+            var pageSize = size ? size : PAGE_SIZE,
                 start = page * pageSize,
                 end = Math.min(items.length, start + pageSize);
 

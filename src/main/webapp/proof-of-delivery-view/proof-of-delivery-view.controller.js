@@ -13,26 +13,27 @@
     .controller('ProofOfDeliveryViewController', controller);
 
     controller.$inject = [
-        '$state', '$stateParams', 'pod', 'proofOfDeliveryService', 'notificationService',
-        'confirmService', 'ORDER_STATUS', '$filter', 'page', 'pageSize', 'totalItems',
-        'paginationFactory'
+        '$controller', '$state', 'proofOfDeliveryService', 'notificationService',
+        'confirmService', 'ORDER_STATUS', 'pod', 'items', 'page', 'pageSize', 'totalItems'
     ];
 
-    function controller($state, $stateParams, pod, proofOfDeliveryService, notificationService,
-                        confirmService, ORDER_STATUS, $filter, page, pageSize, totalItems,
-                        paginationFactory) {
+    function controller($controller, $state, proofOfDeliveryService, notificationService,
+                        confirmService, ORDER_STATUS, pod, items, page, pageSize, totalItems) {
         var vm = this;
+
+        $controller('BasePaginationController', {
+            vm: vm,
+            page: page,
+            items: items,
+            pageSize: pageSize,
+            totalItems: totalItems,
+            externalPagination: false
+        });
 
         vm.savePod = savePod;
         vm.submitPod = submitPod;
-        vm.changePage = changePage;
-
         vm.isSubmitted = isSubmitted;
         vm.typeMessage = typeMessage;
-
-        vm.page = page;
-        vm.pageSize = pageSize;
-        vm.totalItems = totalItems;
 
         /**
          * @ngdoc property
@@ -44,8 +45,6 @@
          * Holds Proof of Delivery.
          */
         vm.pod = pod;
-
-        vm.lineItems = getPage(vm.page);
 
         /**
          * @ngdoc method
@@ -113,29 +112,6 @@
          */
         function typeMessage() {
             return vm.pod.order.emergency ? 'label.emergency' : 'msg.regular';
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf proof-of-delivery-view.PodViewController
-         * @name changePage
-         *
-         * @description
-         * Loads line items when page is changed.
-         */
-        function changePage(page) {
-            vm.lineItems = getPage(page);
-            $state.go('orders.podView', {
-                podId: vm.pod.id,
-                page: page,
-                size: vm.pageSize
-            }, {
-                notify: false
-            });
-        }
-
-        function getPage(page) {
-            return paginationFactory.getPage(pod.proofOfDeliveryLineItems, page, vm.pageSize);
         }
     }
 }());

@@ -15,16 +15,18 @@
             controller: 'FullSupplyController',
             controllerAs: 'vm',
             isOffline: true,
-            params: {
-                page: '0'
-            },
             resolve: paginatedRouterProvider.resolve({
                 items: function($filter, requisition) {
-                    return $filter('filter')(requisition.requisitionLineItems, {
+                    var fullSupplyLineItems = $filter('filter')(requisition.requisitionLineItems, {
                         $program: {
                             fullSupply:true
                         }
                     });
+
+                    return $filter('orderBy')(
+                        fullSupplyLineItems,
+                        '$program.productCategoryDisplayName'
+                    );
                 },
                 columns: function(requisition) {
                     return requisition.template.getColumns();

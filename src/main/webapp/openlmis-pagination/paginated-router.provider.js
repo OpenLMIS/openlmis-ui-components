@@ -14,9 +14,9 @@
         .module('openlmis-pagination')
         .provider('paginatedRouter', factory);
 
-    factory.$inject = [];
+    factory.$inject = ['PAGE_SIZE'];
 
-    function factory() {
+    function factory(PAGE_SIZE) {
         this.resolve = resolve;
 
         this.$get = [function(){}];
@@ -33,22 +33,57 @@
          * @return  {Object}                the enriched object
          */
         function resolve(toResolve) {
-            if (!toResolve.pageSize) {
-                toResolve.pageSize = pageSizeResolve;
+            if (toResolve.response) {
+                if (!toResolve.page) {
+                    toResolve.page = externalPageResolve;
+                }
+
+                if (!toResolve.pageSize) {
+                    toResolve.pageSize = externalPageSizeResolve;
+                }
+
+                if (!toResolve.totalItems) {
+                    toResolve.totalItems = externalTotalItemsResolve;
+                }
+
+                if (!toResolve.items) {
+                    toResolve.items = externalItemsResolve;
+                }
+            } else {
+                if (!toResolve.pageSize) {
+                    toResolve.pageSize = pageSizeResolve;
+                }
+
+                if (!toResolve.totalItems && toResolve.items) {
+                    toResolve.totalItems = totalItemsResolve;
+                }
+
+                if (!toResolve.page) {
+                    toResolve.page = pageResolve;
+                }
             }
 
-            if (!toResolve.totalItems && toResolve.items) {
-                toResolve.totalItems = totalItemsResolve;
-            }
-
-            if (!toResolve.page) {
-                toResolve.page = pageResolve;
-            }
             return toResolve;
         }
 
+        function externalPageSizeResolve(response) {
+            return response.size;
+        }
+
+        function externalTotalItemsResolve(response) {
+            return response.totalElements;
+        }
+
+        function externalPageResolve(response) {
+            return response.number;
+        }
+
+        function externalItemsResolve(response) {
+            return response.content;
+        }
+
         function pageSizeResolve($stateParams) {
-            return getInt($stateParams.size);
+            return $stateParams.size ? parseInt($stateParams.size) : PAGE_SIZE;
         }
 
         function totalItemsResolve(items) {
@@ -56,11 +91,7 @@
         }
 
         function pageResolve($stateParams) {
-            return getInt($stateParams.page);
-        }
-
-        function getInt(value) {
-            return value ? parseInt(value) : value;
+            return $stateParams.page ? parseInt($stateParams.page) : 0;
         }
     }
 

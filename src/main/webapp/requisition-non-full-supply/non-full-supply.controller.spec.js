@@ -1,15 +1,15 @@
 describe('NonFullSupplyController', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, q, lineItems,
-        rootScope, controller, LineItem;
+    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, $q, lineItems,
+        $rootScope, $controller, LineItem, controllerMock;
 
     beforeEach(function(){
         module('requisition-non-full-supply');
 
-        inject(function($q, $controller, $rootScope) {
-            controller = $controller;
-            rootScope = $rootScope;
-            q = $q;
+        inject(function($injector) {
+            $controller = $injector.get('$controller');
+            $rootScope = $injector.get('$rootScope');
+            $q = $injector.get('$q');
         });
 
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
@@ -25,6 +25,12 @@ describe('NonFullSupplyController', function() {
             lineItemSpy(4, 'Three', false)
         ];
         lineItems = [requisition.requisitionLineItems];
+
+        controllerMock = jasmine.createSpy('$controller').andReturn({
+            updateUrl: jasmine.createSpy('updateUrl'),
+            getPage: jasmine.createSpy('getPage'),
+            changePage: jasmine.createSpy('changePage')
+        });
     });
 
     describe('initialization', function() {
@@ -91,6 +97,7 @@ describe('NonFullSupplyController', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
             initController();
+            spyOn(vm, 'changePage').andReturn();
         });
 
         it('should delete line item if it exist', function() {
@@ -143,23 +150,23 @@ describe('NonFullSupplyController', function() {
         });
 
         it('should add product', function() {
-            addProductModalService.show.andReturn(q.when(lineItemSpy(5, 'Three', false)));
+            addProductModalService.show.andReturn($q.when(lineItemSpy(5, 'Three', false)));
 
             vm.addProduct();
-            rootScope.$apply();
+            $rootScope.$apply();
 
             expect(addProductModalService.show).toHaveBeenCalled();
             expect(requisition.requisitionLineItems.length).toBe(6);
         });
 
         it('should not add product if modal was dismissed', function() {
-            var deferred = q.defer();
+            var deferred = $q.defer();
             spyOn(requisition.requisitionLineItems, 'push');
             addProductModalService.show.andReturn(deferred.promise);
 
             vm.addProduct();
             deferred.reject();
-            rootScope.$apply();
+            $rootScope.$apply();
 
             expect(addProductModalService.show).toHaveBeenCalled();
             expect(requisition.requisitionLineItems.length).toBe(5);
@@ -191,12 +198,12 @@ describe('NonFullSupplyController', function() {
     });
 
     function initController() {
-        vm = controller('NonFullSupplyController', {
+        vm = $controller('NonFullSupplyController', {
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             addProductModalService: addProductModalService,
             LineItem: LineItem,
-            lineItems: lineItems,
+            items: [],
             columns: [],
             page: 0,
             pageSize: 10

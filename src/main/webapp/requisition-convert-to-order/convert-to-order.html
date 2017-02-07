@@ -4,12 +4,12 @@
 		<section class="openlmis-table-container" ng-if="!vm.nothingToConvert">
 			<form class="openlmis-table-filters" ng-submit="vm.reload()">
 				<label for="searchFor">{{'search.for' | message}}</label>
-				<input id="searchFor" class="filter-value" ng-model="vm.searchParams.filterValue"
+				<input id="searchFor" class="filter-value" ng-model="vm.stateParams.filterValue"
 					   maxlength="50"/>
 				<label for="searchIn">{{'search.in' | message}}</label>
-				<select id="searchIn" class="filter-by" ng-model="vm.searchParams.filterBy">
+				<select id="searchIn" class="filter-by" ng-model="vm.stateParams.filterBy">
 					<option ng-repeat="filter in vm.filters" value="{{filter.value}}"
-							ng-selected="vm.searchParams.filterBy === filter.value">
+							ng-selected="vm.stateParams.filterBy === filter.value">
 						{{filter.name | message}}
 					</option>
 				</select>
@@ -36,7 +36,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="item in vm.requisitions">
+						<tr ng-repeat="item in vm.pageItems">
 							<td>
 								<input type="checkbox" ng-model="item.$selected"
 									   ng-change="vm.setSelectAll()">
@@ -62,16 +62,16 @@
 						</tr>
 					</tbody>
 				</table>
-				<openlmis-pagination ng-model="vm.searchParams.page"
-					ng-change="vm.reload()"
+				<openlmis-pagination ng-model="vm.stateParams.page"
+					ng-change="vm.changePage()"
 					total-items="vm.totalItems"
-					items="vm.requisitions.length"
-					page-size="vm.searchParams.size">
+					items="vm.pageItems.length"
+					page-size="vm.stateParams.size">
 				</openlmis-pagination>
 			</div>
 		</section>
 	</div>
-	<div class="openlmis-toolbar" ng-if="vm.requisitions.length">
+	<div class="openlmis-toolbar" ng-if="vm.pageItems.length">
 	    <input type="button" class="btn btn-primary primary-action" ng-click="vm.convertToOrder()" value="{{'link.requisitions.convertToOrder' | message}}">
 	</div>
 </div>

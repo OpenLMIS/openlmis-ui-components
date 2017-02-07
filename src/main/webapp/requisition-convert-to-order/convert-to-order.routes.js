@@ -22,12 +22,10 @@
             accessRights: [FULFILLMENT_RIGHTS.ORDERS_EDIT],
             params: {
                 filterBy: 'all',
-                filterValue: '',
-                page: '0',
+                filterValue: ''
             },
             resolve: paginatedRouterProvider.resolve({
-                response: responseResolve,
-                items: itemsResolve
+                response: responseResolve
             })
         });
 
@@ -40,10 +38,6 @@
                 page: $stateParams.page,
                 size: $stateParams.size
             });
-        }
-
-        function itemsResolve(response) {
-            return response.content;
         }
 
     }

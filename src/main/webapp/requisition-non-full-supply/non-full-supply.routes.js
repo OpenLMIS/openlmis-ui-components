@@ -6,9 +6,9 @@
         .module('requisition-non-full-supply')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'PAGINATION_CONSTANTS', 'paginatedRouterProvider'];
+    routes.$inject = ['$stateProvider', 'paginatedRouterProvider'];
 
-    function routes($stateProvider, PAGINATION_CONSTANTS, paginatedRouterProvider) {
+    function routes($stateProvider, paginatedRouterProvider) {
 
         $stateProvider.state('requisitions.requisition.nonFullSupply', {
             url: '/nonFullSupply?page&size',
@@ -16,14 +16,11 @@
             controller: 'NonFullSupplyController',
             controllerAs: 'vm',
             isOffline: true,
-            params: {
-                page: '0'
-            },
             resolve: paginatedRouterProvider.resolve({
                 items: function(requisition, $filter) {
                     return $filter('filter')(requisition.requisitionLineItems, {
                         $program: {
-                            fullSupply:false
+                            fullSupply: false
                         }
                     });
                 },

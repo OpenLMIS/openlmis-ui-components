@@ -13,9 +13,7 @@
 		.module('openlmis-pagination')
 		.directive('openlmisPagination', directive);
 
-	directive.$inject = ['PAGINATION_CONSTANTS'];
-
-	function directive(PAGINATION_CONSTANTS) {
+	function directive() {
 		return {
 			controller: 'PaginationController',
 			controllerAs: 'vm',
@@ -39,7 +37,7 @@
 			vm.isPageValid = scope.pageValidator;
 			vm.totalItems = scope.totalItems;
 			vm.items = scope.items;
-			vm.pageSize = scope.pageSize ? scope.pageSize : PAGINATION_CONSTANTS.PAGE_SIZE;
+			vm.pageSize = scope.pageSize;
 
 			ngModelCtrl.$render = render;
 
@@ -52,7 +50,7 @@
 			scope.$watch('items + totalItems', function() {
 				vm.items = scope.items;
 				vm.totalItems = scope.totalItems;
-			})
+			});
 
 			function render() {
 				vm.page = ngModelCtrl.$viewValue;

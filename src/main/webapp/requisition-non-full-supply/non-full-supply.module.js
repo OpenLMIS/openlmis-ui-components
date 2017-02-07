@@ -7,6 +7,7 @@
         'openlmis-pagination',
         'openlmis-templates',
         'openlmis-urls',
+        'requisition',
         'requisition-validation',
         'requisition-product-grid',
         'ui.router'

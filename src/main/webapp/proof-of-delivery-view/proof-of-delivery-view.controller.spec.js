@@ -74,14 +74,6 @@ describe('PodViewController', function() {
         expect(vm.pod).toEqual(podSpy);
     });
 
-    it('initialization should expose current page', function() {
-        expect(vm.page).toEqual(stateParams.page);
-    });
-
-    it('initialization should expose first page', function() {
-        expect(vm.lineItems).toEqual([podSpy.proofOfDeliveryLineItems[0]]);
-    });
-
     describe('savePod', function() {
 
         var deferred;
@@ -264,27 +256,6 @@ describe('PodViewController', function() {
             var result = vm.typeMessage();
 
             expect(result).toEqual('msg.regular');
-        });
-
-    });
-
-    describe('changePage', function() {
-
-        var newPage = 2;
-
-        beforeEach(function() {
-            spyOn($state, 'go').andCallThrough();
-            vm.changePage(newPage);
-        });
-
-        it('should call state go after changing page', function() {
-            expect($state.go).toHaveBeenCalledWith('orders.podView', {
-                podId: vm.pod.id,
-                page: newPage,
-                size: stateParams.pageSize
-            }, {
-                notify: false
-            });
         });
 
     });

@@ -14,28 +14,30 @@
         .controller('FullSupplyController', controller);
 
     controller.$inject = [
-        'requisition', 'items', 'columns', 'requisitionValidator', '$filter',
-        'TEMPLATE_COLUMNS', '$state', '$stateParams', 'paginationFactory', 'page', 'totalItems',
-        'pageSize'
+        '$controller', 'requisitionValidator', 'TEMPLATE_COLUMNS', 'requisition', 'columns',
+        'items', 'page', 'pageSize', 'totalItems'
     ];
 
-    function controller(requisition, items, columns, requisitionValidator, $filter,
-                        TEMPLATE_COLUMNS, $state, $stateParams, paginationFactory, page, totalItems,
-                        pageSize) {
+    function controller($controller, requisitionValidator, TEMPLATE_COLUMNS, requisition, columns,
+                        items, page, pageSize, totalItems) {
 
         var vm = this;
+
+        $controller('BasePaginationController', {
+            vm: vm,
+            page: page,
+            pageSize: pageSize,
+            items: items,
+            totalItems: totalItems,
+            externalPagination: false
+        });
+
+        vm.stateParams.rnr = requisition.id;
 
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
-        vm.changePage = changePage;
         vm.isPageValid = isPageValid;
-
-        vm.page = page;
-        vm.totalItems = totalItems;
-        vm.pageSize = pageSize;
-
-        vm.lineItems = getPage(page);
 
         /**
          * @ngdoc property
@@ -77,26 +79,6 @@
         /**
          * @ngdoc method
          * @methodOf requisition-full-supply.FullSupplyController
-         * @name changePage
-         *
-         * @description
-         * Loads line items when page is changed.
-         */
-        function changePage(page) {
-            vm.lineItems = getPage(page);
-
-            $state.go('requisitions.requisition.fullSupply', {
-                rnr: vm.requisition.id,
-                page: vm.page,
-                size: vm.pageSize
-            }, {
-                notify: false
-            });
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
          * @name skipAll
          *
          * @description
@@ -131,19 +113,19 @@
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
 
-        function getPage(page) {
-            return paginationFactory.getPage($filter('orderBy')(
-                items,
-                '$program.productCategoryDisplayName'
-            ), page, vm.pageSize);
-        }
-
-        function isPageValid(number) {
-            return requisitionValidator.areLineItemsValid(paginationFactory.getPage(
-                items,
-                number,
-                vm.pageSize
-            ));
+        /**
+         * @ngdoc methodOf
+         * @methodOf requisition-full-supply.FullSupplyController
+         * @name isPageValid
+         *
+         * @description
+         * Checks whether items on the given page are valid.
+         *
+         * @param   {Number}    page    the number of the page
+         * @return  {Boolean}           true if alle the items are valid, false otherwise
+         */
+        function isPageValid(page) {
+            return requisitionValidator.areLineItemsValid(vm.getPage(items, page));
         }
 
         function setSkipAll(value) {

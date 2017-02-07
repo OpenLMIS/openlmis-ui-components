@@ -15,9 +15,6 @@
             templateUrl: 'proof-of-delivery-view/proof-of-delivery-view.html',
             controller: 'ProofOfDeliveryViewController',
             controllerAs: 'vm',
-            params: {
-                page: '0'
-            },
             resolve: paginatedRouterProvider.resolve({
                 pod: function($stateParams, proofOfDeliveryFactory) {
                     return proofOfDeliveryFactory.get($stateParams.podId);
