@@ -134,7 +134,9 @@
                     }, error);
                 } else {
                     var reasons = offlineStockAdjustmentReasons.search({
-                            program: requisition[0].program.id
+                            program: {
+                                id: requisition[0].program.id
+                            }
                         }),
                         statusMessages = offlineStatusMessages.search({
                             requisitionId: requisition[0].id
