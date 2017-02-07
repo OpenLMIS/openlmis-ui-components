@@ -19,6 +19,10 @@ describe('openlmisCurrencyFilter', function() {
             }
         };
 
+        currencySettings['groupingSeparator'] = ',';
+        currencySettings['groupingSize'] = 3;
+        currencySettings['decimalSeparator'] = '.';
+
         module('openlmis-currency', function ($provide) {
             $provide.service('currencyService', function() {
                 return currencyServiceSpy;
@@ -32,6 +36,35 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencyDecimalPlaces'] = 2;
 
         expect($filter('openlmisCurrency')(23.43)).toEqual('$23.43');
+    }));
+
+    it('should format money with proper separation for USD', inject(function ($filter) {
+        currencySettings['currencySymbol'] = '$';
+        currencySettings['currencySymbolSide'] = 'left';
+        currencySettings['currencyDecimalPlaces'] = 2;
+
+        expect($filter('openlmisCurrency')(23333333333.43)).toEqual('$23,333,333,333.43');
+    }));
+
+    it('should format money with proper separation for PLN', inject(function ($filter) {
+        currencySettings['currencySymbol'] = 'zł';
+        currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 2;
+        currencySettings['groupingSeparator'] = ' ';
+        currencySettings['decimalSeparator'] = ',';
+
+        expect($filter('openlmisCurrency')(23333333333.43)).toEqual('23 333 333 333,43\u00A0zł');
+    }));
+
+    it('should format money with groupingSize', inject(function ($filter) {
+        currencySettings['currencySymbol'] = 'zł';
+        currencySettings['currencySymbolSide'] = 'right';
+        currencySettings['currencyDecimalPlaces'] = 2;
+        currencySettings['groupingSeparator'] = ' ';
+        currencySettings['decimalSeparator'] = ',';
+        currencySettings['groupingSize'] = 2;
+
+        expect($filter('openlmisCurrency')(23333.43)).toEqual('2 33 33,43\u00A0zł');
     }));
 
     it('should format money with currency symbol on right', inject(function ($filter) {

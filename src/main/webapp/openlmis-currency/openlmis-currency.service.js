@@ -50,6 +50,9 @@
                 currencySettings['currencySymbol'] = data.currencySymbol;
                 currencySettings['currencySymbolSide'] = data.currencySymbolSide;
                 currencySettings['currencyDecimalPlaces'] = data.currencyDecimalPlaces;
+                currencySettings['groupingSeparator'] = data.groupingSeparator;
+                currencySettings['groupingSize'] = data.groupingSize;
+                currencySettings['decimalSeparator'] = data.decimalSeparator;
                 localStorageService.add('currencySettings', angular.toJson(currencySettings));
                 deferred.resolve();
             }, function() {
@@ -74,6 +77,9 @@
             currencySettings['currencySymbol'] = '@@CURRENCY_SYMBOL';
             currencySettings['currencySymbolSide'] = '@@CURRENCY_SYMBOL_SIDE';
             currencySettings['currencyDecimalPlaces'] = parseInt('@@CURRENCY_DECIMAL_PLACES');
+            currencySettings['groupingSeparator'] = '@@GROUPING_SEPARATOR';
+            currencySettings['groupingSize'] = parseInt('@@GROUPING_SIZE');
+            currencySettings['decimalSeparator'] = '@@DECIMAL_SEPARATOR';
             localStorageService.add('currencySettings', angular.toJson(currencySettings));
         }
 

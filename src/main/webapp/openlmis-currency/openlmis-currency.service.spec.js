@@ -12,7 +12,7 @@ describe('currencyService', function() {
 
     var $httpBackend, currencyService, referencedataUrlFactory,
         localStorageService, currencySettings = {},
-        settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left","currencyDecimalPlaces":2}';
+        settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left","currencyDecimalPlaces":2,"groupingSeparator":",","groupingSize":3,"decimalSeparator":"."}';
 
 
     beforeEach(function () {
@@ -29,6 +29,9 @@ describe('currencyService', function() {
         currencySettings['currencySymbol'] = '$';
         currencySettings['currencySymbolSide'] = 'left';
         currencySettings['currencyDecimalPlaces'] = 2;
+        currencySettings['groupingSeparator'] = ',';
+        currencySettings['groupingSize'] = 3;
+        currencySettings['decimalSeparator'] = '.';
     });
 
     it('should get currency settings from storage', function () {

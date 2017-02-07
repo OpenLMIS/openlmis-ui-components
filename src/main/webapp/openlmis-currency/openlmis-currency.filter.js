@@ -34,14 +34,30 @@
         return function(value) {
             if (value != null) {
                 var settings = currencyService.getFromStorage();
-                var currencyValue = value.toFixed(settings.currencyDecimalPlaces);
                 if (settings.currencySymbolSide === 'right') {
-                    return currencyValue + '\u00A0' + settings.currencySymbol;
+                    return formatValue(value, settings) + '\u00A0' + settings.currencySymbol;
                 } else {
-                    return settings.currencySymbol + currencyValue;
-                }
+                    return settings.currencySymbol + formatValue(value, settings);
+                 }
             }
         };
+
+        function formatValue(value, settings) {
+            var separator = settings.groupingSeparator,
+                decimalPlaces = settings.currencyDecimalPlaces,
+                groupingSize = settings.groupingSize,
+                number = parseFloat(value),
+                i = parseInt(number = number.toFixed(decimalPlaces)) + '',
+                j = (j = i.length) > groupingSize ? j % groupingSize : 0,
+                regExp = new RegExp('(\\d{' + groupingSize + '})(?=\\d)', 'g');
+
+            return (j ? i.substr(0, j) + separator : '')
+                + i.substr(j).replace(regExp, '$1' + separator)
+                + (decimalPlaces
+                    ? settings.decimalSeparator + Math.abs(number - i)
+                        .toFixed(decimalPlaces).slice(2)
+                    : "");
+        }
     }
 
 })();

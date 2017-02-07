@@ -19,6 +19,9 @@
   "currencySymbol": "$",
   "currencySymbolSide": "left",
   "currencyDecimalPlaces": 2,
+  "groupingSeparator": ",",
+  "groupingSize": 3,
+  "decimalSeparator": ".",
   "authServerClientId": "user-client",
   "authServerClientSecret": "changeme",
   "applicationTitle": "OpenLMIS"
