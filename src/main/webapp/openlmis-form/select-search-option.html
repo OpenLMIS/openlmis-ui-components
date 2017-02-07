@@ -1,0 +1,14 @@
+<form class="select-search-option">
+    <label for="search">{{'label.search' | message}}</label>
+    <input id="search" type="text" ng-model="searchText"/>
+    <div class="list-label">
+        <div>{{'msg.selectAnOption' | message}}</div>
+        <div>({{'msg.showing' | message}} {{results.length}} {{'msg.outOf' | message}} {{options.length}})</div>
+    </div>
+    <div class="option-list" >
+        <button ng-repeat="option in options | filter: {label: searchText} as results"
+            class="btn btn-default option-button" ng-click="select(option)">
+            {{option.label}}
+        </button>
+    </div>
+</form>

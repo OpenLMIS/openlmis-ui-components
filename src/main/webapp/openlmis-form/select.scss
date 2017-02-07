@@ -10,8 +10,8 @@ Every select box will show a "clear selection" button after a selection has
 been made.
 
 All select boxes should implement a placeholder message, and start with their
-value unset. Implementers should use specific and tailored language as their 
-select element placeholder. 
+value unset. Implementers should use specific and tailored language as their
+select element placeholder.
 
 markup:
 <form>
@@ -73,6 +73,13 @@ select {
   box-shadow: none;
 }
 
+select.pop-out {
+
+	option {
+		display: none;
+	}
+}
+
 // form > select{
 // 	width: auto;
 // 	border: $gray-light 1px solid;
@@ -105,6 +112,3 @@ select {
 // 		}
 // 	}
 // }
-
-
-
