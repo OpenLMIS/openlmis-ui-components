@@ -1,82 +1,128 @@
-table td.delete-button {
-    text-align: center;
-}
 /*
 Buttons
 
-Buttons represent taking an action in OpenLMIS, juxoposed to a link which represents navigating through OpenLMIS. Most of the buttons should be in the default color presented in section 1.1, with the exception of an edit action, cancel, warning and disabled buttons. Disabled buttons are a little bit faded in comparison with their enabled equivalents. They usually contain text, but may also consist of the image and text. Buttons come in three sizes: default (typical for most of OpenLMIS buttons), small, and mini.
+Buttons represent taking an action in OpenLMIS, juxoposed to a link which 
+represents navigating through OpenLMIS. Most of the buttons should be the 
+default color presented in section 1.1, with the exception of an edit action,
+cancel, warning and disabled buttons. Disabled buttons are a little bit faded
+in comparison with their enabled equivalents. They usually contain text, but
+may also consist of the image and text.
+
+Buttons should marked up using semantic HTML, where the HTML element is button.
+An exception to this is the primary action of a form, which would be an `input`
+element with the type "submit". Styling `<a>` elements with `.btn` is possible,
+but is considered bad form.
+
+Buttons that change the state of an object or screen in the UI should always be
+on the right side of the screen. All other buttons should be pulled to the left.
+There should only be a single primary button per screen or pane. 
+
+Button groups are semantic grouping of actions for a specific task or item, if 
+buttons don't act on the same object, they should not be grouped together. 
+Unless marked as part of a button group, all buttons are block level and take
+up their own vertical space.
+
+Only add icons to buttons through CSS. All buttons must have text that is
+accessiable by a screen reader, see button grammar guidelines for rules about
+how button text should be phrased.
+
 
 markup:
-<form style="height: 150px;">
-  <button type="button" class="btn btn-default">Default Button</button>
-  <input type="submit" class="btn btn-primary" value="Primary Button"/>
-  <input type="button" class="btn btn-cancel" value="Cancel Button"/>
-  <input type="button" class="btn btn-warning save-button" value="Warning Button"/>
-  <a class="btn btn-primary" href="">
-    <i class="icon-cog"></i>
-    <span>Configure Button</span>
-  </a>
-  <button class="btn btn-print"></button>
-  <button class="btn btn-download"></button>
-  </br>
-  </br>
-  <button type="button" class="btn btn-default" disabled="disabled">Disabled Default Button</button>
-  <input type="submit" class="btn btn-primary disabled" value="Disabled Primary Button"/>
-  <input type="button" class="btn btn-cancel disabled" value="Disabled Cancel Button"/>
-  </br>
-  </br>
-  <input type="submit" class="btn btn-primary btn-small" value="Small Primary Button"/>
-  <input type="button" class="btn btn-danger btn-small" value="Small Danger Button"/>
-  </br>
-  </br>
-  <input type="button" class="btn btn-mini" value="Mini Button"/>
-</form>
+<button type="button">Default Button</button>
+<br />
+<div class="button-group">
+  <input type="submit" value="Primary Button"/>
+  <button>Cancel Button</button>
+</div>
+<br />
+<div class="button-group">
+  <a class="button" href="">Link Button</a>
+  <div class="button-group primary">
+    <button class="primary">Primary Button</button>
+    <button class="danger">Delete Button</button>
+  </div>
+  <div class="button-group">
+    <button>Cancel Button</button>
+    <a>Inline Link</a>
+  </div>
+  <div class="button-group primary">
+    <button>Another Action</button>
+  </div>
+</div>
 
 Styleguide 1.3
 */
 
-a,
-input {
+$default-button-color: #dddddd !default;
 
-    &.btn-primary {
-        @include button-color($green);
-    }
+button {
+  @include button($default-button-color);
 
-    &.delete-button {
-        @include button-color($red);
-    }
+  &.primary {
+    @include button($brand-primary);
+  }
 
-    &.btn-default {
-        @include button-color($gray);
-    }
-
+  &.danger {
+    @extend button.primary;
+    @include button($brand-danger);
+  }
 }
 
-.grid-btn {
-    margin: 0.2em;
+.button-group {
+  @extend .clearfix;
+
+  > *,
+  > button {
+    display: block;
+    margin-right: $space-size/2;
+    float: left;
+  }
+
+  > button.primary {
+    margin-right: 0px;
+    margin-left: $space-size/2;
+  }
+
+  > a {
+    padding-top: $space-size/2;
+    padding-bottom: $space-size/2;
+  }
+
+  > .button-group.primary,
+  > button.primary {
+    float: right;
+  }
+
+  > .button-group {
+    margin: 0px;
+  }
 }
 
-.btn-group.open .btn-primary.dropdown-toggle {
-    background-color: $green;
+.btn,
+.btn-default,
+a.button,
+input[type=submit],
+input[type=button] {
+  @extend button;
+  &a {
+
+  }
+  &a:hover{
+    text-decoration: none;
+  }
 }
 
-.grid-btn {
-    margin: 0.2em;
+.btn-primary,
+input[type=submit] {
+  @extend button.primary;
 }
 
-.btn-download,
-.btn-print {
-    @include button-color($green);
-
-    &:after {
-        font-family: 'FontAwesome';
-    }
-}
-
-.btn-download:after {
-    content: '\f019';
-}
-
-.btn-print:after {
-    content: '\f02f';
+button.delete,
+a.button.delete,
+.btn-delete,
+button.remove,
+a.button.remove,
+.btn-remove,
+.btn-danger {
+  @extend button.danger;
 }

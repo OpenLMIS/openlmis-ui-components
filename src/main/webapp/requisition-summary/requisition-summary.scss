@@ -31,7 +31,7 @@ aside.requisition-summary {
     }
 
     > button {
-        @include button-color($brand-primary);
+        @include button($brand-primary);
         @include button-icon-only("list");
         
     }

@@ -33,6 +33,7 @@ body > header > :first-child > *{
   }
   h1 {
     float: left;
+    clear: none;
     font-size: 2em;
     font-weight: normal;
     font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;

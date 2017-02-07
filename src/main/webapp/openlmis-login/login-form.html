@@ -27,10 +27,8 @@
                     <input ng-model="vm.password" type="password" id="login-password" required/>
                 </div>
                 <div id="loginError" class="alert is-error" ng-if="vm.loginError">{{vm.loginError | message}}</div>
-                <div class="login-form-row">
-                    <button class="btn btn-primary" ng-click="vm.doLogin()" ng-disabled="vm.disableSignInButton">{{'button.sign.in' | message}}</button>
-                </div>
-                <div class="login-form-row forgot-link">
+                <div class="button-group">
+                    <button class="primary" ng-click="vm.doLogin()" ng-disabled="vm.disableSignInButton">{{'button.sign.in' | message}}</button>
                     <a id="forgotPasswordLink" ng-click="vm.goToForgotPassword()">{{'link.forgot.password' | message}}</a>
                 </div>
             </fieldset>

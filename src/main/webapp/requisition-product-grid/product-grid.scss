@@ -16,12 +16,12 @@
 	}
 
 	button.add-product {
-		@include button-color($green);
+		@include button($green);
 		float: right;
 	}
 
 	button.hide-line-item {
-		@include button-color($red);
+		@include button($red);
 	}
 
 	.openlmis-pagination {

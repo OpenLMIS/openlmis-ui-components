@@ -1,0 +1,23 @@
+/*
+Headings
+
+This is how headings should be used.
+
+markup:
+<h1>Primary Title<h1>
+<section>
+	<h2>Secondary Title</h2>
+	<h3>Tritary Title</h3>
+	<h4>Example Title</h4>
+	<h5>H5 Titles Probably Will Never be Used</h5>
+	<h6>H6 Titles Shouldn't be Used Unless There is a Good Reason</h6>
+</section>
+<span class="title">Just in Case Something Must be a Title</span>
+
+Styleguide 1.1
+*/
+
+h1, h2, h3, h4, h5, h6{
+	display: block;
+	clear: both;
+}

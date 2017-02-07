@@ -22,7 +22,7 @@
 		}
 
 		button.convert-rnr {
-			@include button-color($green);
+			@include button($green);
 			float: right;
 		}
 	}

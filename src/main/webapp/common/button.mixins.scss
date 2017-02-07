@@ -8,16 +8,22 @@
 * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info$OpenLMIS.org. 
 */
 
-@mixin button-color($color){
-    $button-text-color: $white;
-    @if (lightness($color) > 50) {
-        $button-text-color: $text-color; // Lighter backgorund, return dark color
-    }
-    color: $button-text-color;
+@mixin button($color){
+    display: block;
+    padding: $space-size/2 $space-size;
+
+    border-radius: $border-radius;
     border-color: $color;
     border-width: 1px;
+
+    $button-text-color: $white;
+    @if (lightness($color) > 70) {
+        $button-text-color: $text-color; // Lighter backgorund, return dark color
+    }    
+    color: $button-text-color;
     background: $color;
     background-image: linear-gradient(to bottom,  lighten($color, 10%), lighten($color, 5%) 10%, $color);
+
     &:hover,
     &:active,
     &.active,

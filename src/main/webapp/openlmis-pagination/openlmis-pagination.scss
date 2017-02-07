@@ -14,11 +14,11 @@
     border-color: $light-gray !important;
 
     .invalid a {
-        @include button-color(lighten($red, 30%));
+        @include button(lighten($red, 30%));
     }
 
     .active.invalid a {
-        @include button-color(lighten($red, 15%));
+        @include button(lighten($red, 15%));
     }
 
     li:last-child a::after {
