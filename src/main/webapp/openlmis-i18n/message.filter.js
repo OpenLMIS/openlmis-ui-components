@@ -9,8 +9,8 @@
     messageFilter.$inject = ['messageService'];
 
     function messageFilter(messageService) {
-        return function(msg) {
-            return messageService.get(msg);
+        return function(msg, parameters) {
+            return messageService.get(msg, parameters);
         }
     }
 

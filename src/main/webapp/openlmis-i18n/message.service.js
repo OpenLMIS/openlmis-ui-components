@@ -6,8 +6,7 @@
         .module('openlmis-i18n')
         .factory('messageService', messageService);
 
-    var LOCALE_STORAGE_KEY = 'current_locale',
-        DEFAULT_LANGUAGE = 'en';
+    var DEFAULT_LANGUAGE = 'en';
 
     messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES'];
 
@@ -42,8 +41,14 @@
         function get () {
             var keyWithArgs = Array.prototype.slice.call(arguments);
             var displayMessage = keyWithArgs[0];
+            var parameters = keyWithArgs[1];
             if(OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]){
                 displayMessage = OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]
+            }
+            if (parameters) {
+                displayMessage = displayMessage.replace(/\$\{([\s]*[^;\s\{]+[\s]*)\}/g, function(_, match){
+                    return parameters[match.trim()];
+                });
             }
             return displayMessage;
         };

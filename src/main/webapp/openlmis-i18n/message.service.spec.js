@@ -16,7 +16,9 @@ describe("MessageService", function () {
             $provide.constant('OPENLMIS_MESSAGES', {
                 "en": {
                     "language.name": "English",
-                    "sample": "message"
+                    "sample": "message",
+                    "messageWithParam": "hello ${name}!",
+                    "messageWithParams": "Object with id: ${id}, status: ${status}"
                 },
                 "test": {
                     "language.name": "Test",
@@ -45,6 +47,18 @@ describe("MessageService", function () {
 
     it("returns the message string when a translation doesn't exist", function(){
        expect(messageService.get('foobar')).toBe('foobar');
+    });
+
+    it("returns the message string with parameter", function(){
+        var person = {name: 'Jane'};
+        var expected = 'hello Jane!';
+        expect(messageService.get('messageWithParam', person)).toBe(expected);
+    });
+
+    it("returns the message string with multiple parameters", function(){
+        var object = {id: '123', status:'NEW'};
+        var expected = 'Object with id: 123, status: NEW';
+        expect(messageService.get('messageWithParams', object)).toBe(expected);
     });
 
     it("can change the current locale", function(){
@@ -84,5 +98,4 @@ describe("MessageService", function () {
 
         expect(success).toBe(true);
     });
-
 });
