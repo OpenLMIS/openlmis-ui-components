@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-pagination.PaginationController
+     * @name openlmis-pagination.controller:PaginationController
      *
      * @description
      * Responsible for managing pagination element.
@@ -29,7 +29,7 @@
         /**
          * @ngdoc method
          * @name changePage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Changes the current page number to a new one. If callback for changing page
@@ -46,7 +46,7 @@
         /**
          * @ngdoc method
          * @name nextPage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Changes the current page to next one.
@@ -58,7 +58,7 @@
         /**
          * @ngdoc method
          * @name previousPage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Changes the current page number to a previous one.
@@ -70,7 +70,7 @@
         /**
          * @ngdoc method
          * @name isCurrentPage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Checks if the page number is current one.
@@ -84,7 +84,7 @@
         /**
          * @ngdoc method
          * @name isFirstPage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Checks if current page is first one on the list.
@@ -96,7 +96,7 @@
         /**
          * @ngdoc method
          * @name isLastPage
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Checks if current page is last one on the list.
@@ -108,7 +108,7 @@
         /**
          * @ngdoc method
          * @name getPages
-         * @methodOf openlmis-pagination.PaginationController
+         * @methodOf openlmis-pagination.controller:PaginationController
          *
          * @description
          * Generates array with numbers of all pages.

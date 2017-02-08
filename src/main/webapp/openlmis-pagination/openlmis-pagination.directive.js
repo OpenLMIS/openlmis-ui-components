@@ -4,7 +4,8 @@
 
 	/**
      * @ngdoc directive
-     * @name openlmis-pagination.openlmisPagination
+     * @restrict 'E'
+     * @name openlmis-pagination.directive:openlmisPagination
      *
      * @description
      * Provides pagination for table. Allows to add method for validating pages.

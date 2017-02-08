@@ -4,7 +4,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-pagination.BasePaginationController
+     * @name openlmis-pagination.controller:BasePaginationController
      *
      * @description
      * Base for all controllers providing pagination.
@@ -24,11 +24,22 @@
         vm.updateUrl = updateUrl;
         vm.getPage = getPage;
         vm.changePage = changePage;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-pagination.controller:BasePaginationController
+         * @name items
+         * @type {Array}
+         *
+         * @description
+         * The list of all items used for extracting pages. If external pagination is used this is
+         * a list of items on the current page.
+         */
         vm.items = items;
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis-pagination.BasePaginationController
+         * @propertyOf openlmis-pagination.controller:BasePaginationController
          * @name stateParams
          * @type {Object}
          *
@@ -42,7 +53,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis-pagination.BasePaginationController
+         * @propertyOf openlmis-pagination.controller:BasePaginationController
          * @name totalItems
          * @type {Number}
          *
@@ -53,7 +64,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis-pagination.BasePaginationController
+         * @propertyOf openlmis-pagination.controller:BasePaginationController
          * @name pageItems
          * @type {Array}
          *
@@ -64,7 +75,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-pagination.BasePaginationController
+         * @methodOf openlmis-pagination.controller:BasePaginationController
          * @name updateUrl
          *
          * @description
@@ -80,7 +91,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-pagination.BasePaginationController
+         * @methodOf openlmis-pagination.controller:BasePaginationController
          * @name changePage
          *
          * @description
@@ -96,7 +107,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-pagination.BasePaginationController
+         * @methodOf openlmis-pagination.controller:BasePaginationController
          * @name getPage
          *
          * @description

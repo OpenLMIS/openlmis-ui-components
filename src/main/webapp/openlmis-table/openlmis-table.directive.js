@@ -4,7 +4,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-table:openlmisTable
+     * @restrict 'C'
+     * @name openlmis-table.directive:openlmisTable
      *
      * @description
      * Checks if the element is table and if so, wraps it in a div to imitate flex behavior.

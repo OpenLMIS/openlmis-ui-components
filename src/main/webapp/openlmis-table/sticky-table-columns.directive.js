@@ -4,7 +4,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-table:stickyTableColumns
+     * @restrict 'E'
+     * @name openlmis-table.directive:stickyTableColumns
      *
      * @description
      * Allows the user to stick a table heading or table cell element by adding the class
@@ -71,7 +72,7 @@
             /**
              * @ngdoc function
              * @name updateStickyElements
-             * @methodOf openlmis-table:stickyTableColumns
+             * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Updates the functions that animate each sticky element.
@@ -108,7 +109,7 @@
             /**
              * @ngdoc function
              * @name blit
-             * @methodOf openlmis-table:stickyTableColumns
+             * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Updates view items, and animates cells
@@ -131,7 +132,7 @@
             /**
              * @ngdoc function
              * @name setUpCell
-             * @methodOf openlmis-table:stickyTableColumns
+             * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Creates set of functions for element that updates items
@@ -146,7 +147,7 @@
                 /**
                  * @ngdoc function
                  * @name blitCell
-                 * @methodOf openlmis-table:stickyTableColumns
+                 * @methodOf openlmis-table.directive:stickyTableColumns
                  *
                  * @description
                  * Calculation and manipulation of position for each cell
@@ -190,7 +191,7 @@
                 /**
                  * @ngdoc function
                  * @name setPosition
-                 * @methodOf openlmis-table:stickyTableColumns
+                 * @methodOf openlmis-table.directive:stickyTableColumns
                  *
                  * @description
                  * Updates an element's relative position, but should used transform to take

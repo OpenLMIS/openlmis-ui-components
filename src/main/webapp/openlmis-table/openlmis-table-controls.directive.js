@@ -4,7 +4,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-table:openlmisTableControls
+     * @restrict 'C'
+     * @name openlmis-table.directive:openlmisTableControls
      *
      * @description
      * Positions the table sort order correctly in a table's container.
@@ -12,7 +13,7 @@
      * @example
      * ```
      * <div class="openlmis-table-container">
-     * <form table-sort-order>
+     * <form class="openlmis-table-controls">
      * 	 <label for="table-sort-order">Sort items by</label>
      *   <select id="table-sort-order">
      *     <option selected="selected">Name</option>

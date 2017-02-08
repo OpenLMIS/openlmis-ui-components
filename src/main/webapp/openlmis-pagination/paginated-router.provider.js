@@ -27,7 +27,10 @@
          * @name resolve
          *
          * @description
-         * Adds pagination related resolves to the given resolve object.
+         * Adds pagination related resolves to the given resolve object. If the toResolve object
+         * has a resolve property its content and metadata are extracted into items, totalItems,
+         * page and pageSize. Otherwise page, pageSize and totalItems are calculated based on the
+         * toResolve.items array.
          *
          * @param   {Object}    toResolve   the object to be enriched
          * @return  {Object}                the enriched object

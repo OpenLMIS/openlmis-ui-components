@@ -2,6 +2,8 @@
 
     'use strict';
 
-    angular.module('openlmis-pagination', []);
+    angular.module('openlmis-pagination', [
+        'ui.router'
+    ]);
 
 })();

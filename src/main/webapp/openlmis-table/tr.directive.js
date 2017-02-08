@@ -4,7 +4,8 @@
 
 	/**
 	 * @ngdoc directive
-	 * @name openlmis-table:tableHeaderCell
+	 * @restrict 'E'
+	 * @name openlmis-table.directive:tableHeaderCell
 	 *
 	 * @description
 	 * Adds `scope` attributes to table heading cells to meet [accessibility
@@ -13,7 +14,7 @@
 	 * @example
 	 * All you need to do is write a table in a lazy way, and this directive
 	 * will add scope attribues as needed.
-	 * 
+	 *
 	 * This directive will also change the first element in each a row if a
 	 * `<th>` element isn't defined in the row.
 	 *
