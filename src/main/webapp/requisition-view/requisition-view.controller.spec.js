@@ -20,7 +20,7 @@ describe('RequisitionViewController', function() {
         module(function($provide) {
             offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['removeBy']);
 
-            var confirmSpy = authorizationServiceSpy = jasmine.createSpyObj('confirmService', ['confirm']),
+            var confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']),
                 authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
                 localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(resource) {
                     if (resource === 'requisitions') {

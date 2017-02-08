@@ -15,13 +15,13 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$rootScope', '$state', 'facilityList', 'requisitionService', 'REQUISITION_STATUS',
-        'dateUtils', 'loadingModalService', 'notificationService', 'offlineService', 'localStorageFactory'
+        '$rootScope', '$state', 'facilityList', 'requisitionService', 'REQUISITION_STATUS', 'dateUtils',
+        'loadingModalService', 'notificationService', 'offlineService', 'localStorageFactory', 'confirmService'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, requisitionService,
                                          REQUISITION_STATUS, dateUtils, loadingModalService,
-                                         notificationService, offlineService, localStorageFactory) {
+                                         notificationService, offlineService, localStorageFactory, confirmService) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -73,8 +73,10 @@
          * @param {Resource} requisition Requisition to remove
          */
         function removeOfflineRequisition(requisition) {
-            offlineRequisitions.removeBy('id', requisition.id);
-            requisition.$availableOffline = false;
+            confirmService.confirmDestroy('msg.removeOfflineRequisitionQuestion').then(function() {
+                offlineRequisitions.removeBy('id', requisition.id);
+                requisition.$availableOffline = false;
+            });
         }
 
         /**

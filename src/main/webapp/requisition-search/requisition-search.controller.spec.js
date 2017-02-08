@@ -1,6 +1,6 @@
 describe('RequisitionSearchController', function() {
 
-    var rootScope, httpBackend, endDate, startDate, notificationService, vm, facilityList, requisitionList, offlineRequisitions;
+    var $q, rootScope, httpBackend, endDate, startDate, notificationService, vm, facilityList, requisitionList, offlineRequisitions, confirmSpy;
 
     beforeEach(function() {
         module('requisition-search', function($provide) {
@@ -9,6 +9,11 @@ describe('RequisitionSearchController', function() {
                 return function() {
                     return offlineRequisitions;
                 };
+            });
+
+            confirmSpy = jasmine.createSpyObj('confirmService', ['confirmDestroy']);
+            $provide.service('confirmService', function() {
+                return confirmSpy;
             });
         });
 
@@ -54,16 +59,17 @@ describe('RequisitionSearchController', function() {
         }];
 
         inject(function ($httpBackend, $rootScope, $controller, requisitionUrlFactory,
-                         _notificationService_, requisitionService, $q) {
+                         _notificationService_, requisitionService, _$q_) {
 
-            var response = $q.when(requisitionList);
-            spyOn(requisitionService, 'search').andReturn(response);
-
+            $q = _$q_;
             rootScope = $rootScope;
             httpBackend = $httpBackend;
             startDate = new Date();
             endDate = new Date();
             notificationService = _notificationService_;
+
+            var response = $q.when(requisitionList);
+            spyOn(requisitionService, 'search').andReturn(response);
 
             vm = $controller('RequisitionSearchController', {facilityList:facilityList});
         });
@@ -113,8 +119,14 @@ describe('RequisitionSearchController', function() {
         };
 
         beforeEach(function() {
+            confirmSpy.confirmDestroy.andReturn($q.when());
             vm.removeOfflineRequisition(requisition);
+            rootScope.$apply();
         });
+
+        it('should call confirm service', function() {
+            expect(confirmSpy.confirmDestroy).toHaveBeenCalledWith('msg.removeOfflineRequisitionQuestion');
+        })
 
         it('should remove requisition from local storage', function() {
             expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', requisition.id);
