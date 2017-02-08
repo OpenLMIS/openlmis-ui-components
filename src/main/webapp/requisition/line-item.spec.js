@@ -35,7 +35,7 @@ describe('LineItem', function() {
             {
                 name: 'totalCost',
                 source: 'CALCULATED',
-                $type: 'NUMERIC',
+                $type: 'CURRENCY',
                 $display: true
             },
             {
@@ -49,7 +49,14 @@ describe('LineItem', function() {
                 source: 'CALCULATED',
                 $type: 'NUMERIC',
                 $display: true
+            },
+            {
+                name: 'pricePerPack',
+                source: 'REFERENCE_DATA',
+                $type: 'CURRENCY',
+                $display: true
             }
+
         ];
         template.getColumns.andCallFake(function (nonFullSupply) {
             return template.columnsMap;
@@ -121,10 +128,12 @@ describe('LineItem', function() {
             lineItem.updateFieldValue(requisition.template.columnsMap[0], requisition);
             lineItem.updateFieldValue(requisition.template.columnsMap[1], requisition);
             lineItem.updateFieldValue(requisition.template.columnsMap[2], requisition);
+            lineItem.updateFieldValue(requisition.template.columnsMap[5], requisition);
 
             expect(lineItem.requestedQuantity).toEqual(0);
             expect(lineItem.requestedQuantityExplanation).toEqual('');
             expect(lineItem.totalCost).toEqual(20);
+            expect(lineItem.pricePerPack).toEqual(0);
         });
 
         it('should call proper calculation method when column name is Adjusted Consumption', function() {
