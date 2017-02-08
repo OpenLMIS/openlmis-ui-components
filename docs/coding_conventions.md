@@ -146,10 +146,15 @@ Here are some general rules to keep in mind while writing any unit tests:
 ### Angular V1 Object Guidelines
 AngularJS has many different object types — here are the following types the OpenLMIS-UI primarily uses. If there is a need for object types not documented, please refer to the John Papa Angular V1 styleguide.
 
+### Replaced Values
+@@ should set own default values
+
 #### Constants
 Constants are Javascript variables that won't change but need to be resued between multiple objects within an Angular module. Using constants is important because it becomes possible to track an objects dependencies, rather than use variables set on the global scope.
 
 It's also [useful to wrap 3rd party objects and libraries](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#vendor-globals) (like jQuery or bootbox) as an Angular constant. This is useful because the dependency is declared on the object. Another useful feature is that if the library or object isn't included, Angualr will throw a single verbose error message.
+
+*Add rule about when its ok to add a group of constants -- if a grouping of values, use a plural name*
 
 *Conventions:*
 * All constant variable names should be upper case and use underscores instead of spaces (ie VARIABLE_NAME) 
@@ -192,6 +197,8 @@ Factories should be the most used Angualr object type in any application. [John 
 
 This means that factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't nessicarry.
 
+_Should be used with UI-Router resolves, and get additional arguments_
+
 ##### Naming Convention
 _**specificName**Factory_
 
@@ -207,8 +214,9 @@ sample.$inject = [];
 function sample(){
 	var savedContext;
 	
-	return function (context) {
-		savedContext = context;
+	return {
+		method: method,
+		otherMethod: otherMethod
 	}
 }
 ```
@@ -221,7 +229,11 @@ Test a factory much like you would test a service, except be sure to:
 #### Javascript Class
 Pure javascript classes should only be used to ease the manipulation of data, but unlike factories, these object shouldn't create HTTP connections, and only focus on a single object. 
 
-Javascript classes should be injected and used within factories and services that have complex logic. Modules should be able to extend javascript classes by prototypical inheritance.
+Javascript classes should be injected and used within factories and _some services_ services that have complex logic. Modules should be able to extend javascript classes by prototypical inheritance.
+
+Helps with code reusability
+
+Requisition/LineItem is good example
 
 ##### Naming Conventions
 _SampleName_
@@ -238,7 +250,9 @@ It is also worth noting that [John Papa insists that controllers don't directly 
 ##### Conventions
 * Should be only object changing application $state
 * Is used in a single context
-* Doesn't directly manipulate $scope variables
+* Don't use the $scope variable EVER
+** Use ControllerAs syntax
+** Don't $watch variables, use on-change or refactor to use a directive to watch values
 
 ###### Unit Testing Conventions
 * Set all items that would be required from a route when the Controller is instantiated
@@ -247,12 +261,16 @@ It is also worth noting that [John Papa insists that controllers don't directly 
 #### Routes
 Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where a URL path is typically paired with an HTML View and Controller.
 
+*Use a factory where possible to keep resolve statements small and testable*
+
 ##### General Conventions
 * The [UI-Router resolve properties](https://github.com/angular-ui/ui-router/wiki#resolve) are used to ease loading on router
 * [Routes should define their own views,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271) if their layout is more complicated than a single section 
 
 #### HTTP Interceptor
 HTTP Interceptors are technically factories that have been configured to 'intercept' certain types of requests in Angular and modify their behavior. This is recommended because other Angular objects can use consistent Angular objects, reducing the need to write code that is specialized for our own framework.
+
+*Keep all objects in a single file - so its easier to understand the actions that are being taken*
 
 The Angular guide to writting [HTTP Interceptors is here](https://docs.angularjs.org/api/ng/service/$http#interceptors)
 
@@ -265,6 +283,8 @@ The goal when unit testing an interceptor is to not only test input and output t
 
 #### Directive
 Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
+
+*Make disticntion between directive and component -- components use E tag and isolate scope, directive use C and never isolate scope*
 
 ##### Conventions
 * Restrict directives to only elements or attributes
@@ -301,6 +321,8 @@ describe('SampleDirective', function(){
 
 #### Modal
 A modal object isn't a 'native Angular object' — it is a service or factory that displays a modal window. This is done for convience and because it allows modal windows to not be declared in html files — and be used more easily by controllers (or even services, if appropriate).
+
+*Use Javascript class*
 
 ##### Conventions
 
@@ -345,6 +367,21 @@ describe('SampleModal', function(){
 #### HTML Views
 Angular allows HTML files to have variables and simple logic evaluated within the markup.
 
+*A controller that has the same name will be the reference to vm, if the controller is different, don't call it vm*
+
 *General Conventions*
 * If there is logic that is more complicated than a single if statement, move that logic to a controller
 * Use filters to format variable output — don't format variables in a controller
+
+## Patterns
+See JS Documentation for more details
+
+### List View Pattern
+
+#### Pagination Patterns
+STUB
+#### Sorting Pattern
+STUB
+
+### Offline Pattern
+
