@@ -290,7 +290,7 @@
         function calculateMaximumStockQuantity(lineItem, requisition) {
             var column = requisition.template.getColumn(H);
             return column && column.option.optionName === 'default'
-                ? Math.round(lineItem[P] * lineItem.maxMonthsOfStock)
+                ? Math.round(lineItem[P] * lineItem.maxPeriodsOfStock)
                 : 0;
         }
 

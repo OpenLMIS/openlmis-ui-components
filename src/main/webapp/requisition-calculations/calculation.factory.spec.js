@@ -234,7 +234,7 @@ describe('calculationFactory', function() {
         });
 
         it('should return maximum stock quantity when default option was selected', function () {
-            lineItem.maxMonthsOfStock = 7.25;
+            lineItem.maxPeriodsOfStock = 7.25;
             lineItem.averageConsumption = 2;
 
             column.option.optionName = 'default';
