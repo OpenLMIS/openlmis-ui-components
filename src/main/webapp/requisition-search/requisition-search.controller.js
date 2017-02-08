@@ -5,6 +5,7 @@
     /**
      * @ngdoc controller
      * @name requisition-search.RequisitionViewController
+     *
      * @description
      * Controller for requisition view page
      */
@@ -46,14 +47,14 @@
         }
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name openRnr
          * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Redirect to requisition page after clicking on grid row.
          *
+         * @param {String} requisitionId Requisition UUID
          */
         function openRnr(requisitionId) {
             $state.go('requisitions.requisition.fullSupply', {
@@ -62,14 +63,14 @@
         }
 
         /**
-         *
-         * @ngdoc function
-         * @name openRnr
+         * @ngdoc method
+         * @name removeOfflineRequisition
          * @methodOf requisition-search.RequisitionViewController
          *
          * @description
-         * Redirect to requisition page after clicking on grid row.
+         * Removes requisition from local storage.
          *
+         * @param {Resource} requisition Requisition to remove
          */
         function removeOfflineRequisition(requisition) {
             offlineRequisitions.removeBy('id', requisition.id);
@@ -77,14 +78,12 @@
         }
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name loadPrograms
          * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Loads selected facility supported programs to program select input.
-         *
          */
         function loadPrograms() {
             if (!vm.selectedFacility) {
@@ -97,14 +96,12 @@
         }
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name search
          * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Searches requisitions by criteria selected in form.
-         *
          */
         function search() {
             if (vm.selectedFacility) {
