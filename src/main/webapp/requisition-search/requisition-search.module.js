@@ -6,6 +6,7 @@
         'openlmis-date',
         'referencedata-facility',
         'openlmis-modal',
+        'openlmis-local-storage',
         'requisition',
         'requisition-constants',
         'ui.router'

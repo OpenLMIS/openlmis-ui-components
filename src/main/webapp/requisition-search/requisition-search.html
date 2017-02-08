@@ -45,23 +45,28 @@
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
                     <th>{{'msg.requisition.view.offline' | message}}</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="requisition in vm.requisitionList"
-                    ng-click="vm.openRnr(requisition.id)">
-                    <td>{{requisition.program.name}}</th>
-                    <td>{{requisition.facility.code}}</th>
-                    <td>{{requisition.facility.name}}</th>
-                    <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
-                    <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
-                    <td>{{requisition.createdDate | date:'shortDate'}}</th>
-                    <td>{{requisition.status}}</th>
+                <tr ng-repeat="requisition in vm.requisitionList">
+                    <td>{{requisition.program.name}}</td>
+                    <td>{{requisition.facility.code}}</td>
+                    <td>{{requisition.facility.name}}</td>
+                    <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</td>
+                    <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</td>
+                    <td>{{requisition.createdDate | date:'shortDate'}}</td>
+                    <td>{{requisition.status}}</td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': requisition.emergency}"></i>
                     </td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': requisition.$availableOffline}"></i>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" ng-if="requisition.$availableOffline"
+                            ng-click="vm.removeOfflineRequisition(requisition)">{{'button.removeOfflineRequisition' | message}}
+                        </button>
                     </td>
                 </tr>
             </tbody>

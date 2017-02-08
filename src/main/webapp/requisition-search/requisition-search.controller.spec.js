@@ -1,20 +1,16 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
- */
-
 describe('RequisitionSearchController', function() {
 
-    var rootScope, httpBackend, endDate, startDate, notificationService, vm, facilityList,
-        requisitionList;
+    var rootScope, httpBackend, endDate, startDate, notificationService, vm, facilityList, requisitionList, offlineRequisitions;
 
     beforeEach(function() {
-        module('requisition-search');
+        module('requisition-search', function($provide) {
+            offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['removeBy']);
+            $provide.factory('localStorageFactory', function() {
+                return function() {
+                    return offlineRequisitions;
+                };
+            });
+        });
 
         facilityList = [
             {
@@ -30,6 +26,7 @@ describe('RequisitionSearchController', function() {
                         name: 'program2'
                     }
                 ]
+
             },
             {
                 id: '2',
@@ -106,5 +103,25 @@ describe('RequisitionSearchController', function() {
         spyOn(notificationService, 'error').andCallFake(callback);
         vm.search();
         expect(callback).toHaveBeenCalled();
+    });
+
+    describe('removeOfflineRequisition', function() {
+
+        var requisition = {
+            id: '1',
+            $availableOffline: true
+        };
+
+        beforeEach(function() {
+            vm.removeOfflineRequisition(requisition);
+        });
+
+        it('should remove requisition from local storage', function() {
+            expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', requisition.id);
+        });
+
+        it('should mark requisition as not available offline', function() {
+            expect(requisition.$availableOffline).toBe(false);
+        });
     });
 });

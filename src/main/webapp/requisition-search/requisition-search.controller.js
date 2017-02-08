@@ -1,13 +1,3 @@
-/*
- * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2013 VillageReach
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
- */
-
 (function() {
 
     'use strict';
@@ -25,18 +15,20 @@
 
     RequisitionSearchController.$inject = [
         '$rootScope', '$state', 'facilityList', 'requisitionService', 'REQUISITION_STATUS',
-        'dateUtils', 'loadingModalService', 'notificationService', 'offlineService'
+        'dateUtils', 'loadingModalService', 'notificationService', 'offlineService', 'localStorageFactory'
     ];
 
     function RequisitionSearchController($rootScope, $state, facilityList, requisitionService,
                                          REQUISITION_STATUS, dateUtils, loadingModalService,
-                                         notificationService, offlineService) {
+                                         notificationService, offlineService, localStorageFactory) {
 
-        var vm = this;
+        var vm = this,
+            offlineRequisitions = localStorageFactory('requisitions');
 
         vm.loadPrograms = loadPrograms;
         vm.search = search;
         vm.openRnr = openRnr;
+        vm.removeOfflineRequisition = removeOfflineRequisition;
 
         vm.isOfflineDisabled = isOfflineDisabled;
         vm.searchOffline = offlineService.isOffline();
@@ -52,6 +44,7 @@
             if (offlineService.isOffline()) vm.searchOffline = true;
             return offlineService.isOffline();
         }
+
         /**
          *
          * @ngdoc function
@@ -66,6 +59,21 @@
             $state.go('requisitions.requisition.fullSupply', {
                 rnr: requisitionId
             });
+        }
+
+        /**
+         *
+         * @ngdoc function
+         * @name openRnr
+         * @methodOf requisition-search.RequisitionViewController
+         *
+         * @description
+         * Redirect to requisition page after clicking on grid row.
+         *
+         */
+        function removeOfflineRequisition(requisition) {
+            offlineRequisitions.removeBy('id', requisition.id);
+            requisition.$availableOffline = false;
         }
 
         /**
