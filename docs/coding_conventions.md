@@ -131,9 +131,9 @@ To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/an
 
 ### Unit Testing Guidelines
 A unit tests has 3 goals that it should accomplish to test a javascript object:
-# Checks success, error, and edge cases
-# Tests as few objects as possible
-# Demonstrates how an object should be used
+* Checks success, error, and edge cases
+* Tests as few objects as possible
+* Demonstrates how an object should be used
 
 With those 3 goals in mind, its important to realize that the variety of AngularJS object types means that the same approact won't work for each and every object. Since the OpenLMIS-UI coding conventions layout patterns for different types of AngularJS objects, it's also possible to illustrate how to unit test objects that follow those conventions.
 
