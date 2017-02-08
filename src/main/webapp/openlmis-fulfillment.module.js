@@ -6,7 +6,8 @@
         'fulfillment',
         'order',
         'order-view',
-        'proof-of-delivery-view'
+        'proof-of-delivery-view',
+        'proof-of-delivery-manage'
     ]);
 
 })();

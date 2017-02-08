@@ -4,7 +4,7 @@ describe('orderFactory', function() {
 
     beforeEach(function() {
         module('order', function($provide) {
-            orderServiceMock = createMock($provide, 'orderService', ['search']);
+            orderServiceMock = createMock($provide, 'orderService', ['search', 'getPod']);
         });
 
         inject(function($injector) {
@@ -29,6 +29,12 @@ describe('orderFactory', function() {
         expect(orderServiceMock.search).toHaveBeenCalledWith({
             supplyingFacility: 'id-one'
         });
+    });
+
+    it('should call orderService with id param', function() {
+        orderFactory.getPod('id-one');
+
+        expect(orderServiceMock.getPod).toHaveBeenCalledWith('id-one');
     });
 
 });
