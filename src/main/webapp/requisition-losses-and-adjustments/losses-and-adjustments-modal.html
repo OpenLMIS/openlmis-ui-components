@@ -1,54 +1,54 @@
-<label>{{'label.add.loss.adjustment' | message}}</label>
-<form class="form-filter" ng-submit="vm.addAdjustment()">
-    <div class="form-group">
-        <label for="reason">{{'label.equipment.maintenance.request.reason' | message}}</label>
-        <select id="reason"
-         ng-model="vm.adjustment.reason"
-         ng-options="reason as reason.name for reason in vm.reasons"
-         ></select>
-    </div>
-    <div class="form-group">
-        <label for="quantity">{{'label.quantity' | message}}</label>
-        <input id="quantity"
-               class="form-control"
-               ng-model="vm.adjustment.quantity"
-               required positive-integer/>
-    </div>
-    <div class="form-group">
-        <button class="btn btn-primary" type="submit">
-            {{'button.add' | message}}
-        </button>
-    </div>
-</form>
-
-<div class="adjustment-warning alert is-info"
-     ng-show="vm.adjustments == null || vm.adjustments.length === 0">
-        {{'label.no.losses.adjustment' | message}}
-</div>
-
-<div class="adjustment-list" ng-show="vm.adjustments.length > 0">
-    <ul>
-        <li ng-repeat="adjustment in vm.adjustments" class="adjustment">
-            <label for="adjustment-quantity-{{$index}}">
-                {{vm.getReasonName(adjustment.reasonId)}}
-            </label>
-            <input id="adjustment-quantity-{{$index}}"
+<div class="losses-and-adjustments-modal">
+    <label ng-if="!vm.disabled">{{'label.add.loss.adjustment' | message}}</label>
+    <form ng-if="!vm.disabled" class="form-filter" ng-submit="vm.addAdjustment()">
+        <div class="form-group">
+            <label for="reason">{{'label.equipment.maintenance.request.reason' | message}}</label>
+            <select id="reason"
+             ng-model="vm.adjustment.reason"
+             ng-options="reason as reason.name for reason in vm.reasons"
+             ></select>
+        </div>
+        <div class="form-group">
+            <label for="quantity">{{'label.quantity' | message}}</label>
+            <input id="quantity"
                    class="form-control"
-                   ng-model="adjustment.quantity"
-                   ng-change="vm.recalculateTotal()"
-                   required positive-integer />
-            <button class="btn btn-danger" ng-click="vm.removeAdjustment(adjustment)">
-                {{'button.remove' | message}}
+                   ng-model="vm.adjustment.quantity"
+                   required positive-integer/>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">
+                {{'button.add' | message}}
             </button>
-        </li>
-    </ul>
-</div>
+        </div>
+    </form>
 
-<div class="adjustment-total clearfix" ng-show="vm.adjustments.length > 0">
-    <span class="pull-left">{{'label.losses.total' | message}}</span>
-    <span>{{vm.getTotal()}}</span>
-</div>
+    <div class="adjustment-warning alert is-info"
+         ng-show="vm.adjustments == null || vm.adjustments.length === 0">
+            {{'label.no.losses.adjustment' | message}}
+    </div>
 
-<button class="btn btn-default" ng-click="vm.hideModal()">
-    {{'button.close' | message}}
-</button>
+    <dl ng-if="vm.adjustments.length">
+        <dt ng-repeat-start="adjustment in vm.adjustments">
+            {{vm.getReasonName(adjustment.reasonId)}}
+        </dt>
+        <dd ng-repeat-end>
+            <div ng-if="vm.disabled">{{adjustment.quantity}}</div>
+            <input id="adjustment-quantity-{{$index}}"
+                class="form-control"
+                ng-model="adjustment.quantity"
+                ng-change="vm.recalculateTotal()"
+                ng-if="!vm.disabled"
+                required positive-integer />
+            <input type="button" class="btn btn-danger"
+                ng-click="vm.removeAdjustment(adjustment)"
+                ng-if="!vm.disabled"
+                value="{{'button.remove' | message}}">
+        </dd>
+        <dt>{{'label.losses.total' | message}}</dt>
+        <dd>{{vm.getTotal()}}</dd>
+    </dl>
+
+    <button class="btn btn-default" ng-click="vm.hideModal()">
+        {{'button.close' | message}}
+    </button>
+</div>

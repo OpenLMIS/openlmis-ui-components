@@ -2,7 +2,7 @@ describe('LossesAndAdjustmentsController', function() {
 
     var vm;
 
-    var rootScope, scope;
+    var rootScope, scope, $controller;
 
     var requisition, adjustments, reasons;
 
@@ -11,11 +11,14 @@ describe('LossesAndAdjustmentsController', function() {
         module('requisition-losses-and-adjustments');
 
         adjustments = jasmine.createSpyObj('stockAdjustments', ['push', 'indexOf', 'splice']);
-        requisition = jasmine.createSpyObj('requisition', ['$stockAdjustmentReasons']);
+        requisition = jasmine.createSpyObj('requisition', [
+            '$stockAdjustmentReasons', '$isAuthorized', '$isApproved', '$isInApproval'
+        ]);
         reasons = requisition.$stockAdjustmentReasons;
 
-        inject(function($rootScope) {
-            rootScope = $rootScope;
+        inject(function($injector) {
+            rootScope = $injector.get('$rootScope');
+            $controller = $injector.get('$controller');
         });
 
         scope = rootScope.$new();
@@ -28,23 +31,65 @@ describe('LossesAndAdjustmentsController', function() {
     describe('initialization', function() {
 
         beforeEach(inject(function($controller) {
-            vm = $controller('LossesAndAdjustmentsController', {
-                $scope: scope
-            });
-
             rootScope.$apply();
         }));
 
         it('should expose requisition', function() {
+            initController();
+
             expect(vm.requisition).toBe(requisition);
         });
 
         it('should expose adjustments', function() {
+            initController();
+
             expect(vm.adjustments).toBe(adjustments);
         });
 
         it('should fetch stock adjustment reasons', function() {
+            initController();
+
             expect(vm.reasons).toBe(reasons);
+        });
+
+        describe('should set disabled to', function() {
+
+            beforeEach(inject(function($controller) {
+                requisition.$isAuthorized.andReturn(false);
+                requisition.$isApproved.andReturn(false);
+                requisition.$isInApproval.andReturn(false);
+            }));
+
+            it('false if requisition is not approved/authorized/in approval', function() {
+                initController();
+
+                expect(vm.disabled).toBe(false);
+            });
+
+            it('true if requisition is authorized', function() {
+                requisition.$isAuthorized.andReturn(true);
+
+                initController();
+
+                expect(vm.disabled).toBe(true);
+            });
+
+            it('true if requisition is approved', function() {
+                requisition.$isApproved.andReturn(true);
+
+                initController();
+
+                expect(vm.disabled).toBe(true);
+            });
+
+            it('true if requisition is in approval', function() {
+                requisition.$isInApproval.andReturn(true);
+
+                initController();
+
+                expect(vm.disabled).toBe(true);
+            });
+
         });
     });
 
@@ -208,5 +253,11 @@ describe('LossesAndAdjustmentsController', function() {
             expect(vm.lineItem.totalLossesAndAdjustments).toBe(345);
         });
     });
+
+    function initController() {
+        vm = $controller('LossesAndAdjustmentsController', {
+            $scope: scope
+        });
+    }
 
 });

@@ -16,6 +16,10 @@
         vm.adjustments = vm.lineItem.stockAdjustments;
         vm.reasons = vm.requisition.$stockAdjustmentReasons;
 
+        vm.disabled = vm.requisition.$isAuthorized() ||
+            vm.requisition.$isApproved() ||
+            vm.requisition.$isInApproval();
+
         vm.addAdjustment = addAdjustment;
         vm.removeAdjustment = removeAdjustment;
         vm.getReasonName = getReasonName;

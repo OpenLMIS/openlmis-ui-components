@@ -37,8 +37,7 @@
                             message: $compile(modal)(scope),
                             backdrop: true,
                             onEscape: true,
-                            closeButton: true,
-                            size: 'large'
+                            closeButton: true
                         });
                     }
                 );
