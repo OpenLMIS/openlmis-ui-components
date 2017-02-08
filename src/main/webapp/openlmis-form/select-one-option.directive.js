@@ -29,9 +29,7 @@
         .module('openlmis-form')
         .directive('select', select);
 
-    select.$inject = ['bootbox', 'messageService', '$rootScope', '$compile', '$templateRequest'];
-
-    function select(bootbox, messageService, $rootScope, $compile, $templateRequest) {
+    function select() {
         return {
             restrict: 'E',
             replace: false,
@@ -42,8 +40,7 @@
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
-                optionsSelector = 'option:not(.placeholder)',
-                modal;
+                optionsSelector = 'option:not(.placeholder)';
 
             updateSelect();
             if(ngModelCtrl) {
@@ -59,10 +56,8 @@
                 }, updateSelect);
             }
 
-            setPopOut();
-
             function updateSelect() {
-                var options = getOptions();
+                var options = element.children(optionsSelector);
 
                 if(options.length <= 1) {
                     element.attr('disabled', true);
@@ -74,77 +69,11 @@
                     element.children('option[selected="selected"]').removeAttr('selected');
                     element.children(optionsSelector + ':first').attr('selected', 'selected');
 
-                    updateModel();
-                }
-
-                if(isPopOut()) {
-                    element.addClass('pop-out');
-                } else {
-                    element.removeClass('pop-out');
-                }
-            }
-
-            function getOptions() {
-                var options = [];
-
-                angular.forEach(element.children(optionsSelector), function(option) {
-                    options.push(angular.element(option)[0]);
-                });
-
-                return options;
-            }
-
-            function updateModel() {
-                if(ngModelCtrl) {
-                    var selectedValue = selectCtrl.readValue();
-                    ngModelCtrl.$setViewValue(selectedValue);
-                }
-            }
-
-            function showModal() {
-                $templateRequest('openlmis-form/select-search-option.html').then(function(template) {
-                    var modalScope = $rootScope.$new();
-
-                    modalScope.options = getOptions();
-                    modalScope.select = selectOption;
-
-                    var labelElement = element.siblings('label[for="' + element[0].id + '"]');
-
-                    modal = bootbox.dialog({
-                        title: labelElement[0] ? labelElement[0].textContent : '',
-                        message: $compile(template)(modalScope)
-                    });
-                });
-            }
-
-            function selectOption(option) {
-                element.children('option[selected="selected"]').removeAttr('selected');
-                element.children('option[label="' + option.label + '"]').attr('selected', 'selected');
-
-                updateModel();
-
-                if(modal) modal.modal('hide');
-            }
-
-            function setPopOut() {
-                element.on('mousedown', function (event) {
-                    if(isPopOut()) {
-                        event.stopPropagation();
-                        showModal();
+                    if(ngModelCtrl) {
+                        var selectedValue = selectCtrl.readValue();
+                        ngModelCtrl.$setViewValue(selectedValue);
                     }
-                });
-
-                element.bind("keydown", function (event) {
-                    if(isPopOut() && event.which === 13) {
-                        event.stopPropagation();
-                        showModal();
-                    }
-                });
-            }
-
-            function isPopOut() {
-                return (attrs.popOut !== null && attrs.popOut !== undefined) ||
-                    (getOptions().length > 10);
+                }
             }
         }
     }

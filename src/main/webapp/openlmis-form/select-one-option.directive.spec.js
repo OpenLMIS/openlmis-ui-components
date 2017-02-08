@@ -38,13 +38,4 @@ describe('Select one option directive', function() {
         expect(element.attr('disabled')).toBe('disabled');
         expect(scope.value).toBe('foo bar');
     });
-
-    describe('search-able pop-out', function() {
-        it('should set pop-out class when there is more than 10 options', function() {
-            scope.options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-            scope.$apply();
-            expect(element.hasClass('pop-out')).toBe(true);
-        });
-    });
-
 });
