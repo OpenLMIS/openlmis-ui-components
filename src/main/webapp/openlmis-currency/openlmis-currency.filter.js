@@ -30,34 +30,52 @@
 
     filter.$inject = ['currencyService'];
 
-    function filter(currencyService) {
-        return function(value) {
+    function filter (currencyService) {
+        return function (value) {
             if (value != null) {
                 var settings = currencyService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
-                    return formatValue(value, settings) + '\u00A0' + settings.currencySymbol;
+                    return formatMoneyValue(value, settings) + '\u00A0' + settings.currencySymbol;
                 } else {
-                    return settings.currencySymbol + formatValue(value, settings);
+                    return settings.currencySymbol + formatMoneyValue(value, settings);
                  }
             }
         };
 
-        function formatValue(value, settings) {
-            var separator = settings.groupingSeparator,
-                decimalPlaces = settings.currencyDecimalPlaces,
-                groupingSize = settings.groupingSize,
-                number = parseFloat(value),
-                i = parseInt(number = number.toFixed(decimalPlaces)) + '',
-                j = (j = i.length) > groupingSize ? j % groupingSize : 0,
-                regExp = new RegExp('(\\d{' + groupingSize + '})(?=\\d)', 'g');
-
-            return (j ? i.substr(0, j) + separator : '')
-                + i.substr(j).replace(regExp, '$1' + separator)
-                + (decimalPlaces
-                    ? settings.decimalSeparator + Math.abs(number - i)
-                        .toFixed(decimalPlaces).slice(2)
-                    : "");
+        function formatMoneyValue (value, settings) {
+            return formatMoneyWith(value, settings.groupingSeparator, settings.decimalSeparator,
+                                   settings.currencyDecimalPlaces, settings.groupingSize);
         }
+
+        function formatMoneyWith (value, separator, decimalSeparator, decimalPlaces, groupingSize) {
+            var number = parseFloat(value).toFixed(decimalPlaces),
+                integerPart = parseInt(number) + '',
+                integerPartLength = integerPart.length,
+                firstGroupLength = integerPartLength > groupingSize
+                    ? integerPartLength % groupingSize
+                    : 0;
+
+            return firstGroup() + otherGroups() + fractionPart();
+
+            function firstGroup () {
+                return firstGroupLength ? integerPart.substr(0, firstGroupLength) + separator : '';
+            }
+
+            function otherGroups () {
+                var extractGroupRegExp = new RegExp('(\\d{' + groupingSize + '})(?=\\d)', 'g');
+
+                return integerPart.substr(firstGroupLength)
+                    .replace(extractGroupRegExp, '$1' + separator);
+            }
+
+            function fractionPart () {
+                var extractedFractions = Math.abs(number - integerPart)
+                    .toFixed(decimalPlaces).slice(2);
+
+                return decimalPlaces ? decimalSeparator + extractedFractions : '';
+            }
+        }
+
     }
 
 })();
