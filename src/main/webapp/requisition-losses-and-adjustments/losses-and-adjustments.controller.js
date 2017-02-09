@@ -2,6 +2,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name requisition-losses-and-adjustments.controller:LossesAndAdjustmentsController
+     *
+     * @description
+     * Provides methods for Losses and Adjustments modal.
+     */
     angular
         .module('requisition-losses-and-adjustments')
         .controller('LossesAndAdjustmentsController', lossesAndAdjustmentsCtrl);
@@ -16,15 +23,12 @@
         vm.adjustments = vm.lineItem.stockAdjustments;
         vm.reasons = vm.requisition.$stockAdjustmentReasons;
 
-        vm.disabled = vm.requisition.$isAuthorized() ||
-            vm.requisition.$isApproved() ||
-            vm.requisition.$isInApproval();
-
         vm.addAdjustment = addAdjustment;
         vm.removeAdjustment = removeAdjustment;
         vm.getReasonName = getReasonName;
         vm.getTotal = getTotal;
         vm.recalculateTotal = recalculateTotal;
+        vm.isDisabled = isDisabled;
 
         function addAdjustment() {
             vm.adjustments.push({
@@ -58,6 +62,24 @@
 
         function recalculateTotal() {
             vm.lineItem.totalLossesAndAdjustments = vm.getTotal();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-losses-and-adjustments.controller:LossesAndAdjustmentsController
+         * @name isDisabled
+         *
+         * @description
+         * Checks whether the modal is in disabled state.
+         *
+         * @return  {Boolean}   true if requisition is authorize/approved/in approval or line item
+         *                      is skipped, false otherwise
+         */
+        function isDisabled() {
+            return vm.requisition.$isAuthorized() ||
+                vm.requisition.$isApproved() ||
+                vm.requisition.$isInApproval() ||
+                vm.lineItem.skipped;
         }
     }
 
