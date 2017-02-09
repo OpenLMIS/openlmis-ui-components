@@ -14,14 +14,14 @@
 		.module('requisition-approval')
 		.controller('RequisitionApprovalListController', controller);
 
-	controller.$inject = ['$state', 'requisitionList'];
+	controller.$inject = ['$state', 'requisitionList', 'messageService'];
 
-	function controller($state, requisitionList) {
+	function controller($state, requisitionList, messageService) {
 
 		var vm = this;
 
-		vm.filterRequisitions = filterRequisitions;
 		vm.openRnr = openRnr;
+		vm.changeSortOrder = changeSortOrder;
 
         /**
          * @ngdoc property
@@ -34,16 +34,67 @@
          */
 		vm.requisitions = requisitionList;
 
-        /**
+		/**
          * @ngdoc property
-         * @name filteredRequisitions
+         * @name columns
          * @propertyOf requisition-approval.RequisitionApprovalListController
          * @type {Array}
          *
          * @description
-         * Holds currently filtered requisitions.
+         * Holds available columns for sorting.
          */
-		vm.filteredRequisitions = vm.requisitions;
+		vm.columns = [
+			{
+				name: 'program.name',
+				label: messageService.get('label.program')
+			},
+			{
+				name: 'facility.code',
+				label: messageService.get('label.facilityCode')
+			},
+			{
+				name: 'facility.name',
+				label: messageService.get('label.facilityName')
+			},
+			{
+				name: 'facility.type.name',
+				label: messageService.get('label.facilityType')
+			}
+		];
+
+		/**
+		 * @ngdoc property
+		 * @name selectedColumn
+		 * @propertyOf requisition-approval.RequisitionApprovalListController
+		 * @type {Array}
+		 *
+		 * @description
+		 * Holds current column that items are sorted by.
+		 */
+		vm.selectedColumn = vm.columns[0].name;
+
+		/**
+		 * @ngdoc property
+		 * @name reverse
+		 * @propertyOf requisition-approval.RequisitionApprovalListController
+		 * @type {Array}
+		 *
+		 * @description
+		 * True if items are sorted descending.
+		 */
+		vm.reverse = true;
+
+		/**
+         * @ngdoc method
+         * @name changeSortOrder
+         * @propertyOf requisition-approval.RequisitionApprovalListController
+         *
+         * @description
+         * Changes sort order (ascending/descending).
+         */
+		function changeSortOrder() {
+			vm.reverse = !vm.reverse;
+		}
 
         /**
          * @ngdoc property
@@ -52,90 +103,11 @@
          *
          * @description
          * Holds handler which redirects to requisition page after clicking on grid row.
-         *
          */
 		function openRnr(requisitionId) {
 			$state.go('requisitions.requisition.fullSupply', {
 				rnr: requisitionId
 			});
-		};
-
-        /**
-         * @ngdoc property
-         * @name filterRequisitions
-         * @propertyOf requisition-approval.RequisitionApprovalListController
-         *
-         * @description
-         * Holds handler which filters requisitions after change query or searchField.
-         *
-         */
-		function filterRequisitions() {
-			vm.filteredRequisitions = [];
-			var query = vm.query || "";
-			var searchField = vm.searchField.item.value;
-
-			vm.filteredRequisitions = vm.requisitions.filter(function (rnr) {
-                if(searchField){
-                    return contains(getFieldValue(rnr, searchField), query);
-                } else {
-                    return matchesAnyField(query, rnr);
-                }
-			});
-
-			vm.resultCount = vm.filteredRequisitions.length;
-		};
-
-        /**
-         * @ngdoc function
-         * @name getFieldValue
-         * @methodOf requisition-approval.RequisitionApprovalListController
-         *
-         * @description
-         * Get value of field from object using dot char to split it.
-         *
-         * @param  {Object} object    the object to get value
-         * @param  {String} fieldName the name of field
-         * @return {String}           value of field
-         */
-		function getFieldValue(object, fieldName) {
-			return fieldName.split('.').reduce(function(a, b) {
-				return a[b];
-			}, object);
-		}
-
-        /**
-         * @ngdoc function
-         * @name contains
-         * @methodOf requisition-approval.RequisitionApprovalListController
-         *
-         * @description
-         * Check if string contains specific substring.
-         * If substring exist in string return index of first char of substring.
-         *
-         * @param  {String} string the string wherein search
-         * @param  {String} query  the substring to search
-         * @return {number}        index in string table of specific first char of substring
-         */
-		function contains(string, query) {
-			return string.toLowerCase().indexOf(query.toLowerCase()) != -1;
-		}
-
-        /**
-         * @ngdoc function
-         * @name matchesAnyField
-         * @methodOf requisition-approval.RequisitionApprovalListController
-         *
-         * @description
-         * Concat strings: program name, facility name and code to one string. Check if this string
-         * contains specific substring. If substring exist in string return index of first char of substring.
-         *
-         * @param  {String} query the string to search
-         * @param  {Object} rnr   the requisition to get program name facility name and code
-         * @return {number}       index in string table of specific first char of substring
-         */
-		function matchesAnyField(query, rnr) {
-			var rnrString = "|" + rnr.program.name + "|" + rnr.facility.name + "|" + rnr.facility.code + "|";
-			return contains(rnrString, query);
 		}
 	}
 

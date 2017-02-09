@@ -165,3 +165,11 @@ Styleguide 4.1
         margin-top: 1em;
     }
 }
+
+button.descending {
+	@include button-icon-only('sort-amount-desc');
+}
+
+button.ascending {
+	@include button-icon-only('sort-amount-asc');
+}
