@@ -18,7 +18,8 @@ describe("MessageService", function () {
                     "language.name": "English",
                     "sample": "message",
                     "messageWithParam": "hello ${name}!",
-                    "messageWithParams": "Object with id: ${id}, status: ${status}"
+                    "messageWithParams": "Object with id: ${id}, status: ${status}",
+                    "messageWithParams2": "Object with id: ${0}, status: ${1}"
                 },
                 "test": {
                     "language.name": "Test",
@@ -59,6 +60,12 @@ describe("MessageService", function () {
         var object = {id: '123', status:'NEW'};
         var expected = 'Object with id: 123, status: NEW';
         expect(messageService.get('messageWithParams', object)).toBe(expected);
+    });
+
+    it("returns the message string with parameters in array", function() {
+       var array = ['123', 'NEW'];
+       var expected = 'Object with id: 123, status: NEW';
+       expect(messageService.get('messageWithParams2', array)).toBe(expected);
     });
 
     it("can change the current locale", function(){
