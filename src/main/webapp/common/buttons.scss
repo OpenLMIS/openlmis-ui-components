@@ -100,14 +100,15 @@ button {
 
 .btn,
 .btn-default,
-a.button,
 input[type=submit],
 input[type=button] {
   @extend button;
-  &a {
+}
 
-  }
-  &a:hover{
+a.btn,
+a.button {
+  @extend button;
+  &:hover {
     text-decoration: none;
   }
 }

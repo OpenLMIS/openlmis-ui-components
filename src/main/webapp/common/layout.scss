@@ -24,8 +24,25 @@ body{
     flex-grow: 0;
     margin: 0.9em 0.9em 0;
     box-shadow: 0 0 0.5em $shadow;
-    outline: 0.1em solid $light-gray;
-    outline-offset: -0.5em;
     background: $white;
-    padding: 1em 1.5em 2.8em;
+    padding: 0em 1.5em;
+
+    > * {
+    	margin: 0.5em 0em;
+    }
+
+    header {
+    	@extend .clearfix;
+    	border-bottom: 0.1em solid $light-gray;
+    	padding: 1em 0em;
+
+    	> * {
+    		float: left;
+    		display: block;
+    	}
+
+    	> .primary {
+    		float: right;
+    	}
+    }
 }
