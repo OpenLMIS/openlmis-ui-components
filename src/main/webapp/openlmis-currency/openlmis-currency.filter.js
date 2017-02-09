@@ -43,39 +43,33 @@
         };
 
         function formatMoneyValue (value, settings) {
-            return formatMoneyWith(value, settings.groupingSeparator, settings.decimalSeparator,
-                                   settings.currencyDecimalPlaces, settings.groupingSize);
-        }
-
-        function formatMoneyWith (value, separator, decimalSeparator, decimalPlaces, groupingSize) {
-            var number = parseFloat(value).toFixed(decimalPlaces),
+            var number = parseFloat(value).toFixed(settings.currencyDecimalPlaces),
                 integerPart = parseInt(number) + '',
                 integerPartLength = integerPart.length,
-                firstGroupLength = integerPartLength > groupingSize
-                    ? integerPartLength % groupingSize
+                firstGroupLength = integerPartLength > settings.groupingSize
+                    ? integerPartLength % settings.groupingSize
                     : 0;
 
             return firstGroup() + otherGroups() + fractionPart();
 
             function firstGroup () {
-                return firstGroupLength ? integerPart.substr(0, firstGroupLength) + separator : '';
+                return firstGroupLength ? integerPart.substr(0, firstGroupLength) + settings.groupingSeparator : '';
             }
 
             function otherGroups () {
-                var extractGroupRegExp = new RegExp('(\\d{' + groupingSize + '})(?=\\d)', 'g');
+                var extractGroupRegExp = new RegExp('(\\d{' + settings.groupingSize + '})(?=\\d)', 'g');
 
                 return integerPart.substr(firstGroupLength)
-                    .replace(extractGroupRegExp, '$1' + separator);
+                    .replace(extractGroupRegExp, '$1' + settings.groupingSeparator);
             }
 
             function fractionPart () {
                 var extractedFractions = Math.abs(number - integerPart)
-                    .toFixed(decimalPlaces).slice(2);
+                    .toFixed(settings.currencyDecimalPlaces).slice(2);
 
-                return decimalPlaces ? decimalSeparator + extractedFractions : '';
+                return settings.currencyDecimalPlaces ? settings.decimalSeparator + extractedFractions : '';
             }
         }
-
     }
 
 })();
