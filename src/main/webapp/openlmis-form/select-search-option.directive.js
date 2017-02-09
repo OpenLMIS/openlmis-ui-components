@@ -8,21 +8,13 @@
      * @restrict E
      *
      * @description
-     * Disables an select element if there is only one option, and selects that options.
+     * Disables select dropdown and displays modal with options and search input.
+     * This functionality will be applied to select when there is
+     * more than 10 options or it has pop-out attribute.
      *
      * @example
-     * The following will be rendered like the commented out markup.
      * ```
-     * <select ng-model="vm.value">
-     *   <option>-- Select an option --</option>
-     *   <option value="awesome">Awesome!</option>
-     * </select>
-     * <!--
-     * <select ng-model="vm.value" disabled>
-     *   <option>-- Select an option --</option>
-     *   <option value="awesome" selected="selected">Awesome!</option>
-     * </select>
-     * -->
+     * <select ng-model="vm.value" ng-options="option in vm.options" pop-out></select>
      * ```
      */
     angular
@@ -91,7 +83,9 @@
 
                     modal = bootbox.dialog({
                         title: labelElement[0] ? labelElement[0].textContent : '',
-                        message: $compile(template)(modalScope)
+                        message: $compile(template)(modalScope),
+                        backdrop: true,
+                        onEscape: true
                     });
                 });
             }
