@@ -40,7 +40,8 @@
 			page: page,
 			pageSize: pageSize,
             totalItems: totalItems,
-			externalPagination: true
+			externalPagination: true,
+			itemValidator: undefined
 		});
 
         vm.stateParams.filterBy = $stateParams.filterBy;
@@ -225,7 +226,7 @@
                 isEmpty(vm.stateParams.filterValue) &&
                 isUndefined(vm.stateParams.sortBy) &&
                 isUndefined(vm.stateParams.descending) &&
-                vm.stateParams.page === 0;
+                !vm.stateParams.page;
         }
 
         /**

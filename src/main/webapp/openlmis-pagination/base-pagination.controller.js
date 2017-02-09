@@ -15,15 +15,16 @@
 
     controller.$inject = [
         '$state', 'paginationFactory', 'vm', 'page', 'pageSize', 'items', 'totalItems',
-        'externalPagination'
+        'externalPagination', 'itemValidator'
     ];
 
     function controller($state, paginationFactory, vm, page, pageSize, items, totalItems,
-                        externalPagination) {
+                        externalPagination, itemValidator) {
 
         vm.updateUrl = updateUrl;
         vm.getPage = getPage;
         vm.changePage = changePage;
+        vm.isPageValid = isPageValid;
 
         /**
          * @ngdoc property
@@ -118,6 +119,16 @@
          */
         function getPage(page) {
             return paginationFactory.getPage(vm.items, page, vm.stateParams.size);
+        }
+
+        function isPageValid(page) {
+            if (!itemValidator) return true;
+
+            var valid = true;
+            angular.forEach(getPage(page), function(item) {
+                valid = valid && itemValidator(item);
+            });
+            return valid;
         }
     }
 

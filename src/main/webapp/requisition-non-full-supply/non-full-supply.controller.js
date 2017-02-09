@@ -30,13 +30,13 @@
             page: page,
             pageSize: pageSize,
             totalItems: undefined,
-            externalPagination: false
+            externalPagination: false,
+            itemValidator: requisitionValidator.isLineItemValid
         });
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
-        vm.isPageValid = isPageValid;
         vm.getTotalItems = getTotalItems;
 
         /**
@@ -143,21 +143,6 @@
                 display = display || lineItem.$deletable;
             });
             return display;
-        }
-
-        /**
-         * @ngdoc methodOf
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
-         * @name isPageValid
-         *
-         * @description
-         * Checks whether items on the given page are valid.
-         *
-         * @param   {Number}    page    the number of the page
-         * @return  {Boolean}           true if alle the items are valid, false otherwise
-         */
-        function isPageValid(page) {
-            return requisitionValidator.areLineItemsValid(vm.getPage(page));
         }
 
         /**

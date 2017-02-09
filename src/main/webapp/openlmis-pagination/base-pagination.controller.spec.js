@@ -1,6 +1,7 @@
 describe('BasePaginationController', function() {
 
-    var vm, $controller, $state, paginationFactory, page, pageSize, items, totalItems, externalPagination, stateName, stateParams;
+    var vm, $controller, $state, paginationFactory, page, pageSize, items, totalItems,
+        externalPagination, itemValidator, stateName, stateParams;
 
     beforeEach(function() {
         module('openlmis-pagination');
@@ -157,6 +158,40 @@ describe('BasePaginationController', function() {
         expect(paginationFactory.getPage).toHaveBeenCalledWith(items, 1, pageSize);
     });
 
+    describe('isPageValid', function() {
+
+        beforeEach(function() {
+            itemValidator = jasmine.createSpy('itemValidator');
+        });
+
+        it('should return true if item validator is not specified', function() {
+            itemValidator = undefined;
+
+            initController();
+
+            expect(vm.isPageValid(3223)).toEqual(true);
+        });
+
+        it('should return true if all items are valid', function() {
+            itemValidator.andReturn(true);
+
+            initController();
+
+            expect(vm.isPageValid(0)).toEqual(true);
+        });
+
+        it('should return false if any of the line items is invalid', function() {
+            itemValidator.andCallFake(function(item) {
+                return item !== items[1];
+            });
+
+            initController();
+
+            expect(vm.isPageValid(0)).toEqual(false);
+        });
+
+    });
+
     function initController() {
         $controller('BasePaginationController', {
             vm: vm,
@@ -164,7 +199,8 @@ describe('BasePaginationController', function() {
             pageSize: pageSize,
             items: items,
             totalItems: totalItems,
-            externalPagination: externalPagination
+            externalPagination: externalPagination,
+            itemValidator: itemValidator
         });
     }
 

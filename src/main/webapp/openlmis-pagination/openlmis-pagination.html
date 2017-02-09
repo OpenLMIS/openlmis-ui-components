@@ -1,4 +1,4 @@
-<div class="openlmis-pagination">
+<div class="openlmis-pagination" ng-if="vm.totalPages">
 	<div class="pagination-info">
 		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>

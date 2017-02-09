@@ -29,7 +29,8 @@
             pageSize: pageSize,
             items: items,
             totalItems: totalItems,
-            externalPagination: false
+            externalPagination: false,
+            itemValidator: requisitionValidator.isLineItemValid
         });
 
         vm.stateParams.rnr = requisition.id;
@@ -37,7 +38,6 @@
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
-        vm.isPageValid = isPageValid;
 
         /**
          * @ngdoc property
@@ -111,21 +111,6 @@
          */
         function isSkipColumn(column) {
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
-        }
-
-        /**
-         * @ngdoc methodOf
-         * @methodOf requisition-full-supply.FullSupplyController
-         * @name isPageValid
-         *
-         * @description
-         * Checks whether items on the given page are valid.
-         *
-         * @param   {Number}    page    the number of the page
-         * @return  {Boolean}           true if alle the items are valid, false otherwise
-         */
-        function isPageValid(page) {
-            return requisitionValidator.areLineItemsValid(vm.getPage(items, page));
         }
 
         function setSkipAll(value) {

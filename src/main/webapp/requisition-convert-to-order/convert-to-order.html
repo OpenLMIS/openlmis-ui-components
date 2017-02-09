@@ -1,8 +1,8 @@
 <div class="convert-to-order-list">
 	<div class="page">
 		<h2>{{'label.requisition.convertOrder' | message}}</h2>
-		<section class="openlmis-table-container" ng-if="!vm.nothingToConvert">
-			<form class="openlmis-table-filters" ng-submit="vm.reload()">
+		<section class="openlmis-table-container">
+			<form class="openlmis-table-filters" ng-submit="vm.reload()" ng-if="!vm.nothingToConvert">
 				<label for="searchFor">{{'search.for' | message}}</label>
 				<input id="searchFor" class="filter-value" ng-model="vm.stateParams.filterValue"
 					   maxlength="50"/>
@@ -18,7 +18,7 @@
 			<div class="openlmis-table">
 				<table>
 					<caption ng-if="vm.infoMessage">{{vm.infoMessage | message}}</caption>
-					<thead>
+					<thead ng-if="vm.pageItems.length">
 						<tr>
 							<th>
 								<input type="checkbox" ng-model="vm.selectAll"
