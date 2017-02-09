@@ -16,6 +16,10 @@ $black: #000000;
 $shadow: rgba($black, 0.75);
 $light-shadow: rgba($black, 0.075);
 
+$font-size: 14px;
+$font-size-large: 22px;
+$font-size-extra-large: 36px;
+
 $brand-primary: $heading-green;
 
 $background-color: $white;
@@ -26,6 +30,11 @@ $text-color-disabled: $gray;
 $table-border-color: $gray;
 
 $icon-font-path: 'fonts/';
+
+$border-radius: 4px;
+$border-radius-base: $border-radius;
+$border-radius-large: $border-radius;
+$border-radius-small: $border-radius;
 
 // Spacing
 $padding2px:2px;

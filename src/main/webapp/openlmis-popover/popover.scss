@@ -32,26 +32,26 @@ Styleguide 1.5
 	color: $brand-primary;
 	font-size: 1em;
 	line-height: 1em;
-	padding: $space-size/2;
+	padding: 0.5em 2em;
 	margin: 0em;
 }
 
 .popover > .popover-content{
 	overflow: hidden;
-	padding: $space-size/2;
-	padding-right: $space-size * 2;
+	padding: 0.5em;
+	padding-left: 2em;
 }
 
 .popover > h3 + .popover-content{
-	padding-right: $space-size/2;
+	padding: 0.5em;
 }
 
 .popover > button.close{
 	@include icon-only("times");
 	opacity: 1;
 	position: absolute;
-	top: $space-size/2;
-	right: $space-size/4;
+	top: 0.5em;
+	left: 0.25em;
 }
 
 .has-popover > .show-popover{

@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page order-view">
     <h1>{{'header.viewOrders' | message}}</h1>
     <section class="openlmis-table-container">
         <form class="openlmis-table-filters" ng-submit="vm.loadOrders()" novalidate>
@@ -30,7 +30,7 @@
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.comment' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
-                    <th></th>
+                    <th class="sticky"></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,12 +46,14 @@
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': order.emergency}"></i>
                     </td>
-                    <td>
-                        <button class="btn btn-print"
+                    <td class="sticky">
+                        <button class="print"
                             openlmis-download="{{vm.getPrintUrl(order)}}">
+                            {{'order.print'|message}}
                         </button>
-                        <button class="btn btn-download"
+                        <button class="download"
                             openlmis-download="{{vm.getDownloadUrl(order)}}">
+                            {{'order.download'|message}}
                         </button>
                     </td>
                 </tr>

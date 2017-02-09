@@ -46,3 +46,19 @@
         margin: 0.3em 0.3em 0.3em 0.8em;
     }
 }
+
+.status-message > form {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-flow: flex-end;
+    > * {
+        flex: 0 0 auto;
+        margin-right: 0.5em;
+        &:last-child {
+            margin-right: 0em;
+        }
+    }
+    > textarea {
+        flex-grow: 1;
+    }
+}

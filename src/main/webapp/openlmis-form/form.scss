@@ -96,6 +96,12 @@ Styleguide 3.0
 // 	@extend form;
 // }
 // 
+
+form > input[type="submit"]{
+  float: right;
+}
+
+
 textarea {
   resize: none;
 }

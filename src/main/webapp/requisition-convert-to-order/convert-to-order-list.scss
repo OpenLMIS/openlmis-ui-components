@@ -23,7 +23,7 @@
 			}
 
 			button.search {
-				@include button-color($green);
+				@include button($green);
 			}
 		}
 
@@ -34,7 +34,7 @@
 	}
 
 	button.convert-to-order {
-		@include button-color($green);
+		@include button($green);
 		float: right;
 	}
 

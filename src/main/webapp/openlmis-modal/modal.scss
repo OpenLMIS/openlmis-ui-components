@@ -1,0 +1,24 @@
+
+.modal {
+	button.close {
+		position: absolute;
+		top: 1em;
+		left: 1em;
+		font-size: 1em;
+	}
+
+	.modal-header,
+	.modal-body,
+	.modal-footer{
+		padding: 0.5em 2em;
+	}
+
+	.modal-header{
+		background-color: $background-color-alt;
+		color: $brand-primary;
+	}
+
+	.modal-footer{
+		@extend .button-group;
+	}
+}

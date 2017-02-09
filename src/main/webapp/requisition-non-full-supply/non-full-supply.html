@@ -1,10 +1,8 @@
 <div class="non-full-supply openlmis-table-container">
 	<div class="openlmis-table-controls">
-		<input class="btn btn-primary"
-			type="button"
-			ng-if="vm.displayAddProductButton"
-			ng-click="vm.addProduct()"
-			value="{{'button.add' | message}}"/>
+		<button class="primary" ng-if="vm.displayAddProductButton" ng-click="vm.addProduct()" >
+			{{'button.add' | message}}
+		</button>
 	</div>
 	<div class="openlmis-table">
 		<table>

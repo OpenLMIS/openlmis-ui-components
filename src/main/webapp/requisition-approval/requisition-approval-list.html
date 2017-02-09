@@ -31,9 +31,9 @@
                         <span ng-if="requisition.emergency" class="icon-ok"></span>
                     </td>
                     <td class="sticky">
-                        <input type="button" class="btn btn-primary"
-                               value="{{'button.viewRequisition' | message}}"
-                               ng-click="vm.openRnr(requisition.id)"/>
+                        <button class="primary" ng-click="vm.openRnr(requisition.id)">
+                            {{'button.viewRequisition' | message}}
+                        </button>
                     </td>
                 </tr>
             </tbody>

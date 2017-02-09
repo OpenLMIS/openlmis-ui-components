@@ -7,10 +7,11 @@
   ~ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
   ~ You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
   -->
-<div class="page requisition-view">
-    <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})
-        <a class="btn btn-primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</a>
-    </h2>
+<article class="page requisition-view">
+    <header>
+      <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})</h2>
+      <button class="primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</button>
+    </header>
     <ng-include src="'requisition-view/header.html'"></ng-include>
     <status-messages requisition="vm.requisition"></status-messages>
     <ul class="nav nav-tabs">
@@ -29,5 +30,5 @@
     </ul>
     <div ui-view=""></div>
     <requisition-summary requisition="vm.requisition"></requisition-summary>
-</div>
+</article>
 <ng-include src="'requisition-view/requisition-toolbar.html'"></ng-include>

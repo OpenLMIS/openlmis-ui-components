@@ -1,10 +1,12 @@
-<div class="openlmis-toolbar">
-    <input type="button" class="btn btn-default" ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()" value="{{'button.sync' | message}}"/>
-    <input type="button" class="btn btn-default primary-action" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()" value="{{'button.skip' | message}}" ng-if="vm.displaySkip()"/>
-    <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()" value="{{'button.delete' | message}}" ng-if="vm.displayDelete()"/>
-    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()" value="{{'button.submit' | message}}" ng-if="vm.displaySubmit()"/>
-    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.authorizeRnr()" value="{{'button.authorize' | message}}" ng-if="vm.displayAuthorize()"/>
-    <input type="button" class="btn btn-danger primary-action" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()" value="{{'button.rnr.reject' | message}}" ng-if="vm.displayApproveAndReject()"/>
-    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.approveRnr()" value="{{'button.approve' | message}}" ng-if="vm.displayApproveAndReject()"/>
-    <input type="button" class="btn btn-primary primary-action" ng-disabled="vm.isOffline()" ng-click="vm.convertRnr()" value="{{'button.convert.to.order' | message}}" ng-if="vm.displayConvertToOrder()"/>
+<div class="openlmis-toolbar button-group">
+	<button ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()">{{'button.sync' | message}}</button>
+    <div class="button-group primary">
+	    <button ng-if="vm.displaySubmit()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()">{{'button.submit' | message}}</button>
+	    <button ng-if="vm.displayAuthorize()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.authorizeRnr()">{{'button.authorize' | message}}</button>
+	    <button ng-if="vm.displayApproveAndReject()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()">{{'button.rnr.reject' | message}}</button>
+	    <button ng-if="vm.displayApproveAndReject()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.approveRnr()">{{'button.approve' | message}}</button>
+	    <button ng-if="vm.displayConvertToOrder()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.convertRnr()">{{'button.convert.to.order' | message}}</button>
+	    <button ng-if="vm.displayDelete()" class="delete" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()">{{'button.skip' | message}}</button>
+	    <button ng-if="vm.displaySkip()" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()">{{'button.delete' | message}}</button>
+    </div>
 </div>

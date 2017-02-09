@@ -16,10 +16,9 @@ markup:
 Styleguide 6.0
  */
 .openlmis-toolbar {
-    align-items: flex-start;
+    @extend .button-group;
     background: $shadow;
-    display: flex;
-    flex-wrap: nowrap;
+    display: block;
     bottom: 0;
     left: 0;
     right: 0;
@@ -28,13 +27,13 @@ Styleguide 6.0
     z-index: 15;
     width: 100%;
 
-    & > .primary-action {
-        margin-left: auto;
-    }
+    // & > .primary-action {
+    //     margin-left: auto;
+    // }
 
-    & > .btn:not(:first-child):not(.primary-action),
-    & > .primary-action ~ .primary-action {
-        margin-left: 0.5em;
-    }
+    // & > .btn:not(:first-child):not(.primary-action),
+    // & > .primary-action ~ .primary-action {
+    //     margin-left: 0.5em;
+    // }
 
 }
