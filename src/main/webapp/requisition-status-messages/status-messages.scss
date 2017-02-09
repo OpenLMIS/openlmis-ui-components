@@ -50,7 +50,7 @@
 .status-message > form {
     display: flex;
     flex-wrap: nowrap;
-    flex-flow: flex-end;
+    justify-content: flex-end;
     > * {
         flex: 0 0 auto;
         margin-right: 0.5em;
