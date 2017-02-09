@@ -121,6 +121,18 @@
             return paginationFactory.getPage(vm.items, page, vm.stateParams.size);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-pagination.controller:BasePaginationController
+         * @name isPageValid
+         *
+         * @description
+         * Validates whether page with the given name is valid.
+         *
+         * @param   {Number}    page    the number of the page
+         * @return  {Boolean}           true if the page with the given number is valid, false
+         *                              otherwise
+         */
         function isPageValid(page) {
             if (!itemValidator) return true;
 

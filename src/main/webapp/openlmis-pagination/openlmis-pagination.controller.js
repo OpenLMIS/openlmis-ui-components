@@ -25,6 +25,7 @@
         vm.isLastPage = isLastPage;
 
         vm.getPages = getPages;
+        vm.getTotalPages = getTotalPages;
 
         /**
          * @ngdoc method
