@@ -1,5 +1,6 @@
 {
   "app.title": "OpenLMIS",
+  "powered.by": "Powered by ${openlmis}",
   "button.add": "Add",
   "button.addComment": "Add comment",
   "button.approve": "Approve",
