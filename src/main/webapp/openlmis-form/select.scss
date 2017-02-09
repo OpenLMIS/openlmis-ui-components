@@ -50,6 +50,9 @@ markup:
 			>
 		</select>
 	</fieldset>
+	<label for="select-more-than-10">Select if there is more than 10 items</label>
+	<select id="select-more-than-10" ng-model="select-color" ng-options="color for color in ['Blue', 'Purple', 'Maroon', 'Red', 'Rose', 'Peach', 'Yellow', 'Lime', 'Green', 'Seafoam', 'Teal']">
+	</select>
 </form>
 
 
