@@ -13,12 +13,13 @@
         .module('order')
         .factory('orderFactory', factory);
 
-    factory.$inject = ['orderService'];
+    factory.$inject = ['orderService', '$q', 'ORDER_STATUS'];
 
-    function factory(orderService) {
+    function factory(orderService, $q, ORDER_STATUS) {
         var factory = {
             search: search,
-            getPod: getPod
+            getPod: getPod,
+            searchOrdersForManagePod: searchOrdersForManagePod
         };
         return factory;
 
@@ -58,6 +59,41 @@
          */
         function getPod(orderId) {
             return orderService.getPod(orderId);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf order.orderFactory
+         * @name searchOrdersForManagePod
+         *
+         * @description
+         * Gets orders from the server using orderService and filter them by status
+         *
+         * @param   {String}    requestingFacilityId    (optional) the ID of the requestingFacility
+         * @param   {String}    programId               (optional) the ID of the program
+         * @return  {Promise}                           the promise resolving to a list of all
+         *                                              matching orders
+         */
+        function searchOrdersForManagePod(requestingFacilityId, programId) {
+            var deferred = $q.defer();
+
+            orderService.search({
+                requestingFacility: requestingFacilityId,
+                program: programId
+            }).then(function(orders) {
+                var ordersToDisplay = [];
+                orders.forEach(function(order) {
+                    if (order.status === ORDER_STATUS.PICKED
+                        || order.status === ORDER_STATUS.TRANSFER_FAILED
+                        || order.status === ORDER_STATUS.READY_TO_PACK
+                        || order.status === ORDER_STATUS.ORDERED
+                        || order.status === ORDER_STATUS.RECEIVED) {
+                        ordersToDisplay.push(order);
+                    }
+                });
+                deferred.resolve(ordersToDisplay);
+            });
+            return deferred.promise;
         }
     }
 

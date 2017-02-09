@@ -42,7 +42,7 @@
             </fieldset>
             <fieldset ng-show="vm.isSupervised">
                 <label for="supervisedFacilityName">
-                    {{'label.requisition.facilityName' | message}}
+                    {{'label.requestingFacility' | message}}
                 </label>
                 <select id="supervisedFacilityName" ng-model="vm.requestingFacilityId"
                         ng-options="facility.id as facility.name for facility in vm.requestingFacilities | unique:'id'"

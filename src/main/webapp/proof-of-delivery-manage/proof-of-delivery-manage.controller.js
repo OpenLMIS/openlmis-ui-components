@@ -18,22 +18,27 @@
      * @description
      * Controller for proof of delivery manage page
      */
-
     angular
         .module('proof-of-delivery-manage')
         .controller('ProofOfDeliveryManageController', controller);
 
     controller.$inject = [
-        'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'orderFactory',
-        '$state', 'loadingModalService', 'notificationService', 'authorizationService', '$q',
+        'facility', 'user', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
+        'loadingModalService', 'notificationService', 'authorizationService', '$q',
         'REQUISITION_RIGHTS', 'facilityService', 'ORDER_STATUS'
     ];
 
-    function controller(messageService, facility, user, supervisedPrograms, homePrograms,
-        orderFactory, $state, loadingModalService, notificationService, authorizationService, $q,
-        REQUISITION_RIGHTS, facilityService, ORDER_STATUS) {
+    function controller(facility, user, supervisedPrograms, homePrograms, orderFactory, $state,
+        loadingModalService, notificationService, authorizationService, $q, REQUISITION_RIGHTS,
+        facilityService, ORDER_STATUS) {
 
         var vm = this;
+
+        vm.openPod = openPod;
+        vm.loadOrders = loadOrders;
+        vm.programOptionMessage = programOptionMessage;
+        vm.updateFacilityType = updateFacilityType;
+        vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
 
         /**
          * @ngdoc property
@@ -81,14 +86,7 @@
          */
         vm.isSupervised = false;
 
-        // Functions
-
-        vm.openPod = openPod;
-        vm.loadOrders = loadOrders;
-        vm.programOptionMessage = programOptionMessage;
-        vm.updateFacilityType = updateFacilityType;
-        vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
-        vm.updateFacilityType(vm.isSupervised);
+        updateFacilityType(vm.isSupervised);
 
         /**
          * @ngdoc function
@@ -108,9 +106,9 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
+            vm.error = '';
 
             if (isSupervised) {
-                vm.error = '';
                 vm.programs = vm.supervisedPrograms;
                 vm.requestingFacilities = [];
                 vm.requestingFacilityId = undefined;
@@ -121,14 +119,13 @@
                     loadFacilitiesForProgram(vm.programs[0].id);
                 }
             } else {
-                vm.error = '';
                 vm.programs = vm.homePrograms;
                 vm.requestingFacilities = [facility];
                 vm.requestingFacilityId = facility.id;
                 vm.selectedProgramId = undefined;
 
                 if (vm.programs.length <= 0) {
-                    vm.error = messageService.get('msg.no.program.available');
+                    vm.error = 'msg.no.program.available';
                 } else if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
                 }
@@ -147,7 +144,7 @@
          * @return {String} localized message
          */
         function programOptionMessage() {
-            return vm.programs === undefined || _.isEmpty(vm.programs) ? messageService.get('label.none.assigned') : messageService.get('label.select.program');
+            return vm.programs === undefined || _.isEmpty(vm.programs) ? 'label.none.assigned' : 'label.select.program';
         }
 
         /**
@@ -162,23 +159,11 @@
          */
         function loadOrders() {
             loadingModalService.open();
-            orderFactory.search(
-                null,
+            orderFactory.searchOrdersForManagePod(
                 vm.requestingFacilityId,
                 vm.selectedProgramId
             ).then(function(orders) {
-                vm.orders = [];
-                angular.forEach(orders, function(order) {
-                    if (order.status === ORDER_STATUS.PICKED
-                        || order.status === ORDER_STATUS.TRANSFER_FAILED
-                        || order.status === ORDER_STATUS.READY_TO_PACK
-                        || order.status === ORDER_STATUS.ORDERED
-                        || order.status === ORDER_STATUS.RECEIVED) {
-                        vm.orders.push(order);
-                    }
-                });
-            }, function() {
-                notificationService.error('msg.error.occurred');
+                vm.orders = orders;
             }).finally(function() {
                 loadingModalService.close();
             });
@@ -193,6 +178,7 @@
          * @description
          * Redirect to POD page.
          *
+         * @param {String}  orderId id of order to find it's POD
          */
         function openPod(orderId) {
             loadingModalService.open();
@@ -201,7 +187,7 @@
                     podId: pods[0].id
                 });
             }, function() {
-                notificationService.error('msg.error.occurred');
+                notificationService.error('msg.noOrderFound');
             }).finally(function() {
                 loadingModalService.close();
             });
@@ -235,7 +221,6 @@
                     })
                     .catch(function (error) {
                         notificationService.error('msg.error.occurred');
-                        loadingModalService.close();
                     })
                     .finally(loadingModalService.close());
                 } else {

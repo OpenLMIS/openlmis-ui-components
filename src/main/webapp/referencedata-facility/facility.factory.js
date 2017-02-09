@@ -33,7 +33,8 @@
         return {
             getUserFacilities: getUserFacilities,
             getSupplyingFacilities: getSupplyingFacilities,
-            getRequestingFacilities: getRequestingFacilities
+            getRequestingFacilities: getRequestingFacilities,
+            getUserHomeFacility: getUserHomeFacility
         };
 
 
@@ -131,6 +132,29 @@
                 userId: userId,
                 rightId: authorizationService.getRightByName(rightName).id
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-facility.facilityFactory
+         * @name getUserHomeFacility
+         *
+         * @description
+         * Returns home facility for the user.
+         *
+         * @param   {String}    userId  the ID of the user to fetch the home facility for
+         * @return  {Object}            home facility
+         */
+        function getUserHomeFacility() {
+            var deferred = $q.defer();
+
+            authorizationService.getDetailedUser().$promise.then(function(response) {
+                deferred.resolve(response.homeFacility);
+            }, function() {
+                deferred.reject();
+            });
+
+            return deferred.promise;
         }
     }
 

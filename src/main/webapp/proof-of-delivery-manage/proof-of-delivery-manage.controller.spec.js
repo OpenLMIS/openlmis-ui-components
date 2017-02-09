@@ -1,8 +1,8 @@
 describe('ProofOfDeliveryManageController', function() {
 
-    var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, notificationServiceMock,
-        right, programs, facility, user, deferred, orders, facilityService,
-        authorizationService, offlineServiceMock, pod, $state;
+    var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, right, programs,
+        facility, user, deferred, orders, facilityService, authorizationService,
+        offlineServiceMock, pod, $state;
 
     beforeEach(function() {
 
@@ -31,9 +31,8 @@ describe('ProofOfDeliveryManageController', function() {
         }];
 
         module('proof-of-delivery-manage', function($provide) {
-            orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search', 'getPod']);
+            orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search', 'getPod', 'searchOrdersForManagePod']);
             loadingModalServiceMock = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
-            notificationServiceMock = jasmine.createSpyObj('notificationService', ['error']);
             offlineServiceMock = jasmine.createSpyObj('offlineService', ['checkConnection', 'isOffline']);
 
             $provide.factory('orderFactory', function() {
@@ -42,10 +41,6 @@ describe('ProofOfDeliveryManageController', function() {
 
             $provide.factory('loadingModalService', function() {
                 return loadingModalServiceMock;
-            });
-
-            $provide.factory('notificationService', function() {
-                return notificationServiceMock;
             });
 
             $provide.factory('offlineService', function() {
@@ -92,7 +87,7 @@ describe('ProofOfDeliveryManageController', function() {
             vm.selectedProgramId = vm.programs[0].id;
 
             orderFactoryMock.getPod.andReturn(deferred.promise);
-            orderFactoryMock.search.andReturn(deferred.promise);
+            orderFactoryMock.searchOrdersForManagePod.andReturn(deferred.promise);
         });
 
         it('should open loading modal', function() {
@@ -104,7 +99,7 @@ describe('ProofOfDeliveryManageController', function() {
         it('should fetch orders from order factory with correct params', function() {
             vm.loadOrders();
 
-            expect(orderFactoryMock.search).toHaveBeenCalledWith(null, 'facility-one', 'program-one');
+            expect(orderFactoryMock.searchOrdersForManagePod).toHaveBeenCalledWith('facility-one', 'program-one');
         });
 
         it('should set vm.orders', function() {
@@ -112,15 +107,7 @@ describe('ProofOfDeliveryManageController', function() {
             deferred.resolve(orders);
             $rootScope.$apply();
 
-            expect(vm.orders).toEqual([orders[0]]);
-        });
-
-        it('should show error on failed request', function() {
-            vm.loadOrders();
-            deferred.reject();
-            $rootScope.$apply();
-
-            expect(notificationServiceMock.error).toHaveBeenCalledWith('msg.error.occurred');
+            expect(vm.orders).toEqual(orders);
         });
 
         it('should close loading modal', function() {

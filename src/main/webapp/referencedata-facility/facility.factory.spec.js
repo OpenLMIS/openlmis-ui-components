@@ -10,7 +10,7 @@
 describe('facilityFactory', function() {
 
     var $rootScope, $q, facility1, facility2, userPrograms, programService, facilityService,
-        authorizationService, facilityFactory, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS;
+        authorizationService, facilityFactory, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS, user;
 
     beforeEach(function() {
         module('referencedata-facility', function($provide){
@@ -147,6 +147,15 @@ describe('facilityFactory', function() {
             expect(result[2]).toEqual(podsManageFacilities[1]);
         });
 
+    });
+
+    describe('getUserHomeFacility', function() {
+        it('should fetch home facility for the current user', function() {
+            spyOn(authorizationService, 'getDetailedUser').andCallThrough();
+            facilityFactory.getUserHomeFacility();
+
+            expect(authorizationService.getDetailedUser).toHaveBeenCalled();
+        });
     });
 
     describe('getRequestingFacilities', function() {

@@ -1,16 +1,18 @@
 describe('orderFactory', function() {
 
-    var $q, orderFactory, orderServiceMock;
+    var $q, orderFactory, orderServiceMock, ORDER_STATUS;
 
     beforeEach(function() {
         module('order', function($provide) {
-            orderServiceMock = createMock($provide, 'orderService', ['search', 'getPod']);
+            orderServiceMock = createMock($provide, 'orderService', ['search', 'getPod', 'searchOrdersForManagePod']);
         });
 
         inject(function($injector) {
             $q = $injector.get('$q');
+            ORDER_STATUS = $injector.get('ORDER_STATUS');
             orderFactory = $injector.get('orderFactory');
         });
+
     });
 
     it('should call orderService with correct params', function() {
@@ -35,6 +37,16 @@ describe('orderFactory', function() {
         orderFactory.getPod('id-one');
 
         expect(orderServiceMock.getPod).toHaveBeenCalledWith('id-one');
+    });
+
+    it('should call orderService with id param', function() {
+        orderServiceMock.search.andReturn($q.when());
+        orderFactory.searchOrdersForManagePod('id-one', 'id-two');
+
+        expect(orderServiceMock.search).toHaveBeenCalledWith({
+            requestingFacility: 'id-one',
+            program: 'id-two'
+        });
     });
 
 });

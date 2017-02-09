@@ -24,16 +24,8 @@
                 REQUISITION_RIGHTS.REQUISITION_AUTHORIZED
             ],
             resolve: {
-                facility: function (authorizationService, $q) {
-                    var deferred = $q.defer();
-
-                    authorizationService.getDetailedUser().$promise.then(function(response) {
-                        deferred.resolve(response.homeFacility);
-                    }, function(response) {
-                        deferred.reject();
-                    });
-
-                    return deferred.promise;
+                facility: function(facilityFactory) {
+                    return facilityFactory.getUserHomeFacility();
                 },
                 user: function(authorizationService) {
                     return authorizationService.getUser();
