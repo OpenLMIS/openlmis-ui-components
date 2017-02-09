@@ -21,9 +21,9 @@ describe('proofOfDeliveryService', function() {
 
         pod = {
             id: POD_ID,
-            receivedDate: [2017, 1, 17],
+            receivedDate: new Date(),
             order: {
-                createdDate: [2017, 1, 17]
+                createdDate: new Date()
             }
         };
 
@@ -76,14 +76,6 @@ describe('proofOfDeliveryService', function() {
 
             proofOfDeliveryService.save(pod);
             $httpBackend.flush();
-        });
-
-        it('should call format date method', function() {
-            proofOfDeliveryService.save(pod);
-            $httpBackend.flush();
-
-            expect(dateUtilsMock.toArray).toHaveBeenCalledWith(pod.receivedDate);
-            expect(dateUtilsMock.toArray).toHaveBeenCalledWith(pod.order.createdDate);
         });
     });
 

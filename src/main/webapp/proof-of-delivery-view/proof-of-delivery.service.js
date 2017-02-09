@@ -103,8 +103,8 @@
         }
 
 		function transformRequest(pod) {
-			if(pod.receivedDate) pod.receivedDate = dateUtils.toArray(pod.receivedDate);
-			if(pod.order.createdDate) pod.order.createdDate = dateUtils.toArray(pod.order.createdDate, true);
+			if(pod.receivedDate) pod.receivedDate = pod.receivedDate.toISOString();
+			if(pod.order.createdDate) pod.order.createdDate = pod.order.createdDate.toISOString();
             return angular.toJson(pod);
         }
     }
