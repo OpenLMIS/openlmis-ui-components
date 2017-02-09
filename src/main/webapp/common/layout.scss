@@ -27,14 +27,21 @@ body{
     background: $white;
     padding: 0em 1.5em;
 
+    padding-bottom: $space-size*2; // For toolbar
+
     > * {
     	margin: 0.5em 0em;
+        &:first-child{
+            margin-top: 0px;
+        }
     }
 
-    header {
+    > h1:first-child,
+    > h2:first-child,
+    > header {
     	@extend .clearfix;
-    	border-bottom: 0.1em solid $light-gray;
-    	padding: 1em 0em;
+    	border-bottom: 1px solid $light-gray;
+    	padding: $space-size 0px $space-size/2;
 
     	> * {
     		float: left;
@@ -44,5 +51,9 @@ body{
     	> .primary {
     		float: right;
     	}
+
+        &h1, &h2{
+            font-weight: normal;
+        }
     }
 }
