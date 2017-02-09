@@ -38,6 +38,7 @@ markup:
       <th>Name</th>
       <th>Strength</th>
       <th>Unit of measure</th>
+      <th></th>
     </tr>
   </thead>
   <tbody title="Anti-malarials">
@@ -49,6 +50,9 @@ markup:
       <td>Quinine Sulphate</td>
       <td>300</td>
       <td>mg</td>
+      <td>
+        <button>Action</button>
+      </td>
     </tr>
   </tbody>
   <tbody title="Anti-pyretics">
@@ -60,6 +64,9 @@ markup:
       <td>Tramedol</td>
       <td>50mg/ml</td>
       <td>mg</td>
+      <td>
+        <button>Action</button>
+      </td>
     </tr>
     <tr>
       <td>
@@ -69,6 +76,10 @@ markup:
       <td>Doxycycline</td>
       <td>100</td>
       <td>mg</td>
+      <td>
+        <button>Action</button>
+        <button>Other Action</button>
+      </td>
     </tr>
     <tr>
       <td>
@@ -78,12 +89,18 @@ markup:
       <td>Malaria Rapid Diagnostic Test</td>
       <td>1</td>
       <td>each</td>
+      <td>
+        <button>Action</button>
+        <button>Other Action</button>
+      </td>
     </tr>
   </tbody>
 </table>
 
 Styleguide 4.0
 */
+
+$table-border-color: $gray !default;
 
 table.openlmis-table {
     border-collapse: separate;
@@ -101,11 +118,13 @@ table.openlmis-table {
     }
 
     td, th {
-        padding: 0.5em;
-        vertical-align: middle !important; // from requisition template screen
-        border-top: none !important;
-        border-bottom: $table-border;
-        border-right: $table-border;
+      @extend .clearfix;
+      padding: 0.5em;
+      white-space: nowrap;
+      vertical-align: middle !important; // from requisition template screen
+      border-top: none !important;
+      border-bottom: $table-border;
+      border-right: $table-border;
     }
 
     td {
@@ -116,7 +135,6 @@ table.openlmis-table {
         border-top: $table-border;
         background: $light-gray;
         background-image: linear-gradient(to top, $light-gray, lighten($light-gray, 15%));
-        white-space: nowrap;
     }
 
     thead{
@@ -147,4 +165,22 @@ table.openlmis-table {
             border-color: darken($red, 20%);
         }
     }
+}
+
+td {
+  > button,
+  > button.primary {
+    display: inline-block;
+    float: none;
+    margin: 0px;
+    border-radius: 0px;
+    &:first-child{
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+    &:last-child{
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+  }
 }

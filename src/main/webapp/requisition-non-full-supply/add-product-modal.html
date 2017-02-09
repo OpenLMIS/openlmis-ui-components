@@ -27,6 +27,8 @@
 			ng-model="vm.requestedQuantityExplanation"
 			ng-required="vm.requestedQuantity">
 	</div>
-	<input class="add-product" type="submit" value="{{'button.add' | message}}"></button>
-	<button type="button" data-dismiss="modal" class="cancel">{{'button.cancel' | message}}</button>
+	<div class="button-group">
+		<input type="submit" value="{{'button.add' | message}}" />
+		<button type="button" data-dismiss="modal" class="cancel">{{'button.cancel' | message}}</button>
+	</div>
 </form>

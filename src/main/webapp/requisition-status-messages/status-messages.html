@@ -10,9 +10,11 @@
             <dd>{{vm.requisition.$statusMessages[0].body}}</dd>
         </dl>
     </aside>
-    <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
-    <input type="button" class="btn btn-primary" value="{{'button.addComment' | message}}"
-           ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
-    <input type="button" class="btn delete-button" value="{{'button.removeComment' | message}}"
-           ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
+    <form>
+        <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
+        <input type="button" class="primary" value="{{'button.addComment' | message}}"
+               ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
+        <input type="button" class="delete" value="{{'button.removeComment' | message}}"
+               ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
+    </form>
 </div>

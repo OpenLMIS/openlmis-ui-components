@@ -8,7 +8,7 @@ aside.requisition-summary {
     @include clearfix();
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
     > * {
         display: block;
         flex: 1 0 auto;

@@ -1,6 +1,6 @@
 <div class="openlmis-toolbar button-group">
 	<button ng-disabled="vm.isOffline()" ng-click="vm.syncRnr()">{{'button.sync' | message}}</button>
-    <div class="button-group-primary">
+    <div class="button-group primary">
 	    <button ng-if="vm.displaySubmit()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.submitRnr()">{{'button.submit' | message}}</button>
 	    <button ng-if="vm.displayAuthorize()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.authorizeRnr()">{{'button.authorize' | message}}</button>
 	    <button ng-if="vm.displayApproveAndReject()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()">{{'button.rnr.reject' | message}}</button>
