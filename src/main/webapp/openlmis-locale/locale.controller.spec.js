@@ -12,14 +12,21 @@ describe("LocaleController", function () {
 
     beforeEach(module('openlmis-locale'));
 
-    var messageService, alertService, notificationService;
+    var messageService, alertService, notificationService, openlmisLanguages;
+
+    beforeEach(function(){
+        angular.mock.module("openlmis-config", function($provide){
+            $provide.constant('OPENLMIS_LANGUAGES', ['en', 'fr'])
+        })
+    });
 
     beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
-                                _notificationService_) {
+                                _notificationService_, _OPENLMIS_LANGUAGES_) {
 
         messageService = _messageService_;
         alertService = _alertService_;
         notificationService = _notificationService_;
+        openlmisLanguages = _OPENLMIS_LANGUAGES_;
 
         var mockLocale = undefined;
         spyOn(messageService, 'populate').andCallFake(function(lang){
@@ -47,6 +54,19 @@ describe("LocaleController", function () {
         beforeEach(inject(function($rootScope){
             scope = $rootScope.$new();
         }))
+
+        it("loads list of avaliable locales", inject(function($controller) {
+            var expectedLocales = ['en', 'fr'];
+            controller = $controller('LocaleController', {
+                $scope: scope,
+                messageService: messageService,
+                alertService: alertService,
+                notificationService: notificationService,
+                OPENLMIS_LANGUAGES: openlmisLanguages
+            });
+
+            expect(controller.locales).toEqual(expectedLocales);
+        }));
 
         it('loads the default locale when messageService locale not set', inject(function($controller){
             controller = $controller('LocaleController', {
