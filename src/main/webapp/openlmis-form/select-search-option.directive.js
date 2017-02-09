@@ -14,7 +14,7 @@
      *
      * @example
      * ```
-     * <select ng-model="vm.value" ng-options="option in vm.options" pop-out></select>
+     * <select .... pop-out ... > ..... </select>
      * ```
      */
     angular

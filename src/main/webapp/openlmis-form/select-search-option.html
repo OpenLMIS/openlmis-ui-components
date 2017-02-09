@@ -5,7 +5,7 @@
         <div>{{'msg.selectAnOption' | message}}</div>
         <div>({{'msg.showing' | message}} {{results.length}} {{'msg.outOf' | message}} {{options.length}})</div>
     </div>
-    <div class="option-list" >
+    <div class="option-list">
         <button ng-repeat="option in options | filter: {label: searchText} as results"
             class="btn btn-default option-button" ng-click="select(option)">
             {{option.label}}
