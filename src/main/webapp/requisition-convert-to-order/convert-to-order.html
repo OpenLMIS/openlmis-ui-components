@@ -1,7 +1,7 @@
 <div class="convert-to-order-list">
 	<div class="page">
 		<h2>{{'label.requisition.convertOrder' | message}}</h2>
-		<section class="openlmis-table-container" ng-if="!vm.nothingToConvert">
+		<section class="openlmis-table-container">
 			<form class="openlmis-table-filters" ng-submit="vm.changePage()">
 				<label for="searchFor">{{'search.for' | message}}</label>
 				<input id="searchFor" class="filter-value" ng-model="vm.stateParams.filterValue"
