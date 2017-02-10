@@ -19,10 +19,15 @@
     border-bottom: $color 1px solid;
 
     $button-text-color: $white;
+    $button-text-shadow-color: $text-color;
     @if (lightness($color) > 70) {
-        $button-text-color: $text-color; // Lighter backgorund, return dark color
-    }    
+        $button-text-color: $text-color;
+        $button-text-shadow-color: $white;
+    }
+
     color: $button-text-color;
+    text-shadow: 0px 0px 0.1em $button-text-shadow-color; 
+    
     background: $color;
     background-image: linear-gradient(to bottom,  lighten($color, 10%), lighten($color, 5%) 10%, $color);
 

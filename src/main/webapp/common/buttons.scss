@@ -98,14 +98,10 @@ button {
   }
 }
 
-.btn,
-.btn-default,
-input[type=submit],
 input[type=button] {
   @extend button;
 }
 
-a.btn,
 a.button {
   @extend button;
   &:hover {
@@ -113,17 +109,6 @@ a.button {
   }
 }
 
-.btn-primary,
 input[type=submit] {
   @extend button.primary;
-}
-
-button.delete,
-a.button.delete,
-.btn-delete,
-button.remove,
-a.button.remove,
-.btn-remove,
-.btn-danger {
-  @extend button.danger;
 }

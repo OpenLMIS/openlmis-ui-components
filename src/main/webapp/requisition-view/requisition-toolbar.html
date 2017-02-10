@@ -6,7 +6,7 @@
 	    <button ng-if="vm.displayApproveAndReject()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.approveRnr()">{{'button.approve' | message}}</button>
 	    <button ng-if="vm.displayApproveAndReject()" class="danger" ng-disabled="vm.isOffline()" ng-click="vm.rejectRnr()">{{'button.rnr.reject' | message}}</button>
 	    <button ng-if="vm.displayConvertToOrder()" class="primary" ng-disabled="vm.isOffline()" ng-click="vm.convertRnr()">{{'button.convert.to.order' | message}}</button>
-	    <button ng-if="vm.displayDelete()" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()">{{'button.delete' | message}}</button>
-	    <button ng-if="vm.displaySkip()" class="delete" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()">{{'button.skip' | message}}</button>
+	    <button ng-if="vm.displayDelete()" class="danger" ng-disabled="vm.isOffline()" ng-click="vm.removeRnr()">{{'button.delete' | message}}</button>
+	    <button ng-if="vm.displaySkip()" ng-disabled="vm.isOffline()" ng-click="vm.skipRnr()">{{'button.skip' | message}}</button>
     </div>
 </div>
