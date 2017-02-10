@@ -128,7 +128,7 @@
          */
         function submitRnr() {
             watcher.makeSilent();
-            confirmService.confirm('msg.question.confirmation.submit').then(function() {
+            confirmService.confirm('msg.question.confirmation.submit', 'button.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
                     vm.requisition.$save().then(function() {
@@ -161,7 +161,7 @@
          */
         function authorizeRnr() {
             watcher.makeSilent();
-            confirmService.confirm('msg.question.confirmation.authorize').then(function() {
+            confirmService.confirm('msg.question.confirmation.authorize', 'button.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
                     vm.requisition.$save().then(function() {
@@ -192,7 +192,7 @@
          */
         function removeRnr() {
             watcher.makeSilent();
-            confirmService.confirmDestroy('msg.question.confirmation.deletion').then(function() {
+            confirmService.confirmDestroy('msg.question.confirmation.deletion', 'button.delete').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$remove().then(function(response) {
                     loadingPromise.then(function() {
@@ -218,7 +218,7 @@
          */
         function approveRnr() {
             watcher.makeSilent();
-            confirmService.confirm('msg.question.confirmation.approve').then(function() {
+            confirmService.confirm('msg.question.confirmation.approve', 'button.approve').then(function() {
                 if(requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
                     vm.requisition.$save().then(function() {
@@ -249,7 +249,7 @@
          */
         function rejectRnr() {
             watcher.makeSilent();
-            confirmService.confirmDestroy('msg.question.confirmation.reject').then(function() {
+            confirmService.confirmDestroy('msg.question.confirmation.reject', 'button.rnr.reject').then(function() {
                 var loadingPromise = loadingModalService.open();
                 vm.requisition.$reject().then(function(response) {
                     loadingPromise.then(function() {
