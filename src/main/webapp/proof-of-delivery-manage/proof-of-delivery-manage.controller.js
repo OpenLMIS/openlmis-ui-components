@@ -36,7 +36,6 @@
 
         vm.openPod = openPod;
         vm.loadOrders = loadOrders;
-        vm.programOptionMessage = programOptionMessage;
         vm.updateFacilityType = updateFacilityType;
         vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
 
@@ -106,7 +105,6 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
-            vm.error = '';
 
             if (isSupervised) {
                 vm.programs = vm.supervisedPrograms;
@@ -124,27 +122,10 @@
                 vm.requestingFacilityId = facility.id;
                 vm.selectedProgramId = undefined;
 
-                if (vm.programs.length <= 0) {
-                    vm.error = 'msg.no.program.available';
-                } else if (vm.programs.length === 1) {
+                if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
                 }
             }
-        }
-
-
-        /**
-         * @ngdoc function
-         * @name programOptionMessage
-         * @methodOf proof-of-delivery-manage.ProofOfDeliveryManageController
-         *
-         * @description
-         * Determines a proper message for the programs dropdown, based on the presence of programs.
-         *
-         * @return {String} localized message
-         */
-        function programOptionMessage() {
-            return vm.programs === undefined || _.isEmpty(vm.programs) ? 'label.none.assigned' : 'label.select.program';
         }
 
         /**

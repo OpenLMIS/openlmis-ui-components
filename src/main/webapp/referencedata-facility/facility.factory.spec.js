@@ -10,7 +10,7 @@
 describe('facilityFactory', function() {
 
     var $rootScope, $q, facility1, facility2, userPrograms, programService, facilityService,
-        authorizationService, facilityFactory, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS, user;
+        authorizationService, facilityFactory, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS;
 
     beforeEach(function() {
         module('referencedata-facility', function($provide){
