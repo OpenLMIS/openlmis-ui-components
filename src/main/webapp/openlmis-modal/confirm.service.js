@@ -44,14 +44,15 @@
          * @name destroy
          * @methodOf openlmis-modal.confirmService
          * @param {String} message Message to display
+         * @param {String} buttonMessage Optional message to display on confirm button
          * @return {Promise} confirm promise
          *
          * @description
          * Shows confirm modal with custom message and returns a promise.
          *
          */
-        function destroy(message) {
-            return makeModal(true, message);
+        function destroy(message, buttonMessage) {
+            return makeModal(true, message, buttonMessage);
         }
 
         function makeModal(remove, message, buttonMessage) {
@@ -66,7 +67,7 @@
                     success: {
                         label: messageService.get(buttonMessage ? buttonMessage : 'msg.button.ok'),
                         callback: deferred.resolve,
-                        className: remove ? "btn-danger" : "btn-primary"
+                        className: remove ? "danger" : "primary"
                     }
                 }
             });
