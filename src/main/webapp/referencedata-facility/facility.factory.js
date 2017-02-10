@@ -158,6 +158,19 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-facility.facilityFactory
+         * @name getUserSupervisedFacilities
+         *
+         * @description
+         * Returns supervised facilities for the user.
+         *
+         * @param   {String}    userId      the ID of the user to get supervised facilities
+         * @param   {String}    programId   the ID of the program
+         * @param   {String}    right       the ID of right
+         * @return  {Array}                 the set of all supervised facilities
+         */
         function getUserSupervisedFacilities(userId, programId, right) {
             return facilityService.getUserSupervisedFacilities(
                 userId,

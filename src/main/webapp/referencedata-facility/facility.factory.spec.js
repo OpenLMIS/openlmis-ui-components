@@ -158,6 +158,29 @@ describe('facilityFactory', function() {
         });
     });
 
+    describe('getUserSupervisedFacilities', function() {
+        var userId ='user-id',
+            rightId = 'right-id';
+
+        beforeEach(function() {
+            spyOn(authorizationService, 'getRightByName').andCallFake(function(rightName) {
+                if (rightName === REQUISITION_RIGHTS.REQUISITION_CREATE) {
+                    return {id: rightId};
+                }
+            });
+        });
+
+        it('should fetch supervised facilities for the current user', function() {
+            facilityFactory.getUserSupervisedFacilities(
+                userId,
+                userPrograms[0],
+                REQUISITION_RIGHTS.REQUISITION_CREATE);
+
+            expect(facilityService.getUserSupervisedFacilities)
+                .toHaveBeenCalledWith(userId, userPrograms[0], rightId);
+        });
+    });
+
     describe('getRequestingFacilities', function() {
 
         var userId, requisitionCreateFacilities, requisitionAuthorizeFacilities;

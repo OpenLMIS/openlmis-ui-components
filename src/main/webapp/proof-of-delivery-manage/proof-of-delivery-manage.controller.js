@@ -186,7 +186,7 @@
                 )).then(function(facilities) {
                     vm.requestingFacilities = facilities;
                 }, function() {
-                    notificationService.error('msg.error.occurred');
+                    notificationService.error('msg.invalidProgramOrRight');
                 });
             } else {
                 vm.requestingFacilities = [];

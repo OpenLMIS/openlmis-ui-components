@@ -180,6 +180,7 @@
   "msg.error.occurred": "Error occurred",
   "msg.facilities.not.found": "No facilities found. Please contact Admin",
   "msg.forgot.password.failed": "Failed to reset password. No user with given email address assigned was found.",
+  "msg.invalidProgramOrRight": "Invalid program or right",
   "msg.lineItems": "line items",
   "msg.loading": "Loading...",
   "msg.no.facility.available": "There are no facilities for program. Please contact the Admin.",
