@@ -73,8 +73,11 @@
                     if(!element.children('option[selected="selected"]:not(.placeholder)').length){
                         createEmptyOption();
                         clearLink.remove();
-                    } else {
+                    } else if ('required' in attrs) {
+                        clearLink.remove();
                         emptyOption.remove();
+                    } else {
+                        emptyOption.remove()
                         clearLink.insertAfter(element);
                         clearLink.click(clearSelectValue);
                     }
