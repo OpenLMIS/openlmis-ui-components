@@ -1,13 +1,10 @@
 <div class="page">
     <h2>{{'header.managePod' | message}}</h2>
-    <div ng-if="orderForm.$invalid && orderForm.$submitted && !vm.requestingFacilities.length && vm.selectedProgramId" class="alert is-info">
-        {{'msg.no.facility.available' | message}}
-    </div>
-    <div ng-if="orderForm.$invalid && orderForm.$submitted && !vm.programs.length" class="alert is-info">
-        {{'msg.no.program.available' | message}}
+    <div ng-if="vm.error" class="alert is-info" ng-show="vm.error">
+        {{vm.error | message}}
     </div>
     <section class="openlmis-table-container">
-        <form name="orderForm" class="openlmis-table-filters" ng-submit="vm.loadOrders()">
+        <form class="openlmis-table-filters" ng-submit="vm.loadOrders()">
             <fieldset>
                 <label>
                     <input type="radio" ng-model="vm.isSupervised" ng-value="false"

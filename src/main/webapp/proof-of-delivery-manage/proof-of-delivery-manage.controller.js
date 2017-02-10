@@ -105,6 +105,7 @@
         function updateFacilityType(isSupervised) {
 
             vm.supervisedFacilitiesDisabled = vm.supervisedPrograms.length <= 0;
+            vm.error = '';
 
             if (isSupervised) {
                 vm.programs = vm.supervisedPrograms;
@@ -122,7 +123,9 @@
                 vm.requestingFacilityId = facility.id;
                 vm.selectedProgramId = undefined;
 
-                if (vm.programs.length === 1) {
+                if (vm.programs.length <= 0) {
+                    vm.error = 'msg.no.program.available';
+                } else if (vm.programs.length === 1) {
                     vm.selectedProgramId = vm.programs[0].id;
                 }
             }
@@ -185,6 +188,11 @@
                     userId, programId, REQUISITION_RIGHTS.REQUISITION_CREATE
                 )).then(function(facilities) {
                     vm.requestingFacilities = facilities;
+                    if (vm.requestingFacilities.length <= 0) {
+                        vm.error = 'msg.no.facility.available';
+                    } else {
+                        vm.error = '';
+                    }
                 }, function() {
                     notificationService.error('msg.invalidProgramOrRight');
                 });
