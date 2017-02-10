@@ -25,12 +25,14 @@ describe('orderService', function() {
 
         orders = [{
             id: 'id-one',
+            createdDate: [2017, 1, 1],
             processingPeriod: {
                 startDate: [2017, 1, 1],
                 endDate: [2017, 1, 31]
             }
         }, {
             id: 'id-two',
+            createdDate: [2017, 2, 1],
             processingPeriod: {
                 startDate: [2017, 2, 1],
                 endDate: [2017, 2, 27]

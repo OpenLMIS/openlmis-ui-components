@@ -73,6 +73,7 @@
             if (status === 200) {
                 var orders = angular.fromJson(data);
                 orders.forEach(function(order) {
+                    order.createdDate = dateUtils.toDate(order.createdDate);
                     order.processingPeriod.startDate = dateUtils.toDate(order.processingPeriod.startDate);
                     order.processingPeriod.endDate = dateUtils.toDate(order.processingPeriod.endDate);
                 });
