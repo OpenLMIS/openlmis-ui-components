@@ -178,3 +178,10 @@ input[type="color"]:focus,
         color: black;
     }
 }
+
+form.form-inline{
+  > * {
+    display: block-inline;
+    margin-right: 0.5em;
+  }
+}
