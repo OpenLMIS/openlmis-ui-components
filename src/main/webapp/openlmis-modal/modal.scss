@@ -1,12 +1,6 @@
 
 .modal {
-	button.close {
-		position: absolute;
-		top: 1em;
-		left: 1em;
-		font-size: 1em;
-	}
-
+	
 	.modal-header,
 	.modal-body,
 	.modal-footer{
@@ -20,5 +14,13 @@
 
 	.modal-footer{
 		@extend .button-group;
+		margin: 0px;
+	}
+
+	button.close{
+		position: absolute;
+		top: 0em;
+		right: 0em;
+		margin-top: 0px !important; // Added because bootbox.js adds inline styles
 	}
 }

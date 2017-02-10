@@ -39,19 +39,11 @@ Styleguide 1.5
 .popover > .popover-content{
 	overflow: hidden;
 	padding: 0.5em;
-	padding-left: 2em;
+	padding-right: 2em;
 }
 
 .popover > h3 + .popover-content{
-	padding: 0.5em;
-}
-
-.popover > button.close{
-	@include icon-only("times");
-	opacity: 1;
-	position: absolute;
-	top: 0.5em;
-	left: 0.25em;
+	padding-right: 0.5em;
 }
 
 .has-popover > .show-popover{
