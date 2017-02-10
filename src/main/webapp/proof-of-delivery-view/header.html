@@ -10,7 +10,7 @@
         <dt>{{'label.facility' | message}}</dt>
         <dd>{{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}</dd>
         <dt>{{'label.orderDate' | message}}</dt>
-        <dd>{{vm.pod.order.createdDate.toLocaleString()}}</dd>
+        <dd>{{vm.pod.order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</dd>
         <dt>{{'label.reportingPeriod' | message}}</dt>
         <dd>{{vm.pod.order.processingPeriod | period}}</dd>
         <dt>{{'label.supplyingDepot' | message}}</dt>
