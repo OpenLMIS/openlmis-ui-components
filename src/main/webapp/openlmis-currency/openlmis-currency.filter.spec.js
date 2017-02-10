@@ -88,7 +88,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 0;
 
-        expect($filter('openlmisCurrency')(23.5)).toEqual('24\u00A0¥');
+        expect($filter('openlmisCurrency')(22223.5)).toEqual('22,224\u00A0¥');
     }));
 
     it('should properly round up money values', inject(function ($filter) {
@@ -96,7 +96,7 @@ describe('openlmisCurrencyFilter', function() {
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 0;
 
-        expect($filter('openlmisCurrency')(23.49)).toEqual('23\u00A0¥');
+        expect($filter('openlmisCurrency')(22223.49)).toEqual('22,223\u00A0¥');
     }));
 
 });

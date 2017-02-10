@@ -35,41 +35,21 @@
             if (value != null) {
                 var settings = currencyService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
-                    return formatMoneyValue(value, settings) + '\u00A0' + settings.currencySymbol;
+                    return formatMoney(value, settings) + '\u00A0' + settings.currencySymbol;
                 } else {
-                    return settings.currencySymbol + formatMoneyValue(value, settings);
+                    return settings.currencySymbol + formatMoney(value, settings);
                  }
             }
         };
 
-        function formatMoneyValue (value, settings) {
-            var number = parseFloat(value).toFixed(settings.currencyDecimalPlaces),
-                integerPart = parseInt(number) + '',
-                integerPartLength = integerPart.length,
-                firstGroupLength = integerPartLength > settings.groupingSize
-                    ? integerPartLength % settings.groupingSize
-                    : 0;
+        function formatMoney(value, settings) {
+            var re = '\\d(?=(\\d{' + settings.groupingSize + '})+\\b)',
+                num = value.toFixed(settings.currencyDecimalPlaces);
 
-            return firstGroup() + otherGroups() + fractionPart();
+            return num.replace('.', settings.decimalSeparator)
+                      .replace(new RegExp(re, 'g'), '$&' + settings.groupingSeparator);
+        };
 
-            function firstGroup () {
-                return firstGroupLength ? integerPart.substr(0, firstGroupLength) + settings.groupingSeparator : '';
-            }
-
-            function otherGroups () {
-                var extractGroupRegExp = new RegExp('(\\d{' + settings.groupingSize + '})(?=\\d)', 'g');
-
-                return integerPart.substr(firstGroupLength)
-                    .replace(extractGroupRegExp, '$1' + settings.groupingSeparator);
-            }
-
-            function fractionPart () {
-                var extractedFractions = Math.abs(number - integerPart)
-                    .toFixed(settings.currencyDecimalPlaces).slice(2);
-
-                return settings.currencyDecimalPlaces ? settings.decimalSeparator + extractedFractions : '';
-            }
-        }
     }
 
 })();
