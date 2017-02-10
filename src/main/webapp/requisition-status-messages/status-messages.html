@@ -14,7 +14,7 @@
         <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
         <input type="button" class="primary" value="{{'button.addComment' | message}}"
                ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
-        <input type="button" class="delete" value="{{'button.removeComment' | message}}"
+        <input type="button" class="danger" value="{{'button.removeComment' | message}}"
                ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
     </form>
 </div>

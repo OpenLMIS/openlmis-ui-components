@@ -51,6 +51,7 @@
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-end;
+    align-items: flex-end;
     > * {
         flex: 0 0 auto;
         margin-right: 0.5em;
