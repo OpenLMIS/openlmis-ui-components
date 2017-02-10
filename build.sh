@@ -8,4 +8,4 @@ npm rebuild
 npm install --no-optional
 
 # Built and test
-grunt
+grunt --production
