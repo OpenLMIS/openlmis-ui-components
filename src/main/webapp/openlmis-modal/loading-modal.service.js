@@ -86,8 +86,6 @@
             dialog = bootbox.dialog({
                 message: messageService.get('msg.loading'),
                 className: 'loading-modal',
-                backdrop: true,
-                onEscape: true,
                 closeButton: false
             });
         }
