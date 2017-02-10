@@ -23,15 +23,16 @@ describe("LocaleController", function () {
 
     beforeEach(module('openlmis-locale'));
 
-    var messageService, alertService, notificationService, openlmisLanguages;
+    var messageService, alertService, notificationService, openlmisLanguages, state;
 
     beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
-                                _notificationService_, _OPENLMIS_LANGUAGES_) {
+                                _notificationService_, _OPENLMIS_LANGUAGES_, _$state_) {
 
         messageService = _messageService_;
         alertService = _alertService_;
         notificationService = _notificationService_;
         openlmisLanguages = _OPENLMIS_LANGUAGES_;
+        state = _$state_;
 
         var mockLocale = undefined;
         spyOn(messageService, 'populate').andCallFake(function(lang){
@@ -51,6 +52,7 @@ describe("LocaleController", function () {
 
         spyOn(notificationService, 'success');
         spyOn(alertService, 'error');
+        spyOn(state, 'reload');
     }));
 
     describe('shows loaded languages', function(){
@@ -62,7 +64,8 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                notificationService: notificationService
+                notificationService: notificationService,
+                $state: state
             });
         }));
 
@@ -89,7 +92,8 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                notificationService: notificationService
+                notificationService: notificationService,
+                $state: state
             });
 
             expect(messageService.populate).toHaveBeenCalled();
@@ -102,7 +106,8 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                notificationService: notificationService
+                notificationService: notificationService,
+                $state: state
             });
 
             // messageService.populate was only called at top
@@ -121,7 +126,8 @@ describe("LocaleController", function () {
                 $scope: scope,
                 messageService: messageService,
                 alertService: alertService,
-                notificationService: notificationService
+                notificationService: notificationService,
+                $state: state
             });
         }));
 
@@ -131,6 +137,7 @@ describe("LocaleController", function () {
 
             expect(messageService.populate).toHaveBeenCalledWith('pt');
             expect(notificationService.success).toHaveBeenCalled();
+            expect(state.reload).toHaveBeenCalled();
         });
 
         it("will throw an error if changing locale is unsuccessful", function () {

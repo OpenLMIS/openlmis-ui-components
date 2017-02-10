@@ -14,8 +14,8 @@
     angular.module('openlmis-locale')
         .controller('LocaleController', LocaleController);
 
-    LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES']
-    function LocaleController($scope, messageService, alertService, notificationService, OPENLMIS_LANGUAGES) {
+    LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES', '$state']
+    function LocaleController($scope, messageService, alertService, notificationService, OPENLMIS_LANGUAGES, $state) {
         var vm = this;
         vm.changeLocale = changeLocale;
         vm.getLocaleName = getLocaleName;
@@ -25,6 +25,7 @@
         vm.selectedLocale = messageService.getCurrentLocale();
         $scope.$on('openlmis.messages.populated', function(){
             vm.selectedLocale = messageService.getCurrentLocale();
+            $state.reload();
         });
 
         if(!vm.selectedLocale){

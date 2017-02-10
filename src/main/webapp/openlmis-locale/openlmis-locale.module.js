@@ -6,7 +6,8 @@
         'openlmis-i18n',
         'openlmis-modal',
         'openlmis-templates',
-        'openlmis-config'
+        'openlmis-config',
+        'ui.router'
     ]);
 
 })();
