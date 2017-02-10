@@ -26,14 +26,14 @@
                 facility: function(facilityFactory) {
                     return facilityFactory.getUserHomeFacility();
                 },
-                user: function(authorizationService) {
-                    return authorizationService.getUser();
+                userId: function(authorizationService) {
+                    return authorizationService.getUser().user_id;
                 },
-                supervisedPrograms: function (programService, user) {
-                    return programService.getUserPrograms(user.user_id, false);
+                supervisedPrograms: function (programService, userId) {
+                    return programService.getUserPrograms(userId, false);
                 },
-                homePrograms: function (programService, user) {
-                    return programService.getUserPrograms(user.user_id, true);
+                homePrograms: function (programService, userId) {
+                    return programService.getUserPrograms(userId, true);
                 }
             }
         });

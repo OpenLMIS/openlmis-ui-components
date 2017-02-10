@@ -34,7 +34,8 @@
             getUserFacilities: getUserFacilities,
             getSupplyingFacilities: getSupplyingFacilities,
             getRequestingFacilities: getRequestingFacilities,
-            getUserHomeFacility: getUserHomeFacility
+            getUserHomeFacility: getUserHomeFacility,
+            getUserSupervisedFacilities: getUserSupervisedFacilities
         };
 
 
@@ -155,6 +156,14 @@
             });
 
             return deferred.promise;
+        }
+
+        function getUserSupervisedFacilities(userId, programId, right) {
+            return facilityService.getUserSupervisedFacilities(
+                userId,
+                programId,
+                authorizationService.getRightByName(right).id
+            );
         }
     }
 

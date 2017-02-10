@@ -23,14 +23,14 @@
         .controller('ProofOfDeliveryManageController', controller);
 
     controller.$inject = [
-        'facility', 'user', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
+        'facility', 'userId', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
         'loadingModalService', 'notificationService', 'authorizationService', '$q',
-        'REQUISITION_RIGHTS', 'facilityService', 'ORDER_STATUS'
+        'REQUISITION_RIGHTS', 'facilityFactory', 'ORDER_STATUS'
     ];
 
-    function controller(facility, user, supervisedPrograms, homePrograms, orderFactory, $state,
+    function controller(facility, userId, supervisedPrograms, homePrograms, orderFactory, $state,
         loadingModalService, notificationService, authorizationService, $q, REQUISITION_RIGHTS,
-        facilityService, ORDER_STATUS) {
+        facilityFactory, ORDER_STATUS) {
 
         var vm = this;
 
@@ -139,14 +139,11 @@
          * @return  {Array} the list of matching orders
          */
         function loadOrders() {
-            loadingModalService.open();
-            orderFactory.searchOrdersForManagePod(
+            withUiBlocking(orderFactory.searchOrdersForManagePod(
                 vm.requestingFacilityId,
                 vm.selectedProgramId
-            ).then(function(orders) {
+            )).then(function(orders) {
                 vm.orders = orders;
-            }).finally(function() {
-                loadingModalService.close();
             });
         }
 
@@ -162,15 +159,12 @@
          * @param {String}  orderId id of order to find it's POD
          */
         function openPod(orderId) {
-            loadingModalService.open();
-            orderFactory.getPod(orderId).then(function(pods) {
+            withUiBlocking(orderFactory.getPod(orderId)).then(function(pods) {
                 $state.go('orders.podView', {
                     podId: pods[0].id
                 });
             }, function() {
                 notificationService.error('msg.noOrderFound');
-            }).finally(function() {
-                loadingModalService.close();
             });
         }
 
@@ -185,31 +179,24 @@
          *
          * @param {Object} selectedProgramId id of selected program where user has supervisory permissions
          */
-        function loadFacilitiesForProgram(selectedProgramId) {
-            if (selectedProgramId) {
-                loadingModalService.open();
-                var createRight = authorizationService.getRightByName(REQUISITION_RIGHTS.REQUISITION_CREATE);
-
-                if(createRight) {
-                    facilityService.getUserSupervisedFacilities(user.user_id, selectedProgramId, createRight.id)
-                    .then(function (requestingFacilities) {
-                        vm.requestingFacilities = requestingFacilities;
-                        if (vm.requestingFacilities.length <= 0) {
-                            vm.error = messageService.get('msg.no.facility.available');
-                        } else {
-                            vm.error = '';
-                        }
-                    })
-                    .catch(function (error) {
-                        notificationService.error('msg.error.occurred');
-                    })
-                    .finally(loadingModalService.close());
-                } else {
-                    notificationService.error('error.noActionRight');
-                }
+        function loadFacilitiesForProgram(programId) {
+            if (programId) {
+                withUiBlocking(facilityFactory.getUserSupervisedFacilities(
+                    userId, programId, REQUISITION_RIGHTS.REQUISITION_CREATE
+                )).then(function(facilities) {
+                    vm.requestingFacilities = facilities;
+                }, function() {
+                    notificationService.error('msg.error.occurred');
+                });
             } else {
                 vm.requestingFacilities = [];
             }
+        }
+
+        function withUiBlocking(promise) {
+            loadingModalService.open();
+            promise.finally(loadingModalService.close);
+            return promise;
         }
     }
 })();

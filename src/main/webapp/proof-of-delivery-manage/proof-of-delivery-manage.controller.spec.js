@@ -56,7 +56,7 @@ describe('ProofOfDeliveryManageController', function() {
             facilityService = $injector.get('facilityService');
             authorizationService = $injector.get('authorizationService');
             vm = $injector.get('$controller')('ProofOfDeliveryManageController', {
-                user: user,
+                userId: 'user_one',
                 facility: facility,
                 homePrograms: programs,
                 supervisedPrograms: programs
