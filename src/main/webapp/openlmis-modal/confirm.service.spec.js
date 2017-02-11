@@ -34,7 +34,7 @@ describe("confirmService", function() {
 
         promise = confirmService.confirmDestroy('some.message').then(promiseResolveSpy, promiseRejectSpy);
 
-        expect(buttonClass).toEqual('btn-danger');
+        expect(buttonClass).toEqual('danger');
         expect(promiseResolveSpy).not.toHaveBeenCalled();
         expect(promiseRejectSpy).not.toHaveBeenCalled();
 
