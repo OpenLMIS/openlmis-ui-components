@@ -11,7 +11,7 @@
     function routes($stateProvider, REQUISITION_RIGHTS) {
 
         $stateProvider.state('requisitions.initRnr', {
-            url: '/initialize',
+            url: '/initiate',
             showInNavigation: true,
             priority: 11,
             label: 'link.requisitions.create.authorize',
