@@ -5,4 +5,4 @@ npm rebuild
 npm install --no-optional
 
 # Built and test
-grunt --production
+grunt --production --syncTransifex
