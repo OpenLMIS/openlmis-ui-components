@@ -24,5 +24,6 @@
   "decimalSeparator": ".",
   "authServerClientId": "user-client",
   "authServerClientSecret": "changeme",
-  "applicationTitle": "OpenLMIS"
+  "applicationTitle": "OpenLMIS",
+  "transifexProjectName": "openlmis-requisition-ui"
 }
