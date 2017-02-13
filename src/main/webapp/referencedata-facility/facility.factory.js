@@ -35,7 +35,8 @@
             getSupplyingFacilities: getSupplyingFacilities,
             getRequestingFacilities: getRequestingFacilities,
             getUserHomeFacility: getUserHomeFacility,
-            getUserSupervisedFacilities: getUserSupervisedFacilities
+            getUserSupervisedFacilities: getUserSupervisedFacilities,
+            getAllUserFacilities: getAllUserFacilities
         };
 
 
@@ -177,6 +178,32 @@
                 programId,
                 authorizationService.getRightByName(right).id
             );
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-facility.facilityFactory
+         * @name getAllUserFacilities
+         *
+         * @description
+         * Returns home facility and supervised facilities for the user.
+         *
+         * @param   {String}    userId      the ID of the user to get supervised facilities
+         * @return  {Array}                 the set of all facilities for the user
+         */
+        function getAllUserFacilities(userId) {
+            var deferred = $q.defer();
+
+            $q.all([
+                this.getUserFacilities(userId, REQUISITION_RIGHTS.REQUISITION_VIEW),
+                this.getUserHomeFacility()
+            ]).then(function(results) {
+                deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
+            }, function() {
+                deferred.reject();
+            });
+
+            return deferred.promise;
         }
     }
 
