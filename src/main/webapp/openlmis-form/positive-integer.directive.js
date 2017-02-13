@@ -27,6 +27,10 @@
 		return directive;
 
 		function link(scope, element, attrs, modelCtrl) {
+			
+			element.attr('type', 'text');
+			element.addClass('number');
+
 			modelCtrl.$parsers.push(function (inputValue) {
 
 				if (inputValue == undefined) return ''
