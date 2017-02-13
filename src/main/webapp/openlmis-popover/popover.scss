@@ -27,12 +27,19 @@ markup:
 Styleguide 1.5
 */
 
+.popover > button.close {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
 .popover > h3 {
 	background-color: $background-color-alt;
 	color: $brand-primary;
 	font-size: 1em;
 	line-height: 1em;
-	padding: 0.5em 2em;
+	padding: 0.5em;
+	padding-right: 2em;
 	margin: 0em;
 }
 
