@@ -5,7 +5,8 @@
     </div>
     <section class="openlmis-table-container">
         <form class="openlmis-table-filters" ng-submit="vm.loadOrders()">
-            <fieldset>
+            <fieldset class="form-group">
+                <legend>{{'label.requisition.facilityType' | message}}</legend>
                 <label>
                     <input type="radio" ng-model="vm.isSupervised" ng-value="false"
                            ng-change="vm.updateFacilityType(vm.isSupervised)"/>
@@ -24,8 +25,6 @@
                         ng-options="facility.id as facility.name for facility in vm.requestingFacilities"
                         placeholder="label.select.facility" required>
                 </select>
-            </fieldset>
-            <fieldset ng-show="!vm.isSupervised">
                 <label for="programListMyFacility">{{'label.program' | message}}</label>
                 <select id="programListMyFacility" ng-model="vm.selectedProgramId"
                         ng-options="program.id as program.name for program in vm.programs"
@@ -39,8 +38,6 @@
                         ng-change="vm.loadFacilitiesForProgram(vm.selectedProgramId)"
                         placeholder="{{'label.select.program' | message}}" required>
                 </select>
-            </fieldset>
-            <fieldset ng-show="vm.isSupervised">
                 <label for="supervisedFacilityName">
                     {{'label.requestingFacility' | message}}
                 </label>

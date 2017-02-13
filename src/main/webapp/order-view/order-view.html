@@ -1,7 +1,7 @@
 <div class="page order-view">
     <h1>{{'header.viewOrders' | message}}</h1>
     <section class="openlmis-table-container">
-        <form class="openlmis-table-filters" ng-submit="vm.loadOrders()" novalidate>
+        <form class="openlmis-form openlmis-table-filters" ng-submit="vm.loadOrders()" >
             <label for="supplyingFacility">{{'label.supplyingFacility' | message}}</label>
             <select id="supplyingFacility"
                     ng-model="vm.supplyingFacility"
