@@ -6,22 +6,16 @@
         margin-bottom: 1em;
     }
 
-    .option-button {
-        @extend .btn;
-        @extend .btn-default;
-        display: flex;
-        align-content: flex-start;
-        width: 100%;
-        margin-bottom: 1em;
-    }
-
-    input {
-        width: 100%;
-        margin-bottom: 1em;
-    }
-
     .option-list {
+        display: flex;
+        flex-direction: column;
         max-height: 40em;
         overflow-y: auto;
+        font-size: 1.3em;
+
+        input {
+            margin-bottom: 1em;
+            margin-right: 1em;
+        }
     }
 }

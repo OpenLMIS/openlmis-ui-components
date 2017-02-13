@@ -64,7 +64,7 @@
                     scope.$watch(function(){
                         return ngModelCtrl.$viewValue;
                     }, function(value){
-                        selectCtrl.writeValue(value);
+                        if(!element.hasClass('pop-out')) selectCtrl.writeValue(value);
                         dispayPlaceholder();
                     });
                 }

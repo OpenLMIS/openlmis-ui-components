@@ -78,6 +78,9 @@
 
                     modalScope.options = getOptions();
                     modalScope.select = selectOption;
+                    modalScope.findSelectedOption = findSelectedOption;
+
+                    modalScope.findSelectedOption();
 
                     var labelElement = element.siblings('label[for="' + element[0].id + '"]');
 
@@ -90,6 +93,17 @@
                 });
             }
 
+            function findSelectedOption() {
+                var selectedOption,
+                    scope = this;
+
+                angular.forEach(this.options, function(option) {
+                    if(option.selected) selectedOption = option;
+                });
+
+                this.selected = selectedOption;
+            }
+
             function getOptions() {
                 var options = [];
 
@@ -100,20 +114,11 @@
                 return options;
             }
 
-            function updateModel() {
-                if(ngModelCtrl) {
-                    var selectedValue = selectCtrl.readValue();
-                    ngModelCtrl.$setViewValue(selectedValue);
-                }
-            }
-
             function selectOption(option) {
                 element.children('option[selected="selected"]').removeAttr('selected');
                 element.children('option[label="' + option.label + '"]').attr('selected', 'selected');
 
-                updateModel();
-
-                if(modal) modal.modal('hide');
+                ngModelCtrl.$setViewValue(selectCtrl.readValue());
             }
 
             function isPopOut() {
