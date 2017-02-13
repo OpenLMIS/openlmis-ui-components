@@ -35,14 +35,15 @@ error messages must use ARIA labels so they are associated with the input
 element.
 
 markup:
-<form>
+<form class="openlmis-form">
 	<!-- Form headings should be an appropriate heading level -->
 	<h3>Example form elements</h3>
 	<label for="exampleTextInput" >Example text input</label>
-	<input id="exampleTextInput" type="text" ng-model="exampleText" ng-required />
+	<input id="exampleTextInput" type="text" required />
+  <label for="disabledTextInput" >Disabled text input</label>
+  <input id="disabledTextInput" type="text" disabled value="Disabled" />
 	<label for="exampleSelect">Example combo box element</label>
-	<select id="exampleSelect" ng-model="exampleSelect">
-		<option value="">--Select Option--</option>
+	<select id="exampleSelect" required>
 		<option value="0">EPI</option>
 		<option value="1">ART</option>
 		<option value="2">Essential Medicines</option>
@@ -50,11 +51,12 @@ markup:
 		<option value="4">Malaria</option>
 	</select>
 	<label>
-		<input type="checkbox" ng-model="booleanCheckbox" ng-value="true" />
+		<input type="checkbox" ng-value="true" />
 		Boolean checkbox, used to turn a value on or off
 	</label>
 	<fieldset>
 		<legend>Radio elements</legend>
+    <p>Our aim is to keep checkbox and radio selection markup simple and accessiable. We also allow for additional content in forms, like paragraphs.</p>
 		<label>
 			<input type="radio" ng-model="radioOptions" value="0" />
 			Radio 1
@@ -64,99 +66,130 @@ markup:
 			Radio 2
 		</label>
 	</fieldset>
+  <fieldset>
+    <legend>Bootstrap v3 Examples</legend>
+    <div class="form-group">
+      <label id="bootstrap-text">Bootstrap text box</label>
+      <input for="bootstrap-text" type="text" />
+    </div>
+    <div class="form-group">
+      <label id="bootstrap-textarea">Textarea</label>
+      <textarea for="bootstrap-textarea" required></textarea>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" checked="checked" disabled />
+        Bootstrap checkbox works
+      </label>
+    </div>
+  </fieldset>
 	<input type="submit" value="Save" />
+  <button>Reset</button>
 </form>
 
 Styleguide 3.0
 
 */
 
-// form {
-// 	display: flex;
-// 	flex-direction: row;
-// 	flex-wrap: wrap;
-// 	> * {
-// 		display: block;
-// 		clear: both;
-// 		width: auto;
-// 		flex: 1 0 auto;
-// 	}
-// 	> label, > fieldset{
-// 		min-width: 100%;
-// 	}
+form {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 
-// 	> input[type="submit"],
-// 	> input[type="button"],
-// 	> button {
-// 		flex: 0 0 auto;
-// 	}
-// }
+	> * {
+		display: block;
+		flex: 1 0 auto;
+		min-width: 100%;
+    margin: 0.2em 0px;
+	}
 
-// form > fieldset{
-// 	@extend form;
-// }
-// 
+  fieldset{
+    margin: 0.5em 0em;
+    &.form-group {
+      margin: 0em;
+    }
+  }
 
-form > input[type="submit"]{
-  float: right;
+  > label,
+  > fieldset > legend {
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+  }
+
+  > fieldset {
+    > legend + label,
+    > label + label {
+      margin-top: 0.2em;
+    }
+  }
+
+  > input,
+  > select,
+  > textarea {
+    min-width: auto;
+  }
+
+	> input[type="submit"],
+	> input[type="button"],
+	> button {
+		flex: 0 0 auto;
+	}
 }
 
+form {
+  > label,
+  > fieldset > legend {
+    font-size: 1em;
+    font-weight: bold;
+    border-bottom: 0px;
+  }
+
+  > fieldset > legend {
+    color: $brand-primary;
+    font-weight: normal;
+  }
+  fieldset.form-group > legend,
+  > fieldset.form-group > legend {
+    color: $text-color;
+    font-weight: bold;
+  }
+
+  > input,
+  > select,
+  > textarea {
+    outline: none;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  select,
+  textarea {
+    padding: 0.5em;
+    border-color: $light-gray;
+    border-style: solid;
+    border-radius: $border-radius;
+    box-shadow: inset 0 0 0.2em $light-gray;
+    &:focus {
+      border-color: $brand-primary;
+      box-shadow: inset 0 0 0.2em $brand-primary;
+    }
+    &:disabled {
+      box-shadow: 0 0 0 $light-gray;
+      color: $gray;
+    }
+  }
+
+}
+
+form fieldset,
+form .form-group {
+	@extend form;
+  margin: 0em;
+}
 
 textarea {
   resize: none;
-}
-
-input[type="text"]::-ms-clear {
-  display: none;
-}
-
-
-input[type='file'] {
-  line-height: normal;
-}
-
-input[type='text'] {
-  outline: 0 none !important;
-}
-
-input[placeholder].placeholder {
-  color: $medium-gray;
-}
-
-span.required {
-  color: #d31717;
-  font-weight: bold;
-}
-
-// hide element, but keep it accessible by screen readers
-.visuallyhidden {
-  position: absolute;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  height: 1px; width: 1px;
-  margin: -1px; padding: 0; border: 0;
-}
-
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-.uneditable-input:focus {
-  border-color: $heading-green;
-  outline: 0;
-  outline: thin dotted     \9;
-  box-shadow: inset 0 0.1em 0.1em $light-shadow, 0 0 0.5em rgba($cyan, 0.6);
 }
 
 .ng-submitted {
