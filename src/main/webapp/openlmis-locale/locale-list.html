@@ -1,8 +1,8 @@
 
-<ul ng-if="vm.locales.length > 1" class="locales">
-  <li ng-repeat="code in vm.locales">
-    <a ng-class="{'selected': vm.selectedLocale == code}" ng-click=vm.changeLocale(code)>
-      {{vm.getLocaleName(code)}}
+<ul ng-if="locale.locales.length > 1" class="locales">
+  <li ng-repeat="code in locale.locales">
+    <a ng-class="{'selected': locale.selectedLocale == code}" ng-click=locale.changeLocale(code)>
+      {{locale.getLocaleName(code)}}
     </a>
   </li>
 </ul>

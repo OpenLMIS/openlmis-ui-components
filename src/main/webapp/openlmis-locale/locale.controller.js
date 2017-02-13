@@ -16,19 +16,19 @@
 
     LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES', '$state']
     function LocaleController($scope, messageService, alertService, notificationService, OPENLMIS_LANGUAGES, $state) {
-        var vm = this;
-        vm.changeLocale = changeLocale;
-        vm.getLocaleName = getLocaleName;
+        var locale = this;
+        locale.changeLocale = changeLocale;
+        locale.getLocaleName = getLocaleName;
         
-        vm.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
+        locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
 
-        vm.selectedLocale = messageService.getCurrentLocale();
+        locale.selectedLocale = messageService.getCurrentLocale();
         $scope.$on('openlmis.messages.populated', function(){
-            vm.selectedLocale = messageService.getCurrentLocale();
+            locale.selectedLocale = messageService.getCurrentLocale();
             $state.reload();
         });
 
-        if(!vm.selectedLocale){
+        if(!locale.selectedLocale){
             messageService.populate();
         }
 
@@ -40,7 +40,7 @@
             .catch(function(){
                 alertService.error('locale.load.error');
             });
-        };
+        }
 
         function getLocaleName(key){
             if(OPENLMIS_LANGUAGES[key]){
