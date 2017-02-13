@@ -81,7 +81,8 @@ button.close {
 
 .button-group {
   @extend .clearfix;
-  margin: 0em -0.5em;
+  margin-left: -0.5em;
+  margin-right: -0.5em;
 
   > *,
   > button {
