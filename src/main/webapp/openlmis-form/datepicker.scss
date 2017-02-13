@@ -8,3 +8,17 @@
   	pointer-events: none;
   	right: 0px;
 }
+
+.datepicker {
+	button,
+	.btn,
+	.btn-default {
+		background: transparent;
+		border: 0px;
+		font-size: $font-size;
+		&:hover{
+			background-color: $brand-primary;
+			color: $white;
+		}
+	}
+}

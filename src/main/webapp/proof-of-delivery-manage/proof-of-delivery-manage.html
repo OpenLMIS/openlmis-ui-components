@@ -7,12 +7,12 @@
         <form class="openlmis-table-filters" ng-submit="vm.loadOrders()">
             <fieldset class="form-group">
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="false"
                            ng-change="vm.updateFacilityType(vm.isSupervised)"/>
                     {{'label.myFacility' | message}}
                 </label>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="true"
                            ng-change="vm.updateFacilityType(vm.isSupervised)"
                            ng-disabled="vm.supervisedFacilitiesDisabled"/>

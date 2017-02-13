@@ -16,7 +16,7 @@
                     ng-options="program as program.name for program in vm.programs"
                     ng-model="vm.selectedProgram">
             </select>
-            <label>
+            <label class="checkbox">
                 <input id="offlineSearch" type="checkbox" ng-model="vm.searchOffline"
                        ng-disabled="vm.isOfflineDisabled()"/>
                 {{'msg.requisition.view.offline' | message}}

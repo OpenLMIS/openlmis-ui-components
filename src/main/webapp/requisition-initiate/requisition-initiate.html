@@ -4,12 +4,12 @@
         <form class="openlmis-table-filters" ng-submit="vm.loadPeriods()">
             <fieldset class="form-group">
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="false"
                            ng-change="vm.updateFacilityType(vm.isSupervised)"/>
                     {{'label.myFacility' | message}}
                 </label>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="true"
                            ng-change="vm.updateFacilityType(vm.isSupervised)"
                            ng-disabled="vm.supervisedFacilitiesDisabled"/>
@@ -45,16 +45,16 @@
             </fieldset>
             <fieldset class="form-group">
                 <legend>{{'label.requisition.type' | message}}</legend>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.emergency" ng-value="false"/>
                     {{'msg.regular' | message}}
                 </label>
-                <label>
+                <label class="radio">
                     <input type="radio" ng-model="vm.emergency" ng-value="true"/>
                     {{'label.emergency' | message}}
                 </label>
             </fieldset>
-            <input class="btn btn-primary" type="submit" value="{{'button.search'|message}}"/>
+            <input type="submit" value="{{'button.search'|message}}"/>
         </form>
         <div class="openlmis-table">
             <table ng-show="vm.periodGridData">

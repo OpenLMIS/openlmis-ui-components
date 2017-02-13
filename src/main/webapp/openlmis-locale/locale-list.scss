@@ -1,0 +1,23 @@
+.locale-container {
+  @extend .list-unstyled;
+  font-size: $font-size-small;
+  li {
+    display: block;
+    float: left;
+    a {
+      color: $brand-primary;
+    }
+    .selected {
+      color: $text-color;
+      text-decoration: none;
+    }
+    &::after{
+      content: "|";
+      padding-right: 0.5em;
+    }
+    &:last-child::after{
+      content: "";
+      padding: 0em;
+    }
+  }
+}
