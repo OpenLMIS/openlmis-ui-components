@@ -1,14 +1,13 @@
 <form class="select-search-option">
     <label for="search">{{'label.search' | message}}</label>
-    <input id="search" type="text" ng-model="searchText"/>
+    <input id="search" type="text" ng-model="searchText" ng-change="findSelectedOption(options, selected)"/>
     <div class="list-label">
         <div>{{'msg.selectAnOption' | message}}</div>
         <div>({{'msg.showing' | message}} {{results.length}} {{'msg.outOf' | message}} {{options.length}})</div>
     </div>
-    <div class="option-list">
-        <button ng-repeat="option in options | filter: {label: searchText} as results"
-            class="btn btn-default option-button" ng-click="select(option)">
-            {{option.label}}
-        </button>
-    </div>
+    <fieldset class="option-list">
+        <label ng-repeat="option in options | filter: {label: searchText} as results">
+            <input type="radio" name="select" ng-click="select(option)" ng-model="selected" ng-value="option">{{option.label}}</input>
+        </label>
+    </fieldset>
 </form>

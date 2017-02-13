@@ -64,8 +64,8 @@
                         <i ng-class="{'icon-ok': requisition.$availableOffline}"></i>
                     </td>
                     <td>
-                        <button class="btn btn-primary" ng-click="vm.openRnr(requisition.id)">{{'button.viewRequisition' | message}}</button>
-                        <button class="btn btn-danger" ng-if="requisition.$availableOffline"
+                        <button class="primary" ng-click="vm.openRnr(requisition.id)">{{'button.viewRequisition' | message}}</button>
+                        <button class="danger" ng-if="requisition.$availableOffline"
                             ng-click="vm.removeOfflineRequisition(requisition)">{{'button.removeOfflineRequisition' | message}}
                         </button>
                     </td>

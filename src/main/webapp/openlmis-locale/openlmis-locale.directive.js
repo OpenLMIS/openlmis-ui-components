@@ -13,7 +13,8 @@
             restrict: 'EA',
             replace: true,
             templateUrl: 'openlmis-locale/locale-list.html',
-            controller: 'LocaleController as vm'
+            controller: 'LocaleController',
+            controllerAs: 'locale'
         }
     }
 

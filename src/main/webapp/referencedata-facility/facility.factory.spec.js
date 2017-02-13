@@ -238,6 +238,48 @@ describe('facilityFactory', function() {
 
     });
 
+    describe('getAllUserFacilities', function() {
+
+        var userId, requisitionViewFacilities;
+
+        beforeEach(function() {
+            userId = 'user-id';
+
+            requisitionViewFacilities = [
+                createFacility('facility-one', 'facilityOne'),
+                createFacility('facility-two', 'facilityTwo')
+            ];
+
+            spyOn(facilityFactory, 'getUserFacilities').andCallFake(function() {
+                return $q.when(requisitionViewFacilities);
+            });
+
+            spyOn(facilityFactory, 'getUserHomeFacility').andReturn($q.when(requisitionViewFacilities));
+        });
+
+        it('should fetch facilities for REQUISITION_VIEW right', function() {
+            facilityFactory.getAllUserFacilities(userId);
+
+            expect(facilityFactory.getUserHomeFacility).toHaveBeenCalled();
+            expect(facilityFactory.getUserFacilities)
+                .toHaveBeenCalledWith(userId, REQUISITION_RIGHTS.REQUISITION_VIEW);
+        });
+
+        it('should resolve to set of facilities', function() {
+            var result;
+
+            facilityFactory.getAllUserFacilities(userId).then(function(facilities) {
+                result = facilities;
+            });
+            $rootScope.$apply();
+
+            expect(result.length).toBe(2);
+            expect(result[0]).toEqual(requisitionViewFacilities[0]);
+            expect(result[1]).toEqual(requisitionViewFacilities[1]);
+        });
+
+    });
+
     function createFacility(id, name) {
         return {
             id: id,

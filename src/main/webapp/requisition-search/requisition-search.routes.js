@@ -23,8 +23,8 @@
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-		        facilityList: function (facilityFactory, user, REQUISITION_RIGHTS) {
-		        	return facilityFactory.getUserFacilities(user.user_id, REQUISITION_RIGHTS.REQUISITION_VIEW);
+		        facilityList: function (facilityFactory, user) {
+		        	return facilityFactory.getAllUserFacilities(user.user_id);
 		        }
 		    }
 		});
