@@ -39,21 +39,21 @@ body{
     > h1:first-child,
     > h2:first-child,
     > header {
-    	@extend .clearfix;
+    	display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
     	border-bottom: 1px solid $light-gray;
     	padding: $space-size 0px $space-size/2;
 
     	> * {
-    		float: left;
-    		display: block;
+    		flex: 0 0 auto;
     	}
 
-    	> .primary {
-    		float: right;
-    	}
-
-        &h1, &h2{
+        h1, h2, h3, h4, h5, h6 {
+            padding: 0px;
             font-weight: normal;
+            flex: 1 0 auto;
+            order: -1;
         }
     }
 }
