@@ -56,12 +56,13 @@ markup:
 </form>
 
 
-Styleguide 3.1
+Styleguide 3.3
 
 */
 
 select{
 	@extend .form-control;
+	box-shadow: none;
 
 	& + a.clear{
 		display: block;
@@ -72,46 +73,9 @@ select{
 	}
 }
 
-select {
-  box-shadow: none;
-}
-
 select.pop-out {
 
 	option {
 		display: none;
 	}
 }
-
-// form > select{
-// 	width: auto;
-// 	border: $gray-light 1px solid;
-// 	& + a.clear{
-// 		@include button-color($gray-light);
-// 		flex: 0 0 auto;
-// 		position:relative;
-// 		width: 2em;
-// 		overflow: hidden;
-// 		text-indent: -300em;
-// 		text-decoration: none;
-// 		&:before{
-// 			content: "\f00d";
-// 			position: absolute;
-// 			top: 0px;
-// 			left: 0px;
-// 			font-family: FontAwesome;
-// 			font-weight: normal;
-// 			font-style: normal;
-// 			display: inline-block;
-// 			text-decoration: inherit;
-// 			line-height: 1em;
-// 			text-indent: 0em;
-// 			width: 100%;
-// 			text-align: center;
-// 			@include transform(translateY(50%));
-// 		}
-// 		&:hover{
-// 			text-decoration: none;
-// 		}
-// 	}
-// }
