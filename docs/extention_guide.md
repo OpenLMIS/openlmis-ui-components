@@ -26,9 +26,11 @@ There are 2 images being included into a publishing image, and they have files a
 *OpenLMIS-UI-Common*
 * *src/common/* logo.png
 * *src/common/* header.scss
+
 *OpenLMIS-Requisition-UI*
 * *src/requisition/* requisition.js
 * *src/requisition/* requisition.routes.js
+
 *Example-UI-Distribution*
 * *src/common/* logo.png
 * *src/requisition/* requisition.routes.js
@@ -64,12 +66,12 @@ See the example below:
 <p>These are some instructions</p>
 ```
 
-The stratedgy in the OpenLMIS-UI is to not reuse specific message keys, and let the tools in Transifex group messages that are the same together into a single spot for translation. This allows an implementer to further customize small messages such as 'Search' to 'Search Facilities' if the needs of their implementation require more specificity.
+The strategy in the OpenLMIS-UI is to not reuse specific message keys, and let the tools in Transifex group messages that are the same together into a single spot for translation. This allows an implementer to further customize small messages such as 'Search' to 'Search Facilities' if the needs of their implementation require more specificity.
 
-If there are large message string changes, it is possible for an implementer to replace the `messages_en.json` file, and make the changes that are needed. **This is not recommended.**
+If there are large message string changes, it is possible for an implementer to replace the `messages_en.json` file, and make the changes that are needed. **This is possible as a last resort but not recommended.**
 
 #### Images
-Individual images are also easy to change, either by overriding the CSS style (see below) or 'implicitly' replacing the image. As mentioned earlier, all files overwrite eachother implicitliy, so to replace the default logo (for example) just replace the logo.png file in the publishing image.
+Individual images are also easy to change, either by overriding the CSS style (see below) or 'implicitly' replacing the image. As mentioned earlier, all files overwrite each other implicitly, so to replace the default logo (for example) just replace the logo.png file in the publishing image.
 
 #### HTML Layouts
 There might be places where an implementor needs to completely change the layout of a page or element. An example of this might be adding an additional header, or a paragraph of instructions. This is simple because of AngularJS's markup pattern and the implicit file replacement.
@@ -97,10 +99,10 @@ The HTML markup in this new index.html file might look like:
 
 ```
 
-*NOTE:* The main `index.html` was designed to be extremely minimal so that implementations could create huge changes quickly. Other HTML files within OpenLMIS follow this same paradigm of easy to replace HTML.
+*NOTE:* The main `index.html` was designed to be extremely minimal so that implementations could make huge changes quickly. Other HTML files within OpenLMIS follow this same paradigm of easy to replace HTML.
 
 ### Global Styles
-Global styles refer to CSS styles and Javascript interactions that are consistently applied through out the OpenLMIS-UI. These designs and styles are purposefully implemented on extremely vanilla HTML to promote consistency and make it easy for an implementer to quickly change interactions patterns across the entire UI. See the coding conventions for more information about how this is achieved.
+Global styles refer to CSS styles and Javascript interactions that are consistently applied throughout the OpenLMIS-UI. These designs and styles are purposefully implemented on extremely vanilla HTML to promote consistency and to make it easy for an implementer to quickly change interaction patterns across the entire UI. See the coding conventions for more information about how this is achieved.
 
 #### CSS and SASS
 There should be no special method of removing or explicitly overriding CSS — an implementer should simply use more specific CSS rules to override a CSS style. The CSS coding conventions stress using shallow selectors and avoiding the `!important` selector, so that its easy for an implementor to make style changes in a publishing image.
