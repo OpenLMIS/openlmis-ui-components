@@ -3,17 +3,10 @@
 		<h2>{{'label.requisition.convertOrder' | message}}</h2>
 		<section class="openlmis-table-container">
 			<form class="openlmis-table-filters" ng-submit="vm.changePage()">
-				<label for="searchFor">{{'search.for' | message}}</label>
-				<input id="searchFor" class="filter-value" ng-model="vm.stateParams.filterValue"
+				<label for="searchFor">{{'label.search' | message}}</label>
+				<input id="searchFor" type="text" ng-model="vm.stateParams.filterValue"
 					   maxlength="50"/>
-				<label for="searchIn">{{'search.in' | message}}</label>
-				<select id="searchIn" class="filter-by" ng-model="vm.stateParams.filterBy">
-					<option ng-repeat="filter in vm.filters" value="{{filter.value}}"
-							ng-selected="vm.stateParams.filterBy === filter.value">
-						{{filter.name | message}}
-					</option>
-				</select>
-				<input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
+				<input type="submit" value="{{'button.search' | message}}"/>
 			</form>
 			<div class="openlmis-table">
 				<table>
