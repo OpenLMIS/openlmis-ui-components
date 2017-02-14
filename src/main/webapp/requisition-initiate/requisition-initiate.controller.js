@@ -262,9 +262,14 @@
                 }
 
                 if(promises.length > 0) {
-                    $q.all(promises)
-                    .then(function (facilities) {
-                        vm.facilities = facilities[0].concat(facilities[1]);
+                    $q.all(promises).then(function (facilities) {
+
+                        if(promises.length > 1) {
+                            vm.facilities = facilities[0].concat(facilities[1]);
+                        } else {
+                            vm.facilities = facilities[0];
+                        }
+
                         if (vm.facilities.length <= 0) {
                             vm.error = messageService.get('msg.no.facility.available');
                         } else {
