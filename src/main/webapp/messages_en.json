@@ -57,6 +57,7 @@
   "error.tooManyCharacters": "too many characters",
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
   "error.columnDisplayMismatch": "This column should be displayed/not displayed together with: ",
+  "error.valueExceedPeriodDuration": "This value cannot exceed the number of days in the period",
   "forgot.password.email.subject": "Forgot password",
   "header.managePod": "Manage Proof of Delivery",
   "header.viewOrders": "View orders",

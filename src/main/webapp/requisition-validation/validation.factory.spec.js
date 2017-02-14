@@ -170,4 +170,29 @@ describe('validationFactory', function() {
 
     });
 
+    describe('totalStockoutDays', function() {
+
+        beforeEach(function() {
+            messageServiceMock.get.andReturn('valueExceedPeriodDuration');
+        });
+
+        var period = {
+            durationInMonths: 1
+        };
+
+        it('should return undefined if total stock out days are non negative', function() {
+            lineItem.totalStockoutDays = 0;
+
+            expect(validationFactory.totalStockoutDays(lineItem, {processingPeriod: period})).toBeUndefined();
+        });
+
+        it('should return "valueExceedPeriodDuration" if total stock out days exceed number of days in period', function() {
+            lineItem.totalStockoutDays = 100;
+
+            expect(validationFactory.totalStockoutDays(lineItem, {processingPeriod: period}))
+                .toEqual('valueExceedPeriodDuration');
+        });
+
+    });
+
 });
