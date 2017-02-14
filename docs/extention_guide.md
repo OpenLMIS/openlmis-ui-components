@@ -57,7 +57,7 @@ Messages are translateable pieces of content that are a part of the OpenLMIS-UI.
 See the example below:
 
 ```HTML
-<!-- HTML similar to this, will be updated by Transifex once the OpenLMIS-UI is build and run in a browser -->
+<!-- HTML similar to this, will be updated by Transifex once the OpenLMIS-UI is built and run in a browser -->
 <p>{{ 'example.instructions' | message }}</p>
 
 <!-- The above message will be displayed to a person using the OpenLMIS-UI as: -->
@@ -69,13 +69,14 @@ The stratedgy in the OpenLMIS-UI is to not reuse specific message keys, and let 
 If there are large message string changes, it is possible for an implementer to replace the `messages_en.json` file, and make the changes that are needed. **This is not recommended.**
 
 #### Images
-Individual images are also easy to change, either by adding a CSS Override (see below) or 'implicitly' replacing the image. As mentioned earlier, all files overwrite eachother implicitliy, so to replace the default logo (for example) just replace the logo.png file in the publishing image.
+Individual images are also easy to change, either by overriding the CSS style (see below) or 'implicitly' replacing the image. As mentioned earlier, all files overwrite eachother implicitliy, so to replace the default logo (for example) just replace the logo.png file in the publishing image.
 
 #### HTML Layouts
 There might be places where an implementor needs to completely change the layout of a page or element. An example of this might be adding an additional header, or a paragraph of instructions. This is simple because of AngularJS's markup pattern and the implicit file replacement.
 
-Let's consider wanting to add a large footer element to the OpenLMIS-UI (which might contain phone numbers and help information). To do this, an implementer would replace the [main index.html file](https://github.com/OpenLMIS/openlmis-requisition-refUI/blob/master/src/main/webapp/index.html) (which actually contains very little code) and add a CSS file with the styling needed. The HTML markup in this new index.html file might look like:
+Let's consider wanting to add a large footer element to the OpenLMIS-UI (which might contain help information or an emergency phone number). To do this, an implementer would replace the [main index.html file](https://github.com/OpenLMIS/openlmis-requisition-refUI/blob/master/src/main/webapp/index.html) and add a CSS file with the styling needed.
 
+The HTML markup in this new index.html file might look like:
 ```HTML
 <!-- NOTE: Dropped the HTML and HEAD sections -->
 <body >
@@ -96,41 +97,47 @@ Let's consider wanting to add a large footer element to the OpenLMIS-UI (which m
 
 ```
 
+*NOTE:* The main `index.html` was designed to be extremely minimal so that implementations could create huge changes quickly. Other HTML files within OpenLMIS follow this same paradigm of easy to replace HTML.
+
 ### Global Styles
+Global styles refer to CSS styles and Javascript interactions that are consistently applied through out the OpenLMIS-UI. These designs and styles are purposefully implemented on extremely vanilla HTML to promote consistency and make it easy for an implementer to quickly change interactions patterns across the entire UI. See the coding conventions for more information about how this is achieved.
 
 #### CSS and SASS
-There should be no special method of removing or explicitly overriding CSS — an implementer should simply use more specific CSS rules to change styles. This means that CSS styles in OpenLMIS should strive to be as general (shallow) as possible so that overriding a style can be done by creating a new CSS style.
+There should be no special method of removing or explicitly overriding CSS — an implementer should simply use more specific CSS rules to override a CSS style. The CSS coding conventions stress using shallow selectors and avoiding the `!important` selector, so that its easy for an implementor to make style changes in a publishing image.
 
-Some basic rules for doing this:
-* avoid the !important statement
-* use child selectors >
-* make mark-up semantic and class free (ie, avoid divs)
+```CSS
+// In general, overriding a style is as simple as adding a higher level selector like 'body'
+// Here is how an implementer might make all the links in the OpenLMIS-UI underlined
 
-All colors, absolute spacing, and browser breakpoints should be implemented using SASS variables, so that the overall UI look and feel can be changed by creating a different `*.variables.scss` file that will overwrite the initial declarations in OpenLMIS.
-
-#### AngularJS Directives
-* Non-component directives change how default DOM elements function, and we aim to extend them 
-* Implicitly replace these, or don't include the project
-* See the coding conventions
-
-### Screens
-When creating new functionality, there are needs to support the addition of configuration screens so configurations can be changed after initial implementation by a non-technical user. This set of extensions might not be used often by administrations, but for implementers there is value and re-assurance that these screens are available and accessible.
-
-### New Screens
-*Goal:* Add new functionality to the OpenLMIS-UI
-
-*Examples:*
-* Add new top-level functionality to OpenLMIS
-* Add configuration page to administration section
-* Add tab to requisition view page
-
-The infrastructure to create new administration screens already exists - meaning an administrative user can navigate to a new screen that is defined in a UI docker module.
-
-*Enabling features:*
-* UI-Router: Allows for addition of screens with a unique URL
-* NavigationService: Allows UI-Router definitions to expose their menu items into existing navigation frameworks
+body a {
+  text-decoration: underline;
+}
 
 ```
+
+In addition to keeping the CSS simple, the OpenLMIS-UI uses SASS variables to implement colors and spacing across the UI, which means changing a color is as simple as declaring a variable. The OpenLMIS-UI's sass varibles follow a semantic naming pattern, and `!default` variables are implemented in smaller files, which make it easy to update patterns. A full list of variables in an implementation is availabe in the [generated OpenLMIS-UI styleguide.]()
+
+To update Sass variables in a publishing image, create a file `src/variables.scss` and declare variables without `!default`
+```
+$brand-primary: #FDFB50; // Turned most branding elements a disgusting yellow
+$brand-danger: #AE4442; // Made error elements use a darker more brown red
+```
+
+#### AngularJS Directives and Components
+Within the OpenLMIS-UI there are many optimizations that use AngularJS directives to keep HTML markup DRY and provide a consistent experience. The core OpenLMIS-UI attempts to provide a simple, accessible, and usable experience -- but for some implementations these patterns might need to be changed or updated. See the OpenLMIS-UI coding conventions for a discussion of the difference between a directive and a component.
+
+The best way to change these patterns is to implicitly replace the file where the directive is created.
+
+**NOTE:** Changing directives is tricky, and a simple example will be added to this document ... eventually ...
+
+### Pages
+Pages are the primary unit of any application, and the OpenLMIS-UI has support for adding new pages, replacing existing pages, and adding content to existing pages.
+
+#### New Pages
+To add a new page to OpenLMIS-UI an implementer needs to register a page with UI-Router. The OpenLMIS-Navigation directive can expose pages registered with UI-Router, which is used within the OpenLMIS-UI in the main header navigation, meaning that new pages are exposed to a user in the OpenLMIS-UI. See the UI coding conventions for specifics on how to add a route, and the configuration options available.
+
+Here is a simple example.
+```javascript
 // Consider adding a view to see requisitions on a map
 angular.module('custom-module').config(function($stateProvider){
   $stateProvider.state('requisitions.map', {
@@ -142,20 +149,14 @@ angular.module('custom-module').config(function($stateProvider){
 });
 ```
 
-### Replacing an Existing Screen
-*Goal:* Add content and functionality to an existing screen
+**NOTE:** Adding new pages to the OpenLMIS-UI should mostly be done in source code images, if the page adds functionality. If the page is implementation specific it sould be added in a publishing image. 
 
-*Examples:*
-* An implementation needs to replace the homepage with an interactive dashboard
-* A footer needs to be customized (less complicated than previous option)
+#### Replacing an Existing Screen
+We expect that some implementations will need to make small changes to existing pages within the OpenLMIS-UI that go beyond the previous extention techniques mentiond. The most simple method of replacing a screen is implicitly replacing the `*.routes.js` file where the route is defined, as these files are mostly configuration and shouldn't contain complex logic.
 
-*Options:*
+A more complex alternative is to modify the UI-Router configuration at run-time, which would allow for very nuanced changes that require their own unique unit tests. The following example shows how to change a page's template depending on a user's access rights. **NOTE:** This is an invasive techinque, and should only be done if all other extention methods don't work
 
-Build Process Option - configure the build process so that files on a similar path overwrite each other before the UI build command is run (this would mean creating a large temporary directory). The nice thing is that if you wanted to replace the home page template, all you would have to do it place a file at `src/home/page.html` (for example). The work involved here would be defined in the NodeJS dev tools, which are shared across all repositories.
-
-UI-Router Solution - Rewrite a UI-Router route to use the newly created view template or controller. The implementation of this in AngularJS would require a run statement to make the switch, because you would need to wait for the original state to be registered. Problem: Not clear how errors would be handled.
-
-```
+```javascript
 angular.module('custom-module').run(function($state){
   var state = $state.get('home'); // get the current home page state
   state.view.templateUrl = 'new_tempalte.html';
@@ -163,5 +164,5 @@ angular.module('custom-module').run(function($state){
 });
 ```
 
-### Extending a Screen
-*Goal:* To adding a single element or field into an existing screen without forking or replacing the entire screen.
+#### Extending a Screen
+This functionality is still underdevelopment, see [OLMIS-1682: Extention directive to allow insertion of UI components](https://openlmis.atlassian.net/browse/OLMIS-1682) for implementation details.
