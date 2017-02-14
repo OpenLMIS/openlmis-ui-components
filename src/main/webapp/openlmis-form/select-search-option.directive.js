@@ -93,6 +93,12 @@
                 });
             }
 
+            function closeModal() {
+                if(modal){
+                    modal.modal('hide');
+                }
+            }
+
             function findSelectedOption() {
                 var selectedOption,
                     scope = this;
@@ -119,6 +125,7 @@
                 element.children('option[label="' + option.label + '"]').attr('selected', 'selected');
 
                 ngModelCtrl.$setViewValue(selectCtrl.readValue());
+                closeModal();
             }
 
             function isPopOut() {

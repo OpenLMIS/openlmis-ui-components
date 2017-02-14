@@ -235,6 +235,7 @@
   "msg.select.at.least.one.rnr": "Please select at least one Requisition for Converting to Order.",
   "msg.server.error": "Server error",
   "msg.showing": "Showing",
+  "msg.showingNumOfResults": "Showing ${num} of ${total} results",
   "msg.template.column.dropError": "Can't drop column here",
   "msg.template.column.calculatedError": "Cannot be CALCULATED together with: ",
   "msg.template.column.isUserInput": " if source is USER INPUT",
