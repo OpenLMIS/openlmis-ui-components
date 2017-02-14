@@ -226,15 +226,15 @@ describe('requisitionService', function() {
             params = {
                 facility: facility.id,
                 program: program.id,
-                createdDateFrom: startDate1.toISOString(),
-                createdDateTo: endDate1.toISOString(),
+                initiatedDateFrom: startDate1.toISOString(),
+                initiatedDateTo: endDate1.toISOString(),
                 requisitionStatus: [allStatuses[0].label, allStatuses[1].label],
                 emergency: true
             },
             requisitionCopy = formatDatesInRequisition(angular.copy(requisitionDto));
 
-        httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/search?createdDateFrom=' + startDate1.toISOString() +
-            '&createdDateTo=' + endDate1.toISOString() + '&emergency=' + params.emergency +
+        httpBackend.when('GET', requisitionUrlFactory('/api/requisitions/search?initiatedDateFrom=' + startDate1.toISOString() +
+            '&initiatedDateTo=' + endDate1.toISOString() + '&emergency=' + params.emergency +
             '&facility=' + facility.id + '&program=' + program.id +
             '&requisitionStatus=' + allStatuses[0].label + '&requisitionStatus=' + allStatuses[1].label))
         .respond(200, {content: [requisitionDto]});

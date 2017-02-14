@@ -189,8 +189,8 @@
          * {
          *      program: 'programID',
          *      facility: 'facilityID',
-         *      createdDateFrom: 'startDate',
-         *      createdDateTo: 'endDate',
+         *      initiatedDateFrom: 'startDate',
+         *      initiatedDateTo: 'endDate',
          *      requisitionStatus: ['status1', 'status2'],
          *      emergency: false
          * }
