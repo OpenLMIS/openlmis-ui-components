@@ -1,21 +1,7 @@
 .select-search-option {
 
-    .list-label {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1em;
-    }
-
-    .option-list {
-        display: flex;
-        flex-direction: column;
+    .form-group {
         max-height: 40em;
         overflow-y: auto;
-        font-size: 1.3em;
-
-        input {
-            margin-bottom: 1em;
-            margin-right: 1em;
-        }
     }
 }
