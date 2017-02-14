@@ -108,7 +108,7 @@ header > .navbar {
     position: relative;
   }
   .navbar-right{
-    @extend .navbar-text;
+    margin-top: 10px;
     margin-right: 0em;
   }
 
