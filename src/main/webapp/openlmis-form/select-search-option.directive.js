@@ -36,9 +36,12 @@
                 ngModelCtrl = ctrls[1],
                 modal;
 
+            element.off('click');
+
             element.on('mousedown', function (event) {
                 if(isPopOut()) {
                     event.stopPropagation();
+                    element.attr('disabled', true);
                     showModal();
                 }
             });
@@ -46,6 +49,7 @@
             element.bind("keydown", function (event) {
                 if(isPopOut() && event.which === 13) {
                     event.stopPropagation();
+                    element.attr('disabled', true);
                     showModal();
                 }
             });
@@ -88,12 +92,13 @@
                         title: labelElement[0] ? labelElement[0].textContent : '',
                         message: $compile(template)(modalScope),
                         backdrop: true,
-                        onEscape: true
+                        onEscape: closeModal
                     });
                 });
             }
 
             function closeModal() {
+                element.attr('disabled', false);
                 if(modal){
                     modal.modal('hide');
                 }
