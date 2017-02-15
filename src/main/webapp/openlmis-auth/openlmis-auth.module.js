@@ -10,6 +10,7 @@
     * managing authentication when making calls to other services.
     */
     angular.module('openlmis-auth', [
+        'angular-md5',
         'http-auth-interceptor',
         'openlmis-local-storage',
         'openlmis-modal',

@@ -13,6 +13,7 @@
     "angular-filter": "^0.5",
     "angular-http-auth": "^1.5",
     "angular-drag-and-drop-lists": "*",
-    "angular-strap": "*"
+    "angular-strap": "*",
+    "angular-md5": "0.1.10"
   }
 }

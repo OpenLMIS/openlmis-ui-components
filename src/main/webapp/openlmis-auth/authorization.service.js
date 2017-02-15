@@ -23,9 +23,9 @@
         'USER_ROLE_ASSIGNMENTS': 'ROLE_ASSIGNMENTS'
     };
 
-    service.$inject = ['$q', 'localStorageService', '$injector', '$filter', 'localStorageFactory']
+    service.$inject = ['$q', 'localStorageService', '$injector', '$filter', 'localStorageFactory', 'md5']
 
-    function service($q, localStorageService, $injector, $filter, localStorageFactory) {
+    function service($q, localStorageService, $injector, $filter, localStorageFactory, md5) {
 
         var offlineUserData = localStorageFactory('userData');
 
@@ -45,6 +45,7 @@
         this.getRightByName = getRightByName;
         this.saveOfflineUserData = saveOfflineUserData;
         this.getOfflineUserData = getOfflineUserData;
+        this.hashPassword = hashPassword;
 
         /**
          * @ngdoc function
@@ -287,7 +288,7 @@
             if(offlineUserData.getBy('username', username)) offlineUserData.removeBy('username', username);
             offlineUserData.put({
                 username: username,
-                password: password,
+                password: hashPassword(password),
                 id: userId,
                 referencedataUsername: referencedataUsername,
                 rights: userRights
@@ -296,6 +297,10 @@
 
         function getOfflineUserData(username) {
             return offlineUserData.getBy('username', username);
+        }
+
+        function hashPassword(password) {
+            return md5.createHash(password || '');
         }
     }
 

@@ -96,7 +96,7 @@
                 userData = authorizationService.getOfflineUserData(username);
 
             if(userData) {
-                if(userData.password === password) {
+                if(userData.password === authorizationService.hashPassword(password)) {
                     authorizationService.setUser(userData.id, userData.referencedataUsername);
                     authorizationService.setRights(userData.rights);
                     authorizationService.setAccessToken('token');
