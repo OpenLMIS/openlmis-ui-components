@@ -388,7 +388,7 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            var hasRight = authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_VIEW, {
+            var hasRight = authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_EDIT, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isApproved() && hasRight;
