@@ -396,7 +396,7 @@
 
         /**
          * @ngdoc function
-         * @name displayConvertToOrder
+         * @name displaySkip
          * @methodOf requisition-view.RequisitionViewController
          *
          * @description
