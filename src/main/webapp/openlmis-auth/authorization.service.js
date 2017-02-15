@@ -23,9 +23,11 @@
         'USER_ROLE_ASSIGNMENTS': 'ROLE_ASSIGNMENTS'
     };
 
-    service.$inject = ['$q', 'localStorageService', '$injector', '$filter']
+    service.$inject = ['$q', 'localStorageService', '$injector', '$filter', 'localStorageFactory']
 
-    function service($q, localStorageService, $injector, $filter) {
+    function service($q, localStorageService, $injector, $filter, localStorageFactory) {
+
+        var offlineUserData = localStorageFactory('userData');
 
         this.clearAccessToken = clearAccessToken;
         this.clearUser = clearUser;
@@ -41,6 +43,8 @@
         this.setRights = setRights;
         this.setUser = setUser;
         this.getRightByName = getRightByName;
+        this.saveOfflineUserData = saveOfflineUserData;
+        this.getOfflineUserData = getOfflineUserData;
 
         /**
          * @ngdoc function
@@ -277,6 +281,21 @@
             var rights = $filter('filter')(getRights(), {
                 name: rightName}, true);
             return angular.copy(rights[0]);
+        }
+
+        function saveOfflineUserData(username, password, userId, referencedataUsername, userRights) {
+            if(offlineUserData.getBy('username', username)) offlineUserData.removeBy('username', username);
+            offlineUserData.put({
+                username: username,
+                password: password,
+                id: userId,
+                referencedataUsername: referencedataUsername,
+                rights: userRights
+            });
+        }
+
+        function getOfflineUserData(username) {
+            return offlineUserData.getBy('username', username);
         }
     }
 

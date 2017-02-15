@@ -75,7 +75,7 @@
                 return false;
             }
             return true;
-        };
+        }
 
         /**
          * @ngdoc function
@@ -95,15 +95,13 @@
             }
 
             vm.disableSignInButton = true;
-            loginService.login(vm.username, vm.password)
-            .catch(function(){
+            loginService.login(vm.username, vm.password).catch(function(){
                 vm.loginError = 'user.login.error';
-            })
-            .finally(function(){
+            }).finally(function(){
                 vm.disableSignInButton = false;
                 vm.password = undefined;
             });
-        };
+        }
 
         /**
          * @ngdoc function

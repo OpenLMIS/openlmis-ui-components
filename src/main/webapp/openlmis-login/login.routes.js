@@ -11,6 +11,7 @@
     function routes($stateProvider) {
 
         $stateProvider.state('auth.login', {
+            isOffline: true,
             url: '/login',
             templateUrl: 'openlmis-login/login-form.html'
         });
