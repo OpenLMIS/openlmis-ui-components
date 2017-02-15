@@ -29,15 +29,17 @@ describe("convertToOrderModalService", function() {
             facility: facility
         };
 
-        requisitions = [{
-            requisition: requisition,
-            supplyingDepots: [
-                supplyingDepotSpy(0),
-                supplyingDepotSpy(1),
-                supplyingDepotSpy(2),
-                supplyingDepotSpy(3)
-            ]
-        }];
+        requisitions = {
+            content: [{
+                requisition: requisition,
+                supplyingDepots: [
+                    supplyingDepotSpy(0),
+                    supplyingDepotSpy(1),
+                    supplyingDepotSpy(2),
+                    supplyingDepotSpy(3)
+                ]
+            }]
+        };
 
         module('requisition-view', function($provide) {
             loadingModalServiceSpy = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
@@ -129,7 +131,7 @@ describe("convertToOrderModalService", function() {
             convertToOrderModalService.show(requisition);
             $rootScope.$apply();
 
-            expect(scope.vm.requisitionWithDepots).toEqual(requisitions[0]);
+            expect(scope.vm.requisitionWithDepots).toEqual(requisitions.content[0]);
         });
 
     });
@@ -148,7 +150,7 @@ describe("convertToOrderModalService", function() {
 
         it('should convert to order', function() {
             expect(requisitionServiceSpy.convertToOrder)
-                .toHaveBeenCalledWith(requisitions);
+                .toHaveBeenCalledWith(requisitions.content);
         });
 
         it('should close modal', function() {

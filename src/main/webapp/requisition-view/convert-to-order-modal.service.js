@@ -107,7 +107,7 @@
                 sortBy: $stateParams.sortBy,
                 descending: $stateParams.descending
             }).then(function(requisitions) {
-                requisitions.forEach(function(rnr) {
+                requisitions.content.forEach(function(rnr) {
                     if (rnr.requisition.id == vm.requisition.id) {
                         deferred.resolve(rnr);
                     }
