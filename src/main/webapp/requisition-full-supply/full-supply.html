@@ -19,12 +19,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<openlmis-pagination ng-model="vm.stateParams.page"
-			total-items="vm.totalItems"
-			items="vm.pageItems.length"
-			page-size="vm.stateParams.size"
-			ng-change="vm.changePage()"
-			page-validator="vm.isPageValid">
-		</openlmis-pagination>
 	</div>
 </div>
+<openlmis-pagination ng-model="vm.stateParams.page" total-items="vm.totalItems" items="vm.pageItems.length"
+					 page-size="vm.stateParams.size" ng-change="vm.changePage()" page-validator="vm.isPageValid">
+</openlmis-pagination>
