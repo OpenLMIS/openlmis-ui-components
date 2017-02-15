@@ -25,13 +25,13 @@
     RequisitionViewController.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
-        'convertToOrderModalService', 'offlineService', 'localStorageFactory',
+        'FULFILLMENT_RIGHTS', 'convertToOrderModalService', 'offlineService', 'localStorageFactory',
         'requisitionUrlFactory', '$filter', '$scope', '$timeout', 'RequisitionWatcher'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
-                             REQUISITION_RIGHTS, convertToOrderModalService, offlineService,
+                             REQUISITION_RIGHTS, FULFILLMENT_RIGHTS , convertToOrderModalService, offlineService,
                              localStorageFactory, requisitionUrlFactory, $filter, $scope,
                              $timeout, RequisitionWatcher) {
 
@@ -388,7 +388,7 @@
          * @return {boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.CONVERT_TO_ORDER, {
+            var hasRight = authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_VIEW, {
                 programCode: vm.requisition.program.code
             });
             return vm.requisition.$isApproved() && hasRight;
