@@ -13,7 +13,7 @@
 			</thead>
 			<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'">
 				<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem.skipped}"
-					ng-repeat="lineItem in lineItems | orderBy : 'displayOrder'">
+					ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
 					<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 						product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
 				</tr>
