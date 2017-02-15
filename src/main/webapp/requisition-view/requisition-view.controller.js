@@ -77,6 +77,7 @@
         vm.displayApproveAndReject = displayApproveAndReject;
         vm.displayConvertToOrder = displayConvertToOrder;
         vm.displaySkip = displaySkip;
+        vm.displaySync = displaySync;
         vm.isOffline = offlineService.isOffline;
         vm.getPrintUrl = getPrintUrl;
         vm.isFullSupplyTabValid = isFullSupplyTabValid;
@@ -408,6 +409,21 @@
             return vm.requisition.$isInitiated() &&
                 vm.requisition.program.periodsSkippable &&
                 !vm.requisition.emergency;
+        }
+
+        /**
+         * @ngdoc function
+         * @name displaySync
+         * @methodOf requisition-view.RequisitionViewController
+         *
+         * @description
+         * Determines whether to display sync with server button or not. Returns true only if
+         * requisition has status INITIATED, SUBMITTED or AUTHORIZED.
+         *
+         * @return {boolean} true if sync button should be visible, false otherwise
+         */
+        function displaySync() {
+            return vm.requisition.$isInitiated() || vm.requisition.$isSubmitted() || vm.requisition.$isAuthorized();
         }
 
         /**
