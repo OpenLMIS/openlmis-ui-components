@@ -1,13 +1,6 @@
 <div class="page">
     <h2>{{'label.approve.requisitions' | message}}</h2>
     <div class="openlmis-table-container">
-        <form class="openlmis-table-controls form-inline">
-            <label for="table-sort-order">{{'label.sortItemsBy' | message}}</label>
-            <select required id="table-sort-order" ng-model="vm.selectedColumn"
-                ng-options="column.name as column.label for column in vm.columns">
-            </select>
-            <button ng-class="{descending: vm.reverse, ascending: !vm.reverse}" ng-click="vm.changeSortOrder()"></button>
-        </form>
         <table class="openlmis-table" ng-if="vm.requisitions">
             <caption ng-if="!vm.requisitions.length">
                 {{'message.no.rnr.pending.approval' | message}}
@@ -26,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="requisition in vm.requisitions | orderBy: vm.selectedColumn: vm.reverse">
+                <tr ng-repeat="requisition in vm.requisitions">
                     <td>{{requisition.program.name}}</th>
                     <td>{{requisition.facility.code}}</th>
                     <td>{{requisition.facility.name}}</th>
