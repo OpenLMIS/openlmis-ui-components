@@ -1,11 +1,11 @@
 describe("RequisitionInitiateController", function(){
 
     var $q, programs, rootScope, requisitionService, authorizationService, facilityService,
-        periodFactory, $state, period, facility;
+        periodFactory, $state, period, facility, REQUISITION_RIGHTS;
 
     beforeEach(module('requisition-initiate'));
     beforeEach(inject(function (_$q_, $rootScope, $controller, _periodFactory_,
-    _$state_, _requisitionService_, _authorizationService_, _facilityService_) {
+    _$state_, _requisitionService_, _authorizationService_, _facilityService_, _REQUISITION_RIGHTS_) {
 
         rootScope = $rootScope;
         periodFactory =_periodFactory_;
@@ -14,6 +14,7 @@ describe("RequisitionInitiateController", function(){
         authorizationService = _authorizationService_;
         facilityService = _facilityService_;
         $q = _$q_;
+        REQUISITION_RIGHTS = _REQUISITION_RIGHTS_;
 
         user = {"user_id": "user_id"};
         right = {"id": "right_id"};
@@ -49,21 +50,34 @@ describe("RequisitionInitiateController", function(){
 
     });
 
-    it("Should change page to requisitions.requisition for newly initialized requisition in selected period",
-    function(){
+    it("Should change page to requisition full supply for newly initialized requisition in selected period", function() {
         var selectedPeriod = {"id":1};
         spyOn($state, 'go');
         spyOn(requisitionService, 'initiate').andReturn($q.when({"id": 1}));
+        spyOn(authorizationService, 'hasRight').andReturn(true);
+        vm.selectedProgramId = programs[0].id;
 
         vm.initRnr(selectedPeriod);
         rootScope.$apply();
 
         expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {rnr: 1});
+        expect(authorizationService.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: programs[0].id});
     });
 
-    it("Should not change page to requisitions.requisition with selected period without rnrId "
-    + "and when invalid response from service",
-    function(){
+    it("Should display error when user has no right to init requisition", function() {
+        var selectedPeriod = {"id":1};
+        spyOn($state, 'go');
+        spyOn(authorizationService, 'hasRight').andReturn(false);
+        vm.selectedProgramId = programs[0].id;
+
+        vm.initRnr(selectedPeriod);
+        rootScope.$apply();
+
+        expect($state.go).not.toHaveBeenCalled();
+        expect(authorizationService.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: programs[0].id});
+    });
+
+    it("Should not change page to requisitions.requisition with selected period without rnrId and when invalid response from service", function() {
         var selectedPeriod = {};
         spyOn(requisitionService,'initiate').andReturn($q.reject({"id": 1}));
         spyOn($state, 'go');

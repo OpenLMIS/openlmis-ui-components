@@ -35,12 +35,15 @@
          * @param {Array}   facilities  the list of related warehouses
          * @param {Array}   nodes       the list of related supervisory nodes
          */
-        function Right(id, name, programs, facilities, nodes, isDirect) {
+        function Right(id, name, programCodes, programIds, warehouseCodes, warehouseIds, nodeCodes, nodeIds, isDirect) {
             this.id = id;
             this.name = name;
-            this.programs = programs;
-            this.facilities = facilities;
-            this.nodes = nodes;
+            this.programCodes = programCodes;
+            this.programIds = programIds
+            this.warehouseCodes = warehouseCodes;
+            this.warehouseIds = warehouseIds;
+            this.supervisoryNodeCodes = nodeCodes;
+            this.supervisoryNodeIds = nodeIds;
             this.isDirect = isDirect;
         }
 
@@ -67,8 +70,11 @@
                         right = {
                             id: rightObj.id,
                             programCode: [],
+                            programId: [],
                             warehouseCode: [],
-                            supervisoryNodeCode: []
+                            warehouseId: [],
+                            supervisoryNodeCode: [],
+                            supervisoryNodeId: []
                         };
                         rights[name] = right;
                     } else {
@@ -77,16 +83,20 @@
 
                     var isDirect = true;
 
-                    ['programCode', 'warehouseCode', 'supervisoryNodeCode']
-                        .forEach(function(field) {
-                            var fieldValue = assignment[field];
-                            if (fieldValue) {
-                                if (right[field].indexOf(fieldValue) === -1) {
-                                    right[field].push(fieldValue);
-                                }
-                                isDirect = false;
+                    [
+                        'programCode', 'programId',
+                        'warehouseCode', 'warehouseId',
+                        'supervisoryNodeCode', 'supervisoryNodeId'
+                    ]
+                    .forEach(function(field) {
+                        var fieldValue = assignment[field];
+                        if (fieldValue) {
+                            if (right[field].indexOf(fieldValue) === -1) {
+                                right[field].push(fieldValue);
                             }
-                        });
+                            isDirect = false;
+                        }
+                    });
 
                     if (isDirect) {
                         right.isDirect = true;
@@ -104,8 +114,11 @@
                     rights[right].id,
                     right,
                     rights[right].programCode,
+                    rights[right].programId,
                     rights[right].warehouseCode,
+                    rights[right].warehouseId,
                     rights[right].supervisoryNodeCode,
+                    rights[right].supervisoryNodeId,
                     rights[right].isDirect
                 ));
             }

@@ -218,20 +218,29 @@
                     hasRight = true;
 
                 if (rightName && details) {
-                    var program = details.programCode,
-                        facility = details.warehouseCode,
-                        node = details.supervisoryNodeCode;
 
-                    if (program) {
-                        hasRight = hasRight && right.programs.indexOf(program) > -1;
+                    if (details.programCode) {
+                        hasRight = hasRight && right.programCodes.indexOf(details.programCode) > -1;
                     }
 
-                    if (facility) {
-                        hasRight = hasRight && right.facilities.indexOf(facility) > -1;
+                    if (details.programId) {
+                        hasRight = hasRight && right.programIds.indexOf(details.programId) > -1;
                     }
 
-                    if (node) {
-                        hasRight = hasRight && right.nodes.indexOf(node) > -1;
+                    if (details.warehouseCode) {
+                        hasRight = hasRight && right.warehouseCodes.indexOf(details.warehouseCode) > -1;
+                    }
+
+                    if (details.warehouseId) {
+                        hasRight = hasRight && right.warehouseIds.indexOf(details.warehouseId) > -1;
+                    }
+
+                    if (details.supervisoryNodeCode) {
+                        hasRight = hasRight && right.supervisoryNodeCodes.indexOf(details.supervisoryNodeCode) > -1;
+                    }
+
+                    if (details.supervisoryNodeId) {
+                        hasRight = hasRight && right.supervisoryNodeIds.indexOf(details.supervisoryNodeId) > -1;
                     }
                 }
 

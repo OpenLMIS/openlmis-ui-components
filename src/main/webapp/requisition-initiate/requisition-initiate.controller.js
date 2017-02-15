@@ -217,24 +217,27 @@
         function initRnr(selectedPeriod) {
             vm.error = '';
             if (!selectedPeriod.rnrId || selectedPeriod.rnrStatus == messageService.get('msg.rnr.not.started')) {
-                requisitionService.initiate(vm.selectedFacilityId,
-                    vm.selectedProgramId,
-                    selectedPeriod.id,
-                    vm.emergency)
-                .then(function (data) {
-                    $state.go('requisitions.requisition.fullSupply', {
-                        rnr: data.id
+                if(authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: vm.selectedProgramId})) {
+                    requisitionService.initiate(vm.selectedFacilityId,
+                        vm.selectedProgramId,
+                        selectedPeriod.id,
+                        vm.emergency)
+                    .then(function (data) {
+                        $state.go('requisitions.requisition.fullSupply', {
+                            rnr: data.id
+                        });
+                    }, function () {
+                        notificationService.error('error.requisition.couldNotInitiate');
                     });
-                }, function () {
+                } else {
                     notificationService.error('error.requisition.noPermissionToInitiate');
-                });
+                }
             } else {
                 $state.go('requisitions.requisition.fullSupply', {
                     rnr: selectedPeriod.rnrId
                 });
             }
         }
-
         /**
          * @ngdoc function
          * @name loadFacilitiesForProgram
