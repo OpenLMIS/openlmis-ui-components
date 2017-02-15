@@ -9,7 +9,8 @@
  */
 describe("loginService", function() {
 
-    var $rootScope, httpBackend, loginService, authorizationService, Right, $state, $q, currencyService;
+    var $rootScope, httpBackend, loginService, authorizationService, Right, $state, $q,
+        currencyService, offlineService;
 
     beforeEach(function() {
         module('openlmis-login');
@@ -42,7 +43,8 @@ describe("loginService", function() {
             $stateProvider.state('somewhere', {});
         });
 
-        inject(function(_$httpBackend_, _$rootScope_, _loginService_, _authorizationService_, _$state_, _$q_, _currencyService_){
+        inject(function(_$httpBackend_, _$rootScope_, _loginService_, _authorizationService_,
+        _$state_, _$q_, _currencyService_, _offlineService_){
             httpBackend = _$httpBackend_;
             $rootScope = _$rootScope_;
             loginService = _loginService_;
@@ -50,6 +52,7 @@ describe("loginService", function() {
             $state = _$state_;
             $q = _$q_;
             currencyService = _currencyService_;
+            offlineService = _offlineService_;
 
             httpBackend.when('POST', '/api/oauth/token?grant_type=password')
             .respond(function(method, url, data){
@@ -79,6 +82,7 @@ describe("loginService", function() {
             .respond(200, {});
 
             spyOn($rootScope, '$emit');
+            spyOn(offlineService, 'checkConnection').andCallThrough();
         });
     });
 
@@ -111,7 +115,17 @@ describe("loginService", function() {
             expect(success).toBe(true);
         });
 
-        it('login will get user data', function(){
+        it('should get offline user data if user is offline', function() {
+            spyOn(offlineService, 'isOffline').andReturn(true);
+            spyOn(authorizationService, 'getOfflineUserData').andReturn($q.when());
+
+            loginService.login('john', 'john-password');
+            $rootScope.$apply();
+
+            expect(authorizationService.getOfflineUserData).toHaveBeenCalledWith('john');
+        });
+
+        it('should get user data if user is online', function(){
             loginService.login("john", "john-password");
             httpBackend.flush();
             $rootScope.$apply();
@@ -120,9 +134,19 @@ describe("loginService", function() {
 
             expect(user.user_id).toBe("35316636-6264-6331-2d34-3933322d3462");
         });
+
+        it('should save offline user data if user is online', function(){
+            spyOn(authorizationService, 'saveOfflineUserData');
+
+            loginService.login("john", "john-password");
+            httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(authorizationService.saveOfflineUserData).toHaveBeenCalled();
+        });
     });
 
-    it('will clear user data on logout', function(){
+    it('will clear user data on logout for online user', function(){
         spyOn(authorizationService, "clearAccessToken");
         spyOn(authorizationService, "clearUser");
         spyOn(authorizationService, "clearRights");
@@ -141,6 +165,24 @@ describe("loginService", function() {
         $rootScope.$apply();
 
         // User credentials are removed.
+        expect(authorizationService.clearAccessToken).toHaveBeenCalled();
+        expect(authorizationService.clearUser).toHaveBeenCalled();
+        expect(authorizationService.clearRights).toHaveBeenCalled();
+
+    });
+
+    it('will clear user data on logout for offline user', function(){
+        spyOn(offlineService, 'isOffline').andReturn(true);
+        spyOn(authorizationService, "clearAccessToken");
+        spyOn(authorizationService, "clearUser");
+        spyOn(authorizationService, "clearRights");
+
+        loginService.login("john", "john-password");
+        $rootScope.$apply();
+
+        loginService.logout();
+        $rootScope.$apply();
+
         expect(authorizationService.clearAccessToken).toHaveBeenCalled();
         expect(authorizationService.clearUser).toHaveBeenCalled();
         expect(authorizationService.clearRights).toHaveBeenCalled();
