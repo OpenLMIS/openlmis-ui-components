@@ -3,7 +3,7 @@
     <input id="search" type="text" ng-model="searchText" ng-change="findSelectedOption(options, selected)"/>
     <fieldset class="form-group">
         <legend>{{'msg.selectAnOption' | message}}</legend>
-        <p>{{'msg.showingNumOfResults' | message: {'num': results.length || options.length, 'total': options.length} }}</p>
+        <p>{{'msg.showingNumOfResults' | message: {'num': results.length, 'total': options.length} }}</p>
         <label class="radio" ng-repeat="option in options | filter: {label: searchText} as results">
             <input type="radio" ng-click="select(option)" name="selected" ng-model="selected" ng-value="option" />
             {{option.label}}
