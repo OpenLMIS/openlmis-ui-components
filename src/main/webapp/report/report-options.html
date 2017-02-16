@@ -9,10 +9,12 @@
                         required>
                 </select>
             </div>
-            <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('pdf')}}" target="_blank">{{'button.report.pdf' | message}}</a>
-            <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('csv')}}" target="_blank">{{'button.report.csv' | message}}</a>
-            <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('xls')}}" target="_blank">{{'button.report.xls' | message}}</a>
-            <a class="btn btn-primary" openlmis-download="{{vm.getReportUrl('html')}}" target="_blank">{{'button.report.html' | message}}</a>
+            <div class="button-group">
+                <button class="primary" openlmis-download="{{vm.getReportUrl('pdf')}}" target="_blank">{{'button.report.pdf' | message}}</a>
+                <button class="primary" openlmis-download="{{vm.getReportUrl('csv')}}" target="_blank">{{'button.report.csv' | message}}</a>
+                <button openlmis-download="{{vm.getReportUrl('xls')}}" target="_blank">{{'button.report.xls' | message}}</a>
+                <button openlmis-download="{{vm.getReportUrl('html')}}" target="_blank">{{'button.report.html' | message}}</a>
+            </div>
         </div>
     </section>
 </div>
