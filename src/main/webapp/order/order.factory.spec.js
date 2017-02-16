@@ -45,7 +45,14 @@ describe('orderFactory', function() {
 
         expect(orderServiceMock.search).toHaveBeenCalledWith({
             requestingFacility: 'id-one',
-            program: 'id-two'
+            program: 'id-two',
+            status: [
+                ORDER_STATUS.PICKED,
+                ORDER_STATUS.TRANSFER_FAILED,
+                ORDER_STATUS.READY_TO_PACK,
+                ORDER_STATUS.ORDERED,
+                ORDER_STATUS.RECEIVED
+            ]
         });
     });
 

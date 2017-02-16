@@ -79,19 +79,16 @@
 
             orderService.search({
                 requestingFacility: requestingFacilityId,
-                program: programId
+                program: programId,
+                status: [
+                    ORDER_STATUS.PICKED,
+                    ORDER_STATUS.TRANSFER_FAILED,
+                    ORDER_STATUS.READY_TO_PACK,
+                    ORDER_STATUS.ORDERED,
+                    ORDER_STATUS.RECEIVED
+                ]
             }).then(function(orders) {
-                var ordersToDisplay = [];
-                orders.forEach(function(order) {
-                    if (order.status === ORDER_STATUS.PICKED
-                        || order.status === ORDER_STATUS.TRANSFER_FAILED
-                        || order.status === ORDER_STATUS.READY_TO_PACK
-                        || order.status === ORDER_STATUS.ORDERED
-                        || order.status === ORDER_STATUS.RECEIVED) {
-                        ordersToDisplay.push(order);
-                    }
-                });
-                deferred.resolve(ordersToDisplay);
+                deferred.resolve(orders);
             });
             return deferred.promise;
         }
