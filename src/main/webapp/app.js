@@ -21,6 +21,7 @@
         'openlmis-500',
 		'openlmis-forgot-password',
         'openlmis-fulfillment',
+        'openlmis-analytics',
 		'openlmis-home',
 		'openlmis-header',
         'openlmis-i18n',

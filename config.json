@@ -25,5 +25,6 @@
   "authServerClientId": "user-client",
   "authServerClientSecret": "changeme",
   "applicationTitle": "OpenLMIS",
-  "transifexProjectName": "openlmis-requisition-ui"
+  "transifexProjectName": "openlmis-requisition-ui",
+  "analyticsTrackingId": "UA-35478705-4"
 }
