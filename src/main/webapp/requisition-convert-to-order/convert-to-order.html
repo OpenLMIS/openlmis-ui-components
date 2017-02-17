@@ -23,7 +23,7 @@
 							<th>{{'option.value.facility.district' | message}}</th>
 							<th>{{'label.period.start.date' | message}}</th>
 							<th>{{'label.period.end.date' | message}}</th>
-							<th>{{'label.date.modified' | message}}</th>
+							<th>{{'label.date.approved' | message}}</th>
 							<th>{{'label.supplyingDepot' | message}}</th>
 							<th>{{'label.emergency' | message}}</th>
 						</tr>
@@ -40,7 +40,7 @@
 							<td>{{item.requisition.facility.geographicZone.parent.name}}</td>
 							<td>{{item.requisition.processingPeriod.startDate | date:'shortDate'}}</td>
 							<td>{{item.requisition.processingPeriod.endDate | date:'shortDate'}}</td>
-							<td>{{item.requisition.processingPeriod.processingSchedule.modifiedDate | date:'shortDate'}}</td>
+							<td>{{item.requisition.statusChanges.APPROVED.changeDate | date:'shortDate'}}</td>
 							<td>
 								<select ng-model="item.requisition.supplyingFacility"
 										ng-options="depot.id as depot.name for depot in item.supplyingDepots">

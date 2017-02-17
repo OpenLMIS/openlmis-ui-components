@@ -42,6 +42,8 @@
                     <th>{{'label.period.start.date' | message}}</th>
                     <th>{{'label.period.end.date' | message}}</th>
                     <th>{{'label.date.submitted' | message}}</th>
+                    <th>{{'label.date.authorized' | message}}</th>
+                    <th>{{'label.date.approved' | message}}</th>
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
                     <th>{{'msg.requisition.view.offline' | message}}</th>
@@ -55,7 +57,9 @@
                     <td>{{requisition.facility.name}}</td>
                     <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</td>
                     <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</td>
-                    <td>{{requisition.createdDate | date:'shortDate'}}</td>
+                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'shortDate'}}</td>
+                    <td>{{requisition.statusChanges.AUTHORIZED.changeDate | date:'shortDate'}}</td>
+                    <td>{{requisition.statusChanges.APPROVED.changeDate | date:'shortDate'}}</td>
                     <td>{{requisition.status}}</td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': requisition.emergency}"></i>

@@ -26,7 +26,7 @@
                     <td>{{requisition.facility.type.name}}</th>
                     <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</th>
                     <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</th>
-                    <td>{{requisition.createdDate | date:'shortDate'}}</th>
+                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'shortDate'}}</th>
                     <td class="col-emergency">
                         <span ng-if="requisition.emergency" class="icon-ok"></span>
                     </td>
