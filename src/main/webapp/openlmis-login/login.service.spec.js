@@ -7,7 +7,7 @@
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
  * You should have received a copy of the GNU Affero General Public License along with this program.  If not, see http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
-describe("loginService", function() {
+describe('loginService', function() {
 
     var $rootScope, httpBackend, loginService, authorizationService, Right, $state, $q,
         currencyService, offlineService;
@@ -60,22 +60,22 @@ describe("loginService", function() {
                     return [400];
                 } else {
                     return [200,{
-                        "access_token": "4b06a35c-9684-4f8c-b9d0-ce2c6cd685de",
-                        "token_type": "bearer",
-                        "expires_in": 1733,
-                        "scope": "read write",
-                        "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462"
+                        'access_token': '4b06a35c-9684-4f8c-b9d0-ce2c6cd685de',
+                        'token_type': 'bearer',
+                        'expires_in': 1733,
+                        'scope': 'read write',
+                        'referenceDataUserId': '35316636-6264-6331-2d34-3933322d3462'
                     }];
                 }
             });
 
             httpBackend.when('GET', '/api/users/35316636-6264-6331-2d34-3933322d3462')
             .respond(200, {
-                "referenceDataUserId": "35316636-6264-6331-2d34-3933322d3462",
-                "username": "admin",
-                "password": "$2a$10$4IZfidcJzbR5Krvj87ZJdOZvuQoD/kvPAJe549rUNoP3N3uH0Lq2G",
-                "email": "test@openlmis.org",
-                "role": "ADMIN"
+                'referenceDataUserId': '35316636-6264-6331-2d34-3933322d3462',
+                'username': 'admin',
+                'password': '$2a$10$4IZfidcJzbR5Krvj87ZJdOZvuQoD/kvPAJe549rUNoP3N3uH0Lq2G',
+                'email': 'test@openlmis.org',
+                'role': 'ADMIN'
             });
 
             httpBackend.when('GET', '/api/users/35316636-6264-6331-2d34-3933322d3462/roleAssignments')
@@ -89,7 +89,7 @@ describe("loginService", function() {
     describe('login', function() {
         it('should reject bad logins', function() {
             var error = false;
-            loginService.login("john", "bad-password")
+            loginService.login('john', 'bad-password')
             .catch(function(){
                 error = true;
             });
@@ -104,7 +104,7 @@ describe("loginService", function() {
             var success = false;
             spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
 
-            loginService.login("john", "john-password")
+            loginService.login('john', 'john-password')
             .then(function(){
                 success = true;
             });
@@ -126,19 +126,19 @@ describe("loginService", function() {
         });
 
         it('should get user data if user is online', function(){
-            loginService.login("john", "john-password");
+            loginService.login('john', 'john-password');
             httpBackend.flush();
             $rootScope.$apply();
 
             var user = authorizationService.getUser();
 
-            expect(user.user_id).toBe("35316636-6264-6331-2d34-3933322d3462");
+            expect(user.user_id).toBe('35316636-6264-6331-2d34-3933322d3462');
         });
 
         it('should save offline user data if user is online', function(){
             spyOn(authorizationService, 'saveOfflineUserData');
 
-            loginService.login("john", "john-password");
+            loginService.login('john', 'john-password');
             httpBackend.flush();
             $rootScope.$apply();
 
@@ -147,12 +147,12 @@ describe("loginService", function() {
     });
 
     it('will clear user data on logout for online user', function(){
-        spyOn(authorizationService, "clearAccessToken");
-        spyOn(authorizationService, "clearUser");
-        spyOn(authorizationService, "clearRights");
+        spyOn(authorizationService, 'clearAccessToken');
+        spyOn(authorizationService, 'clearUser');
+        spyOn(authorizationService, 'clearRights');
 
         // Login a user
-        loginService.login("john", "john-password");
+        loginService.login('john', 'john-password');
         httpBackend.flush();
         $rootScope.$apply();
 
@@ -173,11 +173,11 @@ describe("loginService", function() {
 
     it('will clear user data on logout for offline user', function(){
         spyOn(offlineService, 'isOffline').andReturn(true);
-        spyOn(authorizationService, "clearAccessToken");
-        spyOn(authorizationService, "clearUser");
-        spyOn(authorizationService, "clearRights");
+        spyOn(authorizationService, 'clearAccessToken');
+        spyOn(authorizationService, 'clearUser');
+        spyOn(authorizationService, 'clearRights');
 
-        loginService.login("john", "john-password");
+        loginService.login('john', 'john-password');
         $rootScope.$apply();
 
         loginService.logout();
@@ -194,7 +194,7 @@ describe("loginService", function() {
         authorizationService.clearAccessToken();
         spyOn(currencyService, 'getCurrencySettings').andReturn($q.when());
 
-        loginService.login("john", "john-password");
+        loginService.login('john', 'john-password');
         httpBackend.flush();
         $rootScope.$apply();
 
@@ -208,7 +208,7 @@ describe("loginService", function() {
         $state.go('somewhere');
         $rootScope.$apply();
 
-        loginService.login("john", "john-password");
+        loginService.login('john', 'john-password');
         httpBackend.flush();
         $rootScope.$apply();
 
@@ -220,7 +220,7 @@ describe("loginService", function() {
         spyOn(currencyService, 'getCurrencySettings').andReturn($q.reject());
         spyOn(currencyService, 'getCurrencySettingsFromConfig');
 
-        loginService.login("john", "john-password");
+        loginService.login('john', 'john-password');
         httpBackend.flush();
         $rootScope.$apply();
 
