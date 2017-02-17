@@ -23,7 +23,6 @@
         locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
 
         locale.selectedLocale = messageService.getCurrentLocale();
-        console.log('poczatkowe locale: ' + locale.selectedLocale);
         $scope.$on('openlmis.messages.populated', function(){
             locale.selectedLocale = messageService.getCurrentLocale();
             $state.reload();
