@@ -16,14 +16,14 @@
      * @name openlmis-popover.directive:popover
      *
      * @description
-     * This directive wraps Bootstrap's popover implementatation. See the 
+     * This directive wraps Bootstrap's popover implementatation. See the
      * styleguide documentation for examples of where to apply the popover
-     * directive on specific elements. 
+     * directive on specific elements.
      *
-     * There are two main ways to use this directive, as either a showing a 
+     * There are two main ways to use this directive, as either a showing a
      * string, or rendering a template into the element's context.
      *
-     * If you need to update the title, content, css class, or template in a 
+     * If you need to update the title, content, css class, or template in a
      * popover, be sure to write the attribute as a variable, as Angular will
      * not register changes otherwise. See examples for more information.
      *
@@ -36,14 +36,14 @@
      * ```
      * <button popover-template="/example/popover.html">Complex Popover</button>
      * ```
-     * If you want to update the popover content at a different time, pass the 
+     * If you want to update the popover content at a different time, pass the
      * string as an angular variable.
      * ```
      * <button popover={{popoverContent}}>Popover</button>
      * ```
-     * 
+     *
      */
-    
+
     // Element types that shouldn't have a button or click events assigned to them
     var NO_BUTTON_ELEMENTS = ['a', 'button', 'select', 'input', 'textarea'];
 
@@ -78,9 +78,9 @@
          *
          * *Most importantly* the popover will be removed if either popover or
          * popover-temple attributes are set to empty strings.
-         * 
+         *
          */
-        function popoverLink(scope, element, attrs){
+        function popoverLink(scope, element, attrs) {
             // Scope used to render template frame
             // set to persist and accept values from other items
             var templateScope = $rootScope.$new();
@@ -114,7 +114,12 @@
                 }
             });
 
-            scope.$on("$destroy", destroyPopover);
+            element.on('$destroy', function() {
+                if (lastOpenPopover == targetElement) lastOpenPopover = undefined;
+                targetElement = undefined;
+                jQuery($window).off('resize', onWindowResize);
+                templateScope.$destroy();
+            });
 
             /**
              * @ngdoc property
@@ -123,7 +128,7 @@
              * @type {String}
              *
              * @description
-             * Displayed title for the popover. The title is removed if the 
+             * Displayed title for the popover. The title is removed if the
              * string is empty.
              */
             scope.$watch(function(){
@@ -161,7 +166,7 @@
              * @description
              * Creates the popover and it responsible for compiling elements
              * that are shown within the popover.
-             * 
+             *
              */
             function compilePopover(el){
                 // Using the popover element will require jQuery.popover
@@ -207,7 +212,7 @@
                             var compiledElement = $compile(html)(scope);
                             popoverConfig.content = compiledElement;
                             popoverConfig.html = true;
-                            
+
                             targetElement.popover(popoverConfig);
                         });
                     } else {
@@ -223,9 +228,9 @@
              * @methodOf openlmis-popover.directive:popover
              *
              * @description
-             * Attaches event listenters and extra style to the element and 
+             * Attaches event listenters and extra style to the element and
              * popover.
-             * 
+             *
              */
             function makePopover(){
                 element.addClass('has-popover');
@@ -250,7 +255,7 @@
              * @description
              * Removes the popover and any event listenters or classes added to
              * the original element.
-             * 
+             *
              */
             function destroyPopover(){
                 element.removeClass('has-popover');
