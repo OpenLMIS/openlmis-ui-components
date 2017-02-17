@@ -6,12 +6,12 @@
         .module('openlmis-i18n')
         .factory('messageService', messageService);
 
-    var DEFAULT_LANGUAGE = 'en';
+    var DEFAULT_LANGUAGE = 'en',
+        LOCALE_STORAGE_KEY = 'current_locale';
 
-    messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES'];
+    messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES', 'localStorageService'];
 
-    function messageService($q, $rootScope, OPENLMIS_MESSAGES) {
-        var currentLocale = DEFAULT_LANGUAGE;
+    function messageService($q, $rootScope, OPENLMIS_MESSAGES, localStorageService) {
 
         var service = {
             getCurrentLocale: getCurrentLocale,
@@ -22,7 +22,7 @@
         return service;
 
         function getCurrentLocale() {
-            return currentLocale;
+            return localStorageService.get(LOCALE_STORAGE_KEY);
         }
 
         function populate (locale) {
@@ -30,7 +30,7 @@
 
             var deferred = $q.defer();
             if(OPENLMIS_MESSAGES[locale]){
-                currentLocale = locale;
+                localStorageService.add(LOCALE_STORAGE_KEY, locale);
                 $rootScope.$broadcast('openlmis.messages.populated');
                 return $q.when();
             } else {
@@ -42,6 +42,7 @@
             var keyWithArgs = Array.prototype.slice.call(arguments);
             var displayMessage = keyWithArgs[0];
             var parameters = keyWithArgs[1];
+            var currentLocale = getCurrentLocale();
             if(OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]){
                 displayMessage = OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]
             }

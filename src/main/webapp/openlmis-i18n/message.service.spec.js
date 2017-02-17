@@ -9,7 +9,7 @@
 */
 
 describe("MessageService", function () {
-    var $rootScope, messageService;
+    var $rootScope, messageService, localStorageService, getLocaleSpy;
     beforeEach(function(){
 
         angular.mock.module("openlmis-config", function($provide){
@@ -31,15 +31,20 @@ describe("MessageService", function () {
     });
     beforeEach(module('openlmis-i18n'));
 
-    beforeEach(inject(function (_$rootScope_, _messageService_) {
+    beforeEach(inject(function (_$rootScope_, _messageService_, _localStorageService_) {
         $rootScope = _$rootScope_;
         messageService = _messageService_;
+        localStorageService = _localStorageService_;
 
+        getLocaleSpy = spyOn(localStorageService, 'get');
+        getLocaleSpy.andReturn('en');
+        spyOn(localStorageService, 'add');
         spyOn($rootScope, '$broadcast');
     }));
 
-    it("loads a default languge when first populated", function(){
-        expect(messageService.getCurrentLocale()).toBe("en");
+    it("loads a default languge when populated without any parameters", function(){
+        messageService.populate();
+        expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'en');
     });
 
     it("returns existing translation", function(){
@@ -70,8 +75,9 @@ describe("MessageService", function () {
 
     it("can change the current locale", function(){
         messageService.populate('test');
-        expect(messageService.getCurrentLocale()).toBe('test');
+        getLocaleSpy.andReturn('test');
 
+        expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'test');
         expect(messageService.get('sample')).toBe('foo');
     });
 
