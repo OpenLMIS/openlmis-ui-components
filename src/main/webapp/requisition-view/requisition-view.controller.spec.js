@@ -71,7 +71,8 @@ describe('RequisitionViewController', function() {
             });
 
             deferred = $q.defer();
-            requisition = jasmine.createSpyObj('requisition', ['$skip', '$isInitiated', '$save']);
+            requisition = jasmine.createSpyObj('requisition',
+                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$save']);
             requisition.id = '1';
             requisition.program = {
                 id: '2',
@@ -160,6 +161,17 @@ describe('RequisitionViewController', function() {
 
     it('getPrintUrl should prepare URL correctly', function() {
         expect(vm.getPrintUrl()).toEqual('http://some.url/api/requisitions/1/print');
+    });
+
+    it('should display sync button', function() {
+        expect(vm.displaySync()).toBe(true);
+    });
+
+    it('should not display sync button', function() {
+        vm.requisition.$isInitiated.andReturn(false);
+        vm.requisition.$isSubmitted.andReturn(false);
+        vm.requisition.$isAuthorized.andReturn(false);
+        expect(vm.displaySync()).toBe(false);
     });
 
     describe('Offline conflict handling', function() {

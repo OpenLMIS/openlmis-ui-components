@@ -84,7 +84,7 @@
         vm.isNonFullSupplyTabValid = isNonFullSupplyTabValid;
 
          /**
-         * @ngdoc function
+         * @ngdoc method
          * @name syncRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -117,7 +117,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name submitRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -149,7 +149,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name authorizeRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -182,7 +182,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name removeRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -207,7 +207,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name approveRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -239,7 +239,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name rejectRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -264,7 +264,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name skipRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -289,7 +289,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name periodDisplayName
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -305,7 +305,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displayAuthorize
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -323,7 +323,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displaySubmit
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -341,7 +341,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displayApproveAndReject
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -359,7 +359,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displayDelete
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -377,7 +377,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displayConvertToOrder
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -395,7 +395,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displaySkip
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -412,7 +412,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name displaySync
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -427,7 +427,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name convertRnr
          * @methodOf requisition-view.RequisitionViewController
          *
@@ -439,7 +439,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @methodOf requisition-view.RequisitionViewController
          * @name getPrintUrl
          *
