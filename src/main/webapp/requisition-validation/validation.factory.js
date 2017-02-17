@@ -80,10 +80,10 @@
                 if (requested === null || requested === undefined) return;
 
                 if (isDisplayed(iColumn)) {
-                    if (quantitiesDiffer(lineItem, requisition) && !explanation) {
+                    if (quantitiesDiffer(lineItem, requisition) && requested > 0 && !explanation) {
                         return messageService.get('error.required');
                     }
-                } else if (requested && !explanation) {
+                } else if (requested > 0 && !explanation) {
                     return messageService.get('error.required');
                 }
             }

@@ -130,10 +130,10 @@ describe('LineItem', function() {
             lineItem.updateFieldValue(requisition.template.columnsMap[2], requisition);
             lineItem.updateFieldValue(requisition.template.columnsMap[5], requisition);
 
-            expect(lineItem.requestedQuantity).toEqual(0);
+            expect(lineItem.requestedQuantity).toEqual(null);
             expect(lineItem.requestedQuantityExplanation).toEqual('');
             expect(lineItem.totalCost).toEqual(20);
-            expect(lineItem.pricePerPack).toEqual(0);
+            expect(lineItem.pricePerPack).toEqual(null);
         });
 
         it('should call proper calculation method when column name is Adjusted Consumption', function() {

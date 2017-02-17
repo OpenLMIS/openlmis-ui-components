@@ -157,6 +157,17 @@ describe('validationFactory', function() {
                 .toEqual('required');
         });
 
+        it('should return undefined if requestedQuantity is 0 and explanation is missing', function() {
+            requisitionMock.template.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
+            });
+            lineItem.requestedQuantity = 0;
+            lineItem.requestedQuantityExplanation = undefined;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
         it('should return undefined if requestedQuantity is greater than 0 and explanation is given', function() {
             requisitionMock.template.getColumn.andCallFake(function(name) {
                 if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;

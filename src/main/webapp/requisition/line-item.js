@@ -77,7 +77,7 @@
                 if (column.source === COLUMN_SOURCES.CALCULATED) {
                     object[propertyName] = calculationFactory[fullName] ? calculationFactory[fullName](this, requisition) : null;
                 } else if (column.$type === COLUMN_TYPES.NUMERIC || column.$type === COLUMN_TYPES.CURRENCY) {
-                    object[propertyName] = object[propertyName] ? object[propertyName] : 0;
+                    checkIfNullOrZero(object[propertyName]);
                 } else {
                     object[propertyName] = object[propertyName] ? object[propertyName] : '';
                 }
@@ -148,6 +148,14 @@
         function getPropertyName(fullPath) {
             var id = fullPath.lastIndexOf('.')
             return id > -1 ? fullPath.substr(id) : fullPath;
+        }
+
+        function checkIfNullOrZero(value) {
+            if (value === 0) {
+                value = 0;
+            } else if (value === null) {
+                value = null;
+            }
         }
     };
 
