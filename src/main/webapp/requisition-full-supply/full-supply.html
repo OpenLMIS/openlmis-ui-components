@@ -1,7 +1,9 @@
 <div class="openlmis-table-container">
-	<div class="openlmis-table-controls">
-		<a href="" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</a> |
-		<a href="" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</a>
+	<div ng-if="vm.areSkipControlsVisible()" class="openlmis-table-controls">
+		<div class="button-group">
+			<button ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</button>
+			<button ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</button>
+		</div>
 	</div>
 	<div class="openlmis-table">
 		<table table-pinned-columns>

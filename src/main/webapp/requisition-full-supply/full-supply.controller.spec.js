@@ -4,7 +4,7 @@ describe('FullSupplyController', function() {
     var vm;
 
     //mocks
-    var requisition, requisitionValidator, lineItems, paginatedListFactory;
+    var requisition, requisitionValidator, lineItems, paginatedListFactory, columns, requisitionStatus;
 
     beforeEach(module('requisition-full-supply'));
 
@@ -28,12 +28,32 @@ describe('FullSupplyController', function() {
                 lineItem('Three', false)
             ]
         };
+
         lineItems = [
             requisition.requisitionLineItems[0],
             requisition.requisitionLineItems[1],
             requisition.requisitionLineItems[2],
             requisition.requisitionLineItems[3],
         ];
+
+        requisitionStatus = "INITIALIZED";
+
+        requisition.$isSubmitted = function(){
+            if(requisitionStatus == "SUBMITTED"){
+                return true;
+            }
+            return false;
+        }
+        requisition.$isInitiated = function(){
+            if(requisitionStatus == "INITIALIZED"){
+                return true;
+            }
+            return false;
+        }
+
+        columns = [{
+            name: 'skipped'
+        }];
 
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
@@ -55,7 +75,7 @@ describe('FullSupplyController', function() {
             requisitionValidator: requisitionValidator,
             items: lineItems,
             paginatedListFactory: paginatedListFactory,
-            columns: [],
+            columns: columns,
             page: 0,
             pageSize: 10,
             totalItems: 4
@@ -86,4 +106,28 @@ describe('FullSupplyController', function() {
         expect(requisition.requisitionLineItems[3].skipped).toBe(false);
         expect(requisition.requisitionLineItems[4].skipped).toBe(false);
     });
+
+    it('should only show skip controls if the requistions status is INITIALIZED or SUBMITTED', function(){
+        // requisition status is INITIALIZED
+        expect(vm.areSkipControlsVisible()).toBe(true);
+
+        requisitionStatus = "SUBMITTED";
+        expect(vm.areSkipControlsVisible()).toBe(true);
+
+        requisitionStatus = "AUTHORIZED";
+        expect(vm.areSkipControlsVisible()).toBe(false);
+
+        requisitionStatus = "foo";
+        expect(vm.areSkipControlsVisible()).toBe(false);
+    });
+
+    it('should only show skip controls if the requisition template has a skip columm', function(){
+        // There is a column named skip
+        expect(vm.areSkipControlsVisible()).toBe(true);
+
+        columns[0].name = 'foo';
+
+        expect(vm.areSkipControlsVisible()).toBe(false);
+    });
+
 });

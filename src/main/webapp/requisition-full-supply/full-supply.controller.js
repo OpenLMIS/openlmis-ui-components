@@ -35,6 +35,7 @@
 
         vm.stateParams.rnr = requisition.id;
 
+        vm.areSkipControlsVisible = areSkipControlsVisible;
         vm.skipAll = skipAll;
         vm.unskipAll = unskipAll;
         vm.isSkipColumn = isSkipColumn;
@@ -75,6 +76,28 @@
          * @return {Boolean}          true if any of the fields has error, false otherwise
          */
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-full-supply.FullSupplyController
+         * @name areSkipControlsVisible
+         *
+         * @description
+         * Checks if the current requisition template has a skip column, and if the requisition state allows for skipping.
+         */
+        function areSkipControlsVisible(){
+            if(!requisition.$isSubmitted() && !requisition.$isInitiated()){
+                return false;
+            }
+
+            var hasSkipColumn = false;
+            columns.forEach(function(column){
+                if(isSkipColumn(column)){
+                    hasSkipColumn = true;
+                }
+            });
+            return hasSkipColumn;
+        }
 
         /**
          * @ngdoc method
