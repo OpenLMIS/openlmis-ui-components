@@ -29,9 +29,18 @@
             vm.showModal = showModal;
             vm.hideModal = hideModal;
 
+            element.on('$destroy', function() {
+                if (dialog) dialog.remove();
+                dialog = undefined;
+            });
+
             function showModal() {
                 $templateRequest('requisition-losses-and-adjustments/losses-and-adjustments-modal.html')
                     .then(function(modal){
+                        if (dialog) {
+                            dialog.remove();
+                            dialog = undefined;
+                        }
                         dialog = bootbox.dialog({
                             title: messageService.get('label.losses.adjustments'),
                             message: $compile(modal)(scope),
@@ -45,6 +54,7 @@
 
             function hideModal() {
                 dialog.modal('hide');
+                dialog = undefined;
             }
         }
     }
