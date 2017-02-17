@@ -52,10 +52,10 @@
          * @name getPod
          *
          * @description
-         * Gets pods for the given order.
+         * Gets pod for the given order.
          *
          * @param   {String}    orderId     (optional)  the ID of the given order
-         * @return  {Promise}                           the promise resolving to a list of all PODs for the given order
+         * @return  {Promise}                           the promise resolving to a POD for the given order
          */
         function getPod(orderId) {
             return orderService.getPod(orderId);

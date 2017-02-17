@@ -25,10 +25,10 @@ describe('ProofOfDeliveryManageController', function() {
             createOrder('order-two', 'PICKING')
         ];
 
-        pod = [{
+        pod = {
             id: 'pod-one',
             order: { id: 'order-one' }
-        }];
+        };
 
         module('proof-of-delivery-manage', function($provide) {
             orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search', 'getPod', 'searchOrdersForManagePod']);

@@ -156,9 +156,9 @@
          * @param {String}  orderId id of order to find it's POD
          */
         function openPod(orderId) {
-            withUiBlocking(orderFactory.getPod(orderId)).then(function(pods) {
+            withUiBlocking(orderFactory.getPod(orderId)).then(function(pod) {
                 $state.go('orders.podView', {
-                    podId: pods[0].id
+                    podId: pod.id
                 });
             }, function() {
                 notificationService.error('msg.noOrderFound');

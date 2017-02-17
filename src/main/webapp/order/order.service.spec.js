@@ -39,11 +39,11 @@ describe('orderService', function() {
             }
         }];
 
-        pod = [{
+        pod = {
             id: 'id-three',
             order: { id: 'id-one' },
             receivedDate: [2017, 1, 1]
-        }];
+        };
 
         $httpBackend.when('GET', fulfillmentUrlFactory('/api/orders/search?supplyingFacility=some-id'))
             .respond(200, orders);
@@ -77,15 +77,15 @@ describe('orderService', function() {
     it('search should return transformed proof of deliveries', function() {
         var result;
 
-        orderService.getPod('id-one').then(function(pods) {
-            result = pods;
+        orderService.getPod('id-one').then(function(pod) {
+            result = pod;
         });
 
         $httpBackend.flush();
         $rootScope.$apply();
 
-        expect(result[0].id).toEqual('id-three');
-        expect(result[0].receivedDate).toEqual(new Date(2017, 0, 1));
+        expect(result.id).toEqual('id-three');
+        expect(result.receivedDate).toEqual(new Date(2017, 0, 1));
 
     });
 

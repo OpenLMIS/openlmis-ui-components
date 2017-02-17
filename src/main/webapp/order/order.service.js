@@ -25,7 +25,6 @@
                 url: fulfillmentUrlFactory('/api/orders/search')
             },
             getPod: {
-                isArray: true,
                 method: 'GET',
                 transformResponse: transformPOD,
                 url: fulfillmentUrlFactory('/api/orders/:id/proofOfDeliveries')
@@ -84,12 +83,17 @@
 
 		function transformPOD(data, headers, status) {
             if (status === 200) {
-                var pods = angular.fromJson(data);
-                pods.forEach(function(pod) {
-				    if(pod.receivedDate) pod.receivedDate = dateUtils.toDate(pod.receivedDate);
-				    if(pod.order.createdDate) pod.order.createdDate = dateUtils.toDate(pod.order.createdDate);
-				});
-				return pods;
+                var pod = angular.fromJson(data);
+
+                if(pod.receivedDate) {
+                    pod.receivedDate = dateUtils.toDate(pod.receivedDate);
+                }
+
+                if(pod.order.createdDate) {
+                    pod.order.createdDate = dateUtils.toDate(pod.order.createdDate);
+                }
+
+                return pod;
             }
 
             return data;
