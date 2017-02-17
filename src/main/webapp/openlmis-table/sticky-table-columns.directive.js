@@ -69,6 +69,11 @@
             // If the window changes sizes, update the view
             angular.element($window).bind('resize', updateStickyElements);
 
+            element.on('$destroy', function() {
+                angular.element($window).unbind('resize', updateStickyElements);
+                parent = undefined;
+            });
+
             /**
              * @ngdoc function
              * @name updateStickyElements
