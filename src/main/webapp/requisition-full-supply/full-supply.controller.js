@@ -136,12 +136,26 @@
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
 
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-full-supply.FullSupplyController
+         * @name skippedAll
+         * @type {Object}
+         *
+         * @description
+         * Indicated if the skip all button has been clicked.
+         * 
+         */
+        vm.skippedAll = false;
+
         function setSkipAll(value) {
             angular.forEach(items, function(lineItem) {
                 if (lineItem.canBeSkipped(vm.requisition)) {
                     lineItem.skipped = value;
                 }
             });
+            vm.skippedAll = value;
         }
     }
 
