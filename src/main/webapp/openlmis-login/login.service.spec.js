@@ -146,7 +146,7 @@ describe('loginService', function() {
         });
     });
 
-    it('will clear user data on logout for online user', function(){
+    it('should clear user data on logout for online user', function(){
         spyOn(authorizationService, 'clearAccessToken');
         spyOn(authorizationService, 'clearUser');
         spyOn(authorizationService, 'clearRights');
@@ -171,7 +171,7 @@ describe('loginService', function() {
 
     });
 
-    it('will clear user data on logout for offline user', function(){
+    it('should clear user data on logout for offline user', function(){
         spyOn(offlineService, 'isOffline').andReturn(true);
         spyOn(authorizationService, 'clearAccessToken');
         spyOn(authorizationService, 'clearUser');
