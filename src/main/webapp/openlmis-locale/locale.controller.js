@@ -23,6 +23,7 @@
         locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
 
         locale.selectedLocale = messageService.getCurrentLocale();
+        console.log('poczatkowe locale: ' + locale.selectedLocale);
         $scope.$on('openlmis.messages.populated', function(){
             locale.selectedLocale = messageService.getCurrentLocale();
             $state.reload();
@@ -33,13 +34,15 @@
         }
 
         function changeLocale (localeKey) {
-            messageService.populate(localeKey)
-            .then(function(){
-                notificationService.success('locale.load.success');
-            })
-            .catch(function(){
-                alertService.error('locale.load.error');
-            });
+            if(localeKey) {
+                messageService.populate(localeKey)
+                    .then(function () {
+                        notificationService.success('locale.load.success');
+                    })
+                    .catch(function () {
+                        alertService.error('locale.load.error');
+                    });
+            }
         }
 
         function getLocaleName(key){
