@@ -6,17 +6,25 @@ describe('Button directives', function() {
 
         module('openlmis-analytics');
 
-        inject(function(_$compile_, _$rootScope_, _$window_, _$location_) {
+        inject(function(_$compile_, _$rootScope_, _analyticsService_, _$location_) {
             $compile = _$compile_;
             $rootScope = _$rootScope_;
-            $window = _$window_;
+            analyticsService = _analyticsService_;
             $location = _$location_;
+
+            spyOn(analyticsService, 'track');
         });
     });
 
-    // it('will add an event handler', function() {
-    //   var element = $compile("<button>{{'label.name' | message}}</button>")($rootScope);
+    it('will track click events on a button elements with the untranslated text', function() {
+        var element = $compile("<button>{{'label.name' | message}}</button>")($rootScope.$new());
 
-    //   expect(element.html()).toContain("lidless, wreathed in flame, 2 times");
-    // });
+        $rootScope.$apply();
+        angular.element(element[0]).click();
+
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+    });
+
 });
