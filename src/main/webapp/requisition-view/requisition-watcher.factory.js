@@ -23,15 +23,13 @@
 
         return RequisitionWatcher;
 
-        function RequisitionWatcher(requisition) {
+        function RequisitionWatcher(scope, requisition) {
             var watcher = this,
                 storage = localStorageFactory('requisitions');
 
             watcher.isLoud = true;
 
-            $rootScope.$watch(function() {
-                return requisition;
-            }, function(oldValue, newValue) {
+            scope.$watchCollection(requisition.requisitionLineItems, function(oldValue, newValue) {
                 if (oldValue !== newValue) {
                     requisition.$modified = true;
                     storage.put(requisition);

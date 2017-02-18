@@ -54,6 +54,11 @@
             function updatePadding() {
                 parent.css('padding-top', element.css('height'));
             }
+
+            element.on('$destroy', function() {
+                parent = undefined;
+                angular.element($window).unbind('resize', updatePadding);
+            });
         }
     }
 

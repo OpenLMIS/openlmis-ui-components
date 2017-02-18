@@ -36,7 +36,7 @@
                              $timeout, RequisitionWatcher) {
 
         var vm = this,
-            watcher = new RequisitionWatcher(requisition);
+            watcher = new RequisitionWatcher($scope, requisition);
 
         /**
          * @ngdoc property
