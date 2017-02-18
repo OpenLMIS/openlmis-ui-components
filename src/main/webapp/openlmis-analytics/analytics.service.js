@@ -4,7 +4,7 @@
     /**
      *
      * @ngdoc service
-     * @name  openlmis-analytics.anaslyticsService
+     * @name  openlmis-analytics.analyticsService
      * @description
      * Wraps the google analytics object, and initializes the object with the
      * UA tracking code.
