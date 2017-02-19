@@ -198,6 +198,7 @@
                 this.getUserFacilities(userId, REQUISITION_RIGHTS.REQUISITION_VIEW),
                 this.getUserHomeFacility()
             ]).then(function(results) {
+                if(!results[1]) deferred.resolve(results[0]);
                 deferred.resolve($filter('unique')(results[0].concat(results[1]), 'id'));
             }, function() {
                 deferred.reject();
