@@ -1,38 +1,46 @@
 describe("RequisitionInitiateController", function(){
 
     var $q, programs, rootScope, requisitionService, authorizationService, facilityService,
-        periodFactory, $state, period, facility, REQUISITION_RIGHTS;
+        periodFactory, $state, period, facility, REQUISITION_RIGHTS, userRightFactoryMock, hasRight;
 
-    beforeEach(module('requisition-initiate'));
-    beforeEach(inject(function (_$q_, $rootScope, $controller, _periodFactory_,
-    _$state_, _requisitionService_, _authorizationService_, _facilityService_, _REQUISITION_RIGHTS_) {
+    beforeEach(function() {
 
-        rootScope = $rootScope;
-        periodFactory =_periodFactory_;
-        $state = _$state_;
-        requisitionService = _requisitionService_;
-        authorizationService = _authorizationService_;
-        facilityService = _facilityService_;
-        $q = _$q_;
-        REQUISITION_RIGHTS = _REQUISITION_RIGHTS_;
+        module('requisition-initiate');
 
-        user = {"user_id": "user_id"};
-        right = {"id": "right_id"};
-        programs = [{"code": "HIV", "id": 1}, {"code": "programCode", "id": 2}];
-        period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
-        facility = {
-            "id": "10134",
-            "name": "National Warehouse",
-            "description": null,
-            "code": "CODE",
-            "supportedPrograms": programs
-        };
+        inject(function (_$q_, $rootScope, $controller, _periodFactory_,
+            _$state_, _requisitionService_, _authorizationService_, _facilityService_, _REQUISITION_RIGHTS_) {
 
-        spyOn(periodFactory, 'get').andReturn($q.when(period));
+            rootScope = $rootScope;
+            periodFactory =_periodFactory_;
+            $state = _$state_;
+            requisitionService = _requisitionService_;
+            authorizationService = _authorizationService_;
+            facilityService = _facilityService_;
+            $q = _$q_;
+            REQUISITION_RIGHTS = _REQUISITION_RIGHTS_;
 
-        vm = $controller('RequisitionInitiateController', {facility: facility, user: user, supervisedPrograms: programs,
-            homePrograms: programs, periodFactory: periodFactory, requisitionService: requisitionService});
-    }));
+            user = {"user_id": "user_id"};
+            right = {"id": "right_id"};
+            programs = [{"code": "HIV", "id": 1}, {"code": "programCode", "id": 2}];
+            period = [{"id": 1, "rnrId": 123, "startDate": "01-01-2016", "endDate": "02-02-2016"}];
+            facility = {
+                "id": "10134",
+                "name": "National Warehouse",
+                "description": null,
+                "code": "CODE",
+                "supportedPrograms": programs
+            };
+
+            spyOn(periodFactory, 'get').andReturn($q.when(period));
+            userRightFactoryMock = jasmine.createSpyObj('userRightFactory',  ['checkRightForCurrentUser']);
+            userRightFactoryMock.checkRightForCurrentUser.andCallFake(function() {
+                return $q.when(hasRight);
+            });
+
+            vm = $controller('RequisitionInitiateController', {facility: facility, user: user, supervisedPrograms: programs,
+                homePrograms: programs, periodFactory: periodFactory, requisitionService: requisitionService, userRightFactory: userRightFactoryMock});
+        });
+    });
 
     it("should assign proper values when facility is assigned", function() {
         expect(vm.selectedFacilityId).toEqual(facility.id);
@@ -40,41 +48,40 @@ describe("RequisitionInitiateController", function(){
         expect(vm.selectedProgramId).toEqual(undefined);
     });
 
-    it("Should change page to requisitions.requisition for with selected period with rnrId", function(){
+    it("Should change page to requisitions.requisition for with selected period with rnrId", function() {
         var selectedPeriod = {"rnrId": 1};
         spyOn($state, 'go');
 
         vm.initRnr(selectedPeriod);
 
         expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {rnr: 1});
-
     });
 
     it("Should change page to requisition full supply for newly initialized requisition in selected period", function() {
         var selectedPeriod = {"id":1};
         spyOn($state, 'go');
         spyOn(requisitionService, 'initiate').andReturn($q.when({"id": 1}));
-        spyOn(authorizationService, 'hasRight').andReturn(true);
+        hasRight = true;
         vm.selectedProgramId = programs[0].id;
 
         vm.initRnr(selectedPeriod);
         rootScope.$apply();
 
         expect($state.go).toHaveBeenCalledWith('requisitions.requisition.fullSupply', {rnr: 1});
-        expect(authorizationService.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: programs[0].id});
+        expect(userRightFactoryMock.checkRightForCurrentUser).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, programs[0].id, facility.id);
     });
 
     it("Should display error when user has no right to init requisition", function() {
         var selectedPeriod = {"id":1};
         spyOn($state, 'go');
-        spyOn(authorizationService, 'hasRight').andReturn(false);
+        hasRight = false;
         vm.selectedProgramId = programs[0].id;
 
         vm.initRnr(selectedPeriod);
         rootScope.$apply();
 
         expect($state.go).not.toHaveBeenCalled();
-        expect(authorizationService.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: programs[0].id});
+        expect(userRightFactoryMock.checkRightForCurrentUser).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_CREATE, programs[0].id, facility.id);
     });
 
     it("Should not change page to requisitions.requisition with selected period without rnrId and when invalid response from service", function() {

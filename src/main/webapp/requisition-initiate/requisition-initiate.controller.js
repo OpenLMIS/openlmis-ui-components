@@ -27,14 +27,14 @@
         'messageService', 'facility', 'user', 'supervisedPrograms', 'homePrograms', 'periodFactory',
         'requisitionService', '$state', 'dateUtils', 'REQUISITION_STATUS', 'loadingModalService',
         'notificationService', 'authorizationService', '$q', 'REQUISITION_RIGHTS',
-        'facilityService'
+        'facilityService', 'userRightFactory'
     ];
 
     function RequisitionInitiateController(messageService, facility, user, supervisedPrograms,
                                      homePrograms, periodFactory, requisitionService, $state,
                                      dateUtils, REQUISITION_STATUS, loadingModalService,
                                      notificationService, authorizationService, $q,
-                                     REQUISITION_RIGHTS, facilityService) {
+                                     REQUISITION_RIGHTS, facilityService, userRightFactory) {
 
         var vm = this;
 
@@ -217,21 +217,25 @@
         function initRnr(selectedPeriod) {
             vm.error = '';
             if (!selectedPeriod.rnrId || selectedPeriod.rnrStatus == messageService.get('msg.rnr.not.started')) {
-                if(authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {programId: vm.selectedProgramId})) {
-                    requisitionService.initiate(vm.selectedFacilityId,
-                        vm.selectedProgramId,
-                        selectedPeriod.id,
-                        vm.emergency)
-                    .then(function (data) {
-                        $state.go('requisitions.requisition.fullSupply', {
-                            rnr: data.id
+                userRightFactory.checkRightForCurrentUser(REQUISITION_RIGHTS.REQUISITION_CREATE, vm.selectedProgramId, vm.selectedFacilityId).then(function(response) {
+                    if(response) {
+                        requisitionService.initiate(vm.selectedFacilityId,
+                            vm.selectedProgramId,
+                            selectedPeriod.id,
+                            vm.emergency)
+                        .then(function (data) {
+                            $state.go('requisitions.requisition.fullSupply', {
+                                rnr: data.id
+                            });
+                        }, function () {
+                            notificationService.error('error.requisition.couldNotInitiate');
                         });
-                    }, function () {
-                        notificationService.error('error.requisition.couldNotInitiate');
-                    });
-                } else {
+                    } else {
+                        notificationService.error('error.requisition.noPermissionToInitiate');
+                    }
+                }, function() {
                     notificationService.error('error.requisition.noPermissionToInitiate');
-                }
+                });
             } else {
                 $state.go('requisitions.requisition.fullSupply', {
                     rnr: selectedPeriod.rnrId
