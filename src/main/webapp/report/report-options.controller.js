@@ -32,6 +32,32 @@
         vm.report = report;
         vm.selectedValues = {};
         vm.getReportUrl = getReportUrl;
+        vm.selectValues = getReportSelectValues(report.templateParameters);
+
+        function getReportSelectValues(parameters) {
+            var selectValues = {};
+
+            angular.forEach(parameters, function(param) {
+                var url = openlmisUrlFactory(param.selectExpression);
+
+                $.getJSON(url, function(data) {
+                    var items = [];
+
+                    angular.forEach(data, function(obj) {
+                        var value = obj;
+                        if (param.selectProperty) {
+                            value = value[param.selectProperty];
+                        }
+
+                        items.push(value);
+                    });
+
+                    selectValues[param.name] = items;
+                });
+            });
+
+            return selectValues;
+        }
 
         /**
          * @ngdoc function
