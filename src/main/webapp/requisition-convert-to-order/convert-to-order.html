@@ -38,9 +38,9 @@
 							<td>{{item.requisition.facility.code}}</td>
 							<td>{{item.requisition.facility.name}}</td>
 							<td>{{item.requisition.facility.geographicZone.parent.name}}</td>
-							<td>{{item.requisition.processingPeriod.startDate | date:'shortDate'}}</td>
-							<td>{{item.requisition.processingPeriod.endDate | date:'shortDate'}}</td>
-							<td>{{item.requisition.statusChanges.APPROVED.changeDate | date:'shortDate'}}</td>
+							<td>{{item.requisition.processingPeriod.startDate | date:'dd/MM/yyyy'}}</td>
+							<td>{{item.requisition.processingPeriod.endDate | date:'dd/MM/yyyy'}}</td>
+							<td>{{item.requisition.statusChanges.APPROVED.changeDate | date:'dd/MM/yyyy'}}</td>
 							<td>
 								<select ng-model="item.requisition.supplyingFacility"
 										ng-options="depot.id as depot.name for depot in item.supplyingDepots">

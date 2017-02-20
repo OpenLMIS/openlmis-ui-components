@@ -55,11 +55,11 @@
                     <td>{{requisition.program.name}}</td>
                     <td>{{requisition.facility.code}}</td>
                     <td>{{requisition.facility.name}}</td>
-                    <td>{{requisition.processingPeriod.startDate | date:'shortDate'}}</td>
-                    <td>{{requisition.processingPeriod.endDate | date:'shortDate'}}</td>
-                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'shortDate'}}</td>
-                    <td>{{requisition.statusChanges.AUTHORIZED.changeDate | date:'shortDate'}}</td>
-                    <td>{{requisition.statusChanges.APPROVED.changeDate | date:'shortDate'}}</td>
+                    <td>{{requisition.processingPeriod.startDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{requisition.processingPeriod.endDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{requisition.statusChanges.AUTHORIZED.changeDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{requisition.statusChanges.APPROVED.changeDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{requisition.status}}</td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': requisition.emergency}"></i>
