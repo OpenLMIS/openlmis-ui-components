@@ -46,9 +46,8 @@
             var periodGridLineItems = [],
                 deferred = $q.defer();
 
-            if (emergency == true) {
+            if (emergency === true) {
                 getPreviousPeriodLineItems(programId, facilityId, emergency).then(search);
-
             } else {
                 search(periodGridLineItems);
             }
@@ -58,7 +57,8 @@
             function search(lineItems) {
                 requisitionService.search(false, {
                     program: programId,
-                    facility: facilityId
+                    facility: facilityId,
+                    emergency: false
                 }).then(function(data) {
                     periods.forEach(function (period, idx) {
                         var foundRequisition = null;

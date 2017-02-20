@@ -79,7 +79,7 @@
                         <td class="sticky">
                             <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
                                    value="{{'button.proceed'| message}}" class="primary"
-                                   ng-show="period.activeForRnr"/>
+                                   ng-if="period.activeForRnr"/>
                         </td>
                     </tr>
                 </tbody>
