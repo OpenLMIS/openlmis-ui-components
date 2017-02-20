@@ -34,7 +34,8 @@
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
-                modal;
+                modalTitle = getModalTitle(element),
+                modal, modalScope;
 
             element.off('click');
 
@@ -46,12 +47,17 @@
                 }
             });
 
-            element.bind("keydown", function (event) {
+            element.bind('keydown', function (event) {
                 if(isPopOut() && event.which === 13) {
                     event.stopPropagation();
                     element.attr('disabled', true);
                     showModal();
                 }
+            });
+
+            element.on('$destroy', function() {
+                modal = undefined;
+                if (modalScope) modalScope.$destroy();
             });
 
             updateSelect();
@@ -78,7 +84,8 @@
 
             function showModal() {
                 $templateRequest('openlmis-form/select-search-option.html').then(function(template) {
-                    var modalScope = $rootScope.$new();
+                    if (modalScope) modalScope.$destroy();
+                    modalScope = $rootScope.$new();
 
                     modalScope.options = getOptions();
                     modalScope.select = selectOption;
@@ -86,10 +93,8 @@
 
                     modalScope.findSelectedOption();
 
-                    var labelElement = element.siblings('label[for="' + element[0].id + '"]');
-
                     modal = bootbox.dialog({
-                        title: labelElement[0] ? labelElement[0].textContent : '',
+                        title: modalTitle,
                         message: $compile(template)(modalScope),
                         backdrop: true,
                         onEscape: closeModal
@@ -99,6 +104,7 @@
 
             function closeModal() {
                 element.attr('disabled', false);
+                if (modalScope) modalScope.$destroy();
                 if(modal){
                     modal.modal('hide');
                 }
@@ -136,6 +142,11 @@
             function isPopOut() {
                 return (attrs.popOut !== null && attrs.popOut !== undefined) ||
                     (getOptions().length > 10);
+            }
+
+            function getModalTitle(element) {
+                var labelElement = element.siblings('label[for="' + element[0].id + '"]');
+                return labelElement[0] ? labelElement[0].textContent : '';
             }
         }
     }
