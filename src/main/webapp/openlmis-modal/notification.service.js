@@ -20,9 +20,8 @@
     function service($rootScope, $timeout, $templateCache, $templateRequest, $compile,
                      messageService) {
 
-        var container, notify;
-
-        if(!container) createContainer();
+        var container = createContainer(),
+            template = $templateCache.get('openlmis-modal/notification.html');
 
         this.info = info;
         this.success = success
@@ -75,77 +74,62 @@
         }
 
         function showMessage(message, type, icon) {
-            var templateURL = 'openlmis-modal/notification.html',
-                template = $templateCache.get(templateURL);
+            var notification,
+                timeoutPromise,
+                element,
+                isMouseOver = false,
+                timeoutCalled = false,
+                scope = $rootScope.$new();
 
-            if (template) makeNotification(template);
-            else $templateRequest(templateURL).then(makeNotification);
+            scope.closeNotification = closeNotification;
+            scope.message = messageService.get(message);
+            scope.class = type;
+            scope.glyphicon = icon;
 
-            function makeNotification(html) {
-                var notification,
-                    timeoutPromise,
-                    element,
-                    isMouseOver = false,
-                    timeoutCalled = false,
-                    scope = $rootScope.$new();
+            element = $compile(template)(scope);
 
-                scope.closeNotification = closeNotification;
-                scope.message = messageService.get(message);
-                scope.class = type;
-                scope.glyphicon = icon;
+            element.on('mouseover', function() {
+                isMouseOver = true;
+            });
+            element.on('mouseout', function() {
+                isMouseOver = false;
+                if(timeoutCalled) closeNotification();
+            });
 
-                element = $compile(html)(scope);
-                element.on('mouseover', function() {
-                    isMouseOver = true;
+            container.append(element);
+
+            setTimeout();
+
+            function setTimeout() {
+                timeoutPromise = $timeout(function(){
+                    timeoutCalled = true;
+                    if(!isMouseOver) closeNotification();
+                    return false;
+                }, 5000);
+            }
+
+            function closeNotification() {
+                element.addClass('hide-notification');
+                element.bind('webkitAnimationEnd',function(){
+                    element.remove();
+                    scope.$destroy();
+                    element = undefined;
                 });
-                element.on('mouseout', function() {
-                    isMouseOver = false;
-                    if(timeoutCalled) closeNotification();
-                });
 
-                container.append(element);
-
-                setTimeout();
-
-                function setTimeout() {
-                    timeoutPromise = $timeout(function(){
-                        timeoutCalled = true;
-                        if(!isMouseOver) closeNotification();
-                        return false;
-                    }, 5000);
+                if(timeoutPromise) {
+                    $timeout.cancel(timeoutPromise);
+                    timeoutPromise = undefined;
                 }
-
-                function cancelTimeout() {
-                    if(timeoutPromise){
-                        $timeout.cancel(timeoutPromise);
-                    }
-                }
-
-                function closeNotification() {
-                    element.addClass('hide-notification');
-                    element.bind('webkitAnimationEnd',function(){
-                        element.remove();
-                    });
-                    cancelTimeout();
-                }
-
             }
         }
 
         function createContainer() {
-            var templateURL = 'openlmis-modal/notification-container.html',
-                template = $templateCache.get(templateURL);
+            var template = $templateCache.get('openlmis-modal/notification-container.html'),
+                container = angular.element(template);
 
-            if (template){
-                makeContainer(template);
-            } else {
-                $templateRequest(templateURL).then(makeContainer);
-            }
+            angular.element(document.body).append(container);
 
-            function makeContainer(html) {
-                container = angular.element(html);
-                angular.element(document.body).append(container);
-            }
+            return container;
         }
 
     }
