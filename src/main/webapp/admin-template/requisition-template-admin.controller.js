@@ -129,8 +129,15 @@
          * @returns {String} Column validation error message
          */
         function errorMessage(column) {
-            var dependencies = '',
+            var ALPHA_NUMERIC_REGEX = /^[a-zA-z0-9/]+[a-zA-Z0-9/ ]+$/,
+                dependencies = '',
                 message;
+
+            if(!column.label || column.label === '') return messageService.get('error.columnLabelEmpty');
+
+            if(column.label.length < 2) return messageService.get('error.columnLabelToShort');
+
+            if(!ALPHA_NUMERIC_REGEX.test(column.label)) return messageService.get('error.columnLabelNotAllowedCharacters');
 
             if(column.definition && column.definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) return messageService.get('error.columnDescriptionTooLong');
 

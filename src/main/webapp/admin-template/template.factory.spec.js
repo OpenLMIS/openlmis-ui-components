@@ -116,6 +116,7 @@ describe('templateFactory', function() {
                     displayOrder: 3,
                     name: 'averageConsumption',
                     source: 'CALCULATED',
+                    label: 'Average Consumption',
                     columnDefinition: {
                         canChangeOrder: true,
                         sources: ['CALCULATED'],
@@ -563,6 +564,60 @@ describe('templateFactory', function() {
 
         requisitionTemplate.columnsMap.total.definition = longString;
 
+        expect(requisitionTemplate.$isValid()).toBe(false);
+    });
+
+    it('should check if column label is not empty', function() {
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$isValid()).toBe(true);
+
+        requisitionTemplate.columnsMap.total.label = undefined;
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = null;
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = '';
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = 'Total';
+        expect(requisitionTemplate.$isValid()).toBe(true);
+    });
+
+    it('should check if column label has at least one character', function() {
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$isValid()).toBe(true);
+
+        requisitionTemplate.columnsMap.total.label = '';
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = 'a';
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = 'ab';
+        expect(requisitionTemplate.$isValid()).toBe(true);
+    });
+
+    it('should check if column label is alpha-numeric', function() {
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.$isValid()).toBe(true);
+
+        requisitionTemplate.columnsMap.total.label = 'asc#';
+        expect(requisitionTemplate.$isValid()).toBe(false);
+
+        requisitionTemplate.columnsMap.total.label = '$&asc';
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
 });

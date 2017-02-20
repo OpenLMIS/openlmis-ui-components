@@ -109,6 +109,7 @@ describe('RequisitionTemplateAdminController', function() {
        var column = {
             $dependentOn: ['stockOnHand'],
             source: 'CALCULATED',
+            label: 'column',
             columnDefinition: {
                 sources: ['USER_INPUT', 'CALCULATED'],
                 options: []
@@ -125,6 +126,7 @@ describe('RequisitionTemplateAdminController', function() {
        var column = {
             $dependentOn: ['stockOnHand'],
             source: 'CALCULATED',
+            label: 'column',
             columnDefinition: {
                 sources: ['USER_INPUT', 'CALCULATED'],
                 options: []
@@ -141,6 +143,7 @@ describe('RequisitionTemplateAdminController', function() {
        var column = {
             $dependentOn: ['stockOnHand'],
             source: 'CALCULATED',
+            label: 'column',
             columnDefinition: {
                 options: [
                     {
@@ -197,6 +200,46 @@ describe('RequisitionTemplateAdminController', function() {
         expect(message.get).toHaveBeenCalledWith('error.columnDescriptionTooLong');
     });
 
+    it('should validate if column label is not empty', function() {
+        spyOn(message, 'get').andReturn('');
+
+        vm.template.columnsMap.total.label = undefined;
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelEmpty');
+
+        vm.template.columnsMap.total.label = null;
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelEmpty');
+
+        vm.template.columnsMap.total.label = '';
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelEmpty');
+    });
+
+    it('should validate if column label has at least 2 characters', function() {
+        spyOn(message, 'get').andReturn('');
+
+        vm.template.columnsMap.total.label = '';
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelEmpty');
+
+        vm.template.columnsMap.total.label = 'a';
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelToShort');
+    });
+
+    it('should validate if column label is aplha-numeric', function() {
+        spyOn(message, 'get').andReturn('');
+
+        vm.template.columnsMap.total.label = 'asd#!';
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelNotAllowedCharacters');
+
+        vm.template.columnsMap.total.label = 'Asd%&';
+        expect(vm.errorMessage(vm.template.columnsMap.total)).toEqual('');
+        expect(message.get).toHaveBeenCalledWith('error.columnLabelNotAllowedCharacters');
+    });
+
     it('should validate if requestedQuantity and requestedQuantityExplanation have the same display', function() {
         var errorMessage = 'This column should be displayed/not displayed together with: ';
 
@@ -231,6 +274,7 @@ describe('RequisitionTemplateAdminController', function() {
             displayOrder: 5,
             isDisplayed: false,
             source: COLUMN_SOURCES.USER_INPUT,
+            label: 'Stock on Hand',
             columnDefinition: {
                 options: [],
                 sources: [COLUMN_SOURCES.USER_INPUT, COLUMN_SOURCES.CALCULATED]

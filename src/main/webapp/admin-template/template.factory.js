@@ -114,9 +114,14 @@
         // Checks if column is valid.
         // Column is not valid when isn't displayed, but at least one is dependent column is displayed.
         function isColumnValid(template) {
-            var valid = true,
+            var ALPHA_NUMERIC_REGEX = /^[a-zA-z0-9/]+[a-zA-Z0-9/ ]+$/,
+                valid = true,
                 column = this,
                 columns = template.columnsMap;
+
+            if(!column.label || column.label === '' || column.label.lenght < 2) return false;
+
+            if(!ALPHA_NUMERIC_REGEX.test(column.label)) return false;
 
             if(column.definition && column.definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) return false;
 
