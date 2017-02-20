@@ -9,7 +9,6 @@
         'requisition-summary',
         'requisition-validation',
         'requisition-status-messages',
-        'ui.bootstrap',
         'ui.router'
     ]);
 
