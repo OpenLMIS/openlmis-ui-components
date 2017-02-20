@@ -60,7 +60,9 @@
 				element.replaceWith($compile(cell)(scope));
 			});
 
-			angular.forEach(column.$dependencies, watchDependency);
+			angular.forEach(column.$dependencies, function (depencency) {
+				watchDependency(depencency, column);
+			});
 
       		function validate() {
 				requisitionValidator.validateLineItemField(
@@ -93,7 +95,7 @@
 				return !(scope.lineItem.canBeSkipped(scope.requisition));
             }
 
-			function watchDependency(name) {
+			function watchDependency(name, column) {
 				var dependent = requisition.template.getColumn(name);
 				if (dependent.$display) {
 					scope.$watch('lineItem.' + name, function(newValue, oldValue) {
@@ -105,7 +107,9 @@
 		          		}
 		        	});
 				} else {
-					angular.forEach(dependent.$dependencies, watchDependency);
+					angular.forEach(dependent.$dependencies, function (dependency) {
+						watchDependency(dependency, dependent);
+					});
 				}
 			}
 		}
