@@ -48,7 +48,7 @@
                     eventLabel: $location.path()
                 });
             }
-            return $q;
+            return $q.reject(response);
         }
     }
 

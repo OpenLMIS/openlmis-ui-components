@@ -32,17 +32,17 @@
         </li>
       {{#each menu}}
         {{#if children}}
-        <li uib-dropdown class="dropdown">
-          <a uib-dropdown-toggle class="dropdown-toggle" href="section-{{referenceURI}}.html">
+        <li class="dropdown">
+          <a bs-dropdown="dropdown" class="dropdown-toggle" href="section-{{referenceURI}}.html">
             <em>{{referenceNumber}}</em> {{header}}
           </a>
-          <ul uib-dropdown-menu class="dropdown-menu">
+          <ul class="dropdown-menu">
           {{#each children}}
             <li class="kss-nav__menu-item">
               <a class="kss-nav__menu-link" href="section-{{../referenceURI}}.html#kssref-{{referenceURI}}">
                 <em>{{referenceNumber}}</em> {{header}}
               </a>
-            </li>
+          </li>
           {{/each}}
           </ul>
         </li>

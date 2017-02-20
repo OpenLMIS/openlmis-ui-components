@@ -23,7 +23,7 @@
         }
 
         var serverURLs = [];
-        var bypassURLs = ['ui-grid', 'bootstrap', 'uib'];
+        var bypassURLs = ['ui-grid', 'bootstrap'];
         function addURLtoServerURLs(url) {
             var rootURL = getRootURL(url);
             if(!checkURL(rootURL)) {
