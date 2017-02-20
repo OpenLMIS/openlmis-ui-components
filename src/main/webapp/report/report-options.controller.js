@@ -24,40 +24,15 @@
         .module('report')
         .controller('ReportOptionsController', controller);
 
-    controller.$inject = ['$state', 'report', 'openlmisUrlFactory'];
+    controller.$inject = ['$state', 'report', 'requisitionReportService', 'openlmisUrlFactory'];
 
-    function controller($state, report, openlmisUrlFactory) {
+    function controller($state, report, requisitionReportService, openlmisUrlFactory) {
         var vm = this;
 
         vm.report = report;
         vm.selectedValues = {};
         vm.getReportUrl = getReportUrl;
-        vm.selectValues = getReportSelectValues(report.templateParameters);
-
-        function getReportSelectValues(parameters) {
-            var selectValues = {};
-
-            angular.forEach(parameters, function(param) {
-                var url = openlmisUrlFactory(param.selectExpression);
-
-                $.getJSON(url, function(data) {
-                    var items = [];
-
-                    angular.forEach(data, function(obj) {
-                        var value = obj;
-                        if (param.selectProperty) {
-                            value = value[param.selectProperty];
-                        }
-
-                        items.push(value);
-                    });
-
-                    selectValues[param.name] = items;
-                });
-            });
-
-            return selectValues;
-        }
+        vm.selectValues = {};
 
         /**
          * @ngdoc function
@@ -74,5 +49,15 @@
             });
             return openlmisUrlFactory('/api/reports/templates/requisitions/' + vm.report.id + '/' + format + '?' + requestParameters);
         }
+
+        (function getReportSelectValues(parameters) {
+            angular.forEach(parameters, function(param) {
+                requisitionReportService.getParameterValues(param.selectExpression, param.selectProperty)
+                .then(function(data) {
+                    console.log(data);
+                    vm.selectValues[param.name] = data;
+                });
+            });
+        })(report.templateParameters);
     }
 })();

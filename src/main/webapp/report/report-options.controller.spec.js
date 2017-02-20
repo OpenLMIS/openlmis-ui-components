@@ -28,27 +28,21 @@ describe('ReportOptionsController', function() {
                 {
                     name: 'param1',
                     displayName: 'Param 1',
-                    selectValues: [
-                        'Option 1',
-                        'Option 2'
-                    ]
+                    selectExpression: '/api/programs'
                 },
                 {
                     name: 'param2',
                     displayName: 'Param 2',
-                    selectValues: [
-                        'Value 1',
-                        'Value 2'
-                    ]
+                    selectExpression: '/api/facilities'
                 },
             ]
         };
 
-        inject(function($controller, $state, $rootScope) {
-
+        inject(function($controller, $state, $rootScope, requisitionReportService, $q) {
             state = $state;
             rootScope = $rootScope;
 
+            spyOn(requisitionReportService, 'getParameterValues').andReturn($q.when([]));
             vm = $controller('ReportOptionsController', {
                 report: report
             });
