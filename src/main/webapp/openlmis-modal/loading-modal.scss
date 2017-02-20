@@ -27,3 +27,18 @@
     display: none;
   }
 }
+
+.no-js-loading-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7em;
+  height: 4em;
+  border-radius: 0.5em;
+  background: $white;
+  background-image: url('openlmis-modal/loading-modal.gif');
+  background-size: 2em;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
