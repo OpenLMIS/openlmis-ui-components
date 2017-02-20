@@ -29,17 +29,24 @@
 
             watcher.isLoud = true;
 
-            scope.$watchCollection(requisition.requisitionLineItems, function(oldValue, newValue) {
+            scope.$watch(function() {
+                return requisition.requisitionLineItems;
+            }, function(oldValue, newValue) {
                 if (oldValue !== newValue) {
-                    requisition.$modified = true;
-                    storage.put(requisition);
                     $timeout.cancel(watcher.notificationTimeout);
-                    if (watcher.isLoud) {
-                        watcher.notificationTimeout = $timeout(function() {
+                    watcher.notificationTimeout = $timeout(function() {
+                        if (watcher.isLoud) {
                             notificationService.success('msg.requisitionSaved');
                             watcher.notificationTimeout = undefined;
-                        }, 3000);
-                    }
+                        }
+                    }, 3000);
+
+                    $timeout.cancel(watcher.syncTimeout);
+                    watcher.syncTimeout = $timeout(function() {
+                        requisition.$modified = true;
+                        storage.put(requisition);
+                        watcher.syncTimeout = undefined;
+                    }, 500)
                 }
             }, true);
         }
