@@ -19,6 +19,9 @@
   & > .form-desc {
     width: 100%;
   }
+  & > form > .alert {
+    flex: initial;
+  }
 }
 
 .modal-login-header {
