@@ -1,7 +1,8 @@
 (function(){
+
     'use strict';
+
     /**
-     *
      * @ngdoc service
      * @name openlmis-auth.userRightFactory
      *
