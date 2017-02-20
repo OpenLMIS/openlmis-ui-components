@@ -25,7 +25,7 @@ describe("alertService", function() {
     it('should close error alert then call callback function after clicking on it', function() {
         var callback = jasmine.createSpy();
 
-        alert.error('some.message', callback);
+        alert.error('some.message').then(callback);
         angular.element(document.querySelector('.alert-modal')).trigger('click');
         waitsFor(function() {
             rootScope.$digest();

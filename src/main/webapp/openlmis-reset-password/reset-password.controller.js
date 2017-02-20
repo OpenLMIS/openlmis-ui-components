@@ -42,7 +42,7 @@
         function changePassword() {
             if(arePasswordsValid()) {
                 loginService.changePassword(vm.password, vm.token).then(function() {
-                    alertService.success('password.reset.success', null, redirectToLogin);
+                    alertService.success('password.reset.success').then(redirectToLogin);
                 }, function() {
                     vm.error = 'msg.change.password.failed';
                 });

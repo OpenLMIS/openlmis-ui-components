@@ -19,6 +19,8 @@
     function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
         bootbox, messageService) {
 
+        var template = $templateCache.get('openlmis-modal/alert.html');
+
         this.warning = warning;
         this.error = error;
         this.success = success;
@@ -37,9 +39,7 @@
          * @return {Promise} alert promise
          */
         function warning(message, additionalMessage) {
-            var deferred = $q.defer();
-            showAlert('glyphicon-alert', deferred.resolve, message, additionalMessage);
-            return deferred.promise;
+            return showAlert('glyphicon-alert', message, additionalMessage);
         }
 
         /**
@@ -51,10 +51,9 @@
          * Shows alert modal with custom message and calls callback after closing alert.
          *
          * @param {String} message Message to display
-         * @param {String} callback Function called after closing alert
          */
-        function error(message, callback) {
-            showAlert('glyphicon-remove-circle', callback, message);
+        function error(message) {
+            return showAlert('glyphicon-remove-circle', message);
         }
 
         /**
@@ -67,48 +66,37 @@
          *
          * @param {String} message Message to display
          * @param {String} additionalMessage Additional message to display below
-         * @param {String} callback Function called after closing alert
          */
-        function success(message, additionalMessage, callback) {
-            showAlert('glyphicon-ok-circle', callback, message, additionalMessage);
+        function success(message, additionalMessage) {
+            return showAlert('glyphicon-ok-circle', message, additionalMessage);
         }
 
-        function showAlert(alertClass, callback, message, additionalMessage) {
+        function showAlert(alertClass, message, additionalMessage) {
+            var modal,
+                deferred = $q.defer(),
+                scope = $rootScope.$new();
 
-            var templateURL = 'openlmis-modal/alert.html',
-                template = $templateCache.get(templateURL);
+            scope.icon = alertClass;
+            scope.message = message;
+            scope.additionalMessage = additionalMessage;
 
-            if (template){
-                makeAlert(template);
-            } else {
-                $templateRequest(templateURL).then(makeAlert);
+            modal = bootbox.dialog({
+                message: $compile(template)(scope),
+                callback: cleanUp,
+                backdrop: true,
+                onEscape: cleanUp,
+                closeButton: false,
+                className: 'alert-modal'
+            });
+
+            return deferred.promise;
+
+            function cleanUp() {
+                deferred.resolve();
+                modal.modal('hide');
+                modal = undefined;
+                scope.$destroy();
             }
-
-            function makeAlert(html) {
-                var modal,
-                    scope = $rootScope.$new();
-
-                scope.icon = alertClass;
-                scope.message = message;
-                if (additionalMessage) scope.additionalMessage = additionalMessage;
-
-                modal = bootbox.dialog({
-                    message: $compile(html)(scope),
-                    callback: callback,
-                    backdrop: true,
-                    onEscape: callback ? callback : true,
-                    closeButton: false,
-                    className: 'alert-modal'
-                });
-                modal.on('click.bs.modal', function(){
-                    if(callback) callback();
-                    modal.modal('hide');
-                });
-                modal.on('hidden.bs.modal', function(){
-                    angular.element(document.querySelector('.alert-modal')).remove();
-                });
-            }
-
         }
 
 

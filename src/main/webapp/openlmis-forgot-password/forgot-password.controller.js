@@ -44,7 +44,8 @@
         function forgotPassword() {
             if(validateEmail()) {
                 loginService.forgotPassword(vm.email).then(function() {
-                    alertService.success('email.sent.message', 'email.check.message', redirectToLogin);
+                    alertService.success('email.sent.message', 'email.check.message')
+                        .then(redirectToLogin);
                 }, function() {
                     vm.error = 'msg.forgot.password.failed';
                 });
