@@ -1,14 +1,16 @@
 describe("RequisitionInitiateController", function(){
 
     var $q, programs, rootScope, requisitionService, authorizationService, facilityService,
-        periodFactory, $state, period, facility, REQUISITION_RIGHTS, userRightFactoryMock, hasRight;
+        periodFactory, $state, period, facility, REQUISITION_RIGHTS, userRightFactoryMock, hasRight,
+        loadingModalService;
 
     beforeEach(function() {
 
         module('requisition-initiate');
 
         inject(function (_$q_, $rootScope, $controller, _periodFactory_,
-            _$state_, _requisitionService_, _authorizationService_, _facilityService_, _REQUISITION_RIGHTS_) {
+            _$state_, _requisitionService_, _authorizationService_, _facilityService_,
+            _REQUISITION_RIGHTS_, _loadingModalService_) {
 
             rootScope = $rootScope;
             periodFactory =_periodFactory_;
@@ -18,6 +20,7 @@ describe("RequisitionInitiateController", function(){
             facilityService = _facilityService_;
             $q = _$q_;
             REQUISITION_RIGHTS = _REQUISITION_RIGHTS_;
+            loadingModalService = _loadingModalService_;
 
             user = {"user_id": "user_id"};
             right = {"id": "right_id"};
@@ -93,6 +96,15 @@ describe("RequisitionInitiateController", function(){
         rootScope.$apply();
 
         expect($state.go).not.toHaveBeenCalled();
+    });
+
+    it("Should open loading modal", function() {
+        var selectedPeriod = {"id":1};
+        spyOn(loadingModalService, 'open');
+
+        vm.initRnr(selectedPeriod);
+
+        expect(loadingModalService.open).toHaveBeenCalled();
     });
 
     it("Should reload periods with proper data", function() {
