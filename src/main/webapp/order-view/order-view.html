@@ -1,5 +1,5 @@
 <div class="page order-view">
-    <h1>{{'header.viewOrders' | message}}</h1>
+    <h2>{{'header.viewOrders' | message}}</h2>
     <section class="openlmis-table-container">
         <form class="openlmis-form openlmis-table-filters" ng-submit="vm.loadOrders()" >
             <label for="supplyingFacility">{{'label.supplyingFacility' | message}}</label>
@@ -26,9 +26,9 @@
                     <th>{{'label.district' | message}}</th>
                     <th>{{'label.program' | message}}</th>
                     <th>{{'label.period' | message}}</th>
-                    <th>{{'label.supplyingDistrict' | message}}</th>
+                    <th>{{'label.startDate' | message}}</th>
+                    <th>{{'label.endDate' | message}}</th>
                     <th>{{'label.status' | message}}</th>
-                    <th>{{'label.comment' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
                     <th class="sticky"></th>
                 </tr>
@@ -36,13 +36,13 @@
             <tbody>
                 <tr ng-repeat="order in vm.orders">
                     <td>{{order.orderCode}}</td>
-                    <td>{{order.facility.name}}</td>
+                    <td>{{order.facility.code}} - {{order.facility.name}}</td>
                     <td>{{order.facility.geographicZone.name}}</td>
                     <td>{{order.program.name}}</td>
-                    <td>{{order.processingPeriod | period:true}}</td>
-                    <td>{{order.supplyingFacility.geographicZone.name}}</td>
+                    <td>{{order.processingPeriod.name}}</td>
+                    <td>{{order.processingPeriod.startDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{order.processingPeriod.endDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{order.status}}</td>
-                    <td></td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': order.emergency}"></i>
                     </td>

@@ -37,10 +37,10 @@
             <thead>
                 <tr>
                     <th>{{'program.header' | message}}</th>
-                    <th>{{'option.value.facility.code' | message}}</th>
-                    <th>{{'option.value.facility.name' | message}}</th>
-                    <th>{{'label.period.start.date' | message}}</th>
-                    <th>{{'label.period.end.date' | message}}</th>
+                    <th>{{'label.facility' | message}}</th>
+                    <th>{{'label.period' | message}}</th>
+                    <th>{{'label.startDate' | message}}</th>
+                    <th>{{'label.endDate' | message}}</th>
                     <th>{{'label.date.submitted' | message}}</th>
                     <th>{{'label.date.authorized' | message}}</th>
                     <th>{{'label.date.approved' | message}}</th>
@@ -53,8 +53,8 @@
             <tbody>
                 <tr ng-repeat="requisition in vm.requisitionList">
                     <td>{{requisition.program.name}}</td>
-                    <td>{{requisition.facility.code}}</td>
-                    <td>{{requisition.facility.name}}</td>
+                    <td>{{requisition.facility.code}} - {{requisition.facility.name}}</th>
+                    <td>{{requisition.processingPeriod.name}}</td>
                     <td>{{requisition.processingPeriod.startDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{requisition.processingPeriod.endDate | date:'dd/MM/yyyy'}}</td>
                     <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'dd/MM/yyyy'}}</td>

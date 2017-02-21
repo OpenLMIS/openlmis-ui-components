@@ -62,6 +62,8 @@
                     <th>{{'label.facility' | message}}</th>
                     <th>{{'program.header' | message}}</th>
                     <th>{{'label.period' | message}}</th>
+                    <th>{{'label.startDate' | message}}</th>
+                    <th>{{'label.endDate' | message}}</th>
                     <th>{{'label.orderDate' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
                     <th>{{'label.actions' | message}}</th>
@@ -73,8 +75,10 @@
                     <td>{{order.supplyingFacility.name}}</td>
                     <td>{{order.facility.code}} - {{order.facility.name}}</td>
                     <td>{{order.program.name}}</td>
-                    <td>{{order.processingPeriod.name}} ({{order.processingPeriod | period}})</td>
-                    <td>{{order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                    <td>{{order.processingPeriod.name}}</td>
+                    <td>{{order.processingPeriod.startDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{order.processingPeriod.endDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{order.createdDate | date: 'dd/MM/yyyy'}}</td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': order.emergency}"></i>
                     </td>
