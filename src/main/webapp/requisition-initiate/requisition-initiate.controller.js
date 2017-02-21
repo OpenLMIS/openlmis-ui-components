@@ -216,6 +216,7 @@
          */
         function initRnr(selectedPeriod) {
             vm.error = '';
+            loadingModalService.open();
             if (!selectedPeriod.rnrId || selectedPeriod.rnrStatus == messageService.get('msg.rnr.not.started')) {
                 userRightFactory.checkRightForCurrentUser(REQUISITION_RIGHTS.REQUISITION_CREATE, vm.selectedProgramId, vm.selectedFacilityId).then(function(response) {
                     if(response) {
@@ -227,15 +228,11 @@
                             $state.go('requisitions.requisition.fullSupply', {
                                 rnr: data.id
                             });
-                        }, function () {
-                            notificationService.error('error.requisition.couldNotInitiate');
-                        });
+                        }, handleError('error.requisition.couldNotInitiate'));
                     } else {
-                        notificationService.error('error.requisition.noPermissionToInitiate');
+                        handleError('error.requisition.noPermissionToInitiate')();
                     }
-                }, function() {
-                    notificationService.error('error.requisition.noPermissionToInitiate');
-                });
+                }, handleError('error.requisition.noPermissionToInitiate'));
             } else {
                 $state.go('requisitions.requisition.fullSupply', {
                     rnr: selectedPeriod.rnrId
@@ -293,6 +290,13 @@
             } else {
                 vm.facilities = [];
             }
+        }
+
+        function handleError(message) {
+            return function() {
+                loadingModalService.close();
+                notificationService.error(message);
+            };
         }
     }
 })();
