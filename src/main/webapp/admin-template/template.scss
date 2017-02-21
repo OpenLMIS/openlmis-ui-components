@@ -44,6 +44,11 @@
 			.dndDraggingSource {
 			  	display: none;
 			}
+
+			.invalid {
+				background-color: lighten($red, 50%);
+	            border-color: $red;
+			}
 		}
 
 		.circle {

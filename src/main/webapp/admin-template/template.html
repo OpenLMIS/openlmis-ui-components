@@ -39,7 +39,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input disable-drag type="text" ng-model="column.label" class="form-control input-sm"/>
+                                <input disable-drag type="text" ng-model="column.label" class="form-control input-sm" ng-class="{invalid: !column.label || column.label.length < 2}"/>
                             </td>
                             <td>
                                 <textarea characters-left max-length="vm.maxColumnDescriptionLength"
