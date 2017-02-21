@@ -1,20 +1,25 @@
-<div class="status-message">
-    <aside ng-if="vm.requisition.$statusMessages.length">
-        <div class="status-header">
-            <span>{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</span>
-            by {{vm.requisition.$statusMessages[0].authorFirstName}} {{vm.requisition.$statusMessages[0].authorLastName}}
-            on {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
-            <input type="button" value="{{'label.viewHistory' | message}}" ng-click="vm.displayRequisitionHistory()"/>
+<div class="status-messages">
+    <header>
+        Comments
+        <a ng-click="vm.displayRequisitionHistory()">{{'label.viewHistory' | message}}</a>
+    </header>
+    <div class="status-message-list">
+        <div class="status-message">
+            <header>
+                <div class="status">{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</div>
+                <div class="date">
+                    {{vm.requisition.$statusMessages[0].authorFirstName}}
+                    {{vm.requisition.$statusMessages[0].authorLastName}}
+                    on
+                    {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
+                </div>
+            </header>
+            {{vm.requisition.$statusMessages[0].body}}
         </div>
-        <dl>
-            <dd>{{vm.requisition.$statusMessages[0].body}}</dd>
-        </dl>
-    </aside>
-    <form class="form-inline">
         <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
-        <input type="button" class="primary" value="{{'button.addComment' | message}}"
-               ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
-        <input type="button" class="danger" value="{{'button.removeComment' | message}}"
-               ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
-    </form>
+    </div>
+    <footer>
+        <input type="button" class="primary" value="{{'button.addComment' | message}}" ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
+        <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
+    </footer>
 </div>

@@ -1,12 +1,14 @@
-<div class="status-message">
-    <aside ng-repeat="statusMessage in vm.requisition.$statusMessages">
-        <div class="status-header">
-            <span>{{statusMessage.status | requisitionStatus}}</span>
-            by {{statusMessage.authorFirstName}} {{statusMessage.authorLastName}}
-            on {{statusMessage.createdDate | date: 'longDate'}}
-        </div>
-        <dl>
-            <dd>{{statusMessage.body}}</dd>
-        </dl>
-    </aside>
+<div class="status-message-list">
+    <div class="status-message" ng-repeat="statusMessage in vm.requisition.$statusMessages">
+        <header>
+            <div class="status">{{statusMessage.status | requisitionStatus}}</div>
+            <div class="date">
+                {{statusMessage.authorFirstName}}
+                {{statusMessage.authorLastName}}
+                on
+                {{statusMessage.createdDate | date: 'longDate'}}
+            </div>
+        </header>
+        {{statusMessage.body}}
+    </div>
 </div>

@@ -62,7 +62,9 @@
                 $ngBootbox.customDialog({
                     title: messageService.get('label.requisitionHistory'),
                     message: $compile(angular.element(template))(scope),
-                    className: 'status-messages-history'
+                    className: 'status-messages-history',
+                    onEscape: true,
+                    backdrop: true
                 });
             }, reject);
 
