@@ -7,10 +7,10 @@ describe('RequisitionSummaryController', function() {
         module('requisition-summary');
 
         lineItems = [
-            createLineItem(5, 10.30, false, true),
-            createLineItem(10, 2.3, false, true),
-            createLineItem(3, 4.2, false, false),
-            createLineItem(6, 2.3, false, false)
+            createLineItem(10.30, false, true, {packSize: 2}, 10),
+            createLineItem(2.3, false, true, {packSize: 2}, 20),
+            createLineItem(4.2, false, false, {packSize: 1}, 3),
+            createLineItem(2.3, false, false, {packSize: 1}, 6)
         ];
 
         inject(function(_$filter_, _calculationFactory_, $controller) {
@@ -19,14 +19,20 @@ describe('RequisitionSummaryController', function() {
             calculationFactory = _calculationFactory_;
             spyOn(calculationFactory, 'totalCost').andCallThrough();
 
+            var requisitionMock = jasmine.createSpyObj('requisition', ['$isAuthorized']);
+            var templateMock = jasmine.createSpyObj('template', ['getColumn']);
+            templateMock.getColumn.andReturn({
+                name: 'orderQuantity',
+                $display: true
+            });
+            requisitionMock.template = templateMock;
+            requisitionMock.$isAuthorized.andReturn(false);
+            requisitionMock.requisitionLineItems = lineItems;
+            requisitionMock.program = {showNonFullSupplyTab: true};
+
             vm = $controller('RequisitionSummaryController', {
                 $scope: {
-                    requisition: {
-                        requisitionLineItems: lineItems,
-                        program: {
-                            showNonFullSupplyTab: true
-                        }
-                    }
+                    requisition: requisitionMock
                 }
             });
         });
@@ -55,10 +61,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include full supply line items', function() {
             vm.calculateFullSupplyCost();
 
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1]);
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1], vm.requisition);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2], vm.requisition);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[3], vm.requisition);
         });
 
         it('should skip skipped lineItems', function() {
@@ -80,10 +86,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include non full supply line items', function() {
             vm.calculateNonFullSupplyCost();
 
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[1]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0],vm.requisition);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[1], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3], vm.requisition);
         });
 
         it('should skip skipped line items', function() {
@@ -105,10 +111,10 @@ describe('RequisitionSummaryController', function() {
         it('should only include all non-skipped line items', function() {
             vm.calculateTotalCost();
 
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2]);
-            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3]);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[0], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[1], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[2], vm.requisition);
+            expect(calculationFactory.totalCost).toHaveBeenCalledWith(lineItems[3], vm.requisition);
         });
 
         it('should skip skipped line items', function() {
@@ -117,20 +123,21 @@ describe('RequisitionSummaryController', function() {
 
             vm.calculateTotalCost();
 
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0]);
-            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2]);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[0], vm.requisition);
+            expect(calculationFactory.totalCost).not.toHaveBeenCalledWith(lineItems[2], vm.requisition);
         });
 
     });
 
-    function createLineItem(pricePerPack, packsToShip, skipped, fullSupply) {
+    function createLineItem(pricePerPack, skipped, fullSupply, orderable, requestedQuantity) {
         return {
             pricePerPack: pricePerPack,
-            packsToShip: packsToShip,
             skipped: skipped,
             $program: {
                 fullSupply: fullSupply
-            }
+            },
+            orderable: orderable,
+            requestedQuantity: requestedQuantity
         };
     }
 

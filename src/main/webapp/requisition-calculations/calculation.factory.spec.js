@@ -112,27 +112,25 @@ describe('calculationFactory', function() {
         });
 
         it ('should calculate total cost', function() {
-            lineItem.pricePerPack = 30.20;
-            lineItem.packsToShip = 4;
+            requisitionMock.$isAuthorized.andReturn(false);
 
-            expect(calculationFactory.totalCost(lineItem)).toBe(120.8);
+            lineItem.pricePerPack = 30.20;
+            lineItem.requestedQuantity = 15;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 4;
+
+            expect(calculationFactory.totalCost(lineItem, requisitionMock)).toBe(60.4);
         });
 
-        it ('should calculate zero total cost if value missing', function() {
-            lineItem.pricePerPack = undefined;
-            lineItem.packsToShip = 4;
-
-            expect(calculationFactory.totalCost(lineItem)).toBe(0);
-
-            lineItem.pricePerPack = 4;
-            lineItem.packsToShip = undefined;
-
-            expect(calculationFactory.totalCost(lineItem)).toBe(0);
+        it ('should calculate zero total cost if price per pack value missing', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.pricePerPack = undefined;
-            lineItem.packsToShip = undefined;
+            lineItem.requestedQuantity = 15;
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 4;
 
-            expect(calculationFactory.totalCost(lineItem)).toBe(0);
+            expect(calculationFactory.totalCost(lineItem, requisitionMock)).toBe(0);
         });
 
     });

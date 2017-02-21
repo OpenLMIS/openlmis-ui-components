@@ -93,7 +93,7 @@
 
             getLineItems(fullSupply).forEach(function(lineItem) {
                 if (!lineItem.skipped) {
-                    sum += calculationFactory.totalCost(lineItem);
+                    sum += calculationFactory.totalCost(lineItem, vm.requisition);
                 }
             });
 

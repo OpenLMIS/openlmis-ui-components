@@ -128,7 +128,7 @@
          * Calculates the value of the Packs to Ship column based on the given line item and requisition status.
          *
          * @param  {Object} lineItem    the line item to calculate the value from
-         * @param  {String} requisition the requisition
+         * @param  {Object} requisition the requisition
          * @return {Number}             the calculated Packs to Ship value
          */
         function calculatePacksToShip(lineItem, requisition) {
@@ -163,17 +163,16 @@
          * Calculates the total cost by multiplying price per pack and packs to ship.
          *
          * @param  {Object} lineItem the line item to get the values from
+         * @param  {Object} requisition the requisition
          * @return {Number}          the total cost of this line item
          */
-        function calculateTotalCost(lineItem) {
+        function calculateTotalCost(lineItem, requisition) {
+            var packsToShip = this.packsToShip(lineItem, requisition);
             var pricePerPack = lineItem[T];
             if (pricePerPack === undefined) {
                 pricePerPack = 0;
             }
-            var packsToShip = lineItem[V];
-            if (packsToShip === undefined) {
-                packsToShip = 0;
-            }
+
             return pricePerPack * packsToShip;
         }
 
