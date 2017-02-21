@@ -34,7 +34,7 @@
   <body onload="hideLoadingModal()">
     <div id="loading-modal" class="no-js-loading-modal"></div>
     <header ng-if="userIsAuthenticated">
-      <div ng-include="'openlmis-header/header.html'" offline ng-class="{'isOffline':isOffline}" ></div>
+      <div ng-include="'openlmis-header/header.html'" offline ng-class="{'is-offline':isOffline}" ></div>
       <div class="navbar">
         <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
         <openlmis-locale class="navbar-right locale-container"></openlmis-locale>

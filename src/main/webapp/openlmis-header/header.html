@@ -1,12 +1,12 @@
-<div ng-controller="HeaderController" >
-  <div class="logo">
-    <img src="images/logo.png"/>
-    <h1>{{'label.app.header' | message}}</h1>
-  </div>
-  <div class="status">
-    <a offline ng-show="isOffline" class="status status-offline" ng-click="checkConnection()">{{'msg.requisition.view.offline' | message }}</a>
-    <div ng-show="!!user">
-      <ng-include src="'openlmis-header/user.html'"></ng-include>
+<div ng-controller="HeaderController">
+    <div class="logo">
+        <img src="images/logo.png"/>
+        <h1>{{'label.app.header' | message}}</h1>
     </div>
-  </div>
+    <div class="status">
+        <a offline ng-show="isOffline" class="status status-offline" ng-click="checkConnection()">{{'msg.requisition.view.offline' | message }}</a>
+        <div ng-show="!!user">
+            <ng-include src="'openlmis-header/user.html'"></ng-include>
+        </div>
+    </div>
 </div>
