@@ -31,7 +31,7 @@ describe('Button directives', function() {
         });
     });
 
-    it('will track click events on a button elements with the untranslated text', function() {
+    it('will track click events on button elements with the untranslated text', function() {
         var element = $compile("<button>{{'label.name' | message}}</button>")($rootScope.$new());
 
         $rootScope.$apply();
@@ -42,4 +42,34 @@ describe('Button directives', function() {
         expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
     });
 
+    it('will track click events on input elements of type submit with the untranslated text', function() {
+        var element = $compile("<input type=\"submit\" value=\"{{'label.name' | message}}\"/>")($rootScope.$new());
+
+        $rootScope.$apply();
+        angular.element(element[0]).click();
+
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+    });
+
+    it('will track click events on input elements of type button with the untranslated text', function() {
+        var element = $compile("<input type=\"button\" value=\"{{'label.name' | message}}\"/>")($rootScope.$new());
+
+        $rootScope.$apply();
+        angular.element(element[0]).click();
+
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+    });
+
+    it('will not track click events on input elements of type other than submit and button', function() {
+        var element = $compile("<input type=\"text\"/>")($rootScope.$new());
+
+        $rootScope.$apply();
+        angular.element(element[0]).click();
+
+        expect(analyticsService.track.calls.length).toEqual(0);
+    });
 });

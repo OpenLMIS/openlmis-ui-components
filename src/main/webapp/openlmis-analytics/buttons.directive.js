@@ -28,8 +28,10 @@
     angular
         .module('openlmis-analytics')
         .directive('button', buttonDirective)
+        .directive('input', buttonDirective);
 
     buttonDirective.$inject = ['analyticsService', '$location'];
+
     function buttonDirective(analyticsService, $location) {
         return {
             restrict: 'E',
