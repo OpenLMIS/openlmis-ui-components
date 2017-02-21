@@ -14,11 +14,11 @@
 
     RequisitionTemplateAdminController.$inject = [
         '$state', 'template', 'program', '$q', 'notificationService', 'COLUMN_SOURCES',
-        'messageService', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH'
+        'messageService', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'ALPHA_NUMERIC_REGEX'
     ];
 
     function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
-                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH) {
+                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH, ALPHA_NUMERIC_REGEX) {
 
         var vm = this;
 
@@ -129,8 +129,7 @@
          * @returns {String} Column validation error message
          */
         function errorMessage(column) {
-            var ALPHA_NUMERIC_REGEX = /^[a-zA-z0-9/]+[a-zA-Z0-9/ ]+$/,
-                dependencies = '',
+            var dependencies = '',
                 message;
 
             if(!column.label || column.label === '') return messageService.get('error.columnLabelEmpty');

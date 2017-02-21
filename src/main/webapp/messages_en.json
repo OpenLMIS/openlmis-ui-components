@@ -43,7 +43,7 @@
   "error.authorization": "You are not authorized to perform this action.",
   "error.columnDescriptionTooLong": "Column description is too long!",
   "error.columnLabelEmpty": "Column label cannot be empty!",
-  "error.columnLabelNotAllowedCharacters": "Columns label contains not allowed characters!",
+  "error.columnLabelNotAllowedCharacters": "Columns label can only have alpha-numeric characters!",
   "error.columnLabelToShort": "Column label must have at least 2 characters",
   "error.login.password": "Please enter your password.",
   "error.login.username": "Please enter your username.",

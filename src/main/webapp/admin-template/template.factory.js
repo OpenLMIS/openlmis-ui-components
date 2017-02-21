@@ -12,11 +12,9 @@
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = [
-        '$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH'
-    ];
+    templateFactory.$inject = ['$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'ALPHA_NUMERIC_REGEX'];
 
-    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH) {
+    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH, ALPHA_NUMERIC_REGEX) {
 
         var factory = {
             get: get,
@@ -114,8 +112,7 @@
         // Checks if column is valid.
         // Column is not valid when isn't displayed, but at least one is dependent column is displayed.
         function isColumnValid(template) {
-            var ALPHA_NUMERIC_REGEX = /^[a-zA-z0-9/]+[a-zA-Z0-9/ ]+$/,
-                valid = true,
+            var valid = true,
                 column = this,
                 columns = template.columnsMap;
 
