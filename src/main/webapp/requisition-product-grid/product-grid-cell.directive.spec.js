@@ -50,9 +50,25 @@ describe('ProductGridCell', function() {
         return compiledElement;
     }
 
-    it('should produce readonly cell', function() {
+    it('should produce readonly cell if approved', function() {
         scope.requisition.$isApproved = function() {
             return true;
+        }
+        scope.requisition.$isReleased = function() {
+            return false;
+        }
+        directiveElem = getCompiledElement();
+
+        expect(directiveElem.html()).toContain("readOnlyFieldValue");
+        expect(directiveElem.find("input").length).toEqual(0);
+    });
+
+    it('should produce readonly cell if released', function() {
+        scope.requisition.$isReleased = function() {
+            return true;
+        }
+        scope.requisition.$isApproved = function() {
+            return false;
         }
         directiveElem = getCompiledElement();
 
@@ -62,6 +78,9 @@ describe('ProductGridCell', function() {
 
     it('should produce editable cell', function() {
         scope.requisition.$isApproved = function() {
+            return false;
+        }
+        scope.requisition.$isReleased = function() {
             return false;
         }
         scope.requisition.$isAuthorized = function() {
@@ -75,6 +94,9 @@ describe('ProductGridCell', function() {
 
     it('should produce losesAndAdjustment cell', function() {
         scope.requisition.$isApproved = function() {
+            return false;
+        }
+        scope.requisition.$isReleased = function() {
             return false;
         }
         scope.requisition.$isAuthorized = function() {

@@ -74,7 +74,7 @@
       		}
 
 			function isReadOnly() {
-				if (requisition.$isApproved()) return true;
+				if (requisition.$isApproved() || requisition.$isReleased()) return true;
 				if (requisition.$isAuthorized()) {
 					return [
 						TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS

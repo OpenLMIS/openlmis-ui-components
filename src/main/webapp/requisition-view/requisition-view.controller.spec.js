@@ -72,13 +72,14 @@ describe('RequisitionViewController', function() {
 
             deferred = $q.defer();
             requisition = jasmine.createSpyObj('requisition',
-                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$save']);
+                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$isReleased', '$save']);
             requisition.id = '1';
             requisition.program = {
                 id: '2',
                 periodsSkippable: true
             };
             requisition.$isInitiated.andReturn(true);
+            requisition.$isReleased.andReturn(false);
             requisition.$skip.andReturn(deferred.promise);
             requisition.$save.andReturn(deferred.promise);
 

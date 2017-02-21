@@ -269,6 +269,22 @@ describe('Requisition', function() {
         expect(isApproved).toBe(false);
     });
 
+    it('should return true if requisition status is released', function() {
+        requisition.status = REQUISITION_STATUS.RELEASED;
+
+        var isReleased = requisition.$isReleased();
+
+        expect(isReleased).toBe(true);
+    });
+
+    it('should return false if requisition status is not released', function() {
+        requisition.status = REQUISITION_STATUS.INITIATED;
+
+        var isReleased = requisition.$isReleased();
+
+        expect(isReleased).toBe(false);
+    });
+
     function fullSupplyCategories() {
         return [
             category('CategoryOne', [lineItemSpy('One'), lineItemSpy('Two')]),

@@ -64,6 +64,8 @@
         Requisition.prototype.$isApproved = isApproved;
         Requisition.prototype.$isAuthorized = isAuthorized;
         Requisition.prototype.$isInApproval = isInApproval;
+        Requisition.prototype.$isReleased = isReleased;
+
 
         return Requisition;
 
@@ -300,6 +302,21 @@
          */
         function isInApproval() {
             return this.status === REQUISITION_STATUS.IN_APPROVAL;
+        }
+
+        /**
+         * @ngdoc function
+         * @name isReleased
+         * @methodOf requisition.Requisition
+         *
+         * @description
+         * Responsible for checking if requisition is released.
+         * Returns true only if requisition status equals released.
+         *
+         * @return {boolean} is requisition released
+         */
+        function isReleased() {
+            return this.status === REQUISITION_STATUS.RELEASED;
         }
 
         function handlePromise(promise, success, failure) {
