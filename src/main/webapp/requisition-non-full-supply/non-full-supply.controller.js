@@ -166,11 +166,18 @@
         }
 
         function filterRequisitionLineItems() {
-            return $filter('filter')(vm.requisition.requisitionLineItems, {
+            var nonFullSupplyLineItems = $filter('filter')(vm.requisition.requisitionLineItems, {
                 $program: {
                     fullSupply:false
                 }
             });
+
+            return $filter('orderBy')(nonFullSupplyLineItems, [
+                '$program.orderableCategoryDisplayOrder',
+                '$program.orderableCategoryDisplayName',
+                '$program.displayOrder',
+                'orderable.name'
+            ]);
         }
 
         function reload() {

@@ -23,10 +23,12 @@
                         }
                     });
 
-                    return $filter('orderBy')(
-                        fullSupplyLineItems,
-                        '$program.productCategoryDisplayName'
-                    );
+                    return $filter('orderBy')(fullSupplyLineItems, [
+                        '$program.orderableCategoryDisplayOrder',
+                        '$program.orderableCategoryDisplayName',
+                        '$program.displayOrder',
+                        'orderable.name'
+                    ]);
                 },
                 columns: function(requisition) {
                     return requisition.template.getColumns();
