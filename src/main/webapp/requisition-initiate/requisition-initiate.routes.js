@@ -36,7 +36,7 @@
             accessRights: [
                 REQUISITION_RIGHTS.REQUISITION_CREATE,
                 REQUISITION_RIGHTS.REQUISITION_DELETE,
-                REQUISITION_RIGHTS.REQUISITION_AUTHORIZED
+                REQUISITION_RIGHTS.REQUISITION_AUTHORIZE
             ],
             resolve: {
                 facility: function(facilityFactory) {
