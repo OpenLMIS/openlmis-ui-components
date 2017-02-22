@@ -29,16 +29,17 @@ describe("LocaleController", function () {
 
     beforeEach(module('openlmis-locale'));
 
-    var messageService, alertService, notificationService, openlmisLanguages, state;
+    var messageService, alertService, notificationService, openlmisLanguages, state, window;
 
     beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
-                                _notificationService_, _OPENLMIS_LANGUAGES_, _$state_) {
+                                _notificationService_, _OPENLMIS_LANGUAGES_, _$state_, _$window_) {
 
         messageService = _messageService_;
         alertService = _alertService_;
         notificationService = _notificationService_;
         openlmisLanguages = _OPENLMIS_LANGUAGES_;
         state = _$state_;
+        window = _$window_;
 
         var mockLocale = undefined;
         spyOn(messageService, 'populate').andCallFake(function(lang){
@@ -59,6 +60,7 @@ describe("LocaleController", function () {
         spyOn(notificationService, 'success');
         spyOn(alertService, 'error');
         spyOn(state, 'reload');
+        spyOn(window.location, 'reload');
     }));
 
     describe('shows loaded languages', function(){
@@ -71,7 +73,8 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state
+                $state: state,
+                $window: window
             });
         }));
 
@@ -99,7 +102,8 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state
+                $state: state,
+                $window: window
             });
 
             expect(messageService.populate).toHaveBeenCalled();
@@ -113,7 +117,8 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state
+                $state: state,
+                $window: window
             });
 
             // messageService.populate was only called at top
@@ -133,7 +138,8 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state
+                $state: state,
+                $window: window
             });
         }));
 
@@ -144,6 +150,7 @@ describe("LocaleController", function () {
             expect(messageService.populate).toHaveBeenCalledWith('pt');
             expect(notificationService.success).toHaveBeenCalled();
             expect(state.reload).toHaveBeenCalled();
+            expect(window.location.reload).toHaveBeenCalled();
         });
 
         it("will throw an error if changing locale is unsuccessful", function () {
