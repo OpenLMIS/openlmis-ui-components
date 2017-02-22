@@ -31,7 +31,6 @@
         locale.selectedLocale = messageService.getCurrentLocale();
         $scope.$on('openlmis.messages.populated', function(){
             locale.selectedLocale = messageService.getCurrentLocale();
-            console.log($state.name);
             $state.reload();
             $window.location.reload();
         });
