@@ -19,20 +19,20 @@ describe('ReportOptionsController', function() {
     var vm;
 
     //mocks
-    var report;
+    var report, reportUrlFactoryMock;
 
     //injects
-    var state, rootScope, openlmisUrlFactoryMock;
+    var state, rootScope;
 
     beforeEach(function() {
         module('report');
 
         module(function($provide) {
 
-            openlmisUrlFactoryMock = jasmine.createSpy();
+            reportUrlFactoryMock = jasmine.createSpy();
 
-            $provide.factory('openlmisUrlFactory', function() {
-                return openlmisUrlFactoryMock;
+            $provide.factory('reportUrlFactory', function() {
+                return reportUrlFactoryMock;
             });
         });
 
@@ -63,8 +63,8 @@ describe('ReportOptionsController', function() {
             });
         });
 
-        openlmisUrlFactoryMock.andCallFake(function(url) {
-            return 'http://some.url' + url;
+        reportUrlFactoryMock.andCallFake(function(url, report, selectedValues, format) {
+            return '/requisitions/' + report.id + '/' + format;
         });
     });
 
@@ -74,13 +74,9 @@ describe('ReportOptionsController', function() {
     });
 
     it('getReportUrl should prepare URLs correctly', function() {
-        vm.selectedValues = {
-            param1: 'Option 1',
-            param2: 'Value 1'
-        }
-        expect(vm.getReportUrl('pdf')).toEqual('http://some.url/api/reports/templates/requisitions/id-one/pdf?param1=Option 1&&param2=Value 1&&');
-        expect(vm.getReportUrl('csv')).toEqual('http://some.url/api/reports/templates/requisitions/id-one/csv?param1=Option 1&&param2=Value 1&&');
-        expect(vm.getReportUrl('xls')).toEqual('http://some.url/api/reports/templates/requisitions/id-one/xls?param1=Option 1&&param2=Value 1&&');
-        expect(vm.getReportUrl('html')).toEqual('http://some.url/api/reports/templates/requisitions/id-one/html?param1=Option 1&&param2=Value 1&&');
+        expect(vm.getReportUrl('pdf')).toEqual('/requisitions/id-one/pdf');
+        expect(vm.getReportUrl('csv')).toEqual('/requisitions/id-one/csv');
+        expect(vm.getReportUrl('xls')).toEqual('/requisitions/id-one/xls');
+        expect(vm.getReportUrl('html')).toEqual('/requisitions/id-one/html');
     });
 });

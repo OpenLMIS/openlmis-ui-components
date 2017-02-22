@@ -25,20 +25,19 @@
      * @description
      * Controller for report options page
      */
-
     angular
         .module('report')
         .controller('ReportOptionsController', controller);
 
-    controller.$inject = ['$state', 'report', 'requisitionReportService', 'openlmisUrlFactory'];
+    controller.$inject = ['$state', 'report', 'requisitionReportService', 'reportUrlFactory'];
 
-    function controller($state, report, requisitionReportService, openlmisUrlFactory) {
+    function controller($state, report, requisitionReportService, reportUrlFactory) {
         var vm = this;
 
         vm.report = report;
+        vm.selectValues = {};
         vm.selectedValues = {};
         vm.getReportUrl = getReportUrl;
-        vm.selectValues = {};
 
         /**
          * @ngdoc function
@@ -49,21 +48,16 @@
          * Get URL to run report in the specified format.
          */
         function getReportUrl(format) {
-            var requestParameters = "";
-            angular.forEach(vm.report.templateParameters, function (templateParameter) {
-                requestParameters = requestParameters + templateParameter.name + "=" + vm.selectedValues[templateParameter.name] + "&&";
-            });
-            return openlmisUrlFactory('/api/reports/templates/requisitions/' + vm.report.id + '/' + format + '?' + requestParameters);
+            return reportUrlFactory('requisitions', vm.report, vm.selectedValues, format);
         }
 
-        (function getReportSelectValues(parameters) {
-            angular.forEach(parameters, function(param) {
+        vm.$onInit = function() {
+            angular.forEach(report.templateParameters, function(param) {
                 requisitionReportService.getParameterValues(param.selectExpression, param.selectProperty)
                 .then(function(data) {
-                    console.log(data);
                     vm.selectValues[param.name] = data;
                 });
             });
-        })(report.templateParameters);
+        }
     }
 })();

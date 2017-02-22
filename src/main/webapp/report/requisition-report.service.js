@@ -28,22 +28,22 @@
         .module('report')
         .factory('requisitionReportService', service);
 
-    service.$inject = ['openlmisUrlFactory', '$resource', '$http', '$q'];
+    service.$inject = ['reportFactory', 'openlmisUrlFactory', '$resource', '$q'];
 
-    function service(openlmisUrlFactory, $resource, $http, $q){
+    function service(reportFactory, openlmisUrlFactory, $resource, $q){
 
         var resource = $resource(openlmisUrlFactory('/api/reports/templates/requisitions/:id'), {}, {
-                'getAll': {
-                    url: openlmisUrlFactory('/api/reports/templates/requisitions'),
-                    method: 'GET',
-                    isArray: true
-                }
-            });
+            'getAll': {
+                url: openlmisUrlFactory('/api/reports/templates/requisitions'),
+                method: 'GET',
+                isArray: true
+            }
+        });
 
         return {
             get: get,
             getAll: getAll,
-            getParameterValues: getParameterValues
+            getParameterValues: reportFactory.getParameterValues
         };
 
         /**
@@ -73,44 +73,6 @@
          */
         function getAll() {
             return resource.getAll().$promise;
-        }
-
-        /**
-         * @ngdoc function
-         * @name  getParameterValues
-         * @methodOf report.requisitionReportService
-         *
-         * @description
-         * Gets select values for report parameter based on given path.
-         *
-         * @param {String} path to resource.
-         * @param {String} property of resource to extract.
-         * @returns {Promise} Array of select values.
-         */
-        function getParameterValues(path, property) {
-            var deferred = $q.defer();
-
-            $http({
-                method: 'GET',
-                url: openlmisUrlFactory(path)
-            }).then(function(response) {
-                var items = [];
-
-                angular.forEach(response.data, function(obj) {
-                    console.log(property);
-                    var value = property ? obj[property] : obj;
-
-                    if (value) {
-                        items.push(value);
-                    }
-                });
-
-                deferred.resolve(items);
-            }).catch(function(err) {
-                deferred.reject()
-            });
-
-            return deferred.promise;
         }
     }
 })();

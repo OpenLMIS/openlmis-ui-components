@@ -22,7 +22,7 @@
  	 * @name openlmis-auth.authUrl
  	 *
  	 * @description
- 	 * A factory that takes a URL and prepends the AuthServiceURL before the url. The actual auth
+ 	 * A factory that takes a URL and prepends the AuthServiceURL to the url. The actual auth
  	 * url can be changed by setting the --authServiceURL flag at build time
  	 */
  	angular
