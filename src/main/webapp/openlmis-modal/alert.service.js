@@ -103,17 +103,16 @@
                 closeButton: false,
                 className: 'alert-modal'
             });
+            modal.on('click.bs.modal', cleanUp);
 
             return deferred.promise;
 
             function cleanUp() {
                 deferred.resolve();
-                modal.modal('hide');
+                if(modal) modal.modal('hide');
                 modal = undefined;
                 scope.$destroy();
             }
         }
-
-
     }
 })();

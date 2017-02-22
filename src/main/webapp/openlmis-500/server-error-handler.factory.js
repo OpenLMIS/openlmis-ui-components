@@ -55,13 +55,11 @@
         function responseError(response) {
             if(response.status >= 500 && canDisplayModal) {
                 canDisplayModal = false;
-                $injector.get('alertService').error(response.statusText, modalClosed);
+                $injector.get('alertService').error(response.statusText).then(function() {
+                    canDisplayModal = true;
+                });
             }
             return $q.reject(response);
-        }
-
-        function modalClosed(){
-            canDisplayModal = true;
         }
     }
 })();

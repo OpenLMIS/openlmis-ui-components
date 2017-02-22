@@ -27,7 +27,10 @@ describe('serverErrorHandler', function() {
             alertMock = jasmine.createSpyObj('alertService', ['error']);
             spyOn($injector, 'get').andCallFake(function(name) {
                 if (name === 'alertService') return alertMock;
-            })
+            });
+            alertMock.error.andCallFake(function() {
+                return $q.when(true);
+            });
         });
     });
 
