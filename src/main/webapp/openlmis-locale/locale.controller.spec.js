@@ -32,13 +32,12 @@ describe("LocaleController", function () {
     var messageService, alertService, notificationService, openlmisLanguages, state, window;
 
     beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
-                                _notificationService_, _OPENLMIS_LANGUAGES_, _$state_, _$window_) {
+                                _notificationService_, _OPENLMIS_LANGUAGES_, _$window_) {
 
         messageService = _messageService_;
         alertService = _alertService_;
         notificationService = _notificationService_;
         openlmisLanguages = _OPENLMIS_LANGUAGES_;
-        state = _$state_;
         window = _$window_;
 
         var mockLocale = undefined;
@@ -59,7 +58,6 @@ describe("LocaleController", function () {
 
         spyOn(notificationService, 'success');
         spyOn(alertService, 'error');
-        spyOn(state, 'reload');
         spyOn(window.location, 'reload');
     }));
 
@@ -73,7 +71,6 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state,
                 $window: window
             });
         }));
@@ -102,7 +99,6 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state,
                 $window: window
             });
 
@@ -117,7 +113,6 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state,
                 $window: window
             });
 
@@ -138,7 +133,6 @@ describe("LocaleController", function () {
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
-                $state: state,
                 $window: window
             });
         }));
@@ -149,7 +143,6 @@ describe("LocaleController", function () {
 
             expect(messageService.populate).toHaveBeenCalledWith('pt');
             expect(notificationService.success).toHaveBeenCalled();
-            expect(state.reload).toHaveBeenCalled();
             expect(window.location.reload).toHaveBeenCalled();
         });
 
