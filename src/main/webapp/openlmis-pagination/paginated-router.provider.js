@@ -84,20 +84,20 @@
             return toResolve;
         }
 
-        function externalPageSizeResolve(response) {
-            return response.size;
+        function externalPageSizeResolve(response, $stateParams) {
+            return response ? response.size : pageSizeResolve($stateParams);
         }
 
         function externalTotalItemsResolve(response) {
-            return response.totalElements;
+            return response ? response.totalElements : undefined;
         }
 
-        function externalPageResolve(response) {
-            return response.number;
+        function externalPageResolve(response, $stateParams) {
+            return response ? response.number : pageResolve($stateParams);
         }
 
         function externalItemsResolve(response) {
-            return response.content;
+            return response ? response.content : undefined;
         }
 
         function pageSizeResolve($stateParams) {

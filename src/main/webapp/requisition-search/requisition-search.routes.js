@@ -19,29 +19,35 @@
 
 	angular.module('requisition-search').config(routes);
 
-	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'paginatedRouterProvider'];
 
-	function routes($stateProvider, REQUISITION_RIGHTS) {
+	function routes($stateProvider, REQUISITION_RIGHTS, paginatedRouterProvider) {
 
 		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
 			isOffline: true,
 			label: 'link.requisition.view',
-			url: '/view',
+			url: '/view?program&facility&initiatedDateFrom&initiatedDateTo&page&pageSize&offline',
 			controller: 'RequisitionSearchController',
 			templateUrl: 'requisition-search/requisition-search.html',
 			accessRights: [
 				REQUISITION_RIGHTS.REQUISITION_VIEW
 			],
 			controllerAs: 'vm',
-			resolve: {
+			resolve: paginatedRouterProvider.resolve({
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-		        facilityList: function (facilityFactory, user) {
+		        facilities: function (facilityFactory, user) {
 		        	return facilityFactory.getAllUserFacilities(user.user_id);
-		        }
-		    }
+		        },
+				response: function(requisitionService, $stateParams) {
+					if ($stateParams.facility) {
+						return requisitionService.search($stateParams.offline === 'true', $stateParams);
+					}
+					return undefined;
+				}
+		    })
 		});
 
 	}

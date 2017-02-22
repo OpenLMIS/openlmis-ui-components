@@ -19,43 +19,156 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-search.RequisitionViewController
+     * @name requisition-search.controller:RequisitionViewController
      *
      * @description
      * Controller for requisition view page
      */
-
     angular
         .module('requisition-search')
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$rootScope', '$state', 'facilityList', 'requisitionService', 'REQUISITION_STATUS', 'dateUtils',
-        'loadingModalService', 'notificationService', 'offlineService', 'localStorageFactory', 'confirmService'
+        '$state', '$controller', '$filter', '$stateParams', 'facilities', 'notificationService',
+        'offlineService', 'localStorageFactory', 'confirmService', 'items', 'page', 'pageSize',
+        'totalItems',
     ];
 
-    function RequisitionSearchController($rootScope, $state, facilityList, requisitionService,
-                                         REQUISITION_STATUS, dateUtils, loadingModalService,
-                                         notificationService, offlineService, localStorageFactory, confirmService) {
+    function RequisitionSearchController($state, $controller, $filter, $stateParams, facilities,
+                                         notificationService, offlineService, localStorageFactory,
+                                         confirmService, items, page, pageSize, totalItems) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
 
-        vm.loadPrograms = loadPrograms;
+        $controller('BasePaginationController', {
+    		vm: vm,
+            items: items,
+    		page: page,
+    		pageSize: pageSize,
+            totalItems: totalItems,
+    		externalPagination: true,
+    		itemValidator: undefined
+    	});
+
+        vm.$onInit = onInit;
         vm.search = search;
         vm.openRnr = openRnr;
         vm.removeOfflineRequisition = removeOfflineRequisition;
-
         vm.isOfflineDisabled = isOfflineDisabled;
-        vm.searchOffline = offlineService.isOffline();
-        vm.facilities = facilityList;
-        vm.statuses = REQUISITION_STATUS.$toList();
-        vm.selectedStatuses = [];
 
-        if (!angular.isArray(vm.facilities) || vm.facilities.length < 1) {
-            vm.error = 'msg.facilities.not.found';
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name facilities
+         * @type {Array}
+         *
+         * @description
+         * The list of all facilities available to the user.
+         */
+        vm.facilities = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name searchOffline
+         * @type {Boolean}
+         *
+         * @description
+         * Flag defining whether online or offline search should be online. If it is set to true
+         * the local storage will be searched for requisitions.
+         */
+        vm.searchOffline = false;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name selectedFacility
+         * @type {Object}
+         *
+         * @description
+         * The facility selected by the user.
+         */
+        vm.selectedFacility = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name selectedProgram
+         * @type {Object}
+         *
+         * @description
+         * The program selected by the user.
+         */
+        vm.selectedProgram = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name startDate
+         * @type {Object}
+         *
+         * @description
+         * The beginning of the period to search for requisitions.
+         */
+        vm.startDate = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name endDate
+         * @type {Object}
+         *
+         * @description
+         * The end of the period to search for requisitions.
+         */
+        vm.endDate = undefined;
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-search.controller:RequisitionViewController
+         * @name $onInit
+         *
+         * @description
+         * Initialization method called after the controller has been created. Responsible for
+         * setting data to be available on the view.
+         */
+        function onInit() {
+            vm.facilities = facilities;
+            vm.searchOffline = $stateParams.offline === 'true' || offlineService.isOffline();
+
+            if ($stateParams.facility) {
+                vm.selectedFacility = $filter('filter')(vm.facilities, {
+                    id: $stateParams.facility
+                })[0];
+            }
+
+            if (vm.selectedFacility && $stateParams.program) {
+                vm.selectedProgram = $filter('filter')(vm.selectedFacility.supportedPrograms, {
+                    id: $stateParams.program
+                })[0];
+            }
+
+            if ($stateParams.initiatedDateFrom) {
+                vm.startDate = new Date($stateParams.initiatedDateFrom);
+            }
+
+            if ($stateParams.initiatedDateTo) {
+                vm.endDate = new Date($stateParams.initiatedDateTo);
+            }
         }
 
+        /**
+         * @ngdoc methodOf
+         * @methodOf requisition-search.controller:RequisitionViewController
+         * @name isOfflineDisabled
+         *
+         * @description
+         * Check wether "Search offline" checkbox should be disabled. It will set the searchOffline
+         * flag to true if app goes in the offline mode.
+         *
+         * @return {Boolean} [description]
+         */
         function isOfflineDisabled() {
             if (offlineService.isOffline()) vm.searchOffline = true;
             return offlineService.isOffline();
@@ -63,8 +176,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-search.controller:RequisitionViewController
          * @name openRnr
-         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Redirect to requisition page after clicking on grid row.
@@ -79,8 +192,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-search.controller:RequisitionViewController
          * @name removeOfflineRequisition
-         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Removes requisition from local storage.
@@ -96,51 +209,19 @@
 
         /**
          * @ngdoc method
-         * @name loadPrograms
-         * @methodOf requisition-search.RequisitionViewController
-         *
-         * @description
-         * Loads selected facility supported programs to program select input.
-         */
-        function loadPrograms() {
-            if (!vm.selectedFacility) {
-                return;
-            } else if (vm.selectedFacility.supportedPrograms) {
-                vm.programs = vm.selectedFacility.supportedPrograms;
-            } else {
-                notificationService.error('msg.no.program.available');
-            }
-        }
-
-        /**
-         * @ngdoc method
+         * @methodOf requisition-search.controller:RequisitionViewController
          * @name search
-         * @methodOf requisition-search.RequisitionViewController
          *
          * @description
          * Searches requisitions by criteria selected in form.
          */
         function search() {
-            if (vm.selectedFacility) {
-                vm.error = null;
-                loadingModalService.open();
-                requisitionService.search(vm.searchOffline, {
-                        program: vm.selectedProgram ? vm.selectedProgram.id : null,
-                        facility: vm.selectedFacility ? vm.selectedFacility.id : null,
-                        initiatedDateFrom: vm.startDate ? vm.startDate.toISOString() : null,
-                        initiatedDateTo: vm.endDate ? vm.endDate.toISOString() : null
-                    })
-                    .then(function(requisitionList) {
-                        vm.requisitionList = requisitionList;
-                        loadingModalService.close();
-                    })
-                    .catch(function() {
-                        notificationService.error('msg.error.occurred');
-                    })
-                    .finally(loadingModalService.close);
-            } else {
-                notificationService.error('msg.no.facility.selected');
-            }
+            vm.stateParams.program = vm.selectedProgram ? vm.selectedProgram.id : null;
+            vm.stateParams.facility = vm.selectedFacility ? vm.selectedFacility.id : null;
+            vm.stateParams.initiatedDateFrom = vm.startDate ? vm.startDate.toISOString() : null;
+            vm.stateParams.initiatedDateTo = vm.endDate ? vm.endDate.toISOString() : null;
+            vm.stateParams.offline = vm.searchOffline;
+            vm.changePage();
         }
     }
 })();

@@ -54,9 +54,7 @@
             },
             'search': {
                 url: requisitionUrlFactory('/api/requisitions/search'),
-                method: 'GET',
-                isArray: true,
-                transformResponse: transformRequisitionSearchResponse
+                method: 'GET'
             },
             'forApproval': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForApproval'),
@@ -227,14 +225,7 @@
                 });
                 deferred.resolve(requisitions);
             } else {
-                resource.search(searchParams).$promise.then(function(requisitions) {
-                    angular.forEach(requisitions, function(requisition) {
-                        if(offlineRequisitions.getBy('id', requisition.id)) requisition.$availableOffline = true;
-                    });
-                    deferred.resolve(requisitions);
-                }, function() {
-                    deferred.reject();
-                });
+                return resource.search(searchParams).$promise;
             }
 
             return deferred.promise;
@@ -352,13 +343,6 @@
                     response.processingPeriod.endDate = dateUtils.toDate(response.processingPeriod.endDate);
                 }
                 return response;
-            });
-        }
-
-        function transformRequisitionSearchResponse(data, headers, status) {
-            return transformResponse(data, status, function(response) {
-                angular.forEach(response.content, transformRequisition);
-                return response.content;
             });
         }
 

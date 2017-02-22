@@ -198,7 +198,7 @@
   "msg.no.period.available": "No current period defined. Please contact the Admin.",
   "msg.no.program.available": "There are no programs for this facility. Please contact the Admin.",
   "msg.no.requisitions.found": "No requisitions found.",
-  "msg.noCommentsAdded": "No comments added",
+  "msg.noCommentsAdded": "No comments added.",
   "msg.noOrderFound": "No order found.",
   "msg.noOrdersFound": "No orders found.",
   "msg.noPodsFound": "No proofs of deliveries found.",
