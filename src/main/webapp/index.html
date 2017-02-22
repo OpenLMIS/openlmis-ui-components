@@ -35,16 +35,10 @@
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
         </script>
-        <script>
-            function hideLoadingModal() {
-                document.getElementById("loading-modal").style.display = 'none';
-            }
-        </script>
         <!-- End Google Analytics -->
 
     </head>
-    <body onload="hideLoadingModal()">
-        <div id="loading-modal" class="no-js-loading-modal"></div>
+    <body>
         <header ng-if="userIsAuthenticated">
             <ng-include src="'openlmis-header/header.html'"></ng-include>
             <div class="navbar">
@@ -52,6 +46,14 @@
                 <openlmis-locale class="navbar-right locale-container"></openlmis-locale>
             </div>
         </header>
-        <div ui-view></div>
+        <div ui-view>
+            <div class="modal loading-modal non-js-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
