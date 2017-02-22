@@ -40,6 +40,7 @@
   "email.check.message": "An email with a password reset token has been sent to the email address you provided.",
   "email.sent": "Email sent",
   "email.sent.message": "Email sent!",
+  "error.actionNotAllowedOffline": "This action can't be completed while offline.",
   "error.authorization": "You are not authorized to perform this action.",
   "error.columnDescriptionTooLong": "Column description is too long!",
   "error.columnLabelEmpty": "Column label cannot be empty!",
