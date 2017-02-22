@@ -4,7 +4,7 @@
         <a ng-click="vm.displayRequisitionHistory()">{{'label.viewHistory' | message}}</a>
     </header>
     <div class="status-message-list">
-        <div class="status-message">
+        <div class="status-message" ng-if="vm.requisition.$statusMessages.length">
             <header>
                 <div class="status">{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</div>
                 <div class="date">
@@ -15,6 +15,9 @@
                 </div>
             </header>
             {{vm.requisition.$statusMessages[0].body}}
+        </div>
+        <div class="info-no-comments" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
+            {{'msg.noCommentsAdded' | message}}
         </div>
         <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
     </div>
