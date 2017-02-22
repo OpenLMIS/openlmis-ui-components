@@ -43,7 +43,7 @@
         return {
             get: get,
             getAll: getAll,
-            getParameterValues: reportFactory.getParameterValues
+            getParameterOptions: reportFactory.getParameterOptions
         };
 
         /**

@@ -35,7 +35,7 @@
         var vm = this;
 
         vm.report = report;
-        vm.selectValues = {};
+        vm.selectOptions = {};
         vm.selectedValues = {};
         vm.getReportUrl = getReportUrl;
 
@@ -53,9 +53,10 @@
 
         vm.$onInit = function() {
             angular.forEach(report.templateParameters, function(param) {
-                requisitionReportService.getParameterValues(param.selectExpression, param.selectProperty)
+                requisitionReportService.getParameterOptions(param.selectExpression, param.selectProperty,
+                param.displayProperty)
                 .then(function(data) {
-                    vm.selectValues[param.name] = data;
+                    vm.selectOptions[param.name] = data;
                 });
             });
         }

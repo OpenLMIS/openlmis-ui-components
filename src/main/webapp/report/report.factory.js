@@ -32,23 +32,24 @@
 
     function factory($http, $q, openlmisUrlFactory) {
         var factory = {
-            getParameterValues: getParameterValues
+            getParameterOptions: getParameterOptions
         };
         return factory;
 
         /**
          * @ngdoc function
-         * @name  getParameterValues
+         * @name  getParameterOptions
          * @methodOf report.requisitionReportService
          *
          * @description
-         * Gets select values for report parameter based on given path.
+         * Gets select options for report parameter based on given path.
          *
          * @param {String} path to resource.
-         * @param {String} property of resource to extract.
+         * @param {String} property of resource to extract as value.
+         * @param {String} display property of resource.
          * @returns {Promise} Array of select values.
          */
-        function getParameterValues(path, property) {
+        function getParameterOptions(path, selectProperty, displayProperty) {
             var deferred = $q.defer();
 
             $http({
@@ -58,10 +59,11 @@
                 var items = [];
 
                 angular.forEach(response.data, function(obj) {
-                    var value = property ? obj[property] : obj;
+                    var value = selectProperty ? obj[selectProperty] : obj;
+                    var name = displayProperty ? obj[displayProperty] : value;
 
                     if (value) {
-                        items.push(value);
+                        items.push({'name': name, 'value': value});
                     }
                 });
 

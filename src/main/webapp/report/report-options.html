@@ -5,7 +5,7 @@
             <div ng-repeat="parameter in vm.report.templateParameters">
                 <label for="{{parameter.name}}">{{parameter.displayName}}</label>
                 <select id="{{parameter.name}}" ng-model="vm.selectedValues[parameter.name]"
-                        ng-options="selectValue as selectValue for selectValue in vm.selectValues[parameter.name]"
+                        ng-options="option.value as option.name for option in vm.selectOptions[parameter.name]"
                         required>
                 </select>
             </div>

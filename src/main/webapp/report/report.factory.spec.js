@@ -18,8 +18,8 @@ describe('reportFactory', function() {
   // mocks
   var path = '/path';
   var response = [
-    { name: 'name1' },
-    { name: 'name2' }
+    { name: 'name1', id: 'ee22d7db-e068-4eef-ad45-2b3b4bbb04b2' },
+    { name: 'name2', id: '6b6c2dfb-7b7a-4144-bbd5-343fcce443a5' }
   ];
 
   // injects
@@ -40,22 +40,7 @@ describe('reportFactory', function() {
   it('should get values for parameters with property access', function() {
     var result;
 
-    reportFactory.getParameterValues(path, 'name')
-    .then(function(items) {
-        result = items;
-    });
-
-    $httpBackend.flush();
-
-    expect(result.length).toBe(response.length);
-    expect(result[0]).toBe(response[0].name);
-    expect(result[1]).toBe(response[1].name);
-  });
-
-  it('should get values for parameters without property access', function() {
-    var result;
-
-    reportFactory.getParameterValues(path, null)
+    reportFactory.getParameterOptions(path, 'id', 'name')
     .then(function(items) {
         result = items;
     });
@@ -64,7 +49,26 @@ describe('reportFactory', function() {
 
     expect(result.length).toBe(response.length);
     expect(result[0].name).toBe(response[0].name);
+    expect(result[0].value).toBe(response[0].id);
     expect(result[1].name).toBe(response[1].name);
+    expect(result[1].value).toBe(response[1].id);
+  });
+
+  it('should get values for parameters without property access', function() {
+    var result;
+
+    reportFactory.getParameterOptions(path, null, null)
+    .then(function(items) {
+        result = items;
+    });
+
+    $httpBackend.flush();
+
+    expect(result.length).toBe(response.length);
+    expect(result[0].value.name).toBe(response[0].name);
+    expect(result[0].name).toBe(result[0].value);
+    expect(result[1].value.name).toBe(response[1].name);
+    expect(result[1].name).toBe(result[1].value);
   });
 
 });

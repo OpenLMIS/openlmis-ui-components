@@ -57,7 +57,7 @@ describe('ReportOptionsController', function() {
             state = $state;
             rootScope = $rootScope;
 
-            spyOn(requisitionReportService, 'getParameterValues').andReturn($q.when([]));
+            spyOn(requisitionReportService, 'getParameterOptions').andReturn($q.when([]));
             vm = $controller('ReportOptionsController', {
                 report: report
             });
