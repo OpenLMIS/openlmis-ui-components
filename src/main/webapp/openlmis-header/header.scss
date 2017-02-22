@@ -1,56 +1,51 @@
-body > header > :first-child {
-    box-shadow: 0 0 0.5em $shadow;
-    border-bottom: 0.1em solid lighten($cyan, 45%);
-    color: $dark-gray;
-    position: relative;
-    z-index: 1; // to be above navbar
+.openlmis-header {
+    align-items: center;
     background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
-
-    &.is-offline {
-        background: $dark-gray;
-        border-color: black;
-        color: $white;
-
-        .logo > h1 {
-            color: $white;
-        }
-    }
-}
-
-body > header > :first-child > * {
+    border-bottom: 0.1em solid lighten($cyan, 45%);
+    box-shadow: 0 0 0.5em $shadow;
+    color: $dark-gray;
     display: flex;
-    align-items: flex-end;
-    width: 100%;
+    flex-wrap: nowrap;
+    padding: 0.5em;
+    z-index: 1; // to be above navbar
+}
 
-    .logo {
-        display: block;
-        flex: 1 0 auto;
-    }
+.openlmis-header.is-offline {
+    background: $dark-gray;
+    border-bottom-color: $black;
+    color: $light-gray;
 
-    & > * {
-        flex: 0 0 auto;
-        padding: 0 1em;
+    .openlmis-title {
+        color: $light-gray;
+        text-shadow: 0 0.05em 0 $black;
     }
 }
 
-.logo {
-    padding: 0.6em 0 0;
+.openlmis-header-actions {
+    margin-left: auto;
+}
 
-    img {
-        float: left;
-        margin: 0 0 0 0.8em;
+.status-offline {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+
+    &::before {
+        content: '\f0e7';
+        font-family: 'FontAwesome';
+        margin-right: 0.5em;
     }
 
-    h1 {
-        float: left;
-        clear: none;
-        font-size: 2em;
-        font-weight: normal;
-        font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
-        line-height: 1.1em;
-        margin: 0.35em 0 0 0.35em;
-        color: $gray;
-        text-shadow: 0 0.05em 0 $white;
-        border-color: transparent;
+    & > button {
+        margin-left: auto;
     }
+}
+
+.openlmis-title {
+    color: $gray;
+    font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
+    font-size: 2em;
+    line-height: 1.1em;
+    padding: 0 0 0 0.5em;
+    text-shadow: 0 0.05em 0 $white;
 }

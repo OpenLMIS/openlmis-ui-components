@@ -14,36 +14,44 @@
   -->
 
 <html lang="en" ng-app="openlmis" manifest="manifest.appcache" xmlns="http://www.w3.org/1999/html">
-  <head>
-    <meta charset="utf-8">
-    <title>@@APPLICATION_TITLE</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="openlmis.css">
-    <script type="text/javascript" src="openlmis.js" async="true"></script>
-    <!-- Google Analytics -->
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    </script>
-    <script>
-      function hideLoadingModal() {
-          document.getElementById("loading-modal").style.display = 'none';
-      }
-    </script>
-    <!-- End Google Analytics -->
+    <head>
+        <meta charset="utf-8">
+        <title>@@APPLICATION_TITLE</title>
+        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+        <link rel="stylesheet" href="openlmis.css">
+        <script type="text/javascript" src="openlmis.js" async="true"></script>
+        <!-- Google Analytics -->
+        <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                },
+                i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        </script>
+        <script>
+            function hideLoadingModal() {
+                document.getElementById("loading-modal").style.display = 'none';
+            }
+        </script>
+        <!-- End Google Analytics -->
 
-  </head>
-  <body onload="hideLoadingModal()">
-    <div id="loading-modal" class="no-js-loading-modal"></div>
-    <header ng-if="userIsAuthenticated">
-      <div ng-include="'openlmis-header/header.html'" offline ng-class="{'is-offline':isOffline}" ></div>
-      <div class="navbar">
-        <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
-        <openlmis-locale class="navbar-right locale-container"></openlmis-locale>
-      </div>
-    </header>
-    <div ui-view></div>
-  </body>
+    </head>
+    <body onload="hideLoadingModal()">
+        <div id="loading-modal" class="no-js-loading-modal"></div>
+        <header ng-if="userIsAuthenticated">
+            <ng-include src="'openlmis-header/header.html'"></ng-include>
+            <div class="navbar">
+                <openlmis-navigation class="nav navbar-nav"></openlmis-navigation>
+                <openlmis-locale class="navbar-right locale-container"></openlmis-locale>
+            </div>
+        </header>
+        <div ui-view></div>
+    </body>
 </html>
