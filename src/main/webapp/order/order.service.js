@@ -35,6 +35,7 @@
         var resource = $resource(fulfillmentUrlFactory('/api/orders'), {}, {
             search: {
                 method: 'GET',
+                transformResponse: transformOrder,
                 url: fulfillmentUrlFactory('/api/orders/search')
             },
             getPod: {
@@ -79,6 +80,19 @@
             return resource.getPod({
                 id: orderId
             }).$promise;
+        }
+
+        function transformOrder(data, headers, status) {
+            if (status === 200) {
+                var orders = angular.fromJson(data);
+                orders.content.forEach(function(order) {
+                    order.createdDate = dateUtils.toDate(order.createdDate);
+                    order.processingPeriod.startDate = dateUtils.toDate(order.processingPeriod.startDate);
+                    order.processingPeriod.endDate = dateUtils.toDate(order.processingPeriod.endDate);
+                });
+                return orders;
+            }
+            return data;
         }
 
 		function transformPOD(data, headers, status) {

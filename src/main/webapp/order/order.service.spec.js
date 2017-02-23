@@ -79,7 +79,13 @@ describe('orderService', function() {
         $httpBackend.flush();
         $rootScope.$apply();
 
-        expect(result.content).toEqual(orders);
+        expect(result.content[0].id).toEqual('id-one');
+        expect(result.content[0].processingPeriod.startDate).toEqual(new Date(2017, 0, 1));
+        expect(result.content[0].processingPeriod.endDate).toEqual(new Date(2017, 0, 31));
+
+        expect(result.content[1].id).toEqual('id-two');
+        expect(result.content[1].processingPeriod.startDate).toEqual(new Date(2017, 1, 1));
+        expect(result.content[1].processingPeriod.endDate).toEqual(new Date(2017, 1, 27));
 
     });
 
