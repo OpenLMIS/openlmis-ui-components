@@ -61,7 +61,7 @@ describe('orderService', function() {
         };
 
         $httpBackend.when('GET', fulfillmentUrlFactory('/api/orders/search?supplyingFacility=some-id'))
-            .respond(200, orders);
+            .respond(200, {content: orders});
 
         $httpBackend.when('GET', fulfillmentUrlFactory('/api/orders/id-one/proofOfDeliveries'))
             .respond(200, pod);
@@ -79,13 +79,7 @@ describe('orderService', function() {
         $httpBackend.flush();
         $rootScope.$apply();
 
-        expect(result[0].id).toEqual('id-one');
-        expect(result[0].processingPeriod.startDate).toEqual(new Date(2017, 0, 1));
-        expect(result[0].processingPeriod.endDate).toEqual(new Date(2017, 0, 31));
-
-        expect(result[1].id).toEqual('id-two');
-        expect(result[1].processingPeriod.startDate).toEqual(new Date(2017, 1, 1));
-        expect(result[1].processingPeriod.endDate).toEqual(new Date(2017, 1, 27));
+        expect(result.content).toEqual(orders);
 
     });
 
