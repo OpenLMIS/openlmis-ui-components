@@ -69,7 +69,11 @@ describe('periodFactory', function() {
                 return $q.when([periodOne]);
             });
             requisitionServiceMock.search.andCallFake(function() {
-                return $q.when([requisition]);
+                return $q.when({
+                    content: [
+                        requisition
+                    ]
+                });
             });
 
             periodFactory.get(programId, facilityId, emergency).then(function(response) {
@@ -124,7 +128,11 @@ describe('periodFactory', function() {
                 return $q.when([periodOne]);
             });
             requisitionServiceMock.search.andCallFake(function() {
-                return $q.when([requisition]);
+                return $q.when({
+                    content: [
+                        requisition
+                    ]
+                });
             });
 
             periodFactory.get(programId, facilityId, emergency).then(function(response) {
