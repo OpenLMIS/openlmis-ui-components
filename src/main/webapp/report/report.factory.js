@@ -58,6 +58,12 @@
             }).then(function(response) {
                 var items = [];
 
+                // TODO: More reliable way of recognizing paging
+                var data = response.data;
+                if (data.content && data.numberOfElements > 0) {
+                  data = data.content;
+                }
+
                 angular.forEach(response.data, function(obj) {
                     var value = selectProperty ? obj[selectProperty] : obj;
                     var name = displayProperty ? obj[displayProperty] : value;
