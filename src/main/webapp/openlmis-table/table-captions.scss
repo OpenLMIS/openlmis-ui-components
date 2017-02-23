@@ -20,18 +20,6 @@ include:
 table is being modified by a form, the form should be linked by an
 `aria-described-by` attribute._
 
-### Blocking Captions
-
-Blocking captions are only shown if there are no results that are available in
-the table. In this case we only want to show the header of the table and an
-informational message so a user will understand the content they would have
-gotten if there was a result.
-
-Blocking messages should be shown if:
-* A user has not entered any search terms
-* A search query returned no results
-* An error stopped data from being loaded.
-
 <h3>An empty table</h3>
 <table class="openlmis-table">
   <caption>There are no results</caption>
@@ -44,9 +32,34 @@ Blocking messages should be shown if:
       <th>Unit of measure</th>
     </tr>
   </thead>
-  <tbody title="Anti-pyretics">
-    <!-- This is an empty table -->
-  </tbody>
+  <!-- This is an empty table -->
+</table>
+
+### Blocking Captions
+
+Blocking captions are only shown if there are no results that are available in
+the table. In this case we only want to show the header of the table and an
+informational message so a user will understand the content they would have
+gotten if there was a result.
+
+Blocking messages should be shown if:
+* A user has not entered any search terms
+* A search query returned no results
+* An error stopped data from being loaded.
+
+<h3>A table with an error</h3>
+<table class="openlmis-table">
+  <caption class="error">There are no results</caption>
+  <thead>
+    <tr>
+      <th>Fully Supply</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Strength</th>
+      <th>Unit of measure</th>
+    </tr>
+  </thead>
+  <!-- This is an empty table -->
 </table>
 
 Styleguide 4.2

@@ -73,7 +73,7 @@ Tables can have sticky columns to keep important elements within view.
       <th class="sticky">Actions</th>
     </tr>
   </thead>
-  <tbody title="Anti-malarials">
+  <tbody>
     <tr ng-repeat="row in rows">
       <td class="sticky"><input type="checkbox" /></td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>

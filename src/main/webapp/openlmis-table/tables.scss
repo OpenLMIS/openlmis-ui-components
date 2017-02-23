@@ -21,14 +21,6 @@ sub-heading
 * Have an 'on click' action for the entire row, links or buttons may be placed
 in specifc cells
 
-### Groups of Table Rows
-If there are clear categories or sets of rows that should be displayed as a
-group, use a `<tbody>` element to group the items together.
-
-`<tbody>` elements will have their title properties transformed into the first
-row of the table, which will be treated as a title element. See the [tbody-title
-directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
-
 <table>
   <thead>
     <tr>
@@ -40,21 +32,7 @@ directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
       <th></th>
     </tr>
   </thead>
-  <tbody title="Anti-malarials">
-    <tr>
-      <td>
-        <i class="icon-ok"/>
-      </td>
-      <td>P00833</td>
-      <td>Quinine Sulphate</td>
-      <td>300</td>
-      <td>mg</td>
-      <td>
-        <button>Action</button>
-      </td>
-    </tr>
-  </tbody>
-  <tbody title="Anti-pyretics">
+  <tbody>
     <tr>
       <td class="center-justified">
         <i class="icon-ok"/>
@@ -105,6 +83,7 @@ table {
     @extend .table;
     width: auto;
     border-collapse: separate;
+    margin-bottom: 0px;
 
     th:first-child, td:first-child {
         border-left: $table-border;
@@ -138,19 +117,6 @@ table {
         }
     }
 
-    tbody > tr.title:first-child > td{
-        margin: 0px;
-        padding: 0px;
-        background-color: $brand-primary;
-        color: $white;
-        font-weight: bold;
-        text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
-        > div{
-          position: relative;
-          padding: 1em 2em;
-        }
-    }
-
     tbody {
 
         tr.invalid-row td {
@@ -158,22 +124,22 @@ table {
             border-color: darken($red, 20%);
         }
     }
-}
 
-td {
-  > button,
-  > button.primary {
-    display: inline-block;
-    float: none;
-    margin: 0px;
-    border-radius: 0px;
-    &:first-child{
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-    }
-    &:last-child{
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
+  td {
+    > button,
+    > button.primary {
+      display: inline-block;
+      float: none;
+      margin: 0px;
+      border-radius: 0px;
+      &:first-child{
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+      }
+      &:last-child{
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+      }
     }
   }
 }
