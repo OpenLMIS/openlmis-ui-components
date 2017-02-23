@@ -94,6 +94,7 @@
             return vm.requisition.$isAuthorized() ||
                 vm.requisition.$isApproved() ||
                 vm.requisition.$isInApproval() ||
+                vm.requisition.$isReleased() ||
                 vm.lineItem.skipped;
         }
     }

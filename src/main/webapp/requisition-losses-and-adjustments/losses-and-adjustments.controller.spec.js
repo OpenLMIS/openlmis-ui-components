@@ -27,7 +27,7 @@ describe('LossesAndAdjustmentsController', function() {
 
         adjustments = jasmine.createSpyObj('stockAdjustments', ['push', 'indexOf', 'splice']);
         requisition = jasmine.createSpyObj('requisition', [
-            '$stockAdjustmentReasons', '$isAuthorized', '$isApproved', '$isInApproval'
+            '$stockAdjustmentReasons', '$isAuthorized', '$isApproved', '$isInApproval', '$isReleased'
         ]);
         reasons = requisition.$stockAdjustmentReasons;
 
