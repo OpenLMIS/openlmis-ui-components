@@ -33,7 +33,9 @@
 			restrict: 'E',
 			scope: {
 				value: '=',
-				inputId: '@?'
+				inputId: '@?',
+				minDate: '=?',
+				maxDate: '=?'
 			},
 			templateUrl: 'openlmis-form/datepicker.html'
 		};
