@@ -1,4 +1,4 @@
-FROM openlmis/dev-ui
+FROM openlmis/dev-ui:1
 
 WORKDIR /app
 

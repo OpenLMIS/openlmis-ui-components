@@ -1,7 +1,7 @@
 version: "2"
 services:
   requisition-ui:
-    image: openlmis/dev-ui
+    image: openlmis/dev-ui:1
     ports:
       - "9000:9000"
       - "9876:9876"
