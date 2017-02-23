@@ -29,8 +29,7 @@ group, use a `<tbody>` element to group the items together.
 row of the table, which will be treated as a title element. See the [tbody-title
 directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
 
-markup:
-<table class="openlmis-table">
+<table>
   <thead>
     <tr>
       <th>Fully Supply</th>
@@ -102,16 +101,10 @@ Styleguide 4.0
 
 $table-border-color: $gray !default;
 
-table.openlmis-table {
-    border-collapse: separate;
-}
-
-.openlmis-table {
+table {
     @extend .table;
-
-    table {
-        border-collapse: separate;
-    }
+    width: auto;
+    border-collapse: separate;
 
     th:first-child, td:first-child {
         border-left: $table-border;

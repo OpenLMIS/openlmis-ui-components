@@ -3,9 +3,8 @@ Sticky Columns
 
 Tables can have sticky columns to keep important elements within view.
 
-markup:
 <div class="openlmis-table-container">
-<table class="openlmis-table nowrap" ng-init="rows=[
+<table ng-init="rows=[
 {
   'id' : 'c9287c65-67fa-4958-adb6-52069f2b1379',
   'name' : 'Apr2017',

@@ -20,14 +20,14 @@
     /**
      * @ngdoc directive
      * @restrict 'C'
-     * @name openlmis-table.directive:openlmisTable
+     * @name openlmis-table.directive:openlmisTableContainer
      *
      * @description
-     * Checks if the element is table and if so, wraps it in a div to imitate flex behavior.
+     * Checks if there is a single table element with in the container, if so the contents are arranged to meet our custom layout
      */
     angular
         .module('openlmis-table')
-        .directive('openlmisTable', directive);
+        .directive('openlmisTableContainer', directive);
 
     directive.$inject = [];
 
@@ -35,15 +35,14 @@
         var directive = {
             link: link,
             restrict: 'C',
-            replace: false
+            priority: 10
         };
         return directive;
     }
 
     function link(scope, element) {
-        if (element.filter('table').length) {
-            element.removeClass('openlmis-table');
-            element.wrap('<div class="openlmis-table"></div>');
+        if (element.children('table').length == 1) {
+            element.children('table').wrap('<div class="openlmis-flex-table"></div>');
         }
     }
 

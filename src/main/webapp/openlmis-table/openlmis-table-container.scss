@@ -28,7 +28,6 @@ of the items and a form that modifies the rows displayed within the form. Tables
 with container don't have to implement two forms, but *an element that describes
 the current table sort order is recommended.*
 
-markup:
 <h2>Example Items</h2>
 <section class="openlmis-table-container">
   <form id="example-sort-form" class="openlmis-table-controls form-inline">
@@ -56,7 +55,6 @@ markup:
     </fieldset>
     <input class="btn btn-primary" type="submit" value="Search" />
   </form>
-  <div class="openlmis-table">
   <table aria-describedby="example-search-form example-sort-form" >
     <thead>
       <tr>
@@ -108,7 +106,6 @@ markup:
       </tr>
     </tbody>
   </table>
-  </div>
 </section>
 
 Styleguide 4.1
@@ -121,55 +118,30 @@ Styleguide 4.1
     width: 100%;
     overflow: auto;
     flex-wrap: nowrap;
-}
 
-.openlmis-table-controls {
+  > * {
+      flex: 0 0 auto;
+      order: 0;
+      margin: 1em 0.5em;
+      width: $sidebar-width;
+  }
+
+  > .openlmis-flex-table {
+    flex: 1 1 auto;
+    width: auto;
+    overflow: auto;
+    position: relative; // tell JS to calculate offset from here
+  }
+
+  > .openlmis-table-controls {
     display: flex;
     left: 0;
     position: absolute;
     top: 0;
     margin: 0;
     width: inherit;
+  }
+
 }
 
-.openlmis-table {
-    flex: 1 1 auto;
-    padding: 1em 0;
-    overflow: auto;
-    margin: 0;
-    position: relative; // tell JS to calculate offset from here
 
-    & > .openlmis-pagination {
-        position: relative;
-    }
-}
-
-.openlmis-table-filters {
-    flex: 0 0 auto;
-    order: 0;
-    padding: 1em 0.5em 1em 0;
-    width: $sidebar-width;
-
-    & + .openlmis-table {
-        margin-left: 0.5em;
-    }
-}
-
-.openlmis-table {
-    & > table {
-        width: 100%;
-        margin-bottom: 1em;
-    }
-
-    & > .openlmis-pagination {
-        margin-top: 1em;
-    }
-}
-
-button.descending {
-	@include button-icon-only('sort-amount-desc');
-}
-
-button.ascending {
-	@include button-icon-only('sort-amount-asc');
-}

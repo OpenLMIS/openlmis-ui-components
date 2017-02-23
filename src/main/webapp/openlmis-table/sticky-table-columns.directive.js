@@ -31,7 +31,7 @@
      *
      * @example
      * ```
-     * <div class="table-container">
+     * <div class="openlmis-table-container">
      *   <table >
      *     <thead>
      *       <tr>
@@ -56,6 +56,7 @@
 
         return {
             restrict: 'E',
+            priority: 11,
             link: link
         };
 
@@ -64,6 +65,7 @@
             if(element.parents('.openlmis-table-container').length == 0){
                 return ;
             }
+
 
             var parent = element.parent(),
             // Values used by cells to calculate offset...
@@ -74,7 +76,6 @@
             blits = []; // functions that update cell position
 
             // Updates blit array...
-            parent.on('scroll', blit);
             updateStickyElements();
 
             // If there are new items added to the grid, redraw
@@ -101,6 +102,13 @@
             function updateStickyElements(){
                 blits = [];
 
+                if(parent){
+                    parent.off('scroll', blit);
+                }
+
+                parent = element.parent(); // reset incase it changed...
+                parent.on('scroll', blit);
+
                 // Reset DOM Elements
                 var stuckElements = element[0].querySelectorAll('.sticky-added');
                 angular.forEach(stuckElements, function(cell){
@@ -114,14 +122,6 @@
                     cell.addClass('sticky-added');
                     blits.push(setUpCell(cell));
                 });
-
-                // Create blits functions for pagination control
-                var paginationDivsQuery = parent[0].querySelectorAll('.openlmis-pagination');
-                angular.forEach(paginationDivsQuery, function(div) {
-                    div = angular.element(div);
-                    div.addClass('sticky-added');
-                    blits.push(setUpCell(div));
-                })
 
                 blit();
             }
@@ -142,7 +142,7 @@
                 var offset = 0 - element.position().left;
 
                 leftEdge = offset;
-                rightEdge = parentWidth + offset;
+                rightEdge = parentWidth - offset;
 
                 angular.forEach(blits, function(blit){
                     blit(offset);
@@ -192,8 +192,13 @@
                             rightOffset += angular.element(sibling).outerWidth();
                         });
 
+                    // always remove the classes...
+                    cell.removeClass('stuck');
+                    cell.removeClass('stuck-left');
+                    cell.removeClass('stuck-right');
+
                     if(cellOffset + cellWidth > rightEdge - rightOffset){ // if the column is far away on the right...
-                        setPosition(rightEdge - tableWidth);
+                        //setPosition(rightEdge - tableWidth);
                         cell.addClass('stuck');
                         cell.addClass('stuck-right');
                     } else if(cellOffset < leftEdge + leftOffset) {
@@ -202,9 +207,6 @@
                         cell.addClass('stuck-left');
                     } else {
                         setPosition(0);
-                        cell.removeClass('stuck');
-                        cell.removeClass('stuck-left');
-                        cell.removeClass('stuck-right');
                     }
                 }
 

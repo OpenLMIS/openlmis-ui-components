@@ -1,7 +1,7 @@
 <div class="page">
     <h2>{{'label.approve.requisitions' | message}}</h2>
     <div class="openlmis-table-container">
-        <table class="openlmis-table" ng-if="vm.requisitions">
+        <table ng-if="vm.requisitions">
             <caption ng-if="!vm.requisitions.length">
                 {{'message.no.rnr.pending.approval' | message}}
             </caption>

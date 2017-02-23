@@ -4,33 +4,31 @@
 			{{'button.add' | message}}
 		</button>
 	</div>
-	<div class="openlmis-table">
-		<table>
-			<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
-			<thead>
-				<tr>
-					<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
-					<th ng-if="vm.displayDeleteColumn()"></th>
-				</tr>
-			</thead>
-			<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
-				<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
-					<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
-						product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
-					<td ng-if="vm.displayDeleteColumn()">
-						<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
-							<i class="fa fa-remove"></i>
-						</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<openlmis-pagination ng-model="vm.stateParams.page"
-			ng-change="vm.changePage(vm.page)"
-			total-items="vm.getTotalItems()"
-			items="vm.pageItems.length"
-			page-size="vm.stateParams.size"
-			page-validator="vm.isPageValid">
-		</openlmis-pagination>
-	</div>
+	<table>
+		<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
+		<thead>
+			<tr>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
+				<th class="sticky" ng-if="vm.displayDeleteColumn()"></th>
+			</tr>
+		</thead>
+		<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
+			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
+				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
+					product-grid-cell requisition="vm.requisition" column="column" line-item="lineItem"></td>
+				<td class="sticky" ng-if="vm.displayDeleteColumn()">
+					<button class="hide-line-item" ng-click="vm.deleteLineItem(lineItem)" ng-if="lineItem.$deletable">
+						<i class="fa fa-remove"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
+<openlmis-pagination ng-model="vm.stateParams.page"
+	ng-change="vm.changePage(vm.page)"
+	total-items="vm.getTotalItems()"
+	items="vm.pageItems.length"
+	page-size="vm.stateParams.size"
+	page-validator="vm.isPageValid">
+</openlmis-pagination>
