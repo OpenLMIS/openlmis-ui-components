@@ -51,7 +51,7 @@
          */
         function getPage(items, page, size) {
             var pageSize = size ? size : PAGE_SIZE,
-                start = page * pageSize,
+                start = (page ? page : 0) * pageSize,
                 end = Math.min(items.length, start + pageSize);
 
             return start < end ? items.slice(start, end) : [];

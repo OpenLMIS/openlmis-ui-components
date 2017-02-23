@@ -27,7 +27,7 @@
 			showInNavigation: true,
 			isOffline: true,
 			label: 'link.requisition.view',
-			url: '/view?program&facility&initiatedDateFrom&initiatedDateTo&page&pageSize&offline',
+			url: '/view?program&facility&initiatedDateFrom&initiatedDateTo&page&size&offline',
 			controller: 'RequisitionSearchController',
 			templateUrl: 'requisition-search/requisition-search.html',
 			accessRights: [

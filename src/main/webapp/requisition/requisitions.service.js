@@ -31,12 +31,12 @@
     service.$inject = [
         '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory',
         'Requisition', 'confirmService', 'notificationService', 'dateUtils',
-        'localStorageFactory', 'offlineService'
+        'localStorageFactory', 'offlineService', 'paginationFactory', 'PAGE_SIZE'
     ];
 
     function service($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
                                 Requisition, confirmService, notificationService, dateUtils,
-                                localStorageFactory, offlineService) {
+                                localStorageFactory, offlineService, paginationFactory, PAGE_SIZE) {
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
@@ -218,13 +218,20 @@
         function search(offline, searchParams) {
             var deferred = $q.defer();
 
-            if(offline) {
-                var requisitions = offlineRequisitions.search(searchParams, 'requisitionSearch');
-                angular.forEach(requisitions, function(requisition) {
-                    transformRequisition(requisition);
-                    requisition.$searchedOffline = true;
+            if(offline === 'true' || offline === true) {
+                var requisitions = offlineRequisitions.search(searchParams, 'requisitionSearch'),
+                    page = searchParams.page ? parseInt(searchParams.page) : 0,
+                    size = searchParams.size ? parseInt(searchParams.size) : PAGE_SIZE,
+                    items = paginationFactory.getPage(requisitions, page, size);
+
+                angular.forEach(items, transformRequisition);
+
+                deferred.resolve({
+                    content: items,
+                    number: page,
+                    totalElements: requisitions.length,
+                    size: size
                 });
-                deferred.resolve(requisitions);
             } else {
                 return resource.search(searchParams).$promise;
             }
@@ -378,6 +385,9 @@
         }
 
         function transformRequisition(requisition) {
+            if (offlineRequisitions.getBy('id', requisition.id)) {
+                requisition.$availableOffline = true;
+            }
             requisition.createdDate = dateUtils.toDate(requisition.createdDate);
             requisition.processingPeriod.startDate = dateUtils.toDate(requisition.processingPeriod.startDate);
             requisition.processingPeriod.endDate = dateUtils.toDate(requisition.processingPeriod.endDate);

@@ -27,6 +27,7 @@
         'openlmis-local-storage',
         'openlmis-modal',
         'openlmis-offline',
+        'openlmis-pagination',
         'openlmis-rights',
         'openlmis-urls',
         'ui.router'

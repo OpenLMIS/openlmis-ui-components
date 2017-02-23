@@ -61,7 +61,9 @@ describe('RequisitionSearchController', function() {
         var $controllerMock;
 
         beforeEach(function() {
-            $controllerMock = jasmine.createSpy('$controller');
+            $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
+                vm.stateParams = {};
+            });
 
             vm = $controller('RequisitionSearchController', {
                 $controller: $controllerMock,
@@ -71,6 +73,7 @@ describe('RequisitionSearchController', function() {
                 pageSize: pageSize,
                 totalItems: totalItems
             });
+
         });
 
         it('should extend BasePaginationController', function() {
@@ -98,7 +101,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.searchOffline).toEqual(true);
+            expect(vm.stateParams.offline).toEqual(true);
         });
 
         it('should set searchOffline to true if application is in offline mode', function() {
@@ -106,7 +109,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.searchOffline).toEqual(true);
+            expect(vm.stateParams.offline).toEqual(true);
         });
 
         it('should set searchOffline to false if false was passed the URL and application is not in offline mode', function() {
@@ -115,7 +118,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.searchOffline).toEqual(false);
+            expect(vm.stateParams.offline).toEqual(false);
         });
 
         it('should set selectedFacility if facility ID was passed the URL', function() {
@@ -248,7 +251,7 @@ describe('RequisitionSearchController', function() {
         });
 
         it('should set offline', function() {
-            vm.searchOffline = true;
+            vm.stateParams.offline = true;
 
             vm.search();
 
@@ -354,7 +357,7 @@ describe('RequisitionSearchController', function() {
 
             vm.isOfflineDisabled();
 
-            expect(vm.searchOffline).toBe(true);
+            expect(vm.stateParams.offline).toBe(true);
         });
 
         it('should return false if application is online', function() {
@@ -367,17 +370,17 @@ describe('RequisitionSearchController', function() {
 
         it('should not change searchOffline if application is online', function() {
             spyOn(offlineService, 'isOffline').andReturn(false);
-            vm.searchOffline = false;
+            vm.stateParams.offline = false;
 
             vm.isOfflineDisabled();
 
-            expect(vm.searchOffline).toBe(false);
+            expect(vm.stateParams.offline).toBe(false);
 
-            vm.searchOffline = true;
+            vm.stateParams.offline = true;
 
             vm.isOfflineDisabled();
 
-            expect(vm.searchOffline).toBe(true);
+            expect(vm.stateParams.offline).toBe(true);
         });
 
     });
@@ -390,6 +393,7 @@ describe('RequisitionSearchController', function() {
             pageSize: pageSize,
             totalItems: totalItems
         });
+        vm.$onInit();
     }
 
 });

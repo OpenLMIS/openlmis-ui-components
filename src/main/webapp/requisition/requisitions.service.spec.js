@@ -302,7 +302,12 @@ describe('requisitionService', function() {
 
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson([requisitionDto2]));
+        expect(angular.toJson(data)).toEqual(angular.toJson({
+            content: [requisitionDto2],
+            number: 0,
+            totalElements: 1,
+            size: 10
+        }));
         expect(requisitionsStorage.search).toHaveBeenCalledWith(params, 'requisitionSearch');
     });
 

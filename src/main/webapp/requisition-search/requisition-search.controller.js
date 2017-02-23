@@ -134,7 +134,7 @@
             });
 
             vm.facilities = facilities;
-            vm.searchOffline = $stateParams.offline === 'true' || offlineService.isOffline();
+            vm.stateParams.offline = $stateParams.offline === 'true' || offlineService.isOffline();
 
             if ($stateParams.facility) {
                 vm.selectedFacility = $filter('filter')(vm.facilities, {
@@ -169,7 +169,7 @@
          * @return {Boolean} [description]
          */
         function isOfflineDisabled() {
-            if (offlineService.isOffline()) vm.searchOffline = true;
+            if (offlineService.isOffline()) vm.stateParams.offline = true;
             return offlineService.isOffline();
         }
 
@@ -219,7 +219,6 @@
             vm.stateParams.facility = vm.selectedFacility ? vm.selectedFacility.id : null;
             vm.stateParams.initiatedDateFrom = vm.startDate ? vm.startDate.toISOString() : null;
             vm.stateParams.initiatedDateTo = vm.endDate ? vm.endDate.toISOString() : null;
-            vm.stateParams.offline = vm.searchOffline;
             vm.changePage();
         }
     }
