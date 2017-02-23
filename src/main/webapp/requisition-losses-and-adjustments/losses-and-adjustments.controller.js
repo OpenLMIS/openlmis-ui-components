@@ -85,9 +85,9 @@
          * @name isDisabled
          *
          * @description
-         * Checks whether the modal is in disabled state.
+         * Checks whether the modal is in disabled state.git 
          *
-         * @return  {Boolean}   true if requisition is authorize/approved/in approval or line item
+         * @return  {Boolean}   true if requisition is authorize/approved/in approval/released or line item
          *                      is skipped, false otherwise
          */
         function isDisabled() {
