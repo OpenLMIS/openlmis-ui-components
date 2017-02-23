@@ -3,6 +3,13 @@
     display: flex;
     justify-content: space-between;
 
+    > * {
+        flex: 0 0 auto;
+        &:first-child {
+            flex-grow: 1;
+        }
+    }
+
     margin-bottom: $space-size;
     .pagination{
         margin: 0px;
