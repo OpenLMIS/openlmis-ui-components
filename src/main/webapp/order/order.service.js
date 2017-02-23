@@ -35,6 +35,7 @@
         var resource = $resource(fulfillmentUrlFactory('/api/orders'), {}, {
             search: {
                 method: 'GET',
+                isArray: true,
                 transformResponse: transformOrder,
                 url: fulfillmentUrlFactory('/api/orders/search')
             },
@@ -90,7 +91,7 @@
                     order.processingPeriod.startDate = dateUtils.toDate(order.processingPeriod.startDate);
                     order.processingPeriod.endDate = dateUtils.toDate(order.processingPeriod.endDate);
                 });
-                return orders;
+                return orders.content;
             }
             return data;
         }

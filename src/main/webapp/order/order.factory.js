@@ -103,7 +103,7 @@
                     ORDER_STATUS.RECEIVED
                 ]
             }).then(function(orders) {
-                deferred.resolve(orders.content);
+                deferred.resolve(orders);
             });
             return deferred.promise;
         }
