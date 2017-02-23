@@ -19,9 +19,10 @@
 
     angular.module('requisition-search', [
         'openlmis-date',
-        'referencedata-facility',
         'openlmis-modal',
         'openlmis-local-storage',
+        'openlmis-pagination',
+        'referencedata-facility',
         'requisition',
         'requisition-constants',
         'ui.router'

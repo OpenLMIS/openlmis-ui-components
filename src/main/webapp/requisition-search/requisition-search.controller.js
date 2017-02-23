@@ -12,7 +12,6 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 (function() {
 
     'use strict';
@@ -35,21 +34,11 @@
     ];
 
     function RequisitionSearchController($state, $controller, $filter, $stateParams, facilities,
-                                         notificationService, offlineService, localStorageFactory,
-                                         confirmService, items, page, pageSize, totalItems) {
+        notificationService, offlineService, localStorageFactory,
+        confirmService, items, page, pageSize, totalItems) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
-
-        $controller('BasePaginationController', {
-    		vm: vm,
-            items: items,
-    		page: page,
-    		pageSize: pageSize,
-            totalItems: totalItems,
-    		externalPagination: true,
-    		itemValidator: undefined
-    	});
 
         vm.$onInit = onInit;
         vm.search = search;
@@ -134,6 +123,16 @@
          * setting data to be available on the view.
          */
         function onInit() {
+            $controller('BasePaginationController', {
+                vm: vm,
+                items: items,
+                page: page,
+                pageSize: pageSize,
+                totalItems: totalItems,
+                externalPagination: true,
+                itemValidator: undefined
+            });
+
             vm.facilities = facilities;
             vm.searchOffline = $stateParams.offline === 'true' || offlineService.isOffline();
 

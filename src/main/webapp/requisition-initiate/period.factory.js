@@ -62,7 +62,7 @@
             }));
 
             $q.all(promises).then(function(response) {
-                deferred.resolve(getPeriodGridLineItems(response[0], response[1], emergency));
+                deferred.resolve(getPeriodGridLineItems(response[0], response[1].content, emergency));
             }, function() {
                 deferred.reject();
             });
