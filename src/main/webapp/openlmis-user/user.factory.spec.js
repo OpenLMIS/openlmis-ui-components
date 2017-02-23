@@ -15,41 +15,86 @@
 
 describe('userFactory', function() {
 
-    var $rootScope, httpBackend, userFactory,
+    var $rootScope, $httpBackend, userFactory, openlmisUrlFactory, offlineServiceMock, user, localStorageFactoryMock, offlineUserDetails;
+
+    beforeEach(function() {
+        module('openlmis-user', function($provide) {
+            $provide.factory('accessTokenInterceptor', function() {
+                return {};
+            });
+
+            offlineServiceMock = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
+            offlineServiceMock.checkConnection.andCallFake(function() {
+                return $q.when(true);
+            });
+            $provide.service('offlineService', function() {
+                return offlineServiceMock;
+            });
+
+            localStorageFactoryMock = jasmine.createSpy();
+            offlineUserDetails = jasmine.createSpyObj('offlineUserDetails', ['getBy', 'put']);
+            localStorageFactoryMock.andReturn(offlineUserDetails);
+            $provide.factory('localStorageFactory', function() {
+                return localStorageFactoryMock;
+            });
+        });
+
+        inject(function(_$httpBackend_, _$rootScope_, _userFactory_, _openlmisUrlFactory_, _$q_) {
+            $httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            userFactory = _userFactory_;
+            openlmisUrlFactory = _openlmisUrlFactory_;
+            $q = _$q_;
+        });
+
         user = {
             id: '1',
             firstName: 'fname',
             lastName: 'lname',
             email: 'email@olmis.com'
         };
+    });
 
-    beforeEach(module('openlmis-user'));
+    it('should call offline storage factory', function() {
+        expect(localStorageFactoryMock).toHaveBeenCalledWith('offlineUserDetails');
+    });
 
-    beforeEach(module(function($provide){
-        // Turn off AuthToken
-        $provide.factory('accessTokenInterceptor', function(){
-          return {};
-        });
-    }));
+    describe('get', function() {
 
-    beforeEach(inject(function(_$httpBackend_, _$rootScope_, _userFactory_, openlmisUrlFactory) {
-        httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-        userFactory = _userFactory_;
-
-        httpBackend.when('GET', openlmisUrlFactory('/api/users/' + user.id))
-        .respond(200, user);
-    }));
-
-    it('should get user by id', function() {
         var data;
-        userFactory.get(user.id).$promise.then(function(response) {
-            data = response;
+
+        beforeEach(function() {
+            offlineUserDetails.getBy.andReturn('user');
+            $httpBackend.when('GET', openlmisUrlFactory('/api/users/' + user.id))
+            .respond(200, user);
         });
 
-        httpBackend.flush();
-        $rootScope.$apply();
+        it('should get user by id while online', function() {
 
-        expect(angular.toJson(data)).toEqual(angular.toJson(user));
+            offlineServiceMock.isOffline.andReturn(false);
+
+            userFactory.get(user.id).then(function(response) {
+                data = response;
+            });
+
+            $httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(angular.toJson(data)).toEqual(angular.toJson(user));
+        });
+
+        it('should get user from local storage while offline', function() {
+
+            offlineServiceMock.isOffline.andReturn(true);
+
+            userFactory.get(user.id).then(function(response) {
+                data = response;
+            });
+
+            $rootScope.$apply();
+
+            expect(offlineUserDetails.getBy).toHaveBeenCalledWith('id', user.id);
+            expect(data).toEqual('user');
+        });
     });
 });

@@ -21,7 +21,6 @@ describe('facilityFactory', function() {
     beforeEach(function() {
         module('referencedata-facility', function($provide){
             programService = jasmine.createSpyObj('programService', ['getUserPrograms']);
-
             $provide.factory('programService', function() {
                 return programService;
             });
@@ -30,16 +29,20 @@ describe('facilityFactory', function() {
                 'getUserSupervisedFacilities',
                 'getFulfillmentFacilities'
             ]);
-
             $provide.factory('facilityService', function() {
                 return facilityService;
+            });
+
+            authorizationService = jasmine.createSpyObj('authorizationService', ['getDetailedUser', 'getRightByName', 'isAuthenticated']);
+            authorizationService.isAuthenticated.andReturn(true);
+            $provide.factory('authorizationService', function() {
+                return authorizationService;
             });
         });
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
-            authorizationService = $injector.get('authorizationService');
             facilityFactory = $injector.get('facilityFactory');
             REQUISITION_RIGHTS = $injector.get('REQUISITION_RIGHTS');
             FULFILLMENT_RIGHTS = $injector.get('FULFILLMENT_RIGHTS');
@@ -70,7 +73,7 @@ describe('facilityFactory', function() {
         var data,
             userId = '1';
 
-        spyOn(authorizationService, 'getRightByName').andReturn({id: '1'});
+        authorizationService.getRightByName.andReturn({id: '1'});
         programService.getUserPrograms.andCallFake(function() {
             return $q.when(userPrograms);
         });
@@ -106,7 +109,7 @@ describe('facilityFactory', function() {
                 createFacility('facility-three', 'facilityThree')
             ];
 
-            spyOn(authorizationService, 'getRightByName').andCallFake(function(name) {
+            authorizationService.getRightByName.andCallFake(function(name) {
                 if (name === FULFILLMENT_RIGHTS.ORDERS_VIEW) return {
                     id: 'orders-view-id'
                 };
@@ -156,8 +159,14 @@ describe('facilityFactory', function() {
     });
 
     describe('getUserHomeFacility', function() {
+
+        beforeEach(function() {
+            authorizationService.getDetailedUser.andCallFake(function() {
+                return $q.when(true);
+            });
+        });
+
         it('should fetch home facility for the current user', function() {
-            spyOn(authorizationService, 'getDetailedUser').andCallThrough();
             facilityFactory.getUserHomeFacility();
 
             expect(authorizationService.getDetailedUser).toHaveBeenCalled();
@@ -169,7 +178,7 @@ describe('facilityFactory', function() {
             rightId = 'right-id';
 
         beforeEach(function() {
-            spyOn(authorizationService, 'getRightByName').andCallFake(function(rightName) {
+            authorizationService.getRightByName.andCallFake(function(rightName) {
                 if (rightName === REQUISITION_RIGHTS.REQUISITION_CREATE) {
                     return {id: rightId};
                 }

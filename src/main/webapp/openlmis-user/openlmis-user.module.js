@@ -19,6 +19,8 @@
 
     angular.module('openlmis-user', [
         'ngResource',
+        'openlmis-local-storage',
+        'openlmis-offline',
         'openlmis-urls',
         'ui.router'
     ]);

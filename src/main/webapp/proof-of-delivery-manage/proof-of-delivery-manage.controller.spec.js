@@ -17,7 +17,7 @@ describe('ProofOfDeliveryManageController', function() {
 
     var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, right, programs,
         facility, user, deferred, orders, facilityService, authorizationService,
-        offlineServiceMock, pod, $state;
+        offlineServiceMock, pod, $state, $q;
 
     beforeEach(function() {
 
@@ -49,6 +49,7 @@ describe('ProofOfDeliveryManageController', function() {
             orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search', 'getPod', 'searchOrdersForManagePod']);
             loadingModalServiceMock = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
             offlineServiceMock = jasmine.createSpyObj('offlineService', ['checkConnection', 'isOffline']);
+            offlineServiceMock.checkConnection.andCallFake(checkConnection);
 
             $provide.factory('orderFactory', function() {
                 return orderFactoryMock;
@@ -66,7 +67,8 @@ describe('ProofOfDeliveryManageController', function() {
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
-            deferred = $injector.get('$q').defer();
+            $q = $injector.get('$q');
+            deferred = $q.defer();
             $state = $injector.get('$state');
             facilityService = $injector.get('facilityService');
             authorizationService = $injector.get('authorizationService');
@@ -195,4 +197,8 @@ function createOrder(id, status) {
         id: id,
         status: status
     };
+}
+
+function checkConnection() {
+    return $q.when(true);
 }

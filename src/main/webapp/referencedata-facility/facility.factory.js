@@ -156,7 +156,7 @@
         function getUserHomeFacility() {
             var deferred = $q.defer();
 
-            authorizationService.getDetailedUser().$promise.then(function(response) {
+            authorizationService.getDetailedUser().then(function(response) {
                 deferred.resolve(response.homeFacility);
             }, function() {
                 deferred.reject();

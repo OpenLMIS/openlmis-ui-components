@@ -28,16 +28,18 @@
         .module('openlmis-user')
         .factory('userFactory', factory);
 
-    factory.$inject = ['openlmisUrlFactory', '$resource'];
+    factory.$inject = ['openlmisUrlFactory', '$resource', '$q', '$injector', 'localStorageFactory'];
 
-    function factory(openlmisUrlFactory, $resource) {
+    function factory(openlmisUrlFactory, $resource, $q, $injector, localStorageFactory) {
 
-        var resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
-            'update': {
-                url: openlmisUrlFactory('/api/users/update/:id'),
-                method: 'POST'
-            }
-        });
+        var offlineService = $injector.get('offlineService'),
+            offlineUserDetails = localStorageFactory('offlineUserDetails'),
+            resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
+                'update': {
+                    url: openlmisUrlFactory('/api/users/update/:id'),
+                    method: 'POST'
+                }
+            });
 
         var factory = {
             get: get
@@ -57,7 +59,20 @@
          * @returns {Resource}      User info
          */
         function get(id) {
-            return resource.get({id: id});
+            var deferred = $q.defer();
+
+            if(offlineService.isOffline()) {
+                deferred.resolve(offlineUserDetails.getBy('id', id));
+            } else {
+                resource.get({id: id}).$promise.then(function(response) {
+                    offlineUserDetails.put(response);
+                    deferred.resolve(response);
+                }, function() {
+                    deferred.reject();
+                });
+            }
+
+            return deferred.promise;
         }
     }
 

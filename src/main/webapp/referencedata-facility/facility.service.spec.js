@@ -16,7 +16,7 @@
 describe('facilityService', function() {
 
     var $rootScope, $httpBackend, referencedataUrlFactory, facilityService, offlineService,
-        facilitiesStorage, facilityOne, facilityTwo;
+        facilitiesStorage, facilityOne, facilityTwo, $q;
 
     beforeEach(function() {
         module('referencedata-facility', function($provide){
@@ -29,7 +29,8 @@ describe('facilityService', function() {
                 return localStorageFactorySpy;
             });
 
-            offlineService = jasmine.createSpyObj('offlineService', ['isOffline']);
+            offlineService = jasmine.createSpyObj('offlineService', ['isOffline', 'checkConnection']);
+            offlineService.checkConnection.andCallFake(checkConnection);
             $provide.service('offlineService', function() {
                 return offlineService;
             });
@@ -37,6 +38,7 @@ describe('facilityService', function() {
         });
 
         inject(function($injector) {
+            $q = $injector.get('$q');
             $httpBackend = $injector.get('$httpBackend');
             $rootScope = $injector.get('$rootScope');
             referencedataUrlFactory = $injector.get('referencedataUrlFactory');
@@ -220,3 +222,7 @@ describe('facilityService', function() {
     });
 
 });
+
+function checkConnection() {
+    return $q.when(true);
+}
