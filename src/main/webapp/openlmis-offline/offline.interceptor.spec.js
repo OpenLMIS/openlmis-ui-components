@@ -86,5 +86,22 @@ describe('offlineInterceptor', function() {
             $rootScope.$apply();
             expect(isResolved).toBe(true);
         });
+
+        it('should pass through .html urls', function() {
+
+            var isResolved = false;
+            config = {
+                url: 'some.html'
+            };
+
+            returnedConfig = provider.request(config);
+
+            returnedConfig.timeout.then(function() {
+                isResolved = true;
+            });
+            $rootScope.$apply();
+
+            expect(isResolved).toBe(false);
+        });
     });
 });

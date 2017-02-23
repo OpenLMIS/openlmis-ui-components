@@ -61,7 +61,7 @@
             var canceler = $q.defer();
             config.timeout = canceler.promise;
 
-            if(offlineService.isOffline()) {
+            if(offlineService.isOffline() && config.url.indexOf('.html') < 0) {
 
                 if(canDisplayModal) {
                     canDisplayModal = false;
