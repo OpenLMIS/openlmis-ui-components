@@ -1,4 +1,3 @@
-
 /*
 Forms
 
@@ -34,10 +33,10 @@ Input-level messages are shown below the input element that has an error. All
 error messages must use ARIA labels so they are associated with the input
 element.
 
-markup:
 <form>
 	<!-- Form headings should be an appropriate heading level -->
-	<h3>Example form elements</h3>
+	<h3>Full Example Form</h3>
+  <p>To see details and exceptions, please see other form styleguide sections.</p>
 	<label for="exampleTextInput" >Example text input</label>
 	<input id="exampleTextInput" type="text" required />
   <label for="disabledTextInput" >Disabled text input</label>
@@ -88,7 +87,6 @@ markup:
 </form>
 
 Styleguide 3.0
-
 */
 
 form {
@@ -174,27 +172,6 @@ form {
   > select,
   > textarea {
     outline: none;
-  }
-
-  input[type="text"],
-  input[type="password"],
-  input[type="number"],
-  select,
-  textarea {
-    padding: 0.5em;
-    border-color: $light-gray;
-    border-style: solid;
-    border-radius: $border-radius;
-    box-shadow: inset 0 0 0.5em $light-gray;
-    &:focus {
-      border-color: $brand-primary;
-      box-shadow: inset 0 0 0.5em $brand-primary;
-    }
-    &:disabled {
-      box-shadow: 0 0 0 $light-gray;
-      background-color: $light-gray;
-      color: $gray;
-    }
   }
 }
 

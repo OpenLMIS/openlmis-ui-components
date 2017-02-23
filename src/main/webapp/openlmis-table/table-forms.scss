@@ -1,0 +1,84 @@
+/*
+Table Forms
+
+When tables contain form control elements - such as inputs, selects, or checkboxes -
+they should adhere to the following conventions.
+
+* Form control elements that are the only item should be flush with the table cell
+* Labels for single elements should be hidden (but still entered for accessibility)
+* Any table cells with more than one form control element should use a fieldset
+
+Ideally a table element would be surrounded by a form as the example shows, but
+that is not nessicarry.
+
+<h3>Example Table Form</h3>
+<form>
+  <table class="openlmis-table">
+    <caption>There are no results</caption>
+    <thead>
+      <tr>
+        <th>Skip</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Strength</th>
+        <th>Unit of measure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-class="{'is-disabled': tableFormSkip}">
+        <td>
+          <label class="checkbox">
+            <input type="checkbox" ng-model="tableFormSkip" />
+            Skip item
+          </label>
+        </td>
+        <td>
+          <label for="inputCode">Item Code</label>
+          <input id="inputCode" type="text" value="sampleValue" required ng-disabled="tableFormSkip" />
+        </td>
+        <td>
+          <label for="inputName">Item Name</label>
+          <input id="inputName" type="text" ng-disabled="tableFormSkip" />
+        </td>
+        <td>
+          <label for="inputStrength">Item Strength</label>
+          <input id="inputStrength" type="number" required ng-disabled="tableFormSkip" />
+        </td>
+        <td>
+          <label for="inputUnit">Item unit of measure</label>
+          <select id="inputUnit" required ng-disabled="tableFormSkip" >
+            <option value="kg">Kilograms</option>
+            <option value="g">Grams</option>
+            <option value="mg">Milligrams</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <input type="submit" value="Save" />
+</form>
+
+Styleguide 4.5
+*/
+
+table td.form-control {
+  display: table-cell;
+  width: auto;
+  border-radius: 0px;
+  > label{
+    position: absolute;
+    top: -100em;
+  }
+  > input[type="text"],
+  > input[type="password"],
+  > input[type="number"],
+  > select {
+    border-radius: 0px;
+    border-width: 0px;
+    box-shadow: inset 0 0 0em $light-gray;
+    &:focus,
+    &:disabled {
+      box-shadow: inset 0 0 0em $light-gray;
+    }
+  }
+}

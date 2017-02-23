@@ -1,0 +1,53 @@
+/*
+Form Controls
+
+Individual form controls have different layouts. Form controls should be used
+within a form with a proper label, but that might not always happen...
+
+Like Bootstrap, we use `.form-control` to style elements and use sass to extend
+those styles across the application.
+
+markup:
+<form>
+	<label for="exampleTextFormControl" >Example text input</label>
+	<input id="exampleTextFormControl" type="text" required />
+	<label for="disabledTextFormControl" >Disabled text input</label>
+	<input id="disabledTextFormControl" type="text" disabled value="Disabled" />
+	<label for="exampleNumberFormControl" >Example number input</label>
+	<input id="exampleNumberFormControl" type="number" required />
+	<label for="examplePasswordFormControl" >Example password input</label>
+	<input id="examplePasswordFormControl" type="password" required />
+	<label id="exampleTextareaFormControl">Textarea</label>
+	<textarea for="exampleTextareaFormControl" required></textarea>
+</form>
+
+Styleguide 3.3
+*/
+
+.form-control{
+	padding: 0.5em;
+	border-color: $light-gray;
+	border-style: solid;
+	border-radius: $border-radius;
+	box-shadow: inset 0 0 0.5em $light-gray;
+	&:focus,
+	&.is-focused {
+	  border-color: $brand-primary;
+	  box-shadow: inset 0 0 0.5em $brand-primary;
+	}
+	&:disabled,
+	&.is-disabled {
+	  box-shadow: 0 0 0 $light-gray;
+	  background-color: $light-gray;
+	  color: $gray;
+	}
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select,
+textarea{
+	@extend .form-control;
+}
+

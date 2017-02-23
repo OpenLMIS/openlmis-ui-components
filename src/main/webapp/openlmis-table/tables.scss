@@ -77,7 +77,8 @@ in specifc cells
 Styleguide 4.0
 */
 
-$table-border-color: $gray !default;
+$table-border-color: $light-gray !default;
+$table-border: 1px $table-border-color solid !important; // this important is needed to override borders from inherited
 
 table {
     @extend .table;
@@ -92,9 +93,12 @@ table {
     td, th {
       @extend .clearfix;
       padding: 0.5em;
+      position: relative;
+      overflow: hidden;
       white-space: nowrap;
       vertical-align: middle !important; // from requisition template screen
       border-top: none !important;
+      border-left: none !important;
       border-bottom: $table-border;
       border-right: $table-border;
     }
