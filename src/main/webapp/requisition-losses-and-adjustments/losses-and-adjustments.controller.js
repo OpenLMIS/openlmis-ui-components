@@ -85,7 +85,7 @@
          * @name isDisabled
          *
          * @description
-         * Checks whether the modal is in disabled state.git 
+         * Checks whether the modal is in disabled state.
          *
          * @return  {Boolean}   true if requisition is authorize/approved/in approval/released or line item
          *                      is skipped, false otherwise
