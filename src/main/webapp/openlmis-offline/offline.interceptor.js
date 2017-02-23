@@ -56,13 +56,14 @@
          *
          * @description
          * Cancels request if user is offline and displays alert modal with proper message.
+         * Passes all HTML calls.
          */
         function request(config) {
             var canceler = $q.defer();
             config.timeout = canceler.promise;
 
-            if(offlineService.isOffline() && config.url.indexOf('.html') < 0) {
-
+            if(offlineService.isOffline() && config.url.indexOf('.html') < 0) { // checks if calls for html file from cache
+                                                                                // because all of them are getting into that method
                 if(canDisplayModal) {
                     canDisplayModal = false;
                     $injector.get('alertService').error('error.actionNotAllowedOffline').then(function() {
