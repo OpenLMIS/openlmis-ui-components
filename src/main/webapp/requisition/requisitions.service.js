@@ -54,7 +54,8 @@
             },
             'search': {
                 url: requisitionUrlFactory('/api/requisitions/search'),
-                method: 'GET'
+                method: 'GET',
+                transformResponse: transformRequisitionSearchResponse
             },
             'forApproval': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForApproval'),
@@ -342,6 +343,13 @@
                 if (response.processingPeriod.endDate) {
                     response.processingPeriod.endDate = dateUtils.toDate(response.processingPeriod.endDate);
                 }
+                return response;
+            });
+        }
+
+        function transformRequisitionSearchResponse(data, headers, status) {
+            return transformResponse(data, status, function(response) {
+                angular.forEach(response.content, transformRequisition);
                 return response;
             });
         }

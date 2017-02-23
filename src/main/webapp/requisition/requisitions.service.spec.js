@@ -227,7 +227,7 @@ describe('requisitionService', function() {
         expect(callback).toHaveBeenCalled();
     });
 
-    /**it('should search requisitions with all params', function() {
+    it('should search requisitions with all params', function() {
         var data,
             params = {
                 facility: facility.id,
@@ -255,7 +255,11 @@ describe('requisitionService', function() {
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson([requisitionCopy]));
+        expect(angular.toJson(data)).toEqual(angular.toJson({
+            content: [
+                requisitionCopy
+            ]
+        }));
     });
 
     it('should search requisitions only with facility paramter', function() {
@@ -277,7 +281,11 @@ describe('requisitionService', function() {
         httpBackend.flush();
         $rootScope.$apply();
 
-        expect(angular.toJson(data)).toEqual(angular.toJson([requisitionCopy]));
+        expect(angular.toJson(data)).toEqual(angular.toJson({
+            content: [
+                requisitionCopy
+            ]
+        }));
     });
 
     it('should search requisitions offline', function() {
@@ -296,7 +304,7 @@ describe('requisitionService', function() {
 
         expect(angular.toJson(data)).toEqual(angular.toJson([requisitionDto2]));
         expect(requisitionsStorage.search).toHaveBeenCalledWith(params, 'requisitionSearch');
-    });*/
+    });
 
     function formatDatesInRequisition(requisition) {
         requisition.processingPeriod.processingSchedule.modifiedDate = dateUtils.toDate(requisition.processingPeriod.processingSchedule.modifiedDate);
