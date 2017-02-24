@@ -46,7 +46,8 @@
             validateLineItem: validateLineItem,
             validateLineItemField: validateLineItemField,
             isLineItemValid: isLineItemValid,
-            areLineItemsValid: areLineItemsValid
+            areLineItemsValid: areLineItemsValid,
+            areAllLineItemsSkipped: areAllLineItemsSkipped
         };
         return validator;
 
@@ -210,6 +211,17 @@
 
         function isCalculated(column) {
             return column.source === COLUMN_SOURCES.CALCULATED;
+        }
+
+        function areAllLineItemsSkipped(lineItems) {
+            var allSkipped = true;
+            lineItems.forEach(function(lineItem) {
+                if (!lineItem.skipped) {
+                    allSkipped = false;
+                    return;
+                }
+            });
+            return allSkipped;
         }
     }
 

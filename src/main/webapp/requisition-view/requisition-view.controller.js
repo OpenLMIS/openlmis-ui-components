@@ -138,14 +138,18 @@
             confirmService.confirm('msg.question.confirmation.submit', 'button.submit').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
-                    vm.requisition.$save().then(function() {
-                        vm.requisition.$submit().then(function(response) {
-                            loadingPromise.then(function() {
-                                notificationService.success('msg.requisitionSubmitted');
-                            });
-                            reloadState();
-                        }, failWithMessage('msg.failedToSubmitRequisition'));
-                    }, failWithMessage('msg.failedToSyncRequisition'));
+                    if (!requisitionValidator.areAllLineItemsSkipped(requisition.requisitionLineItems)) {
+                        vm.requisition.$save().then(function () {
+                            vm.requisition.$submit().then(function (response) {
+                                loadingPromise.then(function () {
+                                    notificationService.success('msg.requisitionSubmitted');
+                                });
+                                reloadState();
+                            }, failWithMessage('msg.failedToSubmitRequisition'));
+                        }, failWithMessage('msg.failedToSyncRequisition'));
+                    } else {
+                        failWithMessage('error.rnr.validation.submit.allLineItemsSkipped')();
+                    }
                 } else {
                     failWithMessage('error.rnr.validation')();
                 }
@@ -171,14 +175,18 @@
             confirmService.confirm('msg.question.confirmation.authorize', 'button.authorize').then(function() {
                 if (requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
-                    vm.requisition.$save().then(function() {
-                        vm.requisition.$authorize().then(function(response) {
-                            loadingPromise.then(function() {
-                                notificationService.success('msg.requisitionAuthorized');
-                            });
-                            reloadState();
-                        }, failWithMessage('msg.failedToAuthorizeRequisition'));
-                    }, failWithMessage('msg.failedToSyncRequisition'));
+                    if (!requisitionValidator.areAllLineItemsSkipped(requisition.requisitionLineItems)) {
+                        vm.requisition.$save().then(function () {
+                            vm.requisition.$authorize().then(function (response) {
+                                loadingPromise.then(function () {
+                                    notificationService.success('msg.requisitionAuthorized');
+                                });
+                                reloadState();
+                            }, failWithMessage('msg.failedToAuthorizeRequisition'));
+                        }, failWithMessage('msg.failedToSyncRequisition'));
+                    } else {
+                        failWithMessage('error.rnr.validation.authorize.allLineItemsSkipped');
+                    }
                 } else {
                     failWithMessage('error.rnr.validation');
                 }

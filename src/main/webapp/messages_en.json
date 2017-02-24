@@ -58,6 +58,8 @@
   "error.required": "This field is required",
   "error.requisition.not.initiated": "Requisition not yet initiated",
   "error.rnr.validation": "R&R has errors, please correct them to proceed.",
+  "error.rnr.validation.submit.allLineItemsSkipped": "Cannot submit requisition with all line items skipped.",
+  "error.rnr.validation.authorize.allLineItemsSkipped": "Cannot authorize requisition with all line items skipped.",
   "error.podInvalid": "Proof of Delivery is invalid!",
   "error.tooManyCharacters": "Too many characters",
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",
