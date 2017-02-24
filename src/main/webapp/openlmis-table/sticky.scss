@@ -51,4 +51,23 @@ tr.title > td > div  {
     position: relative;
   	z-index: 1;
   }
+  &.stuck:after{
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+    width: $space-size/4;
+    height: 100%;
+    background: transparent;
+    
+  }
+  &.stuck-left:after{
+    right: $space-size/4 * -1;
+    background-image: linear-gradient(to right, $light-gray, transparent);
+  }
+  &.stuck-right:after{
+    left: $space-size/4 * -1;
+    background-image: linear-gradient(to left, $light-gray, transparent);
+  }
 }

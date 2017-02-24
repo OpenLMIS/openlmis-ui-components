@@ -14,7 +14,6 @@ that is not nessicarry.
 <h3>Example Table Form</h3>
 <form>
   <table class="openlmis-table">
-    <caption>There are no results</caption>
     <thead>
       <tr>
         <th>Skip</th>
@@ -66,8 +65,15 @@ td.form-control {
   width: auto;
   border-radius: 0px;
   > label{
+    display: block;
+    height:0px;
+    width: 0px;
+    overflow: hidden;
     position: absolute;
-    top: -100em;
+    top: 0px;
+    left: 0px;
+    margin:0px;
+    padding: 0px;
   }
   > input[type="text"],
   > input[type="password"],

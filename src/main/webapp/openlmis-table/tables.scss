@@ -127,10 +127,8 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
     }
 
     td, th {
-      @extend .clearfix;
       padding: 0.5em;
       position: relative;
-      overflow: hidden;
       white-space: nowrap;
       vertical-align: middle !important; // from requisition template screen
       border-top: none !important;
