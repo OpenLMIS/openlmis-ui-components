@@ -22,7 +22,7 @@
     * @name admin-template.ALPHA_NUMERIC_REGEX
     *
     * @description
-    * This is constant for alpha numeric regex
+    * This is constant for alpha numeric regex.
     */
     angular
         .module('admin-template')

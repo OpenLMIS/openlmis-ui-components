@@ -41,8 +41,7 @@
         this.success = success;
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name warning
          * @methodOf openlmis-modal.alertService
          *
@@ -58,7 +57,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name error
          * @methodOf openlmis-modal.alertService
          *
@@ -72,7 +71,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name success
          * @methodOf openlmis-modal.alertService
          *

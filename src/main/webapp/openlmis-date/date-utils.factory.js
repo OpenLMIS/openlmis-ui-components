@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-date.dateUtils
+     *
+     * @description
+     * Responsible for retrieving dates.
+     */
     angular
         .module('openlmis-date')
         .factory('dateUtils', dateUtils);
@@ -32,6 +39,14 @@
         };
         return factory;
 
+        /**
+         * @ngdoc method
+         * @name toDate
+         * @methodOf openlmis-date.dateUtils
+         *
+         * @description
+         * Transforms dates from array to Date.
+         */
         function toDate(array) {
             if (!array) return undefined;
             if(!angular.isArray(array)) return fromISOString(array); // when date is ISO string, not array
@@ -51,6 +66,14 @@
             return date;
         }
 
+        /**
+         * @ngdoc method
+         * @name toArray
+         * @methodOf openlmis-date.dateUtils
+         *
+         * @description
+         * Transforms dates from Date to array.
+         */
         function toArray(date, includeTime) {
             var array = [];
             array.push(date.getFullYear());
@@ -64,6 +87,14 @@
             return array;
         }
 
+        /**
+         * @ngdoc method
+         * @name toStringDate
+         * @methodOf openlmis-date.dateUtils
+         *
+         * @description
+         * Transforms dates from Date to string.
+         */
         function toStringDate(date) {
             return $filter('date')(date, 'yyyy-MM-dd');
         }

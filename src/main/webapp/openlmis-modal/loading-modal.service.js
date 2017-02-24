@@ -18,19 +18,17 @@
 
     'use strict';
 
-    angular.module('openlmis-modal')
-      .service('loadingModalService', LoadingModal);
-
     /**
      * @ngdoc service
      * @name  openlmis-modal.loadingModalService
      *
      * @description
-     *
      * Will show and hide a loading modal that will block the UI and show a simple loading symbol.
-     *
      */
-     LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
+    angular.module('openlmis-modal')
+      .service('loadingModalService', LoadingModal);
+
+    LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
     function LoadingModal($q, $timeout, bootbox, messageService) {
         var dialog, timeoutPromise, deferred;
 
@@ -40,13 +38,12 @@
         };
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name open
          * @methodOf openlmis-modal.loadingModalService
          *
          * @description Shows the loading modal after a half second delay.
          */
-
         function showModal(delay) {
             if (deferred) {
                 return deferred.promise;
@@ -67,13 +64,12 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name close
          * @methodOf openlmis-modal.loadingModalService
          *
          * @description Hides the loading modal OR cancels the promise that was showing the modal.
          */
-
         function hideModal(){
             if(timeoutPromise){
                 $timeout.cancel(timeoutPromise);

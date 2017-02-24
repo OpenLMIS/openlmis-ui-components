@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-forgot-password
+     *
+     * @description
+     * Provides base openlmis-forgot-password state and controller to handle situation when user
+     * forgot his password.
+     */
     angular.module('openlmis-forgot-password', [
         'openlmis-login',
         'openlmis-modal'

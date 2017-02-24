@@ -21,7 +21,7 @@
     * @name openlmis-config.jQuery
     *
     * @description
-    * This is constant for jQuery
+    * This is constant for jQuery.
     */
 	angular.module('openlmis-config')
 	.constant('jQuery', jQuery);

@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-i18n.messageService
+     *
+     * @description
+     * Responsible for retrieving messages.
+     */
     angular
         .module('openlmis-i18n')
         .factory('messageService', messageService);
@@ -36,10 +43,29 @@
 
         return service;
 
+        /**
+         * @ngdoc method
+         * @name getCurrentLocale
+         * @methodOf openlmis-i18n.messageService
+         *
+         * @description
+         * Returns current locale.
+         */
         function getCurrentLocale() {
             return localStorageService.get(LOCALE_STORAGE_KEY);
         }
 
+        /**
+         * @ngdoc method
+         * @name populate
+         * @methodOf openlmis-i18n.messageService
+         *
+         * @description
+         * Returns current locale.
+         *
+         * @param {String} locale locale to populate
+         * @return {Promise} Promise
+         */
         function populate (locale) {
             if(!locale) locale = DEFAULT_LANGUAGE;
 
@@ -53,6 +79,14 @@
             }
         };
 
+        /**
+         * @ngdoc method
+         * @name get
+         * @methodOf openlmis-i18n.messageService
+         *
+         * @description
+         * Returns message for current locale.
+         */
         function get () {
             var keyWithArgs = Array.prototype.slice.call(arguments);
             var displayMessage = keyWithArgs[0];

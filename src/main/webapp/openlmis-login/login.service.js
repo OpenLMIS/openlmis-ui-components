@@ -45,7 +45,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name login
          * @methodOf openlmis-login.loginService
          *
@@ -123,7 +123,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name logout
          * @methodOf openlmis-login.loginService
          *
@@ -220,7 +220,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name forgotPassword
          * @methodOf openlmis-login.loginService
          *
@@ -243,7 +243,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name changePassword
          * @methodOf openlmis-login.loginService
          *

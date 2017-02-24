@@ -17,14 +17,12 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name openlmis-modal.notificationService
+     *
      * @description
      * Service allows to display info/error/success notification element that expires after short period with custom message.
-     *
      */
-
     angular.module('openlmis-modal')
         .service('notificationService', service);
 
@@ -43,46 +41,42 @@
         this.error = error;
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name success
          * @methodOf openlmis-modal.notificationService
-         * @param {String} successMessage success message to display
          *
          * @description
          * Shows success message element with custom message and return promise.
          *
+         * @param {String} successMessage success message to display
          */
         function success(successMessage) {
             return showMessage(successMessage, 'alert-success', 'glyphicon-ok-sign');
         }
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name error
          * @methodOf openlmis-modal.notificationService
-         * @param {String} errorMessage info message to display
          *
          * @description
          * Shows error message element with custom message and return promise.
          *
+         * @param {String} errorMessage info message to display
          */
         function error(errorMessage) {
             return showMessage(errorMessage, 'alert-danger', 'glyphicon-remove-sign');
         }
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name info
          * @methodOf openlmis-modal.notificationService
-         * @param {String} infoMessage info message to display
          *
          * @description
          * Shows info message element with custom message and return promise.
          *
-         *
+         * @param {String} infoMessage info message to display
          */
         function info(infoMessage) {
             return showMessage(infoMessage, 'alert-info', 'glyphicon-info-sign');

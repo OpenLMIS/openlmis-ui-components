@@ -39,7 +39,7 @@
         this.getCurrencySettingsFromConfig = getCurrencySettingsFromConfig;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getCurrencySettings
          * @methodOf openlmis-currency.currencyService
          *
@@ -69,7 +69,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getCurrencySettingsFromConfig
          * @methodOf openlmis-currency.currencyService
          *
@@ -90,7 +90,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name get
          * @methodOf openlmis-currency.currencyService
          *

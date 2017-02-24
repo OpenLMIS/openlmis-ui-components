@@ -17,6 +17,13 @@
 (function(){
     "use strict";
 
+    /**
+     * @ngdoc controller
+     * @name openlmis-locale.controller:LocaleController
+     *
+     * @description
+     * Controller that drives locale.
+     */
     angular.module('openlmis-locale')
         .controller('LocaleController', LocaleController);
 
@@ -38,6 +45,16 @@
             messageService.populate();
         }
 
+        /**
+         * @ngdoc method
+         * @name changeLocale
+         * @methodOf openlmis-locale.controller:LocaleController
+         *
+         * @description
+         * Changes locale to selected.
+         *
+         * @param {String} localeKey key of locale which user want to change to
+         */
         function changeLocale (localeKey) {
             if(localeKey) {
                 messageService.populate(localeKey)
@@ -47,6 +64,17 @@
             }
         }
 
+        /**
+         * @ngdoc method
+         * @name getLocaleName
+         * @methodOf openlmis-locale.controller:LocaleController
+         *
+         * @description
+         * Get locale by name.
+         *
+         * @param {String} key  key of locale
+         * @return              locale name
+         */
         function getLocaleName(key){
             if(OPENLMIS_LANGUAGES[key]){
                 return OPENLMIS_LANGUAGES[key];

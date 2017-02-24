@@ -18,19 +18,18 @@
 
     'use strict';
 
-    angular
-        .module('openlmis-login')
-        .run(loginRequiredInterceptor);
-
     /**
-     * @ngdoc function
+     * @ngdoc service
      * @name  openlmis-login.loginRequiredInterceptor
      *
      * @description
      * When there is 401 unauthorized status code after request, the user is shown login modal
      * window. After authenticate request is retried.
-     *
      */
+    angular
+        .module('openlmis-login')
+        .run(loginRequiredInterceptor);
+
     loginRequiredInterceptor.$inject = [
         '$rootScope', '$compile', 'bootbox', '$templateRequest', 'loadingModalService',
         'authService', 'accessTokenFactory'
@@ -45,15 +44,14 @@
         $rootScope.$on('auth.login-modal', onLoginModal);
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name onLoginRequired
-         * @param {Object} event event
-         * @param {boolean} noRetryRequest true if should no retry request
          *
          * @description
          * Make and show login modal, close loading modal.
          *
+         * @param {Object} event event
+         * @param {Boolean} noRetryRequest true if should no retry request
          */
         function onLoginRequired(event, _noRetryRequest_) {
             noRetryRequest = _noRetryRequest_;
@@ -71,6 +69,13 @@
             loadingModalService.close();
         }
 
+        /**
+         * @ngdoc method
+         * @name onLoginModal
+         *
+         * @description
+         * Hides login modal and updates access token.
+         */
         function onLoginModal() {
             dialog.modal('hide');
             dialog = undefined;

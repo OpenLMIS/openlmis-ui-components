@@ -36,7 +36,7 @@
 
         /**
          * @ngdoc property
-         * @name maxColumnDescriptionLength
+         * @name programList
          * @propertyOf admin-template-list.controller:ProgramAdministrationListController
          * @type {Array}
          *

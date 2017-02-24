@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-i18n
+     *
+     * @description
+     * The openlmis-i18n module is responsible for messages within the OpenLMIS-UI.
+     */
     angular.module('openlmis-i18n', [
         'openlmis-config',
         'openlmis-local-storage'
