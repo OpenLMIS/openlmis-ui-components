@@ -51,8 +51,8 @@
         .module('openlmis-table')
         .directive('table', directive);
 
-    directive.$inject = ['$window', '$timeout'];
-    function directive($window, $timeout) {
+    directive.$inject = ['$window', '$timeout', 'jQuery'];
+    function directive($window, $timeout, jQuery) {
 
         return {
             restrict: 'E',
@@ -73,6 +73,9 @@
             tableWidth,
             leftEdge,
             rightEdge,
+            currentLeftOffset,
+            currentRightOffset,
+            currentParent,
             blits = []; // functions that update cell position
 
             // Updates blit array...
@@ -87,6 +90,7 @@
 
             element.on('$destroy', function() {
                 angular.element($window).unbind('resize', updateStickyElements);
+                parent.off('scroll', blit);
                 parent = undefined;
             });
 
@@ -109,18 +113,19 @@
                 parent = element.parent(); // reset incase it changed...
                 parent.on('scroll', blit);
 
-                // Reset DOM Elements
-                var stuckElements = element[0].querySelectorAll('.sticky-added');
-                angular.forEach(stuckElements, function(cell){
-                    angular.element(cell).removeClass('sticky-added');
-                });
+                // Reset every element
+                jQuery('.sticky-added', element)
+                .removeClass('.sticky-added')
+                .css('left', '0px');
 
                 // Create blit functions
-                var pinnedCellsQuery = element[0].querySelectorAll('.sticky');
-                angular.forEach(pinnedCellsQuery, function(cell) {
+                jQuery('.sticky, .col-sticky', element).each(function(index, cell) {
                     cell = angular.element(cell);
                     cell.addClass('sticky-added');
-                    blits.push(setUpCell(cell));
+                    setUpBlits(cell);
+                    if(cell.hasClass('col-sticky')){
+                        // get child elements and add sticky stuff
+                    }
                 });
 
                 blit();
@@ -139,91 +144,104 @@
                 parentWidth = parent.width();
                 tableWidth = element.width();
 
-                var offset = 0 - element.position().left;
+                leftEdge = 0 - element.position().left;
+                rightEdge = parentWidth + leftEdge;
 
-                leftEdge = offset;
-                rightEdge = parentWidth - offset;
+                if(rightEdge - tableWidth > 0){
+                    return; // if the end of the table has been reached, stop
+                }
+
+                // Always remove all the classes before bliting
+                jQuery('.stuck', element)
+                .removeClass('stuck')
+                .removeClass('stuck-right')
+                .removeClass('stuck-left')
+                .css('left', '0px');
+
+                resetCurrent();
 
                 angular.forEach(blits, function(blit){
-                    blit(offset);
+                    blit();
                 });
+            }
+
+            function resetCurrent(parent){
+                currentParent = parent;
+                currentLeftOffset = 0;
+                currentRightOffset = 0;
             }
 
             /**
              * @ngdoc function
-             * @name setUpCell
+             * @name setUpLeftBlit
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
-             * Creates set of functions for element that updates items
+             * Create an animation function to position an element to the left.
              *
              */
-            function setUpCell(cell){
-                var cellOffset = cell.position().left;
-                var cellWidth = cell.width();
+            function setUpBlits(cell){
+                var cellOffset = cell.position().left,
+                cellWidth = cell.outerWidth(),
+                cellParent = cell.parent()[0],
+                cellOnlyChild = cell.siblings().length == 0;
 
-                return blitCell;
-
-                /**
-                 * @ngdoc function
-                 * @name blitCell
-                 * @methodOf openlmis-table.directive:stickyTableColumns
-                 *
-                 * @description
-                 * Calculation and manipulation of position for each cell
-                 *
-                 */
-                function blitCell(offset){
-                    if(rightEdge - tableWidth > 0){
-                        return; // if the end of the table has been reached, stop
+                blits.push(function(){
+                    if(cell.hasClass('stuck')){
+                        return;
                     }
 
-                    var leftOffset = 0;
-                    angular.forEach(
-                        cell.parent().children('.stuck-left'),
-                        function(sibling){
-                            leftOffset += angular.element(sibling).outerWidth();
-                        });
+                    if(currentParent != cellParent){
+                        resetCurrent(cellParent);
+                    }
 
-                    var rightOffset = 0;
-                    angular.forEach(
-                        cell.parent().children('.stuck-right'),
-                        function(sibling){
-                            rightOffset += angular.element(sibling).outerWidth();
-                        });
+                    var isOffLeft = cellOffset < leftEdge + currentLeftOffset,
+                    isOffRight = cellOffset + cellWidth > rightEdge + currentRightOffset,
+                    canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
 
-                    // always remove the classes...
-                    cell.removeClass('stuck');
-                    cell.removeClass('stuck-left');
-                    cell.removeClass('stuck-right');
-
-                    if(cellOffset + cellWidth > rightEdge - rightOffset){ // if the column is far away on the right...
-                        //setPosition(rightEdge - tableWidth);
-                        cell.addClass('stuck');
-                        cell.addClass('stuck-right');
-                    } else if(cellOffset < leftEdge + leftOffset) {
-                        setPosition(leftEdge);
-                        cell.addClass('stuck');
-                        cell.addClass('stuck-left');
+                    if(isOffLeft && (canFit || cellOnlyChild && parentWidth == cellWidth)){
+                        leftBlit();
+                    } else if (isOffRight && canFit){
+                        rightBlit();
                     } else {
                         setPosition(0);
                     }
+                });
+
+                function leftBlit(){
+                    var position = leftEdge + currentLeftOffset - cellOffset;
+                    // if offset, cell will break table
+                    if(position + cellWidth > tableWidth) { 
+                        return ;
+                    }
+
+                    setPosition(position);
+                    cell.addClass('stuck');
+                    cell.addClass('stuck-left');
+                    currentLeftOffset += cellWidth;
                 }
 
-                /**
-                 * @ngdoc function
-                 * @name setPosition
-                 * @methodOf openlmis-table.directive:stickyTableColumns
-                 *
-                 * @description
-                 * Updates an element's relative position, but should used transform to take
-                 * advantage of simpler rendering. See the following article for an explination
-                 * of what and why we would like to achieve this.
-                 * https://www.kirupa.com/html5/animating_movement_smoothly_using_css.htm
-                 *
-                 */
+                function rightBlit(){
+                    var cellRightOffset = tableWidth - cellOffset - cellWidth;
+
+                    var position = 0 - (tableWidth - rightEdge - cellRightOffset);
+                    // if offset, this will run off screen
+                    if(position >= 0){
+                        return;
+                    }
+
+                    setPosition(position);
+                    cell.addClass('stuck');
+                    cell.addClass('stuck-right');
+                    currentRightOffset += cellWidth;   
+                }
+
                 function setPosition(position){
                     cell.css('left', position + 'px');
+                    if(cell.hasClass('.col-sticky')){
+                        // call on all cells in same position...
+                        // unless colspan....
+                    }
                 }
             }
 
