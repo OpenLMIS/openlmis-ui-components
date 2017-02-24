@@ -94,7 +94,7 @@
          *
          * @description
          * Responsible for checking if requisition has draft.
-         * If false text area and remove button will be displayed.
+         * If text area is not visible and draftStatusMessage is not set and requisition is not released button will be displayed.
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
