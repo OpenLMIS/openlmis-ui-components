@@ -98,7 +98,7 @@
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
-            return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible;
+            return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible && !vm.requisition.$isReleased();
         }
 
          /**

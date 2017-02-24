@@ -263,6 +263,12 @@ describe('LossesAndAdjustmentsController', function() {
             expect(vm.isDisabled()).toBe(true);
         });
 
+        it('should return true if requisition is released', function() {
+            requisition.$isReleased.andReturn(true);
+
+            expect(vm.isDisabled()).toBe(true);
+        });
+
         it('should return true if line item is skipped', function() {
             scope.lineItem.skipped = true;
 

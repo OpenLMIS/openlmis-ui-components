@@ -25,7 +25,7 @@ describe('StatusMessagesController', function() {
 
         module('requisition-status-messages');
 
-        requisition = jasmine.createSpyObj('requisition', ['$statusMessages']);
+        requisition = jasmine.createSpyObj('requisition', ['$statusMessages', '$isReleased']);
 
         inject(function($rootScope, statusMessagesHistoryService) {
             rootScope = $rootScope;
@@ -56,8 +56,19 @@ describe('StatusMessagesController', function() {
         it('should show button if requisition has no draft for status message', function() {
             vm.requisition.draftStatusMessage = null;
             vm.isTextAreaVisible = false;
+            vm.requisition.$isReleased.andReturn(false);
+
             var result = vm.displayAddComment();
             expect(result).toBe(true);
+        });
+
+        it('should not show button if requisition has released status', function() {
+            vm.requisition.draftStatusMessage = null;
+            vm.isTextAreaVisible = false;
+            vm.requisition.$isReleased.andReturn(true);
+
+            var result = vm.displayAddComment();
+            expect(result).toBe(false);
         });
 
         it('should not show button if requisition has draft for status message', function() {
