@@ -17,7 +17,7 @@
 		z-index: -1;
 		height: 100%;
 		width: 100%;
-		background: $light-gray url(common/page-hero-glow.png) no-repeat center -2em;
+		background: radial-gradient(ellipse at center -1em, $white 0%, $light-gray 70%);
 	}
 }
 
