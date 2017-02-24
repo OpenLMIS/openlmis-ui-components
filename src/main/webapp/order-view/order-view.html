@@ -17,7 +17,7 @@
                     ng-options="program.name for program in vm.programs"></select>
             <input type="submit" class="btn btn-primary" value="{{'button.search' | message}}"/>
         </form>
-        <table class="openlmis-table" ng-if="vm.orders">
+        <table>
             <caption ng-if="!vm.orders.length">{{'msg.noOrdersFound' | message}}</caption>
             <thead>
                 <tr>
@@ -30,7 +30,7 @@
                     <th>{{'label.endDate' | message}}</th>
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
-                    <th class="sticky"></th>
+                    <th class="sticky">{{'label.actions' | message}}</th>
                 </tr>
             </thead>
             <tbody>
