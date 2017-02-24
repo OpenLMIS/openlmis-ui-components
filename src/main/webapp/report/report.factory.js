@@ -64,7 +64,7 @@
                   data = data.content;
                 }
 
-                angular.forEach(response.data, function(obj) {
+                angular.forEach(data, function(obj) {
                     var value = selectProperty ? obj[selectProperty] : obj;
                     var name = displayProperty ? obj[displayProperty] : value;
 
