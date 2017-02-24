@@ -17,13 +17,6 @@
 
     'use strict';
 
-    /**
-     * @ngdoc controller
-     * @name openlmis-header.controller:HeaderController
-     *
-     * @description
-     * Controller that drives the header.
-     */
     angular
         .module('openlmis-header')
         .controller('HeaderController', controller);

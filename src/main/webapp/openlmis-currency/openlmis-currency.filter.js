@@ -26,7 +26,8 @@
      * Parses the given currency into more readable form. Depending on whether the settings from
      * referencedata are set it will parse the currency respectively.
      *
-     * @param   {Integer}    value      the currency to be formated
+     * @param   {integer}    value      the currency to be formated
+     *
      * @return  {String}                the formated currency
      */
     angular

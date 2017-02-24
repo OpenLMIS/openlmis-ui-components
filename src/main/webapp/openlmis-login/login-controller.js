@@ -19,11 +19,12 @@
 
     /**
      * @ngdoc controller
-     * @name  openlmis-login.controller:LoginController
+     * @name  openlmis-login.LoginController
      *
      * @description
      * Controller that drives the login form.
      */
+
     angular.module('openlmis-login')
     .controller('LoginController', LoginController);
 
@@ -37,14 +38,38 @@
         vm.goToForgotPassword = goToForgotPassword;
 
         /**
-         * @ngdoc method
+         * @ngdoc property
+         * @name  username
+         * @propertyOf openlmis-login.LoginController
+         *
+         * @returns {string} Username
+         */
+
+        /**
+         * @ngdoc property
+         * @name  password
+         * @propertyOf openlmis-login.LoginController
+         *
+         * @returns {string} Password
+         */
+
+        /**
+         * @ngdoc property
+         * @name  loginError
+         * @propertyOf openlmis-login.LoginController
+         *
+         * @returns {string} Error message from attempting a logging in
+         */
+
+        /**
+         * @ngdoc function
          * @name  validateLoginForm
          * @methodOf openlmis-login.LoginController
          *
          * @description
          * Checks username and password  variables, and returns true or shows an appropriate error message before the actual login request happens.
          *
-         * @return {Boolean} If login form is valid
+         * @returns {boolean} If login form is valid
          */
         function validateLoginForm() {
             if (vm.username === undefined || vm.username.trim() === '') {
@@ -59,14 +84,16 @@
         }
 
         /**
-         * @ngdoc method
+         * @ngdoc function
          * @name doLogin
          * @methodOf openlmis-login.LoginController
          *
          * @description
          * Takes username and .password variables and sends them to login service.
+         *
          * On error response from the login service, loginError is set.
-         * On success a 'auth.login' event is emitted.
+         *
+         * On success a 'auth.login' event is emitted —
          */
         function doLogin() {
             if (!validateLoginForm()) {
@@ -83,14 +110,16 @@
         }
 
         /**
-         * @ngdoc method
+         * @ngdoc function
          * @name doLogin
          * @methodOf openlmis-login.LoginController
          *
          * @description
          * Takes username and .password variables and sends them to login service.
+         *
          * On error response from the login service, loginError is set.
-         * On success a 'auth.login' event is emitted.
+         *
+         * On success a 'auth.login' event is emitted —
          */
         function goToForgotPassword() {
             bootbox.hideAll();

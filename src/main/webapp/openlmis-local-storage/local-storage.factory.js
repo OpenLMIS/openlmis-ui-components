@@ -23,7 +23,7 @@
      *
      * @description
      * It stores objects in browser cache to make them accessible offline.
-     * Each stored or retrieved object is copied.
+     * Each stored or retrieved object is copied, so
      */
     angular
         .module('openlmis-local-storage')

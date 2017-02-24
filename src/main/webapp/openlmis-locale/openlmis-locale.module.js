@@ -17,12 +17,6 @@
 
     'use strict';
 
-    /**
-     * @module openlmis-locale
-     *
-     * @description
-     * The openlmis-locale module is responsible for locales.
-     */
     angular.module('openlmis-locale', [
         'openlmis-i18n',
         'openlmis-modal',

@@ -17,12 +17,6 @@
 
     'use strict';
 
-    /**
-     * @module openlmis-login
-     *
-     * @description
-     * Provides base openlmis-login state and controller/service to handle logging.
-     */
     angular.module('openlmis-login', [
         'openlmis-auth',
         'openlmis-locale',

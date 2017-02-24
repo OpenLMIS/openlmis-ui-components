@@ -17,12 +17,6 @@
 
     'use strict';
 
-    /**
-     * @module openlmis-date
-     *
-     * @description
-     * The openlmis-date module is responsible for dates.
-     */
     angular.module('openlmis-date', []);
 
 })();

@@ -18,11 +18,12 @@
     'use strict';
 
     /**
+     *
      * @ngdoc service
      * @name openlmis-modal.confirmService
-     *
      * @description
      * Service allows to display confirm modal with custom message.
+     *
      */
 
     angular.module('openlmis-modal')
@@ -36,32 +37,34 @@
         this.confirmDestroy = destroy;
 
         /**
-         * @ngdoc method
+         *
+         * @ngdoc function
          * @name confirm
          * @methodOf openlmis-modal.confirmService
+         * @param {String} message Primary message to display at the top
+         * @param {Function} additionalMessage Additional message to display below
+         * @param {String} buttonMessage Optional message to display on confirm button
          *
          * @description
          * Shows confirm modal with custom message.
          *
-         * @param {String}   message        Primary message to display at the top
-         * @param {Function} additional     Message Additional message to display below
-         * @param {String}   buttonMessage  Optional message to display on confirm button
          */
         function confirm(message, buttonMessage) {
             return makeModal(false, message, buttonMessage);
         }
 
         /**
-         * @ngdoc method
+         *
+         * @ngdoc function
          * @name destroy
          * @methodOf openlmis-modal.confirmService
+         * @param {String} message Message to display
+         * @param {String} buttonMessage Optional message to display on confirm button
+         * @return {Promise} confirm promise
          *
          * @description
          * Shows confirm modal with custom message and returns a promise.
          *
-         * @param {String}   message        Message to display
-         * @param {String}   buttonMessage  Optional message to display on confirm button
-         * @return {Promise} confirm        promise
          */
         function destroy(message, buttonMessage) {
             return makeModal(true, message, buttonMessage);

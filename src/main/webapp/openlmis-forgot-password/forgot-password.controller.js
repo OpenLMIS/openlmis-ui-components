@@ -20,7 +20,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-forgot-password.controller:ForgotPasswordController
+     * @name openlmis-forgot-password.ForgotPasswordController
      *
      * @description
      * Controller that drives the forgot password form.
@@ -40,9 +40,9 @@
         vm.redirectToLogin = redirectToLogin;
 
         /**
-         * @ngdoc method
+         * @ngdoc function
          * @name forgotPassword
-         * @methodOf openlmis-forgot-password.controller:ForgotPasswordController
+         * @methodOf openlmis-forgot-password.ForgotPasswordController
          *
          * @description
          * Requests sending reset password token to email address given in form.
@@ -61,9 +61,9 @@
         }
 
         /**
-         * @ngdoc method
+         * @ngdoc function
          * @name redirectToLogin
-         * @methodOf openlmis-forgot-password.controller:ForgotPasswordController
+         * @methodOf openlmis-forgot-password.ForgotPasswordController
          *
          * @description
          * Redirects to the login page.

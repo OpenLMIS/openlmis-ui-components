@@ -17,13 +17,6 @@
 
     'use strict';
 
-    /**
-     * @ngdoc directive
-     * @name openlmis-locale.directive:openlmisLocale
-     *
-     * @description
-     * Provides template for locale list.
-     */
     angular
         .module('openlmis-locale')
         .directive('openlmisLocale', directive);

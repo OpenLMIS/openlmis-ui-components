@@ -22,6 +22,7 @@
      *
      * @description Sends a pageview to GA whenever the UI-Router view changes.
      */
+
     angular
         .module('openlmis-analytics')
         .run(run);
