@@ -224,8 +224,6 @@
                     size = searchParams.size ? parseInt(searchParams.size) : PAGE_SIZE,
                     items = paginationFactory.getPage(requisitions, page, size);
 
-                angular.forEach(items, transformRequisition);
-
                 deferred.resolve({
                     content: items,
                     number: page,
