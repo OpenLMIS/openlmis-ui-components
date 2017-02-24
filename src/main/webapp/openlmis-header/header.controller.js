@@ -21,9 +21,9 @@
         .module('openlmis-header')
         .controller('HeaderController', controller);
 
-    controller.$inject = ['$scope', 'authorizationService', 'loginService', '$state'];
+    controller.$inject = ['$scope', 'authorizationService', 'loginService', '$state', 'offlineService'];
 
-    function controller($scope, authorizationService, loginService, $state) {
+    function controller($scope, authorizationService, loginService, $state, offlineService) {
 
         $scope.$watch(function() {
             return authorizationService.getUser();
@@ -40,6 +40,8 @@
                     $state.go('auth.login');
                 });
         };
+
+        this.checkConnection = offlineService.checkConnection;
     }
 
 })();

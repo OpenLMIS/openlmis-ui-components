@@ -19,6 +19,7 @@
 
     angular.module('openlmis-header', [
         'openlmis-auth',
+        'openlmis-offline',
         'openlmis-local-storage',
         'openlmis-login',
         'ui.router'

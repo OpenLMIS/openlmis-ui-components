@@ -1,3 +1,5 @@
+$font-size-openlmis-header-title: $font-size-extra-large !default;
+
 .openlmis-header {
     align-items: center;
     background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
@@ -6,8 +8,24 @@
     color: $dark-gray;
     display: flex;
     flex-wrap: nowrap;
-    padding: 0.5em;
+    padding: 0.5em 2em;
     z-index: 1; // to be above navbar
+
+    > * {
+        flex: 0 0 auto;
+    }
+
+    > .title {
+        display: block;
+        text-indent: -30000em;
+        overflow: hidden;
+        background-image: url('common/openlmis-logo.svg');
+        background-repeat: no-repeat;
+        background-size: auto $font-size-openlmis-header-title;
+        flex-grow: 1;
+        font-size: $font-size-openlmis-header-title;
+        height: $font-size-openlmis-header-title;
+    }
 }
 
 .openlmis-header.is-offline {
@@ -15,37 +33,27 @@
     border-bottom-color: $black;
     color: $light-gray;
 
-    .openlmis-title {
-        color: $light-gray;
-        text-shadow: 0 0.05em 0 $black;
+    > .title {
+        background-image: url('common/openlmis-logo-white.svg');
     }
 }
 
 .openlmis-header-actions {
-    margin-left: auto;
+    > * {
+        align-items: center;
+        display: flex;
+        flex-wrap: nowrap;
+        > * {
+            flex: 0 0 auto;
+            margin: 0px;
+            margin-right: 1em;
+            &:last-child{
+                margin-right: 0em;
+            }
+        }
+    }
 }
 
 .status-offline {
-    align-items: center;
-    display: flex;
-    flex-wrap: nowrap;
-
-    &::before {
-        content: '\f0e7';
-        font-family: 'FontAwesome';
-        margin-right: 0.5em;
-    }
-
-    & > button {
-        margin-left: auto;
-    }
-}
-
-.openlmis-title {
-    color: $gray;
-    font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
-    font-size: 2em;
-    line-height: 1.1em;
-    padding: 0 0 0 0.5em;
-    text-shadow: 0 0.05em 0 $white;
+    @extend a.is-offline;
 }
