@@ -142,7 +142,6 @@ describe("LocaleController", function () {
             scope.$apply();
 
             expect(messageService.populate).toHaveBeenCalledWith('pt');
-            expect(notificationService.success).toHaveBeenCalled();
             expect(window.location.reload).toHaveBeenCalled();
         });
 

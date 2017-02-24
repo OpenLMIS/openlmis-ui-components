@@ -41,9 +41,6 @@
         function changeLocale (localeKey) {
             if(localeKey) {
                 messageService.populate(localeKey)
-                    .then(function () {
-                        notificationService.success('locale.load.success');
-                    })
                     .catch(function () {
                         alertService.error('locale.load.error');
                     });
