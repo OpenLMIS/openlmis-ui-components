@@ -24,10 +24,6 @@
 				cursor: move;
 			}
 
-			.moveable:hover > td {
-				background-color: $very-light-gray;
-			}
-
 			.dndPlaceholder > td {
 				background-color: $light-shadow;
 				height: 3em;

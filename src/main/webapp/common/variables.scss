@@ -5,10 +5,10 @@ $green: #356b6f;
 $red: #a94442;
 $orange: #ffa500;
 $blue: #3875d7;
+$brand-blue: #49baeb;
 
 $white: #ffffff;
-$very-light-gray: #f8f8f8;
-$light-gray: #dddddd;
+$light-gray: #e4e4e4;
 $medium-gray: #bbbbbb;
 $gray: #666666;
 $dark-gray: #333333;
@@ -20,11 +20,11 @@ $font-size: 14px;
 $font-size-large: 22px;
 $font-size-extra-large: 36px;
 
-$brand-primary: $heading-green;
+$brand-primary: $brand-blue;
 $brand-danger: $red;
 
 $background-color: $white;
-$background-color-alt: $very-light-gray;
+$background-color-alt: #f0f0f0;
 $background-color-danger: lighten($brand-danger, 45);
 
 $text-color-disabled: $gray;
