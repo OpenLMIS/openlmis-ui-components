@@ -437,7 +437,20 @@
          * @return {boolean} true if sync button should be visible, false otherwise
          */
         function displaySync() {
-            return vm.requisition.$isInitiated() || vm.requisition.$isSubmitted() || vm.requisition.$isAuthorized();
+            var hasCreateRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
+                  programCode: vm.requisition.program.code
+                }),
+                hasAuthorizeRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
+                  programCode: vm.requisition.program.code
+                }),
+                hasApproveRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
+                  programCode: vm.requisition.program.code
+                }),
+                displayWhenInitiated = vm.requisition.$isInitiated() && hasCreateRight,
+                displayWhenSubmitted = vm.requisition.$isSubmitted() && hasAuthorizeRight,
+                displayWhenAuthorized = vm.requisition.$isAuthorized() && hasApproveRight;
+
+            return displayWhenInitiated || displayWhenSubmitted || displayWhenAuthorized;
         }
 
         /**

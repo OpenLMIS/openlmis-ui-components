@@ -18,7 +18,7 @@ describe('RequisitionViewController', function() {
 
     var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
         loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
-        fullSupplyItems, nonFullSupplyItems, lineItems, offlineRequisitions;
+        fullSupplyItems, nonFullSupplyItems, lineItems, offlineRequisitions, authorizationServiceSpy;
 
     beforeEach(function() {
         module('requisition-view');
@@ -27,7 +27,6 @@ describe('RequisitionViewController', function() {
             offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['removeBy']);
 
             var confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']),
-                authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
                 localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(resource) {
                     if (resource === 'requisitions') {
                         return offlineRequisitions;
@@ -35,6 +34,8 @@ describe('RequisitionViewController', function() {
                         return undefined;
                     }
                 });
+
+            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
 
             requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator', [
                 'areLineItemsValid'
@@ -171,6 +172,7 @@ describe('RequisitionViewController', function() {
     });
 
     it('should display sync button', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
         expect(vm.displaySync()).toBe(true);
     });
 
