@@ -21,7 +21,7 @@ sub-heading
 * Have an 'on click' action for the entire row, links or buttons may be placed
 in specifc cells
 
-<table>
+<table class="openlmis-table">
   <thead>
     <tr>
       <th>Fully Supply</th>
@@ -116,7 +116,7 @@ Styleguide 4.0
 $border-color-table: $light-gray !default;
 $table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
 
-table {
+.openlmis-table {
     @extend .table;
     width: auto;
     border-collapse: separate;

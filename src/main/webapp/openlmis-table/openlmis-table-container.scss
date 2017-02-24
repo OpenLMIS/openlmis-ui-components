@@ -1,6 +1,8 @@
 /*
 Table Containers
 
+**NOTE: It's recommended that OpenLMIS screens use a table-container**
+
 To create complex tables that are horizontally scrollable and search
 functionality, wrap the table within a table container, which will constrain
 the layout of form elements and captions within a table. **Any table wider than
@@ -129,6 +131,9 @@ Styleguide 4.1
     width: auto;
     overflow: auto;
     position: relative; // tell JS to calculate offset from here
+    > table {
+      @extend .openlmis-table;
+    }
   }
 
   > .openlmis-table-controls {

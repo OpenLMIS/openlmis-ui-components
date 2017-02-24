@@ -8,7 +8,7 @@ Tables can have sticky columns to keep important elements within view.
   <thead>
     <tr>
       <th class="sticky">Checkbox</th>
-      <th class="sticky">Code</th>
+      <th>Code</th>
       <th class="sticky">Name</th>
       <th>Date range</th>
       <th>Duration</th>
@@ -18,7 +18,7 @@ Tables can have sticky columns to keep important elements within view.
   <tbody title="Group 1">
     <tr ng-repeat="row in rows">
       <td class="sticky"><input type="checkbox" /></td>
-      <td class="sticky">1f3c89b213e44a729ef2228302cc5a25</td>
+      <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td class="sticky">Name</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
@@ -28,7 +28,7 @@ Tables can have sticky columns to keep important elements within view.
   <tbody title="Group 2">
     <tr ng-repeat="row in rows">
       <td class="sticky"><input type="checkbox" /></td>
-      <td class="sticky">1f3c89b213e44a729ef2228302cc5a25</td>
+      <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td class="sticky">Name</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
@@ -43,10 +43,12 @@ Styleguide 4.4
 
 
 
-td, table th, tr.title > td > div  {
+td,
+th,
+tr.title > td > div  {
 	&.sticky{ }
 	&.stuck{
     position: relative;
-	z-index: 1;
+  	z-index: 1;
   }
 }
