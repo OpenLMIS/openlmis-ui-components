@@ -15,7 +15,7 @@
 
 /**
  * @ngdoc filter
- * @name .admin-template.orderObjectBy
+ * @name admin-template.orderObjectBy
  * @function orderObjectBy
  *
  * @description Orders object properties by given attribute.

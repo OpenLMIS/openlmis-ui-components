@@ -63,7 +63,7 @@
         this.hashPassword = hashPassword;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getAccessToken
          * @methodOf openlmis-auth.authorizationService
          *
@@ -77,7 +77,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name setAccessToken
          * @methodOf openlmis-auth.authorizationService
          *
@@ -91,7 +91,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name clearAccessToken
          * @methodOf openlmis-auth.authorizationService
          *
@@ -103,7 +103,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name isAuthenticated
          * @methodOf openlmis-auth.authorizationService
          *
@@ -117,7 +117,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getUser
          * @methodOf openlmis-auth.authorizationService
          *
@@ -134,9 +134,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getDetailedUser
-         * @methodOf
+         * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Retrieves detailed information about the user.
@@ -149,7 +149,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name setUser
          * @methodOf openlmis-auth.authorizationService
          *
@@ -165,7 +165,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name clearUser
          * @methodOf openlmis-auth.authorizationService
          *
@@ -178,7 +178,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name setRights
          * @methodOf openlmis-auth.authorizationService
          *
@@ -195,7 +195,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  getRights
          * @methodOf openlmis-auth.authorizationService
          *
@@ -209,7 +209,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name hasRight
          * @methodOf openlmis-auth.authorizationService
          *
@@ -217,9 +217,9 @@
          * Checks whether user has the given right. If the details object is passed the validation
          * will be more strict.
          *
-         * @param  {String}     rightName   the name of the right
-         * @param  {Oject}      details     (optional) the details about the right
-         * @return {Boolean}                true if the user has the right, false Otherwise
+         * @param  {String} rightName   the name of the right
+         * @param  {Object} details     (optional) the details about the right
+         * @return {Boolean}            true if the user has the right, false Otherwise
          */
         function hasRight(rightName, details) {
             var rights = $filter('filter')(getRights(), {
@@ -283,7 +283,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  clearRights
          * @methodOf openlmis-auth.authorizationService
          *
@@ -295,12 +295,15 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  getRightByName
          * @methodOf openlmis-auth.authorizationService
          *
          * @description
          * Returns id of right with given name.
+         *
+         * @param {String}  rightName   name of right which we want to get
+         * @return {Object}             id of right which has the given name
          */
         function getRightByName(rightName) {
             var rights = $filter('filter')(getRights(), {
@@ -308,6 +311,20 @@
             return angular.copy(rights[0]);
         }
 
+        /**
+         * @ngdoc method
+         * @name  saveOfflineUserData
+         * @methodOf openlmis-auth.authorizationService
+         *
+         * @description
+         * Saves data for offline user.
+         *
+         * @param {String}  username     name of offline user
+         * @param {String}  password     offline user password
+         * @param {String}  username     name of offline user
+         * @param {Array}   username     name of offline user
+         * @return {Object}              right which has the given name
+         */
         function saveOfflineUserData(username, password, userId, referencedataUsername, userRights) {
             if(offlineUserData.getBy('username', username)) offlineUserData.removeBy('username', username);
             offlineUserData.put({
@@ -319,10 +336,32 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @name  getOfflineUserData
+         * @methodOf openlmis-auth.authorizationService
+         *
+         * @description
+         * Returns offline user data.
+         *
+         * @param {String}  username    name of offline user
+         * @return {Object}             offline user data
+         */
         function getOfflineUserData(username) {
             return offlineUserData.getBy('username', username);
         }
 
+        /**
+         * @ngdoc method
+         * @name  hashPassword
+         * @methodOf openlmis-auth.authorizationService
+         *
+         * @description
+         * Returns hashed password.
+         *
+         * @param {String}  password    offline user's password
+         * @return {Object}             hashed password
+         */
         function hashPassword(password) {
             return md5.createHash(password || '');
         }

@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-404
+     *
+     * @description
+     * Provides handling HTTP 404 error.
+     */
     angular.module('openlmis-404', [
         'ui.router'
     ]);

@@ -22,9 +22,7 @@
      * @name openlmis-auth.accessTokenFactory
      *
      * @description
-     *
-     * Functions for add/update access token
-     *
+     * Functions for add/update access token.
      */
     angular.module('openlmis-auth').factory('accessTokenFactory', accessTokenFactory);
 
@@ -38,16 +36,16 @@
         };
 
         /**
-         * @ngdoc function
-         * @name  Add access token
+         * @ngdoc method
+         * @name  addAccessToken
          * @methodOf openlmis-auth.accessTokenFactory
          * @private
          *
-         * @description Added a get request variable to the end of the url
+         * @description
+         * Added a get request variable to the end of the url.
          *
          * @param {String} url A url string
-         * @returns {String} A url string with access_token url parameter added
-         *
+         * @return {String} A url string with access_token url parameter added
          */
         function addAccessToken(url){
             if (url.indexOf('access_token=') === -1) {
@@ -60,32 +58,32 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  updateAccessToken
          * @methodOf openlmis-auth.accessTokenFactory
          *
          * @description
-         * Update access token in URI string
+         * Update access token in URI string.
          *
-         * @param {String} uri The URI to update
-         * @return {String} Updated uri
+         * @param {String} uri  The URI to update
+         * @return {String}     Updated uri
          */
         function updateAccessToken(uri) {
             return updateQueryStringParameter(uri, 'access_token', authorizationService.getAccessToken());
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  updateQueryStringParameter
          * @methodOf openlmis-auth.accessTokenFactory
          *
          * @description
-         * Update query parameter if exist
+         * Update query parameter if exist.
          *
-         * @param {String} uri The URI to update
-         * @param {String} key They key of query param
-         * @param {String} value They value of query param
-         * @return {String} Updated uri
+         * @param {String} uri      The URI to update
+         * @param {String} key      They key of query param
+         * @param {String} value    They value of query param
+         * @return {String}         Updated uri
          */
         function updateQueryStringParameter(uri, key, value) {
             var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");

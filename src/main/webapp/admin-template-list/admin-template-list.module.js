@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @module admin-template-list
+     *
+     * @description
+     * Provides base admin-template state and factory/controller for retrieving
+     * list of templates from the OpenLMIS server.
+     */
     angular.module('admin-template-list', [
         'admin-template',
         'openlmis-admin',

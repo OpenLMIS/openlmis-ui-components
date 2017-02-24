@@ -20,12 +20,11 @@
 
     /**
      * @ngdoc controller
-     * @name admin-template.ProgramAdministrationListController
+     * @name admin-template-list.controller:ProgramAdministrationListController
      *
      * @description
-     * Controller for template list view page
+     * Controller for template list view page.
      */
-
     angular
         .module('admin-template-list')
         .controller('ProgramAdministrationListController', controller);
@@ -35,19 +34,29 @@
     function controller($state, programList, authorizationService, REQUISITION_RIGHTS) {
         var vm = this;
 
+        /**
+         * @ngdoc property
+         * @name maxColumnDescriptionLength
+         * @propertyOf admin-template-list.controller:ProgramAdministrationListController
+         * @type {Array}
+         *
+         * @description
+         * Holds list of all programs with templates.
+         */
         vm.programs = programList;
 
         vm.goToTemplate = goToTemplate;
         vm.canConfigureTemplates = canConfigureTemplates;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name goToTemplate
-         * @methodOf admin-template.ProgramAdministrationListController
-         * @param {String} templateId Template UUID
+         * @methodOf admin-template-list.controller:ProgramAdministrationListController
          *
          * @description
          * Redirects user to template view page.
+         *
+         * @param {String} templateId Template UUID
          */
         function goToTemplate(templateId) {
             $state.go('administration.configure.template', {
@@ -55,6 +64,16 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @name canConfigureTemplates
+         * @methodOf admin-template-list.controller:ProgramAdministrationListController
+         *
+         * @description
+         * Checks if user has right to configure templates.
+         *
+         * @return {Boolean} True if user can configure templates. Otherwise false.
+         */
         function canConfigureTemplates() {
             return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_TEMPLATES_MANAGE);
         }

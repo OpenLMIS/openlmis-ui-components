@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-admin
+     *
+     * @description
+     * Provides base openlmis-admin state for administration panel.
+     */
     angular.module('openlmis-admin', [
         'ui.router'
     ]);

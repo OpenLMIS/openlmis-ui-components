@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-500
+     *
+     * @description
+     * Provides handling for HTTP 5XX errors.
+     */
     angular.module('openlmis-500', [
         'openlmis-modal'
     ]);

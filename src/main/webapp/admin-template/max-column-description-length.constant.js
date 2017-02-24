@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+    * @ngdoc object
+    * @name admin-template.MAX_COLUMN_DESCRIPTION_LENGTH
+    *
+    * @description
+    * This is constant for max column description length
+    */
     angular
         .module('admin-template')
         .constant('MAX_COLUMN_DESCRIPTION_LENGTH', 140);

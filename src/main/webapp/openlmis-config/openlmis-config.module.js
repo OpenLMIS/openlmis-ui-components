@@ -16,6 +16,12 @@
 (function(){
 	"use strict";
 
+    /**
+     * @module openlmis-config
+     *
+     * @description
+     * Provides base openlmis-config state.
+     */
 	angular.module('openlmis-config', []);
 
 })();

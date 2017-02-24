@@ -15,14 +15,15 @@
 
 
 (function(){
+
     'use strict';
+
     /**
-     *
      * @ngdoc service
      * @name admin-template-list.programFactory
      *
      * @description
-     * Alows the user to retrieve programs with additional information.
+     * Allows the user to retrieve programs with additional information.
      */
     angular
         .module('admin-template-list')
@@ -36,9 +37,8 @@
             getAllProgramsWithTemplates: getAllProgramsWithTemplates
         };
 
-
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name getAllProgramsWithTemplates
          * @methodOf admin-template-list.programFactory
          *

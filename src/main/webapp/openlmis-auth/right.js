@@ -37,9 +37,9 @@
         return Right;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @methodOf openlmis-auth.Right
-         * @name constructor
+         * @name Right
          *
          * @description
          * Creates a Right class object.
@@ -63,7 +63,7 @@
         }
 
         /**
-         * @ngdoc methodOf
+         * @ngdoc method
          * @methodOf openlmis-auth.Right
          * @name buildRights
          *

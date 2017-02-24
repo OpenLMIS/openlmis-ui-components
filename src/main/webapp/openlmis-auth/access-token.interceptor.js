@@ -19,11 +19,11 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
      * @name  openlmis-auth.accessTokenInterceptor
-     * @description Adds access token stored by the Authorization Service to all requests to the OpenLMIS Server
      *
+     * @description
+     * Adds access token stored by the Authorization Service to all requests to the OpenLMIS Server.
      */
     angular
         .module('openlmis-auth')
@@ -50,17 +50,16 @@
         return interceptor;
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name request
          * @methodOf openlmis-auth.accessTokenInterceptor
          *
-         * @param  {object} config HTTP Config object
-         * @return {object} A modified configuration object
-         *
          * @description
          * Checks the request config url with openlmisUrlService, and if there is a match an access
-         * token is added to the url
+         * token is added to the url.
+         *
+         * @param  {Object} config HTTP Config object
+         * @return {Object}             A modified configuration object
          */
         function request(config) {
             if(openlmisUrlService.check(config.url) && authorizationService.isAuthenticated()
@@ -72,18 +71,16 @@
         }
 
         /**
-         *
-         * @ngdoc function
-         * @name  response
+         * @ngdoc method
+         * @name  responseError
          * @methodOf openlmis-auth.accessTokenInterceptor
-         *
-         * @param  {object} response HTTP Response
-         * @return {Promise} Rejected promise
          *
          * @description
          * Takes a failed response that is a 401 and clears a user's credentials, forcing them to
          * login OR takes 403 response and shows a modal with authorization error.
          *
+         * @param  {Object} response    HTTP Response
+         * @return {Promise}            Rejected promise
          */
         function responseError(response) {
             if (response.status === 401) {

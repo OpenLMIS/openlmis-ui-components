@@ -23,7 +23,7 @@
  	 *
  	 * @description
  	 * A factory that takes a URL and prepends the AuthServiceURL to the url. The actual auth
- 	 * url can be changed by setting the --authServiceURL flag at build time
+ 	 * url can be changed by setting the --authServiceURL flag at build time.
  	 */
  	angular
         .module('openlmis-auth')
@@ -41,7 +41,7 @@
 
 		/**
 		 * @param  {String} url The url fragment to prepend the auth url before
-		 * @return {String} A url that is directed towards the OpenLMIS AuthService
+		 * @return {String}     A url that is directed towards the OpenLMIS AuthService
 		 */
  		return function(url){
  			url = pathFactory(authUrl, url);

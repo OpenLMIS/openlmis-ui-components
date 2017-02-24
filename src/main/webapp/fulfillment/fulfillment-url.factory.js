@@ -18,7 +18,6 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
      * @name fulfillment.fulfillmentUrlFactory
      *
@@ -40,7 +39,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name fulfillmentUrlFactory
          * @methodOf fulfillment.fulfillmentUrlFactory
          *

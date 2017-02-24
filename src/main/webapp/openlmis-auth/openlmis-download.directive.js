@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-auth.openlmisDownload
+     * @name openlmis-auth.directive:openlmisDownload
      *
      * @description
      * Adds an on-click action that will download file from the url passed as the attribute

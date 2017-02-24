@@ -19,12 +19,11 @@
 
     /**
      * @ngdoc controller
-     * @name admin-template.RequisitionTemplateAdminController
+     * @name admin-template.controller:RequisitionTemplateAdminController
      *
      * @description
-     * Controller for template view page
+     * Controller for template view page.
      */
-
     angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
     RequisitionTemplateAdminController.$inject = [
@@ -37,9 +36,37 @@
 
         var vm = this;
 
+        /**
+         * @ngdoc property
+         * @name maxColumnDescriptionLength
+         * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @type {Number}
+         *
+         * @description
+         * Holds max column description length.
+         */
         vm.maxColumnDescriptionLength = MAX_COLUMN_DESCRIPTION_LENGTH;
 
+        /**
+         * @ngdoc property
+         * @name template
+         * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @type {Object}
+         *
+         * @description
+         * Holds template.
+         */
         vm.template = template;
+
+        /**
+         * @ngdoc property
+         * @name program
+         * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @type {Object}
+         *
+         * @description
+         * Holds program.
+         */
         vm.program = program;
 
         vm.goToTemplateList = goToTemplateList;
@@ -51,9 +78,9 @@
         vm.isAverageConsumption = isAverageConsumption;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name goToTemplateList
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Redirects user to template list view page.
@@ -63,9 +90,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name saveTemplate
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Saves template from scope. After successful action displays
@@ -82,9 +109,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name dropCallback
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Moves column using templateFactory method. If action is unsuccessful
@@ -102,9 +129,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name canChangeSource
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Indicates if column source can be changed based on canBeChanged property
@@ -117,31 +144,31 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name sourceDisplayName
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Gives display name of given source type.
          *
          * @param {String} name Column source name
-         * @returns {String} Column source display name
+         * @return {String} Column source display name
          */
         function sourceDisplayName(name) {
             return messageService.get(COLUMN_SOURCES.getLabel(name));
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name errorMessage
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Gives error message with all displayed dependent column names
          * when column validation failed.
          *
          * @param {Object} column Column
-         * @returns {String} Column validation error message
+         * @return {String} Column validation error message
          */
         function errorMessage(column) {
             var dependencies = '',
@@ -189,15 +216,15 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name isAverageConsumption
-         * @methodOf admin-template.RequisitionTemplateAdminController
+         * @methodOf admin-template.controller:RequisitionTemplateAdminController
          *
          * @description
          * Determines whether displayed column is an average consumption.
          *
-         * @param {Object} column Column
-         * @returns {Boolean} True if column name is averageConsumption.
+         * @param   {Object}      column    Column
+         * @return  {Boolean}               True if column name is averageConsumption.
          */
         function isAverageConsumption(column) {
             return column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION;

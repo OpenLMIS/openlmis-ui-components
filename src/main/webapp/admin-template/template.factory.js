@@ -23,7 +23,6 @@
      *
      * @description
      * Communicates with templateDataService.
-     *
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
@@ -40,14 +39,15 @@
         return factory;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  get
          * @methodOf admin-template.templateFactory
-         * @param {String} id Template UUID
-         * @returns {Promise} Template
          *
          * @description
          * Gets requisition template by id and adds validation and column sorting methods.
+         *
+         * @param {String}  id  Template UUID
+         * @return {Promise}    Template
          */
         function get(id) {
             var deferred = $q.defer();
@@ -66,32 +66,33 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  getAll
          * @methodOf admin-template.templateFactory
-         * @returns {Promise} Array of requisition templates
          *
          * @description
          * Gets all requisition templates from templateDataService.
+         *
+         * @return {Promise} Array of requisition templates
          */
         function getAll() {
             return requisitionTemplateService.getAll();
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  getByProgram
          * @methodOf admin-template.templateFactory
-         * @param {String} programId Program UUID
-         * @return {Promise} Template for given program
          *
          * @description
          * Gets requisition template for given program UUID.
+         *
+         * @param {String} programId Program UUID
+         * @return {Promise} Template for given program
          */
         function getByProgram(programId) {
             return requisitionTemplateService.search(programId);
         }
-
 
         // Saves template
         function save() {

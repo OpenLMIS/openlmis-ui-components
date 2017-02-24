@@ -23,7 +23,6 @@
      *
      * @description
      * Allows user to perform operations on requisition template resource.
-     *
      */
     angular.module('admin-template').service('requisitionTemplateService', requisitionTemplateService);
 
@@ -52,54 +51,58 @@
         this.save = save;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  get
          * @methodOf admin-template.requisitionTemplateService
-         * @param {String} id Requisition template UUID
-         * @returns {Promise} Requisition template info
          *
          * @description
          * Gets requisition template by id.
+         *
+         * @param   {String}  id    Requisition template UUID
+         * @return  {Promise}       Requisition template info
          */
         function get(id) {
             return resource.get({id: id}).$promise;
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  getAll
          * @methodOf admin-template.requisitionTemplateService
-         * @returns {Promise} Array of all requisition templates
          *
          * @description
          * Gets all requisition templates.
+         *
+         * @return {Promise} Array of all requisition templates
          */
         function getAll() {
             return resource.getAll().$promise;
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  search
          * @methodOf admin-template.requisitionTemplateService
-         * @param {String} programId Program UUID
-         * @return {Promise} Requisition template for given program
          *
          * @description
          * Gets requisition template for given program.
+         *
+         * @param   {String}    programId   Program UUID
+         * @return  {Promise}   Requisition template for given program
          */
         function search(programId) {
             return resource.search({program: programId}).$promise;
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name  save
          * @methodOf admin-template.requisitionTemplateService
-         * @return {Promise} Saved requisition template
          *
          * @description
          * Saves changes to requisition template.
+         *
+         * @return {Promise} Saved requisition template
          */
         function save(template) {
             return resource.save({id: template.id}, template).$promise;

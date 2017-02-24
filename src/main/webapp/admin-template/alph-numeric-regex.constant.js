@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+    * @ngdoc object
+    * @name admin-template.ALPHA_NUMERIC_REGEX
+    *
+    * @description
+    * This is constant for alpha numeric regex
+    */
     angular
         .module('admin-template')
         .constant('ALPHA_NUMERIC_REGEX', /^[a-zA-z0-9/]+[a-zA-Z0-9/ ]+$/);

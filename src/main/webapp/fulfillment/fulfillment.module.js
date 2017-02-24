@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module fulfillment
+     *
+     * @description
+     * Provides factory for supplying application with fulfillment URL.
+     */
     angular.module('fulfillment', [
         'openlmis-urls'
     ]);

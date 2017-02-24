@@ -17,11 +17,10 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
      * @name  openlmis-analytics.stateChangeInterceptor
-     * @description Sends a pageview to GA whenever the UI-Router view changes
      *
+     * @description Sends a pageview to GA whenever the UI-Router view changes.
      */
 
     angular

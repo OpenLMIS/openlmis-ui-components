@@ -18,11 +18,9 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
      * @name  openlmis-analytics.analytics500Interceptor
      * @description Sends event to Google Analytics when server response status has 5xx code.
-     *
      */
     angular
         .module('openlmis-analytics')
@@ -43,17 +41,15 @@
         return interceptor;
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name  responseError
          * @methodOf openlmis-analytics.analytics500Interceptor
-         *
-         * @param  {object} response HTTP Response
-         * @return {Promise} Rejected promise
          *
          * @description
          * Takes a failed response with 5xx code and sends an event to Google Analytics.
          *
+         * @param  {object} response HTTP Response
+         * @return {Promise} Rejected promise
          */
         function responseError(response) {
             if (response.status >= 500) {

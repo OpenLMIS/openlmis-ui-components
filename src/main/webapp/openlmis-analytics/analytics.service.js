@@ -17,13 +17,12 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name  openlmis-analytics.analyticsService
+     *
      * @description
      * Wraps the google analytics object, and initializes the object with the
      * UA tracking code.
-     *
      */
 
     angular.module('openlmis-analytics')
@@ -39,16 +38,13 @@
 
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name  track
          * @methodOf openlmis-analytics.analyticsService
          *
          * @description
-         * Can take any number of arguments and passes them directly to Google Analytics
-         *
+         * Can take any number of arguments and passes them directly to Google Analytics.
          */
-
         function track() {
             if(!offlineService.isOffline()){
                 ga.apply(this, arguments);

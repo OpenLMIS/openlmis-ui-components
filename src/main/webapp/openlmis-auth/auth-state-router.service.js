@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-auth.authStateRouter
+     *
+     * @description
+     * Functions for initialize/reroute state.
+     */
     angular
         .module('openlmis-auth')
         .service('authStateRouter', router);
@@ -30,6 +37,18 @@
 
         this.initialize = initialize;
 
+        /**
+         * @ngdoc method
+         * @name  initialize
+         * @methodOf openlmis-auth.authStateRouter
+         * @private
+         *
+         * @description
+         * Add access token to url and change state.
+         *
+         * @param {String} url  A url string
+         * @return {String}     A url string with access_token url parameter added
+         */
         function initialize() {
             $rootScope.$on('$stateChangeStart', reroute);
 
