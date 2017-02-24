@@ -304,5 +304,6 @@
   "welcome.message": "Welcome to \n Logistics Management Information System",
   "popover.showButton": "More Information",
   "requisitionSummary.showDetails": "View Budget Details",
-  "requisition.nonFullSupply.empty": "No non-full supply items have been added."
+  "requisition.nonFullSupply.empty": "No non-full supply items have been added.",
+  "requisition.addStatusMessage.label": "Add a comment about the changes you have made"
 }

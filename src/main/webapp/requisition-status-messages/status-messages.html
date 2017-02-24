@@ -1,7 +1,7 @@
 <div class="status-messages">
     <header>
         Comments
-        <a ng-click="vm.displayRequisitionHistory()">{{'label.viewHistory' | message}}</a>
+        <a ng-show="vm.requisition.$statusMessages.length > 0" ng-click="vm.displayRequisitionHistory()">{{'label.viewHistory' | message}}</a>
     </header>
     <div class="status-message-list">
         <div class="status-message" ng-if="vm.requisition.$statusMessages.length">
@@ -19,7 +19,10 @@
         <div class="info-no-comments" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
             {{'msg.noCommentsAdded' | message}}
         </div>
-        <textarea ng-model="vm.requisition.draftStatusMessage" ng-hide="vm.displayAddComment()"></textarea>
+        <div ng-hide="vm.displayAddComment()">
+            <label for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
+            <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
+        </div>
     </div>
     <footer>
         <input type="button" class="primary" value="{{'button.addComment' | message}}" ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
