@@ -71,14 +71,50 @@ in specifc cells
         <button>Other Action</button>
       </td>
     </tr>
+    <tr class="is-invalid">
+      <td>
+        
+      </td>
+      <td>ERROR</td>
+      <td>Example Invalid Row</td>
+      <td>0</td>
+      <td>lots</td>
+      <td>
+        <button class="danger">Danger</button>
+      </td>
+    </tr>
+    <tr class="is-disabled">
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>DISABLED</td>
+      <td>Example Disabled Row</td>
+      <td>1</td>
+      <td>each</td>
+      <td>
+        <button disabled>Disabled</button>
+      </td>
+    </tr>
+    <tr class="is-disabled">
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>DISABLED</td>
+      <td>Other Disabled Row</td>
+      <td>1</td>
+      <td>each</td>
+      <td>
+        <button disabled>Disabled</button>
+      </td>
+    </tr>
   </tbody>
 </table>
 
 Styleguide 4.0
 */
 
-$table-border-color: $light-gray !default;
-$table-border: 1px $table-border-color solid !important; // this important is needed to override borders from inherited
+$border-color-table: $light-gray !default;
+$table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
 
 table {
     @extend .table;
@@ -103,10 +139,6 @@ table {
       border-right: $table-border;
     }
 
-    td {
-        background-color: $white;
-    }
-
     th {
         border-top: $table-border;
         background: $light-gray;
@@ -120,30 +152,44 @@ table {
             background-image: linear-gradient(to top, $light-gray, lighten($light-gray, 15%));
         }
     }
+}
 
-    tbody {
+tr {
+  > td {
+    background-color: $background-color;
+  }
 
-        tr.invalid-row td {
-            background-color: lighten($red, 45%);
-            border-color: darken($red, 20%);
-        }
+  &:nth-child(2n+1) > td {
+    background-color: $background-color-alt;
+  }
+
+  &.invalid-row > td,
+  &.is-invalid > td{
+    background-color: $background-color-danger;
+  }
+
+  &.is-disabled td {
+    color: $gray;
+  }
+}
+
+
+td {
+  > button,
+  > button.primary {
+    display: inline-block;
+    float: none;
+    margin: 0px;
+    border-radius: 0px;
+    &:first-child{
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
     }
-
-  td {
-    > button,
-    > button.primary {
-      display: inline-block;
-      float: none;
-      margin: 0px;
-      border-radius: 0px;
-      &:first-child{
-        border-top-left-radius: $border-radius;
-        border-bottom-left-radius: $border-radius;
-      }
-      &:last-child{
-        border-top-right-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
-      }
+    &:last-child{
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
     }
   }
 }
+
+

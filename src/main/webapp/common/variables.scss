@@ -21,13 +21,16 @@ $font-size-large: 22px;
 $font-size-extra-large: 36px;
 
 $brand-primary: $heading-green;
+$brand-danger: $red;
 
 $background-color: $white;
 $background-color-alt: $very-light-gray;
+$background-color-danger: lighten($brand-danger, 45);
 
 $text-color-disabled: $gray;
 
-$table-border-color: $gray;
+$border-color: $light-gray;
+$border-color-danger: darken($brand-danger, 15);
 
 $icon-font-path: 'fonts/';
 
