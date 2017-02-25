@@ -1,15 +1,16 @@
 $font-size-openlmis-header-title: $font-size-extra-large !default;
 
 .openlmis-header {
-    align-items: center;
+    align-items: flex-end;
     background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
     display: flex;
     flex-wrap: nowrap;
-    padding: 0.5em 2em;
+    padding: 1em 2em;
     z-index: 1; // to be above navbar
 
     > * {
         flex: 0 0 auto;
+        align-items: flex-end;
     }
 
     > .title {
