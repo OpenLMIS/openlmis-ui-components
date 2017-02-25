@@ -83,7 +83,7 @@ header > .navbar {
   @include clearfix();
   @extend .navbar-default;
 
-  background-image: linear-gradient(to bottom, $heading-green 0%, darken($heading-green, 10%) 100%);
+  background-image: linear-gradient(to bottom, lighten($brand-primary, 10%) 0%, $brand-primary 10%, darken($brand-primary, 10%) 100%);
   margin-bottom: 0em;
   box-shadow: 0.2em 0 0.4em $shadow;
   border-width: 0em;
@@ -137,7 +137,7 @@ header > .navbar {
         color: $white;
         font-weight: bold;
         text-decoration: none;
-        text-shadow: 0.1em 0.1em 0.1em $shadow;
+        text-shadow: 0em 0em 1px $shadow;
         padding: 0.5em 1em;
         margin: 0.5em;
         &:hover,
@@ -154,7 +154,7 @@ header > .navbar {
       &.open > a:hover,
       > a:hover {
         color: $white;
-        background-color: darken($cyan, 25%);
+        background-color: $link-color;
         box-shadow: inset 0.1em 0.1em 0.1em $light-shadow;
         border-radius: 0.3em;
       }
@@ -180,15 +180,10 @@ header > .navbar {
 
   .dropdown-menu {
     top: 90%;
-    background-image: linear-gradient(to bottom, $white 10%, $light-gray 100%);
-
-    a {
-      color: $text-color;
-
-      &:hover{
-        color: $brand-primary;
-        background-color: transparent;
-      }
+    background-image: linear-gradient(to bottom, $background-color 10%, $background-color-alt 100%);
+    li > a:hover{
+      background-color: transparent;
+      text-decoration: underline;
     }
   }
   /* SECOND LEVEL DROPDOWN */

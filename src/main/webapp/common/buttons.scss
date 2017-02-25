@@ -58,18 +58,20 @@ how button text should be phrased. See `button.close` for an example.
 Styleguide 1.3
 */
 
-$default-button-color: #dddddd !default;
+$button-color-default: $light-gray !default;
+$button-color-primary: $link-color !default;
+$button-color-danger: $brand-danger !default;
 
 button {
-  @include button($default-button-color);
+  @include button($button-color-default);
 
   &.primary {
-    @include button($brand-primary);
+    @include button($button-color-primary);
   }
 
   &.danger {
     @extend button.primary;
-    @include button($brand-danger);
+    @include button($button-color-danger);
   }
 }
 

@@ -3,9 +3,6 @@ $font-size-openlmis-header-title: $font-size-extra-large !default;
 .openlmis-header {
     align-items: center;
     background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);
-    border-bottom: 0.1em solid lighten($cyan, 45%);
-    box-shadow: 0 0 0.5em $shadow;
-    color: $dark-gray;
     display: flex;
     flex-wrap: nowrap;
     padding: 0.5em 2em;
@@ -29,10 +26,8 @@ $font-size-openlmis-header-title: $font-size-extra-large !default;
 }
 
 .openlmis-header.is-offline {
-    background: $dark-gray;
-    border-bottom-color: $black;
+    background: transparent;
     color: $light-gray;
-
     > .title {
         background-image: url('common/openlmis-logo-white.svg');
     }

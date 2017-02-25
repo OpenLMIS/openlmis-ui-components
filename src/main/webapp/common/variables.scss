@@ -3,14 +3,13 @@ $heading-green: #0d8d98;
 $cyan: #45a7ad;
 $green: #356b6f;
 $red: #a94442;
-$orange: #ffa500;
-$blue: #3875d7;
+$orange: #e67325;
+$blue: #3A95BC;
 $brand-blue: #49baeb;
 
 $white: #ffffff;
 $light-gray: #e4e4e4;
-$medium-gray: #bbbbbb;
-$gray: #666666;
+$gray: #58585a;
 $dark-gray: #333333;
 $black: #000000;
 $shadow: rgba($black, 0.75);
@@ -25,12 +24,18 @@ $brand-danger: $red;
 
 $background-color: $white;
 $background-color-alt: #f0f0f0;
+$background-color-dark: $dark-gray;
 $background-color-danger: lighten($brand-danger, 45);
 
+$text-color: $dark-gray;
 $text-color-disabled: $gray;
 
+$heading-color: $gray;
+
+$link-color: $blue;
+$link-color-hover: darken($link-color, 15);
+
 $border-color: $light-gray;
-$border-color-danger: darken($brand-danger, 15);
 
 $icon-font-path: 'fonts/';
 

@@ -26,7 +26,7 @@ Styleguide 1.0
 */
 
 body {
-  background-color: $gray;
+  background-color: $background-color-dark;
   font-family: Arial, sans-serif;
   height: 100%;
   display: flex;
@@ -34,15 +34,12 @@ body {
   padding-right:0 !important; // this stops adding the padding to body when modal is closed on low resolution screens
 }
 
-@font-face {
-  font-family: 'HelveticaNeue-CondensedBold';
-  src: url('../fonts/HelveticaNeue-CondensedBold.woff') format('woff'); /* Modern Browsers */
-}
-
 a {
-  color: $heading-green;
+  color: $link-color;
+  text-decoration: none;
   &:hover {
-    color: darken($heading-green, 15%);
+    color: $link-color-hover;
+    text-decoration: underline;
   }
   cursor: pointer;
   &[disabled]{
@@ -56,10 +53,6 @@ a {
 .dropdown-submenu:hover > a {
   color: $dark-gray;
   background: lighten($cyan, 45%);
-}
-
-.row-fluid [class*="span"] {
-  word-wrap: break-word;
 }
 
 .number, td.number, th.number{

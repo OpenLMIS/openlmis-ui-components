@@ -26,8 +26,8 @@
 
 .modal-login-header {
   @include clearfix();
-  border-bottom: 0.1em solid $medium-gray;
-  border-radius: 0.3em 0.3em 0 0;
+  border-bottom: 1px solid $gray;
+  border-radius: $border-radius;
   background-image: linear-gradient(to bottom, $white 30%, $light-gray 100%);
   padding: 0.5em 1em;
   display: flex;
