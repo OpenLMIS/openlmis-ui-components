@@ -1,24 +1,4 @@
-<td>
-	<div ng-if="isReadOnly && !isTotalLossesAndAdjustments && !isCurrency && !isSkipped">
-		{{lineItem.getFieldValue(column.name)}}
-	</div>
-	<div ng-if="isCurrency && !isSkipped">
-		{{lineItem.getFieldValue(column.name) | openlmisCurrency}}
-	</div>
-	<input type="text"
-		   ng-model="lineItem[column.name]"
-		   ng-if="!isReadOnly && !isTotalLossesAndAdjustments && !isSkipped"
-		   ng-disabled="lineItem.skipped"
-		   ng-change="validate()"
-		   ng-blur="validate()">
-	<input type="checkbox"
-		   class="skip"
-		   ng-model="lineItem[column.name]"
-		   ng-if="isSkipped"
-		   ng-disabled="canNotSkip()">
-	<div ng-if="isTotalLossesAndAdjustments"
-		 losses-and-adjustments
-		 line-item="lineItem"
-		 requisition="requisition"></div>
-	 <div ng-if="!lineItem.skipped" class="cell-error-message">{{lineItem.$errors[column.name]}}</div>
-</td>
+<td ng-class="{sticky:!column.$canChangeOrder}"
+	class="requisition-product-grid-cell"
+	popover="{{invalidMessage}}"
+></td>

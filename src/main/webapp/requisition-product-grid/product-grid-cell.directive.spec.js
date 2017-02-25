@@ -51,6 +51,9 @@ describe('ProductGridCell', function() {
             scope.lineItem = {
                 getFieldValue: function() {
                     return "readOnlyFieldValue";
+                },
+                $errors: {
+
                 }
             }
         });
@@ -59,7 +62,7 @@ describe('ProductGridCell', function() {
 
     function getCompiledElement() {
 
-        var rootElement = angular.element('<div><div product-grid-cell requisition="requisition" column="column" line-item="lineItem"></div></div>');
+        var rootElement = angular.element('<div><dic product-grid-cell requisition="requisition" column="column" line-item="lineItem"></div></div>');
         var compiledElement = compile(rootElement)(scope);
         scope.$digest();
         return compiledElement;
