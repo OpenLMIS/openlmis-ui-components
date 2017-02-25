@@ -89,7 +89,7 @@
          * Flag responsible for hiding/showing the Add Product button.
          */
         vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isAuthorized() &&
-        !vm.requisition.$isInApproval();
+        !vm.requisition.$isInApproval() && !vm.requisition.$isReleased();
         /**
          * @ngdoc property
          * @propertyOf requisition-non-full-supply.NonFullSupplyController

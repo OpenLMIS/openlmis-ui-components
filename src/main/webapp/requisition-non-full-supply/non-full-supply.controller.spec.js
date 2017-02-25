@@ -30,7 +30,7 @@ describe('NonFullSupplyController', function() {
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
         addProductModalService = jasmine.createSpyObj('addProductModalService', ['show']);
 
-        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized', '$isInApproval']);
+        requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized', '$isInApproval', '$isReleased']);
         requisition.template = jasmine.createSpyObj('RequisitionTemplate', ['getColumns']);
         requisition.requisitionLineItems = [
             lineItemSpy(0, 'One', true),
@@ -98,6 +98,27 @@ describe('NonFullSupplyController', function() {
         it('should not display add product button if requisition is approved', function() {
             requisition.$isApproved.andReturn(true);
             requisition.$isAuthorized.andReturn(false);
+
+            initController();
+
+            expect(vm.displayAddProductButton).toBe(false);
+        });
+
+        it('should not display add product button if requisition is in approval', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+            requisition.$isReleased.andReturn(false);
+            requisition.$isInApproval.andReturn(true);
+
+            initController();
+
+            expect(vm.displayAddProductButton).toBe(false);
+        });
+
+        it('should not display add product button if requisition is released', function() {
+            requisition.$isApproved.andReturn(false);
+            requisition.$isAuthorized.andReturn(false);
+            requisition.$isReleased.andReturn(true);
 
             initController();
 

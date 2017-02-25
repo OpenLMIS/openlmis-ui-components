@@ -19,13 +19,13 @@
         <div class="info-no-comments" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
             {{'msg.noCommentsAdded' | message}}
         </div>
-        <div ng-hide="vm.displayAddComment()">
+        <div ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()">
             <label for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
             <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
         </div>
     </div>
     <footer>
         <input type="button" class="primary" value="{{'button.addComment' | message}}" ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
-        <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment()"/>
+        <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()"/>
     </footer>
 </div>
