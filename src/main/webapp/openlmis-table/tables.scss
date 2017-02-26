@@ -143,16 +143,16 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
         background-image: linear-gradient(to top, $light-gray, lighten($light-gray, 15%));
     }
 
-    thead{
-        background-color: $light-gray;
-        tr:first-child{
-            background: $light-gray;
-            background-image: linear-gradient(to top, $light-gray, lighten($light-gray, 15%));
+    thead {
+        th {
+            color: $white;
+            background: $dark-gray;
+            background-image: linear-gradient(to top, $dark-gray, lighten($dark-gray, 15%));
         }
     }
 }
 
-tr {
+.openlmis-table tr {
   > td {
     background-color: $background-color;
   }
@@ -172,7 +172,7 @@ tr {
 }
 
 
-td {
+.openlmis-table td {
   > button,
   > button.primary {
     display: inline-block;

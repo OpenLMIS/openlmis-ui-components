@@ -78,7 +78,7 @@ directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
 Styleguide 4.3
 */
 
-table > tbody > tr.title:first-child > td{
+.openlmis-table > tbody > tr.title:first-child > td{
     margin: 0px;
     padding: 0px;
     background-color: $brand-primary;

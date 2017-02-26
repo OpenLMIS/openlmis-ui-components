@@ -42,7 +42,23 @@
 
     function link(scope, element) {
         if (element.children('table').length == 1) {
-            element.children('table').wrap('<div class="openlmis-flex-table"></div>');
+            var toolbar = angular.element('<div class="toobar"></div>'),
+                main = angular.element('<div class="row"></div>');
+
+            element.children().each(function(index, childElement){
+                if(['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1){
+                    toolbar.append(childElement);
+                } else if(childElement.nodeName == 'FORM'){
+                    main.append(childElement);
+                }
+            });
+
+            var table = element.children('table')
+            table.appendTo(main).wrap('<div class="main"><div class="openlmis-flex-table"></div></div>');
+            table.parent().after(element.children('openlmis-pagination'));
+
+            element.append(toolbar)
+            .append(main);
         }
     }
 

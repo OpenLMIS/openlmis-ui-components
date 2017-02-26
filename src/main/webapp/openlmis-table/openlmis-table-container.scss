@@ -32,14 +32,9 @@ the current table sort order is recommended.*
 
 <h2>Example Items</h2>
 <section class="openlmis-table-container">
-  <form id="example-sort-form" class="openlmis-table-controls form-inline">
-    <label for="table-sort-order">Sort items by</label>
-    <select id="table-sort-order">
-      <option selected="selected">Name</option>
-    </select>
-    <input type="submit" class="btn btn-primary" value="Sort items" />
-  </form>
-  <form class="openlmis-table-filters" id="example-search-form">
+  <p>This list is sorted with love.</p>
+  <button class="primary">Add</button>
+  <form id="example-search-form">
     <fieldset>
       <legend>Show categories</legend>
       <label class="checkbox">
@@ -106,44 +101,67 @@ the current table sort order is recommended.*
       </tr>
     </tbody>
   </table>
+  <openlmis-pagination ng-model="foo" total-items="100" page-size="20"></openlmis-pagination
 </section>
 
 Styleguide 4.1
 */
 .openlmis-table-container {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    width: 100%;
-    overflow: auto;
-    flex-wrap: nowrap;
+    overflow: hidden;
 
-  > * {
-      flex: 0 0 auto;
-      order: 0;
-      margin: 1em 0.5em;
-      width: $sidebar-width;
-  }
-
-  > .openlmis-flex-table {
-    flex: 1 1 auto;
-    width: auto;
-    overflow: auto;
-    position: relative; // tell JS to calculate offset from here
-    > table {
-      @extend .openlmis-table;
+    > * {
+        margin-bottom: 0.5em;
+        &last-child{
+            margin-bottom: 0em;
+        }
     }
-  }
 
-  > .openlmis-table-controls {
-    display: flex;
-    left: 0;
-    position: absolute;
-    top: 0;
-    margin: 0;
-    width: inherit;
-  }
+    > .toolbar {
+        @extend .button-group;
+    }
+
+    > .row {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        margin-left: 0px;
+        margin-right: 0px;
+
+        > * {
+            flex: 0 0 auto;
+            order: 0;
+            margin: 0em 0.5em;
+            width: $sidebar-width;
+        }
+
+        > .main {
+            flex-grow: 1;
+        }
+    }
+
+    > .row > .main {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        > * {
+            flex: 0 0 auto;
+            width: 100%;
+            margin-bottom: 0.5em;
+            &:last-child {
+                margin-bottom: 0em;
+            }
+        }
+    }
+
+    .openlmis-flex-table {
+        overflow: auto;
+        position: relative; // tell JS to calculate offset from here
+        > table {
+            @extend .openlmis-table;
+        }
+    }
 
 }
 
