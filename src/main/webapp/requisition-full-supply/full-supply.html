@@ -1,5 +1,5 @@
 <div class="openlmis-table-container">
-	<div ng-if="vm.areSkipControlsVisible()" class="openlmis-table-controls">
+	<div ng-if="vm.areSkipControlsVisible()">
 		<button ng-if="!vm.skippedAll" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</button>
 		<button ng-if="vm.skippedAll" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</button>
 	</div>
@@ -22,7 +22,11 @@
 			</tr>
 		</tbody>
 	</table>
+	<openlmis-pagination ng-model="vm.stateParams.page"
+		total-items="vm.totalItems"
+		items="vm.pageItems.length"
+		page-size="vm.stateParams.size"
+		ng-change="vm.changePage()"
+		page-validator="vm.isPageValid" >
+	</openlmis-pagination>
 </div>
-<openlmis-pagination ng-model="vm.stateParams.page" total-items="vm.totalItems" items="vm.pageItems.length"
-					 page-size="vm.stateParams.size" ng-change="vm.changePage()" page-validator="vm.isPageValid">
-</openlmis-pagination>

@@ -42,7 +42,7 @@
 
     function link(scope, element) {
         if (element.children('table').length == 1) {
-            var toolbar = angular.element('<div class="toobar"></div>'),
+            var toolbar = angular.element('<div class="toolbar"></div>'),
                 main = angular.element('<div class="row"></div>');
 
             element.children().each(function(index, childElement){

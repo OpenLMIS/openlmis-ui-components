@@ -1,9 +1,7 @@
 <div class="non-full-supply openlmis-table-container">
-	<div class="openlmis-table-controls">
-		<button class="primary" ng-if="vm.displayAddProductButton" ng-click="vm.addProduct()" >
-			{{'button.add' | message}}
-		</button>
-	</div>
+	<button class="primary" ng-if="vm.displayAddProductButton" ng-click="vm.addProduct()" >
+		{{'button.add' | message}}
+	</button>
 	<table>
 		<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
@@ -29,11 +27,11 @@
 			</tr>
 		</tbody>
 	</table>
+	<openlmis-pagination ng-model="vm.stateParams.page"
+		ng-change="vm.changePage(vm.page)"
+		total-items="vm.getTotalItems()"
+		items="vm.pageItems.length"
+		page-size="vm.stateParams.size"
+		page-validator="vm.isPageValid">
+	</openlmis-pagination>
 </div>
-<openlmis-pagination ng-model="vm.stateParams.page"
-	ng-change="vm.changePage(vm.page)"
-	total-items="vm.getTotalItems()"
-	items="vm.pageItems.length"
-	page-size="vm.stateParams.size"
-	page-validator="vm.isPageValid">
-</openlmis-pagination>

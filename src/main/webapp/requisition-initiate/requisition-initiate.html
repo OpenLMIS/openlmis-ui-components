@@ -1,7 +1,8 @@
 <div class="page">
     <h2>{{'label.initiate.requisition' | message}}</h2>
+    <div ng-if="vm.error" class="alert is-error" ng-show="vm.error">{{vm.error}}</div>
     <section class="openlmis-table-container">
-        <form class="openlmis-table-filters" ng-submit="vm.loadPeriods()">
+        <form ng-submit="vm.loadPeriods()">
             <fieldset class="form-group">
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
                 <label class="radio">
@@ -84,5 +85,4 @@
             </tbody>
         </table>
     </section>
-    <div ng-if="vm.error" class="alert is-error" ng-show="vm.error">{{vm.error}}</div>
 </div>
