@@ -21,19 +21,26 @@ table is being modified by a form, the form should be linked by an
 `aria-described-by` attribute._
 
 <h3>An empty table</h3>
-<table class="openlmis-table">
-  <caption>There are no results</caption>
-  <thead>
-    <tr>
-      <th>Fully Supply</th>
-      <th>Code</th>
-      <th>Name</th>
-      <th>Strength</th>
-      <th>Unit of measure</th>
-    </tr>
-  </thead>
-  <!-- This is an empty table -->
-</table>
+<div class="openlmis-table-container">
+  <form>
+    <label>Search</label>
+    <input type="text" />
+    <input type="submit" value="Search" />
+  </form>
+  <table class="openlmis-table">
+    <caption>To view results, search for items.</caption>
+    <thead>
+      <tr>
+        <th>Fully Supply</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Strength</th>
+        <th>Unit of measure</th>
+      </tr>
+    </thead>
+    <!-- This is an empty table -->
+  </table>
+</div>
 
 ### Blocking Captions
 
@@ -48,28 +55,47 @@ Blocking messages should be shown if:
 * An error stopped data from being loaded.
 
 <h3>A table with an error</h3>
-<table class="openlmis-table">
-  <caption class="error">There are no results</caption>
-  <thead>
-    <tr>
-      <th>Fully Supply</th>
-      <th>Code</th>
-      <th>Name</th>
-      <th>Strength</th>
-      <th>Unit of measure</th>
-    </tr>
-  </thead>
-  <!-- This is an empty table -->
-</table>
+<div class="openlmis-table-container">
+  <form>
+    <label>Search</label>
+    <input type="text" />
+    <input type="submit" value="Search" />
+  </form>
+  <table class="openlmis-table">
+    <caption class="error">There was an error. Contact the administrator.</caption>
+    <thead>
+      <tr>
+        <th>Fully Supply</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Strength</th>
+        <th>Unit of measure</th>
+      </tr>
+    </thead>
+    <!-- This is an empty table -->
+  </table>
+</div>
 
 Styleguide 4.2
 */
 
 table > caption{
-  @extend .alert;
-  @extend .alert-info;
+  display: table-caption;
+  margin: 0em 1em;
+  color: $text-color;
+  font-style: italic;
 
-  &.error{
-    @extend .alert-danger;
+  &.error {
+    @include icon('exclamation-circle');
+    display: table-caption;
+    color: $brand-danger;
+    font-family: $font-family;
+    font-weight: bold;
+    &::before{
+      font-family: "FontAwesome";
+      width: auto;
+      height: auto;
+      margin-right: 0.5em;
+    }
   }
 }
