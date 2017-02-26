@@ -11,9 +11,12 @@
 }
 
 .login-form {
-  background: url(../images/login-bg.png) no-repeat 1.5em top;
-  padding: 0 4em 0 23.5em;
-  min-height: 22em;
+  background-image: url("common/openlmis-logo-stacked.svg");
+  background-size: 40% auto;
+  background-position: 2em 45%;
+  background-repeat: no-repeat;
+  padding: 1em;
+  padding-left: 50%;
 
   & > form > fieldset,
   & > .form-desc {
@@ -26,31 +29,19 @@
 
 .modal-login-header {
   @include clearfix();
-  border-bottom: 1px solid $gray;
-  border-radius: $border-radius;
+  border-bottom: 1px solid $light-gray;
   background-image: linear-gradient(to bottom, $white 30%, $light-gray 100%);
   padding: 0.5em 1em;
   display: flex;
   align-items: baseline;
   > *{
-    flex: 1 0 auto;
-  }
-  > .locale-container{
     flex: 0 0 auto;
   }
 
   > h1 {
-    color: $text-color;
-    text-shadow: 0 0.1em 0 $white;
-    font-weight: normal;
-    border-color: transparent;
-    font-family: 'HelveticaNeue-CondensedBold', Arial, sans-serif;
+    flex-grow: 1;
     padding: 0px;
   }
-}
-
-.login-modal .modal-dialog {
-    width: 50em;
 }
 
 .login-modal .modal-content {
@@ -65,6 +56,6 @@
 }
 
 .login-modal .login-container {
-    border-radius: 0.5em;
-    border: 0.1em solid white;
+    border-radius: $border-radius;
+    border: 1px solid $white;
 }
