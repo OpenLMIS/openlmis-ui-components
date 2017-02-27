@@ -38,8 +38,17 @@
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-		        facilities: function (facilityFactory, user) {
-		        	return facilityFactory.getAllUserFacilities(user.user_id);
+		        facilities: function (facilityFactory, user, $q, alertService) {
+					var deferred = $q.defer();
+
+					facilityFactory.getAllUserFacilities(user.user_id).then(function(response) {
+						deferred.resolve(response);
+					}).catch(function() {
+						alertService.error('error.noOfflineData');
+						deferred.reject();
+					});
+
+		        	return deferred.promise;
 		        },
 				response: function(requisitionService, $stateParams) {
 					if ($stateParams.facility) {

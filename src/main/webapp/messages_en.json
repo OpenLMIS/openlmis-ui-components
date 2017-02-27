@@ -51,6 +51,7 @@
   "error.login.username": "Please enter your username.",
   "error.negative": "This field is calculated to be negative, please validate entries",
   "error.noActionRight": "You do not have the right to perform this action",
+  "error.noOfflineData": "Cannot enter view because there is no offline data stored!",
   "error.page.not.found": "Page not found",
   "error.password.mismatch": "Passwords do not match",
   "error.password.number": "Password must contain at least 1 number",
