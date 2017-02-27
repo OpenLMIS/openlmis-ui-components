@@ -35,7 +35,8 @@
 				value: '=',
 				inputId: '@?',
 				minDate: '=?',
-				maxDate: '=?'
+				maxDate: '=?',
+				changeMethod: '=?'
 			},
 			templateUrl: 'openlmis-form/datepicker.html'
 		};

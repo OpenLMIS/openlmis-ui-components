@@ -111,6 +111,16 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @name isSubmitted
+         * @methodOf proof-of-delivery-view.PodViewController
+         *
+         * @description
+         * Checks if POD is submitted.
+         *
+         * @return {boolean} true if status is RECEIVED, false otherwise
+         */
         function isSubmitted() {
             return vm.pod.order.status === ORDER_STATUS.RECEIVED;
         }

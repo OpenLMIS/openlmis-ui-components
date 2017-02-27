@@ -20,8 +20,7 @@
         <dd>
             <div ng-if="!vm.isSubmitted()">
                 <openlmis-datepicker input-id="receivedDate" value="vm.pod.receivedDate"
-                    ng-change="vm.pod.validateRequiredField('receivedDate')"
-                    ng-blur="vm.pod.validateRequiredField('receivedDate')">
+                    change-method="vm.pod.validateRequiredField('receivedDate')">
                 </openlmis-datepicker>
                 <div ng-if="vm.pod.$errors.receivedDate" class="cell-error-message">{{vm.pod.$errors.receivedDate}}</div>
             </div>
