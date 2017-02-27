@@ -137,17 +137,20 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
       border-right: $table-border;
     }
 
-    th {
-        border-top: $table-border;
-        background: $light-gray;
-        background-image: linear-gradient(to top, $light-gray, lighten($light-gray, 15%));
-    }
-
     thead {
         th {
             color: $white;
             background: $dark-gray;
             background-image: linear-gradient(to top, $dark-gray, lighten($dark-gray, 15%));
+            a {
+              color: $white;
+            }
+
+            > .show-popover {
+              margin-left: 0.5em;
+              height: 1em;
+              width: 1em;
+            }
         }
     }
 }

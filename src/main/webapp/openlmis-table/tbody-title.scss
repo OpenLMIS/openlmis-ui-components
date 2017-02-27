@@ -84,9 +84,9 @@ Styleguide 4.3
     background-color: $brand-primary;
     color: $white;
     font-weight: bold;
-    text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 1);
+    text-shadow: 0em 0em 1px $black;
     > div{
       position: relative;
-      padding: 1em 2em;
+      padding: 0.25em 2em;
     }
 }
