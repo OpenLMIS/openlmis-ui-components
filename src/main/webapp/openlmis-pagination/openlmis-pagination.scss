@@ -15,15 +15,27 @@
     > ul {
         @extend .pagination;
         margin: 0px;
-
         border-color: $border-color;
 
+        > li > a {
+            @extend .openlmis-pagination-link;
+        }
+        > li:last-child > a {
+            border-right-width: 1px;
+        }
+
+        .active a {
+            @extend button.primary;
+            @extend .openlmis-pagination-link;
+        }
+
         .invalid a {
-            @include button(lighten($brand-danger, 30%));
+            @extend button.danger;
+            @extend .openlmis-pagination-link;
         }
 
         .active.invalid a {
-            @include button(lighten($brand-danger, 15%));
+            background: $brand-danger;
         }
 
         li:last-child a::after {
@@ -34,4 +46,14 @@
             content: "<< ";
         }
     }
+}
+
+.openlmis-pagination-link{
+    padding: 0.5em 1em;
+    border-radius: 0px;
+    border: $border-color 1px solid;
+    border-right-width: 0px;
+    &:hover{
+        border-color: $border-color;
+    } 
 }

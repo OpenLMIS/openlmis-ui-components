@@ -54,7 +54,7 @@
          *
          */
         function success(successMessage) {
-            return showMessage(successMessage, 'alert-success', 'glyphicon-ok-sign');
+            return showMessage(successMessage, 'is-success');
         }
 
         /**
@@ -69,7 +69,7 @@
          *
          */
         function error(errorMessage) {
-            return showMessage(errorMessage, 'alert-danger', 'glyphicon-remove-sign');
+            return showMessage(errorMessage, 'is-error');
         }
 
         /**
@@ -85,7 +85,7 @@
          *
          */
         function info(infoMessage) {
-            return showMessage(infoMessage, 'alert-info', 'glyphicon-info-sign');
+            return showMessage(infoMessage, 'is-info');
         }
 
         function showMessage(message, type, icon) {

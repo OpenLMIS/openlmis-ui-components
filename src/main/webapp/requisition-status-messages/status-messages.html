@@ -7,7 +7,7 @@
     <div class="alert" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
         {{'msg.noCommentsAdded' | message}}
     </div>
-    <div class="status-message" ng-if="vm.requisition.$statusMessages.length">
+    <article class="status-message" ng-if="vm.requisition.$statusMessages.length">
         <header>
             <div class="status">{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</div>
             <div class="date">
@@ -17,16 +17,15 @@
                 {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
             </div>
         </header>
-        <div class="status-message-content">
-            {{vm.requisition.$statusMessages[0].body}}
-        </div>
-    </div>
-    <div ng-if="vm.displayEditComment()" class="status-message">
+        <div class="content">{{vm.requisition.$statusMessages[0].body}}</div>
+    </article>
+    <article ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()" class="status-message is-editable">
         <header>
-            <div class="title">{{ 'requisition.statusMessage.currentTitle' | message }}</div>
-            <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()"/>
+            <label class="title" for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
+            <button class="close" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()" >{{'button.removeComment' | message}}</button>
         </header>
-        <label for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
-        <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
-    </div>
+        <div>
+            <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
+        </div>
+    </article>
 </section>

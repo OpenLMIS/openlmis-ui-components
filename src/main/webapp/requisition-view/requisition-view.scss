@@ -1,6 +1,18 @@
 
-.nav > li.error > a:after {
-    color: $red;
-    content: ' \f06a';
-    font-family: 'FontAwesome';
+.nav > li.is-invalid > a {
+	@include icon('exclamation-circle');
+	padding-right: 2em;
+	&:before{
+		color: $brand-danger;
+		position: absolute;
+		right: 0.5em;
+	}
+}
+
+.nav > li.is-invalid.active > a {
+	background-color: $brand-danger;
+	color: $white;
+	&:before{
+		color: $white;
+	}
 }

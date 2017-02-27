@@ -1,6 +1,4 @@
 //Colors
-$heading-green: #0d8d98;
-$cyan: #45a7ad;
 $green: #356b6f;
 $red: #a94442;
 $orange: #e67325;
@@ -23,16 +21,18 @@ $font-size-extra-large: 36px;
 
 $brand-primary: $brand-blue;
 $brand-danger: $red;
+$brand-success: $green;
+$brand-info: $blue;
 
 $background-color: $white;
 $background-color-alt: #f0f0f0;
 $background-color-dark: $dark-gray;
 $background-color-danger: lighten($brand-danger, 45);
 
-$text-color: $gray;
-$text-color-disabled: $gray;
+$text-color: #434343;
+$text-color-disabled: #767676;
 
-$heading-color: $gray;
+$heading-color: $text-color;
 
 $link-color: $blue;
 $link-color-hover: darken($link-color, 15);

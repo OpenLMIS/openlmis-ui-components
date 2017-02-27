@@ -1,0 +1,33 @@
+
+.alert {
+	@extend .alert-info;
+	border: 0px;
+	margin: 0px;
+	padding: 0.25em 1em;
+
+	&.is-error,
+	&.is-danger {
+		@extend .alert-danger;
+		@include icon('exclamation-circle');
+		color: $brand-danger;
+	}
+
+	&.is-success {
+		@include icon('check-circle');
+		color: $brand-success;
+	}
+
+	&.is-info {
+		@extend .alert-info;
+	}
+}
+
+.alert-info, .alert-danger, .alert-success {
+	background-color: transparent;
+	border: 0px;
+	color: $text-color;
+}
+
+.alert-info {
+	font-style: italic;
+}

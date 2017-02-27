@@ -41,9 +41,6 @@
 			width: 2em;
 			height: 100%;
 			color: $brand-danger;
-			&::before{
-				transform: translateX(-50%) translateY(-15%);
-			}
 		}
 	}
 }

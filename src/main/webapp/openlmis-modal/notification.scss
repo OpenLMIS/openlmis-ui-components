@@ -1,3 +1,5 @@
+$notification-width: 350px !default;
+
 .notification-container {
   	position: fixed;
   	right: 0px;
@@ -7,21 +9,27 @@
 
 .notification {
     @extend .alert;
-    width: 350px;
-    min-height: 80px;
-    margin: 10px 20px;
+    @extend .fadeIn;
+    background-color: $background-color;
+    border-radius: $border-radius;
+    border: $border-color 1px solid;
+    box-shadow: 0em 0em 0.5em $background-color-alt;
+    width: $notification-width;
+    padding: 1em;
+    margin: 1em 2em;
     display: flex;
     align-items: center;
-    @extend .fadeIn;
+    position: relative;
+    font-weight: bold;
+    font-size: $font-size-large;
+
+    &::before{
+        font-size: 2em;
+    }
 }
 
 .notification:first-child {
-    margin-top: 20px;
-}
-
-.notification .glyphicon {
-    margin-right: 0.5em;
-    font-size: x-large;
+    margin-top: 1em;
 }
 
 .hide-notification {

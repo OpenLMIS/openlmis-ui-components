@@ -3,16 +3,18 @@
 .status-message {
     
     > header {
-        @extend .minor-heading;
-        justify-content: space-between;
-
-        & > .status {
+        > .status {
+            @extend .title;
             font-weight: bold;
         }
 
-        & > .date {
+        > .date {
             font-style: italic;
         }
+    }
+
+    > .content {
+        white-space: pre;
     }
 
     & + .status-message {

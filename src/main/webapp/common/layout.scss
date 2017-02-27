@@ -22,12 +22,11 @@ body{
 
 .page {
     flex-grow: 0;
-    margin: 0.9em 0.9em 0;
+    margin: 1em;
     box-shadow: 0 0 0.5em $shadow;
+    border: 0px;
     background: $white;
-    padding: 0em 1.5em;
-
-    padding-bottom: $space-size*2; // For toolbar
+    padding: 1em 2em;
 
     > * {
     	margin: 0em;
@@ -37,12 +36,29 @@ body{
     > header,
     > h1, > h2 {
         @extend .heading;
+        background-color: transparent;
     }
 
     > section {
         > header,
         > h3 {
            @extend .sub-heading;
+        }
+    }
+
+    > nav > ul {
+        @extend .nav;
+        @extend .nav-pills;
+        > li > a:hover{
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        > li > a.active {
+            background-color: $link-color;
+            &:hover{
+                text-decoration: none;
+            }
         }
     }
 }

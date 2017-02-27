@@ -47,18 +47,6 @@ a {
   }
 }
 
-
-.dropdown-menu li > a:hover,
-.dropdown-menu li > a:focus,
-.dropdown-submenu:hover > a {
-  color: $dark-gray;
-  background: lighten($cyan, 45%);
-}
-
-.number, td.number, th.number{
-  text-align: right;
-}
-
 @keyframes(fade-in) {
   from {
     transform: scale(0);

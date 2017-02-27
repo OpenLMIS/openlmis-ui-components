@@ -1,5 +1,5 @@
 <div class="status-message-list">
-    <div class="status-message" ng-repeat="statusMessage in vm.requisition.$statusMessages">
+    <article class="status-message" ng-repeat="statusMessage in vm.requisition.$statusMessages">
         <header>
             <div class="status">{{statusMessage.status | requisitionStatus}}</div>
             <div class="date">
@@ -9,6 +9,6 @@
                 {{statusMessage.createdDate | date: 'longDate'}}
             </div>
         </header>
-        {{statusMessage.body}}
-    </div>
+        <div class="content">{{statusMessage.body}}</div>
+    </article>
 </div>

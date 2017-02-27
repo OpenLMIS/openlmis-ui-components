@@ -1,13 +1,11 @@
 @mixin icon($icon){
   @extend .fa;
   @extend ".fa-#{$icon} !optional";
+  font-family: $font-family;
   &::before{
+    font-family: "FontAwesome";
     display: inline-block;
     font-size: 1em;
-    width: 100%;
-    height: 100%;
-    line-height: 1.2em;
-    text-align: center;
   }
 }
 
