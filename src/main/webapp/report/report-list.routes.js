@@ -36,8 +36,8 @@
                 REPORT_RIGHTS.REPORTS_VIEW
             ],
             resolve: {
-                reports: function (requisitionReportService) {
-                    return requisitionReportService.getAll();
+                reports: function (reportFactory) {
+                    return reportFactory.getAllReports();
                 }
             }
         });

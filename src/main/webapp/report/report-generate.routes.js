@@ -13,44 +13,36 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
 
-    /**
-     * @ngdoc controller
-     * @name report.controller:ReportListController
-     *
-     * @description
-     * Controller for report list view page
-     */
     angular
         .module('report')
-        .controller('ReportListController', controller);
+        .config(config);
 
-    controller.$inject = ['$state', 'reports'];
+    config.$inject = ['$stateProvider', 'REPORT_RIGHTS'];
 
-    function controller($state, reports) {
-        var vm = this;
+    function config($stateProvider, REPORT_RIGHTS) {
 
-        vm.reports = reports;
-        vm.goToReport = goToReport;
+        $stateProvider.state('reports.generate', {
+            controller: 'ReportGenerateController',
+            controllerAs: 'vm',
+            templateUrl: 'report/report-generate.html',
+            url: '/:module/:report/options',
+            accessRights: [
+                REPORT_RIGHTS.REPORTS_VIEW
+            ],
+            resolve: {
+                report: function($stateParams, reportFactory) {
+                    return reportFactory.getReport($stateParams.module, $stateParams.report);
+                },
+                reportParamsOptions: function(report, reportFactory) {
+                    return reportFactory.getReportParamsOptions(report);
+                }
+            }
+        });
 
-        /**
-         * @ngdoc function
-         * @name goToReport
-         * @methodOf report.controller:ReportListController
-         * @param {String} reportId Report UUID
-         *
-         * @description
-         * Redirects user to report options page.
-         */
-        function goToReport(report) {
-            $state.go('reports.generate', {
-                module: report.$module,
-                report: report.id
-            });
-        }
     }
+
 })();

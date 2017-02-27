@@ -12,45 +12,41 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
-
 (function() {
 
     'use strict';
 
     /**
-     * @ngdoc controller
-     * @name report.controller:ReportListController
+     * @ngdoc directive
+     * @name openlmis-form.input
      *
      * @description
-     * Controller for report list view page
+     *
      */
     angular
-        .module('report')
-        .controller('ReportListController', controller);
+        .module('openlmis-form')
+        .directive('input', inputRequired);
 
-    controller.$inject = ['$state', 'reports'];
+    inputRequired.$inject = [];
 
-    function controller($state, reports) {
-        var vm = this;
+    function inputRequired() {
+        var directive = {
+            link: link,
+            restrict: 'E'
+        };
+        return directive;
 
-        vm.reports = reports;
-        vm.goToReport = goToReport;
+        function link(scope, element, attrs) {
+            if (!attrs.required && (!attrs.ngRequired || attrs.ngRequired !== 'false')) return;
 
-        /**
-         * @ngdoc function
-         * @name goToReport
-         * @methodOf report.controller:ReportListController
-         * @param {String} reportId Report UUID
-         *
-         * @description
-         * Redirects user to report options page.
-         */
-        function goToReport(report) {
-            $state.go('reports.generate', {
-                module: report.$module,
-                report: report.id
-            });
+            if (attrs.type === 'radio') {
+                element.parent().parent().find('legend').addClass('required');
+            } else {
+                attrs.$observe('id', function(id) {
+                    element.siblings('label[for="' + id + '"]').addClass('required');
+                });
+            }
         }
     }
+
 })();

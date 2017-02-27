@@ -12,34 +12,37 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 (function() {
 
     'use strict';
 
+    /**
+     * @ngdoc directive
+     * @name openlmis-form.select
+     *
+     * @description
+     *
+     */
     angular
-        .module('report')
-        .config(config);
+        .module('openlmis-form')
+        .directive('select', selectRequired);
 
-    config.$inject = ['$stateProvider', 'REPORT_RIGHTS'];
+    selectRequired.$inject = [];
 
-    function config($stateProvider, REPORT_RIGHTS) {
+    function selectRequired() {
+        var directive = {
+            link: link,
+            restrict: 'E'
+        };
+        return directive;
 
-        $stateProvider.state('reports.options', {
-            controller: 'ReportOptionsController',
-            controllerAs: 'vm',
-            templateUrl: 'report/report-options.html',
-            url: '/:report/options',
-            accessRights: [
-                REPORT_RIGHTS.REPORTS_VIEW
-            ],
-            resolve: {
-                report: function ($stateParams, requisitionReportService) {
-                    return requisitionReportService.get($stateParams.report);
-                }
+        function link(scope, element, attrs) {
+            if (attrs.required || (attrs.ngRequired && attrs.ngRequired !== 'false')) {
+                attrs.$observe('id', function(id) {
+                    element.siblings('label[for="' + id + '"]').addClass('required');
+                });
             }
-        });
-
+        }
     }
 
 })();

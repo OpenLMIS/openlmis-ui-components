@@ -20,37 +20,42 @@
 
     /**
      * @ngdoc controller
-     * @name report.controller:ReportListController
+     * @name report.controller:ReportGenerateController
      *
      * @description
-     * Controller for report list view page
+     * Controller for report options page
      */
     angular
         .module('report')
-        .controller('ReportListController', controller);
+        .controller('ReportGenerateController', controller);
 
-    controller.$inject = ['$state', 'reports'];
+    controller.$inject = [
+        '$state', '$window', 'report', 'reportParamsOptions', 'reportUrlFactory',
+        'accessTokenFactory'
+    ];
 
-    function controller($state, reports) {
+    function controller($state, $window, report, reportParamsOptions, reportUrlFactory,
+                        accessTokenFactory) {
         var vm = this;
 
-        vm.reports = reports;
-        vm.goToReport = goToReport;
+        vm.downloadReport = downloadReport;
 
-        /**
-         * @ngdoc function
-         * @name goToReport
-         * @methodOf report.controller:ReportListController
-         * @param {String} reportId Report UUID
-         *
-         * @description
-         * Redirects user to report options page.
-         */
-        function goToReport(report) {
-            $state.go('reports.generate', {
-                module: report.$module,
-                report: report.id
-            });
+        vm.report = report;
+        vm.paramsOptions = reportParamsOptions;
+        vm.selectedParamsOptions = {};
+
+        function downloadReport() {
+            $window.open(
+                accessTokenFactory.addAccessToken(
+                    reportUrlFactory.buildUrl(
+                        'requisitions',
+                        vm.report,
+                        vm.selectedParamsOptions,
+                        vm.format
+                    )
+                ),
+                '_blank'
+            );
         }
     }
 })();

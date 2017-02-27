@@ -49,7 +49,6 @@
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
-                modalTitle = getModalTitle(element),
                 modal, modalScope;
 
             element.off('click');
@@ -109,7 +108,7 @@
                     modalScope.findSelectedOption();
 
                     modal = bootbox.dialog({
-                        title: modalTitle,
+                        title: getModalTitle(element),
                         message: $compile(template)(modalScope),
                         backdrop: true,
                         onEscape: closeModal

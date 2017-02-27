@@ -30,11 +30,13 @@ describe('ReportListController', function() {
         reports = [
             {
                 id: 'id-one',
-                name: 'Report 1'
+                name: 'Report 1',
+                $module: 'moduleOne'
             },
             {
                 id: 'id-two',
-                name: 'Report 2'
+                name: 'Report 2',
+                $module: 'moduleTwo'
             }
         ];
 
@@ -54,14 +56,15 @@ describe('ReportListController', function() {
     });
 
     it('should go to report options page', function() {
-        var stateGoSpy = jasmine.createSpy();
+        spyOn(state, 'go').andReturn();
 
-        spyOn(state, 'go').andCallFake(stateGoSpy);
-
-        vm.goToReport(reports[0].id);
+        vm.goToReport(reports[0]);
 
         rootScope.$apply();
 
-        expect(stateGoSpy).toHaveBeenCalledWith('reports.options', { report: reports[0].id });
+        expect(state.go).toHaveBeenCalledWith('reports.generate', {
+            module: reports[0].$module,
+            report: reports[0].id
+        });
     });
 });

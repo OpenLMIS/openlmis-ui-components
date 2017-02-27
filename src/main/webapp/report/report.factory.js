@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-  (function() {
+(function() {
 
     'use strict';
 
@@ -28,49 +28,109 @@
         .module('report')
         .factory('reportFactory', factory);
 
- 	  factory.$inject = ['$http', '$q', 'openlmisUrlFactory'];
+    factory.$inject = ['$http', '$q', 'openlmisUrlFactory', 'reportService'];
 
-    function factory($http, $q, openlmisUrlFactory) {
+    function factory($http, $q, openlmisUrlFactory, reportService) {
         var factory = {
-            getParameterOptions: getParameterOptions
+            getReport: getReport,
+            getReports: getReports,
+            getAllReports: getAllReports,
+            getReportParamsOptions: getReportParamsOptions
         };
         return factory;
 
-        /**
-         * @ngdoc function
-         * @name  getParameterOptions
-         * @methodOf report.requisitionReportService
-         *
-         * @description
-         * Gets select options for report parameter based on given path.
-         *
-         * @param {String} path to resource.
-         * @param {String} property of resource to extract as value.
-         * @param {String} display property of resource.
-         * @returns {Promise} Array of select values.
-         */
-        function getParameterOptions(path, selectProperty, displayProperty) {
+        function getReport(module, id) {
             var deferred = $q.defer();
 
-            $http({
-                method: 'GET',
-                url: openlmisUrlFactory(path)
-            }).then(function(response) {
+            reportService.getReport(module, id).then(function(report) {
+                report.$module = module;
+                deferred.resolve(report);
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+
+        function getReports(module) {
+            var deferred = $q.defer();
+
+            reportService.getReports(module).then(function(reports) {
+                angular.forEach(reports, function(report) {
+                    report.$module = module;
+                });
+                deferred.resolve(reports);
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+
+        function getAllReports() {
+            var promises = [],
+                deferred = $q.defer();
+
+            angular.forEach(['requisitions'], function(module) {
+                promises.push(getReports(module));
+            });
+
+            $q.all(promises).then(function(reportLists) {
+                var allReports = [];
+
+                angular.forEach(reportLists, function(reportList) {
+                    allReports = allReports.concat(reportList);
+                });
+
+                deferred.resolve(allReports);
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+
+        function getReportParamsOptions(report) {
+            var deferred = $q.defer(),
+                promises = [],
+                parameters = {};
+
+            angular.forEach(report.templateParameters, function(param) {
+                var paramDeferred = $q.defer();
+
+                promises.push(paramDeferred.promise);
+
+                getReportParamOptions(
+                    param.selectExpression,
+                    param.selectProperty,
+                    param.displayProperty
+                ).then(function(params) {
+                    parameters[param.name] = params;
+                    paramDeferred.resolve();
+                }, paramDeferred.reject);
+            });
+
+            $q.all(promises).then(function() {
+                deferred.resolve(parameters);
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+
+        function getReportParamOptions(uri, property, displayName) {
+            var deferred = $q.defer();
+
+            reportService.getReportParamsOptions(uri).then(function(response) {
                 var items = [];
 
                 angular.forEach(response.data, function(obj) {
-                    var value = selectProperty ? obj[selectProperty] : obj;
-                    var name = displayProperty ? obj[displayProperty] : value;
+                    var value = property ? obj[property] : obj;
+                    var name = displayName ? obj[displayName] : value;
 
                     if (value) {
-                        items.push({'name': name, 'value': value});
+                        items.push({
+                            'name': name,
+                            'value': value
+                        });
                     }
                 });
 
                 deferred.resolve(items);
-            }).catch(function(err) {
-                deferred.reject()
-            });
+            }, deferred.reject);
 
             return deferred.promise;
         }

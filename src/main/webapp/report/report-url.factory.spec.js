@@ -49,19 +49,19 @@ describe("reportUrlFactory", function () {
   });
 
   it('should return string', function () {
-    var url = reportUrlFactory("/someURL", report, selectedValues, format);
+    var url = reportUrlFactory.buildUrl("/someURL", report, selectedValues, format);
     expect(typeof(url)).toBe("string");
   });
 
   it("should format relative and absolute urls the same", function(){
-    var relativeURL = reportUrlFactory("someURL", report, selectedValues, format);
-    var absoluteURL = reportUrlFactory("/someURL", report, selectedValues, format);
+    var relativeURL = reportUrlFactory.buildUrl("someURL", report, selectedValues, format);
+    var absoluteURL = reportUrlFactory.buildUrl("/someURL", report, selectedValues, format);
 
     expect(relativeURL).toEqual(absoluteURL);
   });
 
   it("should format urls with selected values", function(){
-    var url = reportUrlFactory("/some", report, selectedValues, format);
+    var url = reportUrlFactory.buildUrl("/some", report, selectedValues, format);
     expect(url).toBe('/api/reports/templates/some/reportId/pdf?program=programName&&facility=facilityCode&&');
   });
 

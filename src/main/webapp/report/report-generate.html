@@ -1,0 +1,27 @@
+<div class="page">
+    <h2>{{'choose.report.options.header' | message}}</h2>
+    <form ng-submit="vm.downloadReport()">
+        <label ng-repeat-start="parameter in vm.report.templateParameters" for="{{parameter.name}}">{{parameter.displayName}}</label>
+        <select id="{{parameter.name}}" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}" ng-repeat-end></select>
+        <fieldset class="form-group">
+            <legend>{{'label.format' | message}}</legend>
+            <label class="radio">
+                <input type="radio" ng-model="vm.format" value="pdf" required/>
+                {{'button.report.pdf' | message}}
+            </label>
+            <label class="radio">
+                <input type="radio" ng-model="vm.format" value="csv" required/>
+                {{'button.report.csv' | message}}
+            </label>
+            <label class="radio">
+                <input type="radio" ng-model="vm.format" value="xls" required/>
+                {{'button.report.xls' | message}}
+            </label>
+            <label class="radio">
+                <input type="radio" ng-model="vm.format" value="html" required/>
+                {{'button.report.html' | message}}
+            </label>
+        </fieldset>
+        <input type="submit" value="{{'button.generate' | message}}"/>
+    </form>
+</div>

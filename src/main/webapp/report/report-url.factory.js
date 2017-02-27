@@ -15,41 +15,54 @@
 
 (function() {
 
- 	'use strict';
-
- 	/**
- 	 * @ngdoc service
- 	 * @name report.reportUrlFactory
- 	 *
- 	 * @description
- 	 * A factory that takes a URL and prepends the reports path to the url.
- 	 */
- 	angular
-    .module('report')
-    .factory('reportUrlFactory', factory);
-
- 	factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
-
- 	function factory(openlmisUrlFactory, pathFactory) {
-    var reportUrl = '/api/reports/templates';
+    'use strict';
 
     /**
-     * @param  {String} url The url fragment to prepend the reports url before
-     * @param  {String} report The report to return url for
-     * @param  {String} selectedValues The values selected for report parameters
-     * @param  {String} format The format of report to return url for
-     * @return {String} url that is directed towards the OpenLMIS Reporting
+     * @ngdoc service
+     * @name report.reportUrlFactory
+     *
+     * @description
+     * A factory that takes a URL and prepends the reports path to the url.
      */
-    return function(url, report, selectedValues, format) {
-      url = pathFactory(reportUrl, url, report.id, format);
+    angular
+        .module('report')
+        .factory('reportUrlFactory', reportUrlFactory);
 
-      var requestParameters = "";
-      angular.forEach(report.templateParameters, function (parameter) {
-        requestParameters = requestParameters + parameter.name + "=" + selectedValues[parameter.name] + "&&";
-      });
+    reportUrlFactory.$inject = ['openlmisUrlFactory', 'pathFactory'];
 
-      return openlmisUrlFactory(url + '?' + requestParameters);
+    function reportUrlFactory(openlmisUrlFactory, pathFactory) {
+        var reportUrl = '/api/reports/templates',
+            factory = {
+                buildUrl: buildUrl
+            };
+
+        return factory;
+
+        /**
+         * @ngdoc method
+         * @methodOf report.reportUrlFactory
+         * @name buildUrl
+         *
+         * @description
+         * Prepares an URL for the given partial URL, report, values and format.
+
+         * @param   {String}    url             the url fragment to prepend the reports url before
+         * @param   {Object}    report          the report to return url for
+         * @param   {Object}    selectedValues  the values selected for report parameters
+         * @param   {String}    format          the format of report to return url for
+         * @return  {String}                    url that is directed towards the OpenLMIS Reporting
+         */
+        function buildUrl(url, report, selectedValues, format) {
+            url = pathFactory(reportUrl, url, report.id, format);
+
+            var requestParameters = "";
+            angular.forEach(report.templateParameters, function(parameter) {
+                requestParameters = requestParameters + parameter.name + "=" +
+                    selectedValues[parameter.name] + "&&";
+            });
+
+            return openlmisUrlFactory(url + '?' + requestParameters);
+        }
     }
- 	}
 
- })();
+})();
