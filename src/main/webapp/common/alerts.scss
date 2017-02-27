@@ -3,7 +3,12 @@
 	@extend .alert-info;
 	border: 0px;
 	margin: 0px;
-	padding: 0.25em 1em;
+	padding: 1em;
+
+	background-color: $background-color-alt;
+	color: $text-color;
+	border: 1px $border-color solid;
+	border-radius: $border-radius;
 
 	&.is-error,
 	&.is-danger {
@@ -20,14 +25,18 @@
 	&.is-info {
 		@extend .alert-info;
 	}
+
+
 }
 
 .alert-info, .alert-danger, .alert-success {
-	background-color: transparent;
-	border: 0px;
-	color: $text-color;
+	@extend .alert;
 }
 
-.alert-info {
-	font-style: italic;
+.alert-danger{
+	@extend .alert.is-danger;
+}
+
+.alert-success{
+	@extend .alert.is-success;
 }

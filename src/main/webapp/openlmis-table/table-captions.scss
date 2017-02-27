@@ -79,23 +79,17 @@ Blocking messages should be shown if:
 Styleguide 4.2
 */
 
-table > caption{
+.openlmis-table {
+  caption-side: bottom;
+}
+
+.openlmis-table > caption{
+  @extend .alert;
   display: table-caption;
-  margin: 0em 1em;
-  color: $text-color;
-  font-style: italic;
+  margin: 1em 0em;
 
   &.error {
-    @include icon('exclamation-circle');
+    @extend .alert.is-error;
     display: table-caption;
-    color: $brand-danger;
-    font-family: $font-family;
-    font-weight: bold;
-    &::before{
-      font-family: "FontAwesome";
-      width: auto;
-      height: auto;
-      margin-right: 0.5em;
-    }
   }
 }

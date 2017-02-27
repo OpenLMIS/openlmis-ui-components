@@ -5,26 +5,42 @@ $notification-width: 350px !default;
   	right: 0px;
   	top: 0px;
   	z-index: 15;
+
+    > * {
+        margin: 1em 2em;
+    }
 }
 
 .notification {
     @extend .alert;
     @extend .fadeIn;
-    background-color: $background-color;
-    border-radius: $border-radius;
-    border: $border-color 1px solid;
-    box-shadow: 0em 0em 0.5em $background-color-alt;
-    width: $notification-width;
-    padding: 1em;
-    margin: 1em 2em;
-    display: flex;
-    align-items: center;
-    position: relative;
+    background-color: $background-color-dark;
+    color: $white;
     font-weight: bold;
-    font-size: $font-size-large;
+    font-size: $font-size;
+    box-shadow: 0em 0em 0.5em $dark-gray;
+    width: $notification-width;
 
-    &::before{
-        font-size: 2em;
+    &.is-error,
+    &.is-success {
+        padding-left: 4em;
+        &::before {
+            font-size: 2em;
+            position: absolute;
+            top: 50%;
+            left: 0.5em;
+            transform: translateY(-50%);
+        }
+    }
+
+    &.is-error {
+        background-color: $brand-danger;
+        color: $white;
+    }
+
+    &.is-success {
+        background-color: $brand-success;
+        color: $white;
     }
 }
 
