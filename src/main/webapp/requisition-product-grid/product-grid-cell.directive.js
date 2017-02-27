@@ -101,7 +101,7 @@
 
                     var cell = $compile(template)(scope);
                     element.replaceWith(cell);
-                    
+
                     element = cell;
                 });
             }
@@ -117,7 +117,7 @@
 
             function isReadOnly() {
                 if (requisition.$isApproved() || requisition.$isReleased()) return true;
-                if (requisition.$isAuthorized()) {
+                if (requisition.$isAuthorized() || requisition.$isInApproval()) {
                     return [
                         TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS
                     ].indexOf(column.name) === -1;

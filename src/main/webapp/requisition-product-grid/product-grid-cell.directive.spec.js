@@ -97,13 +97,16 @@ describe('ProductGridCell', function() {
     it('should produce editable cell', function() {
         scope.requisition.$isApproved = function() {
             return false;
-        }
+        };
         scope.requisition.$isReleased = function() {
             return false;
-        }
+        };
         scope.requisition.$isAuthorized = function() {
             return false;
-        }
+        };
+        scope.requisition.$isInApproval = function() {
+            return false;
+        };
         directiveElem = getCompiledElement();
 
         expect(directiveElem.html()).not.toContain("readOnlyFieldValue");
