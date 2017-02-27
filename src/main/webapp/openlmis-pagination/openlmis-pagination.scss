@@ -2,7 +2,8 @@
 
     display: flex;
     justify-content: space-between;
-
+    align-items: center;
+    
     > * {
         flex: 0 0 auto;
         &:first-child {
@@ -11,28 +12,26 @@
     }
 
     margin-bottom: $space-size;
-    .pagination{
+    > ul {
+        @extend .pagination;
         margin: 0px;
-    }
-}
 
-.pagination {
+        border-color: $border-color;
 
-    border-color: $light-gray !important;
+        .invalid a {
+            @include button(lighten($brand-danger, 30%));
+        }
 
-    .invalid a {
-        @include button(lighten($red, 30%));
-    }
+        .active.invalid a {
+            @include button(lighten($brand-danger, 15%));
+        }
 
-    .active.invalid a {
-        @include button(lighten($red, 15%));
-    }
+        li:last-child a::after {
+            content: " >>";
+        }
 
-    li:last-child a::after {
-        content: " >>";
-    }
-
-    li:first-child a::before {
-        content: "<< ";
+        li:first-child a::before {
+            content: "<< ";
+        }
     }
 }

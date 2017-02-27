@@ -2,7 +2,7 @@
 	<div class="pagination-info">
 		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>
-	<ul class="pagination pagination-sm" ng-if="vm.totalItems">
+	<ul ng-if="vm.totalItems">
 		<li ng-class="{disabled : vm.isFirstPage()}">
 			<a ng-click="vm.isFirstPage() || vm.previousPage()">
 				{{'label.previousPage' | message}}
