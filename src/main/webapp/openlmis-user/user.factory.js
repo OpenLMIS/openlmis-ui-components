@@ -63,11 +63,7 @@
 
             if(offlineService.isOffline()) {
                 var user = offlineUserDetails.getBy('id', id);
-                if(user) {
-                    deferred.resolve(user);
-                } else {
-                    deferred.reject();
-                }
+                user ? deferred.resolve(user) : deferred.reject();
             } else {
                 resource.get({id: id}).$promise.then(function(response) {
                     offlineUserDetails.put(response);
