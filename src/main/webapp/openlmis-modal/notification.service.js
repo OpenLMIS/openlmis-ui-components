@@ -39,7 +39,7 @@
             template = $templateCache.get('openlmis-modal/notification.html');
 
         this.info = info;
-        this.success = success
+        this.success = success;
         this.error = error;
 
         /**
@@ -126,7 +126,7 @@
             function closeNotification() {
                 element.addClass('hide-notification');
                 element.bind('webkitAnimationEnd',function(){
-                    element.remove();
+                    if(element) element.remove();
                     scope.$destroy();
                     element = undefined;
                 });
