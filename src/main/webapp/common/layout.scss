@@ -48,15 +48,18 @@ body{
 
     > nav > ul {
         @extend .nav;
-        @extend .nav-pills;
-        > li > a:hover{
-            background-color: transparent;
-            text-decoration: underline;
+        @extend .nav-tabs;
+
+        > li > a {
+            background-color: $background-color-alt;
+            &:hover{
+                text-decoration: underline;
+            }
         }
 
         > li > a.active {
-            background-color: $link-color;
-            &:hover{
+            background-color: $background-color;
+            &:hover {
                 text-decoration: none;
             }
         }
