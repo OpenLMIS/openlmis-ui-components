@@ -101,6 +101,7 @@ describe('LineItem', function() {
         requisition = jasmine.createSpyObj('requisition', ['$isApproved', '$isAuthorized', '$isInApproval', '$isReleased']);
         requisition.$isApproved.andReturn(false);
         requisition.$isAuthorized.andReturn(false);
+        requisition.$isReleased.andReturn(false);
         requisition.requisitionLineItems = [requisitionLineItem];
         requisition.program = program;
         requisition.status = 'SUBMITTED';
