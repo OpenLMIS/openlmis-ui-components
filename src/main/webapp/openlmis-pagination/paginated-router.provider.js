@@ -52,12 +52,8 @@
          */
         function resolve(toResolve) {
             if (toResolve.response) {
-                if (!toResolve.page) {
-                    toResolve.page = externalPageResolve;
-                }
-
-                if (!toResolve.pageSize) {
-                    toResolve.pageSize = externalPageSizeResolve;
+                if (!toResolve.stateParams) {
+                    toResolve.stateParams = externalStateParamsResolve;
                 }
 
                 if (!toResolve.totalItems) {
@@ -68,48 +64,55 @@
                     toResolve.items = externalItemsResolve;
                 }
             } else {
-                if (!toResolve.pageSize) {
-                    toResolve.pageSize = pageSizeResolve;
+                if (!toResolve.stateParams) {
+                    toResolve.stateParams = stateParamsResolve;
                 }
 
                 if (!toResolve.totalItems && toResolve.items) {
                     toResolve.totalItems = totalItemsResolve;
-                }
-
-                if (!toResolve.page) {
-                    toResolve.page = pageResolve;
                 }
             }
 
             return toResolve;
         }
 
-        function externalPageSizeResolve(response, $stateParams) {
-            return response ? response.size : pageSizeResolve($stateParams);
+        function externalStateParamsResolve(response, $stateParams) {
+            var stateParams = stateParamsResolve($stateParams);
+
+            if (response && response.size !== undefined) {
+                stateParams.size = response.size;
+            }
+
+            if (response && response.page !== undefined) {
+                stateParams.page = response.page;
+            }
+
+            return stateParams;
         }
 
         function externalTotalItemsResolve(response) {
             return response ? response.totalElements : undefined;
         }
 
-        function externalPageResolve(response, $stateParams) {
-            return response ? response.number : pageResolve($stateParams);
-        }
-
         function externalItemsResolve(response) {
             return response ? response.content : undefined;
         }
 
-        function pageSizeResolve($stateParams) {
-            return $stateParams.size ? parseInt($stateParams.size) : PAGE_SIZE;
+        function stateParamsResolve($stateParams) {
+            var stateParams = angular.copy($stateParams);
+
+            stateParams.size = $stateParams.size ? parseInt($stateParams.size) : PAGE_SIZE
+            stateParams.page = $stateParams.page ? parseInt($stateParams.page) : 0;
+
+            if (stateParams.offline) {
+                stateParams.offline = stateParams.offline === 'true';
+            }
+
+            return stateParams;
         }
 
         function totalItemsResolve(items) {
             return items.length;
-        }
-
-        function pageResolve($stateParams) {
-            return $stateParams.page ? parseInt($stateParams.page) : 0;
         }
     }
 

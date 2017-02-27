@@ -29,13 +29,13 @@
 
     RequisitionSearchController.$inject = [
         '$state', '$controller', '$filter', '$stateParams', 'facilities', 'notificationService',
-        'offlineService', 'localStorageFactory', 'confirmService', 'items', 'page', 'pageSize',
+        'offlineService', 'localStorageFactory', 'confirmService', 'items', 'stateParams',
         'totalItems',
     ];
 
     function RequisitionSearchController($state, $controller, $filter, $stateParams, facilities,
         notificationService, offlineService, localStorageFactory,
-        confirmService, items, page, pageSize, totalItems) {
+        confirmService, items, stateParams, totalItems) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -126,9 +126,8 @@
             $controller('BasePaginationController', {
                 vm: vm,
                 items: items,
-                page: page,
-                pageSize: pageSize,
                 totalItems: totalItems,
+                stateParams: stateParams,
                 externalPagination: true,
                 itemValidator: undefined
             });

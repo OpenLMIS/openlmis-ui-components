@@ -71,7 +71,7 @@ describe('PodViewController', function() {
 
             vm = $controller('ProofOfDeliveryViewController', {
                 pod: podSpy,
-                $stateParams: stateParams,
+                stateParams: stateParams,
                 items: podSpy.proofOfDeliveryLineItems,
                 totalItems: 3,
                 page: stateParams.page,

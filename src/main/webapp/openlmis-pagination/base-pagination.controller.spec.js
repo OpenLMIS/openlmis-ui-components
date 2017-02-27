@@ -210,12 +210,11 @@ describe('BasePaginationController', function() {
     function initController() {
         $controller('BasePaginationController', {
             vm: vm,
-            page: page,
-            pageSize: pageSize,
             items: items,
             totalItems: totalItems,
-            externalPagination: externalPagination,
-            itemValidator: itemValidator
+            stateParams: stateParams,
+            itemValidator: itemValidator,
+            externalPagination: externalPagination
         });
     }
 

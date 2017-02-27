@@ -19,7 +19,8 @@ describe('FullSupplyController', function() {
     var vm;
 
     //mocks
-    var requisition, requisitionValidator, lineItems, paginatedListFactory, columns, requisitionStatus;
+    var requisition, requisitionValidator, lineItems, paginatedListFactory, columns,
+        requisitionStatus, stateParams;
 
     beforeEach(module('requisition-full-supply'));
 
@@ -70,6 +71,11 @@ describe('FullSupplyController', function() {
             name: 'skipped'
         }];
 
+        stateParams = {
+            page: 0,
+            size: 10
+        };
+
         function lineItem(category, fullSupply) {
             var lineItem = jasmine.createSpyObj('lineItem', ['canBeSkipped']);
             lineItem.canBeSkipped.andCallFake(function() {
@@ -86,14 +92,13 @@ describe('FullSupplyController', function() {
 
     beforeEach(inject(function($controller) {
         vm = $controller('FullSupplyController', {
+            totalItems: 4,
+            columns: columns,
+            items: lineItems,
+            stateParams: stateParams,
             requisition: requisition,
             requisitionValidator: requisitionValidator,
-            items: lineItems,
-            paginatedListFactory: paginatedListFactory,
-            columns: columns,
-            page: 0,
-            pageSize: 10,
-            totalItems: 4
+            paginatedListFactory: paginatedListFactory
         });
     }));
 

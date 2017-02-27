@@ -31,21 +31,20 @@
 		.controller('ConvertToOrderController', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = [
-        '$controller', '$stateParams', 'requisitionService', 'notificationService', 'items', 'page',
-        'pageSize', 'totalItems'
+        '$controller', '$stateParams', 'requisitionService', 'notificationService', 'items',
+		'stateParams', 'totalItems'
     ];
 
 	function convertToOrderCtrl($controller, $stateParams, requisitionService, notificationService,
-                                items, page, pageSize, totalItems) {
+                                items, stateParams, totalItems) {
 
 	    var vm = this;
 
         $controller('BasePaginationController', {
 			vm: vm,
             items: items,
-			page: page,
-			pageSize: pageSize,
             totalItems: totalItems,
+			stateParams: stateParams,
 			externalPagination: true,
 			itemValidator: undefined
 		});

@@ -1,5 +1,5 @@
 <div class="openlmis-pagination">
-	<div class="pagination-info">
+	<div class="pagination-info" ng-if="vm.totalItems">
 		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>
 	<ul ng-if="vm.totalItems">

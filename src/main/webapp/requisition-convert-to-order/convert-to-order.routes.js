@@ -22,10 +22,10 @@
         .config(routes);
 
     routes.$inject = [
-        '$stateProvider', 'FULFILLMENT_RIGHTS', 'paginatedRouterProvider', 'PAGE_SIZE'
+        '$stateProvider', 'FULFILLMENT_RIGHTS', 'paginatedRouterProvider'
     ];
 
-    function routes($stateProvider, FULFILLMENT_RIGHTS, paginatedRouterProvider, PAGE_SIZE) {
+    function routes($stateProvider, FULFILLMENT_RIGHTS, paginatedRouterProvider) {
 
         $stateProvider.state('requisitions.convertToOrder', {
             showInNavigation: true,
@@ -37,8 +37,7 @@
             accessRights: [FULFILLMENT_RIGHTS.ORDERS_EDIT],
             params: {
                 filterBy: 'all',
-                filterValue: '',
-                size: PAGE_SIZE.toString()
+                filterValue: ''
             },
             resolve: paginatedRouterProvider.resolve({
                 response: responseResolve

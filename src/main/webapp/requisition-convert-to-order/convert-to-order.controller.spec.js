@@ -15,8 +15,8 @@
 
 describe('ConvertToOrderController', function(){
 
-    var vm, rootScope, state, q, stateParams, requisitionService, notificationService,
-        requisitions, supplyingDepots;
+    var vm, rootScope, state, q, $stateParams, requisitionService, notificationService,
+        requisitions, supplyingDepots, stateParams;
 
     beforeEach( function() {
         module('requisition-convert-to-order');
@@ -34,7 +34,7 @@ describe('ConvertToOrderController', function(){
                 filterBy: 'all',
                 filterValue: '',
                 page: 0,
-                size: undefined
+                size: 10
             };
             requisitions = [
                 {
@@ -78,11 +78,10 @@ describe('ConvertToOrderController', function(){
             ];
 
             vm = $controller('ConvertToOrderController', {
-                $stateParams: stateParams,
-                items: requisitions,
                 totalItems: 2,
-                page: 0,
-                pageSize: 10
+                items: requisitions,
+                stateParams: stateParams,
+                $stateParams: stateParams
             });
         });
     });

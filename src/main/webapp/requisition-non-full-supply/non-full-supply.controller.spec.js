@@ -15,8 +15,8 @@
 
 describe('NonFullSupplyController', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, $q, lineItems,
-        $rootScope, $controller, LineItem, controllerMock;
+    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, $q,
+        lineItems, $rootScope, $controller, LineItem, controllerMock, stateParams;
 
     beforeEach(function(){
         module('requisition-non-full-supply');
@@ -40,6 +40,11 @@ describe('NonFullSupplyController', function() {
             lineItemSpy(4, 'Three', false)
         ];
         lineItems = [requisition.requisitionLineItems];
+
+        stateParams = {
+            page: 0,
+            size: 10
+        };
 
         controllerMock = jasmine.createSpy('$controller').andReturn({
             updateUrl: jasmine.createSpy('updateUrl'),
@@ -235,14 +240,13 @@ describe('NonFullSupplyController', function() {
 
     function initController() {
         vm = $controller('NonFullSupplyController', {
+            items: [],
+            columns: [],
+            LineItem: LineItem,
+            stateParams: stateParams,
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             addProductModalService: addProductModalService,
-            LineItem: LineItem,
-            items: [],
-            columns: [],
-            page: 0,
-            pageSize: 10
         });
     }
 

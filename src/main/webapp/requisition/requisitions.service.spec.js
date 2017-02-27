@@ -291,7 +291,9 @@ describe('requisitionService', function() {
     it('should search requisitions offline', function() {
         var data,
             params = {
-                facility: facility.id
+                facility: facility.id,
+                page: 0,
+                size: 10
             };
 
         requisitionsStorage.search.andReturn([requisitionDto2]);

@@ -29,11 +29,11 @@
         .controller('BasePaginationController', controller);
 
     controller.$inject = [
-        '$state', 'paginationFactory', 'vm', 'page', 'pageSize', 'items', 'totalItems',
+        '$state', 'paginationFactory', 'vm', 'stateParams', 'items', 'totalItems',
         'externalPagination', 'itemValidator'
     ];
 
-    function controller($state, paginationFactory, vm, page, pageSize, items, totalItems,
+    function controller($state, paginationFactory, vm, stateParams, items, totalItems,
                         externalPagination, itemValidator) {
 
         vm.updateUrl = updateUrl;
@@ -62,10 +62,7 @@
          * @description
          * Stores the current state parameters. This object is used when reloading state.
          */
-        vm.stateParams = {
-            page: page,
-            size: pageSize
-        };
+        vm.stateParams = stateParams;
 
         /**
          * @ngdoc property

@@ -223,10 +223,10 @@
         function search(offline, searchParams) {
             var deferred = $q.defer();
 
-            if(offline === 'true' || offline === true) {
+            if(offline) {
                 var requisitions = offlineRequisitions.search(searchParams, 'requisitionSearch'),
-                    page = searchParams.page ? parseInt(searchParams.page) : 0,
-                    size = searchParams.size ? parseInt(searchParams.size) : PAGE_SIZE,
+                    page = searchParams.page,
+                    size = searchParams.size,
                     items = paginationFactory.getPage(requisitions, page, size);
 
                 deferred.resolve({

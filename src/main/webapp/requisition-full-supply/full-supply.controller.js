@@ -30,20 +30,19 @@
 
     controller.$inject = [
         '$controller', 'requisitionValidator', 'TEMPLATE_COLUMNS', 'requisition', 'columns',
-        'items', 'page', 'pageSize', 'totalItems'
+        'items', 'stateParams', 'totalItems'
     ];
 
     function controller($controller, requisitionValidator, TEMPLATE_COLUMNS, requisition, columns,
-                        items, page, pageSize, totalItems) {
+                        items, stateParams, totalItems) {
 
         var vm = this;
 
         $controller('BasePaginationController', {
             vm: vm,
-            page: page,
-            pageSize: pageSize,
             items: items,
             totalItems: totalItems,
+            stateParams: stateParams,
             externalPagination: false,
             itemValidator: requisitionValidator.isLineItemValid
         });
@@ -160,7 +159,7 @@
          *
          * @description
          * Indicated if the skip all button has been clicked.
-         * 
+         *
          */
         vm.skippedAll = false;
 

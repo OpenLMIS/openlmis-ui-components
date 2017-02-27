@@ -46,11 +46,4 @@ describe('paginationFactory', function() {
         expect(paginationFactory.getPage(items, 5, 3)).toEqual([]);
     });
 
-    it('getPage should fall back to the default page size if page size is not given', function() {
-        expect(paginationFactory.getPage(items, 0)).toEqual([
-            items[0], items[1], items[2], items[3], items[4], items[5], items[6], items[7],
-            items[8], items[9]
-        ]);
-    });
-
 });

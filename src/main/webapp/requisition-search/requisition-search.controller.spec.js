@@ -15,7 +15,7 @@
 describe('RequisitionSearchController', function() {
 
     var vm, $q, $rootScope, $controller, $stateParams, $state, offlineService, confirmService,
-        facilities, items, page, pageSize, totalItems;
+        facilities, items, stateParams, totalItems;
 
     beforeEach(function() {
         module('requisition-search');
@@ -49,9 +49,10 @@ describe('RequisitionSearchController', function() {
             'itemOne', 'itemTwo'
         ];
 
-        page = 0;
-
-        pageSize = 10;
+        stateParams = {
+            page: 0,
+            size: 10
+        }
 
         totalItems = 2;
     });
@@ -66,12 +67,11 @@ describe('RequisitionSearchController', function() {
             });
 
             vm = $controller('RequisitionSearchController', {
-                $controller: $controllerMock,
-                facilities: facilities,
                 items: items,
-                page: page,
-                pageSize: pageSize,
-                totalItems: totalItems
+                facilities: facilities,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                $controller: $controllerMock
             });
 
         });
@@ -82,9 +82,8 @@ describe('RequisitionSearchController', function() {
             expect($controllerMock).toHaveBeenCalledWith('BasePaginationController', {
                 vm: vm,
                 items: items,
-                page: page,
-                pageSize: pageSize,
                 totalItems: totalItems,
+                stateParams: stateParams,
                 externalPagination: true,
                 itemValidator: undefined
             });
@@ -295,12 +294,11 @@ describe('RequisitionSearchController', function() {
             localStorageFactoryMock.andReturn(offlineRequisitionsMock);
 
             vm = $controller('RequisitionSearchController', {
-                localStorageFactory: localStorageFactoryMock,
-                facilities: facilities,
                 items: items,
-                page: page,
-                pageSize: pageSize,
-                totalItems: totalItems
+                facilities: facilities,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                localStorageFactory: localStorageFactoryMock
             });
 
             requisition = {
@@ -387,11 +385,10 @@ describe('RequisitionSearchController', function() {
 
     function initController() {
         vm = $controller('RequisitionSearchController', {
-            facilities: facilities,
             items: items,
-            page: page,
-            pageSize: pageSize,
-            totalItems: totalItems
+            facilities: facilities,
+            totalItems: totalItems,
+            stateParams: stateParams
         });
         vm.$onInit();
     }
