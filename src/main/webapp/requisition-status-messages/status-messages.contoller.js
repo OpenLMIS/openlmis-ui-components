@@ -61,6 +61,7 @@
         vm.displayAddComment = displayAddComment;
         vm.addComment = addComment;
         vm.removeComment = removeComment;
+        vm.displayEditComment = displayEditComment;
 
          /**
          * @ngdoc function
@@ -89,20 +90,6 @@
 
          /**
          * @ngdoc function
-         * @name displayAddComment
-         * @methodOf requisition-status-messages.StatusMessagesController
-         *
-         * @description
-         * Responsible for checking if requisition has draft.
-         * If text area is not visible and draftStatusMessage is not set and requisition is not released button will be displayed.
-         * Otherwise add button will be displayed.
-         */
-        function displayAddComment() {
-            return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible && !vm.requisition.$isReleased();
-        }
-
-         /**
-         * @ngdoc function
          * @name displayRequisitionHistory
          * @methodOf requisition-status-messages.StatusMessagesController
          *
@@ -111,6 +98,32 @@
          */
         function displayRequisitionHistory() {
             statusMessagesHistoryService.show(vm.requisition);
+        }
+
+        /**
+         * @ngdoc function
+         * @name displayAddComment
+         * @methodOf requisition-status-messages.StatusMessagesController
+         *
+         * @description
+         * Responsible for checking if requisition has draft.
+         * If text area is not visible and draftStatusMessage is not set and requisition is not released and approved then button will be displayed.
+         * Otherwise add button will be displayed.
+         */
+        function displayAddComment() {
+            return (vm.requisition.draftStatusMessage === null || !vm.requisition.draftStatusMessage.trim()) && !vm.isTextAreaVisible && !vm.requisition.$isApproved() && !vm.requisition.$isReleased();
+        }
+
+        /**
+         * @ngdoc function
+         * @name displayEditComment
+         * @methodOf requisition-status-messages.StatusMessagesController
+         *
+         * @description
+         * Responsible for displaying text area and remove button of comment in requisition.
+         */
+        function displayEditComment() {
+            return !displayAddComment() && !vm.requisition.$isApproved() && !vm.requisition.$isReleased();
         }
 
     }

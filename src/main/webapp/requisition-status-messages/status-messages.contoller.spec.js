@@ -25,7 +25,7 @@ describe('StatusMessagesController', function() {
 
         module('requisition-status-messages');
 
-        requisition = jasmine.createSpyObj('requisition', ['$statusMessages', '$isReleased']);
+        requisition = jasmine.createSpyObj('requisition', ['$statusMessages', '$isReleased', '$isApproved']);
 
         inject(function($rootScope, statusMessagesHistoryService) {
             rootScope = $rootScope;
@@ -62,6 +62,15 @@ describe('StatusMessagesController', function() {
             expect(result).toBe(true);
         });
 
+        it('should not show button if requisition has approved status', function() {
+            vm.requisition.draftStatusMessage = null;
+            vm.isTextAreaVisible = false;
+            vm.requisition.$isApproved.andReturn(true);
+
+            var result = vm.displayAddComment();
+            expect(result).toBe(false);
+        });
+
         it('should not show button if requisition has released status', function() {
             vm.requisition.draftStatusMessage = null;
             vm.isTextAreaVisible = false;
@@ -75,6 +84,37 @@ describe('StatusMessagesController', function() {
             vm.requisition.draftStatusMessage = 'Draft';
             vm.isTextAreaVisible = true;
             var result = vm.displayAddComment();
+            expect(result).toBe(false);
+        });
+
+    });
+
+    describe('displayEditComment', function() {
+
+        it('should show text area and remove button of comment if requisition has no approved and released status', function() {
+            spyOn(vm, 'displayAddComment').andReturn(true);
+            vm.requisition.$isApproved.andReturn(false);
+            vm.requisition.$isReleased.andReturn(false);
+
+            var result = vm.displayEditComment();
+            expect(result).toBe(true);
+        });
+
+        it('should not show text area and remove button of comment if requisition has approved status', function() {
+            spyOn(vm, 'displayAddComment').andReturn(false);
+            vm.requisition.$isApproved.andReturn(true);
+            vm.requisition.$isReleased.andReturn(false);
+
+            var result = vm.displayEditComment();
+            expect(result).toBe(false);
+        });
+
+        it('should not show text area and remove button of comment if requisition has released status', function() {
+            spyOn(vm, 'displayAddComment').andReturn(false);
+            vm.requisition.$isApproved.andReturn(false);
+            vm.requisition.$isReleased.andReturn(true);
+
+            var result = vm.displayEditComment();
             expect(result).toBe(false);
         });
 
