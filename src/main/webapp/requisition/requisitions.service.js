@@ -111,8 +111,13 @@
             var deferred = $q.defer();
 
             if (offlineService.isOffline()) {
-                var requisition = offlineRequisitions.getBy('id', id),
-                    reasons = offlineStockAdjustmentReasons.search({
+                var requisition = offlineRequisitions.getBy('id', id);
+
+                if(!requisition) {
+                    error();
+                }
+                else {
+                    var reasons = offlineStockAdjustmentReasons.search({
                         program: {
                             id: requisition.program.id
                         }
@@ -120,8 +125,8 @@
                     statusMessages = offlineStatusMessages.search({
                         requisitionId: requisition.id
                     });
-
-                resolve(requisition, reasons, statusMessages);
+                    resolve(requisition, reasons, statusMessages);
+                }
             } else {
                 var requisition = offlineRequisitions.search({
                     id: id,

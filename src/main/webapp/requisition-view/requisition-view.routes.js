@@ -36,14 +36,14 @@
                 REQUISITION_RIGHTS.REQUISITION_APPROVE,
                 FULFILLMENT_RIGHTS.ORDERS_EDIT],
             resolve: {
-                requisition: function ($location, $q, $stateParams, requisitionService) {
+                requisition: function ($state, $q, $stateParams, requisitionService) {
                     var deferred = $q.defer();
 
                     requisitionService.get($stateParams.rnr).then(function(response) {
                         deferred.resolve(response);
-                    }, function(response) {
+                    }, function() {
                         deferred.reject();
-                        return $location.url('/404');
+                        $state.go('404');
                     });
 
                     return deferred.promise;

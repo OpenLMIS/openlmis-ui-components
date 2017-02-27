@@ -24,6 +24,7 @@
     function routes($stateProvider) {
 
         $stateProvider.state('404', {
+            isOffline: true,
             url: '/404',
             templateUrl: 'openlmis-404/404.html'
         });
