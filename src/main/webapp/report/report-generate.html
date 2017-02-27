@@ -1,6 +1,6 @@
-<div class="page">
+<article class="page">
     <h2>{{'choose.report.options.header' | message}}</h2>
-    <form ng-submit="vm.downloadReport()">
+    <form class="filters" ng-submit="vm.downloadReport()">
         <label ng-repeat-start="parameter in vm.report.templateParameters" for="{{parameter.name}}">{{parameter.displayName}}</label>
         <select id="{{parameter.name}}" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}" ng-repeat-end></select>
         <fieldset class="form-group">
@@ -24,4 +24,4 @@
         </fieldset>
         <input type="submit" value="{{'button.generate' | message}}"/>
     </form>
-</div>
+</article>

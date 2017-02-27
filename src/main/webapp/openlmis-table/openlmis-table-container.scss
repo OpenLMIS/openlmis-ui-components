@@ -133,7 +133,6 @@ Styleguide 4.1
 
         > * {
             flex: 0 0 auto;
-            order: 0;
             margin: 0em 0.5em;
             width: $sidebar-width;
             &:first-child{
@@ -142,6 +141,10 @@ Styleguide 4.1
             &:last-child{
               margin-right: 0em;
             }
+        }
+
+        > form {
+          @extend form.filters;
         }
 
         > .main {
