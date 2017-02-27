@@ -1,37 +1,10 @@
-.status-messages {
-    @extend .panel;
-    @extend .panel-default;
 
-    & > header {
-        @extend .panel-heading;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    & > .status-message-list {
-        @extend .panel-body;
-
-        & > * {
-            width: 100%;
-        }
-    }
-
-    & > footer {
-        @extend .panel-footer;
-        display: flex;
-        justify-content: flex-end;
-    }
-}
 
 .status-message {
-    width: 100%;
-
-    & > header {
-        display: flex;
+    
+    > header {
+        @extend .minor-heading;
         justify-content: space-between;
-        margin-bottom: 0.25em;
-        border-bottom: 1px solid $light-gray;
-        padding-bottom: 0.25em;
 
         & > .status {
             font-weight: bold;
@@ -43,7 +16,7 @@
     }
 
     & + .status-message {
-        margin-top: 2em;
+        margin-top: 1em;
     }
 }
 
@@ -52,6 +25,5 @@
 }
 
 .info-no-comments {
-    color: $gray;
     font-style: italic;
 }

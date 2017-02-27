@@ -1,31 +1,32 @@
-<div class="status-messages">
+<section>
     <header>
-        Comments
+        <h3>{{'requisition.statusMessages.title' | message}}</h3>
         <a ng-show="vm.requisition.$statusMessages.length > 0" ng-click="vm.displayRequisitionHistory()">{{'label.viewHistory' | message}}</a>
+        <button class="primary" ng-click="vm.addComment()" ng-show="vm.displayAddComment()">{{'button.addComment' | message}}</button>
     </header>
-    <div class="status-message-list">
-        <div class="status-message" ng-if="vm.requisition.$statusMessages.length">
-            <header>
-                <div class="status">{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</div>
-                <div class="date">
-                    {{vm.requisition.$statusMessages[0].authorFirstName}}
-                    {{vm.requisition.$statusMessages[0].authorLastName}}
-                    on
-                    {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
-                </div>
-            </header>
+    <div class="alert" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
+        {{'msg.noCommentsAdded' | message}}
+    </div>
+    <div class="status-message" ng-if="vm.requisition.$statusMessages.length">
+        <header>
+            <div class="status">{{vm.requisition.$statusMessages[0].status | requisitionStatus}}</div>
+            <div class="date">
+                {{vm.requisition.$statusMessages[0].authorFirstName}}
+                {{vm.requisition.$statusMessages[0].authorLastName}}
+                on
+                {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
+            </div>
+        </header>
+        <div class="status-message-content">
             {{vm.requisition.$statusMessages[0].body}}
         </div>
-        <div class="info-no-comments" ng-if="!vm.requisition.$statusMessages.length && vm.displayAddComment()">
-            {{'msg.noCommentsAdded' | message}}
-        </div>
-        <div ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()">
-            <label for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
-            <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
-        </div>
     </div>
-    <footer>
-        <input type="button" class="primary" value="{{'button.addComment' | message}}" ng-click="vm.addComment()" ng-show="vm.displayAddComment()"/>
-        <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()"/>
-    </footer>
-</div>
+    <div ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()" class="status-message">
+        <header>
+            <div class="title">{{ 'requisition.statusMessage.currentTitle' | message }}</div>
+            <input type="button" class="danger" value="{{'button.removeComment' | message}}" ng-click="vm.removeComment()" ng-hide="vm.displayAddComment() || vm.requisition.$isReleased()" />
+        </header>
+        <label for="requisition-status-message-textarea">{{'requisition.addStatusMessage.label' | message}}</label>
+        <textarea id="requisition-status-message-textarea" ng-model="vm.requisition.draftStatusMessage" ></textarea>
+    </div>
+</section>
