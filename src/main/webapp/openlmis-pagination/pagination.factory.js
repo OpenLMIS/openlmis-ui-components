@@ -42,7 +42,7 @@
          * @name getPage
          *
          * @description
-         * Get the page with the given number of the given size.
+         * Gets the page with the given number of the given size.
          *
          * @param   {Array}     items   the list of items to get the page from
          * @param   {Number}    page    the number of the page
