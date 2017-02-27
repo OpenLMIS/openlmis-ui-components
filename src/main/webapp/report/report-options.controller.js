@@ -57,6 +57,9 @@
                 param.displayProperty)
                 .then(function(data) {
                     vm.selectOptions[param.name] = data;
+                    if (data.length === 1) {
+                      vm.selectedValues[param.name] = data[0];
+                    }
                 });
             });
         }
