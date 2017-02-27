@@ -90,9 +90,7 @@
          *                                              matching orders
          */
         function searchOrdersForManagePod(requestingFacilityId, programId) {
-            var deferred = $q.defer();
-
-            orderService.search({
+            return orderService.search({
                 requestingFacility: requestingFacilityId,
                 program: programId,
                 status: [
@@ -102,10 +100,7 @@
                     ORDER_STATUS.ORDERED,
                     ORDER_STATUS.RECEIVED
                 ]
-            }).then(function(orders) {
-                deferred.resolve(orders);
             });
-            return deferred.promise;
         }
     }
 
