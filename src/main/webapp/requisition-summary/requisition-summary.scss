@@ -31,9 +31,8 @@ aside.requisition-summary {
     }
 
     > button {
-        @include button($brand-primary);
-        @include button-icon-only("list");
-        
+        @extend button.primary;
+        @include button-icon-only("list");        
     }
 }
 
