@@ -1,70 +1,3 @@
-table .productCategory,
-.productCategory {
-  background-color: $cyan;
-  font-size: 0.9em;
-  text-shadow: 0.1em 0.1em 0 $light-shadow;
-  color: $white;
-  font-weight: bold;
-  border: none;
-  .ngAggregateText {
-    left: 0.9em;
-  }
-}
-
-#viewReqList, #approveReqList {
-  .ngRow.odd:hover, .ui-grid-row:hover {
-    background-color: lighten($cyan, 45%);
-    cursor: pointer;
-  }
-  .ngRow.even:hover {
-    background-color: lighten($cyan, 45%);
-  }
-  .ngCellText {
-    span {
-      cursor: pointer !important;
-    }
-  }
-  .ui-grid-cell {
-    background: inherit !important;
-    input[type="button"] {
-      border-radius: 0.2em;
-      color: $white;
-    }
-  }
-}
-
-.padding2px {
-  padding: $padding2px;
-}
-
-.emergency:after {
-  @include right-arrow-after($red);
-}
-
-@media screen and (max-width: 1050px) {
-  .regular {
-    padding: 29px 15px;
-  }
-
-  .regular:after {
-    border-width: 39px 0 39px 15px;
-    margin-top: -39px;
-  }
-
-  .emergency {
-    padding: 29px 15px;
-  }
-
-  .emergency:after {
-    border-width: 39px 0 39px 15px;
-    margin-top: -39px;
-  }
-}
-
-.col-emergency {
-  text-align: center;
-  font-size: 1.2em;
-}
 
 .icon-ok {
   &::before {
@@ -73,6 +6,3 @@ table .productCategory,
   }
 }
 
-.bold {
-  font-weight: bold;
-}

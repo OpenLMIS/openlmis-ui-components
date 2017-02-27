@@ -9,51 +9,6 @@
  */
 
 
-@mixin box-shadow($shadow){
-  box-shadow: $shadow;
-}
-
-@mixin border-top-radius($radius){
-  border-top-right-radius: $radius;
-  border-top-left-radius: $radius;
-}
-
-@mixin border-right-radius($radius){
-  border-top-right-radius: $radius;
-  border-bottom-right-radius: $radius;
-}
-
-@mixin border-left-radius($radius){
-  border-top-left-radius: $radius;
-  border-bottom-left-radius: $radius;
-}
-
-@mixin right-arrow($color){
-  position: relative;
-  background: $color;
-  padding: 2em 1.2em;
-  text-align: center;
-  font-weight: bold;
-  min-width: 6em;
-  margin-right: 1.2em;
-  text-shadow: none;
-}
-@mixin right-arrow-after($color){
-  border-left-color: $color;
-  border-width: 2.7em 0 2.7em 1.2em;
-  top: 50%;
-  margin-top: -2.7em;
-}
-@mixin right-arrow-after-before(){
-  left: 100%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
 @mixin fade-in {
   0% {opacity: 0;}
   100% {opacity: 1;}

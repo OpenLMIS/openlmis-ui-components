@@ -1,41 +1,13 @@
 aside.pod-info {
-
-    margin-top: 1em;
-    padding: $padding2px;
-
-    display: flex;
-
-    > * {
-        flex: 0 0 auto;
-    }
-
-    dl {
-        flex-grow: 1;
-        padding-top: 2.4em;
-        padding-bottom: 0;
-        margin-left: 1.2em;
-    }
+    @extend aside.requisition-info;
 }
 
 .pod-regular {
-	@include right-arrow($light-gray);
-}
-
-.pod-regular:after,
-.pod-regular:after {
-    @include right-arrow-after-before();
-}
-
-.pod-regular:after {
-    @include right-arrow-after($light-gray);
+    @extend .requisition-type;
+    @extend .requisition-type.regular;
 }
 
 .pod-emergency {
-	@include right-arrow($red);
-	color: $white;
-}
-
-.pod-emergency:after,
-.pod-emergency:before {
-    @include right-arrow-after-before();
+    @extend .requisition-type;
+	@extend .requisition-type.emergency;
 }

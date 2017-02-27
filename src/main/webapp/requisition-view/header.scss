@@ -1,41 +1,34 @@
 aside.requisition-info{
-	padding: $padding2px;
-	
-  display: flex;
-  > * {
-    flex: 0 0 auto;
-  }
+    padding: $padding2px;
+    display: flex;
+    align-items: center;
 
-  dl {
-    flex-grow: 1;
-    padding-top: 2.4em;
-    padding-bottom: 0;
-    margin-left: 1.2em;
-  }
+    > * {
+        flex: 0 0 auto;
+    }
 
+    dl {
+        flex-grow: 1;
+        padding-top: 1.5em;
+        padding-bottom: 0.5em;
+        margin-left: 1em;
+    }
 }
 
 .requisition-type{
+    padding: 1em;
+    font-weight: bold;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     &.regular {
-		@include right-arrow($light-gray);
-	}
+        background-color: $light-gray;
+    }
 
-	&.regular:after,
-	&.regular:before {
-		@include right-arrow-after-before();
-	}
-
-	&.regular:after {
-		@include right-arrow-after($light-gray);
-	}
-
-	&.emergency {
-		@include right-arrow($red);
-		color: $white;
-	}
-
-	&.emergency:after,
-	&.emergency:before {
-		@include right-arrow-after-before();
-	}
+    &.emergency {
+        background-color: $brand-danger;
+        color: $white;
+    }
 }

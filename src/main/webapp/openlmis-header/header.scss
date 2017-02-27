@@ -1,5 +1,14 @@
 $font-size-openlmis-header-title: $font-size-extra-large !default;
 
+body > header {
+    border: 0px;
+    padding: 0px;
+    > * {
+        width: 100%;
+        margin: 0px;
+    }
+}
+
 .openlmis-header {
     align-items: flex-end;
     background: linear-gradient(to top, $light-gray 0%, lighten($light-gray, 40%) 80%, $white 100%);

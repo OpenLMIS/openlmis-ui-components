@@ -30,30 +30,19 @@ body{
     padding-bottom: $space-size*2; // For toolbar
 
     > * {
-    	margin: 0.5em 0em;
-        &:first-child{
-            margin-top: 0px;
-        }
+    	margin: 0em;
+        margin-bottom: 1em;
     }
 
-    > h1:first-child,
-    > h2:first-child,
-    > header {
-    	display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-    	border-bottom: 1px solid $light-gray;
-    	padding: $space-size 0px $space-size/2;
+    > header,
+    > h1, > h2 {
+        @extend .heading;
+    }
 
-    	> * {
-    		flex: 0 0 auto;
-    	}
-
-        h1, h2, h3, h4, h5, h6 {
-            padding: 0px;
-            font-weight: normal;
-            flex: 1 0 auto;
-            order: -1;
+    > section {
+        > header,
+        > h3 {
+           @extend .sub-heading;
         }
     }
 }
