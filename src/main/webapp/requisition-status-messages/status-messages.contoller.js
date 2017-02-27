@@ -107,7 +107,7 @@
          *
          * @description
          * Responsible for checking if requisition has draft.
-         * If text area is not visible and draftStatusMessage is not set and requisition is not released and approved then button will be displayed.
+         * If text area is not visible and draftStatusMessage is not set and requisition is not released or approved then button will be displayed.
          * Otherwise add button will be displayed.
          */
         function displayAddComment() {
@@ -120,7 +120,7 @@
          * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
-         * Responsible for displaying text area and remove button of comment in requisition.
+         * Responsible for displaying text area and removing button of comment in requisition.
          */
         function displayEditComment() {
             return !displayAddComment() && !vm.requisition.$isApproved() && !vm.requisition.$isReleased();
