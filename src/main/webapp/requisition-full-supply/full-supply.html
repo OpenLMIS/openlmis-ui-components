@@ -1,7 +1,7 @@
 <div class="openlmis-table-container">
-	<div ng-if="vm.areSkipControlsVisible()">
-		<button ng-if="!vm.skippedAll" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</button>
-		<button ng-if="vm.skippedAll" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</button>
+	<div ng-show="vm.areSkipControlsVisible()">
+		<button ng-show="!vm.skippedAll" ng-click="vm.skipAll()">{{'requisition.lineItem.skip.all' | message}}</button>
+		<button ng-show="vm.skippedAll" ng-click="vm.unskipAll()">{{'requisition.lineItem.skip.none' | message}}</button>
 	</div>
 	<table>
 		<thead>
