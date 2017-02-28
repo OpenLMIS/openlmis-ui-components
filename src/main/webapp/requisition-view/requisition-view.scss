@@ -8,11 +8,3 @@
 		right: 0.5em;
 	}
 }
-
-.nav > li.is-invalid.active > a {
-	background-color: $brand-danger;
-	color: $white;
-	&:before{
-		color: $white;
-	}
-}
