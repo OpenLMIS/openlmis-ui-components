@@ -5,27 +5,22 @@
       margin: auto auto;
       flex-grow: 0;
   }
-  .modal-body{
-    @include clearfix();
-    padding: 0;
+  .modal .modal-body{
+    padding: 1em;
   }
-  .modal-body{
-    &::before{
-      content: "";
-      display:block;
-      float: left;
-      width: 2em;
-      height: 2em;
-      margin: 0.5em;
-      background-image: url('openlmis-modal/loading-modal.gif');
-      background-size: 2em;
-      background-repeat: no-repeat;
-      background-position: center center;
-    }
+  
+  .modal-body::before {
+    @extend .loading;
+    @extend .loading::before;
+    color: $brand-primary;
+    content: '\f1ce';
+    font-size: $font-size-extra-large;
   }
 
-  .bootbox-body{
-    display: none;
+  .bootbox-body {
+    display: block;
+    height: 0px;
+    overflow: hidden;
   }
 }
 

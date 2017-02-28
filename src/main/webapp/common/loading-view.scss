@@ -22,18 +22,15 @@ $loading-logo-size: 72px;
         color: white;
 
         > div {
-            font-size: $font-size-large;
+            font-size: $font-size-extra-large;
             display: flex;
             align-items: center;
 
             &::before {
-                @extend .fa;
-                @extend .fa-spin;
-                @extend .fa-3x;
-                @extend .fa-fw;
-                font-size: calc(2 * #{$font-size-large});
-                content: '\f1ce';
-                margin-right: 0.1em;
+                @extend .loading;
+                @extend .loading::before;
+                font-size: 2em;
+                margin-right: 0.5em;
             }
         }
     }

@@ -1,0 +1,28 @@
+/*
+Loading
+
+Since the OpenLMIS-UI is a single page application, we are often loading data
+and other page components. See the loading modal documentation for more details.
+
+markup:
+<div class="loading"></div>
+<button class="primary is-loading">Some Button</button>
+
+Styleguide 1.4
+*/
+
+.loading {
+    @extend .fa;
+    @extend .fa-spin;
+    @extend .fa-3x;
+    @extend .fa-fw;
+    &::before {
+        content: '\f1ce';
+        font-size: 1em;
+    }
+}
+
+.is-loading::after {
+    @extend .loading;
+    @extend .loading::before;
+}
