@@ -434,7 +434,16 @@
          * @return {boolean} true if sync button should be visible, false otherwise
          */
         function displaySync() {
-            return displayWhenInitiated() || displayWhenSubmitted() || displayWhenAuthorizedOrInApproval();
+          if (vm.requisition.$isInitiated()) {
+            return hasCreateRight();
+          }
+          if (vm.requisition.$isSubmitted()) {
+            return hasAuthorizeRight();
+          }
+          if (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) {
+            return hasApproveRight();
+          }
+          return false;
         }
 
         /**
@@ -534,18 +543,6 @@
                 loadingModalService.close();
                 watcher.makeLoud();
             };
-        }
-
-        function displayWhenInitiated() {
-          return vm.requisition.$isInitiated() && hasCreateRight();
-        }
-
-        function displayWhenSubmitted() {
-          return vm.requisition.$isSubmitted() && hasAuthorizeRight();
-        }
-
-        function displayWhenAuthorizedOrInApproval() {
-          return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasApproveRight();
         }
 
         function hasCreateRight() {

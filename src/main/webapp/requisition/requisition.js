@@ -173,8 +173,7 @@
                   // in case of conflict or unauthorized, remove requisition from storage
                   offlineRequisitions.removeBy('id', id);
               }
-            }
-            );
+            });
         }
 
         /**
