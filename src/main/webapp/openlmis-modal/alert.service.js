@@ -54,7 +54,7 @@
          * @return {Promise} alert promise
          */
         function warning(message, additionalMessage) {
-            return showAlert('glyphicon-alert', message, additionalMessage);
+            return showAlert('warning', 'glyphicon-alert', message, additionalMessage);
         }
 
         /**
@@ -68,7 +68,7 @@
          * @param {String} message Message to display
          */
         function error(message) {
-            return showAlert('glyphicon-remove-circle', message);
+            return showAlert('error', 'glyphicon-remove-circle', message);
         }
 
         /**
@@ -83,15 +83,16 @@
          * @param {String} additionalMessage Additional message to display below
          */
         function success(message, additionalMessage) {
-            return showAlert('glyphicon-ok-circle', message, additionalMessage);
+            return showAlert('success', 'glyphicon-ok-circle', message, additionalMessage);
         }
 
-        function showAlert(alertClass, message, additionalMessage) {
+        function showAlert(alertClass, icon, message, additionalMessage) {
             var modal,
                 deferred = $q.defer(),
                 scope = $rootScope.$new();
 
-            scope.icon = alertClass;
+            scope.alertClass = alertClass;
+            scope.icon = icon;
             scope.message = message;
             scope.additionalMessage = additionalMessage;
 
@@ -101,7 +102,13 @@
                 backdrop: true,
                 onEscape: cleanUp,
                 closeButton: false,
-                className: 'alert-modal'
+                className: 'alert-modal',
+                buttons: {
+                    ok: {
+                        label: messageService.get('msg.button.ok'),
+                        className: 'alert-confirm'
+                    }
+                }
             });
             modal.on('click.bs.modal', cleanUp);
 

@@ -19,16 +19,22 @@
 		color: $orange;
 	}
 	.glyphicon-remove-circle {
-		color: $red;
+		color: $brand-danger;
 	}
 	.glyphicon-ok-circle {
-		color: $green;
+		color: $brand-success;
 	}
-	footer{
-		@include clearfix();
-		font-size: $font-size-small;
-	    background-color: $light-gray;
-		text-align: right;
-		padding: 1em;
+	.warning {
+		color: $orange;
+	}
+	.error {
+		color: $brand-danger;
+	}
+	.success {
+		color: $brand-success;
+	}
+	button.alert-confirm {
+		@include button($button-color-default);
+		float: right;
 	}
 }
