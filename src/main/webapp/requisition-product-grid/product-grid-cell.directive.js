@@ -68,6 +68,9 @@
             });
 
             scope.$watch(function(){
+                if(lineItem.skipped){
+                    return false;
+                }
                 return lineItem.$errors[column.name];
             }, function(error){
                 scope.invalidMessage = error;

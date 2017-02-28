@@ -28,7 +28,8 @@ This is how headings should be used.
 Styleguide 1.1
 */
 
-$heading-color: $gray !default;
+$heading-color: $text-color !default;
+$heading-border-color: $border-color !default;
 
 h1, h2, h3, h4, h5, h6{
     color: $heading-color;
@@ -78,7 +79,7 @@ header,
 
 header,
 .heading {
-    border-bottom: $heading-color 1px solid;
+    border-bottom: $heading-border-color 1px solid;
     padding: 0.5em 0em;
 }
 
@@ -101,7 +102,7 @@ header.sub-heading {
             left: 0px;
             z-index: -1;
             width: 100%;
-            border-bottom: $heading-color 1px solid;
+            border-bottom: $heading-border-color 1px solid;
         }
     }
 }

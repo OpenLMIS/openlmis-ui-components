@@ -122,8 +122,10 @@
 
             element.on('$destroy', function() {
                 if (lastOpenPopover == targetElement) lastOpenPopover = undefined;
+                destroyPopover();
                 targetElement = undefined;
                 jQuery($window).off('resize', onWindowResize);
+                jQuery($window).off('scroll', onWindowResize);
                 templateScope.$destroy();
             });
 
@@ -195,12 +197,14 @@
                 });
 
                 jQuery($window).on('resize', onWindowResize);
+                jQuery($window).on('scroll', onWindowResize);
+                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
 
 
                 $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
                     var template = $compile(templateHtml)(templateScope);
 
-                    var trigger = 'click hover focus';
+                    var trigger = 'hover focus';
 
                     if(element.is(NO_BUTTON_ELEMENTS.join(', '))){
                         trigger = 'hover focus';

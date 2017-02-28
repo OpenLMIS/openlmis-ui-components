@@ -24,13 +24,16 @@ markup:
 Styleguide 3.3
 */
 
+$form-control-text-color: $text-color !default;
+$form-control-text-color-disabled: $text-color-disabled !default;
+
 .form-control{
 	padding: 0.5em;
-	border-color: $light-gray;
+	border-color: $border-color;
 	border-style: solid;
 	border-radius: $border-radius;
-	box-shadow: inset 0 0 0.5em $light-gray;
-	color: $dark-gray;
+	box-shadow: inset 0 0 0.5em $border-color;
+	color: $text-color;
 	&:focus,
 	&.is-focused {
 	  border-color: $brand-primary;
@@ -38,9 +41,12 @@ Styleguide 3.3
 	}
 	&:disabled,
 	&.is-disabled {
-	  box-shadow: 0 0 0 $light-gray;
-	  color: $gray;
+	  box-shadow: 0 0 0 $border-color;
+	  color: $form-control-text-color-disabled;
 	  background-color: transparent;
+	}
+	&.is-invalid {
+		box-shadow: inset 0 0 0.5em $brand-danger;
 	}
 }
 

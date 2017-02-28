@@ -113,7 +113,7 @@ in specifc cells
 Styleguide 4.0
 */
 
-$border-color-table: $light-gray !default;
+$border-color-table: $border-color !default;
 $table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
 
 .openlmis-table {
