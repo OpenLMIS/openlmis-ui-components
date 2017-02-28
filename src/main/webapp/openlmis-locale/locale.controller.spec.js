@@ -84,7 +84,7 @@ describe("LocaleController", function () {
             expect(controller.getLocaleName('en')).toBe('English');
             expect(controller.getLocaleName('foo')).toBe('foo');
         });
-    });  
+    });
 
     describe('on start up', function(){
         var scope, controller;
@@ -138,6 +138,8 @@ describe("LocaleController", function () {
         }));
 
         it("can change locale", function () {
+            controller.selectedLocale = 'some';
+
             controller.changeLocale('pt');
             scope.$apply();
 

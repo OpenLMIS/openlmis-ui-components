@@ -30,8 +30,12 @@
 
         locale.selectedLocale = messageService.getCurrentLocale();
         $scope.$on('openlmis.messages.populated', function(){
-            locale.selectedLocale = messageService.getCurrentLocale();
-            $window.location.reload();
+            if (!locale.selectedLocale) {
+                locale.selectedLocale = messageService.getCurrentLocale();
+            } else {
+                locale.selectedLocale = messageService.getCurrentLocale();
+                $window.location.reload();
+            }
         });
 
         if(!locale.selectedLocale){
