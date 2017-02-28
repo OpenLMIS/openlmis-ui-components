@@ -20,6 +20,7 @@ $notification-width: 350px !default;
     font-size: $font-size;
     box-shadow: 0em 0em 0.5em $dark-gray;
     width: $notification-width;
+    position: relative;
 
     &.is-error,
     &.is-success {
