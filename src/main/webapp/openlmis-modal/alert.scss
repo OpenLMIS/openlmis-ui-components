@@ -11,26 +11,20 @@
 	.alert-message-additional{
 		font-size: 0.7em;
 	}
-	.glyphicon {
+	.icon {
 		font-size: 2.6em;
 		margin: 0.2em;
 	}
-	.glyphicon-alert {
+	.icon.warning {
+		@include icon('exclamation-triangle');
 		color: $orange;
 	}
-	.glyphicon-remove-circle {
+	.icon.error {
+		@include icon('times-circle-o');
 		color: $brand-danger;
 	}
-	.glyphicon-ok-circle {
-		color: $brand-success;
-	}
-	.warning {
-		color: $orange;
-	}
-	.error {
-		color: $brand-danger;
-	}
-	.success {
+	.icon.sucess {
+		@include icon('check-circle-o');
 		color: $brand-success;
 	}
 	button.alert-confirm {
