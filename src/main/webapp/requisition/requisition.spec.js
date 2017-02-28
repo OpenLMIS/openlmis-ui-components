@@ -291,6 +291,38 @@ describe('Requisition', function() {
         expect(isReleased).toBe(false);
     });
 
+    describe('isAfterAuthorize', function() {
+        it('should return true false for requisition status INITIATED', function() {
+            requisition.status = REQUISITION_STATUS.INITIATED;
+            expect(requisition.$isAfterAuthorize()).toBe(false);
+        });
+
+        it('should return true false for requisition status SUBMITTED', function() {
+            requisition.status = REQUISITION_STATUS.SUBMITTED;
+            expect(requisition.$isAfterAuthorize()).toBe(false);
+        });
+
+        it('should return true true for requisition status AUTHORIZED', function() {
+            requisition.status = REQUISITION_STATUS.AUTHORIZED;
+            expect(requisition.$isAfterAuthorize()).toBe(true);
+        });
+
+        it('should return true true for requisition status IN_APPROVAL', function() {
+            requisition.status = REQUISITION_STATUS.IN_APPROVAL;
+            expect(requisition.$isAfterAuthorize()).toBe(true);
+        });
+
+        it('should return true true requisition status APPROVED', function() {
+            requisition.status = REQUISITION_STATUS.APPROVED;
+            expect(requisition.$isAfterAuthorize()).toBe(true);
+        });
+
+        it('should return true true requisition status RELEASED', function() {
+            requisition.status = REQUISITION_STATUS.RELEASED;
+            expect(requisition.$isAfterAuthorize()).toBe(true);
+        });
+    });
+
     function fullSupplyCategories() {
         return [
             category('CategoryOne', [lineItemSpy('One'), lineItemSpy('Two')]),

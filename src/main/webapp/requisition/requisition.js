@@ -80,6 +80,7 @@
         Requisition.prototype.$isAuthorized = isAuthorized;
         Requisition.prototype.$isInApproval = isInApproval;
         Requisition.prototype.$isReleased = isReleased;
+        Requisition.prototype.$isAfterAuthorize = isAfterAuthorize;
 
 
         return Requisition;
@@ -332,6 +333,22 @@
          */
         function isReleased() {
             return this.status === REQUISITION_STATUS.RELEASED;
+        }
+
+       /**
+         * @ngdoc function
+         * @name isAfterAuthorize
+         * @methodOf requisition.Requisition
+         *
+         * @description
+         * Checks if this requisition was authorized.
+         * Will return true if this requisition has authorized status, or any later status.
+         *
+         * @return {boolean} true if this requisition's status is an after authorize status
+         */
+        function isAfterAuthorize() {
+            return [REQUISITION_STATUS.AUTHORIZED, REQUISITION_STATUS.IN_APPROVAL,
+                    REQUISITION_STATUS.APPROVED, REQUISITION_STATUS.RELEASED].indexOf(this.status) != -1;
         }
 
         function handlePromise(promise, success, failure) {

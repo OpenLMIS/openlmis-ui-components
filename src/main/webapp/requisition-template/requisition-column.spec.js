@@ -43,7 +43,10 @@ describe('RequisitionColumn', function() {
             }
         };
         requisition = {
-            status: REQUISITION_STATUS.SUBMITTED
+            status: REQUISITION_STATUS.SUBMITTED,
+            $isAfterAuthorize: function() {
+                return false;
+            }
         };
     });
 
@@ -104,50 +107,39 @@ describe('RequisitionColumn', function() {
 
     [
         {
-            name: 'should hide Approved Quantity column if status is not authorizde/approved',
+            name: 'should hide Approved Quantity column if status is before authorize',
             column: 'approvedQuantity',
-            status: 'SUBMITTED',
+            afterAuthorize: false,
             result: false
         },
         {
-            name: 'should hide Remarks column if status is not authorizde/approved',
+            name: 'should hide Remarks column if status is before authorize',
             column: 'remarks',
-            status: 'SUBMITTED',
+            afterAuthorize: false,
             result: false
         },
         {
-            name: 'should show Approved Quantity column if status is authorized',
+            name: 'should show Approved Quantity column if status is after authorize',
             column: 'approvedQuantity',
-            status: 'AUTHORIZED',
+            afterAuthorize: true,
             result: true
         },
         {
-            name: 'should show Approved Quantity column if status is approved',
-            column: 'approvedQuantity',
-            status: 'APPROVED',
-            result: true
-        },
-        {
-            name: 'should show Remarks column if status is authorized',
+            name: 'should show Remarks column if status is after authorize',
             column: 'remarks',
-            status: 'AUTHORIZED',
-            result: true
-        },
-        {
-            name: 'should show Remarks column if status is authorized',
-            column: 'remarks',
-            status: 'APPROVED',
+            afterAuthorize: true,
             result: true
         }
     ].forEach(function(testCase) {
         it(testCase.name, function() {
             columnDef.name = testCase.column;
-            requisition.status = testCase.status;
+            requisition.$isAfterAuthorize = function() {
+                return testCase.afterAuthorize;
+            };
 
             var column = new RequisitionColumn(columnDef, requisition);
 
             expect(column.$display).toBe(testCase.result);
         });
     });
-
 });

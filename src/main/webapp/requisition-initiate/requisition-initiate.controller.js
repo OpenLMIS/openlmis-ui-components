@@ -183,7 +183,8 @@
          * Responsible for displaying and updating a grid, containing available periods for the
          * selected program, facility and type. It will set an error message if no periods have
          * been found for the given parameters. It will also filter out periods for which there
-         * already exists a requisition with an AUTHORIZED, APPROVED or RELEASED status.
+         * already exists a requisition with an AUTHORIZED, APPROVED, IN_APPROVAL or RELEASED
+         status.
          */
         function loadPeriods() {
             loadingModalService.open();
@@ -192,6 +193,7 @@
                 vm.periodGridData = data;
                 vm.periodGridData.forEach(function (period) {
                     if (vm.emergency && (period.rnrStatus == REQUISITION_STATUS.AUTHORIZED ||
+                    period.rnrStatus == REQUISITION_STATUS.IN_APPROVAL ||
                     period.rnrStatus == REQUISITION_STATUS.APPROVED ||
                     period.rnrStatus == REQUISITION_STATUS.RELEASED)) {
                         period.rnrStatus = messageService.get('msg.rnr.not.started');

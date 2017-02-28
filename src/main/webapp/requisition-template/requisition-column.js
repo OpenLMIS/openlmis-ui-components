@@ -110,7 +110,7 @@
         function displayColumn(column, requisition) {
             return column.isDisplayed && (
                 [TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS].indexOf(column.name) === -1 ||
-                [REQUISITION_STATUS.AUTHORIZED, REQUISITION_STATUS.APPROVED].indexOf(requisition.status) > -1);
+                requisition.$isAfterAuthorize());
             }
 
         function columnDependencies(column) {
