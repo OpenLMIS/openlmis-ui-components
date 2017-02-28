@@ -43,6 +43,7 @@
         vm.report = report;
         vm.paramsOptions = reportParamsOptions;
         vm.selectedParamsOptions = {};
+        vm.format = 'pdf';
 
         function downloadReport() {
             $window.open(
