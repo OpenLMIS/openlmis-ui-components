@@ -10,19 +10,19 @@ Action elements, such as buttons, links, or inputs, will have a popup on focus
 or hover, but it is up to the implementer to provide an icon.
 
 markup:
-<div>
+<div class="button-group">
 	<button popover="Look a popover!">Sample Popover</button>
     <button popover popover-title="Example Popover Title" popover="This is a popover with a title">Popover With Title</button>
     <button popover popover-template="">Complex Popover</button>
-	<p popover="Some extra information about this paragraph" popover-title="Sample Title">
-		Very soon the Rabbit noticed Alice, as she went hunting about, and called out to her in an angry tone, `Why, Mary Ann, what are you doing out here? Run home this moment, and fetch me a pair of gloves and a fan! Quick, now!' And Alice was so much frightened that she ran off at once in the direction it pointed to, without trying to explain the mistake it had made.
-	</p>
-    <form>
-		<label for="examplePopoverInput">Example Input Popover</label>
-		<input id="examplePopoverInput" type="text" popover="This is how an input popover looks" />
-		<!-- <label><input type="checkbox" ng-value="disableInputPopover" />Disable input popover</label> -->
-    </form>
-</div>
+ </div>
+<p popover="Some extra information about this paragraph" popover-title="Sample Title">
+	Very soon the Rabbit noticed Alice, as she went hunting about, and called out to her in an angry tone, `Why, Mary Ann, what are you doing out here? Run home this moment, and fetch me a pair of gloves and a fan! Quick, now!' And Alice was so much frightened that she ran off at once in the direction it pointed to, without trying to explain the mistake it had made.
+</p>
+<form>
+	<label for="examplePopoverInput">Example Input Popover</label>
+	<input id="examplePopoverInput" type="text" popover="This is how an input popover looks" />
+	<!-- <label><input type="checkbox" ng-value="disableInputPopover" />Disable input popover</label> -->
+</form>
 
 Styleguide 1.5
 */

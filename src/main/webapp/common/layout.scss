@@ -18,6 +18,9 @@ body{
 	> footer {
 		flex: 0 0 auto;
 	}
+    > script {
+        display: none;
+    }
 }
 
 .page {
