@@ -1,8 +1,14 @@
 <article class="page">
     <h2>{{'choose.report.options.header' | message}}</h2>
     <form class="filters" ng-submit="vm.downloadReport()">
-        <label ng-repeat-start="parameter in vm.report.templateParameters" for="{{parameter.name}}">{{parameter.displayName}}</label>
-        <select id="{{parameter.name}}" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}" ng-repeat-end></select>
+        <div ng-repeat="parameter in vm.report.templateParameters">
+            <label for="{{parameter.name}}">{{parameter.displayName}}</label>
+            <select id="{{parameter.name}}" ng-if="parameter.selectExpression != null" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}"></select>
+            <span ng-if="parameter.selectExpression == null" ng-switch="parameter.dataType">
+                <input ng-switch-when="java.lang.Integer" type="number" ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
+                <input ng-switch-default ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
+            </span>
+        </div>
         <fieldset class="form-group">
             <legend>{{'label.format' | message}}</legend>
             <label class="radio">

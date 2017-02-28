@@ -92,16 +92,18 @@
             angular.forEach(report.templateParameters, function(param) {
                 var paramDeferred = $q.defer();
 
-                promises.push(paramDeferred.promise);
+                if (param.selectExpression != null) {
+                    promises.push(paramDeferred.promise);
 
-                getReportParamOptions(
-                    param.selectExpression,
-                    param.selectProperty,
-                    param.displayProperty
-                ).then(function(params) {
-                    parameters[param.name] = params;
-                    paramDeferred.resolve();
-                }, paramDeferred.reject);
+                    getReportParamOptions(
+                        param.selectExpression,
+                        param.selectProperty,
+                        param.displayProperty
+                    ).then(function(params) {
+                        parameters[param.name] = params;
+                        paramDeferred.resolve();
+                    }, paramDeferred.reject);
+                }
             });
 
             $q.all(promises).then(function() {
