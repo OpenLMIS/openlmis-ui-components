@@ -110,10 +110,17 @@
                 });
                 reloadState();
             }, function(response) {
+               var offlineRequisitions;
                if (response.status === 409) {
                     // in case of conflict, use the server version
                     notificationService.error('msg.requisitionVersionError');
-                    var offlineRequisitions = localStorageFactory('requisitions');
+                    offlineRequisitions = localStorageFactory('requisitions');
+                    offlineRequisitions.removeBy('id', requisition.id);
+                    reloadState();
+               } else if (response.status === 403) {
+                    // 403 means user lost rights or requisition changed status
+                    notificationService.error('msg.requisitionUpdateForbidden');
+                    offlineRequisitions = localStorageFactory('requisitions');
                     offlineRequisitions.removeBy('id', requisition.id);
                     reloadState();
                } else {

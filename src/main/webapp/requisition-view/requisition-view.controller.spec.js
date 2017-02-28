@@ -183,24 +183,14 @@ describe('RequisitionViewController', function() {
         expect(vm.displaySync()).toBe(false);
     });
 
-    describe('Offline conflict handling', function() {
+    describe('Sync error handling', function() {
 
         it('should reload requisition when conflict response received', function() {
-            var notificationServiceSpy = jasmine.createSpy(),
-                stateSpy = jasmine.createSpy(),
-                conflictResponse = { status: 409 };
+            verifyReloadOnErrorAndNotificationSent(409, 'msg.requisitionVersionError')
+        });
 
-            spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
-            spyOn($state, 'reload').andCallFake(stateSpy);
-
-            vm.syncRnr();
-
-            deferred.reject(conflictResponse);
-            $scope.$apply();
-
-            expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
-            expect(notificationServiceSpy).toHaveBeenCalledWith('msg.requisitionVersionError');
-            expect(stateSpy).toHaveBeenCalled();
+        it('should reload requisition when forbidden response received', function() {
+            verifyReloadOnErrorAndNotificationSent(403, 'msg.requisitionUpdateForbidden')
         });
 
         it('should not reload requisition when bad request response received', function() {
@@ -210,6 +200,24 @@ describe('RequisitionViewController', function() {
         it('should not reload requisition when internal server error request response received', function() {
             verifyNoReloadOnError(500);
         });
+
+        function verifyReloadOnErrorAndNotificationSent(responseStatus, messageKey) {
+          var notificationServiceSpy = jasmine.createSpy(),
+              stateSpy = jasmine.createSpy(),
+              conflictResponse = { status: responseStatus };
+
+          spyOn(notificationService, 'error').andCallFake(notificationServiceSpy);
+          spyOn($state, 'reload').andCallFake(stateSpy);
+
+          vm.syncRnr();
+
+          deferred.reject(conflictResponse);
+          $scope.$apply();
+
+          expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
+          expect(notificationServiceSpy).toHaveBeenCalledWith(messageKey);
+          expect(stateSpy).toHaveBeenCalled();
+        }
 
         function verifyNoReloadOnError(responseStatus) {
             var notificationServiceSpy = jasmine.createSpy(),
