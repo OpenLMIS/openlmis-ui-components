@@ -243,7 +243,7 @@
   "msg.requisitionSubmitted": "Requisition has been submitted!",
   "msg.requisitionSynced": "Requisition has been synchronized!",
   "msg.requisitionVersionError": "This requisition has a newer version on the server; the server version will be used, and you will need to remake your changes.",
-  "msg.requisitionUpdateForbidden": "This requisition had changed status or you lost rights for sync; the server version will be used.",
+  "msg.requisitionUpdateForbidden": "This requisition has changed status or you lost the rights required for syncing it; the server version will be used.",
   "msg.podSavedFailed": "Failed to save Proof of Delivery!",
   "msg.podSaved": "Proof of Delivery saved!",
   "msg.podSubmitFailed": "Failed to submit Proof of Delivery!",
