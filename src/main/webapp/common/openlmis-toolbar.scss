@@ -26,14 +26,37 @@ Styleguide 6.0
     position: fixed;
     z-index: 15;
     width: 100%;
+}
 
-    // & > .primary-action {
-    //     margin-left: auto;
-    // }
+.toolbar {
+    @extend .button-group;
 
-    // & > .btn:not(:first-child):not(.primary-action),
-    // & > .primary-action ~ .primary-action {
-    //     margin-left: 0.5em;
-    // }
+    h1, h2, h3, h4, h5, h6 {
+        padding: 0px;
+        & ~ * {
+            margin-left: 0px;
+        }
+    }
 
+    > ul {
+        @extend .list-unstyled;
+        > * {
+            display: block;
+            float: left;
+            margin: 0px;
+            padding-right: 0.5em;
+            &::after{
+                content: "|";
+                display: inline-block;
+                margin-left: 0.5em;
+            }
+
+            &:last-child{
+                padding-right: 0px;
+                &::after{
+                    content: "";
+                } 
+            }
+        }
+    }
 }

@@ -114,13 +114,9 @@ Styleguide 4.1
 
     > * {
         margin-bottom: 0.5em;
-        &last-child{
+        &:last-child{
             margin-bottom: 0em;
         }
-    }
-
-    > .toolbar {
-        @extend .button-group;
     }
 
     > .row {
