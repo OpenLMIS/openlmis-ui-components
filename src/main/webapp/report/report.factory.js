@@ -123,7 +123,7 @@
                   data = data.content;
                 }
 
-                angular.forEach(response.data, function(obj) {
+                angular.forEach(data, function(obj) {
                     var value = property ? obj[property] : obj;
                     var name = displayName ? obj[displayName] : value;
 
