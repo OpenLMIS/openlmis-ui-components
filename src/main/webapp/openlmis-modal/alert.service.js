@@ -98,18 +98,15 @@
             modal = bootbox.dialog({
                 message: $compile(template)(scope),
                 callback: cleanUp,
-                backdrop: true,
-                onEscape: cleanUp,
-                closeButton: false,
                 className: 'alert-modal',
                 buttons: {
                     ok: {
                         label: messageService.get('msg.button.ok'),
-                        className: 'alert-confirm'
+                        className: 'alert-confirm',
+                        callback: cleanUp
                     }
                 }
             });
-            modal.on('click.bs.modal', cleanUp);
 
             return deferred.promise;
 
