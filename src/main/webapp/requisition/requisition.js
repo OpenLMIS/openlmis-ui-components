@@ -163,11 +163,18 @@
          */
         function save() {
             var availableOffline = this.$availableOffline;
+            var id = this.id
             return handlePromise(resource.save({
                 id: this.id
             }, this).$promise, function(saved) {
                 saveToStorage(saved, availableOffline);
-            });
+            }, function(saved) {
+              if (saved.status === 409 || saved.status === 403) {
+                  // in case of conflict or unauthorized, remove requisition from storage
+                  offlineRequisitions.removeBy('id', id);
+              }
+            }
+            );
         }
 
         /**
@@ -355,10 +362,14 @@
             var deferred = $q.defer();
 
             promise.then(function(response) {
-                if (success) success(response);
+                if (success) {
+                  success(response);
+                }
                 deferred.resolve(response);
             }, function(response) {
-                if (failure) failure(response);
+                if (failure) {
+                  failure(response);
+                }
                 deferred.reject(response);
             });
 

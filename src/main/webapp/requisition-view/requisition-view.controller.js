@@ -31,15 +31,14 @@
     RequisitionViewController.$inject = [
         '$state', 'requisition', 'requisitionValidator', 'authorizationService',
         'loadingModalService', 'notificationService', 'confirmService', 'REQUISITION_RIGHTS',
-        'FULFILLMENT_RIGHTS', 'convertToOrderModalService', 'offlineService', 'localStorageFactory',
+        'FULFILLMENT_RIGHTS', 'convertToOrderModalService', 'offlineService',
         'requisitionUrlFactory', '$filter', '$scope', '$timeout', 'RequisitionWatcher'
     ];
 
     function RequisitionViewController($state, requisition, requisitionValidator, authorizationService,
                              loadingModalService, notificationService, confirmService,
                              REQUISITION_RIGHTS, FULFILLMENT_RIGHTS , convertToOrderModalService, offlineService,
-                             localStorageFactory, requisitionUrlFactory, $filter, $scope,
-                             $timeout, RequisitionWatcher) {
+                             requisitionUrlFactory, $filter, $scope, $timeout, RequisitionWatcher) {
 
         var vm = this,
             watcher = new RequisitionWatcher($scope, requisition);
@@ -110,22 +109,7 @@
                 });
                 reloadState();
             }, function(response) {
-               var offlineRequisitions;
-               if (response.status === 409) {
-                    // in case of conflict, use the server version
-                    notificationService.error('msg.requisitionVersionError');
-                    offlineRequisitions = localStorageFactory('requisitions');
-                    offlineRequisitions.removeBy('id', requisition.id);
-                    reloadState();
-               } else if (response.status === 403) {
-                    // 403 means user lost rights or requisition changed status
-                    notificationService.error('msg.requisitionUpdateForbidden');
-                    offlineRequisitions = localStorageFactory('requisitions');
-                    offlineRequisitions.removeBy('id', requisition.id);
-                    reloadState();
-               } else {
-                    failWithMessage('msg.failedToSyncRequisition')();
-               }
+              handleSaveError(response.status);
             });
         }
 
@@ -153,7 +137,9 @@
                                 });
                                 reloadState();
                             }, failWithMessage('msg.failedToSubmitRequisition'));
-                        }, failWithMessage('msg.failedToSyncRequisition'));
+                        }, function(response) {
+                          handleSaveError(response.status);
+                        });
                     } else {
                         failWithMessage('error.rnr.validation.submit.allLineItemsSkipped')();
                     }
@@ -190,7 +176,9 @@
                                 });
                                 reloadState();
                             }, failWithMessage('msg.failedToAuthorizeRequisition'));
-                        }, failWithMessage('msg.failedToSyncRequisition'));
+                        }, function(response) {
+                          handleSaveError(response.status);
+                        });
                     } else {
                         failWithMessage('error.rnr.validation.authorize.allLineItemsSkipped');
                     }
@@ -250,7 +238,9 @@
                             });
                             $state.go('requisitions.approvalList');
                         }, failWithMessage('msg.failedToApproveRequisition'));
-                    }, failWithMessage('msg.failedToSyncRequisition'));
+                        }, function(response) {
+                          handleSaveError(response.status);
+                        });
                 } else {
                     failWithMessage('error.rnr.validation');
                 }
@@ -444,20 +434,7 @@
          * @return {boolean} true if sync button should be visible, false otherwise
          */
         function displaySync() {
-            var hasCreateRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
-                  programCode: vm.requisition.program.code
-                }),
-                hasAuthorizeRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
-                  programCode: vm.requisition.program.code
-                }),
-                hasApproveRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
-                  programCode: vm.requisition.program.code
-                }),
-                displayWhenInitiated = vm.requisition.$isInitiated() && hasCreateRight,
-                displayWhenSubmitted = vm.requisition.$isSubmitted() && hasAuthorizeRight,
-                displayWhenAuthorized = vm.requisition.$isAuthorized() && hasApproveRight;
-
-            return displayWhenInitiated || displayWhenSubmitted || displayWhenAuthorized;
+            return displayWhenInitiated() || displayWhenSubmitted() || displayWhenAuthorizedOrInApproval();
         }
 
         /**
@@ -533,9 +510,23 @@
             return promise;
         }
 
-        function reloadState() {
-            $state.reload();
+        function handleSaveError(status) {
+            if (status === 409) {
+                // in case of conflict, use the server version
+                notificationService.error('msg.requisitionVersionError');
+                reloadState();
+            } else if (status === 403) {
+                // 403 means user lost rights or requisition changed status
+                notificationService.error('msg.requisitionUpdateForbidden');
+                reloadState();
+            } else {
+                failWithMessage('msg.failedToSyncRequisition')();
+            }
         }
+
+        function reloadState() {
+              $state.reload();
+          }
 
         function failWithMessage(message) {
             return function() {
@@ -543,6 +534,36 @@
                 loadingModalService.close();
                 watcher.makeLoud();
             };
+        }
+
+        function displayWhenInitiated() {
+          return vm.requisition.$isInitiated() && hasCreateRight();
+        }
+
+        function displayWhenSubmitted() {
+          return vm.requisition.$isSubmitted() && hasAuthorizeRight();
+        }
+
+        function displayWhenAuthorizedOrInApproval() {
+          return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasApproveRight();
+        }
+
+        function hasCreateRight() {
+          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
+            programCode: vm.requisition.program.code
+          });
+        }
+
+        function hasAuthorizeRight() {
+          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
+            programCode: vm.requisition.program.code
+          });
+        }
+
+        function hasApproveRight() {
+          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
+            programCode: vm.requisition.program.code
+          })
         }
 
     }

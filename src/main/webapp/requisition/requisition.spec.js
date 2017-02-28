@@ -16,10 +16,8 @@
 
 describe('Requisition', function() {
 
-    var $rootScope, $httpBackend, q, REQUISITION_STATUS, requisitionUrlFactory, openlmisUrl,
-        LineItemSpy, offlineRequitions;
-
-    var TemplateSpy;
+    var $rootScope, httpBackend, q, REQUISITION_STATUS, requisitionUrlFactory, openlmisUrl,
+        LineItemSpy, offlineRequisitions;
 
     var requisition,
         facility = {
@@ -76,18 +74,18 @@ describe('Requisition', function() {
 
         template.getColumns.andCallFake(function(nonFullSupply) {
             return nonFullSupply ? nonFullSupplyColumns() : fullSupplyColumns();
-        })
+        });
 
-        offlineRequitions = jasmine.createSpyObj('offlineRequitions', ['put', 'remove', 'removeBy']);
+        offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['put', 'remove', 'removeBy']);
 
     	$provide.service('RequisitionTemplate', function(){
     		return TemplateSpy;
     	});
-        $provide.factory('localStorageFactory', function() {
-            return function() {
-                return offlineRequitions;
-            };
-        })
+      $provide.factory('localStorageFactory', function() {
+          return function() {
+              return offlineRequisitions;
+          };
+      });
     }));
 
     beforeEach(module(function($provide){
@@ -197,7 +195,7 @@ describe('Requisition', function() {
         var data;
 
         httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id))
-        .respond(200, requisition);
+          .respond(200, requisition);
 
         requisition.name = 'Saved requisition';
 
@@ -209,6 +207,30 @@ describe('Requisition', function() {
         $rootScope.$apply();
 
         expect(angular.toJson(data)).toEqual(angular.toJson(requisition));
+    });
+
+    it('should remove offline when 403', function() {
+        httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id))
+          .respond(403, requisition);
+
+        requisition.$save();
+
+        httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
+    });
+
+    it('should remove offline when 409', function() {
+        httpBackend.when('PUT', requisitionUrlFactory('/api/requisitions/' + requisition.id))
+          .respond(403, requisition);
+
+        requisition.$save();
+
+        httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
     });
 
     it('should return true if requisition status is initiated', function() {

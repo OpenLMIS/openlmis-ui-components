@@ -16,24 +16,16 @@
 
 describe('RequisitionViewController', function() {
 
-    var $rootScope, $q, $state, notificationService, confirmService, vm, requisition,
+    var $scope, $q, $state, notificationService, confirmService, vm, requisition,
         loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
-        fullSupplyItems, nonFullSupplyItems, lineItems, offlineRequisitions, authorizationServiceSpy;
+        fullSupplyItems, nonFullSupplyItems, authorizationServiceSpy;
 
     beforeEach(function() {
         module('requisition-view');
 
         module(function($provide) {
-            offlineRequisitions = jasmine.createSpyObj('offlineRequisitions', ['removeBy']);
 
-            var confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']),
-                localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function(resource) {
-                    if (resource === 'requisitions') {
-                        return offlineRequisitions;
-                    } else {
-                        return undefined;
-                    }
-                });
+            var confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']);
 
             authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
 
@@ -57,10 +49,6 @@ describe('RequisitionViewController', function() {
             $provide.factory('requisitionValidator', function() {
                 return requisitionValidatorMock;
             });
-
-            $provide.factory('localStorageFactory', function() {
-                return localStorageFactorySpy;
-            })
         });
 
         inject(function(_$rootScope_, $controller, _$q_, _$state_, _notificationService_,
@@ -79,7 +67,7 @@ describe('RequisitionViewController', function() {
 
             deferred = $q.defer();
             requisition = jasmine.createSpyObj('requisition',
-                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$isReleased', '$save']);
+                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$isInApproval', '$isReleased', '$save']);
             requisition.id = '1';
             requisition.program = {
                 id: '2',
@@ -171,8 +159,47 @@ describe('RequisitionViewController', function() {
         expect(vm.getPrintUrl()).toEqual('http://some.url/api/requisitions/1/print');
     });
 
-    it('should display sync button', function() {
+    it('should display sync button when initiated', function() {
         authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isInitiated.andReturn(true);
+        vm.requisition.$isSubmitted.andReturn(false);
+        vm.requisition.$isAuthorized.andReturn(false);
+        vm.requisition.$isInApproval.andReturn(false);
+
+        expect(vm.displaySync()).toBe(true);
+    });
+
+    it('should display sync button when submitted', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isInitiated.andReturn(false);
+        vm.requisition.$isSubmitted.andReturn(true);
+        vm.requisition.$isAuthorized.andReturn(false);
+        vm.requisition.$isInApproval.andReturn(true);
+
+        expect(vm.displaySync()).toBe(true);
+    });
+
+    it('should display sync button when authorized', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isInitiated.andReturn(false);
+        vm.requisition.$isSubmitted.andReturn(false);
+        vm.requisition.$isAuthorized.andReturn(true);
+        vm.requisition.$isInApproval.andReturn(true);
+
+        expect(vm.displaySync()).toBe(true);
+    });
+
+    it('should display sync button in approval', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isInitiated.andReturn(false);
+        vm.requisition.$isSubmitted.andReturn(false);
+        vm.requisition.$isAuthorized.andReturn(false);
+        vm.requisition.$isInApproval.andReturn(true);
+
         expect(vm.displaySync()).toBe(true);
     });
 
@@ -180,6 +207,7 @@ describe('RequisitionViewController', function() {
         vm.requisition.$isInitiated.andReturn(false);
         vm.requisition.$isSubmitted.andReturn(false);
         vm.requisition.$isAuthorized.andReturn(false);
+        vm.requisition.$isInApproval.andReturn(false);
         expect(vm.displaySync()).toBe(false);
     });
 
@@ -214,7 +242,6 @@ describe('RequisitionViewController', function() {
           deferred.reject(conflictResponse);
           $scope.$apply();
 
-          expect(offlineRequisitions.removeBy).toHaveBeenCalledWith('id', '1');
           expect(notificationServiceSpy).toHaveBeenCalledWith(messageKey);
           expect(stateSpy).toHaveBeenCalled();
         }
@@ -232,7 +259,6 @@ describe('RequisitionViewController', function() {
             deferred.reject(conflictResponse);
             $scope.$apply();
 
-            expect(offlineRequisitions.removeBy).not.toHaveBeenCalled();
             expect(notificationServiceSpy).toHaveBeenCalledWith('msg.failedToSyncRequisition');
             expect(stateSpy).not.toHaveBeenCalled();
         }
