@@ -12,82 +12,65 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 describe('ProductGridCell', function() {
 
-    'use strict';
-
-    var compile, scope, directiveElem, COLUMN_SOURCES;
+    var $compile, scope, requisition, directiveElem;
 
     beforeEach(function() {
-        module('openlmis-templates');
-    });
-
-    beforeEach(module('requisition-product-grid', function($compileProvider) {
-        $compileProvider.directive('lossesAndAdjustments', function() {
-            var def = {
-                priority: 100,
-                terminal: true,
-                restrict: 'EAC',
-                template: '<a></a>',
-            };
-            return def;
+        module('requisition-product-grid', function($compileProvider) {
+            $compileProvider.directive('lossesAndAdjustments', function() {
+                var def = {
+                    priority: 100,
+                    terminal: true,
+                    restrict: 'EAC',
+                    template: '<a></a>',
+                };
+                return def;
+            });
         });
-    }));
 
-    beforeEach(function() {
+        module('openlmis-templates');
 
-        inject(function($compile, $rootScope, COLUMN_TYPES, _COLUMN_SOURCES_) {
-            compile = $compile;
-            scope = $rootScope.$new();
-            COLUMN_SOURCES = _COLUMN_SOURCES_;
-            scope.requisition = jasmine.createSpyObj('requisition', ['$getStockAdjustmentReasons']);
+        inject(function($injector) {
+            $compile = $injector.get('$compile');
+            scope = $injector.get('$rootScope').$new();
+
+            requisition = jasmine.createSpyObj('requisition', [
+                '$getStockAdjustmentReasons', '$isApproved', '$isReleased', '$isAuthorized',
+                '$isInApproval'
+            ]);
+
+            scope.requisition = requisition;
 
             scope.column = {
-                type: COLUMN_TYPES.NUMERIC,
+                type: $injector.get('COLUMN_TYPES').NUMERIC,
                 name: "beginningBalance",
-                source: COLUMN_SOURCES.USER_INPUT
+                source: $injector.get('COLUMN_SOURCES').USER_INPUT
             };
+
             scope.lineItem = {
                 getFieldValue: function() {
                     return "readOnlyFieldValue";
                 },
-                $errors: {
-
-                }
-            }
+                $errors: {}
+            };
         });
-
     });
 
-    function getCompiledElement() {
+    it('should produce read-only cell if approved', function() {
+        scope.requisition.$isApproved.andReturn(true);
+        scope.requisition.$isReleased.andReturn(false);
 
-        var rootElement = angular.element('<div><dic product-grid-cell requisition="requisition" column="column" line-item="lineItem"></div></div>');
-        var compiledElement = compile(rootElement)(scope);
-        scope.$digest();
-        return compiledElement;
-    }
-
-    it('should produce readonly cell if approved', function() {
-        scope.requisition.$isApproved = function() {
-            return true;
-        }
-        scope.requisition.$isReleased = function() {
-            return false;
-        }
         directiveElem = getCompiledElement();
 
         expect(directiveElem.html()).toContain("readOnlyFieldValue");
         expect(directiveElem.find("input").length).toEqual(0);
     });
 
-    it('should produce readonly cell if released', function() {
-        scope.requisition.$isReleased = function() {
-            return true;
-        }
-        scope.requisition.$isApproved = function() {
-            return false;
-        }
+    it('should produce read-only cell if released', function() {
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(true);
+
         directiveElem = getCompiledElement();
 
         expect(directiveElem.html()).toContain("readOnlyFieldValue");
@@ -95,18 +78,11 @@ describe('ProductGridCell', function() {
     });
 
     it('should produce editable cell', function() {
-        scope.requisition.$isApproved = function() {
-            return false;
-        };
-        scope.requisition.$isReleased = function() {
-            return false;
-        };
-        scope.requisition.$isAuthorized = function() {
-            return false;
-        };
-        scope.requisition.$isInApproval = function() {
-            return false;
-        };
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isAuthorized.andReturn(false);
+        scope.requisition.$isInApproval.andReturn(false);
+
         directiveElem = getCompiledElement();
 
         expect(directiveElem.html()).not.toContain("readOnlyFieldValue");
@@ -114,19 +90,21 @@ describe('ProductGridCell', function() {
     });
 
     it('should produce losesAndAdjustment cell', function() {
-        scope.requisition.$isApproved = function() {
-            return false;
-        }
-        scope.requisition.$isReleased = function() {
-            return false;
-        }
-        scope.requisition.$isAuthorized = function() {
-            return false;
-        }
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isAuthorized.andReturn(false);
         scope.column.name = "totalLossesAndAdjustments";
+
         directiveElem = getCompiledElement();
 
         expect(directiveElem.html()).not.toContain("readOnlyFieldValue");
         expect(directiveElem.find("a").length).toEqual(1);
     });
+
+    function getCompiledElement() {
+        var rootElement = angular.element('<div><div product-grid-cell requisition="requisition" column="column" line-item="lineItem"></div></div>');
+        var compiledElement = $compile(rootElement)(scope);
+        scope.$digest();
+        return compiledElement;
+    }
 });
