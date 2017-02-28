@@ -62,10 +62,9 @@ Styleguide 3.4
 
 select{
 	@extend .form-control;
-	box-shadow: none;
 
 	& + a.clear{
-		display: block;
+		display: none;
 	}
 
 	&[disabled] + a.clear{
