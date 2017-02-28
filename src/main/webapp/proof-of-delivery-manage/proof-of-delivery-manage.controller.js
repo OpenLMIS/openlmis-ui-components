@@ -145,8 +145,8 @@
             withUiBlocking(orderFactory.searchOrdersForManagePod(
                 vm.requestingFacilityId,
                 vm.selectedProgramId
-            )).then(function(orders) {
-                vm.orders = orders;
+            )).then(function(data) {
+                vm.orders = data.content;
             });
         }
 

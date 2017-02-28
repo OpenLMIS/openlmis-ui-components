@@ -28,17 +28,19 @@ describe('ProofOfDeliveryManageController', function() {
         facility = {
             'id': 'facility-one',
             'supportedPrograms': programs
-        }
+        };
 
         programs = [
             createObjWithId('program-one'),
             createObjWithId('program-two')
         ];
 
-        orders = [
-            createOrder('order-one', 'RECEIVED'),
-            createOrder('order-two', 'PICKING')
-        ];
+        orders = {
+            content: [
+                createOrder('order-one', 'RECEIVED'),
+                createOrder('order-two', 'PICKING')
+            ]
+        };
 
         pod = {
             id: 'pod-one',
@@ -124,7 +126,7 @@ describe('ProofOfDeliveryManageController', function() {
             deferred.resolve(orders);
             $rootScope.$apply();
 
-            expect(vm.orders).toEqual(orders);
+            expect(vm.orders).toEqual(orders.content);
         });
 
         it('should close loading modal', function() {

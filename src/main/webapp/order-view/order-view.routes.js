@@ -21,9 +21,9 @@
         .module('order-view')
         .config(config);
 
-    config.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'FULFILLMENT_RIGHTS'];
+    config.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'FULFILLMENT_RIGHTS', 'paginatedRouterProvider'];
 
-    function config($stateProvider, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS) {
+    function config($stateProvider, REQUISITION_RIGHTS, FULFILLMENT_RIGHTS, paginatedRouterProvider) {
 
         $stateProvider.state('orders.view', {
             controller: 'OrderViewController',
@@ -31,7 +31,7 @@
             label: 'link.viewOrders',
             showInNavigation: true,
             templateUrl: 'order-view/order-view.html',
-            url: '/view',
+            url: '/view?supplyingFacility&requestingFacility&program&page&size',
             accessRights: [
                 REQUISITION_RIGHTS.REQUISITION_CREATE,
                 REQUISITION_RIGHTS.REQUISITION_AUTHORIZE,
@@ -39,7 +39,7 @@
                 FULFILLMENT_RIGHTS.ORDERS_VIEW
             ],
             areAllRightsRequired: true,
-            resolve: {
+            resolve: paginatedRouterProvider.resolve({
                 supplyingFacilities: function(facilityFactory, authorizationService) {
                     return facilityFactory.getSupplyingFacilities(
                         authorizationService.getUser().user_id
@@ -54,8 +54,14 @@
                     return programService.getUserPrograms(
                         authorizationService.getUser().user_id
                     );
+                },
+                response: function(orderFactory, $stateParams) {
+                    if ($stateParams.supplyingFacility) {
+                        return orderFactory.search($stateParams);
+                    }
+                    return undefined;
                 }
-            }
+            })
         });
 
     }

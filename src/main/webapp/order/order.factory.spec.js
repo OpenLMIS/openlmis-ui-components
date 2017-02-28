@@ -31,21 +31,23 @@ describe('orderFactory', function() {
     });
 
     it('should call orderService with correct params', function() {
-        orderFactory.search('id-one', 'id-two', 'id-three');
+        var searchParams = {
+            program: 'id-one',
+            supplyingFacility: 'id-two',
+            requestingFacility: 'id-three'
+        };
+        orderFactory.search(searchParams);
 
-        expect(orderServiceMock.search).toHaveBeenCalledWith({
-            supplyingFacility: 'id-one',
-            requestingFacility: 'id-two',
-            program: 'id-three'
-        });
+        expect(orderServiceMock.search).toHaveBeenCalledWith(searchParams);
     });
 
     it('should call orderService with only one param', function() {
-        orderFactory.search('id-one');
+        var searchParam = {
+            supplyingFacility: 'id-two',
+        };
+        orderFactory.search(searchParam);
 
-        expect(orderServiceMock.search).toHaveBeenCalledWith({
-            supplyingFacility: 'id-one'
-        });
+        expect(orderServiceMock.search).toHaveBeenCalledWith(searchParam);
     });
 
     it('should call orderService with id param', function() {

@@ -17,9 +17,16 @@ describe('OrderViewController', function() {
 
     var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, notificationServiceMock,
         fulfillmentUrlFactoryMock, supplyingFacilities, requestingFacilities, programs,
-        deferred, orders;
+        deferred, orders, item, totalItems, stateParams, $controller, $stateParams, orderFactory;
 
     beforeEach(function() {
+        module('order-view');
+
+        inject(function($injector) {
+            $controller = $injector.get('$controller');
+            $stateParams = $injector.get('$stateParams');
+        });
+
         supplyingFacilities = [
             createObjWithId('facility-one'),
             createObjWithId('facility-two')
@@ -40,55 +47,50 @@ describe('OrderViewController', function() {
             createObjWithId('order-two')
         ];
 
-        module('order-view', function($provide) {
-            orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search']);
-            loadingModalServiceMock = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
-            notificationServiceMock = jasmine.createSpyObj('notificationService', ['error']);
-            fulfillmentUrlFactoryMock = jasmine.createSpy();
+        items = [
+            'itemOne', 'itemTwo'
+        ];
 
-            $provide.factory('orderFactory', function() {
-                return orderFactoryMock;
-            });
+        stateParams = {
+            page: 0,
+            size: 10
+        };
 
-            $provide.factory('loadingModalService', function() {
-                return loadingModalServiceMock;
-            });
-
-            $provide.factory('notificationService', function() {
-                return notificationServiceMock;
-            });
-
-            $provide.factory('fulfillmentUrlFactory', function() {
-                return fulfillmentUrlFactoryMock;
-            });
-        });
-
-        inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            deferred = $injector.get('$q').defer();
-            vm = $injector.get('$controller')('OrderViewController', {
-                supplyingFacilities: supplyingFacilities,
-                requestingFacilities: requestingFacilities,
-                programs: programs
-            });
-        });
-
-        fulfillmentUrlFactoryMock.andCallFake(function(url) {
-            return 'http://some.url' + url;
-        });
+        totalItems = 2;
     });
 
     describe('initialization', function() {
 
+        var $controllerMock;
+
+        beforeEach(function() {
+            $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
+                vm.stateParams = {};
+            });
+
+            vm = $controller('OrderViewController', {
+                supplyingFacilities: supplyingFacilities,
+                requestingFacilities: requestingFacilities,
+                programs: programs,
+                items: items,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                $controller: $controllerMock
+            });
+        });
+
         it('should expose supplying facilities', function() {
+            vm.$onInit();
             expect(vm.supplyingFacilities).toEqual(supplyingFacilities);
         });
 
         it('should expose requesting facilities', function() {
+            vm.$onInit();
             expect(vm.requestingFacilities).toEqual(requestingFacilities);
         });
 
         it('should expose programs', function() {
+            vm.$onInit();
             expect(vm.programs).toEqual(programs);
         });
 
@@ -97,65 +99,108 @@ describe('OrderViewController', function() {
     describe('loadOrders', function() {
 
         beforeEach(function() {
-            vm.supplyingFacility = vm.supplyingFacilities[0];
-            vm.requestingFacility = vm.requestingFacilities[0];
-            vm.program = vm.programs[0];
+            initController();
+            vm.$onInit();
 
-            orderFactoryMock.search.andReturn(deferred.promise);
+            vm.stateParams.program = undefined;
+            vm.stateParams.requestingFacility = undefined;
+            vm.stateParams.supplyingFacility = undefined;
+
+            spyOn(vm, 'changePage').andReturn();
         });
 
-        it('should open loading modal', function() {
+        it('should set program', function() {
+            vm.program = {id: 'program-one'};
+
             vm.loadOrders();
 
-            expect(loadingModalServiceMock.open).toHaveBeenCalled();
+            expect(vm.stateParams.program).toBe(vm.program.id);
         });
 
-        it('should fetch orders from order factory with correct params', function() {
+        it('should set supplying facility', function() {
+            vm.supplyingFacility = {id: 'facility-one'};
+
             vm.loadOrders();
 
-            expect(orderFactoryMock.search).toHaveBeenCalledWith(
-                'facility-one',
-                'facility-three',
-                'program-one'
-            );
+            expect(vm.stateParams.supplyingFacility).toBe(vm.supplyingFacility.id);
         });
 
-        it('should set vm.orders', function() {
-            vm.loadOrders();
-            deferred.resolve(orders);
-            $rootScope.$apply();
+        it('should set requesting facility', function() {
+            vm.requestingFacility = {id: 'facility-one'};
 
-            expect(vm.orders).toEqual(orders);
+            vm.loadOrders();
+
+            expect(vm.stateParams.requestingFacility).toBe(vm.requestingFacility.id);
         });
 
-        it('should show error on failed request', function() {
-            vm.loadOrders();
-            deferred.reject();
-            $rootScope.$apply();
-
-            expect(notificationServiceMock.error).toHaveBeenCalledWith('msg.error.occurred');
-        });
-
-        it('should close loading modal', function() {
-            vm.loadOrders();
-            deferred.resolve();
-            $rootScope.$apply();
-
-            expect(loadingModalServiceMock.close).toHaveBeenCalled();
+        it('schould reload state', function() {
+           vm.loadOrders();
+           expect(vm.changePage).toHaveBeenCalled();
         });
 
     });
 
-    it('getPrintUrl should prepare URL correctly', function() {
-        expect(vm.getPrintUrl(orders[0]))
-            .toEqual('http://some.url/api/orders/order-one/print?format=pdf');
+    describe('getPrintUrl', function() {
+
+        beforeEach(function() {
+            fulfillmentUrlFactoryMock = jasmine.createSpy();
+            fulfillmentUrlFactoryMock.andCallFake(function(url) {
+                return 'http://some.url' + url;
+            });
+
+            vm = $controller('OrderViewController', {
+                supplyingFacilities: supplyingFacilities,
+                requestingFacilities: requestingFacilities,
+                programs: programs,
+                items: items,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                fulfillmentUrlFactory: fulfillmentUrlFactoryMock
+            });
+        });
+
+        it('should prepare print URL correctly', function () {
+            expect(vm.getPrintUrl(orders[0]))
+                .toEqual('http://some.url/api/orders/order-one/print?format=pdf');
+        });
     });
 
-    it('getDownloadUrl should prepare URL correctly', function() {
-        expect(vm.getDownloadUrl(orders[1]))
-            .toEqual('http://some.url/api/orders/order-two/export?type=csv');
+    describe('getDownloadUrl', function() {
+
+        beforeEach(function() {
+            fulfillmentUrlFactoryMock = jasmine.createSpy();
+            fulfillmentUrlFactoryMock.andCallFake(function(url) {
+                return 'http://some.url' + url;
+            });
+
+            vm = $controller('OrderViewController', {
+                supplyingFacilities: supplyingFacilities,
+                requestingFacilities: requestingFacilities,
+                programs: programs,
+                items: items,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                fulfillmentUrlFactory: fulfillmentUrlFactoryMock
+            });
+        });
+
+        it('should prepare download URL correctly', function () {
+            expect(vm.getDownloadUrl(orders[1]))
+                .toEqual('http://some.url/api/orders/order-two/export?type=csv');
+        });
     });
 
+    function initController() {
+        vm = $controller('OrderViewController', {
+            supplyingFacilities: supplyingFacilities,
+            requestingFacilities: requestingFacilities,
+            programs: programs,
+            items: items,
+            totalItems: totalItems,
+            stateParams: stateParams
+        });
+        vm.$onInit();
+    }
 });
 
 function createObjWithId(id) {

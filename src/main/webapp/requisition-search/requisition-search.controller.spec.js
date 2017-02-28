@@ -52,7 +52,7 @@ describe('RequisitionSearchController', function() {
         stateParams = {
             page: 0,
             size: 10
-        }
+        };
 
         totalItems = 2;
     });

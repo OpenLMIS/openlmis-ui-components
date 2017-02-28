@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name order-view.OrderViewController
+     * @name order-view.controller:OrderViewController
      *
      * @description
      * Responsible for managing Order View. Exposes facilities/programs to populate selects and
@@ -31,54 +31,100 @@
 
     controller.$inject = [
         'supplyingFacilities', 'requestingFacilities', 'programs', 'orderFactory',
-        'loadingModalService', 'notificationService', 'fulfillmentUrlFactory'
+        'loadingModalService', 'notificationService', 'fulfillmentUrlFactory', 'items', 'stateParams',
+        'totalItems', '$controller', '$stateParams', '$filter'
     ];
 
     function controller(supplyingFacilities, requestingFacilities, programs, orderFactory,
-                        loadingModalService, notificationService, fulfillmentUrlFactory) {
+                        loadingModalService, notificationService, fulfillmentUrlFactory,
+                        items, stateParams, totalItems, $controller, $stateParams, $filter) {
 
         var vm = this;
 
+        vm.$onInit = onInit;
         vm.loadOrders = loadOrders;
         vm.getPrintUrl = getPrintUrl;
         vm.getDownloadUrl = getDownloadUrl;
 
         /**
          * @ngdoc property
-         * @propertyOf order-view.OrderViewController
+         * @propertyOf order-view.controller:OrderViewController
          * @name supplyingFacilities
          * @type {Array}
          *
          * @description
          * The list of all supplying facilities available to the user.
          */
-        vm.supplyingFacilities = supplyingFacilities;
+        vm.supplyingFacilities = undefined;
 
         /**
          * @ngdoc property
-         * @propertyOf order-view.OrderViewController
+         * @propertyOf order-view.controller:OrderViewController
          * @name requestingFacilities
          * @type {Array}
          *
          * @description
          * The list of requesting facilities available to the user.
          */
-        vm.requestingFacilities = requestingFacilities;
+        vm.requestingFacilities = undefined;
 
         /**
          * @ngdoc property
-         * @propertyOf order-view.OrderViewController
+         * @propertyOf order-view.controller:OrderViewController
          * @name programs
          * @type {Array}
          *
          * @description
          * The list of all programs available to the user.
          */
-        vm.programs = programs;
+        vm.programs = undefined;
 
         /**
          * @ngdoc method
-         * @methodOf order-view.OrderViewController
+         * @methodOf order-view.controller:OrderViewController
+         * @name $onInit
+         *
+         * @description
+         * Initialization method called after the controller has been created. Responsible for
+         * setting data to be available on the view.
+         */
+        function onInit() {
+            vm.supplyingFacilities = supplyingFacilities;
+            vm.requestingFacilities = requestingFacilities;
+            vm.programs = programs;
+
+            $controller('BasePaginationController', {
+                vm: vm,
+                items: items,
+                stateParams: stateParams,
+                totalItems: totalItems,
+                externalPagination: true,
+                itemValidator: undefined
+            });
+
+            if ($stateParams.supplyingFacility) {
+                vm.supplyingFacility = $filter('filter')(vm.supplyingFacilities, {
+                    id: $stateParams.supplyingFacility
+                })[0];
+            }
+
+            if ($stateParams.requestingFacility) {
+                vm.requestingFacility = $filter('filter')(vm.requestingFacilities, {
+                    id: $stateParams.requestingFacility
+                })[0];
+            }
+
+            if ($stateParams.program) {
+                vm.program = $filter('filter')(vm.programs, {
+                    id: $stateParams.program
+                })[0];
+            }
+        }
+
+
+        /**
+         * @ngdoc method
+         * @methodOf order-view.controller:OrderViewController
          * @name loadOrders
          *
          * @description
@@ -88,23 +134,15 @@
          * @return  {Array} the list of matching orders
          */
         function loadOrders() {
-            loadingModalService.open();
-            orderFactory.search(
-                vm.supplyingFacility.id,
-                vm.requestingFacility ? vm.requestingFacility.id : null,
-                vm.program ? vm.program.id : null
-            ).then(function(orders) {
-                vm.orders = orders;
-            }, function() {
-                notificationService.error('msg.error.occurred');
-            }).finally(function() {
-                loadingModalService.close();
-            });
+            vm.stateParams.supplyingFacility = vm.supplyingFacility ? vm.supplyingFacility.id : null;
+            vm.stateParams.requestingFacility = vm.requestingFacility ? vm.requestingFacility.id : null;
+            vm.stateParams.program = vm.program ? vm.program.id : null;
+            vm.changePage();
         }
 
         /**
          * @ngdoc method
-         * @methodOf order-view.OrderViewController
+         * @methodOf order-view.controller:OrderViewController
          * @name getPrintUrl
          *
          * @description
@@ -119,7 +157,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf order-view.OrderViewController
+         * @methodOf order-view.controller:OrderViewController
          * @name getDownloadUrl
          *
          * @description

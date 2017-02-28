@@ -18,7 +18,7 @@
             <input type="submit" class="btn btn-primary" value="{{'button.search' | message}}"/>
         </form>
         <table>
-            <caption ng-if="!vm.orders.length">{{'msg.noOrdersFound' | message}}</caption>
+            <caption ng-if="!vm.items.length">{{'msg.noOrdersFound' | message}}</caption>
             <thead>
                 <tr>
                     <th>{{'label.orderNumber' | message}}</th>
@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in vm.orders">
+                <tr ng-repeat="order in vm.items">
                     <td>{{order.orderCode}}</td>
                     <td>{{order.facility.code}} - {{order.facility.name}}</td>
                     <td>{{order.facility.geographicZone.name}}</td>
@@ -60,4 +60,10 @@
             </tbody>
         </table>
     </section>
+    <openlmis-pagination ng-model="vm.stateParams.page"
+                         ng-change="vm.changePage()"
+                         total-items="vm.totalItems"
+                         items="vm.pageItems.length"
+                         page-size="vm.stateParams.size">
+    </openlmis-pagination>
 </div>

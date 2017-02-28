@@ -25,6 +25,7 @@
     angular.module('order-view', [
         'openlmis-date',
         'openlmis-i18n',
+        'openlmis-pagination',
         'openlmis-table',
         'order',
         'ui.router'
