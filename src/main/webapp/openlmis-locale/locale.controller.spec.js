@@ -73,6 +73,7 @@ describe("LocaleController", function () {
                 notificationService: notificationService,
                 $window: window
             });
+            controller.$onInit();
         }));
 
         it('in a sorted order', function(){
@@ -101,6 +102,7 @@ describe("LocaleController", function () {
                 notificationService: notificationService,
                 $window: window
             });
+            controller.$onInit();
 
             expect(messageService.populate).toHaveBeenCalled();
         }));
@@ -153,16 +155,6 @@ describe("LocaleController", function () {
             scope.$apply();
 
             expect(alertService.error).toHaveBeenCalled();
-        });
-
-        it("updates selectedLocale when messages are populated", function(){
-            messageService.populate('foo');
-            scope.$apply();
-            expect(controller.selectedLocale).toBe('foo');
-
-            messageService.populate('bar');
-            scope.$apply();
-            expect(controller.selectedLocale).toBe('bar');
         });
     });
 

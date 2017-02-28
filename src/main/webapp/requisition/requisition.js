@@ -104,7 +104,7 @@
             angular.copy(source, this);
 
             this.$stockAdjustmentReasons = reasons;
-            this.template = new RequisitionTemplate(this.template, source);
+            this.template = new RequisitionTemplate(this.template, this);
             this.$statusMessages = $filter('orderBy')(statusMessages, '-createdDate');
 
             this.requisitionLineItems = [];

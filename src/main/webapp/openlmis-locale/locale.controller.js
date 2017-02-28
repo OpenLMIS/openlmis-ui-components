@@ -23,31 +23,32 @@
     LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES', '$window']
     function LocaleController($scope, messageService, alertService, notificationService, OPENLMIS_LANGUAGES, $window) {
         var locale = this;
+
+        locale.$onInit = onInit;
         locale.changeLocale = changeLocale;
         locale.getLocaleName = getLocaleName;
 
-        locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
+        function onInit() {
+            locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
 
-        locale.selectedLocale = messageService.getCurrentLocale();
-        $scope.$on('openlmis.messages.populated', function() {
-            if (!locale.selectedLocale) {
-                locale.selectedLocale = messageService.getCurrentLocale();
-            } else {
-                locale.selectedLocale = messageService.getCurrentLocale();
-                $window.location.reload();
+            locale.selectedLocale = messageService.getCurrentLocale();
+
+            if(!locale.selectedLocale){
+                messageService.populate().then(function() {
+                    locale.selectedLocale = messageService.getCurrentLocale();
+
+                });
             }
-        });
-
-        if(!locale.selectedLocale){
-            messageService.populate();
         }
 
-        function changeLocale (localeKey) {
+        function changeLocale(localeKey) {
             if(localeKey) {
-                messageService.populate(localeKey)
-                    .catch(function () {
-                        alertService.error('locale.load.error');
-                    });
+                messageService.populate(localeKey).then(function() {
+                    locale.selectedLocale = messageService.getCurrentLocale();
+                    $window.location.reload();
+                }, function() {
+                    alertService.error('locale.load.error');
+                });
             }
         }
 

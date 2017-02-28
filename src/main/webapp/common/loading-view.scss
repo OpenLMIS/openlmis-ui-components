@@ -1,28 +1,40 @@
 $loading-logo-size: 72px;
 
 .loading-view {
-    background-color: $dark-gray;
+    background: radial-gradient(circle at center, $dark-gray 0%, darken($dark-gray, 8%) 100%);
     position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
-    background-image: url('common/openlmis-logo-white.svg');
-    background-repeat: no-repeat;
-    background-position: 50% calc(50% - #{$loading-logo-size} - 2em);
-    background-size: auto $loading-logo-size;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
 
-.loading-icon {
-    @extend .fa;
-    @extend .fa-spinner;
-    @extend .fa-pulse;
-    @extend .fa-3x;
-    @extend .fa-fw;
-    color: white;
-    font-size: $loading-logo-size;
+    & > .loading-view-body {
+        width: 100%;
+        height: 100%;
+        background-image: url('common/openlmis-logo-white.svg');
+        background-repeat: no-repeat;
+        background-position: 50% calc(50% - #{$loading-logo-size} - 2em);
+        background-size: auto $loading-logo-size;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+
+        > div {
+            font-size: $font-size-large;
+            display: flex;
+            align-items: center;
+
+            &::before {
+                @extend .fa;
+                @extend .fa-spin;
+                @extend .fa-3x;
+                @extend .fa-fw;
+                font-size: calc(2 * #{$font-size-large});
+                content: '\f1ce';
+                margin-right: 0.1em;
+            }
+        }
+    }
 }
