@@ -117,6 +117,12 @@
             reportService.getReportParamsOptions(uri).then(function(response) {
                 var items = [];
 
+                // Support paginated endpoints
+                var data = response.data;
+                if (data.content && data.totalElements > 0) {
+                  data = data.content;
+                }
+
                 angular.forEach(response.data, function(obj) {
                     var value = property ? obj[property] : obj;
                     var name = displayName ? obj[displayName] : value;
