@@ -29,7 +29,7 @@
         locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
 
         locale.selectedLocale = messageService.getCurrentLocale();
-        $scope.$on('openlmis.messages.populated', function(){
+        $scope.$on('openlmis.messages.populated', function() {
             if (!locale.selectedLocale) {
                 locale.selectedLocale = messageService.getCurrentLocale();
             } else {
