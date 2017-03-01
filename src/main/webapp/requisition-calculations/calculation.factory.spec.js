@@ -196,24 +196,39 @@ describe('calculationFactory', function() {
     });
 
     describe('Calculate adjusted consumption', function() {
-        beforeEach(lineItemInject);
-        var period = {
-            durationInMonths: 1
-        };
+        var requisition;
+
+        beforeEach(function() {
+            lineItemInject();
+
+            requisition = {
+                processingPeriod: {
+                    durationInMonths: 1
+                },
+                template: jasmine.createSpyObj('template', ['getColumn'])
+            };
+
+            requisition.template.getColumn.andCallFake(function(name) {
+                if (TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY) return {
+                    source: 'USER_INPUT',
+                    name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY
+                };
+            });
+        });
 
         it('should return total consumed quantity when non-stockout days is zero', function() {
             lineItem.totalStockoutDays = 30;
-            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(lineItem.totalConsumedQuantity);
+            expect(calculationFactory.adjustedConsumption(lineItem, requisition)).toBe(lineItem.totalConsumedQuantity);
         });
 
         it('should return zero when consumed quantity is not defined', function() {
             lineItem.totalConsumedQuantity = 0;
-            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(0);
+            expect(calculationFactory.adjustedConsumption(lineItem, requisition)).toBe(0);
         });
 
         it('should calculate adjusted consumption', function() {
             lineItem.totalStockoutDays = 15;
-            expect(calculationFactory.adjustedConsumption(lineItem, {processingPeriod: period})).toBe(30);
+            expect(calculationFactory.adjustedConsumption(lineItem, requisition)).toBe(30);
         });
     });
 
@@ -226,13 +241,19 @@ describe('calculationFactory', function() {
 
             column = {
                 name: 'maximumStockQuantity',
+                source: 'USER_INPUT',
                 option: {
                     optionName: 'default'
                 }
             };
 
             templateMock.getColumn.andCallFake(function(name) {
+                console.log(name);
                 if (name === TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY) return column;
+                if (name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION) return {
+                    source: 'USER_INPUT',
+                    name: 'averageConsumption'
+                };
             });
         });
 

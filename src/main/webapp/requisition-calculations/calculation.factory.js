@@ -72,7 +72,7 @@
          * @param  {Object} lineItem the line item to calculate the value from
          * @return {Number}          the calculated Total Consumed Quantity value
          */
-        function calculateTotalConsumedQuantity(lineItem) {
+        function calculateTotalConsumedQuantity(lineItem, requisition) {
             return lineItem[A] + lineItem[B] + lineItem[D] - lineItem[E];
         }
 
@@ -203,7 +203,9 @@
          * @return {Number}             the calculated Adjusted Consumption value
          */
         function calculateAdjustedConsumption(lineItem, requisition) {
-            var consumedQuantity = lineItem[C];
+            var cColumn = requisition.template.getColumn(C),
+                consumedQuantity = getColumnValue(lineItem, requisition, cColumn);
+
             if (consumedQuantity === undefined) {
                 return 0;
             }
@@ -300,10 +302,16 @@
          * @return {Number}             the calculated Maximum Stock Quantity value
          */
         function calculateMaximumStockQuantity(lineItem, requisition) {
-            var column = requisition.template.getColumn(H);
-            return column && column.option.optionName === 'default'
-                ? Math.round(lineItem[P] * lineItem.maxPeriodsOfStock)
-                : 0;
+            var hColumn = requisition.template.getColumn(H),
+                pColumn = requisition.template.getColumn(P),
+                pValue;
+
+            if (pColumn) {
+                pValue = getColumnValue(lineItem, requisition, pColumn);
+            }
+
+            return hColumn && hColumn.option.optionName === 'default' ?
+                Math.round(pValue * lineItem.maxPeriodsOfStock) : 0;
         }
 
         /**
