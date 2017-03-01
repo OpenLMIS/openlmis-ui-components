@@ -1,6 +1,20 @@
+/*
+Alerts
+
+Use alerts to inform a user about system state information or brief instructions
+that should be shown in a static manner on the page.
+
+markup:
+<div class="alert">This is the default alert message.</div>
+<div class="alert is-error">This is an error alert message.</div>
+<div class="alert is-success">This is an alert message about a successful event.</div>
+
+Styleguide 1.6
+*/
 
 .alert {
 	@extend .alert-info;
+	position: relative;
 	border: 0px;
 	margin: 0px;
 	padding: 1em;
@@ -12,14 +26,30 @@
 
 	&.is-error,
 	&.is-danger {
-		@extend .alert-danger;
 		@include icon('exclamation-circle');
 		color: $brand-danger;
+		border-color: $brand-danger;
+		background-color: $background-color-danger;
 	}
 
 	&.is-success {
 		@include icon('check-circle');
 		color: $brand-success;
+		border-color: $brand-success;
+		background-color: $background-color-success;
+	}
+
+	&.is-success,
+	&.is-error,
+	&.is-danger {
+		padding-left: 3em;
+		&::before {
+			font-size: 2em;
+			position: absolute;
+			top: 50%;
+			left: 0.5em;
+			transform: translateY(-50%);
+		}
 	}
 
 	&.is-info {
