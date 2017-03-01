@@ -24,7 +24,7 @@
         <script type="text/javascript" src="openlmis.js" async="true"></script>
         <script type="text/javascript">
             function removeNoJS(){
-                document.body.setAttribute('class', '');
+                document.body.removeAttribute('class', '');
             }
         </script>
     </head>
@@ -37,5 +37,6 @@
                 <openlmis-locale class="navbar-right locale-container"></openlmis-locale>
             </div>
         </header>
+        <div ui-view></div>
     </body>
 </html>
