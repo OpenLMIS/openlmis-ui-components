@@ -74,7 +74,9 @@
                 }
                 return lineItem.$errors[column.name];
             }, function(error){
-                scope.invalidMessage = error;
+                if (error) {
+                    scope.invalidMessage = error;
+                }
             });
 
             updateCellContents();
