@@ -52,7 +52,7 @@ This gives us simpler markup, that could be restyled and reused depending on the
 * Using float and width properties to correctly display the button
 * A ::after pseudo class can replace any 'clearfix' element (which shouldn't exist in our code)
 
-See the UI-Styleguide for examples of how specific elements and components should should be constructed and used. 
+See the UI-Styleguide for examples of how specific elements and components should should be constructed and used.
 
 ### Naming Convention
 In general we follow the [John-Papa naming conventions,](https://github.com/johnpapa/angular-styleguide/tree/master/a1#naming) later sections go into specifics about how to name a specific file type, while this section focuses on general naming and file structure.
@@ -64,20 +64,20 @@ Generally, all file names should use the following format `specific-name.file-ty
 
 Folder structure should aim to follow the [LIFT principal](https://github.com/johnpapa/angular-styleguide/tree/master/a1#application-structure-lift-principle) as closely as possible, with a couple extra notes:
 * There should only be one *.module.js file per directory hiearchy
-* Only consider creating a sub-directory if file names are long and repatitive, such that a sub-directory would improve meaning 
+* Only consider creating a sub-directory if file names are long and repatitive, such that a sub-directory would improve meaning
 
 ## SASS & CSS Formatting Guidelines
 
 General SASS and CSS conventions:
 * Only enter color values in a variables file
 * Only enter pixel or point values in a variables file
-* Variable names should be lowercase and use dashes instead of spaces (ie: _$sample-variable_) 
+* Variable names should be lowercase and use dashes instead of spaces (ie: _$sample-variable_)
 * Avoid class names in favor of child element selectors where ever possible
 * Files should be less than 200 lines long
 * CSS class names should be lowercase and use dashes instead of spaces
 
 ### SMACSS
-The CSS styles should reflect the SMACSS CSS methodology, which has 3 main sections — base, layout, and module. SMACSS has other sections and tennants, which are useful, but are not reflected in the OpenLMIS-UI coding conventions. 
+The CSS styles should reflect the SMACSS CSS methodology, which has 3 main sections — base, layout, and module. SMACSS has other sections and tennants, which are useful, but are not reflected in the OpenLMIS-UI coding conventions.
 
 #### Base
 CSS styles applied directly to elements to create styles that are the same throughout the application.
@@ -105,7 +105,7 @@ There is no assumed order in which varriables files will be included, which mean
 ### Mixins
 A mixin file matches the following pattern *.mixin.scss
 
-Mixins in SASS are reusable functions, which are loaded second in our build process so they can use global variables and be used in any other SCSS file. 
+Mixins in SASS are reusable functions, which are loaded second in our build process so they can use global variables and be used in any other SCSS file.
 
 There should only be one mixin per file, and the file name should match the function's name, ie: 'simple-function.mixin.scss'
 
@@ -157,7 +157,7 @@ It's also [useful to wrap 3rd party objects and libraries](https://github.com/jo
 *Add rule about when its ok to add a group of constants -- if a grouping of values, use a plural name*
 
 *Conventions:*
-* All constant variable names should be upper case and use underscores instead of spaces (ie VARIABLE_NAME) 
+* All constant variable names should be upper case and use underscores instead of spaces (ie VARIABLE_NAME)
 * If a constant is only relivant to a single Angular object, set it as a variable inside the scope, not as an Angular constant
 * If the constant value needs to change depending on build variables, format the value like @@VARIABLE_VALUE, and which should be replaced by the grunt build process if there is a matching value
 * Wrap 3rd party services as constants, if are not already registered with Angular
@@ -184,7 +184,7 @@ Always lowercase camelCase the name of the object. Append 'Service' to the end o
 beforeEach(module($provide){
 	// mock out a tape recorder service, which is used else where
 	tape = jasmine.createSpyObj('tape', ['play', 'pause', 'stop', 'rewind']);
-	
+
 	// overwrite an existing service
 	$provide.service('TapeRecorderService', function(){
 		return tape;
@@ -213,7 +213,7 @@ angular.module('openlmis-sample')
 sample.$inject = [];
 function sample(){
 	var savedContext;
-	
+
 	return {
 		method: method,
 		otherMethod: otherMethod
@@ -227,7 +227,7 @@ Test a factory much like you would test a service, except be sure to:
 * Exercise the producted object, not just the callback function
 
 #### Javascript Class
-Pure javascript classes should only be used to ease the manipulation of data, but unlike factories, these object shouldn't create HTTP connections, and only focus on a single object. 
+Pure javascript classes should only be used to ease the manipulation of data, but unlike factories, these object shouldn't create HTTP connections, and only focus on a single object.
 
 Javascript classes should be injected and used within factories and _some services_ services that have complex logic. Modules should be able to extend javascript classes by prototypical inheritance.
 
@@ -238,7 +238,7 @@ Requisition/LineItem is good example
 ##### Naming Conventions
 _SampleName_
 
-Classes should be uppercase CamelCased, which represents that they are a class and need to be instantiated like an object (ie `new SampleName()`). 
+Classes should be uppercase CamelCased, which represents that they are a class and need to be instantiated like an object (ie `new SampleName()`).
 
 #### Controller
 Controllers are all about connecting data and logic from Factories and Services to HTML Views. An ideal controller won't do much more than this, and will be as 'thin' as possible.
@@ -251,8 +251,8 @@ It is also worth noting that [John Papa insists that controllers don't directly 
 * Should be only object changing application $state
 * Is used in a single context
 * Don't use the $scope variable EVER
-** Use ControllerAs syntax
-** Don't $watch variables, use on-change or refactor to use a directive to watch values
+* Use ControllerAs syntax
+* Don't $watch variables, use on-change or refactor to use a directive to watch values
 
 ###### Unit Testing Conventions
 * Set all items that would be required from a route when the Controller is instantiated
@@ -265,7 +265,7 @@ Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where
 
 ##### General Conventions
 * The [UI-Router resolve properties](https://github.com/angular-ui/ui-router/wiki#resolve) are used to ease loading on router
-* [Routes should define their own views,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271) if their layout is more complicated than a single section 
+* [Routes should define their own views,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271) if their layout is more complicated than a single section
 
 #### HTTP Interceptor
 HTTP Interceptors are technically factories that have been configured to 'intercept' certain types of requests in Angular and modify their behavior. This is recommended because other Angular objects can use consistent Angular objects, reducing the need to write code that is specialized for our own framework.
@@ -335,8 +335,8 @@ describe('SampleModal', function(){
 
 	// Instead of doing a beforeEach (recommended), this example directly injects dependencies
 	it('when closed will resolve promise', function($rootScope, SampleModal, bootbox){
-		
-		// Pull out the callback that will be passed to bootbox when the window closes 
+
+		// Pull out the callback that will be passed to bootbox when the window closes
 		var closeCallback;
 		spyOn(bootbox, 'alert').andCallFake(function(argumentObject){
 			closeCallback = argumentObject.callback;
@@ -352,7 +352,7 @@ describe('SampleModal', function(){
 		var promise = SampleModal().then(promiseSpy);
 
 		// If we check the promiseSpy immedately, it shouldn't have been
-		// called because the closeCallback wasn't called... 
+		// called because the closeCallback wasn't called...
 		expect(promiseSpy).not.toHaveBeenCalled();
 
 		// Call closeCallback, which is out mocked version of clicking the
@@ -373,6 +373,148 @@ Angular allows HTML files to have variables and simple logic evaluated within th
 * If there is logic that is more complicated than a single if statement, move that logic to a controller
 * Use filters to format variable output — don't format variables in a controller
 
+### Memory Leaks
+This one is a bit tricky. It's fairly hard to create a memory leak in AngularJS unless you're mixing
+it with other external libraries that are not based on AngularJS(especially jQuery). Still, there
+are some things you need to remember while working with it, this article provides some general
+insight on how to find, fix and avoid memory leaks, for more detailed info I would suggest reading
+[this article](http://www.dwmkerr.com/fixing-memory-leaks-in-angularjs-applications/)(it's awesome!).
+
+### Finding memory leaks
+I won't lie, finding out if your application has some memory leaks is annoying, and localizing those
+leaks is even more annoying and can take a lot of time. Google Chrome devtools is incredible tool
+for doing this. All you need to do is:
+
+1. open you application
+2. go to the section you want to check for memory leaks
+3. execute the workflow you want to check for memory leaks so any service or cached data won't be
+  shown on the heap snapshot
+4. open devtools
+5. go to the Profiles tab
+6. select Take Heap Snapshot
+7. take a snapshot
+8. execute the workflow
+9. take a snapshot again
+10. go to a different state
+11. take a snapshot again
+12. select the last snapshot
+13. now click on the All objects select and choose Objects allocated between Snapshot 1 and Snapshot
+	2
+
+This will show you the list of all objects, elements and so on, that were created during the workflow
+and are still residing in the memory. That was the easy part. Now we need to analyze the data we
+have and this might be quite tricky. We can click on object to see what dependency is retaining them.
+There is some color coding here that can be useful to you - red for detached elements and yellow for
+actual code references which you can inspect and see. It takes some time and experience to
+understand what's going here but it gets easier and easier as you go.
+
+### Anti-patterns
+Here are some anti-pattern that you should avoid and how to fix them.
+
+#### Event handlers using scope
+Let's look at the following example. We have a simple directive that binds an on click action to the
+element.
+```
+(function() {
+
+	'use strict';
+
+	angular
+		.module('some-module')
+		.directive('someDirective', someDirective);
+
+	function someDirective() {
+		var directive = {
+			link: link
+		};
+		return directive;
+
+        function link(scope, element) {
+
+			element.on('click', onClick);
+
+			function onClick() {
+				scope.someFlag = true;
+			}
+        }
+	}
+
+})();
+```
+The problem with this link function is that we've created a closure with context which retains the
+context, the scope and "then basically everything in the universe" until we unregister the handler
+from the element. That's right, even after the element is removed from the DOM it will still reside
+in the memory retained by the closure unless unregister the handler. To do this we need to add a
+handler for '$destroy' event to the scope object and then unregister the handler from the element.
+Here's an example how to do it.
+
+```
+(function() {
+
+	'use strict';
+
+	angular
+		.module('some-module')
+		.directive('someDirective', someDirective);
+
+	function someDirective() {
+		var directive = {
+			link: link
+		};
+		return directive;
+
+        function link(scope, element) {
+
+			element.on('click', onClick);
+
+			scope.$on('$destroy', function() {
+
+				//this will unregister the this single handler
+				element.off('click', onClick);
+
+				//this will unregister all the handlers
+				element.off();
+			});
+
+
+			function onClick() {
+				scope.someFlag = true;
+			}
+        }
+	}
+
+})();
+```
+
+### Improper use of the $rootScope.$watch method
+$rootScope.$watch can be a powerful tool, but it also requires some experience to use right. It
+allows the developers to create watchers that live through the whole application life and are only
+removed when they are explicitly said to unregister or when the application is closed, which may
+result in a huge memory leaks. Here are some tips on how to use them.
+* Use $scope.$watch when possible!
+	If you're using a watcher in a directive, it will have access to the scope object, add the
+	watcher to it! This way we take advantage of AngularJS automatic watcher unregistration when the
+	scope is deleted.
+* Avoid using $rootScope.$watch in factories.
+	Don't use it in factories unless you're completely sure what you're doing. Remember to
+	unregister it when it is no longer needed! This takes us to the next bullet point.
+* Use them in Services.
+	Watching for current locale can be great example of that. We're using it with service, which is
+	a singleton - it is only created once during application lifetime - and we want to watch for the
+	current locale all the time we rather won't want to stop at any point.
+* Unregister it if it is no longer needed.
+	If you're sure you won't be needing that watcher any longer simply unregister it! Here's an
+	example
+	```
+	var unregisterWatcher = $rootScope.$watch('someVariable', someMethod);
+	unregisterWatcher();
+	```
+
+### Using callback functions
+Using callback isn't the safest idea either as it can cause some function retention. AngularJS gives
+us awesome tool to bypass that - promises. They basically gives us the same behavior and are
+retention-risk free!
+
 ## Patterns
 See JS Documentation for more details
 
@@ -384,4 +526,3 @@ STUB
 STUB
 
 ### Offline Pattern
-
