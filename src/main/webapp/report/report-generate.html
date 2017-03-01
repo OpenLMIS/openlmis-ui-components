@@ -4,7 +4,7 @@
         <label for="{{parameter.name}}" ng-repeat-start="parameter in vm.report.templateParameters">{{parameter.displayName}}</label>
         <select id="{{parameter.name}}" ng-if="parameter.selectExpression != null" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}"></select>
         <span ng-if="parameter.selectExpression == null" ng-switch="parameter.dataType" ng-repeat-end>
-            <input ng-switch-when="java.lang.Integer" type="number" ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
+            <input ng-switch-when="java.lang.Integer" positive-integer ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
             <input ng-switch-default ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
         </span>
         <fieldset class="form-group">
