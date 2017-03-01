@@ -1,37 +1,30 @@
 $loading-logo-size: 72px;
 
-.loading-view {
+body.no-js {
     background: radial-gradient(circle at center, $dark-gray 0%, darken($dark-gray, 8%) 100%);
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+    
+    > * {
+        display: none;
+    }
 
-    & > .loading-view-body {
-        width: 100%;
-        height: 100%;
-        background-image: url('common/openlmis-logo-white.svg');
-        background-repeat: no-repeat;
-        background-position: 50% calc(50% - #{$loading-logo-size} - 2em);
-        background-size: auto $loading-logo-size;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
+    > .loading-view {
+        display: block;
+    }
+}
 
-        > div {
-            font-size: $font-size-extra-large;
-            display: flex;
-            align-items: center;
+.loading-view {
+    display: none;
 
-            &::before {
-                @extend .loading;
-                @extend .loading::before;
-                font-size: 2em;
-                margin-right: 0.5em;
-            }
-        }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: $font-size-extra-large;
+    color: $white;
+    &::before {
+        @extend .loading;
+        @extend .loading::before;
+        font-size: 2em;
+        margin-right: 0.5em;
     }
 }

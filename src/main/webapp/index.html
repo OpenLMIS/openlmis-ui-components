@@ -21,8 +21,14 @@
         <link rel="shortcut icon" href="favicon-156.png" type="image/png" size="156x156"/>
         <link rel="stylesheet" href="openlmis.css">
         <script type="text/javascript" src="openlmis.js" async="true"></script>
+        <script type="text/javascript">
+            function removeNoJS(){
+                document.body.setAttribute('class', '');
+            }
+        </script>
     </head>
-    <body>
+    <body class="no-js" onLoad="removeNoJS()" >
+        <div class="loading-view">@@APPLICATION_LOADING_MESSAGE</div>
         <header ng-if="userIsAuthenticated">
             <ng-include src="'openlmis-header/header.html'"></ng-include>
             <div class="navbar">
@@ -30,12 +36,5 @@
                 <openlmis-locale class="navbar-right locale-container"></openlmis-locale>
             </div>
         </header>
-        <div ui-view>
-            <div class="loading-view">
-                <div class="loading-view-body">
-                    <div>Loading...</div>
-                </div>
-            </div>
-        </div>
     </body>
 </html>
