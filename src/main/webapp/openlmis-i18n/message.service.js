@@ -21,12 +21,11 @@
         .module('openlmis-i18n')
         .factory('messageService', messageService);
 
-    var DEFAULT_LANGUAGE = 'en',
-        LOCALE_STORAGE_KEY = 'current_locale';
+    var LOCALE_STORAGE_KEY = 'current_locale';
 
-    messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES', 'localStorageService'];
+    messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES', 'DEFAULT_LANGUAGE', 'localStorageService'];
 
-    function messageService($q, $rootScope, OPENLMIS_MESSAGES, localStorageService) {
+    function messageService($q, $rootScope, OPENLMIS_MESSAGES, DEFAULT_LANGUAGE, localStorageService) {
 
         var service = {
             getCurrentLocale: getCurrentLocale,

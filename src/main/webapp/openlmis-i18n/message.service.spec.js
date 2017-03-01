@@ -19,6 +19,8 @@ describe("MessageService", function () {
     beforeEach(function(){
 
         angular.mock.module("openlmis-config", function($provide){
+            $provide.constant('DEFAULT_LANGUAGE', 'en');
+
             $provide.constant('OPENLMIS_MESSAGES', {
                 "en": {
                     "language.name": "English",

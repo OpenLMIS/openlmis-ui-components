@@ -27,5 +27,6 @@
   "applicationTitle": "OpenLMIS",
   "applicationLoadingMessage": "Starting OpenLMIS",
   "transifexProjectName": "openlmis-requisition-ui",
+  "defaultLanguage": "en",
   "analyticsTrackingId": "UA-35478705-4"
 }
