@@ -19,8 +19,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.directive:select-placeholder
      * @restrict E
+     * @name openlmis-form.directive:select-placeholder
      *
      * @description
      * Sets a default placeholder message on select elements, if one isn't previously set as an

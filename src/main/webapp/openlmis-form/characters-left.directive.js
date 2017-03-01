@@ -19,7 +19,8 @@
 
 	/**
      * @ngdoc directive
-     * @name openlmis-form.charactersLeft
+     * @restrict A
+     * @name openlmis-form.directive:charactersLeft
      *
      * @description
      * Provides characters left indicator under input.

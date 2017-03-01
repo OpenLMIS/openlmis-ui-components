@@ -47,8 +47,8 @@
          * page and pageSize. Otherwise page, pageSize and totalItems are calculated based on the
          * toResolve.items array.
          *
-         * @param   {Object}    toResolve   the object to be enriched
-         * @return  {Object}                the enriched object
+         * @param  {Object} toResolve the object to be enriched
+         * @return {Object}           the enriched object
          */
         function resolve(toResolve) {
             if (toResolve.response) {

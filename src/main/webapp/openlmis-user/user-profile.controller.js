@@ -20,10 +20,10 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-user.UserProfileController
+     * @name openlmis-user.controller:UserProfileController
      *
      * @description
-     * Allows user to change ist own profile info.
+     * Allows user to see its own profile info.
      */
     angular
         .module('openlmis-user')
@@ -32,6 +32,16 @@
     controller.$inject = ['$scope', 'user'];
 
     function controller($scope, user) {
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-user.controller:UserProfileController
+         * @name userProfile
+         * @type {Object}
+         *
+         * @description
+         * Contains user detailed info.
+         */
         $scope.userProfile = user;
     }
 

@@ -52,14 +52,14 @@
 
         /**
          * @ngdoc method
-         * @name  get
          * @methodOf admin-template.requisitionTemplateService
+         * @name get
          *
          * @description
          * Gets requisition template by id.
          *
-         * @param   {String}  id    Requisition template UUID
-         * @return  {Promise}       Requisition template info
+         * @param  {String}  id Requisition template UUID
+         * @return {Promise}    Requisition template info
          */
         function get(id) {
             return resource.get({id: id}).$promise;
@@ -67,8 +67,8 @@
 
         /**
          * @ngdoc method
-         * @name  getAll
          * @methodOf admin-template.requisitionTemplateService
+         * @name getAll
          *
          * @description
          * Gets all requisition templates.
@@ -81,14 +81,14 @@
 
         /**
          * @ngdoc method
-         * @name  search
          * @methodOf admin-template.requisitionTemplateService
+         * @name search
          *
          * @description
          * Gets requisition template for given program.
          *
-         * @param   {String}    programId   Program UUID
-         * @return  {Promise}   Requisition template for given program
+         * @param  {String}  programId  Program UUID
+         * @return {Promise}            Requisition template for given program
          */
         function search(programId) {
             return resource.search({program: programId}).$promise;
@@ -96,8 +96,8 @@
 
         /**
          * @ngdoc method
-         * @name  save
          * @methodOf admin-template.requisitionTemplateService
+         * @name  save
          *
          * @description
          * Saves changes to requisition template.

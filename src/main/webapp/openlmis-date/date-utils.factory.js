@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-date.dateUtils
+     *
+     * @description
+     * Responsible for retrieving dates.
+     */
     angular
         .module('openlmis-date')
         .factory('dateUtils', dateUtils);
@@ -32,13 +39,24 @@
         };
         return factory;
 
-        function toDate(array) {
-            if (!array) return undefined;
-            if(!angular.isArray(array)) return fromISOString(array); // when date is ISO string, not array
-            if (array.length === 3) return new Date(array[0], array[1] - 1, array[2]);
-            if (array.length === 6)
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
+         * @name toDate
+         *
+         * @description
+         * Transforms dates from array/string to Date object.
+         *
+         * @param  {Object} source string/array to be parsed
+         * @return {Date}          parsed date
+         */
+        function toDate(source) {
+            if (!source) return undefined;
+            if(!angular.isArray(source)) return fromISOString(source); // when date is ISO string, not array
+            if (source.length === 3) return new Date(source[0], source[1] - 1, source[2]);
+            if (source.length === 6)
                 // array[1] - 1, because in JavaScript months starts with 0 (to 11)
-                return new Date(array[0], array[1] - 1, array[2], array[3], array[4], array[5]);
+                return new Date(source[0], source[1] - 1, source[2], source[3], source[4], source[5]);
             return undefined;
         }
 
@@ -51,6 +69,18 @@
             return date;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
+         * @name toArray
+         *
+         * @description
+         * Transforms dates from Date to array.
+         *
+         * @param  {Date}    date        date to be parsed
+         * @param  {Boolean} includeTime indicates if array should include time info
+         * @return {Array}               parsed date array
+         */
         function toArray(date, includeTime) {
             var array = [];
             array.push(date.getFullYear());
@@ -64,6 +94,17 @@
             return array;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
+         * @name toStringDate
+         *
+         * @description
+         * Transforms dates from Date to string.
+         *
+         * @param  {Date}  date date to be parsed
+         * @return {Array}      parsed date array
+         */
         function toStringDate(date) {
             return $filter('date')(date, 'yyyy-MM-dd');
         }

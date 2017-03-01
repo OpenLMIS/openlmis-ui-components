@@ -39,8 +39,8 @@
 
         /**
          * @ngdoc method
-         * @name getAllProgramsWithTemplates
          * @methodOf admin-template-list.programFactory
+         * @name getAllProgramsWithTemplates
          *
          * @description
          * Retrieves all programs and adds templates to them if one exists.

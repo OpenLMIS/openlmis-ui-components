@@ -19,23 +19,30 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-navigation.NavigationController
+     * @name openlmis-navigation.controller:NavigationController
      *
      * @description
-     *
      * Adds functionality that takes a state's label property and uses the messageService to translate it into string.
-     *
      */
 
     angular
         .module('openlmis-navigation')
         .controller('NavigationController', NavigationController);
 
-    NavigationController.$inject = ['$scope', 'navigationStateService']
+    NavigationController.$inject = ['$scope', 'navigationStateService'];
 
     function NavigationController($scope, navigationStateService) {
         var vm = this;
 
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-navigation.controller:NavigationController
+         * @name states
+         * @type {Array}
+         *
+         * @description
+         * Contains all states in application in tree structure.
+         */
         vm.states = getStates();
 
         vm.hasChildren = navigationStateService.hasChildren;

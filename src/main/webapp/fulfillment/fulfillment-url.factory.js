@@ -40,14 +40,14 @@
 
         /**
          * @ngdoc method
-         * @name fulfillmentUrlFactory
          * @methodOf fulfillment.fulfillmentUrlFactory
+         * @name fulfillmentUrlFactory
          *
          * @description
          * It parses the given URL and appends fulfillment service URL to it.
          *
-         * @param {String} url fulfillment URL from grunt file
-         * @return {String} fulfillment URL
+         * @param  {String} url fulfillment URL from grunt file
+         * @return {String}     fulfillment URL
          */
         return function(url) {
             url = pathFactory(fulfillmentUrl, url);

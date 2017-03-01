@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-non-full-supply.NonFullSupplyController
+     * @name requisition-non-full-supply.controller:NonFullSupplyController
      *
      * @description
      * Responsible for managing product grid for non full supply products.
@@ -55,7 +55,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name isLineItemValid
          *
          * @description
@@ -69,7 +69,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @propertyOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name requisition
          * @type {Object}
          *
@@ -80,7 +80,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @propertyOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name displayAddProductButton
          * @type {Boolean}
          *
@@ -88,10 +88,11 @@
          * Flag responsible for hiding/showing the Add Product button.
          */
         vm.displayAddProductButton = !vm.requisition.$isApproved() && !vm.requisition.$isAuthorized() &&
-        !vm.requisition.$isInApproval() && !vm.requisition.$isReleased();
+                                     !vm.requisition.$isInApproval() && !vm.requisition.$isReleased();
+
         /**
          * @ngdoc property
-         * @propertyOf requisition-non-full-supply.NonFullSupplyController
+         * @propertyOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name columns
          * @type {Array}
          *
@@ -102,14 +103,14 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name deleteLineItem
          *
          * @description
          * Deletes the given line item, removing it from the grid and returning the product to the
          * list of approved products.
          *
-         * @param  {Object} lineItem   the line item to be deleted
+         * @param {Object} lineItem the line item to be deleted
          */
         function deleteLineItem(lineItem) {
             var id = vm.requisition.requisitionLineItems.indexOf(lineItem);
@@ -122,7 +123,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name addProduct
          *
          * @description
@@ -142,7 +143,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name displayDeleteColumn
          *
          * @description
@@ -161,13 +162,13 @@
 
         /**
          * @ngdoc methodOf
-         * @methodOf requisition-non-full-supply.NonFullSupplyController
+         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name getTotalItems
          *
          * @description
          * Returns the number of all visible non full supply line items.
          *
-         * @return  {Number}    the total number of visible non full supply line items
+         * @return {Number} the total number of visible non full supply line items
          */
         function getTotalItems() {
             return filterRequisitionLineItems().length;

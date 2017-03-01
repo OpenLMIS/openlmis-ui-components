@@ -43,7 +43,7 @@
         };
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @methodOf requisition-constants.REQUISITION_STATUS
          * @name toList
          *
@@ -66,7 +66,7 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @methodOf requisition-constants.REQUISITION_STATUS
          * @name getDisplayName
          *

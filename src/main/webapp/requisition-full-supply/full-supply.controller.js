@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-full-supply.FullSupplyController
+     * @name requisition-full-supply.controller:FullSupplyController
      *
      * @description
      * Responsible for managing product grid for full supply products.
@@ -56,7 +56,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyController
+         * @propertyOf requisition-full-supply.controller:FullSupplyController
          * @name requisition
          * @type {Object}
          *
@@ -67,7 +67,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyController
+         * @propertyOf requisition-full-supply.controller:FullSupplyController
          * @name columns
          * @type {Array}
          *
@@ -79,7 +79,7 @@
         /**
          *
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
+         * @methodOf requisition-full-supply.controller:FullSupplyController
          * @name isLineItemValid
          *
          * @description
@@ -92,8 +92,19 @@
         vm.isLineItemValid = requisitionValidator.isLineItemValid;
 
         /**
+         * @ngdoc property
+         * @propertyOf requisition-full-supply.controller:FullSupplyController
+         * @name skippedAll
+         * @type {Boolean}
+         *
+         * @description
+         * Indicated if the skip all button has been clicked.
+         */
+        vm.skippedAll = false;
+
+        /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
+         * @methodOf requisition-full-supply.controller:FullSupplyController
          * @name areSkipControlsVisible
          *
          * @description
@@ -115,7 +126,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
+         * @methodOf requisition-full-supply.controller:FullSupplyController
          * @name skipAll
          *
          * @description
@@ -127,7 +138,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
+         * @methodOf requisition-full-supply.controller:FullSupplyController
          * @name unskipAll
          *
          * @description
@@ -139,29 +150,17 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-full-supply.FullSupplyController
+         * @methodOf requisition-full-supply.controller:FullSupplyController
          * @name isSkipColumn
          *
          * @description
          * Determines whether column name is 'skipped'.
+         *
          * @return {Boolean} true if column name is 'skipped'
          */
         function isSkipColumn(column) {
             return column.name === TEMPLATE_COLUMNS.SKIPPED;
         }
-
-
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-full-supply.FullSupplyController
-         * @name skippedAll
-         * @type {Object}
-         *
-         * @description
-         * Indicated if the skip all button has been clicked.
-         *
-         */
-        vm.skippedAll = false;
 
         function setSkipAll(value) {
             angular.forEach(items, function(lineItem) {

@@ -47,8 +47,8 @@
          * @description
          * Provides custom validator for the stock on hand column.
          *
-         * @param   {Object}    lineItem    the line item to be validated
-         * @return  {String}                the error if field is invalid, undefined otherwise
+         * @param  {Object} lineItem the line item to be validated
+         * @return {String}          the error if field is invalid, undefined otherwise
          */
         function validateStockOnHand(lineItem) {
             if (lineItem.stockOnHand < 0) {
@@ -64,8 +64,8 @@
          * @description
          * Provides custom validator for the total consumed quantity column.
          *
-         * @param   {Object}    lineItem    the line item to be validated
-         * @return  {String}                the error if field is invalid, undefined otherwise
+         * @param  {Object} lineItem the line item to be validated
+         * @return {String}          the error if field is invalid, undefined otherwise
          */
         function validateTotalConsumedQuantity(lineItem) {
             if (lineItem.totalConsumedQuantity < 0) {
@@ -81,9 +81,9 @@
          * @description
          * Provides custom validator for the requested quantity explanation column.
          *
-         * @param   {Object}    lineItem    the line item to be validated
-         * @param   {Object}    requisition the requisition to validate the field for
-         * @return  {String}                the error if field is invalid, undefined otherwise
+         * @param  {Object} lineItem    the line item to be validated
+         * @param  {Object} requisition the requisition to validate the field for
+         * @return {String}             the error if field is invalid, undefined otherwise
          */
         function validateRequestedQuantityExplanation(lineItem, requisition) {
             var jColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.REQUESTED_QUANTITY),
@@ -112,9 +112,9 @@
          * @description
          * Provides custom validator for the total stock out days column.
          *
-         * @param   {Object}    lineItem    the line item to be validated
-         * @param   {Object}    requisition the requisition to validate the field for
-         * @return  {String}                the error if field is invalid, undefined otherwise
+         * @param  {Object} lineItem    the line item to be validated
+         * @param  {Object} requisition the requisition to validate the field for
+         * @return {String}             the error if field is invalid, undefined otherwise
          */
         function validateTotalStockoutDays(lineItem, requisition) {
             var totalDays = 30 * requisition.processingPeriod.durationInMonths,

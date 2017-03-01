@@ -18,35 +18,36 @@
 
     'use strict';
 
-    angular.module('openlmis-modal')
-      .service('loadingModalService', LoadingModal);
-
     /**
      * @ngdoc service
-     * @name  openlmis-modal.loadingModalService
+     * @name openlmis-modal.loadingModalService
      *
      * @description
-     *
      * Will show and hide a loading modal that will block the UI and show a simple loading symbol.
-     *
      */
-     LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
+    angular.module('openlmis-modal')
+        .service('loadingModalService', LoadingModal);
+
+    LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
     function LoadingModal($q, $timeout, bootbox, messageService) {
         var dialog, timeoutPromise, deferred;
 
         return {
-              open: showModal,
-              close: hideModal
+            open: showModal,
+            close: hideModal
         };
 
         /**
-         * @ngdoc function
-         * @name open
+         * @ngdoc method
          * @methodOf openlmis-modal.loadingModalService
+         * @name open
          *
-         * @description Shows the loading modal after a half second delay.
+         * @description
+         * Shows the loading modal after a half second delay.
+         *
+         * @param  {Boolean} delay indicates if modal should be displayed with delay
+         * @return {Promise}       modal promise
          */
-
         function showModal(delay) {
             if (deferred) {
                 return deferred.promise;
@@ -67,13 +68,13 @@
         }
 
         /**
-         * @ngdoc function
-         * @name close
+         * @ngdoc method
          * @methodOf openlmis-modal.loadingModalService
+         * @name close
          *
-         * @description Hides the loading modal OR cancels the promise that was showing the modal.
+         * @description
+         * Hides the loading modal OR cancels the promise that was showing the modal.
          */
-
         function hideModal(){
             if(timeoutPromise){
                 $timeout.cancel(timeoutPromise);

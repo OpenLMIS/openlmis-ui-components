@@ -17,6 +17,17 @@
 
     'use strict';
 
+    /**
+     * @ngdoc filter
+     * @name openlmis-i18n.filter:message
+     *
+     * @description
+     * Returns message from message service.
+     *
+     * @param  {String} msg        the message to return
+     * @param  {Array}  parameters parameters
+     * @return {String}            message
+     */
     angular
         .module('openlmis-i18n')
         .filter('message', messageFilter);

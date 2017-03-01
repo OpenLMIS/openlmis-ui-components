@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict 'C'
+     * @restrict C
      * @name openlmis-table.directive:openlmisTableContainer
      *
      * @description

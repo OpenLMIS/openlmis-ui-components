@@ -17,12 +17,30 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-urls.openlmisUrlFactory
+     *
+     * @description
+     * Provides OpenLMIS server URL.
+     */
     angular
         .module('openlmis-urls')
         .factory('openlmisUrlFactory', factory);
 
     factory.$inject = ['openlmisUrlService'];
 
+    /**
+     * @ngdoc method
+     * @methodOf openlmis-urls.openlmisUrlFactory
+     * @name openlmisUrlFactory
+     *
+     * @description
+     * It parses the given URL and appends openlmis URL to it.
+     *
+     * @param  {String} url openlmis URL from grunt file
+     * @return {String}     openlmis URL
+     */
     function factory(openlmisUrlService) {
         return function() {
             return openlmisUrlService.format.apply(this, arguments);

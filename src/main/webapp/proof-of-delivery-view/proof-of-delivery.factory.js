@@ -18,7 +18,6 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
      * @name proof-of-delivery-view.proofOfDeliveryFactory
      *
@@ -40,15 +39,15 @@
         return factory;
 
         /**
-         * @ngdoc function
-         * @name get
+         * @ngdoc method
          * @methodOf proof-of-delivery-view.proofOfDeliveryFactory
+         * @name get
          *
          * @description
          * Retrieves proof of delivery by given UUID.
          *
-         * @param {String} podId Proof of Delivery UUID
-         * @return {Promise} ProofOfDelivery
+         * @param  {String}  podId Proof of Delivery UUID
+         * @return {Promise}       ProofOfDelivery
          */
         function get(podId) {
             var deferred = $q.defer();

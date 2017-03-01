@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict 'E'
+     * @restrict E
      * @name openlmis-table.directive:tbodyTitle
      *
      * @description

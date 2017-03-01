@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-navigation
+     *
+     * @description
+     * This module is responsible for managing navigation bar in the OpenLMIS.
+     */
     angular.module('openlmis-navigation', [
         'openlmis-auth',
         'openlmis-offline',

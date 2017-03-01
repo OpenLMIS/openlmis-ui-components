@@ -22,7 +22,7 @@
      * @name referencedata-period.periodService
      *
      * @description
-     * Responsible for retriving all processing period information from the server.
+     * Responsible for retrieving all processing period information from the server.
      */
 	angular
 		.module('referencedata-period')
@@ -44,8 +44,8 @@
          * @description
          * Retrieves processing period from the server by id.
          *
-         * @param {String} periodId Period UUID
-         * @return {Promise} Period
+         * @param  {String}  periodId Period UUID
+         * @return {Promise}          Period
          */
         function get(periodId) {
             return resource.get({

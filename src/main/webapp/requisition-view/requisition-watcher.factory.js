@@ -38,6 +38,18 @@
 
         return RequisitionWatcher;
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-view.RequisitionWatcher
+         * @name RequisitionWatcher
+         *
+         * @description
+         * Creates requisition watcher for all changes in requisition object.
+         *
+         * @param {Scope}               scope       scope that requisition is in
+         * @param {Object}              requisition requisition to set watcher on
+         * @return {RequisitionWatcher}             watcher object
+         */
         function RequisitionWatcher(scope, requisition) {
             var watcher = this,
                 storage = localStorageFactory('requisitions');

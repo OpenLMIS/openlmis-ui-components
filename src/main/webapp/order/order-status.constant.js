@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name order.ORDER_STATUS
+     *
+     * @description
+     * Contains all possible order statuses.
+     */
     angular
         .module('order')
         .constant('ORDER_STATUS', status());

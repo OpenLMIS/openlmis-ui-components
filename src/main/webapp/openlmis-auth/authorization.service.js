@@ -64,11 +64,11 @@
 
         /**
          * @ngdoc method
-         * @name getAccessToken
          * @methodOf openlmis-auth.authorizationService
+         * @name getAccessToken
          *
          * @description
-         * Retrives the current access token.
+         * Retrieves the current access token.
          *
          * @return {String} the current access token
          */
@@ -78,13 +78,13 @@
 
         /**
          * @ngdoc method
-         * @name setAccessToken
          * @methodOf openlmis-auth.authorizationService
+         * @name setAccessToken
          *
          * @description
          * Sets the access token.
          *
-         * @param {String}  token   the token to be stored
+         * @param {String} token the token to be stored
          */
         function setAccessToken(token) {
             localStorageService.add(storageKeys.ACCESS_TOKEN, token);
@@ -92,8 +92,8 @@
 
         /**
          * @ngdoc method
-         * @name clearAccessToken
          * @methodOf openlmis-auth.authorizationService
+         * @name clearAccessToken
          *
          * @description
          * Removed the stored token from the local storage.
@@ -104,8 +104,8 @@
 
         /**
          * @ngdoc method
-         * @name isAuthenticated
          * @methodOf openlmis-auth.authorizationService
+         * @name isAuthenticated
          *
          * @description
          * Checks whether user is authenticated.
@@ -118,11 +118,11 @@
 
         /**
          * @ngdoc method
-         * @name getUser
          * @methodOf openlmis-auth.authorizationService
+         * @name getUser
          *
          * @description
-         * Retrieves basic information(usename and user ID) about the user.
+         * Retrieves basic information(username and user ID) about the user.
          *
          * @return {Object} the basic information about the user
          */
@@ -135,8 +135,8 @@
 
         /**
          * @ngdoc method
-         * @name getDetailedUser
          * @methodOf openlmis-auth.authorizationService
+         * @name getDetailedUser
          *
          * @description
          * Retrieves detailed information about the user.
@@ -150,14 +150,14 @@
 
         /**
          * @ngdoc method
-         * @name setUser
          * @methodOf openlmis-auth.authorizationService
+         * @name setUser
          *
          * @description
          * Saves the given user ID and username to the local storage.
          *
-         * @param {String}      username    Username for the current user
-         * @param {String}      user_id     User ID for the current user
+         * @param {String} username Username for the current user
+         * @param {String} user_id  User ID for the current user
          */
         function setUser(user_id, username) {
             localStorageService.add(storageKeys.USERNAME, username);
@@ -166,8 +166,8 @@
 
         /**
          * @ngdoc method
-         * @name clearUser
          * @methodOf openlmis-auth.authorizationService
+         * @name clearUser
          *
          * @description
          * Removes the username and user ID from the local storage.
@@ -179,13 +179,13 @@
 
         /**
          * @ngdoc method
-         * @name setRights
          * @methodOf openlmis-auth.authorizationService
+         * @name setRights
          *
          * @description
          * Saves the given rights to the local storage.
          *
-         * @param {Array}   rights   the list of rights
+         * @param {Array} rights the list of rights
          */
         function setRights(rights) {
             localStorageService.add(
@@ -196,13 +196,13 @@
 
         /**
          * @ngdoc method
-         * @name  getRights
          * @methodOf openlmis-auth.authorizationService
+         * @name getRights
          *
          * @description
          * Retrieves the list of user rights from the local storage.
          *
-         * @return {Array}  the list of user rights
+         * @return {Array} the list of user rights
          */
         function getRights() {
             return angular.fromJson(localStorageService.get(storageKeys.USER_ROLE_ASSIGNMENTS));
@@ -210,16 +210,16 @@
 
         /**
          * @ngdoc method
-         * @name hasRight
          * @methodOf openlmis-auth.authorizationService
+         * @name hasRight
          *
          * @description
          * Checks whether user has the given right. If the details object is passed the validation
          * will be more strict.
          *
-         * @param  {String} rightName   the name of the right
-         * @param  {Object} details     (optional) the details about the right
-         * @return {Boolean}            true if the user has the right, false Otherwise
+         * @param  {String}  rightName the name of the right
+         * @param  {Object}  details   (optional) the details about the right
+         * @return {Boolean}           true if the user has the right, false Otherwise
          */
         function hasRight(rightName, details) {
             var rights = $filter('filter')(getRights(), {
@@ -265,6 +265,18 @@
             return false;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-auth.authorizationService
+         * @name hasRights
+         *
+         * @description
+         * Checks whether user has the given rights.
+         *
+         * @param  {Array}   rightName the name of the right
+         * @param  {Boolean} areAllRightsRequired indicates if all given rights are required
+         * @return {Boolean}                      true if user has at least one/all of rights
+         */
         function hasRights(rights, areAllRightsRequired) {
             var hasPermission;
             if(areAllRightsRequired) {
@@ -284,8 +296,8 @@
 
         /**
          * @ngdoc method
-         * @name  clearRights
          * @methodOf openlmis-auth.authorizationService
+         * @name clearRights
          *
          * @description
          * Removes user rights from the local storage.
@@ -296,14 +308,14 @@
 
         /**
          * @ngdoc method
-         * @name  getRightByName
          * @methodOf openlmis-auth.authorizationService
+         * @name  getRightByName
          *
          * @description
          * Returns id of right with given name.
          *
-         * @param {String}  rightName   name of right which we want to get
-         * @return {Object}             id of right which has the given name
+         * @param  {String} rightName name of right which we want to get
+         * @return {Object}           id of right which has the given name
          */
         function getRightByName(rightName) {
             var rights = $filter('filter')(getRights(), {
@@ -313,17 +325,17 @@
 
         /**
          * @ngdoc method
-         * @name  saveOfflineUserData
          * @methodOf openlmis-auth.authorizationService
+         * @name  saveOfflineUserData
          *
          * @description
          * Saves data for offline user.
          *
-         * @param {String}  username     name of offline user
-         * @param {String}  password     offline user password
-         * @param {String}  username     name of offline user
-         * @param {Array}   username     name of offline user
-         * @return {Object}              right which has the given name
+         * @param  {String} username name of offline user
+         * @param  {String} password offline user password
+         * @param  {String} username name of offline user
+         * @param  {Array}  username name of offline user
+         * @return {Object}          right which has the given name
          */
         function saveOfflineUserData(username, password, userId, referencedataUsername, userRights) {
             if(offlineUserData.getBy('username', username)) offlineUserData.removeBy('username', username);
@@ -338,14 +350,14 @@
 
         /**
          * @ngdoc method
-         * @name  getOfflineUserData
          * @methodOf openlmis-auth.authorizationService
+         * @name getOfflineUserData
          *
          * @description
          * Returns offline user data.
          *
-         * @param {String}  username    name of offline user
-         * @return {Object}             offline user data
+         * @param  {String} username name of offline user
+         * @return {Object}          offline user data
          */
         function getOfflineUserData(username) {
             return offlineUserData.getBy('username', username);
@@ -353,14 +365,14 @@
 
         /**
          * @ngdoc method
-         * @name  hashPassword
          * @methodOf openlmis-auth.authorizationService
+         * @name  hashPassword
          *
          * @description
          * Returns hashed password.
          *
-         * @param {String}  password    offline user's password
-         * @return {Object}             hashed password
+         * @param  {String} password offline user's password
+         * @return {Object}          hashed password
          */
         function hashPassword(password) {
             return md5.createHash(password || '');

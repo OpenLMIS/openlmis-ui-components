@@ -20,7 +20,8 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-initiate.RequisitionInitiateController
+     * @name requisition-initiate.controller:RequisitionInitiateController
+     *
      * @description
      * Controller responsible for actions connected with displaying available periods and
      * initiating or navigating to an existing requisition.
@@ -46,8 +47,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-initiate.controller:RequisitionInitiateController
          * @name emergency
-         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Boolean}
          *
          * @description
@@ -57,8 +58,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-initiate.controller:RequisitionInitiateController
          * @name facilities
-         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -68,8 +69,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-initiate.controller:RequisitionInitiateController
          * @name supervisedPrograms
-         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -79,8 +80,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-initiate.controller:RequisitionInitiateController
          * @name homePrograms
-         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Array}
          *
          * @description
@@ -90,8 +91,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-initiate.controller:RequisitionInitiateController
          * @name isSupervised
-         * @propertyOf requisition-initiate.RequisitionInitiateController
          * @type {Boolean}
          *
          * @description
@@ -116,9 +117,9 @@
         vm.updateFacilityType(vm.isSupervised);
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-initiate.controller:RequisitionInitiateController
          * @name loadFacilityData
-         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for displaying and updating select elements that allow to choose
@@ -127,7 +128,7 @@
          * user has supervisory permissions. If the param is false, then list of programs
          * from user's home facility will be displayed.
          *
-         * @param {Boolean} isSupervised  indicates type of facility to initiate or proceed with the requisition for
+         * @param {Boolean} isSupervised indicates type of facility to initiate or proceed with the requisition for
          */
         function updateFacilityType(isSupervised) {
 
@@ -161,9 +162,9 @@
 
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-initiate.controller:RequisitionInitiateController
          * @name programOptionMessage
-         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Determines a proper message for the programs dropdown, based on the presence of programs.
@@ -175,16 +176,16 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-initiate.controller:RequisitionInitiateController
          * @name loadPeriods
-         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for displaying and updating a grid, containing available periods for the
          * selected program, facility and type. It will set an error message if no periods have
          * been found for the given parameters. It will also filter out periods for which there
          * already exists a requisition with an AUTHORIZED, APPROVED, IN_APPROVAL or RELEASED
-         status.
+         * status.
          */
         function loadPeriods() {
             loadingModalService.open();
@@ -207,9 +208,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-initiate.controller:RequisitionInitiateController
          * @name initRnr
-         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for initiating and/or navigating to the requisition, based on the specified
@@ -220,7 +221,7 @@
          * the provided period is already associated with a requisition, the function only
          * performs a redirect to that requisition.
          *
-         * @param {Object} selectedPeriod  a period to initiate or proceed with the requisition for
+         * @param {Object} selectedPeriod a period to initiate or proceed with the requisition for
          */
         function initRnr(selectedPeriod) {
             vm.error = '';
@@ -248,9 +249,9 @@
             }
         }
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-initiate.controller:RequisitionInitiateController
          * @name loadFacilitiesForProgram
-         * @methodOf requisition-initiate.RequisitionInitiateController
          *
          * @description
          * Responsible for providing a list of facilities where selected program is active and

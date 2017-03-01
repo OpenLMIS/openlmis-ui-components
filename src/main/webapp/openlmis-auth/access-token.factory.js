@@ -37,15 +37,14 @@
 
         /**
          * @ngdoc method
-         * @name  addAccessToken
          * @methodOf openlmis-auth.accessTokenFactory
-         * @private
+         * @name  addAccessToken
          *
          * @description
          * Added a get request variable to the end of the url.
          *
-         * @param {String} url A url string
-         * @return {String} A url string with access_token url parameter added
+         * @param  {String} url A url string
+         * @return {String}     A url string with access_token url parameter added
          */
         function addAccessToken(url){
             if (url.indexOf('access_token=') === -1) {
@@ -59,13 +58,13 @@
 
         /**
          * @ngdoc method
-         * @name  updateAccessToken
          * @methodOf openlmis-auth.accessTokenFactory
+         * @name updateAccessToken
          *
          * @description
          * Update access token in URI string.
          *
-         * @param {String} uri  The URI to update
+         * @param {String}  uri The URI to update
          * @return {String}     Updated uri
          */
         function updateAccessToken(uri) {
@@ -74,16 +73,16 @@
 
         /**
          * @ngdoc method
-         * @name  updateQueryStringParameter
          * @methodOf openlmis-auth.accessTokenFactory
+         * @name updateQueryStringParameter
          *
          * @description
          * Update query parameter if exist.
          *
-         * @param {String} uri      The URI to update
-         * @param {String} key      They key of query param
-         * @param {String} value    They value of query param
-         * @return {String}         Updated uri
+         * @param  {String} uri   The URI to update
+         * @param  {String} key   They key of query param
+         * @param  {String} value They value of query param
+         * @return {String}       Updated uri
          */
         function updateQueryStringParameter(uri, key, value) {
             var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");

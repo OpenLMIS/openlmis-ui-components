@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module referencedata-facility
+     *
+     * @description
+     * Responsible for providing facility info to other modules.
+     */
     angular.module('referencedata-facility', [
         'ngResource',
         'openlmis-auth',

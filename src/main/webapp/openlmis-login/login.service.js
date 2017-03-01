@@ -45,14 +45,13 @@
         }
 
         /**
-         * @ngdoc function
-         * @name login
+         * @ngdoc method
          * @methodOf openlmis-login.loginService
+         * @name login
          *
          * @description
          * Makes an HTTP request to login the user while online.
          * If user is offline it checks user credentials with those stored in local storage.
-         *
          * This method returns a function that will return a promise with no value.
          *
          * @param {String} username The name of the person trying to login
@@ -123,9 +122,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name logout
+         * @ngdoc method
          * @methodOf openlmis-login.loginService
+         * @name logout
          *
          * @description
          * Calls the server, and removes from authorization service.
@@ -220,15 +219,15 @@
         }
 
         /**
-         * @ngdoc function
-         * @name forgotPassword
+         * @ngdoc method
          * @methodOf openlmis-login.loginService
+         * @name forgotPassword
          *
          * @description
          * Calls the server that sends message with reset password link to given email address.
          *
-         * @param {String} email Mail address where reset password link will be sent
-         * @returns {Promise} Forgot password promise
+         * @param  {String}  email Mail address where reset password link will be sent
+         * @return {Promise}       Forgot password promise
          */
         function forgotPassword(email) {
             var forgotPasswordURL = openlmisUrlFactory('/api/users/auth/forgotPassword?email=' + email);
@@ -243,16 +242,16 @@
         }
 
         /**
-         * @ngdoc function
-         * @name changePassword
+         * @ngdoc method
          * @methodOf openlmis-login.loginService
+         * @name changePassword
          *
          * @description
          * Calls the server that changes user account password.
          *
-         * @param {String} newPassword New password for user account
-         * @param {String} token Token that identifies user
-         * @returns {Promise} Resolves when password is changed successfully.
+         * @param  {String}  newPassword New password for user account
+         * @param  {String}  token       Token that identifies user
+         * @return {Promise}             Resolves when password is changed successfully.
          */
         function changePassword(newPassword, token) {
             var changePasswordURL = openlmisUrlFactory('/api/users/auth/changePassword'),

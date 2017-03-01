@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module proof-of-delivery-view
+     *
+     * @description
+     * Responsible for view POD screen.
+     */
     angular.module('proof-of-delivery-view', [
         'fulfillment',
         'openlmis-date',

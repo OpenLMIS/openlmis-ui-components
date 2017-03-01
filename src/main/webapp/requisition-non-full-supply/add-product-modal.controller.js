@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-non-full-supply.AddProductModalController
+     * @name requisition-non-full-supply.controller:AddProductModalController
      *
      * @description
      * Manages Add Product Modal and provides method for checking categories/products visibility
@@ -42,9 +42,9 @@
         vm.categories = categories;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.controller:AddProductModalController
          * @name close
-         * @methodOf requisition-non-full-supply.AddProductModalController
          *
          * @description
          * Closes add product modal and rejects modal promise.
@@ -55,9 +55,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.controller:AddProductModalController
          * @name addProduct
-         * @methodOf requisition-non-full-supply.AddProductModalController
          *
          * @description
          * Resolves promise with line item created from parameters.
@@ -76,15 +76,15 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.controller:AddProductModalController
          * @name categoryVisible
-         * @methodOf requisition-non-full-supply.AddProductModalController
          *
          * @description
-         * Indicates if category should be displayed on modal
+         * Indicates if category should be displayed on modal.
          *
-         * @param {Object} category One of categories on the list
-         * @returns {Boolean} if category is visible
+         * @param   {Object}  category One of categories on the list
+         * @return {Boolean}          if category is visible
          */
         function categoryVisible(category) {
             var visible = false;
@@ -95,15 +95,15 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-non-full-supply.controller:AddProductModalController
          * @name productVisible
-         * @methodOf requisition-non-full-supply.AddProductModalController
          *
          * @description
-         * Indicates if product should be displayed on modal
+         * Indicates if product should be displayed on modal.
          *
-         * @param {Object} category One of products on the list
-         * @returns {Boolean} if product is visible
+         * @param   {Object}  category One of products on the list
+         * @return {Boolean}          if product is visible
          */
         function productVisible(product) {
             return product.$visible;

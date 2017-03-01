@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-losses-and-adjustments
+     *
+     * @description
+     * Responsible for providing losses and adjustments modal.
+     */
     angular.module('requisition-losses-and-adjustments', [
         'requisition-calculations',
         'openlmis-i18n'

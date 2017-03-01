@@ -19,6 +19,7 @@
 
     /**
      * @ngdoc directive
+     * @restrict A
      * @name openlmis-auth.directive:openlmisDownload
      *
      * @description

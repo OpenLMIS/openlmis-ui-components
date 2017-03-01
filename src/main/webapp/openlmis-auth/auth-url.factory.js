@@ -39,10 +39,17 @@
 			authUrl = '';
 		}
 
-		/**
-		 * @param  {String} url The url fragment to prepend the auth url before
-		 * @return {String}     A url that is directed towards the OpenLMIS AuthService
-		 */
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-auth.authUrl
+         * @name authUrl
+         *
+         * @description
+         * It parses the given URL and appends auth service URL to it.
+         *
+         * @param  {String} url authUrl URL from grunt file
+         * @return {String}     authUrl URL
+         */
  		return function(url){
  			url = pathFactory(authUrl, url);
  			return openlmisUrlFactory(url);

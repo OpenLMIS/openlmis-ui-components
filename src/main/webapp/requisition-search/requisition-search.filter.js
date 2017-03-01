@@ -19,8 +19,7 @@
 
     /**
      * @ngdoc filter
-     * @name .openlmis.requisitions.requisitionSearch
-     * @function requisitionSearch
+     * @name requisition-search.requisitionSearch
      *
      * @description Filters requisitions by given params.
      */

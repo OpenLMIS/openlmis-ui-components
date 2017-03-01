@@ -17,14 +17,12 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name openlmis-modal.notificationService
+     *
      * @description
      * Service allows to display info/error/success notification element that expires after short period with custom message.
-     *
      */
-
     angular.module('openlmis-modal')
         .service('notificationService', service);
 
@@ -43,46 +41,42 @@
         this.error = error;
 
         /**
-         *
-         * @ngdoc function
-         * @name success
+         * @ngdoc method
          * @methodOf openlmis-modal.notificationService
-         * @param {String} successMessage success message to display
+         * @name success
          *
          * @description
          * Shows success message element with custom message and return promise.
          *
+         * @param {String} successMessage success message to display
          */
         function success(successMessage) {
             return showMessage(successMessage, 'is-success');
         }
 
         /**
-         *
-         * @ngdoc function
-         * @name error
+         * @ngdoc method
          * @methodOf openlmis-modal.notificationService
-         * @param {String} errorMessage info message to display
+         * @name error
          *
          * @description
          * Shows error message element with custom message and return promise.
          *
+         * @param {String} errorMessage info message to display
          */
         function error(errorMessage) {
             return showMessage(errorMessage, 'is-error');
         }
 
         /**
-         *
-         * @ngdoc function
-         * @name info
+         * @ngdoc method
          * @methodOf openlmis-modal.notificationService
-         * @param {String} infoMessage info message to display
+         * @name info
          *
          * @description
          * Shows info message element with custom message and return promise.
          *
-         *
+         * @param {String} infoMessage info message to display
          */
         function info(infoMessage) {
             return showMessage(infoMessage, 'is-info');

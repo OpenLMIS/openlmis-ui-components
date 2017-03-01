@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict 'E'
+     * @restrict E
      * @name openlmis-table.directive:stickyTableColumns
      *
      * @description
@@ -95,13 +95,12 @@
             });
 
             /**
-             * @ngdoc function
+             * @ngdoc method
              * @name updateStickyElements
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Updates the functions that animate each sticky element.
-             *
              */
             function updateStickyElements(){
                 blits = [];
@@ -132,13 +131,12 @@
             }
 
             /**
-             * @ngdoc function
+             * @ngdoc method
              * @name blit
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Updates view items, and animates cells
-             *
              */
             function blit(){
                 parentWidth = parent.width();
@@ -172,13 +170,12 @@
             }
 
             /**
-             * @ngdoc function
+             * @ngdoc method
              * @name setUpLeftBlit
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
              * Create an animation function to position an element to the left.
-             *
              */
             function setUpBlits(cell){
                 var cellOffset = cell.position().left,
@@ -211,7 +208,7 @@
                 function leftBlit(){
                     var position = leftEdge + currentLeftOffset - cellOffset;
                     // if offset, cell will break table
-                    if(position + cellWidth > tableWidth) { 
+                    if(position + cellWidth > tableWidth) {
                         return ;
                     }
 
@@ -233,7 +230,7 @@
                     setPosition(position);
                     cell.addClass('stuck');
                     cell.addClass('stuck-right');
-                    currentRightOffset += cellWidth;   
+                    currentRightOffset += cellWidth;
                 }
 
                 function setPosition(position){

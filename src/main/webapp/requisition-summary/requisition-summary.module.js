@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-summary
+     *
+     * @description
+     * Provides requisition summary for requisition view screen.
+     */
     angular.module('requisition-summary', [
         'requisition-calculations',
         'openlmis-currency'

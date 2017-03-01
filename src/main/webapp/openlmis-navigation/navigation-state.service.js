@@ -77,19 +77,15 @@
         service.roots = initialize();
 
         /**
-         *
-         * @ngdoc function
-         * @name hasChildren
+         * @ngdoc method
          * @methodOf openlmis-navigation.navigationStateService
+         * @name hasChildren
          *
          * @description
-         * Takes a state object and returns if the state should be displayed or
-         * not.
+         * Takes a state object and returns if the state should be displayed or not.
          *
-         * @param {object} state A state object as returned by UI-Router
-         *
-         * @returns {Boolean} If the state has visible child states.
-         *
+         * @param  {Object}  state A state object as returned by UI-Router
+         * @return {Boolean}       If the state has visible child states.
          */
 		function hasChildren(state) {
             var result = false;
@@ -101,18 +97,16 @@
 
         /**
          *
-         * @ngdoc function
-         * @name isSubmenu
+         * @ngdoc method
          * @methodOf openlmis-navigation.navigationStateService
+         * @name isSubmenu
          *
          * @description
          * Takes a state object and returns if the state has child states, but
          * isn't a root state.
          *
-         * @param {object} state A state object as returned by UI-Router
-         *
-         * @returns {Boolean} If the state is a sub-menu
-         *
+         * @param  {Object}  state A state object as returned by UI-Router
+         * @return {Boolean}       If the state is a sub-menu
          */
 		function isSubmenu(state){
 			return !isRoot(state) && hasChildren(state);
@@ -120,17 +114,16 @@
 
         /**
          *
-         * @ngdoc function
-         * @name shouldDisplay
+         * @ngdoc method
          * @methodOf openlmis-navigation.navigationStateService
+         * @name shouldDisplay
          *
          * @description
          * Takes a state object and returns if the state can be viewed by the
-         * current user in the navigaiton hiearchy because of access rights.
+         * current user in the navigation hierarchy because of access rights.
          *
-         * @param {object} state A state object as returned by UI-Router
-         *
-         * @returns {Boolean} If the state can be viewed byt the current user.
+         * @param  {Object}  state A state object as returned by UI-Router
+         * @return {Boolean}       If the state can be viewed by the current user
          *
          */
 		function shouldDisplay(state) {
@@ -208,18 +201,15 @@
 
         /**
          *
-         * @ngdoc function
-         * @name isOffline
+         * @ngdoc method
          * @methodOf openlmis-navigation.navigationStateService
+         * @name isOffline
          *
          * @description
-         * If the state is should be able to be viewed while the browser is
-         * offline.
+         * If the state is should be able to be viewed while the browser is offline.
          *
-         * @param {object} state A state object as returned by UI-Router
-         *
-         * @returns {Boolean} If the state can be viewed while offline.
-         *
+         * @param  {Object}  state A state object as returned by UI-Router
+         * @return {Boolean}       If the state can be viewed while offline
          */
         function isOffline(state) {
             if (state && state.isOffline) {

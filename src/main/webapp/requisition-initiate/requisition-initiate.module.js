@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-initiate
+     *
+     * @description
+     * Responsible for initiate requisition screen.
+     */
     angular.module('requisition-initiate', [
         'angular.filter',
         'ngResource',

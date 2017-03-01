@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module proof-of-delivery-manage
+     *
+     * @description
+     * Responsible for manage POD screen.
+     */
     angular.module('proof-of-delivery-manage', [
         'openlmis-date',
         'openlmis-i18n',

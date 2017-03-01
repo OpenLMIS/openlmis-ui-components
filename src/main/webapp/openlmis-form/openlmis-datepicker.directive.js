@@ -19,7 +19,8 @@
 
 	/**
      * @ngdoc directive
-     * @name openlmis-form.openlmisDatepicker
+     * @restrict E
+     * @name openlmis-form.directive:openlmisDatepicker
      *
      * @description
      * Directive allows to add date picker input.

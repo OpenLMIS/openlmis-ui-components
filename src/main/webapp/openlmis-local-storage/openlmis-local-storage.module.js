@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-local-storage
+     *
+     * @description
+     * The openlmis-local-storage module is responsible for local storage.
+     */
     angular.module('openlmis-local-storage', [
         'angular.filter'
     ]);

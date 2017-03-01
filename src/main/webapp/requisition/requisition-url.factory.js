@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name requisition.requisitionUrlFactory
+     *
+     * @description
+     * Supplies application with requisition URL.
+     */
     angular
         .module('requisition')
         .factory('requisitionUrlFactory', factory);
@@ -31,6 +38,17 @@
             requisitionUrl = '';
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition.requisitionUrlFactory
+         * @name requisitionUrlFactory
+         *
+         * @description
+         * It parses the given URL and appends requisition service URL to it.
+         *
+         * @param  {String} url requisition URL from grunt file
+         * @return {String}     requisition URL
+         */
         return function(url) {
             url = pathFactory(requisitionUrl, url);
             return openlmisUrlFactory(url);

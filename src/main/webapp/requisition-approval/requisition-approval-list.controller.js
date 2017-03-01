@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-approval.RequisitionApprovalListController
+     * @name requisition-approval.controller:RequisitionApprovalListController
      *
      * @description
      * Controller for approval list of requisitions.
@@ -39,8 +39,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-approval.controller:RequisitionApprovalListController
          * @name requisitions
-         * @propertyOf requisition-approval.RequisitionApprovalListController
          * @type {Array}
          *
          * @description
@@ -50,8 +50,8 @@
 
         /**
          * @ngdoc property
+         * @methodOf requisition-approval.controller:RequisitionApprovalListController
          * @name openRnr
-         * @propertyOf requisition-approval.RequisitionApprovalListController
          *
          * @description
          * Holds handler which redirects to requisition page after clicking on grid row.

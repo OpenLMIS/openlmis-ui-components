@@ -40,13 +40,13 @@
 
         /**
          * @ngdoc method
-         * @name  get
          * @methodOf admin-template.templateFactory
+         * @name get
          *
          * @description
          * Gets requisition template by id and adds validation and column sorting methods.
          *
-         * @param {String}  id  Template UUID
+         * @param  {String}  id Template UUID
          * @return {Promise}    Template
          */
         function get(id) {
@@ -67,8 +67,8 @@
 
         /**
          * @ngdoc method
-         * @name  getAll
          * @methodOf admin-template.templateFactory
+         * @name getAll
          *
          * @description
          * Gets all requisition templates from templateDataService.
@@ -81,14 +81,14 @@
 
         /**
          * @ngdoc method
-         * @name  getByProgram
          * @methodOf admin-template.templateFactory
+         * @name getByProgram
          *
          * @description
          * Gets requisition template for given program UUID.
          *
-         * @param {String} programId Program UUID
-         * @return {Promise} Template for given program
+         * @param  {String}  programId Program UUID
+         * @return {Promise}           Template for given program
          */
         function getByProgram(programId) {
             return requisitionTemplateService.search(programId);

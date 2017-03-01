@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-pagination
+     *
+     * @description
+     * This module provides all logic, markups and styles for pagination in OpenLMIS-UI.
+     */
     angular.module('openlmis-pagination', [
         'ui.router'
     ]);

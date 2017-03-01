@@ -17,7 +17,13 @@
 
 	'use strict';
 
-	// throws error if bootbox isn't loaded in stack
+    /**
+     * @ngdoc object
+     * @name openlmis-modal.bootbox
+     *
+     * @description
+     * This is constant for bootbox.
+     */
 	angular
 		.module('openlmis-modal')
 		.constant('bootbox', bootbox);

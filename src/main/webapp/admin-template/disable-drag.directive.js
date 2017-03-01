@@ -20,6 +20,7 @@
 
     /**
      * @ngdoc directive
+     * @restrict A
      * @name admin-template.directive:disableDrag
      *
      * @description

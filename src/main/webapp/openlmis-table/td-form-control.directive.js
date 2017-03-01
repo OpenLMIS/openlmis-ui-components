@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict 'E'
+     * @restrict E
      * @name openlmis-table.directive:tdFormControl
      *
      * @description
@@ -27,7 +27,7 @@
      * and will map that inputs state to the table cell.
      *
      * @example
-     * 
+     *
      * ```
      * <table>
      *   <tbody>

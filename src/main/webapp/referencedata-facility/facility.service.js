@@ -62,16 +62,16 @@
         this.getFulfillmentFacilities = getFulfillmentFacilities;
 
 		/**
-         * @ngdoc function
-         * @name get
+         * @ngdoc method
          * @methodOf referencedata-facility.facilityService
+         * @name get
          *
          * @description
          * Retrieves facility by id. When user is offline it gets facility from offline storage.
          * If user is online it stores facility into offline storage.
          *
-         * @param {String} facilityId Facility UUID
-         * @return {Promise} facility promise
+         * @param  {String}  facilityId Facility UUID
+         * @return {Promise}            facility promise
          */
         function get(facilityId) {
             var facility,
@@ -93,9 +93,9 @@
         }
 
 		/**
-         * @ngdoc function
-         * @name getAll
+         * @ngdoc method
          * @methodOf referencedata-facility.facilityService
+         * @name getAll
          *
          * @description
          * Retrieves all facilities. When user is offline it gets facilities from offline storage.
@@ -123,19 +123,19 @@
         }
 
 		/**
-		 * @ngdoc function
+		 * @ngdoc method
+		 * @methodOf referencedata-facility.facilityService
          * @name getUserSupervisedFacilities
-         * @methodOf referencedata-facility.facilityService
          *
          * @description
          * Returns facilities where program with the given programId is active and where the given
          * user has right with the given rightId. Facilities are stored in local storage.
          * If user is offline facilities are retrieved from the local storage.
          *
-         * @param {String} userId User UUID
-         * @param {String} programId Program UUID
-         * @param {String} rightId Right UUID
-         * @return {Promise} supervised facilities for user
+         * @param  {String}  userId    User UUID
+         * @param  {String}  programId Program UUID
+         * @param  {String}  rightId   Right UUID
+         * @return {Promise}           supervised facilities for user
          */
         function getUserSupervisedFacilities(userId, programId, rightId) {
             var deferred = $q.defer();

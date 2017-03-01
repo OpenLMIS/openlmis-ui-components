@@ -44,10 +44,10 @@
          * @description
          * Gets the page with the given number of the given size.
          *
-         * @param   {Array}     items   the list of items to get the page from
-         * @param   {Number}    page    the number of the page
-         * @param   {Number}    size    the size of the page
-         * @return  {Array}             the size-long sublist of the given list
+         * @param  {Array}  items the list of items to get the page from
+         * @param  {Number} page  the number of the page
+         * @param  {Number} size  the size of the page
+         * @return {Array}        the size-long sublist of the given list
          */
         function getPage(items, page, size) {
             var start = page * size,

@@ -62,9 +62,9 @@
         return calculationFactory;
 
         /**
-         * @ngdoc function
-         * @name totalConsumedQuantity
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name totalConsumedQuantity
          *
          * @description
          * Calculates the value of the Total Consumed Quantity column based on the given line item.
@@ -77,9 +77,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name  stockOnHand
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name stockOnHand
          *
          * @description
          * Calculates the value of the Stock On Hand column based on the given line item.
@@ -92,9 +92,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name  total
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name total
          *
          * @description
          * Calculates the value of the Total column based on the given line item.
@@ -107,9 +107,9 @@
         }
 
         /**
-         * @ngdocs function
-         * @name  totalLossesAndAdjustments
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name totalLossesAndAdjustments
          *
          * @description
          * Calculates the value of the Total Losses and Adjustments column based on the given line item and adjustment reasons.
@@ -135,9 +135,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name packsToShip
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name packsToShip
          *
          * @description
          * Calculates the value of the Packs to Ship column based on the given line item and requisition status.
@@ -169,10 +169,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name calculateTotalCost
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
-         * @private
+         * @name calculateTotalCost
          *
          * @description
          * Calculates the total cost by multiplying price per pack and packs to ship.
@@ -192,9 +191,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name adjustedConsumption
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name adjustedConsumption
          *
          * @description
          * Calculates the value of the Adjusted Consumption column based on the given line item.
@@ -221,9 +220,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name averageConsumption
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name averageConsumption
          *
          * @description
          * Calculates the value of the Average Consumption column based on the given line item.
@@ -257,9 +256,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name getOrderQuantity
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name getOrderQuantity
          * @private
          *
          * @description
@@ -289,10 +288,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name maximumStockQuantity
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
-         * @private
+         * @name maximumStockQuantity
          *
          * @description
          * Calculates the value of the Maximum Stock Quantity column based on the given line item.
@@ -309,9 +307,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name calculatedOrderQuantity
+         * @ngdoc method
          * @methodOf requisition-calculations.calculationFactory
+         * @name calculatedOrderQuantity
          *
          * @description
          * Calculates the value of the Calculated Order Quantity column.

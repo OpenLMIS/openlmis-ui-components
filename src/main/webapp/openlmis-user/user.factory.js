@@ -48,15 +48,15 @@
 
 
         /**
-         * @ngdoc function
-         * @name  get
+         * @ngdoc method
+         * @name get
          * @methodOf openlmis-user.userFactory
          *
          * @description
          * Gets user by id.
          *
-         * @param   {String}    id  User id
-         * @returns {Resource}      User info
+         * @param  {String}   id User id
+         * @return {Resource}    User info
          */
         function get(id) {
             var deferred = $q.defer();

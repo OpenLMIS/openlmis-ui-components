@@ -40,15 +40,15 @@
         this.show = show;
 
         /**
-         * @ngdoc function
-         * @name show
+         * @ngdoc method
          * @methodOf requisition-non-full-supply.addProductModalService
+         * @name show
          *
          * @description
          * Shows modal that allows to add line item to requisition.
          *
          * @param {Array} categories Facility approved categories
-         * @returns {Promise} resolved with line item when product is added
+         * @return {Promise} resolved with line item when product is added
          */
         function show(products, programId) {
             var deferred = $q.defer(),

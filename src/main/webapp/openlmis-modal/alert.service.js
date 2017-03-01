@@ -41,46 +41,47 @@
         this.success = success;
 
         /**
-         *
-         * @ngdoc function
+         * @ngdoc method
          * @name warning
          * @methodOf openlmis-modal.alertService
          *
          * @description
          * Shows warning modal with custom message and returns promise.
          *
-         * @param {String} message Primary message to display at the top
-         * @param {String} additionalMessage Additional message to display below
-         * @return {Promise} alert promise
+         * @param  {String}  message           Primary message to display at the top
+         * @param  {String}  additionalMessage Additional message to display below
+         * @return {Promise}                   alert promise
          */
         function warning(message, additionalMessage) {
             return showAlert('warning', message, additionalMessage);
         }
 
         /**
-         * @ngdoc function
-         * @name error
+         * @ngdoc method
          * @methodOf openlmis-modal.alertService
+         * @name error
          *
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
-         * @param {String} message Message to display
+         * @param  {String}  message Message to display
+         * @return {Promise}         error promise
          */
         function error(message) {
             return showAlert('error', message);
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
          * @name success
          * @methodOf openlmis-modal.alertService
          *
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
          *
-         * @param {String} message Message to display
-         * @param {String} additionalMessage Additional message to display below
+         * @param  {String}  message           Message to display
+         * @param  {String}  additionalMessage Additional message to display below
+         * @return {Promise}                   success promise
          */
         function success(message, additionalMessage) {
             return showAlert('success', message, additionalMessage);

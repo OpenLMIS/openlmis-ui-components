@@ -131,7 +131,7 @@
          * Retrieves the list of orders matching the selected supplying facility, requesting
          * facility and program.
          *
-         * @return  {Array} the list of matching orders
+         * @return {Array} the list of matching orders
          */
         function loadOrders() {
             vm.stateParams.supplyingFacility = vm.supplyingFacility ? vm.supplyingFacility.id : null;
@@ -148,8 +148,8 @@
          * @description
          * Prepares a print URL for the given order.
          *
-         * @param   {Object}    order   the order to prepare the URL for
-         * @return  {String}            the prepared URL
+         * @param  {Object} order the order to prepare the URL for
+         * @return {String}       the prepared URL
          */
         function getPrintUrl(order) {
             return fulfillmentUrlFactory('/api/orders/' + order.id + '/print?format=pdf');
@@ -163,8 +163,8 @@
          * @description
          * Prepares a download URL for the given order.
          *
-         * @param   {Object}    order   the order to prepare the URL for
-         * @return  {String}            the prepared URL
+         * @param  {Object} order the order to prepare the URL for
+         * @return {String}       the prepared URL
          */
         function getDownloadUrl(order) {
             return fulfillmentUrlFactory('/api/orders/' + order.id + '/export?type=csv');

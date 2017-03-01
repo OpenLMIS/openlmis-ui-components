@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-validation
+     *
+     * @description
+     * Provides validation logic for requisition view screen.
+     */
     angular.module('requisition-validation', [
         'openlmis-i18n',
         'requisition-calculations',

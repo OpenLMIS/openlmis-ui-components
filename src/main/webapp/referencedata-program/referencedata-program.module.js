@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module referencedata-program
+     *
+     * @description
+     * Responsible for providing program info to other modules.
+     */
     angular.module('referencedata-program', [
         'ngResource',
         'openlmis-local-storage',

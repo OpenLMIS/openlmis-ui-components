@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-form
+     *
+     * @description
+     * The openlmis-form module is responsible for forms.
+     */
     angular.module('openlmis-form', [
         'openlmis-i18n',
         'openlmis-modal',

@@ -58,8 +58,8 @@
          * Parameters that are not supported by the server will be ignored. "supplyingFacility" is
          * the only required parameter.
          *
-         * @param   {Object}    params  the key-value map of parameters
-         * @return  {Array}             the list of all matching orders
+         * @param  {Object} params the key-value map of parameters
+         * @return {Promise}       the list of all matching orders
          */
         function search(params) {
             return resource.search(params).$promise;
@@ -73,8 +73,8 @@
          * @description
          * Retrieves a list of Proof of Deliveries for the given Order.
          *
-         * @param   {String}    orderId     the ID of the given order
-         * @return  {Array}                 the list of all PODs for the given order
+         * @param  {String} orderId the ID of the given order
+         * @return {Promise}        the list of all PODs for the given order
          */
         function getPod(orderId) {
             return resource.getPod({

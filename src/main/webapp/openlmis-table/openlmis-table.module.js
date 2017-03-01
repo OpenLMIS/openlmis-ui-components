@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-table
+     *
+     * @description
+     * This module is responsible for styling tables within application.
+     */
     angular.module('openlmis-table', []);
 
 })();

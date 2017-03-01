@@ -38,8 +38,8 @@
 
         /**
          * @ngdoc property
-         * @name maxColumnDescriptionLength
          * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @name maxColumnDescriptionLength
          * @type {Number}
          *
          * @description
@@ -49,8 +49,8 @@
 
         /**
          * @ngdoc property
-         * @name template
          * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @name template
          * @type {Object}
          *
          * @description
@@ -60,8 +60,8 @@
 
         /**
          * @ngdoc property
-         * @name program
          * @propertyOf admin-template.controller:RequisitionTemplateAdminController
+         * @name program
          * @type {Object}
          *
          * @description
@@ -79,8 +79,8 @@
 
         /**
          * @ngdoc method
-         * @name goToTemplateList
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name goToTemplateList
          *
          * @description
          * Redirects user to template list view page.
@@ -91,8 +91,8 @@
 
         /**
          * @ngdoc method
-         * @name saveTemplate
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name saveTemplate
          *
          * @description
          * Saves template from scope. After successful action displays
@@ -110,16 +110,16 @@
 
         /**
          * @ngdoc method
-         * @name dropCallback
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name dropCallback
          *
          * @description
          * Moves column using templateFactory method. If action is unsuccessful
          * it displays notification error on screen.
          *
-         * @param {Event} event Drop event
-         * @param {integer} index Indicates where column was dropped
-         * @param {Object} item Dropped column
+         * @param {Event}   event Drop event
+         * @param {Number}  index Indicates where column was dropped
+         * @param {Object}  item  Dropped column
          */
         function dropCallback(event, index, item) {
             if(!vm.template.$moveColumn(item, index)) {
@@ -130,8 +130,8 @@
 
         /**
          * @ngdoc method
-         * @name canChangeSource
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name canChangeSource
          *
          * @description
          * Indicates if column source can be changed based on canBeChanged property
@@ -145,14 +145,14 @@
 
         /**
          * @ngdoc method
-         * @name sourceDisplayName
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name sourceDisplayName
          *
          * @description
          * Gives display name of given source type.
          *
-         * @param {String} name Column source name
-         * @return {String} Column source display name
+         * @param  {String} name Column source name
+         * @return {String}      Column source display name
          */
         function sourceDisplayName(name) {
             return messageService.get(COLUMN_SOURCES.getLabel(name));
@@ -160,15 +160,15 @@
 
         /**
          * @ngdoc method
-         * @name errorMessage
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name errorMessage
          *
          * @description
          * Gives error message with all displayed dependent column names
          * when column validation failed.
          *
-         * @param {Object} column Column
-         * @return {String} Column validation error message
+         * @param  {Object} column Column
+         * @return {String}        Column validation error message
          */
         function errorMessage(column) {
             var dependencies = '',
@@ -217,14 +217,14 @@
 
         /**
          * @ngdoc method
-         * @name isAverageConsumption
          * @methodOf admin-template.controller:RequisitionTemplateAdminController
+         * @name isAverageConsumption
          *
          * @description
          * Determines whether displayed column is an average consumption.
          *
-         * @param   {Object}      column    Column
-         * @return  {Boolean}               True if column name is averageConsumption.
+         * @param  {Object}  column Column
+         * @return {Boolean}        True if column name is averageConsumption.
          */
         function isAverageConsumption(column) {
             return column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION;

@@ -38,13 +38,14 @@
         vm.goToReport = goToReport;
 
         /**
-         * @ngdoc function
-         * @name goToReport
+         * @ngdoc method
          * @methodOf report.controller:ReportListController
-         * @param {String} reportId Report UUID
+         * @name goToReport
          *
          * @description
          * Redirects user to report options page.
+         *
+         * @param {String} reportId Report UUID
          */
         function goToReport(report) {
             $state.go('reports.generate', {

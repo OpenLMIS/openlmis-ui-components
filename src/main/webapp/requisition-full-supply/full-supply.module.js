@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-full-supply
+     *
+     * @description
+     * Responsible for managing requisition full supply screen.
+     */
     angular.module('requisition-full-supply', [
         'openlmis-pagination',
         'requisition',

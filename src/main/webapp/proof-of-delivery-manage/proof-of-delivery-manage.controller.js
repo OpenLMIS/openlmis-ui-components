@@ -20,7 +20,8 @@
 
     /**
      * @ngdoc controller
-     * @name proof-of-delivery-manage.ProofOfDeliveryManageController
+     * @name proof-of-delivery-manage.controller:ProofOfDeliveryManageController
+     *
      * @description
      * Controller for proof of delivery manage page
      */
@@ -47,8 +48,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name requestingFacilities
-         * @propertyOf proof-of-delivery-manage.ProofOfDeliveryManageController
          * @type {Array}
          *
          * @description
@@ -58,8 +59,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name supervisedPrograms
-         * @propertyOf proof-of-delivery-manage.ProofOfDeliveryManageController
          * @type {Array}
          *
          * @description
@@ -69,8 +70,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name homePrograms
-         * @propertyOf proof-of-delivery-manage.ProofOfDeliveryManageController
          * @type {Array}
          *
          * @description
@@ -80,8 +81,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name isSupervised
-         * @propertyOf proof-of-delivery-manage.ProofOfDeliveryManageController
          * @type {Boolean}
          *
          * @description
@@ -94,9 +95,9 @@
         updateFacilityType(vm.isSupervised);
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name updateFacilityType
-         * @methodOf proof-of-delivery-manage.ProofOfDeliveryManageController
          *
          * @description
          * Responsible for displaying and updating select elements that allow to choose
@@ -105,7 +106,7 @@
          * user has supervisory permissions. If the param is false, then list of programs
          * from user's home facility will be displayed.
          *
-         * @param {Boolean} isSupervised  indicates type of facility to initiate or proceed with
+         * @param {Boolean} isSupervised indicates type of facility to initiate or proceed with
          * the orders for
          */
         function updateFacilityType(isSupervised) {
@@ -133,13 +134,13 @@
 
         /**
          * @ngdoc method
-         * @methodOf proof-of-delivery-manage.ProofOfDeliveryManageController
+         * @methodOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name loadOrders
          *
          * @description
          * Retrieves the list of orders matching the selected requesting facility and program.
          *
-         * @return  {Array} the list of matching orders
+         * @return {Array} the list of matching orders
          */
         function loadOrders() {
             withUiBlocking(orderFactory.searchOrdersForManagePod(
@@ -152,14 +153,14 @@
 
         /**
          *
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name openPod
-         * @methodOf proof-of-delivery-manage.ProofOfDeliveryManageController
          *
          * @description
          * Redirect to POD page.
          *
-         * @param {String}  orderId id of order to find it's POD
+         * @param {String} orderId id of order to find it's POD
          */
         function openPod(orderId) {
             withUiBlocking(orderFactory.getPod(orderId)).then(function(pod) {
@@ -172,9 +173,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name loadFacilitiesForProgram
-         * @methodOf proof-of-delivery-manage.ProofOfDeliveryManageController
          *
          * @description
          * Responsible for providing a list of requesting facilities where selected program is

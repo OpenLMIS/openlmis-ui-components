@@ -17,12 +17,11 @@
     "use strict";
 
     /**
-     *
      * @ngdoc service
      * @name requisition-view.convertToOrderModalService
+     *
      * @description
      * Directive to display modal for converting single requisition to order.
-     *
      */
 
     angular
@@ -40,15 +39,15 @@
         this.show = show;
 
         /**
-         * @ngdoc function
-         * @name show
+         * @ngdoc method
          * @methodOf requisition-view.convertToOrderModalService
-         * @param {Object} requisition Requisition for convert
-         * @return {Promises} depots for requisition and template for modal
+         * @name show
          *
          * @description
          * Shows modal to convert requisition.
          *
+         * @param  {Object}   requisition Requisition for convert
+         * @return {Promise}              depots for requisition and template for modal
          */
         function show(requisition) {
             var scope = $rootScope.$new();
@@ -85,9 +84,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name convertRnr
+         * @ngdoc method
          * @methodOf requisition-view.convertToOrderModalService
+         * @name convertRnr
          *
          * @description
          * Converts given requisition into order and then reload page.
@@ -103,14 +102,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name getDepotsForRequisition
+         * @ngdoc method
          * @methodOf requisition-view.convertToOrderModalService
-         * @return {Promise} Depots for current requisition.
+         * @name getDepotsForRequisition
          *
          * @description
          * Get depots for current requisition.
          *
+         * @return {Promise} Depots for current requisition.
          */
         function getDepotsForRequisition() {
             var deferred = $q.defer();

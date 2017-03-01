@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-reset-password.ResetPasswordController
+     * @name openlmis-reset-password.controller:ResetPasswordController
      *
      * @description
      * Controller that drives the forgot password form.
@@ -38,9 +38,9 @@
         vm.token = $stateParams.token;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf openlmis-reset-password.controller:ResetPasswordController
          * @name changePassword
-         * @methodOf openlmis-reset-password.ResetPasswordController
          *
          * @description
          * Checks if both passwords are valid and sends change password request to server.

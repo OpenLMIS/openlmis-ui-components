@@ -20,11 +20,12 @@
 
     /**
      * @ngdoc directive
-     * @name  openlmis-navigation.directive:openlmisNavigation
      * @restrict E
+     * @name openlmis-navigation.directive:openlmisNavigation
      *
      * @description
-     * Takes a rootState name and will render a navigation tree for that entire state, this happens by the directive recursively calling its self.
+     * Takes a rootState name and will render a navigation tree for that entire state,
+     * this happens by the directive recursively calling its self.
      *
      * @example
      *
@@ -38,7 +39,6 @@
      * <openlmis-navigation root-state="foo" />
      * ```
      */
-
     angular
         .module('openlmis-navigation')
         .directive('openlmisNavigation', directive);

@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-constants
+     *
+     * @description
+     * Provides all constants essential for requisition module.
+     */
     angular.module('requisition-constants', []);
 
 })();

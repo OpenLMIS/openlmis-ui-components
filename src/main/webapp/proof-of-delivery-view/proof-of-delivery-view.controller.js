@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name proof-of-delivery-view.PodViewController
+     * @name proof-of-delivery-view.controller:PodViewController
      *
      * @description
      * Controller that drives the POD view screen.
@@ -52,8 +52,8 @@
 
         /**
          * @ngdoc property
-         * @name proof of delivery
-         * @propertyOf proof-of-delivery-view.PodViewController
+         * @propertyOf proof-of-delivery-view.controller:PodViewController
+         * @name pod
          * @type {Object}
          *
          * @description
@@ -63,8 +63,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf proof-of-delivery-view.controller:PodViewController
          * @name savePod
-         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Saves current POD after confirming it.
@@ -86,8 +86,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf proof-of-delivery-view.controller:PodViewController
          * @name submitPod
-         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Submits current POD after confirming it.
@@ -113,13 +113,13 @@
 
         /**
          * @ngdoc method
+         * @methodOf proof-of-delivery-view.controller:PodViewController
          * @name isSubmitted
-         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Checks if POD is submitted.
          *
-         * @return {boolean} true if status is RECEIVED, false otherwise
+         * @return {Boolean} true if status is RECEIVED, false otherwise
          */
         function isSubmitted() {
             return vm.pod.order.status === ORDER_STATUS.RECEIVED;
@@ -127,13 +127,13 @@
 
         /**
          * @ngdoc method
+         * @methodOf proof-of-delivery-view.controller:PodViewController
          * @name typeMessage
-         * @methodOf proof-of-delivery-view.PodViewController
          *
          * @description
          * Provides display messages for order types.
          *
-         * @returns {String} Order type message
+         * @return {String} Order type message
          */
         function typeMessage() {
             return vm.pod.order.emergency ? 'label.emergency' : 'msg.regular';

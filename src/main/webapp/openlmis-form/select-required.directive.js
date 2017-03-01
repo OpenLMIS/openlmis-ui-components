@@ -18,10 +18,11 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.select
+     * @restrict E
+     * @name openlmis-form.directive:select
      *
      * @description
-     *
+     * Adds required logic to select element.
      */
     angular
         .module('openlmis-form')

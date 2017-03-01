@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module
+     *
+     * @description
+     * Responsible for managing requisition for approval list screen.
+     */
     angular.module('requisition-approval', [
         'requisition',
         'ui.router'

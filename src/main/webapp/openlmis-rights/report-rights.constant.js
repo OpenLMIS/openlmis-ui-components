@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name openlmis-rights.REPORT_RIGHTS
+     *
+     * @description
+     * This is constant for report rights.
+     */
     angular
         .module('openlmis-rights')
         .constant('REPORT_RIGHTS', rights());

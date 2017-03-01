@@ -19,14 +19,12 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-navigation.interceptor:OfflineNavigation
+     * @name openlmis-navigation.OfflineNavigation
      *
      * @description
      * Check if state being transitioned is able to be viewed offline, if the
      * browser is offline.
-     *
      */
-
     angular.module('openlmis-navigation')
     .run(offlineNavigationInterceptor);
 

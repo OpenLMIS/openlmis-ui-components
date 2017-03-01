@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name requisition-constants.COLUMN_TYPES
+     *
+     * @description
+     * This is constant for requisition template column source types.
+     */
     angular
         .module('requisition-constants')
         .constant('COLUMN_TYPES', type());

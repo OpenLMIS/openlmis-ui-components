@@ -19,8 +19,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.directive:select-one-option
      * @restrict E
+     * @name openlmis-form.directive:select-one-option
      *
      * @description
      * Disables an select element if there is only one option, and selects that options.

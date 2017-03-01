@@ -157,15 +157,15 @@
         }
 
         /**
-         * @ngdoc methodOf
+         * @ngdoc method
          * @methodOf requisition-search.controller:RequisitionViewController
          * @name isOfflineDisabled
          *
          * @description
-         * Check wether "Search offline" checkbox should be disabled. It will set the searchOffline
+         * Check if "Search offline" checkbox should be disabled. It will set the searchOffline
          * flag to true if app goes in the offline mode.
          *
-         * @return {Boolean} [description]
+         * @return {Boolean} true if offline is disabled, false otherwise
          */
         function isOfflineDisabled() {
             if (offlineService.isOffline()) vm.stateParams.offline = true;

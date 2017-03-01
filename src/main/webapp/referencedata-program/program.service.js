@@ -15,14 +15,15 @@
 
 
 (function(){
+
     'use strict';
+
     /**
-     *
      * @ngdoc service
      * @name referencedata-program.programService
      *
      * @description
-     * Resposible for retriving programs from the server.
+     * Responsible for retrieving programs from the server.
      */
     angular
         .module('referencedata-program')
@@ -53,45 +54,46 @@
         };
 
         /**
-         * @ngdoc function
-         * @name  get
+         * @ngdoc method
          * @methodOf referencedata-program.programService
+         * @name get
          *
          * @description
          * Gets program by id.
          *
-         * @param {String} id Program UUID
-         * @returns {Promise} Program info
+         * @param  {String}  id Program UUID
+         * @return {Promise}    Program info
          */
         function get(id) {
             return resource.get({id: id}).$promise;
         }
 
         /**
-         * @ngdoc function
-         * @name  get
+         * @ngdoc method
          * @methodOf referencedata-program.programService
+         * @name getAll
          *
          * @description
          * Gets all programs and adds requisition templates to them.
          *
-         * @returns {Promise} Array of all programs with templates
+         * @return {Promise} Array of all programs with templates
          */
         function getAll() {
             return resource.getAll().$promise;
         }
 
         /**
-         * @name getUserPrograms
+         * @ngdoc method
          * @methodOf referencedata-program.programService
+         * @name getUserPrograms
          *
          * @description
          * Retrieves programs for the current user and saves them in the local storage.
          * If the user is offline program are retreived from the local storage.
          *
-         * @param {String} userId User UUID
-         * @param {Boolean} isForHomeFacility Indicates if programs should be for home or supervised facilities
-         * @return {Promise} array of programs
+         * @param  {String}  userId            User UUID
+         * @param  {Boolean} isForHomeFacility Indicates if programs should be for home or supervised facilities
+         * @return {Promise}                   Array of programs
          */
         function getUserPrograms(userId, isForHomeFacility) {
             var deferred = $q.defer();
@@ -115,6 +117,6 @@
                 });
             }
             return deferred.promise;
-        };
+        }
     }
 })();

@@ -39,9 +39,9 @@
         return LineItem;
 
         /**
-         * @ngdoc function
-         * @name LineItem
+         * @ngdoc method
          * @methodOf requisition.LineItem
+         * @name LineItem
          *
          * @description
          * Adds needed properties and methods to line items based on it and requisition parent.
@@ -73,9 +73,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name updateFieldValue
+         * @ngdoc method
          * @methodOf requisition.LineItem
+         * @name updateFieldValue
          *
          * @description
          * Updates column value in the line item based on column type and source.
@@ -100,9 +100,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name canBeSkipped
+         * @ngdoc method
          * @methodOf requisition.LineItem
+         * @name canBeSkipped
          *
          * @description
          * Determines whether the line item from given requisition can be marked as skipped.

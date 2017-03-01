@@ -20,7 +20,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-convert-to-order.ConvertToOrderController
+     * @name requisition-convert-to-order.controller:ConvertToOrderController
      *
      * @description
      * Controller for converting requisitions to orders.
@@ -61,8 +61,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name filters
-         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Array}
          *
          * @description
@@ -89,8 +89,9 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name nothingToConvert
-         * @type {boolean}
+         * @type {Boolean}
          *
          * @description
          * Indicates if there is any requisition available to convert to order or not.
@@ -99,8 +100,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name infoMessage
-         * @propertyOf requisition-convert-to-order.ConvertToOrderController
          * @type {Object}
          *
          * @description
@@ -110,9 +111,9 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name selectAll
-         * @propertyOf requisition-convert-to-order.ConvertToOrderController
-         * @type {boolean}
+         * @type {Boolean}
          *
          * @description
          * Indicates if all requisitions from list all selected or not.
@@ -120,9 +121,9 @@
         vm.selectAll = false;
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name getSelected
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Returns a list of requisitions selected by user, that are supposed to be converted to orders.
@@ -140,9 +141,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name toggleSelectAll
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for marking/unmarking all requisitions as selected.
@@ -156,9 +157,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name setSelectAll
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for making the checkbox "select all" checked when all requisitions are selected by user.
@@ -172,12 +173,12 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name convertToOrder
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
-         * Responsible for converting seleted requisitions to orders.
+         * Responsible for converting selected requisitions to orders.
          */
         function convertToOrder() {
             var requisitions = getSelected();
@@ -198,9 +199,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name getInfoMessage
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Responsible for setting proper info message to display to user.
@@ -217,9 +218,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name defaultSearchParams
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines whether default search parameters are set or not.
@@ -235,30 +236,30 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name isEmpty
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines if the given parameter is an empty string.
          *
-         * @param {String} value value to be checked
-         * @return {Boolean} is given parameter empty
+         * @param  {String}  value value to be checked
+         * @return {Boolean}       is given parameter empty
          */
         function isEmpty(value) {
             return value === '';
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc methodOf
+         * @methodOf requisition-convert-to-order.controller:ConvertToOrderController
          * @name isUndefined
-         * @methodOf requisition-convert-to-order.ConvertToOrderController
          *
          * @description
          * Determines if the given value is undefined.
          *
-         * @param {Object} value value to be checked
-         * @return {Boolean} is given value undefined
+         * @param  {Object}  value value to be checked
+         * @return {Boolean}       is given value undefined
          */
         function isUndefined(value) {
             return value === undefined;

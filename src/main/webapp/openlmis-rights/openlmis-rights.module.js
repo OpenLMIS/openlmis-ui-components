@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-rights
+     *
+     * @description
+     * This module contains all right constants that are shared in application.
+     */
     angular.module('openlmis-rights', []);
 
 })();

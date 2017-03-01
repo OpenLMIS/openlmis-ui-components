@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module
+     *
+     * @description
+     * Main requisition module that provides basic logic.
+     */
     angular.module('requisition', [
         'ngResource',
         'requisition-constants',

@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module
+     *
+     * @description
+     * Provides calculations for requisition screen.
+     */
     angular.module('requisition-calculations', [
         'requisition-constants',
         'requisition-template'

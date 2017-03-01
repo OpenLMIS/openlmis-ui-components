@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-view
+     *
+     * @description
+     * Responsible for requisition view screen.
+     */
     angular.module('requisition-view', [
         'ngBootbox',
         'openlmis-templates',

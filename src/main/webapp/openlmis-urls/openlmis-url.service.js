@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-urls.openlmisUrlService
+     *
+     * @description
+     * Responsible for parsing URLs.
+     */
     angular
         .module('openlmis-urls')
         .service('openlmisUrlService', service);
@@ -26,9 +33,19 @@
     function service(pathFactory) {
         var service = {};
 
-        service.url = '/';
         service.format = formatURL;
         service.check = checkURL;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-urls.openlmisUrlService
+         * @name url
+         * @type {String}
+         *
+         * @description
+         * Contains server URL
+         */
+        service.url = '/';
 
         // The serverURL can be set with a grunt build argument
         // --serverURL=http://openlmis.server:location
@@ -62,6 +79,16 @@
             return url.substr(0, splitPosition);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-urls.openlmisUrlService
+         * @name formatURL
+         *
+         * @description
+         * Formats URL.
+         *
+         * @return {String} formated URL
+         */
         function formatURL() {
             var parts = [];
             angular.forEach(arguments, function(arg, index) {
@@ -75,6 +102,16 @@
             return pathFactory.apply(this, parts);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-urls.openlmisUrlService
+         * @name checkURL
+         *
+         * @description
+         * Checks if given parameter is URL.
+         *
+         * @return {Boolean} true if is URL, false otherwise
+         */
         function checkURL(url) {
             var urlsToCheck = serverURLs.concat(service.url);
             for(var i=0; i<bypassURLs.length; i++) {

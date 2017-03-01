@@ -16,6 +16,14 @@
 (function(){
     "use strict";
 
+    /**
+     * @ngdoc directive
+     * @restrict E
+     * @name openlmis-form.directive:form
+     *
+     * @description
+     * Toolbar directive to the form.
+     */
     angular.module('openlmis-form')
     .directive('form', formDirective);
 

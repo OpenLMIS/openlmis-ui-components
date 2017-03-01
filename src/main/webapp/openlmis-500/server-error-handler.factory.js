@@ -20,7 +20,7 @@
 
     /**
      * @ngdoc service
-     * @name  openlmis-500.serverErrorHandler
+     * @name openlmis-500.serverErrorHandler
      *
      * @description Displays alert modal when server response status has 5XX code.
      */
@@ -40,14 +40,14 @@
 
         /**
          * @ngdoc method
-         * @name  responseError
          * @methodOf openlmis-500.serverErrorHandler
+         * @name  responseError
          *
          * @description
          * Takes a failed response with 5XX code displays alert modal and reject response.
          *
-         * @param  {Object} response    HTTP Response
-         * @return {Promise}            Rejected promise
+         * @param  {Object}  response HTTP Response
+         * @return {Promise}          Rejected promise
          */
         function responseError(response) {
             if(response.status >= 500 && canDisplayModal) {

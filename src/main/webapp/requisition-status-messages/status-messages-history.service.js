@@ -37,15 +37,15 @@
         this.show = show;
 
         /**
-         * @ngdoc function
-         * @name show
+         * @ngdoc method
          * @methodOf requisition-status-messages.statusMessagesHistoryService
+         * @name show
          *
          * @description
          * Shows modal with status messages history.
          *
-         * @param {Object} requisition Requisition to get its history
-         * @return {Promises} status messages for requisition and template for modal
+         * @param  {Object}   requisition Requisition to get its history
+         * @return {Promises}             status messages for requisition and template for modal
          */
         function show(requisition) {
             var scope = $rootScope.$new();

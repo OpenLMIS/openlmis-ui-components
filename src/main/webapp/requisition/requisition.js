@@ -86,16 +86,16 @@
         return Requisition;
 
         /**
-         * @ngdoc function
-         * @name requisition
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @param {Resource} requisition resource with requisition
-         * @param {Resource} approvedProducts resource with approved products
-         * @return {Object} requisition with methods
+         * @name requisition
          *
          * @description
          * Adds all needed methods and information from template to given requisition.
          *
+         * @param  {Resource} requisition      resource with requisition
+         * @param  {Resource} approvedProducts resource with approved products
+         * @return {Requisition}               requisition with methods
          */
         function Requisition(source, reasons, statusMessages) {
             var programId = source.program.id,
@@ -114,14 +114,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name authorize
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} requisition promise
+         * @name authorize
          *
          * @description
          * Authorizes requisition.
          *
+         * @return {Promise} requisition promise
          */
         function authorize() {
             var requisition = this;
@@ -133,14 +133,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name remove
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} promise that resolves after requisition is deleted
+         * @name remove
          *
          * @description
          * Removes requisition.
          *
+         * @return {Promise} promise that resolves after requisition is deleted
          */
         function remove() {
             var id = this.id;
@@ -152,14 +152,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name save
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} requisition promise
+         * @name save
          *
          * @description
          * Saves requisition.
          *
+         * @return {Promise} requisition promise
          */
         function save() {
             var availableOffline = this.$availableOffline;
@@ -177,14 +177,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name submit
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} requisition promise
+         * @name submit
          *
          * @description
          * Submits requisition.
          *
+         * @return {Promise} requisition promise
          */
         function submit() {
             var availableOffline = this.$availableOffline;
@@ -196,14 +196,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name approve
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} promise that resolves when requisition is approved
+         * @name approve
          *
          * @description
          * Approves requisition.
          *
+         * @return {Promise} promise that resolves when requisition is approved
          */
         function approve() {
             var availableOffline = this.$availableOffline;
@@ -215,14 +215,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name reject
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} promise that resolves when requisition is rejected
+         * @name reject
          *
          * @description
          * Rejects requisition.
          *
+         * @return {Promise} promise that resolves when requisition is rejected
          */
         function reject() {
             var availableOffline = this.$availableOffline;
@@ -234,14 +234,14 @@
         }
 
         /**
-         * @ngdoc function
-         * @name skip
+         * @ngdoc method
          * @methodOf requisition.Requisition
-         * @return {Promise} promise that resolves when requisition is skipped
+         * @name skip
          *
          * @description
          * Skips requisition.
          *
+         * @return {Promise} promise that resolves when requisition is skipped
          */
         function skip() {
             return handlePromise(resource.skip({
@@ -252,105 +252,105 @@
         }
 
         /**
-         * @ngdoc function
-         * @name isInitiated
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isInitiated
          *
          * @description
          * Responsible for checking if requisition is initiated.
          * Returns true only if requisition status equals initiated.
          *
-         * @return {boolean} is requisition initiated
+         * @return {Boolean} is requisition initiated
          */
         function isInitiated() {
             return this.status === REQUISITION_STATUS.INITIATED;
         }
 
         /**
-         * @ngdoc function
-         * @name isSubmitted
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isSubmitted
          *
          * @description
          * Responsible for checking if requisition is submitted.
          * Returns true only if requisition status equals submitted.
          *
-         * @return {boolean} is requisition submitted
+         * @return {Boolean} is requisition submitted
          */
         function isSubmitted() {
             return this.status === REQUISITION_STATUS.SUBMITTED;
         }
 
         /**
-         * @ngdoc function
-         * @name isAuthorized
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isAuthorized
          *
          * @description
          * Responsible for checking if requisition is authorized.
          * Returns true only if requisition status equals authorized.
          *
-         * @return {boolean} is requisition authorized
+         * @return {Boolean} is requisition authorized
          */
         function isAuthorized() {
             return this.status === REQUISITION_STATUS.AUTHORIZED;
         }
 
         /**
-         * @ngdoc function
-         * @name isApproved
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isApproved
          *
          * @description
          * Responsible for checking if requisition is approved.
          * Returns true only if requisition status equals approved.
          *
-         * @return {boolean} is requisition approved
+         * @return {Boolean} is requisition approved
          */
         function isApproved() {
             return this.status === REQUISITION_STATUS.APPROVED;
         }
 
         /**
-         * @ngdoc function
-         * @name isInApproval
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isInApproval
          *
          * @description
          * Responsible for checking if requisition is in approval.
          * Returns true only if requisition status equals in approval.
          *
-         * @return {boolean} is requisition in approval
+         * @return {Boolean} is requisition in approval
          */
         function isInApproval() {
             return this.status === REQUISITION_STATUS.IN_APPROVAL;
         }
 
         /**
-         * @ngdoc function
-         * @name isReleased
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isReleased
          *
          * @description
          * Responsible for checking if requisition is released.
          * Returns true only if requisition status equals released.
          *
-         * @return {boolean} is requisition released
+         * @return {Boolean} is requisition released
          */
         function isReleased() {
             return this.status === REQUISITION_STATUS.RELEASED;
         }
 
        /**
-         * @ngdoc function
-         * @name isAfterAuthorize
+         * @ngdoc method
          * @methodOf requisition.Requisition
+         * @name isAfterAuthorize
          *
          * @description
          * Checks if this requisition was authorized.
          * Will return true if this requisition has authorized status, or any later status.
          *
-         * @return {boolean} true if this requisition's status is an after authorize status
+         * @return {Boolean} true if this requisition's status is an after authorize status
          */
         function isAfterAuthorize() {
             return [REQUISITION_STATUS.AUTHORIZED, REQUISITION_STATUS.IN_APPROVAL,

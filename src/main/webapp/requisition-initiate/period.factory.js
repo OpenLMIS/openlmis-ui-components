@@ -38,16 +38,16 @@
 
         /**
          * @ngdoc method
-         * @name get
          * @methodOf requisition-initiate.periodFactory
+         * @name get
          *
          * @description
          * Retrieves periods for initiate from server.
          *
-         * @param {String} programId program UUID
-         * @param {String} facilityId facility UUID
-         * @param {boolean} emergency if searching for emergency periods
-         * @return {Promise} facility promise
+         * @param  {String}  programId  program UUID
+         * @param  {String}  facilityId facility UUID
+         * @param  {Boolean} emergency  if searching for emergency periods
+         * @return {Promise}            facility promise
          */
         function get(programId, facilityId, emergency) {
             var deferred = $q.defer(),

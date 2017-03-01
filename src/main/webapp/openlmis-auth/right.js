@@ -44,11 +44,11 @@
          * @description
          * Creates a Right class object.
          *
-         * @param {String}  id          the id of the Right
-         * @param {String}  name        the name of the Right
-         * @param {Array}   programs    the list of related programs
-         * @param {Array}   facilities  the list of related warehouses
-         * @param {Array}   nodes       the list of related supervisory nodes
+         * @param {String} id         the id of the Right
+         * @param {String} name       the name of the Right
+         * @param {Array}  programs   the list of related programs
+         * @param {Array}  facilities the list of related warehouses
+         * @param {Array}  nodes      the list of related supervisory nodes
          */
         function Right(id, name, programCodes, programIds, warehouseCodes, warehouseIds, nodeCodes, nodeIds, isDirect) {
             this.id = id;
@@ -70,8 +70,8 @@
          * @description
          * Builds a list or rights from the given list of role assignments.
          *
-         * @param  {Array}  assignments the list of role assignments
-         * @return {Array}              the list of user rights
+         * @param  {Array} assignments the list of role assignments
+         * @return {Array}             the list of user rights
          */
         function buildRights(assignments) {
             var rights = {};

@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name requisition-constants.COLUMN_SOURCES
+     *
+     * @description
+     * This is constant for requisition template column sources.
+     */
     angular
     .module('requisition-constants')
     .constant('COLUMN_SOURCES', source());

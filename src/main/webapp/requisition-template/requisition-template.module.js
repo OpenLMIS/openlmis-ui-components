@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-template
+     *
+     * @description
+     * Provides additional info about requisition template and columns to other requisition modules.
+     */
     angular.module('requisition-template', [
         'requisition-constants'
     ]);

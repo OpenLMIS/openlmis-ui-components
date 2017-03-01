@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module
+     *
+     * @description
+     * Provides status messages for the requisition view screen.
+     */
     angular.module('requisition-status-messages', [
         'ngBootbox',
         'openlmis-i18n',

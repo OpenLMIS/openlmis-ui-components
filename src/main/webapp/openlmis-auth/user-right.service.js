@@ -42,18 +42,18 @@
 
 		/**
          * @ngdoc method
-         * @name hasRight
          * @methodOf openlmis-auth.userRightService
+         * @name hasRight
          *
          * @description
          * Checks if user has given right.
          *
-         * @param {String} userId       referencedata user UUID
-         * @param {String} rightId      right UUID
-         * @param {String} programId    (optional) program UUID
-         * @param {String} facilityId   (optional) facility UUID
-         * @param {String} warehouseId  (optional) warehouse UUID
-         * @return {Promise}            returns true if user has right, false otherwise
+         * @param  {String}  userId      referencedata user UUID
+         * @param  {String}  rightId     right UUID
+         * @param  {String}  programId   (optional) program UUID
+         * @param  {String}  facilityId  (optional) facility UUID
+         * @param  {String}  warehouseId (optional) warehouse UUID
+         * @return {Promise}             returns true if user has right, false otherwise
          */
         function hasRight(userId, rightId, programId, facilityId, warehouseId) {
             return resource.hasRight({

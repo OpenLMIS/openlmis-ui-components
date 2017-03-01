@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-user
+     *
+     * @description
+     * Responsible for managing user profile screen and retrieve user detailed info.
+     */
     angular.module('openlmis-user', [
         'ngResource',
         'openlmis-local-storage',

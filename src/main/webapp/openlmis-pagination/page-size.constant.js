@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name openlmis-pagination.PAGE_SIZE
+     *
+     * @description
+     * This is constant that provides page size for pagination.
+     */
     angular
         .module('openlmis-pagination')
         .constant('PAGE_SIZE', constant());

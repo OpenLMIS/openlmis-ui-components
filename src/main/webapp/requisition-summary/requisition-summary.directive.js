@@ -19,6 +19,7 @@
 
     /**
      * @ngdoc directive
+     * @restrict E
      * @name requisition-summary.requisitionSummary
      *
      * @description

@@ -52,15 +52,15 @@
         return validator;
 
         /**
-         * @ngdoc function
-         * @name validateRequisition
+         * @ngdoc method
          * @methodOf requisition-validation.requisitionValidator
+         * @name validateRequisition
          *
          * @description
          * Validates the given requisitions.
          *
-         * @param  {Object} requisition the requisition to be validated
-         * @return {Boolean}            true if the requisition is valid, false otherwise
+         * @param  {Object}  requisition the requisition to be validated
+         * @return {Boolean}             true if the requisition is valid, false otherwise
          */
         function validateRequisition(requisition) {
             var valid = true,
@@ -89,15 +89,15 @@
 
         /**
          * @ngdoc method
-         * @name validateLineItem
          * @methodOf requisition-validation.requisitionValidator
+         * @name validateLineItem
          *
          * @description
          * Validates the given line item.
          *
-         * @param  {Object} lineItem the line item to be validated
-         * @param  {Object} columns  the list of columns to validate the line item for
-         * @return {Boolean}         true if the line item is valid, false otherwise
+         * @param  {Object}  lineItem the line item to be validated
+         * @param  {Object}  columns  the list of columns to validate the line item for
+         * @return {Boolean}          true if the line item is valid, false otherwise
          */
         function validateLineItem(lineItem, columns, requisition) {
             var valid = true,
@@ -111,17 +111,17 @@
 
         /**
          * @ngdoc method
-         * @name validateLineItemField
          * @methodOf requisition-validation.requisitionValidator
+         * @name validateLineItemField
          *
          * @description
          * Validates the field of the given requisition for the given column. Columns list is
          * necessary for validating calculations.
          *
-         * @param  {Object} lineItem the line item to be validated
-         * @param  {Object} column   the column to validate the line item for
-         * @param  {Object} columns  the list of columns used for validating the line item
-         * @return {Boolean}         true of the line item field is valid, false otherwise
+         * @param  {Object}  lineItem the line item to be validated
+         * @param  {Object}  column   the column to validate the line item for
+         * @param  {Object}  columns  the list of columns used for validating the line item
+         * @return {Boolean}          true of the line item field is valid, false otherwise
          */
         function validateLineItemField(lineItem, column, columns, requisition) {
             var name = column.name,
@@ -148,8 +148,8 @@
 
         /**
          * @ngdoc method
-         * @name isLineItemValid
          * @methodOf requisition-validation.requisitionValidator
+         * @name isLineItemValid
          *
          * @description
          * Checks whether any field of the given line item has any error. It does not perform any
@@ -170,15 +170,15 @@
 
         /**
          * @ngdoc method
-         * @name areLineItemsValid
          * @methodOf requisition-validation.requisitionValidator
+         * @name areLineItemsValid
          *
          * @description
          * Checks whether any field of the given line items has any error. It does not perform any
          * validation.
          *
-         * @param   {Array} lineItem    the list of line items to be checked
-         * @return  {Boolean}           true if any of the line items has error, false otherwise
+         * @param  {Array}   lineItem the list of line items to be checked
+         * @return {Boolean}          true if any of the line items has error, false otherwise
          */
         function areLineItemsValid(lineItems) {
             var valid = true,
@@ -213,6 +213,17 @@
             return column.source === COLUMN_SOURCES.CALCULATED;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-validation.requisitionValidator
+         * @name areAllLineItemsSkipped
+         *
+         * @description
+         * Checks whether all line items are skipped or not.
+         *
+         * @param  {Array}   lineItems the list of line items to be checked
+         * @return {Boolean}           true if all of the line items are skipped, false otherwise
+         */
         function areAllLineItemsSkipped(lineItems) {
             var allSkipped = true;
             lineItems.forEach(function(lineItem) {

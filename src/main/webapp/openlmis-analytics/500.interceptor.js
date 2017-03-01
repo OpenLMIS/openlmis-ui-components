@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc service
-     * @name  openlmis-analytics.analytics500Interceptor
+     * @name openlmis-analytics.analytics500Interceptor
      * @description Sends event to Google Analytics when server response status has 5xx code.
      */
     angular
@@ -42,14 +42,14 @@
 
         /**
          * @ngdoc method
-         * @name  responseError
          * @methodOf openlmis-analytics.analytics500Interceptor
+         * @name  responseError
          *
          * @description
          * Takes a failed response with 5xx code and sends an event to Google Analytics.
          *
-         * @param  {object} response HTTP Response
-         * @return {Promise} Rejected promise
+         * @param  {Object}  response HTTP Response
+         * @return {Promise}          Rejected promise
          */
         function responseError(response) {
             if (response.status >= 500) {

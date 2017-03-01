@@ -19,11 +19,11 @@
     'use strict';
 
     /**
-    * @module openlmis-currency
-    *
-    * @description
-    * The openlmis-currency module is responsible for currency.
-    */
+     * @module openlmis-currency
+     *
+     * @description
+     * The openlmis-currency module is responsible for currency.
+     */
     angular.module('openlmis-currency', [
         'openlmis-local-storage',
         'openlmis-offline',

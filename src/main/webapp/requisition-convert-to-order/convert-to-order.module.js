@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-convert-to-order
+     *
+     * @description
+     * Responsible for requisition convert to order screen.
+     */
     angular.module('requisition-convert-to-order', [
         'requisition',
         'openlmis-date',

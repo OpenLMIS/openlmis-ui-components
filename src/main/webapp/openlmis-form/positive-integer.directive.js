@@ -19,10 +19,11 @@
 
 	/**
 	 * @ngdoc directive
+	 * @restrict A
 	 * @name openlmis-form.directive:positiveInteger
 	 *
 	 * @description
-	 * Restricts the ngModel to only allow positive interegers.
+	 * Restricts the ngModel to only allow positive integers.
 	 *
 	 * @example
 	 * Extend the input element to force it to only accept positive integers as values.
@@ -42,7 +43,7 @@
 		return directive;
 
 		function link(scope, element, attrs, modelCtrl) {
-			
+
 			element.attr('type', 'text');
 			element.addClass('number');
 

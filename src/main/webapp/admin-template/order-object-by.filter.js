@@ -13,28 +13,37 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/**
- * @ngdoc filter
- * @name admin-template.orderObjectBy
- * @function orderObjectBy
- *
- * @description Orders object properties by given attribute.
- */
-angular.module('admin-template').filter('orderObjectBy', function(){
-    return function(input, attribute) {
-        if (!angular.isObject(input)) return input;
 
-        var columns = [];
+(function() {
 
-        for(var objectKey in input) {
-            columns.push(input[objectKey]);
+    'use strict';
+
+    /**
+     * @ngdoc filter
+     * @name admin-template.filter:orderObjectBy
+     *
+     * @description Orders object properties by given attribute.
+     *
+     * @param  {Object} value object to be sorted
+     * @param  {String} key   object properties will be sorted using this key
+     * @return {Array}        sorted properties
+     */
+    angular.module('admin-template').filter('orderObjectBy', function(){
+        return function(input, attribute) {
+            if (!angular.isObject(input)) return input;
+
+            var columns = [];
+
+            for(var objectKey in input) {
+                columns.push(input[objectKey]);
+            }
+            return columns.sort(sort);
+
+            function sort(a, b) {
+                a = parseInt(a[attribute]);
+                b = parseInt(b[attribute]);
+                return a - b;
+            }
         }
-        return columns.sort(sort);
-
-        function sort(a, b) {
-            a = parseInt(a[attribute]);
-            b = parseInt(b[attribute]);
-            return a - b;
-        }
-    }
-});
+    });
+})();

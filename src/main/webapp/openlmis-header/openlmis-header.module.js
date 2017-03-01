@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-header
+     *
+     * @description
+     * The openlmis-header module is responsible for header elements within the OpenLMIS-UI.
+     */
     angular.module('openlmis-header', [
         'openlmis-auth',
         'openlmis-offline',

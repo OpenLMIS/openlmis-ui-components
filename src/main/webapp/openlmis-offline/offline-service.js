@@ -19,9 +19,9 @@
     /**
      * @ngdoc service
      * @name openlmis-offline.offlineService
+     *
      * @description
      * Service allows to determine whether the browser can detect an internet connection.
-     *
      */
 
     angular.module('openlmis-offline')
@@ -53,13 +53,14 @@
         Offline.on('down', offline);
 
         /**
-         * @ngdoc function
-         * @name checkConnection
+         * @ngdoc method
          * @methodOf openlmis-offline.offlineService
+         * @name checkConnection
          *
          * @description
          * Checks periodically if user is online or not.
          *
+         * @return {Promise} resolves when offline status is confirmed
          */
         service.checkConnection = function() {
             var deferred = $q.defer();
@@ -86,11 +87,11 @@
         }
 
         /**
-         * @ngdoc function
-         * @name isOffline
+         * @ngdoc method
          * @methodOf openlmis-offline.offlineService
-         * @return {Boolean} true if user is offline
+         * @name isOffline
          *
+         * @return {Boolean} true if user is offline
          */
         service.isOffline = function() {
             return isOffline;

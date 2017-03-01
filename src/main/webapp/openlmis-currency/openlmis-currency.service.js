@@ -39,9 +39,9 @@
         this.getCurrencySettingsFromConfig = getCurrencySettingsFromConfig;
 
         /**
-         * @ngdoc function
-         * @name getCurrencySettings
+         * @ngdoc method
          * @methodOf openlmis-currency.currencyService
+         * @name getCurrencySettings
          *
          * @description
          * Retrieves currency settings from reference data.
@@ -69,9 +69,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name getCurrencySettingsFromConfig
+         * @ngdoc method
          * @methodOf openlmis-currency.currencyService
+         * @name getCurrencySettingsFromConfig
          *
          * @description
          * Retrieves currency settings from config file.
@@ -90,9 +90,9 @@
         }
 
         /**
-         * @ngdoc function
-         * @name get
+         * @ngdoc method
          * @methodOf openlmis-currency.currencyService
+         * @name getFromStorage
          *
          * @description
          * Retrieves currency settings from the local storage.
@@ -103,5 +103,5 @@
             return angular.fromJson(localStorageService.get('currencySettings'));
         }
     }
-    
+
 })();

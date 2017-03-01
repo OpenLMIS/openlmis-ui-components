@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-modal
+     *
+     * @description
+     * The openlmis-modal module is responsible for modals within the OpenLMIS.
+     */
     angular.module('openlmis-modal', [
         'openlmis-i18n'
     ]);

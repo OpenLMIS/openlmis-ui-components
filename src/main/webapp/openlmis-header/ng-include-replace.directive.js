@@ -18,7 +18,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-header.ngInclude
+     * @restrict A
+     * @name openlmis-header.directive:ngInclude
      *
      * @description
      * Modifies the ngInclude directive to replace the element with ngInclude directive attached

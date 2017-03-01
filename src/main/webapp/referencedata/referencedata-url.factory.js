@@ -39,15 +39,15 @@
         }
 
         /**
-         * @ngdoc function
-         * @name referencedataUrlFactory
+         * @ngdoc method
          * @methodOf referencedata.referencedataUrlFactory
+         * @name referencedataUrlFactory
          *
          * @description
          * It parses the given URL and appends referencedata service URL to it.
          *
-         * @param {String} url referencedata URL from grunt file
-         * @return {String} referencedata URL
+         * @param  {String} url referencedata URL from grunt file
+         * @return {String}     referencedata URL
          */
         return function(url) {
             url = pathFactory(referencedataUrl, url);

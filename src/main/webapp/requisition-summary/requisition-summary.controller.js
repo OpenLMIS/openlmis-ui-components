@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-summary.RequisitionSummaryController
+     * @name requisition-summary.controller:RequisitionSummaryController
      *
      * @description
      * Responsible for managing Requisition Total Cost popover.
@@ -39,9 +39,9 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-summary.RequisitionSummaryController
-         * @type {Object}
+         * @propertyOf requisition-summary.controller:RequisitionSummaryController
          * @name requisition
+         * @type {Object}
          *
          * @description
          * The requisition to render the summary for.
@@ -50,9 +50,9 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-summary.RequisitionSummaryController
-         * @type {Boolean}
+         * @propertyOf requisition-summary.controller:RequisitionSummaryController
          * @name showNonFullSupplySummary
+         * @type {Boolean}
          *
          * @description
          * Flag dictating whether non full supply summary should be visible inside the popover.
@@ -61,8 +61,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-summary.controller:RequisitionSummaryController
          * @name calculateFullSupplyCost
-         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all full supply line items. This method will ignore skipped
@@ -76,8 +76,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-summary.controller:RequisitionSummaryController
          * @name calculateNonFullSupplyCost
-         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all non full supply line items. This method will ignore skipped
@@ -91,8 +91,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-summary.controller:RequisitionSummaryController
          * @name calculateTotalCost
-         * @methodOf requisition-summary.RequisitionSummaryController
          *
          * @description
          * Calculates total cost of all line items. This method will ignore skipped line items.

@@ -22,7 +22,7 @@
     * @name admin-template.MAX_COLUMN_DESCRIPTION_LENGTH
     *
     * @description
-    * This is constant for max column description length
+    * This is constant for max column description length.
     */
     angular
         .module('admin-template')

@@ -19,10 +19,11 @@
 
     /**
      * @ngdoc directive
+     * @restrict E
      * @name openlmis-analytics.directive:button
      *
      * @description
-     * Adds Google Analytics event listeners to the click event of button 
+     * Adds Google Analytics event listeners to the click event of button
      * elements (including input type="button" and type="submit").
      */
     angular
@@ -43,7 +44,7 @@
         function compile(element, attributes) {
             var isInputButton = (element.prop('nodeName') === 'INPUT' && (attributes.type === 'button' || attributes.type === 'submit')),
             isButton = element.prop('nodeName') === 'BUTTON';
-            
+
             if(isInputButton || isButton){
                 return link;
             }

@@ -37,6 +37,18 @@
 
         return RequisitionTemplate;
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-template.RequisitionTemplate
+         * @name getColumns
+         *
+         * @description
+         * Retrieves a column with the given name. If it doesn't exist undefined will be returned.
+         *
+         * @param  {String} template the name of the column
+         * @param  {String} requisition the name of the column
+         * @return {Object}      the matching column
+         */
         function RequisitionTemplate(template, requisition) {
             angular.copy(template, this);
 
@@ -47,6 +59,17 @@
             this.columnsMap = columnsMap;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-template.RequisitionTemplate
+         * @name getColumns
+         *
+         * @description
+         * Retrieves all non-full/full supply columns from requisition template.
+         *
+         * @param  {Boolean} nonFullSupply indicates if user wants to get full/non-full supply columns
+         * @return {Array}                 the matching columns
+         */
         function getColumns(nonFullSupply) {
             var columns = [];
             angular.forEach(this.columnsMap, function(column) {
@@ -65,8 +88,8 @@
          * @description
          * Retrieves a column with the given name. If it doesn't exist undefined will be returned.
          *
-         * @param   {String}    name    the name of the column
-         * @return  {Object}            the matching column
+         * @param  {String} name the name of the column
+         * @return {Object}      the matching column
          */
         function getColumn(name) {
             return this.columnsMap[name];

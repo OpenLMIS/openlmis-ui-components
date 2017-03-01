@@ -20,7 +20,7 @@
 
     /**
      * @ngdoc service
-     * @name  openlmis-offline.offlineInterceptor
+     * @name openlmis-offline.offlineInterceptor
      *
      * @description
      * Responsible for managing server requests while offline.
@@ -48,15 +48,15 @@
 
         /**
          * @ngdoc method
-         * @name request
          * @methodOf openlmis-offline.offlineInterceptor
-         *
-         * @param  {object} config HTTP Config object
-         * @return {object} A modified configuration object
+         * @name request
          *
          * @description
          * Cancels request if user is offline and displays alert modal with proper message.
          * Passes all HTML calls.
+         *
+         * @param  {Object} config HTTP Config object
+         * @return {Object}        A modified configuration object
          */
         function request(config) {
             var canceler = $q.defer();

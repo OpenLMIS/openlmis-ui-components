@@ -44,16 +44,16 @@
 
 		/**
          * @ngdoc method
-         * @name getPeriodsForInitiate
          * @methodOf requisition-initiate.periodService
+         * @name getPeriodsForInitiate
          *
          * @description
          * Retrieves periods for initiate from server.
          *
-         * @param {String} programId program UUID
-         * @param {String} facilityId facility UUID
-         * @param {boolean} emergency if searching for emergency periods
-         * @return {Promise} promise with periods array
+         * @param  {String}  programId  program UUID
+         * @param  {String}  facilityId facility UUID
+         * @param  {Boolean} emergency  if searching for emergency periods
+         * @return {Promise}            promise with periods array
          */
         function getPeriodsForInitiate(programId, facilityId, emergency) {
             return resource.periodsForInitiate({

@@ -17,6 +17,13 @@
 (function(){
     "use strict";
 
+    /**
+     * @ngdoc service
+     * @name  openlmis-modal.stateInterceptorListeners
+     *
+     * @description
+     * Closes modal when state is not found or changed with success/error.
+     */
     angular.module('openlmis-modal')
         .run(stateInterceptorListeners);
 

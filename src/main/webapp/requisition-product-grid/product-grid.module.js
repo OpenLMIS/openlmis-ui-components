@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-product-grid
+     *
+     * @description
+     * Responsible for providing product grid logic for full/non-full supply screens.
+     */
     angular.module('requisition-product-grid', [
         'requisition-constants',
         'requisition-losses-and-adjustments',

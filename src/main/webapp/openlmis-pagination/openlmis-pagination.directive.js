@@ -19,7 +19,7 @@
 
 	/**
      * @ngdoc directive
-     * @restrict 'E'
+     * @restrict E
      * @name openlmis-pagination.directive:openlmisPagination
      *
      * @description

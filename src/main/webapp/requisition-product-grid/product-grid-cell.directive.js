@@ -19,6 +19,7 @@
 
     /**
      * @ngdoc directive
+     * @restrict A
      * @name requisition-product-grid.productGridCell
      *
      * @description

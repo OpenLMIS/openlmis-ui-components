@@ -17,6 +17,15 @@
 
     'use strict';
 
+    /**
+     * @ngdoc directive
+     * @restrict A
+     * @name requisition-product-grid.lossesAndAdjustments
+     *
+     * @description
+     * Responsible for creating total losses and adjustments cell in product grid.
+     * It opens modal that displays reasons upon clicking it.
+     */
     angular
         .module('requisition-losses-and-adjustments')
         .directive('lossesAndAdjustments', lossesAndAdjustments);

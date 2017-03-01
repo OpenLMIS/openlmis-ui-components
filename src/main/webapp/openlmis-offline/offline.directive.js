@@ -18,8 +18,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-offline.directive:offline
      * @restrict A
+     * @name openlmis-offline.directive:offline
      *
      * @description
      * Directive for determining if user is online or not.
@@ -29,7 +29,6 @@
      * <button offline ng-disabled="isOffline">Do something</button>
      * ```
      */
-
     angular
         .module('openlmis-offline')
         .directive('offline', offline);
@@ -49,8 +48,8 @@
 
             /**
              * @ngdoc property
-             * @name isOffline
              * @propertyOf openlmis-offline.directive:offline
+             * @name isOffline
              * @type {Boolean}
              *
              * @description
@@ -65,8 +64,8 @@
 
             /**
              * @ngdoc property
-             * @name checkConnection
              * @propertyOf openlmis-offline.directive:offline
+             * @name checkConnection
              * @type {Boolean}
              *
              * @description

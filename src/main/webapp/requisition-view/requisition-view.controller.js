@@ -14,16 +14,16 @@
  */
 
 (function() {
+
     'use strict';
 
     /**
      * @ngdoc controller
-     * @name requisition-view.RequisitionViewController
+     * @name requisition-view.controller:RequisitionViewController
      *
      * @description
      * Controller for managing requisitions.
      */
-
     angular
         .module('requisition-view')
         .controller('RequisitionViewController', RequisitionViewController);
@@ -45,8 +45,8 @@
 
         /**
          * @ngdoc property
+         * @propertyOf requisition-view.controller:RequisitionViewController
          * @name requisition
-         * @propertyOf requisition-view.RequisitionViewController
          * @type {Object}
          *
          * @description
@@ -56,8 +56,8 @@
 
         /**
         * @ngdoc property
+        * @propertyOf requisition-view.controller:RequisitionViewController
         * @name requisitionType
-        * @propertyOf requisition-view.RequisitionViewController
         * @type {String}
         *
         * @description
@@ -90,8 +90,8 @@
 
          /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name syncRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for syncing requisition with the server. If the requisition fails to sync,
@@ -115,8 +115,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name submitRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for submitting requisition. Displays confirmation dialog, and checks
@@ -153,8 +153,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name authorizeRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for authorizing requisition. Displays confirmation dialog, and checks
@@ -192,8 +192,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name removeRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for removing requisition. Displays confirmation dialog before deletion.
@@ -217,8 +217,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name approveRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for approving requisition. Displays confirmation dialog, and checks
@@ -251,8 +251,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name rejectRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for rejecting requisition. Displays confirmation dialog before rejection.
@@ -276,8 +276,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name skipRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Responsible for skipping requisition. Displays confirmation dialog before skipping.
@@ -301,14 +301,13 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name periodDisplayName
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Creates human readable duration of reporting period.
          *
-         * @returns {string} Reporting period.
-         *
+         * @return {String} Reporting period
          */
         function periodDisplayName() {
             //TODO: This is a temporary solution.
@@ -317,14 +316,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displayAuthorize
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display authorize button or not. Returns true only if requisition
          * is submitted and user has permission to authorize requisition.
          *
-         * @return {boolean} should authorize button be displayed
+         * @return {Boolean} should authorize button be displayed
          */
         function displayAuthorize() {
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
@@ -335,14 +334,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displaySubmit
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display submit button or not. Returns true only if requisition
          * is initiated and user has permission to create requisition.
          *
-         * @return {boolean} should submit button be displayed
+         * @return {Boolean} should submit button be displayed
          */
         function displaySubmit() {
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
@@ -353,14 +352,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displayApproveAndReject
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display approve and reject buttons or not. Returns true only if
          * requisition is authorized or in approval and user has permission to approve requisition.
          *
-         * @return {boolean} should approve and reject buttons be displayed
+         * @return {Boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
@@ -371,14 +370,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displayDelete
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display delete button or not. Returns true only if requisition
          * is initiated and user has permission to delete requisition.
          *
-         * @return {boolean} should delete button be displayed
+         * @return {Boolean} should delete button be displayed
          */
         function displayDelete() {
             var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
@@ -389,14 +388,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displayConvertToOrder
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display convert to order button or not. Returns true only if
          * requisition is approved and user has permission to convert requisition.
          *
-         * @return {boolean} should convert to order button be displayed
+         * @return {Boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
             var hasRight = authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_EDIT, {
@@ -407,14 +406,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displaySkip
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display skip requisition button or not. Returns true only if
          * requisition program allows to skip requisition.
          *
-         * @return {boolean} true if skip button should be visible, false otherwise
+         * @return {Boolean} true if skip button should be visible, false otherwise
          */
         function displaySkip() {
             return vm.requisition.$isInitiated() &&
@@ -424,14 +423,14 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name displaySync
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Determines whether to display sync with server button or not. Returns true only if
          * requisition has status INITIATED, SUBMITTED or AUTHORIZED.
          *
-         * @return {boolean} true if sync button should be visible, false otherwise
+         * @return {Boolean} true if sync button should be visible, false otherwise
          */
         function displaySync() {
           if (vm.requisition.$isInitiated()) {
@@ -448,8 +447,8 @@
 
         /**
          * @ngdoc method
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name convertRnr
-         * @methodOf requisition-view.RequisitionViewController
          *
          * @description
          * Displays convert to order modal.
@@ -460,7 +459,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-view.RequisitionViewController
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name getPrintUrl
          *
          * @description
@@ -474,14 +473,14 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-view.RequisitionViewController
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name isFullSupplyTabValid
          *
          * @description
          * Checks whether full supply tab has any errors. This method ignores skipped line items and
          * does not trigger validation.
          *
-         * @return  {Boolean}   true if full supply tab has any errors, false otherwise
+         * @return {Boolean} true if full supply tab has any errors, false otherwise
          */
         function isFullSupplyTabValid() {
             var fullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
@@ -494,14 +493,14 @@
 
         /**
          * @ngdoc method
-         * @methodOf requisition-view.RequisitionViewController
+         * @methodOf requisition-view.controller:RequisitionViewController
          * @name isNonFullSupplyTabValid
          *
          * @description
          * Checks whether non full supply tab has any errors. This method ignores skipped line items
          * and does not trigger validation.
          *
-         * @return  {Boolean}   true if non full supply tab has any errors, false otherwise
+         * @return {Boolean} true if non full supply tab has any errors, false otherwise
          */
         function isNonFullSupplyTabValid() {
             var nonFullSupplyItems = $filter('filter')(vm.requisition.requisitionLineItems, {
@@ -515,7 +514,7 @@
         function save() {
             loadingModalService.open();
             var promise = vm.requisition.$save();
-            promise.finally(loadingModalService.close)
+            promise.finally(loadingModalService.close);
             return promise;
         }
 
@@ -534,8 +533,8 @@
         }
 
         function reloadState() {
-              $state.reload();
-          }
+            $state.reload();
+        }
 
         function failWithMessage(message) {
             return function() {
@@ -546,21 +545,21 @@
         }
 
         function hasCreateRight() {
-          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
-            programCode: vm.requisition.program.code
-          });
+            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
+                programCode: vm.requisition.program.code
+            });
         }
 
         function hasAuthorizeRight() {
-          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
-            programCode: vm.requisition.program.code
-          });
+            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
+                programCode: vm.requisition.program.code
+            });
         }
 
         function hasApproveRight() {
-          return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
-            programCode: vm.requisition.program.code
-          })
+            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
+                programCode: vm.requisition.program.code
+            });
         }
 
     }

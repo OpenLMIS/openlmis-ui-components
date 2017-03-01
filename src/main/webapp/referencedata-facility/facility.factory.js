@@ -15,9 +15,10 @@
 
 
 (function(){
+
     'use strict';
+
     /**
-     *
      * @ngdoc service
      * @name referencedata-facility.facilityFactory
      *
@@ -47,16 +48,16 @@
 
 
         /**
-         * @ngdoc function
-         * @name getUserFacilities
+         * @ngdoc method
          * @methodOf referencedata-facility.facilityFactory
+         * @name getUserFacilities
          *
          * @description
          * Retrieves all user supervised facilities depending on the given access right.
          *
-         * @param {String} userId User UUID
-         * @param {String} rightName Name of access right
-         * @return {Promise} Array of facilities
+         * @param  {String}  userId    User UUID
+         * @param  {String}  rightName Name of access right
+         * @return {Promise}           Array of facilities
          */
         function getUserFacilities(userId, rightName) {
             var promises = [],
@@ -91,8 +92,8 @@
          * @description
          * Returns a set of all supplying facilities available to the user.
          *
-         * @param   {String}    userId  the ID of the user
-         * @return  {Array}             the set of all supplying facilities
+         * @param  {String} userId the ID of the user
+         * @return {Array}         the set of all supplying facilities
          */
         function getSupplyingFacilities(userId) {
             var deferred = $q.defer();
@@ -117,8 +118,8 @@
          * @description
          * Returns a set of all requesting facilities available to the user.
          *
-         * @param   {String}    userId  the ID of the user to fetch the facilities for
-         * @return  {Array}             the set of all requesting facilities
+         * @param  {String} userId the ID of the user to fetch the facilities for
+         * @return {Array}         the set of all requesting facilities
          */
         function getRequestingFacilities(userId) {
             var deferred = $q.defer();
@@ -150,8 +151,8 @@
          * @description
          * Returns home facility for the user.
          *
-         * @param   {String}    userId  the ID of the user to fetch the home facility for
-         * @return  {Object}            home facility
+         * @param  {String} userId the ID of the user to fetch the home facility for
+         * @return {Object}        home facility
          */
         function getUserHomeFacility() {
             var deferred = $q.defer();
@@ -173,10 +174,10 @@
          * @description
          * Returns supervised facilities for the user.
          *
-         * @param   {String}    userId      the ID of the user to get supervised facilities
-         * @param   {String}    programId   the ID of the program
-         * @param   {String}    right       the ID of right
-         * @return  {Array}                 the set of all supervised facilities
+         * @param  {String} userId    the ID of the user to get supervised facilities
+         * @param  {String} programId the ID of the program
+         * @param  {String} right     the ID of right
+         * @return {Array}            the set of all supervised facilities
          */
         function getUserSupervisedFacilities(userId, programId, right) {
             return facilityService.getUserSupervisedFacilities(
@@ -194,8 +195,8 @@
          * @description
          * Returns home facility and supervised facilities for the user.
          *
-         * @param   {String}    userId      the ID of the user to get supervised facilities
-         * @return  {Array}                 the set of all facilities for the user
+         * @param  {String} userId the ID of the user to get supervised facilities
+         * @return {Array}         the set of all facilities for the user
          */
         function getAllUserFacilities(userId) {
             var deferred = $q.defer();

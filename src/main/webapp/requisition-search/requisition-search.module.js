@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-search
+     *
+     * @description
+     * Responsible for managing requisition search screen.
+     */
     angular.module('requisition-search', [
         'openlmis-date',
         'openlmis-modal',

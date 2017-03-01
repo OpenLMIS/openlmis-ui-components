@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc controller
-     * @name requisition-status-messages.StatusMessagesController
+     * @name requisition-status-messages.controller:StatusMessagesController
      *
      * @description
      * Responsible for adding new status messages.
@@ -35,9 +35,9 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-status-messages.StatusMessagesController
-         * @type {Object}
+         * @propertyOf requisition-status-messages.controller:StatusMessagesController
          * @name requisition
+         * @type {Object}
          *
          * @description
          * The requisition to which status message will be added.
@@ -46,9 +46,9 @@
 
         /**
          * @ngdoc property
-         * @propertyOf requisition-status-messages.StatusMessagesController
-         * @type {Boolean}
+         * @propertyOf requisition-status-messages.controller:StatusMessagesController
          * @name isTextAreaVisible
+         * @type {Boolean}
          *
          * @description
          * Visibility of text area.
@@ -64,9 +64,9 @@
         vm.displayEditComment = displayEditComment;
 
          /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-status-messages.controller:StatusMessagesController
          * @name addComment
-         * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
          * Responsible for adding draft of comment to requisition.
@@ -76,9 +76,9 @@
         }
 
          /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-status-messages.controller:StatusMessagesController
          * @name removeComment
-         * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
          * Responsible for clearing draft.
@@ -89,9 +89,9 @@
         }
 
          /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-status-messages.controller:StatusMessagesController
          * @name displayRequisitionHistory
-         * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
          * Responsible for displaying requisition status message history.
@@ -101,9 +101,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-status-messages.controller:StatusMessagesController
          * @name displayAddComment
-         * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
          * Responsible for checking if requisition has draft.
@@ -115,9 +115,9 @@
         }
 
         /**
-         * @ngdoc function
+         * @ngdoc method
+         * @methodOf requisition-status-messages.controller:StatusMessagesController
          * @name displayEditComment
-         * @methodOf requisition-status-messages.StatusMessagesController
          *
          * @description
          * Responsible for displaying text area and removing button of comment in requisition.

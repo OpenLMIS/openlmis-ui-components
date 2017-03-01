@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-urls
+     *
+     * @description
+     * Module that is responsible for parsing URLs.
+     */
     angular.module('openlmis-urls', []);
 
 })();

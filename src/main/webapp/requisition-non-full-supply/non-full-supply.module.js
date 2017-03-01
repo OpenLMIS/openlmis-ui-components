@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module requisition-non-full-supply
+     *
+     * @description
+     * Responsible for managing non full supply screen.
+     */
     angular.module('requisition-non-full-supply', [
         'ngBootbox',
         'openlmis-pagination',

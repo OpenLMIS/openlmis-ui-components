@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis-header.controller:HeaderController
+     *
+     * @description
+     * Controller that drives the header.
+     */
     angular
         .module('openlmis-header')
         .controller('HeaderController', controller);
@@ -34,6 +41,14 @@
             $scope.hasPermission = authorizationService.hasPermission;
         }, true);
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-header.controller:HeaderController
+         * @name logout
+         *
+         * @description
+         * Log outs user from application and redirects to login screen.
+         */
         $scope.logout = function() {
             loginService.logout()
                 .then(function() {

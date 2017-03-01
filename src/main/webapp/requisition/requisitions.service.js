@@ -22,7 +22,7 @@
      * @name requisition.requisitionService
      *
      * @description
-     * Responsible for retriving all information from server.
+     * Responsible for retrieving all information from server.
      */
     angular
         .module('requisition')
@@ -97,15 +97,15 @@
         return service;
 
         /**
-         * @ngdoc function
-         * @name get
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @param {String} id Requisition UUID
-         * @return {Promise} requisition promise
+         * @name get
          *
          * @description
          * Retrieves requisition by id.
          *
+         * @param  {String}  id Requisition UUID
+         * @return {Promise}    requisition promise
          */
         function get(id) {
             var deferred = $q.defer();
@@ -177,18 +177,18 @@
         }
 
         /**
-         * @ngdoc function
-         * @name initiate
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @param {String} facility Facility UUID
-         * @param {String} program Program UUID
-         * @param {String} suggestedPeriod Period UUID
-         * @param {boolean} emergency Indicates if requisition is emergency or not
-         * @return {Promise} requisition promise
+         * @name initiate
          *
          * @description
-         * Initates new requisition for program in facility with given period.
+         * Initiates new requisition for program in facility with given period.
          *
+         * @param  {String}  facility        Facility UUID
+         * @param  {String}  program         Program UUID
+         * @param  {String}  suggestedPeriod Period UUID
+         * @param  {Boolean} emergency       Indicates if requisition is emergency or not
+         * @return {Promise}                 requisition promise
          */
         function initiate(facility, program, suggestedPeriod, emergency) {
             return resource.initiate({
@@ -200,11 +200,15 @@
         }
 
         /**
-         * @ngdoc function
-         * @name search
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @param {boolean} offline Indicates if searching in offline requisitions
-         * @param {Object} searchParams Contains parameters for searching requisitions, i.e.
+         * @name search
+         *
+         * @description
+         * Search requisitions by criteria from parameters.
+         *
+         * @param {Boolean} offline      Indicates if searching in offline requisitions
+         * @param {Object}  searchParams Contains parameters for searching requisitions, i.e.
          * {
          *      program: 'programID',
          *      facility: 'facilityID',
@@ -213,12 +217,7 @@
          *      requisitionStatus: ['status1', 'status2'],
          *      emergency: false
          * }
-         *
-         * @return {Array} Array of requisitions for given criteria (optional)
-         *
-         * @description
-         * Search requisitons by criteria from parameters.
-         *
+         * @return {Array}               Array of requisitions for given criteria
          */
         function search(offline, searchParams) {
             var deferred = $q.defer();
@@ -243,43 +242,43 @@
         }
 
         /**
-         * @ngdoc function
-         * @name forApproval
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @return {Array} Array of requisitions for approval
+         * @name forApproval
          *
          * @description
          * Retrieves all requisitions with authorized status for approve.
          *
+         * @return {Array} Array of requisitions for approval
          */
         function forApproval() {
             return resource.forApproval().$promise;
         }
 
         /**
-         * @ngdoc function
-         * @name forConvert
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @param {Object} params Request params, contains i.e.: filertBy, filterValue, sortBy, descending
-         * @return {Array} Array of requisitions for convert
+         * @name forConvert
          *
          * @description
-         * Search requisitons for convert to order by given criteria.
+         * Search requisitions for convert to order by given criteria.
          *
+         * @param  {Object} params Request params, contains i.e.: filterBy, filterValue, sortBy, descending
+         * @return {Array}         Array of requisitions for convert
          */
         function forConvert(params) {
             return resource.forConvert(params).$promise;
         }
 
         /**
-         * @ngdoc function
-         * @name convertToOrder
+         * @ngdoc method
          * @methodOf requisition.requisitionService
-         * @param {Array} requisitions Array of requisitions to convert
+         * @name convertToOrder
          *
          * @description
          * Converts given requisitions into orders.
          *
+         * @param {Array} requisitions Array of requisitions to convert
          */
         function convertToOrder(requisitions) {
             var deferred = $q.defer();

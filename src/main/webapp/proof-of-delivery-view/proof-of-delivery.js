@@ -14,9 +14,10 @@
  */
 
 (function(){
+
     'use strict';
+
     /**
-     *
      * @ngdoc service
      * @name proof-of-delivery-view.ProofOfDelivery
      *
@@ -40,15 +41,15 @@
 
         /**
          * @ngdoc method
-         * @name ProofOfDelivery
          * @methodOf proof-of-delivery-view.ProofOfDelivery
+         * @name ProofOfDelivery
          *
          * @description
          * Adds all needed methods and information to given ProofOfDelivery.
          *
-         * @param {Resource} source ProofOfDelivery object
-         * @param {Resource} order Order with additional info
-         * @return {Object} ProofOfDelivery
+         * @param  {Resource}        source ProofOfDelivery object
+         * @param  {Resource}        order  Order with additional info
+         * @return {ProofOfDelivery}        Proof Of Delivery object
          */
         function ProofOfDelivery(source) {
             var pod = this;
@@ -70,14 +71,14 @@
 
         /**
          * @ngdoc method
-         * @name isLineItemValid
          * @methodOf proof-of-delivery-view.ProofOfDelivery
+         * @name isLineItemValid
          *
          * @description
          * Checks if POD line item is valid.
          *
-         * @param {Object} lineItem POD line item
-         * @return {boolean} true if line item is valid
+         * @param  {Object}  lineItem POD line item
+         * @return {Boolean}          true if line item is valid
          */
         function isLineItemValid(lineItem) {
             var valid = true;
@@ -98,13 +99,13 @@
 
         /**
          * @ngdoc method
-         * @name isValid
          * @methodOf proof-of-delivery-view.ProofOfDelivery
+         * @name isValid
          *
          * @description
          * Checks if POD is valid.
          *
-         * @return {boolean} true if POD is valid
+         * @return {Boolean} true if POD is valid, false otherwise
          */
         function isValid() {
             var isValid = true;

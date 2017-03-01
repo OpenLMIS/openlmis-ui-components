@@ -39,18 +39,18 @@
 
         /**
          * @ngdoc method
-         * @name checkRightForUser
          * @methodOf openlmis-auth.userRightFactory
+         * @name checkRightForUser
          *
          * @description
          * Calls the userRightService to check if given user has given right.
          *
-         * @param {String} userId       User UUID
-         * @param {String} rightName    Name of access right
-         * @param {String} programId    (optional) program UUID
-         * @param {String} facilityId   (optional) facility UUID
-         * @param {String} warehouseId  (optional) warehouse UUID
-         * @return {Promise}            true is user has right, false otherwise
+         * @param  {String}  userId      User UUID
+         * @param  {String}  rightName   Name of access right
+         * @param  {String}  programId   (optional) program UUID
+         * @param  {String}  facilityId  (optional) facility UUID
+         * @param  {String}  warehouseId (optional) warehouse UUID
+         * @return {Promise}             true is user has right, false otherwise
          */
         function checkRightForUser(userId, rightName, programId, facilityId, warehouseId) {
             var deferred = $q.defer(),
@@ -73,17 +73,17 @@
 
         /**
          * @ngdoc method
-         * @name checkRightForCurrentUser
          * @methodOf openlmis-auth.userRightFactory
+         * @name checkRightForCurrentUser
          *
          * @description
          * Calls the userRightService to check if currently logged in user has given right.
          *
-         * @param {String} rightName    Name of access right
-         * @param {String} programId    (optional) program UUID
-         * @param {String} facilityId   (optional) facility UUID
-         * @param {String} warehouseId  (optional) warehouse UUID
-         * @return {Promise}            true is user has right, false otherwise
+         * @param  {String}  rightName   Name of access right
+         * @param  {String}  programId   (optional) program UUID
+         * @param  {String}  facilityId  (optional) facility UUID
+         * @param  {String}  warehouseId (optional) warehouse UUID
+         * @return {Promise}             true is user has right, false otherwise
          */
         function checkRightForCurrentUser(rightName, programId, facilityId, warehouseId) {
             var deferred = $q.defer(),

@@ -19,10 +19,11 @@
 
     /**
      * @ngdoc directive
+     * @restrict A
      * @name openlmis-popover.directive:popover
      *
      * @description
-     * This directive wraps Bootstrap's popover implementatation. See the
+     * This directive wraps Bootstrap's popover implementation. See the
      * styleguide documentation for examples of where to apply the popover
      * directive on specific elements.
      *
@@ -47,7 +48,6 @@
      * ```
      * <button popover={{popoverContent}}>Popover</button>
      * ```
-     *
      */
 
     // Element types that shouldn't have a button or click events assigned to them
@@ -76,15 +76,14 @@
 
         /**
          * @ngdoc method
-         * @name link
          * @methodOf openlmis-popover.directive:popover
+         * @name link
          *
          * @description
-         * Link function for the directive, which sets up itms and attributes.
+         * Link function for the directive, which sets up items and attributes.
          *
          * *Most importantly* the popover will be removed if either popover or
          * popover-temple attributes are set to empty strings.
-         *
          */
         function popoverLink(scope, element, attrs) {
             // Scope used to render template frame
@@ -96,8 +95,8 @@
 
             /**
              * @ngdoc property
-             * @name popoverTemplate
              * @propertyOf openlmis-popover.directive:popover
+             * @name popoverTemplate
              * @type {String}
              *
              * @description
@@ -131,8 +130,8 @@
 
             /**
              * @ngdoc property
-             * @name popoverTitle
              * @propertyOf openlmis-popover.directive:popover
+             * @name popoverTitle
              * @type {String}
              *
              * @description
@@ -151,13 +150,13 @@
 
             /**
              * @ngdoc property
-             * @name popoverClass
              * @propertyOf openlmis-popover.directive:popover
+             * @name popoverClass
              * @type {String}
              *
              * @description
              * Additional classes that are applied to the popover. This must be
-             * a string, with different classes seperated by a space.
+             * a string, with different classes separated by a space.
              */
             scope.$watch(function(){
                 return attrs['popoverClass'];
@@ -168,13 +167,12 @@
 
             /**
              * @ngdoc method
-             * @name compilePopover
              * @methodOf openlmis-popover.directive:popover
+             * @name compilePopover
              *
              * @description
              * Creates the popover and it responsible for compiling elements
              * that are shown within the popover.
-             *
              */
             function compilePopover(el){
                 // Using the popover element will require jQuery.popover
@@ -234,13 +232,12 @@
 
             /**
              * @ngdoc method
-             * @name makePopover
              * @methodOf openlmis-popover.directive:popover
+             * @name makePopover
              *
              * @description
-             * Attaches event listenters and extra style to the element and
+             * Attaches event listeners and extra style to the element and
              * popover.
-             *
              */
             function makePopover(){
                 element.addClass('has-popover');
@@ -259,13 +256,12 @@
 
             /**
              * @ngdoc method
-             * @name destroyPopover
              * @methodOf openlmis-popover.directive:popover
+             * @name destroyPopover
              *
              * @description
-             * Removes the popover and any event listenters or classes added to
+             * Removes the popover and any event listeners or classes added to
              * the original element.
-             *
              */
             function destroyPopover(){
                 element.removeClass('has-popover');

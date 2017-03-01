@@ -16,6 +16,12 @@
 (function(){
     "use strict";
 
+    /**
+     * @module openlmis-popover
+     *
+     * @description
+     * This module provides popover directive for other modules.
+     */
     angular.module('openlmis-popover', [
         'openlmis-i18n',
         'openlmis-config'

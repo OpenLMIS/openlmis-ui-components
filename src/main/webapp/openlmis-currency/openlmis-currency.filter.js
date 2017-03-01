@@ -20,15 +20,14 @@
 
     /**
      * @ngdoc filter
-     * @name openlmis-date.period
+     * @name openlmis-currency.filter:openlmisCurrency
      *
      * @description
      * Parses the given currency into more readable form. Depending on whether the settings from
      * referencedata are set it will parse the currency respectively.
      *
-     * @param   {integer}    value      the currency to be formated
-     *
-     * @return  {String}                the formated currency
+     * @param  {Number} value the currency to be formated
+     * @return {String}       the formated currency
      */
     angular
         .module('openlmis-currency')
@@ -36,8 +35,8 @@
 
     filter.$inject = ['currencyService'];
 
-    function filter (currencyService) {
-        return function (value) {
+    function filter(currencyService) {
+        return function(value) {
             if (value != null) {
                 var settings = currencyService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
@@ -54,8 +53,7 @@
 
             return num.replace('.', settings.decimalSeparator)
                       .replace(new RegExp(re, 'g'), '$&' + settings.groupingSeparator);
-        };
-
+        }
     }
 
 })();

@@ -16,7 +16,14 @@
 (function(){
     "use strict";
 
-     angular.module("openlmis-urls")
+    /**
+     * @ngdoc service
+     * @name openlmis-urls.pathFactory
+     *
+     * @description
+     * Builds URLs for different modules.
+     */
+    angular.module('openlmis-urls')
         .factory('pathFactory', pathFactory);
 
     function pathFactory(){

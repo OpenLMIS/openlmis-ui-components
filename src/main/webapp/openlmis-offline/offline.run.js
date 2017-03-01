@@ -17,15 +17,13 @@
     'use strict';
 
     /**
-     *
      * @ngdoc service
-     * @name  openlmis-offline.OfflineInterval
-     * @description 
-     * 
-     * Checks if browser is offline at a predetermined interval by calling
-     * offlineService. Will immedately call offlineService.checkConnection, 
-     * then continually call checkConnection every 30 seconds.
+     * @name openlmis-offline.OfflineInterval
      *
+     * @description
+     * Checks if browser is offline at a predetermined interval by calling
+     * offlineService. Will immediately call offlineService.checkConnection,
+     * then continually call checkConnection every 30 seconds.
      */
     angular
         .module('openlmis-offline')

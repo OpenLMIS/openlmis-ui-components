@@ -19,7 +19,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.form
+     * @restrict E
+     * @name openlmis-form.directive:form
      *
      * @description
      * Dynamically adds novalidate directive to the form.

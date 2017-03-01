@@ -17,14 +17,30 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name requisition-template.RequisitionColumn
+     *
+     * @description
+     * Provides requisition column object with additional methods and info.
+     */
     angular
-    .module('requisition-template')
-    .factory('RequisitionColumn', requisitionColumn);
+        .module('requisition-template')
+        .factory('RequisitionColumn', requisitionColumn);
 
     requisitionColumn.$inject = ['TEMPLATE_COLUMNS', 'COLUMN_SOURCES', 'REQUISITION_STATUS'];
 
     function requisitionColumn(TEMPLATE_COLUMNS, COLUMN_SOURCES, REQUISITION_STATUS) {
 
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-template.RequisitionColumn
+         * @name nonMandatoryFields
+         * @type {Array}
+         *
+         * @description
+         * Contains all non-mandatory fields.
+         */
         var nonMandatoryFields = [
             TEMPLATE_COLUMNS.SKIPPED,
             TEMPLATE_COLUMNS.REMARKS,
@@ -34,6 +50,15 @@
             TEMPLATE_COLUMNS.NUMBER_OF_NEW_PATIENTS_ADDED
         ];
 
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-template.RequisitionColumn
+         * @name dependencies
+         * @type {Array}
+         *
+         * @description
+         * Contains all columns dependencies.
+         */
         var dependencies = {
             stockOnHand: [
                 TEMPLATE_COLUMNS.BEGINNING_BALANCE,
@@ -80,6 +105,15 @@
             ]
         };
 
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-template.RequisitionColumn
+         * @name nonFullSupplyColumns
+         * @type {Array}
+         *
+         * @description
+         * Contains all columns that are visible for non-full supply.
+         */
         var nonFullSupplyColumns = [
             TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
             TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION,
@@ -95,6 +129,18 @@
 
         return RequisitionColumn;
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-template.RequisitionColumn
+         * @name RequisitionColumn
+         *
+         * @description
+         * Adds additional info to requisition column.
+         *
+         * @param  {Object}            column      requisition column object form server
+         * @param  {Object}            requisition requisition object from server
+         * @return {RequisitionColumn}             column with additional info
+         */
         function RequisitionColumn(column, requisition) {
             angular.copy(column, this);
 
@@ -107,6 +153,18 @@
             this.$canChangeOrder = column.columnDefinition.canChangeOrder;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition-template.RequisitionColumn
+         * @name displayColumn
+         *
+         * @description
+         * Adds additional info to requisition column.
+         *
+         * @param  {Object}            column      requisition column object form server
+         * @param  {Object}            requisition requisition object from server
+         * @return {RequisitionColumn}             column with additional info
+         */
         function displayColumn(column, requisition) {
             return column.isDisplayed && (
                 [TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS].indexOf(column.name) === -1 ||

@@ -54,15 +54,15 @@
         };
 
 		/**
-         * @ngdoc function
-         * @name get
+         * @ngdoc method
          * @methodOf proof-of-delivery-view.proofOfDeliveryService
+         * @name get
          *
          * @description
          * Retrieves proof of delivery by id.
          *
-         * @param {String} podId POD UUID
-         * @return {Promise} POD
+         * @param  {String}  podId POD UUID
+         * @return {Promise}       POD
          */
         function get(podId) {
             return resource.get({
@@ -71,15 +71,15 @@
         }
 
 		/**
-         * @ngdoc function
-         * @name save
+         * @ngdoc method
          * @methodOf proof-of-delivery-view.proofOfDeliveryService
+         * @name save
          *
          * @description
          * Saves proof of delivery.
          *
-         * @param {Object} pod POD
-         * @return {Promise} POD
+         * @param  {Object}  pod POD
+         * @return {Promise}     POD
          */
         function save(pod) {
             return resource.save({
@@ -88,15 +88,15 @@
         }
 
 		/**
-         * @ngdoc function
-         * @name submit
+         * @ngdoc method
          * @methodOf proof-of-delivery-view.proofOfDeliveryService
+         * @name submit
          *
          * @description
          * Submits proof of delivery.
          *
-         * @param {String} podId POD UUID
-         * @return {Promise} POD
+         * @param  {String}  podId POD UUID
+         * @return {Promise}       POD
          */
         function submit(podId) {
             return resource.submit({

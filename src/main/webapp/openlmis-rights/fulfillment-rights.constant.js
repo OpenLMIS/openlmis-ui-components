@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name openlmis-rights.FULFILLMENT_RIGHTS
+     *
+     * @description
+     * This is constant for fulfillment rights.
+     */
     angular
         .module('openlmis-rights')
         .constant('FULFILLMENT_RIGHTS', rights());

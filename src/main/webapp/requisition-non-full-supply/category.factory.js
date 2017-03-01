@@ -45,9 +45,9 @@
          * Groups the given products into categories. Program with the given ID is used to group
          * the products.
          *
-         * @param   {Array}     products    the list of products
-         * @param   {String}    programId   the ID of the program
-         * @return  {Array}                 the list of categories with related products
+         * @param  {Array}  products  the list of products
+         * @param  {String} programId the ID of the program
+         * @return {Array}            the list of categories with related products
          */
         function groupProducts(products, programId) {
             var categories = {};

@@ -18,7 +18,7 @@
 
     /**
      * @ngdoc service
-     * @name  openlmis-analytics.analyticsService
+     * @name openlmis-analytics.analyticsService
      *
      * @description
      * Wraps the google analytics object, and initializes the object with the
@@ -39,8 +39,8 @@
 
         /**
          * @ngdoc method
-         * @name  track
          * @methodOf openlmis-analytics.analyticsService
+         * @name track
          *
          * @description
          * Can take any number of arguments and passes them directly to Google Analytics.

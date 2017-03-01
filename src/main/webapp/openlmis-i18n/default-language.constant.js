@@ -16,6 +16,13 @@
 (function() {
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name openlmis-i18n.DEFAULT_LANGUAGE
+     *
+     * @description
+     * Provides default language value.
+     */
     angular
         .module('openlmis-config')
         .constant('DEFAULT_LANGUAGE', '@@DEFAULT_LANGUAGE');

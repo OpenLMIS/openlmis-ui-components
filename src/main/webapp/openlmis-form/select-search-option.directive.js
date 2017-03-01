@@ -19,8 +19,8 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.directive:select-search-option
      * @restrict E
+     * @name openlmis-form.directive:select-search-option
      *
      * @description
      * Disables select dropdown and displays modal with options and search input.

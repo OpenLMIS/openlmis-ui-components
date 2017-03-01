@@ -44,17 +44,15 @@
          * @name search
          *
          * @description
-         * Gets orders from the server using orderService and prepares them to be used in
-         * controller.
+         * Gets orders from the server using orderService and prepares them to be used in controller.
          *
-         * @param   {Object}    searchParams    parameters for searching orders, i.e.
+         * @param {Object}   searchParams parameters for searching orders, i.e.
          * {
          *      program: 'programID',
          *      supplyingFacility: 'facilityID',
          *      requestingFacility: 'facilityID'
          * }
-         * @return  {Promise}                   the promise resolving to a list of all
-         *                                      matching orders
+         * @return {Promise}              the promise resolving to a list of all matching orders
          */
         function search(searchParams) {
             return orderService.search(searchParams);
@@ -68,8 +66,8 @@
          * @description
          * Gets pod for the given order.
          *
-         * @param   {String}    orderId     (optional)  the ID of the given order
-         * @return  {Promise}                           the promise resolving to a POD for the given order
+         * @param  {String}  orderId (optional) the ID of the given order
+         * @return {Promise}         the promise resolving to a POD for the given order
          */
         function getPod(orderId) {
             return orderService.getPod(orderId);
@@ -81,12 +79,11 @@
          * @name searchOrdersForManagePod
          *
          * @description
-         * Gets orders from the server using orderService and filter them by status
+         * Gets orders from the server using orderService and filter them by status.
          *
-         * @param   {String}    requestingFacilityId    (optional) the ID of the requestingFacility
-         * @param   {String}    programId               (optional) the ID of the program
-         * @return  {Promise}                           the promise resolving to a list of all
-         *                                              matching orders
+         * @param  {String}  requestingFacilityId (optional) the ID of the requestingFacility
+         * @param  {String}  programId            (optional) the ID of the program
+         * @return {Promise}                      the promise resolving to a list of all matching orders
          */
         function searchOrdersForManagePod(requestingFacilityId, programId) {
             return orderService.search({

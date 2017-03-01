@@ -17,6 +17,12 @@
 
     'use strict';
 
+    /**
+     * @module referencedata-period
+     *
+     * @description
+     * Responsible for providing period info to other modules.
+     */
     angular.module('referencedata-period', [
         'ngResource',
         'openlmis-urls'

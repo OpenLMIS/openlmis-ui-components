@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name requisition-constants.TEMPLATE_COLUMNS
+     *
+     * @description
+     * This is constant for all requisition columns.
+     */
     angular
         .module('requisition-constants')
         .constant('TEMPLATE_COLUMNS', columns());

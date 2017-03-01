@@ -36,8 +36,8 @@
 
         /**
          * @ngdoc property
-         * @name maxColumnDescriptionLength
          * @propertyOf admin-template-list.controller:ProgramAdministrationListController
+         * @name programList
          * @type {Array}
          *
          * @description
@@ -50,8 +50,8 @@
 
         /**
          * @ngdoc method
-         * @name goToTemplate
          * @methodOf admin-template-list.controller:ProgramAdministrationListController
+         * @name goToTemplate
          *
          * @description
          * Redirects user to template view page.
@@ -66,13 +66,13 @@
 
         /**
          * @ngdoc method
-         * @name canConfigureTemplates
          * @methodOf admin-template-list.controller:ProgramAdministrationListController
+         * @name canConfigureTemplates
          *
          * @description
          * Checks if user has right to configure templates.
          *
-         * @return {Boolean} True if user can configure templates. Otherwise false.
+         * @return {Boolean} true if user can configure templates, false otherwise
          */
         function canConfigureTemplates() {
             return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_TEMPLATES_MANAGE);

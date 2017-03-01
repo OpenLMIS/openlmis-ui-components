@@ -17,6 +17,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc object
+     * @name openlmis-rights.REQUISITION_RIGHTS
+     *
+     * @description
+     * This is constant for requisition rights.
+     */
     angular
         .module('openlmis-rights')
         .constant('REQUISITION_RIGHTS', constant());

@@ -18,10 +18,11 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.input
+     * @restrict E
+     * @name openlmis-form.directive:input
      *
      * @description
-     *
+     * Adds styles and logic for required inputs.
      */
     angular
         .module('openlmis-form')
