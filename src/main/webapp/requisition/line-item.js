@@ -28,12 +28,13 @@
     .module('requisition')
     .factory('LineItem', lineItem);
 
-    lineItem.$inject = ['validationFactory', 'calculationFactory', 'COLUMN_SOURCES', 'COLUMN_TYPES'];
+    lineItem.$inject = ['$timeout', 'validationFactory', 'calculationFactory', 'COLUMN_SOURCES', 'COLUMN_TYPES'];
 
-    function lineItem(validationFactory, calculationFactory, COLUMN_SOURCES, COLUMN_TYPES) {
+    function lineItem($timeout, validationFactory, calculationFactory, COLUMN_SOURCES, COLUMN_TYPES) {
 
         LineItem.prototype.getFieldValue = getFieldValue;
         LineItem.prototype.updateFieldValue = updateFieldValue;
+        LineItem.prototype.updateDependentFields = updateDependentFields;
         LineItem.prototype.canBeSkipped = canBeSkipped;
 
         return LineItem;
@@ -97,6 +98,54 @@
                     object[propertyName] = object[propertyName] ? object[propertyName] : '';
                 }
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition.LineItem
+         * @name deepUpdateDependentFields
+         *
+         * @description
+         * Loops through all the columns and sees if there are other fields 
+         * that must be updated after this field is updated. Will loop through
+         * all related fields, but will only update items once.
+         *
+         * @param {Object} column Requisition template column
+         * @param {Object} requisition Requisition to which line item belongs
+         */
+        function updateDependentFields(column, requisition){
+            var lineItem = this;
+
+            // We are using updated columns to store columns we have already
+            // updated, we can assume that after a 10th of a second all fields
+            // will be updated once already
+            lineItem.updatedColumns = [];
+            updateDependentFieldsHelper(lineItem, column, requisition, []);
+        }
+
+        function updateDependentFieldsHelper(lineItem, column, requisition, updatedColumns){
+
+
+            // Protecting against circular dependancies, by keeping track of the
+            // fields that we have already updated.
+            if(updatedColumns.indexOf(column.name) >= 0){
+                return;
+            } else {
+               updatedColumns.push(column.name);
+            }
+
+            // Update the dependencies for the column
+            angular.forEach(requisition.template.columnsMap, function(dependantColumn){
+                var dependencies = [];
+                if(dependantColumn.$dependencies && Array.isArray(dependantColumn.$dependencies)){
+                    dependencies = dependantColumn.$dependencies;
+                }
+
+                if(dependencies.indexOf(column.name) >= 0){
+                    lineItem.updateFieldValue(dependantColumn, requisition);
+                    updateDependentFieldsHelper(lineItem, dependantColumn, requisition, updatedColumns);
+                }
+            });
         }
 
         /**

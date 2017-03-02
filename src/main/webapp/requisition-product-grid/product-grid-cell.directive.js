@@ -37,11 +37,11 @@
         .directive('productGridCell', productGridCell);
 
     productGridCell.$inject = [
-        '$q', '$templateRequest', '$compile', 'requisitionValidator', 'TEMPLATE_COLUMNS',
+        '$q', '$timeout', '$templateRequest', '$compile', 'requisitionValidator', 'TEMPLATE_COLUMNS',
         'COLUMN_SOURCES', 'COLUMN_TYPES'
     ];
 
-    function productGridCell($q, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
+    function productGridCell($q, $timeout, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
                              COLUMN_SOURCES, COLUMN_TYPES) {
 
         return {
@@ -64,9 +64,13 @@
             scope.validate = validate;
             scope.canNotSkip = canNotSkip;
 
-            angular.forEach(column.$dependencies, function (depencency) {
-                watchDependency(depencency, column);
-            });
+            if(!isReadOnly()){
+                scope.$watch(function(){
+                    return lineItem[column.name];
+                }, function(newValue){
+                    lineItem.updateDependentFields(column, requisition);
+                });
+            }
 
             scope.$watch(function(){
                 if(lineItem.skipped){
@@ -133,23 +137,6 @@
                 return !lineItem.canBeSkipped(scope.requisition);
             }
 
-            function watchDependency(name, column) {
-                var dependent = requisition.template.getColumn(name);
-                if (dependent.$display) {
-                    scope.$watch('lineItem.' + name, function(newValue, oldValue) {
-                        if (newValue !== oldValue) {
-                            if (column.source === COLUMN_SOURCES.CALCULATED) {
-                                scope.lineItem.updateFieldValue(column, requisition);
-                            }
-                            validate();
-                        }
-                    });
-                } else {
-                    angular.forEach(dependent.$dependencies, function (dependency) {
-                        watchDependency(dependency, dependent);
-                    });
-                }
-            }
         }
     }
 

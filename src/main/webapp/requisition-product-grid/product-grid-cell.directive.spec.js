@@ -52,6 +52,9 @@ describe('ProductGridCell', function() {
                 getFieldValue: function() {
                     return "readOnlyFieldValue";
                 },
+                updateDependentFields: function(){
+
+                },
                 $errors: {}
             };
         });
