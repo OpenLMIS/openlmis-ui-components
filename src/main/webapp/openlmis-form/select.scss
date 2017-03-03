@@ -63,10 +63,6 @@ Styleguide 3.4
 select{
 	@extend .form-control;
 
-	& + a.clear{
-		display: none;
-	}
-
 	&[disabled] + a.clear{
 		display: none;
 	}
