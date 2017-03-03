@@ -17,11 +17,8 @@
 				{{$index + 1}}
 			</a>
 		</li>
-		<li class="active"
-			ng-if="vm.page > vm.getTotalPages()">
-			<a>
-				{{vm.page}}
-			</a>
+		<li class="active" ng-if="vm.page > vm.getTotalPages()">
+			<a> {{vm.page}} </a>
 		</li>
 		<li ng-class="{disabled : vm.isLastPage()}">
 			<a ng-click="vm.isLastPage() || vm.nextPage()">
