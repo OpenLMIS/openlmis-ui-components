@@ -2,6 +2,9 @@
 	<div class="pagination-info" ng-if="vm.totalItems">
 		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>
+	<div class="pagination-info" ng-if="!vm.totalItems">
+		{{'msg.showingNoItems' | message}}
+	</div>
 	<ul ng-if="vm.totalItems">
 		<li ng-class="{disabled : vm.isFirstPage()}">
 			<a ng-click="vm.isFirstPage() || vm.previousPage()">
@@ -12,6 +15,12 @@
 			ng-repeat="i in vm.getPages() track by $index">
 			<a ng-click="vm.changePage($index)">
 				{{$index + 1}}
+			</a>
+		</li>
+		<li class="active"
+			ng-if="vm.page > vm.getTotalPages()">
+			<a>
+				{{vm.page}}
 			</a>
 		</li>
 		<li ng-class="{disabled : vm.isLastPage()}">

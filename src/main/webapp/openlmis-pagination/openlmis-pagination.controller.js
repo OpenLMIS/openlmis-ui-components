@@ -132,7 +132,7 @@
          * @return {Array} generated numbers for pagination
          */
         function getPages() {
-            return new Array(getTotalPages());
+            return new Array(Math.max(getTotalPages(), 1));
         }
 
         function getTotalPages() {

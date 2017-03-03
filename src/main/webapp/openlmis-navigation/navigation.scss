@@ -13,70 +13,70 @@ Navigation bar in OpenLMIS can include links, lists of links called submenu and 
 
 markup:
 <header style="height: 240px;">
-  <nav>
-    <ul>
-      <li>
+  <div class="navbar">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
         <a href="">Home</a>
       </li>
-      <li>
-        <a href="">Requisition</a>
-        <div class="submenu">
-          <ul>
-            <li>
+      <li class="dropdown">
+        <a href="" bs-dropdown="dropdown">Requisition</a>
+          <ul class="dropdown-menu">
+            <li class="dropdown">
               <a href="">Create / Authorize</a>
             </li>
-            <li>
+            <li class="dropdown">
               <a href="">Approve</a>
             </li>
-            <li>
+            <li class="dropdown">
               <a href="">Convert to Order</a>
             </li>
-            <li>
+            <li class="dropdown">
               <a href="">View</a>
             </li>
             <li class="beak"></li>
           </ul>
-        </div>
       </li>
-      <li>
-        <a href="">Administration</a>
-        <div class="submenu">
-          <ul>
-            <li>
+      <li class="dropdown">
+        <a href="" bs-dropdown="dropdown">Administration</a>
+          <ul class="dropdown-menu">
+            <li class="dropdown">
               <a href="">Upload</a>
             </li>
-            <li>
+            <li class="dropdown-submenu dropdown">
               <a href="">Configure</a>
-	        <div class="submenu">
-	          <ul>
-		    <li>
-		      <a href="">R & R Template</a>
-		    </li>
-                    <li>
-		      <a href="">Regimen Template</a>
-		    </li>
-                    <li>
-		      <a href="">Program Product ISA</a>
-		    </li>
-		    <li>
-		      <a href="">System Setings</a>
-		    </li>
-		    <li>
-		      <a href="">Other Setings</a>
-		    </li>
-		    <li class="beak"></li>
-		  </ul>
-	      </div>
+	          <ul class="dropdown-menu">
+                <li class="dropdown">
+                  <a href="">R & R Template</a>
+                </li>
+                <li class="dropdown">
+                  <a href="">Regimen Template</a>
+                </li>
+                <li class="dropdown">
+                  <a href="">Program Product ISA</a>
+                </li>
+                <li class="dropdown">
+                  <a href="">System Setings</a>
+                </li>
+                <li class="dropdown">
+                  <a href="">Other Setings</a>
+                </li>
+                <li class="beak"></li>
+              </ul>
             </li>
             <li class="beak"></li>
           </ul>
-        </div>
       </li>
     </ul>
   </div>
-</form>
+</header>
 
 Styleguide 2.1
+*/
+
+/*
+
+
+Styleguide 3.0
 */
 
 header > .navbar {

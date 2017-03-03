@@ -252,6 +252,7 @@
   "msg.select.at.least.one.rnr": "Please select at least one requisition for converting to order.",
   "msg.server.error": "Server error",
   "msg.showing": "Showing",
+  "msg.showingNoItems": "Showing no line items",
   "msg.showingNumOfResults": "Showing ${num} of ${total} results",
   "msg.template.column.dropError": "Cannot drop column here",
   "msg.template.column.calculatedError": "Cannot be CALCULATED together with: ",
