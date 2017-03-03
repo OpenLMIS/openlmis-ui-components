@@ -23,3 +23,13 @@
 		}
 	}
 }
+
+.glyphicon {
+	@extend .fa;
+	&.glyphicon-chevron-right {
+		@extend .fa-chevron-right;
+	}
+	&.glyphicon-chevron-left {
+		@extend .fa-chevron-left;
+	}
+}
