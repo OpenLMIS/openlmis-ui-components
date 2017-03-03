@@ -19,10 +19,11 @@
 
     /**
      * @ngdoc service
-     * @name  openlmis-modal.stateInterceptorListeners
+     * @name openlmis-modal.stateInterceptorListeners
      *
      * @description
      * Closes modal when state is not found or changed with success/error.
+     * It also displays state change errors on the console.
      */
     angular.module('openlmis-modal')
         .run(stateInterceptorListeners);
@@ -33,7 +34,10 @@
             loadingModalService.open(true);
         });
         $rootScope.$on('$stateChangeSuccess', loadingModalService.close);
-        $rootScope.$on('$stateChangeError', loadingModalService.close);
+        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+            console.log(error);
+            loadingModalService.close();
+        });
         $rootScope.$on('$stateNotFound', loadingModalService.close);
     }
 
