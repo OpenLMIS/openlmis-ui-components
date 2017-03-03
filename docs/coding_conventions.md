@@ -129,12 +129,13 @@ To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/an
 
 #### General rules
 * any object's exposed methods or variables must be documented with ngDoc,
+* @ngdoc annotation specifies the type of thing being documented,
 * as 'Type' in documentation we should use: (Promise, Number, String, Boolean, Object, Event, Array, Scope), in some cases is allowed to use other types i.e. class names like Requisition,
 * all description blocks should be sentence based, all of sentences should start with uppercase letter and end with '.',
 * before and after description block (if there is more content) there should be an empty line,
 * all docs should be right above the declaration of method/property/component,
 * when writing param/return section please keep all parts(type, parameter name, description) start at the same column as it is shown in method/property examples below,
-* please keep the order of all parameters as it is in examples below
+* please keep the order of all parameters as it is in examples below,
 
 #### Methods
 Methods for all components should have parameters like in the following example:
@@ -153,11 +154,11 @@ Methods for all components should have parameters like in the following example:
  */
 ```
 
-Parameters should only be present when method takes any and return .
-Parameters also could have "(optional)" prefix in description if it is not required by method.
+Parameters should only be present when method takes any. The same rule apply return part.
+If the parameter is not required by method, it should have "(optional)" prefix in the description.
 
 #### Properties
-Properties should be documented in components when they are exposed, i.e. controllers properties declared in 'vm' should have it.
+Properties should be documented in components when they are exposed, i.e. controllers properties declared in 'vm'.
 Properties should have parameters like in the following example:
 ```
 /**
@@ -172,7 +173,7 @@ Properties should have parameters like in the following example:
 ```
 
 #### Components - Services, Factories, Interceptors etc.
-Component docs are pretty simple, they consist of three parts: ngdoc definition, component name and description.
+Component docs are pretty simple, they consist of three annotation: ngdoc definition, component name and description.
 ```
 /**
  * @ngdoc service
@@ -183,11 +184,10 @@ Component docs are pretty simple, they consist of three parts: ngdoc definition,
  */
 ```
 
-Regardless what actual would be the component (besides those described below) we should use '@ngdoc service' at the start.
+Regardless of the actual component's type, it should have '@ngdoc service' annotation at the start (besides the components described below).
 
 #### Controllers
-Controllers should be documented similar to the other components.
-Only difference is '.controller:' part in @name parameter. It makes controller documentation appear in controllers section.
+The only difference between controllers and other components is the '.controller:' part in the @name annotation. It makes controller documentation appear in controllers section.
 ```
 /**
  * @ngdoc service
@@ -199,7 +199,7 @@ Only difference is '.controller:' part in @name parameter. It makes controller d
 ```
 
 #### Directives
-Directive docs should have well descried '@example' section.
+Directive docs should have well described '@example' section.
 ```
 /**
  * @ngdoc directive
@@ -223,8 +223,8 @@ Directive docs should have well descried '@example' section.
  */
 ```
 
-Directive docs should always have '@restrict' part and use one of: A, E, C, M or any combination of those.
-
+Directive docs should always have '@restrict' annotation that takes as a value one of: A, E, C, M or any combination of those.
+In order to make directive docs appear in directives section there needs to be '.directive:' part in @name annotation.
 
 #### Filters
 Filter docs should follow the pattern from example below:
