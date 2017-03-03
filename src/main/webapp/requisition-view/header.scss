@@ -1,26 +1,8 @@
-aside.requisition-info{
-    padding: $padding2px;
-    display: flex;
-    align-items: center;
-
-    > * {
-        flex: 0 0 auto;
-    }
-
-    dl {
-        flex-grow: 1;
-        padding-top: 1.5em;
-        padding-bottom: 0.5em;
-        margin-left: 1em;
-    }
-}
-
-.requisition-type{
+.requisition-type {
     padding: 1em;
     font-weight: bold;
 
     display: flex;
-    flex-direction: column;
     align-items: center;
 
     &.regular {

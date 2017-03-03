@@ -1,7 +1,3 @@
-aside.pod-info {
-    @extend aside.requisition-info;
-}
-
 .pod-regular {
     @extend .requisition-type;
     @extend .requisition-type.regular;

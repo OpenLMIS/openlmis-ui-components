@@ -5,19 +5,33 @@
     </div>
 
     <dl>
-        <dt>{{'label.orderNumber' | message}}</dt>
-        <dd>{{vm.pod.order.orderCode}}</dd>
-        <dt>{{'label.facility' | message}}</dt>
-        <dd>{{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}</dd>
-        <dt>{{'label.orderDate' | message}}</dt>
-        <dd>{{vm.pod.order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</dd>
-        <dt>{{'label.reportingPeriod' | message}}</dt>
-        <dd>{{vm.pod.order.processingPeriod | period}}</dd>
-        <dt>{{'label.supplyingDepot' | message}}</dt>
-        <dd>{{vm.pod.order.supplyingFacility.name}}</dd>
-        <dt ng-if="vm.pod.order.facility.geographicZone.parent.name">{{'label.district' | message}}</dt>
-        <dd ng-if="vm.pod.order.facility.geographicZone.parent.name">{{vm.pod.order.facility.geographicZone.parent.name}}</dd>
-        <dt>{{'label.region' | message}}</dt>
-        <dd>{{vm.pod.order.facility.geographicZone.name}}</dd>
+        <div>
+            <dt>{{'label.orderNumber' | message}}</dt>
+            <dd>{{vm.pod.order.orderCode}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.facility' | message}}</dt>
+            <dd>{{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.orderDate' | message}}</dt>
+            <dd>{{vm.pod.order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.reportingPeriod' | message}}</dt>
+            <dd>{{vm.pod.order.processingPeriod | period}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.supplyingDepot' | message}}</dt>
+            <dd>{{vm.pod.order.supplyingFacility.name}}</dd>
+        </div>
+        <div>
+            <dt ng-if="vm.pod.order.facility.geographicZone.parent.name">{{'label.district' | message}}</dt>
+            <dd ng-if="vm.pod.order.facility.geographicZone.parent.name">{{vm.pod.order.facility.geographicZone.parent.name}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.region' | message}}</dt>
+            <dd>{{vm.pod.order.facility.geographicZone.name}}</dd>
+        </div>
     </dl>
 </aside>

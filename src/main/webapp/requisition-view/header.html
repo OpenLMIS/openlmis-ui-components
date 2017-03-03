@@ -3,16 +3,26 @@
         <span>{{vm.requisitionType | message}}</span>
     </div>
 
-    <dl class="requisition-head-block">
-        <dt>{{'label.facility'|message}}</dt>
-        <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
-        <dt>{{'label.facility.operatedBy' | message}}</dt>
-        <dd>{{vm.requisition.facility.operator.name}}</dd>
-        <dt>{{'label.region' | message}}</dt>
-        <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
-        <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
-        <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
-        <dt>{{'label.reportingPeriod' | message}}</dt>
-        <dd>{{vm.requisition.processingPeriod | period}}</dd>
+    <dl>
+        <div>
+            <dt>{{'label.facility'|message}}</dt>
+            <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.facility.operatedBy' | message}}</dt>
+            <dd>{{vm.requisition.facility.operator.name}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.region' | message}}</dt>
+            <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
+        </div>
+        <div>
+            <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
+            <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
+        </div>
+        <div>
+            <dt>{{'label.reportingPeriod' | message}}</dt>
+            <dd>{{vm.requisition.processingPeriod | period}}</dd>
+        </div>
     </dl>
 </aside>

@@ -1,6 +1,22 @@
 .page aside {
-  @include clearfix();
   position: relative;
+  padding: $padding2px;
+  display: flex;
+  align-items: stretch;
+
+  dl {
+      display: flex;
+      flex-wrap: wrap;
+      flex-grow: 1;
+      justify-content: space-around;
+      margin: 0em;
+      margin-left: 1em;
+      float: left;
+  }
+
+  dl div {
+      padding-bottom: 0.5em;
+  }
 
   padding: 1em;
 
@@ -14,28 +30,13 @@
     right: 0em;
   }
 
-  dl {
-    display: flex;
-    margin: 0em;
-  }
-
   dt {
-    display: block;
-    flex: 0 0 auto;
     width: 0;
-    position: relative;
     top: -1.2em;
     white-space: nowrap;
   }
 
   dd {
-    display: block;
-    flex: 1 0 auto;
     padding-right: 1em;
-
-    &:last-child {
-      padding-right: 0;
-    }
   }
-
 }
