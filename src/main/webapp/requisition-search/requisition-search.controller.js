@@ -21,7 +21,7 @@
      * @name requisition-search.controller:RequisitionViewController
      *
      * @description
-     * Controller for requisition view page
+     * Controller for requisition view page.
      */
     angular
         .module('requisition-search')

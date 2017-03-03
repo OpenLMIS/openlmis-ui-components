@@ -19,9 +19,28 @@
 
     /**
      * @ngdoc filter
-     * @name requisition-search.requisitionSearch
+     * @name requisition-search.filter:requisitionSearch
      *
-     * @description Filters requisitions by given params.
+     * @description
+     * Filters requisitions by given params.
+     *
+     * @param  {Array}  input  the list of requisitions to be filtered
+     * @param  {Object} params the list of optional parameters and their desired values
+     * {
+     *      program: 'programID',
+     *      facility: 'facilityID',
+     *      initiatedDateFrom: 'startDate',
+     *      initiatedDateTo: 'endDate',
+     *      requisitionStatus: ['status1', 'status2'],
+     *      emergency: false
+     * }
+     * @return {Array}         filtered requisitions
+     *
+     * @example
+     * This filter is mainly used in JS code rather than in HTML markup.
+     * ```
+     * var filteredRequisition = $filter('requisitionSearch')(requisition, params);
+     * ```
      */
     angular
         .module('requisition-search')
