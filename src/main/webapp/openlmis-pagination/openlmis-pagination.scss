@@ -1,3 +1,33 @@
+/*
+Pagination
+
+Provides pagination for table in OpenLMIS.
+
+* `total-items` - stores the total amount of all items.
+* `items` - the list of all items used for extracting pages. If external pagination is used this is a list of items on the current page.
+* `page-size` - quantity of items on one page.
+
+If no results:
+ * the showing `Showing no items`.
+
+If there is a total of results, but we somehow got a page that doesn’t exist:
+ * the showing `Showing 0 of N items`.
+ * pages list shows incorrect page number, and last correct page numbers.
+
+Example:
+
+<openlmis-pagination
+    ng-model="vm.stateParams.page"
+    total-items="100"
+    items="5"
+    page-size="10">
+</openlmis-pagination>
+
+Styleguide 2.2
+*/
+
+
+
 .openlmis-pagination {
 
     display: flex;

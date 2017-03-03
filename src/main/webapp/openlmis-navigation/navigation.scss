@@ -12,7 +12,7 @@ Header navigation bar
 Navigation bar in OpenLMIS can include links, lists of links called submenu and headings providing description for these items.
 
 markup:
-<header style="height: 240px;">
+<header style="height: 200px;">
   <div class="navbar">
     <ul class="nav navbar-nav">
       <li class="dropdown">
@@ -55,10 +55,10 @@ markup:
                   <a href="">Program Product ISA</a>
                 </li>
                 <li class="dropdown">
-                  <a href="">System Setings</a>
+                  <a href="">System Settings</a>
                 </li>
                 <li class="dropdown">
-                  <a href="">Other Setings</a>
+                  <a href="">Other Settings</a>
                 </li>
                 <li class="beak"></li>
               </ul>
@@ -73,11 +73,6 @@ markup:
 Styleguide 2.1
 */
 
-/*
-
-
-Styleguide 3.0
-*/
 
 header > .navbar {
   @include clearfix();
