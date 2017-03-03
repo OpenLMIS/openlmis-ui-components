@@ -135,7 +135,7 @@ To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/an
 * before and after description block (if there is more content) there should be an empty line,
 * all docs should be right above the declaration of method/property/component,
 * when writing param/return section please keep all parts(type, parameter name, description) start at the same column as it is shown in method/property examples below,
-* please keep the order of all parameters as it is in examples below,
+* please keep the order of all parameters as it is in examples below.
 
 #### Methods
 Methods for all components should have parameters like in the following example:
@@ -154,7 +154,7 @@ Methods for all components should have parameters like in the following example:
  */
 ```
 
-Parameters should only be present when method takes any. The same rule apply return part.
+Parameters should only be present when method takes any. The same rule applies to return annotation.
 If the parameter is not required by method, it should have "(optional)" prefix in the description.
 
 #### Properties
@@ -173,7 +173,7 @@ Properties should have parameters like in the following example:
 ```
 
 #### Components - Services, Factories, Interceptors etc.
-Component docs are pretty simple, they consist of three annotation: ngdoc definition, component name and description.
+Component docs are pretty simple, they consist of three annotations: ngdoc definition, component name and description.
 ```
 /**
  * @ngdoc service
