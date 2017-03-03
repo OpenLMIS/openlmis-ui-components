@@ -127,7 +127,141 @@ General conventions:
 ### Documentation
 To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation) built with [grunt-ngdocs.](https://www.npmjs.com/package/grunt-ngdocs)
 
-* Any object's exposed methods or variables must be documented with ngDoc
+#### General rules
+* any object's exposed methods or variables must be documented with ngDoc,
+* as 'Type' in documentation we should use: (Promise, Number, String, Boolean, Object, Event, Array, Scope), in some cases is allowed to use other types i.e. class names like Requisition,
+* all description blocks should be sentence based, all of sentences should start with uppercase letter and end with '.',
+* before and after description block (if there is more content) there should be an empty line,
+* all docs should be right above the declaration of method/property/component,
+* when writing param/return section please keep all parts(type, parameter name, description) start at the same column as it is shown in method/property examples below,
+* please keep the order of all parameters as it is in examples below
+
+#### Methods
+Methods for all components should have parameters like in the following example:
+```
+/**
+ * @ngdoc method
+ * @methodOf module-name.componentName
+ * @name methodName
+ *
+ * @description
+ * Method description.
+ *
+ * @param  {Type} paramsName1 param1 description
+ * @param  {Type} paramsName2 (optional) param2 description
+ * @return {Type}             returned object description
+ */
+```
+
+Parameters should only be present when method takes any and return .
+Parameters also could have "(optional)" prefix in description if it is not required by method.
+
+#### Properties
+Properties should be documented in components when they are exposed, i.e. controllers properties declared in 'vm' should have it.
+Properties should have parameters like in the following example:
+```
+/**
+ * @ngdoc property
+ * @propertyOf module-name.componentName
+ * @name propertyName
+ * @type {Type}
+ *
+ * @description
+ * Property description.
+ */
+```
+
+#### Components - Services, Factories, Interceptors etc.
+Component docs are pretty simple, they consist of three parts: ngdoc definition, component name and description.
+```
+/**
+ * @ngdoc service
+ * @name module-name.componentName
+ *
+ * @description
+ * Component description.
+ */
+```
+
+Regardless what actual would be the component (besides those described below) we should use '@ngdoc service' at the start.
+
+#### Controllers
+Controllers should be documented similar to the other components.
+Only difference is '.controller:' part in @name parameter. It makes controller documentation appear in controllers section.
+```
+/**
+ * @ngdoc service
+ * @name module-name.controller:controllerName
+ *
+ * @description
+ * Controller description.
+ */
+```
+
+#### Directives
+Directive docs should have well descried '@example' section.
+```
+/**
+ * @ngdoc directive
+ * @restrict A
+ * @name module-name.directive:directiveName
+ *
+ * @description
+ * Directive description.
+ *
+ * @example
+ * Short description of how to use it.
+ * ```
+ *   <div directiveName></div>
+ * ```
+ * Now you can show how the markup will look like after applying directive code.
+ * ```
+ * <div directiveName>
+ *     <div>something</div>
+ * </div>
+ * ```
+ */
+```
+
+Directive docs should always have '@restrict' part and use one of: A, E, C, M or any combination of those.
+
+
+#### Filters
+Filter docs should follow the pattern from example below:
+```
+/**
+ * @ngdoc filter
+ * @name module-name.filter:filterName
+ *
+ * @description
+ * Filter description.
+ *
+ * @param   {Type} input     input description
+ * @param   {Type} parameter parameter description
+ * @return  {Type}           returned value description
+ *
+ * @example
+ * You could have short description of what example is about etc.
+ * ```
+ * <div>{{valueToBeFiltered | filterName:parameter}}</div>
+ * ```
+ */
+```
+
+It is a good practice to add example block at the end to make clear how to use it.
+As for parameters the first one should be describing input of the filter.
+Please remember of '.filter:' part. It will make sure that this one will appear in filters section.
+
+#### Modules
+Docs for modules should consist only from module name and description, as in following example:
+```
+/**
+ * @module module-name
+ *
+ * @description
+ * Some module description.
+ */
+```
 
 ### Unit Testing Guidelines
 A unit tests has 3 goals that it should accomplish to test a javascript object:
