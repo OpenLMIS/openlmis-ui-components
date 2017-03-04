@@ -88,7 +88,7 @@
                     if(!element.children('option[selected="selected"]:not(.placeholder)').length){
                         createEmptyOption();
                         clearLink.remove();
-                    } else if ('required' in attrs) {
+                    } else if (attrs['required']) {
                         clearLink.remove();
                         emptyOption.remove();
                     } else {
