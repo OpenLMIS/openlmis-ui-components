@@ -103,26 +103,36 @@
         /**
          * @ngdoc method
          * @methodOf requisition.LineItem
-         * @name deepUpdateDependentFields
+         * @name updateDependentFields
          *
          * @description
-         * Loops through all the columns and sees if there are other fields 
-         * that must be updated after this field is updated. Will loop through
-         * all related fields, but will only update items once.
+         * This field kicks off updating each of a columns dependancies. The 
+         * actual work done by the updateDependentFieldsHelper function, this
+         * function just starts the process.
          *
          * @param {Object} column Requisition template column
          * @param {Object} requisition Requisition to which line item belongs
          */
         function updateDependentFields(column, requisition){
-            var lineItem = this;
-
-            // We are using updated columns to store columns we have already
-            // updated, we can assume that after a 10th of a second all fields
-            // will be updated once already
-            lineItem.updatedColumns = [];
-            updateDependentFieldsHelper(lineItem, column, requisition, []);
+            updateDependentFieldsHelper(this, column, requisition, []);
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf requisition.LineItem
+         * @name updateDependentFieldsHelper
+         *
+         * @description
+         * Recursively goes through a column's dependencies, updating their
+         * values. All columns are only updated once, because of the updated 
+         * columns field that recursively tracks dependencies.
+         *
+         * @param {Object} lineItem Reference to the lineItem being updated
+         * @param {Object} column Requisition template column
+         * @param {Object} requisition Requisition to which line item belongs
+         * @param {Array} updatedColums Arry of column names that have already been updated
+         * 
+         */
         function updateDependentFieldsHelper(lineItem, column, requisition, updatedColumns){
 
 
