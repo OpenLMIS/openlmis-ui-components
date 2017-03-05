@@ -125,17 +125,41 @@ General conventions:
 * All Angular object names should be written in CamelCase
 
 ### Documentation
-To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation) built with [grunt-ngdocs.](https://www.npmjs.com/package/grunt-ngdocs)
+To document the OpenLMIS-UI, we are using [ngDocs](https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation) built with [grunt-ngdocs.](https://www.npmjs.com/package/grunt-ngdocs) See individual object descriptions for specifics and examples of how to document that object type.
 
 #### General rules
-* any object's exposed methods or variables must be documented with ngDoc,
-* @ngdoc annotation specifies the type of thing being documented,
-* as 'Type' in documentation we should use: (Promise, Number, String, Boolean, Object, Event, Array, Scope), in some cases is allowed to use other types i.e. class names like Requisition,
-* all description blocks should be sentence based, all of sentences should start with uppercase letter and end with '.',
-* before and after description block (if there is more content) there should be an empty line,
-* all docs should be right above the declaration of method/property/component,
-* when writing param/return section please keep all parts(type, parameter name, description) start at the same column as it is shown in method/property examples below,
-* please keep the order of all parameters as it is in examples below.
+* any object's exposed methods or variables must be documented with ngDoc
+* @ngdoc annotation specifies the type of thing being documented
+* as 'Type' in documentation we should use:
+ * Promise
+ * Number
+ * String
+ * Boolean
+ * Object
+ * Event
+ * Array
+ * Scope
+ * in some cases is allowed to use other types i.e. class names like Requisition
+* all description blocks should be sentence based, all of sentences should start with uppercase letter and end with '.'
+* before and after description block (if there is more content) there should be an empty line
+* all docs should be right above the declaration of method/property/component
+* when writing param/return section please keep all parts(type, parameter name, description) start at the same column as it is shown in method/property examples below
+* please keep the order of all parameters as it is in examples below
+
+#### General Object Documentation
+Regardless of the actual component's type, it should have '@ngdoc service' annotation at the start, unless the specific object documentation says otherwise. There are three annotations that must be present:
+* ngdoc definition
+* component name
+* and description
+```
+/**
+ * @ngdoc service
+ * @name module-name.componentName
+ *
+ * @description
+ * Component description.
+ */
+```
 
 #### Methods
 Methods for all components should have parameters like in the following example:
@@ -172,97 +196,6 @@ Properties should have parameters like in the following example:
  */
 ```
 
-#### Components - Services, Factories, Interceptors etc.
-Component docs are pretty simple, they consist of three annotations: ngdoc definition, component name and description.
-```
-/**
- * @ngdoc service
- * @name module-name.componentName
- *
- * @description
- * Component description.
- */
-```
-
-Regardless of the actual component's type, it should have '@ngdoc service' annotation at the start (besides the components described below).
-
-#### Controllers
-The only difference between controllers and other components is the '.controller:' part in the @name annotation. It makes controller documentation appear in controllers section.
-```
-/**
- * @ngdoc service
- * @name module-name.controller:controllerName
- *
- * @description
- * Controller description.
- */
-```
-
-#### Directives
-Directive docs should have well described '@example' section.
-```
-/**
- * @ngdoc directive
- * @restrict A
- * @name module-name.directive:directiveName
- *
- * @description
- * Directive description.
- *
- * @example
- * Short description of how to use it.
- * ```
- *   <div directiveName></div>
- * ```
- * Now you can show how the markup will look like after applying directive code.
- * ```
- * <div directiveName>
- *     <div>something</div>
- * </div>
- * ```
- */
-```
-
-Directive docs should always have '@restrict' annotation that takes as a value one of: A, E, C, M or any combination of those.
-In order to make directive docs appear in directives section there needs to be '.directive:' part in @name annotation.
-
-#### Filters
-Filter docs should follow the pattern from example below:
-```
-/**
- * @ngdoc filter
- * @name module-name.filter:filterName
- *
- * @description
- * Filter description.
- *
- * @param   {Type} input     input description
- * @param   {Type} parameter parameter description
- * @return  {Type}           returned value description
- *
- * @example
- * You could have short description of what example is about etc.
- * ```
- * <div>{{valueToBeFiltered | filterName:parameter}}</div>
- * ```
- */
-```
-
-It is a good practice to add example block at the end to make clear how to use it.
-As for parameters the first one should be describing input of the filter.
-Please remember of '.filter:' part. It will make sure that this one will appear in filters section.
-
-#### Modules
-Docs for modules should consist only from module name and description, as in following example:
-```
-/**
- * @module module-name
- *
- * @description
- * Some module description.
- */
-```
-
 ### Unit Testing Guidelines
 A unit tests has 3 goals that it should accomplish to test a javascript object:
 * Checks success, error, and edge cases
@@ -280,7 +213,22 @@ Here are some general rules to keep in mind while writing any unit tests:
 ### Angular V1 Object Guidelines
 AngularJS has many different object types — here are the following types the OpenLMIS-UI primarily uses. If there is a need for object types not documented, please refer to the John Papa Angular V1 styleguide.
 
-### Replaced Values
+
+#### Modules
+Modules in angular should describe and bind together a small unit of functionality. The OpenLMIS-UI build process should construct larger module units from theses small units.
+
+##### Documentation
+Docs for modules must contain the module name and description. This should be thought of as an overview for the other obects within the module, and where appropriate gives an overview of how the modules fit together.
+```
+/**
+ * @module module-name
+ *
+ * @description
+ * Some module description.
+ */
+```
+
+#### Replaced Values
 @@ should set own default values
 
 #### Constants
@@ -388,9 +336,26 @@ It is also worth noting that [John Papa insists that controllers don't directly 
 * Use ControllerAs syntax
 * Don't $watch variables, use on-change or refactor to use a directive to watch values
 
-###### Unit Testing Conventions
+##### Unit Testing
 * Set all items that would be required from a route when the Controller is instantiated
 * Mock any services used by the controller
+
+##### Documentation
+The only difference between controllers and other components is the
+'.controller:' part in the @name annotation. It makes controller documentation
+appear in controllers section. Be sure to document the methods and properties
+that the controller exposes.
+
+```
+/**
+ * @ngdoc service
+ * @name module-name.controller:controllerName
+ *
+ * @description
+ * Controller description.
+ *
+ */
+```
 
 #### Routes
 Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where a URL path is typically paired with an HTML View and Controller.
@@ -453,6 +418,35 @@ describe('SampleDirective', function(){
 });
 ```
 
+##### Documentation
+Directive docs should have well described '@example' section. 
+
+Directive docs should always have '@restrict' annotation that takes as a value one of: A, E, C, M or any combination of those.
+In order to make directive docs appear in directives section there needs to be '.directive:' part in @name annotation.
+
+```
+/**
+ * @ngdoc directive
+ * @restrict A
+ * @name module-name.directive:directiveName
+ *
+ * @description
+ * Directive description.
+ *
+ * @example
+ * Short description of how to use it.
+ * ```
+ *   <div directiveName></div>
+ * ```
+ * Now you can show how the markup will look like after applying directive code.
+ * ```
+ * <div directiveName>
+ *     <div>something</div>
+ * </div>
+ * ```
+ */
+```
+
 #### Modal
 A modal object isn't a 'native Angular object' — it is a service or factory that displays a modal window. This is done for convience and because it allows modal windows to not be declared in html files — and be used more easily by controllers (or even services, if appropriate).
 
@@ -497,6 +491,35 @@ describe('SampleModal', function(){
 });
 
 ```  
+
+#### Filters
+[Stub]
+
+##### Documentation
+Filter docs should follow the pattern from example below:
+```
+/**
+ * @ngdoc filter
+ * @name module-name.filter:filterName
+ *
+ * @description
+ * Filter description.
+ *
+ * @param   {Type} input     input description
+ * @param   {Type} parameter parameter description
+ * @return  {Type}           returned value description
+ *
+ * @example
+ * You could have short description of what example is about etc.
+ * ```
+ * <div>{{valueToBeFiltered | filterName:parameter}}</div>
+ * ```
+ */
+```
+
+It is a good practice to add example block at the end to make clear how to use it.
+As for parameters the first one should be describing input of the filter.
+Please remember of '.filter:' part. It will make sure that this one will appear in filters section.
 
 #### HTML Views
 Angular allows HTML files to have variables and simple logic evaluated within the markup.
