@@ -1,18 +1,11 @@
 /*
 Pagination
 
-Provides pagination for table in OpenLMIS.
+The pagination component can be added to any list or table that has paginatied
+content. We recommend using a paginated list for any list longer than 20 items.
 
-* `total-items` - stores the total amount of all items.
-* `items` - the list of all items used for extracting pages. If external pagination is used this is a list of items on the current page.
-* `page-size` - quantity of items on one page.
-
-If no results:
- * the showing `Showing no items`.
-
-If there is a total of results, but we somehow got a page that doesn’t exist:
- * the showing `Showing 0 of N items`.
- * pages list shows incorrect page number, and last correct page numbers.
+See the documentation for the [openlmis-pagination directive](../docs/index.html#/api/openlmis-pagination.directive:openlmisPagination)
+for information about how to use the component.
 
 Example:
 
