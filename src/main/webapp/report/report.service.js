@@ -44,6 +44,18 @@
         this.getReports = getReports;
         this.getReportParamsOptions = getReportParamsOptions;
 
+        /**
+         * @ngdoc function
+         * @name getReport
+         * @methodOf report.reportService
+         *
+         * @description
+         * Retrieves a report with the given ID for a module.
+         *
+         * @param {String} module The module to retrieve the report from (for example requisitions).
+         * @param {String} id The ID of the report.
+         * @return {Promise} The promise for the report.
+         */
         function getReport(module, id) {
             return resource.get({
                 module: module,
@@ -51,12 +63,37 @@
             }).$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReports
+         * @methodOf report.reportService
+         *
+         * @description
+         * Retrieves all reports for the given module.
+         *
+         * @param {String} module The module to retrieve the report from (for example requisitions).
+         * @return {Promise} The promise for the report array.
+         */
         function getReports(module) {
             return resource.getReports({
                 module: module
             }).$promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReportParamsOptions
+         * @methodOf report.reportService
+         *
+         * @description
+         * Retrieves parameter options for a report - each report gives the user an option to
+         * select parameters that apply only to this report. This will return options for a given
+         * parameter, which is identified through the uri parameter.
+         *
+         * @param {String} uri The uri to retrieve the parameter options from, should point to an
+         *                     uri under which options for the given report are available.
+         * @return {Promise} The promise for report params.
+         */
         function getReportParamsOptions(uri) {
             return $http({
                 method: 'GET',

@@ -40,11 +40,61 @@
 
         vm.downloadReport = downloadReport;
 
+        /**
+         * @ngdoc property
+         * @name report
+         * @propertyOf report.controller:ReportGenerateController
+         * @type {Object}
+         *
+         * @description
+         * The object representing the selected report.
+         */
         vm.report = report;
+
+        /**
+         * @ngdoc property
+         * @name paramsOptions
+         * @propertyOf report.ReportGenerateController
+         * @type {Array}
+         *
+         * @description
+         * The param options for this report, by param. A param can have multiple options, for
+         * example a period param, will have all available periods as options. Objects containing
+         * 'value' and 'displayName' properties.
+         */
         vm.paramsOptions = reportParamsOptions;
+
+        /**
+         * @ngdoc property
+         * @name selectedParamsOptions
+         * @propertyOf report.ReportGenerateController
+         * @type {Array}
+         *
+         * @description
+         * The collection of selected options by param name.
+         */
         vm.selectedParamsOptions = {};
+
+        /**
+         * @ngdoc property
+         * @name format
+         * @propertyOf report.ReportGenerateController
+         * @type {String}
+         *
+         * @description
+         * The format selected for the report. Either 'pdf' (default), 'csv', 'xls' or 'html'.
+         */
         vm.format = 'pdf';
 
+        /**
+         * @ngdoc method
+         * @name downloadReport
+         * @methodOf report.ReportGenerateController
+         *
+         * @description
+         * Downloads the report. Opens a new tab that redirects to the actual download report
+         * url, passing selected param options as well as the selected format.
+         */
         function downloadReport() {
             $window.open(
                 accessTokenFactory.addAccessToken(

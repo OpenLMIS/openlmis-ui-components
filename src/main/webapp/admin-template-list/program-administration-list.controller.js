@@ -36,8 +36,8 @@
 
         /**
          * @ngdoc property
+         * @name programs
          * @propertyOf admin-template-list.controller:ProgramAdministrationListController
-         * @name programList
          * @type {Array}
          *
          * @description

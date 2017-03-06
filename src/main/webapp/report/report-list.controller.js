@@ -23,7 +23,7 @@
      * @name report.controller:ReportListController
      *
      * @description
-     * Controller for report list view page
+     * Controller for report list view page.
      */
     angular
         .module('report')
@@ -34,7 +34,17 @@
     function controller($state, reports) {
         var vm = this;
 
+       /**
+         * @ngdoc property
+         * @name reports
+         * @propertyOf report.controller:ReportListController
+         * @type {Array}
+         *
+         * @description
+         * The list of all available reports.
+         */
         vm.reports = reports;
+
         vm.goToReport = goToReport;
 
         /**

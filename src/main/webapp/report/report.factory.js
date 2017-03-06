@@ -39,6 +39,19 @@
         };
         return factory;
 
+        /**
+         * @ngdoc function
+         * @name getReport
+         * @methodOf report.reportFactory
+         *
+         * @description
+         * Retrieves a report with the given ID for a module. Uses getReport() from the report
+         * service.
+         *
+         * @param {String} module The module to retrieve the report from (for example requisitions).
+         * @param {String} id The ID of the report.
+         * @return {Promise} The promise for the report.
+         */
         function getReport(module, id) {
             var deferred = $q.defer();
 
@@ -50,6 +63,17 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReports
+         * @methodOf report.reportFactory
+         *
+         * @description
+         * Retrieves all reports for the given module. Uses getReport() from the report service.
+         *
+         * @param {String} module The module to retrieve the report from (for example requisitions).
+         * @return {Promise} The promise for the report array.
+         */
         function getReports(module) {
             var deferred = $q.defer();
 
@@ -63,6 +87,17 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReportParamsOptions
+         * @methodOf report.reportFactory
+         *
+         * @description
+         * Retrieves all reports, from all available modules. Currently 'requisitions' is the only
+         * supported report module.
+         *
+         * @return {Promise} The promise for all the reports.
+         */
         function getAllReports() {
             var promises = [],
                 deferred = $q.defer();
@@ -84,6 +119,19 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReportParamsOptions
+         * @methodOf report.reportFactory
+         *
+         * @description
+         * Retrieves parameter options for a report - each report gives the user an option to
+         * select parameters that apply only this report. This returns options for all params of
+         * the report.
+         *
+         * @param {String} report The report object for which params should be retrieved.
+         * @return {Promise} The promise for report params.
+         */
         function getReportParamsOptions(report) {
             var deferred = $q.defer(),
                 promises = [],
@@ -113,6 +161,27 @@
             return deferred.promise;
         }
 
+        /**
+         * @ngdoc function
+         * @name getReportParamsOptions
+         * @methodOf report.reportFactory
+         *
+         * @description
+         * Retrieves parameter options for a report param - each report gives the user an option to
+         * select parameters that apply only to this report. Uses getReportParamsOptions() from the
+         * report service. This returns a list of items available as options for the param, each
+         * with a 'value' and a 'displayName'
+         * property.
+         *
+         * @param {String} uri The uri under which the param options will be retrieved.
+         * @param {String} property The name of the property that will be treated as the value
+         *                          of the param (from the retrieved JSON). If not provided, the
+         *                          object itself will be treated as the value.
+         * @param {String} displayName The name of the property that will be treated as the display
+         *                             name of the param (from the retrieved JSON). If not provided,
+         *                             the value will be used as a display name.
+         * @return {Promise} The promise for report params.
+         */
         function getReportParamOptions(uri, property, displayName) {
             var deferred = $q.defer();
 
