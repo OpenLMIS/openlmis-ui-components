@@ -15,7 +15,8 @@
 
 describe('periodFactory', function() {
 
-    var $rootScope, $q, periodServiceMock, requisitionServiceMock, periodFactor, periodOne, periodTwo, requisition;
+    var $rootScope, $q, periodServiceMock, requisitionServiceMock, periodFactory, periodOne,
+        requisition;
 
     beforeEach(function() {
         module('requisition-initiate', function($provide){
@@ -42,12 +43,6 @@ describe('periodFactory', function() {
             name: 'period1',
             startDate: 'date1',
             endDate: 'date2'
-        };
-        periodTwo = {
-            id: '2',
-            name: 'period2',
-            startDate: 'date3',
-            endDate: 'date4'
         };
 
         requisition = {
