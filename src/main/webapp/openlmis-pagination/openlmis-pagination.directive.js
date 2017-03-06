@@ -24,15 +24,31 @@
      *
      * @description
      * Provides pagination for table. Allows to add method for validating pages.
+     *
      * `totalItems` - stores the total amount of all items.
+     *
      * `items` - the list of all items used for extracting pages. If external pagination is used this is a list of items on the current page.
+     *
      * `pageSize` - quantity of items on one page.
+     *
      * `pageValidator` - validates whether page with the given name is valid.
+     *
      * If no results:
      * - the showing `Showing no items`.
+     *
      * If the given page number is greater than last page:
      * - the showing `Showing 0 of N items`.
      * - pages list shows incorrect page number, and last correct page numbers.
+     *
+     * @example
+     * ```
+     * <openlmis-pagination
+     *   ng-model="vm.stateParams.page"
+     *   total-items="100"
+     *   items="5"
+     *   page-size="10">
+     * </openlmis-pagination>
+     * ```
      */
 	angular
 		.module('openlmis-pagination')
