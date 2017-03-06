@@ -15,16 +15,22 @@
 
 describe('reportService', function() {
 
-    var $rootScope, $httpBackend, reportService,
+    var $rootScope, $httpBackend, reportService, urlFactoryMock,
         report, report2, paramOptions,
         REPORT_ID = '574425e4-0288-11e7-bcbe-3417eb83144e',
         REPORT_ID2 = '84a6b8a2-0289-11e7-a4b0-3417eb83144e',
         REQUISITIONS = 'requisitions',
         SELECT_EXPRESSION = '/api/periods';
 
-    beforeEach(function() {
-        module('report', function() {
-            // no additional mocks required
+    beforeEach(function($provide) {
+        module('report', function($provide) {
+            urlFactoryMock = jasmine.createSpy();
+            $provide.factory('openlmisUrlFactory', function() {
+                return urlFactoryMock;
+            });
+            urlFactoryMock.andCallFake(function(parameter) {
+                return parameter;
+            });
         });
 
         inject(function(_$httpBackend_, _$rootScope_, _reportService_) {
