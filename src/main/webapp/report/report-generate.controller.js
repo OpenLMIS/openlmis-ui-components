@@ -54,7 +54,7 @@
         /**
          * @ngdoc property
          * @name paramsOptions
-         * @propertyOf report.ReportGenerateController
+         * @propertyOf report.controller:ReportGenerateController
          * @type {Array}
          *
          * @description
@@ -67,7 +67,7 @@
         /**
          * @ngdoc property
          * @name selectedParamsOptions
-         * @propertyOf report.ReportGenerateController
+         * @propertyOf report.controller:ReportGenerateController
          * @type {Array}
          *
          * @description
@@ -78,7 +78,7 @@
         /**
          * @ngdoc property
          * @name format
-         * @propertyOf report.ReportGenerateController
+         * @propertyOf report.controller:ReportGenerateController
          * @type {String}
          *
          * @description
@@ -89,7 +89,7 @@
         /**
          * @ngdoc method
          * @name downloadReport
-         * @methodOf report.ReportGenerateController
+         * @methodOf report.controller:ReportGenerateController
          *
          * @description
          * Downloads the report. Opens a new tab that redirects to the actual download report

@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc service
-     * @name requisition-non-full-supply.categoryFactory
+     * @name report.reportFactory
      *
      * @description
      * Responsible for grouping products into categories to be displayed on the Add Product modal.
