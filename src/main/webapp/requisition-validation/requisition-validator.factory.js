@@ -30,11 +30,11 @@
 
     requisitionValidator.$inject = [
         'validationFactory', 'calculationFactory', 'TEMPLATE_COLUMNS', 'COLUMN_SOURCES',
-        'messageService', '$filter'
+        'COLUMN_TYPES', 'messageService', '$filter', 'MAX_INTEGER_VALUE'
     ];
 
     function requisitionValidator(validationFactory, calculationFactory, TEMPLATE_COLUMNS,
-                                  COLUMN_SOURCES, messageService, $filter) {
+                                  COLUMN_SOURCES, COLUMN_TYPES, messageService, $filter, MAX_INTEGER_VALUE) {
 
         var counterparts = {
             stockOnHand: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
@@ -141,6 +141,10 @@
 
             if (shouldValidateCalculation(lineItem, column, columns)) {
                 error = error || validateCalculation(calculationFactory[name], lineItem, name);
+            }
+
+            if (column.$type === COLUMN_TYPES.NUMERIC && lineItem[name] > MAX_INTEGER_VALUE) {
+                error = error || messageService.get('error.numberTooLarge');
             }
 
             return !(lineItem.$errors[name] = error);

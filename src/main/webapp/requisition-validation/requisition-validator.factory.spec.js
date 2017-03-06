@@ -15,8 +15,8 @@
 
 describe('requisitionValidator', function() {
 
-    var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, calculationFactory, validationFactory,
-        lineItem, lineItems, column, columns, requisition;
+    var validator, TEMPLATE_COLUMNS, COLUMN_SOURCES, MAX_INTEGER_VALUE, COLUMN_TYPES, calculationFactory,
+        validationFactory, lineItem, lineItems, column, columns, requisition;
 
     beforeEach(function() {
         module('requisition-validation', function($provide) {
@@ -33,11 +33,13 @@ describe('requisitionValidator', function() {
         });
 
         inject(function(_requisitionValidator_, _TEMPLATE_COLUMNS_, _COLUMN_SOURCES_,
-                                   _calculationFactory_) {
+                                   _calculationFactory_, _MAX_INTEGER_VALUE_, _COLUMN_TYPES_) {
 
             validator = _requisitionValidator_;
             TEMPLATE_COLUMNS = _TEMPLATE_COLUMNS_;
             COLUMN_SOURCES = _COLUMN_SOURCES_;
+            MAX_INTEGER_VALUE = _MAX_INTEGER_VALUE_;
+            COLUMN_TYPES = _COLUMN_TYPES_;
             calculationFactory = _calculationFactory_;
         });
 
@@ -237,6 +239,27 @@ describe('requisitionValidator', function() {
                 name: TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY,
                 source: COLUMN_SOURCES.CALCULATED
             });
+
+            var result = validator.validateLineItemField(lineItem, column, columns);
+
+            expect(result).toBe(true);
+        });
+
+        it('should return false if field has value greater than max int value', function() {
+            lineItem[TEMPLATE_COLUMNS.STOCK_ON_HAND] = MAX_INTEGER_VALUE + 1;
+            column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
+            column.$type = COLUMN_TYPES.NUMERIC;
+
+            var result = validator.validateLineItemField(lineItem, column, columns);
+
+            expect(lineItem.$errors[column.name]).toBe('error.numberTooLarge');
+            expect(result).toBe(false);
+        });
+
+        it('should return true if field has value equal or lower than max int value', function() {
+            lineItem[TEMPLATE_COLUMNS.STOCK_ON_HAND] = MAX_INTEGER_VALUE;
+            column.name = TEMPLATE_COLUMNS.STOCK_ON_HAND;
+            column.$type = COLUMN_TYPES.NUMERIC;
 
             var result = validator.validateLineItemField(lineItem, column, columns);
 

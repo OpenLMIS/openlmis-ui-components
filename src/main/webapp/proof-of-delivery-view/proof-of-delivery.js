@@ -93,7 +93,7 @@
         function validateLineItem() {
             var lineItem = this;
 
-            if(lineItem.quantityReceived === undefined || lineItem.quantityReceived === null) lineItem.$errors.quantityReceived = messageService.get('msg.fieldRequired');
+            if(lineItem.quantityReceived === undefined || lineItem.quantityReceived === null) lineItem.$errors.quantityReceived = messageService.get('error.required');
             else delete lineItem.$errors.quantityReceived;
         }
 
@@ -127,7 +127,7 @@
         }
 
         function validateRequiredField(fieldName) {
-            if(!this[fieldName] || this[fieldName] === '') this.$errors[fieldName] = messageService.get('msg.fieldRequired');
+            if(!this[fieldName] || this[fieldName] === '') this.$errors[fieldName] = messageService.get('error.required');
             else delete this.$errors[fieldName];
         }
     }
