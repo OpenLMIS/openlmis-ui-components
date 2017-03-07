@@ -20,7 +20,9 @@
     /**
      * @module report
      *
-     * Provides View Reports pages.
+     * @description
+     * Provides report pages, which allow generating Jasper reports from services.
+     * Report pages allow choosing parameter values from dynamically generated inputs.
      */
     angular.module('report', [
         'ngResource',

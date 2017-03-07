@@ -36,8 +36,8 @@
 
        /**
          * @ngdoc property
-         * @name reports
          * @propertyOf report.controller:ReportListController
+         * @name reports
          * @type {Array}
          *
          * @description

@@ -23,7 +23,7 @@
      * @name report.controller:ReportGenerateController
      *
      * @description
-     * Controller for report options page
+     * Controller for report options page.
      */
     angular
         .module('report')
@@ -42,8 +42,8 @@
 
         /**
          * @ngdoc property
-         * @name report
          * @propertyOf report.controller:ReportGenerateController
+         * @name report
          * @type {Object}
          *
          * @description
@@ -53,8 +53,8 @@
 
         /**
          * @ngdoc property
-         * @name paramsOptions
          * @propertyOf report.controller:ReportGenerateController
+         * @name paramsOptions
          * @type {Array}
          *
          * @description
@@ -66,8 +66,8 @@
 
         /**
          * @ngdoc property
-         * @name selectedParamsOptions
          * @propertyOf report.controller:ReportGenerateController
+         * @name selectedParamsOptions
          * @type {Array}
          *
          * @description
@@ -77,8 +77,8 @@
 
         /**
          * @ngdoc property
-         * @name format
          * @propertyOf report.controller:ReportGenerateController
+         * @name format
          * @type {String}
          *
          * @description
@@ -88,8 +88,8 @@
 
         /**
          * @ngdoc method
-         * @name downloadReport
          * @methodOf report.controller:ReportGenerateController
+         * @name downloadReport
          *
          * @description
          * Downloads the report. Opens a new tab that redirects to the actual download report
