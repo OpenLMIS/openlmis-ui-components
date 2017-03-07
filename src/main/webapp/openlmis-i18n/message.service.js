@@ -64,10 +64,10 @@
          * @description
          * Returns current locale.
          *
-         * @param  {String}  locale locale to populate
+         * @param  {String}  locale (optional) locale to populate
          * @return {Promise}        Promise
          */
-        function populate (locale) {
+        function populate(locale) {
             if(!locale) locale = DEFAULT_LANGUAGE;
 
             var deferred = $q.defer();
@@ -90,7 +90,7 @@
          *
          * @return {String} display message
          */
-        function get () {
+        function get() {
             var keyWithArgs = Array.prototype.slice.call(arguments);
             var displayMessage = keyWithArgs[0];
             var parameters = keyWithArgs[1];

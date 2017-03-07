@@ -24,12 +24,16 @@
      * @description
      * Modifies the ngInclude directive to replace the element with ngInclude directive attached
      * with its content.
+     *
+     * @example
+     * This directive can be used as normal ng-include.
+     * ```
+     * <div ng-include="'some-directory/replace-with.html'"></div>
+     * ```
      */
     angular
         .module('openlmis-header')
         .directive('ngInclude', directive);
-
-    directive.$inject = [];
 
     function directive() {
         var directive = {

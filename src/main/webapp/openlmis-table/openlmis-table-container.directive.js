@@ -23,7 +23,28 @@
      * @name openlmis-table.directive:openlmisTableContainer
      *
      * @description
-     * Checks if there is a single table element with in the container, if so the contents are arranged to meet our custom layout
+     * Checks if there is a single table element with in the container, if so the contents are arranged to meet our custom layout.
+     *
+     * @example
+     * This one can be added as class to element that wraps 'table' element, 'form' element or both.
+     * ```
+     * <div class="openlmis-table-container">
+     *     <table></table>
+     *     <form></form>
+     * </div>
+     * ```
+     *
+     * This is how it will look like after rendering:
+     * ```
+     * <div class="openlmis-table-container">
+     *     <table>
+     *         <div class="toolbar"></div>
+     *     </table>
+     *     <form>
+     *         <div class="toolbar"></div>
+     *     </form>
+     * <div>
+     * ```
      */
     angular
         .module('openlmis-table')

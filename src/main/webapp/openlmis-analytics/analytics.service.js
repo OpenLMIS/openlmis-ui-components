@@ -24,7 +24,6 @@
      * Wraps the google analytics object, and initializes the object with the
      * UA tracking code.
      */
-
     angular.module('openlmis-analytics')
     .service('analyticsService', service);
 

@@ -24,6 +24,12 @@
      *
      * @description
      * Provides template for locale list.
+     *
+     * @example
+     * This directive can be used as below:
+     * ```
+     * <openlmis-locale class="locale-container"/>
+     * ```
      */
     angular
         .module('openlmis-locale')

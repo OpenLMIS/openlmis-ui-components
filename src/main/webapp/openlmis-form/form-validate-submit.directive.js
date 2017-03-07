@@ -19,10 +19,17 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.formValidateSubmit
+     * @restrict E
+     * @name openlmis-form.directive:formValidateSubmit
      *
      * @description
      * Prevents from from submitting invalid forms.
+     *
+     * @example
+     * This directive works for all form elements in application.
+     * ```
+     * <form></form>
+     * ```
      */
     angular
         .module('openlmis-form')

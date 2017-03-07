@@ -24,6 +24,16 @@
      *
      * @description
      * Dynamically adds novalidate directive to the form.
+     *
+     * @example
+     * This directive works for all form elements in application.
+     * ```
+     * <form></form>
+     * ```
+     * Rendered form element will look like this:
+     * ```
+     * <form novalidate></form>
+     * ```
      */
     angular
         .module('openlmis-form')

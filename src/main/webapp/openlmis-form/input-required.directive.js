@@ -22,7 +22,21 @@
      * @name openlmis-form.directive:input
      *
      * @description
-     * Adds styles and logic for required inputs.
+     * Adds styles and logic for required input.
+     *
+     * @example
+     * This directive will work with 'input' elements that have 'required' or 'ng-required' attribute.
+     * It also requires 'label' element to be connected with 'input' by 'for' attribute.
+     * ```
+     * <label for="input-id">option</label>
+     * <input id="input-id" required></input>
+     * ```
+     *
+     * After render required attribute will be added to 'label' element.
+     * ```
+     * <label for="input-id" required>option</label>
+     * <input id="input-id" required></input>
+     * ```
      */
     angular
         .module('openlmis-form')

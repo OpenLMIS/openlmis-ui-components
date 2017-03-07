@@ -40,14 +40,14 @@
         /**
          * @ngdoc method
          * @methodOf requisition-template.RequisitionTemplate
-         * @name getColumns
+         * @name RequisitionTemplate
          *
          * @description
-         * Retrieves a column with the given name. If it doesn't exist undefined will be returned.
+         * Adds all needed methods and information to requisition template.
          *
-         * @param  {String} template the name of the column
-         * @param  {String} requisition the name of the column
-         * @return {Object}      the matching column
+         * @param  {String}              template    the requisition template object
+         * @param  {String}              requisition the requisition object
+         * @return {RequisitionTemplate}             the requisition template with methods
          */
         function RequisitionTemplate(template, requisition) {
             angular.copy(template, this);

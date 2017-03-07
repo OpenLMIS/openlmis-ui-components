@@ -20,6 +20,7 @@
     /**
      * @ngdoc service
      * @name openlmis-analytics.analytics500Interceptor
+     * 
      * @description Sends event to Google Analytics when server response status has 5xx code.
      */
     angular

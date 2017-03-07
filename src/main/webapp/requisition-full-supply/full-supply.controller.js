@@ -98,7 +98,7 @@
          * @type {Boolean}
          *
          * @description
-         * Indicated if the skip all button has been clicked.
+         * Indicates if the skip all button has been clicked.
          */
         vm.skippedAll = false;
 

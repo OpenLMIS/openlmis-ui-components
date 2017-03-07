@@ -25,6 +25,21 @@
      * @description
      * Responsible for creating total losses and adjustments cell in product grid.
      * It opens modal that displays reasons upon clicking it.
+     *
+     * @example
+     * This directive requires 'requisition' and 'line-item' attributes.
+     * ```
+     * <div losses-and-adjustments
+     *     line-item="lineItem"
+     *     requisition="requisition"></div>
+     * ```
+     *
+     * This is how will look product grid cell after rendering.
+     * ```
+     * <a class="losses-and-adjustments" ng-class="{'disabled': vm.isDisabled()}" ng-click="vm.showModal()">
+     *     {{vm.lineItem.totalLossesAndAdjustments || 0}}
+     * </a>
+     * ```
      */
     angular
         .module('requisition-losses-and-adjustments')

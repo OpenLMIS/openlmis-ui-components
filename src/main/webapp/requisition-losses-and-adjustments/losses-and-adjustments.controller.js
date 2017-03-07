@@ -145,7 +145,7 @@
          * @description
          * Calculates total losses and adjustments for line item.
          *
-         * @return {Number} total value off losses and adjustments
+         * @return {Number} total value of losses and adjustments
          */
         function getTotal() {
             return calculationFactory.totalLossesAndAdjustments(vm.lineItem, vm.reasons);

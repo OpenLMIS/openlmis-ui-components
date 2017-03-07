@@ -24,6 +24,25 @@
      *
      * @description
      * Directive allows to add date picker input.
+     *
+     * @example
+     * To make this directive work only 'value' attribute is required, however there is more attributes to use.
+     * In order to make datepicker input use id you can use 'input-id' attribute.
+     * The 'change-method' attribute takes function that will be executed after datepicker value change.
+     * Datepicker directive also can take max-date and min-date attributes. Their value can be set from other datepicker or manually.
+     * ```
+     * <openlmis-datepicker
+     * 	   value="startDate"
+     *     input-id="datepicker-id"
+     *     change-method="afterChange()"
+     *     min-date="10/05/2016"
+     *     max-date="endDate">
+     * </openlmis-datepicker>
+     *
+     * <openlmis-datepicker
+     * 	   value="endDate">
+     * </openlmis-datepicker>
+     * ```
      */
 	angular
 		.module('openlmis-form')

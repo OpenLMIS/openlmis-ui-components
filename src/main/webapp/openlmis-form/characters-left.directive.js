@@ -25,6 +25,30 @@
      * @description
      * Provides characters left indicator under input.
      * If max characters count is reached indicator text will turn red.
+     *
+     * @example
+     * The following can be used to extend textarea or text input elements.
+     * ```
+     * <textarea characters-left max-length="100" ng-model="model"></textarea>
+     * ```
+     * Both ng-model and max-length attributes are required.
+     *
+     * Rendered directive when characters limit has not been reached will look like this:
+	 * ```
+	 * <textarea characters-left max-length="100" ng-model="model">
+	 * 	   <div class="characters-left">
+	 *         <div>characters left: {{maxLength - model.length}}</div>
+	 *     </div>
+	 * </textarea>
+	 * ```
+	 * Below is how directive will be rendered when characters limit has been reached:
+	 *```
+	 * <textarea characters-left max-length="100" ng-model="model">
+	 * 	   <div class="characters-left">
+	 *         <div class="no-left">too many characters: {{text.length - maxLength}}</div>
+	 *     </div>
+	 * </textarea>
+	 * ```
      */
 	angular
 		.module('openlmis-form')

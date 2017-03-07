@@ -22,9 +22,10 @@
      * @ngdoc filter
      * @name admin-template.filter:orderObjectBy
      *
-     * @description Orders object properties by given attribute.
+     * @description
+     * Orders object properties by given attribute.
      *
-     * @param  {Object} value object to be sorted
+     * @param  {Object} value object to be sorted by given attribute
      * @param  {String} key   object properties will be sorted using this key
      * @return {Array}        sorted properties
      */

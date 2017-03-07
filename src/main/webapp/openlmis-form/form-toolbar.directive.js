@@ -13,29 +13,46 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
+(function() {
+
     "use strict";
 
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:form
+     * @name openlmis-form.directive:form-toolbar
      *
      * @description
      * Toolbar directive to the form.
+     *
+     * @example
+     * This directive works for all form elements that have submit input.
+     * ```
+     * <form>
+     *     <input type="submit">
+     * </form>
+     * ```
+     *
+     * After render submit input will be wrapped div with button-group class.
+     * ```
+     * <form>
+     *     <div class="button-group">
+     *         <input type="submit">
+     *     </div>
+     * </form>
+     * ```
      */
     angular.module('openlmis-form')
     .directive('form', formDirective);
 
-    formDirective.$inject = [];
-    function formDirective(){
+    function formDirective() {
         return {
             restrict: 'E',
             link: link
         }
     }
 
-    function link(scope, element, attrs){
+    function link(scope, element, attrs) {
         var submitButton = element.children('input[type="submit"]');
 
         if (submitButton.length == 1) {

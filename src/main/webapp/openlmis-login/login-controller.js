@@ -44,7 +44,7 @@
          * @description
          * Checks username and password  variables, and returns true or shows an appropriate error message before the actual login request happens.
          *
-         * @return {Boolean} If login form is valid
+         * @return {Boolean} true if login form is valid, false otherwise
          */
         function validateLoginForm() {
             if (vm.username === undefined || vm.username.trim() === '') {

@@ -23,6 +23,20 @@
      *
      * @description
      * Adds required logic to select element.
+     *
+     * @example
+     * This directive will work with 'select' elements that have 'required' or 'ng-required' attribute.
+     * It also requires 'label' element to be connected with 'select' by 'for' attribute.
+     * ```
+     * <label for="input-id">option</label>
+     * <select id="input-id" required></select>
+     * ```
+     *
+     * After rendering 'required' attribute will be added to 'label' element.
+     * ```
+     * <label for="input-id" required>option</label>
+     * <input id="input-id" required></input>
+     * ```
      */
     angular
         .module('openlmis-form')
