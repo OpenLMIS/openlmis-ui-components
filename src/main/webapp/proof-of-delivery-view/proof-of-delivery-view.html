@@ -1,7 +1,7 @@
 <div class="page">
     <ng-include src="'proof-of-delivery-view/header.html'"></ng-include>
     <div class="openlmis-table-container">
-        <table >
+        <table class="openlmis-table">
             <thead>
                 <tr>
                     <th>{{'label.fullSupply' | message}}</th>
@@ -26,21 +26,18 @@
                     <td>{{lineItem.orderLineItem.orderable.dispensable.dispensingUnit}}</td>
                     <td>{{lineItem.orderLineItem.packsToShip}}</td>
                     <td>{{lineItem.quantityShipped}}</td>
-                    <td>
-                        <div ng-if="!vm.isSubmitted()">
-                            <input positive-integer type="text" ng-model="lineItem.quantityReceived" ng-change="lineItem.validate()" ng-blur="lineItem.validate()"/>
-                            <div ng-if="lineItem.$errors.quantityReceived" class="cell-error-message">{{lineItem.$errors.quantityReceived}}</div>
-                        </div>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
+                    <td class="requisition-product-grid-cell" popover="{{lineItem.$errors.quantityReceived}}" ng-class="{'is-invalid': lineItem.$errors.quantityReceived}">
+                        <input positive-integer type="text" ng-hide="vm.isSubmitted()" ng-model="lineItem.quantityReceived" ng-change="lineItem.validate()" ng-blur="lineItem.validate()"/>
+                        <div ng-hide="!vm.isSubmitted()">{{lineItem.quantityReceived}}</div>
                     </td>
-                    <td>
-                        <input ng-if="!vm.isSubmitted()" positive-integer type="text" ng-model="lineItem.quantityReturned"/>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.quantityReturned}}</div>
+                    <td class="requisition-product-grid-cell">
+                        <input positive-integer type="text" ng-hide="vm.isSubmitted()" ng-model="lineItem.quantityReturned"/>
+                        <div ng-hide="!vm.isSubmitted()">{{lineItem.quantityReturned}}</div>
                     </td>
                     <td>{{lineItem.replacedProductCode}}</td>
-                    <td>
-                        <input ng-if="!vm.isSubmitted()" type="text" ng-model="lineItem.notes"/>
-                        <div ng-if="vm.isSubmitted()">{{lineItem.notes}}</div>
+                    <td class="requisition-product-grid-cell">
+                        <input type="text" ng-hide="vm.isSubmitted()" ng-model="lineItem.notes"/>
+                        <div ng-hide="!vm.isSubmitted()">{{lineItem.notes}}</div>
                     </td>
                 </tr>
             </tbody>
