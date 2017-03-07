@@ -23,22 +23,18 @@
      * @name openlmis-pagination.directive:openlmisPagination
      *
      * @description
-     * Provides pagination for table. Allows to add method for validating pages.
+     * The OpenLMIS-Pagination component provides controls for API endpoints
+     * that can provide paginated content. This endpoint allows for methods to
+     * add validation for sets of pages.
      *
-     * `totalItems` - stores the total amount of all items.
+     * There are two edge-cases that are supported by the OpenLMIS-Pagination
+     * component, if there are no results or if a page greater than the total
+     * number of pages is selected.
      *
-     * `items` - the list of all items used for extracting pages. If external pagination is used this is a list of items on the current page.
-     *
-     * `pageSize` - quantity of items on one page.
-     *
-     * `pageValidator` - validates whether page with the given name is valid.
-     *
-     * If no results:
-     * - the showing `Showing no items`.
-     *
-     * If the given page number is greater than last page:
-     * - the showing `Showing 0 of N items`.
-     * - pages list shows incorrect page number, and last correct page numbers.
+     * @param {Integer} totalItems Stores the total amount of all items.
+     * @param {Array} items The list of all items used for extracting pages. If external pagination is used this is a list of items on the current page.
+     * @param {Integer} pageSize Number of items on one page.
+     * @param {Function} pageValidator Validates whether page with the given name is valid.
      *
      * @example
      * ```
