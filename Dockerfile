@@ -1,17 +1,10 @@
-FROM nginx
+FROM debian:jessie
 
-ADD  nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /openlmis-requisition-ui
 
-COPY /build/webapp /usr/share/nginx/html
-COPY /consul /consul
-COPY run.sh /run.sh
-
-RUN chmod +x run.sh \
-  && apt-get update \
-  && apt-get install -y curl \
-  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-  && apt-get install -y nodejs \
-  && mv consul/package.json package.json \
-  && npm install
-
-CMD ./run.sh
+COPY package.json .
+COPY bower.json .
+COPY config.json .
+COPY src/* ./src/
+COPY styleguide/* ./styleguide/
+COPY docs/* ./docs/
