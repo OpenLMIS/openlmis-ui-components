@@ -35,6 +35,7 @@
         'openlmis-report',
 		'openlmis-requisitions',
 		'openlmis-reset-password',
+        'openlmis-state-change-error',
         'openlmis-table',
         'openlmis-popover'
 	]).config(defaultRoutes);
