@@ -1,6 +1,6 @@
 {
   "app": {
-    "src": "./src/main/webapp"
+    "src": "./src"
   },
   "styleguide": {
   	"src": "src/",
