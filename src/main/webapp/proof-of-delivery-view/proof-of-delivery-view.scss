@@ -2,6 +2,10 @@
     @extend .requisition-info;
 }
 
+.pod-details {
+    @extend .requisition-details;
+}
+
 .pod-regular {
     @extend .requisition-type;
     @extend .requisition-type.regular;
