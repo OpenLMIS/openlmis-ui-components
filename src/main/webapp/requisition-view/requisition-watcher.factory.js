@@ -55,10 +55,6 @@
             var watcher = this,
                 storage = localStorageFactory('requisitions');
 
-            $timeout(function() {
-                watcher.isLoud = true;
-            }, 3000);
-
             scope.$watch(function() {
                 return requisition.requisitionLineItems;
             }, function(oldValue, newValue) {

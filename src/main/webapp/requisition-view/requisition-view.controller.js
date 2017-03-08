@@ -43,6 +43,10 @@
         var vm = this,
             watcher = new RequisitionWatcher($scope, requisition);
 
+        $timeout(function() {
+            watcher.makeLoud();
+        }, 3000);
+
         /**
          * @ngdoc property
          * @propertyOf requisition-view.controller:RequisitionViewController
