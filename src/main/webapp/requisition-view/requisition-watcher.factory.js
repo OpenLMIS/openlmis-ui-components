@@ -36,6 +36,7 @@
         RequisitionWatcher.prototype.makeSilent = makeSilent;
         RequisitionWatcher.prototype.makeLoud = makeLoud;
 
+
         return RequisitionWatcher;
 
         /**
@@ -46,27 +47,31 @@
          * @description
          * Creates requisition watcher for all changes in requisition object.
          *
-         * @param {Scope}               scope       scope that requisition is in
-         * @param {Object}              requisition requisition to set watcher on
+         * @param  {Scope}              scope       scope that requisition is in
+         * @param  {Object}             requisition requisition to set watcher on
          * @return {RequisitionWatcher}             watcher object
          */
         function RequisitionWatcher(scope, requisition) {
             var watcher = this,
                 storage = localStorageFactory('requisitions');
 
-            watcher.isLoud = true;
+            $timeout(function() {
+                watcher.isLoud = true;
+            }, 3000);
 
             scope.$watch(function() {
                 return requisition.requisitionLineItems;
             }, function(oldValue, newValue) {
                 if (oldValue !== newValue) {
-                    $timeout.cancel(watcher.notificationTimeout);
-                    watcher.notificationTimeout = $timeout(function() {
-                        if (watcher.isLoud) {
-                            notificationService.success('msg.requisitionSaved');
-                            watcher.notificationTimeout = undefined;
-                        }
-                    }, 3000);
+                    if(watcher.isLoud) {
+                        $timeout.cancel(watcher.notificationTimeout);
+                        watcher.notificationTimeout = $timeout(function() {
+                            if (watcher.isLoud) {
+                                notificationService.success('msg.requisitionSaved');
+                                watcher.notificationTimeout = undefined;
+                            }
+                        }, 3000);
+                    }
 
                     $timeout.cancel(watcher.syncTimeout);
                     watcher.syncTimeout = $timeout(function() {

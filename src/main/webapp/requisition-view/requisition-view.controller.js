@@ -109,7 +109,7 @@
                 });
                 reloadState();
             }, function(response) {
-              handleSaveError(response.status);
+                handleSaveError(response.status);
             });
         }
 
