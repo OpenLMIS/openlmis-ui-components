@@ -1,42 +1,42 @@
 .page aside {
-  position: relative;
-  padding: $padding2px;
-  display: flex;
-  align-items: stretch;
+    position: relative;
+    padding: $padding2px;
+    display: flex;
+    align-items: stretch;
 
-  dl {
-      display: flex;
-      flex-wrap: wrap;
-      flex-grow: 1;
-      justify-content: space-around;
-      margin: 0em;
-      margin-left: 1em;
-      float: left;
-  }
+    dl {
+        display: flex;
+        flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: space-between;
+        margin: 0em;
+        margin-left: 1em;
+        float: left;
+    }
 
-  dl div {
-      padding-bottom: 0.5em;
-  }
+    dl div {
+        padding-top: 0.5em;
+    }
 
-  padding: 1em;
+    padding: 0.5em;
 
-  background-color: $background-color-alt;
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
+    background-color: $background-color-alt;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
 
-  > button.close {
-    position: absolute;
-    top: 0em;
-    right: 0em;
-  }
+    > button.close {
+        position: absolute;
+        top: 0em;
+        right: 0em;
+    }
 
-  dt {
-    width: 0;
-    top: -1.2em;
-    white-space: nowrap;
-  }
+    dt {
+        width: 0;
+        top: -1.2em;
+        white-space: nowrap;
+    }
 
-  dd {
-    padding-right: 1em;
-  }
+    dd {
+        padding-right: 1em;
+    }
 }
