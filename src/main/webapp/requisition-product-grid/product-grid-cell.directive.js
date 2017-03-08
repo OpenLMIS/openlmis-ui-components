@@ -115,9 +115,9 @@
             }
 
             function validate() {
-                requisitionValidator.validateLineItemField(
+                lineItem.updateDependentFields(column, requisition);
+                return requisitionValidator.validateLineItem(
                     scope.lineItem,
-                    column,
                     requisition.template.columnsMap,
                     requisition
                 );

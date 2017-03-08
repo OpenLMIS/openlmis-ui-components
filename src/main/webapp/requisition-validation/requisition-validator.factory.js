@@ -103,7 +103,8 @@
             var valid = true,
                 validator = this;
 
-            columns.forEach(function(column) {
+
+            angular.forEach(columns, function(column) {
                 valid = validator.validateLineItemField(lineItem, column, columns, requisition) && valid;
             });
             return valid;
@@ -130,6 +131,10 @@
             if (lineItem[TEMPLATE_COLUMNS.SKIPPED]) return true;
 
             if (name === TEMPLATE_COLUMNS.TOTAL_LOSSES_AND_ADJUSTMENTS) return true;
+
+            if (!column.$display) {
+                return true;
+            }
 
             if (column.$required) {
                 error = error || nonEmpty(lineItem[name]);

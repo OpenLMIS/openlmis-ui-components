@@ -14,7 +14,7 @@
  */
 describe('ProductGridCell', function() {
 
-    var $compile, scope, requisition, directiveElem;
+    var $compile, scope, requisition, directiveElem, requisitionValidatorMock;
 
     beforeEach(function() {
         module('requisition-product-grid', function($compileProvider) {
@@ -29,7 +29,14 @@ describe('ProductGridCell', function() {
             });
         });
 
-        module('openlmis-templates');
+        module('openlmis-templates', function($provide) {
+            requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator',
+                ['validateLineItem']);
+
+            $provide.service('requisitionValidator', function() {
+                return requisitionValidatorMock;
+            });
+        });
 
         inject(function($injector) {
             $compile = $injector.get('$compile');
@@ -39,6 +46,8 @@ describe('ProductGridCell', function() {
                 '$getStockAdjustmentReasons', '$isApproved', '$isReleased', '$isAuthorized',
                 '$isInApproval'
             ]);
+            requisition.template = {};
+            requisition.template.columnsMap = { 'col1': 'val1' };
 
             scope.requisition = requisition;
 
@@ -48,15 +57,14 @@ describe('ProductGridCell', function() {
                 source: $injector.get('COLUMN_SOURCES').USER_INPUT
             };
 
-            scope.lineItem = {
-                getFieldValue: function() {
-                    return "readOnlyFieldValue";
-                },
-                updateDependentFields: function(){
+            scope.lineItem = jasmine.createSpyObj('lineItem', ['getFieldValue',
+                'updateDependentFields'])
 
-                },
-                $errors: {}
-            };
+            scope.lineItem.getFieldValue.andCallFake(function() {
+                return "readOnlyFieldValue";
+            });
+
+            scope.lineItem.$errors = {};
         });
     });
 
@@ -102,6 +110,20 @@ describe('ProductGridCell', function() {
 
         expect(directiveElem.html()).not.toContain("readOnlyFieldValue");
         expect(directiveElem.find("a").length).toEqual(1);
+    });
+
+    it('should validate the entire line item after updating fields', function() {
+        var element = getCompiledElement(),
+            input = element.find('input'),
+            inputScope = angular.element(angular.element(input)).scope(),
+            validate = inputScope.validate;
+
+        validate();
+
+        expect(requisitionValidatorMock.validateLineItem).toHaveBeenCalledWith(
+            scope.lineItem, requisition.template.columnsMap, requisition);
+        expect(scope.lineItem.updateDependentFields).toHaveBeenCalledWith(
+            scope.column, requisition);
     });
 
     function getCompiledElement() {

@@ -170,6 +170,7 @@ describe('requisitionValidator', function() {
 
         beforeEach(function() {
             column = {};
+            column.$display = true;
             columns = [column];
         });
 
@@ -197,6 +198,17 @@ describe('requisitionValidator', function() {
             var result = validator.validateLineItemField(lineItem, column, columns);
 
             expect(result).toBe(false);
+        });
+
+        it('should not validate hidden fields', function() {
+            lineItem['requiredButNotSet'] = undefined;
+            column.$required = true;
+            column.name = 'requiredButNotSet';
+            column.$display = false;
+
+            var result = validator.validateLineItemField(lineItem, column, columns);
+
+            expect(result).toBe(true);
         });
 
         it('should return false if any validation fails', function() {
