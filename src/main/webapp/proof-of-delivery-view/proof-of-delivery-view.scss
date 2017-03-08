@@ -2,10 +2,6 @@
     @extend .requisition-info;
 }
 
-.pod-details {
-    @extend .requisition-details;
-}
-
 .pod-regular {
     @extend .requisition-type;
     @extend .requisition-type.regular;
@@ -14,9 +10,4 @@
 .pod-emergency {
     @extend .requisition-type;
     @extend .requisition-type.emergency;
-}
-
-.pod-footer dl {
-    padding-top: 1.5em !important;
-    padding-bottom: 0.5em !important;
 }

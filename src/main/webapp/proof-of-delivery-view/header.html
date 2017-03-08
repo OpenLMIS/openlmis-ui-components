@@ -4,34 +4,34 @@
         <span>{{vm.typeMessage() | message}}</span>
     </div>
 
-    <div class="pod-details">
-        <div>
+    <ul>
+        <li>
             <strong>{{'label.orderNumber' | message}}</strong>
-            <div>{{vm.pod.order.orderCode}}</div>
-        </div>
-        <div>
+            {{vm.pod.order.orderCode}}
+        </li>
+        <li>
             <strong>{{'label.facility' | message}}</strong>
-            <div>{{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}</div>
-        </div>
-        <div>
+            {{vm.pod.order.facility.code}} - {{vm.pod.order.facility.name}}
+        </li>
+        <li>
             <strong>{{'label.orderDate' | message}}</strong>
-            <div>{{vm.pod.order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
-        </div>
-        <div>
+            {{vm.pod.order.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}
+        </li>
+        <li>
             <strong>{{'label.reportingPeriod' | message}}</strong>
-            <div>{{vm.pod.order.processingPeriod | period}}</div>
-        </div>
-        <div>
+            {{vm.pod.order.processingPeriod | period}}
+        </li>
+        <li>
             <strong>{{'label.supplyingDepot' | message}}</strong>
-            <div>{{vm.pod.order.supplyingFacility.name}}</div>
-        </div>
-        <div>
-            <strong ng-if="vm.pod.order.facility.geographicZone.parent.name">{{'label.district' | message}}</strong>
-            <div ng-if="vm.pod.order.facility.geographicZone.parent.name">{{vm.pod.order.facility.geographicZone.parent.name}}</div>
-        </div>
-        <div>
+            {{vm.pod.order.supplyingFacility.name}}
+        </li>
+        <li ng-if="vm.pod.order.facility.geographicZone.parent.name">
+            <strong>{{'label.district' | message}}</strong>
+            {{vm.pod.order.facility.geographicZone.parent.name}}
+        </li>
+        <li>
             <strong>{{'label.region' | message}}</strong>
-            <div>{{vm.pod.order.facility.geographicZone.name}}</div>
-        </div>
-    </dl>
+            {{vm.pod.order.facility.geographicZone.name}}
+        </li>
+    </ul>
 </aside>
