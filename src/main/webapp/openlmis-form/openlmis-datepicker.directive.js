@@ -26,10 +26,10 @@
      * Directive allows to add date picker input.
      *
      * @example
-     * To make this directive work only 'value' attribute is required, however there is more attributes to use.
-     * In order to make datepicker input use id you can use 'input-id' attribute.
+     * To make this directive work only 'value' attribute is required, however there are more attributes to use.
+     * In order to make datepicker input use id you can add 'input-id' attribute.
      * The 'change-method' attribute takes function that will be executed after datepicker value change.
-     * Datepicker directive also can take max-date and min-date attributes. Their value can be set from other datepicker or manually.
+     * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
      * ```
      * <openlmis-datepicker
      * 	   value="startDate"

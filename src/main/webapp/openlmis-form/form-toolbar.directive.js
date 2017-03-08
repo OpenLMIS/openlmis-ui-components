@@ -23,7 +23,7 @@
      * @name openlmis-form.directive:form-toolbar
      *
      * @description
-     * Toolbar directive to the form.
+     * Toolbar directive for the form element.
      *
      * @example
      * This directive works for all form elements that have submit input.
@@ -33,7 +33,7 @@
      * </form>
      * ```
      *
-     * After render submit input will be wrapped div with button-group class.
+     * After render submit input will be a wrapped div with button-group class.
      * ```
      * <form>
      *     <div class="button-group">
