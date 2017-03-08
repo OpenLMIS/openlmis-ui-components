@@ -1,4 +1,12 @@
+.requisition-info {
+
+    display: flex;
+    align-items: stretch;
+    padding: $padding2px;
+}
+
 .requisition-type {
+
     padding: 1em;
     font-weight: bold;
 
@@ -12,5 +20,27 @@
     &.emergency {
         background-color: $brand-danger;
         color: $white;
+    }
+}
+
+.requisition-details {
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-left: 1em;
+    margin-top: 0.5em;
+    float: left;
+
+    div {
+        padding-right: 1em;
+        padding-bottom: 0.2em;
+    }
+
+    strong {
+        width: 0;
+        top: -1.2em;
+        white-space: nowrap;
     }
 }

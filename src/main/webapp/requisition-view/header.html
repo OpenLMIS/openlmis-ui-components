@@ -3,26 +3,26 @@
         <span>{{vm.requisitionType | message}}</span>
     </div>
 
-    <dl>
+    <div class="requisition-details">
         <div>
-            <dt>{{'label.facility'|message}}</dt>
-            <dd>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</dd>
+            <strong>{{'label.facility'|message}}</strong>
+            <div>{{vm.requisition.facility.code}} - {{vm.requisition.facility.name}}</div>
         </div>
         <div>
-            <dt>{{'label.facility.operatedBy' | message}}</dt>
-            <dd>{{vm.requisition.facility.operator.name}}</dd>
+            <strong>{{'label.facility.operatedBy' | message}}</strong>
+            <div>{{vm.requisition.facility.operator.name}}</div>
         </div>
         <div>
-            <dt>{{'label.region' | message}}</dt>
-            <dd>{{vm.requisition.facility.geographicZone.name}}</dd>
+            <strong>{{'label.region' | message}}</strong>
+            <div>{{vm.requisition.facility.geographicZone.name}}</div>
         </div>
         <div>
-            <dt ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</dt>
-            <dd ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</dd>
+            <strong ng-if="requisition.facility.geographicZone.parent.name">{{'label.province' | message}}</strong>
+            <div ng-if="requisition.facility.geographicZone.parent.name">{{vm.requisition.facility.geographicZone.parent.name}}</div>
         </div>
         <div>
-            <dt>{{'label.reportingPeriod' | message}}</dt>
-            <dd>{{vm.requisition.processingPeriod | period}}</dd>
+            <strong>{{'label.reportingPeriod' | message}}</strong>
+            <div>{{vm.requisition.processingPeriod | period}}</div>
         </div>
     </dl>
 </aside>

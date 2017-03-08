@@ -1,25 +1,5 @@
 .page aside {
     position: relative;
-    padding: $padding2px;
-    display: flex;
-    align-items: stretch;
-
-    dl {
-        display: flex;
-        flex-wrap: wrap;
-        flex-grow: 1;
-        justify-content: space-between;
-        margin: 0em;
-        margin-left: 1em;
-        float: left;
-    }
-
-    dl div {
-        padding-top: 0.5em;
-    }
-
-    padding: 0.5em;
-
     background-color: $background-color-alt;
     border: 1px solid $border-color;
     border-radius: $border-radius;
@@ -30,13 +10,26 @@
         right: 0em;
     }
 
+    dl {
+        display: flex;
+        margin: 0em;
+        flex-grow: 1;
+        padding: 1em;
+    }
+
     dt {
         width: 0;
+        position: relative;
         top: -1.2em;
         white-space: nowrap;
     }
 
     dd {
+        flex: 1 0 auto;
         padding-right: 1em;
+
+        &:last-child {
+            padding-right: 0;
+        }
     }
 }
