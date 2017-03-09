@@ -183,14 +183,14 @@ describe('validationFactory', function() {
                 .toBeUndefined();
         });
 
-        it('should return undefined if calculatedOrderQuantity column is not displayed and requestedQuantity is null', function() {
+        it('should return required if calculatedOrderQuantity column is not displayed and requestedQuantity is null', function() {
             calculatedOrderQuantityColumn.$display = false;
 
             expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
                 .toEqual('required');
         });
 
-        it('should return undefined if calculatedOrderQuantity column is not displayed and requestedQuantity is undefined', function() {
+        it('should return required if calculatedOrderQuantity column is not displayed and requestedQuantity is undefined', function() {
             lineItem.requestedQuantity = undefined;
             calculatedOrderQuantityColumn.$display = false;
 
@@ -198,14 +198,14 @@ describe('validationFactory', function() {
                 .toEqual('required');
         });
 
-        it('should return undefined if calculatedOrderQuantity column is not present and requestedQuantity is null', function() {
+        it('should return required if calculatedOrderQuantity column is not present and requestedQuantity is null', function() {
             requisitionMock.template.getColumn.andReturn(undefined);
 
             expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
                 .toEqual('required');
         });
 
-        it('should return undefined if calculatedOrderQuantity column is not present and requestedQuantity is undefined', function() {
+        it('should return required if calculatedOrderQuantity column is not present and requestedQuantity is undefined', function() {
             lineItem.requestedQuantity = undefined;
             requisitionMock.template.getColumn.andReturn(undefined);
 
