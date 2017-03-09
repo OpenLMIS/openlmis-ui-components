@@ -120,6 +120,13 @@ describe('validationFactory', function() {
                 .toBeUndefined();
         });
 
+        it('should return undefined if calculatedOrderQuantity column is not displayed', function() {
+            iColumn.$display = false;
+
+            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
         it('should return undefined if requestedQuantity is null', function() {
             lineItem.requestedQuantity = null;
 
@@ -134,37 +141,7 @@ describe('validationFactory', function() {
                 .toBeUndefined();
         });
 
-        it('should return "required" if quantities differ and explanation is missing', function() {
-            lineItem.requestedQuantity = 10;
-            lineItem.requestedQuantityExplanation = undefined;
-            calculationFactoryMock.calculatedOrderQuantity.andReturn(5);
-
-            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
-                .toEqual('required');
-        });
-
-        it('should return undefined if quantities differ and explanation is given', function() {
-            lineItem.requestedQuantity = 10;
-            lineItem.requestedQuantityExplanation = 'explanation';
-            calculationFactoryMock.calculatedOrderQuantity.andReturn(5);
-
-            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
-                .toBeUndefined();
-        });
-
-        it('should return undefined if quantities are equal and explanation is missing', function() {
-            lineItem.requestedQuantity = 10;
-            lineItem.requestedQuantityExplanation = undefined;
-            calculationFactoryMock.calculatedOrderQuantity.andReturn(10);
-
-            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
-                .toBeUndefined();
-        });
-
-        it('should return "required" if requestedQuantity is greater than 0 and explanation is missing', function() {
-            requisitionMock.template.getColumn.andCallFake(function(name) {
-                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
-            });
+        it('should return "required" if requestedQuantity has value and explanation is missing', function() {
             lineItem.requestedQuantity = 10;
             lineItem.requestedQuantityExplanation = undefined;
 
@@ -172,26 +149,68 @@ describe('validationFactory', function() {
                 .toEqual('required');
         });
 
-        it('should return undefined if requestedQuantity is 0 and explanation is missing', function() {
-            requisitionMock.template.getColumn.andCallFake(function(name) {
-                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
-            });
-            lineItem.requestedQuantity = 0;
-            lineItem.requestedQuantityExplanation = undefined;
-
-            expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
-                .toBeUndefined();
-        });
-
-        it('should return undefined if requestedQuantity is greater than 0 and explanation is given', function() {
-            requisitionMock.template.getColumn.andCallFake(function(name) {
-                if (name === TEMPLATE_COLUMNS.REQUESTED_QUANTITY) return jColumn;
-            });
+        it('should return undefined if requestedQuantity has value and explanation is present', function() {
             lineItem.requestedQuantity = 10;
             lineItem.requestedQuantityExplanation = 'explanation';
 
             expect(validationFactory.requestedQuantityExplanation(lineItem, requisitionMock))
                 .toBeUndefined();
+        });
+
+    });
+
+    describe('requestedQuantity', function() {
+
+        var calculatedOrderQuantityColumn;
+
+        beforeEach(function() {
+
+            calculatedOrderQuantityColumn = {
+                name: TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY,
+                $display: true
+            };
+
+            messageServiceMock.get.andReturn('required');
+            requisitionMock.template.getColumn.andCallFake(function(name) {
+                if (name === TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY) return calculatedOrderQuantityColumn;
+            });
+
+            lineItem.requestedQuantity = null;
+        });
+
+        it('should return undefined if calculatedOrderQuantity column is present and displayed', function() {
+            expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
+                .toBeUndefined();
+        });
+
+        it('should return undefined if calculatedOrderQuantity column is not displayed and requestedQuantity is null', function() {
+            calculatedOrderQuantityColumn.$display = false;
+
+            expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
+                .toEqual('required');
+        });
+
+        it('should return undefined if calculatedOrderQuantity column is not displayed and requestedQuantity is undefined', function() {
+            lineItem.requestedQuantity = undefined;
+            calculatedOrderQuantityColumn.$display = false;
+
+            expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
+                .toEqual('required');
+        });
+
+        it('should return undefined if calculatedOrderQuantity column is not present and requestedQuantity is null', function() {
+            requisitionMock.template.getColumn.andReturn(undefined);
+
+            expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
+                .toEqual('required');
+        });
+
+        it('should return undefined if calculatedOrderQuantity column is not present and requestedQuantity is undefined', function() {
+            lineItem.requestedQuantity = undefined;
+            requisitionMock.template.getColumn.andReturn(undefined);
+
+            expect(validationFactory.requestedQuantity(lineItem, requisitionMock))
+                .toEqual('required');
         });
 
     });

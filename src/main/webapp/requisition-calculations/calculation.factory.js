@@ -160,7 +160,7 @@
                     packsToShip += 1;
                 }
 
-                if (packsToShip == 0 && !lineItem.orderable.roundToZero) {
+                if (packsToShip === 0 && !lineItem.orderable.roundToZero) {
                     packsToShip = 1;
                 }
 

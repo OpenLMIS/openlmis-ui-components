@@ -35,6 +35,7 @@
             stockOnHand: validateStockOnHand,
             totalConsumedQuantity: validateTotalConsumedQuantity,
             requestedQuantityExplanation: validateRequestedQuantityExplanation,
+            requestedQuantity: validateRequestedQuantity,
             totalStockoutDays: validateTotalStockoutDays
         };
         return factory;
@@ -86,22 +87,40 @@
          * @return {String}             the error if field is invalid, undefined otherwise
          */
         function validateRequestedQuantityExplanation(lineItem, requisition) {
-            var jColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.REQUESTED_QUANTITY),
-                iColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY),
-                explanation = lineItem.requestedQuantityExplanation,
-                requested = lineItem.requestedQuantity;
+            var requestedQuantityColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.REQUESTED_QUANTITY),
+                calculatedOrderQuantityColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY),
+                requestedQuantityExplanation = lineItem.requestedQuantityExplanation,
+                requestedQuantity = lineItem.requestedQuantity;
 
-            if (isDisplayed(jColumn)) {
-                if (requested === null || requested === undefined) return;
+            if (isDisplayed(requestedQuantityColumn) && isDisplayed(calculatedOrderQuantityColumn) &&
+                    !(requestedQuantity === null || requestedQuantity === undefined) &&
+                    !requestedQuantityExplanation) {
 
-                if (isDisplayed(iColumn)) {
-                    if (quantitiesDiffer(lineItem, requisition) && requested > 0 && !explanation) {
-                        return messageService.get('error.required');
-                    }
-                } else if (requested > 0 && !explanation) {
-                    return messageService.get('error.required');
-                }
+                return messageService.get('error.required');
             }
+            return;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf requisition-validation.validationFactory
+         * @name requestedQuantity
+         *
+         * @description
+         * Provides custom validator for the requested quantity column.
+         *
+         * @param  {Object} lineItem    the line item to be validated
+         * @param  {Object} requisition the requisition to validate the field for
+         * @return {String}             the error if field is invalid, undefined otherwise
+         */
+        function validateRequestedQuantity(lineItem, requisition) {
+            var calculatedOrderQuantityColumn = requisition.template.getColumn(TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY),
+                requestedQuantity = lineItem.requestedQuantity;
+
+            if (!isDisplayed(calculatedOrderQuantityColumn) && (requestedQuantity === null || requestedQuantity === undefined)) {
+                return messageService.get('error.required');
+            }
+            return;
         }
 
         /**
@@ -124,12 +143,6 @@
             if (nonStockoutDays < 0) {
                 return messageService.get('error.valueExceedPeriodDuration');
             }
-        }
-
-        function quantitiesDiffer(lineItem, requisition) {
-            var calculated = calculationFactory.calculatedOrderQuantity(lineItem, requisition),
-                entered = lineItem.requestedQuantity;
-            return calculated !== entered;
         }
 
         function isDisplayed(column) {
