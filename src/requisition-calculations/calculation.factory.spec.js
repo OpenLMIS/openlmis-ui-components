@@ -40,13 +40,38 @@ describe('calculationFactory', function() {
         requisitionMock.template = templateMock;
     });
 
-    describe('Calculate packs to ship', function(){
+    describe('Calculate packs to ship', function() {
+
+        var requestedQuantityColumn = {
+                name: 'requestedQuantity',
+                $display: true
+            },
+            calculatedOrderQuantityColumn = {
+                name: 'calculatedOrderQuantity',
+                $display: true
+            },
+            maximumStockQuantityColumn = {
+                name: 'maximumStockQuantity',
+                $display: true
+            },
+            stockOnHandColumn = {
+                name: 'stockOnHand',
+                $display: true
+            };
+
         beforeEach(function() {
             lineItemInject();
 
-            templateMock.getColumn.andReturn({
-                name: 'requestedQuantity',
-                $display: true
+            templateMock.getColumn.andCallFake(function(columnName) {
+                if(columnName === 'requestedQuantity') {
+                    return requestedQuantityColumn;
+                } else if(columnName === 'calculatedOrderQuantity') {
+                    return calculatedOrderQuantityColumn;
+                } else if(columnName === 'maximumStockQuantity') {
+                    return maximumStockQuantityColumn;
+                } else if(columnName === 'stockOnHand') {
+                    return stockOnHandColumn;
+                }
             });
         });
 
@@ -146,6 +171,36 @@ describe('calculationFactory', function() {
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.totalCost(lineItem, requisitionMock)).toBe(0);
+        });
+
+        it ('should use ordered quantity when requested quantity is no present', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
+            requestedQuantityColumn.$display = false;
+            lineItem.stockOnHand = 10;
+            lineItem.pricePerPack = 30.20;
+            lineItem.requestedQuantity = null;
+            lineItem.maximumStockQuantity = 100;
+
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 4;
+
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(9);
+        });
+
+        it ('should use ordered quantity when requested quantity is empty', function() {
+            requisitionMock.$isAuthorized.andReturn(false);
+
+            lineItem.requestedQuantity = null;
+            lineItem.stockOnHand = 10;
+            lineItem.pricePerPack = 30.20;
+            lineItem.requestedQuantity = null;
+            lineItem.maximumStockQuantity = 100;
+
+            lineItem.orderable.packSize = 10;
+            lineItem.orderable.packRoundingThreshold = 4;
+
+            expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(9);
         });
 
     });

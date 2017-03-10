@@ -279,7 +279,7 @@
                 var jColumn = requisition.template.getColumn(J),
                     mColumn = requisition.template.getColumn(M);
 
-                if (jColumn && jColumn.$display) {
+                if (jColumn && jColumn.$display && !(lineItem[J] === null || lineItem[J] === undefined)) {
                     orderQuantity = lineItem[J];
                 } else if (mColumn) {
                     orderQuantity = calculateOrderQuantity(lineItem, requisition);
