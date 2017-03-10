@@ -48,7 +48,9 @@
 		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
 
-	function datepicker() {
+	datepicker.$inject = ['DEFAULT_DATE_FORMAT'];
+
+	function datepicker(DEFAULT_DATE_FORMAT) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -56,7 +58,8 @@
 				inputId: '@?',
 				minDate: '=?',
 				maxDate: '=?',
-				changeMethod: '=?'
+				changeMethod: '=?',
+                dateFormat: '=' + DEFAULT_DATE_FORMAT
 			},
 			templateUrl: 'openlmis-form/datepicker.html'
 		};

@@ -73,8 +73,8 @@
             <tbody>
                 <tr ng-repeat="period in vm.periodGridData">
                     <td>{{period.name}}</td>
-                    <td>{{period.startDate | date:'dd/MM/yyyy'}}</td>
-                    <td>{{period.endDate | date:'dd/MM/yyyy'}}</td>
+                    <td>{{period.startDate | openlmisDate}}</td>
+                    <td>{{period.endDate | openlmisDate}}</td>
                     <td>{{period.rnrStatus}}</td>
                     <td class="sticky">
                         <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"

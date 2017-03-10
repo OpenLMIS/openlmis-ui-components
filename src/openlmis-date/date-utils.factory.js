@@ -32,7 +32,6 @@
 
     function dateUtils($filter) {
         var factory = {
-            FILTER: 'date: \'dd/MM/yyyy\'',
             toDate: toDate,
             toArray: toArray,
             toStringDate: toStringDate

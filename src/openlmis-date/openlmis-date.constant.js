@@ -14,20 +14,17 @@
  */
 
 (function() {
-
     'use strict';
 
     /**
-     * @module openlmis-form
+     * @ngdoc object
+     * @name openlmis-date.DEFAULT_DATE_FORMAT
      *
      * @description
-     * The openlmis-form module is responsible for forms.
+     * Provides default date format from config file.
      */
-    angular.module('openlmis-form', [
-        'openlmis-date',
-        'openlmis-i18n',
-        'openlmis-modal',
-        'mgcrea.ngStrap.datepicker'
-    ]);
+    angular
+        .module('openlmis-date')
+        .constant('DEFAULT_DATE_FORMAT', '@@DEFAULT_DATE_FORMAT');
 
 })();

@@ -23,8 +23,8 @@
      *
      * @description
      * Parses the given period into more readable form. Depending on whether the includeName flag
-     * is set it will parse the period into "PeriodName (01/01/2017 - 31/01/2017)" or just
-     * "01/01/2017 - 31/01/2017".
+     * is set it will parse the period into "PeriodName (1/1/17 - 1/31/17)" or just
+     * "1/1/17 - 1/31/17".
      *
      * @param   {Object}  period      the period to be formated
      * @param   {Boolean} includeName the flag defining whether name of period should be included
@@ -38,17 +38,14 @@
      */
     angular
         .module('openlmis-date')
-        .filter('period', filter);
+        .filter('period', periodFilter);
 
-    filter.$inject = ['$filter'];
+    periodFilter.$inject = ['$filter'];
 
-    function filter($filter) {
-        return periodFilter;
-
-        function periodFilter(period, includeName) {
-            var format = 'dd/MM/yyyy',
-                startDate = $filter('date')(period.startDate, format),
-                endDate = $filter('date')(period.endDate, format),
+    function periodFilter($filter) {
+        return function(period, includeName) {
+            var startDate = $filter('openlmisDate')(period.startDate),
+                endDate = $filter('openlmisDate')(period.endDate),
                 transformed = startDate + ' - ' + endDate;
 
             return includeName ? period.name + ' (' + transformed + ')' : transformed;

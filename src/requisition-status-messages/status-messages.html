@@ -14,7 +14,7 @@
                 {{vm.requisition.$statusMessages[0].authorFirstName}}
                 {{vm.requisition.$statusMessages[0].authorLastName}}
                 on
-                {{vm.requisition.$statusMessages[0].createdDate | date: 'longDate'}}
+                {{vm.requisition.$statusMessages[0].createdDate | openlmisDate: 'longDate'}}
             </div>
         </header>
         <div class="content">{{vm.requisition.$statusMessages[0].body}}</div>

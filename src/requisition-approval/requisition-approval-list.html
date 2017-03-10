@@ -22,9 +22,9 @@
                     <td>{{requisition.program.name}}</th>
                     <td>{{requisition.facility.code}} - {{requisition.facility.name}}</th>
                     <td>{{requisition.processingPeriod.name}}</th>
-                    <td>{{requisition.processingPeriod.startDate | date:'dd/MM/yyyy'}}</th>
-                    <td>{{requisition.processingPeriod.endDate | date:'dd/MM/yyyy'}}</th>
-                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | date:'dd/MM/yyyy'}}</th>
+                    <td>{{requisition.processingPeriod.startDate | openlmisDate}}</th>
+                    <td>{{requisition.processingPeriod.endDate | openlmisDate}}</th>
+                    <td>{{requisition.statusChanges.SUBMITTED.changeDate | openlmisDate}}</th>
                     <td class="col-emergency">
                         <span ng-if="requisition.emergency" class="icon-ok"></span>
                     </td>

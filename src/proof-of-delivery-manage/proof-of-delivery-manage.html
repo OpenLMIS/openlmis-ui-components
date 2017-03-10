@@ -76,9 +76,9 @@
                     <td>{{order.facility.code}} - {{order.facility.name}}</td>
                     <td>{{order.program.name}}</td>
                     <td>{{order.processingPeriod.name}}</td>
-                    <td>{{order.processingPeriod.startDate | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{order.processingPeriod.endDate | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{order.createdDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{order.processingPeriod.startDate | openlmisDate}}</td>
+                    <td>{{order.processingPeriod.endDate | openlmisDate}}</td>
+                    <td>{{order.createdDate | openlmisDate}}</td>
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': order.emergency}"></i>
                     </td>

@@ -6,7 +6,7 @@
                 {{statusMessage.authorFirstName}}
                 {{statusMessage.authorLastName}}
                 on
-                {{statusMessage.createdDate | date: 'longDate'}}
+                {{statusMessage.createdDate | openlmisDate: 'longDate'}}
             </div>
         </header>
         <div class="content">{{statusMessage.body}}</div>

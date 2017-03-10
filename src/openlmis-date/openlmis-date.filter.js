@@ -18,16 +18,26 @@
     'use strict';
 
     /**
-     * @module openlmis-form
+     * @ngdoc filter
+     * @name openlmis-date.filter:openlmisDate
      *
      * @description
-     * The openlmis-form module is responsible for forms.
+     * Returns date in given format. If no format provided, returns date in default format defined in config file.
+     *
+     * @param  {String} date        date to be formatted
+     * @param  {String} dateFormat  (optional) format of the date
+     * @return {String}             formatted date
      */
-    angular.module('openlmis-form', [
-        'openlmis-date',
-        'openlmis-i18n',
-        'openlmis-modal',
-        'mgcrea.ngStrap.datepicker'
-    ]);
+    angular
+        .module('openlmis-date')
+        .filter('openlmisDate', openlmisDateFilter);
+
+    openlmisDateFilter.$inject = ['$filter', 'DEFAULT_DATE_FORMAT'];
+
+    function openlmisDateFilter($filter, DEFAULT_DATE_FORMAT) {
+        return function(date, dateFormat) {
+            return $filter('date')(date, dateFormat ? dateFormat : DEFAULT_DATE_FORMAT);
+        }
+    }
 
 })();

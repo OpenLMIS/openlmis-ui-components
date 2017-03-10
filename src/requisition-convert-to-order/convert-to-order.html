@@ -37,9 +37,9 @@
 						<td>{{item.requisition.facility.code}} - {{item.requisition.facility.name}}</td>
 						<td>{{item.requisition.facility.geographicZone.parent.name}}</td>
 						<td>{{item.requisition.processingPeriod.name}}</td>
-						<td>{{item.requisition.processingPeriod.startDate | date:'dd/MM/yyyy'}}</td>
-						<td>{{item.requisition.processingPeriod.endDate | date:'dd/MM/yyyy'}}</td>
-						<td>{{item.requisition.statusChanges.APPROVED.changeDate | date:'dd/MM/yyyy'}}</td>
+						<td>{{item.requisition.processingPeriod.startDate | openlmisDate}}</td>
+						<td>{{item.requisition.processingPeriod.endDate | openlmisDate}}</td>
+						<td>{{item.requisition.statusChanges.APPROVED.changeDate | openlmisDate}}</td>
 						<td class="sticky">
 							<select ng-model="item.requisition.supplyingFacility"
 									ng-options="depot.id as depot.name for depot in item.supplyingDepots">
