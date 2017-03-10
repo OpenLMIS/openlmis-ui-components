@@ -15,38 +15,51 @@
 
 describe('analyticsService', function() {
 
-    var analyticsService, $window, offlineStatus;
+    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, eventsStoredOffline, offlineService;
 
-    beforeEach(module(function($provide){
-        $window = {ga: jasmine.createSpy() };
-        $provide.value("$window", $window);
-    }));
-    
-    beforeEach(module('openlmis-analytics'));
+    beforeEach(function() {
 
-    beforeEach(inject(function(offlineService){
-        offlineStatus = false;
-        spyOn(offlineService, 'isOffline').andCallFake(function(){
-            return offlineStatus;
+        eventsStoredOffline = [];
+
+        module('openlmis-analytics', function($provide) {
+            $window = {
+                ga: jasmine.createSpy()
+            };
+            $provide.value("$window", $window);
+
+            gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
+            gaOfflineEvents.getAll.andCallFake(function() {
+                return eventsStoredOffline;
+            });
+            localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
+                return gaOfflineEvents;
+            });
+
+            $provide.service('localStorageFactory', function() {
+                return localStorageFactorySpy;
+            });
         });
-    }));
 
-    beforeEach(inject(function(_analyticsService_){
-        analyticsService = _analyticsService_;
-    }))
+        inject(function(_offlineService_, _analyticsService_) {
 
-    it('registers google analytics with tracking number', function(){
-        expect($window.ga.calls.length).toBe(1);
-        expect($window.ga.mostRecentCall.args[0]).toBe('create');
+            offlineStatus = false;
+
+            analyticsService = _analyticsService_;
+            offlineService = _offlineService_;
+
+            spyOn(offlineService, 'isOffline').andCallFake(function() {
+                return offlineStatus;
+            });
+        });
     });
 
-    it('tracks all calls in google analytics', function(){
+    it('tracks all calls in google analytics', function() {
         analyticsService.track('all', 'arguments', 'to', 'ga');
         expect($window.ga.mostRecentCall.args.length).toBe(4);
         expect($window.ga.mostRecentCall.args[3]).toBe('ga');
     });
 
-    it('will not track ga while offline', function(){
+    it('will not track ga while offline', function() {
         analyticsService.track('foo');
         expect($window.ga.mostRecentCall.args[0]).toBe('foo');
 
@@ -59,4 +72,96 @@ describe('analyticsService', function() {
         expect($window.ga.mostRecentCall.args[0]).toBe('foo');
     });
 
+    describe('on init', function() {
+
+        it('registers google analytics with tracking number', function() {
+            expect($window.ga.calls.length).toBe(1);
+            expect($window.ga.mostRecentCall.args[0]).toBe('create');
+        });
+
+        it('should create local storage object for ga events', function() {
+            expect(localStorageFactorySpy).toHaveBeenCalledWith('googleAnalytics');
+        });
+
+        it('should check if there are offline events stored', function() {
+            expect(gaOfflineEvents.getAll).toHaveBeenCalled();
+        });
+    });
+
+    describe('online tracking', function() {
+
+        it('should track all calls in google analytics', function() {
+            analyticsService.track('all', 'arguments', 'to', 'ga');
+            expect($window.ga.mostRecentCall.args.length).toBe(4);
+            expect($window.ga.mostRecentCall.args[3]).toBe('ga');
+        });
+
+        it('should not track ga while offline', function() {
+            analyticsService.track('foo');
+            expect($window.ga.mostRecentCall.args[0]).toBe('foo');
+
+            offlineStatus = true;
+
+            analyticsService.track('bar');
+            expect($window.ga.mostRecentCall.args[0]).not.toBe('bar');
+
+            // last called value should still be foo....
+            expect($window.ga.mostRecentCall.args[0]).toBe('foo');
+        });
+    });
+
+    describe('offline tracking', function() {
+
+        var passedListener;
+
+        beforeEach(function() {
+            spyOn(offlineService, 'addOnlineListener').andCallFake(function(listener) {
+                passedListener = listener;
+            });
+        });
+
+        it('should store events while offline', function() {
+            offlineStatus = true;
+
+            analyticsService.track('bar');
+
+            expect(gaOfflineEvents.put).toHaveBeenCalledWith({
+                id: 1,
+                arguments: [
+                    'bar'
+                ]
+            });
+        });
+
+        it('should send all events stored offline when connection is restored', function() {
+            var offlineEvents = [
+                {
+                    id: 1,
+                    arguments: {
+                        0: 'arg1',
+                        1: 'arg2'
+                    }
+                },
+                {
+                    id: 2,
+                    arguments: {
+                        0: 'arg3',
+                        1: 'arg4'
+                    }
+                }
+            ];
+
+            offlineStatus = true;
+
+            analyticsService.track('bar');
+
+            gaOfflineEvents.getAll.andReturn(offlineEvents);
+
+            passedListener();
+
+            expect($window.ga.mostRecentCall.args[0]).toBe('arg3');
+            expect($window.ga.mostRecentCall.args[1]).toBe('arg4');
+        });
+
+    });
 });

@@ -24,6 +24,7 @@
      * Provides Google Analytics functionality.
      */
     angular.module('openlmis-analytics', [
+        'openlmis-local-storage',
     	'openlmis-offline',
     	'openlmis-i18n'
     	]);

@@ -21,20 +21,29 @@
      * @name openlmis-analytics.analyticsService
      *
      * @description
-     * Wraps the google analytics object, and initializes the object with the
+     * Wraps the Google Analytics object, and initializes the object with the
      * UA tracking code.
      */
     angular.module('openlmis-analytics')
     .service('analyticsService', service);
 
-    service.$inject = ['$window', 'offlineService'];
-    function service($window, offlineService){
-        var ga = $window.ga;
+    service.$inject = ['$window', 'offlineService', 'localStorageFactory'];
+
+    function service($window, offlineService, localStorageFactory) {
+        var ga = $window.ga,
+            gaEventsOfflineStorage = localStorageFactory('googleAnalytics');
 
         this.track = track;
 
         ga('create', '@@ANALYTICS_TRACKING_ID', 'auto');
 
+        if(gaEventsOfflineStorage.getAll().length > 0) {
+            if(offlineService.isOffline()) {
+                offlineService.addOnlineListener(applyGAStoredEvents);
+            } else {
+                applyGAStoredEvents();
+            }
+        }
 
         /**
          * @ngdoc method
@@ -45,9 +54,29 @@
          * Can take any number of arguments and passes them directly to Google Analytics.
          */
         function track() {
-            if(!offlineService.isOffline()){
+            if(!offlineService.isOffline()) {
                 ga.apply(this, arguments);
+            } else {
+                var count = gaEventsOfflineStorage.getAll().length;
+                gaEventsOfflineStorage.put({
+                    id: count + 1,
+                    arguments: arguments
+                });
+                if(count === 0) offlineService.addOnlineListener(applyGAStoredEvents);
             }
+        }
+
+        function applyGAStoredEvents() {
+            var service = this;
+            angular.forEach(gaEventsOfflineStorage.getAll(), function(storedEvent) {
+                var argumentArray = [];
+                angular.forEach(storedEvent.arguments, function(argument) {
+                    argumentArray.push(argument);
+                });
+                ga.apply(service, argumentArray);
+            });
+            gaEventsOfflineStorage.clearAll();
+            offlineService.removeOnlineListener(applyGAStoredEvents);
         }
     }
 

@@ -31,7 +31,14 @@
 
     function offlineService(Offline, $timeout, $q) {
         var service = this,
-            isOffline = false;
+            isOfflineFlag = false;
+
+        service.checkConnection = checkConnection;
+        service.isOffline = isOffline;
+        service.addOnlineListener = addOnlineListener;
+        service.removeOnlineListener = removeOnlineListener;
+        service.addOfflineListener = addOfflineListener;
+        service.removeOfflineListener = removeOfflineListener;
 
         Offline.options = {
             checkOnLoad: true,
@@ -44,13 +51,8 @@
             }}
         };
 
-        Offline.on('confirmed-up', online);
-
-        Offline.on('up', online);
-
-        Offline.on('confirmed-down', offline);
-
-        Offline.on('down', offline);
+        addOnlineListener(online);
+        addOfflineListener(offline);
 
         /**
          * @ngdoc method
@@ -62,7 +64,7 @@
          *
          * @return {Promise} resolves when offline status is confirmed
          */
-        service.checkConnection = function() {
+        function checkConnection() {
             var deferred = $q.defer();
 
             Offline.check();
@@ -93,20 +95,80 @@
          *
          * @return {Boolean} true if user is offline
          */
-        service.isOffline = function() {
-            return isOffline;
+        function isOffline() {
+            return isOfflineFlag;
         }
 
         function offline() {
            $timeout(function() {
-               isOffline = true;
+               isOfflineFlag = true;
            });
         }
 
         function online() {
            $timeout(function() {
-               isOffline = false;
+               isOfflineFlag = false;
            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-offline.offlineService
+         * @name addOnlineListener
+         *
+         * @description
+         * Adds listener to is online event.
+         *
+         * @param {Function} listener the method that will be executed on event
+         */
+        function addOnlineListener(listener) {
+            Offline.on('confirmed-up', listener);
+            Offline.on('up', listener);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-offline.offlineService
+         * @name removeOnlineListener
+         *
+         * @description
+         * Removes listener from is online event.
+         *
+         * @param {Function} listener the method that will be removed
+         */
+        function removeOnlineListener(listener) {
+            Offline.off('confirmed-up', listener);
+            Offline.off('up', listener);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-offline.offlineService
+         * @name addOfflineListener
+         *
+         * @description
+         * Adds listener to is offline event.
+         *
+         * @param {Function} listener the method that will be executed on event
+         */
+        function addOfflineListener(listener) {
+            Offline.on('confirmed-down', listener);
+            Offline.on('down', listener);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-offline.offlineService
+         * @name removeOfflineListener
+         *
+         * @description
+         * Removes listener from is offline event.
+         *
+         * @param {Function} listener the method that will be removed
+         */
+        function removeOfflineListener(listener) {
+            Offline.off('confirmed-down', listener);
+            Offline.off('down', listener);
         }
     }
 })();

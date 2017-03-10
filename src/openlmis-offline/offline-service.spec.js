@@ -78,4 +78,66 @@ describe("offlineService", function() {
 
         expect(isOffline).toBe(true);
     });
+
+    it('should fire listener when the connection has gone from down to up', function() {
+        var spy = jasmine.createSpy();
+
+        offlineService.addOnlineListener(spy);
+
+        offline.trigger('up');
+        timeout.flush(30000);
+
+        expect(offlineService.isOffline()).toBe(false);
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not fire listener when it was removed and the connection has gone from down to up', function() {
+        var spy = jasmine.createSpy();
+
+        offlineService.addOnlineListener(spy);
+
+        offline.trigger('up');
+        timeout.flush(30000);
+
+        expect(offlineService.isOffline()).toBe(false);
+        expect(spy).toHaveBeenCalled();
+
+        offlineService.removeOnlineListener(spy);
+
+        offline.trigger('up');
+        timeout.flush(30000);
+
+        expect(spy.callCount).toEqual(1);
+    });
+
+    it('should fire listener when the connection has gone from up to down', function() {
+        var spy = jasmine.createSpy();
+
+        offlineService.addOfflineListener(spy);
+
+        offline.trigger('down');
+        timeout.flush(30000);
+
+        expect(offlineService.isOffline()).toBe(true);
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should not fire listener when it was removed and the connection has gone from up to down', function() {
+        var spy = jasmine.createSpy();
+
+        offlineService.addOfflineListener(spy);
+
+        offline.trigger('down');
+        timeout.flush(30000);
+
+        expect(offlineService.isOffline()).toBe(true);
+        expect(spy).toHaveBeenCalled();
+
+        offlineService.removeOfflineListener(spy);
+
+        offline.trigger('down');
+        timeout.flush(30000);
+
+        expect(spy.callCount).toEqual(1);
+    });
 });
