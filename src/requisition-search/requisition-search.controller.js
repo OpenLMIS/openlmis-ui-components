@@ -30,12 +30,12 @@
     RequisitionSearchController.$inject = [
         '$state', '$controller', '$filter', '$stateParams', 'facilities', 'notificationService',
         'offlineService', 'localStorageFactory', 'confirmService', 'items', 'stateParams',
-        'totalItems',
+        'totalItems', 'DEFAULT_DATE_FORMAT'
     ];
 
     function RequisitionSearchController($state, $controller, $filter, $stateParams, facilities,
         notificationService, offlineService, localStorageFactory,
-        confirmService, items, stateParams, totalItems) {
+        confirmService, items, stateParams, totalItems, DEFAULT_DATE_FORMAT) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -45,6 +45,17 @@
         vm.openRnr = openRnr;
         vm.removeOfflineRequisition = removeOfflineRequisition;
         vm.isOfflineDisabled = isOfflineDisabled;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name dateFormat
+         * @type {String}
+         *
+         * @description
+         * Holds format of date to be set in datepicker.
+         */
+        vm.dateFormat = DEFAULT_DATE_FORMAT;
 
         /**
          * @ngdoc property

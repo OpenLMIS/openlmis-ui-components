@@ -24,9 +24,9 @@
             <fieldset>
                 <legend>Date</legend>
                 <label for=startDate>{{'label.from' | message}}</label>
-                <openlmis-datepicker input-id="startDate" value="vm.startDate" max-date="vm.endDate"></openlmis-datepicker>
+                <openlmis-datepicker input-id="startDate" value="vm.startDate" max-date="vm.endDate" date-format="vm.dateFormat"></openlmis-datepicker>
                 <label for=endDate>{{'label.to' | message}}</label>
-                <openlmis-datepicker input-id="endDate" value="vm.endDate" min-date="vm.startDate"></openlmis-datepicker>
+                <openlmis-datepicker input-id="endDate" value="vm.endDate" min-date="vm.startDate" date-format="vm.dateFormat"></openlmis-datepicker>
             </fieldset>
             <input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
         </form>
