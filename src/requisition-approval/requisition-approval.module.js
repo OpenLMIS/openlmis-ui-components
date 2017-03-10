@@ -25,6 +25,7 @@
      */
     angular.module('requisition-approval', [
         'requisition',
+        'openlmis-pagination',
         'ui.router'
     ]);
 

@@ -60,7 +60,6 @@
             'forApproval': {
                 url: requisitionUrlFactory('/api/requisitions/requisitionsForApproval'),
                 method: 'GET',
-                isArray: true,
                 transformResponse: transformRequisitionListResponse
             },
             'forConvert': {
@@ -364,9 +363,9 @@
         }
 
         function transformRequisitionListResponse(data, headers, status) {
-            return transformResponse(data, status, function(requisitions) {
-                angular.forEach(requisitions, transformRequisition);
-                return requisitions;
+            return transformResponse(data, status, function(response) {
+                angular.forEach(response.content, transformRequisition);
+                return response;
             });
         }
 

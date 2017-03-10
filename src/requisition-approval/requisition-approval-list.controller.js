@@ -29,24 +29,22 @@
 		.module('requisition-approval')
 		.controller('RequisitionApprovalListController', controller);
 
-	controller.$inject = ['$state', 'requisitionList', 'messageService'];
+	controller.$inject = ['$controller', '$state', 'items', 'messageService', 'stateParams', 'totalItems'];
 
-	function controller($state, requisitionList, messageService) {
+	function controller($controller, $state, items, messageService, stateParams, totalItems) {
 
 		var vm = this;
 
-		vm.openRnr = openRnr;
+        $controller('BasePaginationController', {
+			vm: vm,
+            items: items,
+            totalItems: totalItems,
+			stateParams: stateParams,
+			externalPagination: true,
+			itemValidator: undefined
+		});
 
-        /**
-         * @ngdoc property
-         * @propertyOf requisition-approval.controller:RequisitionApprovalListController
-         * @name requisitions
-         * @type {Array}
-         *
-         * @description
-         * Holds requisitions.
-         */
-		vm.requisitions = requisitionList;
+		vm.openRnr = openRnr;
 
         /**
          * @ngdoc property

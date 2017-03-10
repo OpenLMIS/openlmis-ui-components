@@ -2,7 +2,7 @@
     <h2>{{'label.approve.requisitions' | message}}</h2>
     <div class="openlmis-table-container">
         <table>
-            <caption ng-if="!vm.requisitions.length">
+            <caption ng-if="!vm.items.length">
                 {{'message.no.rnr.pending.approval' | message}}
             </caption>
             <thead>
@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="requisition in vm.requisitions">
+                <tr ng-repeat="requisition in vm.items">
                     <td>{{requisition.program.name}}</th>
                     <td>{{requisition.facility.code}} - {{requisition.facility.name}}</th>
                     <td>{{requisition.processingPeriod.name}}</th>
@@ -36,5 +36,11 @@
                 </tr>
             </tbody>
         </table>
+        <openlmis-pagination ng-model="vm.stateParams.page"
+                             ng-change="vm.changePage()"
+                             total-items="vm.totalItems"
+                             items="vm.pageItems.length"
+                             page-size="vm.stateParams.size">
+        </openlmis-pagination>
     </div>
 </div>
