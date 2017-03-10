@@ -28,7 +28,7 @@
 		$stateProvider.state('requisitions.approvalList', {
 			showInNavigation: true,
 			label: 'link.requisition.approve',
-			url: '/approvalList',
+			url: '/approvalList?page&size',
 			controller: 'RequisitionApprovalListController',
 			controllerAs: 'vm',
 			templateUrl: 'requisition-approval/requisition-approval-list.html',

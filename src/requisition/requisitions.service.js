@@ -250,8 +250,8 @@
          *
          * @return {Array} Array of requisitions for approval
          */
-        function forApproval() {
-            return resource.forApproval().$promise;
+        function forApproval(params) {
+            return resource.forApproval(params).$promise;
         }
 
         /**
