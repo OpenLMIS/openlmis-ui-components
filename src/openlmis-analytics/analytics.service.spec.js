@@ -15,11 +15,9 @@
 
 describe('analyticsService', function() {
 
-    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, eventsStoredOffline, offlineService;
+    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService;
 
     beforeEach(function() {
-
-        eventsStoredOffline = [];
 
         module('openlmis-analytics', function($provide) {
             $window = {
@@ -28,9 +26,7 @@ describe('analyticsService', function() {
             $provide.value("$window", $window);
 
             gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
-            gaOfflineEvents.getAll.andCallFake(function() {
-                return eventsStoredOffline;
-            });
+            gaOfflineEvents.getAll.andReturn([]);
             localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
                 return gaOfflineEvents;
             });
@@ -51,25 +47,6 @@ describe('analyticsService', function() {
                 return offlineStatus;
             });
         });
-    });
-
-    it('tracks all calls in google analytics', function() {
-        analyticsService.track('all', 'arguments', 'to', 'ga');
-        expect($window.ga.mostRecentCall.args.length).toBe(4);
-        expect($window.ga.mostRecentCall.args[3]).toBe('ga');
-    });
-
-    it('will not track ga while offline', function() {
-        analyticsService.track('foo');
-        expect($window.ga.mostRecentCall.args[0]).toBe('foo');
-
-        offlineStatus = true;
-
-        analyticsService.track('bar');
-        expect($window.ga.mostRecentCall.args[0]).not.toBe('bar');
-
-        // last called value should still be foo....
-        expect($window.ga.mostRecentCall.args[0]).toBe('foo');
     });
 
     describe('on init', function() {
