@@ -1,5 +1,5 @@
 # OpenLMIS Requisition Reference UI Module
-This repository holds the files for the OpenLMIS Requisition Reference UI Module.
+This repository is the UI for the [OpenLMIS Requisition Service.](https://github.com/OpenLMIS/openlmis-requisition)
 
 ## Prerequisites
 * Docker 1.11+
@@ -18,7 +18,7 @@ This repository holds the files for the OpenLMIS Requisition Reference UI Module
 *Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build --openlmisServerUrl=<openlmis server url> --serve`.
 
 ## Building & Testing
-See the OpenLMIS/dev-ui project for more information on what commands are available, below are the command you might use during a normal work day.
+See the [OpenLMIS/dev-ui project](https://github.com/OpenLMIS/dev-ui) for more information on what commands are available, below are the command you might use during a normal work day.
 
 ```shell
 // Open docker in an interactive shell
@@ -53,8 +53,9 @@ servers for automated building, testing and docker image generation of
 the UI module.
 
 ```shell
-> docker-compose -f docker-compose.builder.yml run builder
-> docker-compose -f docker-compose.builder.yml build image
+> docker-compose pull
+> docker-compose run ./build.sh requisition-ui
+> docker-compose build image
 ```
 
 ### Internationalization (i18n)
