@@ -51,9 +51,7 @@
                     return programService.getUserPrograms(userId, true);
                 },
                 response: function(orderFactory, $stateParams) {
-                    var params = angular.copy($stateParams)
-                    delete params.isSupervised;
-                    return orderFactory.searchOrdersForManagePod(params);
+                    return orderFactory.searchOrdersForManagePod($stateParams);
                 }
             })
         });
