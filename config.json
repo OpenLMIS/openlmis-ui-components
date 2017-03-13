@@ -29,5 +29,6 @@
   "transifexProjectName": "openlmis-requisition-ui",
   "defaultLanguage": "en",
   "analyticsTrackingId": "UA-35478705-4",
-  "defaultDateFormat": "dd/MM/yyyy"
+  "defaultDateFormat": "dd/MM/yyyy",
+  "defaultDatetimeFormat": "dd/MM/yyyy HH:mm:ss"
 }
