@@ -196,7 +196,8 @@
          * @name adjustedConsumption
          *
          * @description
-         * Calculates the value of the Adjusted Consumption column based on the given line item.
+         * Calculates the value of the Adjusted Consumption column based on the given line item. If
+         * consumed quantity is calculated, the calculated value will be used.
          *
          * @param  {Object} lineItem    the line item to calculate the value from
          * @param  {Object} requisition the requisition with required period
