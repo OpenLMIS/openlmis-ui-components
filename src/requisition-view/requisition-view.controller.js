@@ -330,10 +330,7 @@
          * @return {Boolean} should authorize button be displayed
          */
         function displayAuthorize() {
-            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
-                programCode: vm.requisition.program.code
-            });
-            return vm.requisition.$isSubmitted() && hasRight;
+            return vm.requisition.$isSubmitted() && hasAuthorizeRight();
         }
 
         /**
@@ -348,10 +345,7 @@
          * @return {Boolean} should submit button be displayed
          */
         function displaySubmit() {
-            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
-                programCode: vm.requisition.program.code
-            });
-            return vm.requisition.$isInitiated() && hasRight;
+            return vm.requisition.$isInitiated() && hasCreateRight();
         }
 
         /**
@@ -366,10 +360,7 @@
          * @return {Boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
-            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
-                programCode: vm.requisition.program.code
-            });
-            return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasRight;
+            return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasApproveRight();
         }
 
         /**
@@ -384,10 +375,7 @@
          * @return {Boolean} should delete button be displayed
          */
         function displayDelete() {
-            var hasRight = authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
-                programCode: vm.requisition.program.code
-            });
-            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasRight;
+            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasDeleteRight();
         }
 
         /**
@@ -402,10 +390,7 @@
          * @return {Boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            var hasRight = authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_EDIT, {
-                programCode: vm.requisition.program.code
-            });
-            return vm.requisition.$isApproved() && hasRight;
+            return vm.requisition.$isApproved() && hasOrdersEditRight();
         }
 
         /**
@@ -422,7 +407,8 @@
         function displaySkip() {
             return vm.requisition.$isInitiated() &&
                 vm.requisition.program.periodsSkippable &&
-                !vm.requisition.emergency;
+                !vm.requisition.emergency &&
+                hasCreateRight();
         }
 
         /**
@@ -437,16 +423,16 @@
          * @return {Boolean} true if sync button should be visible, false otherwise
          */
         function displaySync() {
-          if (vm.requisition.$isInitiated()) {
-            return hasCreateRight();
-          }
-          if (vm.requisition.$isSubmitted()) {
-            return hasAuthorizeRight();
-          }
-          if (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) {
-            return hasApproveRight();
-          }
-          return false;
+            if (vm.requisition.$isInitiated()) {
+                return hasCreateRight();
+            }
+            if (vm.requisition.$isSubmitted()) {
+                return hasAuthorizeRight();
+            }
+            if (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) {
+                return hasApproveRight();
+            }
+            return false;
         }
 
         /**
@@ -566,5 +552,16 @@
             });
         }
 
+        function hasDeleteRight() {
+            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
+                programCode: vm.requisition.program.code
+            });
+        }
+
+        function hasOrdersEditRight() {
+            return authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_EDIT, {
+                programCode: vm.requisition.program.code
+            });
+        }
     }
 })();

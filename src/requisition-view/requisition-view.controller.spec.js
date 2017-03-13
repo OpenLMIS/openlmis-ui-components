@@ -103,20 +103,29 @@ describe('RequisitionViewController', function() {
     });
 
     it('should display skip button', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
         expect(vm.displaySkip()).toBe(true);
     });
 
+    it('should not display skip button if user has no permission to create requisition', function() {
+        authorizationServiceSpy.hasRight.andReturn(false);
+        expect(vm.displaySkip()).toBe(false);
+    });
+
     it('should not display skip button if program does not allow skipping periods', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
         vm.requisition.program.periodsSkippable = false;
         expect(vm.displaySkip()).toBe(false);
     });
 
     it('should not display skip button if requisition has emergency type', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
         vm.requisition.emergency = true;
         expect(vm.displaySkip()).toBe(false);
     });
 
     it('should display skip button if requisition is not in initiated status', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
         vm.requisition.$isInitiated.andReturn(false);
         expect(vm.displaySkip()).toBe(false);
     });

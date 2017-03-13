@@ -36,7 +36,7 @@
                 REQUISITION_RIGHTS.REQUISITION_APPROVE,
                 FULFILLMENT_RIGHTS.ORDERS_EDIT],
             resolve: {
-                requisition: function ($state, $q, $stateParams, requisitionService) {
+                requisition: function($state, $q, $stateParams, requisitionService) {
                     var deferred = $q.defer();
 
                     requisitionService.get($stateParams.rnr).then(function(response) {
