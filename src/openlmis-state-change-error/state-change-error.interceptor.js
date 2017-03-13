@@ -28,10 +28,11 @@
     angular.module('openlmis-state-change-error')
         .run(stateChangeErrorInterceptor);
 
-    stateChangeErrorInterceptor.$inject = ["$rootScope"];
-    function stateChangeErrorInterceptor($rootScope){
+    stateChangeErrorInterceptor.$inject = ["$rootScope", 'alertService'];
+    function stateChangeErrorInterceptor($rootScope, alertService){
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-            console.log(error);
+            alertService.error('error.internalApplicationError', 'msg.checkConsoleLogs', true);
+            console.error(error);
         });
     }
 

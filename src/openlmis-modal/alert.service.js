@@ -34,7 +34,8 @@
     function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
         bootbox, messageService) {
 
-        var template = $templateCache.get('openlmis-modal/alert.html');
+        var template = $templateCache.get('openlmis-modal/alert.html'),
+            modals = [];
 
         this.warning = warning;
         this.error = error;
@@ -50,10 +51,12 @@
          *
          * @param  {String}  message           Primary message to display at the top
          * @param  {String}  additionalMessage Additional message to display below
+         * @param  {Boolean} lowPriority       the flag defining whether the alert should be
+         *                                     surpressed if any other is already displayed
          * @return {Promise}                   alert promise
          */
-        function warning(message, additionalMessage) {
-            return showAlert('warning', message, additionalMessage);
+        function warning(message, additionalMessage, lowPriority) {
+            return showAlert('warning', message, additionalMessage, lowPriority);
         }
 
         /**
@@ -64,11 +67,14 @@
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
-         * @param  {String}  message Message to display
-         * @return {Promise}         error promise
+         * @param   {String}    message             Message to display
+         * @param   {String}    additionalMessage   Additional message to display below
+         * @param   {Boolean}   lowPriority         the flag defining whether the alert should be
+         *                                          surpressed if any other is already displayed
+         * @return  {Promise}                       error promise
          */
-        function error(message) {
-            return showAlert('error', message);
+        function error(message, additionalMessage, lowPriority) {
+            return showAlert('error', message, additionalMessage, lowPriority);
         }
 
         /**
@@ -79,15 +85,19 @@
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
          *
-         * @param  {String}  message           Message to display
-         * @param  {String}  additionalMessage Additional message to display below
-         * @return {Promise}                   success promise
+         * @param   {String}    message             Message to display
+         * @param   {String}    additionalMessage   Additional message to display below
+         * @param   {Boolean}   lowPriority         the flag defining whether the alert should be
+         *                                          surpressed if any other is already displayed
+         * @return  {Promise}                       success promise
          */
-        function success(message, additionalMessage) {
-            return showAlert('success', message, additionalMessage);
+        function success(message, additionalMessage, lowPriority) {
+            return showAlert('success', message, additionalMessage, lowPriority);
         }
 
-        function showAlert(alertClass, message, additionalMessage) {
+        function showAlert(alertClass, message, additionalMessage, lowPriority) {
+            if (lowPriority && modals.length) return $q.when();
+
             var modal,
                 deferred = $q.defer(),
                 scope = $rootScope.$new();
@@ -108,6 +118,7 @@
                     }
                 }
             });
+            modals.push(modal);
 
             return deferred.promise;
 
@@ -115,6 +126,7 @@
                 deferred.resolve();
                 if(modal) modal.modal('hide');
                 modal = undefined;
+                modals.splice(modals.indexOf(modal), 1);
                 scope.$destroy();
             }
         }
