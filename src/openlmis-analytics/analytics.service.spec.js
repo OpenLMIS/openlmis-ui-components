@@ -15,7 +15,7 @@
 
 describe('analyticsService', function() {
 
-    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService;
+    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService, date;
 
     beforeEach(function() {
 
@@ -63,6 +63,9 @@ describe('analyticsService', function() {
             });
 
             spyOn($rootScope, '$on').andCallThrough();
+
+            date = new Date();
+            spyOn(Date, 'now').andReturn(date);
         });
     });
 
@@ -119,7 +122,7 @@ describe('analyticsService', function() {
                     screenResolution: '200x200',
                     viewportSize: '100x100',
                     language: 'en-US',
-                    time: new Date()
+                    time: Date.now()
                 }
             });
         });
@@ -136,7 +139,7 @@ describe('analyticsService', function() {
                         screenResolution: '200x200',
                         viewportSize: '100x100',
                         language: 'en-US',
-                        time: new Date() - 1000
+                        time: date - 1000
                     }
                 },
                 {
@@ -148,10 +151,11 @@ describe('analyticsService', function() {
                         screenResolution: '200x200',
                         viewportSize: '100x100',
                         language: 'en-US',
-                        time: new Date() - 2000
+                        time: date - 2000
                     }
                 }
             ];
+
             gaOfflineEvents.getAll.andReturn(offlineEvents);
 
             $rootScope.$broadcast('openlmis.online');

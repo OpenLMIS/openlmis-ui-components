@@ -85,7 +85,7 @@
                 screenResolution: ga.P[0].b.data.values[':screenResolution'],
                 viewportSize: ga.P[0].b.data.values[':viewportSize'],
                 language: ga.P[0].b.data.values[':language'],
-                time: new Date()
+                time: Date.now()
             };
         }
 
@@ -93,7 +93,7 @@
             ga('set', 'screenResolution', parameters.screenResolution);
             ga('set', 'viewportSize', parameters.viewportSize);
             ga('set', 'language', parameters.language);
-            if(setQueueTime) ga('set', 'queueTime', new Date() - new Date(parameters.time));
+            if(setQueueTime) ga('set', 'queueTime', Date.now() - new Date(parameters.time));
             else ga('set', 'queueTime', 0);
         }
     }
