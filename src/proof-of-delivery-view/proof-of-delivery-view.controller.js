@@ -29,13 +29,11 @@
 
     controller.$inject = [
         '$controller', '$state', 'proofOfDeliveryService', 'notificationService',
-        'confirmService', 'ORDER_STATUS', 'pod', 'items', 'stateParams', 'totalItems',
-        'DEFAULT_DATE_FORMAT'
+        'confirmService', 'ORDER_STATUS', 'pod', 'items', 'stateParams', 'totalItems'
     ];
 
     function controller($controller, $state, proofOfDeliveryService, notificationService,
-                        confirmService, ORDER_STATUS, pod, items, stateParams, totalItems,
-                        DEFAULT_DATE_FORMAT)
+                        confirmService, ORDER_STATUS, pod, items, stateParams, totalItems)
     {
         var vm = this;
 
@@ -52,17 +50,6 @@
         vm.submitPod = submitPod;
         vm.isSubmitted = isSubmitted;
         vm.typeMessage = typeMessage;
-
-        /**
-         * @ngdoc property
-         * @propertyOf proof-of-delivery-view.controller:PodViewController
-         * @name dateFormat
-         * @type {String}
-         *
-         * @description
-         * Holds format of date to be set in datepicker.
-         */
-        vm.dateFormat = DEFAULT_DATE_FORMAT;
 
         /**
          * @ngdoc property
