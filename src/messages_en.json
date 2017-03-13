@@ -140,6 +140,8 @@
   "label.receivedDate": "Received date",
   "label.region": "Region",
   "label.replacedProductCode": "Replaced product code",
+  "label.report.geographicZoneInfo": "If no option is selected, report will include all geographic zones.",
+  "label.report.dueDaysInfo": "Insert number of days past the period end date the requisitions are due by. Default is 10 days.",
   "label.requestingFacility": "Requesting facility",
   "label.requisition": "Report and Requisition for",
   "label.requisition.convertOrder": "Convert requisitions to order",

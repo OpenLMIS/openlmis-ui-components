@@ -2,10 +2,19 @@
     <h2>{{'choose.report.options.header' | message}}</h2>
     <form class="filters" ng-submit="vm.downloadReport()">
         <label for="{{parameter.name}}" ng-repeat-start="parameter in vm.report.templateParameters">{{parameter.displayName}}</label>
-        <select id="{{parameter.name}}" ng-if="parameter.selectExpression != null" ng-model="vm.selectedParamsOptions[parameter.name]" ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]" ng-required="{{parameter.required}}"></select>
+        <select id="{{parameter.name}}" 
+                ng-if="parameter.selectExpression != null" ng-model="vm.selectedParamsOptions[parameter.name]"
+                ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]"
+                ng-required="{{parameter.required}}" aria-labelledby="infolabelForSelect"></select>
+        <p class="param-info" ng-if="vm.paramsInfo[parameter.name] && parameter.selectExpression != null" id="infolabelForSelect">
+            {{vm.paramsInfo[parameter.name] | message}}</p>
         <span ng-if="parameter.selectExpression == null" ng-switch="parameter.dataType" ng-repeat-end>
-            <input ng-switch-when="java.lang.Integer" positive-integer ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
-            <input ng-switch-default ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
+            <input ng-switch-when="java.lang.Integer" positive-integer
+                   ng-model="vm.selectedParamsOptions[parameter.name]" ng-required="{{parameter.required}}"/>
+            <input ng-switch-default ng-model="vm.selectedParamsOptions[parameter.name]"
+                   ng-required="{{parameter.required}}" aria-labelledby="infolabelForInteger"/>
+            <p class="param-info" ng-if="vm.paramsInfo[parameter.name]" id="infoLabelForInteger">
+                {{vm.paramsInfo[parameter.name] | message}}</p>
         </span>
         <fieldset class="form-group">
             <legend>{{'label.format' | message}}</legend>

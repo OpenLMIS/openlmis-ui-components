@@ -40,6 +40,11 @@
 
         vm.downloadReport = downloadReport;
 
+        vm.paramsInfo = {
+            'GeographicZone': 'label.report.geographicZoneInfo',
+            'DueDays': 'label.report.dueDaysInfo'
+        };
+
         /**
          * @ngdoc property
          * @propertyOf report.controller:ReportGenerateController
