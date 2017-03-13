@@ -635,4 +635,14 @@ describe('templateFactory', function() {
         requisitionTemplate.columnsMap.total.label = '$&asc';
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
+
+    it('should fix column.option reference to point to one of the options', function() {
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        expect(requisitionTemplate.columnsMap.total.option)
+            .toBe(requisitionTemplate.columnsMap.total.columnDefinition.options[0]);
+    });
 });

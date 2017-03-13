@@ -26,9 +26,9 @@
      */
     angular.module('admin-template').factory('templateFactory', templateFactory);
 
-    templateFactory.$inject = ['$q', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'ALPHA_NUMERIC_REGEX'];
+    templateFactory.$inject = ['$q', '$filter', 'requisitionTemplateService', 'RequisitionColumn', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'ALPHA_NUMERIC_REGEX'];
 
-    function templateFactory($q, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH, ALPHA_NUMERIC_REGEX) {
+    function templateFactory($q, $filter, requisitionTemplateService, RequisitionColumn, COLUMN_SOURCES, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH, ALPHA_NUMERIC_REGEX) {
 
         var factory = {
             get: get,
@@ -57,7 +57,12 @@
                 template.$moveColumn = moveColumn;
                 template.$findCircularCalculatedDependencies = findCircularCalculatedDependencies;
 
-                addDependentColumnValidation(template.columnsMap);
+                angular.forEach(template.columnsMap, function(column) {
+                    addDependentColumnValidation(column, template.columnsMap);
+                    fixColumnOptionModelReference(column);
+                    column.$isValid = isColumnValid;
+                });
+
                 deferred.resolve(template);
             }, function() {
                 deferred.reject();
@@ -100,17 +105,14 @@
         }
 
         // Creates a array with dependent column names.
-        function addDependentColumnValidation(columns) {
-            angular.forEach(columns, function(column) {
-                var dependencies = RequisitionColumn.columnDependencies(column);
-                if(dependencies && dependencies.length > 0) {
-                    angular.forEach(dependencies, function(dependency) {
-                        if(!columns[dependency].$dependentOn) columns[dependency].$dependentOn = [];
-                        columns[dependency].$dependentOn.push(column.name);
-                    });
-                }
-                column.$isValid = isColumnValid;
-            });
+        function addDependentColumnValidation(column, columns) {
+            var dependencies = RequisitionColumn.columnDependencies(column);
+            if(dependencies && dependencies.length > 0) {
+                angular.forEach(dependencies, function(dependency) {
+                    if(!columns[dependency].$dependentOn) columns[dependency].$dependentOn = [];
+                    columns[dependency].$dependentOn.push(column.name);
+                });
+            }
         }
 
         // Checks if all columns in template are valid.
@@ -305,6 +307,15 @@
             return !numberOfPeriods ||
                 !numberOfPeriods.toString().trim() ||
                 numberOfPeriods < 2;
+        }
+
+        //this fixes setting initial value of the select on the admin-template screen
+        function fixColumnOptionModelReference(column) {
+            if (column.option ) {
+                column.option = $filter('filter')(column.columnDefinition.options, {
+                    id: column.option.id
+                })[0];
+            }
         }
     }
 
