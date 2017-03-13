@@ -27,9 +27,9 @@
     angular.module('openlmis-analytics')
     .service('analyticsService', service);
 
-    service.$inject = ['$window', 'offlineService', 'localStorageFactory'];
+    service.$inject = ['$window', 'offlineService', 'localStorageFactory', '$rootScope'];
 
-    function service($window, offlineService, localStorageFactory) {
+    function service($window, offlineService, localStorageFactory, $rootScope) {
         var ga = $window.ga,
             gaEventsOfflineStorage = localStorageFactory('googleAnalytics');
 
@@ -37,13 +37,8 @@
 
         ga('create', '@@ANALYTICS_TRACKING_ID', 'auto');
 
-        if(gaEventsOfflineStorage.getAll().length > 0) {
-            if(offlineService.isOffline()) {
-                offlineService.addOnlineListener(applyGAStoredEvents);
-            } else {
-                applyGAStoredEvents();
-            }
-        }
+        applyGAStoredEvents();
+        $rootScope.$on('openlmis.online', applyGAStoredEvents);
 
         /**
          * @ngdoc method
@@ -57,26 +52,49 @@
             if(!offlineService.isOffline()) {
                 ga.apply(this, arguments);
             } else {
-                var count = gaEventsOfflineStorage.getAll().length;
                 gaEventsOfflineStorage.put({
-                    id: count + 1,
-                    arguments: arguments
+                    arguments: arguments,
+                    gaParameters: getGAParameters()
                 });
-                if(count === 0) offlineService.addOnlineListener(applyGAStoredEvents);
             }
         }
 
         function applyGAStoredEvents() {
-            var service = this;
+
+            var service = this,
+                gaParameters = getGAParameters();
+
             angular.forEach(gaEventsOfflineStorage.getAll(), function(storedEvent) {
+
                 var argumentArray = [];
                 angular.forEach(storedEvent.arguments, function(argument) {
                     argumentArray.push(argument);
                 });
+
+                setGAParameters(storedEvent.gaParameters, true);
+
                 ga.apply(service, argumentArray);
             });
             gaEventsOfflineStorage.clearAll();
-            offlineService.removeOnlineListener(applyGAStoredEvents);
+
+            setGAParameters(gaParameters);
+        }
+
+        function getGAParameters() {
+            return {
+                screenResolution: ga.P[0].b.data.values[':screenResolution'],
+                viewportSize: ga.P[0].b.data.values[':viewportSize'],
+                language: ga.P[0].b.data.values[':language'],
+                time: new Date()
+            };
+        }
+
+        function setGAParameters(parameters, setQueueTime) {
+            ga('set', 'screenResolution', parameters.screenResolution);
+            ga('set', 'viewportSize', parameters.viewportSize);
+            ga('set', 'language', parameters.language);
+            if(setQueueTime) ga('set', 'queueTime', new Date() - new Date(parameters.time));
+            else ga('set', 'queueTime', 0);
         }
     }
 

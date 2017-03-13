@@ -15,19 +15,24 @@
 
 describe("offlineService", function() {
 
-    var offline, offlineService, timeout;
+    var offline, offlineService, timeout, $rootScope;
 
     beforeEach(function() {
         module('openlmis-offline');
 
-        inject(function(_offlineService_, Offline, $timeout) {
+        inject(function(_offlineService_, Offline, $timeout, _$rootScope_) {
             offlineService = _offlineService_;
             offline = Offline;
             timeout = $timeout;
+            $rootScope = _$rootScope_;
         });
     });
 
     it('should return false when there is internet connection', function() {
+
+        var spy = jasmine.createSpy();
+        $rootScope.$on('openlmis.online', spy);
+
         spyOn(offline, 'check').andCallFake(function() {
             offline.trigger('confirmed-up');
         });
@@ -38,9 +43,14 @@ describe("offlineService", function() {
         var isOffline = offlineService.isOffline();
 
         expect(isOffline).toBe(false);
+        expect(spy).toHaveBeenCalled();
     });
 
     it('should return true when there is no internet connection', function() {
+
+        var spy = jasmine.createSpy();
+        $rootScope.$on('openlmis.offline', spy);
+
         spyOn(offline, 'check').andCallFake(function() {
             offline.trigger('confirmed-down');
         });
@@ -51,9 +61,14 @@ describe("offlineService", function() {
         var isOffline = offlineService.isOffline();
 
         expect(isOffline).toBe(true);
+        expect(spy).toHaveBeenCalled();
     });
 
     it('should return false when the connection has gone from down to up', function() {
+
+        var spy = jasmine.createSpy();
+        $rootScope.$on('openlmis.online', spy);
+
         spyOn(offline, 'check').andCallFake(function() {
             offline.trigger('up');
         });
@@ -64,9 +79,14 @@ describe("offlineService", function() {
         var isOffline = offlineService.isOffline();
 
         expect(isOffline).toBe(false);
+        expect(spy).toHaveBeenCalled();
     });
 
     it('should return true when the connection has gone from up to down', function() {
+
+        var spy = jasmine.createSpy();
+        $rootScope.$on('openlmis.offline', spy);
+
         spyOn(offline, 'check').andCallFake(function() {
             offline.trigger('down');
         });
@@ -77,67 +97,6 @@ describe("offlineService", function() {
         var isOffline = offlineService.isOffline();
 
         expect(isOffline).toBe(true);
-    });
-
-    it('should fire listener when the connection has gone from down to up', function() {
-        var spy = jasmine.createSpy();
-
-        offlineService.addOnlineListener(spy);
-
-        offline.trigger('up');
-        timeout.flush(30000);
-
-        expect(offlineService.isOffline()).toBe(false);
         expect(spy).toHaveBeenCalled();
-    });
-
-    it('should not fire listener when it was removed and the connection has gone from down to up', function() {
-        var spy = jasmine.createSpy();
-
-        offlineService.addOnlineListener(spy);
-
-        offline.trigger('up');
-        timeout.flush(30000);
-
-        expect(offlineService.isOffline()).toBe(false);
-        expect(spy).toHaveBeenCalled();
-
-        offlineService.removeOnlineListener(spy);
-
-        offline.trigger('up');
-        timeout.flush(30000);
-
-        expect(spy.callCount).toEqual(1);
-    });
-
-    it('should fire listener when the connection has gone from up to down', function() {
-        var spy = jasmine.createSpy();
-
-        offlineService.addOfflineListener(spy);
-
-        offline.trigger('down');
-        timeout.flush(30000);
-
-        expect(offlineService.isOffline()).toBe(true);
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it('should not fire listener when it was removed and the connection has gone from up to down', function() {
-        var spy = jasmine.createSpy();
-
-        offlineService.addOfflineListener(spy);
-
-        offline.trigger('down');
-        timeout.flush(30000);
-
-        expect(offlineService.isOffline()).toBe(true);
-        expect(spy).toHaveBeenCalled();
-
-        offlineService.removeOfflineListener(spy);
-
-        offline.trigger('down');
-        timeout.flush(30000);
-
-        expect(spy.callCount).toEqual(1);
     });
 });
