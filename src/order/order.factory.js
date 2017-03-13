@@ -81,9 +81,12 @@
          * @description
          * Gets orders from the server using orderService and filter them by status.
          *
-         * @param  {String}  requestingFacilityId (optional) the ID of the requestingFacility
-         * @param  {String}  programId            (optional) the ID of the program
-         * @return {Promise}                      the promise resolving to a list of all matching orders
+         * @param {Object} searchParams parameters for searching orders, i.e.
+         * {
+         *      program: 'programID',
+         *      requestingFacility: 'facilityID'
+         * }
+         * @return {Promise} the promise resolving to a list of all matching orders
          */
         function searchOrdersForManagePod(searchParams) {
             searchParams.status = [
