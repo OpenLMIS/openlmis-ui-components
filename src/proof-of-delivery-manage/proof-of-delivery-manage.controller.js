@@ -31,16 +31,17 @@
 
     controller.$inject = [
         'facility', 'userId', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
-        'loadingModalService', 'notificationService', 'authorizationService', '$q',
-        'REQUISITION_RIGHTS', 'facilityFactory', 'ORDER_STATUS'
+        'loadingModalService', 'notificationService', 'REQUISITION_RIGHTS', 'facilityFactory',
+        'items', 'stateParams', 'totalItems', '$controller', '$stateParams'
     ];
 
     function controller(facility, userId, supervisedPrograms, homePrograms, orderFactory, $state,
-        loadingModalService, notificationService, authorizationService, $q, REQUISITION_RIGHTS,
-        facilityFactory, ORDER_STATUS) {
+        loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, items,
+        stateParams, totalItems, $controller, $stateParams) {
 
         var vm = this;
 
+        vm.$onInit = onInit;
         vm.openPod = openPod;
         vm.loadOrders = loadOrders;
         vm.updateFacilityType = updateFacilityType;
@@ -66,7 +67,7 @@
          * @description
          * Holds available programs where user has supervisory permissions.
          */
-        vm.supervisedPrograms = supervisedPrograms;
+        vm.supervisedPrograms = undefined;
 
         /**
          * @ngdoc property
@@ -77,7 +78,7 @@
          * @description
          * Holds available programs for home facility.
          */
-        vm.homePrograms = homePrograms;
+        vm.homePrograms = undefined;
 
         /**
          * @ngdoc property
@@ -92,7 +93,44 @@
          */
         vm.isSupervised = false;
 
-        updateFacilityType(vm.isSupervised);
+
+        /**
+         * @ngdoc method
+         * @methodOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
+         * @name $onInit
+         *
+         * @description
+         * Initialization method called after the controller has been created. Responsible for
+         * setting data to be available on the view.
+         */
+        function onInit() {
+            vm.supervisedPrograms = supervisedPrograms;
+            vm.homePrograms = homePrograms;
+            if ($stateParams.isSupervised == 'true') {
+                vm.isSupervised = true;
+            }
+
+            updateFacilityType();
+
+            $controller('BasePaginationController', {
+                vm: vm,
+                items: items,
+                stateParams: stateParams,
+                totalItems: totalItems,
+                externalPagination: true,
+                itemValidator: undefined
+            });
+
+            if ($stateParams.program) {
+                vm.selectedProgramId = $stateParams.program;
+                loadFacilitiesForProgramWithoutBlocking(vm.selectedProgramId);
+            }
+
+            if ($stateParams.requestingFacility) {
+                vm.requestingFacilityId = $stateParams.requestingFacility;
+            }
+
+        }
 
         /**
          * @ngdoc method
@@ -103,14 +141,11 @@
          * Responsible for displaying and updating select elements that allow to choose
          * program and facility to initiate or proceed with the order for.
          * If isSupervised is true then it will display all programs where the current
-         * user has supervisory permissions. If the param is false, then list of programs
+         * user has supervisory permissions. If isSupervised is false, then list of programs
          * from user's home facility will be displayed.
-         *
-         * @param {Boolean} isSupervised indicates type of facility to initiate or proceed with
-         * the orders for
          */
-        function updateFacilityType(isSupervised) {
-            if (isSupervised) {
+        function updateFacilityType() {
+            if (vm.isSupervised) {
                 vm.programs = vm.supervisedPrograms;
                 vm.requestingFacilities = [];
                 vm.requestingFacilityId = undefined;
@@ -143,12 +178,10 @@
          * @return {Array} the list of matching orders
          */
         function loadOrders() {
-            withUiBlocking(orderFactory.searchOrdersForManagePod(
-                vm.requestingFacilityId,
-                vm.selectedProgramId
-            )).then(function(data) {
-                vm.orders = data.content;
-            });
+            vm.stateParams.requestingFacility = vm.requestingFacilityId;
+            vm.stateParams.program = vm.selectedProgramId;
+            vm.stateParams.isSupervised = vm.isSupervised;
+            vm.changePage();
         }
 
         /**
@@ -185,9 +218,7 @@
          */
         function loadFacilitiesForProgram(programId) {
             if (programId) {
-                withUiBlocking(facilityFactory.getUserSupervisedFacilities(
-                    userId, programId, REQUISITION_RIGHTS.REQUISITION_CREATE
-                )).then(function(facilities) {
+                withUiBlocking(getUserSupervisedFacilities(programId)).then(function(facilities) {
                     vm.requestingFacilities = facilities;
                 }, function() {
                     notificationService.error('msg.invalidProgramOrRight');
@@ -195,6 +226,20 @@
             } else {
                 vm.requestingFacilities = [];
             }
+        }
+
+        function loadFacilitiesForProgramWithoutBlocking(programId) {
+            getUserSupervisedFacilities(programId).then(function(facilities) {
+                vm.requestingFacilities = facilities;
+            }, function() {
+                notificationService.error('msg.invalidProgramOrRight');
+            });
+        }
+
+        function getUserSupervisedFacilities(programId) {
+            return facilityFactory.getUserSupervisedFacilities(
+                userId, programId, REQUISITION_RIGHTS.REQUISITION_CREATE
+            );
         }
 
         function withUiBlocking(promise) {

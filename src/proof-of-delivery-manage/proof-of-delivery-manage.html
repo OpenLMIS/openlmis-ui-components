@@ -6,12 +6,12 @@
                 <legend>{{'label.requisition.facilityType' | message}}</legend>
                 <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="false"
-                           ng-change="vm.updateFacilityType(vm.isSupervised)"/>
+                           ng-change="vm.updateFacilityType()"/>
                     {{'label.myFacility' | message}}
                 </label>
                 <label class="radio">
                     <input type="radio" ng-model="vm.isSupervised" ng-value="true"
-                           ng-change="vm.updateFacilityType(vm.isSupervised)"
+                           ng-change="vm.updateFacilityType()"
                            ng-disabled="!vm.supervisedPrograms.length"/>
                     {{'label.supervised.Facility' | message}}
                 </label>
@@ -46,7 +46,7 @@
             <input type="submit" value="{{'button.search'|message}}"/>
         </form>
         <table>
-            <caption ng-if="vm.orders && !vm.orders.length">
+            <caption ng-if="vm.items && !vm.items.length">
                 {{'msg.noPodsFound' | message}}
             </caption>
             <caption ng-if="vm.programs && !vm.programs.length">
@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="order in vm.orders">
+                <tr ng-repeat="order in vm.items">
                     <td>{{order.orderCode}}</td>
                     <td>{{order.supplyingFacility.name}}</td>
                     <td>{{order.facility.code}} - {{order.facility.name}}</td>
@@ -88,5 +88,11 @@
                 </tr>
             </tbody>
         </table>
+        <openlmis-pagination ng-model="vm.stateParams.page"
+                             ng-change="vm.changePage()"
+                             total-items="vm.totalItems"
+                             items="vm.pageItems.length"
+                             page-size="vm.stateParams.size">
+        </openlmis-pagination>
     </section>
 </div>

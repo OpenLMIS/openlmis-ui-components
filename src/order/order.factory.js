@@ -85,18 +85,15 @@
          * @param  {String}  programId            (optional) the ID of the program
          * @return {Promise}                      the promise resolving to a list of all matching orders
          */
-        function searchOrdersForManagePod(requestingFacilityId, programId) {
-            return orderService.search({
-                requestingFacility: requestingFacilityId,
-                program: programId,
-                status: [
-                    ORDER_STATUS.PICKED,
-                    ORDER_STATUS.TRANSFER_FAILED,
-                    ORDER_STATUS.READY_TO_PACK,
-                    ORDER_STATUS.ORDERED,
-                    ORDER_STATUS.RECEIVED
-                ]
-            });
+        function searchOrdersForManagePod(searchParams) {
+            searchParams.status = [
+                 ORDER_STATUS.PICKED,
+                 ORDER_STATUS.TRANSFER_FAILED,
+                 ORDER_STATUS.READY_TO_PACK,
+                 ORDER_STATUS.ORDERED,
+                 ORDER_STATUS.RECEIVED
+            ];
+            return orderService.search(searchParams);
         }
     }
 

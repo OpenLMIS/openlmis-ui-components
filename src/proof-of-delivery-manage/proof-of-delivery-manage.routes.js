@@ -21,14 +21,14 @@
         .module('proof-of-delivery-manage')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'FULFILLMENT_RIGHTS', 'REQUISITION_RIGHTS'];
+    routes.$inject = ['$stateProvider', 'FULFILLMENT_RIGHTS', 'REQUISITION_RIGHTS', 'paginatedRouterProvider'];
 
-    function routes($stateProvider, FULFILLMENT_RIGHTS, REQUISITION_RIGHTS) {
+    function routes($stateProvider, FULFILLMENT_RIGHTS, REQUISITION_RIGHTS, paginatedRouterProvider) {
 
         $stateProvider.state('orders.podManage', {
 			showInNavigation: true,
 			label: 'link.orders.podManage',
-            url: '/manage',
+            url: '/manage?requestingFacility&program&isSupervised&page&size',
             controller: 'ProofOfDeliveryManageController',
             controllerAs: 'vm',
             templateUrl: 'proof-of-delivery-manage/proof-of-delivery-manage.html',
@@ -37,7 +37,7 @@
                 FULFILLMENT_RIGHTS.PODS_MANAGE
             ],
             areAllRightsRequired: true,
-            resolve: {
+            resolve: paginatedRouterProvider.resolve({
                 facility: function(facilityFactory) {
                     return facilityFactory.getUserHomeFacility();
                 },
@@ -49,8 +49,13 @@
                 },
                 homePrograms: function (programService, userId) {
                     return programService.getUserPrograms(userId, true);
+                },
+                response: function(orderFactory, $stateParams) {
+                    var params = angular.copy($stateParams)
+                    delete params.isSupervised;
+                    return orderFactory.searchOrdersForManagePod(params);
                 }
-            }
+            })
         });
 
     }

@@ -16,8 +16,9 @@
 describe('ProofOfDeliveryManageController', function() {
 
     var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, right, programs,
-        facility, user, deferred, orders, facilityService, authorizationService,
-        offlineServiceMock, pod, $state, $q;
+        facility, user, deferred, orders, facilityService,
+        offlineServiceMock, pod, $state, $q, item, totalItems, stateParams, $controller,
+        $stateParams, orderFactory, $controllerMock;
 
     beforeEach(function() {
 
@@ -47,11 +48,21 @@ describe('ProofOfDeliveryManageController', function() {
             order: { id: 'order-one' }
         };
 
+        items = [
+	        'itemOne', 'itemTwo'
+	    ];
+
+        stateParams = {
+ 	 	    page: 0,
+ 	 	    size: 10
+ 	 	};
+
+        totalItems = 2;
+
         module('proof-of-delivery-manage', function($provide) {
-            orderFactoryMock = jasmine.createSpyObj('orderFactory', ['search', 'getPod', 'searchOrdersForManagePod']);
+            orderFactoryMock = jasmine.createSpyObj('orderFactory', ['getPod']);
+            facilityFactoryMock = jasmine.createSpyObj('facilityFactory', ['getUserSupervisedFacilities']);
             loadingModalServiceMock = jasmine.createSpyObj('loadingModalService', ['open', 'close']);
-            offlineServiceMock = jasmine.createSpyObj('offlineService', ['checkConnection', 'isOffline']);
-            offlineServiceMock.checkConnection.andCallFake(checkConnection);
 
             $provide.factory('orderFactory', function() {
                 return orderFactoryMock;
@@ -61,10 +72,14 @@ describe('ProofOfDeliveryManageController', function() {
                 return loadingModalServiceMock;
             });
 
-            $provide.factory('offlineService', function() {
-                return offlineServiceMock;
+            $provide.factory('facilityFactory', function() {
+                return facilityFactoryMock;
             });
 
+        });
+
+        $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
+            vm.stateParams = {};
         });
 
         inject(function($injector) {
@@ -73,74 +88,119 @@ describe('ProofOfDeliveryManageController', function() {
             deferred = $q.defer();
             $state = $injector.get('$state');
             facilityService = $injector.get('facilityService');
-            authorizationService = $injector.get('authorizationService');
-            vm = $injector.get('$controller')('ProofOfDeliveryManageController', {
+            $controller = $injector.get('$controller');
+            $stateParams = $injector.get('$stateParams');
+            vm = $controller('ProofOfDeliveryManageController', {
                 userId: 'user_one',
                 facility: facility,
                 homePrograms: programs,
-                supervisedPrograms: programs
+                supervisedPrograms: programs,
+                items: items,
+                totalItems: totalItems,
+                stateParams: stateParams,
+                $controller: $controllerMock
             });
         });
     });
 
     describe('initialization', function() {
-
         it('should assign requesting facility as home facility', function() {
+            vm.$onInit();
             expect(vm.requestingFacilityId).toEqual(facility.id);
+            expect(vm.requestingFacilities).toEqual([facility]);
         });
 
         it('should assign programs as home programs', function() {
+            vm.$onInit();
             expect(vm.programs).toEqual(programs);
         });
 
         it('should assign selected program as undefined', function() {
+            vm.$onInit();
             expect(vm.selectedProgramId).toEqual(undefined);
         });
 
+        it('should assign selected program from $stateParams', function() {
+            $stateParams.program = 'program';
+            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
+
+            vm.$onInit();
+
+            expect(vm.selectedProgramId).toEqual($stateParams.program);
+        });
+
+        it('should load requestingFacilities when program in $stateParams', function() {
+            $stateParams.program = 'program';
+            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
+
+            vm.$onInit();
+            deferred.resolve(['facility-two']);
+            $rootScope.$apply();
+
+            expect(vm.requestingFacilities).toEqual(['facility-two']);
+        });
+
+        it('should assign requestingFacilityId from $stateParams', function() {
+            $stateParams.requestingFacility = 'facility-two';
+            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
+
+            vm.$onInit();
+
+            expect(vm.requestingFacilityId).toEqual($stateParams.requestingFacility);
+        });
+
+        it('should assign isSupervised from $stateParams', function() {
+            $stateParams.isSupervised = 'true';
+            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
+
+            vm.$onInit();
+
+            expect(vm.isSupervised).toEqual(true);
+        });
     });
 
     describe('loadOrders', function() {
 
         beforeEach(function() {
-            vm.requestingFacilityId = vm.requestingFacilities[0].id;
-            vm.selectedProgramId = vm.programs[0].id;
-
-            orderFactoryMock.getPod.andReturn(deferred.promise);
-            orderFactoryMock.searchOrdersForManagePod.andReturn(deferred.promise);
+            vm.$onInit();
+            vm.changePage = function () {}
+            spyOn(vm, 'changePage');
         });
 
-        it('should open loading modal', function() {
+        it('should set requesting facility', function() {
+            vm.requestingFacilityId = "facility-one"
             vm.loadOrders();
 
-            expect(loadingModalServiceMock.open).toHaveBeenCalled();
+            expect(vm.stateParams.requestingFacility).toBe(vm.requestingFacilityId);
         });
 
-        it('should fetch orders from order factory with correct params', function() {
+        it('should set program', function() {
+            vm.selectedProgramId = "facility-one"
             vm.loadOrders();
 
-            expect(orderFactoryMock.searchOrdersForManagePod).toHaveBeenCalledWith('facility-one', 'program-one');
+            expect(vm.stateParams.program).toBe(vm.selectedProgramId);
         });
 
-        it('should set vm.orders', function() {
+        it('should set requesting facility', function() {
+            vm.isSupervised = "true"
             vm.loadOrders();
-            deferred.resolve(orders);
-            $rootScope.$apply();
 
-            expect(vm.orders).toEqual(orders.content);
+            expect(vm.stateParams.isSupervised).toBe(vm.isSupervised);
         });
 
-        it('should close loading modal', function() {
+        it('should call change page', function() {
+            vm.isSupervised = "true"
             vm.loadOrders();
-            deferred.resolve();
-            $rootScope.$apply();
 
-            expect(loadingModalServiceMock.close).toHaveBeenCalled();
+            expect(vm.changePage).toHaveBeenCalled();
         });
     });
 
     describe('updateFacilityType', function() {
         it('should load proper data for supervised facility', function() {
-            vm.updateFacilityType(true);
+            vm.$onInit();
+            vm.isSupervised = true;
+            vm.updateFacilityType();
 
             expect(vm.requestingFacilities).toEqual([]);
             expect(vm.programs).toEqual(vm.supervisedPrograms);
@@ -148,7 +208,8 @@ describe('ProofOfDeliveryManageController', function() {
         });
 
         it('should load proper data for home facility', function() {
-            vm.updateFacilityType(false);
+            vm.$onInit();
+            vm.updateFacilityType();
 
             expect(vm.requestingFacilities).toEqual([facility]);
             expect(vm.programs).toEqual(vm.homePrograms);
@@ -158,10 +219,11 @@ describe('ProofOfDeliveryManageController', function() {
 
     describe('loadFacilitiesForProgram', function() {
         it('should load list of facilities for selected program', function() {
-            spyOn(facilityService, 'getUserSupervisedFacilities').andCallThrough();
-            spyOn(authorizationService, 'getRightByName').andReturn(right);
+            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
 
-            vm.loadFacilitiesForProgram(vm.supervisedPrograms[0]);
+            vm.loadFacilitiesForProgram('program-one');
+            deferred.resolve([facility]);
+            $rootScope.$apply();
 
             expect(vm.requestingFacilities).toEqual([facility]);
         });

@@ -26,6 +26,7 @@
     angular.module('proof-of-delivery-manage', [
         'openlmis-date',
         'openlmis-i18n',
+        'openlmis-pagination',
         'openlmis-table',
         'order',
         'referencedata-facility',

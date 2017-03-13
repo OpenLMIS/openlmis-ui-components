@@ -58,7 +58,11 @@ describe('orderFactory', function() {
 
     it('should call orderService with id param', function() {
         orderServiceMock.search.andReturn($q.when());
-        orderFactory.searchOrdersForManagePod('id-one', 'id-two');
+        var searchParams = {
+            requestingFacility: 'id-one',
+            program: 'id-two'
+        }
+        orderFactory.searchOrdersForManagePod(searchParams);
 
         expect(orderServiceMock.search).toHaveBeenCalledWith({
             requestingFacility: 'id-one',
