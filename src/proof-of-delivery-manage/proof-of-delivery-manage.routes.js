@@ -51,7 +51,10 @@
                     return programService.getUserPrograms(userId, true);
                 },
                 response: function(orderFactory, $stateParams) {
-                    return orderFactory.searchOrdersForManagePod($stateParams);
+                    if ($stateParams.program) {
+                        return orderFactory.searchOrdersForManagePod($stateParams);
+                    }
+                    return undefined;
                 }
             })
         });
