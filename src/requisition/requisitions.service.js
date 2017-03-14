@@ -30,13 +30,13 @@
 
     service.$inject = [
         '$q', '$resource', 'messageService', 'openlmisUrlFactory', 'requisitionUrlFactory',
-        'Requisition', 'confirmService', 'notificationService', 'dateUtils',
-        'localStorageFactory', 'offlineService', 'paginationFactory', 'PAGE_SIZE'
+        'Requisition', 'dateUtils', 'localStorageFactory', 'offlineService', 'paginationFactory',
+        'PAGE_SIZE'
     ];
 
     function service($q, $resource, messageService, openlmisUrlFactory, requisitionUrlFactory,
-                                Requisition, confirmService, notificationService, dateUtils,
-                                localStorageFactory, offlineService, paginationFactory, PAGE_SIZE) {
+                     Requisition, dateUtils, localStorageFactory, offlineService, paginationFactory,
+                     PAGE_SIZE) {
 
         var offlineRequisitions = localStorageFactory('requisitions'),
             onlineOnlyRequisitions = localStorageFactory('onlineOnly'),
@@ -280,21 +280,7 @@
          * @param {Array} requisitions Array of requisitions to convert
          */
         function convertToOrder(requisitions) {
-            var deferred = $q.defer();
-
-            confirmService.confirm('msg.question.confirmation.convertToOrder').then(function() {
-                resource.convertToOrder(requisitions).$promise.then(function() {
-                    deferred.resolve();
-                    notificationService.success('msg.rnr.converted.to.order');
-                }, function() {
-                    deferred.reject();
-                    notificationService.error('msg.error.occurred');
-                });
-            }, function() {
-                deferred.reject();
-            });
-
-            return deferred.promise;
+            return resource.convertToOrder(requisitions).$promise;
         }
 
         function getRequisition(id) {

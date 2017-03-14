@@ -31,12 +31,13 @@
 		.controller('ConvertToOrderController', convertToOrderCtrl);
 
 	convertToOrderCtrl.$inject = [
-        '$controller', '$stateParams', 'requisitionService', 'notificationService', 'items',
-		'stateParams', 'totalItems'
+        '$controller', '$stateParams', 'requisitionService', 'notificationService',
+        'confirmService', 'loadingModalService', 'items', 'stateParams', 'totalItems'
     ];
 
 	function convertToOrderCtrl($controller, $stateParams, requisitionService, notificationService,
-                                items, stateParams, totalItems) {
+                                confirmService, loadingModalService, items, stateParams,
+                                totalItems) {
 
 	    var vm = this;
 
@@ -191,7 +192,16 @@
                     }
                 });
                 if (!missedDepots) {
-                    requisitionService.convertToOrder(requisitions).then(vm.changePage);
+                    confirmService.confirm('msg.question.confirmation.convertToOrder').then(function() {
+                        loadingModalService.open();
+                        requisitionService.convertToOrder(requisitions).then(function() {
+                            notificationService.success('msg.rnr.converted.to.order');
+                            vm.changePage();
+                        }, function() {
+                            loadingModalService.close();
+                            notificationService.error('msg.error.occurred');
+                        });
+                    });
                 }
             } else {
                 notificationService.error('msg.select.at.least.one.rnr');
