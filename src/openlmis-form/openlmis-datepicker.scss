@@ -1,3 +1,19 @@
+
+/*
+Date Picker
+
+User the openlmis-datepicker to show an input that allows the user to select a date.
+
+markup:
+<form>
+	<label for="example-datepicker">Select with no selection</label>
+    <openlmis-datepicker input-id="example-datepicker" value="startDate" />
+</form>
+
+
+Styleguide 3.5
+*/
+
 .olmis-datepicker {
     position: relative;
 }

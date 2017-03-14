@@ -48,8 +48,9 @@
 		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
 	
-	function datepicker() {
-		var directive = {
+     datepicker.$inject = ['DEFAULT_DATE_FORMAT'];
+	function datepicker(DEFAULT_DATE_FORMAT) {
+		return {
 			restrict: 'E',
 			scope: {
 				value: '=',
@@ -59,12 +60,13 @@
 				changeMethod: '=?',
 				dateFormat: '=?'
 			},
-			templateUrl: 'openlmis-form/datepicker.html',
-			controller: function ($scope, DEFAULT_DATE_FORMAT) {
-				$scope.dateFormat = angular.isDefined($scope.dateFormat) ? $scope.dateFormat : DEFAULT_DATE_FORMAT;
-            }
+			templateUrl: 'openlmis-form/openlmis-datepicker.html',
+			link: link
 		};
-		return directive;
+
+        function (scope) {
+            scope.dateFormat = angular.isDefined(scope.dateFormat) ? scope.dateFormat : DEFAULT_DATE_FORMAT;
+        }
 	}
 
 })();
