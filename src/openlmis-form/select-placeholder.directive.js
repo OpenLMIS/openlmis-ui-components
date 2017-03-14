@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
+(function() {
 
     'use strict';
 
@@ -58,90 +58,112 @@
     select.$inject = ['messageService'];
 
     function select(messageService) {
-        return {
+        var directive = {
             restrict: 'E',
             replace: false,
-            require: ['select', '?ngModel'],
-            link: function(scope, element, attrs, ctrls){
-                if('noPlaceholder' in attrs) return;
+            require: [
+                'select',
+                '?ngModel'
+            ],
+            link: link
+        };
+        return directive;
 
-                var selectCtrl = ctrls[0],
-                ngModelCtrl = ctrls[1];
+        function link(scope, element, attrs, ctrls) {
+            if('noPlaceholder' in attrs) return;
 
-                var emptyOption = angular.element('<option value="" class="placeholder"></option>');
-                var clearLink = angular.element('<a class="clear" href="#">' + messageService.get('select.clear') + '</a>');
+            var selectCtrl = ctrls[0],
+                ngModelCtrl = ctrls[1],
+                emptyOption = prepareEmptyOption(),
+                clearLink = prepareClearLink();
 
-                var emptyValue = undefined;
+            displayPlaceholder();
 
-                dispayPlaceholder();
-                element.change(updateSelectValue);
-                if(ngModelCtrl){
-                    scope.$watch(function(){
-                        return ngModelCtrl.$viewValue;
-                    }, function(value){
-                        if(!element.hasClass('pop-out')) selectCtrl.writeValue(value);
-                        dispayPlaceholder();
-                    });
-                }
+            element.change(updateSelectValue);
 
-                function dispayPlaceholder(){
-                    if(!element.children('option[selected="selected"]:not(.placeholder)').length){
-                        createEmptyOption();
-                        clearLink.remove();
-                    } else if (attrs['required']) {
-                        clearLink.remove();
-                        emptyOption.remove();
-                    } else {
-                        emptyOption.remove()
-                        clearLink.insertAfter(element);
-                        clearLink.click(clearSelectValue);
-                    }
-                }
+            attrs.$observe('required', displayPlaceholder);
 
-                function createEmptyOption(){
-                    element.children('option').each(function(index, option){
-                        option = angular.element(option);
-                        if(!option.val() || option.val() == ""){
-                            emptyOption = option;
-                            option.addClass('placeholder');
-                        }
-                    });
-                    if(!element.children('option.placeholder').length){
-                        element.prepend(emptyOption);
-                    }
-                    emptyOption.attr('selected', 'selected');
+            if(ngModelCtrl) {
+                scope.$watch(function() {
+                    return ngModelCtrl.$viewValue;
+                }, function(value) {
+                    if(!element.hasClass('pop-out')) selectCtrl.writeValue(value);
+                    displayPlaceholder();
+                });
+            }
 
-                    if(emptyOption.text()==''){
-                        if(attrs.placeholder){
-                            element.children('option.placeholder').text(attrs.placeholder);
-                        } else {
-                            element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
-                        }
-                    }
-                }
-
-                function updateSelectValue(){
-                    var newValue = element.val();
-                    element.children('option[selected="selected"]').removeAttr('selected');
-                    element.children('option').each(function(index, option){
-                        option = angular.element(option);
-                        if(option.val() == newValue){
-                            option.attr('selected', 'selected');
-                        }
-                    });
-                    dispayPlaceholder();
-                }
-
-                function clearSelectValue(event){
-                    event.preventDefault();
-                    element.children('option[selected="selected"]').removeAttr('selected');
-                    if(ngModelCtrl){
-                        ngModelCtrl.$setViewValue(emptyValue);
-                    }
-                    dispayPlaceholder();
+            function displayPlaceholder() {
+                if(!element.children('option[selected="selected"]:not(.placeholder)').length) {
+                    emptyOption.show();
+                    clearLink.hide();
+                } else if (attrs['required']) {
+                    clearLink.hide();
+                    emptyOption.hide();
+                } else {
+                    emptyOption.hide();
+                    if (element.children('option').length > 2) clearLink.show();
                 }
             }
-        };
+
+            function updateSelectValue() {
+                var newValue = element.val();
+                element.children('option[selected="selected"]').removeAttr('selected');
+                element.children('option').each(function(index, option) {
+                    option = angular.element(option);
+                    if(option.val() == newValue) {
+                        option.attr('selected', 'selected');
+                    }
+                });
+                displayPlaceholder();
+            }
+
+            function prepareEmptyOption() {
+                var emptyOption = angular.element('<option value="" class="placeholder"></option>');
+
+                element.children('option').each(function(index, option) {
+                    option = angular.element(option);
+                    if(!option.val() || option.val() === "") {
+                        emptyOption = option;
+                        option.addClass('placeholder');
+                    }
+                });
+
+                if(!element.children('option.placeholder').length) {
+                    element.prepend(emptyOption);
+                }
+                emptyOption.attr('selected', 'selected');
+
+                if(emptyOption.text() === '') {
+                    if(attrs.placeholder) {
+                        element.children('option.placeholder').text(attrs.placeholder);
+                    } else {
+                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                    }
+                }
+
+                return element.children('option.placeholder');
+            }
+
+            function prepareClearLink() {
+                var clearLink = angular.element(
+                    '<a class="clear" href="#">' + messageService.get('select.clear') + '</a>'
+                );
+
+                clearLink.insertAfter(element);
+                clearLink.click(clearSelectValue);
+
+                return clearLink;
+            }
+
+            function clearSelectValue(event) {
+                event.preventDefault();
+                element.children('option[selected="selected"]').removeAttr('selected');
+                if(ngModelCtrl) {
+                    ngModelCtrl.$setViewValue(undefined);
+                }
+                displayPlaceholder();
+            }
+        }
     }
 
 })();
