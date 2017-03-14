@@ -18,48 +18,51 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
-     * @name openlmis-form.directive:input
+     * @restrict A
+     * @name openlmis-form.directive:inputAutoSize
      *
      * @description
-     * Adds styles and logic for required input.
+     * Adds auto-resize option to input elements.
      *
      * @example
-     * This directive will work with 'input' elements that have 'required' or 'ng-required' attribute.
-     * It also requires 'label' element to be connected with 'input' by 'for' attribute.
      * ```
-     * <label for="input-id">option</label>
-     * <input id="input-id" required></input>
-     * ```
-     *
-     * After render required attribute will be added to 'label' element.
-     * ```
-     * <label for="input-id" required>option</label>
-     * <input id="input-id" required></input>
+     * <input input-auto-resize ng-model="model"></input>
      * ```
      */
     angular
         .module('openlmis-form')
-        .directive('input', inputRequired);
+        .directive('inputAutoResize', inputAutoSize);
 
-    function inputRequired() {
+    inputAutoSize.$inject = ['$window'];
+
+    function inputAutoSize($window) {
         var directive = {
             link: link,
-            restrict: 'E'
+            require: 'ngModel',
+            restrict: 'A'
         };
         return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, ngModelCtrl) {
 
-            if (!attrs.required && (!attrs.ngRequired || attrs.ngRequired !== 'false')) return;
+            var minWidthSet = false,
+                el = angular.element(element[0]),
+                parent = angular.element(element[0].parentElement),
+                watch = scope.$watch(function() {
+                        return ngModelCtrl.$viewValue;
+                    },
+                    function(oldValue, newValue) {
+                        if(!minWidthSet) {
+                            $window.autosizeInput(element[0], {minWidth: true});
+                            minWidthSet = true;
+                            watch();
+                        }
+                    }
+                );
 
-            if (attrs.type === 'radio') {
-                element.parent().parent().find('legend').addClass('required');
-            } else {
-                attrs.$observe('id', function(id) {
-                    element.siblings('label[for="' + id + '"]').addClass('required');
-                });
-            }
+            parent.on('click', function() {
+                el.trigger('focus');
+            });
         }
     }
 

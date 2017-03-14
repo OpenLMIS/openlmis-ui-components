@@ -15,6 +15,7 @@
     "angular-drag-and-drop-lists": "*",
     "angular-strap": "*",
     "angular-md5": "0.1.10",
-    "analytics": "https://www.google-analytics.com/analytics.js"
+    "analytics": "https://www.google-analytics.com/analytics.js",
+    "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js"
   }
 }

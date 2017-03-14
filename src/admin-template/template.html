@@ -39,12 +39,14 @@
                                 </div>
                             </td>
                             <td>
-                                <input disable-drag type="text" ng-model="column.label" class="form-control input-sm" ng-class="{invalid: !column.label || column.label.length < 2}"/>
+                                <input input-auto-resize disable-drag type="text" ng-model="column.label"
+                                    class="form-control" ng-class="{invalid: !column.label || column.label.length < 2}">
+                                </input>
                             </td>
                             <td>
-                                <textarea characters-left max-length="vm.maxColumnDescriptionLength"
-                                    disable-drag ng-model="column.definition" class="form-control input-sm">
-                                </textarea>
+                                <input characters-left max-length="vm.maxColumnDescriptionLength" input-auto-resize
+                                    disable-drag ng-model="column.definition" class="form-control" type="text">
+                                </input>
                             </td>
                             <td>
                                 <div ng-if="!vm.canChangeSource(column.columnDefinition)">{{vm.sourceDisplayName(column.source)}}</div>

@@ -27,6 +27,6 @@
         'openlmis-local-storage',
     	'openlmis-offline',
     	'openlmis-i18n'
-    	]);
+    ]);
 
 })();
