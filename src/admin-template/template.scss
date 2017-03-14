@@ -31,10 +31,10 @@
 
 			.pinned > td {
 
-				background-color: $light-gray;
+				background-color: lighten($gray, 35%);
 
 				input {
-					background-color: $light-gray !important;
+					background-color: lighten($gray, 35%) !important;
 				}
 			}
 
