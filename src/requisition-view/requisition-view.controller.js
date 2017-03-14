@@ -330,7 +330,7 @@
          * @return {Boolean} should authorize button be displayed
          */
         function displayAuthorize() {
-            return vm.requisition.$isSubmitted() && hasAuthorizeRight();
+            return vm.requisition.$isSubmitted() && hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
         }
 
         /**
@@ -345,7 +345,7 @@
          * @return {Boolean} should submit button be displayed
          */
         function displaySubmit() {
-            return vm.requisition.$isInitiated() && hasCreateRight();
+            return vm.requisition.$isInitiated() && hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_CREATE);
         }
 
         /**
@@ -360,7 +360,7 @@
          * @return {Boolean} should approve and reject buttons be displayed
          */
         function displayApproveAndReject() {
-            return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasApproveRight();
+            return (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) && hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_APPROVE);
         }
 
         /**
@@ -375,7 +375,7 @@
          * @return {Boolean} should delete button be displayed
          */
         function displayDelete() {
-            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasDeleteRight();
+            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_DELETE);
         }
 
         /**
@@ -390,7 +390,7 @@
          * @return {Boolean} should convert to order button be displayed
          */
         function displayConvertToOrder() {
-            return vm.requisition.$isApproved() && hasOrdersEditRight();
+            return vm.requisition.$isApproved() && hasRightForProgram(FULFILLMENT_RIGHTS.ORDERS_EDIT);
         }
 
         /**
@@ -408,7 +408,7 @@
             return vm.requisition.$isInitiated() &&
                 vm.requisition.program.periodsSkippable &&
                 !vm.requisition.emergency &&
-                hasCreateRight();
+                hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_CREATE);
         }
 
         /**
@@ -424,13 +424,13 @@
          */
         function displaySync() {
             if (vm.requisition.$isInitiated()) {
-                return hasCreateRight();
+                return hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_CREATE);
             }
             if (vm.requisition.$isSubmitted()) {
-                return hasAuthorizeRight();
+                return hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
             }
             if (vm.requisition.$isAuthorized() || vm.requisition.$isInApproval()) {
-                return hasApproveRight();
+                return hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_APPROVE);
             }
             return false;
         }
@@ -534,32 +534,8 @@
             };
         }
 
-        function hasCreateRight() {
-            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_CREATE, {
-                programCode: vm.requisition.program.code
-            });
-        }
-
-        function hasAuthorizeRight() {
-            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE, {
-                programCode: vm.requisition.program.code
-            });
-        }
-
-        function hasApproveRight() {
-            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
-                programCode: vm.requisition.program.code
-            });
-        }
-
-        function hasDeleteRight() {
-            return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_DELETE, {
-                programCode: vm.requisition.program.code
-            });
-        }
-
-        function hasOrdersEditRight() {
-            return authorizationService.hasRight(FULFILLMENT_RIGHTS.ORDERS_EDIT, {
+        function hasRightForProgram(rightName) {
+            return authorizationService.hasRight(rightName, {
                 programCode: vm.requisition.program.code
             });
         }
