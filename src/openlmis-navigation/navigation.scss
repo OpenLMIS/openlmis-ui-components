@@ -79,7 +79,7 @@ header > .navbar {
 
   background-image: linear-gradient(to bottom, lighten($brand-primary, 10%) 0%, $brand-primary 10%, darken($brand-primary, 10%) 100%);
   margin-bottom: 0em;
-  box-shadow: 0.2em 0 0.4em $shadow;
+  box-shadow: 0 0 0.4em 0.1em $shadow;
   border-width: 0em;
   border-radius: 0em;
 
