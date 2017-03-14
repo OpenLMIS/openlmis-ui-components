@@ -31,7 +31,7 @@
     stateChangeErrorInterceptor.$inject = ["$rootScope", 'alertService'];
     function stateChangeErrorInterceptor($rootScope, alertService){
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-            alertService.error('error.internalApplicationError', 'msg.checkConsoleLogs', true);
+            alertService.error('error.internalApplicationError', 'msg.checkConsoleLogs');
             console.error(error);
         });
     }

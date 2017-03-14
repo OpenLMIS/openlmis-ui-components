@@ -35,7 +35,9 @@
         bootbox, messageService) {
 
         var template = $templateCache.get('openlmis-modal/alert.html'),
-            modals = [];
+            deferred,
+            modal,
+            scope;
 
         this.warning = warning;
         this.error = error;
@@ -49,14 +51,13 @@
          * @description
          * Shows warning modal with custom message and returns promise.
          *
-         * @param  {String}  message           Primary message to display at the top
-         * @param  {String}  additionalMessage Additional message to display below
-         * @param  {Boolean} lowPriority       the flag defining whether the alert should be
-         *                                     surpressed if any other is already displayed
-         * @return {Promise}                   alert promise
+         * @param   {String}    title   the title of the alert
+         * @param   {String}    message the detailed message to be shown within the alert modal
+         * @return  {Promise}           the alert promise, if any other alert is already show this
+         *                              promise will be automatically rejected
          */
-        function warning(message, additionalMessage, lowPriority) {
-            return showAlert('warning', message, additionalMessage, lowPriority);
+        function warning(title, message) {
+            return showAlert('warning', title, message);
         }
 
         /**
@@ -67,14 +68,13 @@
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
-         * @param   {String}    message             Message to display
-         * @param   {String}    additionalMessage   Additional message to display below
-         * @param   {Boolean}   lowPriority         the flag defining whether the alert should be
-         *                                          surpressed if any other is already displayed
-         * @return  {Promise}                       error promise
+         * @param   {String}    title   the title of the alert
+         * @param   {String}    message the detailed message to be shown within the alert modal
+         * @return  {Promise}           the alert promise, if any other alert is already show this
+         *                              promise will be automatically rejected
          */
-        function error(message, additionalMessage, lowPriority) {
-            return showAlert('error', message, additionalMessage, lowPriority);
+        function error(title, message) {
+            return showAlert('error', title, message);
         }
 
         /**
@@ -85,26 +85,20 @@
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
          *
-         * @param   {String}    message             Message to display
-         * @param   {String}    additionalMessage   Additional message to display below
-         * @param   {Boolean}   lowPriority         the flag defining whether the alert should be
-         *                                          surpressed if any other is already displayed
-         * @return  {Promise}                       success promise
+         * @param   {String}    title   the title of the alert
+         * @param   {String}    message the detailed message to be shown within the alert modal
+         * @return  {Promise}           the alert promise, if any other alert is already show this
+         *                              promise will be automatically rejected
          */
-        function success(message, additionalMessage, lowPriority) {
-            return showAlert('success', message, additionalMessage, lowPriority);
+        function success(title, message) {
+            return showAlert('success', title, message);
         }
 
-        function showAlert(alertClass, message, additionalMessage, lowPriority) {
-            if (lowPriority && modals.length) return $q.when();
+        function showAlert(alertClass, title, message) {
+            if (modalIsDisplayed()) return $q.reject();
 
-            var modal,
-                deferred = $q.defer(),
-                scope = $rootScope.$new();
-
-            scope.alertClass = alertClass;
-            scope.message = message;
-            scope.additionalMessage = additionalMessage;
+            deferred = $q.defer();
+            scope = prepareScope(alertClass, title, message);
 
             modal = bootbox.dialog({
                 message: $compile(template)(scope),
@@ -118,17 +112,39 @@
                     }
                 }
             });
-            modals.push(modal);
 
             return deferred.promise;
+        }
 
-            function cleanUp() {
-                deferred.resolve();
-                if(modal) modal.modal('hide');
+        function prepareScope(alertClass, title, message) {
+            var scope = $rootScope.$new();
+
+            scope.alertClass = alertClass;
+            scope.title = title;
+            scope.message = message;
+
+            return scope;
+        }
+
+        function cleanUp() {
+            if (modal) {
+                modal.modal('hide');
                 modal = undefined;
-                modals.splice(modals.indexOf(modal), 1);
-                scope.$destroy();
             }
+
+            if (deferred) {
+                deferred.resolve();
+                deferred = undefined;
+            }
+
+            if (scope) {
+                scope.$destroy();
+                scope = undefined;
+            }
+        }
+
+        function modalIsDisplayed() {
+            return modal || scope || deferred;
         }
     }
 })();
