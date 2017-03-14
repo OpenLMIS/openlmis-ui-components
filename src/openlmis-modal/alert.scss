@@ -1,32 +1,38 @@
 .alert-modal {
+
 	.alert-main{
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		font-size: 1.7em;
 	}
-	.alert-messages {
+
+	.alert-message {
 		padding: 0.3em;
+
+		& > p {
+			font-size: 0.7em;
+		}
 	}
-	.alert-message-additional{
-		font-size: 0.7em;
-	}
+
 	.icon {
 		font-size: 2.6em;
 		margin: 0.2em;
+
+		&.warning {
+			@include icon('exclamation-triangle');
+			color: $orange;
+		}
+		&.error {
+			@include icon('times-circle-o');
+			color: $brand-danger;
+		}
+		&.sucess {
+			@include icon('check-circle-o');
+			color: $brand-success;
+		}
 	}
-	.icon.warning {
-		@include icon('exclamation-triangle');
-		color: $orange;
-	}
-	.icon.error {
-		@include icon('times-circle-o');
-		color: $brand-danger;
-	}
-	.icon.sucess {
-		@include icon('check-circle-o');
-		color: $brand-success;
-	}
+
 	button.alert-confirm {
 		@include button($button-color-default);
 		float: right;
