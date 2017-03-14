@@ -383,15 +383,21 @@
         }
 
         function transformRequisition(requisition) {
-            var columns = requisition.template.columnsMap;
-            angular.forEach(requisition.requisitionLineItems, function(lineItem) {
+            var columns = requisition.template.columnsMap,
+                requestBody = angular.copy(requisition);
+
+            angular.forEach(requestBody.requisitionLineItems, function(lineItem) {
                 transformLineItem(lineItem, columns);
             });
 
-            requisition.processingPeriod.startDate = dateUtils.toStringDate(requisition.processingPeriod.startDate);
-            requisition.processingPeriod.endDate = dateUtils.toStringDate(requisition.processingPeriod.endDate);
+            requestBody.processingPeriod.startDate = dateUtils.toStringDate(
+                requestBody.processingPeriod.startDate
+            );
+            requestBody.processingPeriod.endDate = dateUtils.toStringDate(
+                requestBody.processingPeriod.endDate
+            );
 
-            return angular.toJson(requisition);
+            return angular.toJson(requestBody);
         }
 
 
