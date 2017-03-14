@@ -193,9 +193,11 @@
                 });
                 if (!missedDepots) {
                     confirmService.confirm('msg.question.confirmation.convertToOrder').then(function() {
-                        loadingModalService.open();
+                        var loadingPromise = loadingModalService.open();
                         requisitionService.convertToOrder(requisitions).then(function() {
-                            notificationService.success('msg.rnr.converted.to.order');
+                            loadingPromise.then(function() {
+                                notificationService.success('msg.rnr.converted.to.order');
+                            });
                             vm.changePage();
                         }, function() {
                             loadingModalService.close();

@@ -104,7 +104,7 @@ describe('ConvertToOrderController', function(){
     });
 
     describe('convertToOrder', function() {
-        var confirmService, loadingModalService, confirmDeferred, convertDeferred;
+        var confirmService, loadingModalService, confirmDeferred, convertDeferred, loadingDeferred;
 
         beforeEach(function() {
             inject(function($injector) {
@@ -114,8 +114,9 @@ describe('ConvertToOrderController', function(){
 
             confirmDeferred = $q.defer();
             convertDeferred = $q.defer();
+            loadingDeferred = $q.defer();
 
-            spyOn(loadingModalService, 'open').andReturn();
+            spyOn(loadingModalService, 'open').andReturn(loadingDeferred.promise);
             spyOn(loadingModalService, 'close').andReturn();
             spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
             spyOn(requisitionService, 'convertToOrder').andReturn(convertDeferred.promise);
@@ -203,6 +204,8 @@ describe('ConvertToOrderController', function(){
             vm.convertToOrder();
             confirmDeferred.resolve();
             convertDeferred.resolve();
+            $rootScope.$apply();
+            loadingDeferred.resolve();
             $rootScope.$apply();
 
             expect(notificationService.success).toHaveBeenCalledWith('msg.rnr.converted.to.order');
