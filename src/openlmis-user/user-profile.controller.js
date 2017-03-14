@@ -23,26 +23,27 @@
      * @name openlmis-user.controller:UserProfileController
      *
      * @description
-     * Allows user to see its own profile info.
+     * Allows user to see his own profile info.
      */
     angular
         .module('openlmis-user')
         .controller('UserProfileController', controller);
 
-    controller.$inject = ['$scope', 'user'];
+    controller.$inject = ['user'];
 
-    function controller($scope, user) {
+    function controller(user) {
+        var vm = this;
 
         /**
          * @ngdoc property
          * @propertyOf openlmis-user.controller:UserProfileController
-         * @name userProfile
+         * @name user
          * @type {Object}
          *
          * @description
          * Contains user detailed info.
          */
-        $scope.userProfile = user;
+        vm.user = user;
     }
 
 })();

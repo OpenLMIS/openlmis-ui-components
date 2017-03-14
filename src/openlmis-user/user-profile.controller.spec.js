@@ -16,24 +16,22 @@
 
 describe('UserProfileController', function() {
 
-    var scope, ctrl, user;
+    var vm, user;
 
     beforeEach(module('openlmis-user'));
 
-    beforeEach(inject(function ($rootScope, $controller) {
-        scope = $rootScope.$new();
-
+    beforeEach(inject(function ($controller) {
         user = {
             firstName: 'Name',
             lastName: 'Surname',
             email: 'email@olmis.com'
         }
 
-        ctrl = $controller('UserProfileController', {$scope:scope, user:user});
+        vm = $controller('UserProfileController', {user:user});
     }));
 
     it('should set user profile', function() {
-        expect(user).toEqual(scope.userProfile);
+        expect(user).toEqual(vm.user);
     });
 
 });

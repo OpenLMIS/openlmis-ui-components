@@ -29,9 +29,10 @@
             url: '/profile',
             templateUrl: 'openlmis-user/profile.html',
             controller: 'UserProfileController',
+            controllerAs: 'vm',
             resolve: {
                 user: function (authorizationService) {
-                    return authorizationService.getDetailedUser().$promise
+                    return authorizationService.getDetailedUser();
                 }
             }
         });
