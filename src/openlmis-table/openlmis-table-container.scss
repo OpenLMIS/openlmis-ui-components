@@ -8,7 +8,7 @@ functionality, wrap the table within a table container, which will constrain
 the layout of form elements and captions within a table. **Any table wider than
 the display area will horizontally scroll.**
 
-All child elements of the `.openlmis-table-container` element will be placed 
+All child elements of the `.openlmis-table-container` element will be placed
 inside the `.toolbar` element inside the table container, except for any `<form>`
 or `<openlmis-pagination>` which have unique behaviors.
 
@@ -128,9 +128,7 @@ Styleguide 4.1
         margin-right: 0px;
 
         > * {
-            flex: 0 0 auto;
             margin: 0em 0.5em;
-            width: $sidebar-width;
             &:first-child{
               margin-left: 0em;
             }
@@ -141,10 +139,6 @@ Styleguide 4.1
 
         > form {
           @extend form.filters;
-        }
-
-        > .main {
-            flex-grow: 1;
         }
     }
 
@@ -171,5 +165,3 @@ Styleguide 4.1
     }
 
 }
-
-
