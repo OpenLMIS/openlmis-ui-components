@@ -30,7 +30,12 @@
 			}
 
 			.pinned > td {
-				background-color: lighten($gray, 35);
+
+				background-color: $light-gray;
+
+				input {
+					background-color: $light-gray !important;
+				}
 			}
 
 			.error {
