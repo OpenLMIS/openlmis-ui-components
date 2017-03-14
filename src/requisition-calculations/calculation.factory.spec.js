@@ -303,7 +303,6 @@ describe('calculationFactory', function() {
             };
 
             templateMock.getColumn.andCallFake(function(name) {
-                console.log(name);
                 if (name === TEMPLATE_COLUMNS.MAXIMUM_STOCK_QUANTITY) return column;
                 if (name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION) return {
                     source: 'USER_INPUT',
