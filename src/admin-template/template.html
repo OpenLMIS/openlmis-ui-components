@@ -14,6 +14,7 @@
             <table class="openlmis-table">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>{{'template.header.display' | message}}</th>
                         <th></th>
     					<th>{{'template.header.label' | message}}</th>
@@ -23,13 +24,16 @@
                     </tr>
                 </thead>
                 <tbody dnd-list="vm.template.columnsMap"
-                    dnd-drop="vm.dropCallback(event, index, item)">
+                        dnd-drop="vm.dropCallback(event, index, item)">
                     <tr ng-repeat="column in vm.template.columnsMap | orderObjectBy:'displayOrder'"
                         dnd-draggable="column"
                         dnd-disable-if="!column.columnDefinition.canChangeOrder"
-                        dnd-effect-allowed="move"
-                        ng-class="{pinned: !column.columnDefinition.canChangeOrder, moveable: column.columnDefinition.canChangeOrder}">
+                        dnd-effect-allowed="move">
                         <dnd-nodrag>
+                            <td ng-class="{'dnd-handle': column.columnDefinition.canChangeOrder}">
+                                <i ng-if="!column.columnDefinition.canChangeOrder" class="lock"/>
+                                <div ng-if="column.columnDefinition.canChangeOrder" dnd-handle class="handle">:::</div>
+                            </td>
                             <td>
                                 <input type="checkbox" ng-model="column.isDisplayed" ng-disabled="column.columnDefinition.isDisplayRequired">
                             </td>
@@ -39,9 +43,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input disable-drag type="text" ng-model="column.label"
-                                    class="form-control" ng-class="{invalid: !column.label || column.label.length < 2}">
-                                </input>
+                                <input disalbe-drag type="text" ng-model="column.label" class="form-control"></input>
                             </td>
                             <td>
                                 <input characters-left max-length="vm.maxColumnDescriptionLength" input-auto-resize
@@ -57,7 +59,7 @@
                             <td>
                                 <div ng-if="vm.isAverageConsumption(column)">
                                     <label for="numberOfPeriods">{{'msg.template.numberOfPeriodsToAverage' | message}}</label>
-                                    <input positive-integer type="text" id="numberOfPeriods" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control"/>
+                                    <input disable-drag positive-integer type="text" id="numberOfPeriods" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control"/>
                                 </div>
                                 <div ng-if="column.columnDefinition.options.length > 0">
                                     <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options" ng-required="column.isDisplayed"></select>
@@ -67,7 +69,7 @@
                         </dnd-nodrag>
                     </tr>
                     <tr class="dndPlaceholder">
-                        <td></td><td></td><td></td><td></td><td></td><td></td>
+                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
                     </tr>
                 </tbody>
             </table>

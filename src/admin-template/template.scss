@@ -20,22 +20,9 @@
 		}
 
 		table {
-			.moveable {
-				cursor: move;
-			}
-
 			.dndPlaceholder > td {
 				background-color: $light-shadow;
 				height: 3em;
-			}
-
-			.pinned > td {
-
-				background-color: lighten($gray, 35%) !important;
-
-				input {
-					background-color: lighten($gray, 35%) !important;
-				}
 			}
 
 			.error {
@@ -46,8 +33,18 @@
 			  	display: none;
 			}
 
-			.invalid {
-				background-color: lighten($red, 50%);
+			.lock {
+				margin: 0 1em;
+				font-size: 1.2em;
+				@include icon('lock');
+			}
+
+			.dnd-handle {
+				cursor: move;
+			}
+
+			.handle {
+				margin: 0 1em;
 			}
 		}
 
