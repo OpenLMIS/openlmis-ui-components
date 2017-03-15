@@ -73,7 +73,7 @@ in specifc cells
     </tr>
     <tr class="is-invalid">
       <td>
-        
+
       </td>
       <td>ERROR</td>
       <td>Example Invalid Row</td>
@@ -193,4 +193,10 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
   }
 }
 
+.openlmis-table td {
 
+    > input[type="text"],
+    > input[type="number"] {
+        padding: 0;
+    }
+}

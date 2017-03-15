@@ -31,14 +31,14 @@
      */
     angular
         .module('openlmis-form')
-        .directive('input', inputAutoSize);
+        .directive('inputAutoSize', inputAutoSize);
 
     inputAutoSize.$inject = ['$window'];
 
     function inputAutoSize($window) {
         var directive = {
             link: link,
-            restrict: 'E'
+            restrict: 'A'
         };
         return directive;
 
