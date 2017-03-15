@@ -154,7 +154,7 @@
                 column.source == COLUMN_SOURCES.USER_INPUT && !column.isDisplayed) return false;
 
             if(!column.source || column.source === '') return false;
-            if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
+            if(column.isDisplayed && column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
             if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1)
                 return false;
 

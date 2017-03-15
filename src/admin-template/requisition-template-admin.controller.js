@@ -195,7 +195,7 @@
 
             if(!column.source  || column.source === '') return messageService.get('msg.template.column.sourceEmpty');
 
-            if(column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.optionEmpty');
+            if(column.isDisplayed && column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.optionEmpty');
 
             if(column.source === COLUMN_SOURCES.CALCULATED) {
                 var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
