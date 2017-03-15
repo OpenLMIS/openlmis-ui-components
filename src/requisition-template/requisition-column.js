@@ -81,7 +81,8 @@
 
             packsToShip: [
                 TEMPLATE_COLUMNS.REQUESTED_QUANTITY,
-                TEMPLATE_COLUMNS.APPROVED_QUANTITY
+                TEMPLATE_COLUMNS.APPROVED_QUANTITY,
+                TEMPLATE_COLUMNS.CALCULATED_ORDER_QUANTITY
             ],
             totalCost: [
                 TEMPLATE_COLUMNS.PACKS_TO_SHIP,
