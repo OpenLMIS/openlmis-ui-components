@@ -388,6 +388,20 @@ describe('templateFactory', function() {
         expect(requisitionTemplate.$isValid()).toBe(false);
     });
 
+    it('should check if template is valid when column has empty option and columnDefinition.options are not empty and column is not displayed', function() {
+        var requisitionTemplate;
+
+        TemplateFactory.get(template.id).then(function(response) {
+            requisitionTemplate = response;
+        });
+        rootScope.$apply();
+
+        requisitionTemplate.columnsMap.total.option = null;
+        requisitionTemplate.columnsMap.total.isDisplayed = false;
+
+        expect(requisitionTemplate.$isValid()).toBe(true);
+    });
+
     it('should check if template is valid when number of periods to average is not greater than or equal to 2', function() {
         var requisitionTemplate;
 
