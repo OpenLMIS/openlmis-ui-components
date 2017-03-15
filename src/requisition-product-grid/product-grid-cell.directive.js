@@ -62,6 +62,7 @@
             scope.lineItem = lineItem;
             scope.column = column;
             scope.validate = validate;
+            scope.isReadOnly = isReadOnly;
             scope.canNotSkip = canNotSkip;
 
             if(!isReadOnly()){
