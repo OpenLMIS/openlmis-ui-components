@@ -31,7 +31,7 @@
 
 			.pinned > td {
 
-				background-color: lighten($gray, 35%);
+				background-color: lighten($gray, 35%) !important;
 
 				input {
 					background-color: lighten($gray, 35%) !important;
@@ -49,6 +49,10 @@
 			.invalid {
 				background-color: lighten($red, 50%);
 			}
+		}
+
+		.openlmis-table-container {
+			margin-bottom: 5em;
 		}
 
 		.circle {

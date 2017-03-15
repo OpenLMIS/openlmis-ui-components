@@ -26,39 +26,36 @@
      *
      * @example
      * ```
-     * <input input-auto-resize ng-model="model"></input>
+     * <input ng-model="model"></input>
      * ```
      */
     angular
         .module('openlmis-form')
-        .directive('inputAutoResize', inputAutoSize);
+        .directive('input', inputAutoSize);
 
     inputAutoSize.$inject = ['$window'];
 
     function inputAutoSize($window) {
         var directive = {
             link: link,
-            require: 'ngModel',
-            restrict: 'A'
+            restrict: 'E'
         };
         return directive;
 
-        function link(scope, element, attrs, ngModelCtrl) {
+        function link(scope, element, attrs) {
 
             var minWidthSet = false,
                 el = angular.element(element[0]),
-                parent = angular.element(element[0].parentElement),
-                watch = scope.$watch(function() {
-                        return ngModelCtrl.$viewValue;
-                    },
-                    function(oldValue, newValue) {
-                        if(!minWidthSet) {
-                            $window.autosizeInput(element[0], {minWidth: true});
-                            minWidthSet = true;
-                            watch();
-                        }
-                    }
-                );
+                parent = angular.element(element[0].parentElement);
+
+            if(parent[0].localName !== 'td' || !(el.attr('type') === 'text' || el.attr('type') === 'number')) return;
+
+            attrs.$observe('ngModel', function(value) {
+                if(!minWidthSet && value) {
+                    $window.autosizeInput(element[0], {minWidth: true});
+                    minWidthSet = true;
+                }
+            });
 
             parent.on('click', function() {
                 el.trigger('focus');

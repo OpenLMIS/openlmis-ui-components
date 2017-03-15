@@ -10,7 +10,7 @@
                 </dd>
             </dl>
         </aside>
-        <div class="template-container">
+        <div class="openlmis-table-container">
             <table class="openlmis-table">
                 <thead>
                     <tr>
@@ -39,7 +39,7 @@
                                 </div>
                             </td>
                             <td>
-                                <input input-auto-resize disable-drag type="text" ng-model="column.label"
+                                <input disable-drag type="text" ng-model="column.label"
                                     class="form-control" ng-class="{invalid: !column.label || column.label.length < 2}">
                                 </input>
                             </td>
@@ -57,7 +57,7 @@
                             <td>
                                 <div ng-if="vm.isAverageConsumption(column)">
                                     <label for="numberOfPeriods">{{'msg.template.numberOfPeriodsToAverage' | message}}</label>
-                                    <input positive-integer type="text" id="numberOfPeriods" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control input-sm"/>
+                                    <input positive-integer type="text" id="numberOfPeriods" ng-model="vm.template.numberOfPeriodsToAverage" class="form-control"/>
                                 </div>
                                 <div ng-if="column.columnDefinition.options.length > 0">
                                     <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options" ng-required="column.isDisplayed"></select>
@@ -67,7 +67,7 @@
                         </dnd-nodrag>
                     </tr>
                     <tr class="dndPlaceholder">
-                        <td></td><td></td><td></td><td></td><td></td>
+                        <td></td><td></td><td></td><td></td><td></td><td></td>
                     </tr>
                 </tbody>
             </table>
