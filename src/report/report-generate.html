@@ -1,8 +1,8 @@
 <article class="page">
     <h2>{{'choose.report.options.header' | message}}</h2>
-    <form class="filters" ng-submit="vm.downloadReport()">
+    <form ng-submit="vm.downloadReport()">
         <label for="{{parameter.name}}" ng-repeat-start="parameter in vm.report.templateParameters">{{parameter.displayName}}</label>
-        <select id="{{parameter.name}}" 
+        <select id="{{parameter.name}}"
                 ng-if="parameter.selectExpression != null" ng-model="vm.selectedParamsOptions[parameter.name]"
                 ng-options="option.value as option.name for option in vm.paramsOptions[parameter.name]"
                 ng-required="{{parameter.required}}" aria-labelledby="infolabelForSelect"></select>

@@ -93,6 +93,7 @@ form {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	max-width: $default-form-width;
 
 	> * {
 		display: block;
