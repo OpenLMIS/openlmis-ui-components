@@ -193,3 +193,9 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
   }
 }
 
+.openlmis-table td {
+    > input[type="text"],
+    > input[type="number"] {
+        min-width: 100%;
+    }
+}
