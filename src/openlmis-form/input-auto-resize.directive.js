@@ -19,7 +19,7 @@
     /**
      * @ngdoc directive
      * @restrict A
-     * @name openlmis-form.directive:inputAutoSize
+     * @name openlmis-form.directive:inputAutoResize
      *
      * @description
      * Adds auto-resize option to input elements.
@@ -31,34 +31,38 @@
      */
     angular
         .module('openlmis-form')
-        .directive('inputAutoSize', inputAutoSize);
+        .directive('input', inputAutoResize);
 
-    inputAutoSize.$inject = ['$window'];
+    inputAutoResize.$inject = ['$window'];
 
-    function inputAutoSize($window) {
+    function inputAutoResize($window) {
         var directive = {
             link: link,
-            restrict: 'A'
+            restrict: 'E'
         };
         return directive;
 
         function link(scope, element, attrs) {
 
             var minWidthSet = false,
-                el = angular.element(element[0]),
-                parent = angular.element(element[0].parentElement);
+                el = element[0],
+                parent = element.parent();
 
-            if(parent[0].localName !== 'td' || !(el.attr('type') === 'text' || el.attr('type') === 'number')) return;
+            if(parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')) return;
 
-            attrs.$observe('ngModel', function(value) {
-                if(!minWidthSet && value) {
-                    $window.autosizeInput(element[0], {minWidth: true});
+            $window.autosizeInput(el);
+
+            scope.$watch(function() {
+                return el.value;
+            }, function(oldValue, newValue) {
+                if(!minWidthSet && newValue) {
+                    $window.autosizeInput(el);
                     minWidthSet = true;
                 }
             });
 
             parent.on('click', function() {
-                el.trigger('focus');
+                element.trigger('focus');
             });
         }
     }
