@@ -38,10 +38,10 @@
             })
 		});
 
-        function responseResolve($stateParams, requisitionService) {
+        function responseResolve(stateParams, requisitionService) {
             return requisitionService.forApproval({
-                page: $stateParams.page,
-                size: $stateParams.size
+                page: stateParams.page,
+                size: stateParams.size
             });
         }
 

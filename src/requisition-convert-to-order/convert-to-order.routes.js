@@ -44,14 +44,14 @@
             })
         });
 
-        function responseResolve($stateParams, requisitionService) {
+        function responseResolve(stateParams, requisitionService) {
             return requisitionService.forConvert({
-                filterBy: $stateParams.filterBy,
-                filterValue: $stateParams.filterValue,
-                sortBy: $stateParams.sortBy,
-                descending: $stateParams.descending,
-                page: $stateParams.page,
-                size: $stateParams.size
+                filterBy: stateParams.filterBy,
+                filterValue: stateParams.filterValue,
+                sortBy: stateParams.sortBy,
+                descending: stateParams.descending,
+                page: stateParams.page,
+                size: stateParams.size
             });
         }
 

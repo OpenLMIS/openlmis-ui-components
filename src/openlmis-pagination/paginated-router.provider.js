@@ -52,10 +52,6 @@
          */
         function resolve(toResolve) {
             if (toResolve.response) {
-                if (!toResolve.stateParams) {
-                    toResolve.stateParams = externalStateParamsResolve;
-                }
-
                 if (!toResolve.totalItems) {
                     toResolve.totalItems = externalTotalItemsResolve;
                 }
@@ -64,30 +60,15 @@
                     toResolve.items = externalItemsResolve;
                 }
             } else {
-                if (!toResolve.stateParams) {
-                    toResolve.stateParams = stateParamsResolve;
-                }
-
                 if (!toResolve.totalItems && toResolve.items) {
                     toResolve.totalItems = totalItemsResolve;
                 }
             }
+            if (!toResolve.stateParams) {
+                toResolve.stateParams = stateParamsResolve;
+            }
 
             return toResolve;
-        }
-
-        function externalStateParamsResolve(response, $stateParams) {
-            var stateParams = stateParamsResolve($stateParams);
-
-            if (response && response.size !== undefined) {
-                stateParams.size = response.size;
-            }
-
-            if (response && response.page !== undefined) {
-                stateParams.page = response.page;
-            }
-
-            return stateParams;
         }
 
         function externalTotalItemsResolve(response) {
