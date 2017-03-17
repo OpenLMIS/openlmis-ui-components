@@ -37,7 +37,9 @@ describe('ProductGridCell', function() {
                 return requisitionValidatorMock;
             });
 
-            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
+            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight', 'isAuthenticated']);
+            authorizationServiceSpy.hasRight.andReturn(true);
+            authorizationServiceSpy.isAuthenticated.andReturn(true);
             $provide.service('authorizationService', function() {
                 return authorizationServiceSpy;
             });
@@ -139,8 +141,6 @@ describe('ProductGridCell', function() {
 
     it('should produce editable cell if user has no right to approve', function() {
         scope.column.name = TEMPLATE_COLUMNS.APPROVED_QUANTITY;
-
-        authorizationServiceSpy.hasRight.andReturn(true);
 
         scope.requisition.$isApproved.andReturn(false);
         scope.requisition.$isReleased.andReturn(false);
