@@ -24,9 +24,9 @@
 
 	function routes($stateProvider, REQUISITION_RIGHTS) {
 
-		$stateProvider.state('administration.configure.templateList', {
+		$stateProvider.state('administration.programs', {
 			showInNavigation: true,
-			label: 'configure.rnr.header',
+			label: 'label.programs',
 			url: '/templateList',
 			controller: 'ProgramAdministrationListController',
 			templateUrl: 'admin-template-list/program-administration-list.html',

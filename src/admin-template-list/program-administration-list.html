@@ -1,25 +1,29 @@
 <div class="program-template-list">
     <div class="page">
-        <h2>{{'configure.rnr.header' | message}}</h2>
+        <h2>{{'label.programs' | message}}</h2>
         <div class="openlmis-table-container">
             <table class="openlmis-table" ng-if="vm.programs.length">
         		<thead>
         		<tr>
         			<th>{{'program.header' | message}}</th>
-        			<th></th>
+                    <th>{{'label.configured' | message}}</th>
+        			<th>{{'label.actions' | message}}</th>
         		</tr>
         		</thead>
         		<tbody>
         		<tr ng-repeat="program in vm.programs">
         			<td>{{program.name}}</td>
-        			<td>
+                    <td>
         				<div ng-if="program.$template">
                             <i class="fa fa-check"></i>
-                            {{'template.configured' | message}}
-                            <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.edit' | message}})</a>
+                    	</div>
+        			</td>
+        			<td>
+        				<div ng-if="program.$template">
+                            <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.editTemplate' | message}})</a>
                     	</div>
                         <div ng-if="!program.$template">
-                            <div>{{'template.create' | message}}</div>
+                            <div>{{'link.createTemplate' | message}}</div>
         				</div>
         			</td>
         		</tr>
