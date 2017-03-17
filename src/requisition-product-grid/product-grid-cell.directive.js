@@ -37,12 +37,12 @@
         .directive('productGridCell', productGridCell);
 
     productGridCell.$inject = [
-        '$q', '$timeout', '$templateRequest', '$compile', 'requisitionValidator', 'TEMPLATE_COLUMNS',
-        'COLUMN_SOURCES', 'COLUMN_TYPES'
+        '$q', '$timeout', '$templateRequest', '$compile', 'requisitionValidator', 'authorizationService',
+        'TEMPLATE_COLUMNS', 'COLUMN_SOURCES', 'COLUMN_TYPES', 'REQUISITION_RIGHTS'
     ];
 
-    function productGridCell($q, $timeout, $templateRequest, $compile, requisitionValidator, TEMPLATE_COLUMNS,
-                             COLUMN_SOURCES, COLUMN_TYPES) {
+    function productGridCell($q, $timeout, $templateRequest, $compile, requisitionValidator, authorizationService,
+                            TEMPLATE_COLUMNS, COLUMN_SOURCES, COLUMN_TYPES, REQUISITION_RIGHTS) {
 
         return {
             restrict: 'A',
@@ -127,9 +127,9 @@
             function isReadOnly() {
                 if (requisition.$isApproved() || requisition.$isReleased()) return true;
                 if (requisition.$isAuthorized() || requisition.$isInApproval()) {
-                    return [
-                        TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS
-                    ].indexOf(column.name) === -1;
+                    return !hasApproveRightForProgram() ||
+                            [TEMPLATE_COLUMNS.APPROVED_QUANTITY, TEMPLATE_COLUMNS.REMARKS]
+                            .indexOf(column.name) === -1;
                 }
                 return column.source !== COLUMN_SOURCES.USER_INPUT;
             }
@@ -138,6 +138,11 @@
                 return !lineItem.canBeSkipped(scope.requisition);
             }
 
+            function hasApproveRightForProgram() {
+                return authorizationService.hasRight(REQUISITION_RIGHTS.REQUISITION_APPROVE, {
+                    programCode: requisition.program.code
+                });
+            }
         }
     }
 

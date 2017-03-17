@@ -14,7 +14,7 @@
  */
 describe('ProductGridCell', function() {
 
-    var $compile, scope, requisition, directiveElem, requisitionValidatorMock;
+    var $compile, scope, requisition, directiveElem, requisitionValidatorMock, authorizationServiceSpy, TEMPLATE_COLUMNS;
 
     beforeEach(function() {
         module('requisition-product-grid', function($compileProvider) {
@@ -30,17 +30,23 @@ describe('ProductGridCell', function() {
         });
 
         module('openlmis-templates', function($provide) {
+
             requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator',
                 ['validateLineItem']);
-
             $provide.service('requisitionValidator', function() {
                 return requisitionValidatorMock;
+            });
+
+            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
+            $provide.service('authorizationService', function() {
+                return authorizationServiceSpy;
             });
         });
 
         inject(function($injector) {
             $compile = $injector.get('$compile');
             scope = $injector.get('$rootScope').$new();
+            TEMPLATE_COLUMNS =  $injector.get('TEMPLATE_COLUMNS');
 
             requisition = jasmine.createSpyObj('requisition', [
                 '$getStockAdjustmentReasons', '$isApproved', '$isReleased', '$isAuthorized',
@@ -48,6 +54,9 @@ describe('ProductGridCell', function() {
             ]);
             requisition.template = {};
             requisition.template.columnsMap = { 'col1': 'val1' };
+            requisition.program = {
+                code: 'CODE'
+            };
 
             scope.requisition = requisition;
 
@@ -86,6 +95,62 @@ describe('ProductGridCell', function() {
 
         expect(directiveElem.html()).toContain("readOnlyFieldValue");
         expect(directiveElem.find("input").length).toEqual(0);
+    });
+
+    it('should produce read-only cell if authorized', function() {
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isInApproval.andReturn(true);
+        scope.requisition.$isAuthorized.andReturn(false);
+
+        directiveElem = getCompiledElement();
+
+        expect(directiveElem.html()).toContain("readOnlyFieldValue");
+        expect(directiveElem.find("input").length).toEqual(0);
+    });
+
+    it('should produce read-only cell if in approval', function() {
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isInApproval.andReturn(false);
+        scope.requisition.$isAuthorized.andReturn(true);
+
+        directiveElem = getCompiledElement();
+
+        expect(directiveElem.html()).toContain("readOnlyFieldValue");
+        expect(directiveElem.find("input").length).toEqual(0);
+    });
+
+    it('should produce read-only cell if authorized and column is approved quantity', function() {
+        scope.column.name = TEMPLATE_COLUMNS.APPROVED_QUANTITY;
+
+        authorizationServiceSpy.hasRight.andReturn(false);
+
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isInApproval.andReturn(true);
+        scope.requisition.$isAuthorized.andReturn(false);
+
+        directiveElem = getCompiledElement();
+
+        expect(directiveElem.html()).toContain("readOnlyFieldValue");
+        expect(directiveElem.find("input").length).toEqual(0);
+    });
+
+    it('should produce editable cell if user has no right to approve', function() {
+        scope.column.name = TEMPLATE_COLUMNS.APPROVED_QUANTITY;
+
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        scope.requisition.$isApproved.andReturn(false);
+        scope.requisition.$isReleased.andReturn(false);
+        scope.requisition.$isInApproval.andReturn(true);
+        scope.requisition.$isAuthorized.andReturn(false);
+
+        directiveElem = getCompiledElement();
+
+        expect(directiveElem.html()).not.toContain("readOnlyFieldValue");
+        expect(directiveElem.find("input").length).toEqual(1);
     });
 
     it('should produce editable cell', function() {

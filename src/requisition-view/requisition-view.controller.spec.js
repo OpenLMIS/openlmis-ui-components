@@ -18,19 +18,21 @@ describe('RequisitionViewController', function() {
 
     var $scope, $q, $state, notificationService, confirmService, vm, requisition,
         loadingModalService, deferred, requisitionUrlFactoryMock, requisitionValidatorMock,
-        fullSupplyItems, nonFullSupplyItems, authorizationServiceSpy;
+        fullSupplyItems, nonFullSupplyItems, authorizationServiceSpy, confirmSpy, REQUISITION_RIGHTS;
 
     beforeEach(function() {
         module('requisition-view');
 
         module(function($provide) {
 
-            var confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']);
+            confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']);
 
-            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']),
+            authorizationServiceSpy = jasmine.createSpyObj('authorizationService', ['hasRight']);
 
             requisitionValidatorMock = jasmine.createSpyObj('requisitionValidator', [
-                'areLineItemsValid'
+                'areLineItemsValid',
+                'validateRequisition',
+                'areAllLineItemsSkipped'
             ]);
             requisitionUrlFactoryMock = jasmine.createSpy();
 
@@ -52,7 +54,7 @@ describe('RequisitionViewController', function() {
         });
 
         inject(function(_$rootScope_, $controller, _$q_, _$state_, _notificationService_,
-                        _confirmService_, _loadingModalService_) {
+                        _confirmService_, _loadingModalService_, _REQUISITION_RIGHTS_) {
 
             $scope = _$rootScope_.$new();
             $state = _$state_;
@@ -60,6 +62,7 @@ describe('RequisitionViewController', function() {
             notificationService = _notificationService_;
             confirmService = _confirmService_;
             loadingModalService = _loadingModalService_;
+            REQUISITION_RIGHTS = _REQUISITION_RIGHTS_;
 
             confirmService.confirm.andCallFake(function() {
                 return $q.when(true);
@@ -67,16 +70,18 @@ describe('RequisitionViewController', function() {
 
             deferred = $q.defer();
             requisition = jasmine.createSpyObj('requisition',
-                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$isInApproval', '$isReleased', '$save']);
+                ['$skip', '$isInitiated', '$isSubmitted', '$isAuthorized', '$isInApproval', '$isReleased', '$save', '$authorize']);
             requisition.id = '1';
             requisition.program = {
                 id: '2',
-                periodsSkippable: true
+                periodsSkippable: true,
+                code: 'CODE'
             };
             requisition.$isInitiated.andReturn(true);
             requisition.$isReleased.andReturn(false);
             requisition.$skip.andReturn(deferred.promise);
             requisition.$save.andReturn(deferred.promise);
+            requisition.$authorize.andReturn(deferred.promise);
 
             vm = $controller('RequisitionViewController', {$scope: $scope, requisition: requisition});
         });
@@ -318,6 +323,39 @@ describe('RequisitionViewController', function() {
             expect(requisitionValidatorMock.areLineItemsValid)
                 .toHaveBeenCalledWith([nonFullSupplyItems[0]]);
         });
+    });
 
+    describe('authorize', function() {
+
+        beforeEach(function() {
+            confirmSpy.confirm.andReturn($q.when(true));
+            requisition.$save.andReturn($q.when(true));
+            requisition.$authorize.andReturn($q.when(true));
+
+            requisitionValidatorMock.validateRequisition.andReturn(true);
+            requisitionValidatorMock.areAllLineItemsSkipped.andReturn(false);
+        });
+
+        it('should redirect to init rnr page when user has no approve right', function() {
+            authorizationServiceSpy.hasRight.andReturn(false);
+            spyOn($state, 'go');
+
+            vm.authorizeRnr();
+            $scope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('requisitions.initRnr');
+            expect(authorizationServiceSpy.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_APPROVE, {programCode: requisition.program.code});
+        });
+
+        it('should redirect to init rnr page when user has no approve right', function() {
+            authorizationServiceSpy.hasRight.andReturn(true);
+            spyOn($state, 'reload');
+
+            vm.authorizeRnr();
+            $scope.$apply();
+
+            expect($state.reload).toHaveBeenCalled();
+            expect(authorizationServiceSpy.hasRight).toHaveBeenCalledWith(REQUISITION_RIGHTS.REQUISITION_APPROVE, {programCode: requisition.program.code});
+        });
     });
 });

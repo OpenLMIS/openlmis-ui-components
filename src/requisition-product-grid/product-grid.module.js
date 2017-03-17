@@ -27,7 +27,9 @@
         'requisition-constants',
         'requisition-losses-and-adjustments',
         'requisition-validation',
-        'openlmis-currency'
+        'openlmis-auth',
+        'openlmis-currency',
+        'openlmis-rights'
     ]);
 
 })();

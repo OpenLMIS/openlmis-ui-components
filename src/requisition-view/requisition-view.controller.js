@@ -170,15 +170,16 @@
         function authorizeRnr() {
             watcher.makeSilent();
             confirmService.confirm('msg.question.confirmation.authorize', 'button.authorize').then(function() {
-                if (requisitionValidator.validateRequisition(requisition)) {
+                if(requisitionValidator.validateRequisition(requisition)) {
                     var loadingPromise = loadingModalService.open();
-                    if (!requisitionValidator.areAllLineItemsSkipped(requisition.requisitionLineItems)) {
-                        vm.requisition.$save().then(function () {
-                            vm.requisition.$authorize().then(function (response) {
-                                loadingPromise.then(function () {
+                    if(!requisitionValidator.areAllLineItemsSkipped(requisition.requisitionLineItems)) {
+                        vm.requisition.$save().then(function() {
+                            vm.requisition.$authorize().then(function(response) {
+                                loadingPromise.then(function() {
                                     notificationService.success('msg.requisitionAuthorized');
                                 });
-                                reloadState();
+                                if(hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_APPROVE)) reloadState();
+                                else $state.go('requisitions.initRnr');
                             }, failWithMessage('msg.failedToAuthorizeRequisition'));
                         }, function(response) {
                           handleSaveError(response.status);
