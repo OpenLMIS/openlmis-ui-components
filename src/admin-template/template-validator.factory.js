@@ -39,7 +39,8 @@
         var columnValidations = {
                 averageConsumption: validateAverageConsumption,
                 requestedQuantity: validateRequestedQuantity,
-                requestedQuantityExplanation: validateRequestedQuantityExplanation
+                requestedQuantityExplanation: validateRequestedQuantityExplanation,
+                totalStockoutDays: validateTotalStockoutDays
             },
             validator = {
                 getColumnError: getColumnError,
@@ -91,28 +92,28 @@
                 validateUserInput(column, template) ||
                 validateColumn(column, template);
 
-            return messageService.get(error);
+            return error;
         }
 
         function validateLabel(label) {
-            if (isEmpty(label)) return 'error.columnLabelEmpty';
-            if (label.length < 2) return 'error.columnLabelToShort';
-            if (!ALPHA_NUMERIC_REGEX.test(label)) return 'error.columnLabelNotAllowedCharacters';
+            if (isEmpty(label)) return messageService.get('error.columnLabelEmpty');
+            if (label.length < 2) return messageService.get('error.columnLabelToShort');
+            if (!ALPHA_NUMERIC_REGEX.test(label)) return messageService.get('error.columnLabelNotAllowedCharacters');
         }
 
         function validateDefinition(definition) {
             if (definition && definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) {
-                return 'error.columnDescriptionTooLong';
+                return messageService.get('error.columnDescriptionTooLong');
             }
         }
 
         function validateSource(source) {
-            if (isEmpty(source)) return 'msg.template.column.sourceEmpty';
+            if (isEmpty(source)) return messageService.get('msg.template.column.sourceEmpty');
         }
 
         function validateOption(column) {
             if (column.isDisplayed && column.columnDefinition.options.length && !column.option) {
-                return 'msg.template.column.optionEmpty';
+                return messageService.get('msg.template.column.optionEmpty');
             }
         }
 
@@ -126,8 +127,8 @@
         function validateAverageConsumption(column, template) {
             var periodsToAverage = template.numberOfPeriodsToAverage;
 
-            if (isEmpty(periodsToAverage)) return 'msg.template.emptyNumberOfPeriods';
-            if (periodsToAverage < 2) return 'msg.template.invalidNumberOfPeriods';
+            if (isEmpty(periodsToAverage)) return messageService.get('msg.template.emptyNumberOfPeriods');
+            if (periodsToAverage < 2) return messageService.get('msg.template.invalidNumberOfPeriods');
         }
 
         function validateRequestedQuantity(column, template) {
@@ -168,6 +169,15 @@
         function validateUserInput(column) {
             if (!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
                 return messageService.get('msg.template.column.shouldBeDisplayed') + messageService.get('msg.template.column.isUserInput');
+            }
+        }
+
+        function validateTotalStockoutDays(column, template) {
+            var nColumn = template.columnsMap.adjustedConsumption;
+            if (!column.isDisplayed && nColumn.source === COLUMN_SOURCES.CALCULATED) {
+                return messageService.get('error.shouldBeDisplayedIfOtherIsCalculated', {
+                    column: nColumn.label
+                });
             }
         }
 

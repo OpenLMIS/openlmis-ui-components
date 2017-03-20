@@ -63,6 +63,7 @@
   "error.rnr.validation": "R&R has errors, please correct them to proceed.",
   "error.rnr.validation.submit.allLineItemsSkipped": "Cannot submit requisition with all line items skipped.",
   "error.rnr.validation.authorize.allLineItemsSkipped": "Cannot authorize requisition with all line items skipped.",
+  "error.shouldBeDisplayedIfOtherIsCalculated": "Should be displayed when ${column} is calculated.",
   "error.podInvalid": "Proof of Delivery is invalid!",
   "error.tooManyCharacters": "Too many characters",
   "error.wrongCalculation": "This value is invalid. It must be equal to the calculated value.",

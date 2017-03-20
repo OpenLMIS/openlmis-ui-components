@@ -73,21 +73,25 @@ describe('templateValidator', function() {
 
     describe('getColumnError', function() {
 
-        var TEMPLATE_COLUMNS, column;
+        var TEMPLATE_COLUMNS, COLUMN_SOURCES, column;
 
         beforeEach(function() {
             inject(function($injector) {
                 TEMPLATE_COLUMNS = $injector.get('TEMPLATE_COLUMNS');
+                COLUMN_SOURCES = $injector.get('COLUMN_SOURCES');
             });
 
             column = {
                 label: 'someLabel',
                 definition: 'Some not too short definition of the column...',
-                source: 'USER_INPUT',
+                source: COLUMN_SOURCES.USER_INPUT,
                 isDisplayed: true,
                 columnDefinition: {
                     options: [
                         'optionOne'
+                    ],
+                    sources: [
+                        COLUMN_SOURCES.USER_INPUT
                     ]
                 },
                 option: 'optionOne'
@@ -290,13 +294,7 @@ describe('templateValidator', function() {
 
         describe('for calculated column', function() {
 
-            var COLUMN_SOURCES;
-
             beforeEach(function() {
-                inject(function($injector) {
-                    COLUMN_SOURCES = $injector.get('COLUMN_SOURCES');
-                });
-
                 template.columnsMap.stockOnHand = {
                     name: 'stockOnHand',
                     displayOrder: 5,
@@ -315,6 +313,55 @@ describe('templateValidator', function() {
 
                 expect(result)
                     .toEqual('msg.template.column.shouldBeDisplayedmsg.template.column.isUserInput');
+            });
+
+        });
+
+        describe('for total stock out days', function() {
+
+            var messageService, nColumn;
+
+            beforeEach(function() {
+                inject(function($injector) {
+                    messageService = $injector.get('messageService');
+                });
+
+                column.name = TEMPLATE_COLUMNS.TOTAL_STOCKOUT_DAYS;
+                nColumn = {
+                    label: 'Adjusted Consumption',
+                    source: COLUMN_SOURCES.CALCULATED,
+                    columnDefinition: {
+                        sources: [
+                            COLUMN_SOURCES.CALCULATED
+                        ]
+                    }
+                };
+
+                template.columnsMap.adjustedConsumption = nColumn;
+
+                spyOn(messageService, 'get').andCallThrough();
+            });
+
+            it('should return undefined if column is valid', function() {
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe(undefined);
+            });
+
+            it('should return error if the column is hidden and adjusted consumption is calculated', function() {
+                column.isDisplayed = false;
+
+                messageService.get.andCallFake(function(message, params) {
+                    if (message === 'error.shouldBeDisplayedIfOtherIsCalculated' && params &&
+                        params.column === nColumn.label) {
+
+                        return message + ' ' + params.column;
+                    }
+                });
+
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe('error.shouldBeDisplayedIfOtherIsCalculated ' + nColumn.label);
             });
 
         });

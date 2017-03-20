@@ -28,12 +28,13 @@
 
     RequisitionTemplateAdminController.$inject = [
         '$state', 'template', 'program', '$q', 'notificationService', 'messageService',
-        'templateValidator', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'COLUMN_SOURCES'
+        'templateValidator', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'COLUMN_SOURCES', 'TEMPLATE_COLUMNS'
     ];
 
     function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
                                                 messageService, templateValidator,
-                                                MAX_COLUMN_DESCRIPTION_LENGTH, COLUMN_SOURCES) {
+                                                MAX_COLUMN_DESCRIPTION_LENGTH, COLUMN_SOURCES,
+                                                TEMPLATE_COLUMNS) {
 
         var vm = this;
 
