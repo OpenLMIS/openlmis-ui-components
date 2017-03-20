@@ -51,8 +51,8 @@
         .module('openlmis-table')
         .directive('table', directive);
 
-    directive.$inject = ['$window', '$timeout', 'jQuery'];
-    function directive($window, $timeout, jQuery) {
+    directive.$inject = ['$window', 'jQuery'];
+    function directive($window, jQuery) {
 
         return {
             restrict: 'E',
@@ -85,8 +85,9 @@
             scope.$watch(function(){
                 return element[0].querySelectorAll('.sticky:not(.sticky-added)').length;
             }, updateStickyElements);
+
             // If the window changes sizes, update the view
-            angular.element($window).bind('resize', updateStickyElements);
+            angular.element($window).bind('resize', blit);
 
             element.on('$destroy', function() {
                 angular.element($window).unbind('resize', updateStickyElements);
