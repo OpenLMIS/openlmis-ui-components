@@ -8,6 +8,7 @@ services:
     working_dir: /app
     volumes:
       - '.:/app'
+    env_file: .env
   image:
     build: .
     image: openlmis/requisition-ui
