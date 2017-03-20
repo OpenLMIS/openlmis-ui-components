@@ -53,14 +53,12 @@
             var deferred = $q.defer();
             requisitionTemplateService.get(id).then(function(template) {
                 template.$save = save;
-                template.$isValid = isTemplateValid;
                 template.$moveColumn = moveColumn;
                 template.$findCircularCalculatedDependencies = findCircularCalculatedDependencies;
 
                 angular.forEach(template.columnsMap, function(column) {
                     addDependentColumnValidation(column, template.columnsMap);
                     fixColumnOptionModelReference(column);
-                    column.$isValid = isColumnValid;
                 });
 
                 deferred.resolve(template);
@@ -113,60 +111,6 @@
                     columns[dependency].$dependentOn.push(column.name);
                 });
             }
-        }
-
-        // Checks if all columns in template are valid.
-        function isTemplateValid() {
-            var valid = true,
-                template = this;
-
-            angular.forEach(template.columnsMap, function(column) {
-                if(!column.$isValid(template)) valid = false;
-            });
-
-            return valid;
-        }
-
-        // Checks if column is valid.
-        // Column is not valid when isn't displayed, but at least one is dependent column is displayed.
-        function isColumnValid(template) {
-            var valid = true,
-                column = this,
-                columns = template.columnsMap;
-
-            if(!column.label || column.label === '' || column.label.lenght < 2) return false;
-
-            if(!ALPHA_NUMERIC_REGEX.test(column.label)) return false;
-
-            if(column.definition && column.definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) return false;
-
-            if (column.name === TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION &&
-                isAverageConsumptionInvalid(template.numberOfPeriodsToAverage)) {
-                return false;
-            }
-
-            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY &&
-                template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].isDisplayed != column.isDisplayed) return false;
-            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION &&
-                template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].isDisplayed != column.isDisplayed) return false;
-
-            if((column.name === TEMPLATE_COLUMNS.STOCK_ON_HAND || column.name === TEMPLATE_COLUMNS.TOTAL_CONSUMED_QUANTITY) &&
-                column.source == COLUMN_SOURCES.USER_INPUT && !column.isDisplayed) return false;
-
-            if(!column.source || column.source === '') return false;
-            if(column.isDisplayed && column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return false;
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1)
-                return false;
-
-            var circularDependencies = [];
-            checkForCircularCalculatedDependencies(null, column.name, [],
-                                                   null, columns, circularDependencies);
-
-            if (circularDependencies.length > 0) {
-                valid = false;
-            }
-
-            return valid;
         }
 
         // Checks if column can be dropped in area and if so,

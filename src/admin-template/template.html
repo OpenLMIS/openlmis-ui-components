@@ -64,7 +64,7 @@
                                 <div ng-if="column.columnDefinition.options.length > 0">
                                     <select ng-model="column.option" ng-options="option as option.optionLabel for option in column.columnDefinition.options" ng-required="column.isDisplayed"></select>
                                 </div>
-                                <div ng-if="!column.$isValid(vm.template)" class="error">{{vm.errorMessage(column)}}</div>
+                                <div class="error">{{vm.getColumnError(column, vm.template)}}</div>
                             </td>
                         </dnd-nodrag>
                     </tr>
@@ -77,6 +77,6 @@
     </div>
 </div>
 <div class="openlmis-toolbar">
-    <input type="button" ng-click="vm.saveTemplate()" class="primary" ng-disabled="!vm.template.$isValid()" value="{{'button.save' | message}}"/>
+    <input type="button" ng-click="vm.saveTemplate()" class="primary" ng-disabled="!vm.isTemplateValid(vm.template)" value="{{'button.save' | message}}"/>
     <input type="button" ng-click="vm.goToTemplateList()" value="{{'button.cancel' | message}}">
 </div>

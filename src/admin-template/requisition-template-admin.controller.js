@@ -27,12 +27,13 @@
     angular.module('admin-template').controller('RequisitionTemplateAdminController', RequisitionTemplateAdminController);
 
     RequisitionTemplateAdminController.$inject = [
-        '$state', 'template', 'program', '$q', 'notificationService', 'COLUMN_SOURCES',
-        'messageService', 'TEMPLATE_COLUMNS', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'ALPHA_NUMERIC_REGEX'
+        '$state', 'template', 'program', '$q', 'notificationService', 'messageService',
+        'templateValidator', 'MAX_COLUMN_DESCRIPTION_LENGTH', 'COLUMN_SOURCES'
     ];
 
     function RequisitionTemplateAdminController($state, template, program, $q, notificationService,
-                                                COLUMN_SOURCES, messageService, TEMPLATE_COLUMNS, MAX_COLUMN_DESCRIPTION_LENGTH, ALPHA_NUMERIC_REGEX) {
+                                                messageService, templateValidator,
+                                                MAX_COLUMN_DESCRIPTION_LENGTH, COLUMN_SOURCES) {
 
         var vm = this;
 
@@ -74,7 +75,8 @@
         vm.dropCallback = dropCallback;
         vm.canChangeSource = canChangeSource;
         vm.sourceDisplayName = sourceDisplayName;
-        vm.errorMessage = errorMessage;
+        vm.isTemplateValid = templateValidator.isTemplateValid;
+        vm.getColumnError = templateValidator.getColumnError;
         vm.isAverageConsumption = isAverageConsumption;
 
         /**
@@ -156,63 +158,6 @@
          */
         function sourceDisplayName(name) {
             return messageService.get(COLUMN_SOURCES.getLabel(name));
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf admin-template.controller:RequisitionTemplateAdminController
-         * @name errorMessage
-         *
-         * @description
-         * Gives error message with all displayed dependent column names
-         * when column validation failed.
-         *
-         * @param  {Object} column Column
-         * @return {String}        Column validation error message
-         */
-        function errorMessage(column) {
-            var dependencies = '',
-                message;
-
-            if(!column.label || column.label === '') return messageService.get('error.columnLabelEmpty');
-
-            if(column.label.length < 2) return messageService.get('error.columnLabelToShort');
-
-            if(!ALPHA_NUMERIC_REGEX.test(column.label)) return messageService.get('error.columnLabelNotAllowedCharacters');
-
-            if(column.definition && column.definition.length > MAX_COLUMN_DESCRIPTION_LENGTH) return messageService.get('error.columnDescriptionTooLong');
-
-            if(isAverageConsumption(column) && (vm.template.numberOfPeriodsToAverage === 0 || vm.template.numberOfPeriodsToAverage === 1))
-                return messageService.get('msg.template.invalidNumberOfPeriods');
-
-            if (isAverageConsumption(column) && (!vm.template.numberOfPeriodsToAverage || !vm.template.numberOfPeriodsToAverage.toString().trim()))
-                return messageService.get('msg.template.emptyNumberOfPeriods');
-
-            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].isDisplayed != column.isDisplayed)
-                return messageService.get('error.columnDisplayMismatch') + template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION].label;
-            if(column.name ===  TEMPLATE_COLUMNS.REQUESTED_QUANTITY_EXPLANATION && template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].isDisplayed != column.isDisplayed)
-                return messageService.get('error.columnDisplayMismatch') + template.columnsMap[TEMPLATE_COLUMNS.REQUESTED_QUANTITY].label;
-
-            if(!column.source  || column.source === '') return messageService.get('msg.template.column.sourceEmpty');
-
-            if(column.isDisplayed && column.columnDefinition.options.length > 0 && (!column.option || column.option === '')) return messageService.get('msg.template.column.optionEmpty');
-
-            if(column.source === COLUMN_SOURCES.CALCULATED) {
-                var circularDependencyArray = vm.template.$findCircularCalculatedDependencies(column.name);
-                angular.forEach(circularDependencyArray, function(dependency) {
-                    dependencies = dependencies + ' ' + vm.template.columnsMap[dependency].label + ',';
-                });
-            }
-
-            if(dependencies.length > 0) {
-                dependencies = dependencies.substring(0, dependencies.length - 1); // remove last comma
-                return messageService.get('msg.template.column.calculatedError') + dependencies;
-            }
-            message = messageService.get('msg.template.column.shouldBeDisplayed');
-            if(!column.isDisplayed && column.source === COLUMN_SOURCES.USER_INPUT && column.columnDefinition.sources.length > 1) {
-                message = message + messageService.get('msg.template.column.isUserInput');
-            }
-            return message;
         }
 
         /**
