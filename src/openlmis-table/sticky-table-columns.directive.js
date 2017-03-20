@@ -181,8 +181,7 @@
             function setUpBlits(cell){
                 var cellOffset = cell.position().left,
                 cellWidth = cell.outerWidth(),
-                cellParent = cell.parent()[0],
-                cellOnlyChild = cell.siblings().length == 0;
+                cellParent = cell.parent()[0];
 
                 blits.push(function(){
                     if(cell.hasClass('stuck')){
@@ -197,7 +196,11 @@
                     isOffRight = cellOffset + cellWidth > rightEdge + currentRightOffset,
                     canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
 
-                    if(isOffLeft && (canFit || cellOnlyChild && parentWidth == cellWidth)){
+                    if(cell.parents('tr.title').length > 0){
+                        cell.outerWidth(parentWidth);
+                        cellWidth = parentWidth;
+                        leftBlit();
+                    } else if(isOffLeft && canFit){
                         leftBlit();
                     } else if (isOffRight && canFit){
                         rightBlit();
