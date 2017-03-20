@@ -44,7 +44,7 @@
             PACKS_TO_SHIP: 'packsToShip',
             PRODUCT_CODE: 'orderable.productCode',
             PRICE_PER_PACK: 'pricePerPack',
-            PRODUCT_NAME: 'orderable.name',
+            PRODUCT_NAME: 'orderable.fullProductName',
             UNIT_UNIT_OF_ISSUE: 'dispensable',
             TOTAL_COST: 'totalCost',
             ADJUSTED_CONSUMPTION: 'adjustedConsumption',

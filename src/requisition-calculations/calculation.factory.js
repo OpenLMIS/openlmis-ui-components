@@ -148,13 +148,13 @@
          */
         function calculatePacksToShip(lineItem, requisition) {
             var orderQuantity = getOrderQuantity(lineItem, requisition),
-            packSize = lineItem.orderable.packSize;
+            netContent = lineItem.orderable.netContent;
 
-            if (!orderQuantity || !packSize) {
+            if (!orderQuantity || !netContent) {
                 return 0;
             } else {
-                var remainderQuantity = orderQuantity % packSize,
-                packsToShip = (orderQuantity - remainderQuantity) / packSize;
+                var remainderQuantity = orderQuantity % netContent,
+                packsToShip = (orderQuantity - remainderQuantity) / netContent;
 
                 if (remainderQuantity > 0 && remainderQuantity > lineItem.orderable.packRoundingThreshold) {
                     packsToShip += 1;

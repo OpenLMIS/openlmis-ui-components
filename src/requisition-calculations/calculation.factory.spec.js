@@ -76,7 +76,7 @@ describe('calculationFactory', function() {
         });
 
         it('should return zero if pack size is zero', function() {
-            lineItem.orderable.packSize = 0;
+            lineItem.orderable.netContent = 0;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(0);
         });
@@ -101,7 +101,7 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 15;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 6;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(1);
@@ -111,7 +111,7 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 15;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(2);
@@ -121,7 +121,7 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 1;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 5;
             lineItem.orderable.roundToZero = true;
 
@@ -132,7 +132,7 @@ describe('calculationFactory', function() {
             requisitionMock.$isAuthorized.andReturn(false);
 
             lineItem.requestedQuantity = 1;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 5;
             lineItem.orderable.roundToZero = false;
 
@@ -156,7 +156,7 @@ describe('calculationFactory', function() {
 
             lineItem.pricePerPack = 30.20;
             lineItem.requestedQuantity = 15;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.totalCost(lineItem, requisitionMock)).toBe(60.4);
@@ -167,7 +167,7 @@ describe('calculationFactory', function() {
 
             lineItem.pricePerPack = undefined;
             lineItem.requestedQuantity = 15;
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.totalCost(lineItem, requisitionMock)).toBe(0);
@@ -182,7 +182,7 @@ describe('calculationFactory', function() {
             lineItem.requestedQuantity = null;
             lineItem.maximumStockQuantity = 100;
 
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(9);
@@ -197,7 +197,7 @@ describe('calculationFactory', function() {
             lineItem.requestedQuantity = null;
             lineItem.maximumStockQuantity = 100;
 
-            lineItem.orderable.packSize = 10;
+            lineItem.orderable.netContent = 10;
             lineItem.orderable.packRoundingThreshold = 4;
 
             expect(calculationFactory.packsToShip(lineItem, requisitionMock)).toBe(9);

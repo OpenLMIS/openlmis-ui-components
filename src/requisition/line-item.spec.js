@@ -87,7 +87,7 @@ describe('LineItem', function() {
             },
             orderable: {
                 id: '1',
-                name: 'product',
+                fullProductName: 'product',
                 productCode: 'P1',
                 programs: [
                     {

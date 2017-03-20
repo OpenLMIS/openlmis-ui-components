@@ -115,7 +115,7 @@
         function deleteLineItem(lineItem) {
             var id = vm.requisition.requisitionLineItems.indexOf(lineItem);
             if (id > -1) {
-                makeProductVisible(vm.requisition.requisitionLineItems[id].orderable.name);
+                makeProductVisible(vm.requisition.requisitionLineItems[id].orderable.fullProductName);
                 vm.requisition.requisitionLineItems.splice(id, 1);
                 reload();
             }
@@ -191,7 +191,7 @@
                 '$program.orderableCategoryDisplayOrder',
                 '$program.orderableCategoryDisplayName',
                 '$program.displayOrder',
-                'orderable.name'
+                'orderable.fullProductName'
             ]);
         }
 

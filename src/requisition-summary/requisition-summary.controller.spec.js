@@ -22,10 +22,10 @@ describe('RequisitionSummaryController', function() {
         module('requisition-summary');
 
         lineItems = [
-            createLineItem(10.30, false, true, {packSize: 2}, 10),
-            createLineItem(2.3, false, true, {packSize: 2}, 20),
-            createLineItem(4.2, false, false, {packSize: 1}, 3),
-            createLineItem(2.3, false, false, {packSize: 1}, 6)
+            createLineItem(10.30, false, true, {netContent: 2}, 10),
+            createLineItem(2.3, false, true, {netContent: 2}, 20),
+            createLineItem(4.2, false, false, {netContent: 1}, 3),
+            createLineItem(2.3, false, false, {netContent: 1}, 6)
         ];
 
         inject(function(_$filter_, _calculationFactory_, $controller) {

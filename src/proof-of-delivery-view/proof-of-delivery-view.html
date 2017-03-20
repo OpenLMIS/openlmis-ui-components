@@ -18,11 +18,11 @@
             <tbody title="{{category}}"
                     ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'">
                 <tr ng-class="{'invalid-row': !vm.pod.isLineItemValid(lineItem)}"
-                    ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.name'">
+                    ng-repeat="lineItem in lineItems | orderBy : 'orderLineItem.orderable.fullProductName'">
                     <td>
                         <i ng-class="{'icon-ok': lineItem.$program.fullSupply}"></i>
                     </td>
-                    <td>{{lineItem.orderLineItem.orderable.name}}</td>
+                    <td>{{lineItem.orderLineItem.orderable.fullProductName}}</td>
                     <td>{{lineItem.orderLineItem.orderable.dispensable.dispensingUnit}}</td>
                     <td>{{lineItem.orderLineItem.packsToShip}}</td>
                     <td>{{lineItem.quantityShipped}}</td>

@@ -42,7 +42,7 @@
                         '$program.orderableCategoryDisplayOrder',
                         '$program.orderableCategoryDisplayName',
                         '$program.displayOrder',
-                        'orderable.name'
+                        'orderable.fullProductName'
                     ]);
                 },
                 columns: function(requisition) {

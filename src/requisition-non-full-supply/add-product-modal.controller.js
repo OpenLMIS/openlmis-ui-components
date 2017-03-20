@@ -112,9 +112,9 @@
         function convertToOrderableProduct(product) {
             return {
                 id: product.id,
-                name: product.name,
+                fullProductName: product.fullProductName,
                 productCode: product.productCode,
-                packSize: product.packSize,
+                netContent: product.netContent,
                 $program: {
                     orderableCategoryDisplayName: getProgram(product, programId).orderableCategoryDisplayName,
                     fullSupply: product.fullSupply
