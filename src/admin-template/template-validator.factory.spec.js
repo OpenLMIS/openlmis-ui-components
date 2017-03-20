@@ -317,7 +317,7 @@ describe('templateValidator', function() {
 
         });
 
-        describe('for total stock out days', function() {
+        describe('for total stockout days', function() {
 
             var messageService, nColumn;
 
