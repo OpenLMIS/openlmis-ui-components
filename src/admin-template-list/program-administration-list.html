@@ -6,8 +6,7 @@
         		<thead>
         		<tr>
         			<th>{{'program.header' | message}}</th>
-                    <th>{{'label.configured' | message}}</th>
-        			<th>{{'label.actions' | message}}</th>
+        			<th>{{'label.requisitionTemplate' | message}}</th>
         		</tr>
         		</thead>
         		<tbody>
@@ -16,17 +15,13 @@
                     <td>
         				<div ng-if="program.$template">
                             <i class="fa fa-check"></i>
-                    	</div>
-        			</td>
-        			<td>
-        				<div ng-if="program.$template">
-                            <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.editTemplate' | message}})</a>
+                            {{'template.configured' | message}}
+                            <a ng-if="vm.canConfigureTemplates()" ng-click="vm.goToTemplate(program.$template.id)">({{'link.edit' | message}})</a>
                     	</div>
                         <div ng-if="!program.$template">
-                            <div>{{'link.createTemplate' | message}}</div>
+                            <div>{{'link.create' | message}}</div>
         				</div>
         			</td>
-        		</tr>
         		</tbody>
             </table>
         </div>
