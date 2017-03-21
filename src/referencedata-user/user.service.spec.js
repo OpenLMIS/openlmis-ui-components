@@ -72,4 +72,9 @@ describe('userService', function() {
         expect(data[0].id).toEqual(user1.id);
         expect(data[1].id).toEqual(user2.id);
     });
+
+    afterEach(function() {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+    });
 });
