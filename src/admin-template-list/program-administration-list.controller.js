@@ -59,7 +59,7 @@
          * @param {String} templateId Template UUID
          */
         function goToTemplate(templateId) {
-            $state.go('administration.configure.template', {
+            $state.go('administration.template', {
                 template: templateId
             });
         }

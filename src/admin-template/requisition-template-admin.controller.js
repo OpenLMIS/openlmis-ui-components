@@ -89,7 +89,7 @@
          * Redirects user to template list view page.
          */
         function goToTemplateList() {
-            $state.go('administration.configure.templateList');
+            $state.go('administration.programs');
         }
 
         /**

@@ -24,7 +24,7 @@
 
 	function routes($stateProvider, REQUISITION_RIGHTS) {
 
-		$stateProvider.state('administration.configure.template', {
+		$stateProvider.state('administration.template', {
 			url: '/template/:template',
 			controller: 'RequisitionTemplateAdminController',
 			templateUrl: 'admin-template/template.html',
