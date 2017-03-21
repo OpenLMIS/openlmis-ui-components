@@ -23,13 +23,13 @@
             </thead>
             <tbody>
                 <tr ng-repeat="user in vm.items">
-                    <td>{{user.firstName}} {{user.lastName}}</th>
-                    <td>{{user.username}}</th>
-                    <td>{{user.email}}</th>
+                    <td>{{user.firstName}} {{user.lastName}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.email}}</td>
                     <td>
                         <a ng-click="vm.editUser(user.id)">{{'link.edit' | message}}</a>
                         <a ng-click="vm.resetUserPassword(user.id)">{{'link.resetPassword' | message}}</a>
-                    </th>
+                    </td>
                 </tr>
             </tbody>
         </table>
