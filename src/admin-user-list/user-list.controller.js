@@ -27,7 +27,7 @@
 
 	angular
 		.module('admin-user-list')
-		.controller('UsersListController', controller);
+		.controller('UserListController', controller);
 
 	controller.$inject = ['$state', 'users', 'confirmService'];
 

@@ -28,7 +28,7 @@
 			showInNavigation: true,
 			label: 'label.users',
 			url: '/users',
-			controller: 'UsersListController',
+			controller: 'UserListController',
 			templateUrl: 'admin-user-list/user-list.html',
 			controllerAs: 'vm',
 			accessRights: [ADMINISTRATION_RIGHTS.USERS_MANAGE],

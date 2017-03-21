@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('UsersListController', function () {
+describe('UserListController', function () {
 
     var vm, $state, $q, confirmSpy, usersList;
 
@@ -42,7 +42,7 @@ describe('UsersListController', function () {
                 }
             ];
 
-            vm = $controller('UsersListController', {
+            vm = $controller('UserListController', {
                 users: usersList
             });
         });
