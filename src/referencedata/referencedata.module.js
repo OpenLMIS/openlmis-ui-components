@@ -24,6 +24,7 @@
      * Provides URL factory for communicating with the referencedata service.
      */
     angular.module('referencedata', [
+        'admin-user-list',
         'openlmis-urls'
     ]);
 
