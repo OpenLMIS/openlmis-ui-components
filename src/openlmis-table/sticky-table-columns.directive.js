@@ -51,8 +51,8 @@
         .module('openlmis-table')
         .directive('table', directive);
 
-    directive.$inject = ['$window', 'jQuery'];
-    function directive($window, jQuery) {
+    directive.$inject = ['$window', '$timeout', 'jQuery'];
+    function directive($window, $timeout, jQuery) {
 
         return {
             restrict: 'E',
@@ -76,15 +76,31 @@
             currentLeftOffset,
             currentRightOffset,
             currentParent,
+            columnIndexes = {},
             blits = []; // functions that update cell position
 
             // Updates blit array...
             updateStickyElements();
 
-            // If there are new items added to the grid, redraw
+            var updateTimeout;
             scope.$watch(function(){
-                return element[0].querySelectorAll('.sticky:not(.sticky-added)').length;
-            }, updateStickyElements);
+                return element[0].querySelectorAll('.col-sticky').length;
+            }, function(){
+                if(updateTimeout){
+                    $timeout.cancel(updateTimeout);
+                }
+                $timeout(updateStickyElements, 100);
+            });
+
+            var blitTimeout;
+            scope.$watch(function(){
+                return element[0].querySelectorAll('td').length;
+            }, function(){
+                if(blitTimeout){
+                    $timeout.cancel(blitTimeout);
+                }
+                $timeout(blit, 100);
+            });
 
             // If the window changes sizes, update the view
             angular.element($window).bind('resize', blit);
@@ -113,19 +129,16 @@
                 parent = element.parent(); // reset incase it changed...
                 parent.on('scroll', blit);
 
-                // Reset every element
-                jQuery('.sticky-added', element)
-                .removeClass('.sticky-added')
-                .css('left', '0px');
-
                 // Create blit functions
-                jQuery('.sticky, .col-sticky', element).each(function(index, cell) {
+                jQuery('.col-sticky', element).each(function(index, cell) {
                     cell = angular.element(cell);
-                    cell.addClass('sticky-added');
+
+                    var parent = cell.parent();
+                    var cellIndex = parent.children().index(cell);
+
+                    columnIndexes[cellIndex] = cell;
+
                     setUpBlits(cell);
-                    if(cell.hasClass('col-sticky')){
-                        // get child elements and add sticky stuff
-                    }
                 });
 
                 blit();
@@ -162,6 +175,32 @@
                 angular.forEach(blits, function(blit){
                     blit();
                 });
+
+                var stickyColumnIndexes = Object.keys(columnIndexes);
+
+                jQuery('td', element).each(function(index, td){
+                    if(td.getAttribute('colspan')){
+                        return ;
+                    }
+                    td = angular.element(td);
+                    var tdParent = td.parent();
+                    var tdIndex = tdParent.children().index(td).toString();
+                    if(stickyColumnIndexes.indexOf(tdIndex) < 0){
+                        return;
+                    }
+
+                    var columnCell = columnIndexes[tdIndex];
+                    if(columnCell.hasClass('stuck')){
+                        td.addClass('stuck');
+                    }
+                    if(columnCell.hasClass('stuck-left')){
+                        td.addClass('stuck-left');
+                    }
+                    if(columnCell.hasClass('stuck-right')){
+                        td.addClass('stuck-right');
+                    }
+                    td.css('left', columnCell.css('left'));
+                });
             }
 
             function resetCurrent(parent){
@@ -196,11 +235,7 @@
                     isOffRight = cellOffset + cellWidth > rightEdge + currentRightOffset,
                     canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
 
-                    if(cell.parents('tr.title').length > 0){
-                        cell.outerWidth(parentWidth);
-                        cellWidth = parentWidth;
-                        leftBlit();
-                    } else if(isOffLeft && canFit){
+                    if(isOffLeft && canFit){
                         leftBlit();
                     } else if (isOffRight && canFit){
                         rightBlit();
@@ -239,10 +274,6 @@
 
                 function setPosition(position){
                     cell.css('left', position + 'px');
-                    if(cell.hasClass('.col-sticky')){
-                        // call on all cells in same position...
-                        // unless colspan....
-                    }
                 }
             }
 

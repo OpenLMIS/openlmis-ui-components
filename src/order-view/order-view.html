@@ -30,7 +30,7 @@
                     <th>{{'label.endDate' | message}}</th>
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
-                    <th class="sticky">{{'label.actions' | message}}</th>
+                    <th class="col-sticky">{{'label.actions' | message}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': order.emergency}"></i>
                     </td>
-                    <td class="sticky">
+                    <td>
                         <button class="print"
                             openlmis-download="{{vm.getPrintUrl(order)}}">
                             {{'order.print'|message}}

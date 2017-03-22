@@ -53,7 +53,7 @@
                     <th>{{'label.status' | message}}</th>
                     <th>{{'label.emergency' | message}}</th>
                     <th>{{'msg.requisition.view.offline' | message}}</th>
-                    <th class="sticky">{{'label.actions'| message}}</th>
+                    <th class="col-sticky">{{'label.actions'| message}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +73,7 @@
                     <td class="col-emergency">
                         <i ng-class="{'icon-ok': requisition.$availableOffline}"></i>
                     </td>
-                    <td class="sticky">
+                    <td>
                         <button class="primary" ng-click="vm.openRnr(requisition.id)">{{'button.viewRequisition' | message}}</button>
                         <button class="danger" ng-if="requisition.$availableOffline"
                             ng-click="vm.removeOfflineRequisition(requisition)">{{'button.removeOfflineRequisition' | message}}

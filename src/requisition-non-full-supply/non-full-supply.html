@@ -6,8 +6,8 @@
 		<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
 			<tr>
-				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{sticky: !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
-				<th class="sticky" ng-if="vm.displayDeleteColumn()"></th>
+				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{'col-sticky': !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
+				<th class="col-sticky" ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
 		<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
@@ -17,7 +17,7 @@
 					requisition="vm.requisition"
 					column="column"
 					line-item="lineItem" ></td>
-				<td class="sticky" ng-if="vm.displayDeleteColumn()">
+				<td ng-if="vm.displayDeleteColumn()">
 					<button class="hide-line-item"
 						ng-click="vm.deleteLineItem(lineItem)"
 						ng-if="lineItem.$deletable">

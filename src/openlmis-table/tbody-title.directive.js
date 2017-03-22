@@ -52,7 +52,7 @@
 
     tbodyTitle.$inject = ['$compile'];
     function tbodyTitle($compile) {
-        var template = '<tr class="title"><td colspan="{{colspan}}" ><div class="sticky" style="width:{{width}}">{{title}}</div></td></tr>';
+        var template = '<tr class="title"><td colspan="{{colspan}}" ><div style="width:{{width}}">{{title}}</div></td></tr>';
 
         return {
             restrict: 'E',

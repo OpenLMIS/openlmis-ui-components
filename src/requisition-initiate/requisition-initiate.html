@@ -67,7 +67,7 @@
                     <th>{{'period.header.startDate' | message}}</th>
                     <th>{{'period.header.endDate' | message}}</th>
                     <th>{{'label.rnr.status' | message}}</th>
-                    <th class="sticky">{{'label.actions' | message}}</th>
+                    <th class="col-sticky">{{'label.actions' | message}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,7 +76,7 @@
                     <td>{{period.startDate | openlmisDate}}</td>
                     <td>{{period.endDate | openlmisDate}}</td>
                     <td>{{period.rnrStatus}}</td>
-                    <td class="sticky">
+                    <td>
                         <input id="proceedButton" type="button" ng-click="vm.initRnr(period)"
                                value="{{'button.proceed'| message}}" class="primary"
                                ng-if="period.activeForRnr"/>
