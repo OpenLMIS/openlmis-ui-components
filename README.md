@@ -29,7 +29,7 @@ $ npm install
 $ grunt bower
 
 // Build and run the UI against a OpenLMIS server
-$ grunt build --openlmisServerUrl=<openlmis server url> --serve
+$ grunt build  --serve --openlmisServerUrl=<openlmis server url>
 
 // Run unit tests
 $ grunt karma:unit
