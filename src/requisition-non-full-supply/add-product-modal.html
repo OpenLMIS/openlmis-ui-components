@@ -13,7 +13,7 @@
 		<select class="form-control"
 			ng-model="vm.selectedProduct"
 			ng-disabled="!vm.selectedCategory"
-			ng-options="product.name for product in vm.selectedCategory.products | filter:vm.productVisible"
+			ng-options="product.fullProductName for product in vm.selectedCategory.products | filter:vm.productVisible"
 			required>
 		</select>
 	</div>
