@@ -82,25 +82,23 @@
             // Updates blit array...
             updateStickyElements();
 
-            var updateTimeout;
+            
             scope.$watch(function(){
                 return element[0].querySelectorAll('.col-sticky').length;
-            }, function(){
-                if(updateTimeout){
-                    $timeout.cancel(updateTimeout);
-                }
-                $timeout(updateStickyElements, 100);
-            });
+            }, updateStickyElementsDelayed);
 
             var blitTimeout;
             scope.$watch(function(){
                 return element[0].querySelectorAll('td').length;
-            }, function(){
-                if(blitTimeout){
-                    $timeout.cancel(blitTimeout);
+            }, updateStickyElementsDelayed);
+
+            var updateTimeout;
+            function updateStickyElementsDelayed(){
+                if(updateTimeout){
+                    $timeout.cancel(updateTimeout);
                 }
-                $timeout(blit, 100);
-            });
+                updateTimeout = $timeout(updateStickyElements, 100);
+            }
 
             // If the window changes sizes, update the view
             angular.element($window).bind('resize', blit);
@@ -153,8 +151,9 @@
              * Updates view items, and animates cells
              */
             function blit(){
-                parentWidth = parent.width();
                 tableWidth = element.width();
+                parentWidth = element.parent().width();
+                
 
                 leftEdge = 0 - element.position().left;
                 rightEdge = parentWidth + leftEdge;

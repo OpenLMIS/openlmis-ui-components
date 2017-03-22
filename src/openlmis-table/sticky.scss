@@ -7,32 +7,32 @@ Tables can have sticky columns to keep important elements within view.
 <table ng-init="rows=[1,2,3,4,5,6];" >
   <thead>
     <tr>
-      <th class="sticky">Checkbox</th>
+      <th class="col-sticky">Checkbox</th>
       <th>Code</th>
-      <th class="sticky">Name</th>
+      <th class="col-sticky">Name</th>
       <th>Date range</th>
       <th>Duration</th>
-      <th class="sticky">Actions</th>
+      <th class="col-sticky">Actions</th>
     </tr>
   </thead>
   <tbody title="Group 1">
     <tr ng-repeat="row in rows">
-      <td class="sticky"><input type="checkbox" /></td>
+      <td ><input type="checkbox" /></td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
-      <td class="sticky">Name</td>
+      <td >Name</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
-      <td class="sticky"><button>Action</button>
+      <td ><button>Action</button>
     </tr>
   </tbody>
   <tbody title="Group 2">
     <tr ng-repeat="row in rows">
-      <td class="sticky"><input type="checkbox" /></td>
+      <td ><input type="checkbox" /></td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
-      <td class="sticky">Name</td>
+      <td >Name</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
-      <td class="sticky"><button>Action</button>
+      <td ><button>Action</button>
     </tr>
   </tbody>
 </table>
