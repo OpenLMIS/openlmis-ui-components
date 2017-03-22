@@ -15,7 +15,7 @@ Tables can have sticky columns to keep important elements within view.
       <th class="col-sticky">Actions</th>
     </tr>
   </thead>
-  <tbody title="Group 1">
+  <tbody tbody-title="Group 1">
     <tr ng-repeat="row in rows">
       <td ><input type="checkbox" /></td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>
@@ -25,7 +25,7 @@ Tables can have sticky columns to keep important elements within view.
       <td ><button>Action</button>
     </tr>
   </tbody>
-  <tbody title="Group 2">
+  <tbody tbody-title="Group 2">
     <tr ng-repeat="row in rows">
       <td ><input type="checkbox" /></td>
       <td>1f3c89b213e44a729ef2228302cc5a25</td>

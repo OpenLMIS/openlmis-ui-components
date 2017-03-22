@@ -11,7 +11,7 @@
 				</th>
 			</tr>
 		</thead>
-		<tbody title="{{category}}" ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'">
+		<tbody tbody-title="{{category}}" ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem), 'skipped-line-item' : lineItem.skipped}"
 				ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
 				{{lineItem}}

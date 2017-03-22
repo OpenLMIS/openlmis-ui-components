@@ -29,7 +29,7 @@
      * To add a title heading to any tbody element, just add a title element with a translated string (this element will not translate strings for you)
      * ```
      * <table>
-     *   <tbody title="Category Title">
+     *   <tbody tbody-title="Category Title">
      *     <tr><td>123</td><td>456</td></tr>
      *     <tr><td>Foo</td><td>Bar</td></tr>
      *   </tbody>
@@ -50,9 +50,9 @@
         .module('openlmis-table')
         .directive('tbody', tbodyTitle);
 
-    tbodyTitle.$inject = ['$compile'];
-    function tbodyTitle($compile) {
-        var template = '<tr class="title"><td colspan="{{colspan}}" ><div style="width:{{width}}">{{title}}</div></td></tr>';
+    tbodyTitle.$inject = ['$compile', '$window', 'jQuery'];
+    function tbodyTitle($compile, $window, jQuery) {
+        var template = '<tr class="title"><td colspan="{{colspan}}" ><div >{{title}}</div></td></tr>';
 
         return {
             restrict: 'E',
@@ -61,11 +61,10 @@
         };
 
         function link(scope, element, attrs) {
-            if(attrs.title && attrs.title != ""){
+            if(attrs.tbodyTitle && attrs.tbodyTitle != ""){
                 var titleScope = scope.$new(true);
 
-                titleScope.title = attrs.title;
-                element.removeAttr('title');
+                titleScope.title = attrs.tbodyTitle;
 
                 scope.$watch(function(){
                     return element.children('tr:not(.title):first').children('td, th').length;
@@ -76,20 +75,42 @@
                 var titleElement = $compile(template)(titleScope);
                 element.prepend(titleElement);
 
-                scope.$watch(function(){
-                    var tableElement = element.parent('table');
-                    if(tableElement.width() > tableElement.parent().width()){
-                        return tableElement.parent().width();
-                    }
-                    return false;
-                }, function(width){
-                    if(width){
-                        titleScope.width = width + 'px';
-                    } else {
-                        titleScope.width = 'auto';
-                    }
-                });
+                if(element.parents('.openlmis-table-container').length > 0){
+                    var table = element.parents('table:first');
+                    
+                    // openlmis-table-container will rewrite table's parent
+                    // after this link is run... so we are watching  
+                    var parent = table.parent();
+                    scope.$watch(function(){
+                        return table.parent()[0];
+                    }, function(newParent){
+                        parent.off('scroll', blit);
+                        parent = table.parent();
+                        parent.on('scroll', blit);
+                    });
+                    element.on('$destroy', function(){
+                        parent.off('scroll', blit);
+                    });
 
+                    scope.$watch(function(){
+                        return jQuery('td, th', table).length;
+                    }, blit);
+
+                    angular.element($window).bind('resize', blit);
+                    element.on('$destroy', function() {
+                        angular.element($window).unbind('resize', blit);
+                    });
+                }
+            }
+
+            function blit(){
+                var expandableElement = jQuery('td',titleElement).children();
+                expandableElement.outerWidth(parent.outerWidth());
+
+                var offset = table.position().left * -1;
+                if(offset + expandableElement.outerWidth() <= table.width()){
+                    expandableElement.css('left', offset + 'px');
+                }
             }
         }
     }

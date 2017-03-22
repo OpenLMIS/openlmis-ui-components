@@ -39,7 +39,7 @@
      *         <th >Name</th>
      *       </tr>
      *     </thead>
-     *     <tbody title="Category Title">
+     *     <tbody>
      *       <tr><td class="sticky">123</td><td >Foo</td></tr>
      *       <tr><td class="sticky">456</td><td>Bar</td></tr>
      *     </tbody>

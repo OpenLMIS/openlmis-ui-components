@@ -10,7 +10,7 @@
 				<th class="col-sticky" ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" title="{{category}}">
+		<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" tbody-title="{{category}}">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 					product-grid-cell
