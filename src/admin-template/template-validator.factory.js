@@ -174,7 +174,9 @@
 
         function validateTotalStockoutDays(column, template) {
             var nColumn = template.columnsMap.adjustedConsumption;
-            if (!column.isDisplayed && nColumn.source === COLUMN_SOURCES.CALCULATED) {
+            if (!column.isDisplayed && nColumn.isDisplayed &&
+                nColumn.source === COLUMN_SOURCES.CALCULATED) {
+
                 return messageService.get('error.shouldBeDisplayedIfOtherIsCalculated', {
                     column: nColumn.label
                 });
@@ -184,6 +186,8 @@
         function isEmpty(value) {
             return !value || !value.toString().trim();
         }
+
+        f
 
     }
 

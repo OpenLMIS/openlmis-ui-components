@@ -329,6 +329,7 @@ describe('templateValidator', function() {
                 column.name = TEMPLATE_COLUMNS.TOTAL_STOCKOUT_DAYS;
                 nColumn = {
                     label: 'Adjusted Consumption',
+                    isDisplayed: true,
                     source: COLUMN_SOURCES.CALCULATED,
                     columnDefinition: {
                         sources: [
@@ -340,16 +341,6 @@ describe('templateValidator', function() {
                 template.columnsMap.adjustedConsumption = nColumn;
 
                 spyOn(messageService, 'get').andCallThrough();
-            });
-
-            it('should return undefined if column is valid', function() {
-                var result = templateValidator.getColumnError(column, template);
-
-                expect(result).toBe(undefined);
-            });
-
-            it('should return error if the column is hidden and adjusted consumption is calculated', function() {
-                column.isDisplayed = false;
 
                 messageService.get.andCallFake(function(message, params) {
                     if (message === 'error.shouldBeDisplayedIfOtherIsCalculated' && params &&
@@ -358,10 +349,29 @@ describe('templateValidator', function() {
                         return message + ' ' + params.column;
                     }
                 });
+            });
+
+            it('should return undefined if column is valid', function() {
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe(undefined);
+            });
+
+            it('should return error if the column is hidden and adjusted consumption is visible and calculated', function() {
+                column.isDisplayed = false;
 
                 var result = templateValidator.getColumnError(column, template);
 
                 expect(result).toBe('error.shouldBeDisplayedIfOtherIsCalculated ' + nColumn.label);
+            });
+
+            it('should return undefined if the column is hidden and adjusted consumption is hidden and calculated', function() {
+                column.isDisplayed = false;
+                nColumn.isDisplayed = false;
+
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBeUndefined();
             });
 
         });
