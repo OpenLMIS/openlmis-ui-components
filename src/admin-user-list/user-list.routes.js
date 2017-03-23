@@ -20,23 +20,23 @@
 
 	angular.module('admin-user-list').config(routes);
 
-	routes.$inject = ['$stateProvider', 'ADMINISTRATION_RIGHTS'];
+	routes.$inject = ['$stateProvider', 'ADMINISTRATION_RIGHTS', 'paginatedRouterProvider'];
 
-	function routes($stateProvider, ADMINISTRATION_RIGHTS) {
+	function routes($stateProvider, ADMINISTRATION_RIGHTS, paginatedRouterProvider) {
 
 		$stateProvider.state('administration.users', {
 			showInNavigation: true,
 			label: 'label.users',
-			url: '/users',
+			url: '/users?firstName&lastName&email&page&size',
 			controller: 'UserListController',
 			templateUrl: 'admin-user-list/user-list.html',
 			controllerAs: 'vm',
 			accessRights: [ADMINISTRATION_RIGHTS.USERS_MANAGE],
-			resolve: {
-				users: function(userService) {
-					return userService.getAll();
+			resolve: paginatedRouterProvider.resolve({
+				response: function(userService, $stateParams) {
+					return userService.search($stateParams);
 				}
-			}
+		    })
 		});
 	}
 })();

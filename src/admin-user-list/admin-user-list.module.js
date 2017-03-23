@@ -25,6 +25,7 @@
      */
     angular.module('admin-user-list', [
         'openlmis-modal',
+        'openlmis-pagination',
         'openlmis-rights',
         'referencedata-user',
         'ui.router'

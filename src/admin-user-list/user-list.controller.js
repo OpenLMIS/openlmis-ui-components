@@ -24,22 +24,28 @@
      * @description
      * Controller for managing user list screen.
      */
-
 	angular
 		.module('admin-user-list')
 		.controller('UserListController', controller);
 
-	controller.$inject = ['$state', 'users', 'confirmService'];
+	controller.$inject = ['$controller', '$state', 'items', 'totalItems', 'stateParams', 'confirmService'];
 
-	function controller($state, users, confirmService) {
+	function controller($controller, $state, items, totalItems, stateParams, confirmService) {
 
 		var vm = this;
+
+		$controller('BasePaginationController', {
+			vm: vm,
+			items: items,
+			totalItems: totalItems,
+			stateParams: stateParams,
+			externalPagination: true,
+			itemValidator: undefined
+		});
 
 		vm.goToCreateNewUser = goToCreateNewUser;
         vm.editUser = editUser;
         vm.resetUserPassword = resetUserPassword;
-
-        vm.items = users;
 
         /**
          * @ngdoc method

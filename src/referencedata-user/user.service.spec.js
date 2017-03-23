@@ -56,7 +56,7 @@ describe('userService', function() {
         expect(data.name).toEqual(user1.name);
     });
 
-    it('should get all programs', function() {
+    it('should get all users', function() {
         var data;
 
         $httpBackend.when('GET', openlmisUrlFactory('/api/users'))
@@ -71,6 +71,31 @@ describe('userService', function() {
 
         expect(data[0].id).toEqual(user1.id);
         expect(data[1].id).toEqual(user2.id);
+    });
+
+    it('should search for users', function() {
+        var data,
+            params = {
+                param: 'param1'
+            };
+
+        $httpBackend.when('POST', openlmisUrlFactory('/api/users/search/page'))
+        .respond(function(method, url, data) {
+            if(!angular.equals(data, angular.toJson(params))){
+                return [404];
+            } else {
+                return [200, angular.toJson(user1)];
+            }
+        });
+
+        userService.search(params).then(function(response) {
+            data = response;
+        });
+
+        $httpBackend.flush();
+        $rootScope.$apply();
+
+        expect(data.id).toEqual(user1.id);
     });
 
     afterEach(function() {

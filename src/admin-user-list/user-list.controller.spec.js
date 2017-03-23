@@ -15,7 +15,7 @@
 
 describe('UserListController', function () {
 
-    var vm, $state, $q, confirmSpy, usersList;
+    var vm, $state, $controller, $q, confirmSpy, usersList, stateParams;
 
     beforeEach(function() {
         module('admin-user-list', function($provide) {
@@ -27,8 +27,9 @@ describe('UserListController', function () {
             });
         });
 
-        inject(function ($controller, _$state_, _$q_) {
+        inject(function (_$controller_, _$state_, _$q_) {
 
+            $controller = _$controller_;
             $state = _$state_;
             $q = _$q_;
             usersList = [
@@ -41,17 +42,44 @@ describe('UserListController', function () {
                     username: 'user'
                 }
             ];
+            stateParams = {
+                page: 0,
+                size: 10
+            };
 
             vm = $controller('UserListController', {
-                users: usersList
+                items: usersList,
+                totalItems: usersList.length,
+                stateParams: stateParams
             });
         });
     });
 
     describe('init', function() {
 
-        it('should expose users list', function() {
-            expect(vm.items).toEqual(vm.items);
+        beforeEach(function() {
+            $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
+                vm.stateParams = {};
+            });
+
+            vm = $controller('UserListController', {
+                items: usersList,
+                totalItems: usersList.length,
+                stateParams: stateParams,
+                $controller: $controllerMock
+            });
+
+        });
+
+        it('should extend BasePaginationController', function() {
+            expect($controllerMock).toHaveBeenCalledWith('BasePaginationController', {
+                vm: vm,
+                items: usersList,
+                totalItems: usersList.length,
+                stateParams: stateParams,
+                externalPagination: true,
+                itemValidator: undefined
+            });
         });
     });
 

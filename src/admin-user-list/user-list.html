@@ -2,10 +2,18 @@
     <h2>{{'label.users' | message}}</h2>
     <section class="openlmis-table-container">
         <button ng-click="vm.goToCreateNewUser()" class="primary">{{'button.add' | message}}</button>
-        <form>
+        <form ng-submit="vm.changePage()">
             <fieldset class="form-group">
-                <label for="emailOrName">{{'msg.emailOrName' | message}}</label>
-                <input type="text" id="emailOrName" ng-model="vm.searchValue"/>
+                <label for="firstName">{{'label.firstName' | message}}</label>
+                <input type="text" id="firstName" ng-model="vm.stateParams.firstName"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="lastName">{{'label.lastName' | message}}</label>
+                <input type="text" id="lastName" ng-model="vm.stateParams.lastName"/>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="email">{{'label.email' | message}}</label>
+                <input type="text" id="email" ng-model="vm.stateParams.email"/>
             </fieldset>
             <input type="submit" value="{{'button.search'|message}}"/>
         </form>

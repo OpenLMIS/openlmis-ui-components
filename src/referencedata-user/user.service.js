@@ -38,12 +38,17 @@
                     url: openlmisUrlFactory('/api/users'),
                     method: 'GET',
                     isArray: true
+                },
+                'search': {
+                    url: openlmisUrlFactory('/api/users/search/page'),
+                    method: 'POST'
                 }
             });
 
         return {
             get: get,
-            getAll: getAll
+            getAll: getAll,
+            search: search
         };
 
         /**
@@ -54,8 +59,8 @@
          * @description
          * Gets user by id.
          *
-         * @param  {String}  id User UUID
-         * @return {Promise}    User info
+         * @param  {String}  id the user UUID
+         * @return {Promise}    the user info
          */
         function get(id) {
             return resource.get({id: id}).$promise;
@@ -69,10 +74,25 @@
          * @description
          * Gets all users.
          *
-         * @return {Promise} Array of all users
+         * @return {Promise} the array of all users
          */
         function getAll() {
             return resource.getAll().$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf referencedata-user.userService
+         * @name search
+         *
+         * @description
+         * Searches for users and returns paginated result.
+         *
+         * @param  {Object}  params the search params
+         * @return {Promise}        the page of users
+         */
+        function search(params) {
+            return resource.search(params).$promise;
         }
     }
 })();
