@@ -371,7 +371,8 @@
          *
          * @description
          * Determines whether to display delete button or not. Returns true only if
-         * user has permission to delete requisition.
+         * user has permission to delete requisition. User needs to have create right when
+         * requisition is initiated and authorize right when requisition is in submitted state.
          *
          * @return {Boolean} should delete button be displayed
          */
