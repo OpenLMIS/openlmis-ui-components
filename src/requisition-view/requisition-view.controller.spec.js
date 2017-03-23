@@ -225,6 +225,26 @@ describe('RequisitionViewController', function() {
         expect(vm.displaySync()).toBe(false);
     });
 
+    it('should display delete button when initiated', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isInitiated.andReturn(true);
+
+        expect(vm.displayDelete()).toBe(true);
+    });
+
+    it('should display delete button when submitted', function() {
+        authorizationServiceSpy.hasRight.andReturn(true);
+
+        vm.requisition.$isSubmitted.andReturn(true);
+
+        expect(vm.displayDelete()).toBe(true);
+    });
+
+    it('should not display delete button', function() {
+        expect(vm.displayDelete()).toBe(false);
+    });
+
     describe('Sync error handling', function() {
 
         it('should reload requisition when conflict response received', function() {

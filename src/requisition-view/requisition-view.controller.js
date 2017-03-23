@@ -370,13 +370,21 @@
          * @name displayDelete
          *
          * @description
-         * Determines whether to display delete button or not. Returns true only if requisition
-         * is initiated and user has permission to delete requisition.
+         * Determines whether to display delete button or not. Returns true only if
+         * user has permission to delete requisition.
          *
          * @return {Boolean} should delete button be displayed
          */
         function displayDelete() {
-            return (vm.requisition.$isInitiated() || vm.requisition.$isSubmitted()) && hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_DELETE);
+            if (hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_DELETE)) {
+                if (vm.requisition.$isInitiated()) {
+                    return hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_CREATE);
+                }
+                if (vm.requisition.$isSubmitted()) {
+                    return hasRightForProgram(REQUISITION_RIGHTS.REQUISITION_AUTHORIZE);
+                }
+            }
+            return false;
         }
 
         /**
