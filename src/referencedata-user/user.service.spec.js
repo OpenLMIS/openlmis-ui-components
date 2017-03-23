@@ -75,20 +75,23 @@ describe('userService', function() {
 
     it('should search for users', function() {
         var data,
-            params = {
-                param: 'param1'
+            paginationParams = {
+                param1: 'param1'
+            },
+            queryParams = {
+                param2: 'param2'
             };
 
-        $httpBackend.when('POST', openlmisUrlFactory('/api/users/search/page'))
+        $httpBackend.when('POST', openlmisUrlFactory('/api/users/search/page?param1=' + paginationParams.param1))
         .respond(function(method, url, data) {
-            if(!angular.equals(data, angular.toJson(params))){
+            if(!angular.equals(data, angular.toJson(queryParams))){
                 return [404];
             } else {
                 return [200, angular.toJson(user1)];
             }
         });
 
-        userService.search(params).then(function(response) {
+        userService.search(paginationParams, queryParams).then(function(response) {
             data = response;
         });
 

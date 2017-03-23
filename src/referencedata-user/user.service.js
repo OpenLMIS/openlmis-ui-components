@@ -91,8 +91,8 @@
          * @param  {Object}  params the search params
          * @return {Promise}        the page of users
          */
-        function search(params) {
-            return resource.search(params).$promise;
+        function search(paginationParams, queryParams) {
+            return resource.search(paginationParams, queryParams).$promise;
         }
     }
 })();

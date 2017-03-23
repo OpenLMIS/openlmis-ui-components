@@ -34,7 +34,10 @@
 			accessRights: [ADMINISTRATION_RIGHTS.USERS_MANAGE],
 			resolve: paginatedRouterProvider.resolve({
 				response: function(userService, $stateParams) {
-					return userService.search($stateParams);
+					return userService.search({
+						page: $stateParams.page,
+						size: $stateParams.size
+					}, $stateParams);
 				}
 		    })
 		});
