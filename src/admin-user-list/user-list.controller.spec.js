@@ -112,4 +112,22 @@ describe('UserListController', function () {
             expect(confirmSpy.confirm).toHaveBeenCalledWith('msg.question.confirmation.resetPassword');
         });
     });
+
+    describe('search', function() {
+
+        beforeEach(function() {
+            vm.changePage = jasmine.createSpy();
+            vm.stateParams.pageSize = 1;
+            vm.stateParams.page = 1;
+            vm.search();
+        });
+
+        it('should change page to first one', function() {
+            expect(vm.stateParams.page).toEqual(0);
+        });
+
+        it('should call change page method', function() {
+            expect(vm.changePage).toHaveBeenCalled();
+        });
+    });
 });

@@ -3,6 +3,7 @@
   "powered.by": "Powered by ${openlmis}",
   "button.add": "Add",
   "button.addComment": "Add Comment",
+  "button.addUser": "Add User",
   "button.approve": "Approve",
   "button.authorize": "Authorize",
   "button.cancel": "Cancel",

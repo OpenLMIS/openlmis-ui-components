@@ -1,8 +1,8 @@
 <div class="page">
     <h2>{{'label.users' | message}}</h2>
     <section class="openlmis-table-container">
-        <button ng-click="vm.goToCreateNewUser()" class="primary">{{'button.add' | message}}</button>
-        <form ng-submit="vm.changePage()">
+        <button ng-click="vm.goToCreateNewUser()" class="primary">{{'button.addUser' | message}}</button>
+        <form ng-submit="vm.search()">
             <fieldset class="form-group">
                 <label for="firstName">{{'label.firstName' | message}}</label>
                 <input type="text" id="firstName" ng-model="vm.stateParams.firstName"/>

@@ -46,6 +46,7 @@
 		vm.goToCreateNewUser = goToCreateNewUser;
         vm.editUser = editUser;
         vm.resetUserPassword = resetUserPassword;
+		vm.search = search;
 
         /**
          * @ngdoc method
@@ -89,6 +90,11 @@
             confirmService.confirm('msg.question.confirmation.resetPassword').then(function() {
 
             });
+		}
+
+		function search() {
+			vm.stateParams.page = 0;
+			vm.changePage();
 		}
 	}
 
