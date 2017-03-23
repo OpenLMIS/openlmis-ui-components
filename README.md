@@ -15,7 +15,7 @@ This repository is the UI for the [OpenLMIS Requisition Service.](https://github
 3. You should now be in an interactive shell inside the newly created development environment, build the project with: `npm install && grunt bower` and then you can build and start it with `grunt build --serve`.
 4. Go to `http://localhost:9000/webapp/` to see the login page.
 
-*Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build --openlmisServerUrl=<openlmis server url> --serve`.
+*Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build  --serve --openlmisServerUrl=<openlmis server url>`.
 
 ## Building & Testing
 See the [OpenLMIS/dev-ui project](https://github.com/OpenLMIS/dev-ui) for more information on what commands are available, below are the command you might use during a normal work day.
@@ -29,7 +29,7 @@ $ npm install
 $ grunt bower
 
 // Build and run the UI against a OpenLMIS server
-$ grunt build  --serve --openlmisServerUrl=<openlmis server url>
+$ grunt build --serve --openlmisServerUrl=<openlmis server url>
 
 // Run unit tests
 $ grunt karma:unit
