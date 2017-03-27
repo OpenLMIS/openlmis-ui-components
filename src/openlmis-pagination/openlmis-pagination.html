@@ -1,9 +1,9 @@
 <div class="openlmis-pagination">
 	<div class="pagination-info" ng-if="vm.totalItems">
-		{{'msg.showing' | message}} {{vm.items}} {{'msg.lineItems' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
+		{{'msg.showing' | message}} {{vm.items}} {{'msg.matches' | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
 	</div>
 	<div class="pagination-info" ng-if="!vm.totalItems">
-		{{'msg.showingNoItems' | message}}
+		{{'msg.showingNoMatches' | message}}
 	</div>
 	<ul ng-if="vm.totalItems">
 		<li ng-class="{disabled : vm.isFirstPage()}">
