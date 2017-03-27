@@ -42,6 +42,8 @@
         vm.getPages = getPages;
         vm.getTotalPages = getTotalPages;
 
+        vm.getItemsMessage = getItemsMessage;
+
         /**
          * @ngdoc method
          * @methodOf openlmis-pagination.controller:PaginationController
@@ -137,6 +139,21 @@
 
         function getTotalPages() {
             return Math.ceil(vm.totalItems / vm.pageSize);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-pagination.controller:PaginationController
+         * @name getItemsMessage
+         *
+         * @description
+         * Returns proper messages for 1/more than one showing items.
+         *
+         * @return {Array} the proper items message
+         */
+        function getItemsMessage() {
+            if(vm.items === 1) return 'msg.match';
+            return 'msg.matches';
         }
     }
 

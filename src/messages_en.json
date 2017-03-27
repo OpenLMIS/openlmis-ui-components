@@ -215,6 +215,7 @@
   "msg.forgot.password.failed": "Failed to reset password. No user with given email address assigned was found.",
   "msg.invalidProgramOrRight": "Invalid program or right",
   "msg.loading": "Loading...",
+  "msg.match": "match",
   "msg.matches": "matches",
   "msg.no.facility.available": "There are no facilities for program. Please contact the Admin.",
   "msg.no.facility.selected": "Facility not selected",
