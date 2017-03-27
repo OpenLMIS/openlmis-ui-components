@@ -123,7 +123,9 @@
 
             if ($stateParams.program) {
                 vm.selectedProgramId = $stateParams.program;
-                loadFacilitiesForProgramWithoutBlocking(vm.selectedProgramId);
+                if (vm.isSupervised) {
+                    loadFacilitiesForProgramWithoutBlocking(vm.selectedProgramId);
+                }
             }
 
             if ($stateParams.requestingFacility) {
