@@ -52,7 +52,7 @@
             <caption ng-if="vm.programs && !vm.programs.length">
                 {{'msg.no.program.available' | message}}
             </caption>
-            <caption ng-if="vm.requestingFacilities && !vm.requestingFacilities.length">
+            <caption ng-if="vm.requestingFacilities && !vm.requestingFacilities.length && !vm.programs.length">
                 {{'msg.no.facility.available' | message}}
             </caption>
             <thead>
