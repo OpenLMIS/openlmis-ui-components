@@ -112,7 +112,7 @@
             if ($stateParams.program) {
                 vm.selectedProgramId = $stateParams.program;
                 if (vm.isSupervised) {
-                    loadFacilitiesForProgramWithoutBlocking(vm.selectedProgramId);
+                    loadFacilitiesForProgram(vm.selectedProgramId);
                 }
             }
 
@@ -212,6 +212,7 @@
          */
         function loadFacilitiesForProgram(programId) {
             if (programId) {
+                loadingModalService.close();
                 withUiBlocking(getUserSupervisedFacilities(programId)).then(function(facilities) {
                     vm.requestingFacilities = facilities;
                 }, function() {
@@ -220,14 +221,6 @@
             } else {
                 vm.requestingFacilities = [];
             }
-        }
-
-        function loadFacilitiesForProgramWithoutBlocking(programId) {
-            getUserSupervisedFacilities(programId).then(function(facilities) {
-                vm.requestingFacilities = facilities;
-            }, function() {
-                notificationService.error('msg.invalidProgramOrRight');
-            });
         }
 
         function getUserSupervisedFacilities(programId) {
