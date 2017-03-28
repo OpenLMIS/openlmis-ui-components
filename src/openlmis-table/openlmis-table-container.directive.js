@@ -64,22 +64,25 @@
     function link(scope, element) {
         if (element.children('table').length == 1) {
             var toolbar = angular.element('<div class="toolbar"></div>'),
-                main = angular.element('<div class="row"></div>');
+                row = angular.element('<div class="row"></div>'),
+                main = angular.element('<div class="main"></div>');
 
             element.children().each(function(index, childElement){
                 if(['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1){
                     toolbar.append(childElement);
                 } else if(childElement.nodeName == 'FORM'){
-                    main.append(childElement);
+                    row.append(childElement);
                 }
             });
 
-            var table = element.children('table')
-            table.appendTo(main).wrap('<div class="main"><div class="openlmis-flex-table"></div></div>');
+            main.append(toolbar);
+
+            var table = element.children('table');
+            table.appendTo(main).wrap('<div class="openlmis-flex-table"></div>');
             table.parent().after(element.children('openlmis-pagination'));
 
-            element.append(toolbar)
-            .append(main);
+            row.append(main);
+            element.append(row);
         }
     }
 
