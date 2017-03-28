@@ -31,12 +31,12 @@
     controller.$inject = [
         'facility', 'userId', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
         'loadingModalService', 'notificationService', 'REQUISITION_RIGHTS', 'facilityFactory',
-        'items', 'stateParams', 'totalItems', '$controller', '$stateParams'
+        'items', 'stateParams', 'totalItems', '$controller', '$stateParams', 'facilities'
     ];
 
     function controller(facility, userId, supervisedPrograms, homePrograms, orderFactory, $state,
         loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, items,
-        stateParams, totalItems, $controller, $stateParams) {
+        stateParams, totalItems, $controller, $stateParams, facilities) {
 
         var vm = this;
 
@@ -94,6 +94,7 @@
         function onInit() {
             vm.supervisedPrograms = supervisedPrograms;
             vm.homePrograms = homePrograms;
+            vm.requestingFacilities = facilities;
             if ($stateParams.isSupervised === 'true') {
                 vm.isSupervised = true;
             }
@@ -111,9 +112,6 @@
 
             if ($stateParams.program) {
                 vm.selectedProgramId = $stateParams.program;
-                if (vm.isSupervised) {
-                    loadFacilitiesForProgram(vm.selectedProgramId);
-                }
             }
 
             if ($stateParams.requestingFacility) {
@@ -137,9 +135,6 @@
         function updateFacilityType() {
             if (vm.isSupervised) {
                 vm.programs = vm.supervisedPrograms;
-                if (!$stateParams.program) {
-                    vm.requestingFacilities = [];
-                }
                 if (!$stateParams.requestingFacility) {
                     vm.requestingFacilityId = undefined;
                 }

@@ -50,6 +50,16 @@
                 homePrograms: function (programService, userId) {
                     return programService.getUserPrograms(userId, true);
                 },
+                facilities: function (facilityFactory, $stateParams, authorizationService) {
+                    if ($stateParams.program) {
+                        return facilityFactory.getUserSupervisedFacilities(
+                            authorizationService.getUser().user_id,
+                            $stateParams.program,
+                            REQUISITION_RIGHTS.REQUISITION_CREATE
+                        );
+                    }
+                    return [];
+                },
                 response: function(orderFactory, $stateParams) {
                     if ($stateParams.program) {
                         return orderFactory.searchOrdersForManagePod($stateParams);

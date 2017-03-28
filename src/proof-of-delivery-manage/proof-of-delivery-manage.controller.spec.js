@@ -17,7 +17,7 @@ describe('ProofOfDeliveryManageController', function() {
 
     var vm, orderFactoryMock, facilityFactoryMock, $rootScope, loadingModalServiceMock, programs,
         facility, deferred, pod, $state, $q, totalItems, stateParams, $controller,
-        $stateParams, $controllerMock;
+        $stateParams, $controllerMock, facilities, facilityTwo;
 
     beforeEach(function() {
 
@@ -25,6 +25,13 @@ describe('ProofOfDeliveryManageController', function() {
             'id': 'facility-one',
             'supportedPrograms': programs
         };
+
+        facilityTwo = {
+            'id': 'facility-two',
+            'supportedPrograms': programs
+        };
+
+        facilities = [facility, facilityTwo];
 
         programs = [
             createObjWithId('program-one'),
@@ -76,6 +83,7 @@ describe('ProofOfDeliveryManageController', function() {
             vm = $controller('ProofOfDeliveryManageController', {
                 userId: 'user_one',
                 facility: facility,
+                facilities: facilities,
                 homePrograms: programs,
                 supervisedPrograms: programs,
                 items: items,
@@ -112,32 +120,24 @@ describe('ProofOfDeliveryManageController', function() {
             expect(vm.selectedProgramId).toEqual($stateParams.program);
         });
 
-        it('should load requestingFacilities when program and isSupervised is true in $stateParams', function() {
-            $stateParams.program = 'program';
+        it('should load requestingFacilities from dependency when isSupervised is true', function() {
             $stateParams.isSupervised = 'true';
-            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
 
             vm.$onInit();
-            deferred.resolve(['facility-two']);
-            $rootScope.$apply();
 
-            expect(vm.requestingFacilities).toEqual(['facility-two']);
+            expect(vm.requestingFacilities).toEqual(facilities);
         });
 
-        it('should not load requestingFacilities when program and isSupervised is false in $stateParams', function() {
-            $stateParams.program = 'program';
+        it('should load home facility when isSupervised is false', function() {
             $stateParams.isSupervised = 'false';
-            facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
 
             vm.$onInit();
-            deferred.resolve(['facility-two']);
-            $rootScope.$apply();
 
             expect(vm.requestingFacilities).toEqual([facility]);
         });
 
         it('should assign requestingFacilityId from $stateParams', function() {
-            $stateParams.requestingFacility = 'facility-two';
+            $stateParams.requestingFacility = 'facility-three';
             facilityFactoryMock.getUserSupervisedFacilities.andReturn(deferred.promise);
 
             vm.$onInit();
@@ -164,7 +164,7 @@ describe('ProofOfDeliveryManageController', function() {
         });
 
         it('should set requesting facility', function() {
-            vm.requestingFacilityId = "facility-one"
+            vm.requestingFacilityId = "facility-one";
             vm.loadOrders();
 
             expect(vm.stateParams.requestingFacility).toBe(vm.requestingFacilityId);
@@ -198,7 +198,6 @@ describe('ProofOfDeliveryManageController', function() {
             vm.isSupervised = true;
             vm.updateFacilityType();
 
-            expect(vm.requestingFacilities).toEqual([]);
             expect(vm.programs).toEqual(vm.supervisedPrograms);
             expect(vm.requestingFacilityId).toEqual(undefined);
         });
