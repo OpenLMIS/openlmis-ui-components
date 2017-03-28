@@ -15,16 +15,11 @@
 
 describe('ProofOfDeliveryManageController', function() {
 
-    var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, right, programs,
-        facility, user, deferred, orders, facilityService,
-        offlineServiceMock, pod, $state, $q, item, totalItems, stateParams, $controller,
-        $stateParams, orderFactory, $controllerMock;
+    var vm, orderFactoryMock, facilityFactoryMock, $rootScope, loadingModalServiceMock, programs,
+        facility, deferred, pod, $state, $q, totalItems, stateParams, $controller,
+        $stateParams, $controllerMock;
 
     beforeEach(function() {
-
-        user = { 'user_id': 'user-one' };
-
-        right = createObjWithId('right-one');
 
         facility = {
             'id': 'facility-one',
@@ -36,26 +31,15 @@ describe('ProofOfDeliveryManageController', function() {
             createObjWithId('program-two')
         ];
 
-        orders = {
-            content: [
-                createOrder('order-one', 'RECEIVED'),
-                createOrder('order-two', 'PICKING')
-            ]
-        };
-
         pod = {
             id: 'pod-one',
             order: { id: 'order-one' }
         };
 
-        items = [
-	        'itemOne', 'itemTwo'
-	    ];
-
         stateParams = {
- 	 	    page: 0,
- 	 	    size: 10
- 	 	};
+            page: 0,
+            size: 10
+        };
 
         totalItems = 2;
 
@@ -87,7 +71,6 @@ describe('ProofOfDeliveryManageController', function() {
             $q = $injector.get('$q');
             deferred = $q.defer();
             $state = $injector.get('$state');
-            facilityService = $injector.get('facilityService');
             $controller = $injector.get('$controller');
             $stateParams = $injector.get('$stateParams');
             vm = $controller('ProofOfDeliveryManageController', {
@@ -176,7 +159,7 @@ describe('ProofOfDeliveryManageController', function() {
 
         beforeEach(function() {
             vm.$onInit();
-            vm.changePage = function () {}
+            vm.changePage = function () {};
             spyOn(vm, 'changePage');
         });
 
@@ -188,21 +171,21 @@ describe('ProofOfDeliveryManageController', function() {
         });
 
         it('should set program', function() {
-            vm.selectedProgramId = "facility-one"
+            vm.selectedProgramId = "facility-one";
             vm.loadOrders();
 
             expect(vm.stateParams.program).toBe(vm.selectedProgramId);
         });
 
         it('should set requesting facility', function() {
-            vm.isSupervised = "true"
+            vm.isSupervised = "true";
             vm.loadOrders();
 
             expect(vm.stateParams.isSupervised).toBe(vm.isSupervised);
         });
 
         it('should call change page', function() {
-            vm.isSupervised = "true"
+            vm.isSupervised = "true";
             vm.loadOrders();
 
             expect(vm.changePage).toHaveBeenCalled();
