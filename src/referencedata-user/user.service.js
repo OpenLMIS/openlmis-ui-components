@@ -40,7 +40,7 @@
                     isArray: true
                 },
                 'search': {
-                    url: openlmisUrlFactory('/api/users/search/page'),
+                    url: openlmisUrlFactory('/api/users/search'),
                     method: 'POST'
                 }
             });
