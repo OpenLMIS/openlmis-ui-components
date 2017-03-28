@@ -82,7 +82,7 @@ describe('userService', function() {
                 param2: 'param2'
             };
 
-        $httpBackend.when('POST', openlmisUrlFactory('/api/users/search/page?param1=' + paginationParams.param1))
+        $httpBackend.when('POST', openlmisUrlFactory('/api/users/search?param1=' + paginationParams.param1))
         .respond(function(method, url, data) {
             if(!angular.equals(data, angular.toJson(queryParams))){
                 return [404];
