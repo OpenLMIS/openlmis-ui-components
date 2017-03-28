@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
@@ -46,17 +45,6 @@
         vm.loadOrders = loadOrders;
         vm.updateFacilityType = updateFacilityType;
         vm.loadFacilitiesForProgram = loadFacilitiesForProgram;
-
-        /**
-         * @ngdoc property
-         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
-         * @name requestingFacilities
-         * @type {Array}
-         *
-         * @description
-         * Holds available requesting facilities based on the selected type and/or programs.
-         */
-        vm.requestingFacilities = [];
 
         /**
          * @ngdoc property
@@ -106,7 +94,7 @@
         function onInit() {
             vm.supervisedPrograms = supervisedPrograms;
             vm.homePrograms = homePrograms;
-            if ($stateParams.isSupervised == 'true') {
+            if ($stateParams.isSupervised === 'true') {
                 vm.isSupervised = true;
             }
 
@@ -149,8 +137,12 @@
         function updateFacilityType() {
             if (vm.isSupervised) {
                 vm.programs = vm.supervisedPrograms;
-                vm.requestingFacilities = [];
-                vm.requestingFacilityId = undefined;
+                if (!$stateParams.program) {
+                    vm.requestingFacilities = [];
+                }
+                if (!$stateParams.requestingFacility) {
+                    vm.requestingFacilityId = undefined;
+                }
                 vm.selectedProgramId = undefined;
 
                 if (vm.programs.length === 1) {
