@@ -49,6 +49,17 @@
         /**
          * @ngdoc property
          * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
+         * @name requestingFacilities
+         * @type {Array}
+         *
+         * @description
+         * Holds available requesting facilities based on the selected type and/or programs.
+         */
+        vm.requestingFacilities = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
          * @name supervisedPrograms
          * @type {Array}
          *
