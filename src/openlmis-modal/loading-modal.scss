@@ -1,31 +1,24 @@
 .loading-modal {
 
-    font-size: 10px; // this one fixes problem with loading icon missplacement
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-    .modal-dialog{
-        width: auto;
-        margin: auto auto;
-        flex-grow: 0;
-    }
-    .modal .modal-body{
-        padding: 1em;
-    }
-
-    .modal-body::before {
+    .loading {
         @extend .loading;
         @extend .loading::before;
-        color: $brand-primary;
-        content: '\f1ce';
+        @extend .fa;
+        @extend .fa-circle-o-notch;
+        @extend .fa-spin;
+        @extend .fa-3x;
+        @extend .fa-fw;
+        color: $white;
         font-size: $font-size-extra-large;
+        position: absolute;
+        left: 50%;
+        top: 50%;
     }
 
-    .bootbox-body {
-        display: block;
-        height: 0px;
-        overflow: hidden;
-    }
-}
-
-.non-js-modal {
-    display: flex;
 }

@@ -1,7 +1,7 @@
 <div class="page">
     <h2>{{'label.users' | message}}</h2>
     <section class="openlmis-table-container">
-        <button ng-click="vm.goToCreateNewUser()" class="primary">{{'button.addUser' | message}}</button>
+        <button ng-click="vm.openUserFormModal()" class="primary">{{'button.addUser' | message}}</button>
         <form ng-submit="vm.search()">
             <fieldset class="form-group">
                 <label for="firstName">{{'label.firstName' | message}}</label>
@@ -35,7 +35,7 @@
                     <td>{{user.username}}</td>
                     <td>{{user.email}}</td>
                     <td>
-                        <a ng-click="vm.editUser(user.id)">{{'link.edit' | message}}</a>
+                        <a ng-click="vm.openUserFormModal(user)">{{'link.edit' | message}}</a>
                         <a ng-click="vm.resetUserPassword(user.id)">{{'link.resetPassword' | message}}</a>
                     </td>
                 </tr>

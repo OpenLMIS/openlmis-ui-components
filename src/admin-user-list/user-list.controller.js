@@ -28,9 +28,9 @@
 		.module('admin-user-list')
 		.controller('UserListController', controller);
 
-	controller.$inject = ['$state', '$stateParams', 'users', 'confirmService'];
+	controller.$inject = ['$state', '$stateParams', 'users', 'confirmService', 'UserFormModal'];
 
-	function controller($state, $stateParams, users, confirmService) {
+	function controller($state, $stateParams, users, confirmService, UserFormModal) {
 
 		var vm = this;
 
@@ -39,37 +39,20 @@
 		vm.lastName = $stateParams.lastName;
 		vm.email = $stateParams.email;
 
-		vm.goToCreateNewUser = goToCreateNewUser;
-        vm.editUser = editUser;
+		vm.openUserFormModal = openUserFormModal;
         vm.resetUserPassword = resetUserPassword;
 		vm.search = search;
 
         /**
          * @ngdoc method
          * @methodOf admin-user-list.controller:UsersListController
-         * @name goToCreateNewUser
+         * @name openUserFormModal
          *
          * @description
-         * Redirects to create new user page.
+         * Opens user form modal allowing for user creation/edition.
          */
-		function goToCreateNewUser() {
-			//$state.go('');
-		}
-
-        /**
-         * @ngdoc method
-         * @methodOf admin-user-list.controller:UsersListController
-         * @name editUser
-         *
-         * @description
-         * Redirects to edit user page.
-         *
-         * @param {String} userId the user UUID
-         */
-		function editUser(userId) {
-			/*$state.go('administration.user.edit', {
-                id: userId
-            });*/
+		function openUserFormModal(user) {
+			(new UserFormModal(user)).then($state.reload);
 		}
 
         /**

@@ -12,24 +12,19 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 (function() {
 
     'use strict';
 
     /**
-     * @module admin-template-list
+     * @module admin-user-form-modal
      *
      * @description
-     * Provides base admin-user state and controller for retrieving list of users from the OpenLMIS server.
+     * Provides modals for creating/updating users.
      */
-    angular.module('admin-user-list', [
-        'admin-user-form-modal',
+    angular.module('admin-user-form-modal', [
         'openlmis-modal',
-        'openlmis-pagination',
-        'openlmis-rights',
-        'referencedata-user',
-        'ui.router'
+        'referencedata-user'
     ]);
 
 })();

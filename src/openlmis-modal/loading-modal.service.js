@@ -28,14 +28,16 @@
     angular.module('openlmis-modal')
         .service('loadingModalService', LoadingModal);
 
-    LoadingModal.$inject = ['$q', '$timeout', 'bootbox', 'messageService'];
-    function LoadingModal($q, $timeout, bootbox, messageService) {
-        var dialog, timeoutPromise, deferred;
+    LoadingModal.$inject = ['$q', '$timeout', 'openlmisModalService'];
+    function LoadingModal($q, $timeout, openlmisModalService) {
+        var deferred, timeoutPromise, dialog = openlmisModalService.createDialog({
+            backdrop: 'static',
+            show: false,
+            templateUrl: 'openlmis-modal/loading-modal.html'
+        });
 
-        return {
-            open: showModal,
-            close: hideModal
-        };
+        this.open = open;
+        this.close = close;
 
         /**
          * @ngdoc method
@@ -48,7 +50,7 @@
          * @param  {Boolean} delay indicates if modal should be displayed with delay
          * @return {Promise}       modal promise
          */
-        function showModal(delay) {
+        function open(delay) {
             if (deferred) {
                 return deferred.promise;
             }
@@ -57,11 +59,11 @@
 
             if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
-                    makeModal();
+                    dialog.show();
                     timeoutPromise = null;
                 }, 500);
             } else {
-                makeModal();
+                dialog.show();
             }
 
             return deferred.promise;
@@ -75,35 +77,17 @@
          * @description
          * Hides the loading modal OR cancels the promise that was showing the modal.
          */
-        function hideModal(){
+        function close(){
             if(timeoutPromise){
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = null;
             }
 
-            removeModal();
+            dialog.hide();
 
             if (deferred) {
                 deferred.resolve();
                 deferred = undefined;
-            }
-        }
-
-        function makeModal(){
-            dialog = bootbox.dialog({
-                message: messageService.get('msg.loading'),
-                className: 'loading-modal',
-                closeButton: false
-            });
-        }
-
-        function removeModal() {
-            if(dialog){
-                dialog.on('hidden.bs.modal', function(){
-                    if(dialog) dialog.remove();
-                    dialog = null;
-                });
-                dialog.modal('hide');
             }
         }
     }

@@ -1,7 +1,21 @@
-<div class=alert-main>
-    <span class="icon {{alertClass}}"></span>
-    <div class="alert-message {{alertClass}}">
-		<h2>{{title | message}}</h2>
-		<p>{{message | message}}</p>
-	</div>
+<div class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                <div class="alert-main">
+                    <span class="icon {{alertClass}}"></span>
+                    <div class="alert-message {{alertClass}}">
+                        <h2>{{title | message}}</h2>
+                        <p>{{message | message}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="$hide()">{{'button.close' | message}}</button>
+            </div>
+        </div>
+    </div>
 </div>
