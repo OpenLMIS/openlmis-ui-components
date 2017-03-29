@@ -144,7 +144,7 @@
                 error = error || validationFactory[name](lineItem, requisition);
             }
 
-            if (shouldValidateCalculation(lineItem, column, columns)) {
+            if (shouldValidateCalculation(lineItem, column, requisition.template.columnsMap)) {
                 error = error || validateCalculation(calculationFactory[name], lineItem, name);
             }
 
