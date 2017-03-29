@@ -1,9 +1,0 @@
-.order-view{
-	button.print{
-		@include button-icon-only('print');
-	}
-
-	button.download{
-		@include button-icon-only('download');
-	}
-}
