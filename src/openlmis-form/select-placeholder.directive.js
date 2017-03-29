@@ -94,6 +94,7 @@
 
             function displayPlaceholder() {
                 if(!element.children('option[selected="selected"]:not(.placeholder)').length) {
+                    emptyOption.attr('selected', 'selected');
                     emptyOption.show();
                     clearLink.hide();
                 } else if (attrs['required']) {
@@ -101,7 +102,9 @@
                     emptyOption.hide();
                 } else {
                     emptyOption.hide();
-                    if (element.children('option').length > 2) clearLink.show();
+                    if (element.children('option').length > 2 && element.children('option').length < 10) {
+                        clearLink.show();
+                    }
                 }
             }
 
@@ -151,7 +154,6 @@
 
                 clearLink.insertAfter(element);
                 clearLink.click(clearSelectValue);
-
                 return clearLink;
             }
 

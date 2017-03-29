@@ -1,6 +1,9 @@
 <form class="select-search-option">
+    <div>
     <label for="search">{{'label.search' | message}}</label>
     <input id="search" type="text" ng-model="searchText" ng-change="findSelectedOption(options, selected)"/>
+    </div>
+    <div class="select-content">
     <fieldset class="form-group">
         <legend>{{'msg.selectAnOption' | message}}</legend>
         <p>{{'msg.showingNumOfResults' | message: {'num': results.length, 'total': options.length} }}</p>
@@ -9,4 +12,8 @@
             {{option.label}}
         </label>
     </fieldset>
+    </div>
+     <div>
+        <input ng-if="showClearSelection()" ng-click="clearSelection()" type="submit" value="{{'select.clear' | message}}"/>
+    </div>
 </form>
