@@ -66,10 +66,6 @@ describe('UserListController', function () {
             });
 
         });
-
-        it('should expose openUserFormModal method', function() {
-            expect(angular.isFunction(vm.openUserFormModal)).toBe(true);
-        });
     });
 
     describe('goToCreateNewUserPage', function() {
