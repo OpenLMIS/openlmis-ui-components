@@ -176,11 +176,6 @@
                 return (attrs.popOut !== null && attrs.popOut !== undefined) ||
                     (getOptions().length > 10);
             }
-
-            function getModalTitle(element) {
-                var labelElement = element.siblings('label[for="' + element[0].id + '"]');
-                return labelElement[0] ? labelElement[0].textContent : '';
-            }
         }
     }
 })();
