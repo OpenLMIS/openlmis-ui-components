@@ -1,5 +1,5 @@
-# OpenLMIS Requisition Reference UI Module
-This repository is the UI for the [OpenLMIS Requisition Service.](https://github.com/OpenLMIS/openlmis-requisition)
+# UI Components
+This repository contains UI components that are used in other OpenLMIS-UI projects.
 
 ## Prerequisites
 * Docker 1.11+
@@ -9,14 +9,14 @@ This repository is the UI for the [OpenLMIS Requisition Service.](https://github
 1. Fork/clone this repository from GitHub.
 
  ```shell
-> git clone https://github.com/OpenLMIS/openlmis-requisition-refUI.git
-> cd openlmis-requisition-refUI/
+> git clone https://github.com/OpenLMIS/openlmis-ui-components.git
+> cd openlmis-ui-components/
  ```
 2. Create a .env file, which can be used to overwrite 'sensitive' settings from config.json
 ```shell
 > touch .env
 ```
-3. Develop w/ Docker by running `docker-compose run --service-ports requisition-ui`.
+3. Develop w/ Docker by running `docker-compose run --service-ports ui-components`.
 4. You should now be in an interactive shell inside the newly created development environment, build the project with: 
 ```shell
 $ npm install // installs the NodeJS tools

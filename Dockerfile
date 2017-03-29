@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-WORKDIR /openlmis-requisition-ui
+WORKDIR /openlmis-ui-components
 
 COPY package.json .
 COPY bower.json .

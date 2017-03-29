@@ -1,6 +1,6 @@
 version: "2"
 services:
-  requisition-ui:
+  ui-components:
     image: openlmis/dev-ui:latest
     ports:
       - "9000:9000"
@@ -11,4 +11,4 @@ services:
     env_file: .env
   image:
     build: .
-    image: openlmis/requisition-ui
+    image: openlmis/ui-components
