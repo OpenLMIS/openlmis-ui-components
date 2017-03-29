@@ -30,11 +30,10 @@
 
     LoadingModal.$inject = ['$q', '$timeout', 'openlmisModalService'];
     function LoadingModal($q, $timeout, openlmisModalService) {
-        var deferred, timeoutPromise, dialog = openlmisModalService.createDialog({
+        var deferred, timeoutPromise, dialog, options = {
             backdrop: 'static',
-            show: false,
             templateUrl: 'openlmis-modal/loading-modal.html'
-        });
+        };
 
         this.open = open;
         this.close = close;
@@ -59,11 +58,13 @@
 
             if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
-                    dialog.show();
+                    dialog = openlmisModalService.createDialog(options);
+                    dialog.promise.finally(cleanUp);
                     timeoutPromise = null;
                 }, 500);
             } else {
-                dialog.show();
+                dialog = openlmisModalService.createDialog(options);
+                dialog.promise.finally(cleanUp);
             }
 
             return deferred.promise;
@@ -83,12 +84,19 @@
                 timeoutPromise = null;
             }
 
-            dialog.hide();
+            if(dialog) {
+                dialog.hide();
+            }
 
             if (deferred) {
                 deferred.resolve();
                 deferred = undefined;
             }
+        }
+
+        function cleanUp() {
+            deferred.resolve();
+            dialog = undefined;
         }
     }
 

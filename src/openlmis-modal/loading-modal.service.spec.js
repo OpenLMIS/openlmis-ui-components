@@ -14,19 +14,16 @@
  */
 describe('loadingModalService', function() {
 
-    var loadingModalService, $timeout, $rootScope, openlmisModalServiceMock, dialog;
+    var loadingModalService, $q, $timeout, $rootScope, openlmisModalServiceMock, dialog,
+        dialogDeferred;
 
     beforeEach(function() {
         expectedDialogOptions = {
             backdrop: 'static',
-            show: false,
             templateUrl: 'openlmis-modal/loading-modal.html'
         };
 
-        dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
-
         openlmisModalServiceMock = jasmine.createSpyObj('openlmisModalService', ['createDialog']);
-        openlmisModalServiceMock.createDialog.andReturn(dialog);
 
         module('openlmis-modal', function($provide) {
             $provide.service('openlmisModalService', function() {
@@ -36,16 +33,19 @@ describe('loadingModalService', function() {
 
         inject(function($injector) {
             loadingModalService = $injector.get('loadingModalService');
+            $q = $injector.get('$q');
             $timeout = $injector.get('$timeout');
             $rootScope = $injector.get('$rootScope');
         });
 
+        dialogDeferred  = $q.defer();
+        dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
+        dialog.promise = dialogDeferred.promise;
+
+        openlmisModalServiceMock.createDialog.andReturn(dialog);
     });
 
-    it('should create dialog', function() {
-        expect(openlmisModalServiceMock.createDialog)
-            .toHaveBeenCalledWith(expectedDialogOptions);
-    });
+
 
     describe('open', function() {
 
@@ -53,20 +53,27 @@ describe('loadingModalService', function() {
             expect(loadingModalService.open().then).not.toBeUndefined();
         });
 
+        it('should create dialog', function() {
+            loadingModalService.open();
+
+            expect(openlmisModalServiceMock.createDialog)
+                .toHaveBeenCalledWith(expectedDialogOptions);
+        });
+
         it('should show dialog if called without delay', function() {
             loadingModalService.open();
 
-            expect(dialog.show).toHaveBeenCalled();
+            expect(openlmisModalServiceMock.createDialog).toHaveBeenCalled();
         });
 
         it('should show dialog after delay', function() {
             loadingModalService.open(true);
 
-            expect(dialog.show).not.toHaveBeenCalled();
+            expect(openlmisModalServiceMock.createDialog).not.toHaveBeenCalled();
 
             $timeout.flush();
 
-            expect(dialog.show).toHaveBeenCalled();
+            expect(openlmisModalServiceMock.createDialog).toHaveBeenCalled();
         });
 
     });
@@ -78,6 +85,7 @@ describe('loadingModalService', function() {
         });
 
         it('should close dialog', function() {
+            loadingModalService.open();
             loadingModalService.close();
 
             expect(dialog.hide).toHaveBeenCalled();
