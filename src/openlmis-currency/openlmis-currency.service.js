@@ -28,11 +28,11 @@
         .module('openlmis-currency')
         .service('currencyService', service);
 
-    service.$inject = ['$q', '$resource', 'referencedataUrlFactory', 'localStorageService'];
+    service.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'localStorageService'];
 
-    function service($q, $resource, referencedataUrlFactory, localStorageService) {
+    function service($q, $resource, openlmisUrlFactory, localStorageService) {
 
-        var resource = $resource(referencedataUrlFactory('/api/currencySettings'));
+        var resource = $resource(openlmisUrlFactory('/api/currencySettings'));
 
         this.getFromStorage = getFromStorage;
         this.getCurrencySettings = getCurrencySettings;

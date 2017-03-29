@@ -27,8 +27,8 @@
     angular.module('openlmis-currency', [
         'openlmis-local-storage',
         'openlmis-offline',
-        'ngResource',
-        'referencedata'
+        'openlmis-urls',
+        'ngResource'
     ]);
 
 })();

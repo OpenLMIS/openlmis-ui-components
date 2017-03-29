@@ -16,7 +16,7 @@
 
 describe('currencyService', function() {
 
-    var $httpBackend, currencyService, referencedataUrlFactory,
+    var $httpBackend, currencyService, openlmisUrlFactory,
         localStorageService, currencySettings = {},
         settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left","currencyDecimalPlaces":2,"groupingSeparator":",","groupingSize":3,"decimalSeparator":"."}';
 
@@ -24,10 +24,10 @@ describe('currencyService', function() {
     beforeEach(function () {
         module('openlmis-currency');
 
-        inject(function (_$httpBackend_, _$q_, _currencyService_, _referencedataUrlFactory_, _localStorageService_) {
+        inject(function (_$httpBackend_, _$q_, _currencyService_, _openlmisUrlFactory_, _localStorageService_) {
             $httpBackend = _$httpBackend_;
             currencyService = _currencyService_;
-            referencedataUrlFactory = _referencedataUrlFactory_;
+            openlmisUrlFactory = _openlmisUrlFactory_;
             localStorageService = _localStorageService_;
         });
 
@@ -47,7 +47,7 @@ describe('currencyService', function() {
 
     it('should get currency settings and save it to storage', function () {
         $httpBackend
-            .when('GET', referencedataUrlFactory('/api/currencySettings'))
+            .when('GET', openlmisUrlFactory('/api/currencySettings'))
             .respond(200, currencySettings);
         spyOn(localStorageService, 'add');
 
