@@ -20,45 +20,40 @@
 
     /**
      * @ngdoc service
-     * @name referencedata-user.referencedataUserService
+     * @name referencedata-user.userService
      *
      * @description
      * Responsible for retrieving user info from the server.
      */
     angular
         .module('referencedata-user')
-        .service('referencedataUserService', service);
+        .factory('userService', service);
 
-    service.$inject = [
-        '$q', 'openlmisUrlFactory', '$resource', 'offlineService', 'localStorageFactory'
-    ];
+    service.$inject = ['openlmisUrlFactory', '$resource'];
 
-    function service($q, openlmisUrlFactory, $resource, offlineService, localStorageFactory) {
-        var offlineUserDetails = localStorageFactory('offlineUserDetails'),
-            resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
-                getAll: {
+    function service(openlmisUrlFactory, $resource){
+
+        var resource = $resource(openlmisUrlFactory('/api/users/:id'), {}, {
+                'getAll': {
                     url: openlmisUrlFactory('/api/users'),
                     method: 'GET',
                     isArray: true
                 },
-                search: {
+                'search': {
                     url: openlmisUrlFactory('/api/users/search'),
                     method: 'POST'
-                },
-                createUser: {
-                    url: openlmisUrlFactory('/api/users'),
-                    method: 'PUT'
                 }
             });
 
-        this.get = get;
-        this.search = search;
-        this.getAll = getAll;
-        this.createUser = createUser;
+        return {
+            get: get,
+            getAll: getAll,
+            search: search
+        };
 
         /**
          * @ngdoc method
-         * @methodOf referencedata-user.referencedataUserService
+         * @methodOf referencedata-user.userService
          * @name get
          *
          * @description
@@ -68,30 +63,12 @@
          * @return {Promise}    the user info
          */
         function get(id) {
-            var deferred = $q.defer();
-
-            if(offlineService.isOffline()) {
-                var user = offlineUserDetails.getBy('id', id);
-                if (user) {
-                    deferred.resolve(user);
-                } else {
-                    deferred.reject();
-                }
-            } else {
-                resource.get({id: id}).$promise.then(function(response) {
-                    offlineUserDetails.put(response);
-                    deferred.resolve(response);
-                }, function() {
-                    deferred.reject();
-                });
-            }
-
-            return deferred.promise;
+            return resource.get({id: id}).$promise;
         }
 
         /**
          * @ngdoc method
-         * @methodOf referencedata-user.referencedataUserService
+         * @methodOf referencedata-user.userService
          * @name getAll
          *
          * @description
@@ -105,7 +82,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf referencedata-user.referencedataUserService
+         * @methodOf referencedata-user.userService
          * @name search
          *
          * @description
@@ -116,20 +93,6 @@
          */
         function search(paginationParams, queryParams) {
             return resource.search(paginationParams, queryParams).$promise;
-        }
-        /**
-         * @ngdoc method
-         * @methodOf referencedata-user.referencedataUserService
-         * @name createUser
-         *
-         * @description
-         * Creates new user.
-         *
-         * @param   {Object}    user    the user to be created
-         * @return  {Promise}           the promise resolving to newly created user
-         */
-        function createUser(user) {
-            return resource.createUser(undefined, user).$promise;
         }
     }
 })();

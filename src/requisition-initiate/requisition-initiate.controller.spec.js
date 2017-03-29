@@ -49,7 +49,6 @@ describe("RequisitionInitiateController", function(){
                 "supportedPrograms": programs
             };
 
-            spyOn(loadingModalService, 'open').andReturn();
             spyOn(periodFactory, 'get').andReturn($q.when(period));
             userRightFactoryMock = jasmine.createSpyObj('userRightFactory',  ['checkRightForCurrentUser']);
             userRightFactoryMock.checkRightForCurrentUser.andCallFake(function() {
@@ -116,6 +115,7 @@ describe("RequisitionInitiateController", function(){
 
     it("Should open loading modal", function() {
         var selectedPeriod = {"id":1};
+        spyOn(loadingModalService, 'open');
 
         vm.initRnr(selectedPeriod);
 

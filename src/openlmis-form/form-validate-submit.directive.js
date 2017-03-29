@@ -39,8 +39,7 @@
         var directive = {
             link: link,
             priority: -1,
-            require: 'form',
-            restrict: 'E'
+            require: 'form'
         };
         return directive;
     }

@@ -15,29 +15,23 @@
 
 describe('UserListController', function () {
 
-    var vm, $state, $q, $controller, $rootScope, confirmSpy, usersList, UserFormModalMock;
+    var vm, $state, $controller, $q, confirmSpy, usersList, stateParams;
 
     beforeEach(function() {
         module('admin-user-list', function($provide) {
 
             confirmSpy = jasmine.createSpyObj('confirmService', ['confirm']);
-            UserFormModalMock = jasmine.createSpy('UserFormModal');
 
             $provide.service('confirmService', function() {
                 return confirmSpy;
             });
-
-
-            $provide.service('UserFormModal', function() {
-                return UserFormModalMock;
-            });
         });
 
-        inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $rootScope = $injector.get('$rootScope');
-            $state = $injector.get('$state');
-            $q = $injector.get('$q');
+        inject(function (_$controller_, _$state_, _$q_) {
+
+            $controller = _$controller_;
+            $state = _$state_;
+            $q = _$q_;
             usersList = [
                 {
                     id: 1,
@@ -76,50 +70,20 @@ describe('UserListController', function () {
         it('should expose openUserFormModal method', function() {
             expect(angular.isFunction(vm.openUserFormModal)).toBe(true);
         });
-
     });
 
-    describe('openUserFormModal', function() {
+    describe('goToCreateNewUserPage', function() {
 
-        var formDeferred, user;
-
-        beforeEach(function() {
-            formDeferred = $q.defer();
-            UserFormModalMock.andReturn(formDeferred.promise);
-
-            user = {
-                username: "johndoe1",
-                firstName: "John",
-                lastName: "Doe",
-                email: "johndoe1@gmail.com",
-                loginRestricted: false
-            };
-
-            spyOn($state, 'reload').andReturn();
+        it('should expose goToCreateNewUser method', function() {
+            expect(angular.isFunction(vm.goToCreateNewUser)).toBe(true);
         });
+    });
 
-        it('should open User Form Modal', function() {
-            vm.openUserFormModal(user);
+    describe('editUser', function() {
 
-            expect(UserFormModalMock).toHaveBeenCalledWith(user);
+        it('should expose editUser method', function() {
+            expect(angular.isFunction(vm.editUser)).toBe(true);
         });
-
-        it('should reload page if user creation/edition succeeded', function() {
-            vm.openUserFormModal(user);
-            formDeferred.resolve();
-            $rootScope.$apply();
-
-            expect($state.reload).toHaveBeenCalled();
-        });
-
-        it('should not reload page if modal was dismissed', function() {
-            vm.openUserFormModal(user);
-            formDeferred.reject();
-            $rootScope.$apply();
-
-            expect($state.reload).not.toHaveBeenCalled();
-        });
-
     });
 
     describe('resetUserPassword', function() {

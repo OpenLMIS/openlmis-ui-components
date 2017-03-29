@@ -12,96 +12,58 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-describe('loadingModalService', function() {
 
-    var loadingModalService, $timeout, $rootScope, openlmisModalServiceMock, dialog;
 
-    beforeEach(function() {
-        expectedDialogOptions = {
-            backdrop: 'static',
-            show: false,
-            templateUrl: 'openlmis-modal/loading-modal.html'
+describe("LoadingModal", function(){
+
+    var dialog, loadingModalService, $timeout;
+
+    beforeEach(module('openlmis-modal'));
+
+    beforeEach(inject(function(_$timeout_, _loadingModalService_, bootbox){
+        loadingModalService = _loadingModalService_;
+        $timeout = _$timeout_;
+
+        dialog = {
+            modal: 'stub this',
+            on: 'stub that'
         };
+        spyOn(dialog, 'modal');
+        spyOn(dialog, 'on');
 
-        dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
-
-        openlmisModalServiceMock = jasmine.createSpyObj('openlmisModalService', ['createDialog']);
-        openlmisModalServiceMock.createDialog.andReturn(dialog);
-
-        module('openlmis-modal', function($provide) {
-            $provide.service('openlmisModalService', function() {
-                return openlmisModalServiceMock;
-            });
+        spyOn(bootbox, 'dialog').andCallFake(function(){
+            return dialog;
         });
+    }));
 
-        inject(function($injector) {
-            loadingModalService = $injector.get('loadingModalService');
-            $timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
-        });
+    it('opens a modal after a timeout', function(){
+        loadingModalService.open(true);
 
+        $timeout.flush();
+
+        expect(bootbox.dialog).toHaveBeenCalled();
     });
 
-    it('should create dialog', function() {
-        expect(openlmisModalServiceMock.createDialog)
-            .toHaveBeenCalledWith(expectedDialogOptions);
+    it("won't open a modal if it was closed before the timeout", function(){
+        loadingModalService.open(true);
+        loadingModalService.close();
+
+        $timeout.flush(); // clear any timeouts (nothing should happen)
+
+        // Expect there to be no calls to bootbox dialog
+        expect(bootbox.dialog.calls.length).toEqual(0);
     });
 
-    describe('open', function() {
+    it("will close a modal only if one has already been opened", function(){
+        loadingModalService.close();
+        // Dialog didn't get loaded
+        expect(dialog.modal.calls.length).toEqual(0);
 
-        it('should return promise', function() {
-            expect(loadingModalService.open().then).not.toBeUndefined();
-        });
+        loadingModalService.open(true);
+        $timeout.flush();
+        loadingModalService.close();
 
-        it('should show dialog if called without delay', function() {
-            loadingModalService.open();
-
-            expect(dialog.show).toHaveBeenCalled();
-        });
-
-        it('should show dialog after delay', function() {
-            loadingModalService.open(true);
-
-            expect(dialog.show).not.toHaveBeenCalled();
-
-            $timeout.flush();
-
-            expect(dialog.show).toHaveBeenCalled();
-        });
-
-    });
-
-    describe('close', function() {
-
-        beforeEach(function() {
-            spyOn($timeout, 'cancel').andCallThrough();
-        });
-
-        it('should close dialog', function() {
-            loadingModalService.close();
-
-            expect(dialog.hide).toHaveBeenCalled();
-        });
-
-        it('should cancel timeout if showing dialog was delayed', function() {
-            loadingModalService.open(true);
-            loadingModalService.close();
-
-            expect($timeout.cancel).toHaveBeenCalled();
-        });
-
-        it('should resolve promise returned by show', function() {
-            var result;
-
-            loadingModalService.open().then(function() {
-                result = 'something';
-            });
-            loadingModalService.close();
-            $rootScope.$apply();
-
-            expect(result).toEqual('something');
-        });
-
+        expect(dialog.modal).toHaveBeenCalled();
     });
 
 });

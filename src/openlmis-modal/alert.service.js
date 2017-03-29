@@ -28,11 +28,11 @@
         .service('alertService', alertService);
 
     alertService.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest',
-        '$templateCache', 'bootbox', 'messageService', 'openlmisModalService'
+        '$templateCache', 'bootbox', 'messageService'
     ];
 
     function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
-        bootbox, messageService, openlmisModalService) {
+        bootbox, messageService) {
 
         var template = $templateCache.get('openlmis-modal/alert.html'),
             deferred,
@@ -97,21 +97,23 @@
         function showAlert(alertClass, title, message) {
             if (modalIsDisplayed()) return $q.reject();
 
+            deferred = $q.defer();
             scope = prepareScope(alertClass, title, message);
 
-            modal = openlmisModalService.createDialog({
-                scope: scope,
-                templateUrl: 'openlmis-modal/alert.html',
-                show: true
+            modal = bootbox.dialog({
+                message: $compile(template)(scope),
+                callback: cleanUp,
+                className: 'alert-modal',
+                buttons: {
+                    ok: {
+                        label: messageService.get('msg.button.ok'),
+                        className: 'alert-confirm',
+                        callback: cleanUp
+                    }
+                }
             });
 
-            modal.promise.finally(function() {
-                scope.$destroy();
-                scope = undefined;
-                modal = undefined;
-            });
-
-            return modal.promise;
+            return deferred.promise;
         }
 
         function prepareScope(alertClass, title, message) {
@@ -122,6 +124,23 @@
             scope.message = message;
 
             return scope;
+        }
+
+        function cleanUp() {
+            if (modal) {
+                modal.modal('hide');
+                modal = undefined;
+            }
+
+            if (deferred) {
+                deferred.resolve();
+                deferred = undefined;
+            }
+
+            if (scope) {
+                scope.$destroy();
+                scope = undefined;
+            }
         }
 
         function modalIsDisplayed() {

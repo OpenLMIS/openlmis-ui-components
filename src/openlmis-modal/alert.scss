@@ -33,7 +33,8 @@
 		}
 	}
 
-	.modal-footer > button {
+	button.alert-confirm {
+		@include button($button-color-default);
 		float: right;
 	}
 }
