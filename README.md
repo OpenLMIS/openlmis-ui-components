@@ -9,11 +9,23 @@ This repository is the UI for the [OpenLMIS Requisition Service.](https://github
 1. Fork/clone this repository from GitHub.
 
  ```shell
- git clone https://github.com/OpenLMIS/openlmis-requisition-refUI.git
+> git clone https://github.com/OpenLMIS/openlmis-requisition-refUI.git
+> cd openlmis-requisition-refUI/
  ```
-2. Develop w/ Docker by running `docker-compose run --service-ports requisition-ui`.
-3. You should now be in an interactive shell inside the newly created development environment, build the project with: `npm install && grunt bower` and then you can build and start it with `grunt build --serve`.
-4. Go to `http://localhost:9000/webapp/` to see the login page.
+2. Create a .env file, which can be used to overwrite 'sensitive' settings from config.json
+```shell
+> touch .env
+```
+3. Develop w/ Docker by running `docker-compose run --service-ports requisition-ui`.
+4. You should now be in an interactive shell inside the newly created development environment, build the project with: 
+```shell
+$ npm install // installs the NodeJS tools
+
+$ grunt --serve
+// or
+$ grunt clean bower build --serve
+```
+5. Go to `http://localhost:9000/webapp/` to see the login page.
 
 *Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build  --serve --openlmisServerUrl=<openlmis server url>`.
 
@@ -26,6 +38,7 @@ See the [OpenLMIS/dev-ui project](https://github.com/OpenLMIS/dev-ui) for more i
 
 // Install dependencies 
 $ npm install
+$ grunt clean
 $ grunt bower
 
 // Build and run the UI against a OpenLMIS server
@@ -36,7 +49,7 @@ $ grunt karma:unit
 
 // Run a watch process that will build and test your code
 // NOTE: You must change a file at least once before your code is rebuilt
-$ grunt watch --openlmisServerUrl=<openlmis server url> --serve
+$ grunt watch --serve --openlmisServerUrl=<openlmis server url>
 
 ```
 
