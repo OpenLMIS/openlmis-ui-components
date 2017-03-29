@@ -15,7 +15,7 @@
 describe('RequisitionSearchController', function() {
 
     var vm, $q, $rootScope, $controller, $stateParams, $state, offlineService, confirmService,
-        facilities, items, stateParams, totalItems;
+        facilities, items;
 
     beforeEach(function() {
         module('requisition-search');
@@ -65,7 +65,7 @@ describe('RequisitionSearchController', function() {
             });
 
             vm = $controller('RequisitionSearchController', {
-                items: items,
+                requisitions: items,
                 facilities: facilities,
                 $controller: $controllerMock
             });
@@ -295,10 +295,8 @@ describe('RequisitionSearchController', function() {
             localStorageFactoryMock.andReturn(offlineRequisitionsMock);
 
             vm = $controller('RequisitionSearchController', {
-                items: items,
+                requisitions: items,
                 facilities: facilities,
-                totalItems: totalItems,
-                stateParams: stateParams,
                 localStorageFactory: localStorageFactoryMock
             });
 
@@ -386,10 +384,8 @@ describe('RequisitionSearchController', function() {
 
     function initController() {
         vm = $controller('RequisitionSearchController', {
-            items: items,
-            facilities: facilities,
-            totalItems: totalItems,
-            stateParams: stateParams
+            requisitions: items,
+            facilities: facilities
         });
         vm.$onInit();
     }

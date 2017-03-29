@@ -32,12 +32,12 @@
     controller.$inject = [
         'supplyingFacilities', 'requestingFacilities', 'programs', 'orderFactory',
         'loadingModalService', 'notificationService', 'fulfillmentUrlFactory',
-        'items', '$stateParams', '$filter'
+        'orders', '$stateParams', '$filter'
     ];
 
     function controller(supplyingFacilities, requestingFacilities, programs, orderFactory,
                         loadingModalService, notificationService, fulfillmentUrlFactory,
-                        items, $stateParams, $filter) {
+                        orders, $stateParams, $filter) {
 
         var vm = this;
 
@@ -82,13 +82,13 @@
         /**
          * @ngdoc property
          * @propertyOf order-view.controller:OrderViewController
-         * @name items
+         * @name orders
          * @type {Array}
          *
          * @description
-         * Holds items which will be displayed on screen.
+         * Holds orders that will be displayed on screen.
          */
-        vm.items = undefined;
+        vm.orders = undefined;
 
         /**
          * @ngdoc method
@@ -104,7 +104,7 @@
             vm.requestingFacilities = requestingFacilities;
             vm.programs = programs;
 
-            vm.items = items;
+            vm.orders = orders;
 
             if ($stateParams.supplyingFacility) {
                 vm.supplyingFacility = $filter('filter')(vm.supplyingFacilities, {

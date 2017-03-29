@@ -94,7 +94,7 @@ describe('FullSupplyController', function() {
         vm = $controller('FullSupplyController', {
             totalItems: 4,
             columns: columns,
-            allItems: lineItems,
+            lineItems: lineItems,
             stateParams: stateParams,
             requisition: requisition,
             requisitionValidator: requisitionValidator,

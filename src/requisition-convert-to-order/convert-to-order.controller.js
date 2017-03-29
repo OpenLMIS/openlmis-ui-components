@@ -32,11 +32,11 @@
 
 	ConvertToOrderController.$inject = [
         '$stateParams', 'requisitionService', 'notificationService',
-        'confirmService', 'loadingModalService', 'items'
+        'confirmService', 'loadingModalService', 'requisitions'
     ];
 
 	function ConvertToOrderController($stateParams, requisitionService, notificationService,
-                                confirmService, loadingModalService, items) {
+                                confirmService, loadingModalService, requisitions) {
 
 	    var vm = this;
 
@@ -49,13 +49,13 @@
 		/**
          * @ngdoc property
          * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
-         * @name items
+         * @name requisitions
          * @type {String}
          *
          * @description
-         * Holds items that will be displayed on screen.
+         * Holds requisitions that will be displayed on screen.
          */
-		vm.items = items;
+		vm.requisitions = requisitions;
 
 		/**
          * @ngdoc property
@@ -135,7 +135,7 @@
          * @description
          * Indicates if there is any requisition available to convert to order or not.
          */
-        vm.nothingToConvert = !items.length && defaultSearchParams();
+        vm.nothingToConvert = !requisitions.length && defaultSearchParams();
 
         /**
          * @ngdoc property
@@ -171,7 +171,7 @@
          */
         function getSelected() {
             var selected = [];
-            angular.forEach(vm.items, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 if (requisition.$selected) {
                     selected.push(requisition);
                 }
@@ -190,7 +190,7 @@
          * @param {Boolean} selectAll Determines if all requisitions should be selected or not
          */
         function toggleSelectAll(selectAll) {
-            angular.forEach(vm.items, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 requisition.$selected = selectAll;
             });
         }
@@ -205,7 +205,7 @@
          */
         function setSelectAll() {
             var value = true;
-            angular.forEach(vm.items, function(requisition) {
+            angular.forEach(vm.requisitions, function(requisition) {
                 value = value && requisition.$selected;
             });
             vm.selectAll = value;
@@ -261,7 +261,7 @@
         function getInfoMessage() {
             if (vm.nothingToConvert) {
                 return 'message.no.requisitions.for.conversion';
-            } else if (!vm.items.length) {
+            } else if (!vm.requisitions.length) {
                 return 'message.no.search.results';
             }
             return undefined;

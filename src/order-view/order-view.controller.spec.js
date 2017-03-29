@@ -17,7 +17,7 @@ describe('OrderViewController', function() {
 
     var vm, orderFactoryMock, $rootScope, loadingModalServiceMock, notificationServiceMock,
         fulfillmentUrlFactoryMock, supplyingFacilities, requestingFacilities, programs,
-        deferred, orders, item, totalItems, stateParams, $controller, $stateParams, orderFactory;
+        deferred, orders, item, $controller, $stateParams, orderFactory;
 
     beforeEach(function() {
         module('order-view');
@@ -62,7 +62,7 @@ describe('OrderViewController', function() {
                 supplyingFacilities: supplyingFacilities,
                 requestingFacilities: requestingFacilities,
                 programs: programs,
-                items: items
+                orders: items
             });
         });
 
@@ -146,9 +146,7 @@ describe('OrderViewController', function() {
                 supplyingFacilities: supplyingFacilities,
                 requestingFacilities: requestingFacilities,
                 programs: programs,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
+                orders: items,
                 fulfillmentUrlFactory: fulfillmentUrlFactoryMock
             });
         });
@@ -171,9 +169,7 @@ describe('OrderViewController', function() {
                 supplyingFacilities: supplyingFacilities,
                 requestingFacilities: requestingFacilities,
                 programs: programs,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
+                orders: items,
                 fulfillmentUrlFactory: fulfillmentUrlFactoryMock
             });
         });
@@ -189,9 +185,7 @@ describe('OrderViewController', function() {
             supplyingFacilities: supplyingFacilities,
             requestingFacilities: requestingFacilities,
             programs: programs,
-            items: items,
-            totalItems: totalItems,
-            stateParams: stateParams
+            orders: items
         });
         vm.$onInit();
     }

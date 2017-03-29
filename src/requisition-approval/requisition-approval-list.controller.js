@@ -29,9 +29,9 @@
 		.module('requisition-approval')
 		.controller('RequisitionApprovalListController', controller);
 
-	controller.$inject = ['$controller', '$state', 'items', 'messageService'];
+	controller.$inject = ['$controller', '$state', 'requisitions', 'messageService'];
 
-	function controller($controller, $state, items, messageService) {
+	function controller($controller, $state, requisitions, messageService) {
 
 		var vm = this;
 
@@ -40,13 +40,13 @@
 		/**
          * @ngdoc property
          * @propertyOf requisition-approval.controller:RequisitionApprovalListController
-         * @name items
+         * @name requisitions
          * @type {Array}
          *
          * @description
          * Holds requisition that will be displayed on screen.
          */
-		vm.items = items;
+		vm.requisitions = requisitions;
 
         /**
          * @ngdoc method

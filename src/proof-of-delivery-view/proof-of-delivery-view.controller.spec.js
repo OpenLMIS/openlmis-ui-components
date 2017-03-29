@@ -71,7 +71,7 @@ describe('PodViewController', function() {
 
             vm = $controller('ProofOfDeliveryViewController', {
                 pod: podSpy,
-                allItems: podSpy.proofOfDeliveryLineItems
+                lineItems: podSpy.proofOfDeliveryLineItems
             });
             vm.items = podSpy.proofOfDeliveryLineItems;
         });

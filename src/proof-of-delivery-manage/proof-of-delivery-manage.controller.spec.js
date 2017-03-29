@@ -16,7 +16,7 @@
 describe('ProofOfDeliveryManageController', function() {
 
     var vm, orderFactoryMock, facilityFactoryMock, $rootScope, loadingModalServiceMock, programs,
-        facility, deferred, pod, $state, $q, totalItems, stateParams, $controller,
+        facility, deferred, pod, $state, $q, $controller,
         $stateParams, $controllerMock, facilities, facilityTwo;
 
     beforeEach(function() {
@@ -80,7 +80,7 @@ describe('ProofOfDeliveryManageController', function() {
                 facilities: facilities,
                 homePrograms: programs,
                 supervisedPrograms: programs,
-                items: items
+                pods: items
             });
         });
     });

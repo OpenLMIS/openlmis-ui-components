@@ -31,7 +31,7 @@
             <input class="btn btn-primary" type="submit" value="{{'button.search' | message}}"/>
         </form>
         <table>
-            <caption ng-if="!vm.items.length">
+            <caption ng-if="!vm.requisitions.length">
                 {{'msg.no.requisitions.found' | message}}
             </caption>
             <caption ng-if="!vm.facilities.length">
@@ -57,7 +57,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="requisition in vm.items">
+                <tr ng-repeat="requisition in vm.requisitions">
                     <td>{{requisition.program.name}}</td>
                     <td>{{requisition.facility.code}} - {{requisition.facility.name}}</th>
                     <td>{{requisition.processingPeriod.name}}</td>

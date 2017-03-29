@@ -31,7 +31,7 @@
             controllerAs: 'vm',
             isOffline: true,
             resolve: {
-                allItems: function(paginationService, requisition, $stateParams, $filter, requisitionValidator) {
+                lineItems: function(paginationService, requisition, $stateParams, $filter, requisitionValidator) {
 					return paginationService.registerList(requisitionValidator.isLineItemValid, $stateParams, function() {
                         var fullSupplyLineItems = $filter('filter')(requisition.requisitionLineItems, {
                             $program: {

@@ -34,7 +34,7 @@
 			templateUrl: 'requisition-approval/requisition-approval-list.html',
 			accessRights: [REQUISITION_RIGHTS.REQUISITION_APPROVE],
             resolve: {
-				items: function(paginationService, requisitionService, $stateParams) {
+				requisitions: function(paginationService, requisitionService, $stateParams) {
 					return paginationService.registerUrl($stateParams, function(stateParams) {
 						return requisitionService.forApproval(stateParams);
 					});

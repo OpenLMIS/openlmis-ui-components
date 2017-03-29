@@ -76,7 +76,7 @@ describe('ConvertToOrderController', function(){
             ];
 
             vm = $injector.get('$controller')('ConvertToOrderController', {
-                items: requisitions,
+                requisitions: requisitions,
                 $stateParams: stateParams
             });
         });
@@ -85,11 +85,11 @@ describe('ConvertToOrderController', function(){
     it('should show all requisitions if default filter is applied', function() {
         expect(vm.filterBy).toEqual('all');
         expect(vm.filterValue).toEqual('');
-        expect(vm.items).toEqual(requisitions);
+        expect(vm.requisitions).toEqual(requisitions);
     });
 
     it('should get all selected requisitions', function() {
-        vm.items[0].$selected = true;
+        vm.requisitions[0].$selected = true;
 
         var selectedRequisitions = vm.getSelected();
 
@@ -139,7 +139,7 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should show error if requisition does not have facility selected', function() {
-            vm.items[0].$selected = true;
+            vm.requisitions[0].$selected = true;
 
             vm.convertToOrder();
 
@@ -147,7 +147,7 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should not call requisitionService if requisition does not have facility selected', function() {
-            vm.items[0].$selected = true;
+            vm.requisitions[0].$selected = true;
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -158,8 +158,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should call confirmation modal', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -171,8 +171,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should bring up loading modal if confirmation passed', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -183,8 +183,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should call requisitionService if confirmation passed', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -192,13 +192,13 @@ describe('ConvertToOrderController', function(){
             $rootScope.$apply();
 
             expect(requisitionService.convertToOrder).toHaveBeenCalledWith([
-                vm.items[0]
+                vm.requisitions[0]
             ]);
         });
 
         it('should show alert if convert passed', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -211,8 +211,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should show error if convert failed', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -223,8 +223,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should close loading modal if convert failed', function() {
-            vm.items[0].$selected = true;
-            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.requisitions[0].$selected = true;
+            vm.requisitions[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -237,7 +237,7 @@ describe('ConvertToOrderController', function(){
     });
 
     it('should show error when trying to convert to order with no supplying depot selected', function() {
-        vm.items[0].$selected = true;
+        vm.requisitions[0].$selected = true;
 
         spyOn(requisitionService, 'convertToOrder').andReturn($q.when());
         spyOn(notificationService, 'error').andCallThrough();
@@ -261,20 +261,20 @@ describe('ConvertToOrderController', function(){
     it('should select all requisitions', function() {
        vm.toggleSelectAll(true);
 
-       expect(vm.items[0].$selected).toBe(true);
-       expect(vm.items[1].$selected).toBe(true);
+       expect(vm.requisitions[0].$selected).toBe(true);
+       expect(vm.requisitions[1].$selected).toBe(true);
     });
 
     it('should deselect all requisitions', function() {
         vm.toggleSelectAll(false);
 
-        expect(vm.items[0].$selected).toBe(false);
-        expect(vm.items[1].$selected).toBe(false);
+        expect(vm.requisitions[0].$selected).toBe(false);
+        expect(vm.requisitions[1].$selected).toBe(false);
     });
 
     it('should set "select all" option when all requisitions are selected by user', function() {
-       vm.items[0].$selected = true;
-       vm.items[1].$selected = true;
+       vm.requisitions[0].$selected = true;
+       vm.requisitions[1].$selected = true;
 
        vm.setSelectAll();
 
@@ -282,8 +282,8 @@ describe('ConvertToOrderController', function(){
     });
 
     it('should not set "select all" option when not all requisitions are selected by user', function() {
-        vm.items[0].$selected = true;
-        vm.items[1].$selected = false;
+        vm.requisitions[0].$selected = true;
+        vm.requisitions[1].$selected = false;
 
         vm.setSelectAll();
 

@@ -29,11 +29,11 @@
 
     RequisitionSearchController.$inject = [
         '$state', '$filter', '$stateParams', 'facilities', 'notificationService',
-        'offlineService', 'localStorageFactory', 'confirmService', 'items'
+        'offlineService', 'localStorageFactory', 'confirmService', 'requisitions'
     ];
 
     function RequisitionSearchController($state, $filter, $stateParams, facilities,
-        notificationService, offlineService, localStorageFactory, confirmService, items) {
+        notificationService, offlineService, localStorageFactory, confirmService, requisitions) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -114,13 +114,13 @@
         /**
          * @ngdoc property
          * @propertyOf requisition-search.controller:RequisitionViewController
-         * @name items
+         * @name requisitions
          * @type {Array}
          *
          * @description
-         * Holds all items that will be displayed on screen.
+         * Holds all requisitions that will be displayed on screen.
          */
-        vm.items = undefined;
+        vm.requisitions = undefined;
 
         /**
          * @ngdoc property
@@ -143,7 +143,7 @@
          * setting data to be available on the view.
          */
         function onInit() {
-            vm.items = items;
+            vm.requisitions = requisitions;
             vm.facilities = facilities;
             vm.offline = $stateParams.offline === 'true' || offlineService.isOffline();
 

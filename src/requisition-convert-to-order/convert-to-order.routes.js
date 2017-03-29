@@ -38,7 +38,7 @@
                 filterValue: ''
             },
             resolve: {
-                items: function(paginationService, requisitionService, $stateParams) {
+                requisitions: function(paginationService, requisitionService, $stateParams) {
 					return paginationService.registerUrl($stateParams, function(stateParams) {
 						return requisitionService.forConvert(stateParams);
 					});

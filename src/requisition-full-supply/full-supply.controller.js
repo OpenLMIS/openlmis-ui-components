@@ -28,9 +28,9 @@
         .module('requisition-full-supply')
         .controller('FullSupplyController', controller);
 
-    controller.$inject = ['$controller', 'requisitionValidator', 'TEMPLATE_COLUMNS', 'requisition', 'columns', 'allItems'];
+    controller.$inject = ['$controller', 'requisitionValidator', 'TEMPLATE_COLUMNS', 'requisition', 'columns', 'lineItems'];
 
-    function controller($controller, requisitionValidator, TEMPLATE_COLUMNS, requisition, columns, allItems) {
+    function controller($controller, requisitionValidator, TEMPLATE_COLUMNS, requisition, columns, lineItems) {
 
         var vm = this;
 
@@ -42,13 +42,13 @@
         /**
          * @ngdoc property
          * @propertyOf requisition-full-supply.controller:FullSupplyController
-         * @name allItems
+         * @name lineItems
          * @type {Array}
          *
          * @description
          * Holds all requisition line items.
          */
-        vm.allItems = allItems;
+        vm.lineItems = lineItems;
 
         /**
          * @ngdoc property

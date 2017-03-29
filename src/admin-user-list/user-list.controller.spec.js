@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/*describe('UserListController', function () {
+describe('UserListController', function () {
 
     var vm, $state, $q, $controller, $rootScope, confirmSpy, usersList, UserFormModalMock;
 
@@ -54,9 +54,7 @@
             };
 
             vm = $controller('UserListController', {
-                items: usersList,
-                totalItems: usersList.length,
-                stateParams: stateParams
+                users: usersList
             });
         });
     });
@@ -69,23 +67,10 @@
             });
 
             vm = $controller('UserListController', {
-                items: usersList,
-                totalItems: usersList.length,
-                stateParams: stateParams,
+                users: usersList,
                 $controller: $controllerMock
             });
 
-        });
-
-        it('should extend BasePaginationController', function() {
-            expect($controllerMock).toHaveBeenCalledWith('BasePaginationController', {
-                vm: vm,
-                items: usersList,
-                totalItems: usersList.length,
-                stateParams: stateParams,
-                externalPagination: true,
-                itemValidator: undefined
-            });
         });
 
         it('should expose openUserFormModal method', function() {
@@ -156,18 +141,48 @@
     describe('search', function() {
 
         beforeEach(function() {
-            vm.changePage = jasmine.createSpy();
-            vm.stateParams.pageSize = 1;
-            vm.stateParams.page = 1;
+            spyOn($state, 'go').andReturn();
+        });
+
+        it('should set lastName param', function() {
+            vm.lastName = 'lastName';
+
             vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('administration.users', {
+                lastName: vm.lastName,
+                firstName: undefined,
+                email: undefined
+            }, {reload: true});
         });
 
-        it('should change page to first one', function() {
-            expect(vm.stateParams.page).toEqual(0);
+        it('should set firstName param', function() {
+            vm.firstName = 'firstName';
+
+            vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('administration.users', {
+                lastName: undefined,
+                firstName: vm.firstName,
+                email: undefined
+            }, {reload: true});
         });
 
-        it('should call change page method', function() {
-            expect(vm.changePage).toHaveBeenCalled();
+        it('should set email param', function() {
+            vm.email = 'email';
+
+            vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('administration.users', {
+                lastName: undefined,
+                firstName: undefined,
+                email: vm.email,
+            }, {reload: true});
+        });
+
+        it('should call state go method', function() {
+            vm.search();
+            expect($state.go).toHaveBeenCalled();
         });
     });
-});*/
+});

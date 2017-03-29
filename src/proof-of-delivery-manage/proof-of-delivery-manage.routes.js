@@ -60,7 +60,7 @@
                     }
                     return [];
                 },
-                items: function(paginationService, orderFactory, $stateParams) {
+                pods: function(paginationService, orderFactory, $stateParams) {
 					return paginationService.registerUrl($stateParams, function(stateParams) {
                         if(stateParams.program) {
                             return orderFactory.searchOrdersForManagePod(stateParams);

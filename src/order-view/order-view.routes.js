@@ -55,7 +55,7 @@
                         authorizationService.getUser().user_id
                     );
                 },
-                items: function(paginationService, orderFactory, $stateParams) {
+                orders: function(paginationService, orderFactory, $stateParams) {
 					return paginationService.registerUrl($stateParams, function(stateParams) {
                         if (stateParams.supplyingFacility) {
                             return orderFactory.search(stateParams);

@@ -31,11 +31,11 @@
     controller.$inject = [
         'facility', 'userId', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
         'loadingModalService', 'notificationService', 'REQUISITION_RIGHTS', 'facilityFactory',
-        'items', '$stateParams', 'facilities'
+        'pods', '$stateParams', 'facilities'
     ];
 
     function controller(facility, userId, supervisedPrograms, homePrograms, orderFactory, $state,
-        loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, items, $stateParams, facilities) {
+        loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, pods, $stateParams, facilities) {
 
         var vm = this;
 
@@ -94,13 +94,13 @@
         /**
          * @ngdoc property
          * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
-         * @name items
+         * @name orders
          * @type {Array}
          *
          * @description
-         * Holds items that will be displayed.
+         * Holds orders that will be displayed.
          */
-        vm.items = undefined;
+        vm.orders = undefined;
 
         /**
          * @ngdoc method
@@ -121,7 +121,7 @@
 
             updateFacilityType();
 
-            vm.items = items;
+            vm.pods = pods;
 
             if ($stateParams.program) {
                 vm.selectedProgramId = $stateParams.program;
