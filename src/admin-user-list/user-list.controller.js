@@ -28,24 +28,16 @@
 		.module('admin-user-list')
 		.controller('UserListController', controller);
 
-	controller.$inject = [
-		'$controller', '$state', 'items', 'totalItems', 'stateParams', 'confirmService',
-		'UserFormModal'
-	];
+	controller.$inject = ['$state', '$stateParams', 'users', 'confirmService', 'UserFormModal'];
 
-	function controller($controller, $state, items, totalItems, stateParams, confirmService,
-						UserFormModal) {
+	function controller($state, $stateParams, users, confirmService, UserFormModal) {
 
 		var vm = this;
 
-		$controller('BasePaginationController', {
-			vm: vm,
-			items: items,
-			totalItems: totalItems,
-			stateParams: stateParams,
-			externalPagination: true,
-			itemValidator: undefined
-		});
+		vm.users = users;
+		vm.firstName = $stateParams.firstName;
+		vm.lastName = $stateParams.lastName;
+		vm.email = $stateParams.email;
 
 		vm.openUserFormModal = openUserFormModal;
         vm.resetUserPassword = resetUserPassword;
@@ -80,8 +72,15 @@
 		}
 
 		function search() {
-			vm.stateParams.page = 0;
-			vm.changePage();
+			var stateParams = angular.copy($stateParams);
+
+			stateParams.lastName = vm.lastName;
+			stateParams.firstName = vm.firstName;
+			stateParams.email = vm.email;
+
+			$state.go('administration.users', stateParams, {
+				reload: true
+			});
 		}
 	}
 

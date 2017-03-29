@@ -3,14 +3,14 @@
 		{{'button.add' | message}}
 	</button>
 	<table>
-		<caption ng-if="!vm.pageItems.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
+		<caption ng-if="!vm.items.length">{{'requisition.nonFullSupply.empty' | message}}</caption>
 		<thead>
 			<tr>
 				<th class="col-{{column.name}}" ng-repeat="column in vm.columns | orderBy : 'displayOrder'" ng-class="{'col-sticky': !column.$canChangeOrder}" popover="{{column.definition}}">{{column.label}}</th>
 				<th class="col-sticky" ng-if="vm.displayDeleteColumn()"></th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="(category, lineItems) in vm.pageItems | groupBy:'$program.orderableCategoryDisplayName'" tbody-title="{{category}}">
+		<tbody ng-repeat="(category, lineItems) in vm.items | groupBy:'$program.orderableCategoryDisplayName'" tbody-title="{{category}}">
 			<tr ng-class="{'invalid-row': !vm.isLineItemValid(lineItem)}" ng-repeat="lineItem in lineItems | orderBy : '$program.displayOrder'">
 				<td ng-repeat="column in vm.columns | orderBy : 'displayOrder'"
 					product-grid-cell
@@ -27,11 +27,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<openlmis-pagination ng-model="vm.stateParams.page"
-		ng-change="vm.changePage(vm.page)"
-		total-items="vm.getTotalItems()"
-		items="vm.pageItems.length"
-		page-size="vm.stateParams.size"
-		page-validator="vm.isPageValid">
-	</openlmis-pagination>
+	<openlmis-pagination
+		list="vm.allItems"
+		paged-list="vm.items">
+	<openlmis-pagination/>
 </div>

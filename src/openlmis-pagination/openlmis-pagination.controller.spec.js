@@ -15,18 +15,28 @@
 
 describe('PaginationController', function() {
 
-    var vm, scope;
+    var vm, scope, $controller, $state, paginationService;
 
     beforeEach(function() {
 
         module('openlmis-pagination');
 
-        inject(function($controller, $rootScope) {
+        inject(function($injector) {
+            $state = $injector.get('$state');
+            $controller = $injector.get('$controller');
+            paginationService = $injector.get('paginationService');
+            paginationFactory = $injector.get('paginationFactory');
+
+            spyOn(paginationService, 'isExternalPagination').andReturn(true);
+            spyOn(paginationFactory, 'getPage').andReturn([1]);
+
             vm = $controller('PaginationController');
 
             vm.totalItems = 10;
             vm.pageSize = 2;
             vm.page = 0;
+
+            spyOn($state, 'go').andReturn();
         });
     });
 
@@ -114,6 +124,50 @@ describe('PaginationController', function() {
 
         it('should return correct number of elements', function() {
             expect(vm.getPages().length).toBe(5);
+        });
+    });
+
+    describe('getTotalPages', function() {
+
+        it('should return array', function() {
+            expect(angular.isNumber(vm.getTotalPages())).toBe(true);
+        });
+
+        it('should return correct number of elements', function() {
+            expect(vm.getTotalPages()).toBe(5);
+        });
+
+        it('should equals getPages length', function() {
+            expect(vm.getTotalPages()).toBe(vm.getPages().length);
+        });
+    });
+
+    describe('isPageValid', function() {
+
+        it('should return true if item validator is not defined', function() {
+            expect(vm.isPageValid(1)).toBe(true);
+            expect(vm.isPageValid(0)).toBe(true);
+            expect(vm.isPageValid(2)).toBe(true);
+        });
+
+        it('should return false if item validator returns false', function() {
+            vm.totalItems = 1;
+            vm.pageSize = 1;
+            paginationService.itemValidator = function() {
+                return false;
+            };
+
+            expect(vm.isPageValid(0)).toBe(false);
+        });
+
+        it('should return false if item validator returns true', function() {
+            vm.totalItems = 1;
+            vm.pageSize = 1;
+            paginationService.itemValidator = function() {
+                return true;
+            };
+
+            expect(vm.isPageValid(0)).toBe(true);
         });
     });
 });

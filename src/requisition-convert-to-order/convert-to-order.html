@@ -2,9 +2,9 @@
 	<div class="page">
 		<h2>{{'label.requisition.convertOrder' | message}}</h2>
 		<section class="openlmis-table-container">
-			<form ng-submit="vm.changePage()">
+			<form ng-submit="vm.search()">
 				<label for="searchFor">{{'label.search' | message}}</label>
-				<input id="searchFor" type="text" ng-model="vm.stateParams.filterValue"
+				<input id="searchFor" type="text" ng-model="vm.filterValue"
 					   maxlength="50"/>
 				<input type="submit" value="{{'button.search' | message}}"/>
 			</form>
@@ -28,7 +28,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in vm.pageItems">
+					<tr ng-repeat="item in vm.items">
 						<td>
 							<input type="checkbox" ng-model="item.$selected"
 								   ng-change="vm.setSelectAll()">
@@ -54,15 +54,10 @@
 					</tr>
 				</tbody>
 			</table>
-			<openlmis-pagination ng-model="vm.stateParams.page"
-				ng-change="vm.changePage()"
-				total-items="vm.totalItems"
-				items="vm.pageItems.length"
-				page-size="vm.stateParams.size">
-			</openlmis-pagination>
+			<openlmis-pagination/>
 		</section>
 	</div>
-	<div class="openlmis-toolbar" ng-if="vm.pageItems.length">
+	<div class="openlmis-toolbar" ng-if="vm.items.length">
 	    <button class="primary" ng-click="vm.convertToOrder()">{{'link.requisitions.convertToOrder' | message}}</button>
 	</div>
 </div>

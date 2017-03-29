@@ -25,6 +25,7 @@ describe('OrderViewController', function() {
         inject(function($injector) {
             $controller = $injector.get('$controller');
             $stateParams = $injector.get('$stateParams');
+            $state = $injector.get('$state');
         });
 
         supplyingFacilities = [
@@ -50,13 +51,6 @@ describe('OrderViewController', function() {
         items = [
             'itemOne', 'itemTwo'
         ];
-
-        stateParams = {
-            page: 0,
-            size: 10
-        };
-
-        totalItems = 2;
     });
 
     describe('initialization', function() {
@@ -64,18 +58,11 @@ describe('OrderViewController', function() {
         var $controllerMock;
 
         beforeEach(function() {
-            $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
-                vm.stateParams = {};
-            });
-
             vm = $controller('OrderViewController', {
                 supplyingFacilities: supplyingFacilities,
                 requestingFacilities: requestingFacilities,
                 programs: programs,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
-                $controller: $controllerMock
+                items: items
             });
         });
 
@@ -101,12 +88,7 @@ describe('OrderViewController', function() {
         beforeEach(function() {
             initController();
             vm.$onInit();
-
-            vm.stateParams.program = undefined;
-            vm.stateParams.requestingFacility = undefined;
-            vm.stateParams.supplyingFacility = undefined;
-
-            spyOn(vm, 'changePage').andReturn();
+            spyOn($state, 'go').andReturn();
         });
 
         it('should set program', function() {
@@ -114,7 +96,11 @@ describe('OrderViewController', function() {
 
             vm.loadOrders();
 
-            expect(vm.stateParams.program).toBe(vm.program.id);
+            expect($state.go).toHaveBeenCalledWith('orders.view', {
+                supplyingFacility: null,
+                program: vm.program.id,
+                requestingFacility: null
+            }, {reload: true});
         });
 
         it('should set supplying facility', function() {
@@ -122,7 +108,11 @@ describe('OrderViewController', function() {
 
             vm.loadOrders();
 
-            expect(vm.stateParams.supplyingFacility).toBe(vm.supplyingFacility.id);
+            expect($state.go).toHaveBeenCalledWith('orders.view', {
+                supplyingFacility: vm.supplyingFacility.id,
+                program: null,
+                requestingFacility: null
+            }, {reload: true});
         });
 
         it('should set requesting facility', function() {
@@ -130,12 +120,16 @@ describe('OrderViewController', function() {
 
             vm.loadOrders();
 
-            expect(vm.stateParams.requestingFacility).toBe(vm.requestingFacility.id);
+            expect($state.go).toHaveBeenCalledWith('orders.view', {
+                supplyingFacility: null,
+                program: null,
+                requestingFacility: vm.requestingFacility.id
+            }, {reload: true});
         });
 
-        it('schould reload state', function() {
+        it('should reload state', function() {
            vm.loadOrders();
-           expect(vm.changePage).toHaveBeenCalled();
+           expect($state.go).toHaveBeenCalled();
         });
 
     });

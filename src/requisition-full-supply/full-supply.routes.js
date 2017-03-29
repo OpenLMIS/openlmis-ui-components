@@ -21,34 +21,36 @@
         .module('requisition-full-supply')
         .config(routes);
 
-    routes.$inject = ['$stateProvider', 'paginatedRouterProvider'];
+    routes.$inject = ['$stateProvider'];
 
-    function routes($stateProvider, paginatedRouterProvider) {
+    function routes($stateProvider) {
         $stateProvider.state('requisitions.requisition.fullSupply', {
             url: '/fullSupply?page&size',
             templateUrl: 'requisition-full-supply/full-supply.html',
             controller: 'FullSupplyController',
             controllerAs: 'vm',
             isOffline: true,
-            resolve: paginatedRouterProvider.resolve({
-                items: function($filter, requisition) {
-                    var fullSupplyLineItems = $filter('filter')(requisition.requisitionLineItems, {
-                        $program: {
-                            fullSupply:true
-                        }
-                    });
+            resolve: {
+                allItems: function(paginationService, requisition, $stateParams, $filter, requisitionValidator) {
+					return paginationService.registerList(requisitionValidator.isLineItemValid, $stateParams, function() {
+                        var fullSupplyLineItems = $filter('filter')(requisition.requisitionLineItems, {
+                            $program: {
+                                fullSupply:true
+                            }
+                        });
 
-                    return $filter('orderBy')(fullSupplyLineItems, [
-                        '$program.orderableCategoryDisplayOrder',
-                        '$program.orderableCategoryDisplayName',
-                        '$program.displayOrder',
-                        'orderable.fullProductName'
-                    ]);
-                },
+                        return $filter('orderBy')(fullSupplyLineItems, [
+                            '$program.orderableCategoryDisplayOrder',
+                            '$program.orderableCategoryDisplayName',
+                            '$program.displayOrder',
+                            'orderable.fullProductName'
+                        ]);
+					});
+				},
                 columns: function(requisition) {
                     return requisition.template.getColumns();
                 }
-            })
+            }
         });
     }
 

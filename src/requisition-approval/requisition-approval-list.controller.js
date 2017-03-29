@@ -29,30 +29,32 @@
 		.module('requisition-approval')
 		.controller('RequisitionApprovalListController', controller);
 
-	controller.$inject = ['$controller', '$state', 'items', 'messageService', 'stateParams', 'totalItems'];
+	controller.$inject = ['$controller', '$state', 'items', 'messageService'];
 
-	function controller($controller, $state, items, messageService, stateParams, totalItems) {
+	function controller($controller, $state, items, messageService) {
 
 		var vm = this;
 
-        $controller('BasePaginationController', {
-			vm: vm,
-            items: items,
-            totalItems: totalItems,
-			stateParams: stateParams,
-			externalPagination: true,
-			itemValidator: undefined
-		});
-
 		vm.openRnr = openRnr;
 
-        /**
+		/**
          * @ngdoc property
+         * @propertyOf requisition-approval.controller:RequisitionApprovalListController
+         * @name items
+         * @type {Array}
+         *
+         * @description
+         * Holds requisition that will be displayed on screen.
+         */
+		vm.items = items;
+
+        /**
+         * @ngdoc method
          * @methodOf requisition-approval.controller:RequisitionApprovalListController
          * @name openRnr
          *
          * @description
-         * Holds handler which redirects to requisition page after clicking on grid row.
+         * Redirects to requisition page with given requisition UUID.
          */
 		function openRnr(requisitionId) {
 			$state.go('requisitions.requisition.fullSupply', {

@@ -26,6 +26,7 @@ describe('ConvertToOrderController', function(){
             $rootScope = $injector.get('$rootScope');
             requisitionService = $injector.get('requisitionService');
             notificationService = $injector.get('notificationService');
+            $state = $injector.get('$state');
 
             stateParams = {
                 filterBy: 'all',
@@ -75,22 +76,20 @@ describe('ConvertToOrderController', function(){
             ];
 
             vm = $injector.get('$controller')('ConvertToOrderController', {
-                totalItems: 2,
                 items: requisitions,
-                stateParams: stateParams,
                 $stateParams: stateParams
             });
         });
     });
 
     it('should show all requisitions if default filter is applied', function() {
-        expect(vm.stateParams.filterBy).toEqual('all');
-        expect(vm.stateParams.filterValue).toEqual('');
-        expect(vm.pageItems).toEqual(requisitions);
+        expect(vm.filterBy).toEqual('all');
+        expect(vm.filterValue).toEqual('');
+        expect(vm.items).toEqual(requisitions);
     });
 
     it('should get all selected requisitions', function() {
-        vm.pageItems[0].$selected = true;
+        vm.items[0].$selected = true;
 
         var selectedRequisitions = vm.getSelected();
 
@@ -140,7 +139,7 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should show error if requisition does not have facility selected', function() {
-            vm.pageItems[0].$selected = true;
+            vm.items[0].$selected = true;
 
             vm.convertToOrder();
 
@@ -148,7 +147,7 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should not call requisitionService if requisition does not have facility selected', function() {
-            vm.pageItems[0].$selected = true;
+            vm.items[0].$selected = true;
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -159,8 +158,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should call confirmation modal', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -172,8 +171,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should bring up loading modal if confirmation passed', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -184,8 +183,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should call requisitionService if confirmation passed', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -193,13 +192,13 @@ describe('ConvertToOrderController', function(){
             $rootScope.$apply();
 
             expect(requisitionService.convertToOrder).toHaveBeenCalledWith([
-                vm.pageItems[0]
+                vm.items[0]
             ]);
         });
 
         it('should show alert if convert passed', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -212,8 +211,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should show error if convert failed', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -224,8 +223,8 @@ describe('ConvertToOrderController', function(){
         });
 
         it('should close loading modal if convert failed', function() {
-            vm.pageItems[0].$selected = true;
-            vm.pageItems[0].requisition.supplyingFacility = supplyingDepots[0];
+            vm.items[0].$selected = true;
+            vm.items[0].requisition.supplyingFacility = supplyingDepots[0];
 
             vm.convertToOrder();
             confirmDeferred.resolve();
@@ -238,7 +237,7 @@ describe('ConvertToOrderController', function(){
     });
 
     it('should show error when trying to convert to order with no supplying depot selected', function() {
-        vm.pageItems[0].$selected = true;
+        vm.items[0].$selected = true;
 
         spyOn(requisitionService, 'convertToOrder').andReturn($q.when());
         spyOn(notificationService, 'error').andCallThrough();
@@ -262,20 +261,20 @@ describe('ConvertToOrderController', function(){
     it('should select all requisitions', function() {
        vm.toggleSelectAll(true);
 
-       expect(vm.pageItems[0].$selected).toBe(true);
-       expect(vm.pageItems[1].$selected).toBe(true);
+       expect(vm.items[0].$selected).toBe(true);
+       expect(vm.items[1].$selected).toBe(true);
     });
 
     it('should deselect all requisitions', function() {
         vm.toggleSelectAll(false);
 
-        expect(vm.pageItems[0].$selected).toBe(false);
-        expect(vm.pageItems[1].$selected).toBe(false);
+        expect(vm.items[0].$selected).toBe(false);
+        expect(vm.items[1].$selected).toBe(false);
     });
 
     it('should set "select all" option when all requisitions are selected by user', function() {
-       vm.pageItems[0].$selected = true;
-       vm.pageItems[1].$selected = true;
+       vm.items[0].$selected = true;
+       vm.items[1].$selected = true;
 
        vm.setSelectAll();
 
@@ -283,11 +282,45 @@ describe('ConvertToOrderController', function(){
     });
 
     it('should not set "select all" option when not all requisitions are selected by user', function() {
-        vm.pageItems[0].$selected = true;
-        vm.pageItems[1].$selected = false;
+        vm.items[0].$selected = true;
+        vm.items[1].$selected = false;
 
         vm.setSelectAll();
 
         expect(vm.selectAll).toBe(false);
+    });
+
+    describe('search', function() {
+
+        beforeEach(function() {
+            spyOn($state, 'go').andReturn();
+        });
+
+        it('should expose search method', function() {
+            expect(angular.isFunction(vm.search)).toBe(true);
+        });
+
+        it('should call state go method', function() {
+            vm.search();
+            expect($state.go).toHaveBeenCalled();
+        });
+
+        it('should call state go method with changed params', function() {
+            vm.filterBy = 'filterBy';
+			vm.filterValue = 'filterValue';
+			vm.sortBy = 'sortBy';
+			vm.descending = true;
+
+            vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('requisitions.convertToOrder', {
+                filterBy: 'filterBy',
+                filterValue: 'filterValue',
+                sortBy: 'sortBy',
+                descending: true,
+                page: 0,
+                size: 10
+            }, {reload: true});
+        });
     });
 });

@@ -53,8 +53,6 @@ describe('RequisitionSearchController', function() {
             page: 0,
             size: 10
         };
-
-        totalItems = 2;
     });
 
     describe('$onInit', function() {
@@ -69,24 +67,9 @@ describe('RequisitionSearchController', function() {
             vm = $controller('RequisitionSearchController', {
                 items: items,
                 facilities: facilities,
-                totalItems: totalItems,
-                stateParams: stateParams,
                 $controller: $controllerMock
             });
 
-        });
-
-        it('should extend BasePaginationController', function() {
-            vm.$onInit();
-
-            expect($controllerMock).toHaveBeenCalledWith('BasePaginationController', {
-                vm: vm,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
-                externalPagination: true,
-                itemValidator: undefined
-            });
         });
 
         it('should expose facilities', function() {
@@ -100,7 +83,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.stateParams.offline).toEqual(true);
+            expect(vm.offline).toEqual(true);
         });
 
         it('should set searchOffline to true if application is in offline mode', function() {
@@ -108,7 +91,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.stateParams.offline).toEqual(true);
+            expect(vm.offline).toEqual(true);
         });
 
         it('should set searchOffline to false if false was passed the URL and application is not in offline mode', function() {
@@ -117,7 +100,7 @@ describe('RequisitionSearchController', function() {
 
             vm.$onInit();
 
-            expect(vm.stateParams.offline).toEqual(false);
+            expect(vm.offline).toEqual(false);
         });
 
         it('should set selectedFacility if facility ID was passed the URL', function() {
@@ -202,13 +185,7 @@ describe('RequisitionSearchController', function() {
             initController();
             vm.$onInit();
 
-            vm.stateParams.program = undefined;
-            vm.stateParams.facility = undefined;
-            vm.stateParams.initiatedDateFrom = undefined;
-            vm.stateParams.initiatedDateTo = undefined;
-            vm.stateParams.offline = undefined;
-
-            spyOn(vm, 'changePage').andReturn();
+            spyOn($state, 'go').andReturn();
         });
 
         it('should set program', function() {
@@ -219,7 +196,13 @@ describe('RequisitionSearchController', function() {
 
             vm.search();
 
-            expect(vm.stateParams.program).toBe(vm.selectedProgram.id);
+            expect($state.go).toHaveBeenCalledWith('requisitions.search', {
+                program: vm.selectedProgram.id,
+                facility: null,
+                initiatedDateFrom: null,
+                initiatedDateTo: null,
+                offline: false
+            }, {reload: true});
         });
 
         it('should set facility', function() {
@@ -230,7 +213,13 @@ describe('RequisitionSearchController', function() {
 
             vm.search();
 
-            expect(vm.stateParams.facility).toBe(vm.selectedFacility.id);
+            expect($state.go).toHaveBeenCalledWith('requisitions.search', {
+                program: null,
+                facility: vm.selectedFacility.id,
+                initiatedDateFrom: null,
+                initiatedDateTo: null,
+                offline: false
+            }, {reload: true});
         });
 
         it('should set initiatedDateFrom', function() {
@@ -238,7 +227,13 @@ describe('RequisitionSearchController', function() {
 
             vm.search();
 
-            expect(vm.stateParams.initiatedDateFrom).toEqual('2017-01-31T23:00:00.000Z');
+            expect($state.go).toHaveBeenCalledWith('requisitions.search', {
+                program: null,
+                facility: null,
+                initiatedDateFrom: '2017-01-31T23:00:00.000Z',
+                initiatedDateTo: null,
+                offline: false
+            }, {reload: true});
         });
 
         it('should set initiatedDateTo', function() {
@@ -246,21 +241,27 @@ describe('RequisitionSearchController', function() {
 
             vm.search();
 
-            expect(vm.stateParams.initiatedDateTo).toEqual('2017-01-31T23:00:00.000Z');
+            expect($state.go).toHaveBeenCalledWith('requisitions.search', {
+                program: null,
+                facility: null,
+                initiatedDateFrom: null,
+                initiatedDateTo: '2017-01-31T23:00:00.000Z',
+                offline: false
+            }, {reload: true});
         });
 
         it('should set offline', function() {
-            vm.stateParams.offline = true;
+            vm.offline = true;
 
             vm.search();
 
-            expect(vm.stateParams.offline).toBe(true);
+            expect(vm.offline).toBe(true);
         });
 
         it('should reload state', function() {
             vm.search();
 
-            expect(vm.changePage).toHaveBeenCalled();
+            expect($state.go).toHaveBeenCalled();
         });
 
     });
@@ -355,7 +356,7 @@ describe('RequisitionSearchController', function() {
 
             vm.isOfflineDisabled();
 
-            expect(vm.stateParams.offline).toBe(true);
+            expect(vm.offline).toBe(true);
         });
 
         it('should return false if application is online', function() {
@@ -368,17 +369,17 @@ describe('RequisitionSearchController', function() {
 
         it('should not change searchOffline if application is online', function() {
             spyOn(offlineService, 'isOffline').andReturn(false);
-            vm.stateParams.offline = false;
+            vm.offline = false;
 
             vm.isOfflineDisabled();
 
-            expect(vm.stateParams.offline).toBe(false);
+            expect(vm.offline).toBe(false);
 
-            vm.stateParams.offline = true;
+            vm.offline = true;
 
             vm.isOfflineDisabled();
 
-            expect(vm.stateParams.offline).toBe(true);
+            expect(vm.offline).toBe(true);
         });
 
     });

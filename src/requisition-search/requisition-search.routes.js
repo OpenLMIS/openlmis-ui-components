@@ -19,9 +19,9 @@
 
 	angular.module('requisition-search').config(routes);
 
-	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'paginatedRouterProvider'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, REQUISITION_RIGHTS, paginatedRouterProvider) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('requisitions.search', {
 			showInNavigation: true,
@@ -34,7 +34,7 @@
 				REQUISITION_RIGHTS.REQUISITION_VIEW
 			],
 			controllerAs: 'vm',
-			resolve: paginatedRouterProvider.resolve({
+			resolve: {
 				user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
@@ -50,13 +50,15 @@
 
 		        	return deferred.promise;
 		        },
-				response: function(requisitionService, $stateParams) {
-					if ($stateParams.facility) {
-						return requisitionService.search($stateParams.offline === 'true', $stateParams);
-					}
-					return undefined;
+				items: function(paginationService, requisitionService, $stateParams) {
+					return paginationService.registerUrl($stateParams, function(stateParams) {
+						if (stateParams.facility) {
+							return requisitionService.search(stateParams.offline === 'true', stateParams);
+						}
+						return undefined;
+					});
 				}
-		    })
+		    }
 		});
 
 	}

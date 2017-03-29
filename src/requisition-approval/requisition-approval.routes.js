@@ -21,9 +21,9 @@
 		.module('requisition-approval')
 		.config(routes);
 
-	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS', 'paginatedRouterProvider'];
+	routes.$inject = ['$stateProvider', 'REQUISITION_RIGHTS'];
 
-	function routes($stateProvider, REQUISITION_RIGHTS, paginatedRouterProvider) {
+	function routes($stateProvider, REQUISITION_RIGHTS) {
 
 		$stateProvider.state('requisitions.approvalList', {
 			showInNavigation: true,
@@ -33,18 +33,14 @@
 			controllerAs: 'vm',
 			templateUrl: 'requisition-approval/requisition-approval-list.html',
 			accessRights: [REQUISITION_RIGHTS.REQUISITION_APPROVE],
-            resolve: paginatedRouterProvider.resolve({
-                response: responseResolve
-            })
+            resolve: {
+				items: function(paginationService, requisitionService, $stateParams) {
+					return paginationService.registerUrl($stateParams, function(stateParams) {
+						return requisitionService.forApproval(stateParams);
+					});
+				}
+			}
 		});
-
-        function responseResolve(stateParams, requisitionService) {
-            return requisitionService.forApproval({
-                page: stateParams.page,
-                size: stateParams.size
-            });
-        }
-
 	}
 
 })();

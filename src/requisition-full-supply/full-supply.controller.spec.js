@@ -94,12 +94,13 @@ describe('FullSupplyController', function() {
         vm = $controller('FullSupplyController', {
             totalItems: 4,
             columns: columns,
-            items: lineItems,
+            allItems: lineItems,
             stateParams: stateParams,
             requisition: requisition,
             requisitionValidator: requisitionValidator,
             paginatedListFactory: paginatedListFactory
         });
+        vm.items = lineItems;
     }));
 
     it('should expose requisitionValidator.isLineItemValid method', function() {

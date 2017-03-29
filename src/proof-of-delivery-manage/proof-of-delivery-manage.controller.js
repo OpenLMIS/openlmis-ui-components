@@ -31,12 +31,11 @@
     controller.$inject = [
         'facility', 'userId', 'supervisedPrograms', 'homePrograms', 'orderFactory', '$state',
         'loadingModalService', 'notificationService', 'REQUISITION_RIGHTS', 'facilityFactory',
-        'items', 'stateParams', 'totalItems', '$controller', '$stateParams', 'facilities'
+        'items', '$stateParams', 'facilities'
     ];
 
     function controller(facility, userId, supervisedPrograms, homePrograms, orderFactory, $state,
-        loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, items,
-        stateParams, totalItems, $controller, $stateParams, facilities) {
+        loadingModalService, notificationService, REQUISITION_RIGHTS, facilityFactory, items, $stateParams, facilities) {
 
         var vm = this;
 
@@ -92,6 +91,16 @@
          */
         vm.isSupervised = false;
 
+        /**
+         * @ngdoc property
+         * @propertyOf proof-of-delivery-manage.controller:ProofOfDeliveryManageController
+         * @name items
+         * @type {Array}
+         *
+         * @description
+         * Holds items that will be displayed.
+         */
+        vm.items = undefined;
 
         /**
          * @ngdoc method
@@ -112,14 +121,7 @@
 
             updateFacilityType();
 
-            $controller('BasePaginationController', {
-                vm: vm,
-                items: items,
-                stateParams: stateParams,
-                totalItems: totalItems,
-                externalPagination: true,
-                itemValidator: undefined
-            });
+            vm.items = items;
 
             if ($stateParams.program) {
                 vm.selectedProgramId = $stateParams.program;
@@ -178,10 +180,15 @@
          * @return {Array} the list of matching orders
          */
         function loadOrders() {
-            vm.stateParams.requestingFacility = vm.requestingFacilityId;
-            vm.stateParams.program = vm.selectedProgramId;
-            vm.stateParams.isSupervised = vm.isSupervised;
-            vm.changePage();
+            var stateParams = angular.copy($stateParams);
+
+            stateParams.requestingFacility = vm.requestingFacilityId;
+            stateParams.program = vm.selectedProgramId;
+            stateParams.isSupervised = vm.isSupervised;
+
+            $state.go('orders.podManage', stateParams, {
+                reload: true
+            });
         }
 
         /**

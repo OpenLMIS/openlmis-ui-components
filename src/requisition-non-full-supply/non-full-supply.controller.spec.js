@@ -15,8 +15,8 @@
 
 describe('NonFullSupplyController', function() {
 
-    var vm, requisitionValidator, RequisitionCategory, addProductModalService, requisition, $q,
-        lineItems, $rootScope, $controller, LineItem, controllerMock, stateParams;
+    var vm, RequisitionCategory, addProductModalService, requisition, $q, requisitionValidator,
+        lineItems, $rootScope, $controller, LineItem, stateParams, $state;
 
     beforeEach(function(){
         module('requisition-non-full-supply');
@@ -25,6 +25,7 @@ describe('NonFullSupplyController', function() {
             $controller = $injector.get('$controller');
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
+            $state = $injector.get('$state');
         });
 
         requisitionValidator = jasmine.createSpyObj('requisitionValidator', ['isLineItemValid']);
@@ -45,12 +46,6 @@ describe('NonFullSupplyController', function() {
             page: 0,
             size: 10
         };
-
-        controllerMock = jasmine.createSpy('$controller').andReturn({
-            updateUrl: jasmine.createSpy('updateUrl'),
-            getPage: jasmine.createSpy('getPage'),
-            changePage: jasmine.createSpy('changePage')
-        });
     });
 
     describe('initialization', function() {
@@ -73,16 +68,7 @@ describe('NonFullSupplyController', function() {
             expect(vm.requisition).toBe(requisition);
         });
 
-        /*it('should bind columns property to vm', function() {
-            requisition.$isApproved.andReturn(false);
-            requisition.$isAuthorized.andReturn(false);
-
-            initController();
-
-            expect(vm.columns).toBe(requisition.template.getColumns());
-        });*/
-
-        it('should display add product button if reqisition is not authorized or approved', function() {
+        it('should display add product button if requisition is not authorized or approved', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
 
@@ -138,7 +124,7 @@ describe('NonFullSupplyController', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
             initController();
-            spyOn(vm, 'changePage').andReturn();
+            spyOn($state, 'reload').andReturn();
         });
 
         it('should delete line item if it exist', function() {
@@ -150,15 +136,6 @@ describe('NonFullSupplyController', function() {
             expect(requisition.requisitionLineItems.length).toBe(4);
             expect(requisition.requisitionLineItems.indexOf(lineItem)).toBe(-1);
         });
-
-        /*it('should make the product visible after deletion', function() {
-            var lineItem = requisition.requisitionLineItems[2];
-            var product = lineItem.orderable;
-
-            vm.deleteLineItem(lineItem);
-
-            expect(product.$visible).toBe(true);
-        });*/
 
         it('should not delete lineItem if it doesn\'t exist', function() {
             spyOn(requisition.requisitionLineItems, 'splice');
@@ -240,13 +217,12 @@ describe('NonFullSupplyController', function() {
 
     function initController() {
         vm = $controller('NonFullSupplyController', {
-            items: [],
+            allItems: [],
             columns: [],
             LineItem: LineItem,
-            stateParams: stateParams,
             requisition: requisition,
-            requisitionValidator: requisitionValidator,
             addProductModalService: addProductModalService,
+            requisitionValidator: requisitionValidator
         });
     }
 

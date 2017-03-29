@@ -31,13 +31,13 @@
 
     controller.$inject = [
         'supplyingFacilities', 'requestingFacilities', 'programs', 'orderFactory',
-        'loadingModalService', 'notificationService', 'fulfillmentUrlFactory', 'items', 'stateParams',
-        'totalItems', '$controller', '$stateParams', '$filter'
+        'loadingModalService', 'notificationService', 'fulfillmentUrlFactory',
+        'items', '$stateParams', '$filter'
     ];
 
     function controller(supplyingFacilities, requestingFacilities, programs, orderFactory,
                         loadingModalService, notificationService, fulfillmentUrlFactory,
-                        items, stateParams, totalItems, $controller, $stateParams, $filter) {
+                        items, $stateParams, $filter) {
 
         var vm = this;
 
@@ -80,6 +80,17 @@
         vm.programs = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf order-view.controller:OrderViewController
+         * @name items
+         * @type {Array}
+         *
+         * @description
+         * Holds items which will be displayed on screen.
+         */
+        vm.items = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf order-view.controller:OrderViewController
          * @name $onInit
@@ -93,14 +104,7 @@
             vm.requestingFacilities = requestingFacilities;
             vm.programs = programs;
 
-            $controller('BasePaginationController', {
-                vm: vm,
-                items: items,
-                stateParams: stateParams,
-                totalItems: totalItems,
-                externalPagination: true,
-                itemValidator: undefined
-            });
+            vm.items = items;
 
             if ($stateParams.supplyingFacility) {
                 vm.supplyingFacility = $filter('filter')(vm.supplyingFacilities, {
@@ -134,10 +138,15 @@
          * @return {Array} the list of matching orders
          */
         function loadOrders() {
-            vm.stateParams.supplyingFacility = vm.supplyingFacility ? vm.supplyingFacility.id : null;
-            vm.stateParams.requestingFacility = vm.requestingFacility ? vm.requestingFacility.id : null;
-            vm.stateParams.program = vm.program ? vm.program.id : null;
-            vm.changePage();
+            var stateParams = angular.copy($stateParams);
+
+            stateParams.supplyingFacility = vm.supplyingFacility ? vm.supplyingFacility.id : null;
+            stateParams.requestingFacility = vm.requestingFacility ? vm.requestingFacility.id : null;
+            stateParams.program = vm.program ? vm.program.id : null;
+
+            $state.go('orders.view', stateParams, {
+                reload: true
+            });
         }
 
         /**

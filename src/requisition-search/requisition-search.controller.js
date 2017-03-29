@@ -28,14 +28,12 @@
         .controller('RequisitionSearchController', RequisitionSearchController);
 
     RequisitionSearchController.$inject = [
-        '$state', '$controller', '$filter', '$stateParams', 'facilities', 'notificationService',
-        'offlineService', 'localStorageFactory', 'confirmService', 'items', 'stateParams',
-        'totalItems'
+        '$state', '$filter', '$stateParams', 'facilities', 'notificationService',
+        'offlineService', 'localStorageFactory', 'confirmService', 'items'
     ];
 
-    function RequisitionSearchController($state, $controller, $filter, $stateParams, facilities,
-        notificationService, offlineService, localStorageFactory,
-        confirmService, items, stateParams, totalItems) {
+    function RequisitionSearchController($state, $filter, $stateParams, facilities,
+        notificationService, offlineService, localStorageFactory, confirmService, items) {
 
         var vm = this,
             offlineRequisitions = localStorageFactory('requisitions');
@@ -114,6 +112,28 @@
         vm.endDate = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name items
+         * @type {Array}
+         *
+         * @description
+         * Holds all items that will be displayed on screen.
+         */
+        vm.items = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf requisition-search.controller:RequisitionViewController
+         * @name offline
+         * @type {Boolean}
+         *
+         * @description
+         * Indicates if requisitions will be searched offline or online.
+         */
+        vm.offline = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf requisition-search.controller:RequisitionViewController
          * @name $onInit
@@ -123,17 +143,9 @@
          * setting data to be available on the view.
          */
         function onInit() {
-            $controller('BasePaginationController', {
-                vm: vm,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
-                externalPagination: true,
-                itemValidator: undefined
-            });
-
+            vm.items = items;
             vm.facilities = facilities;
-            vm.stateParams.offline = $stateParams.offline === 'true' || offlineService.isOffline();
+            vm.offline = $stateParams.offline === 'true' || offlineService.isOffline();
 
             if ($stateParams.facility) {
                 vm.selectedFacility = $filter('filter')(vm.facilities, {
@@ -168,7 +180,7 @@
          * @return {Boolean} true if offline is disabled, false otherwise
          */
         function isOfflineDisabled() {
-            if (offlineService.isOffline()) vm.stateParams.offline = true;
+            if(offlineService.isOffline()) vm.offline = true;
             return offlineService.isOffline();
         }
 
@@ -214,11 +226,17 @@
          * Searches requisitions by criteria selected in form.
          */
         function search() {
-            vm.stateParams.program = vm.selectedProgram ? vm.selectedProgram.id : null;
-            vm.stateParams.facility = vm.selectedFacility ? vm.selectedFacility.id : null;
-            vm.stateParams.initiatedDateFrom = vm.startDate ? vm.startDate.toISOString() : null;
-            vm.stateParams.initiatedDateTo = vm.endDate ? vm.endDate.toISOString() : null;
-            vm.changePage();
+            var stateParams = angular.copy($stateParams);
+
+            stateParams.program = vm.selectedProgram ? vm.selectedProgram.id : null;
+            stateParams.facility = vm.selectedFacility ? vm.selectedFacility.id : null;
+            stateParams.initiatedDateFrom = vm.startDate ? vm.startDate.toISOString() : null;
+            stateParams.initiatedDateTo = vm.endDate ? vm.endDate.toISOString() : null;
+            stateParams.offline = vm.offline;
+
+            $state.go('requisitions.search', stateParams, {
+                reload: true
+            });
         }
     }
 })();

@@ -1,27 +1,27 @@
 <div class="openlmis-pagination">
-	<div class="pagination-info" ng-if="vm.totalItems">
-		{{'msg.showing' | message}} {{vm.items}} {{vm.getItemsMessage() | message}} {{'msg.outOf' | message}} {{vm.totalItems}} {{'msg.total' | message}}
+	<div class="pagination-info" ng-if="pagination.totalItems">
+		{{'msg.showingMatchesOutOf' | message: {'items': pagination.showingItems, 'total': pagination.totalItems} }}
 	</div>
-	<div class="pagination-info" ng-if="!vm.totalItems">
+	<div class="pagination-info" ng-if="!pagination.totalItems">
 		{{'msg.showingNoMatches' | message}}
 	</div>
-	<ul ng-if="vm.totalItems">
-		<li ng-class="{disabled : vm.isFirstPage()}">
-			<a ng-click="vm.isFirstPage() || vm.previousPage()">
+	<ul ng-if="pagination.totalItems">
+		<li ng-class="{disabled : pagination.isFirstPage()}">
+			<a ng-click="pagination.isFirstPage() || pagination.previousPage()">
 				{{'label.previousPage' | message}}
 			</a>
 		</li>
-		<li ng-class="{active: vm.isCurrentPage($index), invalid: vm.isPageValid && !vm.isPageValid($index)}"
-			ng-repeat="i in vm.getPages() track by $index">
-			<a ng-click="vm.changePage($index)">
+		<li ng-class="{active: pagination.isCurrentPage($index), invalid: pagination.isPageValid && !pagination.isPageValid($index)}"
+			ng-repeat="i in pagination.getPages() track by $index">
+			<a ng-click="pagination.changePage($index)">
 				{{$index + 1}}
 			</a>
 		</li>
-		<li class="active" ng-if="vm.page > vm.getTotalPages()">
-			<a> {{vm.page}} </a>
+		<li class="active" ng-if="pagination.page > pagination.getTotalPages()">
+			<a> {{pagination.page}} </a>
 		</li>
-		<li ng-class="{disabled : vm.isLastPage()}">
-			<a ng-click="vm.isLastPage() || vm.nextPage()">
+		<li ng-class="{disabled : pagination.isLastPage()}">
+			<a ng-click="pagination.isLastPage() || pagination.nextPage()">
 				{{'label.nextPage' | message}}
 			</a>
 		</li>

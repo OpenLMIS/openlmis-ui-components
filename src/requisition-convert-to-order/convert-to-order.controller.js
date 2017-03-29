@@ -28,37 +28,78 @@
 
 	angular
 		.module('requisition-convert-to-order')
-		.controller('ConvertToOrderController', convertToOrderCtrl);
+		.controller('ConvertToOrderController', ConvertToOrderController);
 
-	convertToOrderCtrl.$inject = [
-        '$controller', '$stateParams', 'requisitionService', 'notificationService',
-        'confirmService', 'loadingModalService', 'items', 'stateParams', 'totalItems'
+	ConvertToOrderController.$inject = [
+        '$stateParams', 'requisitionService', 'notificationService',
+        'confirmService', 'loadingModalService', 'items'
     ];
 
-	function convertToOrderCtrl($controller, $stateParams, requisitionService, notificationService,
-                                confirmService, loadingModalService, items, stateParams,
-                                totalItems) {
+	function ConvertToOrderController($stateParams, requisitionService, notificationService,
+                                confirmService, loadingModalService, items) {
 
 	    var vm = this;
-
-        $controller('BasePaginationController', {
-			vm: vm,
-            items: items,
-            totalItems: totalItems,
-			stateParams: stateParams,
-			externalPagination: true,
-			itemValidator: undefined
-		});
-
-        vm.stateParams.filterBy = $stateParams.filterBy;
-        vm.stateParams.filterValue = $stateParams.filterValue;
-		vm.stateParams.sortBy = $stateParams.sortBy;
-		vm.stateParams.descending = $stateParams.descending;
 
         vm.convertToOrder = convertToOrder;
         vm.getSelected = getSelected;
         vm.toggleSelectAll = toggleSelectAll;
         vm.setSelectAll = setSelectAll;
+		vm.search = search;
+
+		/**
+         * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
+         * @name items
+         * @type {String}
+         *
+         * @description
+         * Holds items that will be displayed on screen.
+         */
+		vm.items = items;
+
+		/**
+         * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
+         * @name filterBy
+         * @type {String}
+         *
+         * @description
+         * Holds field that will be filtered.
+         */
+		vm.filterBy = $stateParams.filterBy;
+
+		/**
+         * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
+         * @name filterValue
+         * @type {String}
+         *
+         * @description
+         * Holds filter value.
+         */
+        vm.filterValue = $stateParams.filterValue;
+
+		/**
+         * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
+         * @name sortBy
+         * @type {String}
+         *
+         * @description
+         * Holds field to sort by.
+         */
+		vm.sortBy = $stateParams.sortBy;
+
+		/**
+         * @ngdoc property
+         * @propertyOf requisition-convert-to-order.controller:ConvertToOrderController
+         * @name descending
+         * @type {Boolean}
+         *
+         * @description
+         * Indicates if list will be sorted descending or ascending.
+         */
+		vm.descending = $stateParams.descending;
 
         /**
          * @ngdoc property
@@ -82,10 +123,7 @@
             }, {
                 value: 'facilityName',
                 name: 'option.value.facility.name'
-            }/*, {
-                value: 'supplyingDepot',
-                name: 'label.supplyingDepot'
-            }*/
+            }
         ];
 
         /**
@@ -133,7 +171,7 @@
          */
         function getSelected() {
             var selected = [];
-            angular.forEach(vm.pageItems, function(requisition) {
+            angular.forEach(vm.items, function(requisition) {
                 if (requisition.$selected) {
                     selected.push(requisition);
                 }
@@ -152,7 +190,7 @@
          * @param {Boolean} selectAll Determines if all requisitions should be selected or not
          */
         function toggleSelectAll(selectAll) {
-            angular.forEach(vm.pageItems, function(requisition) {
+            angular.forEach(vm.items, function(requisition) {
                 requisition.$selected = selectAll;
             });
         }
@@ -167,7 +205,7 @@
          */
         function setSelectAll() {
             var value = true;
-            angular.forEach(vm.pageItems, function(requisition) {
+            angular.forEach(vm.items, function(requisition) {
                 value = value && requisition.$selected;
             });
             vm.selectAll = value;
@@ -198,7 +236,7 @@
                             loadingPromise.then(function() {
                                 notificationService.success('msg.rnr.converted.to.order');
                             });
-                            vm.changePage();
+                            $state.reload();
                         }, function() {
                             loadingModalService.close();
                             notificationService.error('msg.error.occurred');
@@ -223,7 +261,7 @@
         function getInfoMessage() {
             if (vm.nothingToConvert) {
                 return 'message.no.requisitions.for.conversion';
-            } else if (!vm.pageItems.length) {
+            } else if (!vm.items.length) {
                 return 'message.no.search.results';
             }
             return undefined;
@@ -240,11 +278,10 @@
          * @return {Boolean} are default parameters set
          */
         function defaultSearchParams() {
-            return vm.stateParams.filterBy === 'all' &&
-                isEmpty(vm.stateParams.filterValue) &&
-                isUndefined(vm.stateParams.sortBy) &&
-                isUndefined(vm.stateParams.descending) &&
-                !vm.stateParams.page;
+            return vm.filterBy === 'all' &&
+                isEmpty(vm.filterValue) &&
+                isUndefined(vm.sortBy) &&
+                isUndefined(vm.descending);
         }
 
         /**
@@ -276,6 +313,19 @@
         function isUndefined(value) {
             return value === undefined;
         }
+
+		function search() {
+			var stateParams = angular.copy($stateParams);
+
+			stateParams.filterBy = vm.filterBy;
+			stateParams.filterValue = vm.filterValue;
+			stateParams.sortBy = vm.sortBy;
+			stateParams.descending = vm.descending;
+
+			$state.go('requisitions.convertToOrder', stateParams, {
+				reload: true
+			});
+		}
 	}
 
 })();

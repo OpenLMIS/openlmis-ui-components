@@ -187,8 +187,6 @@
             return !value || !value.toString().trim();
         }
 
-        f
-
     }
 
 })();

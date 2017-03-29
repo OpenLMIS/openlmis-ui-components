@@ -16,7 +16,7 @@
 describe('RequisitionApprovalListController', function () {
 
     //injects
-    var vm, $state, stateParams;
+    var vm, $state;
 
     //variables
     var requisitionList;
@@ -51,9 +51,7 @@ describe('RequisitionApprovalListController', function () {
             ];
 
             vm = $controller('RequisitionApprovalListController', {
-                totalItems: 2,
-                items: items,
-                stateParams: stateParams
+                items: items
             });
         });
     });

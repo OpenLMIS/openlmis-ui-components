@@ -21,11 +21,9 @@
         .module('requisition-convert-to-order')
         .config(routes);
 
-    routes.$inject = [
-        '$stateProvider', 'FULFILLMENT_RIGHTS', 'paginatedRouterProvider'
-    ];
+    routes.$inject = ['$stateProvider', 'FULFILLMENT_RIGHTS'];
 
-    function routes($stateProvider, FULFILLMENT_RIGHTS, paginatedRouterProvider) {
+    function routes($stateProvider, FULFILLMENT_RIGHTS) {
 
         $stateProvider.state('requisitions.convertToOrder', {
             showInNavigation: true,
@@ -39,22 +37,14 @@
                 filterBy: 'all',
                 filterValue: ''
             },
-            resolve: paginatedRouterProvider.resolve({
-                response: responseResolve
-            })
+            resolve: {
+                items: function(paginationService, requisitionService, $stateParams) {
+					return paginationService.registerUrl($stateParams, function(stateParams) {
+						return requisitionService.forConvert(stateParams);
+					});
+				}
+            }
         });
-
-        function responseResolve(stateParams, requisitionService) {
-            return requisitionService.forConvert({
-                filterBy: stateParams.filterBy,
-                filterValue: stateParams.filterValue,
-                sortBy: stateParams.sortBy,
-                descending: stateParams.descending,
-                page: stateParams.page,
-                size: stateParams.size
-            });
-        }
-
     }
 
 })();

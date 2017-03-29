@@ -48,8 +48,6 @@ describe('ProofOfDeliveryManageController', function() {
             size: 10
         };
 
-        totalItems = 2;
-
         module('proof-of-delivery-manage', function($provide) {
             orderFactoryMock = jasmine.createSpyObj('orderFactory', ['getPod']);
             facilityFactoryMock = jasmine.createSpyObj('facilityFactory', ['getUserSupervisedFacilities']);
@@ -69,10 +67,6 @@ describe('ProofOfDeliveryManageController', function() {
 
         });
 
-        $controllerMock = jasmine.createSpy('$controller').andCallFake(function() {
-            vm.stateParams = {};
-        });
-
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
@@ -86,10 +80,7 @@ describe('ProofOfDeliveryManageController', function() {
                 facilities: facilities,
                 homePrograms: programs,
                 supervisedPrograms: programs,
-                items: items,
-                totalItems: totalItems,
-                stateParams: stateParams,
-                $controller: $controllerMock
+                items: items
             });
         });
     });
@@ -159,36 +150,46 @@ describe('ProofOfDeliveryManageController', function() {
 
         beforeEach(function() {
             vm.$onInit();
-            vm.changePage = function () {};
-            spyOn(vm, 'changePage');
+            spyOn($state, 'go');
         });
 
         it('should set requesting facility', function() {
-            vm.requestingFacilityId = "facility-one";
+            vm.requestingFacilityId = 'facility-one';
             vm.loadOrders();
 
-            expect(vm.stateParams.requestingFacility).toBe(vm.requestingFacilityId);
+            expect($state.go).toHaveBeenCalledWith('orders.podManage', {
+                requestingFacility: vm.requestingFacilityId,
+                program: undefined,
+                isSupervised: false
+            }, {reload: true});
         });
 
         it('should set program', function() {
-            vm.selectedProgramId = "facility-one";
+            vm.selectedProgramId = 'facility-one';
             vm.loadOrders();
 
-            expect(vm.stateParams.program).toBe(vm.selectedProgramId);
+            expect($state.go).toHaveBeenCalledWith('orders.podManage', {
+                requestingFacility: 'facility-one',
+                program: vm.selectedProgramId,
+                isSupervised: false
+            }, {reload: true});
         });
 
         it('should set requesting facility', function() {
-            vm.isSupervised = "true";
+            vm.isSupervised = 'true';
             vm.loadOrders();
 
-            expect(vm.stateParams.isSupervised).toBe(vm.isSupervised);
+            expect($state.go).toHaveBeenCalledWith('orders.podManage', {
+                requestingFacility: 'facility-one',
+                program: undefined,
+                isSupervised: vm.isSupervised
+            }, {reload: true});
         });
 
-        it('should call change page', function() {
-            vm.isSupervised = "true";
+        it('should call state go', function() {
             vm.loadOrders();
 
-            expect(vm.changePage).toHaveBeenCalled();
+            expect($state.go).toHaveBeenCalled();
         });
     });
 
