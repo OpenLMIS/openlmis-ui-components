@@ -29,11 +29,11 @@
 
     controller.$inject = [
         'user', 'modalDeferred', 'referencedataUserService', 'loadingModalService',
-        'notificationService', 'UserPasswordModal'
+        'notificationService'
     ];
 
     function controller(user, modalDeferred, referencedataUserService, loadingModalService,
-                        notificationService, UserPasswordModal) {
+                        notificationService) {
         var vm = this;
 
         vm.$onInit = onInit;
