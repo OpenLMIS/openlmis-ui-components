@@ -32,6 +32,7 @@
         'openlmis-templates',
         'openlmis-urls',
         'openlmis-user',
+        'referencedata-user',
         'ui.router'
     ]);
 

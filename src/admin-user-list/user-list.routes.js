@@ -33,8 +33,8 @@
 			controllerAs: 'vm',
 			accessRights: [ADMINISTRATION_RIGHTS.USERS_MANAGE],
 			resolve: paginatedRouterProvider.resolve({
-				response: function(userService, $stateParams, PAGE_SIZE) {
-					return userService.search({
+				response: function(referencedataUserService, $stateParams, PAGE_SIZE) {
+					return referencedataUserService.search({
 						page: $stateParams.page ? $stateParams.page : 0,
 						size: $stateParams.size ? $stateParams.size : PAGE_SIZE
 					}, $stateParams);

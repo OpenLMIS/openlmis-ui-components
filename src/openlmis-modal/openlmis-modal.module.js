@@ -24,6 +24,9 @@
      * The openlmis-modal module is responsible for modals within the OpenLMIS.
      */
     angular.module('openlmis-modal', [
+        'mgcrea.ngStrap',
+        'ngAnimate',
+        'ngSanitize',
         'openlmis-i18n'
     ]);
 

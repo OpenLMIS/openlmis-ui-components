@@ -83,6 +83,8 @@ describe('RequisitionViewController', function() {
             requisition.$save.andReturn(deferred.promise);
             requisition.$authorize.andReturn(deferred.promise);
 
+            spyOn(loadingModalService, 'open').andReturn($q.when());
+
             vm = $controller('RequisitionViewController', {$scope: $scope, requisition: requisition});
         });
 
@@ -142,7 +144,7 @@ describe('RequisitionViewController', function() {
 
 
         spyOn(notificationService, 'success').andCallFake(notificationServiceSpy);
-        spyOn(loadingModalService, 'open').andReturn(loadingDeferred.promise);
+        loadingModalService.open.andReturn(loadingDeferred.promise);
         spyOn($state, 'go').andCallFake(stateGoSpy);
 
         vm.skipRnr();
