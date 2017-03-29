@@ -124,7 +124,7 @@ describe('NonFullSupplyController', function() {
             requisition.$isApproved.andReturn(false);
             requisition.$isAuthorized.andReturn(false);
             initController();
-            spyOn($state, 'reload').andReturn();
+            spyOn($state, 'go').andReturn();
         });
 
         it('should delete line item if it exist', function() {

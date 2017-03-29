@@ -28,9 +28,9 @@
         .module('openlmis-pagination')
         .controller('PaginationController', controller);
 
-    controller.$inject = ['paginationService', '$state', '$stateParams', 'paginationFactory'];
+    controller.$inject = ['paginationService', '$state', '$stateParams', 'paginationFactory', '$scope'];
 
-    function controller(paginationService, $state, $stateParams, paginationFactory) {
+    function controller(paginationService, $state, $stateParams, paginationFactory, $scope) {
 
         var pagination = this;
 
@@ -99,6 +99,12 @@
          * Holds number of items that are currently showing on screen.
          */
         pagination.showingItems = undefined;
+
+        $scope.$watch(function() {
+            return pagination.list;
+        }, function() {
+            onInit();
+        });
 
         function onInit() {
             pagination.externalPagination = paginationService.isExternalPagination();

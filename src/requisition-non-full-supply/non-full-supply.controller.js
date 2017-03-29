@@ -30,26 +30,22 @@
 
     nonFullSupplyController.$inject = [
         '$filter', 'addProductModalService', 'LineItem', 'requisitionValidator',
-        'requisition', 'columns', 'lineItems', '$state'
+        'requisition', 'columns', 'lineItems', '$state', '$stateParams'
     ];
 
     function nonFullSupplyController($filter, addProductModalService, LineItem, requisitionValidator,
-                                    requisition, columns, lineItems, $state) {
+                                    requisition, columns, lineItems, $state, $stateParams) {
 
         var vm = this;
 
         vm.deleteLineItem = deleteLineItem;
         vm.addProduct = addProduct;
         vm.displayDeleteColumn = displayDeleteColumn;
-        vm.getTotalItems = getTotalItems;
 
         /**
          * @ngdoc method
          * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
          * @name isLineItemValid
-         * @ngdoc property
-         * @propertyOf requisition-non-full-supply.controller:NonFullSupplyController
-         * @name items
          * @type {Array}
          *
          * @description
@@ -150,9 +146,9 @@
                 vm.requisition.availableNonFullSupplyProducts,
                 vm.requisition.program.id
             ).then(function(lineItem) {
-                vm.requisition.requisitionLineItems.push(
-                    new LineItem(lineItem, vm.requisition)
-                );
+                var newLineItem = new LineItem(lineItem, vm.requisition);
+                vm.requisition.requisitionLineItems.push(newLineItem);
+                vm.lineItems.push(newLineItem);
                 reload();
             });
         }
@@ -176,23 +172,9 @@
             return display;
         }
 
-        /**
-         * @ngdoc methodOf
-         * @methodOf requisition-non-full-supply.controller:NonFullSupplyController
-         * @name getTotalItems
-         *
-         * @description
-         * Returns the number of all visible non full supply line items.
-         *
-         * @return {Number} the total number of visible non full supply line items
-         */
-        function getTotalItems() {
-            return filterRequisitionLineItems().length;
-        }
-
         function makeProductVisible(productName) {
             angular.forEach(vm.requisition.availableNonFullSupplyProducts, function(product) {
-                if (product.name === productName) product.$visible = true;
+                if(product.fullProductName === productName) product.$visible = true;
             });
         }
 
@@ -212,8 +194,7 @@
         }
 
         function reload() {
-            vm.items = filterRequisitionLineItems();
-            $state.reload();
+            vm.lineItems = filterRequisitionLineItems();
         }
     }
 

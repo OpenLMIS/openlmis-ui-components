@@ -30,7 +30,9 @@ describe('PaginationController', function() {
             spyOn(paginationService, 'isExternalPagination').andReturn(true);
             spyOn(paginationFactory, 'getPage').andReturn([1]);
 
-            vm = $controller('PaginationController');
+            vm = $controller('PaginationController', {
+                $scope: $injector.get('$rootScope')
+            });
 
             vm.totalItems = 10;
             vm.pageSize = 2;
