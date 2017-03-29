@@ -208,11 +208,6 @@
                         trigger = 'hover focus';
                     }
 
-                    if(element.is('select')) {
-                        POPOVER_PLACEMENT = 'bottom';
-                        trigger = 'click';
-                    }
-
                     var popoverConfig = {
                         template: template,
                         container: 'body',
