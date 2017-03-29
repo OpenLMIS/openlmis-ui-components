@@ -376,6 +376,65 @@ describe('templateValidator', function() {
 
         });
 
+        describe('for adjusted consumption', function() {
+
+            var messageService, pColumn;
+
+            beforeEach(function() {
+                inject(function($injector) {
+                    messageService = $injector.get('messageService');
+                });
+
+                column.name = TEMPLATE_COLUMNS.ADJUSTED_CONSUMPTION;
+                pColumn = {
+                    label: 'Average Consumption',
+                    isDisplayed: true
+                };
+
+                template.columnsMap.averageConsumption = pColumn;
+
+                spyOn(messageService, 'get').andCallThrough();
+
+                messageService.get.andCallFake(function(message, params) {
+                    if (message === 'error.shouldBeDisplayedIfOtherIsCalculated' && params &&
+                        params.column === pColumn.label) {
+
+                        return message + ' ' + params.column;
+                    }
+                });
+            });
+
+            it('should return undefined if column is visible and average consumption is visible', function() {
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe(undefined);
+            });
+
+            it('should return undefined if column is hidden and average consumption is hidden', function() {
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe(undefined);
+            });
+
+            it('should return error if the column is hidden and average consumption is visible', function() {
+                column.isDisplayed = false;
+
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBe('error.shouldBeDisplayedIfOtherIsCalculated ' + pColumn.label);
+            });
+
+            it('should return undefined if the column is hidden and average consumption is hidden', function() {
+                column.isDisplayed = false;
+                pColumn.isDisplayed = false;
+
+                var result = templateValidator.getColumnError(column, template);
+
+                expect(result).toBeUndefined();
+            });
+
+        });
+
     });
 
 });

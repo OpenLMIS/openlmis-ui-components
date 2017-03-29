@@ -38,6 +38,7 @@
 
         var columnValidations = {
                 averageConsumption: validateAverageConsumption,
+                adjustedConsumption: validateAdjustedConsumption,
                 requestedQuantity: validateRequestedQuantity,
                 requestedQuantityExplanation: validateRequestedQuantityExplanation,
                 totalStockoutDays: validateTotalStockoutDays
@@ -126,9 +127,22 @@
 
         function validateAverageConsumption(column, template) {
             var periodsToAverage = template.numberOfPeriodsToAverage;
+            if (isEmpty(periodsToAverage)) {
+                return messageService.get('msg.template.emptyNumberOfPeriods');
+            }
+            if (periodsToAverage < 2) {
+                return messageService.get('msg.template.invalidNumberOfPeriods');
+            }
+        }
 
-            if (isEmpty(periodsToAverage)) return messageService.get('msg.template.emptyNumberOfPeriods');
-            if (periodsToAverage < 2) return messageService.get('msg.template.invalidNumberOfPeriods');
+        function validateAdjustedConsumption(column, template) {
+            var pColumn = template.columnsMap[TEMPLATE_COLUMNS.AVERAGE_CONSUMPTION];
+            if (!column.isDisplayed && pColumn.isDisplayed) {
+
+                return messageService.get('error.shouldBeDisplayedIfOtherIsCalculated', {
+                    column: pColumn.label
+                });
+            }
         }
 
         function validateRequestedQuantity(column, template) {
