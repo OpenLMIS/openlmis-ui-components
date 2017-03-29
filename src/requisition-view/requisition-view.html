@@ -1,7 +1,7 @@
 <article class="page requisition-view">
     <header>
       <h2>{{'label.requisition' | message}} {{vm.requisition.program.name}} ({{vm.requisition.facility.type.name}})</h2>
-      <button class="primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</button>
+      <button ng-if="!vm.isOffline()" class="primary" openlmis-download="{{vm.getPrintUrl()}}" target="_blank">{{'button.print' | message}}</button>
     </header>
     <ng-include src="'requisition-view/header.html'"></ng-include>
     <status-messages requisition="vm.requisition"></status-messages>
