@@ -18,10 +18,21 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-form.input
+     * @restrict E
+     * @name openlmis-form.directive:inputErrorSpan
      *
      * @description
-     * Shows w validation message beneath the input.
+     * Adds support for displaying validation errors to the input element. This directive will
+     * attach a span displaying a error based on the ngModelController errors.
+     *
+     * @example
+     * To use this directive simply include the openlmis-form module. It will automatically extend
+     * all the input elements that reside inside of the form.
+     * ```
+     * <form>
+     *     <input ng-model="soomeModel" />
+     * </form>
+     * ```
      */
     angular
         .module('openlmis-form')
