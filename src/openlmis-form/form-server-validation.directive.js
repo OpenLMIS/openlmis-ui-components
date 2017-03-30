@@ -18,10 +18,46 @@
 
     /**
      * @ngdoc directive
-     * @name .
+     * @restrict E
+     * @name openlmis-form.directive:formServerValidation
      *
      * @description
-     * Adds the ability to display error for forms, whose ng-submit method returns promise.
+     * Extends the form with the feature to show server side validation for both errors containing
+     * general messages(message + messageKey) and specific errors(key + value map). The only
+     * prerequisites are that function passed via ngSubmit attribute returns a promise which rejects
+     * to errors returned by the backend and inputs in the form have proper names matching the keys
+     * in the map returned by the server. Keep in mind that for key value map this is will only set
+     * errors on the ngModelController level, the errors itself are shown by the inputErrorSpan
+     * directive
+     *
+     * @example
+     * Let's say we have the following form:
+     * ```
+     * <form name="testForm" ng-submit="someMethod()">
+     *      <input name="inputOne" ng-model="inputOne" />
+     *      <input type="submit" />
+     * </form>
+     * ```
+     * Now, when we submit this form, we get the following response:
+     * ```
+     * {
+     *     "data": {
+     *         "message": "Some error message",
+               "messageKey": "someMessageKey"
+     *     }
+     * }
+     * ```
+     * This will result in displaying an alert saying "Some error message".
+     * On the other hand, if we get the this response:
+     * ```
+     * {
+     *     "data": {
+     *         "inputOne": "This field is invalid"
+     *     }
+     * }
+     * ```
+     * The ngModelController of the inputOne field will be informed and the inputErrorSpan directive
+     * will be able to render the error.
      */
     angular
         .module('openlmis-form')
