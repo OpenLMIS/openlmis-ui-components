@@ -58,7 +58,7 @@
 
             if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
-                    dialog = openlmisModalService.createDialog(options);
+                    dialog = openlmisModalService.createDialog(angular.copy(options));
                     dialog.promise.finally(cleanUp);
                     timeoutPromise = null;
                 }, 500);
