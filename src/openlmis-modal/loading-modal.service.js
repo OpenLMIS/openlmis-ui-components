@@ -63,7 +63,7 @@
                     timeoutPromise = null;
                 }, 500);
             } else {
-                dialog = openlmisModalService.createDialog(options);
+                dialog = openlmisModalService.createDialog(angular.copy(options));
                 dialog.promise.finally(cleanUp);
             }
 
