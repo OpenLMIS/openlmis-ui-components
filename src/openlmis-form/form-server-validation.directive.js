@@ -32,11 +32,12 @@
     function directive(alertService) {
         var directive = {
             link: link,
+            require: 'form',
             restrict: 'E'
         };
         return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, formCtrl) {
             var ngSubmitPath = attrs.ngSubmit,
                 methodScope,
                 methodName,
@@ -52,9 +53,7 @@
                 var promise = originalFn.apply(this, arguments);
 
                 if (promise && promise.catch) {
-                    promise.catch(function(error) {
-                        alertService.error(error.data.messageKey);
-                    });
+                    promise.catch(handleError);
                 }
 
                 return promise;
@@ -79,6 +78,24 @@
 
             function getMethodName(path) {
                 return path.split('.').pop().slice(0, -2);
+            }
+
+            function handleError(error) {
+                if (error.data.messageKey) {
+                    alertService.error(error.data.messageKey);
+                } else {
+                    angular.forEach(error.data, function(message, field) {
+                        formCtrl[field].$setValidity(message, false);
+                        var stopWatch = scope.$watch(function() {
+                            return formCtrl[field].$modelValue;
+                        }, function(newValue, oldValue) {
+                            if (newValue !== oldValue) {
+                                formCtrl[field].$setValidity(message, true);
+                                stopWatch();
+                            }
+                        });
+                    });
+                }
             }
         }
     }
