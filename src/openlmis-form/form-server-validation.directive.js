@@ -82,7 +82,7 @@
 
             function handleError(error) {
                 if (error.data.messageKey) {
-                    alertService.error(error.data.messageKey);
+                    alertService.error(error.data.message);
                 } else {
                     angular.forEach(error.data, function(message, field) {
                         formCtrl[field].$setValidity(message, false);
