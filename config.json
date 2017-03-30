@@ -13,5 +13,7 @@
   "decimalSeparator": ".",
   "transifexProjectName": "openlmis-ui-components",
   "defaultLanguage": "en",
-  "analyticsTrackingId": "UA-CHANGE-ME"
+  "analyticsTrackingId": "UA-CHANGE-ME",
+  "defaultDateFormat": "dd/MM/yyyy",
+  "defaultDatetimeFormat": "dd/MM/yyyy HH:mm:ss"
 }
