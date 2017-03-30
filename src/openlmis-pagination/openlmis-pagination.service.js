@@ -28,9 +28,9 @@
         .module('openlmis-pagination')
         .service('paginationService', service);
 
-    service.$inject = ['$q', '$state', 'PAGE_SIZE', '$stateParams'];
+    service.$inject = ['$q', '$state', 'PAGE_SIZE'];
 
-    function service($q, $state, PAGE_SIZE, $stateParams) {
+    function service($q, $state, PAGE_SIZE) {
 
         this.registerUrl = registerUrl;
         this.registerList = registerList;
