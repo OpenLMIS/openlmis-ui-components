@@ -257,7 +257,6 @@
   "msg.requisitionAuthorized": "Requisition has been authorized!",
   "msg.requisitionDeleted": "Requisition has been deleted!",
   "msg.requisitionRejected": "Requisition has been rejected!",
-  "msg.requisitionSaved": "Requisition and comment has been saved!",
   "msg.requisitionSkipped": "Requisition has been skipped!",
   "msg.requisitionSubmitted": "Requisition has been submitted!",
   "msg.requisitionSynced": "Requisition has been synchronized!",
