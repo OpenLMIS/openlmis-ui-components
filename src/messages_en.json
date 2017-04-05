@@ -201,8 +201,6 @@
   "locale.load.error": "Error changing language",
   "locale.load.success": "Changed language to English",
   "menu.header.edit.preferences": "Profile",
-  "menu.header.help": "Help",
-  "message.loggedInAs": "Logged in as",
   "message.no.requisitions.for.conversion": "No requisitions to be converted to orders",
   "message.no.rnr.pending.approval": "No R&Rs pending for approval",
   "message.no.search.results": "No search results",
