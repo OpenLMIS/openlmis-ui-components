@@ -11,4 +11,4 @@ services:
     env_file: .env
   image:
     build: .
-    image: openlmis/ui-components
+    image: openlmis/ui-components:4.0.1-SNAPSHOT
