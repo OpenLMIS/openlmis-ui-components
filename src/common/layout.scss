@@ -63,7 +63,8 @@ body{
 
         > li > a {
             background-color: $background-color-alt;
-            &:hover{
+            text-decoration: none;
+          &:hover{
                 text-decoration: underline;
             }
         }

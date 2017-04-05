@@ -26,14 +26,16 @@ body {
 
 a {
   color: $link-color;
-  text-decoration: none;
+  text-decoration: underline;
   &:hover {
     color: $link-color-hover;
-    text-decoration: underline;
   }
   cursor: pointer;
   &[disabled]{
     color: $gray;
+  }
+  &.icon-link {
+    text-decoration: none;
   }
 }
 
