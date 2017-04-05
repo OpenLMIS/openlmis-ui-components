@@ -88,153 +88,156 @@ element.
 
 Styleguide 3.0
 */
-
 form {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	max-width: $default-form-width;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: $default-form-width;
 
-	> * {
-		display: block;
-		flex: 1 0 100%;
-    margin: 0.2em 0px;
-	}
-
-  > fieldset{
-    margin: 0.5em 0em;
-    &.form-group {
-      margin: 0em;
+    > * {
+        display: block;
+        flex: 1 0 100%;
+        margin: 0.2em 0;
     }
-    &:first-child{
-      margin-top: 0em;
+
+    > fieldset {
+        margin: 0.5em 0;
+
+        &.form-group {
+            margin: 0;
+        }
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
-  }
 
-  > label,
-  > fieldset > legend {
-    margin-top: 0.5em;
-    margin-bottom: 0.2em;
+    > label,
+    > fieldset > legend {
+        margin-top: 0.5em;
+        margin-bottom: 0.2em;
 
-	&.required:after {
-		color: $red;
-		content: '*';
-		margin-left: 0.25em;
-	}
-  }
+        &.required:after {
+            color: $red;
+            content: '*';
+            margin-left: 0.25em;
+        }
+    }
 
-	> input[type="submit"],
-	> input[type="button"],
-	> button {
-		flex: 0 0 auto;
-    min-width: auto;
-	}
+    > input[type="button"],
+    > input[type="submit"],
+    > button {
+        flex: 0 0 auto;
+        min-width: auto;
+    }
 
+    > fieldset.form-group {
+         > label.checkbox,
+        > label.radio {
+            margin-top: 0.2em;
+        }
+    }
 
-  > fieldset.form-group {
     > label.checkbox,
     > label.radio {
-      margin-top: 0.2em;
-    }
-  }
+        display: flex;
+        align-items: baseline;
+        margin: 0.2em 0;
 
-  > label.checkbox,
-  > label.radio {
-    display: flex;
-    align-items: baseline;
-    margin: 0.2em 0em;
-    > * {
-      flex: 0 0 auto;
+        > * {
+            flex: 0 0 auto;
+        }
+
+        > input[type="radio"],
+        > input[type="checkbox"] {
+            order: -1;
+            position: relative;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
     }
 
-    > input[type="radio"],
-    > input[type="checkbox"] {
-      order: -1;
-      position: relative;
-      margin-left: 0.5em;
-      margin-right: 0.5em;
+	div.checkbox > label {
+        width: 100%
     }
-  }
 
 }
 
 form {
-  > label {
-    font-weight: bold;
-  }
+    > label {
+        font-weight: bold;
+    }
 
-  > label.checkbox,
-  > label.radio {
-    font-weight: normal;
-  }
+    > label.checkbox,
+    > label.radio {
+        font-weight: normal;
+    }
 
-  fieldset.form-group > legend,
-  > fieldset.form-group > legend {
-    color: $text-color;
-    font-weight: bold;
-  }
+    fieldset.form-group > legend {
+        color: $text-color;
+        font-weight: bold;
+    }
 
-  > input,
-  > select,
-  > textarea {
-    outline: none;
-  }
+    > input,
+    > textarea,
+    > select {
+        outline: none;
+    }
 }
 
 fieldset > legend {
-  @extend h4;
-  border-bottom-width: 0px;
-}
-form > fieldset:first-child {
-  margin-top: 0px;
-  > legend:first-child {
-    padding-top: 0px;
-    margin-top: 0px;
-  }
+    @extend h4;
+    border-bottom-width: 0;
 }
 
-form fieldset,
-form .form-group {
-	@extend form;
-  margin: 0em;
+form > fieldset:first-child {
+    margin-top: 0;
+
+    > legend:first-child {
+        padding-top: 0;
+        margin-top: 0;
+    }
+}
+
+form .form-group,
+form fieldset {
+    @extend form;
+    margin: 0;
 }
 
 textarea {
-  resize: none;
+    resize: none;
 }
 
 input.number,
 input[type="number"] {
-  text-align: right;
+    text-align: right;
 }
 
 span.error {
-	margin-top: 0;
-	margin-bottom: 0;
-	font-style: italic;
-	color: $dark-gray;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-style: italic;
+    color: $dark-gray;
 }
 
 .ng-submitted {
-
     label.ng-invalid {
         color: $red;
     }
 
+    input:not([type='checkbox']):not([type='radio']).ng-invalid,
     select.ng-invalid,
-	input.ng-invalid {
+    textarea.ng-invalid {
         border-color: $red;
         color: $red;
-    }
 
-    select.ng-invalid,
-	input.ng-invalid {
-		&:focus {
-	        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $red;
-	    }
-	}
+        &:focus {
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $red;
+        }
 
-    select.ng-invalid > option {
-        color: black;
+        & > option {
+            color: black;
+        }
     }
 }

@@ -19,30 +19,30 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:inputErrorSpan
+     * @name openlmis-form.directive:selectErrorSpan
      *
      * @description
-     * Adds support for displaying validation errors to the input element. This directive will
+     * Adds support for displaying validation errors to the select element. This directive will
      * attach a span displaying a error based on the ngModelController errors.
      *
      * @example
      * To use this directive simply include the openlmis-form module. It will automatically extend
-     * all the input elements that reside inside of the form.
+     * all the select elements that reside inside of the form.
      * ```
      * <form>
-     *     <input ng-model="soomeModel" />
+     *     <select ng-model="someModel" />
      * </form>
      * ```
      */
     angular
         .module('openlmis-form')
-        .directive('input', inputErrorSpan);
+        .directive('select', selectErrorSpan);
 
-    inputErrorSpan.$inject = ['messageService', 'errorSpanFactory'];
+    selectErrorSpan.$inject = ['messageService', 'errorSpanFactory'];
 
-    function inputErrorSpan(messageService, errorSpanFactory) {
+    function selectErrorSpan(messageService, errorSpanFactory) {
         var directive = {
-            link: link,
+            link: errorSpanFactory.link,
             require: [
                 '^?form',
                 '?ngModel'
@@ -50,27 +50,6 @@
             restrict: 'E'
         };
         return directive;
-
-        function link(scope, element, attrs, controllers) {
-            var formCtrl = controllers[0],
-                ngModelCtrl = controllers[1],
-                span;
-
-            if (!formCtrl || !ngModelCtrl) return;
-
-            if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                var nextElem = element.parent().parent().next();
-
-                if(nextElem.is('span') && nextElem.hasClass('error')) {
-                    span = nextElem;
-                } else {
-                    span = angular.element('<span class="error"></span>');
-                    element.parent().parent().after(span);
-                }
-            }
-
-            errorSpanFactory.link(scope, element, attrs, controllers, span);
-        }
     }
 
 
