@@ -168,4 +168,12 @@ Styleguide 4.1
         }
     }
 
+    .toolbar {
+
+        *:last-child {
+            margin-right: 0;
+        }
+
+    }
+
 }
