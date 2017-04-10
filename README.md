@@ -67,7 +67,7 @@ the UI module.
 
 ```shell
 > docker-compose pull
-> docker-compose run ./build.sh requisition-ui
+> docker-compose run --entrypoint ./build.sh requisition-ui
 > docker-compose build image
 ```
 
