@@ -1,0 +1,8 @@
+<div class="progress-bar-container">
+  <span ng-bind="vm.title"/>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" ng-style="{width: vm.getPercentage()}">
+      <span ng-bind="vm.getPercentage()"/>
+    </div>
+  </div>
+</div>
