@@ -1,0 +1,20 @@
+.saving-indicator {
+
+    text-align: right;
+
+    .icon {
+        margin: 0 1em;
+    }
+
+    .saved {
+        @extend .icon;
+        @include icon('check-circle');
+        color: $green;
+    }
+
+    .saving {
+        @extend .icon;
+        @extend .loading;
+        font-size: 1em;
+    }
+}

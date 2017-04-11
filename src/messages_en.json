@@ -333,5 +333,8 @@
   "requisitionSummary.showDetails": "View Budget Details",
   "requisition.nonFullSupply.empty": "No non-full supply items have been added.",
   "requisition.addStatusMessage.label": "Add a comment about the changes you have made",
-  "requisition.statusMessages.title": "Comments"
+  "requisition.statusMessages.title": "Comments",
+
+  "form.changesSaved": "All changes are saved",
+  "form.savingChanges": "Saving changes"
 }
