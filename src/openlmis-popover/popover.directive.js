@@ -275,11 +275,11 @@
              * the original element.
              */
             function destroyPopover(){
+                if (lastOpenPopover == targetElement) lastOpenPopover = null;
+                if (targetElement) targetElement.popover('destroy');
                 element.removeClass('has-popover');
                 element.children('.show-popover').remove();
                 jQuery($window).off('resize', onWindowResize);
-                if (lastOpenPopover == targetElement) lastOpenPopover = null;
-                if (targetElement) targetElement.popover('destroy');
             }
 
             function onWindowResize(){
