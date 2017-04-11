@@ -49,3 +49,12 @@ Styleguide 3.5
 		@extend .fa-chevron-left;
 	}
 }
+
+
+bs-datepicker[bs-show="true"] + .datepicker.dropdown-menu,
+bs-datepicker[data-bs-show="true"] + .datepicker.dropdown-menu {
+	position: relative;
+	top: 0 !important;
+	left: 0 !important;
+	margin-bottom: 1em;
+}

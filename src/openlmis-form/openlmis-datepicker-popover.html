@@ -1,0 +1,9 @@
+<div>
+    <bs-datepicker ng-model="value" data-bs-show="true" data-date-format="{{vm.dateFormat}}"
+    data-min-date="{{minDate}}" data-max-date="{{maxDate}}">
+    </bs-datepicker>
+
+    <button class="btn btn-primary primary-action" ng-if="value" ng-click="clearSelection()">
+        {{'select.clear' | message}}
+    </button>
+</div>

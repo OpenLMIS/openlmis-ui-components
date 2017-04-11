@@ -316,6 +316,7 @@
   "search.in": "Search in",
   "select.clear": "Clear selection",
   "select.placeholder.default": "Select an option",
+  "select.date": "Select date",
   "template.change": "(Change)",
   "template.configure": "Configure",
   "template.configured": "Configured",

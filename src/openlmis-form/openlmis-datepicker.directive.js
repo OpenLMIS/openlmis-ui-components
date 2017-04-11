@@ -48,7 +48,9 @@
 		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
 
-	function datepicker() {
+	datepicker.$inject = ['$filter'];
+
+	function datepicker($filter) {
         return {
             restrict: 'E',
             scope: {
@@ -61,8 +63,20 @@
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
             controller: 'OpenlmisDatepickerController',
-            controllerAs: 'vm'
+            controllerAs: 'vm',
+            link: link
         };
+
+        function link(scope, element) {
+
+            scope.$watch('value', function() {
+                scope.dateString = $filter('openlmisDate')(scope.value);
+            });
+
+            scope.clearSelection = function() {
+                scope.value = undefined;
+            };
+        }
 	}
 
 })();

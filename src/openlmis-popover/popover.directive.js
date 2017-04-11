@@ -185,7 +185,13 @@
                 // Added to close button in popover template
                 templateScope.closePopover = function(){
                     targetElement.popover('hide');
-                }
+                };
+
+                //Added to be able to open popover after closing it with close button when trigger is set to 'click'
+                //After clicking close button there was need to click on targetElement two times to open popover again
+                targetElement.on('hide.bs.popover', function(){
+                    targetElement.data("bs.popover").inState.click = false;
+                });
 
                 targetElement.on('show.bs.popover', function(){
                     if(lastOpenPopover && lastOpenPopover != targetElement){
@@ -206,6 +212,11 @@
 
                     if(element.is(NO_BUTTON_ELEMENTS.join(', '))){
                         trigger = 'hover focus';
+                    }
+
+                    if(element.is('input')) {
+                        trigger = 'click';
+                        POPOVER_PLACEMENT = 'bottom';
                     }
 
                     var popoverConfig = {
