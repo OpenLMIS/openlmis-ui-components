@@ -67,7 +67,7 @@
             link: link
         };
 
-        function link(scope, element) {
+        function link(scope, element, attrs) {
 
             scope.$watch('value', function() {
                 scope.dateString = $filter('openlmisDate')(scope.value);
@@ -75,6 +75,7 @@
 
             scope.clearSelection = function() {
                 scope.value = undefined;
+                scope.closePopover();
             };
         }
 	}

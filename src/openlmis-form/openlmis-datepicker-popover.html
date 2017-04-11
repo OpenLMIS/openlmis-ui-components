@@ -1,5 +1,5 @@
 <div>
-    <bs-datepicker ng-model="value" data-bs-show="true" data-date-format="{{vm.dateFormat}}"
+    <bs-datepicker ng-model="value" ng-change="closePopover()" data-bs-show="true" data-date-format="{{vm.dateFormat}}"
     data-min-date="{{minDate}}" data-max-date="{{maxDate}}">
     </bs-datepicker>
 

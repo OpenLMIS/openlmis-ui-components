@@ -214,9 +214,10 @@
                         trigger = 'hover focus';
                     }
 
-                    if(element.is('input')) {
+                    if(element.hasClass('openlmis-datepicker')) {
                         trigger = 'click';
                         POPOVER_PLACEMENT = 'bottom';
+                        jQuery($window).off('scroll', onWindowResize);
                     }
 
                     var popoverConfig = {
@@ -228,6 +229,7 @@
 
                     if(attrs['popoverTemplate']){
                         $templateRequest(attrs['popoverTemplate']).then(function(html){
+                            scope.closePopover = templateScope.closePopover;
                             var compiledElement = $compile(html)(scope);
                             popoverConfig.content = compiledElement;
                             popoverConfig.html = true;
