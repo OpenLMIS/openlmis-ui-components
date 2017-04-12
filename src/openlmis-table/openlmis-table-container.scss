@@ -170,6 +170,8 @@ Styleguide 4.1
 
     .toolbar {
 
+        overflow: hidden; // prevents from addin scrollbar to toolbar on firefox
+
         *:last-child {
             margin-right: 0;
         }
