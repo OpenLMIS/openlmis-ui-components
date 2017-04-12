@@ -27,7 +27,7 @@ describe('SavingIndicatorController', function() {
         });
 
         scope = $rootScope.$new();
-        scope.requisition = {
+        scope.object = {
             requisitionLineItems: [
                 {
                     value: 1
@@ -35,9 +35,9 @@ describe('SavingIndicatorController', function() {
             ]
         };
 
-        vm = $controller('SavingIndicatorController', {});
-        vm.object = scope.requisition;
-        vm.scope = scope;
+        vm = $controller('SavingIndicatorController', {
+            $scope: scope
+        });
         vm.$onInit();
         scope.$digest();
     });
@@ -70,7 +70,7 @@ describe('SavingIndicatorController', function() {
         });
 
         it('should not change status if changes were not made', function() {
-            scope.requisition.requisitionLineItems[0].value = 1;
+            scope.object.requisitionLineItems[0].value = 1;
             scope.$digest();
 
             $timeout.verifyNoPendingTasks();
@@ -79,7 +79,7 @@ describe('SavingIndicatorController', function() {
         });
 
         it('should change status to saving after changes were made', function() {
-            scope.requisition.requisitionLineItems[0].value = 2;
+            scope.object.requisitionLineItems[0].value = 2;
             scope.$digest();
 
             expect(vm.iconClass).toBe('saving');
@@ -87,7 +87,7 @@ describe('SavingIndicatorController', function() {
         });
 
         it('should change status back to saved after timeout', function() {
-            scope.requisition.requisitionLineItems[0].value = 2;
+            scope.object.requisitionLineItems[0].value = 2;
             scope.$digest();
             $timeout.flush();
 

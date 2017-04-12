@@ -28,9 +28,9 @@
         .module('openlmis-form')
         .controller('SavingIndicatorController', SavingIndicatorController);
 
-    SavingIndicatorController.$inject = ['$timeout'];
+    SavingIndicatorController.$inject = ['$timeout', '$scope'];
 
-    function SavingIndicatorController($timeout) {
+    function SavingIndicatorController($timeout, $scope) {
         var indicator = this,
             savingTimeout;
 
@@ -70,8 +70,8 @@
             setSavedStatus();
 
             $timeout(function() {
-                indicator.scope.$watch(function() {
-                    return indicator.object;
+                $scope.$watch(function() {
+                    return $scope.object;
                 }, function(oldValue, newValue) {
                     if (oldValue !== newValue) {
                         setSavingStatus();

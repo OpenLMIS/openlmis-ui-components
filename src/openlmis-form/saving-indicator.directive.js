@@ -19,7 +19,7 @@
 
 	/**
      * @ngdoc service
-     * @name openlmis-form.component:savingIndicator
+     * @name openlmis-form.directive:savingIndicator
      *
      * @description
      * Displays a object that indicates if object is saving or is already saved.
@@ -35,13 +35,17 @@
      */
 	angular
 		.module('openlmis-form')
-		.component('savingIndicator', {
+		.directive('savingIndicator', directive);
+
+	function directive() {
+        return {
+            restrict: 'E',
+            scope: {
+			    object: '='
+            },
 			controller: 'SavingIndicatorController',
 			controllerAs: 'indicator',
-            templateUrl: 'openlmis-form/saving-indicator.html',
-			bindings: {
-				scope: '=',
-			    object: '='
-			}
-		});
+            templateUrl: 'openlmis-form/saving-indicator.html'
+        };
+	}
 })();
