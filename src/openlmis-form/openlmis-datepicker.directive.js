@@ -48,9 +48,9 @@
 		.module('openlmis-form')
 		.directive('openlmisDatepicker', datepicker);
 
-	datepicker.$inject = ['$filter'];
+	datepicker.$inject = ['$filter', '$document'];
 
-	function datepicker($filter) {
+	function datepicker($filter, $document) {
         return {
             restrict: 'E',
             scope: {
@@ -67,7 +67,7 @@
             link: link
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
 
             scope.$watch('value', function() {
                 scope.dateString = $filter('openlmisDate')(scope.value);
@@ -75,6 +75,17 @@
 
             scope.clearSelection = function() {
                 scope.value = undefined;
+
+                //This is to unselect value from datepicker view
+                //(Workaround for angular-strap bug - view isn't updated when value is undefined)
+                var primaryButtons = $document[0].querySelectorAll('.btn-primary');
+                primaryButtons.forEach(function (button) {
+                    var buttonElement = angular.element(button);
+                    if (buttonElement.hasClass('btn-default')) {
+                        buttonElement.removeClass('btn-primary');
+                    }
+                });
+
                 scope.closePopover();
             };
         }
