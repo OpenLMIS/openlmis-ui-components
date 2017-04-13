@@ -138,6 +138,7 @@
 
                 if(!pagination.externalPagination) {
                     pagination.pagedList = paginationFactory.getPage(pagination.list, newPage, pagination.pageSize);
+                    pagination.showingItems = pagination.pagedList.length;
                 }
 
                 var stateParams = angular.copy($stateParams);
