@@ -1,0 +1,12 @@
+{
+    "openlmisForm.changesSaved": "All changes are saved",
+    "openlmisForm.charactersLeft": "characters left",
+    "openlmisForm.clearSelection": "Clear selection",
+    "openlmisForm.required": "This field is required",
+    "openlmisForm.savingChanges": "Saving changes",
+    "openlmisForm.search": "Search",
+    "openlmisForm.selectAnOption": "Select an option",
+    "openlmisForm.selectDate": "Select date",
+    "openlmisForm.showingNumberOfResults": "Showing ${num} of ${total} results",
+    "openlmisForm.tooManyCharacters": "Too many characters"
+}

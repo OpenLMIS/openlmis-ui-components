@@ -140,7 +140,9 @@
                     if(attrs.placeholder) {
                         element.children('option.placeholder').text(attrs.placeholder);
                     } else {
-                        element.children('option.placeholder').text(messageService.get('select.placeholder.default'));
+                        element.children('option.placeholder').text(
+                            messageService.get('openlmisForm.selectAnOption')
+                        );
                     }
                 }
 
@@ -149,7 +151,7 @@
 
             function prepareClearLink() {
                 var clearLink = angular.element(
-                    '<a class="clear" href="#">' + messageService.get('select.clear') + '</a>'
+                    '<a class="clear" href="#">' + messageService.get('openlmisForm.clearSelection') + '</a>'
                 );
 
                 clearLink.insertAfter(element);

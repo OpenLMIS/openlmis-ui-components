@@ -50,7 +50,7 @@ describe('SavingIndicatorController', function() {
 
         it('should set icon class and message', function() {
             expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('form.changesSaved');
+            expect(vm.message).toBe('openlmisForm.changesSaved');
         });
 
         it('should set timeout for setting watcher', function() {
@@ -75,7 +75,7 @@ describe('SavingIndicatorController', function() {
 
             $timeout.verifyNoPendingTasks();
             expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('form.changesSaved');
+            expect(vm.message).toBe('openlmisForm.changesSaved');
         });
 
         it('should change status to saving after changes were made', function() {
@@ -83,7 +83,7 @@ describe('SavingIndicatorController', function() {
             scope.$digest();
 
             expect(vm.iconClass).toBe('saving');
-            expect(vm.message).toBe('form.savingChanges');
+            expect(vm.message).toBe('openlmisForm.savingChanges');
         });
 
         it('should change status back to saved after timeout', function() {
@@ -92,7 +92,7 @@ describe('SavingIndicatorController', function() {
             $timeout.flush();
 
             expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('form.changesSaved');
+            expect(vm.message).toBe('openlmisForm.changesSaved');
         });
     });
 });

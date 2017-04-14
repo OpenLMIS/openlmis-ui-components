@@ -57,7 +57,7 @@ describe('inputErrorSpan', function() {
 
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('required');
+            expect(errorSpan.html()).toBe('openlmisForm.required');
         });
 
         it('should make span visible form is submitted and input is invalid', function() {
@@ -84,7 +84,7 @@ describe('inputErrorSpan', function() {
             };
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('required');
+            expect(errorSpan.html()).toBe('openlmisForm.required');
 
             formCtrl.$submitted = false;
             $rootScope.$apply();
@@ -102,7 +102,7 @@ describe('inputErrorSpan', function() {
             };
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('required');
+            expect(errorSpan.html()).toBe('openlmisForm.required');
 
             ngModelCtrl.$valid = true;
             $rootScope.$apply();

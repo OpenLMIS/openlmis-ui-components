@@ -1,14 +1,14 @@
 <div class="openlmis-pagination">
 	<div class="pagination-info" ng-if="pagination.totalItems">
-		{{'msg.showingMatchesOutOf' | message: {'items': pagination.showingItems, 'total': pagination.totalItems} }}
+		{{'openlmisPagination.showingItemsOutOf' | message: {'items': pagination.showingItems, 'total': pagination.totalItems} }}
 	</div>
 	<div class="pagination-info" ng-if="!pagination.totalItems">
-		{{'msg.showingNoMatches' | message}}
+		{{'openlmisPagination.showingNoItems' | message}}
 	</div>
 	<ul ng-if="pagination.totalItems">
 		<li ng-class="{disabled : pagination.isFirstPage()}">
 			<a ng-click="pagination.isFirstPage() || pagination.previousPage()">
-				{{'label.previousPage' | message}}
+				{{'openlmisPagination.previous' | message}}
 			</a>
 		</li>
 		<li ng-class="{active: pagination.isCurrentPage($index), invalid: pagination.isPageValid && !pagination.isPageValid($index)}"
@@ -22,7 +22,7 @@
 		</li>
 		<li ng-class="{disabled : pagination.isLastPage()}">
 			<a ng-click="pagination.isLastPage() || pagination.nextPage()">
-				{{'label.nextPage' | message}}
+				{{'openlmisPagination.next' | message}}
 			</a>
 		</li>
 	</ul>

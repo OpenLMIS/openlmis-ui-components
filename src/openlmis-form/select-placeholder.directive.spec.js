@@ -50,7 +50,7 @@ describe('Select directive', function() {
 
         var firstOption = element.children('option:first');
         expect(firstOption.hasClass('placeholder')).toBe(true);
-        expect(firstOption.text()).toBe('select.placeholder.default');
+        expect(firstOption.text()).toBe('openlmisForm.selectAnOption');
     });
 
     it('reads the placeholder value of an element', function(){

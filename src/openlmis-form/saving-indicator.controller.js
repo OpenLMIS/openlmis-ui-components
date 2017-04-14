@@ -83,12 +83,12 @@
         }
 
         function setSavedStatus() {
-            indicator.message = 'form.changesSaved';
+            indicator.message = 'openlmisForm.changesSaved';
             indicator.iconClass = 'saved';
         }
 
         function setSavingStatus() {
-            indicator.message = 'form.savingChanges';
+            indicator.message = 'openlmisForm.savingChanges';
             indicator.iconClass = 'saving';
         }
     }

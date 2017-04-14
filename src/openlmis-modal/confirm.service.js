@@ -74,11 +74,11 @@
                 message: messageService.get(message),
                 buttons: {
                     cancel: {
-                        label: messageService.get('msg.button.cancel'),
+                        label: messageService.get('openlmisModal.cancel'),
                         callback: deferred.reject
                     },
                     success: {
-                        label: messageService.get(buttonMessage ? buttonMessage : 'msg.button.ok'),
+                        label: messageService.get(buttonMessage ? buttonMessage : 'openlmisModal.ok'),
                         callback: deferred.resolve,
                         className: remove ? "danger" : "primary"
                     }

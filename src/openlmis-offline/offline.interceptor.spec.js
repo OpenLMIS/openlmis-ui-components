@@ -63,7 +63,7 @@ describe('offlineInterceptor', function() {
         });
 
         it('should show alert modal', function() {
-            expect(alertServiceMock.error).toHaveBeenCalledWith('error.actionNotAllowedOffline');
+            expect(alertServiceMock.error).toHaveBeenCalledWith('openlmisOffline.actionNotAllowedOffline');
         });
 
         it('should not show second alert modal when first is not closed', function() {

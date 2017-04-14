@@ -1,0 +1,6 @@
+{
+    "openlmisPagination.next": "Next",
+    "openlmisPagination.previous": "Previous",
+    "openlmisPagination.showingItemsOutOf": "Showing ${items} item(s) out of ${total} total",
+    "openlmisPagination.showingNoItems": "Showing no items"
+}

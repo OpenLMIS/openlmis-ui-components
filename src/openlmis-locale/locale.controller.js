@@ -64,7 +64,7 @@
                     locale.selectedLocale = messageService.getCurrentLocale();
                     $window.location.reload();
                 }, function() {
-                    alertService.error('locale.load.error');
+                    alertService.error('openlmisLocale.errorChangingLanguage');
                 });
             }
         }
