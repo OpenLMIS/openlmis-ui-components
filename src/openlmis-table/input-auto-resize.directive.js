@@ -52,8 +52,8 @@
 
             scope.$watch(function() {
                 return el.value;
-            }, function(oldValue, newValue) {
-                if(!minWidthSet && newValue) {
+            }, function(newValue, oldValue) {
+                if(!minWidthSet) {
                     $window.autosizeInput(el);
                     minWidthSet = true;
                 }
