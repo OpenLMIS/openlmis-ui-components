@@ -14,7 +14,8 @@
  */
 describe('stateTrackerService', function() {
 
-    var stateTrackerService, $state;
+    var stateTrackerService, $state,
+        previousState, previousStateParams;
 
     beforeEach(function() {
         module('openlmis-state-tracker');
@@ -23,21 +24,17 @@ describe('stateTrackerService', function() {
             stateTrackerService = $injector.get('stateTrackerService');
             $state = $injector.get('$state');
         });
+
+        previousState = {
+            name: 'stateOne'
+        };
+
+        previousStateParams = {
+            param: 'one'
+        };
     });
 
     describe('setPreviousState', function() {
-
-        var previousState, previousStateParams;
-
-        beforeEach(function() {
-            previousState = {
-                name: 'stateOne'
-            };
-
-            previousStateParams = {
-                param: 'one'
-            };
-        });
 
         it('should set previousState', function() {
             stateTrackerService.previousState = undefined;
