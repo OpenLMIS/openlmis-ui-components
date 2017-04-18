@@ -54,7 +54,11 @@
         function link(scope, element, attrs) {
             if (attrs.required || (attrs.ngRequired && attrs.ngRequired !== 'false')) {
                 attrs.$observe('id', function(id) {
-                    element.siblings('label[for="' + id + '"]').addClass('required');
+                    if(attrs.required !== undefined) element.siblings('label[for="' + id + '"]').addClass('required');
+                });
+                attrs.$observe('required', function(required) {
+                    if(attrs.required) element.siblings('label[for="' + attrs.id + '"]').addClass('required');
+                    else element.siblings('label[for="' + attrs.id + '"]').removeClass('required');
                 });
             }
         }

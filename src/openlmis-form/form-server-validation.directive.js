@@ -28,12 +28,14 @@
      * to errors returned by the backend and inputs in the form have proper names matching the keys
      * in the map returned by the server. Keep in mind that for key value map this is will only set
      * errors on the ngModelController level, the errors itself are shown by the inputErrorSpan
-     * directive
+     * directive.
+     * Also can reset form state (restore untouched state) after successful submit by adding
+     * reload-form attribute.
      *
      * @example
      * Let's say we have the following form:
      * ```
-     * <form name="testForm" ng-submit="someMethod()">
+     * <form name="testForm" ng-submit="someMethod()" reload-form>
      *      <input name="inputOne" ng-model="inputOne" />
      *      <input type="submit" />
      * </form>
@@ -89,6 +91,12 @@
                 var promise = originalFn.apply(this, arguments);
 
                 if (promise && promise.catch) {
+                    if(attrs.reloadForm !== undefined) {
+                        promise.then(function() {
+                            formCtrl.$setPristine();
+                            formCtrl.$setUntouched();
+                        });
+                    }
                     promise.catch(handleError);
                 }
 
