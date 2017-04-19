@@ -100,7 +100,7 @@
          */
         pagination.showingItems = undefined;
 
-        $scope.$watch(function() {
+        $scope.$watchCollection(function() {
             return pagination.list;
         }, function() {
             onInit();
