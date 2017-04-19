@@ -16,6 +16,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-state-tracker
+     *
+     * @description
+     * Provides service and interceptor for tracking previous state.
+     */
     angular.module('openlmis-state-tracker', [
         'ui.router'
     ]);
