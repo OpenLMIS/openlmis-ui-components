@@ -59,12 +59,10 @@
             if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
                     dialog = openlmisModalService.createDialog(angular.copy(options));
-                    dialog.promise.finally(cleanUp);
                     timeoutPromise = null;
                 }, 500);
             } else {
                 dialog = openlmisModalService.createDialog(angular.copy(options));
-                dialog.promise.finally(cleanUp);
             }
 
             return deferred.promise;
@@ -86,17 +84,13 @@
 
             if(dialog) {
                 dialog.hide();
+                dialog = undefined;
             }
 
             if (deferred) {
                 deferred.resolve();
                 deferred = undefined;
             }
-        }
-
-        function cleanUp() {
-            deferred.resolve();
-            dialog = undefined;
         }
     }
 
