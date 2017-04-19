@@ -74,13 +74,13 @@
             function updateSelect() {
                 var options = element.children(optionsSelector);
 
-                if(options.length <= 1) {
+                if(options.length <= 1 && attrs.required) {
                     element.attr('disabled', true);
                 } else {
                     element.attr('disabled', false);
                 }
 
-                if(options.length == 1) {
+                if(options.length === 1 && attrs.required) {
                     element.children('option[selected="selected"]').removeAttr('selected');
                     element.children(optionsSelector + ':first').attr('selected', 'selected');
 

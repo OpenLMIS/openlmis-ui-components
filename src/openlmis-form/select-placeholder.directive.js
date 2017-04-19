@@ -102,7 +102,7 @@
                     emptyOption.hide();
                 } else {
                     emptyOption.hide();
-                    if (element.children('option').length > 2 && element.children('option').length < 10) {
+                    if (element.children('option').length > 1 && element.children('option').length < 10) {
                         clearLink.show();
                     }
                 }

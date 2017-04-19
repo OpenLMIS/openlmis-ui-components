@@ -30,7 +30,7 @@ describe('Select one option directive', function() {
             scope = $rootScope.$new();
             scope.options = [];
             element = $compile(
-                '<select ng-model="value" ng-options="option for option in options"></select>'
+                '<select ng-model="value" ng-options="option for option in options" required></select>'
                 )(scope);
             scope.$apply();
             element = angular.element(element[0]);
