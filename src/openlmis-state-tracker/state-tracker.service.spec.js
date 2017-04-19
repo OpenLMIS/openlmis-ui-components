@@ -52,6 +52,19 @@ describe('stateTrackerService', function() {
             expect(stateTrackerService.previousStateParams).toEqual(previousStateParams);
         });
 
+        it('should not store nonTrackable state', function() {
+            stateTrackerService.previousState = previousState;
+            stateTrackerService.previousStateParams = previousStateParams;
+
+            stateTrackerService.setPreviousState({
+                name: 'NonTrackableState',
+                nonTrackable: true
+            }, {});
+
+            expect(stateTrackerService.previousState).toEqual(previousState);
+            expect(stateTrackerService.previousStateParams).toEqual(previousStateParams);
+        });
+
     });
 
     it('goToPreviousState should restore the state', function() {

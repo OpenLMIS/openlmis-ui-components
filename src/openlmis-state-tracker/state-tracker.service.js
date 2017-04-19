@@ -45,8 +45,10 @@
          * @param   {Object}    previousStateParams the previous state parameters
          */
         function setPreviousState(previousState, previousStateParams) {
-            this.previousState = previousState;
-            this.previousStateParams = previousStateParams;
+            if (!previousState.nonTrackable) {
+                this.previousState = previousState;
+                this.previousStateParams = previousStateParams;
+            }
         }
 
         /**
