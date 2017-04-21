@@ -47,7 +47,7 @@
 			element.attr('type', 'number');
 			element.addClass('number');
 
-			var keyCode = [69, 190];
+			var keyCode = [69, 190, 107, 109];
 	        element.bind('keydown', function(event) {
 	            if ($.inArray(event.which, keyCode) !== -1) {
 	                event.preventDefault();
