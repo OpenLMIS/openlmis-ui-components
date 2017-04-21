@@ -44,20 +44,15 @@
 
 		function link(scope, element, attrs, modelCtrl) {
 
-			element.attr('type', 'text');
+			element.attr('type', 'number');
 			element.addClass('number');
 
-			modelCtrl.$parsers.push(function (inputValue) {
-
-				if (inputValue == undefined) return ''
-				var transformedInput = inputValue.replace(/[^0-9]/g, '');
-				if (transformedInput!=inputValue) {
-					modelCtrl.$setViewValue(transformedInput);
-					modelCtrl.$render();
-				}
-
-				return transformedInput ? parseInt(transformedInput) : null;
-			});
+			var keyCode = [69, 190];
+	        element.bind('keydown', function(event) {
+	            if ($.inArray(event.which, keyCode) !== -1) {
+	                event.preventDefault();
+	            }
+	        });
 		}
 	}
 })();
