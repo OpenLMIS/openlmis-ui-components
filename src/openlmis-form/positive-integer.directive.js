@@ -15,43 +15,44 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
-	 * @ngdoc directive
-	 * @restrict A
-	 * @name openlmis-form.directive:positiveInteger
-	 *
-	 * @description
-	 * Restricts the ngModel to only allow positive integers.
-	 *
-	 * @example
-	 * Extend the input element to force it to only accept positive integers as values.
-	 * ```
-	 * <input ng-model="someModel" positive-integer>
-	 * ```
-	 */
-	angular
-		.module('openlmis-form')
-		.directive('positiveInteger', positiveInteger);
+    /**
+     * @ngdoc directive
+     * @restrict A
+     * @name openlmis-form.directive:positiveInteger
+     *
+     * @description
+     * Restricts the ngModel to only allow positive integers.
+     *
+     * @example
+     * Extend the input element to force it to only accept positive integers as values.
+     * ```
+     * <input ng-model="someModel" positive-integer>
+     * ```
+     */
+    angular
+    .module('openlmis-form')
+    .directive('positiveInteger', positiveInteger);
 
-	function positiveInteger() {
-		var directive = {
-			require: 'ngModel',
-			link: link
-		};
-		return directive;
+    function positiveInteger() {
+        var directive = {
+            require: 'ngModel',
+            link: link
+        };
+        return directive;
 
-		function link(scope, element, attrs, modelCtrl) {
+        function link(scope, element, attrs, modelCtrl) {
 
-			element.addClass('number');
+            element.attr('min', '0');
+            element.addClass('number');
 
             var keyCode = [69, 190, 107, 109, 189, 187];
-	        element.bind('keydown', function(event) {
-	            if ($.inArray(event.which, keyCode) !== -1) {
-	                event.preventDefault();
-	            }
-	        });
-		}
-	}
+            element.bind('keydown', function(event) {
+                if ($.inArray(event.which, keyCode) !== -1) {
+                    event.preventDefault();
+                }
+            });
+        }
+    }
 })();
