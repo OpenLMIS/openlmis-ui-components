@@ -43,15 +43,14 @@
         };
         return directive;
 
-        function link(scope, element, attrs, modelCtrl) {
+        function link(scope, element) {
 
             element.attr('type', 'number');
             element.attr('min', '0');
             element.addClass('number');
 
-            var keyCode = [69, 190, 107, 109, 189, 187];
             element.bind('keydown', function(event) {
-                if ($.inArray(event.which, keyCode) !== -1) {
+                if (event.which >= 57 || event.which === 32) {
                     event.preventDefault();
                 }
             });
