@@ -27,9 +27,12 @@
         .module('openlmis-state-tracker')
         .service('stateTrackerService', service);
 
-    service.$inject = ['$state'];
+    service.$inject = ['$state', 'localStorageFactory'];
 
-    function service($state) {
+    function service($state, localStorageFactory) {
+
+        var stateStorage = localStorageFactory('stateStorage');
+
         this.setPreviousState = setPreviousState;
         this.goToPreviousState = goToPreviousState;
 
@@ -45,9 +48,12 @@
          * @param   {Object}    previousStateParams the previous state parameters
          */
         function setPreviousState(previousState, previousStateParams) {
-            if (!previousState.nonTrackable) {
-                this.previousState = previousState;
-                this.previousStateParams = previousStateParams;
+            if(!previousState.nonTrackable) {
+                stateStorage.clearAll();
+                stateStorage.put({
+                    previousState: previousState,
+                    previousStateParams: previousStateParams
+                });
             }
         }
 
@@ -57,10 +63,19 @@
          * @name goToPreviousState
          *
          * @description
-         * Restores the previous state.
+         * Restores the previous state. If there is no previous state stored, user will be redirected to default state passed as parameter.
+         * If default state was not defined current state will be reloaded.
+         *
+         * @param {String} defaultState (optional) state that user will be redirected to if there is no previous state stored
          */
-        function goToPreviousState() {
-            $state.go(this.previousState, this.previousStateParams);
+        function goToPreviousState(defaultState) {
+            var storedStates = stateStorage.getAll();
+            if(storedStates && storedStates.length > 0) {
+                $state.go(storedStates[0].previousState, storedStates[0].previousStateParams);
+            } else if(defaultState) {
+                $state.go(defaultState);
+            }
+            $state.reload();
         }
     }
 

@@ -23,6 +23,7 @@
      * Provides service and interceptor for tracking previous state.
      */
     angular.module('openlmis-state-tracker', [
+        'openlmis-local-storage',
         'ui.router'
     ]);
 

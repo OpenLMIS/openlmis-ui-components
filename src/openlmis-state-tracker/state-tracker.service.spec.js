@@ -14,11 +14,18 @@
  */
 describe('stateTrackerService', function() {
 
-    var stateTrackerService, $state,
+    var stateTrackerService, $state, stateStorage,
         previousState, previousStateParams;
 
     beforeEach(function() {
-        module('openlmis-state-tracker');
+        module('openlmis-state-tracker', function($provide) {
+            stateStorage = jasmine.createSpyObj('stateStorage', ['put', 'clearAll', 'getAll']);
+            $provide.factory('localStorageFactory', function() {
+                return function() {
+                    return stateStorage;
+                };
+            });
+        });
 
         inject(function($injector) {
             stateTrackerService = $injector.get('stateTrackerService');
@@ -28,53 +35,67 @@ describe('stateTrackerService', function() {
         previousState = {
             name: 'stateOne'
         };
-
         previousStateParams = {
             param: 'one'
         };
+
+        spyOn($state, 'go');
+        spyOn($state, 'reload');
     });
 
     describe('setPreviousState', function() {
 
-        it('should set previousState', function() {
-            stateTrackerService.previousState = undefined;
-
+        it('should set previousState and previousStateParams', function() {
             stateTrackerService.setPreviousState(previousState, previousStateParams);
 
-            expect(stateTrackerService.previousState).toEqual(previousState);
-        });
-
-        it('should set previousStateParams', function() {
-            stateTrackerService.previousStateParams = undefined;
-
-            stateTrackerService.setPreviousState(previousState, previousStateParams);
-
-            expect(stateTrackerService.previousStateParams).toEqual(previousStateParams);
+            expect(stateStorage.clearAll).toHaveBeenCalled();
+            expect(stateStorage.put).toHaveBeenCalledWith({
+                previousState: previousState,
+                previousStateParams: previousStateParams
+            });
         });
 
         it('should not store nonTrackable state', function() {
-            stateTrackerService.previousState = previousState;
-            stateTrackerService.previousStateParams = previousStateParams;
-
             stateTrackerService.setPreviousState({
                 name: 'NonTrackableState',
                 nonTrackable: true
             }, {});
 
-            expect(stateTrackerService.previousState).toEqual(previousState);
-            expect(stateTrackerService.previousStateParams).toEqual(previousStateParams);
+            expect(stateStorage.clearAll).not.toHaveBeenCalled();
+            expect(stateStorage.put).not.toHaveBeenCalled();
         });
 
     });
 
-    it('goToPreviousState should restore the state', function() {
-        spyOn($state, 'go');
-        stateTrackerService.previousState = previousState;
-        stateTrackerService.previousStateParams = previousStateParams;
+    describe('goToPreviousState', function() {
 
-        stateTrackerService.goToPreviousState();
+        it('should restore the state', function() {
+            stateStorage.getAll.andReturn([
+                {
+                    previousState: previousState,
+                    previousStateParams: previousStateParams
+                }
+            ]);
 
-        expect($state.go).toHaveBeenCalledWith(previousState, previousStateParams);
+            stateTrackerService.goToPreviousState();
+
+            expect($state.go).toHaveBeenCalledWith(previousState, previousStateParams);
+        });
+
+        it('should call default state', function() {
+            stateStorage.getAll.andReturn([]);
+
+            stateTrackerService.goToPreviousState('some.state');
+
+            expect($state.go).toHaveBeenCalledWith('some.state');
+        });
+
+        it('should reload current state', function() {
+            stateStorage.getAll.andReturn([]);
+
+            stateTrackerService.goToPreviousState();
+
+            expect($state.reload).toHaveBeenCalled();
+        });
     });
-
 });
