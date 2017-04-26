@@ -38,12 +38,14 @@
     function positiveInteger() {
         var directive = {
             require: 'ngModel',
-            link: link
+            link: link,
+            priority: 100
         };
         return directive;
 
         function link(scope, element, attrs, modelCtrl) {
 
+            element.attr('type', 'number');
             element.attr('min', '0');
             element.addClass('number');
 
