@@ -50,7 +50,10 @@
             element.addClass('number');
 
             element.bind('keydown', function(event) {
-                if (event.which >= 57 || event.which === 32) {
+                if ((event.which >= 57 && event.which <= 90) ||   // letters
+                    (event.which >= 106 && event.which <= 111) || // '*', '+', '-' etc.
+                    event.which >= 173 ||                         // ';', ',', '.' etc.
+                    event.which === 32) {                         // ' '
                     event.preventDefault();
                 }
             });
