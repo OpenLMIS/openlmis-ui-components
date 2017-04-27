@@ -82,6 +82,19 @@ describe('stateTrackerService', function() {
             expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams);
         });
 
+        it('should restore the state if default one is present and previous is stored', function() {
+            stateStorage.getAll.andReturn([
+                {
+                    previousState: previousState.name,
+                    previousStateParams: previousStateParams
+                }
+            ]);
+
+            stateTrackerService.goToPreviousState('some.state');
+
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams);
+        });
+
         it('should call default state', function() {
             stateStorage.getAll.andReturn([]);
 
