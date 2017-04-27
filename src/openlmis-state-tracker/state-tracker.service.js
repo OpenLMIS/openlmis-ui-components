@@ -51,7 +51,7 @@
             if(!previousState.nonTrackable) {
                 stateStorage.clearAll();
                 stateStorage.put({
-                    previousState: previousState,
+                    previousState: previousState.name,
                     previousStateParams: previousStateParams
                 });
             }
@@ -74,8 +74,9 @@
                 $state.go(storedStates[0].previousState, storedStates[0].previousStateParams);
             } else if(defaultState) {
                 $state.go(defaultState);
+            } else {
+                $state.reload();
             }
-            $state.reload();
         }
     }
 
