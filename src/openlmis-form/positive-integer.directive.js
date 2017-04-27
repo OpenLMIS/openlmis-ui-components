@@ -43,19 +43,21 @@
         };
         return directive;
 
-        function link(scope, element) {
+        function link(scope, element, attrs, modelCtrl) {
 
-            element.attr('type', 'number');
-            element.attr('min', '0');
+            element.attr('type', 'text');
             element.addClass('number');
 
-            element.bind('keydown', function(event) {
-                if ((event.which >= 57 && event.which <= 90) ||   // letters
-                    (event.which >= 106 && event.which <= 111) || // '*', '+', '-' etc.
-                    event.which >= 173 ||                         // ';', ',', '.' etc.
-                    event.which === 32) {                         // ' '
-                    event.preventDefault();
+            modelCtrl.$parsers.push(function (inputValue) {
+
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^0-9]/g, '');
+                if (transformedInput!=inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
                 }
+
+                return transformedInput ? parseInt(transformedInput) : null;
             });
         }
     }
