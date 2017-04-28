@@ -48,7 +48,7 @@
          * @param   {Object}    previousStateParams the previous state parameters
          */
         function setPreviousState(previousState, previousStateParams) {
-            if(!previousState.nonTrackable) {
+            if(!previousState.nonTrackable && previousState.name) {
                 stateStorage.clearAll();
                 stateStorage.put({
                     previousState: previousState.name,
