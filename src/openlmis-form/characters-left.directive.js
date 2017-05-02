@@ -29,9 +29,10 @@
      * @example
      * The following can be used to extend textarea or text input elements.
      * ```
-     * <textarea characters-left max-length="100" ng-model="model"></textarea>
+     * <textarea characters-left="true" max-length="100" ng-model="model"></textarea>
      * ```
-     * Both ng-model and max-length attributes are required.
+     * Both ng-model and max-length attributes are required. The 'true' value can be added to directive
+     * attribute and then this indicator will be shown always.
      *
      * Rendered directive when characters limit has not been reached will look like this:
 	 * ```
@@ -61,6 +62,7 @@
 			restrict: 'A',
             require: 'ngModel',
             scope: {
+                show: '=charactersLeft',
                 maxLength: '=',
 				text: '=ngModel'
             },
@@ -69,23 +71,31 @@
 
         function link(scope, element, attributes, ngModelController) {
 
+            var content;
+
 			$templateRequest('openlmis-form/characters-left.html').then(function(template) {
-				var content;
+                if(scope.show && scope.show !== 'false') {
+                    appendElement(template);
+                } else {
+                    element.on('focus', function() {
+                        appendElement(template);
+                    });
 
-				element.on('focus', function() {
-					content = $compile(template)(scope);
-					if (element.next().length) {
-		                element.next().insertBefore(content);
-		            } else {
-						element.parent().append(content);
-					}
-				});
-
-				element.on('blur', function() {
-					if(content) content.remove();
-					content = null;
-				});
+    				element.on('blur', function() {
+    					if(content) content.remove();
+    					content = null;
+    				});
+                }
 			});
+
+            function appendElement(template) {
+                content = $compile(template)(scope);
+                if (element.next().length) {
+                    angular.element(content).insertAfter(element);
+                } else {
+                    element.parent().append(content);
+                }
+            }
         }
 	}
 
