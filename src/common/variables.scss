@@ -21,7 +21,7 @@ $font-size-extra-large: 36px;
 
 $default-form-width: 440px;
 
-$brand-primary: $brand-blue;
+$brand-primary: $brand-blue !default;
 $brand-accent: $orange;
 $brand-danger: $red;
 $brand-success: $green;
