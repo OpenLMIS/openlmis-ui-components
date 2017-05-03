@@ -1,57 +1,57 @@
 //Colors
-$green: #356b6f;
-$red: #a94442;
-$orange: #e67325;
-$blue: #3A95BC;
-$brand-blue: #49baeb;
+$green: #356b6f !default;
+$red: #a94442 !default;
+$orange: #e67325 !default;
+$blue: #3A95BC !default;
+$brand-blue: #49baeb !default;
 
-$white: #ffffff;
-$light-gray: #e4e4e4;
-$gray: #58585a;
-$dark-gray: #333333;
-$black: #000000;
-$shadow: rgba($black, 0.75);
-$light-shadow: rgba($black, 0.075);
+$white: #ffffff !default;
+$light-gray: #e4e4e4 !default;
+$gray: #58585a !default;
+$dark-gray: #333333 !default;
+$black: #000000 !default;
+$shadow: rgba($black, 0.75) !default;
+$light-shadow: rgba($black, 0.075) !default;
 
 $font-family: Arial, sans-serif;
 
-$font-size: 14px;
-$font-size-large: 22px;
-$font-size-extra-large: 36px;
+$font-size: 14px !default;
+$font-size-large: 22px !default;
+$font-size-extra-large: 36px !default;
 
-$default-form-width: 440px;
+$default-form-width: 440px !default;
 
 $brand-primary: $brand-blue !default;
-$brand-accent: $orange;
-$brand-danger: $red;
-$brand-success: $green;
-$brand-info: $blue;
+$brand-accent: $orange !default;
+$brand-danger: $red !default;
+$brand-success: $green !default;
+$brand-info: $blue !default;
 
-$background-color: $white;
-$background-color-alt: #f0f0f0;
-$background-color-dark: $dark-gray;
-$background-color-danger: #f1eaeb;
-$background-color-success: #caebec;
+$background-color: $white !default;
+$background-color-alt: #f0f0f0 !default;
+$background-color-dark: $dark-gray !default;
+$background-color-danger: #f1eaeb !default;
+$background-color-success: #caebec !default;
 
-$text-color: $dark-gray;
-$text-color-disabled: lighten($dark-gray, 15);
+$text-color: $dark-gray !default;
+$text-color-disabled: lighten($dark-gray, 15) !default;
 
-$link-color: $blue;
-$link-color-hover: darken($link-color, 15);
+$link-color: $blue !default;
+$link-color-hover: darken($link-color, 15) !default;
 
-$border-color: darken($light-gray, 15);
-$input-border: $border-color;
+$border-color: darken($light-gray, 15) !default;
+$input-border: $border-color !default;
 
-$text-shadow-size: 5px;
+$text-shadow-size: 5px !default;
 
-$border-radius: 4px;
+$border-radius: 4px !default;
 $border-radius-base: $border-radius;
 $border-radius-large: $border-radius;
 $border-radius-small: $border-radius;
 
 // Spacing
 $padding2px:2px;
-$space-size: 20px;
-$opacity: 0.6;
+$space-size: 20px !default;
+$opacity: 0.6 !default;
 
-$sidebar-width: 220px;
+$sidebar-width: 220px !default;
