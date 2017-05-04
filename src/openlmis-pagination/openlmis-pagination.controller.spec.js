@@ -125,22 +125,23 @@ describe('PaginationController', function() {
         });
 
         it('should return correct number of elements', function() {
+            expect(vm.getPages().length).toBe(4);
+        });
+
+        it('should return correct number of elements if selected page is not first one', function() {
+            vm.page = 3;
             expect(vm.getPages().length).toBe(5);
         });
     });
 
     describe('getTotalPages', function() {
 
-        it('should return array', function() {
+        it('should return number', function() {
             expect(angular.isNumber(vm.getTotalPages())).toBe(true);
         });
 
         it('should return correct number of elements', function() {
             expect(vm.getTotalPages()).toBe(5);
-        });
-
-        it('should equals getPages length', function() {
-            expect(vm.getTotalPages()).toBe(vm.getPages().length);
         });
     });
 

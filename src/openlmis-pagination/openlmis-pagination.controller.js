@@ -226,7 +226,18 @@
          * @return {Array} generated numbers for pagination
          */
         function getPages() {
-            return new Array(Math.max(getTotalPages(), 1));
+            var pageNumbers = [],
+                i;
+
+            for(i = 3; i >= 0; i--) {
+                if(pagination.page - i >= 0) pageNumbers.push(pagination.page - i);
+            }
+
+            for(i = 1; i <= 3; i++) {
+                if(pagination.page + i < getTotalPages()) pageNumbers.push(pagination.page + i);
+            }
+
+            return pageNumbers;
         }
 
         /**

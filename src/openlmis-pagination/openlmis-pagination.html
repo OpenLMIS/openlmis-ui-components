@@ -11,10 +11,10 @@
 				{{'openlmisPagination.previous' | message}}
 			</a>
 		</li>
-		<li ng-class="{active: pagination.isCurrentPage($index), invalid: pagination.isPageValid && !pagination.isPageValid($index)}"
-			ng-repeat="i in pagination.getPages() track by $index">
-			<a ng-click="pagination.changePage($index)">
-				{{$index + 1}}
+		<li ng-class="{active: pagination.isCurrentPage(i), invalid: pagination.isPageValid && !pagination.isPageValid(i)}"
+			ng-repeat="i in pagination.getPages()">
+			<a ng-click="pagination.changePage(i)">
+				{{i + 1}}
 			</a>
 		</li>
 		<li class="active" ng-if="pagination.page > pagination.getTotalPages()">
