@@ -27,7 +27,7 @@
      * sticky to the element. This will automatically stick the element to the left or
      * right side of the table using relative positioning.
      *
-     * Only tables that are surrouned by a `.table-container` class will have sticky columns.
+     * Only tables that are surrounded by a `.table-container` class will have sticky columns.
      *
      * @example
      * ```
@@ -62,7 +62,7 @@
 
         function link(scope, element, attrs) {
             // Only check for sticky elements if within a table container
-            if(element.parents('.openlmis-table-container').length == 0){
+            if(element.parents('.openlmis-table-container').length === 0) {
                 return ;
             }
 
@@ -82,18 +82,16 @@
             // Updates blit array...
             updateStickyElements();
 
-            
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return element[0].querySelectorAll('.col-sticky').length;
             }, updateStickyElementsDelayed);
 
-            var blitTimeout;
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return element[0].querySelectorAll('td').length;
             }, updateStickyElementsDelayed);
 
             var updateTimeout;
-            function updateStickyElementsDelayed(){
+            function updateStickyElementsDelayed() {
                 if(updateTimeout){
                     $timeout.cancel(updateTimeout);
                 }
@@ -117,14 +115,14 @@
              * @description
              * Updates the functions that animate each sticky element.
              */
-            function updateStickyElements(){
+            function updateStickyElements() {
                 blits = [];
 
                 if(parent){
                     parent.off('scroll', blit);
                 }
 
-                parent = element.parent(); // reset incase it changed...
+                parent = element.parent(); // reset in case it changed...
                 parent.on('scroll', blit);
 
                 // Create blit functions
@@ -150,15 +148,15 @@
              * @description
              * Updates view items, and animates cells
              */
-            function blit(){
+            function blit() {
                 tableWidth = element.width();
                 parentWidth = element.parent().width();
-                
+
 
                 leftEdge = 0 - element.position().left;
                 rightEdge = parentWidth + leftEdge;
 
-                if(rightEdge - tableWidth > 0){
+                if(rightEdge - tableWidth > 0) {
                     return; // if the end of the table has been reached, stop
                 }
 
@@ -216,17 +214,17 @@
              * @description
              * Create an animation function to position an element to the left.
              */
-            function setUpBlits(cell){
+            function setUpBlits(cell) {
                 var cellOffset = cell.position().left,
                 cellWidth = cell.outerWidth(),
                 cellParent = cell.parent()[0];
 
                 blits.push(function(){
-                    if(cell.hasClass('stuck')){
+                    if(cell.hasClass('stuck')) {
                         return;
                     }
 
-                    if(currentParent != cellParent){
+                    if(currentParent != cellParent) {
                         resetCurrent(cellParent);
                     }
 
@@ -234,16 +232,16 @@
                     isOffRight = cellOffset + cellWidth > rightEdge + currentRightOffset,
                     canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
 
-                    if(isOffLeft && canFit){
-                        leftBlit();
-                    } else if (isOffRight && canFit){
+                    if(cell.hasClass('sticky-right') && canFit) {
                         rightBlit();
+                    } else if(canFit) {
+                        leftBlit();
                     } else {
                         setPosition(0);
                     }
                 });
 
-                function leftBlit(){
+                function leftBlit() {
                     var position = leftEdge + currentLeftOffset - cellOffset;
                     // if offset, cell will break table
                     if(position + cellWidth > tableWidth) {
@@ -256,12 +254,10 @@
                     currentLeftOffset += cellWidth;
                 }
 
-                function rightBlit(){
-                    var cellRightOffset = tableWidth - cellOffset - cellWidth;
-
-                    var position = 0 - (tableWidth - rightEdge - cellRightOffset);
+                function rightBlit() {
+                    var position = 0 - (tableWidth - parentWidth - currentRightOffset - leftEdge);
                     // if offset, this will run off screen
-                    if(position >= 0){
+                    if(position >= 0) {
                         return;
                     }
 
@@ -271,7 +267,7 @@
                     currentRightOffset += cellWidth;
                 }
 
-                function setPosition(position){
+                function setPosition(position) {
                     cell.css('left', position + 'px');
                 }
             }
