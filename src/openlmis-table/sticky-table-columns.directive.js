@@ -66,7 +66,6 @@
                 return ;
             }
 
-
             var parent = element.parent(),
             // Values used by cells to calculate offset...
             parentWidth,
@@ -152,13 +151,8 @@
                 tableWidth = element.width();
                 parentWidth = element.parent().width();
 
-
                 leftEdge = 0 - element.position().left;
                 rightEdge = parentWidth + leftEdge;
-
-                if(rightEdge - tableWidth > 0) {
-                    return; // if the end of the table has been reached, stop
-                }
 
                 // Always remove all the classes before bliting
                 jQuery('.stuck', element)
@@ -169,7 +163,7 @@
 
                 resetCurrent();
 
-                angular.forEach(blits, function(blit){
+                angular.forEach(blits, function(blit) {
                     blit();
                 });
 
@@ -177,7 +171,7 @@
 
                 jQuery('td', element).each(function(index, td){
                     if(td.getAttribute('colspan')){
-                        return ;
+                        return;
                     }
                     td = angular.element(td);
                     var tdParent = td.parent();
@@ -228,9 +222,7 @@
                         resetCurrent(cellParent);
                     }
 
-                    var isOffLeft = cellOffset < leftEdge + currentLeftOffset,
-                    isOffRight = cellOffset + cellWidth > rightEdge + currentRightOffset,
-                    canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
+                    var canFit = currentLeftOffset + currentRightOffset + cellWidth < parentWidth;
 
                     if(cell.hasClass('sticky-right') && canFit) {
                         rightBlit();
@@ -255,7 +247,7 @@
                 }
 
                 function rightBlit() {
-                    var position = 0 - (tableWidth - parentWidth - currentRightOffset - leftEdge);
+                    var position = 0 - (tableWidth - parentWidth - leftEdge);
                     // if offset, this will run off screen
                     if(position >= 0) {
                         return;
