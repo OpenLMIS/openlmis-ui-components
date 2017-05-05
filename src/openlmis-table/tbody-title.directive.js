@@ -77,9 +77,9 @@
 
                 if(element.parents('.openlmis-table-container').length > 0){
                     var table = element.parents('table:first');
-                    
+
                     // openlmis-table-container will rewrite table's parent
-                    // after this link is run... so we are watching  
+                    // after this link is run... so we are watching
                     var parent = table.parent();
                     scope.$watch(function(){
                         return table.parent()[0];
@@ -108,7 +108,7 @@
                 expandableElement.outerWidth(parent.outerWidth());
 
                 var offset = table.position().left * -1;
-                if(offset + expandableElement.outerWidth() <= table.width()){
+                if(offset + expandableElement.outerWidth() <= table.width() + 1){
                     expandableElement.css('left', offset + 'px');
                 }
             }
