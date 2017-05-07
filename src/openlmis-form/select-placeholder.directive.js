@@ -74,8 +74,7 @@
 
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
-                emptyOption = prepareEmptyOption(),
-                clearLink = prepareClearLink();
+                emptyOption = prepareEmptyOption();
 
             displayPlaceholder();
 
@@ -86,25 +85,15 @@
             if(ngModelCtrl) {
                 scope.$watch(function() {
                     return ngModelCtrl.$viewValue;
-                }, function(value) {
-                    if(!element.hasClass('pop-out')) selectCtrl.writeValue(value);
-                    displayPlaceholder();
-                });
+                }, displayPlaceholder);
             }
 
             function displayPlaceholder() {
-                if(!element.children('option[selected="selected"]:not(.placeholder)').length) {
+                if(selectCtrl.readValue() === null) {
                     emptyOption.attr('selected', 'selected');
                     emptyOption.show();
-                    clearLink.hide();
-                } else if (attrs['required']) {
-                    clearLink.hide();
-                    emptyOption.hide();
                 } else {
                     emptyOption.hide();
-                    if (element.children('option').length > 1 && element.children('option').length < 10) {
-                        clearLink.show();
-                    }
                 }
             }
 
@@ -147,25 +136,6 @@
                 }
 
                 return element.children('option.placeholder');
-            }
-
-            function prepareClearLink() {
-                var clearLink = angular.element(
-                    '<a class="clear" href="#">' + messageService.get('openlmisForm.clearSelection') + '</a>'
-                );
-
-                clearLink.insertAfter(element);
-                clearLink.click(clearSelectValue);
-                return clearLink;
-            }
-
-            function clearSelectValue(event) {
-                event.preventDefault();
-                element.children('option[selected="selected"]').removeAttr('selected');
-                if(ngModelCtrl) {
-                    ngModelCtrl.$setViewValue(undefined);
-                }
-                displayPlaceholder();
             }
         }
     }

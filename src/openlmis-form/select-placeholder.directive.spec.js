@@ -72,37 +72,6 @@ describe('Select directive', function() {
         expect(element.children('option.placeholder').text()).toBe('My Placeholder');
     });
 
-    it("will hide the placeholder when a value is selected, and show a clear link", function(){
-        // manually rendering form because ngModel wouldn't initialize right (maybe)
-        var form = makeElement(
-            '<form><select >'
-            + '<option selected="selected">foo</option>'
-            + '<option>bar</option>'
-            + '</select></form>'
-            );
-        var select = angular.element(form.children('select')[0]);
-
-        expect(select.children('option.placeholder').attr('style')).toBe('display: none;');
-        expect(form.children('a.clear').attr('style')).toBeUndefined();
-    });
-
-    it("will show the placeholder and set ngModel to undefined, when the clear link is clicked", function(){
-        // manually rendering form because ngModel wouldn't initialize right (maybe)
-        var form = makeElement(
-            '<form><select >'
-            + '<option selected="selected">foo</option>'
-            + '<option>bar</option>'
-            + '</select></form>'
-            );
-        var select = angular.element(form.children('select')[0]);
-
-        form.children('a.clear').click();
-        scope.$apply();
-
-        expect(!select.children('option.placeholder').attr('style')).toBe(true);
-        expect(form.children('a.clear').attr('style')).toBe('display: none;');
-    });
-
     it("will not use a placeholder when no-placeholder is set", function(){
         var element = makeElement(
             '<select no-placeholder>'
@@ -112,20 +81,6 @@ describe('Select directive', function() {
             );
 
         expect(element.children('option:first').text()).toBe('First element');
-    });
-
-    it("will not show the clear link when if the select is required", function(){
-        // manually rendering form because ngModel wouldn't initialize right (maybe)
-        var form = makeElement(
-            '<form><select required="true" >'
-            + '<option selected="selected">foo</option>'
-            + '<option>bar</option>'
-            + '</select></form>'
-            );
-        var select = angular.element(form.children('select')[0]);
-
-        expect(select.children('option.placeholder').attr('style')).toBe('display: none;');
-        expect(form.children('a.clear').attr('style')).toBe('display: none;');
     });
 
 });

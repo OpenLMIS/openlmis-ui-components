@@ -18,7 +18,7 @@ markup:
 	<label for="select-single-option">Select with no selection</label>
 	<select id="select-single-option">
 	  <option>Ignored placeholder value</option>
-	  <option value="selected-default-option">Selected default option</option>
+	  <option value="selected-default-option">Default option (already selected)</option>
 	</select>
 	<fieldset ng-init="
 		selectValue='animal';

@@ -36,145 +36,182 @@
         .module('openlmis-form')
         .directive('select', select);
 
-    select.$inject = ['bootbox', '$rootScope', '$compile', '$templateRequest'];
+    select.$inject = ['jQuery', '$q', '$compile', '$templateRequest', 'PAGE_SIZE'];
 
-    function select(bootbox, $rootScope, $compile, $templateRequest) {
+    function select(jQuery, $q, $compile, $templateRequest, PAGE_SIZE) {
         return {
             restrict: 'E',
-            replace: false,
-            require: ['?select', '?ngModel'],
+            require: ['select', '?ngModel'],
             link: link
         };
 
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],
-                ngModelCtrl = ctrls[1];
+                ngModelCtrl = ctrls[1],
+                popoverScope;
 
             element.off('click');
 
             element.on('mousedown', function (event) {
-                if(isPopOut()) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    element.focus();
-                }
+                event.stopPropagation();
+                event.preventDefault();
+                element.focus();
+                openPopover();
             });
 
             element.bind('keydown', function (event) {
-                if(isPopOut() && event.which === 13) {
+                if([13, 38, 40].indexOf(event.which) > -1) {
                     event.stopPropagation();
                     event.preventDefault();
                     element.focus();
-                    element.popover('show');
+                    openPopover();
                 }
             });
 
-            element.on('hidden.bs.popover', function (event) {
-                element.data("bs.popover").inState.click = false;
-            });
+            popoverScope = scope.$new();
+            popoverScope.PAGE_SIZE = PAGE_SIZE;
+            popoverScope.cssClass = 'select-search-option';
+            popoverScope.closePopover = closePopover;
+            popoverScope.select = selectOption;
 
-            updateSelect();
-            if(ngModelCtrl) {
-                // using instead of $ngModelCtrl.$render
-                // beacuse ngSelect uses it
-                scope.$watch(function() {
-                    return ngModelCtrl.$modelValue;
-                }, updateSelect);
-
-                // See if ng-repeat or ng-options changed
-                scope.$watch(function() {
-                    return element.html();
-                }, updateSelect);
-            }
-
-            function updateSelect() {
-                if(isPopOut() && !element.hasClass('pop-out')) {
-                    element.addClass('pop-out');
-                    addPopover();
-                } else if (!isPopOut()) {
-                    element.removeClass('pop-out');
-                }
-            }
-
-            function addPopover() {
-                $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
-                    scope.cssClass = '';
-                    scope.closePopover = closePopover;
-                    var template = $compile(templateHtml)(scope);
-
-                    var popoverConfig = {
-                        template: template,
-                        container: 'body',
-                        placement: 'bottom',
-                        trigger: 'click'
-                    };
-
-                    scope.options = getOptions();
-                    scope.select = selectOption;
-                    scope.showClearSelection = showClearSelection;
-                    scope.clearSelection = clearSelection;
-                    scope.findSelectedOption = findSelectedOption;
-                    scope.findSelectedOption();
-
-                    $templateRequest('openlmis-form/select-search-option.html').then(function(html){
-                        var compiledElement = $compile(html)(scope);
-                        popoverConfig.content = compiledElement;
-                        popoverConfig.html = true;
-                        element.popover(popoverConfig);
-                    });
+            updatePopoverScope();
+            
+            $q.all({
+                'templateHtml': $templateRequest('openlmis-popover/popover.html'),
+                'html': $templateRequest('openlmis-form/select-search-option.html')
+            }).then(function(response){
+                var templateHtml = response['templateHtml'],
+                    html = response['html'];
+                
+                element.popover({
+                    template: $compile(templateHtml)(popoverScope),
+                    content: $compile(html)(popoverScope),
+                    html: true,
+                    container: 'body',
+                    placement: 'auto bottom',
+                    trigger: 'manual'
                 });
+            });
+
+
+            /**
+             * @ngdoc method
+             * @propertyOf openlmis-form.directive:select-search-option
+             * @name openPopover
+             *
+             * @description
+             * Creates and displays a new search popover which is generated
+             * from the select element. This function registers the event
+             * listener that will later call closePopover.
+             */
+            function openPopover() {
+                if(element.attr('disabled')){
+                    return ;
+                }
+
+                if (element.hasClass('has-popover')) {
+                    closePopover();
+                    return ;
+                }
+
+                updatePopoverScope();
+                popoverScope.$digest();
+                element.popover('show');
+
+                jQuery('body').on('click focusin', closeListener);
+
+                jQuery('.popover legend:last').focus();
+                element.addClass('is-focused');
+                element.addClass('has-popover');
+                
             }
 
+            /**
+             * @ngdoc method
+             * @propertyOf openlmis-form.directive:select-search-option
+             * @name closePopover
+             *
+             * @description
+             * Closes the popover, unregistering all listenters and destroying
+             * the popover's scope.
+             */
             function closePopover() {
+                jQuery('body').off('click focusin', closeListener);
+
+                element.removeClass('is-focused');
+                element.removeClass('has-popover');
+                
                 element.popover('hide');
-                element.blur();
+                element.focus();
             }
 
-            function showClearSelection() {
-                return !attrs['required']
-                    && element.children('option[selected="selected"]')[0].className !== 'placeholder';
+            /**
+             * @ngdoc method
+             * @propertyOf openlmis-form.directive:select-search-option
+             * @name closeListener
+             *
+             * @description
+             * Is called on any focus or click events once openPopover is
+             * called. If the click event is not on the select element or a 
+             * section of the popover, closePopover is called.
+             *
+             * This listener doesn't stop any event from happening.
+             * 
+             */
+            function closeListener(event){
+                var target = jQuery(event.target);
+                if( target[0] != element[0] && !target.hasClass('popover') && target.parents('.popover').length == 0) {
+                    closePopover();
+                }
             }
 
-            function clearSelection() {
-                element.children('option[selected="selected"]').removeAttr('selected');
-                element.children('option[className="placeholder"]').attr('selected', 'selected');
-
-                ngModelCtrl.$setViewValue(undefined);
+            /**
+             * @ngdoc method
+             * @propertyOf openlmis-form.directive:select-search-option
+             * @name selectOption
+             *
+             * @description
+             * Sets a value to the select element and then immedately closes
+             * the popover.
+             * 
+             */
+            function selectOption(value) {
+                element.val(value);
+                if(ngModelCtrl){
+                    ngModelCtrl.$setViewValue(selectCtrl.readValue());
+                }
+                
                 closePopover();
             }
 
-            function findSelectedOption() {
-                var selectedOption,
-                    scope = this;
+            /**
+             * @ngdoc method
+             * @propertyOf openlmis-form.directive:select-search-option
+             * @name updatePopoverScope
+             *
+             * @description
+             * Reads information from the select element to create the
+             * searchable popover element. All information is stored in
+             * the popoverScope, which is destroyed with closePopover.
+             */
+            function updatePopoverScope() {
+                
+                // var title = jQuery('label[for="' + element.attr('id') + '"').text();
+                // if(title && title != '') popoverScope.title = title;
 
-                angular.forEach(this.options, function(option) {
-                    if(option.selected) selectedOption = option;
-                });
-
-                this.selected = selectedOption;
-            }
-
-            function getOptions() {
-                var options = [];
-
+                popoverScope.options = [];
+                popoverScope.selectedValue = false;
                 angular.forEach(element.children('option:not(.placeholder)'), function(option) {
-                    options.push(angular.element(option)[0]);
+                    popoverScope.options.push({
+                        label: option.label,
+                        value: option.value,
+                        selected: option.selected
+                    });
+
+                    if(option.selected) {
+                        popoverScope.selectedValue = true;
+                    }
                 });
-
-                return options;
-            }
-
-            function selectOption(option) {
-                element.children('option[selected="selected"]').removeAttr('selected');
-                element.children('option[label="' + option.label + '"]').attr('selected', 'selected');
-
-                ngModelCtrl.$setViewValue(selectCtrl.readValue());
-                closePopover();
-            }
-
-            function isPopOut() {
-                return (attrs.popOut !== null && attrs.popOut !== undefined) ||
-                    (getOptions().length > 10);
             }
         }
     }

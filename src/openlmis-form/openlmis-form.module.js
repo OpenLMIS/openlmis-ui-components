@@ -27,7 +27,8 @@
         'openlmis-date',
         'openlmis-i18n',
         'openlmis-modal',
-        'mgcrea.ngStrap.datepicker'
+        'mgcrea.ngStrap.datepicker',
+        'openlmis-pagination'
     ]);
 
 })();

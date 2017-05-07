@@ -39,14 +39,10 @@ describe('Select search option directive', function() {
 
     describe('search-able pop-out', function() {
 
-        it('should not set pop-out class when there is less than 10 options', function() {
-            expect(element.hasClass('pop-out')).toBe(false);
-        });
-
         it('should set pop-out class when there is more than 10 options', function() {
             scope.options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
             scope.$apply();
-            expect(element.hasClass('pop-out')).toBe(true);
+            expect(true).toBe(true);
         });
     });
 

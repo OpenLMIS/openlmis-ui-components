@@ -1,46 +1,24 @@
-.select-search-option {
+.popover.select-search-option {
 
-    .form-group {
-        overflow-y: hidden;
+    > h3 {
+        display: none;
     }
-}
 
-.select-content {
-    overflow: auto;
-    max-height: 22.5em;
-    border-bottom: $heading-border-color 1px solid;
-}
+    > .popover-content{
+        padding: 0px;
+        > * {
+            padding: 0.5em;
+        }
+    }
 
-select {
-    padding-left: 1.7em;
+    .select-options {
+        overflow-y: auto; // max-height is set in markup
+        legend{
+            padding-right: 3em; // Spacing for close button...
+        }
+    }
 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image:
-            linear-gradient(45deg, transparent 50%, gray 50%),
-            linear-gradient(135deg, gray 50%, transparent 50%);
-    background-position:
-            10px 1em,
-            14px 1em;
-    background-size:
-            5px 5px,
-            5px 5px;
-    background-repeat: no-repeat;
-}
-
-select:focus {
-    padding-left: 1.7em;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image:
-            linear-gradient(45deg, gray 50%, transparent 50%),
-            linear-gradient(135deg, transparent 50%, gray 50%);
-    background-position:
-            14px 1em,
-            10px 1em;
-    background-size:
-            5px 5px,
-            5px 5px;
-    background-repeat: no-repeat;
+    .select-search {
+        background-color: $background-color-alt;
+    }
 }
