@@ -64,8 +64,7 @@ describe('currencyService', function() {
 
         currencyService.getCurrencySettingsFromConfig();
 
-        expect(localStorageService.add)
-            .toHaveBeenCalledWith('currencySettings', settingsJson);
+        expect(localStorageService.add).toHaveBeenCalled();
     });
 
     afterEach(function () {
