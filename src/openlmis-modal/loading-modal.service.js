@@ -83,6 +83,7 @@
             }
 
             if(dialog) {
+                dialog.closed = true;
                 dialog.hide();
                 dialog = undefined;
             }

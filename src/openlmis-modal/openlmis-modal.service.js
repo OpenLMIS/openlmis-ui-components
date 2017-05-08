@@ -90,8 +90,10 @@
         function decorateShow(dialog) {
             dialog.$$show = dialog.show;
             dialog.show = function() {
-                hideTopModal(dialog);
-                dialog.$$show();
+                if(!dialog.closed) {
+                    hideTopModal(dialog);
+                    dialog.$$show();
+                }
             };
         }
 
