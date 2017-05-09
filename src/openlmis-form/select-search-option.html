@@ -5,13 +5,10 @@
     </div>
     <p>{{'openlmisForm.showingNumberOfResults' | message: {'num': results.length, 'total': options.length} }}</p>
 </form>
-<form class="select-options" style="max-height: {{PAGE_SIZE*2}}em;">
-	<fieldset class="form-group">
-		<legend>{{'openlmisForm.selectAnOption' | message }}</legend>
-		<a ng-if="selectedValue" ng-click="select()">{{ 'openlmisForm.clearSelection' | message}}</a>
-		<label class="radio" ng-repeat="option in options | filter: {label: searchText} as results">
-			<input type="radio" ng-click="select(option.value)" ng-checked="option.selected" ng-value="option.value" />
+<ul class="select-options" style="max-height: {{PAGE_SIZE*2}}em;">
+	<li ng-repeat="option in options | filter: {label: searchText} as results">
+		<a ng-click="select(option.value)" ng-class="{'selected':option.selected}">
 			{{option.label}}
-		</label>
-	</fieldset>
-</form>
+		</a>
+	</li>
+</ul>

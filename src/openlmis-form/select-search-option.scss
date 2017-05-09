@@ -1,6 +1,6 @@
 .popover.select-search-option {
 
-    > h3 {
+    > h3, > button.close {
         display: none;
     }
 
@@ -11,11 +11,30 @@
         }
     }
 
-    .select-options {
+    ul.select-options {
+        @extend .list-unstyled;
+        margin-bottom: 0px;
+        padding: 0.5em;
         overflow-y: auto; // max-height is set in markup
-        legend{
-            padding-right: 3em; // Spacing for close button...
+    }
+
+    .select-options a {
+        display: block;
+        color: $text-color;
+        text-decoration: none;
+        border-top: $border-color 1px solid;
+        padding: 0.5em 1em;
+        &.selected{
+            color: $link-color;
         }
+        &:hover, &.selected:hover{
+            background-color: lighten($brand-primary, 30);
+            color: $text-color;
+        }
+    }
+
+    .select-options li:first-child a{
+        border-top-width: 0px;
     }
 
     .select-search {
