@@ -160,6 +160,9 @@
              */
             function closeListener(event){
                 var target = jQuery(event.target);
+                if(target.hasClass('bootbox')){    // This is a bug..
+                    return ;
+                }
                 if( target[0] != element[0] && !target.hasClass('popover') && target.parents('.popover').length == 0) {
                     closePopover();
                 }
