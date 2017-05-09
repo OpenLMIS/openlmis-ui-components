@@ -17,32 +17,66 @@ describe('Select search option directive', function() {
 
     'use strict';
 
-    var $compile, scope, element;
+    var jQuery, $compile, scope, element, searchForm;
 
     beforeEach(function() {
 
         module('openlmis-templates');
+
+        module('openlmis-pagination', function($provide){
+            $provide.constant('PAGE_SIZE', 3);
+        });
+
         module('openlmis-form');
 
-        inject(function(_$compile_, $rootScope) {
+        inject(function(_jQuery_, _$compile_, $rootScope) {
+            jQuery = _jQuery_;
             $compile = _$compile_;
 
+            spyOn(jQuery.prototype, 'popover').andCallThrough();
+
             scope = $rootScope.$new();
-            scope.options = [];
+            scope.options = [1,2];
             element = $compile(
                 '<select ng-model="value" ng-options="option for option in options"></select>'
                 )(scope);
             scope.$apply();
             element = angular.element(element[0]);
+            searchForm = jQuery(jQuery.prototype.popover.mostRecentCall.args[0].content[0]);
         });
+    });
+
+    describe('select popover', function(){
+
+        it('creates a popover for a select element', function(){
+            var popoverTemplate = jQuery(jQuery.prototype.popover.mostRecentCall.args[0].template[0]);
+            expect(popoverTemplate.hasClass('select-search-option'));
+        });
+
+        it('closes the popover when an option is clicked', function(){
+            
+        });
+
+        it('hides the search box when there are less options than PAGE_SIZE', function(){
+            expect(searchForm.hasClass('select-search')).toBe(true);
+            expect(searchForm.hasClass('ng-hide')).toBe(true);
+        });
+
     });
 
     describe('search-able pop-out', function() {
 
-        it('should set pop-out class when there is more than 10 options', function() {
-            scope.options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+        it('should display search box when there are more options than PAGE_SIZE', function() {
+            scope.options = [1, 2, 3, 4];
+            element.click();
             scope.$apply();
-            expect(true).toBe(true);
+
+            expect(searchForm.hasClass('select-search')).toBe(true);
+            // expect(searchForm.hasClass('ng-show')).toBe(true);
+        });
+
+        it('searches options when text is entered', function(){
+            
         });
     });
 
