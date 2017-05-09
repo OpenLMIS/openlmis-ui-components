@@ -88,7 +88,7 @@
                     content: $compile(html)(popoverScope),
                     html: true,
                     container: 'body',
-                    placement: 'auto bottom',
+                    placement: 'bottom',
                     trigger: 'manual'
                 });
             });
