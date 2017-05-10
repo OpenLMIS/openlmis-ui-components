@@ -1,3 +1,9 @@
+5.0.1 / Coming soon
+==================
+
+* Bug fixes
+    * Removed initial timeout from the saving indicator ([OLMIS-2329](https://openlmis.atlassian.net/browse/OLMIS-2329))
+
 5.0.0 / 2017-05-08
 ==================
 

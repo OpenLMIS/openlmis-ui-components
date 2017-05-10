@@ -38,8 +38,6 @@ describe('SavingIndicatorController', function() {
         vm = $controller('SavingIndicatorController', {
             $scope: scope
         });
-        vm.$onInit();
-        scope.$digest();
     });
 
     describe('onInit', function() {
@@ -49,16 +47,15 @@ describe('SavingIndicatorController', function() {
         });
 
         it('should set icon class and message', function() {
+            vm.$onInit();
+
             expect(vm.iconClass).toBe('saved');
             expect(vm.message).toBe('openlmisForm.changesSaved');
         });
 
-        it('should set timeout for setting watcher', function() {
-            expect(scope.$watch).not.toHaveBeenCalled();
-        });
-
         it('should set watcher', function() {
-            $timeout.flush();
+            vm.$onInit();
+
             expect(scope.$watch).toHaveBeenCalled();
         });
     });
@@ -66,7 +63,8 @@ describe('SavingIndicatorController', function() {
     describe('saving status', function() {
 
         beforeEach(function() {
-            $timeout.flush();
+            vm.$onInit();
+            scope.$digest();
         });
 
         it('should not change status if changes were not made', function() {

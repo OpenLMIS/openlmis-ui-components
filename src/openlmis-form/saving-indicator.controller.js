@@ -69,17 +69,15 @@
         function onInit() {
             setSavedStatus();
 
-            $timeout(function() {
-                $scope.$watch(function() {
-                    return $scope.object;
-                }, function(oldValue, newValue) {
-                    if (oldValue !== newValue) {
-                        setSavingStatus();
-                        $timeout.cancel(savingTimeout);
-                        savingTimeout = $timeout(setSavedStatus, 3000);
-                    }
-                }, true);
-            }, 1000);
+            $scope.$watch(function() {
+                return $scope.object;
+            }, function(oldValue, newValue) {
+                if (oldValue !== newValue) {
+                    setSavingStatus();
+                    $timeout.cancel(savingTimeout);
+                    savingTimeout = $timeout(setSavedStatus, 3000);
+                }
+            }, true);
         }
 
         function setSavedStatus() {
