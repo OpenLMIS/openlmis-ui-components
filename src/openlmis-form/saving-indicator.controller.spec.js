@@ -71,7 +71,6 @@ describe('SavingIndicatorController', function() {
             scope.object.requisitionLineItems[0].value = 1;
             scope.$digest();
 
-            $timeout.verifyNoPendingTasks();
             expect(vm.iconClass).toBe('saved');
             expect(vm.message).toBe('openlmisForm.changesSaved');
         });
