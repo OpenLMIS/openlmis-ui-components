@@ -27,7 +27,8 @@
      * into AngularJS directives and services that are used within the OpenLMIS-UI.
      */
     angular.module('openlmis-offline', [
-        'openlmis-config'
+        'openlmis-config',
+        'openlmis-local-storage'
     ]);
 
 })();

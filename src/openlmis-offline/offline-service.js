@@ -27,11 +27,12 @@
     angular.module('openlmis-offline')
         .service('offlineService', offlineService);
 
-    offlineService.$inject = ['Offline', '$timeout', '$q', '$rootScope'];
+    offlineService.$inject = ['Offline', '$timeout', '$q', '$rootScope', 'localStorageFactory'];
 
-    function offlineService(Offline, $timeout, $q, $rootScope) {
+    function offlineService(Offline, $timeout, $q, $rootScope, localStorageFactory) {
         var service = this,
-            isOfflineFlag = false;
+            storedFlag = localStorageFactory('offlineFlag'),
+            isOfflineFlag = localStorageFactory('offlineFlag').getAll().length ? localStorageFactory('offlineFlag').getAll()[0] : false;
 
         service.checkConnection = checkConnection;
         service.isOffline = isOffline;
@@ -40,11 +41,13 @@
             checkOnLoad: true,
             interceptRequests: false,
             requests: false,
-            checks: {xhr: {
-              url: function() {
-                return 'favicon.ico?_=' + new Date().getTime();
-              }
-            }}
+            checks: {
+                xhr: {
+                    url: function() {
+                        return 'favicon.ico?_=' + new Date().getTime();
+                    }
+                }
+            }
         };
 
         Offline.on('confirmed-up', online);
@@ -102,6 +105,8 @@
            $timeout(function() {
                $rootScope.$broadcast('openlmis.offline');
                isOfflineFlag = true;
+               localStorageFactory('offlineFlag').clearAll();
+               localStorageFactory('offlineFlag').put(true);
            });
         }
 
@@ -109,6 +114,8 @@
            $timeout(function() {
                $rootScope.$broadcast('openlmis.online');
                isOfflineFlag = false;
+               localStorageFactory('offlineFlag').clearAll();
+               localStorageFactory('offlineFlag').put(false);
            });
         }
     }
