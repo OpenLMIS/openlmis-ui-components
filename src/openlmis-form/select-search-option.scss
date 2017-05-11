@@ -1,4 +1,4 @@
-.popover.select-search-option {
+.select-popover {
 
     > h3, > button.close {
         display: none;
@@ -7,37 +7,67 @@
     > .popover-content{
         padding: 0px;
         > * {
-            padding: 0.5em;
+            margin: 0.5em;
         }
     }
 
     ul.select-options {
         @extend .list-unstyled;
-        margin-bottom: 0px;
-        padding: 0.5em;
+        padding: 0px;
         overflow-y: auto; // max-height is set in markup
+        max-height: @@PAGE_SIZE * 2em; // each link item is about 2em tall
+    }
+
+    .select-search {
+        border-bottom: $light-gray 1px solid;
     }
 
     .select-options a {
         display: block;
         color: $text-color;
         text-decoration: none;
-        border-top: $border-color 1px solid;
+        border-top: $light-gray 1px solid;
         padding: 0.5em 1em;
+
+        &:hover{
+            background-color: lighten($brand-primary, 45);
+        }
+
         &.selected{
             color: $link-color;
+            &:hover{
+                color: $brand-danger;
+            }
+            > span {
+                display: inline-block;
+                width: 0px;
+                height: 0px;
+                overflow: hidden;
+                text-indent: -3000em;
+            }
         }
-        &:hover, &.selected:hover{
-            background-color: lighten($brand-primary, 30);
-            color: $text-color;
+
+        &.selected{
+            @include icon("times");
+            &::before {
+                color: $gray;
+            }
+            &:hover::before {
+                color: $brand-danger;
+            }
         }
     }
 
-    .select-options li:first-child a{
+    ul.select-options > li:first-child > a{
         border-top-width: 0px;
     }
-
-    .select-search {
-        background-color: $background-color-alt;
-    }
 }
+
+.select-popover .select-search {
+    display: none;
+}
+.select-popover-search .select-search,
+.select-popover.select-popover-search .select-search {
+    display: block;
+}
+

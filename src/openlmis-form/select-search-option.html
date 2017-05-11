@@ -5,10 +5,13 @@
     </div>
     <p>{{'openlmisForm.showingNumberOfResults' | message: {'num': results.length, 'total': options.length} }}</p>
 </form>
-<ul class="select-options" style="max-height: {{PAGE_SIZE*2}}em;">
+<ul class="select-options">
 	<li ng-repeat="option in options | filter: {label: searchText} as results">
-		<a ng-click="select(option.value)" ng-class="{'selected':option.selected}">
+		<a ng-if="!option.selected" ng-click="select(option.value)" ng-class="{'selected':option.selected}">
 			{{option.label}}
+		</a>
+		<a ng-if="option.selected" ng-click="select()" class="selected">
+			{{option.label}} <span>{{ 'openlmisForm.clearSelection' | message}}</span>
 		</a>
 	</li>
 </ul>

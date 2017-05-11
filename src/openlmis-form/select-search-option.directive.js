@@ -70,7 +70,7 @@
 
             popoverScope = scope.$new();
             popoverScope.PAGE_SIZE = PAGE_SIZE;
-            popoverScope.cssClass = 'select-search-option';
+            popoverScope.cssClass = 'select-popover';
             popoverScope.closePopover = closePopover;
             popoverScope.select = selectOption;
 
@@ -199,9 +199,15 @@
              */
             function updatePopoverScope() {
                 
-                // var title = jQuery('label[for="' + element.attr('id') + '"').text();
-                // if(title && title != '') popoverScope.title = title;
+                // Find title from elements ID (mainly for screen readers)
+                if(element && element.attr('id') ){ // Added statement because Karma complained....
+                    var title = jQuery('label[for="' + element.attr('id') + '"').text();
+                    if(title && title != '') {
+                        popoverScope.title = title;
+                    }
+                }
 
+                // Add in options
                 popoverScope.options = [];
                 popoverScope.selectedValue = false;
                 angular.forEach(element.children('option:not(.placeholder)'), function(option) {
@@ -210,11 +216,17 @@
                         value: option.value,
                         selected: option.selected
                     });
-
-                    if(option.selected) {
-                        popoverScope.selectedValue = true;
-                    }
                 });
+
+                // Reset search text
+                popoverScope.searchText = '';
+
+                // Add CSS class that will show/hide the search form
+                if(popoverScope.options.length > PAGE_SIZE) {
+                    popoverScope.cssClass = 'select-popover select-popover-search';
+                } else {
+                    popoverScope.cssClass = 'select-popover'
+                }
             }
         }
     }
