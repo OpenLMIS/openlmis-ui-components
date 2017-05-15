@@ -103,6 +103,7 @@
             element.on('$destroy', function() {
                 angular.element($window).unbind('resize', updateStickyElements);
                 parent.off('scroll', blit);
+                parent.off('sticky-refresh', blit);
                 parent = undefined;
             });
 
@@ -117,12 +118,14 @@
             function updateStickyElements() {
                 blits = [];
 
-                if(parent){
+                if(parent) {
                     parent.off('scroll', blit);
+                    parent.off('sticky-refresh', blit);
                 }
 
                 parent = element.parent(); // reset in case it changed...
                 parent.on('scroll', blit);
+                parent.on('sticky-refresh', blit);
 
                 // Create blit functions
                 jQuery('.col-sticky', element).each(function(index, cell) {
