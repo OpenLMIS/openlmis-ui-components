@@ -6,6 +6,7 @@ Bug fixes
 * [OLMIS-2329](https://openlmis.atlassian.net/browse/OLMIS-2329): Requisition calculated fields are calculated only for current page
   * Removed initial timeout from the saving indicator
 * [OLMIS-2224](https://openlmis.atlassian.net/browse/OLMIS-2224): Offline flag is now stored in local storage
+* [OLMIS-2328](https://openlmis.atlassian.net/browse/OLMIS-2328): Fixed issues with resizing on tables with colspan and sticky columns
 
 5.0.0 / 2017-05-08
 ==================
