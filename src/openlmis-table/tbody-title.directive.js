@@ -61,38 +61,38 @@
         };
 
         function link(scope, element, attrs) {
-            if(attrs.tbodyTitle && attrs.tbodyTitle !== "") {
+            if(attrs.tbodyTitle && attrs.tbodyTitle != ""){
                 var titleScope = scope.$new(true);
 
                 titleScope.title = attrs.tbodyTitle;
 
-                scope.$watch(function() {
+                scope.$watch(function(){
                     return element.children('tr:not(.title):first').children('td, th').length;
-                }, function(num) {
-                    titleScope.colspan = num;
+                }, function(num){
+                    titleScope.colspan = num
                 });
 
                 var titleElement = $compile(template)(titleScope);
                 element.prepend(titleElement);
 
-                if(element.parents('.openlmis-table-container').length > 0) {
+                if(element.parents('.openlmis-table-container').length > 0){
                     var table = element.parents('table:first');
 
                     // openlmis-table-container will rewrite table's parent
                     // after this link is run... so we are watching
                     var parent = table.parent();
-                    scope.$watch(function() {
+                    scope.$watch(function(){
                         return table.parent()[0];
                     }, function(newParent){
                         parent.off('scroll', blit);
                         parent = table.parent();
                         parent.on('scroll', blit);
                     });
-                    element.on('$destroy', function() {
+                    element.on('$destroy', function(){
                         parent.off('scroll', blit);
                     });
 
-                    scope.$watch(function() {
+                    scope.$watch(function(){
                         return jQuery('td, th', table).length;
                     }, blit);
 
@@ -103,14 +103,13 @@
                 }
             }
 
-            function blit() {
+            function blit(){
                 var expandableElement = jQuery('td',titleElement).children();
                 expandableElement.outerWidth(parent.outerWidth());
 
                 var offset = table.position().left * -1;
-                if(offset + expandableElement.outerWidth() <= table.width() + 1) {
+                if(offset + expandableElement.outerWidth() <= table.width() + 1){
                     expandableElement.css('left', offset + 'px');
-                    element.trigger('sticky-refresh');
                 }
             }
         }
