@@ -60,34 +60,39 @@
     function select(messageService) {
         var directive = {
             restrict: 'E',
-            replace: false,
             require: [
                 'select',
                 '?ngModel'
             ],
+            priority: 8,
             link: link
         };
         return directive;
 
         function link(scope, element, attrs, ctrls) {
-            if('noPlaceholder' in attrs) return;
-
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
                 emptyOption = prepareEmptyOption();
+
+            // Removing selectCtrl unknown option functions
+            // because displaying this to users doesn't add
+            // value
+            var noop = function(){};
+            selectCtrl.renderUnknownOption = noop;
+            selectCtrl.updateUnknownOption = noop;
+            selectCtrl.removeUnknownOption = noop;
 
             displayPlaceholder();
 
             element.change(updateSelectValue);
 
             attrs.$observe('required', displayPlaceholder);
-
             if(ngModelCtrl) {
                 scope.$watch(function() {
                     return ngModelCtrl.$viewValue;
                 }, displayPlaceholder);
             }
-
+            
             function displayPlaceholder() {
                 if(selectCtrl.readValue() === null) {
                     emptyOption.attr('selected', 'selected');
@@ -110,7 +115,7 @@
             }
 
             function prepareEmptyOption() {
-                var emptyOption = angular.element('<option value="" class="placeholder"></option>');
+                var emptyOption = angular.element('<option value="" disabled class="placeholder"></option>');
 
                 element.children('option').each(function(index, option) {
                     option = angular.element(option);
@@ -124,6 +129,7 @@
                     element.prepend(emptyOption);
                 }
                 emptyOption.attr('selected', 'selected');
+                emptyOption.val('');
 
                 if(emptyOption.text() === '') {
                     if(attrs.placeholder) {

@@ -1,0 +1,169 @@
+.select2-hidden-accessible{
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+}
+
+.select2 {
+    @extend .form-control;
+    // Select2 sets the width in the style (which we don't want)
+    width: auto !important;
+    // Add a pointer to everything...
+    cursor: pointer;
+
+    .select2-selection--single {
+        background-color: transparent;
+        border-width: 0px;
+        display: flex;
+
+        &:focus {
+            outline: 0px;
+        }
+
+        > * {
+            flex: 1 1 auto;
+            padding: 0px;
+            height: auto;
+            position: static;
+            order: 2;
+        }
+    }
+
+    .select2-selection--single > .select2-selection__arrow {
+        @include icon-only('caret-down');
+        flex-grow: 0;
+        order: 1;
+        color: $border-color;
+        margin-right: 0.25em;
+    }
+
+    .select2-selection__clear {
+        @include icon-only('times');
+        float: right;
+        color: $border-color;
+        margin-left: 0.5em;
+        &:hover{
+            color: $brand-danger;
+        }
+    }
+    
+    &.select2-container--open,
+    &.select2-container--focus {
+        @extend .form-control.is-focused;
+
+        .select2-selection--single > .select2-selection__arrow {
+            color: $brand-primary;
+        }
+    }
+
+    &.select2-container--disabled {
+        @extend .form-control.is-disabled;
+        
+        .select2-selection__clear,
+        .select2-selection--single > .select2-selection__arrow {
+            display: none;
+        }
+    }
+
+}
+
+.select2-container .select2-dropdown {
+
+    border: $border-color 1px solid;
+    border-radius: $border-radius;
+    background-color: $background-color;
+    box-shadow: 0em 0.25em 1em $light-gray;
+
+    padding: 0.5em 0em;
+
+    .select2-search{
+        display: block;
+        padding: 0.5em;
+        padding-top: 0em;
+        > input {
+            @extend .form-control;
+        }
+        &.select2-search--hide {
+            display:none;
+        }
+    }
+
+    ul{
+        @extend .list-unstyled;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .select2-results__option {
+        cursor: pointer;
+        padding: 0.25em 0.5em;
+        &[aria-selected=true]{
+            background-color: $background-color-alt;
+        }
+    }
+
+    // This is the placeholder option
+    .select2-results__option:first-child[aria-disabled="true"]{
+        display: none;
+    }
+
+    .select2-results__option--highlighted,
+    .select2-results__option--highlighted[aria-selected=true]{
+        background-color: $brand-primary;
+        color: $white;
+    }
+
+    &.select2-dropdown--below,
+    &.select2-dropdown--above {
+        position: relative;
+        &:after,
+        &:before {
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            left: 50%;
+            pointer-events: none;
+            border-width: $font-size;
+            margin-left: 0 - $font-size;
+        }
+        &:before {
+            border-width: $font-size + $border-width;
+            margin-left: 0 - ($font-size + $border-width);      
+        }
+    }
+
+    &.select2-dropdown--below {
+        margin-top: $font-size/2;
+        &:after, &:before{
+            bottom: 100%;
+        }
+        &:after{
+            border-bottom-color: $background-color;
+        }
+        &:before {
+            border-bottom-color: $border-color;
+        }
+    }
+
+    &.select2-dropdown--above {
+        margin-top: 0 - ($font-size/2);
+        &:after, &:before{
+            top: 100%;
+        }
+        &:after{
+            border-top-color: $background-color;
+        }
+        &:before {
+            border-top-color: $border-color;
+        }
+    }
+
+}
+

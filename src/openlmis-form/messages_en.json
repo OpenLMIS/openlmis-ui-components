@@ -6,6 +6,7 @@
     "openlmisForm.savingChanges": "Saving changes",
     "openlmisForm.search": "Search",
     "openlmisForm.selectAnOption": "Select an option",
+    "openlmisForm.selectNoResults": "No options to select",
     "openlmisForm.selectDate": "Select date",
     "openlmisForm.showingNumberOfResults": "Showing ${num} of ${total} results",
     "openlmisForm.tooManyCharacters": "Too many characters"

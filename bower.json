@@ -1,4 +1,5 @@
 {
+  "name": "openlmis-ui-components",
   "dependencies": {
     "font-awesome": "^4.6.3",
     "bootbox": "4.4.0",
@@ -6,13 +7,19 @@
     "angular-filter": "^0.5",
     "angular-strap": "*",
     "analytics": "https://www.google-analytics.com/analytics.js",
-    "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js"
+    "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js",
+    "select2": "^4.0.3"
   },
   "overrides": {
     "font-awesome": {
       "main": [
         "scss/font-awesome.scss",
         "fonts/fontawesome-webfont.woff"
+      ]
+    },
+    "select2": {
+      "main": [
+        "dist/js/select2.js"
       ]
     }
   }

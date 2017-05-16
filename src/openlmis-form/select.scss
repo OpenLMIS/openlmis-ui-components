@@ -15,30 +15,32 @@ select element placeholder.
 
 markup:
 <form>
+	<label for="select-empty">Empty select</label>
+	<select id="select-empty"></select>
 	<label for="select-single-option">Select with no selection</label>
 	<select id="select-single-option">
-	  <option>Ignored placeholder value</option>
 	  <option value="selected-default-option">Default option (already selected)</option>
 	</select>
 	<fieldset ng-init="
-		selectValue='animal';
-		options = {
-			'animal': {
+		selectValue;
+		secondOption;
+		options = [
+			{
 				name: 'Animals that do not exist',
 				options: ['Unicorn']
 			},
-			'variable':{
+			{
 				name: 'Variables that do not exist',
 				options: ['foo', 'bar', 'baz']
 			}
-		};
+		];
 		">
 		<legend>ngModel based select elements</legend>
 		<a ng-click="selectValue=undefined">Reset</a>
 		<label for="select-ng-options">Select using ngOptions</label>
 		<select id="select-ng-options"
 			ng-model="selectValue"
-			ng-options="key as value.name for (key, value) in options"
+			ng-options="option as option.name for option in options"
 		>
 			<option value="">Select a non-existant thing</option>
 		</select>
@@ -46,7 +48,7 @@ markup:
 		<select id="select-updated"
 			placeholder="Pick something"
 			ng-model="secondOption"
-			ng-options="value for value in options[selectValue].options"
+			ng-options="value for value in selectValue.options"
 			>
 		</select>
 	</fieldset>
@@ -66,6 +68,10 @@ select{
 	&[disabled] + a.clear{
 		display: none;
 	}
+}
+
+select > option[value=""][disabled] {
+	display: none;
 }
 
 select {
