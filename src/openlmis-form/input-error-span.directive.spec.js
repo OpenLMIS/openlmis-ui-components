@@ -14,7 +14,8 @@
  */
 describe('inputErrorSpan', function() {
 
-    var $compile, $rootScope, scope, formElement, inputElement, formCtrl, ngModelCtrl;
+    var $compile, $rootScope, scope, formElement, inputElement, formCtrl, ngModelCtrl,
+        messageService;
 
     beforeEach(function() {
         module('openlmis-form');
@@ -22,9 +23,15 @@ describe('inputErrorSpan', function() {
         inject(function($injector) {
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
+            messageService = $injector.get('messageService');
         });
 
         scope = $rootScope.$new();
+
+        spyOn(messageService, 'get').andCallFake(function(key) {
+            if (key === 'openlmisForm.required') return 'This field is required';
+            return key;
+        });
     });
 
     it('compile should add span element', function() {
@@ -57,7 +64,7 @@ describe('inputErrorSpan', function() {
 
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('openlmisForm.required');
+            expect(errorSpan.html()).toBe('This field is required');
         });
 
         it('should make span visible form is submitted and input is invalid', function() {
@@ -84,7 +91,7 @@ describe('inputErrorSpan', function() {
             };
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('openlmisForm.required');
+            expect(errorSpan.html()).toBe('This field is required');
 
             formCtrl.$submitted = false;
             $rootScope.$apply();
@@ -102,12 +109,26 @@ describe('inputErrorSpan', function() {
             };
             $rootScope.$apply();
 
-            expect(errorSpan.html()).toBe('openlmisForm.required');
+            expect(errorSpan.html()).toBe('This field is required');
 
             ngModelCtrl.$valid = true;
             $rootScope.$apply();
 
             expect(errorSpan.attr('style')).toBe('display: none;');
+        });
+
+        it('should display message returned by the server if no translation is found', function() {
+            expect(errorSpan.html()).toBe('');
+
+            formCtrl.$submitted = true;
+            ngModelCtrl.$valid = false;
+            ngModelCtrl.$error = {
+                'Should be at least 5 characters long': true
+            };
+
+            $rootScope.$apply();
+
+            expect(errorSpan.html()).toBe('Should be at least 5 characters long');
         });
 
     });

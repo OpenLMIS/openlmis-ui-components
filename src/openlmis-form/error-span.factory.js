@@ -60,7 +60,7 @@
                 } else {
                     var error  = getError(ngModelCtrl.$error),
                         message = messageService.get('openlmisForm.' + error);
-                    span.html(message.substr(0, 6) === 'openlmisForm.' ? error : message);
+                    span.html(message.substr(0, 13) === 'openlmisForm.' ? error : message);
                     span.show();
                 }
             }
