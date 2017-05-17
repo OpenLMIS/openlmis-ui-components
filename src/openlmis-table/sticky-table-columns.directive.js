@@ -234,7 +234,7 @@
                 });
 
                 function leftBlit() {
-                    var position = leftEdge + currentLeftOffset - cellOffset;
+                    var position = leftEdge;
                     // if offset, cell will break table
                     if(position + cellWidth > tableWidth) {
                         return ;
