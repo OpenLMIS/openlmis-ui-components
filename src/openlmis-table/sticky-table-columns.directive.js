@@ -89,12 +89,24 @@
                 return element[0].querySelectorAll('td').length;
             }, updateStickyElementsDelayed);
 
-            var updateTimeout;
+            var updateTimeout,
+                blitInProgress = false;
+
             function updateStickyElementsDelayed() {
-                if(updateTimeout){
+                if(updateTimeout) {
                     $timeout.cancel(updateTimeout);
                 }
                 updateTimeout = $timeout(updateStickyElements, 100);
+            }
+
+            function blitDelayed() {
+                if(!blitInProgress) {
+                    blitInProgress = true;
+                    blit();
+                    $timeout(function() {
+                        blitInProgress = false;
+                    }, 100);
+                }
             }
 
             // If the window changes sizes, update the view
@@ -103,6 +115,7 @@
             element.on('$destroy', function() {
                 angular.element($window).unbind('resize', updateStickyElements);
                 parent.off('scroll', blit);
+                parent.off('sticky-refresh', blitDelayed);
                 parent = undefined;
             });
 
@@ -117,12 +130,14 @@
             function updateStickyElements() {
                 blits = [];
 
-                if(parent){
+                if(parent) {
                     parent.off('scroll', blit);
+                    parent.off('sticky-refresh', blitDelayed);
                 }
 
                 parent = element.parent(); // reset in case it changed...
                 parent.on('scroll', blit);
+                parent.on('sticky-refresh', blitDelayed);
 
                 // Create blit functions
                 jQuery('.col-sticky', element).each(function(index, cell) {
@@ -169,14 +184,14 @@
 
                 var stickyColumnIndexes = Object.keys(columnIndexes);
 
-                jQuery('td', element).each(function(index, td){
-                    if(td.getAttribute('colspan')){
+                jQuery('td', element).each(function(index, td) {
+                    if(td.getAttribute('colspan')) {
                         return;
                     }
                     td = angular.element(td);
                     var tdParent = td.parent();
                     var tdIndex = tdParent.children().index(td).toString();
-                    if(stickyColumnIndexes.indexOf(tdIndex) < 0){
+                    if(stickyColumnIndexes.indexOf(tdIndex) < 0) {
                         return;
                     }
 
