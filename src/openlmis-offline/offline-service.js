@@ -105,8 +105,8 @@
            $timeout(function() {
                $rootScope.$broadcast('openlmis.offline');
                isOfflineFlag = true;
-               localStorageFactory('offlineFlag').clearAll();
-               localStorageFactory('offlineFlag').put(true);
+               storedFlag.clearAll();
+               storedFlag.put(true);
            });
         }
 
@@ -114,8 +114,8 @@
            $timeout(function() {
                $rootScope.$broadcast('openlmis.online');
                isOfflineFlag = false;
-               localStorageFactory('offlineFlag').clearAll();
-               localStorageFactory('offlineFlag').put(false);
+               storedFlag.clearAll();
+               storedFlag.put(false);
            });
         }
     }
