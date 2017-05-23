@@ -180,7 +180,7 @@
                 targetElement = jQuery(el);
 
                 // Popover requires this gets set...
-                targetElement.attr('tabindex', 0);
+                targetElement.attr('tabindex', -1);
 
                 // Added to close button in popover template
                 templateScope.closePopover = function(){
