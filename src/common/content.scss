@@ -1,8 +1,13 @@
-
 .icon-ok {
-  &::before {
-      font-family: FontAwesome;
-      content: "\f00c";
-  }
+    &::before {
+        font-family: FontAwesome;
+        content: "\f00c";
+    }
 }
 
+.icon-remove {
+    &::before {
+        font-family: FontAwesome;
+        content: "\f00d";
+    }
+}
