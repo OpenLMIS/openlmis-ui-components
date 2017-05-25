@@ -7,6 +7,7 @@ Bug fixes
 * [OLMIS-2224](https://openlmis.atlassian.net/browse/OLMIS-2224): Offline flag is now stored in local storage
 * [OLMIS-2328](https://openlmis.atlassian.net/browse/OLMIS-2328): Fixed issues with resizing on tables with colspan and sticky columns
 * [OLMIS-2489](https://openlmis.atlassian.net/browse/OLMIS-2489): Form error will now be properly displayed even if the translation can't be found
+* [OLMIS-2471](https://openlmis.atlassian.net/browse/OLMIS-2471): Aligned locale selection and logout button.
 
 5.0.0 / 2017-05-08
 ==================
