@@ -42,45 +42,45 @@ describe('Select directive', function() {
         return element;
     }
 
-    // it('shows placeholder attribute as first option', function(){
-    //     scope.options = [];
-    //     var element = makeElement(
-    //         '<select></select>'
-    //         );
+    it('shows placeholder attribute as first option', function(){
+        scope.options = [];
+        var element = makeElement(
+            '<select></select>'
+            );
 
-    //     var firstOption = element.children('option:first');
-    //     expect(firstOption.hasClass('placeholder')).toBe(true);
-    //     expect(firstOption.text()).toBe('openlmisForm.selectAnOption');
-    // });
+        var firstOption = element.children('option:first');
+        expect(firstOption.hasClass('placeholder')).toBe(true);
+        expect(firstOption.text()).toBe('openlmisForm.selectAnOption');
+    });
 
-    // it('reads the placeholder value of an element', function(){
-    //    scope.options = [];
-    //     var element = makeElement(
-    //         '<select placeholder="something"></select>'
-    //         );
+    it('reads the placeholder value of an element', function(){
+       scope.options = [];
+        var element = makeElement(
+            '<select placeholder="something"></select>'
+            );
 
-    //     expect(element.children('option.placeholder').text()).toBe('something');
-    // });
+        expect(element.children('option.placeholder').text()).toBe('something');
+    });
 
-    // it("won't overwrite a placeholder that is set as an option", function(){
-    //    var element = makeElement(
-    //         '<select placeholder="something">'
-    //         + '<option value="">My Placeholder</option>'
-    //         + '</select>'
-    //         );
+    it("won't overwrite a placeholder that is set as an option", function(){
+       var element = makeElement(
+            '<select placeholder="something">'
+            + '<option value="">My Placeholder</option>'
+            + '</select>'
+            );
 
-    //     expect(element.children('option.placeholder').text()).toBe('My Placeholder');
-    // });
+        expect(element.children('option.placeholder').text()).toBe('My Placeholder');
+    });
 
-    // it("will not use a placeholder when no-placeholder is set", function(){
-    //     var element = makeElement(
-    //         '<select no-placeholder>'
-    //         + '<option value="1">First element</option>'
-    //         + '<option value="2">Second element</option>'
-    //         + '</select>'
-    //         );
+    it("will not use a placeholder when no-placeholder is set", function(){
+        var element = makeElement(
+            '<select no-placeholder>'
+            + '<option value="1">First element</option>'
+            + '<option value="2">Second element</option>'
+            + '</select>'
+            );
 
-    //     expect(element.children('option:first').text()).toBe('First element');
-    // });
+        expect(element.children('option:first').text()).toBe('First element');
+    });
 
 });

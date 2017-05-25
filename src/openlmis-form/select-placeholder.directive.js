@@ -70,6 +70,10 @@
         return directive;
 
         function link(scope, element, attrs, ctrls) {
+            if(attrs.hasOwnProperty('noPlaceholder')) {
+                return ;
+            }
+
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
                 emptyOption = prepareEmptyOption();
@@ -94,11 +98,9 @@
             }
             
             function displayPlaceholder() {
-                if(selectCtrl.readValue() === null) {
+                if(ngModelCtrl && selectCtrl.readValue() === null) {
                     emptyOption.attr('selected', 'selected');
                     emptyOption.show();
-                } else {
-                    emptyOption.hide();
                 }
             }
 
@@ -128,6 +130,7 @@
                 if(!element.children('option.placeholder').length) {
                     element.prepend(emptyOption);
                 }
+
                 emptyOption.attr('selected', 'selected');
                 emptyOption.val('');
 
