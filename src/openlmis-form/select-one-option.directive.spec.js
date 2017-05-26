@@ -37,20 +37,15 @@ describe('Select one option directive', function() {
         });
     });
 
-    it('will disable element if there are no options', function(){
-        scope.options = [1, 2, 3, 4];
+    it('will set ngModel to first option, if there is only one option available', function(){
+        scope.options = ['foo', 'bar', 'baz'];
         scope.$apply();
-        expect(element.attr('disabled')).not.toBe(true);
 
-        scope.options = [];
-        scope.$apply();
-        expect(element.attr('disabled')).toBe('disabled');
-    });
+        expect(scope.value).toBeUndefined();
 
-    it('will set ngModel to first option and disable the select, if there is only one option', function(){
-        scope.options = ['foo bar'];
+        scope.options = ['foo'];
         scope.$apply();
-        expect(element.attr('disabled')).toBe('disabled');
-        expect(scope.value).toBe('foo bar');
+
+        expect(scope.value).toBe('foo');
     });
 });

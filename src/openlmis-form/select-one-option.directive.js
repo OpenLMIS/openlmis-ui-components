@@ -49,6 +49,7 @@
             restrict: 'E',
             replace: false,
             require: ['select', '?ngModel'],
+            priority: 9,
             link: link
         };
 
@@ -74,15 +75,9 @@
             function updateSelect() {
                 var options = element.children(optionsSelector);
 
-                if(options.length <= 1 && !attrs.noAutoSelect) {
-                    element.attr('disabled', true);
-                } else {
-                    element.attr('disabled', false);
-                }
-
                 if(options.length === 1 && !attrs.noAutoSelect) {
-                    element.children('option[selected="selected"]').removeAttr('selected');
-                    element.children(optionsSelector + ':first').attr('selected', 'selected');
+                    var value = element.children(optionsSelector + ':first').val();
+                    element.val(value);
 
                     if(ngModelCtrl) {
                         var selectedValue = selectCtrl.readValue();
