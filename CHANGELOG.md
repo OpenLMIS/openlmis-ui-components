@@ -1,3 +1,10 @@
+5.1.0 / Current Snapshot
+========================
+
+New functionality added in a backwards-compatible manner:
+
+* [OLMIS-2476](https://openlmis.atlassian.net/browse/OLMIS-2476): Simplified select implementation with select2
+
 5.0.1 / 2017-05-26
 ==================
 
