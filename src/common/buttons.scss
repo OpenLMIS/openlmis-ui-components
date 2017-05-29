@@ -1,8 +1,8 @@
 /*
 Buttons
 
-Buttons represent taking an action in OpenLMIS, juxoposed to a link which 
-represents navigating through OpenLMIS. Most of the buttons should be the 
+Buttons represent taking an action in OpenLMIS, juxoposed to a link which
+represents navigating through OpenLMIS. Most of the buttons should be the
 default color presented in section 1.1, with the exception of an edit action,
 cancel, warning and disabled buttons. Disabled buttons are a little bit faded
 in comparison with their enabled equivalents. They usually contain text, but
@@ -22,10 +22,10 @@ There should only be a single primary button per screen or pane.
   <button disabled="true" type="button">Default Button</button>
   <button class="primary" type="button">Default Button</button>
   <button class="danger" type="button">Default Button</button>
-</div> 
+</div>
 
-Button groups are semantic grouping of actions for a specific task or item, if 
-buttons don't act on the same object, they should not be grouped together. 
+Button groups are semantic grouping of actions for a specific task or item, if
+buttons don't act on the same object, they should not be grouped together.
 Unless marked as part of a button group, all buttons are block level and take
 up their own vertical space.
 
@@ -61,6 +61,7 @@ Styleguide 1.3
 $button-color-default: $light-gray !default;
 $button-color-primary: $link-color !default;
 $button-color-danger: $brand-danger !default;
+$button-color-success: $brand-success !default;
 
 button {
   @include button($button-color-default);
@@ -72,6 +73,11 @@ button {
   &.danger {
     @extend button.primary;
     @include button($button-color-danger);
+  }
+
+  &.success {
+    @extend button.primary;
+    @include button($button-color-success);
   }
 }
 
@@ -115,4 +121,12 @@ input[type=button] {
 .btn-primary,
 input[type=submit] {
   @extend button.primary;
+
+  &.success {
+    @extend button.success;
+  }
+}
+
+input[type=submit].success {
+  @extend button.success;
 }
