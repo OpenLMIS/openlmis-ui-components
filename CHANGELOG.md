@@ -5,10 +5,14 @@ New functionality added in a backwards-compatible manner:
 
 * [OLMIS-2476](https://openlmis.atlassian.net/browse/OLMIS-2476): Simplified select implementation with select2
 
+Improvements:
+
+* [OLMIS-2444](https://openlmis.atlassian.net/browse/OLMIS-2444): Added new "success" button class.
+
 5.0.1 / 2017-05-26
 ==================
 
-Bug fixes
+Bug fixes:
 
 * [OLMIS-2329](https://openlmis.atlassian.net/browse/OLMIS-2329): Removed initial timeout from the saving indicator
 * [OLMIS-2224](https://openlmis.atlassian.net/browse/OLMIS-2224): Offline flag is now stored in local storage
