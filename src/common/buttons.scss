@@ -21,7 +21,8 @@ There should only be a single primary button per screen or pane.
   <button type="button">Default Button</button>
   <button disabled="true" type="button">Default Button</button>
   <button class="primary" type="button">Default Button</button>
-  <button class="danger" type="button">Default Button</button>
+  <button class="danger" type="button">Remove Button</button>
+  <button class="success" type="button">Add Button</button>
 </div>
 
 Button groups are semantic grouping of actions for a specific task or item, if
