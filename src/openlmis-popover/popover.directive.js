@@ -256,12 +256,11 @@
             function makePopover(){
                 element.addClass('has-popover');
 
-                if(!element.is(NO_BUTTON_ELEMENTS.join(', '))){
+                if(!element.is(NO_BUTTON_ELEMENTS.join(', '))) {
                     $templateRequest('openlmis-popover/popover-button.html').then(function(html){
                         var button = $compile(html)(templateScope);
                         element.append(button);
-
-                        compilePopover(button);
+                        compilePopover(attrs.popoverHook === 'true' ? element : button);
                     });
                 } else {
                     compilePopover(element);

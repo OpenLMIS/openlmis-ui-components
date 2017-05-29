@@ -1,6 +1,10 @@
 5.1.0 / Current Snapshot
 ========================
 
+Improvements:
+
+* [OLMIS-2572](https://openlmis.atlassian.net/browse/OLMIS-2572): Added popover-hook attribute to the popover directive which lets the popover to be attached to the target element instead of being attached to the appended button element.
+
 New functionality added in a backwards-compatible manner:
 
 * [OLMIS-2476](https://openlmis.atlassian.net/browse/OLMIS-2476): Simplified select implementation with select2
