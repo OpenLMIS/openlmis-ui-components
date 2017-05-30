@@ -260,7 +260,7 @@
                     $templateRequest('openlmis-popover/popover-button.html').then(function(html){
                         var button = $compile(html)(templateScope);
                         element.append(button);
-                        compilePopover(attrs.popoverHook === 'true' ? element : button);
+                        compilePopover(attrs.popoverTriggerArea === 'element' ? element : button);
                     });
                 } else {
                     compilePopover(element);

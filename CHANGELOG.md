@@ -3,7 +3,7 @@
 
 Improvements:
 
-* [OLMIS-2572](https://openlmis.atlassian.net/browse/OLMIS-2572): Added popover-hook attribute to the popover directive which lets the popover to be attached to the target element instead of being attached to the appended button element.
+* [OLMIS-2572](https://openlmis.atlassian.net/browse/OLMIS-2572): Added popover-trigger-area attribute to the popover directive which lets user chose whether the whole element or just the added button should trigger the popover.
 
 New functionality added in a backwards-compatible manner:
 
