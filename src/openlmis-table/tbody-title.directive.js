@@ -106,13 +106,41 @@
 
             function blit() {
                 var expandableElement = jQuery('td',titleElement).children();
-                expandableElement.outerWidth(parent.outerWidth());
+
+                expandableElement.css('width', getWidthString(expandableElement));
 
                 var offset = table.position().left * -1;
                 if(offset + expandableElement.outerWidth() <= table.width() + 1) {
                     expandableElement.css('left', offset + 'px');
                     element.trigger('sticky-refresh');
                 }
+            }
+
+            function getWidthString(expandableElement) {
+                var colSpan = expandableElement.parent(),
+                    widthString = 'calc(' + parent.outerWidth() + 'px';
+
+                angular.forEach([
+                    'border-left-width',
+                    'padding-left',
+                    'padding-right',
+                    'border-right-width'
+                ], function(attr) {
+                    if (parseInt(expandableElement.css(attr), 10)) {
+                        widthString += ' - ' + expandableElement.css(attr);
+                    }
+                });
+
+                angular.forEach([
+                    'border-left-width',
+                    'border-right-width'
+                ], function(attr) {
+                    if (parseInt(colSpan.css(attr), 10)) {
+                        widthString += ' - ' + colSpan.css(attr);
+                    }
+                });
+
+                return widthString + ')';
             }
         }
     }

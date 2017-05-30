@@ -8,6 +8,7 @@ Improvements:
 New functionality added in a backwards-compatible manner:
 
 * [OLMIS-2476](https://openlmis.atlassian.net/browse/OLMIS-2476): Simplified select implementation with select2
+* [OLMIS-2509](https://openlmis.atlassian.net/browse/OLMIS-2509): Fixed calculation of the tbody title width, which was causing some strange behavior of the tables.
 
 Improvements:
 
