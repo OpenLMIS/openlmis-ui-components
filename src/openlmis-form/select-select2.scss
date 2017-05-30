@@ -72,6 +72,10 @@
 
 }
 
+.select2-container {
+    z-index: 1042; // Higher than modal z-index
+}
+
 .select2-container .select2-dropdown {
 
     border: $border-color 1px solid;
