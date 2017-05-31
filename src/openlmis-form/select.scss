@@ -18,7 +18,7 @@ markup:
 	<label for="select-empty">Empty select</label>
 	<select id="select-empty"></select>
 	<label for="select-single-option">Select with no selection</label>
-	<select id="select-single-option">
+	<select id="select-single-option" required>
 	  <option value="selected-default-option">Default option (already selected)</option>
 	</select>
 	<fieldset ng-init="
@@ -38,14 +38,14 @@ markup:
 		<legend>ngModel based select elements</legend>
 		<a ng-click="selectValue=undefined">Reset</a>
 		<label for="select-ng-options">Select using ngOptions</label>
-		<select id="select-ng-options"
+		<select id="select-ng-options" required
 			ng-model="selectValue"
 			ng-options="option as option.name for option in options"
 		>
 			<option value="">Select a non-existant thing</option>
 		</select>
 		<label for="select-updated">Select with dynamic options</label>
-		<select id="select-updated"
+		<select id="select-updated" required
 			placeholder="Pick something"
 			ng-model="secondOption"
 			ng-options="value for value in selectValue.options"
@@ -70,7 +70,7 @@ select{
 	}
 }
 
-select > option[value=""][disabled] {
+select > option[disabled] {
 	display: none;
 }
 

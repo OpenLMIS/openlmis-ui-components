@@ -48,4 +48,12 @@ describe('Select one option directive', function() {
 
         expect(scope.value).toBe('foo');
     });
+
+    it('will only auto select if the element is required', function(){
+        element.removeAttr('required');
+        scope.options = ['foo'];
+        scope.$apply();
+
+        expect(element.val()).not.toBe('foo');
+    });
 });

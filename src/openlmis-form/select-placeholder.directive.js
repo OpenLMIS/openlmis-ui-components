@@ -23,27 +23,32 @@
      * @name openlmis-form.directive:select-placeholder
      *
      * @description
-     * Sets a default placeholder message on select elements, if one isn't previously set as an
-     * attribute or as the first option element with an empty string as it's value.
+     * Sets a default placeholder message on select elements, if one isn't
+     * previously set as an attribute or as the first option element with an
+     * empty string as it's value.
+     *
+     * This will change selectCtrl's unknownOption text to the default
+     * placeholder text.
      *
      * @example
      * ```
      * <select placeholder="Custom placeholder"></select>
      * ```
      *
-     * This will also work with ngOptions and setting a placeholder with an option element that has
-     * it's value set to an empty string, or has the class placeholder.
+     * This will also work with ngOptions and setting a placeholder with an
+     * option element that has it's value set to an empty string, or has the
+     * class placeholder.
      *
-     * Setting a placeholder without a value attribute will not work, because ngOption will set the
-     * value to the option's text.
+     * Setting a placeholder without a value attribute will not work, because
+     * ngOption will set the value to the option's text.
      * ```
      * <select ng-model="value" ng-options="for something in whatever">
      *    <option value="">Placeholder text goes here</option>
      * </select>
      * ```
      *
-     * To not set a placeholder, use the no-placeholder attribute. If you don't want a placeholder,
-     * you should make sure the element always has a value.
+     * To not set a placeholder, use the no-placeholder attribute. If you don't
+     * want a placeholder, you should make sure the element always has a value.
      * ```
      * <select no-placeholder>
      *   <option value="1">This will be immedately selected</option>
@@ -69,6 +74,19 @@
         };
         return directive;
 
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-form.directive:select-placeholder
+         * @name link
+         *
+         * @description
+         * Prepares the placeholder, and watches the placeholder attribute to
+         * catch any changes.
+         *
+         * Also adds class .placeholder and disables selectCtrl's unknownOption. 
+         * 
+         */
         function link(scope, element, attrs, ctrls) {
             if(attrs.hasOwnProperty('noPlaceholder')) {
                 return ;
@@ -76,46 +94,52 @@
 
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
-                emptyOption = prepareEmptyOption();
+                defaultPlaceholderText;
 
-            // Removing selectCtrl unknown option functions
-            // because displaying this to users doesn't add
-            // value
-            var noop = function(){};
-            selectCtrl.renderUnknownOption = noop;
-            selectCtrl.updateUnknownOption = noop;
-            selectCtrl.removeUnknownOption = noop;
+            selectCtrl.unknownOption
+                .addClass('placeholder')
+                .attr('disabled', true);
 
-            displayPlaceholder();
+            selectCtrl.emptyOption = prepareEmptyOption();
+            defaultPlaceholderText = selectCtrl.emptyOption.text();
 
-            element.change(updateSelectValue);
+            updatePlaceholder();
+            attrs.$observe('placeholder', updatePlaceholder);
 
-            attrs.$observe('required', displayPlaceholder);
-            if(ngModelCtrl) {
-                scope.$watch(function() {
-                    return ngModelCtrl.$viewValue;
-                }, displayPlaceholder);
-            }
-            
-            function displayPlaceholder() {
-                if(ngModelCtrl && selectCtrl.readValue() === null) {
-                    emptyOption.attr('selected', 'selected');
-                    emptyOption.show();
-                }
-            }
-
-            function updateSelectValue() {
-                var newValue = element.val();
-                element.children('option[selected="selected"]').removeAttr('selected');
-                element.children('option').each(function(index, option) {
-                    option = angular.element(option);
-                    if(option.val() == newValue) {
-                        option.attr('selected', 'selected');
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-placeholder
+             * @name updatePlaceholder
+             *
+             * @description
+             * Determines if the ngModel value is empty or not. Selects that
+             * don't use ngModel show would fall back to showing the first
+             * element -- which is the placeholder element.
+             * 
+             */
+            function updatePlaceholder() {
+                var placeholderText = defaultPlaceholderText.slice(0);  // copy the default so it persisits
+                if(placeholderText === '') {
+                    if(attrs.placeholder) {
+                        placeholderText = attrs.placeholder;
+                    } else {
+                        placeholderText = messageService.get('openlmisForm.selectAnOption');
                     }
-                });
-                displayPlaceholder();
+                }
+                selectCtrl.emptyOption.text(placeholderText);
+                selectCtrl.unknownOption.text(placeholderText);
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-placeholder
+             * @name prepareEmptyOption
+             *
+             * @description
+             * Creates and adds an empty placeholder option, setting default
+             * text if none is set as an element attribute.
+             * 
+             */
             function prepareEmptyOption() {
                 var emptyOption = angular.element('<option value="" disabled class="placeholder"></option>');
 
@@ -131,20 +155,7 @@
                     element.prepend(emptyOption);
                 }
 
-                emptyOption.attr('selected', 'selected');
-                emptyOption.val('');
-
-                if(emptyOption.text() === '') {
-                    if(attrs.placeholder) {
-                        element.children('option.placeholder').text(attrs.placeholder);
-                    } else {
-                        element.children('option.placeholder').text(
-                            messageService.get('openlmisForm.selectAnOption')
-                        );
-                    }
-                }
-
-                return element.children('option.placeholder');
+                return emptyOption;
             }
         }
     }

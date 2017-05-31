@@ -23,7 +23,11 @@
      * @name openlmis-form.directive:select-one-option
      *
      * @description
-     * Disables an select element if there is only one option, and selects that options.
+     * Automatically selects the value for a select element if there is only
+     * one option available and the field is required.
+     * 
+     * Automatic selections only happen when the list of options change and
+     * then the element is first rendered.
      *
      * @example
      * The following will be rendered like the commented out markup.
@@ -33,7 +37,7 @@
      *   <option value="awesome">Awesome!</option>
      * </select>
      * <!--
-     * <select ng-model="vm.value" disabled>
+     * <select ng-model="vm.value">
      *   <option>-- Select an option --</option>
      *   <option value="awesome" selected="selected">Awesome!</option>
      * </select>
@@ -53,29 +57,52 @@
             link: link
         };
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-form.directive:select-one-option
+         * @name link
+         *
+         * @description
+         * Sets up scope watchers and calls updateSelect when there is a change.
+         * 
+         */        
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1],
                 optionsSelector = 'option:not(.placeholder)';
 
             updateSelect();
-            if(ngModelCtrl) {
-                // using instead of $ngModelCtrl.$render
-                // beacuse ngSelect uses it
-                scope.$watch(function() {
-                    return ngModelCtrl.$modelValue;
-                }, updateSelect);
 
-                // See if ng-repeat or ng-options changed
-                scope.$watch(function() {
-                    return element.html();
-                }, updateSelect);
-            }
+            // See if ng-repeat or ng-options changed
+            scope.$watch(function() {
+                var options = [];
+                element.find(optionsSelector).each(function(){
+                    options.push(this.value);
+                });
+                return options.join(',');
+            }, updateSelect);
 
+            scope.$watch(function(){
+                return attrs.hasOwnProperty('required');
+            }, updateSelect);
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-one-option
+             * @name updateSelect
+             *
+             * @description
+             * Checks if there is one option (that doesn't have the class 
+             * "placeholder") and then sets the select element to that value.
+             */
             function updateSelect() {
+                if(!attrs.hasOwnProperty('required') || attrs.hasOwnProperty('noAutoSelect')){
+                    return ;
+                }
+
                 var options = element.children(optionsSelector);
 
-                if(options.length === 1 && !attrs.noAutoSelect) {
+                if(options.length === 1) {
                     var value = element.children(optionsSelector + ':first').val();
                     element.val(value);
 

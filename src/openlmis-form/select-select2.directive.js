@@ -23,14 +23,12 @@
      * @name openlmis-form.directive:select-search-option
      *
      * @description
-     * Disables select dropdown and displays modal with options and search input.
-     * This functionality will be applied to select when there is
-     * more than 10 options or it has pop-out attribute.
+     * Loads select2 on to all select elements. This directive takes its state
+     * from the element it's instantiated on.
      *
-     * @example
-     * ```
-     * <select .... pop-out ... > ..... </select>
-     * ```
+     * The search field for select2 is loaded if the number of options is
+     * greater than PAGE_SIZE.
+     *
      */
     angular
         .module('openlmis-form')
@@ -41,18 +39,32 @@
     function select(PAGE_SIZE, messageService) {
         return {
             restrict: 'E',
-            require: ['select', '?ngModel'],
             priority: 10,
             link: link
         };
 
-        function link(scope, element, attrs, ctrls) {
-            var selectCtrl = ctrls[0],
-                ngModelCtrl = ctrls[1];
+        function link(scope, element, attrs) {
 
-            updateSelect();
+            createSelect();
 
-            function updateSelect() {
+            scope.$watch(function(){
+                return element.val();
+            }, updateSelect);
+
+            scope.$watch(function(){
+                return element.find(':selected').val();
+            }, updateSelect);
+
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-search-option
+             * @name createSelect
+             *
+             * @description
+             * Creates the select2 element
+             */
+            function createSelect() {
                 element.select2({
                     minimumResultsForSearch: PAGE_SIZE,
                     allowClear: true,
@@ -65,7 +77,26 @@
                 });
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-search-option
+             * @name updateSelect
+             *
+             * @description
+             * Triggers select2's "undocumented" change event
+             */
+            function updateSelect(){
+                element.trigger('change.select2');
+            }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:select-search-option
+             * @name getPlaceholder
+             *
+             * @description
+             * Gets the placeholder text from the first item in the placeholder list
+             */
             function getPlaceholder() {
                 var placeholderOption = element.children('.placeholder:first');
 

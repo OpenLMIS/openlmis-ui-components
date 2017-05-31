@@ -112,7 +112,7 @@
     }
 
     // This is the placeholder option
-    .select2-results__option:first-child[aria-disabled="true"]{
+    .select2-results__option[aria-disabled="true"]{
         display: none;
     }
 
