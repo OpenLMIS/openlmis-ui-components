@@ -1,6 +1,0 @@
-<select required ng-if="locale.locales.length > 1" ng-model="locale.selectedLocale"
-        ng-change="locale.changeLocale(locale.selectedLocale)">
-  <option ng-repeat="code in locale.locales" value="{{code}}" ng-selected="locale.selectedLocale === code">
-    {{locale.getLocaleName(code) | message}}
-  </option>
-</select>

@@ -1,0 +1,14 @@
+<div class="locale-container navbar-nav" ng-if="locale.locales.length > 1">
+    <button bs-dropdown aria-haspopup="true" aria-expanded="false">
+        {{ 'locale.label' | message }}
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="code in locale.locales">
+            <a ng-click="locale.changeLocale(code)"
+                ng-class="{'selected':(locale.selectedLocale === code)}"
+                >
+                {{locale.getLocaleName(code) | message}}
+            </a>
+        </li>
+    </ul>
+</div>

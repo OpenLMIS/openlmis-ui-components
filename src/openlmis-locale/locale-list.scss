@@ -1,4 +1,32 @@
 .locale-container {
-  width: 10em;
-  height: 2.5em;
+
+    > button {
+        @include icon('caret-down');
+
+    }
+
+    > ul {
+        margin-right: 1em;
+        /* Arrow up */
+        &::before {
+            content: "";
+            position:absolute;
+            top: -0.4em;
+            left: 2.2em;
+            width: 0em;
+            height: 0em;
+            border-left: 0.4em solid transparent;
+            border-right: 0.4em solid transparent;
+            border-bottom: 0.45em solid $white;
+        }
+    }
+
+    .selected {
+        background-color: $background-color-alt;
+        color: $text-color;
+        &:hover {
+            background-color: $background-color-alt;
+        }
+    }
+
 }

@@ -41,7 +41,7 @@
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'openlmis-locale/locale-list.html',
+            templateUrl: 'openlmis-locale/openlmis-locale.directive.html',
             controller: 'LocaleController',
             controllerAs: 'locale'
         }
