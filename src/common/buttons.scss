@@ -22,7 +22,7 @@ There should only be a single primary button per screen or pane.
   <button disabled="true" type="button">Default Button</button>
   <button class="primary" type="button">Default Button</button>
   <button class="danger" type="button">Remove Button</button>
-  <button class="success" type="button">Add Button</button>
+  <button class="add" type="button">Add Button</button>
 </div>
 
 Button groups are semantic grouping of actions for a specific task or item, if
@@ -62,72 +62,68 @@ Styleguide 1.3
 $button-color-default: $light-gray !default;
 $button-color-primary: $link-color !default;
 $button-color-danger: $brand-danger !default;
-$button-color-success: $brand-success !default;
 
 button {
-  @include button($button-color-default);
+    @include button($button-color-default);
 
-  &.primary {
-    @include button($button-color-primary);
-  }
+    &.primary {
+        @include button($button-color-primary);
+    }
 
-  &.danger {
-    @extend button.primary;
-    @include button($button-color-danger);
-  }
+    &.danger {
+        @extend button.primary;
+        @include button($button-color-danger);
+    }
 
-  &.success {
-    @extend button.primary;
-    @include button($button-color-success);
-  }
+    &.add {
+        @extend button.primary;
+        @include button-icon('plus');
+    }
 }
 
 button.close {
-  @include button-icon-only("times");
-  background: transparent;
-  color: $text-color;
+    @include button-icon-only("times");
+    background: transparent;
+    color: $text-color;
 }
 
 .button-group {
-  @extend .clearfix;
-  margin-left: -0.5em;
-  margin-right: -0.5em;
+    @extend .clearfix;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
 
-  > *,
-  > button {
-    display: block;
-    margin: 0px 0.5em;
-    float: left;
-  }
+    > *,
+    > button {
+        display: block;
+        margin: 0px 0.5em;
+        float: left;
+    }
 
-  > .button-group.primary,
-  > button.primary {
-    float: right;
-  }
+    > .button-group.primary,
+    > button.primary {
+        float: right;
+    }
 
-  > a {
-    padding: 0.5em 0em;
-  }
+    > a {
+        padding: 0.5em 0em;
+    }
 
-  > .button-group {
-    margin: 0px;
-  }
+    > .button-group {
+        margin: 0px;
+    }
 }
 
 .btn,
 input[type=button] {
-  @extend button;
+    @extend button;
 }
 
 .btn-primary,
 input[type=submit] {
-  @extend button.primary;
-
-  &.success {
-    @extend button.success;
-  }
+    @extend button.primary;
 }
 
-input[type=submit].success {
-  @extend button.success;
+.btn-add,
+input[type=submit].add {
+    @extend button.add;
 }

@@ -1,37 +1,44 @@
-@mixin icon($icon){
-  @extend ".fa-#{$icon} !optional";
-  font-family: $font-family;
-  &::before{
-    font: normal normal normal 14px/1 FontAwesome;
+@mixin icon($icon) {
+    @extend ".fa-#{$icon} !optional";
+    font-family: $font-family;
+    &::before {
+        font: normal normal normal 14px/1 FontAwesome;
+        display: inline-block;
+        font-size: 1em;
+    }
+}
+
+@mixin icon-only($icon) {
+    @include icon($icon);
+    overflow: hidden;
     display: inline-block;
+    position: relative;
     font-size: 1em;
-  }
+    width: 1.2em;
+    height: 1.2em;
+    text-indent: -20000em;
+    &::before {
+        position: absolute;
+        top:50%;
+        left: 50%;
+        text-indent: 0em;
+        transform: translateX(-50%) translateY(-50%);
+    }
 }
 
-@mixin icon-only($icon){
-  @include icon($icon);
-  overflow: hidden;
-  display: inline-block;
-  position: relative;
-  font-size: 1em;
-  width: 1.2em;
-  height: 1.2em;
-  text-indent: -20000em;
-  &::before{
-    position: absolute;
-    top:50%;
-    left: 50%;
-    text-indent: 0em;
-    transform: translateX(-50%) translateY(-50%);
-  }
-}
-
-@mixin button-icon-only($icon){
-  @include icon-only($icon);
-  width: 2em;
-  height: 2em;
-  line-height: 2em;
-  &::before{
+@mixin button-icon-only($icon) {
+    @include icon-only($icon);
+    width: 2em;
+    height: 2em;
     line-height: 2em;
-  }
+    &::before {
+        line-height: 2em;
+    }
+}
+
+@mixin button-icon($icon) {
+    @include icon($icon);
+    &::before {
+        margin-right: 0.5em;
+    }
 }
