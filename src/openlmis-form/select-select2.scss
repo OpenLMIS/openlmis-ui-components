@@ -20,6 +20,8 @@
         background-color: transparent;
         border-width: 0px;
         display: flex;
+        white-space: pre;
+        overflow: hidden;
 
         &:focus {
             outline: 0px;
