@@ -52,9 +52,20 @@ markup:
 			>
 		</select>
 	</fieldset>
-	<label for="select-more-than-10">Select if there is more than 10 items</label>
-	<select id="select-more-than-10" ng-model="selectColor" ng-options="color for color in ['Blue', 'Purple', 'Maroon', 'Red', 'Rose', 'Peach', 'Yellow', 'Lime', 'Green', 'Seafoam', 'Teal']">
-	</select>
+	<fieldset ng-init="
+		shortOptionsList = ['Blue', 'Purple', 'Red', 'Yellow', 'Green', 'Teal'];
+		longOptionsList = ['Silver', 'Slate Blue', 'Blue', 'Lavender', 'Violet', 'Purple', 'Rebecca Purple', 'Plum', 'Maroon', 'Red', 'Peach', 'Yellow', 'Lime', 'Green', 'Seafoam', 'Teal', 'Aquamarine'];
+		searchOptions = shortOptionsList;
+	">
+		<legend>Searching options in the select element</legend>
+		<label for="select-more-than-10">Select if there is more than 10 items</label>
+		<select id="select-more-than-10" ng-model="selectColor" ng-options="color for color in searchOptions">
+		</select>
+		<label class="checkbox">
+			<input type="checkbox" ng-model="listLength" value="long" ng-change="searchOptions = listLength? longOptionsList : shortOptionsList" />
+			List length is long
+		</label>
+	</fieldset>
 </form>
 
 
