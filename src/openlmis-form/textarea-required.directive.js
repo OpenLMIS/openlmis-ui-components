@@ -19,30 +19,31 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:input
+     * @name openlmis-form.directive:textarea
      *
      * @description
-     * Adds styles and logic for required input.
+     * Adds styles and logic for required textarea.
      *
      * @example
-     * This directive will work with 'input' elements that have 'required' or 'ng-required' attribute.
-     * It also requires 'label' element to be connected with 'input' by 'for' attribute.
+     * This directive will work with 'textarea' elements that have 'required' or 'ng-required'
+     * attribute. It also requires 'label' element to be connected with 'textarea' by 'for'
+     * attribute.
      * ```
-     * <label for="input-id">option</label>
-     * <input id="input-id" required></input>
+     * <label for="textarea-id">option</label>
+     * <textarea id="textarea-id" required></textarea>
      * ```
      *
      * After render required attribute will be added to 'label' element.
      * ```
-     * <label for="input-id" required>option</label>
-     * <input id="input-id" required></input>
+     * <label for="textarea-id" required>option</label>
+     * <textarea id="textarea-id" required></textarea>
      * ```
      */
     angular
         .module('openlmis-form')
-        .directive('input', inputRequired);
+        .directive('textarea', textareaRequired);
 
-    function inputRequired() {
+    function textareaRequired() {
         var directive = {
             link: link,
             restrict: 'E'
@@ -53,13 +54,9 @@
 
             if (!attrs.required && (!attrs.ngRequired || attrs.ngRequired !== 'false')) return;
 
-            if (attrs.type === 'radio' || attrs.type === 'checkbox') {
-                element.parents('fieldset').find('legend').addClass('required');
-            } else {
-                attrs.$observe('id', function(id) {
-                    element.siblings('label[for="' + id + '"]').addClass('required');
-                });
-            }
+            attrs.$observe('id', function(id) {
+                element.siblings('label[for="' + id + '"]').addClass('required');
+            });
         }
     }
 

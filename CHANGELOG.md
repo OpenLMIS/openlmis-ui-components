@@ -7,6 +7,9 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-2509](https://openlmis.atlassian.net/browse/OLMIS-2509): Fixed calculation of the tbody title width, which was causing some strange behavior of the tables.
 * [OLMIS-2476](https://openlmis.atlassian.net/browse/OLMIS-2476): Simplified select implementation with select2
 * [OLMIS-2444](https://openlmis.atlassian.net/browse/OLMIS-2444): Added new "add" button class.
+* [OLMIS-2494](https://openlmis.atlassian.net/browse/OLMIS-2494): Added textarea-required directive
+responsible for displaying "This field is required" when form have been submitted, but didn't pass
+the validations. Recolored the "This field is required" to red.
 
 
 5.0.1 / 2017-05-26
