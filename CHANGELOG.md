@@ -10,7 +10,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-2494](https://openlmis.atlassian.net/browse/OLMIS-2494): Added textarea-required directive
 responsible for displaying "This field is required" when form have been submitted, but didn't pass
 the validations. Recolored the "This field is required" to red.
-
+* [OLMIS-2548](https://openlmis.atlassian.net/browse/OLMIS-2548): Added isOpened flag to loadingModalService.
 
 5.0.1 / 2017-05-26
 ==================
