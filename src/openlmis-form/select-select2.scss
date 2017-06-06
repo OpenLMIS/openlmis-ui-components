@@ -95,7 +95,7 @@
 }
 
 .select2-container .select2-dropdown {
-
+    display: block;
     border: $border-color 1px solid;
     border-radius: $border-radius;
     background-color: $background-color;

@@ -65,7 +65,7 @@
              * Creates the select2 element
              */
             function createSelect() {
-                element.select2({
+                var options = {
                     minimumResultsForSearch: PAGE_SIZE,
                     allowClear: true,
                     placeholder: getPlaceholder(),
@@ -74,7 +74,14 @@
                             return messageService.get("openlmisForm.selectNoResults");
                         }
                     }
-                });
+                };
+
+                var modalParent = element.parents('.modal');
+                if(modalParent.length > 0){
+                    options['dropdownParent'] = modalParent;
+                }
+
+                element.select2(options);
             }
 
             /**
