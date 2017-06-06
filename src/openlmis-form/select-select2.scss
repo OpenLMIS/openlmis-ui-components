@@ -81,17 +81,12 @@
 
     &.select2-container--disabled {
         @extend .form-control.is-disabled;
-        
-        .select2-selection__clear,
-        .select2-selection--single > .select2-selection__arrow {
-            display: none;
-        }
     }
 
 }
 
 .select2-container.select2-container--open {
-    z-index: 2000; // Higher than modal z-index
+    z-index: 10;
 }
 
 .select2-container .select2-dropdown {

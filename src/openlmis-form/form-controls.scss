@@ -44,6 +44,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	  box-shadow: 0 0 0 $border-color;
 	  color: $form-control-text-color-disabled;
 	  background-color: transparent;
+	  cursor: not-allowed;
 	}
 	&.is-invalid {
 		box-shadow: inset 0 0 0.5em $brand-danger;
