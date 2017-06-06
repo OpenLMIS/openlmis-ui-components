@@ -26,16 +26,27 @@
      *
      * @example
      * This directive will work with 'input' elements that have 'required' or 'ng-required' attribute.
-     * It also requires 'label' element to be connected with 'input' by 'for' attribute.
+     * It also requires 'label' element to be connected with 'input' by 'for' attribute. For inputs
+     * of checkbox/radio type the class will be added to the legend element.
      * ```
      * <label for="input-id">option</label>
      * <input id="input-id" required></input>
+     *
+     * <fieldset>
+     *     <legend>Legend</legend>
+     *     <input type="checkbox"></input>
+     * </fieldset>
      * ```
      *
-     * After render required attribute will be added to 'label' element.
+     * After render required class will be added to 'label' and 'legend' elements.
      * ```
-     * <label for="input-id" required>option</label>
+     * <label for="input-id" class="required">option</label>
      * <input id="input-id" required></input>
+     *
+     * <fieldset>
+     *     <legend class="required">Legend</legend>
+     *     <input type="checkbox"></input>
+     * </fieldset>
      * ```
      */
     angular

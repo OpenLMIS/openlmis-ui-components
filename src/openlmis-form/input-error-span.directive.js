@@ -59,13 +59,16 @@
             if (!formCtrl || !ngModelCtrl) return;
 
             if (attrs.type === 'checkbox' || attrs.type === 'radio') {
-                var nextElem = element.parents('fieldset').find('legend').next();
+                span = element.parents('fieldset').find('span.error');
 
-                if(nextElem.is('span') && nextElem.hasClass('error')) {
-                    span = nextElem;
-                } else {
+                if(!span.length) {
                     span = angular.element('<span class="error"></span>');
+                }
+
+                if (attrs.type === 'checkbox') {
                     element.parents('fieldset').find('legend').after(span);
+                } else {
+                    element.parents('fieldset').append(span);
                 }
             }
 
