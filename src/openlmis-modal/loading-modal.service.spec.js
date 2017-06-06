@@ -76,6 +76,11 @@ describe('loadingModalService', function() {
             expect(openlmisModalServiceMock.createDialog).toHaveBeenCalled();
         });
 
+        it('should set isOpened flag', function() {
+            loadingModalService.open();
+
+            expect(loadingModalService.isOpened).toBe(true);
+        });
     });
 
     describe('close', function() {
@@ -110,6 +115,10 @@ describe('loadingModalService', function() {
             expect(result).toEqual('something');
         });
 
-    });
+        it('should set isOpened flag', function() {
+            loadingModalService.close();
 
+            expect(loadingModalService.isOpened).toBe(false);
+        });
+    });
 });

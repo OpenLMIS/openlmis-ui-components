@@ -31,12 +31,14 @@
     LoadingModal.$inject = ['$q', '$timeout', 'openlmisModalService'];
     function LoadingModal($q, $timeout, openlmisModalService) {
         var deferred, timeoutPromise, dialog, options = {
-            backdrop: 'static',
-            templateUrl: 'openlmis-modal/loading-modal.html'
-        };
+                backdrop: 'static',
+                templateUrl: 'openlmis-modal/loading-modal.html'
+            },
+            service = this;
 
         this.open = open;
         this.close = close;
+        this.isOpened = false;
 
         /**
          * @ngdoc method
@@ -58,10 +60,12 @@
 
             if (delay && !timeoutPromise) {
                 timeoutPromise = $timeout(function(){
+                    service.isOpened = true;
                     dialog = openlmisModalService.createDialog(angular.copy(options));
                     timeoutPromise = null;
                 }, 500);
             } else {
+                service.isOpened = true;
                 dialog = openlmisModalService.createDialog(angular.copy(options));
             }
 
@@ -76,8 +80,10 @@
          * @description
          * Hides the loading modal OR cancels the promise that was showing the modal.
          */
-        function close(){
-            if(timeoutPromise){
+        function close() {
+            service.isOpened = false;
+
+            if(timeoutPromise) {
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = null;
             }
