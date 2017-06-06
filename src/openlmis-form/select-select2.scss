@@ -11,6 +11,7 @@
 
 .select2 {
     @extend .form-control;
+    overflow: hidden;
     // Select2 sets the width in the style (which we don't want)
     width: auto !important;
     // Add a pointer to everything...
@@ -19,36 +20,51 @@
     .select2-selection--single {
         background-color: transparent;
         border-width: 0px;
-        display: flex;
+        display: block;
+        position: relative;
         white-space: pre;
         overflow: hidden;
+        padding: 0em 1.25em;
 
         &:focus {
             outline: 0px;
         }
 
         > * {
+            display: block;
             flex: 1 1 auto;
             padding: 0px;
             height: auto;
             position: static;
             order: 2;
         }
+
+        > .select2-selection__rendered {
+            overflow: hidden;
+        }
+
+        .select2-selection__clear {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+        .select2-selection__arrow {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
     }
 
-    .select2-selection--single > .select2-selection__arrow {
+    .select2-selection__arrow {
         @include icon-only('caret-down');
         flex-grow: 0;
         order: 1;
         color: $border-color;
-        margin-right: 0.25em;
     }
 
     .select2-selection__clear {
         @include icon-only('times');
-        float: right;
         color: $border-color;
-        margin-left: 0.5em;
         &:hover{
             color: $brand-danger;
         }
