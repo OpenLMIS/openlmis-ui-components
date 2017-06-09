@@ -42,6 +42,7 @@
         this.warning = warning;
         this.error = error;
         this.success = success;
+        this.showResponse = showResponse;
 
         /**
          * @ngdoc method
@@ -92,6 +93,28 @@
          */
         function success(title, message) {
             return showAlert('success', title, message);
+        }
+
+        /**
+         * @ngdoc method
+         * @name showResponse
+         * @methodOf openlmis-modal.alertService
+         *
+         * @description
+         * Shows an error modal for the given non-successfull response.
+         *
+         * @param   {String}    response    the failed response
+         * @param   {String}    title       (optional) the optional title, that will override
+         *                                  status text
+         * @return  {Promise}               the alert promise, if any other alert is already show
+         *                                  this promise will be automatically rejected
+         */
+        function showResponse(response, title) {
+            return showAlert(
+                'error',
+                title ? title : response.statusText,
+                response.data.message
+            );
         }
 
         function showAlert(alertClass, title, message) {
