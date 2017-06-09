@@ -12,6 +12,9 @@ responsible for displaying "This field is required" when form have been submitte
 the validations. Recolored the "This field is required" to red.
 * [OLMIS-2548](https://openlmis.atlassian.net/browse/OLMIS-2548): Added isOpened flag to loadingModalService.
 
+Bug fixes:
+* [OLMIS-2660](https://openlmis.atlassian.net/browse/OLMIS-2660): Made "No options available" show when there is unknown option
+
 5.0.1 / 2017-05-26
 ==================
 
