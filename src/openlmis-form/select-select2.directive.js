@@ -55,6 +55,17 @@
                 return element.find(':selected').val();
             }, updateSelect);
 
+            scope.$watch(function(){
+                var placeholderValues = [];
+                element.find('.placeholder').each(function(){
+                    placeholderValues.push(this.value);
+                });
+                return placeholderValues.join(' - ');
+            }, function(){
+                element.select2('destroy');
+                createSelect();
+            });
+
 
             /**
              * @ngdoc method

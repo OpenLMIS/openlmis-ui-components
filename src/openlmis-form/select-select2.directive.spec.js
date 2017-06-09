@@ -54,7 +54,6 @@ describe('Select2 for select elements', function() {
 
     it('sets the placeholder value, if there is a placeholder element', function() {
         var placeholder = jQuery.prototype.select2.mostRecentCall.args[0].placeholder;
-        expect(placeholder.id).toBe('');
         expect(placeholder.text).toBe('placeholder text');
     });
 

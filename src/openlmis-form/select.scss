@@ -14,9 +14,11 @@ value unset. Implementers should use specific and tailored language as their
 select element placeholder.
 
 markup:
-<form>
+<form ng-init="selectUnknown='foo';">
 	<label for="select-empty">Empty select</label>
 	<select id="select-empty"></select>
+	<label for="select-unknown">Select with an unknown value</label>
+	<select id="select-unknown" ng-model="selectUnknown"></select>
 	<label for="select-single-option">Select with no selection</label>
 	<select id="select-single-option" required>
 	  <option value="selected-default-option">Default option (already selected)</option>
