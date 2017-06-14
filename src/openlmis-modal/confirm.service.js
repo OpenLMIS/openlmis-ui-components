@@ -48,8 +48,8 @@
          * @param  {String}   buttonMessage Optional message to display on confirm button
          * @return {Promise}                confirm promise
          */
-        function confirm(message, buttonMessage) {
-            return makeModal(false, message, buttonMessage);
+        function confirm(message, buttonMessage, cancelButtonMessage) {
+            return makeModal(false, message, buttonMessage, cancelButtonMessage);
         }
 
         /**
@@ -64,17 +64,17 @@
          * @param  {String}  buttonMessage Optional message to display on confirm button
          * @return {Promise}               confirm promise
          */
-        function destroy(message, buttonMessage) {
-            return makeModal(true, message, buttonMessage);
+        function destroy(message, buttonMessage, cancelButtonMessage) {
+            return makeModal(true, message, buttonMessage, cancelButtonMessage);
         }
 
-        function makeModal(remove, message, buttonMessage) {
+        function makeModal(remove, message, buttonMessage, cancelButtonMessage) {
             var deferred = $q.defer();
             bootbox.dialog({
                 message: messageService.get(message),
                 buttons: {
                     cancel: {
-                        label: messageService.get('openlmisModal.cancel'),
+                        label: messageService.get(cancelButtonMessage ? cancelButtonMessage : 'openlmisModal.cancel'),
                         callback: deferred.reject
                     },
                     success: {
