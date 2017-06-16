@@ -112,7 +112,6 @@
                 var offset = table.position().left * -1;
                 if(offset + expandableElement.outerWidth() <= table.width() + 1) {
                     expandableElement.css('left', offset + 'px');
-                    element.trigger('sticky-refresh');
                 }
             }
 

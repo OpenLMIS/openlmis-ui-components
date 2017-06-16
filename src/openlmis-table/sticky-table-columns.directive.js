@@ -99,23 +99,15 @@
                 updateTimeout = $timeout(updateStickyElements, 100);
             }
 
-            function blitDelayed() {
-                if(!blitInProgress) {
-                    blitInProgress = true;
-                    blit();
-                    $timeout(function() {
-                        blitInProgress = false;
-                    }, 100);
-                }
-            }
-
             // If the window changes sizes, update the view
-            angular.element($window).bind('resize', blit);
+            angular.element($window).bind('resize', function() {
+                blit();
+                $timeout(blit);
+            });
 
             element.on('$destroy', function() {
                 angular.element($window).unbind('resize', updateStickyElements);
                 parent.off('scroll', blit);
-                parent.off('sticky-refresh', blitDelayed);
                 parent = undefined;
             });
 
@@ -132,12 +124,10 @@
 
                 if(parent) {
                     parent.off('scroll', blit);
-                    parent.off('sticky-refresh', blitDelayed);
                 }
 
                 parent = element.parent(); // reset in case it changed...
                 parent.on('scroll', blit);
-                parent.on('sticky-refresh', blitDelayed);
 
                 // Create blit functions
                 jQuery('.col-sticky', element).each(function(index, cell) {
