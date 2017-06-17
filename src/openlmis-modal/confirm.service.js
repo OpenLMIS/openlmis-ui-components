@@ -43,10 +43,11 @@
          * @description
          * Shows confirm modal with custom message.
          *
-         * @param  {String}   message       Primary message to display at the top
-         * @param  {Function} additional    Message Additional message to display below
-         * @param  {String}   buttonMessage Optional message to display on confirm button
-         * @return {Promise}                confirm promise
+         * @param  {String}   message             Primary message to display at the top
+         * @param  {Function} additional          Message Additional message to display below
+         * @param  {String}   buttonMessage       Optional message to display on confirm button
+         * @param  {String}   cancelButtonMessage Optional message to display on cancel button
+         * @return {Promise}                      Confirm promise
          */
         function confirm(message, buttonMessage, cancelButtonMessage) {
             return makeModal(false, message, buttonMessage, cancelButtonMessage);
@@ -60,9 +61,10 @@
          * @description
          * Shows confirm modal with custom message and returns a promise.
          *
-         * @param  {String}  message       Message to display
-         * @param  {String}  buttonMessage Optional message to display on confirm button
-         * @return {Promise}               confirm promise
+         * @param  {String}  message              Message to display
+         * @param  {String}  buttonMessage        Optional message to display on confirm button
+         * @param  {String}  cancelButtonMessage  Optional message to display on cancel button
+         * @return {Promise}                      Confirm promise
          */
         function destroy(message, buttonMessage, cancelButtonMessage) {
             return makeModal(true, message, buttonMessage, cancelButtonMessage);
