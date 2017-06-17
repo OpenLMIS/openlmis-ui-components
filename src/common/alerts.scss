@@ -14,6 +14,7 @@ Styleguide 1.6
 
 .alert {
 	@extend .alert-info;
+	@extend .clearfix;
 	position: relative;
 	border: 0px;
 	margin: 0px;
@@ -54,6 +55,10 @@ Styleguide 1.6
 
 	&.is-info {
 		@extend .alert-info;
+	}
+
+	> button {
+		float: right;
 	}
 
 
