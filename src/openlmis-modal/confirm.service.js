@@ -72,8 +72,9 @@
 
         function makeModal(remove, message, buttonMessage, cancelButtonMessage) {
             var deferred = $q.defer();
+
             bootbox.dialog({
-                message: messageService.get(message),
+                message: retrieveMessage(message),
                 buttons: {
                     cancel: {
                         label: messageService.get(cancelButtonMessage ? cancelButtonMessage : 'openlmisModal.cancel'),
@@ -87,6 +88,34 @@
                 }
             });
             return deferred.promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-modal.confirmService
+         * @name retrieveMessage
+         *
+         * @description
+         * Retrieves given message from messageService, replacing newlines with <br> to display properly in bootbox.
+         *
+         * @param  {Object}  message  Message to display, either string or message-parameters mapping.
+         *
+         * @return {String}           Localized message
+         */
+        function retrieveMessage(message) {
+            var localized;
+
+            if (message.messageKey) {
+                if (message.messageParams) {
+                    localized = messageService.get(message.messageKey, message.messageParams);
+                } else {
+                    localized = messageService.get(message.messageKey);
+                }
+            } else {
+                localized = messageService.get(message);
+            }
+
+            return localized.replace(/\n/g, '<br/>');
         }
     }
 })();

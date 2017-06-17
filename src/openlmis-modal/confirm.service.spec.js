@@ -15,12 +15,13 @@
 
 describe("confirmService", function() {
 
-    var timeout, confirmService, rootScope, Bootbox;
+    var timeout, confirmService, messageService, rootScope, Bootbox;
 
     beforeEach(module('openlmis-modal'));
 
-    beforeEach(inject(function(_$rootScope_, _confirmService_, bootbox) {
+    beforeEach(inject(function(_$rootScope_, _confirmService_, _messageService_, bootbox) {
         confirmService = _confirmService_;
+        messageService = _messageService_;
         rootScope = _$rootScope_;
         Bootbox = bootbox;
     }));
@@ -52,7 +53,7 @@ describe("confirmService", function() {
 
     });
 
-    it('should show bootbox dialog when calling confirm', function() {
+    it('should show bootbox dialog when calling confirm', function()  {
         var confirmCallback,
             promiseSpy = jasmine.createSpy(),
             promise,
@@ -74,5 +75,59 @@ describe("confirmService", function() {
         rootScope.$apply();
 
         expect(promiseSpy).toHaveBeenCalled();
+    });
+
+    it('should retrieve localized message by string', function() {
+        var promiseSpy = jasmine.createSpy(),
+            promise,
+            message = 'some.message',
+            resultMessage;
+
+        spyOn(Bootbox, 'dialog').andCallFake(function(argumentObject) {
+            resultMessage = argumentObject.message;
+            return {};
+        });
+
+        promise = confirmService.confirm(message).then(promiseSpy);
+
+        expect(resultMessage).toEqual(message);
+    });
+
+    it('should retrieve localized message by message object', function() {
+        var promiseSpy = jasmine.createSpy(),
+            promise,
+            resultMessage;
+
+        var messageObject = {
+            'messageKey': 'some.message ${param}',
+            'messageParams': {'param': 'parameter'}
+        };
+        var expectedMessage = messageService.get(messageObject.messageKey, messageObject.messageParams);
+
+        spyOn(Bootbox, 'dialog').andCallFake(function(argumentObject) {
+            resultMessage = argumentObject.message;
+            return {};
+        });
+
+        promise = confirmService.confirm(messageObject).then(promiseSpy);
+
+        expect(resultMessage).toEqual(expectedMessage);
+    });
+
+    it('should replace localized message newlines with line breaks', function() {
+        var promiseSpy = jasmine.createSpy(),
+            promise,
+            message = 'some\n\n\nmessage',
+            resultMessage;
+        var expectedMessage = message.replace(/\n/g, '<br/>');
+
+        spyOn(Bootbox, 'dialog').andCallFake(function(argumentObject) {
+            resultMessage = argumentObject.message;
+            return {};
+        });
+
+        promise = confirmService.confirm(message).then(promiseSpy);
+
+        expect(resultMessage).toEqual(expectedMessage);
     });
 });
