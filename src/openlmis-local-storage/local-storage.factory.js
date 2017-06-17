@@ -141,6 +141,16 @@
                 return angular.copy(searchItems(params, filter));
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-local-storage.localStorageFactory
+             * @name remove
+             *
+             * @description
+             * Removes a specific object from local storage
+             *
+             * @param {Object} item Object to remove
+             */
             function remove(item) {
                 executeWithStorageUpdate(function() {
                     removeItem(item);
@@ -150,7 +160,7 @@
             /**
              * @ngdoc method
              * @methodOf openlmis-local-storage.localStorageFactory
-             * @name getBy
+             * @name removeBy
              *
              * @description
              * It searches for all objects that given property value is equal
