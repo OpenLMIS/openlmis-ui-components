@@ -11,6 +11,7 @@ New functionality added in a backwards-compatible manner:
 responsible for displaying "This field is required" when form have been submitted, but didn't pass
 the validations. Recolored the "This field is required" to red.
 * [OLMIS-2548](https://openlmis.atlassian.net/browse/OLMIS-2548): Added isOpened flag to loadingModalService.
+* [OLMIS-2648](https://openlmis.atlassian.net/browse/OLMIS-2648): Added possibility to customize cancel button message in confirm service, added support for messages with parameters.
 
 Bug fixes:
 * [OLMIS-2660](https://openlmis.atlassian.net/browse/OLMIS-2660): Made "No options available" show when there is unknown option
