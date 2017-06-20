@@ -24,7 +24,7 @@ describe('currencyService', function() {
     beforeEach(function () {
         module('openlmis-currency');
 
-        inject(function (_$httpBackend_, _$q_, _currencyService_, _openlmisUrlFactory_, _localStorageService_) {
+        inject(function (_$httpBackend_, _currencyService_, _openlmisUrlFactory_, _localStorageService_) {
             $httpBackend = _$httpBackend_;
             currencyService = _currencyService_;
             openlmisUrlFactory = _openlmisUrlFactory_;
