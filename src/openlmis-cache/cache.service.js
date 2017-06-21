@@ -16,6 +16,13 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-cache.cacheService
+     *
+     * @description
+     * Basic memory cache for storing promises and their resolved values.
+     */
     angular
         .module('openlmis-cache')
         .service('cacheService', service);
@@ -31,32 +38,85 @@
         this.get = get;
         this.clear = clear;
 
-        function cache(name, promise, parser) {
-            promises[name] = promise
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cache.cacheService
+         * @name cache
+         *
+         * @description
+         * Caches the value that the given promise resolves to under the given key.
+         *
+         * @param  {String}     key     the key of the object
+         * @param  {Promise}    promise the promise for which cache the resolved value for
+         * @param  {Function}   parser  the parser for the promise resolved value
+         *
+         * @return {Promise}            the given promise
+         */
+        function cache(key, promise, parser) {
+            promises[key] = promise;
 
             promise.then(function(result) {
-                data[name] = parser ? parser(result) : result;
-                promises[name] = undefined;
+                data[key] = parser ? parser(result) : result;
+                promises[key] = undefined;
             });
 
             return promise;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cache.cacheService
+         * @name isReady
+         *
+         * @description
+         * Checks whether value for the given key is ready, meaning whether the promise given for
+         * that key has been resolved. If no value for the given key is caches an error will be
+         * shown in the browser console.
+         *
+         * @param  {String}     key     the key of the caches object
+         * @return {Boolean}            true if the promise has been resolved, false otherwise
+         */
         function isReady(key) {
             return withCheck(key, function() {
                 return !promises[key];
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cache.cacheService
+         * @name get
+         *
+         * @description
+         * Retrieves the object for the given key. If no value for the given key is caches an error
+         * will be shown in the browser console.
+         *
+         * @param  {String}     key     the key of the caches object
+         * @return {Object}             the resolved object if the promise has been resolved,
+         *                              promise otherwise
+         */
         function get(key) {
             return withCheck(key, function() {
                 return promises[key] ? promises[key] : data[key];
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cache.cacheService
+         * @name get
+         *
+         * @description
+         * Removes the cached object for the given key. If no value for the given key is caches an
+         * error will be shown in the browser console.
+         *
+         * @param  {String}     key     the key of the caches object
+         *
+         */
         function clear(key) {
             withCheck(key, function() {
                 delete data[key];
+                delete promises[key];
             });
         }
 

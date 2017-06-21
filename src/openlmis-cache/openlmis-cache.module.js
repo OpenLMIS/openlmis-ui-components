@@ -16,6 +16,12 @@
 
     'use strict';
 
+    /**
+     * @module openlmis-cache
+     *
+     * @description
+     * Provides simple memory cache to the application.
+     */
     angular.module('openlmis-cache', []);
 
 })();
