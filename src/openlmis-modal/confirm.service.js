@@ -44,7 +44,6 @@
          * Shows confirm modal with custom message.
          *
          * @param  {String}   message             Primary message to display at the top
-         * @param  {Function} additional          Message Additional message to display below
          * @param  {String}   buttonMessage       Optional message to display on confirm button
          * @param  {String}   cancelButtonMessage Optional message to display on cancel button
          * @return {Promise}                      Confirm promise
