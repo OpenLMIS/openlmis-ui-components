@@ -43,7 +43,7 @@ Styleguide 1.6
 	&.is-success,
 	&.is-error,
 	&.is-danger {
-		padding-left: 3em;
+		padding-left: 4em;
 		&::before {
 			font-size: 2em;
 			position: absolute;
@@ -59,6 +59,8 @@ Styleguide 1.6
 
 	> button {
 		float: right;
+		margin-top: -0.5em;
+		margin-bottom: -0.5em;
 	}
 
 
