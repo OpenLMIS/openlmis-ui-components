@@ -22,7 +22,7 @@ describe('cacheService', function() {
 
         inject(function ($injector) {
             cacheService = $injector.get('cacheService');
-            $q = $injector.get('$q');-
+            $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
         });
 
