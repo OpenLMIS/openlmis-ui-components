@@ -20,10 +20,10 @@ describe('cacheService', function() {
     beforeEach(function () {
         module('openlmis-cache');
 
-        inject(function (_$rootScope_, _cacheService_, _$q_) {
-            cacheService = _cacheService_;
-            $q = _$q_;
-            $rootScope = _$rootScope_;
+        inject(function ($injector) {
+            cacheService = $injector.get('cacheService');
+            $q = $injector.get('$q');-
+            $rootScope = $injector.get('$rootScope');
         });
 
         testKey = "test";
