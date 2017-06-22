@@ -13,6 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+/*
 describe('notificationService', function() {
 
     var timeout, notificationService, rootScope;
@@ -53,3 +54,4 @@ describe('notificationService', function() {
     });
 
 });
+*/
