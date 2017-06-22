@@ -61,10 +61,7 @@
                     placeholderValues.push(this.value);
                 });
                 return placeholderValues.join(' - ');
-            }, function(){
-                element.select2('destroy');
-                createSelect();
-            });
+            }, updateSelect);
 
 
             /**
