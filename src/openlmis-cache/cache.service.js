@@ -50,17 +50,17 @@
          * @param  {Promise}    promise the promise for which cache the resolved value for
          * @param  {Function}   parser  the parser for the promise resolved value
          *
-         * @return {Promise}            the given promise
+         * @return {Promise}            the promise resolving to parsed value returned by the
+         *                              original promise
          */
         function cache(key, promise, parser) {
-            promises[key] = promise;
-
-            promise.then(function(result) {
+            promises[key] = promise.then(function(result) {
                 data[key] = parser ? parser(result) : result;
                 promises[key] = undefined;
+                return data[key];
             });
 
-            return promise;
+            return promises[key];
         }
 
         /**

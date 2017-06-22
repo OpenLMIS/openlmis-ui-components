@@ -34,7 +34,7 @@ describe('cacheService', function() {
 
         cacheService.cache(testKey, deffered.promise)
 
-        expect(cacheService.get(testKey)).toEqual(deffered.promise);
+        expect(cacheService.get(testKey).then).not.toBeUndefined();
     });
 
     it('should parse and cache result of promise', function () {
