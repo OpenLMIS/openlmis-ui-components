@@ -70,8 +70,7 @@
          *
          * @description
          * Checks whether value for the given key is ready, meaning whether the promise given for
-         * that key has been resolved. If no value for the given key is caches an error will be
-         * shown in the browser console.
+         * that key has been resolved.
          *
          * @param  {String}     key     the key of the caches object
          * @return {Boolean}            true if the promise has been resolved, false otherwise
@@ -88,8 +87,7 @@
          * @name get
          *
          * @description
-         * Retrieves the object for the given key. If no value for the given key is caches an error
-         * will be shown in the browser console.
+         * Retrieves the object for the given key.
          *
          * @param  {String}     key     the key of the caches object
          * @return {Object}             the resolved object if the promise has been resolved,
@@ -107,8 +105,7 @@
          * @name get
          *
          * @description
-         * Removes the cached object for the given key. If no value for the given key is caches an
-         * error will be shown in the browser console.
+         * Removes the cached object for the given key.
          *
          * @param  {String}     key     the key of the caches object
          *
@@ -123,8 +120,6 @@
         function withCheck(key, action) {
             if (data.hasOwnProperty(key) || promises.hasOwnProperty(key)) {
                 return action();
-            } else {
-                console.error('No value for key ' + key + ' stored');
             }
         }
     }

@@ -49,14 +49,6 @@ describe('cacheService', function() {
         expect(cacheService.get(testKey)).toEqual(4);
     });
 
-    it('should print error to console when no data nor promises', function(){
-        spyOn(console, 'error');
-
-        cacheService.get(testKey)
-
-        expect(console.error).toHaveBeenCalledWith('No value for key ' + testKey + ' stored');
-    })
-
     it('should return true if cache is ready', function () {
         var deffered = $q.defer();
 
