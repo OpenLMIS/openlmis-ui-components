@@ -29,6 +29,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 
 .form-control{
 	padding: 0.5em;
+	height: auto;
 	border-color: $border-color;
 	border-style: solid;
 	border-radius: $border-radius;
@@ -57,5 +58,10 @@ input[type="number"],
 select,
 textarea{
 	@extend .form-control;
+	&.ng-invalid {
+		@extend .is-invalid;
+	}
+	&.ng-disabled {
+		@extend .is-disabled;
+	}
 }
-
