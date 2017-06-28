@@ -48,7 +48,9 @@
                 el = element[0],
                 parent = element.parent();
 
-            if(parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')) return;
+            if(parent.length == 0 || parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')){
+                return ;
+            }
 
             scope.$watch(function() {
                 return el.value;

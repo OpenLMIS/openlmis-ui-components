@@ -18,17 +18,29 @@ The OpenLMIS-UI provides easy ways to display form-control error messages, by
 either reading Angular's FormController or the error-span factory.
 
 markup:
-<form openlmis-invalid>
+<form>
 	<label for="invalidExampleText">Example invalid input</label>
-	<input id="invalidExampleText" name="invalidExampleText" type="text" ng-model="invalidExampleText" openlmis-invalid="Example error message" required />
+	<input id="invalidExampleText" type="text" ng-model="invalidExampleText"
+		openlmis-invalid="Example error message"
+		required />
+	<label for="invalidExampleSelect">Example invalid select</label>
+	<select id="invalidExampleSelect" ng-model="invalidExampleSelect"
+		openlmis-invalid="Another example of an error message"
+		required
+		placeholder="This will stay invalid" >
+	</select>
 	<fieldset class="form-group">
 		<legend>Invalid radio buttons work like this</legend>
 		<label class="radio">
-			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio" value="Yes" required />
+			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio"
+				value="Yes"
+				required />
 			Yes
 		</label>
 		<label class="radio">
-			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio" value="No" required />
+			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio"
+				value="No"
+				required />
 			No
 		</label>
 	</fieldset>
