@@ -177,6 +177,7 @@ form {
         font-weight: normal;
     }
 
+    fieldset.form-control > legend,
     fieldset.form-group > legend {
         color: $text-color;
         font-weight: bold;
@@ -216,32 +217,4 @@ textarea {
 input.number,
 input[type="number"] {
     text-align: right;
-}
-
-span.error {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-style: italic;
-    color: $red;
-}
-
-.ng-submitted {
-    label.ng-invalid {
-        color: $red;
-    }
-
-    input:not([type='checkbox']):not([type='radio']).ng-invalid,
-    select.ng-invalid,
-    textarea.ng-invalid {
-        border-color: $red;
-        color: $red;
-
-        &:focus {
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $red;
-        }
-
-        & > option {
-            color: black;
-        }
-    }
 }
