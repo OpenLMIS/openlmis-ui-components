@@ -1,0 +1,46 @@
+/*
+Form Errors
+
+There are two types of error messages in a form, input-level messages and
+form-level messages.
+
+Form-level messages are shown to the user immedately after the form submission
+fails. This is done with an alert modal to explain the error to the user, then
+return the user's focus to the form that needs correction. See the 
+form-server-validation directive for a pattern of how to display form-level
+errors.
+
+Input-level messages must be shown on every form control input that is invalid
+and contains an error. Error messages related to an input must use the ARIA
+described by label to make sure the error accessiable.
+
+The OpenLMIS-UI provides easy ways to display form-control error messages, by 
+either reading Angular's FormController or the error-span factory.
+
+markup:
+<form openlmis-invalid>
+	<label for="invalidExampleText">Example invalid input</label>
+	<input id="invalidExampleText" name="invalidExampleText" type="text" ng-model="invalidExampleText" openlmis-invalid="Example error message" required />
+	<fieldset class="form-group">
+		<legend>Invalid radio buttons work like this</legend>
+		<label class="radio">
+			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio" value="Yes" required />
+			Yes
+		</label>
+		<label class="radio">
+			<input type="radio" name="invalidExampleRadio" ng-model="invalidExampleRadio" value="No" required />
+			No
+		</label>
+	</fieldset>
+	<input type="submit" value="Validate Form" />
+</form>
+
+Styleguide 3.2
+*/
+
+span.error {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-style: italic;
+    color: $brand-danger;
+}
