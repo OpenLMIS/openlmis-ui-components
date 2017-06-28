@@ -65,11 +65,7 @@
                     span = angular.element('<span class="error"></span>');
                 }
 
-                if (attrs.type === 'checkbox') {
-                    element.parents('fieldset').find('legend').after(span);
-                } else {
-                    element.parents('fieldset').append(span);
-                }
+                element.parents('fieldset').find('legend').after(span);
             }
 
             errorSpanFactory.link(scope, element, attrs, controllers, span);
