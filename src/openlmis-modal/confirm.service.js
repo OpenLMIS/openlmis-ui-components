@@ -28,9 +28,9 @@
     angular.module('openlmis-modal')
         .service('confirmService', confirmService);
 
-    confirmService.$inject = ['bootbox', 'messageService', '$q'];
+    confirmService.$inject = ['openlmisModalService', 'messageService', '$q'];
 
-    function confirmService(bootbox, messageService, $q) {
+    function confirmService(openlmisModalService, messageService, $q) {
 
         this.confirm = confirm;
         this.confirmDestroy = destroy;
@@ -72,49 +72,30 @@
         function makeModal(remove, message, buttonMessage, cancelButtonMessage) {
             var deferred = $q.defer();
 
-            bootbox.dialog({
-                message: retrieveMessage(message),
-                buttons: {
-                    cancel: {
-                        label: messageService.get(cancelButtonMessage ? cancelButtonMessage : 'openlmisModal.cancel'),
-                        callback: deferred.reject
+            openlmisModalService.createDialog({
+                templateUrl: 'openlmis-modal/confirm-modal.html',
+                controller: 'ConfirmModalController',
+                controllerAs: 'vm',
+                resolve: {
+                    className: function() {
+                        return remove ? "danger" : "primary";
                     },
-                    success: {
-                        label: messageService.get(buttonMessage ? buttonMessage : 'openlmisModal.ok'),
-                        callback: deferred.resolve,
-                        className: remove ? "danger" : "primary"
+                    message: function() {
+                        return message;
+                    },
+                    confirmMessage: function() {
+                        return buttonMessage ? buttonMessage : 'openlmisModal.ok';
+                    },
+                    cancelMessage: function() {
+                        return cancelButtonMessage ? cancelButtonMessage : 'openlmisModal.cancel';
+                    },
+                    confirmDeferred: function() {
+                        return deferred;
                     }
                 }
             });
+
             return deferred.promise;
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-modal.confirmService
-         * @name retrieveMessage
-         *
-         * @description
-         * Retrieves given message from messageService, replacing newlines with <br> to display properly in bootbox.
-         *
-         * @param  {Object}  message  Message to display, either string or message-parameters mapping.
-         *
-         * @return {String}           Localized message
-         */
-        function retrieveMessage(message) {
-            var localized;
-
-            if (message.messageKey) {
-                if (message.messageParams) {
-                    localized = messageService.get(message.messageKey, message.messageParams);
-                } else {
-                    localized = messageService.get(message.messageKey);
-                }
-            } else {
-                localized = messageService.get(message);
-            }
-
-            return localized.replace(/\n/g, '<br/>');
         }
     }
 })();

@@ -2,8 +2,6 @@
   "name": "openlmis-ui-components",
   "dependencies": {
     "font-awesome": "^4.6.3",
-    "bootbox": "4.4.0",
-    "ngBootbox": "0.1.3",
     "angular-filter": "^0.5",
     "angular-strap": "*",
     "analytics": "https://www.google-analytics.com/analytics.js",
