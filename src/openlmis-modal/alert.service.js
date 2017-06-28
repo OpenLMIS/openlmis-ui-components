@@ -14,7 +14,8 @@
  */
 
 (function(){
-    "use strict";
+
+    'use strict';
 
     /**
      * @ngdoc service
@@ -23,21 +24,17 @@
      * @description
      * Service allows to display alert modal with custom message.
      */
-
-    angular.module('openlmis-modal')
+    angular
+        .module('openlmis-modal')
         .service('alertService', alertService);
 
-    alertService.$inject = ['$timeout', '$q', '$rootScope', '$compile', '$templateRequest',
-        '$templateCache', 'bootbox', 'messageService', 'openlmisModalService'
+    alertService.$inject = [
+        '$q', 'openlmisModalService'
     ];
 
-    function alertService($timeout, $q, $rootScope, $compile, $templateRequest, $templateCache,
-        bootbox, messageService, openlmisModalService) {
+    function alertService($q, openlmisModalService) {
 
-        var template = $templateCache.get('openlmis-modal/alert.html'),
-            deferred,
-            modal,
-            scope;
+        var modal;
 
         this.warning = warning;
         this.error = error;
@@ -95,37 +92,31 @@
         }
 
         function showAlert(alertClass, title, message) {
-            if (modalIsDisplayed()) return $q.reject();
-
-            scope = prepareScope(alertClass, title, message);
+            if (modal) return $q.reject();
 
             modal = openlmisModalService.createDialog({
-                scope: scope,
+                controller: 'AlertModalController',
+                controllerAs: 'vm',
                 templateUrl: 'openlmis-modal/alert.html',
-                show: true
+                show: true,
+                resolve: {
+                    alertClass: function() {
+                        return alertClass;
+                    },
+                    title: function() {
+                        return title;
+                    },
+                    message: function() {
+                        return message;
+                    }
+                }
             });
 
             modal.promise.finally(function() {
-                scope.$destroy();
-                scope = undefined;
                 modal = undefined;
             });
 
             return modal.promise;
-        }
-
-        function prepareScope(alertClass, title, message) {
-            var scope = $rootScope.$new();
-
-            scope.alertClass = alertClass;
-            scope.title = title;
-            scope.message = message;
-
-            return scope;
-        }
-
-        function modalIsDisplayed() {
-            return modal || scope || deferred;
         }
     }
 })();
