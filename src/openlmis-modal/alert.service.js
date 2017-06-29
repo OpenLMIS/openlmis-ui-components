@@ -54,7 +54,7 @@
          *                              promise will be automatically rejected
          */
         function warning(title, message) {
-            return showAlert('warning', title, message);
+            return showAlert('is-warning', title, message);
         }
 
         /**
@@ -71,7 +71,7 @@
          *                              promise will be automatically rejected
          */
         function error(title, message) {
-            return showAlert('error', title, message);
+            return showAlert('is-error', title, message);
         }
 
         /**
@@ -88,7 +88,7 @@
          *                              promise will be automatically rejected
          */
         function success(title, message) {
-            return showAlert('success', title, message);
+            return showAlert('is-success', title, message);
         }
 
         function showAlert(alertClass, title, message) {

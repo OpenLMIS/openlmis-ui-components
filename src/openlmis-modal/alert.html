@@ -1,13 +1,12 @@
-<div class="modal alert-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal alert-modal {{vm.alertClass}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" aria-label="Close" ng-click="$hide()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <div class="alert-main">
-                    <span class="icon {{vm.alertClass}}"></span>
-                    <div class="alert-message {{vm.alertClass}}">
+                    <div class="alert-message">
                         <h2>{{vm.title | message}}</h2>
                         <p>{{vm.message | message}}</p>
                     </div>

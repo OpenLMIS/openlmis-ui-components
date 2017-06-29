@@ -128,7 +128,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-modal.confirmService
+         * @methodOf openlmis-modal.controller:ConfirmModalController
          * @name retrieveMessage
          *
          * @description
