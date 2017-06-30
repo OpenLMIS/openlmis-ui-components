@@ -32,57 +32,72 @@
         .module('openlmis-form')
         .directive('openlmisInvalid', directive);
 
-    function directive() {
-        var directive = {
+    directive.$inject = ['$compile', '$templateRequest'];
+    function directive($compile, $templateRequest) {
+        return {
             link: link,
             restrict: 'A',
-            require: [
-                '^?form',
-                '^?ngModel'
-            ]
+            controller: 'openlmisInvalidController'
         };
-        return directive;
-    }
 
-    function link(scope, element, attrs, ctrls) {
-        var formCtrl = ctrls[0],
-            ngModelCtrl = ctrls[1],
-            currentErrorMessage;
+        function link(scope, element, attrs, openlmisInvalidCtrl) {
+            var messageScope = scope.$new(),
+                messageElement;
 
-        scope.$watch(function(){
-            if(attrs['openlmisInvalid'] != '') {
-                return attrs['openlmisInvalid'];
-            } else {
-                return false;
-            }
-        }, function(message) {
-            if(!message){
-                clearError();
-            } else {
-                setError(message);
-            }
-        });
+            scope.$watch(getAttributeError, updateErrors);
+            scope.$watchCollection(openlmisInvalidCtrl.getMessages, updateErrors);
 
-        function setError(errorMessage) {
-            currentErrorMessage = errorMessage;
-            if (ngModelCtrl) {
-                ngModelCtrl.$setValidity(currentErrorMessage, false);
+            function getAttributeError() {
+                if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
+                    return attrs.openlmisInvalid;
+                } else {
+                    return false;
+                }
             }
-            if (formCtrl) {
-                formCtrl.$setSubmitted();
+
+            function updateErrors() {
+                var messages = [];
+
+                if(getAttributeError()) {
+                    messages.push(getAttributeError());
+                }
+
+                angular.forEach(openlmisInvalidCtrl.getMessages(), function(value, key) {
+                    messages.push(value);
+                });
+
+                if(messages.length > 0) {
+                    showErrors(messages);
+                } else {
+                    clearErrors();
+                }
+            }
+
+            function showErrors(messages) {
+                if(attrs.openlmisInvalidHidden) {
+                    return ;
+                }
+
+                messageScope.messages = messages;
+
+                if(!messageElement){
+                    messageElement = true;
+                    $templateRequest('openlmis-form/openlmis-invalid.html')
+                    .then(function(html){
+                        messageElement = $compile(html)(messageScope);
+                        element.prepend(messageElement);
+                    });
+                }
+            }
+
+            function clearErrors() {
+                if(messageElement){
+                    messageElement.remove();
+                    messageElement = undefined;                    
+                }
             }
         }
 
-        function clearError() {
-            if(!currentErrorMessage) {
-                return;
-            }
-            if(ngModelCtrl) {
-                ngModelCtrl.$setValidity(currentErrorMessage, true);
-            }
-
-            currentErrorMessage = false;
-        }
     }
 
 })();

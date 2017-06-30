@@ -26,7 +26,6 @@
      */
     angular
         .module('openlmis-form')
-        .constant('shortid', shortid)
         .service('uniqueIdService', service);
 
     service.$inject = ['shortid', 'jQuery'];
@@ -37,7 +36,7 @@
 
         function generate(){
             var id = shortid.gen();
-            if(jQuery('#' + id).length > 1){
+            if(jQuery('#' + id).length > 0){
                 return generate();
             } else {
                 return id;

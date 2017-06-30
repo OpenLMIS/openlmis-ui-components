@@ -57,11 +57,11 @@ element.
 	<fieldset class="form-group">
 		<legend>Radio elements</legend>
 		<label class="radio">
-			<input type="radio" ng-model="radioOptions" value="0" />
+			<input type="radio" name="radioOptions" ng-model="radioOptions" value="0" />
 			Radio 1
 		</label>
 		<label class="radio">
-			<input type="radio" ng-model="radioOptions" value="1" />
+			<input type="radio" name="radioOptions" ng-model="radioOptions" value="1" />
 			Radio 2
 		</label>
 	</fieldset>
@@ -72,8 +72,8 @@ element.
       <input for="bootstrap-text" type="text" />
     </div>
     <div class="form-group">
-      <label id="bootstrap-textarea">Textarea</label>
-      <textarea for="bootstrap-textarea" required></textarea>
+      <label for="bootstrap-textarea">Textarea</label>
+      <textarea id="bootstrap-textarea" ng-model="exampleTextarea" required></textarea>
     </div>
     <div class="checkbox">
       <label>
@@ -101,15 +101,8 @@ form {
     }
 
     > fieldset {
-        margin: 0.5em 0;
-
-        &.form-group {
-            margin: 0;
-        }
-
-        &:first-child {
-            margin-top: 0;
-        }
+        margin: 0em;
+        margin-top: 0.5em;
     }
 
     > label,
@@ -117,8 +110,8 @@ form {
         margin-top: 0.5em;
         margin-bottom: 0.2em;
 
-        &.required:after {
-            color: $red;
+        &.is-required:after {
+            color: $brand-danger;
             content: '*';
             margin-left: 0.25em;
         }
@@ -132,7 +125,7 @@ form {
     }
 
     > fieldset.form-group {
-         > label.checkbox,
+        > label.checkbox,
         > label.radio {
             margin-top: 0.2em;
         }
@@ -167,9 +160,18 @@ form {
     }
 }
 
+.form-label {
+    font-weight: bold;
+    font-size: $font-size;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
 form {
     > label {
-        font-weight: bold;
+        @extend .form-label;
     }
 
     > label.checkbox,
@@ -191,27 +193,18 @@ form {
 }
 
 fieldset > legend {
-    @extend h4;
+    @extend .form-label;
+    padding: 0px;
     border-bottom-width: 0;
-}
-
-form > fieldset:first-child {
-    margin-top: 0;
-
-    > legend:first-child {
-        padding-top: 0;
-        margin-top: 0;
-    }
-}
-
-form .form-group,
-form fieldset {
-    @extend form;
-    margin: 0;
 }
 
 textarea {
     resize: none;
+}
+
+fieldset,
+.form-group {
+    @extend form;
 }
 
 input.number,

@@ -18,17 +18,13 @@ The OpenLMIS-UI provides easy ways to display form-control error messages, by
 either reading Angular's FormController or the error-span factory.
 
 markup:
-<form>
+<form openlmis-invalid="This is an example form with errors">
 	<label for="invalidExampleText">Example invalid input</label>
-	<input id="invalidExampleText" type="text" ng-model="invalidExampleText"
-		openlmis-invalid="Example error message"
-		required />
+	<input id="invalidExampleText" type="text" ng-model="invalidExampleText" ng-maxlength="10" required />
+	<label for="invalidExamplePermanent">Example invalid input</label>
+	<input id="invalidExamplePermanent" ng-model="invalidExamplePermanent" type="text" openlmis-invalid="Persistant error message" />
 	<label for="invalidExampleSelect">Example invalid select</label>
-	<select id="invalidExampleSelect" ng-model="invalidExampleSelect"
-		openlmis-invalid="Another example of an error message"
-		required
-		placeholder="This will stay invalid" >
-	</select>
+	<select id="invalidExampleSelect" ng-model="invalidExampleSelect" required></select>
 	<fieldset class="form-group">
 		<legend>Invalid radio buttons work like this</legend>
 		<label class="radio">
@@ -47,12 +43,33 @@ markup:
 	<input type="submit" value="Validate Form" />
 </form>
 
-Styleguide 3.2
+Styleguide 3.3
 */
 
-span.error {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-style: italic;
-    color: $brand-danger;
+.form-error {
+	@extend .alert.is-error;
+	position: relative;
+	background-color: $brand-danger;
+	color: $white;
+	font-weight: bold;
+	border-radius: $border-radius;
+	padding: 1em;
+	padding-left: 4em;
+}
+
+form > .alert.is-error {
+	@extend .form-error;
+}
+
+.input-error {
+	@extend .alert.is-error;
+	&::before {
+		display: none;
+	}
+	background: transparent;
+	position: relative;
+	padding: 0em;
+	padding-left: 0.5em;
+	border-left: $brand-danger 0.25em solid;
+	border-radius: 0px;
 }

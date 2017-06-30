@@ -1,11 +1,8 @@
 /*
-Form Controls
+Input Controls
 
 Individual form controls have different layouts. Form controls should be used
 within a form with a proper label, but that might not always happen...
-
-Like Bootstrap, we use `.form-control` to style elements and use sass to extend
-those styles across the application.
 
 markup:
 <form>
@@ -21,13 +18,18 @@ markup:
 	<textarea for="exampleTextareaFormControl" required></textarea>
 </form>
 
-Styleguide 3.3
+Styleguide 3.2
 */
 
 $form-control-text-color: $text-color !default;
 $form-control-text-color-disabled: $text-color-disabled !default;
 
-.form-control{
+.form-control,
+.input-control {
+	@extend .form-control;
+
+	position: relative;
+
 	padding: 0.5em;
 	height: auto;
 	border-color: $border-color;
@@ -35,11 +37,14 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	border-radius: $border-radius;
 	box-shadow: inset 0 0 0.5em $border-color;
 	color: $text-color;
+	
 	&:focus,
-	&.is-focused {
+	&.is-focused,
+	&.is-focused.is-invalid {
 	  border-color: $brand-primary;
 	  box-shadow: inset 0 0 0.5em $brand-primary;
 	}
+	
 	&:disabled,
 	&.is-disabled {
 	  box-shadow: 0 0 0 $border-color;
@@ -47,8 +52,48 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	  background-color: transparent;
 	  cursor: not-allowed;
 	}
+	
 	&.is-invalid {
 		box-shadow: inset 0 0 0.5em $brand-danger;
+		padding-right: 2em;
+
+		&::after {
+			content: "\f06a";
+			color: $brand-danger;
+			font: normal normal normal 14px/1 FontAwesome;
+			display: block;
+			height: 1em;
+			width: 1em;
+			position: absolute;
+			top: 50%;
+			right: 0.5em;
+			transform: translateY(-50%);
+		}
+
+	}
+
+	> .input-control,
+	> .form-control {
+		@extend .input-control-unstyled;
+	}
+}
+
+.input-control-unstyled {
+	background: transparent;
+	box-shadow: 0 0 0 transparent;
+	border: 0px;
+	border-radius: 0px;
+	padding: 0px;
+	&::after {
+		content: "";
+	}
+}
+
+.input-control-unstyled {
+	&.is-focused,
+	&.is-invalid,
+	&.is-disabled {
+		@extend .input-control-unstyled;
 	}
 }
 
@@ -57,7 +102,7 @@ input[type="password"],
 input[type="number"],
 select,
 textarea{
-	@extend .form-control;
+	@extend .input-control;
 	&.ng-invalid {
 		@extend .is-invalid;
 	}

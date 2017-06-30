@@ -25,28 +25,20 @@
      * Adds styles and logic for required input.
      *
      * @example
-     * This directive will work with 'input' elements that have 'required' or 'ng-required' attribute.
-     * It also requires 'label' element to be connected with 'input' by 'for' attribute. For inputs
-     * of checkbox/radio type the class will be added to the legend element.
+     * This directive will work with 'input' elements that have 'required'
+     * attribute. It also requires 'label' element to be connected with 'input'
+     * by 'for' attribute.
+     * 
      * ```
      * <label for="input-id">option</label>
      * <input id="input-id" required></input>
-     *
-     * <fieldset>
-     *     <legend>Legend</legend>
-     *     <input type="checkbox"></input>
-     * </fieldset>
      * ```
      *
-     * After render required class will be added to 'label' and 'legend' elements.
+     * After render required class will be added to 'label' elements.
+     * 
      * ```
-     * <label for="input-id" class="required">option</label>
+     * <label for="input-id" class="is-required">option</label>
      * <input id="input-id" required></input>
-     *
-     * <fieldset>
-     *     <legend class="required">Legend</legend>
-     *     <input type="checkbox"></input>
-     * </fieldset>
      * ```
      */
     angular
@@ -63,15 +55,32 @@
         return directive;
 
         function link(scope, element, attrs) {
+            var label; // keep the last found label reference here (incase something changes)
 
-            if (!attrs.required && (!attrs.ngRequired || attrs.ngRequired !== 'false')) return;
+            if(attrs.type === 'radio' || attrs.type === 'checkbox') {
+                return;
+            }
 
-            if (attrs.type === 'radio' || attrs.type === 'checkbox') {
-                element.parents('fieldset').find('legend').addClass('required');
-            } else {
-                attrs.$observe('id', function(id) {
-                    angular.element('label[for="' + id + '"]').addClass('required');
-                });
+            scope.$watch(function(){
+                if(attrs.hasOwnProperty('required')){
+                    return attrs.required;
+                } else {
+                    return false;
+                }
+            }, update);
+            scope.$watch(function(){
+                return attrs.id;
+            }, update);
+
+            function update(){
+                if(label){
+                    label.removeClass('is-required');
+                }
+
+                if (attrs.required) {
+                    label = angular.element('label[for="' + element.attr('id') + '"]');
+                    label.addClass('is-required');
+                }
             }
         }
     }
