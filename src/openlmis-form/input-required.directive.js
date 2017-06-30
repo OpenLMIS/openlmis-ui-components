@@ -51,7 +51,9 @@
      */
     angular
         .module('openlmis-form')
-        .directive('input', inputRequired);
+        .directive('input', inputRequired)
+        .directive('select', inputRequired)
+        .directive('textarea', inputRequired);
 
     function inputRequired() {
         var directive = {
@@ -68,7 +70,7 @@
                 element.parents('fieldset').find('legend').addClass('required');
             } else {
                 attrs.$observe('id', function(id) {
-                    element.siblings('label[for="' + id + '"]').addClass('required');
+                    angular.element('label[for="' + id + '"]').addClass('required');
                 });
             }
         }
