@@ -28,7 +28,8 @@
         'openlmis-i18n',
         'openlmis-modal',
         'mgcrea.ngStrap.datepicker',
-        'openlmis-pagination'
+        'openlmis-pagination',
+        'openlmis-config'
     ]);
 
 })();
