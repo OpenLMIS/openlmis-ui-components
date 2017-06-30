@@ -6,7 +6,8 @@
     "angular-strap": "*",
     "analytics": "https://www.google-analytics.com/analytics.js",
     "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js",
-    "select2": "^4.0.3"
+    "select2": "^4.0.3",
+    "js-shortid": "shortid#^0.1.1"
   },
   "overrides": {
     "font-awesome": {
@@ -18,6 +19,11 @@
     "select2": {
       "main": [
         "dist/js/select2.js"
+      ]
+    },
+    "js-shortid": {
+      "main": [
+        "dist/js-shortid.js"
       ]
     }
   }
