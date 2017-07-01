@@ -14,16 +14,16 @@
  */
 
 describe('Input Control Wrap', function() {
-	var $compile, scope, $httpBackend;
+	var $compile, scope;
 
+	beforeEach(module('openlmis-templates'));
 	beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function(_$compile_, $rootScope, _$httpBackend_) {
+	beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {
 		$compile = _$compile_;
 		scope = $rootScope.$new();
-		$httpBackend = _$httpBackend_;
-
-		$httpBackend.whenGET('openlmis-form/input-control-wrap.html').respond(200, '<div class="input-control" input-control></div>');
+		
+		spyOn($templateCache, 'get').andReturn('<div class="input-control" input-control></div>');
 	}));
 
 	describe('- input -', function(){
@@ -33,7 +33,6 @@ describe('Input Control Wrap', function() {
 			var markup = '<form><input /></form>';
 			element = $compile(markup)(scope);
 			scope.$apply();
-			$httpBackend.flush();
 
 			input = element.find('input');
 		}));
@@ -76,7 +75,6 @@ describe('Input Control Wrap', function() {
 			element = $compile(markup)(scope),
 			select = element.find('select');
 		scope.$apply();
-		$httpBackend.flush();
 
 		expect(select.parents('[input-control]').length).toBe(1);
 	});
@@ -86,7 +84,6 @@ describe('Input Control Wrap', function() {
 			element = $compile(markup)(scope),
 			textarea = element.find('textarea');
 		scope.$apply();
-		$httpBackend.flush();
 
 		expect(textarea.parents('[input-control]').length).toBe(1);
 	});

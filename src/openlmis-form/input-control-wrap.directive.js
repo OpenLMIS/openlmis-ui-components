@@ -33,8 +33,8 @@
         .directive('select', directive)
         .directive('textarea', directive);
 
-    directive.$inject = ['$compile', '$templateRequest'];
-    function directive($compile, $templateRequest) {
+    directive.$inject = ['$compile', '$templateCache'];
+    function directive($compile, $templateCache) {
         return {
             compile: function(element, attrs){
                 return {
@@ -42,6 +42,7 @@
                     post: link
                 }
             },
+            priority: 20,
             restrict: 'E',
             require: [
                 '?^inputControl',
@@ -122,12 +123,10 @@
          *
          */
         function wrapElement(scope, element){
-            $templateRequest('openlmis-form/input-control-wrap.html')
-            .then(function(html){
-                var inputWrap = $compile(html)(scope);
-                element.before(inputWrap);
-                inputWrap.append(element);
-            });
+            var html = $templateCache.get('openlmis-form/input-control-wrap.html'),
+                inputWrap = $compile(html)(scope);
+            element.before(inputWrap);
+            inputWrap.append(element);
         }
 
         function isSingleTypeFieldset(fieldset) {
