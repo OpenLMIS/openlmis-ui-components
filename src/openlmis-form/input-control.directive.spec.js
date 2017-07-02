@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('Input Control directive', function(){
+describe('Input Control directive', function(){
 
 	var form, element, inputs, scope;
 
