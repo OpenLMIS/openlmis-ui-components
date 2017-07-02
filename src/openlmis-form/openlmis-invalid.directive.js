@@ -47,6 +47,17 @@
             scope.$watch(getAttributeError, updateErrors);
             scope.$watchCollection(openlmisInvalidCtrl.getMessages, updateErrors);
 
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @name  getAttributeError
+             *
+             * @description
+             * Returns the message in openlmisInvalid, or false if an empty
+             * string or unset.
+             * 
+             */
             function getAttributeError() {
                 if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
                     return attrs.openlmisInvalid;
@@ -55,6 +66,16 @@
                 }
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @name  updateErrors
+             *
+             * @description
+             * Creates a list of messages, and if there are any messages to
+             * show, then it shows or clears the error message span.
+             * 
+             */
             function updateErrors() {
                 var messages = [];
 
@@ -73,6 +94,17 @@
                 }
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @name showErrors
+             * 
+             * @param  {Array} messages List of messages to show
+             *
+             * @description
+             * Renders an invalid message element with the set of messages.
+             * 
+             */
             function showErrors(messages) {
                 if(attrs.openlmisInvalidHidden) {
                     return ;
@@ -90,6 +122,15 @@
                 }
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @name clearErrors
+             * 
+             * @description
+             * Removes and destroys the error message span, if it exists.
+             * 
+             */
             function clearErrors() {
                 if(messageElement){
                     messageElement.remove();
