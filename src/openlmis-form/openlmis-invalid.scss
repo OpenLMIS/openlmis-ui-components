@@ -1,0 +1,17 @@
+
+
+.openlmis-invalid {
+	@extend .list-unstyled;
+	> * {
+		@extend .form-error;
+	}
+}
+
+form{
+	.input-control + .openlmis-invalid,
+	legend + .openlmis-invalid {
+		> * {
+			@extend .input-error;
+		}
+	}
+}

@@ -37,7 +37,7 @@
         return {
             link: link,
             restrict: 'A',
-            controller: 'openlmisInvalidController'
+            controller: 'OpenlmisInvalidController'
         };
 
         function link(scope, element, attrs, openlmisInvalidCtrl) {
