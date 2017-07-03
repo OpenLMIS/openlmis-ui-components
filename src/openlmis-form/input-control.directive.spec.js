@@ -22,10 +22,12 @@ describe('Input Control directive', function(){
 	beforeEach(inject(function($compile, $rootScope) {
 		scope = $rootScope.$new();
 
-		var markup = '<form><div input-control openlmis-invalid ><input ng-model="example" required /><input ng-model="foo" /></div></form>';
+		var markup = '<form name="exampleForm"><div input-control openlmis-invalid ><input ng-model="example" required /><input ng-model="foo" /></div></form>';
 		form = $compile(markup)(scope);
 
 		angular.element('body').append(form);
+
+		scope.exampleForm.$setSubmitted();
 
 		scope.$apply();
 
