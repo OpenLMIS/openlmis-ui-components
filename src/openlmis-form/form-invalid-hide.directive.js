@@ -50,6 +50,14 @@
                 element.attr('openlmis-invalid-hidden', true);
             } 
         });
+
+        scope.$watch(function(){
+            return attrs['openlmisInvalid'];
+        }, function(invalid){
+            if(invalid){
+                formCtrl.$setSubmitted();
+            }
+        });
     }
 
 })();
