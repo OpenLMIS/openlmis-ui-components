@@ -130,8 +130,10 @@
             scope.$watchCollection(function(){
                 return element.children('.openlmis-invalid');
             }, function(invalidElements){
-                if(element.children('legend').length > 0) {
+                if(element.prop('tagName') === 'FIELDSET' && element.children('legend').length > 0) {
                     element.children('legend').after(invalidElements);
+                } else if(element.parents('.form-inline').length > 0 || element.prop('tagName') === 'TD') {
+                    invalidElements.remove();
                 } else {
                     element.after(invalidElements);
                 }

@@ -9,5 +9,6 @@
     "openlmisForm.selectNoResults": "No options to select",
     "openlmisForm.selectDate": "Select date",
     "openlmisForm.showingNumberOfResults": "Showing ${num} of ${total} results",
-    "openlmisForm.tooManyCharacters": "Too many characters"
+    "openlmisForm.tooManyCharacters": "Too many characters",
+    "openlmisForm.formInvalid": "This form is invalid"
 }

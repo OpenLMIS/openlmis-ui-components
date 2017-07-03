@@ -21,6 +21,10 @@ markup:
 <form openlmis-invalid="This is an example form with errors">
 	<label for="invalidExampleText">Example invalid input</label>
 	<input id="invalidExampleText" type="text" ng-model="invalidExampleText" ng-maxlength="10" required />
+</form>
+<br /><br />
+<form name="errorForm">
+	<p ng-if="!errorForm.$submitted" class="alert">Error messages are shown after the form is submitted.</p>
 	<label for="invalidExamplePermanent">Example invalid input</label>
 	<input id="invalidExamplePermanent" ng-model="invalidExamplePermanent" type="text" openlmis-invalid="Persistant error message" />
 	<label for="invalidExampleSelect">Example invalid select</label>
@@ -41,6 +45,19 @@ markup:
 		</label>
 	</fieldset>
 	<input type="submit" value="Validate Form" />
+	<button ng-click="errorForm.$setPristine()">Reset Form</button>
+</form>
+<br /><br />
+<form class="form-inline" openlmis-invalid="Inline form errors should look like this">
+	<div class="form-group">
+		<label for="inlineInvalidExample">Invalid inline input</label>
+		<input id="inlineInvalidExample" ng-model="inlineErrorExample" required />
+	</div>
+	<div class="form-group">
+		<label for="inlineInvalidSelect">Invalid inline select</label>
+		<select id="inlineInvalidSelect" required ng-model="inlineErrorSelect"></select>
+	</div>
+	<input type="submit" value="Submit Inline Form" />
 </form>
 
 Styleguide 3.3
@@ -73,3 +90,30 @@ form > .alert.is-error {
 	border-left: $brand-danger 0.25em solid;
 	border-radius: 0px;
 }
+
+.openlmis-invalid {
+	@extend .list-unstyled;
+	> * {
+		@extend .form-error;
+	}
+}
+
+form{
+	.input-control + .openlmis-invalid,
+	legend + .openlmis-invalid {
+		> * {
+			@extend .input-error;
+		}
+	}
+}
+
+.form-inline,
+form.form-inline {
+	> .openlmis-invalid {
+		min-width: 100%;
+		>  * {
+			@extend .input-error;
+		}
+	}
+}
+

@@ -35,16 +35,15 @@ form.form-inline,
 .form-inline {
 	display: flex;
 	align-items: flex-end;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
+	max-width: none;
+	margin-left: -1em;
 	> * {
 		flex: 0 0 auto;
 		width: auto;
 		min-width: auto;
 		margin: 0px;
 		margin-left: 1em;
-		&:first-child {
-			margin-left: 0px;
-		}
 	}
 
 	> label {
@@ -63,10 +62,6 @@ form.form-inline,
 	}
 
 	> .form-group {
-		margin-left: 1em;
-		&:first-child {
-			margin-left: 0em;
-		}
 		> *:last-child {
 			margin-bottom: 0em;
 		}
