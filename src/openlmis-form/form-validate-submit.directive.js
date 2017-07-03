@@ -35,7 +35,8 @@
         .module('openlmis-form')
         .directive('form', directive);
 
-    function directive() {
+    directive.$inject = ['$timeout', 'alertService', 'messageService'];
+    function directive($timeout, alertService, messageService) {
         var directive = {
             link: link,
             priority: -1,
@@ -43,14 +44,17 @@
             restrict: 'E'
         };
         return directive;
-    }
 
-    function link(scope, element, attrs, form) {
-        element.on('submit', function(event) {
-            if (form.$invalid) {
-                event.stopImmediatePropagation();
-            }
-        });
+        function link(scope, element, attrs, form) {
+            element.on('submit', function(event) {
+                if (form.$invalid) {
+                    event.stopImmediatePropagation();
+                    $timeout(function(){
+                        alertService.error(messageService.get('openlmisForm.formInvalid'));
+                    }, 10);
+                }
+            });
+        }
     }
 
 })();
