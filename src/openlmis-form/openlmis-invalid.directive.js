@@ -46,6 +46,7 @@
 
             scope.$watch(getAttributeError, updateErrors);
             scope.$watchCollection(openlmisInvalidCtrl.getMessages, updateErrors);
+            scope.$watchCollection(canShowErrors, updateErrors);
 
 
             /**
@@ -94,6 +95,16 @@
                 }
             }
 
+            function canShowErrors() {
+                if(element.attr('openlmis-invalid-hidden')) {
+                    return false;
+                }
+                if(element.parents('[openlmis-invalid-hidden]').length > 0){
+                    return false;
+                }
+                return true;
+            }
+
             /**
              * @ngdoc method
              * @methodOf openlmis-form.directive:openlmis-invalid
@@ -106,7 +117,7 @@
              * 
              */
             function showErrors(messages) {
-                if(element.attr('openlmis-invalid-hidden')) {
+                if(!canShowErrors()){
                     return ;
                 }
 

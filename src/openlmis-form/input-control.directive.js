@@ -25,7 +25,7 @@
      * @description
      * Aggrigates all child input elements, and shows a single state for all
      * internal child elements. Overall this directive enforces consistent
-     * layout and style between input elements and error messages (whe using
+     * layout and style between input elements and error messages (the using
      * openlmis-invalid).
      * 
      */
@@ -72,17 +72,27 @@
          * 
          */
         function watchErrors(){
-            scope.$watchCollection(inputCtrl.getErrors, function(messages) {
-                if(openlmisInvalidCtrl){
-                    openlmisInvalidCtrl.setMessages(messages);
-                }
+            scope.$watchCollection(inputCtrl.getErrors, updateErrors);
+            scope.$watchCollection(function(){
+                return element.parents('[openlmis-invalid-hidden]');
+            }, updateErrors);
+        }
 
-                if(Object.keys(messages).length > 0){
-                    element.addClass('is-invalid');
-                } else {
-                    element.removeClass('is-invalid');
-                }
-            });
+        function updateErrors(){
+            var messages = inputCtrl.getErrors();
+            if(openlmisInvalidCtrl){
+                openlmisInvalidCtrl.setMessages(messages);
+            }
+
+            if(!hasErrorsSurpressed() && Object.keys(messages).length > 0){
+                element.addClass('is-invalid');
+            } else {
+                element.removeClass('is-invalid');
+            }
+        }
+
+        function hasErrorsSurpressed() {
+            return element.parents('[openlmis-invalid-hidden]').length > 0;
         }
 
         /**
