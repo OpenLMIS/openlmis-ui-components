@@ -106,7 +106,7 @@
              * 
              */
             function showErrors(messages) {
-                if(attrs.openlmisInvalidHidden) {
+                if(element.attr('openlmis-invalid-hidden')) {
                     return ;
                 }
 

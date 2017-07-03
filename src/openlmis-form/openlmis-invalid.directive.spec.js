@@ -90,5 +90,16 @@ describe('openlmis-invalid directive', function(){
         expect(element.children().length).toBe(0);
     });
 
+    it('will not show an error element if openlmis-invalid-hidden is true', function(){
+        element.attr('openlmis-invalid-hidden', true);
+
+        messagesObj = {
+            test: 'Sample message'
+        };
+        scope.$apply();
+
+        expect(element.children().length).toBe(0);
+    });
+
 });
 
