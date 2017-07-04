@@ -24,7 +24,6 @@
      *
      * @description
      * Fieldset specific behavior for an input-control.
-     *
      */
     
     angular

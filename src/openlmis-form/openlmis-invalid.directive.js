@@ -25,7 +25,6 @@
      * @description
      * Sets the invalid error state and message on a form or form control
      * object.
-     *
      */
     
     angular
@@ -57,7 +56,6 @@
              * @description
              * Returns the message in openlmisInvalid, or false if an empty
              * string or unset.
-             * 
              */
             function getAttributeError() {
                 if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
@@ -75,7 +73,6 @@
              * @description
              * Creates a list of messages, and if there are any messages to
              * show, then it shows or clears the error message span.
-             * 
              */
             function updateErrors() {
                 var messages = [];
@@ -114,7 +111,6 @@
              *
              * @description
              * Renders an invalid message element with the set of messages.
-             * 
              */
             function showErrors(messages) {
                 if(!canShowErrors()){
@@ -140,7 +136,6 @@
              * 
              * @description
              * Removes and destroys the error message span, if it exists.
-             * 
              */
             function clearErrors() {
                 if(messageElement){

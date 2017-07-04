@@ -31,7 +31,6 @@
      * correctly.
      *
      * This runs on all input, select, and textarea elements.
-     *
      */
     
     angular
@@ -61,7 +60,6 @@
          *
          * The element's id is then used to make the element's name attribute —
          * unless the ng-model attribute is set.
-         *
          */
         function setup(element, attrs) {
             // set unique ID (if not set)

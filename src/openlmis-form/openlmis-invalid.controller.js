@@ -23,7 +23,6 @@
      *
      * @description
      * Contains and renders list of error messages.
-     * 
      */
     
     angular
@@ -47,7 +46,6 @@
          * @description Gets an object of messages
          *
          * @returns {Object} Object of message keys and names
-         * 
          */
         function getMessages() {
             return messages;
@@ -61,7 +59,6 @@
          * @description
          * Sets the messages for the internal object, parsing any message
          * values that are a boolean with parseMessage
-         *
          */
         function setMessages(newMessages){
             Object.keys(newMessages).forEach(function(key) {
@@ -88,7 +85,6 @@
          *
          * This method will first try to get specific openlmisForm. prefixed
          * version of the message.
-         *
          */
         function parseMessage(message) {
             var openlmisFormMessageKey = 'openlmisForm.' + message,

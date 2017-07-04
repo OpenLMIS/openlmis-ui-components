@@ -25,7 +25,6 @@
      * Controller used by input-control directive. Other directives will
      * register their ngModelCtrl to the InputControlController, which then 
      * returns aggrigated responses to the input-control directive.
-     * 
      */
     
     angular
@@ -52,7 +51,6 @@
          *
          * @returns {boolean} If successful it returns true, and false
          * otherwise.
-         * 
          */
         function addNgModel(ngModelCtrl) {
             // needs to dedup
@@ -70,7 +68,6 @@
          * errors.
          * 
          * @returns {Object} Object of error keys and message values.
-         * 
          */
         function getErrors() {
             var messages = {};

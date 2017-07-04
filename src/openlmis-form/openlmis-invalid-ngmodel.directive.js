@@ -25,7 +25,6 @@
      * @description
      * Watches the openlmis-invalid attribute, and sets the ng-model invalid
      * state if the object has a ng-model controller.
-     *
      */
     
     angular
@@ -52,7 +51,6 @@
          * Watches the openlmis-invalid attribute, and if there is an attribute
          * with a non-empty string value then it sets the ngModelCtrl value to
          * invalid.
-         * 
          */
         function link(scope, element, attrs, ctrls) {
             var openlmisInvalidCtrl = ctrls[0],

@@ -27,7 +27,6 @@
      * internal child elements. Overall this directive enforces consistent
      * layout and style between input elements and error messages (the using
      * openlmis-invalid).
-     * 
      */
     
     angular
@@ -69,7 +68,6 @@
          *
          * If openlmisInvalid is also set on the element, the error message
          * object is passed to openlmisInvalid.
-         * 
          */
         function watchErrors(){
             scope.$watchCollection(inputCtrl.getErrors, updateErrors);
@@ -103,7 +101,6 @@
          * @description
          * Any inputs with a name attribute (which should be all of them), then
          * openlmis-invalid-hidden is set on each element.
-         * 
          */
         function surpressInputErrors(){
             scope.$watchCollection(function(){
@@ -124,7 +121,6 @@
          * The OpenlmisInvalid directive appends invalid messages, which
          * wouldn't work with the input-control directive. So, if an invalid
          * message element is added, it is moved to after the input-control.
-         * 
          */
         function moveInvalidMessages() {
             scope.$watchCollection(function(){
@@ -148,7 +144,6 @@
          * @description
          * If any child element gets focus, the is-focused class is added to
          * the input-control element.
-         * 
          */
         function catchFocus(){
             element.on('focusin', function(){
@@ -169,7 +164,6 @@
          * When child elements change their disabled state, the input wrapper
          * does too. Only if all child inputs are disabled will the
          * input-control get the class 'is-disabled'
-         * 
          */
         function watchDisabled() {
             scope.$watchCollection(function(){

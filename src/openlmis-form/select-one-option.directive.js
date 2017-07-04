@@ -64,7 +64,6 @@
          *
          * @description
          * Sets up scope watchers and calls updateSelect when there is a change.
-         * 
          */        
         function link(scope, element, attrs, ctrls) {
             var selectCtrl = ctrls[0],

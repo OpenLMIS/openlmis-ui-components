@@ -25,7 +25,6 @@
      * @description
      * Adds a openlmis-invalid-hidden to a form element if it isn't submitted.
      * This should have the effect of supressing all error messages for a form.
-     * 
      */
     angular
         .module('openlmis-form')

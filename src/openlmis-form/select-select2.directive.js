@@ -28,7 +28,6 @@
      *
      * The search field for select2 is loaded if the number of options is
      * greater than PAGE_SIZE.
-     *
      */
     angular
         .module('openlmis-form')
