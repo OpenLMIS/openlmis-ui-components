@@ -42,7 +42,7 @@
 
     function link(scope, element, attrs, inputCtrl) {
     	if(element.prop('tagName') !== 'FIELDSET') {
-    		return ;
+    		return;
     	}
 
     	scope.$watchCollection(function(){

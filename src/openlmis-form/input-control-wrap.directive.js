@@ -64,7 +64,7 @@
                 ngModelCtrl = ctrls[1];
 
             if(!inputCtrl) {
-                return ;
+                return;
             }
 
             if(inputCtrl && ngModelCtrl){
@@ -135,7 +135,7 @@
                 }
 
                 if(!elementType) {
-                    return ;
+                    return;
                 }
 
                 if(!type) {
