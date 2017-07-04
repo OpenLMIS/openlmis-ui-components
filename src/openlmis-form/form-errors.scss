@@ -12,7 +12,7 @@ errors.
 
 Input-level messages must be shown on every form control input that is invalid
 and contains an error. Error messages related to an input must use the ARIA
-described by label to make sure the error accessiable.
+described by label to make sure the error accessible.
 
 The OpenLMIS-UI provides easy ways to display form-control error messages, by 
 either reading Angular's FormController or the error-span factory.

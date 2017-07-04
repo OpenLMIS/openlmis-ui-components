@@ -121,13 +121,15 @@
         function wrapElement(scope, element){
             var html = $templateCache.get('openlmis-form/input-control-wrap.html'),
                 inputWrap = $compile(html)(scope);
+            
             element.before(inputWrap);
             inputWrap.append(element);
         }
 
         function isSingleTypeFieldset(fieldset) {
-            var type = false;
-            var matches = true;
+            var type = false,
+                matches = true;
+
             fieldset.find('[name],[ng-model]').each(function(index, element){
                 var elementType = element['name'];
                 if(element['ng-model']){
