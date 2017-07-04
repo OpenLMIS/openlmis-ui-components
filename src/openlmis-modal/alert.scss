@@ -33,14 +33,14 @@
 }
 
 .alert-modal.is-error .alert-main {
-	@include icon('exclamation-triangle');
+	@include icon('exclamation-circle');
 	&:before{
 		color: $brand-danger;	
 	}
 }
 
 .alert-modal.is-success .alert-main {
-	@include icon('exclamation-triangle');
+	@include icon('check-circle');
 	&:before{
 		color: $brand-success;
 	}
