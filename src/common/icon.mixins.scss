@@ -2,7 +2,7 @@
     @extend ".fa-#{$icon} !optional";
     font-family: $font-family;
     &::before {
-        font: normal normal normal 14px/1 FontAwesome;
+        font-family: FontAwesome;
         display: inline-block;
         font-size: 1em;
     }
