@@ -25,17 +25,23 @@
 	}
 }
 
-.alert-modal.is-warning .alert-main:before {
+.alert-modal.is-warning .alert-main {
 	@include icon('exclamation-triangle');
-	color: $orange;
+	&:before{
+		color: $orange;	
+	}
 }
 
-.alert-modal.is-error .alert-main:before {
+.alert-modal.is-error .alert-main {
 	@include icon('exclamation-triangle');
-	color: $brand-danger;
+	&:before{
+		color: $brand-danger;	
+	}
 }
 
-.alert-modal.is-success .alert-main:before {
+.alert-modal.is-success .alert-main {
 	@include icon('exclamation-triangle');
-	color: $brand-success;
+	&:before{
+		color: $brand-success;
+	}
 }
