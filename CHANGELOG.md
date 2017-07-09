@@ -1,6 +1,10 @@
 5.1.1 / Current Snapshot
 ========================
 
+New functionality added in a backwards-compatible manner:
+
+* [OLMIS-1693:](https://openlmis.atlassian.net/browse/OLMIS-2704) Added openlmis-invalid and error message documentation.
+
 5.1.0 / 2017-06-22
 ========================
 
