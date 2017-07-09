@@ -12,80 +12,53 @@ Ideally a table element would be surrounded by a form as the example shows, but
 that is not nessicarry.
 
 <h3>Example Table Form</h3>
-<form>
-  <table class="openlmis-table">
-    <thead>
-      <tr>
-        <th>Skip</th>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Strength</th>
-        <th>Unit of measure</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-class="{'is-disabled': tableFormSkip}">
-        <td>
-          <label class="checkbox">
-            <input type="checkbox" ng-model="tableFormSkip" />
-            Skip item
-          </label>
-        </td>
-        <td>
-          <label for="inputCode">Item Code</label>
-          <input id="inputCode" type="text" value="sampleValue" required ng-disabled="tableFormSkip" />
-        </td>
-        <td>
-          <label for="inputName">Item Name</label>
-          <input id="inputName" type="text" ng-disabled="tableFormSkip" />
-        </td>
-        <td>
-          <label for="inputStrength">Item Strength</label>
-          <input id="inputStrength" type="number" required ng-disabled="tableFormSkip" />
-        </td>
-        <td>
-          <label for="inputUnit">Item unit of measure</label>
-          <select id="inputUnit" required ng-disabled="tableFormSkip" >
-            <option value="kg">Kilograms</option>
-            <option value="g">Grams</option>
-            <option value="mg">Milligrams</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="submit" value="Save" />
-</form>
+<table class="openlmis-table">
+  <thead>
+    <tr>
+      <th>Skip</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Strength</th>
+      <th>Unit of measure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="i in [{},{},{},{}]" ng-form ng-disabled="i.skip">
+      <td>
+        <label class="checkbox">
+          <input type="checkbox" ng-model="i.skip" />
+          Skip item
+        </label>
+      </td>
+      <td>
+        <label for="inputCode">Item Code</label>
+        <input id="inputCode" type="text" ng-model="i.code" value="sampleValue" required ng-disabled="i.skip" />
+      </td>
+      <td>
+        <label for="inputName">Item Name</label>
+        <input id="inputName" type="text" ng-model="i.name" ng-disabled="i.skip" />
+      </td>
+      <td>
+        <label for="inputStrength">Item Strength</label>
+        <input id="inputStrength" type="number" ng-model="i.stregth" required ng-disabled="i.skip" />
+      </td>
+      <td>
+        <label for="inputUnit">Item unit of measure</label>
+        <select id="inputUnit" ng-model="i.unit" required ng-disabled="i.skip" >
+          <option value="kg">Kilograms</option>
+          <option value="g">Grams</option>
+          <option value="mg">Milligrams</option>
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 Styleguide 4.5
 */
 
-td.form-control {
-  display: table-cell;
-  box-shadow: 0em 0em 0em #fff;
-  width: auto;
-  border-radius: 0px;
-  &.is-focused,
-  &.is-invalid {
-    box-shadow: 0em 0em 0em #fff;
-  }
-
-  > label{
-    display: block;
-    height:0px;
-    width: 0px;
-    overflow: hidden;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin:0px;
-    padding: 0px;
-  }
-}
-
 td,
-th,
-td.form-control {
+th {
   > input[type="checkbox"]:first-child + > label:last-child,
   > input[type="checkbox"]:last-child + > label:first-child{
     position: absolute;
