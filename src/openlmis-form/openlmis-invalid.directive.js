@@ -117,6 +117,7 @@
                     return ;
                 }
 
+                element.addClass('is-invalid');
                 messageScope.messages = messages;
 
                 if(!messageElement){
@@ -138,6 +139,8 @@
              * Removes and destroys the error message span, if it exists.
              */
             function clearErrors() {
+                element.removeClass('is-invalid');
+
                 if(messageElement){
                     messageElement.remove();
                     messageElement = undefined;                    

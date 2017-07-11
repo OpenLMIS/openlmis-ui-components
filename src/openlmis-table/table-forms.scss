@@ -38,7 +38,7 @@ that is not nessicarry.
         <label for="inputName">Item Name</label>
         <input id="inputName" type="text" ng-model="i.name" ng-disabled="i.skip" />
       </td>
-      <td>
+      <td openlmis-invalid="Forcing this to be invalid">
         <label for="inputStrength">Item Strength</label>
         <input id="inputStrength" type="number" ng-model="i.stregth" required ng-disabled="i.skip" />
       </td>

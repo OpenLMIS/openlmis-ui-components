@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('Input Control TD', function() {
+describe('Input Control TD', function() {
 	var $compile, scope;
 
 	beforeEach(module('openlmis-form'));

@@ -128,7 +128,7 @@
             }, function(invalidElements){
                 if(element.prop('tagName') === 'FIELDSET' && element.children('legend').length > 0) {
                     element.children('legend').after(invalidElements);
-                } else if(element.parents('.form-inline').length > 0 || element.prop('tagName') === 'TD') {
+                } else if(element.parents('.form-inline').length > 0) {
                     invalidElements.remove();
                 } else {
                     element.after(invalidElements);
