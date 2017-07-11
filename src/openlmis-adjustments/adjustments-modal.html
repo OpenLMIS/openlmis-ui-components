@@ -1,0 +1,77 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>{{vm.title | message}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="adjustments-modal">
+                    <form ng-if="!isDisabled" ng-submit="vm.addAdjustment()" reload-form>
+                        <fieldset>
+                            <legend >
+                                {{vm.message | message}}
+                            </legend>
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label for="reason">
+                                        {{'openlmisAdjustments.reason' | message}}
+                                    </label>
+                                    <select id="reason"
+                                        ng-model="vm.adjustment.reason"
+                                        ng-options="reason as vm.getReasonName(reason) for reason in vm.reasons"
+                                        required>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">
+                                        {{'openlmisAdjustments.quantity' | message}}
+                                    </label>
+                                    <input id="quantity"
+                                           class="form-control"
+                                           ng-model="vm.adjustment.quantity"
+                                           required positive-integer/>
+                                </div>
+                                <button class="add" type="submit">
+                                    {{'openlmisAdjustments.add' | message}}
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <div class="adjustment-warning alert is-info"
+                         ng-show="vm.adjustments == null || vm.adjustments.length === 0">
+                            {{'openlmisAdjustments.noLossesOrAdjustments' | message}}
+                    </div>
+
+                    <dl ng-if="vm.adjustments.length">
+                        <dt ng-repeat-start="adjustment in vm.adjustments">
+                            {{vm.getReasonName(adjustment.reasonId)}}
+                        </dt>
+                        <dd ng-repeat-end>
+                            <div ng-if="isDisabled">{{adjustment.quantity}}</div>
+                            <input id="adjustment-quantity-{{$index}}"
+                                class="form-control"
+                                ng-model="adjustment.quantity"
+                                ng-change="vm.recalculateTotal()"
+                                ng-if="!isDisabled"
+                                required positive-integer/>
+                            <input type="button" class="danger"
+                                ng-click="vm.removeAdjustment(adjustment)"
+                                ng-if="!isDisabled"
+                                value="{{'openlmisAdjustments.remove' | message}}">
+                        </dd>
+                        <dt ng-repeat-start="(key, value) in vm.totals">
+                            {{key | message}}
+                        </dt>
+                        <dd ng-repeat-end>{{vm.totals[key]()}}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="vm.hideModal()">
+                    {{'openlmisAdjustments.close' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
