@@ -16,38 +16,36 @@
 describe('OpenLMIS Invalid TD', function() {
     'use strict';
 
-    var element, tableCell, scope;
+    var element, scope;
 
     beforeEach(module('openlmis-templates'));
     beforeEach(module('openlmis-table'));
     beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function($compile, $rootScope){
-        var markup = '<table><tr><td openlmis-invalid="{{invalidMessage}}" ></td></tr></table>';
+        var markup = '<td openlmis-invalid="{{invalidMessage}}" ></td>';
         
         scope = $rootScope.$new();
         element = $compile(markup)(scope);
 
         scope.$apply();
-
-        tableCell = element.find('td');
     }));
 
     it('adds is-invalid class to a table cell that has openlmis-invalid message', function(){
-        expect(tableCell.hasClass('is-invalid')).toBe(false);
+        expect(element.hasClass('is-invalid')).toBe(false);
 
         scope.invalidMessage = "Error!";
         scope.$apply();
 
-        expect(tableCell.hasClass('is-invalid')).toBe(true);
+        expect(element.hasClass('is-invalid')).toBe(true);
     });
 
     it('does not show openlmis-invalid messages inside table cell', function(){
-        expect(tableCell.children('.openlmis-invalid').length).toBe(0);
+        expect(element.children('.openlmis-invalid').length).toBe(0);
 
         scope.invalidMessage = "Error!";
         scope.$apply();
 
-        expect(tableCell.children('.openlmis-invalid').length).toBe(0); 
+        expect(element.children('.openlmis-invalid').length).toBe(0); 
     });
 });

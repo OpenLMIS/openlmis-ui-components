@@ -46,6 +46,7 @@
             scope.$watch(getAttributeError, updateErrors);
             scope.$watchCollection(openlmisInvalidCtrl.getMessages, updateErrors);
             scope.$watchCollection(canShowErrors, updateErrors);
+            scope.$on('openlmisInvalid.update', updateErrors);
 
 
             /**

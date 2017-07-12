@@ -23,7 +23,7 @@ that is not nessicarry.
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="i in [{},{},{},{}]" ng-form ng-disabled="i.skip">
+    <tr ng-repeat="i in [{},{},{},{}]" ng-disabled="i.skip">
       <td>
         <label class="checkbox">
           <input type="checkbox" ng-model="i.skip" />
