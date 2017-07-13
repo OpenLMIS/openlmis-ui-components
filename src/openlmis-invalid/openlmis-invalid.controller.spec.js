@@ -65,6 +65,6 @@ describe('OpenlmisInvalidController', function(){
             'test': true
         });
 
-        expect(messageService.get).toHaveBeenCalledWith('openlmisForm.test');
+        expect(messageService.get).toHaveBeenCalledWith('openlmisInvalid.test');
     });
 });

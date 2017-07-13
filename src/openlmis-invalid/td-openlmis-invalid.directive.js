@@ -27,7 +27,7 @@
      * is-invalid class.
      */
     angular
-        .module('openlmis-form')
+        .module('openlmis-invalid')
         .directive('td', directive);
 
     directive.$inject = ['$compile'];

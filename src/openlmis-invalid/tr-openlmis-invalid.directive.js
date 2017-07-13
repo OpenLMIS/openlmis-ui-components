@@ -48,25 +48,32 @@
                 if(!element[0].hasAttribute('openlmis-invalid-hidden')){
                     return ;
                 }
-                
-                if(!listenerSet){
-                    listenerSet = true;
-                    angular.element('body').on('focusin', removeInvalidOnBlur);
-                }
+                setFocusListenters();
             });
-            scope.$on('$destroy', removeFocusListenter);
+            scope.$on('$destroy', removeFocusListenters);
 
             function removeInvalidOnBlur(event) {
                 if(!jQuery.contains(element[0], event.target)){
                     element.removeAttr('openlmis-invalid-hidden');
                     scope.$broadcast('openlmisInvalid.update');
-                    removeFocusListenter();
+                    removeFocusListenters();
                 }
             }
 
-            function removeFocusListenter(){
-                listenerSet = false;
-                angular.element('body').off('focus', removeInvalidOnBlur);
+            function setFocusListenters() {
+                if(!listenerSet){
+                    listenerSet = true;
+                    angular.element('body').on('click', removeInvalidOnBlur);
+                    angular.element('body').on('focusin', removeInvalidOnBlur);
+                }
+            }
+
+            function removeFocusListenters(){
+                if(listenerSet){
+                    listenerSet = false;
+                    angular.element('body').off('focus', removeInvalidOnBlur);
+                    angular.element('body').off('click', removeInvalidOnBlur);
+                }
             }
         }
 
