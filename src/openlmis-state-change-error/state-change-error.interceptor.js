@@ -13,30 +13,44 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+(function() {
 
-(function(){
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc service
      * @name openlmis-state-change-error.stateChangeErrorInterceptor
      *
      * @description
-     * Displays error on the console if application fails to change state.
-     * Those errors are not displayed in console by default.
+     * Displays error on the console if application fails to change state. Those errors are not
+     * displayed in console by default. If the error is a failed HTTP request response the alert
+     * won't be shown and nothing will be printed in the browser console.
      */
-    angular.module('openlmis-state-change-error')
+    angular
+        .module('openlmis-state-change-error')
         .run(stateChangeErrorInterceptor);
 
-    stateChangeErrorInterceptor.$inject = ["$rootScope", 'alertService'];
-    function stateChangeErrorInterceptor($rootScope, alertService){
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-            alertService.error(
-                'openlmisStateChangeError.internalApplicationError.title',
-                'openlmisStateChangeError.internalApplicationError.message'
-            );
-            console.error(error);
-        });
+    stateChangeErrorInterceptor.$inject = ['$rootScope', 'alertService'];
+
+    function stateChangeErrorInterceptor($rootScope, alertService) {
+        $rootScope.$on('$stateChangeError', handleStateChangeError);
+
+        function handleStateChangeError(event, toState, toParams, fromState, fromParams, error) {
+            if (!isResponse(error)) {
+                alertService.error(
+                    'openlmisStateChangeError.internalApplicationError.title',
+                    'openlmisStateChangeError.internalApplicationError.message'
+                );
+                console.error(error);
+            }
+        }
+
+        function isResponse(error) {
+            return error &&
+                error.hasOwnProperty('status') &&
+                error.hasOwnProperty('statusText') &&
+                error.hasOwnProperty('data');
+        }
     }
 
 })();

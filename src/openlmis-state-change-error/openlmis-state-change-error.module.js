@@ -24,7 +24,8 @@
      * Responsible for managing state change errors.
      */
     angular.module('openlmis-state-change-error', [
-        'ui.router'
+        'ui.router',
+        'openlmis-modal'
     ]);
 
 })();
