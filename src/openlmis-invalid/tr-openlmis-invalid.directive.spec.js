@@ -44,13 +44,6 @@ ddescribe('OpenLMIS Invalid TR', function() {
     });
 
 
-    it('Adds openlmis-invalid-hidden until focus moves outside TR', function(){
-        var form = compileMarkup('<form><table><tr><td><input /></td></tr></table></form>');
-
-        expect(form.find('tr[openlmis-invalid-hidden]').length).toBe(0);
-    });
-
-
     function compileMarkup(markup) {
         var element = $compile(markup)(scope);
 

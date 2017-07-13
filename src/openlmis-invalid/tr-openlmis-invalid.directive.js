@@ -20,11 +20,12 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:formTR
+     * @name openlmis-invalid.directive:trOpenlmisInvalid
      *
      * @description
-     * Sets the invalid error state and message on a form or form control
-     * object.
+     * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
+     * subsequently lost it.
+     * 
      */
     
     angular
@@ -35,14 +36,10 @@
     function directive($compile, $templateRequest) {
         return {
             link: link,
-            restrict: 'E',
-            require: '^?form'
+            restrict: 'E'
         };
 
-        function link(scope, element, attrs, formCtrl) {
-            if(formCtrl){
-                return;
-            }
+        function link(scope, element, attrs) {
             var listenerSet;
 
             element.attr('openlmis-invalid-hidden','');

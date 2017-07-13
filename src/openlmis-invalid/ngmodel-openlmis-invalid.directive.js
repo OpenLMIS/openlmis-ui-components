@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:openlmis-invalid-ngmodel
+     * @name openlmis-invalid.directive:openlmis-invalid-ngmodel
      *
      * @description
      * Watches the openlmis-invalid attribute, and sets the ng-model invalid
@@ -28,7 +28,7 @@
      */
     
     angular
-        .module('openlmis-form')
+        .module('openlmis-invalid')
         .directive('openlmisInvalid', directive);
 
     function directive() {
@@ -44,7 +44,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.directive:openlmis-invalid-ngmodel
+         * @methodOf openlmis-invalid.directive:openlmis-invalid-ngmodel
          * @name  link
          *
          * @description

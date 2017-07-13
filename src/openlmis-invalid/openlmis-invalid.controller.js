@@ -19,14 +19,14 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-form.controller:openlmisInvalidController
+     * @name openlmis-invalid.controller:openlmisInvalidController
      *
      * @description
      * Contains and renders list of error messages.
      */
     
     angular
-        .module('openlmis-form')
+        .module('openlmis-invalid')
         .controller('OpenlmisInvalidController', controller);
 
     controller.$inject = ['messageService']
@@ -40,7 +40,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.controller:openlmisInvalidController
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
          * @name  getMessages
          *
          * @description Gets an object of messages
@@ -53,7 +53,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.controller:openlmisInvalidController
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
          * @name setMessages
          *
          * @description
@@ -76,21 +76,21 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.controller:openlmisInvalidController
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
          * @name parseMessages
          *
          * @description
          * Takes a message key, and will use the messageService to return a 
          * readable value.
          *
-         * This method will first try to get specific openlmisForm. prefixed
+         * This method will first try to get specific openlmisInvalid. prefixed
          * version of the message.
          */
         function parseMessage(message) {
-            var openlmisFormMessageKey = 'openlmisForm.' + message,
-                openlmisFormMessage = messageService.get(openlmisFormMessageKey);
-            if(openlmisFormMessage != openlmisFormMessageKey) {
-                return openlmisFormMessage;
+            var openlmisInvalidMessageKey = 'openlmisInvalid.' + message,
+                openlmisInvalidMessage = messageService.get(openlmisInvalidMessageKey);
+            if(openlmisInvalidMessage != openlmisInvalidMessageKey) {
+                return openlmisInvalidMessage;
             } else {
                 return messageService.get(message);
             }

@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:openlmis-invalid
+     * @name openlmis-invalid.directive:openlmis-invalid
      *
      * @description
      * Sets the invalid error state and message on a form or form control
@@ -28,7 +28,7 @@
      */
     
     angular
-        .module('openlmis-form')
+        .module('openlmis-invalid')
         .directive('openlmisInvalid', directive);
 
     directive.$inject = ['$compile', '$templateRequest'];
@@ -51,7 +51,7 @@
 
             /**
              * @ngdoc method
-             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @methodOf openlmis-invalid.directive:openlmis-invalid
              * @name  getAttributeError
              *
              * @description
@@ -68,7 +68,7 @@
 
             /**
              * @ngdoc method
-             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @methodOf openlmis-invalid.directive:openlmis-invalid
              * @name  updateErrors
              *
              * @description
@@ -105,7 +105,7 @@
 
             /**
              * @ngdoc method
-             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @methodOf openlmis-invalid.directive:openlmis-invalid
              * @name showErrors
              * 
              * @param  {Array} messages List of messages to show
@@ -123,7 +123,7 @@
 
                 if(!messageElement){
                     messageElement = true;
-                    $templateRequest('openlmis-form/openlmis-invalid.html')
+                    $templateRequest('openlmis-invalid/openlmis-invalid.html')
                     .then(function(html){
                         messageElement = $compile(html)(messageScope);
                         element.prepend(messageElement);
@@ -133,7 +133,7 @@
 
             /**
              * @ngdoc method
-             * @methodOf openlmis-form.directive:openlmis-invalid
+             * @methodOf openlmis-invalid.directive:openlmis-invalid
              * @name clearErrors
              * 
              * @description

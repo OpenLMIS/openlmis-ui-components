@@ -16,7 +16,7 @@
 describe('OpenlmisInvalidController', function(){
     var vm, messageService;
 
-    beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-invalid'));
 
     beforeEach(inject(function($controller, _messageService_) {
         messageService = _messageService_;
@@ -60,7 +60,7 @@ describe('OpenlmisInvalidController', function(){
         expect(messages.test).toBe('parsed message');
     });
 
-    it('will attempt to get a openlmisForm-prefixed message key', function(){
+    it('will attempt to get a openlmisInvalid-prefixed message key', function(){
         vm.setMessages({
             'test': true
         });

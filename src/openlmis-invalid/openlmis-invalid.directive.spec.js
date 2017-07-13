@@ -17,7 +17,7 @@ describe('openlmis-invalid directive', function(){
     var element, scope, messagesObj;
 
     beforeEach(module('openlmis-templates'));
-    beforeEach(module('openlmis-form', function($controllerProvider){
+    beforeEach(module('openlmis-invalid', function($controllerProvider){
         messagesObj = {};
         $controllerProvider.register('OpenlmisInvalidController', function(){
             return {

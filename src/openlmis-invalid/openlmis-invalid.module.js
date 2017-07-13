@@ -13,27 +13,20 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmis-invalid-ngmodel', function(){
-	var element, scope;
+(function() {
 
-	beforeEach(module('openlmis-templates'));
-	beforeEach(module('openlmis-form'));
+    'use strict';
 
-	beforeEach(inject(function($compile, $rootScope){
-		var markup = '<input ng-model="example" openlmis-invalid="{{invalidMessage}}" />';
-		scope = $rootScope.$new();
-		element = $compile(markup)(scope);
+    /**
+     * @module openlmis-invalid
+     *
+     * @description
+     * OpenLMIS Invalid is how OpenLMIS sets error messages
+     */
+    angular.module('openlmis-invalid', [
+        'openlmis-i18n',
+        'openlmis-config',
+        'openlmis-templates'
+    ]);
 
-		scope.$apply();
-	}));
-
-	it('sets ngModelCtrl to invalid when openlmis-invalid is set', function(){
-		expect(element.hasClass('ng-invalid')).toBe(false);
-
-		scope.invalidMessage = "Example error";
-		scope.$apply();
-
-		expect(element.hasClass('ng-invalid')).toBe(true);
-	});
-
-});
+})();

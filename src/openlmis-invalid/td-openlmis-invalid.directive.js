@@ -20,12 +20,11 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-table.directive:tdOpenlmisInvalid
+     * @name openlmis-invalid.directive:tdOpenlmisInvalid
      *
      * @description
-     * Hides the openlmis-invalid message for a table cell, and adds an error
-     * class.
-     *
+     * Hides the openlmis-invalid message for a table cell, and adds the
+     * is-invalid class.
      */
     angular
         .module('openlmis-form')
