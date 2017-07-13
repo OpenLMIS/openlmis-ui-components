@@ -1,0 +1,12 @@
+{
+    "openlmisAdjustments.add": "Add",
+    "openlmisAdjustments.addNewLossOrAdjustment": "Add new loss or adjustment",
+    "openlmisAdjustments.cancel": "Cancel",
+    "openlmisAdjustments.lossesAndAdjustments": "Losses and adjustments",
+    "openlmisAdjustments.noLossesOrAdjustments": "There are no losses or adjustments",
+    "openlmisAdjustments.quantity": "Quantity",
+    "openlmisAdjustments.reason": "Reason",
+    "openlmisAdjustments.remove": "Remove",
+    "openlmisAdjustments.total": "Total",
+    "openlmisAdjustments.save": "Save"
+}
