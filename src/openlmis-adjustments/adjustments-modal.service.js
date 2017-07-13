@@ -49,7 +49,9 @@
          * @param {Array}  adjustments     the list of adjustments to be updated
          */
         function open(options) {
-            openlmisModalService.createDialog({
+            var adjustments = angular.copy(options.adjustments);
+
+            return openlmisModalService.createDialog({
                 controller: 'AdjustmentsModalController',
                 controllerAs: 'vm',
                 templateUrl: 'openlmis-adjustments/adjustments-modal.html',
@@ -59,10 +61,9 @@
                     reasons: getOption('reasons'),
                     title: getOption('title'),
                     message: getOption('message'),
-                    totals: getOption('totals'),
-                    getReasonName: getOption('getReasonName')
+                    summaries: getOption('summaries')
                 }
-            });
+            }).promise;
 
             function getOption(key) {
                 return function() {

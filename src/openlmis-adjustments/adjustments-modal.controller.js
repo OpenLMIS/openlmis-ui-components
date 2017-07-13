@@ -29,20 +29,18 @@
         .controller('AdjustmentsModalController', AdjustmentsModalController);
 
     AdjustmentsModalController.$inject = [
-        '$filter', 'reasons', 'adjustments', 'title', 'message', 'totals', 'modalDeferred',
-        'getReasonName'
+        '$filter', 'reasons', 'adjustments', 'title', 'message', 'summaries', 'modalDeferred'
     ];
 
-    function AdjustmentsModalController($filter, reasons, adjustments, title, message, totals,
-                                        modalDeferred, getReasonName) {
+    function AdjustmentsModalController($filter, reasons, adjustments, title, message, summaries,
+                                        modalDeferred) {
 
         var vm = this;
 
         vm.$onInit = onInit;
         vm.addAdjustment = addAdjustment;
         vm.removeAdjustment = removeAdjustment;
-        vm.getReasonName = getReasonName;
-        vm.hideModal = modalDeferred.reject;
+        vm.hideModal = hideModal;
 
         /**
          * @ngdoc property
@@ -75,10 +73,10 @@
          * Initialization method of the AdjustmentsModalController.
          */
         function onInit() {
-            vm.adjustments = adjustments;
+            vm.adjustments = angular.copy(adjustments);
             vm.reasons = reasons;
             vm.title = title;
-            vm.totals = totals;
+            vm.summaries = summaries;
             vm.message = message;
         }
 
@@ -92,14 +90,14 @@
          */
         function addAdjustment() {
             var adjustment = {
-                reasonId: vm.adjustment.reason.id,
-                quantity: vm.adjustment.quantity
+                reason: vm.reason,
+                quantity: vm.quantity
             };
 
             vm.adjustments.push(adjustment);
 
-            vm.adjustment.quantity = undefined;
-            vm.adjustment.reason = undefined;
+            vm.quantity = undefined;
+            vm.reason = undefined;
         }
 
         /**
@@ -115,6 +113,10 @@
         function removeAdjustment(adjustment) {
             var index = vm.adjustments.indexOf(adjustment);
             vm.adjustments.splice(index, 1);
+        }
+
+        function hideModal() {
+            modalDeferred.resolve(vm.adjustments);
         }
     }
 
