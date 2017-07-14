@@ -51,7 +51,7 @@ markup:
 <form class="form-inline" openlmis-invalid="Inline form errors should look like this">
 	<div class="form-group">
 		<label for="inlineInvalidExample">Invalid inline input</label>
-		<input id="inlineInvalidExample" ng-model="inlineErrorExample" required />
+		<input id="inlineInvalidExample" ng-model="inlineErrorExample" type="text" required />
 	</div>
 	<div class="form-group">
 		<label for="inlineInvalidSelect">Invalid inline select</label>

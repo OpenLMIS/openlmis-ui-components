@@ -28,7 +28,12 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 .input-control {
 	@extend .form-control;
 
+	width: auto;
 	position: relative;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 
 	padding: 0.5em;
 	height: auto;
@@ -72,13 +77,19 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 
 	}
 
+	> * {
+		flex: 0 0 auto;
+	}
+
 	> .input-control,
 	> .form-control {
 		@extend .input-control-unstyled;
+		flex: 1 0 auto;
 	}
 }
 
 .input-control-unstyled {
+	display: block;
 	background: transparent;
 	box-shadow: 0 0 0 transparent;
 	border: 0px;
@@ -103,10 +114,8 @@ input[type="number"],
 select,
 textarea{
 	@extend .input-control;
-	&.ng-invalid {
-		@extend .is-invalid;
-	}
-	&.ng-disabled {
-		@extend .is-disabled;
-	}
+}
+
+.input-control > textarea {
+	width: 100%;
 }
