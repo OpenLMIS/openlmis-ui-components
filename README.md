@@ -27,7 +27,7 @@ $ grunt clean bower build --serve
 ```
 5. Go to `http://localhost:9000/webapp/` to see the login page.
 
-*Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build  --serve --openlmisServerUrl=<openlmis server url>`.
+*Note:* To change the location of where the OpenLMIS-UI attemps to access OpenLMIS, use the command `grunt build  --serve --openlmisServerURL=<openlmis server url>`.
 
 ## Building & Testing
 See the [OpenLMIS/dev-ui project](https://github.com/OpenLMIS/dev-ui) for more information on what commands are available, below are the command you might use during a normal work day.
@@ -42,14 +42,14 @@ $ grunt clean
 $ grunt bower
 
 // Build and run the UI against a OpenLMIS server
-$ grunt build --serve --openlmisServerUrl=<openlmis server url>
+$ grunt build --serve --openlmisServerURL=<openlmis server url>
 
 // Run unit tests
 $ grunt karma:unit
 
 // Run a watch process that will build and test your code
 // NOTE: You must change a file at least once before your code is rebuilt
-$ grunt watch --serve --openlmisServerUrl=<openlmis server url>
+$ grunt watch --serve --openlmisServerURL=<openlmis server url>
 
 ```
 
