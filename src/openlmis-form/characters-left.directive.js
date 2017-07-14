@@ -90,8 +90,10 @@
 
             function appendElement(template) {
                 content = $compile(template)(scope);
-                if (element.next().length) {
-                    angular.element(content).insertAfter(element);
+                if (element.parents('.input-control').length){
+                    element.parents('.input-control').after(content);
+                } else if (element.next().length) {
+                    content.insertAfter(element);
                 } else {
                     element.parent().append(content);
                 }

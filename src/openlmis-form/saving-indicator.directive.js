@@ -43,6 +43,7 @@
             scope: {
 			    object: '='
             },
+            replace: true,
 			controller: 'SavingIndicatorController',
 			controllerAs: 'indicator',
             templateUrl: 'openlmis-form/saving-indicator.html'
