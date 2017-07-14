@@ -2,10 +2,9 @@
 
     display: flex;
     flex-direction: row;
-    font-size: 0.8em;
-    margin-left: 0.8em;
+    flex-wrap: nowrap;
 
     .no-left {
-        color: $red;
+        color: $brand-danger;
     }
 }
