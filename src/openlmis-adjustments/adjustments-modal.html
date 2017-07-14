@@ -1,71 +1,78 @@
-<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="adjustments-modal modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>{{vm.title.key | message:(vm.title.params)}}</h4>
+                <h4>{{vm.title | message}}</h4>
             </div>
             <div class="modal-body">
-                <div class="adjustments-modal">
-                    <form ng-if="!isDisabled" ng-submit="vm.addAdjustment()" reload-form>
-                        <fieldset>
-                            <legend >
-                                <h4>{{vm.message.key | message:(vm.message.params)}}</h4>
-                            </legend>
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <label for="reason">
-                                        {{'openlmisAdjustments.reason' | message}}
-                                    </label>
-                                    <select id="reason"
-                                        ng-model="vm.reason"
-                                        ng-options="reason as reason.name for reason in vm.reasons"
-                                        required>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity">
-                                        {{'openlmisAdjustments.quantity' | message}}
-                                    </label>
-                                    <input id="quantity"
-                                           class="form-control"
-                                           ng-model="vm.quantity"
-                                           required positive-integer/>
-                                </div>
-                                <button class="add" type="submit">
-                                    {{'openlmisAdjustments.add' | message}}
-                                </button>
-                            </div>
-                        </fieldset>
+                <legend>
+                    <h4>{{vm.message | message}}</h4>
+                </legend>
+                <div class="openlmis-table-container">
+                    <form class="form-inline" ng-if="!isDisabled" ng-submit="vm.addAdjustment()" reload-form>
+                        <div class="form-group">
+                            <label for="reason">
+                                {{'openlmisAdjustments.reason' | message}}
+                            </label>
+                            <select id="reason"
+                                ng-model="vm.reason"
+                                ng-options="reason as reason.name for reason in vm.reasons"
+                                required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">
+                                {{'openlmisAdjustments.quantity' | message}}
+                            </label>
+                            <input id="quantity"
+                                   class="form-control"
+                                   ng-model="vm.quantity"
+                                   required positive-integer/>
+                        </div>
+                        <button class="add" type="submit">
+                            {{'openlmisAdjustments.add' | message}}
+                        </button>
                     </form>
-
-                    <div class="adjustment-warning alert is-info"
-                         ng-show="vm.adjustments == null || vm.adjustments.length === 0">
-                            {{'openlmisAdjustments.noLossesOrAdjustments' | message}}
-                    </div>
-
-                    <dl ng-if="vm.adjustments.length">
-                        <dt ng-repeat-start="adjustment in vm.adjustments">
-                            {{adjustment.reason.name}}
-                        </dt>
-                        <dd ng-repeat-end>
-                            <div ng-if="isDisabled">{{adjustment.quantity}}</div>
-                            <input id="adjustment-quantity-{{$index}}"
-                                class="form-control"
-                                ng-model="adjustment.quantity"
-                                ng-change="vm.recalculateTotal()"
-                                ng-if="!isDisabled"
-                                required positive-integer/>
-                            <input type="button" class="danger"
-                                ng-click="vm.removeAdjustment(adjustment)"
-                                ng-if="!isDisabled"
-                                value="{{'openlmisAdjustments.remove' | message}}">
-                        </dd>
-                        <dt ng-repeat-start="(key, value) in vm.summaries">
-                            {{key | message}}
-                        </dt>
-                        <dd ng-repeat-end>{{vm.summaries[key](vm.adjustments)}}</dd>
-                    </dl>
+                    <table>
+                        <caption class="adjustment-warning alert is-info"
+                             ng-show="vm.adjustments == null || vm.adjustments.length === 0">
+                                {{'openlmisAdjustments.noLossesOrAdjustments' | message}}
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>{{'openlmisAdjustments.reason' | message}}</th>
+                                <th>{{'openlmisAdjustments.quantity'| message}}</th>
+                                <th>{{'openlmisAdjustments.actions' | message}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="adjustment in vm.adjustments">
+                                <td>{{adjustment.reason.name}}</td>
+                                <td>
+                                    <div ng-if="isDisabled">{{adjustment.quantity}}</div>
+                                    <input id="adjustment-quantity-{{$index}}"
+                                        class="form-control"
+                                        ng-model="adjustment.quantity"
+                                        ng-change="vm.recalculateTotal()"
+                                        ng-if="!isDisabled"
+                                        required positive-integer/>
+                                </td>
+                                <td>
+                                    <input type="button" class="danger"
+                                        ng-click="vm.removeAdjustment(adjustment)"
+                                        ng-if="!isDisabled"
+                                        value="{{'openlmisAdjustments.remove' | message}}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <dl>
+                    <dt ng-repeat-start="(key, value) in vm.summaries">
+                        {{key | message}}
+                    </dt>
+                    <dd ng-repeat-end>{{vm.summaries[key](vm.adjustments)}}</dd>
+                </dl>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" ng-click="vm.cancel()">
