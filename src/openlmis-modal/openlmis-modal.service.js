@@ -39,10 +39,6 @@
             dialog.promise = deferred.promise;
             dialog.$$deferred = deferred;
 
-            decorateShow(dialog);
-            decorateHide(dialog);
-            decorateToggle(dialog);
-
             dialog.promise.finally(function() {
                 dialog.hide();
                 dialog = undefined;
@@ -85,56 +81,6 @@
             options.resolve.modalDeferred = function() {
                 return deferred;
             };
-        }
-
-        function decorateShow(dialog) {
-            dialog.$$show = dialog.show;
-            dialog.show = function() {
-                if(!dialog.closed) {
-                    hideTopModal(dialog);
-                    dialog.$$show();
-                }
-            };
-        }
-
-        function decorateHide(dialog) {
-            dialog.$$hide = dialog.hide;
-            dialog.hide = function() {
-                restorePreviousModal(dialog);
-                dialog.$$hide();
-                if (dialog.$$deferred) {
-                    dialog.$$deferred.reject();
-                }
-            };
-        }
-
-        function decorateToggle(dialog) {
-            dialog.$$toggle = dialog.toggle;
-            dialog.toggle = function() {
-                if (modals.indexOf(dialog)) {
-                    restorePreviousModal(dialog);
-                } else {
-                    hideTopModal(dialog);
-                }
-                dialog.$$toggle();
-            };
-        }
-
-        function hideTopModal(dialog) {
-            if (modals.length) {
-                modals[modals.length - 1].$$hide();
-            }
-            modals.push(dialog);
-        }
-
-        function restorePreviousModal(dialog) {
-            var index = modals.indexOf(dialog);
-            if (index > -1) {
-                modals.splice(index, 1);
-            }
-            if (modals.length) {
-                modals[modals.length - 1].$$show();
-            }
         }
 
     }
