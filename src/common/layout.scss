@@ -65,8 +65,6 @@ body {
             @extend .nav;
             @extend .nav-tabs;
 
-            border-bottom: none;
-
             > li > a {
                 background-color: $background-color-alt;
                 text-decoration: none;
@@ -83,6 +81,10 @@ body {
                     text-decoration: none;
                 }
             }
+        }
+
+        > nav > ul[bs-tabs] {
+            border-bottom: none;
         }
     }
 }
