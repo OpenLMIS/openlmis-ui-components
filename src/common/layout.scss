@@ -65,6 +65,8 @@ body {
             @extend .nav;
             @extend .nav-tabs;
 
+            border-bottom: none;
+
             > li > a {
                 background-color: $background-color-alt;
                 text-decoration: none;
