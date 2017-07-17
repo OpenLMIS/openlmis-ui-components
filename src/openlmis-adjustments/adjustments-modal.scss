@@ -1,0 +1,17 @@
+.adjustments-modal {
+    dl {
+        display: flex;
+        margin-top: 1em;
+
+        dt {
+            &:after {
+                font-weight: bold;
+                content: ':'
+            }
+        }
+
+        dd:not(:last-of-type) {
+            margin-right: auto;
+        }
+    }
+}
