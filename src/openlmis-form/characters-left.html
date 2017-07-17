@@ -1,4 +1,2 @@
-<div class="characters-left">
-    <div ng-if="text.length <= maxLength">{{'openlmisForm.charactersLeft' | message}}: {{maxLength - text.length}}</div>
-    <div ng-if="text.length > maxLength" class="no-left">{{'openlmisForm.tooManyCharacters' | message}}: {{text.length - maxLength}}</div>
-</div>
+<div ng-if="text.length <= maxLength">{{'openlmisForm.charactersLeft' | message}}: {{maxLength - text.length}}</div>
+<div ng-if="text.length > maxLength" class="input-error">{{'openlmisForm.tooManyCharacters' | message}}: {{text.length - maxLength}}</div>
