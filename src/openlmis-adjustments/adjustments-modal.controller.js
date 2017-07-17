@@ -22,7 +22,7 @@
      * @name openlmis-adjustments.controller:AdjustmentsModalController
      *
      * @description
-     * Provides methods for Losses and Adjustments modal.
+     * Provides methods for Adjustments modal.
      */
     angular
         .module('openlmis-adjustments')
@@ -78,6 +78,7 @@
             vm.title = options.title;
             vm.summaries = options.summaries;
             vm.message = options.message;
+            vm.isDisabled = options.isDisabled;
         }
 
         /**
