@@ -1,7 +1,9 @@
-<div class="olmis-datepicker">
-    <i class="olmis-datepicker-icon"></i>
-    <input class="openlmis-datepicker" type="text" autocomplete="off" class="form-control"
-           ng-model="dateString" id="{{inputId}}" ng-change="changeMethod()"
-           popover popover-title="{{'openlmisForm.selectDate' | message}}"
-           popover-template="openlmis-form/openlmis-datepicker-popover.html"/>
+<div class="olmis-datepicker input-group date">
+    <input id="{{inputId}}" type="text" class="form-control" autocomplete="off"
+           data-provide="datepicker" data-date-language="{{language}}" data-start-date="{{minDate}}" data-end-date="{{maxDate}}"
+           data-date-clear-btn="true" data-date-today-highlight="true" data-date-autoclose="true"
+           ng-model="dateString" ng-change="changeMethod()"/>
+    <div class="input-group-addon">
+        <i class="olmis-datepicker-icon"></i>
+    </div>
 </div>

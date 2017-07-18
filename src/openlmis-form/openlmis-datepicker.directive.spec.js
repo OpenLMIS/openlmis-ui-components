@@ -46,13 +46,8 @@ describe('Datepicker directive', function() {
         expect(element.html()).not.toEqual('');
     });
 
-    it('should have popover element', function () {
-        expect(element.html()).toContain('popover');
-    });
-
-    it('should update dateString when value changes', function() {
-        scope.startDate = '2017-04-04T22:00:00.000Z';
-        scope.$apply();
-        expect(filter).toHaveBeenCalledWith(scope.startDate);
+    it('should have datepicker element', function() {
+        var elem = angular.element(element);
+        expect(elem.find('input').datepicker).toBeDefined();
     });
 });

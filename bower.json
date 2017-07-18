@@ -7,7 +7,8 @@
     "analytics": "https://www.google-analytics.com/analytics.js",
     "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js",
     "select2": "^4.0.3",
-    "js-shortid": "shortid#^0.1.1"
+    "js-shortid": "shortid#^0.1.1",
+    "bootstrap-datepicker": "1.7"
   },
   "overrides": {
     "font-awesome": {

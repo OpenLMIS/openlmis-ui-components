@@ -15,42 +15,42 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
-     * @ngdoc directive
-     * @restrict E
-     * @name openlmis-form.directive:openlmisDatepicker
-     *
-     * @description
-     * Directive allows to add date picker input.
-     *
-     * @example
-     * To make this directive work only 'value' attribute is required, however there are more attributes to use.
-     * In order to make datepicker input use id you can add 'input-id' attribute.
-     * The 'change-method' attribute takes function that will be executed after datepicker value change.
-     * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
-     * ```
-     * <openlmis-datepicker
-     * 	   value="startDate"
-     *     input-id="datepicker-id"
-     *     change-method="afterChange()"
-     *     min-date="10/05/2016"
-     *     max-date="endDate">
-     * </openlmis-datepicker>
-     *
-     * <openlmis-datepicker
-     * 	   value="endDate">
-     * </openlmis-datepicker>
-     * ```
-     */
-	angular
-		.module('openlmis-form')
-		.directive('openlmisDatepicker', datepicker);
+    /**
+       * @ngdoc directive
+       * @restrict E
+       * @name openlmis-form.directive:openlmisDatepicker
+       *
+       * @description
+       * Directive allows to add date picker input.
+       *
+       * @example
+       * To make this directive work only 'value' attribute is required, however there are more attributes to use.
+       * In order to make datepicker input use id you can add 'input-id' attribute.
+       * The 'change-method' attribute takes function that will be executed after datepicker value change.
+       * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
+       * ```
+       * <openlmis-datepicker
+       * 	   value="startDate"
+       *     input-id="datepicker-id"
+       *     change-method="afterChange()"
+       *     min-date="10/05/2016"
+       *     max-date="endDate">
+       * </openlmis-datepicker>
+       *
+       * <openlmis-datepicker
+       * 	   value="endDate">
+       * </openlmis-datepicker>
+       * ```
+       */
+    angular
+        .module('openlmis-form')
+        .directive('openlmisDatepicker', datepicker);
 
-	datepicker.$inject = ['$filter', '$document'];
+    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATE_FORMAT'];
 
-	function datepicker($filter, $document) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATE_FORMAT) {
         return {
             restrict: 'E',
             scope: {
@@ -59,36 +59,74 @@
                 minDate: '=?',
                 maxDate: '=?',
                 changeMethod: '=?',
-                dateFormat: '=?'
+                dateFormat: '=?',
+                language: '=?'
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
-            controller: 'OpenlmisDatepickerController',
-            controllerAs: 'vm',
             link: link
         };
 
-        function link(scope, element) {
+        function link(scope, element, attrs, modelCtrl) {
+            setupLocalization(scope);
 
-            scope.$watch('value', function() {
+            if (scope.value) {
+                // Populate initial value, if passed to directive
                 scope.dateString = $filter('openlmisDate')(scope.value);
+            }
+
+            scope.$watch('dateString', function() {
+                scope.value = scope.dateString ? new Date(scope.dateString) : undefined;
             });
-
-            scope.clearSelection = function() {
-                scope.value = undefined;
-
-                //This is to unselect value from datepicker view
-                //(Workaround for angular-strap bug - view isn't updated when value is undefined)
-                var primaryButtons = $document[0].querySelectorAll('.btn-primary');
-                primaryButtons.forEach(function (button) {
-                    var buttonElement = angular.element(button);
-                    if (buttonElement.hasClass('btn-default')) {
-                        buttonElement.removeClass('btn-primary');
-                    }
-                });
-
-                scope.closePopover();
-            };
         }
-	}
+
+        function setupLocalization(scope) {
+            var language = messageService.getCurrentLocale(),
+                datepickerSettings = jQuery.fn.datepicker;
+
+            if (!datepickerSettings[language]) {
+                // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
+                // for each language, while this property is required.
+                var localization = getDatepickerLabels();
+                localization.format = angular.isDefined(scope.dateFormat)? scope.dateFormat : DEFAULT_DATE_FORMAT;
+                localization.titleFormat = "MM yyyy";
+
+                scope.language = language;
+                datepickerSettings.dates[language] = localization;
+            }
+        }
+
+        function getDatepickerLabels() {
+            var labels = {
+                months: [],
+                monthsShort: [],
+                days: [],
+                daysShort: [],
+                daysMin: [],
+                today: messageService.get('openlmisForm.datepicker.today'),
+                clear: messageService.get('openlmisForm.datepicker.clear')
+            };
+
+            for (var i = 1; i <= 12; i++) {
+                var longKey = 'openlmisForm.datepicker.monthNames.long.' + i;
+                labels.months.push(messageService.get(longKey));
+
+                var shortKey = 'openlmisForm.datepicker.monthNames.short.' + i;
+                labels.monthsShort.push(messageService.get(shortKey));
+            }
+
+            for (var i = 1; i <= 7; i++) {
+                var longKey = 'openlmisForm.datepicker.dayNames.long.' + i;
+                labels.days.push(messageService.get(longKey));
+
+                var shortKey = 'openlmisForm.datepicker.dayNames.short.' + i;
+                labels.daysShort.push(messageService.get(shortKey));
+
+                var minKey = 'openlmisForm.datepicker.dayNames.min.' + i;
+                labels.daysMin.push(messageService.get(minKey));
+            }
+
+            return labels;
+        }
+    }
 
 })();

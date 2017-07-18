@@ -20,19 +20,15 @@ Styleguide 3.5
 
 .olmis-datepicker-icon {
     @include icon('calendar');
-  	position: absolute;
-  	padding: 10px;
   	pointer-events: none;
-  	right: 0px;
 }
 
 .datepicker {
-	button,
-	.btn,
-	.btn-default {
-		background: transparent;
+	.clear {
+	  @extend .btn-primary;
 		border: 0px;
 		font-size: $font-size;
+
 		&:hover{
 			background-color: $brand-primary;
 			color: $white;
@@ -48,13 +44,4 @@ Styleguide 3.5
 	&.glyphicon-chevron-left {
 		@extend .fa-chevron-left;
 	}
-}
-
-
-bs-datepicker[bs-show="true"] + .datepicker.dropdown-menu,
-bs-datepicker[data-bs-show="true"] + .datepicker.dropdown-menu {
-	position: relative;
-	top: 0 !important;
-	left: 0 !important;
-	margin-bottom: 1em;
 }
