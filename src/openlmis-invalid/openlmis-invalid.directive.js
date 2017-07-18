@@ -59,7 +59,7 @@
              * string or unset.
              */
             function getAttributeError() {
-                if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
+                if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '' && attrs.openlmisInvalid != 'false') {
                     return attrs.openlmisInvalid;
                 } else {
                     return false;
