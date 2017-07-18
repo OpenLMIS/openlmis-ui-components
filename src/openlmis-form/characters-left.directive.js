@@ -29,121 +29,108 @@
      * @example
      * The following can be used to extend textarea or text input elements.
      * ```
-     * <textarea characters-left="true" max-length="100" ng-model="model"></textarea>
+     * <textarea characters-left ng-maxlength="100" ng-model="model"></textarea>
      * ```
-     * Both ng-model and max-length attributes are required. The 'true' value can be added to directive
-     * attribute and then this indicator will be shown always.
      *
-     * Rendered directive when characters limit has not been reached will look like this:
-	 * ```
-	 * <textarea characters-left maxlength="100" ng-model="model">
-	 * 	   <div class="characters-left">
-	 *         <div>characters left: {{maxLength - model.length}}</div>
-	 *     </div>
-	 * </textarea>
-	 * ```
-	 * Below is how directive will be rendered when characters limit has been reached:
-	 *```
-	 * <textarea characters-left maxlength="100" ng-model="model">
-	 * 	   <div class="characters-left">
-	 *         <div class="no-left">too many characters: {{text.length - maxLength}}</div>
-	 *     </div>
-	 * </textarea>
-	 * ```
+     * This element will work without ngModel.
+     *
+     * ng-maxlength is supported, rather than maxlength, which the browser uses
+     * to have its own restrictions. 
      */
 	angular
 		.module('openlmis-form')
 		.directive('charactersLeft', directive);
 
-	directive.$inject = ['$templateRequest', '$compile'];
+	directive.$inject = ['$templateRequest', '$compile', '$timeout'];
 
-	function directive($templateRequest, $compile) {
+	function directive($templateRequest, $compile, $timeout) {
 		return {
 			restrict: 'A',
-            require: 'ngModel',
-            controller: controller,
+            require: ['charactersLeft', '?ngModel'],
+            controller: 'CharactersLeftController',
             controllerAs: 'charactersLeftCtrl',
             link: link
 		};
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, ctrls) {
+            var charactersLeftElement,
+                charactersLeftCtrl = ctrls[0],
+                ngModelCtrl = ctrls[1];
 
-            var charactersLeftElement;
+            makeElement();
 
             element.on('focus', appendElement);
-            element.on('blur', destroyElement);
+            element.on('blur', removeElement);
+            element.on('keypress', updateCharactersLeft);
 
             scope.$on('$destroy', function(){
-                destroyElement();
-                element.off('focus');
-                element.off('blur');
+                removeElement();
+                charactersLeftElement = null;
+
+                element.off('focus', appendElement);
+                element.off('blur', removeElement);
+                element.off('keypress', updateCharactersLeft);
             });
 
-            function appendElement(template) {
-                if(!attrs.hasOwnProperty('charactersLeft') || attrs.charactersLeft.toLowerCase() == 'false') {
-                    return ;
-                }
+            if(ngModelCtrl){
+                ngModelCtrl.$viewChangeListeners.push(updateCharactersLeft);
+            }
 
-                $templateRequest('openlmis-form/characters-left.html').then(function(template) {
-                    charactersLeftElement = $compile(template)(scope);
-                    if (element.parents('.input-control').length){
-                        if(element.parents('.input-control').next('.openlmis-invalid').length > 0){
-                            element.parents('.input-control').next('.openlmis-invalid').after(charactersLeftElement);
-                        } else {
-                            element.parents('.input-control').after(charactersLeftElement);
-                        }
-                    } else if (element.next().length) {
-                        charactersLeftElement.insertAfter(element);
-                    } else {
-                        element.parent().append(charactersLeftElement);
-                    }
+            scope.$watch(function(){
+                return attrs.ngMaxlength;
+            }, function(maxlength){
+                charactersLeftCtrl.maxlength = maxlength;
+                updateCharactersLeft();
+            });
+
+            var updateDebounce;
+            function updateCharactersLeft() {
+                if(updateDebounce) {
+                    $timeout.cancel(updateDebounce);
+                }
+                updateDebounce = $timeout(function() {
+                    updateDebounce = false;
+                    charactersLeftCtrl.updateCharactersLeft();
+                }, 100);
+            }
+
+            function makeElement() {
+                return $templateRequest('openlmis-form/characters-left.html').then(function(template) {
+                    var elementScope = scope.$new()
+                    elementScope.charactersLeftCtrl = charactersLeftCtrl;
+
+                    charactersLeftElement = $compile(template)(elementScope);
+
+                    charactersLeftCtrl.charactersLeftElement = charactersLeftElement;
+
+                    return charactersLeftElement;
                 });
             }
 
-            function destroyElement(){
-                if(charactersLeftElement) {
-                    charactersLeftElement.remove();
-                    charactersLeftElement = null;
-                }
-            }
-        }
-
-        controller.$inject = ['$element'];
-        function controller($element) {
-            var ngModelCtrl = $element.controller('ngModel'),
-                vm = this;
-
-            vm.charactersLeft = true;
-            vm.numberOfCharacters = 0;
-
-            ngModelCtrl.$viewChangeListeners.push(updateCharactersLeft);
-
-            function updateCharactersLeft() {
-                var maxlength = getMaxlengthLimit();
-                if(!maxlength){
-                    return true;
+            function appendElement(template) {
+                if(element.attr('characters-left').toLowerCase() === 'false') {
+                    return;
                 }
 
-                vm.numberOfCharacters = ngModelCtrl.$viewValue.length;
+                if(charactersLeftElement.parents().length !== 0){
+                    return;
+                }
 
-                if(vm.numberOfCharacters > maxlength) {
-                    vm.charactersLeft = false;
+                if (element.parents('.input-control').length){
+                    if(element.parents('.input-control').next('.openlmis-invalid').length > 0){
+                        element.parents('.input-control').next('.openlmis-invalid').after(charactersLeftElement);
+                    } else {
+                        element.parents('.input-control').after(charactersLeftElement);
+                    }
+                } else if (element.next().length) {
+                    charactersLeftElement.insertAfter(element);
                 } else {
-                    vm.charactersLeft = true;
+                    element.parent().append(charactersLeftElement);
                 }
             }
 
-            function getMaxlengthLimit() {
-                if($element.attr('max-length')){
-                    return $element.attr('max-length');
-                }
-                if($element.attr('ng-maxlength')){
-                    return $element.attr('ng-maxlength');
-                }
-                if($element.attr('maxlength')){
-                    return $element.attr('maxlength');
-                }
-                return false;
+            function removeElement(){
+                charactersLeftElement.remove();
             }
         }
 	}

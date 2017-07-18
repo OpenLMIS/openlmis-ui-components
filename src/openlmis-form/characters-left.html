@@ -1,4 +1,4 @@
-<div class="characters-left">
-	<div ng-if="charactersLeftCtrl.charactersLeft">{{'openlmisForm.charactersLeft' | message}}: {{charactersLeftCtrl.numberOfCharacters}}</div>
-	<div ng-if="!charactersLeftCtrl.charactersLeft" class="input-error">{{'openlmisForm.tooManyCharacters' | message}}: {{charactersLeftCtrl.numberOfCharacters}}</div>
+<div class="characters-left" ng-class="{'is-invalid': !charactersLeftCtrl.areCharactersLeft}">
+	<div ng-if="charactersLeftCtrl.areCharactersLeft">{{'openlmisForm.charactersLeft' | message}}: {{charactersLeftCtrl.charactersLeft}}</div>
+	<div ng-if="!charactersLeftCtrl.areCharactersLeft">{{'openlmisForm.tooManyCharacters' | message}}: {{charactersLeftCtrl.charactersLeft}}</div>
 </div>
