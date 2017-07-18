@@ -57,14 +57,14 @@ describe('Input Control TD', function() {
 		expect(tableCell[0].hasAttribute('input-control')).toBe(true);
 	});
 
-	it('will not add input-control for a textarea element', function(){
+	it('will add input-control for a textarea element', function(){
 		var markup = '<table><tr><td><textarea /></td></tr></table>',
 			element = $compile(markup)(scope);
 		scope.$apply();
 
 		var tableCell = element.find('td');
 
-		expect(tableCell[0].hasAttribute('input-control')).toBe(false);
+		expect(tableCell[0].hasAttribute('input-control')).toBe(true);
 	});
 
 });

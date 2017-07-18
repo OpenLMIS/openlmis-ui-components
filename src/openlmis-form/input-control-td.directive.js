@@ -53,7 +53,7 @@
                 return ;
             }
 
-            var inputElement = element.children('input, select');
+            var inputElement = element.children('input, select, textarea');
             if(inputElement.length == 1) {
                 element.attr('input-control', '');
 
