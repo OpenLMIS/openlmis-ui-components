@@ -35,11 +35,11 @@ form.form-inline,
 .form-inline {
 	display: flex;
 	align-items: flex-end;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	max-width: none;
 	margin-left: -1em;
 	> * {
-		flex: 0 0 auto;
+		flex: 0 1 auto;
 		width: auto;
 		min-width: auto;
 		margin: 0px;
