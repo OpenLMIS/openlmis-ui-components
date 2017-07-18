@@ -47,6 +47,39 @@
         /**
          * @ngdoc property
          * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name title
+         * @type {String}
+         *
+         * @description
+         * The title of the modal.
+         */
+        vm.title = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name message
+         * @type {String}
+         *
+         * @description
+         * The message of the modal.
+         */
+        vm.message = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name isDisabled
+         * @type {Boolean}
+         *
+         * @description
+         * Flag defining whether the modal is in disabled state.
+         */
+        vm.isDisabled = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
          * @name adjustments
          * @type {Array}
          *
@@ -65,6 +98,17 @@
          * Possible reasons that user can choose from.
          */
         vm.reasons = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name title
+         * @type {Object}
+         *
+         * @description
+         * The key-function map of summaries to be displayed on the modal.
+         */
+        vm.summaries = undefined;
 
         /**
          * @ngdoc methodOf
@@ -115,9 +159,21 @@
          */
         function removeAdjustment(adjustment) {
             var index = vm.adjustments.indexOf(adjustment);
-            vm.adjustments.splice(index, 1);
+            if (index > -1) {
+                vm.adjustments.splice(index, 1);
+            }
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name save
+         *
+         * @description
+         * Saves the adjustments through modalDeferred promise. It also closes the modal. If the
+         * promise returned by the preSave function(if it is given) is rejected user will be brought
+         * back to the modal without applying any changes;
+         */
         function save() {
             if (preSave) {
                 preSave(vm.adjustments).then(function() {
@@ -128,6 +184,15 @@
             }
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name cancel
+         *
+         * @description
+         * Closes the modal unless the promise returned by the preCancel function(it it is given) is
+         * rejected.
+         */
         function cancel() {
             if (preCancel) {
                 preCancel(vm.adjustments).then(modalDeferred.reject);

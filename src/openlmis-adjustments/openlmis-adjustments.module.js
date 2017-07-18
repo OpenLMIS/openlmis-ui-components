@@ -17,6 +17,8 @@
 
     'use strict';
 
-    angular.module('openlmis-adjustments', []);
+    angular.module('openlmis-adjustments', [
+        'openlmis-modal'
+    ]);
 
 })();

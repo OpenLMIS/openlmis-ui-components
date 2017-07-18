@@ -43,10 +43,32 @@
          * @name open
          *
          * @description
-         * Open Total Losses and Adjustments modal.
+         * Open Adjustments modal.
          *
-         * @param {Array}  reasons         the list of available reasons
-         * @param {Array}  adjustments     the list of adjustments to be updated
+         * @param {Array}       adjustments (required) the list of adjustments to be updated
+         * @param {Array}       reasons     (required) the list of available reasons
+         * @param {String}      title       (optional) the title of the modal, defaults to
+         *                                  'openlmisAdjustments.adjustments'
+         * @param {String}      message     (optional) the message to be shown on the modal
+         * @param {Boolean}     isDisabled  (optional) flag defining whether modal should be in
+         *                                  disabled state
+         * @param {Array}       summaries   (optional) the list of summaries to be displayed on the
+         *                                  modal, this should be a key-value map, where key is the
+         *                                  message key with the name of the summary and value is a
+         *                                  function that takes a list of adjustments and returns a
+         *                                  calculated value
+         * @param {Function}    preSave     (optional) the function that will be called before
+         *                                  saving updated adjustment list; this function should
+         *                                  take a list of adjustments as a parameter and must
+         *                                  return a promise; if the promise is resolved the save
+         *                                  will proceed, otherwise the save will be canceled and
+         *                                  user will be brought back to the modal
+         * @param {Function}    preCancel   (optional) the function that will be called before
+         *                                  closing the adjustments modal; this function should
+         *                                  take a list of adjustments as a parameter and must
+         *                                  return a promise; if the promise is resolved the modal
+         *                                  will be closed, otherwise the user will be brought back
+         *                                  to the modal
          */
         function open(adjustments, reasons, title, message, isDisabled, summaries, preSave,
                       preCancel) {
@@ -60,13 +82,13 @@
                 resolve: {
                     adjustments: function() {
                         if (!adjustments) {
-                            throw 'Adjustments must be defined';
+                            throw 'adjustments must be defined';
                         }
                         return angular.copy(adjustments);
                     },
                     reasons: function() {
                         if (!reasons) {
-                            throw 'Reasons must be defined';
+                            throw 'reasons must be defined';
                         }
                         return reasons;
                     },
@@ -80,12 +102,25 @@
                         return isDisabled;
                     },
                     summaries: function() {
+                        if (summaries) {
+                            angular.forEach(summaries, function(fn) {
+                                if (!angular.isFunction(fn)) {
+                                    throw 'summaries must be a key-function map';
+                                }
+                            });
+                        }
                         return summaries;
                     },
                     preSave: function() {
+                        if (preSave && !angular.isFunction(preSave)) {
+                            throw 'preSave must be a function';
+                        }
                         return preSave;
                     },
                     preCancel: function() {
+                        if (preCancel && !angular.isFunction(preCancel)) {
+                            throw 'preCancel must be a function';
+                        }
                         return preCancel;
                     }
                 }
