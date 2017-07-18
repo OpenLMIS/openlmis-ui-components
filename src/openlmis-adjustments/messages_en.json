@@ -1,5 +1,6 @@
 {
     "openlmisAdjustments.add": "Add",
+    "openlmisAdjustments.adjustments":"Adjustments",
     "openlmisAdjustments.cancel": "Cancel",
     "openlmisAdjustments.noAdjustments": "There are no adjustments",
     "openlmisAdjustments.quantity": "Quantity",

@@ -29,10 +29,12 @@
         .controller('AdjustmentsModalController', AdjustmentsModalController);
 
     AdjustmentsModalController.$inject = [
-        '$filter', 'options', 'modalDeferred'
+        '$filter', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments', 'reasons',
+        'summaries', 'preSave', 'preCancel'
     ];
 
-    function AdjustmentsModalController($filter, options, modalDeferred) {
+    function AdjustmentsModalController($filter, modalDeferred, title, message, isDisabled,
+                                        adjustments, reasons, summaries, preSave, preCancel) {
 
         var vm = this;
 
@@ -73,12 +75,12 @@
          * Initialization method of the AdjustmentsModalController.
          */
         function onInit() {
-            vm.adjustments = angular.copy(options.adjustments);
-            vm.reasons = options.reasons;
-            vm.title = options.title;
-            vm.summaries = options.summaries;
-            vm.message = options.message;
-            vm.isDisabled = options.isDisabled;
+            vm.title = title;
+            vm.message = message;
+            vm.isDisabled = isDisabled;
+            vm.adjustments = adjustments;
+            vm.reasons = reasons;
+            vm.summaries = summaries;
         }
 
         /**
@@ -117,8 +119,8 @@
         }
 
         function save() {
-            if (options.preSave) {
-                options.preSave(vm.adjustments).then(function() {
+            if (preSave) {
+                preSave(vm.adjustments).then(function() {
                     modalDeferred.resolve(vm.adjustments);
                 });
             } else {
@@ -127,8 +129,8 @@
         }
 
         function cancel() {
-            if (options.preCancel) {
-                options.preCancel(vm.adjustments).then(modalDeferred.reject);
+            if (preCancel) {
+                preCancel(vm.adjustments).then(modalDeferred.reject);
             } else {
                 modalDeferred.reject();
             }

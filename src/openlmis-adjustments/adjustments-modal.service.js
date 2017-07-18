@@ -48,7 +48,9 @@
          * @param {Array}  reasons         the list of available reasons
          * @param {Array}  adjustments     the list of adjustments to be updated
          */
-        function open(options) {
+        function open(adjustments, reasons, title, message, isDisabled, summaries, preSave,
+                      preCancel) {
+
             return openlmisModalService.createDialog({
                 backdrop  : 'static',
                 controller: 'AdjustmentsModalController',
@@ -56,8 +58,35 @@
                 templateUrl: 'openlmis-adjustments/adjustments-modal.html',
                 show: true,
                 resolve: {
-                    options: function() {
-                        return options;
+                    adjustments: function() {
+                        if (!adjustments) {
+                            throw 'Adjustments must be defined';
+                        }
+                        return angular.copy(adjustments);
+                    },
+                    reasons: function() {
+                        if (!reasons) {
+                            throw 'Reasons must be defined';
+                        }
+                        return reasons;
+                    },
+                    title: function() {
+                        return title ? title : 'openlmisAdjustments.adjustments';
+                    },
+                    message: function() {
+                        return message;
+                    },
+                    isDisabled: function() {
+                        return isDisabled;
+                    },
+                    summaries: function() {
+                        return summaries;
+                    },
+                    preSave: function() {
+                        return preSave;
+                    },
+                    preCancel: function() {
+                        return preCancel;
                     }
                 }
             }).promise;

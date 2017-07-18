@@ -5,7 +5,7 @@
                 <h4>{{vm.title | message}}</h4>
             </div>
             <div class="modal-body">
-                <legend>
+                <legend ng-if="vm.message">
                     <h4>{{vm.message | message}}</h4>
                 </legend>
                 <form class="form-inline" ng-if="!vm.isDisabled" ng-submit="vm.addAdjustment()" reload-form>
@@ -69,7 +69,7 @@
                         </table>
                     </div>
                 </form>
-                <dl>
+                <dl ng-if="vm.summaries && vm.summaries.length">
                     <dt ng-repeat-start="(key, value) in vm.summaries">
                         {{key | message}}
                     </dt>
