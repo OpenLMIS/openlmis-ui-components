@@ -87,7 +87,11 @@
                 $templateRequest('openlmis-form/characters-left.html').then(function(template) {
                     charactersLeftElement = $compile(template)(scope);
                     if (element.parents('.input-control').length){
-                        element.parents('.input-control').after(charactersLeftElement);
+                        if(element.parents('.input-control').next('.openlmis-invalid').length > 0){
+                            element.parents('.input-control').next('.openlmis-invalid').after(charactersLeftElement);
+                        } else {
+                            element.parents('.input-control').after(charactersLeftElement);
+                        }
                     } else if (element.next().length) {
                         charactersLeftElement.insertAfter(element);
                     } else {

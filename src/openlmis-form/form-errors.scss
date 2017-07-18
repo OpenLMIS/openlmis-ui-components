@@ -98,12 +98,10 @@ form > .alert.is-error {
 	}
 }
 
-form{
-	.input-control + .openlmis-invalid,
-	legend + .openlmis-invalid {
-		> * {
-			@extend .input-error;
-		}
+.input-control + .openlmis-invalid,
+legend + .openlmis-invalid {
+	> * {
+		@extend .input-error;
 	}
 }
 
