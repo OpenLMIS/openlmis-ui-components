@@ -47,7 +47,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="adjustment in vm.adjustments">
+                                <tr ng-repeat="adjustment in vm.adjustments | orderBy:'':true">
                                     <td>{{adjustment.reason.name}}</td>
                                     <td>
                                         <div ng-if="vm.isDisabled">{{adjustment.quantity}}</div>
@@ -69,7 +69,7 @@
                         </table>
                     </div>
                 </form>
-                <dl ng-if="vm.summaries && vm.summaries.length">
+                <dl ng-if="vm.summaries">
                     <dt ng-repeat-start="(key, value) in vm.summaries">
                         {{key | message}}
                     </dt>
@@ -81,7 +81,7 @@
                     {{'openlmisAdjustments.cancel' | message}}
                 </button>
                 <button class="btn btn-primary" form="adjustmentsForm" type="submit">
-                    {{'openlmisAdjustments.save' | message}}
+                    {{'openlmisAdjustments.update' | message}}
                 </button>
             </div>
             <div class="modal-footer" ng-if="vm.isDisabled">
