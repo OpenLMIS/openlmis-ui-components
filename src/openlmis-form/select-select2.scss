@@ -117,6 +117,8 @@
         @extend .list-unstyled;
         padding: 0px;
         margin: 0px;
+        max-height: @@PAGE_SIZE * 2em;
+        overflow-y: auto;
     }
 
     .select2-results__option {
