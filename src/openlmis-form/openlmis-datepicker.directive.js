@@ -48,9 +48,9 @@
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
 
-    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATE_FORMAT'];
+    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATE_FORMAT', 'DEFAULT_DATEPICKER_FORMAT'];
 
-    function datepicker($filter, jQuery, messageService, DEFAULT_DATE_FORMAT) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATE_FORMAT, DEFAULT_DATEPICKER_FORMAT) {
         return {
             restrict: 'E',
             scope: {
@@ -75,7 +75,16 @@
             }
 
             scope.$watch('dateString', function() {
-                scope.value = scope.dateString ? new Date(scope.dateString) : undefined;
+                var date = element.find('input').datepicker('getDate');
+                if (!date && scope.value) {
+                    date = scope.value;
+                }
+
+                scope.value = date ? date : undefined;
+
+                if (scope.changeMethod && scope.changeMethod instanceof Function) {
+                    scope.changeMethod();
+                }
             });
         }
 
@@ -87,7 +96,7 @@
                 // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
                 // for each language, while this property is required.
                 var localization = getDatepickerLabels();
-                localization.format = angular.isDefined(scope.dateFormat)? scope.dateFormat : DEFAULT_DATE_FORMAT;
+                localization.format = angular.isDefined(scope.dateFormat)? scope.dateFormat : DEFAULT_DATEPICKER_FORMAT;
                 localization.titleFormat = "MM yyyy";
 
                 scope.language = language;
