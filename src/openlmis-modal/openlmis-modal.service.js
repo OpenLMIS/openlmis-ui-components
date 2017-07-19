@@ -39,6 +39,8 @@
             dialog.promise = deferred.promise;
             dialog.$$deferred = deferred;
 
+            decorateHide(dialog);
+
             dialog.promise.finally(function() {
                 dialog.hide();
                 dialog = undefined;
@@ -80,6 +82,16 @@
             }
             options.resolve.modalDeferred = function() {
                 return deferred;
+            };
+        }
+
+        function decorateHide(dialog) {
+            dialog.$$hide = dialog.hide;
+            dialog.hide = function() {
+                dialog.$$hide();
+                if (dialog.$$deferred) {
+                    dialog.$$deferred.reject();
+                }
             };
         }
 
