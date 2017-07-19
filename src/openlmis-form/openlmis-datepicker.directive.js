@@ -81,7 +81,7 @@
 
         function setupLocalization(scope) {
             var language = messageService.getCurrentLocale(),
-                datepickerSettings = jQuery.fn.datepicker;
+                datepickerSettings = jQuery.fn.datepicker.dates;
 
             if (!datepickerSettings[language]) {
                 // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
@@ -91,7 +91,7 @@
                 localization.titleFormat = "MM yyyy";
 
                 scope.language = language;
-                datepickerSettings.dates[language] = localization;
+                datepickerSettings[language] = localization;
             }
         }
 

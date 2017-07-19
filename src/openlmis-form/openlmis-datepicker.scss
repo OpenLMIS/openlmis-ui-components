@@ -21,10 +21,21 @@ Styleguide 3.5
 
 .olmis-datepicker-icon {
     @include icon('calendar');
+  	position: absolute;
+  	padding: 10px;
   	pointer-events: none;
+  	right: 0px;
 }
 
 .datepicker {
+  .today:not(.active) {
+    background-color: $light-shadow !important;
+
+    &:hover {
+      background-color: $light-gray !important;
+    }
+  }
+
 	.clear {
 	  @extend .btn-primary;
 		border: 0px;
