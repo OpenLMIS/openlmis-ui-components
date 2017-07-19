@@ -62,6 +62,8 @@
                 return placeholderValues.join(' - ');
             }, updateSelect);
 
+            scope.$on('$destroy', destroySelect);
+
 
             /**
              * @ngdoc method
@@ -75,6 +77,8 @@
                 var options = {
                     minimumResultsForSearch: PAGE_SIZE,
                     allowClear: true,
+                    dropdownAutoWidth: true,
+                    selectOnClose: true,
                     placeholder: getPlaceholder(),
                     language: {
                         noResults: function(){
@@ -89,6 +93,12 @@
                 }
 
                 element.select2(options);
+            }
+
+            function destroySelect() {
+                if(element.data('select2')){
+                    element.select2("destroy");
+                }
             }
 
             /**
