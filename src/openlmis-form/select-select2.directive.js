@@ -92,6 +92,17 @@
                 }
 
                 element.select2(options);
+
+                // Stops select2 from opening a modal after clearing the selection 
+                // https://github.com/select2/select2/issues/3320
+                element.on('select2:unselecting', function(event) {
+                    element.data('select2unselecting', true);
+                }).on('select2:opening', function(event) {
+                    if (element.data('select2unselecting')) {    
+                        element.removeData('select2unselecting');
+                        event.preventDefault();
+                    }
+                });
             }
 
             function destroySelect() {

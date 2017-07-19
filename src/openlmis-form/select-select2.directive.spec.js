@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Select2 for select elements', function() {
+ddescribe('Select2 for select elements', function() {
 
     'use strict';
 
-    var jQuery, $compile, scope;
+    var jQuery, $compile, scope, element, select;
 
     beforeEach(function() {
 
@@ -33,7 +33,7 @@ describe('Select2 for select elements', function() {
             jQuery = _jQuery_;
             $compile = _$compile_;
 
-            spyOn(jQuery.prototype, 'select2');
+            spyOn(jQuery.prototype, 'select2').andCallThrough();
 
             spyOn(messageService, 'get').andCallFake(function(){
             	return "placeholder text";
@@ -41,10 +41,14 @@ describe('Select2 for select elements', function() {
 
             scope = $rootScope.$new();
             scope.options = [1,2];
-            var element = $compile(
-                '<select ng-model="value" ng-options="option for option in options"></select>'
+            element = $compile(
+                '<div><select ng-model="value" ng-options="option for option in options"></select></div>'
                 )(scope);
             scope.$apply();
+
+            angular.element('body').append(element);
+
+            select = element.find('select');
         });
     });
 
@@ -62,5 +66,18 @@ describe('Select2 for select elements', function() {
     	expect(minimumResultsForSearch).toBe(3);
     });
 
+    it('does not open the select dropdown after clearning the selection', function(){
+        scope.value = 2;
+        scope.$apply();
 
+        var openedSelect = false;
+        select.on("select2:open", function () {
+            openedSelect = true;
+        });
+
+        element.find('.select2-selection__clear').trigger('mousedown');
+        scope.$apply();
+
+        expect(openedSelect).toBe(false);
+    });
 });
