@@ -77,7 +77,6 @@
                 var options = {
                     minimumResultsForSearch: PAGE_SIZE,
                     allowClear: true,
-                    dropdownAutoWidth: true,
                     selectOnClose: true,
                     placeholder: getPlaceholder(),
                     language: {
