@@ -80,6 +80,12 @@ button {
         @include button($button-color-default);
         @include button-icon('plus');
     }
+
+    &.file {
+        @extend button.primary;
+        @include button($button-color-default);
+        @include button-icon('file');
+    }
 }
 
 button.close {
@@ -128,4 +134,9 @@ input[type=submit] {
 .btn-add,
 input[type=submit].add {
     @extend button.add;
+}
+
+.btn-file,
+input[type=file].add {
+    @extend button.file;
 }

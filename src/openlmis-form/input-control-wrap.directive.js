@@ -25,7 +25,7 @@
      * @description
      * Wraps inputs with an input-control element, unless one already exists.
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('input', directive)
@@ -57,7 +57,7 @@
          * @description
          * Once the input is rendered, it registers the input's ngModel with
          * the input-control controller. Then hides any error messages that
-         * would be shown with openlmis-invalid. 
+         * would be shown with openlmis-invalid.
          */
         function link(scope, element, attrs, ctrls) {
             var inputCtrl = ctrls[0],
@@ -84,12 +84,13 @@
          * This doesn't happen if there is already an input-control element
          * set as the input's parent.
          *
-         * Radio and checkbox elements are treated differently. 
+         * Radio and checkbox elements are treated differently.
          */
         function compile(scope, element, attrs) {
             // make sure input element is wrapped in an input control element
             if(element.parents('[input-control]:first').length == 0) {
                 switch(element.attr('type')){
+                    case 'file':
                     case 'button':
                     case 'submit':
                         break;
@@ -116,12 +117,12 @@
          *
          * jQuery's element.wrap wan't used because it copies the HTML for the
          * input-control wrapper — meaning the angular elements are not
-         * activated. 
+         * activated.
          */
         function wrapElement(scope, element){
             var html = $templateCache.get('openlmis-form/input-control-wrap.html'),
                 inputWrap = $compile(html)(scope);
-            
+
             element.before(inputWrap);
             inputWrap.append(element);
         }

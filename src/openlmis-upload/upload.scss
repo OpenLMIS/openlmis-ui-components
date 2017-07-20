@@ -1,0 +1,28 @@
+file-upload {
+
+    flex-direction: row;
+    display: flex;
+    align-items: baseline;
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+
+        input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+    }
+
+    div.fileName {
+        margin: 0 1em;
+    }
+}
