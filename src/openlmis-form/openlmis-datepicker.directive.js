@@ -67,7 +67,7 @@
         };
 
         function link(scope, element, attrs, modelCtrl) {
-            setupLocalization(scope);
+            setupFormatting(scope);
 
             if (scope.value) {
                 // Populate initial value, if passed to directive
@@ -75,7 +75,7 @@
             }
 
             scope.$watch('dateString', function() {
-                var date = element.find('input').datepicker('getDate');
+                var date = element.find('input').datepicker('getUTCDate');
                 if (!date && scope.value) {
                     date = scope.value;
                 }
@@ -88,19 +88,18 @@
             });
         }
 
-        function setupLocalization(scope) {
-            var language = messageService.getCurrentLocale(),
-                datepickerSettings = jQuery.fn.datepicker.dates;
+        function setupFormatting(scope) {
+            scope.language = messageService.getCurrentLocale();
+            scope.dateFormat = angular.isDefined(scope.dateFormat) ? scope.dateFormat : DEFAULT_DATEPICKER_FORMAT;
 
-            if (!datepickerSettings[language]) {
+            var datepickerSettings = jQuery.fn.datepicker.dates;
+            if (!datepickerSettings[scope.language]) {
                 // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
                 // for each language, while this property is required.
                 var localization = getDatepickerLabels();
-                localization.format = angular.isDefined(scope.dateFormat)? scope.dateFormat : DEFAULT_DATEPICKER_FORMAT;
                 localization.titleFormat = "MM yyyy";
 
-                scope.language = language;
-                datepickerSettings[language] = localization;
+                datepickerSettings[scope.language] = localization;
             }
         }
 
