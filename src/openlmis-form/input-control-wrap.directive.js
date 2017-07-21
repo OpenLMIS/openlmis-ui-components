@@ -90,7 +90,6 @@
             // make sure input element is wrapped in an input control element
             if(element.parents('[input-control]:first').length == 0) {
                 switch(element.attr('type')){
-                    case 'file':
                     case 'button':
                     case 'submit':
                         break;

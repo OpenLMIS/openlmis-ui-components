@@ -1,0 +1,49 @@
+/*
+File Picker
+
+Use input with "file" type to add file picker functionality.
+
+markup:
+<form>
+    <label for="file-input">File</label>
+    <input id="file-input" type="file" ng-model="vm.file" accept="image/jpg"/>
+</form>
+
+
+Styleguide 3.6
+*/
+
+input[type=file] {
+    display: none;
+}
+
+button.file {
+    @extend button.primary;
+    @include button($button-color-default);
+    @include button-icon('file');
+}
+
+button.clear {
+    @extend button.primary;
+    @include button($button-color-danger);
+    @include button-icon('trash');
+}
+
+.btn-file,
+input[type=submit].file {
+    @extend button.file;
+}
+
+.btn-clear,
+input[type=submit].clear {
+    @extend button.clear;
+}
+
+button.file,
+button.clear, {
+    margin-right: 0.5em;
+}
+
+p.filename {
+    align-self: flex-end;
+}

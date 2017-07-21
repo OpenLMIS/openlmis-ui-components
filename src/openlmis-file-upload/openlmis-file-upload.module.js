@@ -18,11 +18,11 @@
     'use strict';
 
     /**
-     * @module openlmis-upload
+     * @module openlmis-file-upload
      *
      * @description
      * Module that contains file upload directive.
      */
-    angular.module('openlmis-upload', []);
+    angular.module('openlmis-file-upload', []);
 
 })();
