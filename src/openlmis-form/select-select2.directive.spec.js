@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('Select2 for select elements', function() {
+describe('Select2 for select elements', function() {
 
     'use strict';
 
