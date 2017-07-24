@@ -13,37 +13,39 @@ markup:
 Styleguide 3.6
 */
 
-input[type=file] {
-    display: none;
-}
+div.file-upload {
 
-button.file {
-    @extend button.primary;
-    @include button($button-color-default);
-    @include button-icon('file');
-}
+    display: flex;
+    align-items: flex-end;
 
-button.clear {
-    @extend button.primary;
-    @include button($button-color-danger);
-    @include button-icon('trash');
-}
+    input[type=file] {
+        display: none;
+    }
 
-.btn-file,
-input[type=submit].file {
-    @extend button.file;
-}
+    button.file {
+        @extend button.primary;
+        @include button($button-color-default);
+        @include button-icon('file');
+    }
 
-.btn-clear,
-input[type=submit].clear {
-    @extend button.clear;
-}
+    button.clear {
+        @extend button.primary;
+        @include button($button-color-danger);
+        @include button-icon('trash');
+    }
 
-button.file,
-button.clear, {
-    margin-right: 0.5em;
-}
+    .btn-file,
+    input[type=submit].file {
+        @extend button.file;
+    }
 
-p.filename {
-    align-self: flex-end;
+    .btn-clear,
+    input[type=submit].clear {
+        @extend button.clear;
+    }
+
+    button.file,
+    button.clear, {
+        margin-right: 0.5em;
+    }
 }

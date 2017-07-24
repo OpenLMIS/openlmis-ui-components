@@ -12,6 +12,7 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
+
 (function() {
 
     'use strict';
@@ -60,13 +61,12 @@
                 element.before(template);
             });
 
+            element.parent().addClass('file-upload');
+
             element.on('change', function(event) {
                 scope.$apply(function() {
-                    var file = event.target.files[0];
-
-                    ngModelController.$setValidity('', null);
-
-                    ngModelController.$setViewValue(file);
+                    ngModelController.$setViewValue(event.target.files[0]);
+                    ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
                     if (fileExtension && !file.name.endsWith(fileExtension)) {
                         ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', false);
                     }
@@ -79,7 +79,7 @@
 
             function clear() {
                 ngModelController.$setViewValue(undefined);
-                ngModelController.$setValidity('', null);
+                ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
                 scope.filename = undefined;
                 element.val(undefined);
             }
