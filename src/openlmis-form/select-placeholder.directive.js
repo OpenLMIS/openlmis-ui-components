@@ -106,16 +106,6 @@
             updatePlaceholder();
             attrs.$observe('placeholder', updatePlaceholder);
 
-            scope.$watch(function(){
-                return selectCtrl.unknownOption.parent().length;
-            }, function(unknownParent){
-                if(unknownParent) {
-                    selectCtrl.emptyOption.remove();
-                } else {
-                    element.prepend(selectCtrl.emptyOption);
-                }
-            });
-
             /**
              * @ngdoc method
              * @methodOf openlmis-form.directive:select-placeholder
