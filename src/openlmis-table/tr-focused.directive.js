@@ -46,13 +46,15 @@
 
             function onFocus(event) {
                 element.addClass('is-focused');
-                setFocusListenters();                
+                setFocusListenters();
+                if (!scope.$$phase) scope.$apply();       
             }
 
             function onBlur(event) {
                 if(!jQuery.contains(element[0], event.target)){
                     element.removeClass('is-focused');
                     removeFocusListenters();
+                    if (!scope.$$phase) scope.$apply();
                 }
             }
 
