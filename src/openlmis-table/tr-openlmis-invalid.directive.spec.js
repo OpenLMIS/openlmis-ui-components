@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('OpenLMIS Invalid TR', function() {
+describe('OpenLMIS Invalid TR', function() {
     'use strict';
 
     var $compile, scope;
