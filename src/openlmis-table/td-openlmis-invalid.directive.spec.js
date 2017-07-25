@@ -20,7 +20,6 @@ describe('OpenLMIS Invalid TD', function() {
 
     beforeEach(module('openlmis-templates'));
     beforeEach(module('openlmis-table'));
-    beforeEach(module('openlmis-invalid'));
 
     beforeEach(inject(function($compile, $rootScope){
         var markup = '<td openlmis-invalid="{{invalidMessage}}" ></td>';

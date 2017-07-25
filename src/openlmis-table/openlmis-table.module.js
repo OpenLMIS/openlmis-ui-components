@@ -23,6 +23,10 @@
      * @description
      * This module is responsible for styling tables within application.
      */
-    angular.module('openlmis-table', []);
+    angular.module('openlmis-table', [
+        'openlmis-invalid',
+        'openlmis-config',
+        'openlmis-templates'
+    	]);
 
 })();

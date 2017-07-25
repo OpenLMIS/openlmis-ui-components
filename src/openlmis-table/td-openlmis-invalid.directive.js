@@ -20,14 +20,14 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-invalid.directive:tdOpenlmisInvalid
+     * @name openlmis-table.directive:tdOpenlmisInvalid
      *
      * @description
      * Hides the openlmis-invalid message for a table cell, and adds the
      * is-invalid class.
      */
     angular
-        .module('openlmis-invalid')
+        .module('openlmis-table')
         .directive('td', directive);
 
     directive.$inject = ['$compile'];

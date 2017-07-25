@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-invalid.directive:trOpenlmisInvalid
+     * @name openlmis-table.directive:trOpenlmisInvalid
      *
      * @description
      * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
@@ -29,7 +29,7 @@
      */
     
     angular
-        .module('openlmis-form')
+        .module('openlmis-table')
         .directive('tr', directive);
 
     directive.$inject = ['$compile', '$templateRequest'];
