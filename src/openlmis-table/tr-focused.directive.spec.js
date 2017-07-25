@@ -13,12 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('OpenLMIS Invalid TR', function() {
+describe('TR Focused Directive', function() {
     'use strict';
 
     var $compile, scope;
 
-    beforeEach(module('openlmis-templates'));
     beforeEach(module('openlmis-table'));
 
     beforeEach(inject(function(_$compile_, $rootScope){        
@@ -26,20 +25,21 @@ ddescribe('OpenLMIS Invalid TR', function() {
         scope = $rootScope.$new();
     }));
 
-    it('Adds openlmis-invalid-hidden until focus moves outside TR', function(){
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table>');
+    it('Sets trCtrl focused to true until focused moved out of row', function(){
+        var table = compileMarkup('<table><tr><td><input  /></td></tr><tr><td><input /></td></tr></table>'),
+            tr = table.find('tr:first');
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+        expect(tr.hasClass('is-focused')).toBe(false);
 
         table.find('input:first').focus();
         scope.$apply();
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+        expect(tr.hasClass('is-focused')).toBe(true);
 
         table.find('input:last').focus();
         scope.$apply();
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(1);
+        expect(tr.hasClass('is-focused')).toBe(false);
     });
 
 

@@ -20,11 +20,11 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-table.directive:trOpenlmisInvalid
+     * @name openlmis-table.directive:trFocusable
      *
      * @description
-     * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
-     * subsequently lost it.
+     * Watches if the user's focus is in the current table row, and exposes
+     * that state through trCtrl.
      * 
      */
     
@@ -39,21 +39,40 @@
         };
 
         function link(scope, element, attrs) {
-            element.attr('openlmis-invalid-hidden','');
+            var listenerSet;
 
-            var wasFocused = false;
+            element.on('focusin', onFocus);
+            scope.$on('$destroy', removeFocusListenters);
 
-            scope.$watch(function(){
-                return element.hasClass('is-focused');
-            }, function(isFocused) {
-                if(isFocused) {
-                    wasFocused = true;
+            function onFocus(event) {
+                element.addClass('is-focused');
+                setFocusListenters();                
+            }
+
+            function onBlur(event) {
+                if(!jQuery.contains(element[0], event.target)){
+                    element.removeClass('is-focused');
+                    removeFocusListenters();
                 }
-                if(!isFocused && wasFocused){
-                    element.removeAttr('openlmis-invalid-hidden');
+            }
+
+            function setFocusListenters() {
+                if(!listenerSet){
+                    listenerSet = true;
+                    angular.element('body').on('click', onBlur);
+                    angular.element('body').on('focusin', onBlur);
                 }
-            });
+            }
+
+            function removeFocusListenters(){
+                if(listenerSet){
+                    listenerSet = false;
+                    angular.element('body').off('focus', onBlur);
+                    angular.element('body').off('click', onBlur);
+                }
+            }
         }
+
     }
 
 })();
