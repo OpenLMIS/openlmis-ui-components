@@ -70,9 +70,7 @@
                     </div>
                 </form>
                 <dl ng-if="vm.summaries">
-                    <dt ng-repeat-start="(key, value) in vm.summaries">
-                        {{key | message}}
-                    </dt>
+                    <dt ng-repeat-start="(key, value) in vm.summaries">{{key | message}}</dt>
                     <dd ng-repeat-end>{{vm.summaries[key](vm.adjustments)}}</dd>
                 </dl>
             </div>
