@@ -42,6 +42,27 @@ describe('OpenLMIS Invalid TR', function() {
         expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(1);
     });
 
+    it('Removes openlmis-invalid-hidden when openlmis-form-submit is fired', function(){
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table>');
+
+        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+
+        scope.$broadcast('openlmis-form-submit');
+        scope.$apply();
+
+        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(0);    
+    });
+
+    it('Removes openlmis-invalid-hidden when wrapping form is submitted', function(){
+        var form = compileMarkup('<form name="exampleForm"><table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table></form>');
+        expect(form.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+
+        scope.exampleForm.$setSubmitted();
+        scope.$apply();
+
+        expect(form.find('tr[openlmis-invalid-hidden]').length).toBe(0);
+    });
+
 
     function compileMarkup(markup) {
         var element = $compile(markup)(scope);

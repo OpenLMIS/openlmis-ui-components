@@ -25,23 +25,33 @@
      * @description
      * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
      * subsequently lost it.
-     * 
+     *
+     * The table row will also show errors if a containing form control is in
+     * the $submitted state, or a openlmis-form-submit event is sent through
+     * the scope.
      */
     
     angular
         .module('openlmis-table')
         .directive('tr', directive);
 
+    directive.$inject = ['$compile'];
     function directive() {
         return {
             link: link,
-            restrict: 'E'
+            restrict: 'E',
+            require: ['?^^form']
         };
 
-        function link(scope, element, attrs) {
-            element.attr('openlmis-invalid-hidden','');
+        function link(scope, element, attrs, ctrls) {
+            var formCtrl,
+                wasFocused = false;
 
-            var wasFocused = false;
+            if(ctrls[0]) {
+                formCtrl = ctrls[0];
+            }
+
+            element.attr('openlmis-invalid-hidden','');
 
             scope.$watch(function(){
                 return element.hasClass('is-focused');
@@ -53,6 +63,20 @@
                     element.removeAttr('openlmis-invalid-hidden');
                 }
             });
+
+            scope.$on('openlmis-form-submit', function(){
+                element.removeAttr('openlmis-invalid-hidden');
+            });
+
+            if(formCtrl) {
+                scope.$watch(function(){
+                    return formCtrl.$submitted;
+                }, function(isSubmitted){
+                    if(isSubmitted){
+                        element.removeAttr('openlmis-invalid-hidden');
+                    }
+                })
+            }
         }
     }
 
