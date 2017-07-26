@@ -6,7 +6,7 @@
             </div>
             <div class="modal-body">
                 <legend ng-if="vm.message">
-                    <h4>{{vm.message | message}}</h4>
+                    <p>{{vm.message | message}}</p>
                 </legend>
                 <form class="form-inline" ng-if="!vm.isDisabled" ng-submit="vm.addAdjustment()" reload-form>
                     <div class="form-group">
