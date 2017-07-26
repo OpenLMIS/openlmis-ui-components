@@ -61,11 +61,14 @@
                 element.before(template);
             });
 
-            element.parent().addClass('file-upload');
+            element.parent().addClass('openlmis-file-upload');
 
             element.on('change', function(event) {
                 scope.$apply(function() {
-                    ngModelController.$setViewValue(event.target.files[0]);
+                    var file = event.target.files[0];
+
+                    ngModelController.$setViewValue(file);
+
                     ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
                     if (fileExtension && !file.name.endsWith(fileExtension)) {
                         ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', false);
