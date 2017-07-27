@@ -1,3 +1,4 @@
-<button class="file" type="button" ng-click="select()">{{'openlmisFileUpload.selectFile' | message}}</button>
-<button class="clear" type="button" ng-if="getFileName()" ng-click="clear()">{{'openlmisFileUpload.clear' | message}}</button>
+<button ng-if="!getFileName()" class="file" type="button" ng-click="select()">{{'openlmisFileUpload.selectFile' | message}}</button>
+<span ng-if="getFileName()" class="file-icon"></span>
 <p>{{getFileName()}}</p>
+<span ng-if="getFileName()" class="clear" ng-click="clear()"></span>

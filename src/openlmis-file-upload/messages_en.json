@@ -1,5 +1,4 @@
 {
     "openlmisFileUpload.selectFile": "Select File",
-    "openlmisFileUpload.clear": "Clear",
     "openlmisFileUpload.wrongFileExtension": "Selected file has wrong extension"
 }

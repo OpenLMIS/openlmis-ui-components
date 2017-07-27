@@ -62,16 +62,21 @@
             });
 
             element.parent().addClass('openlmis-file-upload');
+            element.parent().addClass('empty');
 
             element.on('change', function(event) {
                 scope.$apply(function() {
                     var file = event.target.files[0];
 
-                    ngModelController.$setViewValue(file);
+                    if (file) {
+                        element.parent().removeClass('empty');
 
-                    ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
-                    if (fileExtension && !file.name.endsWith(fileExtension)) {
-                        ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', false);
+                        ngModelController.$setViewValue(file);
+
+                        ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
+                        if (fileExtension && !file.name.endsWith(fileExtension)) {
+                            ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', false);
+                        }
                     }
                 });
             });
@@ -85,6 +90,7 @@
                 ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
                 scope.filename = undefined;
                 element.val(undefined);
+                element.parent().addClass('empty');
             }
 
             function getFileName() {
