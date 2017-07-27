@@ -5,9 +5,7 @@
                 <h4>{{vm.title | message}}</h4>
             </div>
             <div class="modal-body">
-                <legend ng-if="vm.message">
-                    <p>{{vm.message | message}}</p>
-                </legend>
+                <p ng-if="vm.message">{{vm.message | message}}</p>
                 <form class="form-inline" ng-if="!vm.isDisabled" ng-submit="vm.addAdjustment()" reload-form>
                     <div class="form-group">
                         <label for="reason">
