@@ -34,14 +34,35 @@
         return {
             restrict: 'E',
             priority: 1,
-            require: 'openlmisInvalid',
+            require: ['openlmisInvalid', 'popover'],
             link: link
         };
     }
 
-    function link(scope, element, attrs, openlmisInvalidCtrl) {
-        attrs.openlmisInvalidMessagePlace = function(element) {
-            // don't do anything
+    function link(scope, element, attrs, ctrls) {
+        var openlmisInvalidCtrl = ctrls[0],
+            openlmisPopoverCtrl = ctrls[1];
+
+        scope.$on('openlmisInvalid.show', showMessage);
+        scope.$on('openlmisInvalid.hide', hideMessage);
+
+        function showMessage(event, targetElement, messageElement) {
+            if(targetElement !== element){
+                return;
+            }
+
+            event.preventDefault();
+
+            // default placement is 10, this is higher than most elements
+            openlmisPopoverCtrl.addElement(messageElement, 5);
+        }
+
+        function hideMessage(event, targetElement, messageElement) {
+            if(targetElement !== element){
+                return;
+            }
+            
+            openlmisPopoverCtrl.removeElement(messageElement);
         }
     }
 

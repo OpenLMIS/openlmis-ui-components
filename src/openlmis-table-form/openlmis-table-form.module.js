@@ -26,6 +26,7 @@
     angular.module('openlmis-table-form', [
         'openlmis-invalid',
         'openlmis-table',
+        'openlmis-popover',
         'openlmis-form'
     	]);
 

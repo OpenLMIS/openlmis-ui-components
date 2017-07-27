@@ -23,8 +23,8 @@
      * @name openlmis-table-form.directive:tdOpenlmisInvalid
      *
      * @description
-     * Adds openlmis-invalid directive to a table cell, if openlmis-invalid is
-     * not already added.
+     * Adds openlmis-invalid and openlmis-popover directives to a table cell,
+     * if they are not already added.
      */
     
     angular
@@ -39,8 +39,12 @@
             priority: 100,
             terminal: true,
             compile: function(element, attrs) {
-                if(!attrs.hasOwnProperty('openlmisInvalid')){
+                if(!attrs.hasOwnProperty('openlmisInvalid')) {
                     element.attr('openlmis-invalid', '');
+                }
+
+                if(!attrs.hasOwnProperty('popover')) {
+                    element.attr('popover', '');
                 }
 
                 return function(scope, element, attrs){

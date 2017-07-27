@@ -33,12 +33,13 @@
         .module('openlmis-invalid')
         .directive('openlmisInvalid', directive);
 
-    directive.$inject = ['$compile', '$templateRequest'];
+    directive.$inject = ['$compile', '$templateCache'];
 
-    function directive($compile, $templateRequest) {
+    function directive($compile, $templateCache) {
         return {
             link: link,
             restrict: 'A',
+            priority: 10,
             controller: 'OpenlmisInvalidController'
         };
 
@@ -53,6 +54,7 @@
             scope.$watchCollection(canShowErrors, updateErrors);
             scope.$on('openlmisInvalid.update', updateErrors);
 
+            scope.$on('openlmisInvalid.show', placeErrorMessage);
 
             /**
              * @ngdoc method
@@ -109,6 +111,8 @@
             function clearErrors() {
                 element.removeClass('is-invalid');
 
+                scope.$emit('openlmisInvalid.hide', element, messageElement);
+
                 if(messageElement){
                     messageElement.remove();
                     messageElement = undefined;                    
@@ -133,17 +137,17 @@
                 element.addClass('is-invalid');
                 messageScope.messages = messages;
 
-                if(!messageElement){
-                    messageElement = true;
-                    $templateRequest('openlmis-invalid/openlmis-invalid.html')
-                    .then(function(html){
-                        messageElement = $compile(html)(messageScope);
-                        if(attrs.openlmisInvalidMessagePlace){
-                            attrs.openlmisInvalidMessagePlace(messageElement);
-                        } else {
-                            element.prepend(messageElement);
-                        }
-                    });
+                if(!messageElement) {
+                    var html = $templateCache.get('openlmis-invalid/openlmis-invalid.html');
+                    messageElement = $compile(html)(messageScope);
+
+                    scope.$emit('openlmisInvalid.show', element, messageElement);
+                }
+            }
+
+            function placeErrorMessage(event, targetElement, messageElement) {
+                if(!event.defaultPrevented && targetElement === element) {
+                    element.prepend(messageElement);
                 }
             }
             

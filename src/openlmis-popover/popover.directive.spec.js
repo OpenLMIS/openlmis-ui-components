@@ -15,7 +15,7 @@
 
 
 describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, popover, jQuery;
+    var scope, $httpBackend, element, popover, popoverCtrl, jQuery;
 
     beforeEach(module('openlmis-popover'));
     beforeEach(module('openlmis-templates'));
@@ -25,25 +25,24 @@ describe("PopoverDirective", function () {
         spyOn(jQuery.prototype, 'popover').andCallThrough();
     }));
 
-    beforeEach(inject(function($rootScope, _$httpBackend_){
-        scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-    }));
-
 
     describe('popover', function(){
 
         beforeEach(inject(function($compile, $rootScope){
             scope = $rootScope.$new();
 
-            scope.popoverText = "Sample popover";
             scope.popoverTitle = "Popover Title";
             scope.popoverClass = "example-class";
 
-            var html = '<div popover="{{popoverText}}" popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
+            var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
             element = $compile(html)(scope);
 
-            $rootScope.$apply();
+            angular.element('body').append(element);
+
+            popoverCtrl = element.controller('popover');
+            spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+
+            scope.$apply();
 
             popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
         }));
@@ -52,11 +51,55 @@ describe("PopoverDirective", function () {
             expect(jQuery.prototype.popover).toHaveBeenCalled();
         });
 
-        it('removes the popover when the string is empty', function(){
-            scope.popoverText = '';
-            scope.$apply();
+        it('opens when the element gets focus, and closes when blurred', function(){
+            var popoverVisible;
+            element.on('show.bs.popover', function(){
+                popoverVisible = true;
+            });
+            element.on('hide.bs.popover', function(){
+                popoverVisible = false;
+            });
 
-            expect(jQuery.prototype.popover).toHaveBeenCalledWith('destroy');
+            expect(popoverVisible).toBe(undefined);
+
+            element.focus();
+            expect(popoverVisible).toBe(true);
+
+            element.blur();
+            expect(popoverVisible).toBe(false);
+        });
+
+        it('opens when the element is moused over, and closes when the mouse moves else where', function(){
+            var popoverVisible;
+            element.on('show.bs.popover', function(){
+                popoverVisible = true;
+            });
+            element.on('hide.bs.popover', function(){
+                popoverVisible = false;
+            });
+
+            expect(popoverVisible).toBe(undefined);
+
+            element.mouseover();
+            expect(popoverVisible).toBe(true);
+
+            element.mouseout();
+            expect(popoverVisible).toBe(false);
+        });
+
+        it('gets popover content from PopoverController', function() {
+            var elements = [angular.element('<p>Test</p>')];
+            popoverCtrl.getElements.andReturn(elements);
+
+            element.focus();
+            expect(popoverCtrl.getElements).toHaveBeenCalled();
+            expect(popover.find('.popover-content').text()).toBe('Test');
+
+            element.blur();
+            elements.push(angular.element('<p>Example</p>'));
+            element.focus();
+
+            expect(popover.find('.popover-content').text()).toBe('TestExample');
         });
 
         it('has a custom css class attribute, which will updated', function(){
@@ -85,78 +128,6 @@ describe("PopoverDirective", function () {
             expect(popover.children('h3').length).toBe(0);
         });
 
-        it('appends a button element to elements that wouldnt have a click action', function(){
-            expect(element.children('.show-popover').length).toBe(1);
-        });
-
-    });
-
-    describe('element like buttons', function(){
-        var buttonElement;
-
-        beforeEach(inject(function($compile, $rootScope){
-            scope = $rootScope.$new();
-
-            var html = '<button popover="Popover">Do Something</button>';
-            element = $compile(html)(scope);
-
-            $rootScope.$apply();
-        }));
-
-        it('do not append a button', function(){
-            expect(element.children('.show-popover').length).toBe(0);
-        });
-
-        it('do not have click trigger', function(){
-            var triggers = jQuery.prototype.popover.mostRecentCall.args[0].trigger;
-            expect(triggers.indexOf('click')).toBe(-1);
-        });
-
-    });
-
-    describe('popoverTemplate', function(){
-        var content; // Reference to the compiled content....
-
-        beforeEach(inject(function($compile, $rootScope, $templateCache){
-            $templateCache.put('example/popover-content.html', '<div><p>Button clicked {{counter}} times</p><button ng-click="incCounter()">Click Me!</button></div>');
-            $templateCache.put('example/other-popover.html', '<p>Counted {{counter}} clicks</p>');
-
-            scope = $rootScope.$new();
-
-            scope.counter=2;
-            scope.incCounter = function(){
-                scope.counter++;
-            }
-
-            scope.templatePath = 'example/popover-content.html';
-
-            var html = '<div popover popover-template="{{templatePath}}" ></div>';
-            element = $compile(html)(scope);
-
-            $rootScope.$apply();
-
-            content = jQuery.prototype.popover.mostRecentCall.args[0].content;
-        }));
-
-        it('renders a template in the elements scope', function(){
-            expect(content.children('p').text()).toBe('Button clicked 2 times');
-
-            content.children('button').click();
-            scope.$apply();
-
-            expect(content.children('p').text()).toBe('Button clicked 3 times');            
-        });
-
-        it('allows the template to be changed', function(){
-            scope.templatePath = 'example/other-popover.html';
-
-            scope.$apply();
-
-            // Grab content again
-            content = jQuery.prototype.popover.mostRecentCall.args[0].content;
-
-            expect(content.text()).toBe('Counted 2 clicks');
-        });
     });
 
 });

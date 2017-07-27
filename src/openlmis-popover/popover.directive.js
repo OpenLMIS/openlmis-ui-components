@@ -50,18 +50,11 @@
      * ```
      */
 
-    // Element types that shouldn't have a button or click events assigned to them
-    var NO_BUTTON_ELEMENTS = ['a', 'button', 'select', 'input', 'textarea'];
-
-    // Where the popover will be displayed
-    var POPOVER_PLACEMENT = 'auto top';
-
     // Storing a reference to the last open popover. Is used to close the last
     // open popover when a new one is open. After the previous popover is closed,
     // the new one is registered as the new popover. See compilePopover function
     // for details.
     var lastOpenPopover;
-
 
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
@@ -70,62 +63,34 @@
     function popoverDirective(jQuery, $compile, $timeout, $templateRequest, $rootScope, $window){
         return {
             restrict: 'A',
+            controller: 'PopoverController',
+            require: 'popover',
             link: popoverLink
         };
 
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-popover.directive:popover
-         * @name link
-         *
-         * @description
-         * Link function for the directive, which sets up items and attributes.
-         *
-         * *Most importantly* the popover will be removed if either popover or
-         * popover-temple attributes are set to empty strings.
-         */
-        function popoverLink(scope, element, attrs) {
+        function popoverLink(scope, element, attrs, popoverCtrl) {
             // Scope used to render template frame
             // set to persist and accept values from other items
-            var templateScope = $rootScope.$new();
+            var popoverScope = scope.$new(true);
 
-            // The element that has popover applied to it (might be a button)
-            var targetElement;
+            var popoverConfig = {
+                container: 'body',
+                placement: 'auto top',
+                html: true,
+                trigger: 'manual'
+            };
 
-            /**
-             * @ngdoc property
-             * @propertyOf openlmis-popover.directive:popover
-             * @name popoverTemplate
-             * @type {String}
-             *
-             * @description
-             * A url to a template that will be compiled in the element's
-             * scope, then placed inside the popover-content.
-             */
-            scope.$watch(function(){
-                if(attrs.popover && attrs.popover != ''){
-                    return attrs.popover;
-                } else if(attrs.popoverTemplate && attrs.popoverTemplate != ''){
-                    return attrs.popoverTemplate;
-                } else {
-                    return false;
-                }
-            }, function(popover){
-                if(popover){
-                    makePopover();
-                } else {
-                    destroyPopover();
-                }
-            });
+            makePopover();
+
+            element.on('focus', openPopover);
+            element.on('blur', closePopover);
+
+            element.on('mouseenter', openPopover);
+            element.on('mouseleave', closePopover);
 
             element.on('$destroy', function() {
-                if (lastOpenPopover == targetElement) lastOpenPopover = undefined;
                 destroyPopover();
-                targetElement = undefined;
-                jQuery($window).off('resize', onWindowResize);
-                jQuery($window).off('scroll', onWindowResize);
-                templateScope.$destroy();
+                popoverScope.$destroy();
             });
 
             /**
@@ -142,9 +107,9 @@
                 return attrs['popoverTitle'];
             }, function(title){
                 if(title && title != ''){
-                    templateScope.title = title;
+                    popoverScope.title = title;
                 } else {
-                    templateScope.title = false;
+                    popoverScope.title = false;
                 }
             });
 
@@ -161,9 +126,34 @@
             scope.$watch(function(){
                 return attrs['popoverClass'];
             }, function(cssClass){
-                templateScope.cssClass = cssClass;
+                popoverScope.cssClass = cssClass;
             });
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-popover.directive:popover
+             * @name openPopover
+             *
+             * @description
+             * Opens the popover, if there are elements to show.
+             */
+            function openPopover() {
+                if(popoverCtrl.getElements().length > 0){
+                    element.popover('show');
+                }
+            }
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-popover.directive:popover
+             * @name closePopover
+             *
+             * @description
+             * Closes the popover.
+             */
+            function closePopover() {
+                element.popover('hide');
+            }
 
             /**
              * @ngdoc method
@@ -174,73 +164,44 @@
              * Creates the popover and it responsible for compiling elements
              * that are shown within the popover.
              */
-            function compilePopover(el){
-                // Using the popover element will require jQuery.popover
-                // which wasn't being automatically included...
-                targetElement = jQuery(el);
-
+            function compilePopover(){
                 // Popover requires this gets set...
-                var tabIndex = targetElement.attr('tabindex');
-                targetElement.attr('tabindex', tabIndex || 0);
+                var tabIndex = element.attr('tabindex');
+                element.attr('tabindex', tabIndex || 0);
 
                 // Added to close button in popover template
-                templateScope.closePopover = function(){
-                    targetElement.popover('hide');
+                popoverScope.closePopover = function(){
+                    element.popover('hide');
                 };
 
-                //Added to be able to open popover after closing it with close button when trigger is set to 'click'
-                //After clicking close button there was need to click on targetElement two times to open popover again
-                targetElement.on('hide.bs.popover', function(){
-                    targetElement.data("bs.popover").inState.click = false;
+                // Added to be able to open popover after closing it with close
+                // button when trigger is set to 'click'
+                // After clicking close button there was need to click on
+                // targetElement two times to open popover again
+                element.on('hide.bs.popover', function(){
+                    element.data("bs.popover").inState.click = false;
                 });
 
-                targetElement.on('show.bs.popover', function(){
-                    if(lastOpenPopover && lastOpenPopover != targetElement){
+                element.on('show.bs.popover', function(){
+                    if(lastOpenPopover && lastOpenPopover != element){
                         lastOpenPopover.popover('hide');
                     }
-                    lastOpenPopover = targetElement;
+                    lastOpenPopover = element;
                 });
 
-                jQuery($window).on('resize', onWindowResize);
-                jQuery($window).on('scroll', onWindowResize);
-                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
-
-
                 $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
-                    var template = $compile(templateHtml)(templateScope);
+                    var template = $compile(templateHtml)(popoverScope);
+                    popoverConfig.template = template;
 
-                    var trigger = 'hover focus';
-
-                    if(element.is(NO_BUTTON_ELEMENTS.join(', '))){
-                        trigger = 'hover focus';
-                    }
-
-                    if(element.hasClass('openlmis-datepicker')) {
-                        trigger = 'click';
-                        POPOVER_PLACEMENT = 'bottom';
-                        jQuery($window).off('scroll', onWindowResize);
-                    }
-
-                    var popoverConfig = {
-                        template: template,
-                        container: 'body',
-                        placement: POPOVER_PLACEMENT,
-                        trigger: trigger
-                    };
-
-                    if(attrs['popoverTemplate']){
-                        $templateRequest(attrs['popoverTemplate']).then(function(html){
-                            scope.closePopover = templateScope.closePopover;
-                            var compiledElement = $compile(html)(scope);
-                            popoverConfig.content = compiledElement;
-                            popoverConfig.html = true;
-
-                            targetElement.popover(popoverConfig);
+                    popoverConfig.content = function() {
+                        var elements = [];
+                        popoverCtrl.getElements().forEach(function(element){
+                            elements.push(element[0]);
                         });
-                    } else {
-                        popoverConfig.content = attrs['popover'];
-                        targetElement.popover(popoverConfig);
+                        return elements;
                     }
+
+                    element.popover(popoverConfig);
                 });
             }
 
@@ -256,15 +217,11 @@
             function makePopover(){
                 element.addClass('has-popover');
 
-                if(!element.is(NO_BUTTON_ELEMENTS.join(', '))) {
-                    $templateRequest('openlmis-popover/popover-button.html').then(function(html){
-                        var button = $compile(html)(templateScope);
-                        element.append(button);
-                        compilePopover(attrs.popoverTriggerArea === 'element' ? element : button);
-                    });
-                } else {
-                    compilePopover(element);
-                }
+                jQuery($window).on('resize', onWindowResize);
+                jQuery($window).on('scroll', onWindowResize);
+                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
+
+                compilePopover(element);
             }
 
             /**
@@ -277,16 +234,15 @@
              * the original element.
              */
             function destroyPopover(){
-                if (lastOpenPopover == targetElement) lastOpenPopover = null;
-                if (targetElement) targetElement.popover('destroy');
+                if (lastOpenPopover == element) lastOpenPopover = null;
                 element.removeClass('has-popover');
                 element.children('.show-popover').remove();
                 jQuery($window).off('resize', onWindowResize);
             }
 
             function onWindowResize(){
-                if(targetElement){
-                    targetElement.popover('hide');
+                if(element){
+                    element.popover('hide');
                 }
             }
         }

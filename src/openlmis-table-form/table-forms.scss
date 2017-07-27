@@ -77,6 +77,12 @@ td.is-invalid {
   }
 }
 
+.popover .openlmis-invalid {
+  > * {
+    @extend .input-error;
+  }
+}
+
 td,
 td > div:first-child:last-child,
 th {
