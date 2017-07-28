@@ -40,9 +40,9 @@ Styleguide 3.6
 
     .clear {
         position: absolute;
-        right: 0;
-        top: 0;
-        margin: 0.5em 0.5em;
+        right: 0.5em;
+        top: 50%;
+        transform: translateY(-50%);
         cursor: pointer;
         color: $light-gray;
         @include icon('remove');
@@ -60,4 +60,11 @@ Styleguide 3.6
 .openlmis-file-upload.is-empty {
     box-shadow: none;
     border: none;
+}
+
+.openlmis-file-upload.is-invalid {
+
+    .clear {
+        right: 2em;
+    }
 }
