@@ -65,6 +65,7 @@
             element.parent().addClass('is-empty');
 
             element.on('change', function(event) {
+                event.preventDefault();
                 scope.$apply(function() {
                     var file = event.target.files[0];
 
@@ -74,8 +75,13 @@
                         ngModelController.$setViewValue(file);
 
                         ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
+                        ngModelController.$setValidity('openlmisFileUpload.fileEmpty', true);
+
                         if (fileExtension && !file.name.endsWith(fileExtension)) {
                             ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', false);
+                        }
+                        if (file.size === 0) {
+                            ngModelController.$setValidity('openlmisFileUpload.fileEmpty', false);
                         }
                     }
                 });
@@ -88,6 +94,7 @@
             function clear() {
                 ngModelController.$setViewValue(undefined);
                 ngModelController.$setValidity('openlmisFileUpload.wrongFileExtension', true);
+                ngModelController.$setValidity('openlmisFileUpload.fileEmpty', true);
                 scope.filename = undefined;
                 element.val(undefined);
                 element.parent().addClass('is-empty');
