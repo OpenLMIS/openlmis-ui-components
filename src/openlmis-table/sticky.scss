@@ -71,10 +71,10 @@ tr.title > td > div  {
     background-image: linear-gradient(to left, $light-gray, transparent);
   }
   &.stuck-top {
-	z-index: 2;
+	z-index: 12;
   }
   &.stuck-top.stuck-left,
   &.stuck-top.stuck-right {
-	z-index: 3;
+	z-index: 13;
   }
 }
