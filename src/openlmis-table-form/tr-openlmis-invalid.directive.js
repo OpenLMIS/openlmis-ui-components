@@ -20,10 +20,10 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-table.directive:trOpenlmisInvalid
+     * @name openlmis-table-form.directive:trOpenlmisInvalid
      *
      * @description
-     * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
+     * Sets the invalidCtrl to 'hidden' until the TR has recieved focus once, and
      * subsequently lost it.
      *
      * The table row will also show errors if a containing form control is in
@@ -32,51 +32,41 @@
      */
     
     angular
-        .module('openlmis-table')
-        .directive('tr', directive);
+        .module('openlmis-table-form')
+        .directive('openlmisInvalid', directive);
 
-    directive.$inject = ['$compile'];
     function directive() {
         return {
             link: link,
-            restrict: 'E',
-            require: ['?^^form']
+            restrict: 'A',
+            require: ['openlmisInvalid']
         };
 
         function link(scope, element, attrs, ctrls) {
-            var formCtrl,
-                wasFocused = false;
+            var wasFocused = false,
+                openlmisInvalidCtrl = ctrls[0],
+                tr = element.parents('tr:first');
 
-            if(ctrls[0]) {
-                formCtrl = ctrls[0];
+            if(tr.length === 0) {
+                return;
             }
 
-            element.attr('openlmis-invalid-hidden','');
+            openlmisInvalidCtrl.hide();
 
             scope.$watch(function(){
-                return element.hasClass('is-focused');
+                return tr.hasClass('is-focused');
             }, function(isFocused) {
                 if(isFocused) {
                     wasFocused = true;
                 }
                 if(!isFocused && wasFocused){
-                    element.removeAttr('openlmis-invalid-hidden');
+                    openlmisInvalidCtrl.show();
                 }
             });
 
             scope.$on('openlmis-form-submit', function(){
-                element.removeAttr('openlmis-invalid-hidden');
+                openlmisInvalidCtrl.show();
             });
-
-            if(formCtrl) {
-                scope.$watch(function(){
-                    return formCtrl.$submitted;
-                }, function(isSubmitted){
-                    if(isSubmitted){
-                        element.removeAttr('openlmis-invalid-hidden');
-                    }
-                })
-            }
         }
     }
 

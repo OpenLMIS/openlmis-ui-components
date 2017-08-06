@@ -23,9 +23,7 @@
      * @name openlmis-table.directive:trOpenlmisInvalid
      *
      * @description
-     * Sets openlmis-invalid-hidden until the TR has recieved focus once, and
-     * subsequently lost it.
-     * 
+     * Adds .is-invalid class if any child elements have the is-invalid class.
      */
     
     angular

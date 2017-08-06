@@ -20,35 +20,34 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-table.directive:tdOpenlmisInvalid
+     * @name openlmis-table-form.directive:tdOpenlmisInvalid
      *
      * @description
-     * Hides the openlmis-invalid message for a table cell, and adds the
-     * is-invalid class.
+     * Adds openlmis-invalid directive to a table cell, if openlmis-invalid is
+     * not already added.
      */
+    
     angular
-        .module('openlmis-table')
+        .module('openlmis-table-form')
         .directive('td', directive);
-
+    
     directive.$inject = ['$compile'];
+
     function directive($compile) {
         return {
             restrict: 'E',
-            link: link,
-            require: '?openlmisInvalid'
-        };
+            priority: 100,
+            terminal: true,
+            compile: function(element, attrs) {
+                if(!attrs.hasOwnProperty('openlmisInvalid')){
+                    element.attr('openlmis-invalid', '');
+                }
 
-        function link(scope, element, attrs, openlmisInvalidCtrl) {
-            if(!openlmisInvalidCtrl){
-                return;
+                return function(scope, element, attrs){
+                    $compile(element, null, 100)(scope);
+                };
             }
-
-            scope.$watchCollection(function(){
-                return element.children('.openlmis-invalid');
-            }, function(invalidElements){
-                invalidElements.remove();
-            });
-        }
+        };
     }
 
 })();

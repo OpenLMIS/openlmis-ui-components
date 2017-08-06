@@ -17,29 +17,26 @@ describe('openlmis-invalid directive', function(){
     var element, scope, messagesObj;
 
     beforeEach(module('openlmis-templates'));
-    beforeEach(module('openlmis-invalid', function($controllerProvider){
-        messagesObj = {};
-        $controllerProvider.register('OpenlmisInvalidController', function(){
-            return {
-                getMessages: function(){
-                    return messagesObj;
-                }
-            }
-        });
-    }));
+    beforeEach(module('openlmis-invalid'));
 
     beforeEach(inject(function($compile, $rootScope){
         var markup = '<div openlmis-invalid="{{invalidMessage}}" ></div>';
 
         scope = $rootScope.$new();
         element = $compile(markup)(scope);
+
+        var invalidCtrl = element.controller('openlmisInvalid');
+        
+        spyOn(invalidCtrl, 'getMessages').andCallFake(function(){
+            return messagesObj;
+        });
+
         scope.$apply();
 
         angular.element('body').append(element);
     }));
 
     it('adds error message element when openlmis-invalid is set and not empty', function(){
-        // There shouldn't be an error element
         expect(element.children().length).toBe(0);
 
         scope.invalidMessage = "Sample message";
@@ -54,7 +51,7 @@ describe('openlmis-invalid directive', function(){
         expect(element.children().length).toBe(0);
     });
 
-    it('adds an error message if OpenlmisInvalidController returns any messages', function(){
+    it('adds an error message if OpenlmisInvalidController returns any messages', function(){        
         messagesObj = {
             test: 'Sample message'
         };
@@ -90,8 +87,9 @@ describe('openlmis-invalid directive', function(){
         expect(element.children().length).toBe(0);
     });
 
-    it('will not show an error element if openlmis-invalid-hidden is true', function(){
-        element.attr('openlmis-invalid-hidden', true);
+    it('will not show an error element if openlmisInvalidController isHidden is true', function(){
+        var invalidCtrl = element.controller('openlmisInvalid');
+        spyOn(invalidCtrl, 'isHidden').andReturn(true);
 
         messagesObj = {
             test: 'Sample message'

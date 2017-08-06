@@ -71,9 +71,7 @@
          */
         function watchErrors(){
             scope.$watchCollection(inputCtrl.getErrors, updateErrors);
-            scope.$watchCollection(function(){
-                return element.parents('[openlmis-invalid-hidden]');
-            }, updateErrors);
+            scope.$watch(hasErrorsSurpressed, updateErrors);
         }
 
         function updateErrors(){
@@ -81,16 +79,13 @@
             if(openlmisInvalidCtrl){
                 openlmisInvalidCtrl.setMessages(messages);
             }
-
-            if(!hasErrorsSurpressed() && Object.keys(messages).length > 0){
-                element.addClass('is-invalid');
-            } else {
-                element.removeClass('is-invalid');
-            }
         }
 
         function hasErrorsSurpressed() {
-            return element.parents('[openlmis-invalid-hidden]').length > 0;
+            if(openlmisInvalidCtrl){
+                return openlmisInvalidCtrl.isHidden();
+            }
+            return false;
         }
 
         /**

@@ -20,50 +20,33 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:inputControlTD
+     * @name openlmis-table-form.directive:inputControlTD
      *
      * @description
      * Adds input-control class to table cells that include only a single input,
      * and will map that inputs state to the table cell.
      */
     angular
-        .module('openlmis-form')
+        .module('openlmis-table-form')
         .directive('td', tdFormControl);
 
-    tdFormControl.$inject = ['$compile'];
-    function tdFormControl($compile) {
+    function tdFormControl() {
         return {
             restrict: 'E',
-            replace: false,
-            priority: 30,
-            compile: function(element, attrs){
-                return {
-                    pre: compile
-                };
-            }
+            link: link
         };
 
-        function compile(scope, element, attrs) {
-            if(element[0].hasAttribute('input-control')){
-                // this stops an infinite loop
-                return ;
-            }
-
-            if(element.parents('[input-control]').length > 0){
-                return ;
-            }
-
-            var inputElement = element.children('input, select, textarea');
-            if(inputElement.length == 1) {
-                element.attr('input-control', '');
-
-                if(!element[0].hasAttribute('openlmis-invalid')){
-                    element.attr('openlmis-invalid', '');
+        function link(scope, element, attrs) {
+            scope.$watch(function() {
+                return element.find('[input-control]').length == 1
+            }, function(singleInputElement){
+                if(singleInputElement) {
+                    element.addClass('has-single-input-control');
+                } else {
+                    element.removeClass('has-single-input-control');
                 }
+            });
 
-                var newElement = $compile(element.clone())(scope);
-                element.replaceWith(newElement);
-            }
         }
     }
 

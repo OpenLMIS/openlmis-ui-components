@@ -13,32 +13,20 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Form Invalid Hide Directive', function(){
-	var form, scope;
+(function() {
 
-	beforeEach(module('openlmis-form'));
+    'use strict';
 
-	beforeEach(inject(function($compile, $rootScope, $q){
-		var markup = '<form name="exampleForm"><input ng-model="example" required /></form>';
+    /**
+     * @module openlmis-table-form
+     *
+     * @description
+     * Adds form error handling to tables.
+     */
+    angular.module('openlmis-table-form', [
+        'openlmis-invalid',
+        'openlmis-table',
+        'openlmis-form'
+    	]);
 
-		scope = $rootScope.$new();
-
-		form = $compile(markup)(scope);
-		angular.element('body').append(form);
-
-		scope.$apply();
-	}));
-
-	it('supresses error messages when the form is not submitted', function(){
-		// NOTE: form is unsubmitted
-		expect(form.find('.is-invalid').length).toBe(0);
-		expect(form.find('.openlmis-invalid').length).toBe(0);
-
-		scope.exampleForm.$setSubmitted();
-		scope.$apply();
-
-		expect(form.find('.is-invalid').length).not.toBe(0);
-		expect(form.find('.openlmis-invalid').length).not.toBe(0);		
-	});
-
-});
+})();

@@ -119,10 +119,11 @@
          * activated.
          */
         function wrapElement(scope, element){
-            var html = $templateCache.get('openlmis-form/input-control-wrap.html'),
-                inputWrap = $compile(html)(scope);
+            var html = $templateCache.get('openlmis-form/input-control-wrap.html');
 
-            element.before(inputWrap);
+            var inputWrap = angular.element(html).insertBefore(element);
+            $compile(inputWrap)(scope);
+
             inputWrap.append(element);
         }
 

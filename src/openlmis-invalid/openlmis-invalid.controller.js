@@ -32,11 +32,20 @@
     controller.$inject = ['messageService']
     function controller(messageService) {
         var vm = this,
-            messages = {};
+            messages = {},
+            childControllers = [],
+            isHidden = false;
 
         vm.getMessages = getMessages;
         vm.setMessages = setMessages;
         vm.resetMessages = resetMessages;
+
+        vm.isHidden = messagesHidden;
+        vm.show = showMessages;
+        vm.hide = hideMessages;
+
+        vm.registerController = registerInvalidController;
+        vm.getChildren = getChildControllers;
 
         /**
          * @ngdoc method
@@ -94,6 +103,41 @@
             } else {
                 return messageService.get(message);
             }
+        }
+
+
+        function messagesHidden() {
+            return isHidden;
+        }
+
+        function showMessages() {
+            isHidden = false;
+
+            childControllers.forEach(function(child){
+                child.show();
+            });
+        }
+
+        function hideMessages() {
+            isHidden = true;
+
+            childControllers.forEach(function(child){
+                child.hide();
+            });
+        }
+
+        function registerInvalidController(child) {
+            childControllers.push(child);
+
+            if(vm.isHidden()) {
+                vm.hide();
+            } else {
+                vm.show();
+            }
+        }
+
+        function getChildControllers() {
+            return childControllers;
         }
 
     }

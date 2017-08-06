@@ -1,0 +1,16 @@
+td.has-single-input-control > div:first-child:last-child,
+td.has-single-input-control{
+    > label {
+        display: none;
+    }
+}
+
+td.has-single-input-control.is-invalid > div:first-child:last-child,
+td.has-single-input-control.is-invalid {
+    &::before{
+        content: "";   
+    }
+    > [input-control] {
+        @extend .is-invalid;
+    }
+}

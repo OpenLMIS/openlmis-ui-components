@@ -18,49 +18,39 @@ describe('OpenLMIS Invalid TR', function() {
 
     var $compile, scope;
 
-    beforeEach(module('openlmis-templates'));
-    beforeEach(module('openlmis-table'));
+    beforeEach(module('openlmis-table-form'));
 
     beforeEach(inject(function(_$compile_, $rootScope){        
         $compile = _$compile_;
         scope = $rootScope.$new();
     }));
 
-    it('Adds openlmis-invalid-hidden until focus moves outside TR', function(){
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table>');
+    it('hides error messages until focus moves outside TR', function(){
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid"><input /></td></tr></table>');
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+        expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('input:first').focus();
         scope.$apply();
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+        expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('input:last').focus();
         scope.$apply();
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(1);
+        // NOTE: Only 1 of the 2 possible errors are showing, which is correct.
+        expect(table.find('tr.is-invalid').length).toBe(1);
     });
 
-    it('Removes openlmis-invalid-hidden when openlmis-form-submit is fired', function(){
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table>');
+    it('shows error messages when openlmis-form-submit is fired', function(){
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid">Example</td></tr></table>');
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(2);
+        expect(table.find('tr.is-invalid').length).toBe(0);
 
         scope.$broadcast('openlmis-form-submit');
         scope.$apply();
 
-        expect(table.find('tr[openlmis-invalid-hidden]').length).toBe(0);    
-    });
-
-    it('Removes openlmis-invalid-hidden when wrapping form is submitted', function(){
-        var form = compileMarkup('<form name="exampleForm"><table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td><input required /></td></tr></table></form>');
-        expect(form.find('tr[openlmis-invalid-hidden]').length).toBe(2);
-
-        scope.exampleForm.$setSubmitted();
-        scope.$apply();
-
-        expect(form.find('tr[openlmis-invalid-hidden]').length).toBe(0);
+        expect(table.find('tr.is-invalid').length).toBe(2);    
     });
 
 

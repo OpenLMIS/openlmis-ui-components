@@ -12,6 +12,7 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
+
 (function() {
 
     'use strict';
@@ -19,48 +20,33 @@
     /**
      * @ngdoc directive
      * @restrict A
-     * @name openlmis-table.directive:inputAutoResize
+     * @name openlmis-invalid.directive:openlmis-invalid-child
      *
      * @description
-     * Adds auto-resize option to input elements.
-     *
-     * @example
-     * ```
-     * <input ng-model="model"></input>
-     * ```
+     * When an openlmis-invalid instance is created, it checks to see if there
+     * is a partent element that it can register its self to.
      */
+    
     angular
-        .module('openlmis-table')
-        .directive('input', inputAutoResize);
+        .module('openlmis-invalid')
+        .directive('openlmisInvalid', directive);
 
-    inputAutoResize.$inject = ['$window'];
-
-    function inputAutoResize($window) {
-        var directive = {
+    function directive() {
+        return {
             link: link,
-            restrict: 'E'
+            restrict: 'A',
+            require: ['openlmisInvalid', '?^^openlmisInvalid']
         };
-        return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs, ctrls) {
+            var openlmisInvalidCtrl = ctrls[0],
+                parentInvalidCtrl = ctrls[1]
 
-            var minWidthSet = false,
-                el = element[0],
-                parent = element.parent();
-
-            if(parent.length == 0 || parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')){
-                return ;
+            if(!parentInvalidCtrl) {
+                return;
             }
-
-            scope.$watch(function() {
-                return el.value;
-            }, function(newValue, oldValue) {
-                if(!minWidthSet) {
-                    $window.autosizeInput(el);
-                    minWidthSet = true;
-                }
-            });
-
+            
+            parentInvalidCtrl.registerController(openlmisInvalidCtrl);
         }
     }
 

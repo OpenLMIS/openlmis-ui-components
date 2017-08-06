@@ -12,48 +12,55 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 (function() {
 
     'use strict';
 
     /**
      * @ngdoc directive
-     * @restrict E
-     * @name openlmis-form.directive:formInvalidHide
+     * @restrict A
+     * @name openlmis-table-form.directive:inputAutoResize
      *
      * @description
-     * If the form isn't submitted, all openlmis-invalid messages will be
-     * hidden.
+     * Adds auto-resize option to input elements.
+     *
+     * @example
+     * ```
+     * <input ng-model="model"></input>
+     * ```
      */
     angular
-        .module('openlmis-form')
-        .directive('openlmisInvalid', directive);
+        .module('openlmis-table-form')
+        .directive('input', inputAutoResize);
 
-    function directive() {
-        return {
+    inputAutoResize.$inject = ['$window'];
+
+    function inputAutoResize($window) {
+        var directive = {
             link: link,
-            require: ['openlmisInvalid', '?^^form'],
-            restrict: 'A'
+            restrict: 'E'
         };
+        return directive;
 
-        function link(scope, element, attrs, ctrls) {
-            var formCtrl = ctrls[1],
-                invalidCtrl = ctrls[0];
+        function link(scope, element, attrs) {
 
-            if(!formCtrl) {
+            var minWidthSet = false,
+                el = element[0],
+                parent = element.parent();
+
+            if(parent.length == 0 || parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')){
                 return ;
             }
 
-            scope.$watch(function(){
-                return formCtrl.$submitted;
-            }, function(submitted) {
-                if(submitted){
-                    invalidCtrl.show();
-                } else {
-                    invalidCtrl.hide();
+            scope.$watch(function() {
+                return el.value;
+            }, function(newValue, oldValue) {
+                if(!minWidthSet) {
+                    $window.autosizeInput(el);
+                    minWidthSet = true;
                 }
             });
+
         }
     }
 

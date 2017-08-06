@@ -13,38 +13,24 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Input Control TD', function() {
+describe('TD has single input control', function() {
 	var $compile, scope;
 
-	beforeEach(module('openlmis-form'));
+	beforeEach(module('openlmis-table-form'));
 
 	beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {
 		$compile = _$compile_;
 		scope = $rootScope.$new();		
 	}));
 
-	it('adds an input-control directive to table cell elements with a single input', function(){
+	it('adds has-single-input-control class to table cell elements with a single input', function(){
 		var markup = '<table><tr><td><input /></td></tr></table>',
 			element = $compile(markup)(scope);
 		scope.$apply();
 
 		var tableCell = element.find('td');
 
-		expect(tableCell[0].hasAttribute('input-control')).toBe(true);
-		expect(tableCell[0].hasAttribute('openlmis-invalid')).toBe(true);
-
-		// make sure no child input-controls exist
-		expect(tableCell.find('[input-control]').length).toBe(0);
-	});
-
-	it('will not add input control if any parent is an input-control', function(){
-		var markup = '<div input-control><table><tr><td><input /></td></tr></table></div>',
-			element = $compile(markup)(scope);
-		scope.$apply();
-
-		var tableCell = element.find('td');
-
-		expect(tableCell[0].hasAttribute('input-control')).toBe(false);
+		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
 	});
 
 	it('will add input-control for a select element', function(){
@@ -54,7 +40,7 @@ describe('Input Control TD', function() {
 
 		var tableCell = element.find('td');
 
-		expect(tableCell[0].hasAttribute('input-control')).toBe(true);
+		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
 	});
 
 	it('will add input-control for a textarea element', function(){
@@ -64,7 +50,7 @@ describe('Input Control TD', function() {
 
 		var tableCell = element.find('td');
 
-		expect(tableCell[0].hasAttribute('input-control')).toBe(true);
+		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
 	});
 
 });

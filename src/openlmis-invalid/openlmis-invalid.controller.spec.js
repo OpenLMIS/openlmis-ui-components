@@ -67,4 +67,46 @@ describe('OpenlmisInvalidController', function(){
 
         expect(messageService.get).toHaveBeenCalledWith('openlmisInvalid.test');
     });
+
+    it('starts elements with not hidden', function(){
+        expect(vm.isHidden()).toBe(false);
+    });
+
+    describe('inherits state', function(){
+        var child;
+
+        beforeEach(inject(function($controller) {
+            child = $controller('OpenlmisInvalidController');
+        }));
+
+        it('makes the childs state the same as the partent', function(){
+            expect(vm.isHidden()).toBe(false);
+            expect(child.isHidden()).toBe(false);
+
+            vm.hide();
+
+            expect(vm.isHidden()).toBe(true);
+            expect(child.isHidden()).toBe(false);
+
+            vm.registerController(child);
+            expect(child.isHidden()).toBe(true);
+        });
+
+        it('updates childs state when parents state is changed', function(){
+            vm.registerController(child);
+
+            expect(vm.isHidden()).toBe(false);
+            expect(child.isHidden()).toBe(false);
+
+            vm.hide();
+
+            expect(vm.isHidden()).toBe(true);
+            expect(child.isHidden()).toBe(true);
+
+            vm.show();
+
+            expect(vm.isHidden()).toBe(false);
+            expect(child.isHidden()).toBe(false);
+        });
+    });
 });

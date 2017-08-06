@@ -19,12 +19,14 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
+     * @restrict A
      * @name openlmis-invalid.directive:openlmis-invalid
      *
      * @description
-     * Sets the invalid error state and message on a form or form control
-     * object.
+     * Watches for invalid messages in the openlmis-invalid controller. If the 
+     * controller has any messages to display, then:
+     * - An error message element is prepended to the element
+     * - The .is-invalid class is added to the element
      */
     
     angular
@@ -32,6 +34,7 @@
         .directive('openlmisInvalid', directive);
 
     directive.$inject = ['$compile', '$templateRequest'];
+
     function directive($compile, $templateRequest) {
         return {
             link: link,
@@ -44,7 +47,9 @@
                 messageElement;
 
             scope.$watch(getAttributeError, updateErrors);
-            scope.$watchCollection(openlmisInvalidCtrl.getMessages, updateErrors);
+            scope.$watchCollection(function(){
+                return openlmisInvalidCtrl.getMessages();
+            }, updateErrors);
             scope.$watchCollection(canShowErrors, updateErrors);
             scope.$on('openlmisInvalid.update', updateErrors);
 
@@ -61,9 +66,8 @@
             function getAttributeError() {
                 if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '' && attrs.openlmisInvalid != 'false') {
                     return attrs.openlmisInvalid;
-                } else {
-                    return false;
                 }
+                return false;
             }
 
             /**
@@ -76,10 +80,11 @@
              * show, then it shows or clears the error message span.
              */
             function updateErrors() {
-                var messages = [];
+                var messages = [],
+                    message = getAttributeError();
 
-                if(getAttributeError()) {
-                    messages.push(getAttributeError());
+                if(message) {
+                    messages.push(message);
                 }
 
                 angular.forEach(openlmisInvalidCtrl.getMessages(), function(value, key) {
@@ -90,44 +95,6 @@
                     showErrors(messages);
                 } else {
                     clearErrors();
-                }
-            }
-
-            function canShowErrors() {
-                if(element.attr('openlmis-invalid-hidden')) {
-                    return false;
-                }
-                if(element.parents('[openlmis-invalid-hidden]').length > 0){
-                    return false;
-                }
-                return true;
-            }
-
-            /**
-             * @ngdoc method
-             * @methodOf openlmis-invalid.directive:openlmis-invalid
-             * @name showErrors
-             * 
-             * @param  {Array} messages List of messages to show
-             *
-             * @description
-             * Renders an invalid message element with the set of messages.
-             */
-            function showErrors(messages) {
-                if(!canShowErrors()){
-                    return ;
-                }
-
-                element.addClass('is-invalid');
-                messageScope.messages = messages;
-
-                if(!messageElement){
-                    messageElement = true;
-                    $templateRequest('openlmis-invalid/openlmis-invalid.html')
-                    .then(function(html){
-                        messageElement = $compile(html)(messageScope);
-                        element.prepend(messageElement);
-                    });
                 }
             }
 
@@ -146,6 +113,38 @@
                     messageElement.remove();
                     messageElement = undefined;                    
                 }
+            }
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-invalid.directive:openlmis-invalid
+             * @name showErrors
+             *
+             * @description
+             * Renders an invalid message element with the set of messages.
+             *
+             * @param  {Array} messages List of messages to show
+             */
+            function showErrors(messages) {
+                if(!canShowErrors()){
+                    return ;
+                }
+
+                element.addClass('is-invalid');
+                messageScope.messages = messages;
+
+                if(!messageElement){
+                    messageElement = true;
+                    $templateRequest('openlmis-invalid/openlmis-invalid.html')
+                    .then(function(html){
+                        messageElement = $compile(html)(messageScope);
+                        element.prepend(messageElement);
+                    });
+                }
+            }
+            
+            function canShowErrors() {
+                return !openlmisInvalidCtrl.isHidden();
             }
         }
 

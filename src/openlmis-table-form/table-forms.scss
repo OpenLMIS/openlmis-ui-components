@@ -20,10 +20,11 @@ that is not nessicarry.
       <th>Name</th>
       <th>Strength</th>
       <th>Unit of measure</th>
+      <th>Summary</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="i in [{},{},{},{}]" ng-disabled="i.skip">
+    <tr ng-repeat="i in [{code:'123'},{code:'456'},{code:'789'},{code:'abc'}]" ng-disabled="i.skip">
       <td>
         <label class="checkbox">
           <input type="checkbox" ng-model="i.skip" />
@@ -32,15 +33,15 @@ that is not nessicarry.
       </td>
       <td>
         <label for="inputCode">Item Code</label>
-        <input id="inputCode" type="text" ng-model="i.code" value="sampleValue" required ng-disabled="i.skip" />
+        <input id="inputCode" type="text" ng-model="i.code" required ng-disabled="i.skip" />
       </td>
       <td>
         <label for="inputName">Item Name</label>
-        <input id="inputName" type="text" ng-model="i.name" ng-disabled="i.skip" />
+        <input id="inputName" type="text" ng-model="i.name" ng-disabled="i.skip" ng-maxlength="5" />
       </td>
-      <td openlmis-invalid="Forcing this to be invalid">
+      <td>
         <label for="inputStrength">Item Strength</label>
-        <input id="inputStrength" type="number" ng-model="i.stregth" required ng-disabled="i.skip" />
+        <input id="inputStrength" type="number" ng-model="i.strength" required ng-disabled="i.skip" />
       </td>
       <td>
         <label for="inputUnit">Item unit of measure</label>
@@ -50,6 +51,11 @@ that is not nessicarry.
           <option value="mg">Milligrams</option>
         </select>
       </td>
+      <td openlmis-invalid="Forcing this to be invalid">
+        <em>{{i.code}}</em>
+        <strong ng-if="i.name">{{i.name}}</strong>
+        <span>({{i.strength}} {{i.unit}})</span>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -58,6 +64,7 @@ Styleguide 4.5
 */
 
 td,
+td > div:first-child:last-child,
 th {
   > input[type="checkbox"]:first-child + > label:last-child,
   > input[type="checkbox"]:last-child + > label:first-child{
@@ -72,6 +79,7 @@ th {
   }
 }
 
+td > div:first-child:last-child > label.checkbox,
 td > label.checkbox {
   &:first-child:last-child{
     display: block;
