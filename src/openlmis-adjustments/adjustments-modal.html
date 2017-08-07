@@ -13,7 +13,7 @@
                         </label>
                         <select id="reason"
                             ng-model="vm.reason"
-                            ng-options="reason as reason.name for reason in vm.reasons"
+                            ng-options="reason as reason.name for reason in vm.reasons | orderBy:'displayOrder'"
                             required>
                         </select>
                     </div>
