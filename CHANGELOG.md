@@ -7,6 +7,9 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-249:](https://openlmis.atlassian.net/browse/OLMIS-249) Datepicker element now allows translating day and month names.
 * [OLMIS-2817:](https://openlmis.atlassian.net/browse/OLMIS-2817) Added new file input directive.
 
+Bug fixes:
+* [OLMIS-2806:](https://openlmis.atlassian.net/browse/OLMIS-2806) Fixed stock adjustment reasons display order not being respected in the UI.
+
 5.1.0 / 2017-06-22
 ========================
 
