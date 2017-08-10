@@ -35,19 +35,36 @@
             restrict: 'E',
             link: link
         };
+    }
 
-        function link(scope, element, attrs) {
-            scope.$watch(function() {
-                return element.find('[input-control]').length == 1
-            }, function(singleInputElement){
-                if(singleInputElement) {
-                    element.addClass('has-single-input-control');
-                } else {
-                    element.removeClass('has-single-input-control');
-                }
-            });
+    function link(scope, element, attrs) {
+        scope.$watchCollection(function() {
+            return element.find('[input-control]');
+        }, function(singleInputElements){
+            if(singleInputElements.length === 1) {
+                element.addClass('has-single-input-control');
+                suppressInvalidErrorMessages(singleInputElements);
+            } else {
+                element.removeClass('has-single-input-control');
+                unsuppressInvalidErrorMessages(singleInputElements);
+            }
+        });
+    }
 
+    function suppressInvalidErrorMessages(elements) {
+        var invalidController = angular.element(elements[0]).controller('openlmisInvalid');
+        if(invalidController) {
+            invalidController.suppress();
         }
+    }
+
+    function unsuppressInvalidErrorMessages(elements) {
+        elements.each(function(index, element){
+            var invalidController = angular.element(element).controller('openlmisInvalid');
+            if(invalidController) {
+                invalidController.unsuppress();
+            }
+        });
     }
 
 })();

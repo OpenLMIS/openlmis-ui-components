@@ -72,12 +72,46 @@ describe('OpenlmisInvalidController', function(){
         expect(vm.isHidden()).toBe(false);
     });
 
+    it('can suppress an elements messages, even if the elements messages are shown', function(){
+        vm.suppress();
+
+        vm.setMessages({
+            'test': 'test'
+        });
+
+        expect(vm.isSuppressed()).toBe(true);
+        expect(vm.isHidden()).toBe(true);
+
+        vm.show();
+        expect(vm.isHidden()).toBe(true);
+    });
+
     describe('inherits state', function(){
         var child;
 
         beforeEach(inject(function($controller) {
             child = $controller('OpenlmisInvalidController');
         }));
+
+        it('merges child messages into parent messages', function(){
+            vm.registerController(child);
+
+            vm.setMessages({
+                'test': '123',
+                'foo': 'bar'
+            });
+
+            child.setMessages({
+                'test': '456',
+                'example': 'example'
+            });
+
+            expect(vm.getMessages()).toEqual({
+                'test': '123', // parent overwrites child
+                'foo': 'bar',
+                'example': 'example' // new child value is added
+            })
+        });
 
         it('makes the childs state the same as the partent', function(){
             expect(vm.isHidden()).toBe(false);
@@ -107,6 +141,16 @@ describe('OpenlmisInvalidController', function(){
 
             expect(vm.isHidden()).toBe(false);
             expect(child.isHidden()).toBe(false);
+
+            expect(vm.isSuppressed()).toBe(false);
+            expect(child.isSuppressed()).toBe(false);
+
+            vm.suppress();
+
+            expect(vm.isSuppressed()).toBe(true);
+            expect(child.isSuppressed()).toBe(true); 
+            
+            expect(child.isHidden()).toBe(true);           
         });
     });
 });

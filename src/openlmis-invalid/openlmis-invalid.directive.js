@@ -138,7 +138,11 @@
                     $templateRequest('openlmis-invalid/openlmis-invalid.html')
                     .then(function(html){
                         messageElement = $compile(html)(messageScope);
-                        element.prepend(messageElement);
+                        if(attrs.openlmisInvalidMessagePlace){
+                            attrs.openlmisInvalidMessagePlace(messageElement);
+                        } else {
+                            element.prepend(messageElement);
+                        }
                     });
                 }
             }

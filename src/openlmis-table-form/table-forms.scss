@@ -63,6 +63,20 @@ that is not nessicarry.
 Styleguide 4.5
 */
 
+.openlmis-table > tbody > tr > td.is-invalid,
+td.is-invalid {
+  @include icon('exclamation-circle');
+  padding-right: 2em;
+  
+  &::before{
+    color: $brand-danger;
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);
+  }
+}
+
 td,
 td > div:first-child:last-child,
 th {

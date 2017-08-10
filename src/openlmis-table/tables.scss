@@ -115,6 +115,7 @@ Styleguide 4.0
 
 $border-color-table: $border-color !default;
 $table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
+$table-cell-padding: 0.5em !default;
 
 .openlmis-table {
     @extend .table;
@@ -127,7 +128,7 @@ $table-border: 1px $border-color-table solid !important; // this important is ne
     }
 
     td, th {
-      padding: 0.5em;
+      padding: $table-cell-padding;
       position: relative;
       white-space: nowrap;
       vertical-align: middle !important; // from requisition template screen

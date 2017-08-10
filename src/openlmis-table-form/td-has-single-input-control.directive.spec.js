@@ -18,7 +18,7 @@ describe('TD has single input control', function() {
 
 	beforeEach(module('openlmis-table-form'));
 
-	beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {
+	beforeEach(inject(function(_$compile_, $rootScope) {
 		$compile = _$compile_;
 		scope = $rootScope.$new();		
 	}));
@@ -29,28 +29,27 @@ describe('TD has single input control', function() {
 		scope.$apply();
 
 		var tableCell = element.find('td');
-
 		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
+
+		var input = element.find('input');
+		expect(input.controller('openlmisInvalid').isSuppressed()).toBe(true);
 	});
 
-	it('will add input-control for a select element', function(){
-		var markup = '<table><tr><td><select /></td></tr></table>',
+	it('removes has-single-input-control, if there is more than one input-control', function(){
+		var markup = '<table><tr><td><input /></td></tr></table>',
 			element = $compile(markup)(scope);
 		scope.$apply();
 
 		var tableCell = element.find('td');
+		expect(tableCell.hasClass('has-single-input-control')).toBe(true);	
 
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
-	});
+		var newInput = angular.element('<input />');
+		tableCell.append(newInput);
 
-	it('will add input-control for a textarea element', function(){
-		var markup = '<table><tr><td><textarea /></td></tr></table>',
-			element = $compile(markup)(scope);
+		$compile(newInput)(scope);
 		scope.$apply();
 
-		var tableCell = element.find('td');
-
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
+		expect(tableCell.hasClass('has-single-input-control')).toBe(false);
 	});
 
 });

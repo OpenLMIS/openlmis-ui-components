@@ -1,15 +1,16 @@
-td.has-single-input-control > div:first-child:last-child,
 td.has-single-input-control{
     > label {
         display: none;
     }
 }
 
-td.has-single-input-control.is-invalid > div:first-child:last-child,
+.openlmis-table > tbody > tr > td.has-single-input-control.is-invalid,
 td.has-single-input-control.is-invalid {
+    padding-right: $table-cell-padding;
     &::before{
         content: "";   
     }
+    
     > [input-control] {
         @extend .is-invalid;
     }

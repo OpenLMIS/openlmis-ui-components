@@ -34,11 +34,16 @@
         var vm = this,
             messages = {},
             childControllers = [],
-            isHidden = false;
+            isHidden = false,
+            isSuppressed = false;
 
         vm.getMessages = getMessages;
         vm.setMessages = setMessages;
         vm.resetMessages = resetMessages;
+
+        vm.isSuppressed = areMessagesSuppressed;
+        vm.suppress = suppress;
+        vm.unsuppress = unsuppress; 
 
         vm.isHidden = messagesHidden;
         vm.show = showMessages;
@@ -57,7 +62,14 @@
          * @returns {Object} Object of message keys and names
          */
         function getMessages() {
-            return messages;
+            var messagesToReturn = {};
+            childControllers.forEach(function(child){
+                angular.extend(messagesToReturn, child.getMessages());
+            });
+
+            angular.extend(messagesToReturn, messages);
+
+            return messagesToReturn;
         }
 
         /**
@@ -105,11 +117,80 @@
             }
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name isSuppressed
+         *
+         * @returns {Boolean} If messages are suppressed
+         *
+         * @description
+         * Returns if the controllers messages are suppressed
+         */
+        function areMessagesSuppressed() {
+            return isSuppressed;
+        }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name suppress
+         *
+         * @description
+         * Suppresses messages so they are not shown, regardless if they are
+         * shown or hidden.
+         */
+        function suppress() {
+            isSuppressed = true;
+
+            childControllers.forEach(function(child){
+                child.suppress();
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name unsuppress
+         *
+         * @description
+         * Unsuppresses messages so that they are shown normally.
+         */
+        function unsuppress() {
+            isSuppressed = false;
+
+            childControllers.forEach(function(child){
+                child.unsuppress();
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name messagesHidden
+         *
+         * @returns {Boolean} If messages should not be shown
+         *
+         * @description
+         * Returns a boolean indicating if messages are true or false. If
+         * messages are suppressed, it will return true.
+         */
         function messagesHidden() {
+            if(isSuppressed) {
+                return true;
+            }
+
             return isHidden;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name show
+         *
+         * @description
+         * Shows messages, and recursively shows all child elements.
+         */
         function showMessages() {
             isHidden = false;
 
@@ -118,6 +199,14 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name hide
+         *
+         * @description
+         * Hides messages, and the messages of all child elements.
+         */
         function hideMessages() {
             isHidden = true;
 
@@ -126,16 +215,44 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name registerController
+         *
+         * @param {Object} child An openlmis-invalid controller instance.
+         *
+         * @description
+         * Registers a child controller, and changes the child's hidden and
+         * suppressed states to match the parents.
+         */
         function registerInvalidController(child) {
             childControllers.push(child);
 
             if(vm.isHidden()) {
-                vm.hide();
+                child.hide();
             } else {
-                vm.show();
+                child.show();
+            }
+
+            if(vm.isSuppressed()){
+                child.suppress();
+            } else {
+                child.unsuppress();
             }
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.controller:openlmisInvalidController
+         * @name getChildControllers
+         *
+         * @returns {Array} A list of child openlmis-invalid controllers.
+         *
+         * @description
+         * Returns an array of the controller's child controllers. If there
+         * are no child controllers, an empty array is returned. 
+         */
         function getChildControllers() {
             return childControllers;
         }
