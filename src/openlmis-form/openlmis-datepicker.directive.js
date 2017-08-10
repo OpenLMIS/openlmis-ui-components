@@ -60,7 +60,8 @@
                 maxDate: '=?',
                 changeMethod: '=?',
                 dateFormat: '=?',
-                language: '=?'
+                language: '=?',
+                required: '=?'
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
             link: link
