@@ -59,8 +59,9 @@
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
 
-    popoverDirective.$inject = ['jQuery', '$compile', '$timeout', '$templateRequest', '$rootScope', '$window'];
-    function popoverDirective(jQuery, $compile, $timeout, $templateRequest, $rootScope, $window){
+    popoverDirective.$inject = ['$compile', '$timeout', '$templateRequest','$rootScope', '$window'];
+
+    function popoverDirective($compile, $timeout, $templateRequest, $rootScope, $window){
         return {
             restrict: 'A',
             controller: 'PopoverController',
@@ -82,11 +83,15 @@
 
             makePopover();
 
+            // NOTE:
+            // Anytime we open a popover, a process starts that will try to
+            // close the popover
             element.on('focus', openPopover);
-            element.on('blur', closePopover);
+            element.on('focusin', openPopover);
+            // element.on('mouseenter', openPopover);
 
-            element.on('mouseenter', openPopover);
-            element.on('mouseleave', closePopover);
+            element.on('blur', closePopover);
+            // element.on('mouseleave', closePopover);
 
             element.on('$destroy', function() {
                 destroyPopover();
@@ -129,6 +134,22 @@
                 popoverScope.cssClass = cssClass;
             });
 
+
+            var popoverHasElements,
+                popoverCanOpen;
+
+            scope.$watch(function(){
+                return popoverCtrl.getElements().length > 0;
+            }, function(hasElements){
+                if(hasElements) {
+                    popoverHasElements = true;
+                    realOpenPopover();
+                } else {
+                    popoverHasElements = false;
+                    realClosePopover();
+                }
+            });
+
             /**
              * @ngdoc method
              * @methodOf openlmis-popover.directive:popover
@@ -138,8 +159,42 @@
              * Opens the popover, if there are elements to show.
              */
             function openPopover() {
-                if(popoverCtrl.getElements().length > 0){
+                popoverCanOpen = true;
+                realOpenPopover();
+            }
+
+            var popoverIsOpen;
+            function realOpenPopover() {
+                if(popoverHasElements && popoverCanOpen && !popoverIsOpen) {
+                    popoverIsOpen = true;
                     element.popover('show');
+                    watchToClosePopover();
+                }
+            }
+
+            function watchToClosePopover() {
+                angular.element('body').on('focusin', checkClose);
+            }
+
+            function checkClose(event) {
+                var target = angular.element(event.target),
+                    containedByElement = false,
+                    inPopover = target.parents('.popover').length > 0 || target.hasClass('popover');
+
+                if(target[0] === element[0]) {
+                    containedByElement = true;
+                } else {
+                    target.parents().each(function(index, targetParent){
+                        if(targetParent === element[0]){
+                            containedByElement = true;
+                        }
+                    });
+                }
+
+                if(!containedByElement && !inPopover) {
+                    closePopover();
+                } else {
+                    cancelClose();
                 }
             }
 
@@ -151,8 +206,23 @@
              * @description
              * Closes the popover.
              */
+            var closeTimeout;
+            function cancelClose(){
+                if(closeTimeout) {
+                    $timeout.cancel(closeTimeout);
+                    closeTimeout = undefined;
+                }
+            }
+
             function closePopover() {
+                cancelClose();
+                closeTimeout = $timeout(realClosePopover, 250);
+            }
+
+            function realClosePopover() {
+                angular.element('body').off('focusin', checkClose);
                 element.popover('hide');
+                popoverIsOpen = false;
             }
 
             /**
@@ -171,7 +241,7 @@
 
                 // Added to close button in popover template
                 popoverScope.closePopover = function(){
-                    element.popover('hide');
+                    realClosePopover();
                 };
 
                 // Added to be able to open popover after closing it with close
@@ -217,8 +287,8 @@
             function makePopover(){
                 element.addClass('has-popover');
 
-                jQuery($window).on('resize', onWindowResize);
-                jQuery($window).on('scroll', onWindowResize);
+                angular.element($window).on('resize', onWindowResize);
+                angular.element($window).on('scroll', onWindowResize);
                 element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
 
                 compilePopover(element);
@@ -237,13 +307,11 @@
                 if (lastOpenPopover == element) lastOpenPopover = null;
                 element.removeClass('has-popover');
                 element.children('.show-popover').remove();
-                jQuery($window).off('resize', onWindowResize);
+                angular.element($window).off('resize', onWindowResize);
             }
 
             function onWindowResize(){
-                if(element){
-                    element.popover('hide');
-                }
+                realClosePopover();
             }
         }
     }
