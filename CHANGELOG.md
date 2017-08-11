@@ -6,6 +6,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-1693:](https://openlmis.atlassian.net/browse/OLMIS-2704) Added openlmis-invalid and error message documentation.
 * [OLMIS-249:](https://openlmis.atlassian.net/browse/OLMIS-249) Datepicker element now allows translating day and month names.
 * [OLMIS-2817:](https://openlmis.atlassian.net/browse/OLMIS-2817) Added new file input directive.
+* [OLMIS-3001:](https://openlmis.atlassian.net/browse/OLMIS-3001) Added external url run block, that allows opening external urls.
 
 Bug fixes:
 * [OLMIS-2806:](https://openlmis.atlassian.net/browse/OLMIS-2806) Fixed stock adjustment reasons display order not being respected in the UI.
