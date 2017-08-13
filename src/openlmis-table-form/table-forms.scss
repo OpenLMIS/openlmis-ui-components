@@ -79,7 +79,7 @@ td.is-invalid {
 
 .popover .openlmis-invalid {
   > * {
-    @extend .input-error;
+    @extend .form-error;
   }
 }
 

@@ -33,6 +33,15 @@ Styleguide 1.5
 	right: 0px;
 }
 
+.popover {
+	> button.close {
+		display: none;
+	}
+	&:hover > button.close {
+		display: block;
+	}
+}
+
 .popover > h3 {
 	background-color: $background-color-alt;
 	font-size: 1em;
@@ -45,7 +54,6 @@ Styleguide 1.5
 .popover > .popover-content{
 	overflow: hidden;
 	padding: 0.5em;
-	padding-right: 2em;
 }
 
 .popover > h3 + .popover-content{
