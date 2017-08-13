@@ -14,7 +14,7 @@
  */
 
 
-ddescribe("PopoverDirective", function () {
+describe("PopoverDirective", function () {
     var scope, $httpBackend, element, popover, popoverCtrl, jQuery, $timeout;
 
     beforeEach(module('openlmis-popover'));

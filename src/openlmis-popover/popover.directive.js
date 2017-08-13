@@ -88,10 +88,10 @@
             // close the popover
             element.on('focus', openPopover);
             element.on('focusin', openPopover);
-            element.on('mouseenter', openPopover);
+            element.on('mouseover', openPopover);
 
             element.on('blur', closePopover);
-            element.on('mouseleave', closePopover);
+            element.on('mouseout', closePopover);
 
             element.on('$destroy', function() {
                 destroyPopover();
@@ -180,24 +180,33 @@
 
             function checkClose(event) {
                 var target = angular.element(event.target),
-                    containedByElement = false,
-                    inPopover = target.parents('.popover').length > 0 || target.hasClass('popover');
+                    isContainedByElement = containedByElement(event.target),
+                    inPopover = target.parents('.popover').length > 0 || target.hasClass('popover'),
+                    isFocused = element.hasClass('is-focused') || element.is(':focus') || element.find(':focus').length > 0 || element.find('.is-focused').length > 0;
 
-                if(target[0] === element[0]) {
-                    containedByElement = true;
-                } else {
-                    target.parents().each(function(index, targetParent){
-                        if(targetParent === element[0]){
-                            containedByElement = true;
-                        }
-                    });
-                }
-
-                if(!containedByElement && !inPopover) {
+                if(!isContainedByElement && !inPopover && !isFocused) {
                     closePopover();
                 } else {
                     cancelClose();
                 }
+            }
+
+            function containedByElement(target) {
+                var isContainedByElement = false;
+
+                target = angular.element(target[0]); // not sure why needed
+
+                if(target[0] === element[0]) {
+                    isContainedByElement = true;
+                } else {
+                    target.parents().each(function(index, targetParent){
+                        if(targetParent === element[0]){
+                            isContainedByElement = true;
+                        }
+                    });
+                }
+
+                return isContainedByElement;
             }
 
             /**
@@ -291,6 +300,8 @@
 
                 angular.element($window).on('resize', onWindowResize);
                 angular.element($window).on('scroll', onWindowResize);
+
+                // This should live somewhere else?
                 element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
 
                 compilePopover(element);
