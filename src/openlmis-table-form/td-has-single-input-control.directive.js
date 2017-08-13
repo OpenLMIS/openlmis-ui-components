@@ -43,9 +43,11 @@
         }, function(singleInputElements){
             if(singleInputElements.length === 1) {
                 element.addClass('has-single-input-control');
+                element.attr('tabindex', -1);
                 suppressInvalidErrorMessages(singleInputElements);
             } else {
                 element.removeClass('has-single-input-control');
+                element.attr('tabindex', 0);
                 unsuppressInvalidErrorMessages(singleInputElements);
             }
         });

@@ -74,24 +74,24 @@ ddescribe("PopoverDirective", function () {
             expect(popoverVisible).toBe(false);
         });
 
-        // it('opens when the element is moused over, and closes when the mouse moves else where', function(){
-        //     var popoverVisible;
-        //     element.on('show.bs.popover', function(){
-        //         popoverVisible = true;
-        //     });
-        //     element.on('hide.bs.popover', function(){
-        //         popoverVisible = false;
-        //     });
+        it('opens when the element is moused over, and closes when the mouse moves else where', function(){
+            var popoverVisible;
+            element.on('show.bs.popover', function(){
+                popoverVisible = true;
+            });
+            element.on('hide.bs.popover', function(){
+                popoverVisible = false;
+            });
 
-        //     expect(popoverVisible).toBe(undefined);
+            expect(popoverVisible).toBe(undefined);
 
-        //     element.mouseover();
-        //     expect(popoverVisible).toBe(true);
+            element.mouseover();
+            expect(popoverVisible).toBe(true);
 
-        //     element.mouseout();
-        //     $timeout.flush();
-        //     expect(popoverVisible).toBe(false);
-        // });
+            element.mouseout();
+            $timeout.flush();
+            expect(popoverVisible).toBe(false);
+        });
 
         it('gets popover content from PopoverController', function() {
             var elements = [angular.element('<p>Test</p>')];

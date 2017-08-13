@@ -88,10 +88,10 @@
             // close the popover
             element.on('focus', openPopover);
             element.on('focusin', openPopover);
-            // element.on('mouseenter', openPopover);
+            element.on('mouseenter', openPopover);
 
             element.on('blur', closePopover);
-            // element.on('mouseleave', closePopover);
+            element.on('mouseleave', closePopover);
 
             element.on('$destroy', function() {
                 destroyPopover();
@@ -174,6 +174,8 @@
 
             function watchToClosePopover() {
                 angular.element('body').on('focusin', checkClose);
+                angular.element('body').on('mouseover', checkClose);
+                angular.element('body').on('click', checkClose);
             }
 
             function checkClose(event) {
