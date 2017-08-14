@@ -89,9 +89,11 @@
             });
 
             scope.$watch('value', function() {
-                var dateString = $filter('openlmisDate')(scope.value);
-                if (dateString !== scope.dateString) {
-                    scope.dateString = dateString;
+                if (scope.value) {
+                    var dateString = $filter('openlmisDate')(scope.value);
+                    if (dateString !== scope.dateString) {
+                        scope.dateString = dateString;
+                    }
                 }
             });
         }
