@@ -94,6 +94,8 @@
                     if (dateString !== scope.dateString) {
                         scope.dateString = dateString;
                     }
+                } else {
+                    scope.dateString = undefined;
                 }
             });
         }
