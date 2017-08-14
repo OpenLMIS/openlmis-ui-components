@@ -92,7 +92,7 @@
                 // Necessary if scope.value changed, angular.copy will prevent from digest dateString
                 var dateString = $filter('openlmisDate')(scope.value);
                 if (dateString !== scope.dateString) {
-                    angular.copy(dateString, scope.dateString);
+                    scope.dateString = dateString;
                 }
             });
         }
