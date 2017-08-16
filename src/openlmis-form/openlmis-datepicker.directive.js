@@ -61,7 +61,8 @@
                 changeMethod: '=?',
                 dateFormat: '=?',
                 language: '=?',
-                required: '=?'
+                required: '=?',
+                invalidMessage: '=?'
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
             link: link
