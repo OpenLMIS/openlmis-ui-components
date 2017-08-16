@@ -27,37 +27,31 @@ markup:
 Styleguide 1.5
 */
 
-.popover > button.close {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-}
-
 .popover {
 	> button.close {
-		display: none;
+		position: absolute;
+		top: 0px;
+		right: 0px;
 	}
-	&:hover > button.close {
-		display: block;
+
+	> h3 {
+		background-color: $background-color-alt;
+		font-size: 1em;
+		line-height: 1em;
+		padding: 0.5em;
+		padding-right: 2em;
+		margin: 0em;
 	}
-}
 
-.popover > h3 {
-	background-color: $background-color-alt;
-	font-size: 1em;
-	line-height: 1em;
-	padding: 0.5em;
-	padding-right: 2em;
-	margin: 0em;
-}
+	> .popover-content{
+		overflow: hidden;
+		padding: 0.5em;
+		padding-right: 2em;
+	}
 
-.popover > .popover-content{
-	overflow: hidden;
-	padding: 0.5em;
-}
-
-.popover > h3 + .popover-content{
-	padding-right: 0.5em;
+	> h3 + > .popover-content{
+		padding-right: 0.5em;
+	}
 }
 
 .has-popover > .show-popover{

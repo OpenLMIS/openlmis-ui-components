@@ -81,7 +81,7 @@ form > .alert.is-error {
 .input-error {
 	@extend .alert.is-error;
 	&::before {
-		display: none;
+		content: "";
 	}
 	background: transparent;
 	position: relative;
@@ -89,6 +89,21 @@ form > .alert.is-error {
 	padding-left: 0.5em;
 	border-left: $brand-danger 0.25em solid;
 	border-radius: 0px;
+}
+
+.unstyled-error {
+	position: static;
+	background: transparent;
+	color: $text-color;
+	font-weight: normal;
+	padding: 0em;
+	padding-left: 0em;
+	border-left-width: 0px;
+	border-radius: 0px;
+
+	&::before {
+		content: "";
+	}
 }
 
 .openlmis-invalid {

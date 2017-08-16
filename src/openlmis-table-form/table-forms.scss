@@ -17,6 +17,7 @@ that is not nessicarry.
     <tr>
       <th>Skip</th>
       <th>Code</th>
+      <th>Empty Cell</th>
       <th>Name</th>
       <th>Strength</th>
       <th>Unit of measure</th>
@@ -34,6 +35,9 @@ that is not nessicarry.
       <td>
         <label for="inputCode">Item Code</label>
         <input id="inputCode" type="text" ng-model="i.code" required ng-disabled="i.skip" />
+      </td>
+      <td>
+        <p>Intentionally left blank</p>
       </td>
       <td>
         <label for="inputName">Item Name</label>
@@ -79,7 +83,7 @@ td.is-invalid {
 
 .popover .openlmis-invalid {
   > * {
-    @extend .form-error;
+    @extend .unstyled-error;
   }
 }
 

@@ -33,24 +33,34 @@
     function tdFormControl() {
         return {
             restrict: 'E',
-            link: link
+            link: link,
+            require: 'popover',
+            priority: 5
         };
     }
 
-    function link(scope, element, attrs) {
+    function link(scope, element, attrs, popoverCtrl) {
         scope.$watchCollection(function() {
             return element.find('[input-control]');
         }, function(singleInputElements){
             if(singleInputElements.length === 1) {
                 element.addClass('has-single-input-control');
-                element.attr('tabindex', -1);
                 suppressInvalidErrorMessages(singleInputElements);
             } else {
                 element.removeClass('has-single-input-control');
-                element.attr('tabindex', 0);
                 unsuppressInvalidErrorMessages(singleInputElements);
             }
         });
+
+        var orignalTabIndexFn = popoverCtrl.updateTabIndex;
+        popoverCtrl.updateTabIndex = newTabIndexFn;
+        function newTabIndexFn() {
+            if(popoverCtrl.getElements().length > 0 && element.hasClass('has-single-input-control')) {
+                element.attr('tabindex', -1);
+            } else {
+                orignalTabIndexFn.apply(arguments);
+            }
+        }
     }
 
     function suppressInvalidErrorMessages(elements) {

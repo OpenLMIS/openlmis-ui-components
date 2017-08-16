@@ -90,9 +90,6 @@
             element.on('focusin', openPopover);
             element.on('mouseover', openPopover);
 
-            element.on('blur', closePopover);
-            element.on('mouseout', closePopover);
-
             element.on('$destroy', function() {
                 destroyPopover();
                 popoverScope.$destroy();
@@ -136,19 +133,27 @@
 
 
             var popoverHasElements,
-                popoverCanOpen;
+                popoverIsOpen;
 
             scope.$watch(function(){
                 return popoverCtrl.getElements().length > 0;
             }, function(hasElements){
+                popoverCtrl.updateTabIndex();
                 if(hasElements) {
                     popoverHasElements = true;
-                    realOpenPopover();
                 } else {
                     popoverHasElements = false;
-                    realClosePopover();
+                    closePopover();
                 }
             });
+
+            popoverCtrl.updateTabIndex = function() {
+                if(popoverCtrl.getElements().length > 0) {
+                    element.attr('tabindex', 0);
+                } else {
+                    element.attr('tabindex', -1);
+                }
+            }
 
             /**
              * @ngdoc method
@@ -159,33 +164,19 @@
              * Opens the popover, if there are elements to show.
              */
             function openPopover() {
-                popoverCanOpen = true;
-                realOpenPopover();
-            }
-
-            var popoverIsOpen;
-            function realOpenPopover() {
-                if(popoverHasElements && popoverCanOpen && !popoverIsOpen) {
-                    popoverIsOpen = true;
+                if(popoverHasElements && !popoverIsOpen) {
                     element.popover('show');
-                    watchToClosePopover();
                 }
-            }
-
-            function watchToClosePopover() {
-                angular.element('body').on('focusin', checkClose);
-                angular.element('body').on('mouseover', checkClose);
-                angular.element('body').on('click', checkClose);
             }
 
             function checkClose(event) {
                 var target = angular.element(event.target),
-                    isContainedByElement = containedByElement(event.target),
+                    isContainedByElement = containedByElement(target),
                     inPopover = target.parents('.popover').length > 0 || target.hasClass('popover'),
                     isFocused = element.hasClass('is-focused') || element.is(':focus') || element.find(':focus').length > 0 || element.find('.is-focused').length > 0;
 
                 if(!isContainedByElement && !inPopover && !isFocused) {
-                    closePopover();
+                    debounceClosePopover();
                 } else {
                     cancelClose();
                 }
@@ -194,17 +185,11 @@
             function containedByElement(target) {
                 var isContainedByElement = false;
 
-                target = angular.element(target[0]); // not sure why needed
-
-                if(target[0] === element[0]) {
-                    isContainedByElement = true;
-                } else {
-                    target.parents().each(function(index, targetParent){
-                        if(targetParent === element[0]){
-                            isContainedByElement = true;
-                        }
-                    });
-                }
+                target.parents().each(function(index, targetParent){
+                    if(targetParent === element[0]){
+                        isContainedByElement = true;
+                    }
+                });
 
                 return isContainedByElement;
             }
@@ -225,14 +210,34 @@
                 }
             }
 
-            function closePopover() {
+            function debounceClosePopover() {
                 cancelClose();
-                closeTimeout = $timeout(realClosePopover, 250);
+                closeTimeout = $timeout(closePopover, 250);
             }
 
-            function realClosePopover() {
-                angular.element('body').off('focusin', checkClose);
+            function closePopover() {
                 element.popover('hide');
+            }
+
+            element.on('show.bs.popover', watchToClosePopover);
+            function watchToClosePopover() {
+                popoverIsOpen = true;
+
+                angular.element('body').on('focusin', checkClose);
+                angular.element('body').on('mouseout', checkClose);
+                angular.element('body').on('click', checkClose);
+
+                element.on('blur', checkClose);
+            }
+
+            element.on('hide.bs.popover', unregisterPopoverListeners);
+            function unregisterPopoverListeners() {
+                angular.element('body').off('focusin', checkClose);
+                angular.element('body').off('mouseover', checkClose);
+                angular.element('body').off('click', checkClose);
+
+                element.off('blur', checkClose);
+
                 popoverIsOpen = false;
             }
 
@@ -246,13 +251,13 @@
              * that are shown within the popover.
              */
             function compilePopover(){
-                // Popover requires this gets set...
+                // Popovers must have tabindex set so they can be focused
                 var tabIndex = element.attr('tabindex');
-                element.attr('tabindex', tabIndex || 0);
+                element.attr('tabindex', tabIndex || -1);
 
                 // Added to close button in popover template
                 popoverScope.closePopover = function(){
-                    realClosePopover();
+                    closePopover();
                 };
 
                 // Added to be able to open popover after closing it with close
@@ -324,7 +329,7 @@
             }
 
             function onWindowResize(){
-                realClosePopover();
+                closePopover();
             }
         }
     }
