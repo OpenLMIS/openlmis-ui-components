@@ -50,12 +50,6 @@
      * ```
      */
 
-    // Storing a reference to the last open popover. Is used to close the last
-    // open popover when a new one is open. After the previous popover is closed,
-    // the new one is registered as the new popover. See compilePopover function
-    // for details.
-    var lastOpenPopover;
-
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
 
@@ -70,10 +64,7 @@
         };
 
         function popoverLink(scope, element, attrs, popoverCtrl) {
-            // Scope used to render template frame
-            // set to persist and accept values from other items
-            var popoverScope = scope.$new(true);
-
+            
             var popoverConfig = {
                 container: 'body',
                 placement: 'auto top',
@@ -81,77 +72,79 @@
                 trigger: 'manual'
             };
 
+            /**
+             * @ngdoc property
+             * @methodOf openlmis-popover.directive:popover
+             * @name popoverScope
+             *
+             * @description
+             * popoverScope is the isolated scope that the popover is rendered
+             * in. This scope is exposed to other directives through popover
+             * controller.
+             */
+            var popoverScope = scope.$new(true);
+            popoverCtrl.popoverScope = popoverScope;
+            
             makePopover();
 
-            // NOTE:
-            // Anytime we open a popover, a process starts that will try to
-            // close the popover
-            element.on('focus', openPopover);
-            element.on('focusin', openPopover);
-            element.on('mouseover', openPopover);
+            // Added to be able to open popover after closing it with close
+            // button when trigger is set to 'click'
+            // After clicking close button there was need to click on
+            // targetElement two times to open popover again
+            element.on('hide.bs.popover', function(){
+                element.data("bs.popover").inState.click = false;
+            });
 
-            element.on('$destroy', function() {
-                destroyPopover();
-                popoverScope.$destroy();
+            scope.$on('$destroy', destroyPopover);
+
+            scope.$watchCollection(function(){
+                return popoverCtrl.getElements();
+            }, function() {
+                element.trigger('openlmisPopover.change');
             });
 
             /**
-             * @ngdoc property
-             * @propertyOf openlmis-popover.directive:popover
-             * @name popoverTitle
-             * @type {String}
+             * @ngdoc method
+             * @methodOf openlmis-popover.directive:popover
+             * @name addHasPopoverClass
              *
              * @description
-             * Displayed title for the popover. The title is removed if the
-             * string is empty.
+             * Adds the class 'hasPopover' to the element if there are any
+             * elements registered with the popover controller.
              */
-            scope.$watch(function(){
-                return attrs['popoverTitle'];
-            }, function(title){
-                if(title && title != ''){
-                    popoverScope.title = title;
+            element.on('openlmisPopover.change', addHasPopoverClass);
+            function addHasPopoverClass() {
+                if(popoverCtrl.getElements().length > 0) {
+                    element.addClass('has-popover');
                 } else {
-                    popoverScope.title = false;
+                    element.removeClass('has-popover');
                 }
-            });
+            }
+
 
             /**
-             * @ngdoc property
-             * @propertyOf openlmis-popover.directive:popover
-             * @name popoverClass
-             * @type {String}
+             * @ngdoc method
+             * @methodOf openlmis-popover.directive:popover
+             * @name updateTabIndex
              *
              * @description
-             * Additional classes that are applied to the popover. This must be
-             * a string, with different classes separated by a space.
+             * Changes the element's tab index to -1 if there are no popover
+             * elements registered with the popover controller. Otherwise the
+             * element's tab index is set to 0.
+             *
+             * This function is exposed to the popoverController.
              */
-            scope.$watch(function(){
-                return attrs['popoverClass'];
-            }, function(cssClass){
-                popoverScope.cssClass = cssClass;
-            });
-
-
-            var popoverHasElements,
-                popoverIsOpen;
-
-            scope.$watch(function(){
-                return popoverCtrl.getElements().length > 0;
-            }, function(hasElements){
+            popoverCtrl.updateTabIndex = updateTabIndex;
+            element.on('openlmisPopover.change', function() {
                 popoverCtrl.updateTabIndex();
-                if(hasElements) {
-                    popoverHasElements = true;
-                } else {
-                    popoverHasElements = false;
-                    closePopover();
-                }
             });
 
-            popoverCtrl.updateTabIndex = function() {
+            var originalTabIndex = element.attr('tabindex') || -1;
+            function updateTabIndex() {
                 if(popoverCtrl.getElements().length > 0) {
                     element.attr('tabindex', 0);
                 } else {
-                    element.attr('tabindex', -1);
+                    element.attr('tabindex', originalTabIndex);
                 }
             }
 
@@ -161,37 +154,14 @@
              * @name openPopover
              *
              * @description
-             * Opens the popover, if there are elements to show.
+             * Opens the popover and triggers openlmisPopover.open.
+             *
+             * This function is exposed through the popover controller.
              */
+            popoverCtrl.open = openPopover;
             function openPopover() {
-                if(popoverHasElements && !popoverIsOpen) {
-                    element.popover('show');
-                }
-            }
-
-            function checkClose(event) {
-                var target = angular.element(event.target),
-                    isContainedByElement = containedByElement(target),
-                    inPopover = target.parents('.popover').length > 0 || target.hasClass('popover'),
-                    isFocused = element.hasClass('is-focused') || element.is(':focus') || element.find(':focus').length > 0 || element.find('.is-focused').length > 0;
-
-                if(!isContainedByElement && !inPopover && !isFocused) {
-                    debounceClosePopover();
-                } else {
-                    cancelClose();
-                }
-            }
-
-            function containedByElement(target) {
-                var isContainedByElement = false;
-
-                target.parents().each(function(index, targetParent){
-                    if(targetParent === element[0]){
-                        isContainedByElement = true;
-                    }
-                });
-
-                return isContainedByElement;
+                element.popover('show');
+                element.trigger('openlmisPopover.open');
             }
 
             /**
@@ -200,80 +170,32 @@
              * @name closePopover
              *
              * @description
-             * Closes the popover.
+             * Closes the popover and triggers openlmisPopover.close.
+             *
+             * This function is exposed through the popover controller.
              */
-            var closeTimeout;
-            function cancelClose(){
-                if(closeTimeout) {
-                    $timeout.cancel(closeTimeout);
-                    closeTimeout = undefined;
-                }
-            }
-
-            function debounceClosePopover() {
-                cancelClose();
-                closeTimeout = $timeout(closePopover, 250);
-            }
-
+            popoverCtrl.close = closePopover;
+            popoverScope.closePopover = popoverCtrl.close;
             function closePopover() {
                 element.popover('hide');
-            }
-
-            element.on('show.bs.popover', watchToClosePopover);
-            function watchToClosePopover() {
-                popoverIsOpen = true;
-
-                angular.element('body').on('focusin', checkClose);
-                angular.element('body').on('mouseout', checkClose);
-                angular.element('body').on('click', checkClose);
-
-                element.on('blur', checkClose);
-            }
-
-            element.on('hide.bs.popover', unregisterPopoverListeners);
-            function unregisterPopoverListeners() {
-                angular.element('body').off('focusin', checkClose);
-                angular.element('body').off('mouseover', checkClose);
-                angular.element('body').off('click', checkClose);
-
-                element.off('blur', checkClose);
-
-                popoverIsOpen = false;
+                element.trigger('openlmisPopover.close');
             }
 
             /**
              * @ngdoc method
              * @methodOf openlmis-popover.directive:popover
-             * @name compilePopover
+             * @name makePopover
              *
              * @description
-             * Creates the popover and it responsible for compiling elements
-             * that are shown within the popover.
+             * Attaches event listeners and extra style to the element and
+             * popover.
              */
-            function compilePopover(){
-                // Popovers must have tabindex set so they can be focused
-                var tabIndex = element.attr('tabindex');
-                element.attr('tabindex', tabIndex || -1);
+            function makePopover() {
+                angular.element($window).on('resize', onWindowResize);
+                angular.element($window).on('scroll', onWindowResize);
 
-                // Added to close button in popover template
-                popoverScope.closePopover = function(){
-                    closePopover();
-                };
-
-                // Added to be able to open popover after closing it with close
-                // button when trigger is set to 'click'
-                // After clicking close button there was need to click on
-                // targetElement two times to open popover again
-                element.on('hide.bs.popover', function(){
-                    element.data("bs.popover").inState.click = false;
-                });
-
-                element.on('show.bs.popover', function(){
-                    if(lastOpenPopover && lastOpenPopover != element){
-                        lastOpenPopover.popover('hide');
-                    }
-                    lastOpenPopover = element;
-                });
+                // This should live somewhere else?
+                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
 
                 $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
                     var template = $compile(templateHtml)(popoverScope);
@@ -289,27 +211,7 @@
 
                     element.popover(popoverConfig);
                 });
-            }
 
-            /**
-             * @ngdoc method
-             * @methodOf openlmis-popover.directive:popover
-             * @name makePopover
-             *
-             * @description
-             * Attaches event listeners and extra style to the element and
-             * popover.
-             */
-            function makePopover(){
-                element.addClass('has-popover');
-
-                angular.element($window).on('resize', onWindowResize);
-                angular.element($window).on('scroll', onWindowResize);
-
-                // This should live somewhere else?
-                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
-
-                compilePopover(element);
             }
 
             /**
@@ -322,12 +224,23 @@
              * the original element.
              */
             function destroyPopover(){
-                if (lastOpenPopover == element) lastOpenPopover = null;
-                element.removeClass('has-popover');
-                element.children('.show-popover').remove();
+                element.popover('destroy');
+                popoverScope.$destroy();
+
                 angular.element($window).off('resize', onWindowResize);
+                angular.element($window).off('scroll', onWindowResize);
             }
 
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-popover.directive:popover
+             * @name onWindowResize
+             *
+             * @description
+             * Bootstrap's popover component doesn't do a good job at scrolling
+             * with elements on the screen, so we close the popover if there is
+             * ever any scrolling.
+             */
             function onWindowResize(){
                 closePopover();
             }
