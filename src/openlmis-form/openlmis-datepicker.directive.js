@@ -62,8 +62,7 @@
                 dateFormat: '=?',
                 language: '=?',
                 required: '=?',
-                invalidMessage: '=?',
-                change: '&?'
+                invalidMessage: '=?'
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
             link: link
@@ -91,6 +90,7 @@
             });
 
             scope.$watch('value', function() {
+                scope.invalidMessage = undefined;
                 if (scope.value) {
                     var dateString = $filter('openlmisDate')(scope.value);
                     if (dateString !== scope.dateString) {
