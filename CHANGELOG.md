@@ -3,7 +3,8 @@
 
 New functionality added in a backwards-compatible manner:
 
-* [OLMIS-1693:](https://openlmis.atlassian.net/browse/OLMIS-2704) Added openlmis-invalid and error message documentation.
+* [OLMIS-2573:](https://openlmis.atlassian.net/browse/OLMIS-2573) Re-worked table form error messages to not have multiple focusable elements.
+* [OLMIS-1693:](https://openlmis.atlassian.net/browse/OLMIS-1693) Added openlmis-invalid and error message documentation.
 * [OLMIS-249:](https://openlmis.atlassian.net/browse/OLMIS-249) Datepicker element now allows translating day and month names.
 * [OLMIS-2817:](https://openlmis.atlassian.net/browse/OLMIS-2817) Added new file input directive.
 * [OLMIS-3001:](https://openlmis.atlassian.net/browse/OLMIS-3001) Added external url run block, that allows opening external urls.
