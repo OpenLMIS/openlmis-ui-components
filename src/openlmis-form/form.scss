@@ -207,7 +207,6 @@ fieldset,
     @extend form;
 }
 
-input.number,
-input[type="number"] {
+input.number {
     text-align: right;
 }
