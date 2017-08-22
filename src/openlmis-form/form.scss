@@ -131,25 +131,6 @@ form {
         }
     }
 
-    > label.checkbox,
-    > label.radio {
-        display: flex;
-        align-items: baseline;
-        margin: 0.2em 0;
-
-        > * {
-            flex: 0 0 auto;
-        }
-
-        > input[type="radio"],
-        > input[type="checkbox"] {
-            order: -1;
-            position: relative;
-            margin-left: 0.5em;
-            margin-right: 0.5em;
-        }
-    }
-
 	div.checkbox > label {
         width: 100%
     }
@@ -172,11 +153,6 @@ form {
 form {
     > label {
         @extend .form-label;
-    }
-
-    > label.checkbox,
-    > label.radio {
-        font-weight: normal;
     }
 
     fieldset.form-control > legend,

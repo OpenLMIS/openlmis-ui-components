@@ -91,14 +91,9 @@
             if(element.parents('[input-control]:first').length == 0) {
                 switch(element.attr('type')){
                     case 'button':
-                    case 'submit':
-                        break;
+                    case 'submit':                        
                     case 'radio':
                     case 'checkbox':
-                        var fieldset = element.parents('fieldset:first');
-                        if(fieldset.length > 0 && isSingleTypeFieldset(fieldset)){
-                            setupFieldset(scope, fieldset);
-                        }
                         break;
                     default:
                         wrapElement(scope, element);
@@ -114,49 +109,20 @@
          * @description
          * The input-control-wrap.html is loaded, and then compiled separetly.
          *
-         * jQuery's element.wrap wan't used because it copies the HTML for the
+         * jQuery's element.wrap wasn't used because it copies the HTML for the
          * input-control wrapper — meaning the angular elements are not
          * activated.
          */
         function wrapElement(scope, element){
             var html = $templateCache.get('openlmis-form/input-control-wrap.html');
 
-            var inputWrap = angular.element(html).insertBefore(element);
+            var inputWrap = angular.element(html);
+
+            // Add wrapper before so containing elements registered correctly
+            inputWrap.insertBefore(element);
             $compile(inputWrap)(scope);
 
             inputWrap.append(element);
-        }
-
-        function isSingleTypeFieldset(fieldset) {
-            var type = false,
-                matches = true;
-
-            fieldset.find('[name],[ng-model]').each(function(index, element){
-                var elementType = element['name'];
-                if(element['ng-model']){
-                    elementType = element['ng-model'];
-                }
-
-                if(!elementType) {
-                    return;
-                }
-
-                if(!type) {
-                    type = elementType;
-                } else if(!matches || type != elementType) {
-                    matches = false;
-                }
-            });
-
-            return matches;
-        }
-
-        function setupFieldset(scope, fieldset) {
-            fieldset.attr('input-control', "");
-            fieldset.attr('openlmis-invalid', "");
-
-            var newFieldset = $compile(fieldset.clone())(scope);
-            fieldset.replaceWith(newFieldset);
         }
     }
 

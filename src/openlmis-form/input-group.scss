@@ -1,0 +1,81 @@
+/*
+Input Groups
+
+An input group is either a set of radio or checkbox inputs that together are a
+single input control element.
+
+Checkbox groups are used to allow a user to select multiple values. There is no
+specific guidance in how a checkbox group should be displayed, but a list of
+more than 10 checkbox elements should be considered long, compilcated, and in
+need of being redesigned.
+
+Radio button groups should be used when the user needs to pick an item from a
+short list of 3-5 options. If there are more options, a select element should
+be used. Radio button groups with two choices should be reformatted as a
+binary checkbox.
+
+**Radio Group Guidelines:**
+* always include a fieldset and legend around the list of options
+* if not required, *never pre-select an option*
+* when required, always pre-select an option
+* sort the options in alphabetical order (the label's alphabetical order), *unless there is a clear reason to use another order*  
+
+When making any type of input group, **always include a fieldset legend as the
+label for the list of options.
+
+markup:
+<form>
+	<fieldset>
+		<legend>Radio Group</legend>
+		<label ng-repeat="option in ['Apple', 'Bannana', 'Chocolate']">
+			<input type="radio" ng-model="example" name="example" ng-value="option" />
+			<span ng-bind="option"></span>
+		</label>
+	</fieldset>
+	<fieldset>
+		<legend>Required Example Group</legend>
+		<label ng-repeat="option in ['Dirt', 'Earth', 'Foil']">
+			<input type="radio" ng-model="requiredExample" name="requiredExample" ng-value="option" required />
+			<span ng-bind="option"></span>
+		</label>
+	</fieldset>
+	<fieldset>
+		<legend>Checkbox Group</legend>
+		<label ng-repeat="option in ['Example', 'Test', 'Zebra']">
+			<input type="checkbox" ng-model="checkboxExample" checkbox="checkboxExample" ng-value="option" required />
+			<span ng-bind="option"></span>
+		</label>
+	</fieldset>
+	<input type="submit" />
+</form>
+
+Styleguide 3.7
+*/
+
+.input-group-item {
+	display: flex;
+	align-items: baseline;
+	margin: 0.2em 0;
+
+	font-weight: normal;
+
+	> * {
+	    flex: 0 0 auto;
+	}
+
+	> input[type="radio"],
+	> input[type="checkbox"] {
+	    order: -1;
+	    position: relative;
+	    margin-left: 0.5em;
+	    margin-right: 0.5em;
+	}	
+}
+
+form {
+	> fieldset[input-control] > label,
+    > label.checkbox,
+    > label.radio {
+    	@extend .input-group-item
+    }
+}

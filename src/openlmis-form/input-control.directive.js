@@ -118,17 +118,31 @@
          * message element is added, it is moved to after the input-control.
          */
         function moveInvalidMessages() {
+
+
+            scope.$on('openlmisInvalid.show', showMessage);
+
+
             scope.$watchCollection(function(){
                 return element.children('.openlmis-invalid');
             }, function(invalidElements){
-                if(element.prop('tagName') === 'FIELDSET' && element.children('legend').length > 0) {
-                    element.children('legend').after(invalidElements);
-                } else if(element.parents('.form-inline').length > 0) {
-                    invalidElements.remove();
-                } else {
-                    element.after(invalidElements);
-                }
+
             });
+        }
+
+        function showMessage(event, targetElement, messageElement) {
+            if(targetElement !== element){
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            if(element.parents('.form-inline').length > 0) {
+                messageElement.remove();
+            } else {
+                element.after(messageElement);
+            }
         }
 
         /**
