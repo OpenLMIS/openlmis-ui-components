@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:input-control-fieldset
+     * @name openlmis-form.directive:input-group-fieldset-required
      *
      * @description
      * Fieldset specific behavior for an input-control.

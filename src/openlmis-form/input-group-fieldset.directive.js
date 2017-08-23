@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict E
-     * @name openlmis-form.directive:radio-group
+     * @name openlmis-form.directive:input-group
      *
      * @description
      * Checks if a fieldset contains elements of the same type, and if so turns
@@ -45,7 +45,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.directive:input-control-wrap
+         * @methodOf openlmis-form.directive:input-group
          * @name compile
          *
          * @param {Object} element Directive element
@@ -74,7 +74,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-form.directive:input-control-wrap
+         * @methodOf openlmis-form.directive:input-group
          * @name isSingleTypeFieldset
          *
          * @param {Object} fieldset The fieldset element to analyze.
