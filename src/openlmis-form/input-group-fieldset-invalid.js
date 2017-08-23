@@ -80,13 +80,9 @@
     		return;
     	}
 
-        scope.$on('openlmisInvalid.show', showMessage);
+        element.on('openlmisInvalid.show', showMessage);
 
-        function showMessage(event, targetElement, messageElement) {
-            if(targetElement !== element){
-                return;
-            }
-
+        function showMessage(event, messageElement) {
             event.preventDefault();
             event.stopPropagation();
 

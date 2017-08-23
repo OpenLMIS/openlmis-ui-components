@@ -52,9 +52,6 @@
                 return openlmisInvalidCtrl.getMessages();
             }, updateErrors);
             scope.$watchCollection(canShowErrors, updateErrors);
-            scope.$on('openlmisInvalid.update', updateErrors);
-
-            scope.$on('openlmisInvalid.show', placeErrorMessage);
 
             /**
              * @ngdoc method
@@ -106,12 +103,13 @@
              * @name clearErrors
              * 
              * @description
-             * Removes and destroys the error message span, if it exists.
+             * Removes and destroys the error message span, if it exists. This
+             * method triggers the event openlmisInvalid.hide
              */
             function clearErrors() {
                 element.removeClass('is-invalid');
 
-                scope.$emit('openlmisInvalid.hide', element, messageElement);
+                element.trigger('openlmisInvalid.hide', [messageElement]);
 
                 if(messageElement){
                     messageElement.remove();
@@ -126,6 +124,7 @@
              *
              * @description
              * Renders an invalid message element with the set of messages.
+             * This method triggers the event openlmisInvalid.show
              *
              * @param  {Array} messages List of messages to show
              */
@@ -141,12 +140,22 @@
                     var html = $templateCache.get('openlmis-invalid/openlmis-invalid.html');
                     messageElement = $compile(html)(messageScope);
 
-                    scope.$emit('openlmisInvalid.show', element, messageElement);
+                    element.trigger('openlmisInvalid.show', [messageElement]);
                 }
             }
 
-            function placeErrorMessage(event, targetElement, messageElement) {
-                if(!event.defaultPrevented && targetElement === element) {
+            /**
+             * @ngdoc event
+             * @name openlmisInvalid.show
+             * @eventOf openlmis-invalid.directive:openlmis-invalid
+             *
+             * @description
+             * Event is triggered when an openlmisInvalid element is able to
+             * place an error message on the screen.
+             */
+            element.on('openlmisInvalid.show', placeErrorMessage);
+            function placeErrorMessage(event, messageElement) {
+                if(!event.isDefaultPrevented()) {
                     element.prepend(messageElement);
                 }
             }

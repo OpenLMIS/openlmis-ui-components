@@ -99,7 +99,7 @@ describe('openlmis-invalid directive', function(){
         expect(element.children().length).toBe(0);
     });
 
-    it('emits openlmisInvalid.show and openlmisInvalid.hide with the messageElement', inject(function($rootScope, $compile) {
+    it('triggers openlmisInvalid.show and openlmisInvalid.hide with the messageElement', inject(function($rootScope, $compile) {
         var hideEvent = false,
             showEvent = false,
             messageElement = false;
@@ -109,12 +109,12 @@ describe('openlmis-invalid directive', function(){
         scope.message = 'Example';
         element = $compile('<p openlmis-invalid="{{message}}">Stuff</p>')(scope);
 
-        scope.$on('openlmisInvalid.show', function(event, el){
+        element.on('openlmisInvalid.show', function(event, el){
             showEvent = true;
             messageElement = el;
         });
 
-        scope.$on('openlmisInvalid.hide', function(event){
+        element.on('openlmisInvalid.hide', function(event){
             hideEvent = true;
         });
 
@@ -134,13 +134,15 @@ describe('openlmis-invalid directive', function(){
     it('will not place message element if openlmisInvalid.show is canceled', inject(function($rootScope, $compile) {
         scope = $rootScope.$new();
 
+        element = angular.element('<p openlmis-invalid="Example">Stuff</p>')
+
         // To stop applying an invalid element, you must place a listener on
         // the scope BEFORE openlmis-invalid directive is run.
-        scope.$on('openlmisInvalid.show', function(event, el){
+        element.on('openlmisInvalid.show', function(event, el) {
             event.preventDefault();
         });
 
-        element = $compile('<p openlmis-invalid="Example">Stuff</p>')(scope);
+        $compile(element)(scope);
         scope.$apply();
 
         expect(element.text().indexOf('Example')).toBe(-1);

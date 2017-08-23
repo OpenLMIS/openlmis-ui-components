@@ -23,7 +23,7 @@
      * @name openlmis-table-form.directive:tdOpenlmisInvalidMessage
      *
      * @description
-     * Displays the openlmis-invalid message
+     * Displays the openlmis-invalid message in a popover.
      */
     
     angular
@@ -43,25 +43,17 @@
         var openlmisInvalidCtrl = ctrls[0],
             openlmisPopoverCtrl = ctrls[1];
 
-        scope.$on('openlmisInvalid.show', showMessage);
-        scope.$on('openlmisInvalid.hide', hideMessage);
+        element.on('openlmisInvalid.show', showMessage);
+        element.on('openlmisInvalid.hide', hideMessage);
 
-        function showMessage(event, targetElement, messageElement) {
-            if(targetElement !== element){
-                return;
-            }
-
+        function showMessage(event, messageElement) {
             event.preventDefault();
 
             // default placement is 10, this is higher than most elements
             openlmisPopoverCtrl.addElement(messageElement, 5);
         }
 
-        function hideMessage(event, targetElement, messageElement) {
-            if(targetElement !== element){
-                return;
-            }
-            
+        function hideMessage(event, messageElement) {
             openlmisPopoverCtrl.removeElement(messageElement);
         }
     }

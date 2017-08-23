@@ -118,14 +118,10 @@
          * message element is added, it is moved to after the input-control.
          */
         function moveInvalidMessages() {
-            scope.$on('openlmisInvalid.show', showMessage);
+            element.on('openlmisInvalid.show', showMessage);
         }
 
-        function showMessage(event, targetElement, messageElement) {
-            if(targetElement !== element){
-                return;
-            }
-
+        function showMessage(event, messageElement) {
             event.preventDefault();
             event.stopPropagation();
 
