@@ -23,7 +23,37 @@
      * @name openlmis-form.directive:input-group-fieldset-invalid
      *
      * @description
-     * Fieldset specific behavior for an input-control.
+     * Changes the location of any openlmis-invalid registered error messages,
+     * so they are displayed either at the top of the fieldset or immedately
+     * below the fieldset's legend.
+     *
+     * @example
+     * If a radio input group is written in the following way, an
+     * openlmis-invalid messages section will be added to the fieldset.
+     * 
+     * ```html
+     * <fieldset>
+     *   <legend>Example</legend>
+     *   <label>
+     *     <input type="radio" ng-model="example" value="true" required />
+     *     Example radio button group
+     *   </label>
+     * </fieldset>
+     * ```
+     *
+     * Will become
+     * ```html
+     * <fieldset input-control openlmis-invalid class="is-invalid">
+     *   <legend class="is-required">Example</legend>
+     *   <ul class="openlmis-invalid">
+     *     <li>This field is required</li>
+     *   </ul>
+     *   <label>
+     *     <input type="radio" ng-model="example" value="true" required />
+     *     Example radio button group
+     *   </label>
+     * </fieldset>
+     * ```
      */
     
     angular

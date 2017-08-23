@@ -19,11 +19,12 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
+     * @restrict A
      * @name openlmis-form.directive:input-group-fieldset-required
      *
      * @description
-     * Fieldset specific behavior for an input-control.
+     * Adds the 'is-required' class to a fieldset's legend if any element has
+     * or is changed to have the required attribute.
      */
     
     angular

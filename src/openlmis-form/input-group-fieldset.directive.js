@@ -84,6 +84,9 @@
          * @description
          * Checks the inputs in a fieldset to make sure that the vaule set in
          * the ng-model or name attributes are the same.
+         *
+         * This method also returns false if there is any input type that is
+         * not a radio button or checkbox.
          */
         function isSingleTypeFieldset(fieldset) {
             var type = false,
@@ -92,7 +95,12 @@
 
             fieldset.find('[name],[ng-model]').each(function(index, element){
                 var elementName = element['name'],
-                    elementType = element['type'];
+                    elementType = element['type'],
+                    
+                    supportedTypes = ['radio', 'checkbox'],
+                    isSupportedType = supportedTypes.indexOf(elementType.toLowerCase()) > -1;
+                
+
                 if(element['ng-model']){
                     elementName = element['ng-model'];
                 }
@@ -109,11 +117,7 @@
                     name = elementName;
                 }
 
-                if(elementType !== 'radio' && elementType !== 'checkbox') {
-                    matches = false;
-                }
-
-                if(!matches || type != elementType || name != elementName) {
+                if(!matches || type != elementType || name != elementName || !isSupportedType) {
                     matches = false;
                 }
             });
