@@ -183,6 +183,11 @@ fieldset,
     @extend form;
 }
 
-input.number {
+input.number,
+input[type="number"] {
     text-align: right;
+}
+
+input.date {
+    text-align: left;
 }
