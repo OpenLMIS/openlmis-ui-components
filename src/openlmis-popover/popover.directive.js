@@ -53,9 +53,9 @@
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
 
-    popoverDirective.$inject = ['$compile', '$timeout', '$templateRequest','$rootScope', '$window'];
+    popoverDirective.$inject = ['$compile', '$templateRequest', '$window'];
 
-    function popoverDirective($compile, $timeout, $templateRequest, $rootScope, $window){
+    function popoverDirective($compile, $templateRequest, $window){
         return {
             restrict: 'A',
             controller: 'PopoverController',
@@ -191,12 +191,6 @@
              * popover.
              */
             function makePopover() {
-                angular.element($window).on('resize', onWindowResize);
-                angular.element($window).on('scroll', onWindowResize);
-
-                // This should live somewhere else?
-                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
-
                 $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
                     var template = $compile(templateHtml)(popoverScope);
                     popoverConfig.template = template;
@@ -211,7 +205,6 @@
 
                     element.popover(popoverConfig);
                 });
-
             }
 
             /**
@@ -241,8 +234,26 @@
              * with elements on the screen, so we close the popover if there is
              * ever any scrolling.
              */
+            element.on('show.bs.popover', function(){
+                angular.element($window).on('resize', onWindowResize);
+                angular.element($window).on('scroll', onWindowResize);
+                // This should live somewhere else?
+                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
+            });
+            element.on('hide.bs.popover', function(){
+                angular.element($window).off('resize', onWindowResize);
+                angular.element($window).off('scroll', onWindowResize);
+                // This should live somewhere else?
+                element.parents('.openlmis-flex-table').off('scroll', onWindowResize);
+            });
+
+            var resizeFrameId;
             function onWindowResize(){
-                closePopover();
+                if(resizeFrameId) {
+                    $window.cancelAnimationFrame(resizeFrameId);
+                }
+
+                resizeFrameId = $window.requestAnimationFrame(closePopover);
             }
         }
     }
