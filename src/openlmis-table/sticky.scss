@@ -3,19 +3,17 @@ Sticky Columns
 
 Tables can have sticky columns to keep important elements within view.
 
-  <div class="openlmis-table-container" ng-init="rows=[1,2,3,4,5,6];groups=[1,2]">
+  <div class="openlmis-table-container" ng-init="rows=[1,2,3,4,5,6,7,8,9,10];groups=[1,2];columns=[1,2,3];">
     <div class="button-group primary">
-      <button ng-show="groups.length == 2" ng-click="groups=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];">Make Table Longer</button>
-      <button ng-show="groups.length != 2" ng-click="groups=[1,2]">Make Table Shorter</button>
+      <button ng-show="groups.length == 2" ng-click="columns=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];groups=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];">Make Table Huge</button>
+      <button ng-show="groups.length != 2" ng-click="columns=[1,2,3];groups=[1,2]">Make Table Shorter</button>
     </div>
     <table>
       <thead>
         <tr>
           <th class="col-sticky">Checkbox</th>
           <th class="col-sticky">Code</th>
-          <th>Name</th>
-          <th>Date range</th>
-          <th>Duration</th>
+          <th ng-repeat="column in columns">Column {{column}}</th>
           <th class="col-sticky sticky-right">Actions</th>
         </tr>
       </thead>
@@ -23,9 +21,7 @@ Tables can have sticky columns to keep important elements within view.
         <tr ng-repeat="row in rows">
           <td ><input type="checkbox" /></td>
           <td>1f3c89b213e44a729ef2228302cc5a25</td>
-          <td >Name</td>
-          <td>1f3c89b213e44a729ef2228302cc5a25</td>
-          <td>1f3c89b213e44a729ef2228302cc5a25</td>
+          <td ng-repeat="column in columns">{{column}}-abcdefghijklmnopqrstuvwxyz</td>
           <td ><button>Action</button>
         </tr>
       </tbody>

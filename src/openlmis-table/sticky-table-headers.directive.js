@@ -73,17 +73,12 @@
             // Updates blit array...
             updateStickyElements();
 
-            // If there are new items added to the grid, redraw
-            scope.$watch(function() {
-                return element[0].querySelectorAll('.sticky:not(.sticky-added)').length;
-            }, updateStickyElements);
-
             // If the window changes sizes, update the view
-            window.bind('resize', blit);
+            window.bind('resize', animate);
 
             element.on('$destroy', function() {
-                window.unbind('resize', blit);
-                window.unbind('scroll', blit);
+                window.unbind('resize', animate);
+                window.unbind('scroll', animate);
                 parent = undefined;
             });
 
@@ -99,22 +94,28 @@
 
                 blits = [];
 
-                window.unbind('scroll', blit);
+                window.unbind('scroll', animate);
 
                 parent = element.parent(); // reset in case it changed...
-                window.bind('scroll', blit);
+                window.bind('scroll', animate);
 
                 jQuery('th.sticky-added', element)
-                    .removeClass('.sticky-added')
                     .css('top', '0px');
 
                 jQuery('th', element).each(function(index, cell) {
                     cell = angular.element(cell);
-                    cell.addClass('sticky-added');
                     setUpBlits(cell);
                 });
 
-                blit();
+                animate();
+            }
+
+            var animationFrameId;
+            function animate() {
+                if(animationFrameId) {
+                    $window.cancelAnimationFrame(animationFrameId);
+                }
+                animationFrameId = $window.requestAnimationFrame(animate);
             }
 
             /**
@@ -150,8 +151,7 @@
             function setUpBlits(cell) {
 
                 blits.push(function() {
-                    cell.addClass('stuck');
-                    cell.addClass('stuck-top');
+                    cell.addClass('stuck stuck-top');
                     cell.css('top', -1 * containerOffset + 'px');
                 });
             }

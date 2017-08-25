@@ -50,9 +50,8 @@
         .module('openlmis-table')
         .directive('tbody', tbodyTitle);
 
-    tbodyTitle.$inject = ['$compile', '$window', 'jQuery'];
-    function tbodyTitle($compile, $window, jQuery) {
-        var template = '<tr class="title"><td colspan="{{colspan}}"><div>{{title}}</div></td></tr>';
+    tbodyTitle.$inject = ['$compile', '$window', 'jQuery', '$templateCache'];
+    function tbodyTitle($compile, $window, jQuery, $templateCache) {
 
         return {
             restrict: 'E',
@@ -72,7 +71,9 @@
                     titleScope.colspan = num;
                 });
 
-                var titleElement = $compile(template)(titleScope);
+                var html = $templateCache.get('openlmis-table/tbody-title.html'),
+                    titleElement = $compile(html)(titleScope);
+                
                 element.prepend(titleElement);
 
                 if(element.parents('.openlmis-table-container').length > 0) {
@@ -84,40 +85,64 @@
                     scope.$watch(function() {
                         return table.parent()[0];
                     }, function(newParent) {
-                        parent.off('scroll', blit);
+                        parent.off('scroll', animate);
                         parent = table.parent();
-                        parent.on('scroll', blit);
+                        parent.on('scroll', animate);
                     });
 
-                    angular.element($window).bind('resize', blit);
+                    angular.element($window).bind('resize', animate);
 
                     element.on('$destroy', function() {
-                        parent.off('scroll', blit);
-                        angular.element($window).unbind('resize', blit);
+                        parent.off('scroll', animate);
+                        angular.element($window).unbind('resize', animate);
                     });
 
                     scope.$watch(function() {
                         return jQuery('td, th', table).length;
-                    }, blit);
+                    }, animate);
 
-                    angular.element($window).bind('resize', blit);
+                    angular.element($window).bind('resize', animate);
                 }
+            }
+
+            var animationFrameId;
+            function animate() {
+                if(animationFrameId) {
+                    $window.cancelAnimationFrame(animationFrameId);
+                }
+                animationFrameId = $window.requestAnimationFrame(blit);
             }
 
             function blit() {
-                var expandableElement = jQuery('td',titleElement).children();
+                var expandableElement = titleElement.find('div'),
+                    cssUpdate = {};
+                
 
-                expandableElement.css('width', getWidthString(expandableElement));
-
-                var offset = table.position().left * -1;
-                if(offset + expandableElement.outerWidth() <= table.width() + 1) {
-                    expandableElement.css('left', offset + 'px');
+                var width = getWidthString(expandableElement);
+                if(width) {
+                    cssUpdate.width = width;
                 }
+                    
+                var offset = table.position().left * -1;
+                if(offset + expandableElement.outerWidth() > table.width() + 1) {
+                    offset = 0;
+                }
+                cssUpdate.transform = 'translate3d('+offset+'px, 0px, 0px)';
+
+                expandableElement.css(cssUpdate);
             }
 
+            var lastParentWidth;
             function getWidthString(expandableElement) {
+                var parentWidth = parent.outerWidth();
+
+                if(parentWidth === lastParentWidth) {
+                    return;
+                }
+                lastParentWidth = parentWidth;
+
                 var colSpan = expandableElement.parent(),
-                    widthString = 'calc(' + parent.outerWidth() + 'px';
+                    widthString = 'calc(' + parentWidth + 'px';
 
                 angular.forEach([
                     'border-left-width',
@@ -138,6 +163,7 @@
                         widthString += ' - ' + colSpan.css(attr);
                     }
                 });
+
 
                 return widthString + ')';
             }
