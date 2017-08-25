@@ -41,6 +41,7 @@
 
         > .select2-selection__rendered {
             overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .select2-selection__clear {
