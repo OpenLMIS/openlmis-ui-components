@@ -93,20 +93,28 @@
                 name = false,
                 matches = true;
 
-            fieldset.find('[name],[ng-model]').each(function(index, element){
+            if(fieldset.find('fieldset').length > 0) {
+                return false;
+            }
+
+            if(fieldset.find('input[type="checkbox"], input[type="radio"]').length < 1) {
+                return false;
+            }
+
+            fieldset.find('input,[name],[ng-model]').each(function(index, element){
                 var elementName = element['name'],
                     elementType = element['type'],
                     
                     supportedTypes = ['radio', 'checkbox'],
                     isSupportedType = supportedTypes.indexOf(elementType.toLowerCase()) > -1;
                 
+                if(element.tagName.toLowerCase() !== 'input') {
+                    matches = false;
+                    return;
+                }                
 
                 if(element['ng-model']){
                     elementName = element['ng-model'];
-                }
-
-                if(!elementType || !elementName) {
-                    return;
                 }
 
                 if(!type) {

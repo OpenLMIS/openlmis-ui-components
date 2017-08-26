@@ -39,6 +39,10 @@ describe('Input Group', function() {
 		expect(fieldset.attr('openlmis-invalid')).toBeUndefined();
 	});
 
+	it('will not mark a fieldset as an input-control if there is a child fieldset', function(){
+
+	});
+
 	it('only adds input-control directive if input type is radio OR checkbox', function() {
 		var markup = '<fieldset><input type="radio" name="example" /></fieldset>',
 			fieldset = $compile(markup)(scope);
@@ -52,7 +56,7 @@ describe('Input Group', function() {
 		expect(fieldset.attr('input-control')).toBe('');
 		expect(fieldset.attr('openlmis-invalid')).toBe('');
 
-		markup = '<fieldset><input type="text" name="example" /></fieldset>';
+		markup = '<fieldset><input type="text" /></fieldset>';
 		fieldset = $compile(markup)(scope);
 
 		expect(fieldset.attr('input-control')).toBeUndefined();
