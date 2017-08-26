@@ -155,7 +155,7 @@
 
                 createStickColumns();
                 updateScrollPosition();
-                animate();
+                animate(); // Remove
             }
 
             function createStickColumns() {
