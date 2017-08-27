@@ -121,7 +121,7 @@
 
             scope.$on('$destroy', function(){
                 if(animationLoopId) {
-                    window.cancelAnimationFrame(animationLoop);
+                    window.cancelAnimationFrame(animationLoopId);
                 }
             });
 
