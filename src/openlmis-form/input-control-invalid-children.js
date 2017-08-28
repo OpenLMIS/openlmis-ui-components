@@ -20,33 +20,32 @@
     /**
      * @ngdoc directive
      * @restrict A
-     * @name openlmis-invalid.directive:openlmis-invalid-child
+     * @name openlmis-form.directive:openlmis-invalid-input-control-child
      *
      * @description
      * When an openlmis-invalid instance is created, it checks to see if there
-     * is a partent element that it can register its self to.
+     * is a parent input-control element it can register to.
      */
     
     angular
-        .module('openlmis-invalid')
+        .module('openlmis-form')
         .directive('openlmisInvalid', directive);
 
     function directive() {
         return {
             link: link,
             restrict: 'A',
-            require: ['openlmisInvalid', '?^^openlmisInvalid']
+            require: 'openlmisInvalid'
         };
 
-        function link(scope, element, attrs, ctrls) {
-            var openlmisInvalidCtrl = ctrls[0],
-                parentInvalidCtrl = ctrls[1]
-
-            if(!parentInvalidCtrl) {
-                return;
-            }
-            
-            parentInvalidCtrl.registerController(openlmisInvalidCtrl);
+        function link(scope, element, attrs, openlmisInvalidCtrl) {
+            element.parents('[input-control]:first').each(function(index, parentElement) {
+                var parentInvalidCtrl = angular.element(parentElement).controller('openlmisInvalid');
+                if(parentInvalidCtrl) {
+                    parentInvalidCtrl.registerController(openlmisInvalidCtrl);
+                    openlmisInvalidCtrl.suppress();
+                }
+            });
         }
     }
 

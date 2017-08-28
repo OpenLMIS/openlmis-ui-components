@@ -36,6 +36,7 @@
     function directive() {
         return {
             link: link,
+            priority: 5,
             restrict: 'EA',
             controller: 'InputControlController',
             require: [
@@ -51,7 +52,6 @@
 
 
         watchErrors();
-        surpressInputErrors();
         moveInvalidMessages();
         catchFocus();
         watchDisabled();
@@ -91,25 +91,6 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-form.directive:inputControl
-         * @name surpressInputErrors
-         *
-         * @description
-         * Any inputs with a name attribute (which should be all of them), then
-         * openlmis-invalid-hidden is set on each element.
-         */
-        function surpressInputErrors(){
-            scope.$watchCollection(function(){
-                return element.find('[name]');
-            }, function(inputs){
-                if(openlmisInvalidCtrl){
-                    inputs.attr('openlmis-invalid-hidden', true);
-                }
-            });
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-form.directive:inputControl
          * @name moveInvalidMessages
          *
          * @description
@@ -122,13 +103,14 @@
         }
 
         function showMessage(event, messageElement) {
-            event.preventDefault();
-            event.stopPropagation();
+            if(!event.isDefaultPrevented()) {
+                event.preventDefault();
 
-            if(element.parents('.form-inline').length > 0) {
-                messageElement.remove();
-            } else {
-                element.after(messageElement);
+                if(element.parents('.form-inline').length > 0) {
+                    messageElement.remove();
+                } else {
+                    element.after(messageElement);
+                }
             }
         }
 

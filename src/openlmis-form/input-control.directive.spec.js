@@ -46,12 +46,6 @@ describe('Input Control directive', function(){
 		expect(element.hasClass('is-invalid')).toBe(false);
 	});
 
-	it('supresses openlmis-invalid errors for child inputs', function(){
-		var input = element.find('input:first');
-
-		expect(input.attr('openlmis-invalid-hidden')).toBe("true");
-	});
-
 	it('adds is-focused class when child inputs get focus', function(){
 		var input = element.find('input:first');
 

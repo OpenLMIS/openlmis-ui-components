@@ -13,20 +13,22 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('OpenlmisInvalid Child Directive', function(){
+describe('Input-Control invalid compile directive', function(){
     var parent, parentController, child, childController, scope;
 
-    beforeEach(module('openlmis-invalid'));
+    
+    beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function($compile, $rootScope) {
         scope = $rootScope.$new();
 
-        parent = $compile('<div openlmis-invalid></div>')(scope);
+        parent = $compile('<div input-control></div>')(scope);
         parentController = parent.controller('openlmisInvalid');
         spyOn(parentController, 'registerController').andCallThrough();
 
         child = angular.element('<button openlmis-invalid />').appendTo(parent);
         $compile(child)(scope);
+
         childController = child.controller('openlmisInvalid');
         spyOn(childController, 'show').andCallThrough();
         spyOn(childController, 'hide').andCallThrough();
@@ -34,20 +36,14 @@ describe('OpenlmisInvalid Child Directive', function(){
         scope.$apply();
     }));
 
-    it('registers the child to the parentController', function() {
-        expect(parentController.registerController).toHaveBeenCalled();
-        expect(parentController.getChildren().length).toBe(1);
-    });
+    it('adds openlmis-invalid directive to input-control', inject(function($rootScope, $compile) {
+        var scope = $rootScope.$new(),
+            html = '<div input-control></div>',
+            element = $compile(html)(scope);
 
-    it('changing parent state will change child state', function(){
-        var showCalls = childController.show.calls.length,
-            hideCalls = childController.hide.calls.length;
+        expect(element.attr('openlmis-invalid')).not.toBeUndefined();
+        expect(element.controller('openlmisInvalid')).not.toBeUndefined();
+    }));
 
-        parentController.show();
-        expect(childController.show.calls.length).toBe(showCalls + 1);
-
-        parentController.hide();
-        expect(childController.hide.calls.length).toBe(hideCalls + 1);
-    });
 
 });
