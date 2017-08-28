@@ -45,10 +45,8 @@
         }, function(singleInputElements){
             if(singleInputElements.length === 1) {
                 element.addClass('has-single-input-control');
-                suppressInvalidErrorMessages(singleInputElements);
             } else {
                 element.removeClass('has-single-input-control');
-                unsuppressInvalidErrorMessages(singleInputElements);
             }
         });
 
@@ -61,22 +59,6 @@
                 orignalTabIndexFn.apply(arguments);
             }
         }
-    }
-
-    function suppressInvalidErrorMessages(elements) {
-        var invalidController = angular.element(elements[0]).controller('openlmisInvalid');
-        if(invalidController) {
-            invalidController.suppress();
-        }
-    }
-
-    function unsuppressInvalidErrorMessages(elements) {
-        elements.each(function(index, element){
-            var invalidController = angular.element(element).controller('openlmisInvalid');
-            if(invalidController) {
-                invalidController.unsuppress();
-            }
-        });
     }
 
 })();

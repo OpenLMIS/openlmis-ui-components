@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('TD has single input control', function() {
+describe('TD input-control popover compile directive', function() {
 	var $compile, scope;
 
 	beforeEach(module('openlmis-table-form'));
@@ -23,30 +23,12 @@ describe('TD has single input control', function() {
 		scope = $rootScope.$new();		
 	}));
 
-	it('adds has-single-input-control class to table cell elements with a single input', function(){
-		var markup = '<table><tr><td><input /></td></tr></table>',
-			element = $compile(markup)(scope);
-		scope.$apply();
+	it('Adds openlmis-popover to input-control directives in a TD', function(){
+		var html = '<td><div input-control></div></td>',
+			element = $compile(html)(scope),
+			input = element.find('[input-control]:first');
 
-		var tableCell = element.find('td');
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
-	});
-
-	it('removes has-single-input-control, if there is more than one input-control', function(){
-		var markup = '<table><tr><td><input /></td></tr></table>',
-			element = $compile(markup)(scope);
-		scope.$apply();
-
-		var tableCell = element.find('td');
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);	
-
-		var newInput = angular.element('<input />');
-		tableCell.append(newInput);
-
-		$compile(newInput)(scope);
-		scope.$apply();
-
-		expect(tableCell.hasClass('has-single-input-control')).toBe(false);
+		expect(input.controller('popover')).not.toBeUndefined();
 	});
 
 });
