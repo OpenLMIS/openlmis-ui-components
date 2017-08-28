@@ -70,8 +70,12 @@
                 containerOffset,
                 blits = []; // functions that update cell position
 
-            // Updates blit array...
-            updateStickyElements();
+            // // Updates blit array...
+            // updateStickyElements();
+
+            scope.$watchCollection(function() {
+                return element.find('thead th');
+            }, updateStickyElements);
 
             // If the window changes sizes, update the view
             window.bind('resize', animate);
@@ -91,20 +95,17 @@
              * Updates the functions that animate each sticky header.
              */
             function updateStickyElements() {
-
-                blits = [];
-
                 window.unbind('scroll', animate);
 
                 parent = element.parent(); // reset in case it changed...
                 window.bind('scroll', animate);
 
-                jQuery('th.sticky-added', element)
-                    .css('top', '0px');
+                // Make sure offsets are correct
+                element.find('thead th').css('top', '0px');
 
-                jQuery('th', element).each(function(index, cell) {
-                    cell = angular.element(cell);
-                    setUpBlits(cell);
+                blits = [];
+                element.find('thead th').each(function(index, cell) {
+                    setUpBlits(angular.element(cell));
                 });
 
                 animate();
@@ -115,7 +116,7 @@
                 if(animationFrameId) {
                     $window.cancelAnimationFrame(animationFrameId);
                 }
-                animationFrameId = $window.requestAnimationFrame(animate);
+                animationFrameId = $window.requestAnimationFrame(blit);
             }
 
             /**
