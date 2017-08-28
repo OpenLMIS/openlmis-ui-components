@@ -36,7 +36,9 @@
     angular.module('openlmis-popover')
     .directive('popover', popoverDirective);
 
-    function popoverDirective(){
+    popoverDirective.$inject = ['jQuery'];
+
+    function popoverDirective(jQuery){
         return {
             restrict: 'A',
             link: link
@@ -45,7 +47,7 @@
         function link(scope, element, attrs) {
 
             element.on('show.bs.popover', function(){
-                if(lastOpenPopover && lastOpenPopover != element){
+                if(lastOpenPopover && lastOpenPopover !== element && !jQuery.contains(element[0], lastOpenPopover[0])) {
                     var popoverCtrl = lastOpenPopover.controller('popover');
                     if(popoverCtrl) {
                         popoverCtrl.close();
@@ -54,11 +56,15 @@
                 lastOpenPopover = element;
             });
 
-            scope.$on('$destroy', function() {
+            element.on('hide.bs.popover', unsetSelfAsLastOpenPopover);
+
+            scope.$on('$destroy', unsetSelfAsLastOpenPopover);
+
+            function unsetSelfAsLastOpenPopover() {
                 if (lastOpenPopover == element){
                     lastOpenPopover = null;
-                }
-            });
+                }  
+            }
 
         }
     }
