@@ -68,7 +68,7 @@ Styleguide 4.5
 */
 
 th.has-popover {
-  @include icon('exclamation-circle');
+  @include icon('info-circle');
   padding-right: 2em !important;
 
   &::before {
