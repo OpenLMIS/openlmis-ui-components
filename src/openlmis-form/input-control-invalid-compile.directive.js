@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
+     * @restrict A
      * @name openlmis-form.directive:inputControlInvalidCompile
      *
      * @description

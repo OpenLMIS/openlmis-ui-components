@@ -19,8 +19,8 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
-     * @name openlmis-table-form.directive:tdOpenlmisInvalidMessage
+     * @restrict A
+     * @name openlmis-table-form.directive:inputControlTdPopoverCompile
      *
      * @description
      * Displays the openlmis-invalid message in a popover.
