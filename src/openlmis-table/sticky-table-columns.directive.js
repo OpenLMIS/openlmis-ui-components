@@ -162,29 +162,37 @@
                 stickyColumns = [];
 
                 // Create blit functions
-                element.find('.col-sticky').each(function(index, cell) {
+                element.find('thead tr:last .col-sticky').each(function(index, cell) {
                     var column = {};
 
                     cell = angular.element(cell);
 
                     column.index = cell.parent().children().index(cell).toString();
-                    column.cells = cell;
                     column.blit = setUpBlits(cell);
 
                     stickyColumns.push(column);
                 });
 
-                element.find('td').each(function(index, cell) {
-                    if(cell.getAttribute('colspan')) {
-                        return;
-                    }
+                element.find('th, td').each(function(index, cell) {
                     cell = angular.element(cell);
 
-                    var cellIndex = cell.parent().children().index(cell).toString();
+                    var cellIndex = 0;
+                    cell.prevAll().each(function(index, el){
+                        if(el.getAttribute('colspan')) {
+                            cellIndex += parseInt(el.getAttribute('colspan'));
+                        } else {
+                            cellIndex += 1;
+                        }
+                    });
+
 
                     stickyColumns.forEach(function(column){
-                        if(cellIndex === column.index) {
-                            column.cells = column.cells.add(cell);
+                        if(cellIndex.toString() === column.index) {
+                            if(!column.cells) {
+                                column.cells = cell;
+                            } else {
+                                column.cells = column.cells.add(cell);
+                            }
                         }
                     });
                 });
