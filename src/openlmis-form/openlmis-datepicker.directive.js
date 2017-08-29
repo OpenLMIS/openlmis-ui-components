@@ -48,9 +48,9 @@
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
 
-    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATE_FORMAT', 'DEFAULT_DATEPICKER_FORMAT'];
+    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT'];
 
-    function datepicker($filter, jQuery, messageService, DEFAULT_DATE_FORMAT, DEFAULT_DATEPICKER_FORMAT) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT) {
         return {
             restrict: 'E',
             scope: {
@@ -76,11 +76,12 @@
                 scope.dateString = $filter('openlmisDate')(scope.value);
             }
 
-            scope.$watch('dateString', function() {
+            var datepicker = element.find('input').datepicker({
+                format: scope.dateFormat
+            });
+
+            datepicker.on('changeDate', function(event) {
                 var date = element.find('input').datepicker('getUTCDate');
-                if (!date && scope.value) {
-                    date = scope.value;
-                }
 
                 scope.value = date ? date : undefined;
 
