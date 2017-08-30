@@ -40,6 +40,7 @@
         vm.getMessages = getMessages;
         vm.setMessages = setMessages;
         vm.resetMessages = resetMessages;
+        vm.parseMessage = parseMessage;
 
         vm.isSuppressed = areMessagesSuppressed;
         vm.suppress = suppress;
@@ -84,7 +85,7 @@
         function setMessages(newMessages){
             Object.keys(newMessages).forEach(function(key) {
                 if(typeof(newMessages[key]) == 'boolean') {
-                    newMessages[key] = parseMessage(key);
+                    newMessages[key] = vm.parseMessage(key);
                 }
             });
 

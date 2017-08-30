@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Input Control directive', function(){
+describe('Input Control Invalid directive', function(){
 
 	var form, element, inputs, scope;
 
@@ -35,32 +35,15 @@ describe('Input Control directive', function(){
 		inputs = element.find('input');
 	}));
 
-	it('adds is-focused class when child inputs get focus', function(){
-		var input = element.find('input:first');
+	it('reacts to error state of child inputs', function() {
+		expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(true);
+		expect(element.hasClass('is-invalid')).toBe(true);
 
-		input.focus();
+		scope.example = "123"; // setting value for required input
 		scope.$apply();
 
-		expect(element.hasClass('is-focused')).toBe(true);
-
-		input.blur();
-		scope.$apply();
-
-		expect(element.hasClass('is-focused')).toBe(false);		
-	});
-
-	it('gets disabled class when all child inputs are disabled', function(){
-		expect(element.hasClass('is-disabled')).toBe(false);
-
-		inputs.prop('disabled', true);
-		scope.$apply();
-
-		expect(element.hasClass('is-disabled')).toBe(true);
-
-		element.find('input:first').prop('disabled', false);
-		scope.$apply();
-
-		expect(element.hasClass('is-disabled')).toBe(false);
+		expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(false);
+		expect(element.hasClass('is-invalid')).toBe(false);
 	});
 
 });

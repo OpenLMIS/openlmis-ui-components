@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
+     * @restrict EA
      * @name openlmis-form.directive:inputControl
      *
      * @description
@@ -38,81 +38,13 @@
             link: link,
             priority: 5,
             restrict: 'EA',
-            controller: 'InputControlController',
-            require: [
-                'inputControl',
-                '?openlmisInvalid'
-            ]
+            controller: 'InputControlController'
         }
     }
 
-    function link(scope, element, attrs, ctrls) {
-        var inputCtrl = ctrls[0],
-            openlmisInvalidCtrl = ctrls[1];
-
-
-        watchErrors();
-        moveInvalidMessages();
+    function link(scope, element, attrs) {
         catchFocus();
         watchDisabled();
-
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-form.directive:inputControl
-         * @name watchErrors
-         *
-         * @description
-         * Sets up watcher to look for error changes in inputCtrl. When there
-         * are errors, the `is-invalid` class is added to the element.
-         *
-         * If openlmisInvalid is also set on the element, the error message
-         * object is passed to openlmisInvalid.
-         */
-        function watchErrors(){
-            scope.$watchCollection(inputCtrl.getErrors, updateErrors);
-            scope.$watch(hasErrorsSurpressed, updateErrors);
-        }
-
-        function updateErrors(){
-            var messages = inputCtrl.getErrors();
-            if(openlmisInvalidCtrl){
-                openlmisInvalidCtrl.setMessages(messages);
-            }
-        }
-
-        function hasErrorsSurpressed() {
-            if(openlmisInvalidCtrl){
-                return openlmisInvalidCtrl.isHidden();
-            }
-            return false;
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-form.directive:inputControl
-         * @name moveInvalidMessages
-         *
-         * @description
-         * The OpenlmisInvalid directive appends invalid messages, which
-         * wouldn't work with the input-control directive. So, if an invalid
-         * message element is added, it is moved to after the input-control.
-         */
-        function moveInvalidMessages() {
-            element.on('openlmisInvalid.show', showMessage);
-        }
-
-        function showMessage(event, messageElement) {
-            if(!event.isDefaultPrevented()) {
-                event.preventDefault();
-
-                if(element.parents('.form-inline').length > 0) {
-                    messageElement.remove();
-                } else {
-                    element.after(messageElement);
-                }
-            }
-        }
 
         /**
          * @ngdoc method
