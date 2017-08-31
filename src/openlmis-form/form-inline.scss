@@ -44,7 +44,6 @@ form.form-inline,
 		min-width: auto;
 		margin: 0px;
 		margin-left: 1em;
-		max-width: 50%;
 	}
 
 	> label {
@@ -63,6 +62,7 @@ form.form-inline,
 	}
 
 	> .form-group {
+		max-width: 50%;
 		> *:last-child {
 			margin-bottom: 0em;
 		}
