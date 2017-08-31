@@ -35,13 +35,13 @@
      *   <table >
      *     <thead>
      *       <tr>
-     *         <th class="sticky">Number</th>
+     *         <th class="col-sticky">Number</th>
      *         <th >Name</th>
      *       </tr>
      *     </thead>
      *     <tbody>
-     *       <tr><td class="sticky">123</td><td >Foo</td></tr>
-     *       <tr><td class="sticky">456</td><td>Bar</td></tr>
+     *       <tr><td >123</td><td >Foo</td></tr>
+     *       <tr><td >456</td><td>Bar</td></tr>
      *     </tbody>
      *   </table>
      * </div>
@@ -75,9 +75,6 @@
                 currentLeftOffset,
                 currentRightOffset,
                 currentParent;
-
-            // Updates blit array...
-            // updateStickyElements();
 
             scope.$watch(function() {
                 return element[0].querySelectorAll('.col-sticky').length;
@@ -135,7 +132,11 @@
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
-             * Updates the functions that animate each sticky element.
+             * Figures out which columns are stick, and organizes the cells in
+             * the the sticky columns to be easy to animate.
+             *
+             * This function is responsible for updating the sticky columns as
+             * the user scrolls.
              */
             element.on('openlmis-table.reset', updateStickyElements);
 
@@ -208,7 +209,9 @@
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
              * @description
-             * Updates view items, and animates cells
+             * Updates the position of all the sticky columns in the table.
+             * This function caches the last position it was updated for to
+             * ensure that the DOM is not needlessly updated.
              */
             var lastPositionUpdate;
             element.on('openlmis-table.reset', function() {
@@ -263,11 +266,18 @@
 
             /**
              * @ngdoc method
-             * @name setUpLeftBlit
+             * @name setUpBlits
              * @methodOf openlmis-table.directive:stickyTableColumns
              *
+             * @param {Object} cell HTML element representation from jQuery
+             * 
              * @description
-             * Create an animation function to position an element to the left.
+             * Creates a function to measure where the current cell should be
+             * positioned. The initial cell position is calculated when the
+             * blit is first set up to keep the animation performant.
+             *
+             * This function just does calculations and no manipulation to
+             * prevent DOM reflows.
              */
             function setUpBlits(cell) {
                 var cellOffset = cell.position().left,
