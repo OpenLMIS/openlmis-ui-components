@@ -176,6 +176,10 @@
                 element.find('th, td').each(function(index, cell) {
                     cell = angular.element(cell);
 
+                    if(cell.parents('tr.title').length > 0) {
+                        return ;
+                    }
+                    
                     var cellIndex = 0;
                     cell.prevAll().each(function(index, el){
                         if(el.getAttribute('colspan')) {
