@@ -11,6 +11,8 @@
     "openlmisForm.showingNumberOfResults": "Showing ${num} of ${total} results",
     "openlmisForm.tooManyCharacters": "Too many characters",
     "openlmisForm.formInvalid": "This form is invalid",
+    "openlmisForm.min": "Number is too small",
+    "openlmisForm.max": "Number is too large",
 
     "openlmisForm.datepicker.today": "Today",
     "openlmisForm.datepicker.clear": "Clear",
