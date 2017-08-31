@@ -3,6 +3,7 @@
 
 New functionality added in a backwards-compatible manner:
 
+* [OLMIS-2978:](https://openlmis.atlassian.net/browse/OLMIS-2978) Made sticky table element animation more performant.
 * [OLMIS-2573:](https://openlmis.atlassian.net/browse/OLMIS-2573) Re-worked table form error messages to not have multiple focusable elements.
 * [OLMIS-1693:](https://openlmis.atlassian.net/browse/OLMIS-1693) Added openlmis-invalid and error message documentation.
 * [OLMIS-249:](https://openlmis.atlassian.net/browse/OLMIS-249) Datepicker element now allows translating day and month names.
@@ -10,6 +11,9 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-3001:](https://openlmis.atlassian.net/browse/OLMIS-3001) Added external url run block, that allows opening external urls.
 
 Bug fixes:
+* [OLMIS-3088:](https://openlmis.atlassian.net/browse/OLMIS-3088) Re-implemented tab error icon.
+* [OLMIS-3036:](https://openlmis.atlassian.net/browse/OLMIS-3036) Cleaned up and formalized input-group error message implementation. 
+* [OLMIS-3042:](https://openlmis.atlassian.net/browse/OLMIS-3042) Updated openlmis-invalid and openlmis-popover element compilation to fix popovers from instantly closing.
 * [OLMIS-2806:](https://openlmis.atlassian.net/browse/OLMIS-2806) Fixed stock adjustment reasons display order not being respected in the UI.
 
 5.1.0 / 2017-06-22
