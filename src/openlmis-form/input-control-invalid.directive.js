@@ -20,7 +20,7 @@
     /**
      * @ngdoc directive
      * @restrict EA
-     * @name openlmis-form.directive:inputControl
+     * @name openlmis-form.directive:inputControlInvalid
      *
      * @description
      * Aggrigates all child input elements, and shows a single state for all
@@ -52,7 +52,6 @@
 
             watchErrors();
             moveInvalidMessages();
-
 
             var originalInvalidCtrlParseMessage = openlmisInvalidCtrl.parseMessage;
             openlmisInvalidCtrl.parseMessage = inputControlParseMessage;
