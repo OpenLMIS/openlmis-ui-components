@@ -39,7 +39,7 @@
 
                 return isoString.slice(0, tIndex);
             }
-            return null;
+            return date;
         }
     }
 

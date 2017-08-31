@@ -35,8 +35,8 @@ describe('isoDate', function() {
         expect($filter('isoDate')(date)).toBe(null);
     });
 
-    it('should return null if given parameter is not Date object', function() {
+    it('should return parameter value if given parameter is not Date object', function() {
         var date = '2017-12-8';
-        expect($filter('isoDate')(date)).toBe(null);
+        expect($filter('isoDate')(date)).toBe(date);
     });
 });
