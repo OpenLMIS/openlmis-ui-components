@@ -1,4 +1,4 @@
-5.1.1 / Current Snapshot
+5.1.1 / 2017.09.01
 ========================
 
 New functionality added in a backwards-compatible manner:
@@ -12,7 +12,7 @@ New functionality added in a backwards-compatible manner:
 
 Bug fixes:
 * [OLMIS-3088:](https://openlmis.atlassian.net/browse/OLMIS-3088) Re-implemented tab error icon.
-* [OLMIS-3036:](https://openlmis.atlassian.net/browse/OLMIS-3036) Cleaned up and formalized input-group error message implementation. 
+* [OLMIS-3036:](https://openlmis.atlassian.net/browse/OLMIS-3036) Cleaned up and formalized input-group error message implementation.
 * [OLMIS-3042:](https://openlmis.atlassian.net/browse/OLMIS-3042) Updated openlmis-invalid and openlmis-popover element compilation to fix popovers from instantly closing.
 * [OLMIS-2806:](https://openlmis.atlassian.net/browse/OLMIS-2806) Fixed stock adjustment reasons display order not being respected in the UI.
 
