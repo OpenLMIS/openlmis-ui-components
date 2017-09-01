@@ -45,6 +45,7 @@
     function link(scope, element, attrs) {
         catchFocus();
         watchDisabled();
+        watchVisible();
 
         /**
          * @ngdoc method
@@ -76,7 +77,7 @@
          * input-control get the class 'is-disabled'
          */
         function watchDisabled() {
-            scope.$watchCollection(function(){
+            scope.$watch(function(){
                 var inputElements = element.find('[name]').length,
                     disabledInputElements = element.find('[name]:disabled').length;
                 return inputElements === disabledInputElements;
@@ -85,6 +86,26 @@
                     element.addClass('is-disabled');
                 } else {
                     element.removeClass('is-disabled');
+                }
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-form.directive:inputControl
+         * @name watchVisible
+         *
+         * @description
+         * When a child element is hidden, the input control is also hidden.
+         */
+        function watchVisible() {
+            scope.$watch(function() {
+                return element.children(':not(.ng-hide)').length > 0;
+            }, function(isVisible) {
+                if(isVisible) {
+                    element.show();
+                } else {
+                    element.hide();
                 }
             });
         }

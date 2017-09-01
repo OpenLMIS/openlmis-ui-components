@@ -22,10 +22,9 @@ describe('Input Control directive', function(){
 	beforeEach(inject(function($compile, $rootScope) {
 		scope = $rootScope.$new();
 
-		var markup = '<form name="exampleForm"><div input-control openlmis-invalid ><input ng-model="example" required /><input ng-model="foo" /></div></form>';
-		form = $compile(markup)(scope);
-
-		angular.element('body').append(form);
+		var markup = '<form name="exampleForm"><div input-control openlmis-invalid ><input ng-model="example" ng-hide="hideOne" required /><input ng-model="foo" ng-hide="hideTwo" /></div></form>';
+		form = angular.element(markup).appendTo('body');
+		$compile(form)(scope);
 
 		scope.exampleForm.$setSubmitted();
 
@@ -61,6 +60,21 @@ describe('Input Control directive', function(){
 		scope.$apply();
 
 		expect(element.hasClass('is-disabled')).toBe(false);
+	});
+
+	it('gets hidden if there are no visible child elements', function(){
+		expect(element.is(':visible')).toBe(true);
+
+		scope.hideOne = true;
+		scope.hideTwo = true;
+		scope.$apply();
+
+		expect(element.is(':visible')).toBe(false);
+
+		scope.hideOne = false;
+		scope.$apply();
+
+		expect(element.is(':visible')).toBe(true);
 	});
 
 });
