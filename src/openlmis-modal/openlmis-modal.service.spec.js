@@ -15,16 +15,16 @@
 
 describe('openlmisModalService', function() {
 
-    var openlmisModalService, $rootScope;
+    var openlmisModalService, $rootScope, $modal;
 
     beforeEach(function() {
-        module('openlmis-modal');
-
-        inject(function($injector) {
-            openlmisModalService = $injector.get('openlmisModalService');
-            $rootScope = $injector.get('$rootScope');
+        module('openlmis-modal', function($provide) {
+            $provide.service('$modal', function() {
+                return preapreModalSpy();
+            });
         });
 
+        inject(services);
     });
 
     describe('modal', function() {
@@ -45,6 +45,48 @@ describe('openlmisModalService', function() {
             expect(rejected).toBeTruthy();
         });
 
+        it('should not close on backdrop click as default', function() {
+            openlmisModalService.createDialog({});
+
+            expect($modal.calls[0].args[0].backdrop).toEqual('static');
+        });
+
+        it('should not close on ESC click as default', function() {
+            openlmisModalService.createDialog({});
+
+            expect($modal.calls[0].args[0].keyboard).toEqual(false);
+        });
+
+        it('should allow default backdrop behavior override', function() {
+            openlmisModalService.createDialog({
+                backdrop: false
+            });
+
+            expect($modal.calls[0].args[0].backdrop).toEqual(false);
+        });
+
+        it('should allow default ESC behavior override', function() {
+            openlmisModalService.createDialog({
+                keyboard: true
+            });
+
+            expect($modal.calls[0].args[0].keyboard).toEqual(true);
+
+        });
     });
+
+    function services($injector) {
+        openlmisModalService = $injector.get('openlmisModalService');
+        $rootScope = $injector.get('$rootScope');
+    }
+
+    function preapreModalSpy() {
+        $modal = jasmine.createSpy('$modal');
+        $modal.andCallFake(function(dialog) {
+            dialog.hide = function() {};
+            return dialog;
+        });
+        return $modal;
+    }
 
 });

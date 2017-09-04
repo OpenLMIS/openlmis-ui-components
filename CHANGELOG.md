@@ -1,3 +1,9 @@
+5.1.2 / In development
+
+Improvements:
+
+* Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
+
 5.1.1 / 2017.09.01
 ========================
 

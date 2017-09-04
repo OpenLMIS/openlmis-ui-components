@@ -35,6 +35,14 @@
             decorateResolve(options, deferred);
             options.animation = 'am-fade';
 
+            if (!options.hasOwnProperty('backdrop')) {
+                options.backdrop = 'static';
+            }
+
+            if (!options.hasOwnProperty('keyboard')) {
+                options.keyboard = false;
+            }
+
             dialog = $modal(options);
             dialog.promise = deferred.promise;
             dialog.$$deferred = deferred;
