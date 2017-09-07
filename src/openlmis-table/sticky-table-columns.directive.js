@@ -224,6 +224,9 @@
                     calculateViewableArea();
                     resetCurrent();
                     updateColumns();
+
+                    attrs.$set('leftEdge', currentLeftOffset);
+                    attrs.$set('rightEdge', rightEdge - currentRightOffset);
                 }
             }
 
