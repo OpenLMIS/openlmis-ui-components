@@ -16,7 +16,7 @@
 describe('AdjustmentsModalController', function() {
 
     var vm, $controller, $q, $rootScope, modalDeferred, adjustments, reasons, title, message,
-        isDisabled, summaries, preSave, preCancel, $compile;
+        isDisabled, summaries, preSave, preCancel;
 
     beforeEach(function() {
         module('openlmis-adjustments');
@@ -25,7 +25,6 @@ describe('AdjustmentsModalController', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $controller = $injector.get('$controller');
-            $compile = $injector.get('$compile');
         });
 
         modalDeferred = $q.defer();
@@ -284,31 +283,6 @@ describe('AdjustmentsModalController', function() {
             $rootScope.$apply();
 
             expect(modalDeferred.reject).not.toHaveBeenCalled();
-        });
-
-    });
-
-    describe('onChange', function() {
-
-        it('should set focus on quantity', function() {
-            var element = angular.element('<input type="text" id="quantity"/>');
-            $compile(element)($rootScope);
-            $rootScope.$digest();
-
-            spyOn(document, 'getElementById').andCallFake(function() {
-                return element;
-            });
-
-            spyOn(document.getElementById('quantity'), 'focus');
-
-            initController();
-            vm.$onInit();
-
-            vm.onChange(reasons[0]);
-            $rootScope.$apply();
-
-            expect(document.getElementById).toHaveBeenCalledWith('quantity');
-            expect(document.getElementById('quantity').focus).toBeDefined();
         });
 
     });
