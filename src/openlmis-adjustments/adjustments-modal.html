@@ -14,7 +14,8 @@
                         <select id="reason"
                             ng-model="vm.reason"
                             ng-options="reason as reason.name for reason in vm.reasons | orderBy:'displayOrder'"
-                            required>
+                                ng-change="vm.onChange(vm.reason)"
+                            required autofocus>
                         </select>
                     </div>
                     <div class="form-group">

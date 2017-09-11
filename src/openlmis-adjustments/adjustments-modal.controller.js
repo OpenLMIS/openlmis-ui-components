@@ -30,11 +30,12 @@
 
     AdjustmentsModalController.$inject = [
         '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
-        'reasons', 'summaries', 'preSave', 'preCancel'
+        'reasons', 'summaries', 'preSave', 'preCancel', '$timeout'
     ];
 
     function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
-                                        adjustments, reasons, summaries, preSave, preCancel) {
+                                        adjustments, reasons, summaries, preSave, preCancel,
+                                        $timeout) {
 
         var vm = this;
 
@@ -43,6 +44,7 @@
         vm.removeAdjustment = removeAdjustment;
         vm.cancel = cancel;
         vm.save = save;
+        vm.onChange = onChange;
 
         /**
          * @ngdoc property
@@ -200,6 +202,22 @@
                 preCancel(vm.adjustments).then(modalDeferred.reject);
             } else {
                 modalDeferred.reject();
+            }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name onChange
+         *
+         * @description
+         * Moves focus on quantity input after selecting reason.
+         */
+        function onChange(reason) {
+            if (reason) {
+                $timeout(function() {
+                    document.getElementById('quantity').focus();
+                });
             }
         }
     }
