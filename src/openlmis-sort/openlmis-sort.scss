@@ -1,0 +1,35 @@
+/*
+Sorting
+
+The sorting component can be added to any list or table.
+
+See the documentation for the [openlmis-sort directive](../docs/index.html#/api/openlmis-sort.directive:openlmisSort)
+for information about how to use the component.
+
+Example:
+
+<openlmis-sort
+    list="[
+        {
+            name: 'aaa',
+            code: 'b-code'
+        },
+        {
+            name: 'bbb',
+            code: 'a-code'
+        }
+    ]"
+    sort-options="[
+        {
+            value: 'name',
+            display: 'Name'
+        },
+        {
+            value: 'code',
+            display: 'Code'
+        }
+    ]">
+</openlmis-sort>
+
+Styleguide 2.4
+*/

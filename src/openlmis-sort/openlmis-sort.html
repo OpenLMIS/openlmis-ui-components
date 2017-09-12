@@ -1,0 +1,8 @@
+<div class="openlmis-sort">
+    <label for="sort">{{'openlmisSort.sortedBy' | message}}</label>
+    <select
+        ng-model="sort.sort"
+        ng-options="option.value as option.display for option in sort.sortOptions"
+        ng-change="sort.changeSort()">
+    </select>
+</div>
