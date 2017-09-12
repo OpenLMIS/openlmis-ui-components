@@ -46,7 +46,7 @@
             element.on('focus focusin', 'td, th', checkVisibilityDeferred);
             element.on('blur focusout', 'td, th', cancelVisibilityDeferred);
 
-            $scope.$on('$destroy', function(){
+            scope.$on('$destroy', function(){
                 element.off('focus focusin', 'td, th', checkVisibilityDeferred);
                 element.off('blur focusout', 'td, th', cancelVisibilityDeferred);
             });
