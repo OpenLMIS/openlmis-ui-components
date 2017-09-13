@@ -35,6 +35,7 @@
 
         this.setPreviousState = setPreviousState;
         this.goToPreviousState = goToPreviousState;
+        this.getPreviousState = getPreviousState;
 
         /**
          * @ngdoc method
@@ -54,6 +55,23 @@
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
                 });
+            }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-state-tracker.stateTrackerService
+         * @name getPreviousState
+         *
+         * @description
+         * Returns the name of the previous state.
+         *
+         * @return {String} the name of the previous state
+         */
+        function getPreviousState() {
+            var storedStates = stateStorage.getAll();
+            if(storedStates && storedStates.length > 0) {
+                return storedStates[0].previousState;
             }
         }
 

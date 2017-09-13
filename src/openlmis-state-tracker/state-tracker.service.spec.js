@@ -111,4 +111,22 @@ describe('stateTrackerService', function() {
             expect($state.reload).toHaveBeenCalled();
         });
     });
+
+    describe('getPreviousState', function() {
+
+        it('should return the name of the previous state', function() {
+            stateStorage.getAll.andReturn([{
+                previousState: 'some.state'
+            }]);
+
+            expect(stateTrackerService.getPreviousState()).toEqual('some.state');
+        });
+
+        it('should return undefined if there is no previous state', function() {
+            stateStorage.getAll.andReturn([]);
+
+            expect(stateTrackerService.getPreviousState()).toBeUndefined();
+        });
+
+    });
 });
