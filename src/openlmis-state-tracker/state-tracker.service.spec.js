@@ -36,7 +36,8 @@ describe('stateTrackerService', function() {
             name: 'stateOne'
         };
         previousStateParams = {
-            param: 'one'
+            param: 'one',
+            paramTwo: 'two'
         };
 
         spyOn($state, 'go');
@@ -79,7 +80,9 @@ describe('stateTrackerService', function() {
 
             stateTrackerService.goToPreviousState();
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams);
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+                reload: true
+            });
         });
 
         it('should restore the state if default one is present and previous is stored', function() {
@@ -92,7 +95,9 @@ describe('stateTrackerService', function() {
 
             stateTrackerService.goToPreviousState('some.state');
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams);
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+                reload: true
+            });
         });
 
         it('should call default state', function() {
@@ -109,6 +114,61 @@ describe('stateTrackerService', function() {
             stateTrackerService.goToPreviousState();
 
             expect($state.reload).toHaveBeenCalled();
+        });
+
+        it('should override stored state parameters if they were given', function() {
+            stateStorage.getAll.andReturn([
+                {
+                    previousState: previousState.name,
+                    previousStateParams: previousStateParams
+                }
+            ]);
+
+            stateTrackerService.goToPreviousState('state', {
+                param: 'three'
+            });
+
+            expect($state.go).toHaveBeenCalledWith(previousState.name, {
+                param: 'three',
+                paramTwo: 'two'
+            }, {
+                reload: true
+            });
+        });
+
+        it('should pass stateOptions', function() {
+            stateStorage.getAll.andReturn([
+                {
+                    previousState: previousState.name,
+                    previousStateParams: previousStateParams
+                }
+            ]);
+
+            stateTrackerService.goToPreviousState('state', null, {
+                someOption: false
+            });
+
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+                reload: true,
+                someOption: false
+            });
+        });
+
+        it('should not override given reload option', function() {
+            stateStorage.getAll.andReturn([
+                {
+                    previousState: previousState.name,
+                    previousStateParams: previousStateParams
+                }
+            ]);
+
+            stateTrackerService.goToPreviousState('state', null, {
+                reload: false
+            });
+
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+                reload: false
+            });
         });
     });
 });

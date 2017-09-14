@@ -63,15 +63,31 @@
          * @name goToPreviousState
          *
          * @description
-         * Restores the previous state. If there is no previous state stored, user will be redirected to default state passed as parameter.
-         * If default state was not defined current state will be reloaded.
+         * Restores the previous state. If there is no previous state stored, user will be
+         * redirected to default state passed as parameter. If default state was not defined current
+         * state will be reloaded.
          *
-         * @param {String} defaultState (optional) state that user will be redirected to if there is no previous state stored
+         * @param {String}  defaultState    (optional) state that user will be redirected to if
+         *                                  there is no previous state stored
+         * @param {Object}  stateParams     the state parameters to override
+         * @param {Object}  stateOptions    the state options
          */
-        function goToPreviousState(defaultState) {
+        function goToPreviousState(defaultState, stateParams, stateOptions) {
             var storedStates = stateStorage.getAll();
             if(storedStates && storedStates.length > 0) {
-                $state.go(storedStates[0].previousState, storedStates[0].previousStateParams);
+                var storeParams = storedStates[0].previousStateParams,
+                    params = storeParams ? angular.copy(storeParams) : {},
+                    options = stateOptions ? angular.copy(stateOptions) : {};
+
+                if (stateParams) {
+                    angular.extend(params, stateParams);
+                }
+
+                if (!options.hasOwnProperty('reload')) {
+                    options.reload = true;
+                }
+
+                $state.go(storedStates[0].previousState, params, options);
             } else if(defaultState) {
                 $state.go(defaultState);
             } else {
