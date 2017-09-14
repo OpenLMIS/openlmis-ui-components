@@ -3,7 +3,6 @@
 Improvements:
 
 * Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
-* Extended stateTrackerService with the ability to pull the name of the last trackable state.
 
 5.1.1 / 2017.09.01
 ========================
