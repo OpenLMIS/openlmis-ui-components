@@ -1,5 +1,8 @@
 5.1.2 / In development
 
+New functionality:
+* Added modalStateProvider to ease modal state defining
+
 Improvements:
 
 * Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
