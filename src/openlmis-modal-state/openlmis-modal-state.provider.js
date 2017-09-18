@@ -56,9 +56,11 @@
         function state(stateName, state) {
             parseState(state);
 
+            // We don't want the state to open any page, we leave that to the modal service.
             delete state.controller;
             delete state.controllerAs;
             delete state.templateUrl;
+            delete state.views;
 
             $stateProvider.state(stateName, state);
         }
