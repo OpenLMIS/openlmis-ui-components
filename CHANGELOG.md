@@ -1,4 +1,7 @@
-5.1.2 / In development
+5.2.0 / In development
+
+New functionality added in a backwards-compatible manner:
+* [OLMIS-2655:](https://openlmis.atlassian.net/browse/OLMIS-2655) Added sort control component.
 
 New functionality:
 * Added modalStateProvider to ease modal state defining

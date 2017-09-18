@@ -28,25 +28,15 @@
         .module('openlmis-sort')
         .controller('SortController', controller);
 
-    controller.$inject = ['$state', '$stateParams', '$scope', '$filter'];
+    controller.$inject = ['$state', '$stateParams'];
 
-    function controller($state, $stateParams, $scope, $filter) {
+    function controller($state, $stateParams) {
 
         var sort = this;
 
         sort.$onInit = onInit;
         sort.changeSort = changeSort;
-
-        /**
-         * @ngdoc property
-         * @propertyOf openlmis-sort.controller:SortController
-         * @name externalSort
-         * @type {Boolean}
-         *
-         * @description
-         * Indicates if sort logic is external.
-         */
-        sort.externalSort = undefined;
+        sort.getCurrentSortDisplay = getCurrentSortDisplay;
 
         /**
          * @ngdoc property
@@ -57,33 +47,73 @@
          * @description
          * Holds sort value.
          */
-        sort.sort = undefined;
 
-        $scope.$watchCollection(function() {
-            return sort.list;
-        }, function() {
-            onInit();
-        });
+         /**
+         * @ngdoc property
+         * @propertyOf openlmis-sort.controller:SortController
+         * @name onChange
+         * @type {Function}
+         *
+         * @description
+         * Method that will be executed on sort change with sort value as parameter.
+         * Also indicates if screen is using external sorting or values are sorted in browser.
+         */
 
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-sort.controller:SortController
+         * @name options
+         * @type {Array}
+         *
+         * @description
+         * List of sort options.
+         */
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-sort.controller:SortController
+         * @name options
+         * @type {Boolean}
+         *
+         * @description
+         * Indicates if component should reload state after sort changes.
+         */
+        sort.externalSort = undefined;
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-sort.controller:SortController
+         * @name onInit
+         *
+         * @description
+         * Initiate method for SortController.
+         */
         function onInit() {
-            sort.externalSort = sort.list ? false : true;
+            if (sort.onChange && !angular.isFunction(sort.onChange)) {
+                throw 'Parameter onChange is not a function!';
+            }
+
             sort.sort = $stateParams.sort;
-            if (!sort.externalSort) {
-                sort.list = $filter('orderBy')(sort.list, [sort.sort]);
+
+            if (sort.externalSort === undefined || sort.externalSort === null) {
+                sort.externalSort = true;
             }
         }
 
         /**
          * @ngdoc method
          * @methodOf openlmis-sort.controller:SortController
-         * @name changeSort
+         * @name onInit
          *
          * @description
-         * Changes the current sort to a new one.
+         * Sets new sort value and reloads .
+         *
+         * @param {Object} newSort newly selected sort value
          */
-        function changeSort(newPage) {
-            if (!sort.externalSort) {
-                sort.list = $filter('orderBy')(sort.list, [sort.sort]);
+        function changeSort(newSort) {
+            sort.sort = newSort.value;
+            if (sort.onChange) {
+                sort.onChange(newSort.value);
             }
 
             var stateParams = angular.copy($stateParams);
@@ -93,6 +123,26 @@
                 reload: sort.externalSort,
                 notify: sort.externalSort
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-sort.controller:SortController
+         * @name getCurrentSortDisplay
+         *
+         * @description
+         * Return display value for current sort if corresponding value exists in options list.
+         *
+         * @return {String} display value for current sort
+         */
+        function getCurrentSortDisplay() {
+            var result;
+            angular.forEach(sort.options, function(option) {
+                if (option.value === sort.sort) {
+                    result = option.display;
+                }
+            });
+            return result;
         }
     }
 })();

@@ -15,39 +15,49 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
+    /**
      * @ngdoc service
      * @name openlmis-sort.component:openlmisSort
      *
      * @description
      * The OpenLMIS sort component provides controls for API endpoints that can provide sorted content.
-     * To the 'sort-options' parameter you have to provide array of sorting options in following format:
-     * {
-     *  display: 'display name message',
-     *  value: 'nameOfTheField'
-     * }
-     * If you want to use sort on already existing list (not passing sort paramter to API)
-     * just pass your list to 'list' parameter.
+     * To the 'options' parameter you have to provide array of sorting options in following format:
+     * [
+     *  {
+     *      value: 'username'
+     *      display: 'username.display.message'
+     *  },
+     *  {
+     *      value: 'firstName'
+     *      display: '.display.message'
+     *  }
+     * ]
+     * If you want to use sort on already existing list (not passing sort parameter to API)
+     * just set external-sort attribute to false (if not specified default value is true).
      *
      * @example
      * ```
      * <openlmis-sort
-     * 	   list="vm.allItems"
-     * 	   options="vm.options">
+     * 	   sort="vm.sort"
+     * 	   onChange: "vm.onChange",
+     * 	   options="vm.options"
+     * 	   external-sort="true">
      * <openlmis-sort/>
      * ```
      */
-	angular
-		.module('openlmis-sort')
-		.component('openlmisSort', {
-			controller: 'SortController',
-			controllerAs: 'sort',
+    angular
+        .module('openlmis-sort')
+        .component('openlmisSort', {
+            controller: 'SortController',
+            controllerAs: 'sort',
             templateUrl: 'openlmis-sort/openlmis-sort.html',
-			bindings: {
-				list: '=?',
-                sortOptions: '='
-			}
-		});
+            bindings: {
+                sort: '=?',
+                onChange: '=?',
+                options: '=',
+                externalSort: '=?'
+            }
+        });
 })();

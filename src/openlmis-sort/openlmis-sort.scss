@@ -33,3 +33,7 @@ Example:
 
 Styleguide 2.4
 */
+
+.openlmis-sort {
+    @extend .dropdown-button;
+}

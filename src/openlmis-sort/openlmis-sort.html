@@ -1,8 +1,14 @@
-<div class="openlmis-sort">
-    <label for="sort">{{'openlmisSort.sortedBy' | message}}</label>
-    <select
-        ng-model="sort.sort"
-        ng-options="option.value as option.display for option in sort.sortOptions"
-        ng-change="sort.changeSort()">
-    </select>
+<div class="openlmis-sort navbar-nav">
+    <p>{{'openlmisSort.sortedBy' | message}}</p>
+    <button bs-dropdown aria-haspopup="true" aria-expanded="false">
+        {{sort.getCurrentSortDisplay() | message}}
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li ng-repeat="option in sort.options">
+            <a ng-click="sort.changeSort(option)"
+                ng-class="{'selected':(sort.sort === option.value)}">
+                {{option.display | message}}
+            </a>
+        </li>
+    </ul>
 </div>

@@ -13,5 +13,107 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/*describe('SortController', function() {
-});*/
+describe('SortController', function() {
+
+    var vm, $state, $controller, result;
+
+    beforeEach(function() {
+        module('openlmis-sort');
+
+        inject(function($injector) {
+            $state = $injector.get('$state');
+            $controller = $injector.get('$controller');
+        });
+
+        stateParams = {
+            sort: 'username'
+        };
+
+        vm = $controller('SortController', {
+            $stateParams: stateParams
+        });
+        vm.options = [
+            {
+                display: 'some.message.1',
+                value: 'username'
+            },
+            {
+                display: 'some.message.2',
+                value: 'firstName,asc'
+            }
+        ];
+        vm.onChange = jasmine.createSpy();
+        vm.externalSort = true;
+
+        spyOn($state, 'go').andReturn();
+    });
+
+    describe('init', function() {
+
+        it('should throw error if on change method is not a function', function() {
+            vm.onChange = 'some-string';
+            expect(function() {
+                vm.$onInit();
+            }).toThrow(new Error('Parameter onChange is not a function!'));
+        });
+
+        it('should set sort selection to one from state parameters', function() {
+            vm.$onInit();
+            expect(vm.sort).toEqual(stateParams.sort);
+        });
+
+        it('should set externalSort to default true value', function() {
+            vm.externalSort = undefined;
+            vm.$onInit();
+            expect(vm.externalSort).toEqual(true);
+
+            vm.externalSort = null;
+            vm.$onInit();
+            expect(vm.externalSort).toEqual(true);
+        });
+    });
+
+    describe('changeSort', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('assign new sort value', function() {
+            vm.changeSort(vm.options[1]);
+            expect(vm.sort).toEqual(vm.options[1].value);
+        });
+
+        it('call onChange method with newly selected sort as parameter', function() {
+            vm.changeSort(vm.options[1]);
+            expect(vm.onChange).toHaveBeenCalledWith(vm.options[1].value);
+        });
+
+        it('call state go based on externalSort value', function() {
+            $state.current.name = 'current.state';
+            stateParams.sort = vm.options[1].value;
+            vm.changeSort(vm.options[1]);
+            expect($state.go).toHaveBeenCalledWith('current.state', stateParams, {
+                reload: vm.externalSort,
+                notify: vm.externalSort
+            });
+        });
+    });
+
+    describe('getCurrentSortDisplay', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return proper display message if exists in options', function() {
+            vm.sort = vm.options[1].value;
+            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[1].display);
+        });
+
+        it('should return undefined if sort does not exists in options', function() {
+            vm.sort = 'some-sort-value';
+            expect(vm.getCurrentSortDisplay()).toEqual(undefined);
+        });
+    });
+});
