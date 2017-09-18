@@ -4,10 +4,10 @@
         {{sort.getCurrentSortDisplay() | message}}
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="option in sort.options">
+        <li ng-repeat="(option, display) in sort.options">
             <a ng-click="sort.changeSort(option)"
-                ng-class="{'selected':(sort.sort === option.value)}">
-                {{option.display | message}}
+                ng-class="{'selected': (sort.sort === option)}">
+                {{display | message}}
             </a>
         </li>
     </ul>

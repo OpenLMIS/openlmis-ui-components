@@ -32,16 +32,10 @@ describe('SortController', function() {
         vm = $controller('SortController', {
             $stateParams: stateParams
         });
-        vm.options = [
-            {
-                display: 'some.message.1',
-                value: 'username'
-            },
-            {
-                display: 'some.message.2',
-                value: 'firstName,asc'
-            }
-        ];
+        vm.options = {
+            'username': 'some.message.1',
+            'firstName,asc': 'some.message.2',
+        };
         vm.onChange = jasmine.createSpy();
         vm.externalSort = true;
 
@@ -80,19 +74,19 @@ describe('SortController', function() {
         });
 
         it('assign new sort value', function() {
-            vm.changeSort(vm.options[1]);
-            expect(vm.sort).toEqual(vm.options[1].value);
+            vm.changeSort('username');
+            expect(vm.sort).toEqual('username');
         });
 
         it('call onChange method with newly selected sort as parameter', function() {
-            vm.changeSort(vm.options[1]);
-            expect(vm.onChange).toHaveBeenCalledWith(vm.options[1].value);
+            vm.changeSort('username');
+            expect(vm.onChange).toHaveBeenCalledWith('username');
         });
 
         it('call state go based on externalSort value', function() {
             $state.current.name = 'current.state';
-            stateParams.sort = vm.options[1].value;
-            vm.changeSort(vm.options[1]);
+            stateParams.sort = 'username';
+            vm.changeSort('username');
             expect($state.go).toHaveBeenCalledWith('current.state', stateParams, {
                 reload: vm.externalSort,
                 notify: vm.externalSort
@@ -107,8 +101,11 @@ describe('SortController', function() {
         });
 
         it('should return proper display message if exists in options', function() {
-            vm.sort = vm.options[1].value;
-            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[1].display);
+            vm.sort = 'username';
+            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
+
+            vm.sort = 'firstName,asc';
+            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
         });
 
         it('should return undefined if sort does not exists in options', function() {

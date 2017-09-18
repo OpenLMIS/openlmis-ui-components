@@ -111,9 +111,9 @@
          * @param {Object} newSort newly selected sort value
          */
         function changeSort(newSort) {
-            sort.sort = newSort.value;
+            sort.sort = newSort;
             if (sort.onChange) {
-                sort.onChange(newSort.value);
+                sort.onChange(newSort);
             }
 
             var stateParams = angular.copy($stateParams);
@@ -137,9 +137,9 @@
          */
         function getCurrentSortDisplay() {
             var result;
-            angular.forEach(sort.options, function(option) {
-                if (option.value === sort.sort) {
-                    result = option.display;
+            angular.forEach(sort.options, function(display, value) {
+                if (value === sort.sort) {
+                    result = display;
                 }
             });
             return result;

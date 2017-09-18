@@ -23,17 +23,11 @@
      *
      * @description
      * The OpenLMIS sort component provides controls for API endpoints that can provide sorted content.
-     * To the 'options' parameter you have to provide array of sorting options in following format:
-     * [
-     *  {
-     *      value: 'username'
-     *      display: 'username.display.message'
-     *  },
-     *  {
-     *      value: 'firstName'
-     *      display: '.display.message'
-     *  }
-     * ]
+     * To the 'options' parameter you have to provide object with sorting options in following format:
+     * {
+     *     'username': 'username.display.message',
+     *     'firstName': 'firstName.display.message'
+     * }
      * If you want to use sort on already existing list (not passing sort parameter to API)
      * just set external-sort attribute to false (if not specified default value is true).
      *
