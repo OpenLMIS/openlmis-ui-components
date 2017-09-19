@@ -63,11 +63,21 @@
          * @ngdoc property
          * @propertyOf openlmis-sort.controller:SortController
          * @name options
-         * @type {Array}
+         * @type {Object}
          *
          * @description
          * List of sort options.
          */
+
+         /**
+          * @ngdoc property
+          * @propertyOf openlmis-sort.controller:SortController
+          * @name stateParamName
+          * @type {String}
+          *
+          * @description
+          * Custom state param name for sort value.
+          */
 
         /**
          * @ngdoc property
@@ -78,7 +88,6 @@
          * @description
          * Indicates if component should reload state after sort changes.
          */
-        sort.externalSort = undefined;
 
         /**
          * @ngdoc method
@@ -91,6 +100,10 @@
         function onInit() {
             if (sort.onChange && !angular.isFunction(sort.onChange)) {
                 throw 'Parameter onChange is not a function!';
+            }
+
+            if (!sort.stateParamName) {
+                sort.stateParamName = 'sort';
             }
 
             sort.sort = $stateParams.sort;
@@ -117,7 +130,7 @@
             }
 
             var stateParams = angular.copy($stateParams);
-            stateParams.sort = sort.sort;
+            stateParams[sort.stateParamName] = sort.sort;
 
             $state.go($state.current.name, stateParams, {
                 reload: sort.externalSort,

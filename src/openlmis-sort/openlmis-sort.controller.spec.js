@@ -65,6 +65,16 @@ describe('SortController', function() {
             vm.$onInit();
             expect(vm.externalSort).toEqual(true);
         });
+
+        it('should set stateParamName to default if its null', function() {
+            vm.stateParamName = undefined;
+            vm.$onInit();
+            expect(vm.stateParamName).toEqual('sort');
+
+            vm.stateParamName = 'customStateParamName';
+            vm.$onInit();
+            expect(vm.stateParamName).toEqual('customStateParamName');
+        });
     });
 
     describe('changeSort', function() {

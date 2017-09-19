@@ -30,14 +30,17 @@
      * }
      * If you want to use sort on already existing list (not passing sort parameter to API)
      * just set external-sort attribute to false (if not specified default value is true).
+     * If you need to specify your own name for state param you can pass it using state-param-name attribute
+     * - it is optional and default value is 'sort'.
      *
      * @example
      * ```
      * <openlmis-sort
      * 	   sort="vm.sort"
-     * 	   onChange: "vm.onChange",
+     * 	   onChange="vm.onChange",
      * 	   options="vm.options"
-     * 	   external-sort="true">
+     * 	   external-sort="true"
+     * 	   state-param-name="sortA">
      * <openlmis-sort/>
      * ```
      */
@@ -51,7 +54,8 @@
                 sort: '=?',
                 onChange: '=?',
                 options: '=',
-                externalSort: '=?'
+                externalSort: '=?',
+                stateParamName: '=?'
             }
         });
 })();
