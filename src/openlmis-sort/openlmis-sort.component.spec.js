@@ -14,7 +14,7 @@
  */
 
 describe('openlmis sort component', function() {
-    var $templateCache, $timeout, $rootScope, $compile, scope, element, sortElement, vm;
+    var $templateCache, $timeout, $rootScope, $compile, scope, element, controller;
 
     beforeEach(function() {
         module('openlmis-sort');
@@ -28,7 +28,7 @@ describe('openlmis sort component', function() {
 
         $templateCache.put('openlmis-sort/openlmis-sort.html', "something");
 
-        var markup = '<openlmis-sort sort="sortValue" onChange"onChange" options="options" external-sort="external" state-param-name="sortName"><openlmis-sort/>';
+        var markup = '<openlmis-sort sort="sortValue" on-change="onChange" options="options" external-sort="external" state-param-name="sortName"><openlmis-sort/>';
 
         scope = $rootScope.$new();
         scope.sortValue = 'username';
@@ -48,13 +48,17 @@ describe('openlmis sort component', function() {
         scope.$apply();
         $timeout.flush();
 
-        sortElement = element.find('openlmis-sort');
-
-        vm = sortElement.controller('SortController');
+        controller = angular.element('openlmis-sort').controller('openlmisSort');
     });
 
     it('should assign proper values', function() {
-        //dump(element.scope());
-        //not sure where should the vm (sort actually) be, there is no in element, vm, sortElement or scope
+        expect(controller.options).toEqual({
+            'username': 'sort.username.message',
+            'firstName': 'sort.firstName.message'
+        });
+        expect(controller.externalSort).toEqual(true);
+        expect(controller.stateParamName).toEqual('sortParamName');
+        expect(angular.isFunction(controller.onChange)).toBe(true);
+        expect(controller.onChange('some-value')).toEqual('parameter: some-value');
     });
 });

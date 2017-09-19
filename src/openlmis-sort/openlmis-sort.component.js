@@ -37,7 +37,7 @@
      * ```
      * <openlmis-sort
      * 	   sort="vm.sort"
-     * 	   onChange="vm.onChange",
+     * 	   on-change="vm.onChange",
      * 	   options="vm.options"
      * 	   external-sort="true"
      * 	   state-param-name="sortA">
