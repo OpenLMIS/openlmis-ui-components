@@ -14,13 +14,13 @@
  */
 
 describe('openlmis sort component', function() {
-	var $templateCache, $timeout, $rootScope, $compile, scope, element, sortElement, vm;
+    var $templateCache, $timeout, $rootScope, $compile, scope, element, sortElement, vm;
 
-	beforeEach(function() {
+    beforeEach(function() {
         module('openlmis-sort');
 
         inject(function($injector) {
-	        $timeout = $injector.get('$timeout');
+            $timeout = $injector.get('$timeout');
             $rootScope = $injector.get('$rootScope');
             $compile = $injector.get('$compile');
             $templateCache = $injector.get('$templateCache');
@@ -28,10 +28,10 @@ describe('openlmis sort component', function() {
 
         $templateCache.put('openlmis-sort/openlmis-sort.html', "something");
 
-		var markup = '<openlmis-sort sort="sortValue" onChange"onChange" options="options" external-sort="external" state-param-name="sortName"><openlmis-sort/>';
+        var markup = '<openlmis-sort sort="sortValue" onChange"onChange" options="options" external-sort="external" state-param-name="sortName"><openlmis-sort/>';
 
-		scope = $rootScope.$new();
-		scope.sortValue = 'username';
+        scope = $rootScope.$new();
+        scope.sortValue = 'username';
         scope.onChange = function(param) {
             return 'parameter: ' + param;
         };
@@ -42,18 +42,19 @@ describe('openlmis sort component', function() {
         scope.external = true;
         scope.sortName = 'sortParamName';
 
-		element = $compile(markup)(scope);
-		angular.element('body').append(element);
+        element = $compile(markup)(scope);
+        angular.element('body').append(element);
 
-		scope.$apply();
-		$timeout.flush();
+        scope.$apply();
+        $timeout.flush();
 
-		sortElement = element.find('openlmis-sort');
+        sortElement = element.find('openlmis-sort');
 
-		vm = element.controller('SortController');
-	});
+        vm = sortElement.controller('SortController');
+    });
 
-	it('should assign proper values', function() {
+    it('should assign proper values', function() {
+        //dump(element.scope());
         //not sure where should the vm (sort actually) be, there is no in element, vm, sortElement or scope
-	});
+    });
 });

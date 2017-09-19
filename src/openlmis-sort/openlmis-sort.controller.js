@@ -32,11 +32,11 @@
 
     function controller($state, $stateParams) {
 
-        var sort = this;
+        var ctrl = this;
 
-        sort.$onInit = onInit;
-        sort.changeSort = changeSort;
-        sort.getCurrentSortDisplay = getCurrentSortDisplay;
+        ctrl.$onInit = onInit;
+        ctrl.changeSort = changeSort;
+        ctrl.getCurrentSortDisplay = getCurrentSortDisplay;
 
         /**
          * @ngdoc property
@@ -48,7 +48,7 @@
          * Holds sort value.
          */
 
-         /**
+        /**
          * @ngdoc property
          * @propertyOf openlmis-sort.controller:SortController
          * @name onChange
@@ -69,15 +69,15 @@
          * List of sort options.
          */
 
-         /**
-          * @ngdoc property
-          * @propertyOf openlmis-sort.controller:SortController
-          * @name stateParamName
-          * @type {String}
-          *
-          * @description
-          * Custom state param name for sort value.
-          */
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-sort.controller:SortController
+         * @name stateParamName
+         * @type {String}
+         *
+         * @description
+         * Custom state param name for sort value.
+         */
 
         /**
          * @ngdoc property
@@ -98,18 +98,18 @@
          * Initiate method for SortController.
          */
         function onInit() {
-            if (sort.onChange && !angular.isFunction(sort.onChange)) {
+            if (ctrl.onChange && !angular.isFunction(ctrl.onChange)) {
                 throw 'Parameter onChange is not a function!';
             }
 
-            if (!sort.stateParamName) {
-                sort.stateParamName = 'sort';
+            if (!ctrl.stateParamName) {
+                ctrl.stateParamName = 'sort';
             }
 
-            sort.sort = $stateParams.sort;
+            ctrl.sort = $stateParams.sort;
 
-            if (sort.externalSort === undefined || sort.externalSort === null) {
-                sort.externalSort = true;
+            if (ctrl.externalSort === undefined || ctrl.externalSort === null) {
+                ctrl.externalSort = true;
             }
         }
 
@@ -124,17 +124,17 @@
          * @param {Object} newSort newly selected sort value
          */
         function changeSort(newSort) {
-            sort.sort = newSort;
-            if (sort.onChange) {
-                sort.onChange(newSort);
+            ctrl.sort = newSort;
+            if (ctrl.onChange) {
+                ctrl.onChange(newSort);
             }
 
             var stateParams = angular.copy($stateParams);
-            stateParams[sort.stateParamName] = sort.sort;
+            stateParams[ctrl.stateParamName] = ctrl.sort;
 
             $state.go($state.current.name, stateParams, {
-                reload: sort.externalSort,
-                notify: sort.externalSort
+                reload: ctrl.externalSort,
+                notify: ctrl.externalSort
             });
         }
 
@@ -150,8 +150,8 @@
          */
         function getCurrentSortDisplay() {
             var result;
-            angular.forEach(sort.options, function(display, value) {
-                if (value === sort.sort) {
+            angular.forEach(ctrl.options, function(display, value) {
+                if (value === ctrl.sort) {
                     result = display;
                 }
             });

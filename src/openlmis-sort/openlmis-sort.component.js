@@ -48,7 +48,7 @@
         .module('openlmis-sort')
         .component('openlmisSort', {
             controller: 'SortController',
-            controllerAs: 'sort',
+            controllerAs: 'ctrl',
             templateUrl: 'openlmis-sort/openlmis-sort.html',
             bindings: {
                 sort: '=?',
