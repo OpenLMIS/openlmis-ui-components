@@ -1,12 +1,12 @@
 <div class="openlmis-sort navbar-nav">
     <p>{{'openlmisSort.sortedBy' | message}}</p>
     <button bs-dropdown aria-haspopup="true" aria-expanded="false">
-        {{sort.getCurrentSortDisplay() | message}}
+        {{ctrl.getCurrentSortDisplay() | message}}
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(option, display) in sort.options">
-            <a ng-click="sort.changeSort(option)"
-                ng-class="{'selected': (sort.sort === option)}">
+        <li ng-repeat="(option, display) in ctrl.options">
+            <a ng-click="ctrl.changeSort(option)"
+                ng-class="{'selected': (ctrl.sort === option)}">
                 {{display | message}}
             </a>
         </li>
