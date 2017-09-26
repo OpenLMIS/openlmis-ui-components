@@ -6,11 +6,14 @@ New functionality added in a backwards-compatible manner:
 New functionality:
 * Added modalStateProvider to ease modal state defining
 
+Bug fixes:
+* [OLMIS-3248](https://openlmis.atlassian.net/browse/OLMIS-3248): Added missing message for number validation.
+
 Improvements:
 
 * [OLMIS-3114:](https://openlmis.atlassian.net/browse/OLMIS-3114) Improved table keyboard accessibility
 ** Made table scroll if focused cell is off screen
-** Wrapped checkboxes in table cells automatically if they don't have a label 
+** Wrapped checkboxes in table cells automatically if they don't have a label
 * Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
 * Extended stateTrackerService with the ability to override previous state parameters and pass state options.
 
