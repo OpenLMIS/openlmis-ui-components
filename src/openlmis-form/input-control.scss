@@ -42,14 +42,14 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	border-radius: $border-radius;
 	box-shadow: inset 0 0 0.5em $border-color;
 	color: $text-color;
-	
+
 	&:focus,
 	&.is-focused,
 	&.is-focused.is-invalid {
 	  border-color: $brand-primary;
 	  box-shadow: inset 0 0 0.5em $brand-primary;
 	}
-	
+
 	&:disabled,
 	&.is-disabled {
 	  box-shadow: 0 0 0 $border-color;
@@ -57,7 +57,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	  background-color: transparent;
 	  cursor: not-allowed;
 	}
-	
+
 	&.is-invalid {
 		box-shadow: inset 0 0 0.5em $brand-danger;
 		padding-right: 2em;
@@ -110,6 +110,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 
 input[type="text"],
 input[type="password"],
+input[type="email"],
 input[type="number"],
 select,
 textarea{
