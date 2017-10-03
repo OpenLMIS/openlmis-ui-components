@@ -1,5 +1,9 @@
 $loading-logo-size: 72px;
 
+body > .loading-view {
+    display: block;
+}
+
 body.no-js {
     background: radial-gradient(circle at center, $dark-gray 0%, darken($dark-gray, 8%) 100%);
     
@@ -8,7 +12,7 @@ body.no-js {
     }
 
     > .loading-view {
-        display: block;
+        display: none !important;
     }
 }
 
