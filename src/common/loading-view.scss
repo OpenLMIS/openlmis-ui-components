@@ -10,14 +10,6 @@ body.no-js {
     > .loading-view {
         display: block;
     }
-
-    > noscript {
-        display: block;
-
-        > .disabled-js-view {
-            display: block;
-        }
-    }
 }
 
 .loading-view {

@@ -1,3 +1,11 @@
+body.no-js > noscript {
+    display: block;
+
+    > .disabled-js-view {
+        display: block;
+    }
+}
+
 .disabled-js-view {
   display: none;
 
