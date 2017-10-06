@@ -16,7 +16,6 @@ Improvements:
 ** Wrapped checkboxes in table cells automatically if they don't have a label
 * Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
 * Extended stateTrackerService with the ability to override previous state parameters and pass state options.
-* [OLMIS-3303:](https://openlmis.atlassian.net/browse/OLMIS-3303) Added warning for users with Javascript disabled
 
 5.1.1 / 2017.09.01
 ========================
