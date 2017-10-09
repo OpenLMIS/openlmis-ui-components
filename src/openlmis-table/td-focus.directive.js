@@ -60,7 +60,7 @@
              *
              * @description
              * Defers the action from the focus/focusin events so that multiple
-             * events execute twice.
+             * events don't execute twice.
              */
             var checkVisibilityTimeout;
             function checkVisibilityDeferred(event) {
