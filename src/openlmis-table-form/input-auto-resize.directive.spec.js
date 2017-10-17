@@ -14,7 +14,7 @@
  */
 
 describe('Input automatic resize directive', function() {
-    var $compile, scope, input, html;
+    var $compile, scope, input, html, previousWidth;
 
     beforeEach(module('openlmis-table-form'));
 
@@ -24,28 +24,36 @@ describe('Input automatic resize directive', function() {
     }));
 
     beforeEach(function(){
-        html = compileMarkup('<table class="openlmis-table"><td><div class="input-control"><input class="number" type="text"/></div></td></table>');
+        html = compileMarkup('<table class="openlmis-table"><td><div class="input-control"><input class="number" type="text" value="100"/></div></td></table>');
         input = html.find('input');
+
+        previousWidth = input[0].style.width;
     });
 
-    it('should not stretch input if value is empty', function() {
-        expect(input.attr('style')).toBe('width: 0px;');
+    it('should set width value as greater than zero if input is not empty', function() {
+        expect(previousWidth).toBeGreaterThan('0px');
     });
 
-    it('should stretch input if value is longer', function(){
-        input.attr('value', '100000');
+    it('should stretch input if value is longer then previous', function(){
+        input[0].value = 100000;
 
         $compile(html)(scope);
         scope.$apply();
 
-        expect(input.attr('style')).toBe('width: 60px;');
+        $compile(html)(scope);
+        scope.$apply();
 
-        input.attr('value', '100');
+        expect(input[0].style.width).toBeGreaterThan(previousWidth);
+    });
+
+    it('should shrink input if value is shorter then previous', function(){
+        input[0].value = 1;
 
         $compile(html)(scope);
         scope.$apply();
 
-        expect(input.attr('style')).toBe('width: 30px;');
+        expect(input[0].style.width).toBeLessThan(previousWidth);
+        expect(input[0].style.width).toBeGreaterThan('0px');
     });
 
     function compileMarkup(markup) {

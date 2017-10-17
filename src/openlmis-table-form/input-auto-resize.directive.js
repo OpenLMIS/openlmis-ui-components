@@ -48,7 +48,7 @@
                 el = element[0],
                 parent = element.parent();
 
-            if(parent.length == 0 || parent[0].localName !== 'div' || !(element.attr('type') === 'text' || element.attr('type') == undefined)) {
+            if(parent.length == 0 || parent[0].localName !== 'div' || !parent[0].classList.contains('input-control') || el.type !== 'text') {
                 return;
             }
 

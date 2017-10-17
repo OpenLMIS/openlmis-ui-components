@@ -194,12 +194,7 @@ $table-cell-padding: 0.5em !default;
   }
 }
 
-.openlmis-table td {
-    > div.input-control {
-        > input[type="text"],
-        > input[type="number"] {
-            min-width: 2em;
-            width: 100%;
-        }
-    }
+.openlmis-table td > div.input-control > input[type="text"] {
+    min-width: 2em;
+    width: 100%;
 }
