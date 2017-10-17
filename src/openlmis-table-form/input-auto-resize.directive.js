@@ -48,8 +48,8 @@
                 el = element[0],
                 parent = element.parent();
 
-            if(parent.length == 0 || parent[0].localName !== 'td' || !(element.attr('type') === 'text' || element.attr('type') === 'number')){
-                return ;
+            if(parent.length == 0 || parent[0].localName !== 'div' || !(element.attr('type') === 'text' || element.attr('type') == undefined)) {
+                return;
             }
 
             scope.$watch(function() {
