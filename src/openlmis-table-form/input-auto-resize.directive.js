@@ -44,8 +44,7 @@
 
         function link(scope, element, attrs) {
 
-            var minWidthSet = false,
-                el = element[0],
+            var el = element[0],
                 parents = element.parents();
 
             if(parents.length < 2 || parents[1].localName !== 'td' || parents[0].localName !== 'div'
@@ -56,10 +55,7 @@
             scope.$watch(function() {
                 return el.value;
             }, function(newValue, oldValue) {
-                if(!minWidthSet) {
-                    $window.autosizeInput(el);
-                    minWidthSet = true;
-                }
+                $window.autosizeInput(el);
             });
 
         }
