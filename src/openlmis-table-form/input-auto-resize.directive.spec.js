@@ -24,7 +24,7 @@ describe('Input automatic resize directive', function() {
     }));
 
     beforeEach(function(){
-        html = compileMarkup('<table class="openlmis-table"><td><div class="input-control"><input class="number" type="text" value="100"/></div></td></table>');
+        html = compileMarkup('<td><input type="text" value="100"/></td>');
         input = html.find('input');
 
         previousWidth = input[0].style.width;

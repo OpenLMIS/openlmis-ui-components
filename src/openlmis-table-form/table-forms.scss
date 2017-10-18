@@ -136,3 +136,8 @@ td > label.checkbox {
     }
   }
 }
+
+.openlmis-table td > div.input-control > input[type="text"] {
+    min-width: 2em;
+    width: 100%;
+}

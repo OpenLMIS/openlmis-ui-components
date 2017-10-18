@@ -46,9 +46,10 @@
 
             var minWidthSet = false,
                 el = element[0],
-                parent = element.parent();
+                parents = element.parents();
 
-            if(parent.length == 0 || parent[0].localName !== 'div' || !parent[0].classList.contains('input-control') || el.type !== 'text') {
+            if(parents.length < 2 || parents[1].localName !== 'td' || parents[0].localName !== 'div'
+                || !parents[0].classList.contains('input-control') || el.type !== 'text') {
                 return;
             }
 
