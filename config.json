@@ -14,6 +14,7 @@
   "transifexProjectName": "openlmis-ui-components",
   "defaultLanguage": "en",
   "analyticsTrackingId": "UA-CHANGE-ME",
+  "defaultDebounce": 500,
   "defaultDateFormat": "dd/MM/yyyy",
   "defaultDatepickerFormat": "dd/mm/yyyy",
   "defaultDatetimeFormat": "dd/MM/yyyy HH:mm:ss"

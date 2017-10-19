@@ -21,7 +21,7 @@
      * @module openlmis-debounce
      *
      * @description
-     * Provides ng-model-options with debounce set as 500.
+     * Provides debounce set as 500.
      */
     angular.module('openlmis-debounce', []);
 })();

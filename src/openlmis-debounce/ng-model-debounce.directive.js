@@ -22,30 +22,28 @@
      * @name openlmis-debounce.directive:ngModelDebounce
      *
      * @description
-     * Set debounce as 500ms in ng-model-options.
+     * Set debounce as 500ms.
      */
     angular
         .module('openlmis-debounce')
         .directive('ngModel', ngModelDebounce);
 
-    ngModelDebounce.$inject = ['$compile'];
-
-    function ngModelDebounce($compile) {
+    function ngModelDebounce() {
         var directive = {
-            compile: compile,
-            priority: 101,
+            link: link,
             restrict: 'A',
-            terminal: true
+            terminal: true,
+            require: 'ngModel'
         };
         return directive;
 
-        function compile(element, attrs) {
+        function link(scope, element, attrs, ngModel) {
 
-            element.attr('ng-model-options', '{debounce: 500}');
-
-            return function(scope, element) {
-                $compile(element, null, 101)(scope);
-            };
+            ngModel.$overrideModelOptions({
+                debounce: {
+                    'default': parseInt('@@DEFAULT_DEBOUNCE')
+                }
+            });
         }
     }
 
