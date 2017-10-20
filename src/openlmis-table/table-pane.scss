@@ -1,0 +1,56 @@
+/*
+Table Panes
+
+A table pine is a fitted way to display a large table, that will implement
+virtual scrolling so that extremely large lists and pages can be rendered.
+
+<section ng-controller="OpenlmisExampleTableData as vm">
+  <form class="form-inline" ng-submit="vm.setRows(num);">
+    <label for="rowsToAdd">Add rows</label>
+    <input id="rowsToAdd" type="number" ng-model="num" ng-value="vm.rows.length" />
+    <input class="add" type="submit" value="Add" />
+  </form>
+  <div class="openlmis-table-pane">
+    <table>
+      <thead>
+        <tr>
+          <th>Colmun 1</th>
+          <th>Colmun 2</th>
+          <th>Number</th>
+          <th>Required Number</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in ::vm.rows track by $index">
+          <td>Sample</td>
+          <td>Data</td>
+          <td><input positive-integer ng-model="row.num" /></td>
+          <td><input requied positive-integer ng-model="row.otherNum" /></td>
+          <td>{{row.num + row.otherNum}}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Foot 1</td>
+          <td>Foot 2</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+Styleguide 4.6
+*/
+
+.openlmis-table-pane {
+  overflow: auto;
+  position: relative;
+  height: 300px;
+  > table {
+    @extend .openlmis-table;
+  }
+}

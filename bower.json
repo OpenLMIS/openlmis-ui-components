@@ -9,7 +9,8 @@
     "select2": "^4.0.3",
     "js-shortid": "shortid#^0.1.1",
     "bootstrap-datepicker": "1.7",
-    "pouchdb": "^6.3.4"
+    "pouchdb": "^6.3.4",
+    "angular-vs-repeat": "^1.1.7"
   },
   "overrides": {
     "font-awesome": {

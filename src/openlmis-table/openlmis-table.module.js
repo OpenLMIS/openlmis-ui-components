@@ -26,7 +26,8 @@
     angular.module('openlmis-table', [
         'openlmis-invalid',
         'openlmis-config',
-        'openlmis-templates'
+        'openlmis-templates',
+        'vs-repeat'
     	]);
 
 })();
