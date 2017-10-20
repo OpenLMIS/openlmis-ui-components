@@ -30,11 +30,12 @@
 
     AdjustmentsModalController.$inject = [
         '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
-        'reasons', 'summaries', 'preSave', 'preCancel'
+        'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons'
     ];
 
     function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
-                                        adjustments, reasons, summaries, preSave, preCancel) {
+                                        adjustments, reasons, summaries, preSave, preCancel,
+                                        filterReasons) {
 
         var vm = this;
 
@@ -146,6 +147,10 @@
             vm.quantity = undefined;
             vm.reason = undefined;
 
+            if (filterReasons) {
+                vm.reasons = filterReasons(vm.adjustments);
+            }
+
             return $q.when();
         }
 
@@ -163,6 +168,10 @@
             var index = vm.adjustments.indexOf(adjustment);
             if (index > -1) {
                 vm.adjustments.splice(index, 1);
+            }
+
+            if (filterReasons) {
+                vm.reasons = filterReasons(vm.adjustments);
             }
         }
 

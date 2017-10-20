@@ -16,7 +16,7 @@
 describe('AdjustmentsModalController', function() {
 
     var vm, $controller, $q, $rootScope, modalDeferred, adjustments, reasons, title, message,
-        isDisabled, summaries, preSave, preCancel;
+        isDisabled, summaries, preSave, preCancel, filterReasons;
 
     beforeEach(function() {
         module('openlmis-adjustments');
@@ -140,6 +140,17 @@ describe('AdjustmentsModalController', function() {
             expect(vm.reason).toBeUndefined();
         });
 
+        it('should call filterReasons if provided', function() {
+            filterReasons = jasmine.createSpy('filterReasonsSpy');
+
+            initController();
+            vm.$onInit();
+
+            vm.addAdjustment();
+
+            expect(filterReasons).toHaveBeenCalledWith(vm.adjustments);
+        });
+
     });
 
     describe('removeAdjustment', function() {
@@ -177,6 +188,20 @@ describe('AdjustmentsModalController', function() {
             vm.removeAdjustment(undefined);
 
             expect(vm.adjustments.length).toBe(2);
+        });
+
+        it('should call filterReasons if provided', function() {
+            filterReasons = jasmine.createSpy('filterReasonsSpy');
+
+            initController();
+            vm.$onInit();
+
+            vm.removeAdjustment({
+                reason: reasons[1],
+                quantity: 3
+            });
+
+            expect(filterReasons).toHaveBeenCalledWith(vm.adjustments);
         });
 
     });
@@ -297,7 +322,8 @@ describe('AdjustmentsModalController', function() {
             isDisabled: isDisabled,
             summaries: summaries,
             preSave: preSave,
-            preCancel: preCancel
+            preCancel: preCancel,
+            filterReasons: filterReasons
         });
     }
 

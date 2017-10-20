@@ -16,7 +16,7 @@
 describe('adjustmentsModalService', function() {
 
     var adjustmentsModalService, adjustments, reasons, title, message, isDisabled, summaries,
-        preSave, preCancel;
+        preSave, preCancel, filterReasons, openlmisModalService;
 
     beforeEach(function() {
         module('openlmis-adjustments');
@@ -55,6 +55,7 @@ describe('adjustmentsModalService', function() {
 
         preSave = function() {};
         preCancel = function() {};
+        filterReasons = function() {};
     });
 
     describe('open', function() {
@@ -137,7 +138,7 @@ describe('adjustmentsModalService', function() {
             expect(getResolvedValue('preSave')).toBe(preSave);
         });
 
-        it('should throw exception if preSave if given but not a function', function() {
+        it('should throw exception if preSave is given but not a function', function() {
             preSave = 'definitely not a function';
 
             expect(function() {
@@ -156,7 +157,7 @@ describe('adjustmentsModalService', function() {
             expect(getResolvedValue('preCancel')).toBe(preCancel);
         });
 
-        it('should throw exception if preCancel if given but not a function', function() {
+        it('should throw exception if preCancel is given but not a function', function() {
             preCancel = 'definitely not a function';
 
             expect(function() {
@@ -165,6 +166,26 @@ describe('adjustmentsModalService', function() {
                     preCancel
                 );
             }).toThrow('preCancel must be a function');
+        });
+
+        it('should pass filterReasons if it defined', function() {
+            adjustmentsModalService.open(
+                adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                undefined, filterReasons
+            );
+
+            expect(getResolvedValue('filterReasons')).toBe(filterReasons);
+        });
+
+        it('should throw exception if filterReasons is given but not a function', function() {
+            filterReasons = 'definitely not a function';
+
+            expect(function() {
+                adjustmentsModalService.open(
+                    adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                    undefined, filterReasons
+                );
+            }).toThrow('filterReasons must be a function');
         });
 
     });

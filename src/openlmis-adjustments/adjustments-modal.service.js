@@ -69,9 +69,13 @@
          *                                  return a promise; if the promise is resolved the modal
          *                                  will be closed, otherwise the user will be brought back
          *                                  to the modal
+         * @param {Function}  filterReasons (optional) the function that will be called after adding
+         *                                  or removing any adjustments to modify the list of
+         *                                  reasons; this function should take a list of adjustments
+         *                                  as a parameter and return a filtered list of reasons
          */
         function open(adjustments, reasons, title, message, isDisabled, summaries, preSave,
-                      preCancel) {
+                      preCancel, filterReasons) {
 
             return openlmisModalService.createDialog({
                 backdrop  : 'static',
@@ -122,6 +126,12 @@
                             throw 'preCancel must be a function';
                         }
                         return preCancel;
+                    },
+                    filterReasons: function() {
+                        if (filterReasons && !angular.isFunction(filterReasons)) {
+                            throw 'filterReasons must be a function';
+                        }
+                        return filterReasons;
                     }
                 }
             }).promise;
