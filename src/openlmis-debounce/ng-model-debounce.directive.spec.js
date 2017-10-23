@@ -14,7 +14,7 @@
  */
 
 describe('ng-model debounce directive', function() {
-    var $compile, scope, ngModel, $rootScope;
+    var $compile, scope, $rootScope, $timeout;
 
     beforeEach(module('openlmis-debounce'));
 
@@ -22,26 +22,45 @@ describe('ng-model debounce directive', function() {
         $compile = $injector.get('$compile');
         scope = $injector.get('$rootScope').$new();
         $rootScope = $injector.get('$rootScope');
+        $timeout = $injector.get('$timeout');
     }));
 
     it('should add 500ms debounce to ng-model', function(){
-        var element = getCompiledElement('<input name="input" ng-model="value">'),
+        var element = getCompiledElement('<input type="text" ng-model="value">'),
             ngModel = element.controller('ngModel');
 
         $rootScope.$apply();
 
-        expect(ngModel.$options.$$options.debounce.default).toEqual(500);
+        expect(ngModel.$options.$$options.debounce).toEqual(500);
+    });
+
+    it('should not add 500ms debounce to ng-model if element is radio input', function(){
+        var element = getCompiledElement('<input type="radio" ng-model="value">'),
+            ngModel = element.controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toEqual(0);
     });
 
     it('should not override provided ngModelOptions by default value', function(){
-        var element = getCompiledElement('<input name="input" ng-model="value" ng-model-options="{debounce: 5000}">'),
+        var element = getCompiledElement('<input ng-model="value" ng-model-options="{debounce: 5000}">'),
             ngModel = element.controller('ngModel'),
             input = element.find('input');
 
         $rootScope.$apply();
 
         expect(input.prevObject.attr('ng-model-options')).toEqual("{debounce: 5000}");
-        expect(ngModel.$options.$$options.debounce.default).toEqual(500);
+        expect(ngModel.$options.$$options.debounce).toEqual(5000);
+    });
+
+    it('child element should inherit ng-model-options from parent', function(){
+        var element = getCompiledElement('<td ng-model-options="{debounce: 5000}"><input ng-model="value" ng-model-options="{debounce: \'$inherit\'}"></td>'),
+            ngModel = element.find('input').controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toEqual(5000);
     });
 
     function getCompiledElement(html) {

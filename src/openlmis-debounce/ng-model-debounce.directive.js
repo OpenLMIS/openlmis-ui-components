@@ -38,11 +38,15 @@
         return directive;
 
         function link(scope, element, attrs, ngModel) {
+            var el = element[0],
+                options = el.getAttribute('ng-model-options');
+
+            if ((options !== null && options.contains('debounce')) || el.type === 'radio') {
+                return;
+            }
 
             ngModel.$overrideModelOptions({
-                debounce: {
-                    'default': parseInt('@@DEFAULT_DEBOUNCE')
-                }
+                debounce: parseInt('@@DEFAULT_DEBOUNCE')
             });
         }
     }
