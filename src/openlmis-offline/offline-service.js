@@ -39,13 +39,14 @@
 
         Offline.options = {
             checkOnLoad: true,
-            interceptRequests: false,
+            interceptRequests: true,
             requests: false,
             checks: {
                 xhr: {
                     url: function() {
                         return 'favicon.ico?_=' + new Date().getTime();
-                    }
+                    },
+                    timeout : 20000,
                 }
             }
         };

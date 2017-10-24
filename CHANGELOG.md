@@ -19,6 +19,7 @@ Improvements:
 * Modals now have backdrop and escape close actions disabled by default. Can by overridden by adding 'backdrop' and 'static' properties to the dialog definition.
 * Extended stateTrackerService with the ability to override previous state parameters and pass state options.
 * Updated dev-ui version to 6.
+* [OLMIS-3359:](https://openlmis.atlassian.net/browse/OLMIS-3359) Improved the way offline is detected.
 
 5.1.1 / 2017.09.01
 ========================
