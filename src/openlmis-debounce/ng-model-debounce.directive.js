@@ -22,7 +22,8 @@
      * @name openlmis-debounce.directive:ngModelDebounce
      *
      * @description
-     * Set debounce as 500ms.
+     * Adds a debounce to the ngModel. It will use the value defined in config.json file (500 ms by
+     * default).
      */
     angular
         .module('openlmis-debounce')
@@ -41,12 +42,18 @@
             var el = element[0],
                 options = el.getAttribute('ng-model-options');
 
-            if ((options !== null && options.contains('debounce')) || el.type === 'radio') {
+            if ((options !== null && options.contains('debounce'))) {
                 return;
             }
 
             ngModel.$overrideModelOptions({
-                debounce: parseInt('@@DEFAULT_DEBOUNCE')
+                updateOn: 'blur keydown keyup click change',
+                debounce: {
+                    default: parseInt('@@DEFAULT_DEBOUNCE'),
+                    click: 0,
+                    blur: 0,
+                    change: 0
+                }
             });
         }
     }

@@ -25,22 +25,18 @@ describe('ng-model debounce directive', function() {
         $timeout = $injector.get('$timeout');
     }));
 
-    it('should add 500ms debounce to ng-model', function(){
+    it('should add 500 ms debounce to ng-model', function(){
         var element = getCompiledElement('<input type="text" ng-model="value">'),
             ngModel = element.controller('ngModel');
 
         $rootScope.$apply();
 
-        expect(ngModel.$options.$$options.debounce).toEqual(500);
-    });
-
-    it('should not add 500ms debounce to ng-model if element is radio input', function(){
-        var element = getCompiledElement('<input type="radio" ng-model="value">'),
-            ngModel = element.controller('ngModel');
-
-        $rootScope.$apply();
-
-        expect(ngModel.$options.$$options.debounce).toEqual(0);
+        expect(ngModel.$options.$$options.debounce).toEqual({
+            default: 500,
+            click: 0,
+            blur: 0,
+            change: 0
+        });
     });
 
     it('should not override provided ngModelOptions by default value', function(){
@@ -50,7 +46,6 @@ describe('ng-model debounce directive', function() {
 
         $rootScope.$apply();
 
-        expect(input.prevObject.attr('ng-model-options')).toEqual("{debounce: 5000}");
         expect(ngModel.$options.$$options.debounce).toEqual(5000);
     });
 
