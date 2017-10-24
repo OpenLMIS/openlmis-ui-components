@@ -28,7 +28,7 @@ describe("OfflineRun", function() {
                 }
             };
             spyOn(offlineService, 'checkConnection').andCallThrough();
-            
+
             $provide.service('offlineService', function(){
                 return offlineService;
             });
@@ -40,7 +40,7 @@ describe("OfflineRun", function() {
         });
     });
 
-    it('checks connection immedately', function() {
+    it('checks connection immediately', function() {
         expect(offlineService.checkConnection).toHaveBeenCalled();
     });
 
