@@ -130,7 +130,7 @@ describe('adjustmentsModalService', function() {
             }).toThrow('summaries must be a key-function map');
         });
 
-        it('should pass preSave it is defined', function() {
+        it('should pass preSave if it is defined', function() {
             adjustmentsModalService.open(
                 adjustments, reasons, undefined, undefined, undefined, undefined, preSave
             );
@@ -148,7 +148,7 @@ describe('adjustmentsModalService', function() {
             }).toThrow('preSave must be a function');
         });
 
-        it('should pass preCancel if it defined', function() {
+        it('should pass preCancel if it is defined', function() {
             adjustmentsModalService.open(
                 adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
                 preCancel
@@ -168,7 +168,7 @@ describe('adjustmentsModalService', function() {
             }).toThrow('preCancel must be a function');
         });
 
-        it('should pass filterReasons if it defined', function() {
+        it('should pass filterReasons if it is defined', function() {
             adjustmentsModalService.open(
                 adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
                 undefined, filterReasons
