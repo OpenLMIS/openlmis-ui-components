@@ -19,9 +19,10 @@ describe('LocalDatabase', function() {
 
     beforeEach(function() {
         module('openlmis-database', function($provide, PouchDB) {
-            pouchDb = new PouchDB('testLocalDatabase');
+            var originalPouchDB = PouchDB;
 
-            $provide.constant('PouchDB', function() {
+            $provide.constant('PouchDB', function(name) {
+                pouchDb = new originalPouchDB(name);
                 return pouchDb;
             });
         });
@@ -461,6 +462,148 @@ describe('LocalDatabase', function() {
 
             runs(function() {
                 expect(error).toBe(true);
+            });
+        });
+
+    });
+
+    describe('getAll', function() {
+
+        it('should return list of all docs', function() {
+            var dbResponded, success, putDocs = [];
+
+            runs(function() {
+                pouchDb.put({
+                    _id: 'one',
+                    id: 'one'
+                })
+                .then(function(doc) {
+                    putDocs.push({
+                        id: 'one',
+                        _id: 'one',
+                        _rev: doc.rev
+                    });
+                    return pouchDb.put({
+                        _id: 'two',
+                        id: 'two'
+                    });
+                })
+                .then(function(doc) {
+                    putDocs.push({
+                        id: 'two',
+                        _id: 'two',
+                        _rev: doc.rev
+                    });
+                    return pouchDb.put({
+                        _id: 'three',
+                        id: 'three'
+                    });
+                })
+                .then(function(doc) {
+                    putDocs.push({
+                        id: 'three',
+                        _id: 'three',
+                        _rev: doc.rev
+                    });
+                    return database.getAll();
+                })
+                .then(function(docs) {
+                    expect(docs.length).toBe(3);
+                    angular.forEach(putDocs, function(putDoc) {
+                        var contains = false;
+                        angular.forEach(docs, function(doc) {
+                            contains = angular.equals(putDoc, doc) || contains;
+                        });
+                        expect(contains).toBe(true);
+                    })
+                    success = true;
+                    dbResponded = true;
+                })
+                .catch(function(error) {
+                    dbResponded = true;
+                });
+            });
+
+            waitsFor(function() {
+                return dbResponded;
+            }, 'The database should have responded', 500);
+
+            runs(function() {
+                expect(success).toBe(true);
+            });
+        });
+
+        it('should return empty list if database is empty', function() {
+            var dbResponded, success;
+
+            runs(function() {
+                database.getAll()
+                .then(function(docs) {
+                    expect(docs).toEqual([]);
+                    success = true;
+                    dbResponded = true;
+                })
+                .catch(function() {
+                    dbResponded = true;
+                });
+            });
+
+            waitsFor(function() {
+                return dbResponded;
+            }, 'The database should have responded', 500);
+
+            runs(function() {
+                expect(success).toBe(true);
+            });
+        });
+
+    });
+
+    describe('removeAll', function() {
+
+        it('should remove all entries', function() {
+            var dbResponded, success;
+
+            runs(function() {
+                pouchDb.put({
+                    _id: 'one',
+                    id: 'one'
+                })
+                .then(function() {
+                    return pouchDb.put({
+                        _id: 'two',
+                        id: 'two'
+                    });
+                })
+                .then(function() {
+                    return pouchDb.put({
+                        _id: 'three',
+                        id: 'three'
+                    });
+                })
+                .then(function() {
+                    return database.removeAll();
+                })
+                .then(function() {
+                    return database.getAll();
+                })
+                .then(function(docs) {
+                    expect(docs.length).toBe(0);
+                    success = true;
+                    dbResponded = true;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    dbResponded = true;
+                });
+            });
+
+            waitsFor(function() {
+                return dbResponded;
+            }, 'The database should have responded', 500);
+
+            runs(function() {
+                expect(success).toBe(true);
             });
         });
 

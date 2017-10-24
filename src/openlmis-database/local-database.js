@@ -36,8 +36,10 @@
 
         LocalDatabase.prototype.put = put;
         LocalDatabase.prototype.get = get;
+        LocalDatabase.prototype.getAll = getAll;
         LocalDatabase.prototype.search = search;
         LocalDatabase.prototype.remove = remove;
+        LocalDatabase.prototype.removeAll = removeAll;
 
         return LocalDatabase;
 
@@ -112,6 +114,25 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-database.LocalDatabase
+         * @name getAll
+         *
+         * @description
+         * Retrieves all documents stored in the database, no specific order is respected.
+         *
+         * @return {Promise}    the promise, which resolves to list of all the documents stored in
+         *                      the database, the promise will be rejected if the documents couldn't
+         *                      be retrieved for any reason
+         */
+        function getAll() {
+            return this.search()
+            .then(function(docs) {
+                return docs;
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.LocalDatabase
          * @name search
          *
          * @description
@@ -159,6 +180,28 @@
             return pouchDb.get(id)
             .then(function(doc) {
                 return pouchDb.remove(doc._id, doc._rev);
+            });
+        }
+
+        /**
+         * @ngdoc methodOf
+         * @methodOf openlmis-database.LocalDatabase
+         * @name removeAll
+         *
+         * @description
+         * Removes all documents from the database.
+         *
+         * @return {Promise}    the promise, which resolves when the documents have been
+         *                      successfully removed from the database, the promise will be
+         *                      rejected if the documents couldn't be deleted for any reason
+         */
+        function removeAll() {
+            var database = this,
+                name = this.pouchDb.name;
+
+            return this.pouchDb.destroy()
+            .then(function(response) {
+                database.pouchDb = new PouchDB(name);
             });
         }
 
