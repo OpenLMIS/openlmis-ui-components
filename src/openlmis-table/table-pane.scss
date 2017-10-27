@@ -47,10 +47,26 @@ Styleguide 4.6
 */
 
 .openlmis-table-pane {
-  overflow: auto;
   position: relative;
-  height: 300px;
-  > table {
+
+  table {
     @extend .openlmis-table;
   }
+  
+  .scroll-area {
+    overflow: auto;
+    height: 300px;
+  }
+  
+  .faux-thead {
+    position: absolute;
+    top: 0px;
+    z-index: 10;
+  }
+  .faux-tfoot {
+    position: absolute;
+    bottom: 0px;
+    z-index: 10;
+  }
+
 }

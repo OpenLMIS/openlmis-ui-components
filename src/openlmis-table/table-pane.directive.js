@@ -64,9 +64,24 @@
         return directive;
 
         function compile(element, attrs) {
-            element.find('tbody')
-            .attr('vs-repeat','')
-            .attr('vs-scroll-parent','.openlmis-table-pane');
+            var table = element.find('table');
+
+            table.find('thead')
+            .clone()
+            .insertBefore(table)
+            .wrap('<table class="faux-thead" aria-hidden="true"></table>');
+
+            table.find('tfoot')
+            .clone()
+            .insertAfter(table)
+            .wrap('<table class="faux-tfoot" aria-hidden="true"></table>');
+
+            table.wrap('<div class="scroll-area"></div>');
+
+            table.find('tbody')
+            .attr('vs-repeat', '')
+            .attr('vs-scroll-parent','.scroll-area')
+            .attr('vs-excess', '10');
         }
     }
 
