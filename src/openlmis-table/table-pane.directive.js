@@ -41,6 +41,7 @@
 
     function controller() {
         this.rows = [];
+        this.columns = [];
 
         this.setRows = function(num) {
             var i = 0;
@@ -50,7 +51,39 @@
             }
         }
 
+        this.setColumns = function(num) {
+            var i = 0;
+            this.columns = [];
+            for(i;i<num;i++) {
+                this.columns.push(i);
+            }
+        }
+
+        this.makeTotal = function(row) {
+            var total = 0;
+            this.columns.forEach(function(column) {
+                if(row[column]) {
+                    total += parseInt(row[column]);
+                }
+            });
+            return total;
+        }
+
+        this.totalRows = function() {
+            var total = 0;
+            this.rows.forEach(function(row) {
+                total += this.makeTotal(row);
+            });
+            return total;
+        }
+
+        this.update = function(rows, cols) {
+            this.setRows(rows);
+            this.setColumns(cols);
+        }
+
         this.setRows(20000);
+        this.setColumns(25);
     }
 
     directive.$inject = ['$compile', '$timeout'];
@@ -69,12 +102,12 @@
             table.find('thead')
             .clone()
             .insertBefore(table)
-            .wrap('<table class="faux-thead" aria-hidden="true"></table>');
+            .wrap('<table aria-hidden tab-index="-1"></table>');
 
             table.find('tfoot')
             .clone()
             .insertAfter(table)
-            .wrap('<table class="faux-tfoot" aria-hidden="true"></table>');
+            .wrap('<table aria-hidden tab-index="-1" ></table>');
 
             table.wrap('<div class="scroll-area"></div>');
 
@@ -82,6 +115,31 @@
             .attr('vs-repeat', '')
             .attr('vs-scroll-parent','.scroll-area')
             .attr('vs-excess', '10');
+
+            return link;
+        }
+
+        function link(scope, element, attrs) {
+            var table = element.find('.scroll-area table');
+
+            scope.$watch(function() {
+                return table.width();
+            }, function(width) {
+                element.find('.scroll-area').width(width);
+
+                var columnsWidths = [];
+                table.find('thead tr:last th').each(function(index, th) {
+                    columnsWidths.push(angular.element(th).outerWidth());
+                });
+
+                element.find('table.faux-thead tr:last th').each(function(index, th) {
+                    angular.element(th).css('min-width', columnsWidths[index]);
+                });
+
+                element.find('table.faux-tfoot tr:last td').each(function(index, td) {
+                    angular.element(td).css('min-width', columnsWidths[index]);
+                });
+            });
         }
     }
 

@@ -5,19 +5,20 @@ A table pine is a fitted way to display a large table, that will implement
 virtual scrolling so that extremely large lists and pages can be rendered.
 
 <section ng-controller="OpenlmisExampleTableData as vm">
-  <form class="form-inline" ng-submit="vm.setRows(num);">
-    <label for="rowsToAdd">Add rows</label>
-    <input id="rowsToAdd" type="number" ng-model="num" ng-value="vm.rows.length" />
-    <input class="add" type="submit" value="Add" />
+  <form class="form-inline" ng-submit="vm.update(rows, cols)">
+    <label for="rowsToAdd">Rows</label>
+    <input id="rowsToAdd" type="number" ng-model="rows" ng-value="vm.rows.length" />
+    <label for="cols">Cols</label>
+    <input id="cols" type="number" ng-model="cols" ng-value="vm.colums.length" />
+    <input class="add" type="submit" value="Reset" />
   </form>
   <div class="openlmis-table-pane">
     <table>
       <thead>
         <tr>
-          <th>Colmun 1</th>
-          <th>Colmun 2</th>
-          <th>Number</th>
-          <th>Required Number</th>
+          <th>Sample</th>
+          <th>Data</th>
+          <th ng-repeat="column in vm.columns track by $index">Column {{$index + 1}}</th>
           <th>Total</th>
         </tr>
       </thead>
@@ -25,17 +26,17 @@ virtual scrolling so that extremely large lists and pages can be rendered.
         <tr ng-repeat="row in ::vm.rows track by $index">
           <td>Sample</td>
           <td>Data</td>
-          <td><input positive-integer ng-model="row.num" /></td>
-          <td><input requied positive-integer ng-model="row.otherNum" /></td>
-          <td>{{row.num + row.otherNum}}</td>
+          <td ng-repeat="column in vm.columns track by $index">
+            <input requied positive-integer ng-model="row[column]" />
+          </td>
+          <td>{{vm.makeTotal(row)}}</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td>Foot 1</td>
           <td>Foot 2</td>
-          <td></td>
-          <td></td>
+          <td ng-repeat="column in vm.columns track by $index">
           <td></td>
         </tr>
       </tfoot>
@@ -48,25 +49,28 @@ Styleguide 4.6
 
 .openlmis-table-pane {
   position: relative;
+  overflow-x: auto;
 
   table {
     @extend .openlmis-table;
   }
+
+  > table {
+    position: absolute;
+    z-index: 10;
+
+    &:first-child {
+      top: 0px;
+    }
+
+    &:last-child {
+      bottom: 0px;
+    }
+  }
   
   .scroll-area {
-    overflow: auto;
+    overflow: hidden;
     height: 300px;
-  }
-  
-  .faux-thead {
-    position: absolute;
-    top: 0px;
-    z-index: 10;
-  }
-  .faux-tfoot {
-    position: absolute;
-    bottom: 0px;
-    z-index: 10;
   }
 
 }
