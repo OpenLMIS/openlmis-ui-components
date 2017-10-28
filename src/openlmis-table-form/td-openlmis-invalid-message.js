@@ -26,36 +26,36 @@
      * Displays the openlmis-invalid message in a popover.
      */
     
-    angular
-        .module('openlmis-table-form')
-        .directive('td', directive);
+    // angular
+    //     .module('openlmis-table-form')
+    //     .directive('td', directive);
     
-    function directive() {
-        return {
-            restrict: 'E',
-            priority: 1,
-            require: ['openlmisInvalid', 'popover'],
-            link: link
-        };
-    }
+    // function directive() {
+    //     return {
+    //         restrict: 'E',
+    //         priority: 1,
+    //         require: ['openlmisInvalid', 'popover'],
+    //         link: link
+    //     };
+    // }
 
-    function link(scope, element, attrs, ctrls) {
-        var openlmisInvalidCtrl = ctrls[0],
-            openlmisPopoverCtrl = ctrls[1];
+    // function link(scope, element, attrs, ctrls) {
+    //     var openlmisInvalidCtrl = ctrls[0],
+    //         openlmisPopoverCtrl = ctrls[1];
 
-        element.on('openlmisInvalid.show', showMessage);
-        element.on('openlmisInvalid.hide', hideMessage);
+    //     element.on('openlmisInvalid.show', showMessage);
+    //     element.on('openlmisInvalid.hide', hideMessage);
 
-        function showMessage(event, messageElement) {
-            event.preventDefault();
+    //     function showMessage(event, messageElement) {
+    //         event.preventDefault();
 
-            // default placement is 10, this is higher than most elements
-            openlmisPopoverCtrl.addElement(messageElement, 5);
-        }
+    //         // default placement is 10, this is higher than most elements
+    //         openlmisPopoverCtrl.addElement(messageElement, 5);
+    //     }
 
-        function hideMessage(event, messageElement) {
-            openlmisPopoverCtrl.removeElement(messageElement);
-        }
-    }
+    //     function hideMessage(event, messageElement) {
+    //         openlmisPopoverCtrl.removeElement(messageElement);
+    //     }
+    // }
 
 })();

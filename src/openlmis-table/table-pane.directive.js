@@ -82,7 +82,7 @@
             this.setColumns(cols);
         }
 
-        this.setRows(20000);
+        this.setRows(200);
         this.setColumns(25);
     }
 
@@ -114,7 +114,8 @@
             table.find('tbody')
             .attr('vs-repeat', '')
             .attr('vs-scroll-parent','.scroll-area')
-            .attr('vs-excess', '10');
+            .attr('vs-excess', '10')
+            .attr('vs-options', '{latch:false}');
 
             return link;
         }
@@ -122,9 +123,20 @@
         function link(scope, element, attrs) {
             var table = element.find('.scroll-area table');
 
+            PerfectScrollbar.initialize(element.children('.scroll-area')[0], {
+                suppressScrollX: true
+            });
+
+            PerfectScrollbar.initialize(element[0], {
+                suppressScrollY: true
+            });
+
             scope.$watch(function() {
                 return table.width();
             }, function(width) {
+                PerfectScrollbar.update(element[0]);
+                PerfectScrollbar.update(element.children('.scroll-area')[0]);
+
                 element.find('.scroll-area').width(width);
 
                 var columnsWidths = [];
@@ -132,11 +144,11 @@
                     columnsWidths.push(angular.element(th).outerWidth());
                 });
 
-                element.find('table.faux-thead tr:last th').each(function(index, th) {
+                element.children('table:first').find('tr:last th').each(function(index, th) {
                     angular.element(th).css('min-width', columnsWidths[index]);
                 });
 
-                element.find('table.faux-tfoot tr:last td').each(function(index, td) {
+                element.children('table:last').find('tr:first td').each(function(index, td) {
                     angular.element(td).css('min-width', columnsWidths[index]);
                 });
             });

@@ -49,7 +49,7 @@ Styleguide 4.6
 
 .openlmis-table-pane {
   position: relative;
-  overflow-x: auto;
+  overflow: hidden;
 
   table {
     @extend .openlmis-table;
