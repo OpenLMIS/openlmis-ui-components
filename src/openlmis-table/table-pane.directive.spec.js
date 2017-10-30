@@ -13,22 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function() {
+describe('openlmisTablePane directive', function() {
 
-    'use strict';
-
-    /**
-     * @module openlmis-table
-     *
-     * @description
-     * This module is responsible for styling tables within application.
-     */
-    angular.module('openlmis-table', [
-        'openlmis-invalid',
-        'openlmis-config',
-        'openlmis-templates',
-        'vs-repeat',
-        'ngMaterial'
-    	]);
-
-})();
+});

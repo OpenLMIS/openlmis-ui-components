@@ -82,8 +82,8 @@
             this.setColumns(cols);
         }
 
-        this.setRows(200);
-        this.setColumns(25);
+        this.setRows(2000);
+        this.setColumns(35);
     }
 
     directive.$inject = ['$compile', '$timeout'];
@@ -98,60 +98,22 @@
 
         function compile(element, attrs) {
             var table = element.find('table');
+            setup(element, table);
 
-            table.find('thead')
-            .clone()
-            .insertBefore(table)
-            .wrap('<table aria-hidden tab-index="-1"></table>');
+            return function(scope, element, attrs) {
 
-            table.find('tfoot')
-            .clone()
-            .insertAfter(table)
-            .wrap('<table aria-hidden tab-index="-1" ></table>');
-
-            table.wrap('<div class="scroll-area"></div>');
-
-            table.find('tbody')
-            .attr('vs-repeat', '')
-            .attr('vs-scroll-parent','.scroll-area')
-            .attr('vs-excess', '10')
-            .attr('vs-options', '{latch:false}');
-
-            return link;
+            };
         }
 
-        function link(scope, element, attrs) {
-            var table = element.find('.scroll-area table');
+        function setup(container, table) {
+            var thead = table.find('thead').clone().prependTo(container).wrap('<table role="presentation" aria-hidden>'),
+                tfoot = table.find('tfoot').clone().appendTo(container).wrap('<table role="presentation" aria-hidden>');
 
-            PerfectScrollbar.initialize(element.children('.scroll-area')[0], {
-                suppressScrollX: true
-            });
+            table.wrap('<md-virtual-repeat-container></md-virtual-repeat-container>');
 
-            PerfectScrollbar.initialize(element[0], {
-                suppressScrollY: true
-            });
-
-            scope.$watch(function() {
-                return table.width();
-            }, function(width) {
-                PerfectScrollbar.update(element[0]);
-                PerfectScrollbar.update(element.children('.scroll-area')[0]);
-
-                element.find('.scroll-area').width(width);
-
-                var columnsWidths = [];
-                table.find('thead tr:last th').each(function(index, th) {
-                    columnsWidths.push(angular.element(th).outerWidth());
-                });
-
-                element.children('table:first').find('tr:last th').each(function(index, th) {
-                    angular.element(th).css('min-width', columnsWidths[index]);
-                });
-
-                element.children('table:last').find('tr:first td').each(function(index, td) {
-                    angular.element(td).css('min-width', columnsWidths[index]);
-                });
-            });
+            var repeatRow = container.find('tbody tr');
+            repeatRow.attr('md-virtual-repeat', repeatRow.attr('ng-repeat'));
+            repeatRow.removeAttr('ng-repeat');
         }
     }
 

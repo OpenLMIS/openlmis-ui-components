@@ -11,7 +11,9 @@
     "bootstrap-datepicker": "1.7",
     "pouchdb": "^6.3.4",
     "angular-vs-repeat": "^1.1.7",
-    "perfect-scrollbar": "^0.8.1"
+    "perfect-scrollbar": "^0.8.1",
+    "angular-material": "^1.1.5",
+    "resize-observer-polyfill": "^1.4.2"
   },
   "overrides": {
     "font-awesome": {

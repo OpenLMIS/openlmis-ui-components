@@ -4,12 +4,12 @@ Table Panes
 A table pine is a fitted way to display a large table, that will implement
 virtual scrolling so that extremely large lists and pages can be rendered.
 
-<section ng-controller="OpenlmisExampleTableData as vm">
+<section ng-controller="OpenlmisExampleTableData as vm" style="display:flex; flex-direction: column; height: 400px;">
   <form class="form-inline" ng-submit="vm.update(rows, cols)">
     <label for="rowsToAdd">Rows</label>
     <input id="rowsToAdd" type="number" ng-model="rows" ng-value="vm.rows.length" />
     <label for="cols">Cols</label>
-    <input id="cols" type="number" ng-model="cols" ng-value="vm.colums.length" />
+    <input id="cols" type="number" ng-model="cols" ng-value="vm.columns.length" />
     <input class="add" type="submit" value="Reset" />
   </form>
   <div class="openlmis-table-pane">
@@ -23,13 +23,13 @@ virtual scrolling so that extremely large lists and pages can be rendered.
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="row in ::vm.rows track by $index">
+        <tr ng-repeat="row in vm.rows">
           <td>Sample</td>
           <td>Data</td>
-          <td ng-repeat="column in vm.columns track by $index">
+          <td ng-repeat="column in ::vm.columns track by $index">
             <input requied positive-integer ng-model="row[column]" />
           </td>
-          <td>{{vm.makeTotal(row)}}</td>
+          <td>MEH</td>
         </tr>
       </tbody>
       <tfoot>
@@ -48,8 +48,21 @@ Styleguide 4.6
 */
 
 .openlmis-table-pane {
+  display: flex;
+  flex-direction: column;
+
   position: relative;
   overflow: hidden;
+
+  flex-grow: 1;
+
+  .md-virtual-repeat-container {
+    flex-grow: 1;
+  }
+
+  // .md-virtual-repeat-scroller {
+  //   overflow-x: auto;
+  // }
 
   table {
     @extend .openlmis-table;
@@ -66,11 +79,6 @@ Styleguide 4.6
     &:last-child {
       bottom: 0px;
     }
-  }
-  
-  .scroll-area {
-    overflow: hidden;
-    height: 300px;
   }
 
 }
