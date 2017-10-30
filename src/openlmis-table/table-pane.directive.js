@@ -86,9 +86,9 @@
         this.setColumns(35);
     }
 
-    directive.$inject = ['$compile', '$timeout'];
+    directive.$inject = ['$$rAF', '$compile', '$timeout'];
 
-    function directive($compile, $timeout) {
+    function directive($$rAF, $compile, $timeout) {
         var directive = {
             compile: compile,
             restrict: 'C',
@@ -101,13 +101,36 @@
             setup(element, table);
 
             return function(scope, element, attrs) {
+                var observer = new ResizeObserver(_.debounce(function(entities, observer) {
+                    var newWidth = entities[0].contentRect.width;
+                    $$rAF(function() {
+                        element.find('.md-virtual-repeat-container').width(newWidth);
+                    });
 
+                    var columnWidths = [];
+                    element.find('tbody tr:first').find('td,th').each(function(index, cell) {
+                        columnWidths[index] = angular.element(cell).outerWidth();
+                    });
+                    $$rAF(function() {
+                        element.children('table').find('tr:last').each(function(_index, row) {
+                            angular.element(row).find('th, td').each(function(index, cell) {
+                                angular.element(cell).css('min-width', columnWidths[index] + 'px');
+                            });
+                        });
+                    });
+                }, 250));
+
+                observer.observe(element.find('tbody')[0]);
+
+                PerfectScrollbar.initialize(element[0], {
+                    suppressScrollY: true
+                });
             };
         }
 
         function setup(container, table) {
-            var thead = table.find('thead').clone().prependTo(container).wrap('<table role="presentation" aria-hidden>'),
-                tfoot = table.find('tfoot').clone().appendTo(container).wrap('<table role="presentation" aria-hidden>');
+            var thead = table.find('thead').clone().prependTo(container).wrap('<table class="thead" tab-index="-1" role="presentation" aria-hidden>'),
+                tfoot = table.find('tfoot').clone().appendTo(container).wrap('<table class="tfoot" tab-index="-1" role="presentation" aria-hidden>');
 
             table.wrap('<md-virtual-repeat-container></md-virtual-repeat-container>');
 

@@ -60,10 +60,6 @@ Styleguide 4.6
     flex-grow: 1;
   }
 
-  // .md-virtual-repeat-scroller {
-  //   overflow-x: auto;
-  // }
-
   table {
     @extend .openlmis-table;
   }
@@ -72,13 +68,32 @@ Styleguide 4.6
     position: absolute;
     z-index: 10;
 
-    &:first-child {
+    &.thead {
       top: 0px;
     }
 
-    &:last-child {
+    &.tfoot {
       bottom: 0px;
     }
+  }
+
+  &.ps,
+  &.ps:hover.ps--in-scrolling {
+    > table.tfoot {
+      bottom: $space-size;
+    }
+
+    .ps__scrollbar-x-rail,
+    .ps__scrollbar-x-rail:hover {
+      background-color: $border-color;
+      opacity: 1;
+      z-index: 11;
+      height: $space-size;
+      .ps__scrollbar-x {
+        height: $space-size;
+      }
+    }
+
   }
 
 }

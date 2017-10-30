@@ -27,7 +27,6 @@
         'openlmis-invalid',
         'openlmis-config',
         'openlmis-templates',
-        'vs-repeat',
         'ngMaterial'
     	]);
 
