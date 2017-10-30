@@ -39,22 +39,37 @@
         return directive;
 
         function link(scope, element, attrs, ngModel) {
-            var el = element[0],
-                options = el.getAttribute('ng-model-options');
+            if (shouldSetDefaultDebounceOption(element)) {
+                ngModel.$overrideModelOptions({
+                    updateOn: 'default blur',
+                    debounce: {
+                        default: parseInt('@@DEFAULT_DEBOUNCE'),
+                        blur: 0
+                    }
+                });
+            }
+        }
 
-            if ((options !== null && options.contains('debounce'))) {
-                return;
+        function shouldSetDefaultDebounceOption(element) {
+            var options = element.attr('ng-model-options');
+
+            if (options && options.contains('debounce')) {
+                return false;
             }
 
-            ngModel.$overrideModelOptions({
-                updateOn: 'blur keydown keyup click change',
-                debounce: {
-                    default: parseInt('@@DEFAULT_DEBOUNCE'),
-                    click: 0,
-                    blur: 0,
-                    change: 0
-                }
-            });
+            if (element.is('select')) {
+                return false;
+            }
+
+            if (element.attr('type') === 'radio') {
+                return false;
+            }
+
+            if (element.attr('type') === 'checkbox') {
+                return false;
+            }
+
+            return true;
         }
     }
 

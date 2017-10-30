@@ -33,9 +33,7 @@ describe('ng-model debounce directive', function() {
 
         expect(ngModel.$options.$$options.debounce).toEqual({
             default: 500,
-            click: 0,
-            blur: 0,
-            change: 0
+            blur: 0
         });
     });
 
@@ -56,6 +54,33 @@ describe('ng-model debounce directive', function() {
         $rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toEqual(5000);
+    });
+
+    it('should not set debounce option for select', function() {
+        var select = getCompiledElement('<select ng-model="value"></select'),
+            ngModel = select.controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toBeFalsy();
+    });
+
+    it('should not set debounce option for radio inputs', function() {
+        var input = getCompiledElement('<input type="radio" ng-model="value"></input>'),
+            ngModel = input.controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toBeFalsy();
+    });
+
+    it('should not set debounce option for checkboxes', function() {
+        var input = getCompiledElement('<input type="checkbox" ng-model="value"></input'),
+            ngModel = input.controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toBeFalsy();
     });
 
     function getCompiledElement(html) {
