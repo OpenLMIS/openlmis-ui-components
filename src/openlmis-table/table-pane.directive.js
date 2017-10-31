@@ -137,7 +137,7 @@
 
             return function(scope, element, attrs) {
                 var observer = new ResizeObserver(_.debounce(function(entities, observer) {
-                    setContainerWidth(entities[0].contentRect.width);
+                    setContainerWidth(element, entities[0].contentRect.width);
                     udpateColumnWidths(element);
                 }, 250));
 
