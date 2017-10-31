@@ -102,22 +102,8 @@
 
             return function(scope, element, attrs) {
                 var observer = new ResizeObserver(_.debounce(function(entities, observer) {
-                    var newWidth = entities[0].contentRect.width;
-                    $$rAF(function() {
-                        element.find('.md-virtual-repeat-container').width(newWidth);
-                    });
-
-                    var columnWidths = [];
-                    element.find('tbody tr:first').find('td,th').each(function(index, cell) {
-                        columnWidths[index] = angular.element(cell).outerWidth();
-                    });
-                    $$rAF(function() {
-                        element.children('table').find('tr:last').each(function(_index, row) {
-                            angular.element(row).find('th, td').each(function(index, cell) {
-                                angular.element(cell).css('min-width', columnWidths[index] + 'px');
-                            });
-                        });
-                    });
+                    setContainerWidth(entities[0].contentRect.width);
+                    udpateColumnWidths();
                 }, 250));
 
                 observer.observe(element.find('tbody')[0]);
@@ -137,6 +123,26 @@
             var repeatRow = container.find('tbody tr');
             repeatRow.attr('md-virtual-repeat', repeatRow.attr('ng-repeat'));
             repeatRow.removeAttr('ng-repeat');
+        }
+
+        function setContainerWidth(element, width) {
+            $$rAF(function() {
+                element.find('.md-virtual-repeat-container').width(width);
+            });
+        }
+
+        function udpateColumnWidths(element) {
+            var columnWidths = [];
+            element.find('tbody tr:first').find('td,th').each(function(index, cell) {
+                columnWidths[index] = angular.element(cell).outerWidth();
+            });
+            $$rAF(function() {
+                element.children('table').find('tr:last').each(function(_index, row) {
+                    angular.element(row).find('th, td').each(function(index, cell) {
+                        angular.element(cell).css('min-width', columnWidths[index] + 'px');
+                    });
+                });
+            });
         }
     }
 
