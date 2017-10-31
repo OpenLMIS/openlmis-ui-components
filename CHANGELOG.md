@@ -2,6 +2,7 @@
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-2655:](https://openlmis.atlassian.net/browse/OLMIS-2655) Added sort control component.
+* [OLMIS-3462:](https://openlmis.atlassian.net/browse/OLMIS-3462) Added debounce option for inputs.
 * [OLMIS-3199:](https://openlmis.atlassian.net/browse/OLMIS-3199) Added PouchDB.
 
 New functionality:
