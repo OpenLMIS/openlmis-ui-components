@@ -26,32 +26,32 @@
      * Displays the openlmis-invalid message in a popover.
      */
     
-    // angular
-    //     .module('openlmis-table-form')
-    //     .directive('inputControl', directive);
+    angular
+        .module('openlmis-table-form')
+        .directive('inputControl', directive);
 
-    // directive.$inject = ['$compile'];
+    directive.$inject = ['$compile'];
     
-    // function directive($compile) {
-    //     return {
-    //         restrict: 'A',
-    //         terminal: true,
-    //         priority: 107,
-    //         compile: compile
-    //     };
+    function directive($compile) {
+        return {
+            restrict: 'A',
+            terminal: true,
+            priority: 107,
+            compile: compile
+        };
 
-    //     function compile(element, attrs) {
-    //         if(element.parents('td').length > 0 && !attrs.hasOwnProperty('popover')) {
-    //             element.attr('popover', '');
-    //         }
+        function compile(element, attrs) {
+            if(element.parents('td').length > 0 && !attrs.hasOwnProperty('popover')) {
+                element.attr('popover', '');
+            }
 
-    //         return link;
-    //     }
+            return link;
+        }
 
-    //     function link(scope, element) {
-    //         $compile(element, null, 107)(scope);
-    //     }
+        function link(scope, element) {
+            $compile(element, null, 107)(scope);
+        }
 
-    // }
+    }
 
 })();
