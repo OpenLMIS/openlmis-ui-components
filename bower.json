@@ -15,6 +15,15 @@
     "resize-observer-polyfill": "^1.4.2"
   },
   "overrides": {
+    "angular-material": {
+      "main": [
+        "modules/js/virtualRepeat/virtualRepeat.js",
+        "modules/js/virtualRepeat/virtualRepeat.css",
+        "modules/js/showHide/showHide.js",
+        "modules/js/core/core.js",
+        "modules/js/core/core.css"
+      ]
+    },
     "font-awesome": {
       "main": [
         "scss/font-awesome.scss",

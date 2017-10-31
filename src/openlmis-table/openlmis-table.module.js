@@ -27,7 +27,7 @@
         'openlmis-invalid',
         'openlmis-config',
         'openlmis-templates',
-        'ngMaterial'
+        'material.components.virtualRepeat'
     	]);
 
 })();
