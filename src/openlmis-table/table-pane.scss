@@ -58,6 +58,9 @@ Styleguide 4.6
 
   .md-virtual-repeat-container {
     flex-grow: 1;
+    thead, tfoot {
+      visibility: hidden;
+    }
   }
 
   table {
@@ -78,9 +81,9 @@ Styleguide 4.6
   }
 
   &.ps,
-  &.ps:hover.ps--in-scrolling {
+  &.ps.ps--in-scrolling {
     > table.tfoot {
-      bottom: $space-size;
+      bottom: $space-size/2;
     }
 
     .ps__scrollbar-x-rail,
@@ -88,9 +91,9 @@ Styleguide 4.6
       background-color: $border-color;
       opacity: 1;
       z-index: 11;
-      height: $space-size;
+      height: $space-size/2;
       .ps__scrollbar-x {
-        height: $space-size;
+        height: $space-size/2;
       }
     }
 
