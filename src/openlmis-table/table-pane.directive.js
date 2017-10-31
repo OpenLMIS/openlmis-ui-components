@@ -138,7 +138,7 @@
             return function(scope, element, attrs) {
                 var observer = new ResizeObserver(_.debounce(function(entities, observer) {
                     setContainerWidth(entities[0].contentRect.width);
-                    udpateColumnWidths();
+                    udpateColumnWidths(element);
                 }, 250));
 
                 observer.observe(element.find('tbody')[0]);
