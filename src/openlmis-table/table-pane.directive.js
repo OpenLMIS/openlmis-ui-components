@@ -23,13 +23,29 @@
      * @name openlmis-table.directive:openlmisTablePane
      *
      * @description
-     * Creates a virtualized table pane that renders a minimal number of rows to the screen
+     * The OpenLMIS table pane rearranges a table, so that it can be used even
+     * when the content of the table is extremely large.
+     *
+     * To keep browser frame rates high, this directive implements the AngularJS
+     * Material virtualRepeat directive. This means that like the virtualRepeat
+     * directive, the ng-repeat attribute can only match statemeants formatted
+     * like "item in items".
+     *
+     * Scrollbars are applied dynamically to this layout, as it is mean to make
+     * the table element be the only scrollable elemnt on the page.
+     * 
+     * Additionally, the directive statically places header and footers so they
+     * are not animated.
      *
      * @example
      * ```
      * <div class="openlmis-table-pane">
      *     <table>
-     *         <div class="toolbar"></div>
+     *         <tbody>
+     *             <tr ng-repeat="item in items">
+     *                 <td>Example</td>
+     *             </tr>
+     *          </tbody>
      *     </table>
      * <div>
      * ```
@@ -39,6 +55,7 @@
         .directive('openlmisTablePane', directive)
         .controller('OpenlmisExampleTableData', controller);
 
+    // IGNORE THIS CONTROLLER, it will be removed
     function controller() {
         this.rows = [];
         this.columns = [];
@@ -96,7 +113,25 @@
         };
         return directive;
 
-        function compile(element, attrs) {
+        /**
+         * @ngdoc method
+         * @name  compile
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} element openlmisTablePane element
+         *
+         * @description
+         * When the directive is compiled the setup method is run. 
+         * 
+         * In the post-link phase of the directive a ResizeObserver is created to
+         * watch if the table changes in size, which will trigger other layout
+         * functions.
+         *
+         * Additionally, the ResizeObserver recalculates table column widths.
+         *
+         * PerfectScrollbar elements are added in this phase. 
+         */
+        function compile(element) {
             var table = element.find('table');
             setup(element, table);
 
@@ -114,6 +149,18 @@
             };
         }
 
+        /**
+         * @ngdoc method
+         * @name  setup
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} container openlmisTablePane element
+         * @param {Object} table     Original table element placed on page
+         *
+         * @description
+         * Sets up the layout of virtualRepeat elements and table headers/footers
+         * that are used to make the design performant. 
+         */
         function setup(container, table) {
             var thead = table.find('thead').clone().prependTo(container).wrap('<table class="thead" tab-index="-1" role="presentation" aria-hidden>'),
                 tfoot = table.find('tfoot').clone().appendTo(container).wrap('<table class="tfoot" tab-index="-1" role="presentation" aria-hidden>');
@@ -125,12 +172,38 @@
             repeatRow.removeAttr('ng-repeat');
         }
 
+        /**
+         * @ngdoc method
+         * @name  setContainerWidth
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} element openlmisTablePane element
+         * @param {Number} width   New width of the table element
+         *
+         * @description
+         * When the table is resized, this updates the virtualRepeat container
+         * making the full width of the table visible -- otherwise the table will
+         * but visually cut off.
+         */
         function setContainerWidth(element, width) {
             $$rAF(function() {
                 element.find('.md-virtual-repeat-container').width(width);
             });
         }
 
+        /**
+         * @ngdoc method
+         * @name  updateColumnWidths
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} element openlmisTablePane element
+         *
+         * @description
+         * In the setup function, the thead and tfoot elements are copied so they
+         * are always visible. They are copied in such a way that their width
+         * doesn't change with the rest of the table. This function makes sure
+         * the visible thead and tfoot sections always align with the table body. 
+         */
         function udpateColumnWidths(element) {
             var columnWidths = [];
             element.find('tbody tr:first').find('td,th').each(function(index, cell) {
