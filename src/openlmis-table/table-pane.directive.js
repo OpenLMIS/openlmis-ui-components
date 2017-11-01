@@ -76,31 +76,75 @@
             }
         }
 
-        this.makeTotal = function(row) {
-            var total = 0;
-            this.columns.forEach(function(column) {
-                if(row[column]) {
-                    total += parseInt(row[column]);
-                }
-            });
-            return total;
-        }
-
-        this.totalRows = function() {
-            var total = 0;
-            this.rows.forEach(function(row) {
-                total += this.makeTotal(row);
-            });
-            return total;
-        }
-
-        this.update = function(rows, cols) {
-            this.setRows(rows);
-            this.setColumns(cols);
-        }
-
         this.setRows(2000);
         this.setColumns(35);
+    }
+
+    angular.module('openlmis-table')
+    .directive('openlmisTableStickyCell', otherDirective);
+
+    otherDirective.$inject = ['$$rAF'];
+
+    function otherDirective($$rAF) {
+        return {
+            restrict: 'A',
+            controller: function() {
+                this.rect = {};
+
+                this.update = function(rect) {
+                    _.extend(this.rect, rect);
+                    this.animate();
+                };
+
+                this.animate = function() {};
+
+            },
+            require: ['openlmisTableStickyCell', '^^openlmisTablePane'],
+            link: function(scope, element, attrs, ctrls) {
+                var tablePaneCtrl = ctrls[1],
+                    cellCtrl = ctrls[0];
+
+                tablePaneCtrl.registerStickyCell(cellCtrl);
+
+                var isStickyCol = element.hasClass('col-sticky'),
+                    isStickyRight = element.hasClass('sticky-right'),
+                    isStickyTop = element.parents('thead'),
+                    isStickyBottom = element.parents('tfoot');
+
+                cellCtrl.animate = function() {
+                    var left = getLeftPos(),
+                        top = getTopPos(),
+                        transform = `translate3d(${left}px, ${top}px, 0px)`;
+
+                    $$rAF(function() {
+                        element[0].style.transform = transform;
+                    });
+                }
+
+                function getLeftPos() {
+                    if(isStickyCol) {
+                        return cellCtrl.rect.left;
+                    }
+                    return 0;
+                }
+
+                function getTopPos() {
+                    if(isStickyTop) {
+                        return cellCtrl.rect.top;
+                    }
+
+                    if(isStickyBottom) {
+                        return cellCtrl.rect.height - cellCtrl.rect.top
+                    }
+
+                    return 0;
+                }
+
+                scope.$on('$destroy', function() {
+                    ctrl.removeStickyCell(cellCtrl);
+                });
+            }
+        }
     }
 
     directive.$inject = ['$$rAF', '$compile', '$timeout'];
@@ -109,9 +153,46 @@
         var directive = {
             compile: compile,
             restrict: 'C',
-            priority: 10
+            priority: 10,
+            controller: controller,
+            require: 'openlmisTablePane'
         };
         return directive;
+
+        function controller() {
+            var elements = [],
+                rect = {};
+
+            this.registerStickyCell = function(cell) {
+                elements.push(cell);
+            };
+            this.removeStickyCell = function() {};
+
+            this.updatePosition = function(top, left) {
+                this.updateRect({
+                    top: top,
+                    left: left
+                });
+            }
+
+            this.updateSize = function(width, height) {
+                this.updateRect({
+                    width: width,
+                    height: height
+                });
+            }
+
+            this.updateRect = function(newRect) {
+                _.extend(rect, newRect);
+                this.updateElements()
+            }
+
+            this.updateElements = function() {
+                elements.forEach(function(cell) {
+                    cell.update(rect);
+                });
+            }
+        }
 
         /**
          * @ngdoc method
@@ -135,18 +216,36 @@
             var table = element.find('table');
             setup(element, table);
 
-            return function(scope, element, attrs) {
-                var observer = new ResizeObserver(_.debounce(function(entities, observer) {
-                    setContainerWidth(element, entities[0].contentRect.width);
-                    udpateColumnWidths(element);
-                }, 250));
+            table.find('thead, tfoot').find('th, td').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-sticky-cell', "");
+            });
 
-                observer.observe(element.find('tbody')[0]);
+            return link;
+        }
 
-                PerfectScrollbar.initialize(element[0], {
-                    suppressScrollY: true
-                });
-            };
+        function link(scope, element, attrs, ctrl) {
+            var observer = new ResizeObserver(_.debounce(function(entities, observer) {
+                var entity = entities[0];
+                ctrl.updateSize(entity.contentRect.width, entity.contentRect.height);
+            }, 250));
+
+            observer.observe(element[0]);
+
+            var scrollContainer = element.find('.md-virtual-repeat-scroller');
+
+            PerfectScrollbar.initialize(scrollContainer[0], {
+                suppressScrollY: false,
+                suppressScrollX: false
+            });
+
+            var mdVirtualRepeatCtrl = element.find('.md-virtual-repeat-container').controller('mdVirtualRepeatContainer');
+
+            var throttled = _.throttle(function(event) {
+                var offseterValue = parseInt(mdVirtualRepeatCtrl.offsetter.style.transform.split('(')[1].split('px')[0]),
+                    scrollOffset = mdVirtualRepeatCtrl.scrollOffset;
+                ctrl.updatePosition(scrollOffset - offseterValue, event.target.scrollLeft);
+            }, 100);
+            scrollContainer.on('scroll', throttled);
         }
 
         /**
@@ -162,9 +261,6 @@
          * that are used to make the design performant. 
          */
         function setup(container, table) {
-            var thead = table.find('thead').clone().prependTo(container).wrap('<table class="thead" tab-index="-1" role="presentation" aria-hidden>'),
-                tfoot = table.find('tfoot').clone().appendTo(container).wrap('<table class="tfoot" tab-index="-1" role="presentation" aria-hidden>');
-
             table.wrap('<md-virtual-repeat-container></md-virtual-repeat-container>');
 
             var repeatRow = container.find('tbody tr');
@@ -210,7 +306,7 @@
                 columnWidths[index] = angular.element(cell).outerWidth();
             });
             $$rAF(function() {
-                element.children('table').find('tr:last').each(function(_index, row) {
+                element.find('table.fixed').find('tr:last').each(function(_index, row) {
                     angular.element(row).find('th, td').each(function(index, cell) {
                         angular.element(cell).css('min-width', columnWidths[index] + 'px');
                     });

@@ -58,16 +58,26 @@ Styleguide 4.6
 
   .md-virtual-repeat-container {
     flex-grow: 1;
-    thead, tfoot {
-      visibility: hidden;
-    }
+    // thead, tfoot {
+    //   visibility: hidden;
+    // }
   }
 
   table {
     @extend .openlmis-table;
   }
 
-  > table {
+  td, th {
+    &[openlmis-table-sticky-cell] {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      z-index: 10;
+      transform: translate3d(0px, 0px, 0px);
+    }
+  }
+
+  table.fixed {
     position: absolute;
     z-index: 10;
 
@@ -84,6 +94,15 @@ Styleguide 4.6
   &.ps.ps--in-scrolling {
     > table.tfoot {
       bottom: $space-size/2;
+    }
+
+    .ps__scrollbar-y-rail,
+    .ps__scrollbar-y-rail:hover,
+    .ps__scrollbar-x-rail,
+    .ps__scrollbar-x-rail:hover {
+      background-color: $border-color;
+      opacity: 1;
+      z-index: 11;
     }
 
     .ps__scrollbar-x-rail,
