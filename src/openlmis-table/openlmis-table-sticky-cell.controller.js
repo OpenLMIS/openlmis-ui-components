@@ -17,73 +17,8 @@
 
     'use strict';
 
-    /**
-     * @ngdoc directive
-     * @restrict A
-     * @name openlmis-table.directive:openlmisTableStickyCell
-     *
-     * @description
-     * Noop
-     */
     angular.module('openlmis-table')
-    .directive('openlmisTableStickyCell', directive);
-
-    directive.$inject = ['$$rAF'];
-
-    function directive($$rAF) {
-        var directive = {
-            restrict: 'A',
-            controller: controller,
-            require: ['openlmisTableStickyCell', '^^openlmisTablePane'],
-            link: link
-        }
-        return directive;
-
-        function link(scope, element, attrs, ctrls) {
-            var tablePaneCtrl = ctrls[1],
-                cellCtrl = ctrls[0],
-            	lastTransform,
-            	cancelAnimationFrame,
-            	originalUpdatePosition;
-
-            tablePaneCtrl.registerStickyCell(cellCtrl);
-
-            scope.$on('$destroy', function() {
-                ctrl.removeStickyCell(cellCtrl);
-            });
-
-            cellCtrl.setup({
-            	stickLeft: attrs.hasOwnProperty('openlmisStickyColumn') && !attrs.hasOwnProperty('openlmisStickyColumnRight'),
-            	stickRight: attrs.hasOwnProperty('openlmisStickyColumn') && attrs.hasOwnProperty('openlmisStickyColumnRight'),
-            	stickTop: attrs.hasOwnProperty('openlmisStickyTop'),
-            	stickBottom: attrs.hasOwnProperty('openlmisStickyBottom')
-            });
-
-            originalUpdatePosition = cellCtrl.updatePosition;
-            cellCtrl.updatePosition = animatePosition;
-
-            function animatePosition() {
-            	var positionObj = originalUpdatePosition.apply(cellCtrl, arguments),
-            		transform = 'translate3d('+positionObj.left+'px, '+positionObj.top+'px, 0px)';
-
-            	if(transform === lastTransform) {
-            		return;
-            	}
-
-            	lastTransform = transform;
-
-				if(cancelAnimationFrame) {
-            		cancelAnimationFrame();
-            		cancelAnimationFrame = undefined;
-            	}
-
-                cancelAnimationFrame = $$rAF(function() {
-                    element[0].style.transform = transform;
-                });
-
-            }
-        }
-    }
+    .controller('OpenlmisTableStickyCellController', controller);
 
     function controller() {
     	var isStickyLeft,

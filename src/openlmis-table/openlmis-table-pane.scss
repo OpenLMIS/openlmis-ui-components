@@ -1,0 +1,129 @@
+/*
+Table Panes
+
+A table pine is a fitted way to display a large table, that will implement
+virtual scrolling so that extremely large lists and pages can be rendered.
+
+<section ng-init="
+  columns=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  rows=[
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
+  ];"
+  style="display:flex; flex-direction: column; height: 600px;">
+  <dl>
+    <dt>Rows</dt>
+    <dd>{{rows.length}}</dd>
+    <dt>Columns</dt>
+    <dd>{{columns.length}}</dd>
+  </dl>
+  <div class="openlmis-table-pane">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sticky">Sample</th>
+          <th class="col-sticky">Data</th>
+          <th ng-repeat="column in ::columns track by $index">Column {{$index + 1}}</th>
+          <th class="col-sticky col-sticky-right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in ::rows">
+          <td class="col-sticky">Sample</td>
+          <td class="col-sticky">Data</td>
+          <td ng-repeat="column in ::columns track by $index">
+            <input requied positive-integer ng-model="row[column]" />
+          </td>
+          <td class="col-sticky col-sticky-right">MEH</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="col-sticky">Foot 1</td>
+          <td class="col-sticky">Foot 2</td>
+          <td ng-repeat="column in ::columns track by $index">
+          <td class="col-sticky col-sticky-right"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+Styleguide 4.6
+*/
+
+.openlmis-table-pane {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+
+    flex-grow: 1;
+
+    .md-virtual-repeat-container {
+        flex-grow: 1;
+    }
+
+    table {
+        @extend .openlmis-table;
+    }
+
+    td, th {
+        &[openlmis-table-sticky-cell] {
+            position: relative;
+            top: 0px;
+            left: 0px;
+            z-index: 10;
+            transform: translate3d(0px, 0px, 0px);
+        }
+        &[openlmis-table-sticky-cell].col-sticky {
+            z-index: 11;
+        }
+    }
+
+    tbody td,
+    tbody th {
+        &[openlmis-table-sticky-cell].col-sticky {
+            z-index: 9;
+        }
+    }
+
+    td.col-sticky
+    th.col-sticky {
+        border-right: 1px $border-color solid !important;
+    }
+
+    td.col-sticky.col-sticky-right
+    th.col-sticky.col-sticky-right {
+        border-left: 1px $border-color solid !important;
+        border-right-width: 0px !important;
+        &:last-child {
+            border-right-width: 1px;
+        }
+    }
+
+    tfoot td,
+    tfoot th {
+        border-top: 1px $border-color solid !important;
+    }
+
+}

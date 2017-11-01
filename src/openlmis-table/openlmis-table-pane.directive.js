@@ -52,101 +52,17 @@
      */
     angular
         .module('openlmis-table')
-        .directive('openlmisTablePane', directive)
-        .controller('OpenlmisExampleTableData', controller);
+        .directive('openlmisTablePane', directive);
 
-    // IGNORE THIS CONTROLLER, it will be removed
-    function controller() {
-        this.rows = [];
-        this.columns = [];
-
-        this.setRows = function(num) {
-            var i = 0;
-            this.rows = [];
-            for(i;i<num;i++) {
-                this.rows.push({});
-            }
-        }
-
-        this.setColumns = function(num) {
-            var i = 0;
-            this.columns = [];
-            for(i;i<num;i++) {
-                this.columns.push(i);
-            }
-        }
-
-        this.setRows(2000);
-        this.setColumns(30);
-    }
-
-    directive.$inject = ['$$rAF', '$compile', '$timeout'];
-
-    function directive($$rAF, $compile, $timeout) {
+    function directive() {
         var directive = {
             compile: compile,
             restrict: 'C',
             priority: 10,
-            controller: controller,
+            controller: "OpenlmisTablePaneController",
             require: 'openlmisTablePane'
         };
         return directive;
-
-        function controller() {
-            var elements = [],
-                tableRectangle = {},
-                viewportRectangle = {};
-
-            this.registerStickyCell = registerStickyCell;
-            this.unregisterStickyCell = unregisterStickyCell;
-
-            this.updateViewportSize = updateViewportSize;
-            this.updateViewportPosition = updateViewportPosition;
-            this.updateTableSize = updateTableSize;
-
-            this.updateElements = updateElements;
-
-
-            function registerStickyCell(cellCtrl) {
-                elements.push(cellCtrl);
-            };
-
-            
-            function unregisterStickyCell(cellCtrl) {
-                elements = _.without(elements, cellCtrl);
-            };
-
-            
-            function updateViewportPosition(top, left) {
-                _.extend(viewportRectangle, {
-                    top: top,
-                    left: left
-                });
-                this.updateElements();
-            }
-
-            function updateViewportSize(width, height) {
-                _.extend(viewportRectangle, {
-                    width: width,
-                    height: height
-                });
-                this.updateElements();
-            }
-
-            function updateTableSize(width, height) {
-                _.extend(tableRectangle, {
-                    width: width,
-                    height: height
-                });
-                this.updateElements();
-            }
-
-            function updateElements() {
-                elements.forEach(function(cell) {
-                    cell.updatePosition(viewportRectangle, tableRectangle);
-                });
-            }
-        }
 
         /**
          * @ngdoc method
@@ -189,15 +105,10 @@
             tableObserver.observe(element.find('table')[0]);
 
             var scrollContainer = element.find('.md-virtual-repeat-scroller');
-
-            PerfectScrollbar.initialize(scrollContainer[0], {
-                suppressScrollY: false,
-                suppressScrollX: false
-            });
+            PerfectScrollbar.initialize(scrollContainer[0]);
 
             var mdVirtualRepeatCtrl = element.find('.md-virtual-repeat-container').controller('mdVirtualRepeatContainer');
-
-            var throttled = _.throttle(function(event) {
+            function updateViewportPositionOnScroll(event) {
                 var offseterValue,
                     scrollOffset = mdVirtualRepeatCtrl.scrollOffset;
 
@@ -208,8 +119,11 @@
                 }
 
                 ctrl.updateViewportPosition(scrollOffset - offseterValue, event.target.scrollLeft);
-            }, debounceTime);
-            scrollContainer.on('scroll', throttled);
+            }
+            scrollContainer.on('scroll', _.throttle(updateViewportPositionOnScroll, debounceTime));
+
+            // Trigger scroll, so everything is rendered correctly on load
+            scrollContainer.trigger('scroll');
         }
 
         /**
