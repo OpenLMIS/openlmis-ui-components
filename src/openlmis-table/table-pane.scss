@@ -16,28 +16,28 @@ virtual scrolling so that extremely large lists and pages can be rendered.
     <table>
       <thead>
         <tr>
-          <th>Sample</th>
-          <th>Data</th>
+          <th class="col-sticky">Sample</th>
+          <th class="col-sticky">Data</th>
           <th ng-repeat="column in vm.columns track by $index">Column {{$index + 1}}</th>
-          <th>Total</th>
+          <th class="col-sticky col-sticky-right">Total</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="row in vm.rows">
-          <td>Sample</td>
-          <td>Data</td>
+          <td class="col-sticky">Sample</td>
+          <td class="col-sticky">Data</td>
           <td ng-repeat="column in ::vm.columns track by $index">
             <input requied positive-integer ng-model="row[column]" />
           </td>
-          <td>MEH</td>
+          <td class="col-sticky col-sticky-right">MEH</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td>Foot 1</td>
-          <td>Foot 2</td>
+          <td class="col-sticky">Foot 1</td>
+          <td class="col-sticky">Foot 2</td>
           <td ng-repeat="column in vm.columns track by $index">
-          <td></td>
+          <td class="col-sticky col-sticky-right"></td>
         </tr>
       </tfoot>
     </table>
@@ -74,6 +74,16 @@ Styleguide 4.6
       left: 0px;
       z-index: 10;
       transform: translate3d(0px, 0px, 0px);
+    }
+    &[openlmis-table-sticky-cell].col-sticky {
+      z-index: 11;
+    }
+  }
+
+  tbody td,
+  tbody th {
+    &[openlmis-table-sticky-cell].col-sticky {
+      z-index: 9;
     }
   }
 

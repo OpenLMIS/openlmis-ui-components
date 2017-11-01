@@ -77,74 +77,7 @@
         }
 
         this.setRows(2000);
-        this.setColumns(35);
-    }
-
-    angular.module('openlmis-table')
-    .directive('openlmisTableStickyCell', otherDirective);
-
-    otherDirective.$inject = ['$$rAF'];
-
-    function otherDirective($$rAF) {
-        return {
-            restrict: 'A',
-            controller: function() {
-                this.rect = {};
-
-                this.update = function(rect) {
-                    _.extend(this.rect, rect);
-                    this.animate();
-                };
-
-                this.animate = function() {};
-
-            },
-            require: ['openlmisTableStickyCell', '^^openlmisTablePane'],
-            link: function(scope, element, attrs, ctrls) {
-                var tablePaneCtrl = ctrls[1],
-                    cellCtrl = ctrls[0];
-
-                tablePaneCtrl.registerStickyCell(cellCtrl);
-
-                var isStickyCol = element.hasClass('col-sticky'),
-                    isStickyRight = element.hasClass('sticky-right'),
-                    isStickyTop = element.parents('thead'),
-                    isStickyBottom = element.parents('tfoot');
-
-                cellCtrl.animate = function() {
-                    var left = getLeftPos(),
-                        top = getTopPos(),
-                        transform = `translate3d(${left}px, ${top}px, 0px)`;
-
-                    $$rAF(function() {
-                        element[0].style.transform = transform;
-                    });
-                }
-
-                function getLeftPos() {
-                    if(isStickyCol) {
-                        return cellCtrl.rect.left;
-                    }
-                    return 0;
-                }
-
-                function getTopPos() {
-                    if(isStickyTop) {
-                        return cellCtrl.rect.top;
-                    }
-
-                    if(isStickyBottom) {
-                        return cellCtrl.rect.height - cellCtrl.rect.top
-                    }
-
-                    return 0;
-                }
-
-                scope.$on('$destroy', function() {
-                    ctrl.removeStickyCell(cellCtrl);
-                });
-            }
-        }
+        this.setColumns(30);
     }
 
     directive.$inject = ['$$rAF', '$compile', '$timeout'];
@@ -161,35 +94,56 @@
 
         function controller() {
             var elements = [],
-                rect = {};
+                tableRectangle = {},
+                viewportRectangle = {};
 
-            this.registerStickyCell = function(cell) {
-                elements.push(cell);
+            this.registerStickyCell = registerStickyCell;
+            this.unregisterStickyCell = unregisterStickyCell;
+
+            this.updateViewportSize = updateViewportSize;
+            this.updateViewportPosition = updateViewportPosition;
+            this.updateTableSize = updateTableSize;
+
+            this.updateElements = updateElements;
+
+
+            function registerStickyCell(cellCtrl) {
+                elements.push(cellCtrl);
             };
-            this.removeStickyCell = function() {};
 
-            this.updatePosition = function(top, left) {
-                this.updateRect({
+            
+            function unregisterStickyCell(cellCtrl) {
+                elements = _.without(elements, cellCtrl);
+            };
+
+            
+            function updateViewportPosition(top, left) {
+                _.extend(viewportRectangle, {
                     top: top,
                     left: left
                 });
+                this.updateElements();
             }
 
-            this.updateSize = function(width, height) {
-                this.updateRect({
+            function updateViewportSize(width, height) {
+                _.extend(viewportRectangle, {
                     width: width,
                     height: height
                 });
+                this.updateElements();
             }
 
-            this.updateRect = function(newRect) {
-                _.extend(rect, newRect);
-                this.updateElements()
+            function updateTableSize(width, height) {
+                _.extend(tableRectangle, {
+                    width: width,
+                    height: height
+                });
+                this.updateElements();
             }
 
-            this.updateElements = function() {
+            function updateElements() {
                 elements.forEach(function(cell) {
-                    cell.update(rect);
+                    cell.updatePosition(viewportRectangle, tableRectangle);
                 });
             }
         }
@@ -214,22 +168,25 @@
          */
         function compile(element) {
             var table = element.find('table');
-            setup(element, table);
-
-            table.find('thead, tfoot').find('th, td').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-sticky-cell', "");
-            });
-
+            setupVirtualRepeat(element, table);
+            setupStickyCells(table);
             return link;
         }
 
         function link(scope, element, attrs, ctrl) {
-            var observer = new ResizeObserver(_.debounce(function(entities, observer) {
-                var entity = entities[0];
-                ctrl.updateSize(entity.contentRect.width, entity.contentRect.height);
-            }, 250));
+            var debounceTime = 50;
 
-            observer.observe(element[0]);
+            var viewportObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+                var rect = entities[0].contentRect;
+                ctrl.updateViewportSize(rect.width, rect.height);
+            }, debounceTime));
+            viewportObserver.observe(element[0]);
+
+            var tableObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+                var rect = entities[0].contentRect;
+                ctrl.updateTableSize(rect.width, rect.height);
+            }, debounceTime));
+            tableObserver.observe(element.find('table')[0]);
 
             var scrollContainer = element.find('.md-virtual-repeat-scroller');
 
@@ -241,10 +198,17 @@
             var mdVirtualRepeatCtrl = element.find('.md-virtual-repeat-container').controller('mdVirtualRepeatContainer');
 
             var throttled = _.throttle(function(event) {
-                var offseterValue = parseInt(mdVirtualRepeatCtrl.offsetter.style.transform.split('(')[1].split('px')[0]),
+                var offseterValue,
                     scrollOffset = mdVirtualRepeatCtrl.scrollOffset;
-                ctrl.updatePosition(scrollOffset - offseterValue, event.target.scrollLeft);
-            }, 100);
+
+                try {
+                    offseterValue = parseInt(mdVirtualRepeatCtrl.offsetter.style.transform.split('(')[1].split('px')[0]);
+                } catch(e) {
+                    offseterValue = 0;
+                }
+
+                ctrl.updateViewportPosition(scrollOffset - offseterValue, event.target.scrollLeft);
+            }, debounceTime);
             scrollContainer.on('scroll', throttled);
         }
 
@@ -260,7 +224,7 @@
          * Sets up the layout of virtualRepeat elements and table headers/footers
          * that are used to make the design performant. 
          */
-        function setup(container, table) {
+        function setupVirtualRepeat(container, table) {
             table.wrap('<md-virtual-repeat-container></md-virtual-repeat-container>');
 
             var repeatRow = container.find('tbody tr');
@@ -268,51 +232,26 @@
             repeatRow.removeAttr('ng-repeat');
         }
 
-        /**
-         * @ngdoc method
-         * @name  setContainerWidth
-         * @methodOf openlmis-table.directive:openlmisTablePane
-         *
-         * @param {Object} element openlmisTablePane element
-         * @param {Number} width   New width of the table element
-         *
-         * @description
-         * When the table is resized, this updates the virtualRepeat container
-         * making the full width of the table visible -- otherwise the table will
-         * but visually cut off.
-         */
-        function setContainerWidth(element, width) {
-            $$rAF(function() {
-                element.find('.md-virtual-repeat-container').width(width);
+        function setupStickyCells(table) {
+            table.find('thead').find('th, td').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-sticky-cell', "");
+                cell.setAttribute('openlmis-sticky-top', "");
+            });
+            table.find('tfoot').find('th, td').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-sticky-cell', "");
+                cell.setAttribute('openlmis-sticky-bottom', "");
+            });
+            table.find('.col-sticky').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-sticky-cell', "");
+                cell.setAttribute('openlmis-sticky-column', "");
+            });
+            table.find('.col-sticky.col-sticky-right').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-sticky-cell', "");
+                cell.setAttribute('openlmis-sticky-column', "");
+                cell.setAttribute('openlmis-sticky-column-right', "");
             });
         }
 
-        /**
-         * @ngdoc method
-         * @name  updateColumnWidths
-         * @methodOf openlmis-table.directive:openlmisTablePane
-         *
-         * @param {Object} element openlmisTablePane element
-         *
-         * @description
-         * In the setup function, the thead and tfoot elements are copied so they
-         * are always visible. They are copied in such a way that their width
-         * doesn't change with the rest of the table. This function makes sure
-         * the visible thead and tfoot sections always align with the table body. 
-         */
-        function udpateColumnWidths(element) {
-            var columnWidths = [];
-            element.find('tbody tr:first').find('td,th').each(function(index, cell) {
-                columnWidths[index] = angular.element(cell).outerWidth();
-            });
-            $$rAF(function() {
-                element.find('table.fixed').find('tr:last').each(function(_index, row) {
-                    angular.element(row).find('th, td').each(function(index, cell) {
-                        angular.element(cell).css('min-width', columnWidths[index] + 'px');
-                    });
-                });
-            });
-        }
     }
 
 })();
