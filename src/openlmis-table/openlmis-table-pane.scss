@@ -92,28 +92,37 @@ Styleguide 4.6
             position: relative;
             top: 0px;
             left: 0px;
-            z-index: 10;
+            z-index: 9;
             transform: translate3d(0px, 0px, 0px);
         }
-        &[openlmis-table-sticky-cell].col-sticky {
-            z-index: 11;
-        }
     }
 
-    tbody td,
-    tbody th {
-        &[openlmis-table-sticky-cell].col-sticky {
+    td, th {
+        &[openlmis-table-sticky-cell] {
+            position: relative;
+            top: 0px;
+            left: 0px;
             z-index: 9;
+            transform: translate3d(0px, 0px, 0px);
+        }
+
+        &[openlmis-table-sticky-cell][openlmis-sticky-top],
+        &[openlmis-table-sticky-cell][openlmis-sticky-bottom] {
+            z-index: 10;
+
+            &[openlmis-sticky-column] {
+              z-index: 11;
+            }
         }
     }
 
-    td.col-sticky
-    th.col-sticky {
+    td[openlmis-sticky-column]
+    th[openlmis-sticky-column] {
         border-right: 1px $border-color solid !important;
     }
 
-    td.col-sticky.col-sticky-right
-    th.col-sticky.col-sticky-right {
+    td[openlmis-sticky-column][openlmis-sticky-column-right]
+    th[openlmis-sticky-column][openlmis-sticky-column-right] {
         border-left: 1px $border-color solid !important;
         border-right-width: 0px !important;
         &:last-child {

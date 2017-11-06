@@ -17,6 +17,16 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis-table.controller:OpenlmisTablePaneController
+     *
+     * @description
+     * This controller keeps track of the table and viewport dimentions, and
+     * orchestrates updating those dimensions to table cells that are
+     * registered to this controller.
+     */
+
     angular.module('openlmis-table')
     .controller('OpenlmisTablePaneController', controller);
 
@@ -32,44 +42,98 @@
         this.updateViewportPosition = updateViewportPosition;
         this.updateTableSize = updateTableSize;
 
-        this.updateElements = updateElements;
-
-
+        /**
+         * @ngdoc method
+         * @name  registerStickyCell
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Registers a cell controller, so that when upateCells is called, the
+         * updatePosition method on the cell controller is called.
+         * 
+         * @param  {Object} cellCtrl Controller for a table cell
+         */
         function registerStickyCell(cellCtrl) {
             stickyCells.push(cellCtrl);
         };
 
-        
+        /**
+         * @ngdoc method
+         * @name  unregisterStickyCell
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Unregisters the cell controller so it won't be called anymore.
+         * 
+         * @param  {Object} cellCtrl Controller for a table cell
+         */
         function unregisterStickyCell(cellCtrl) {
             stickyCells = _.without(stickyCells, cellCtrl);
         };
 
         
+        /**
+         * @ngdoc method
+         * @name  updateViewportPosition
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Updates the calculated scroll position for the viewport, and then
+         * updates all registered sticky cells.
+         * 
+         * @param {Number} top  Top scroll position for the viewport
+         * @param {Number} left Left scroll position for the viewport
+         */
         function updateViewportPosition(top, left) {
             _.extend(viewportRectangle, {
                 top: top,
                 left: left
             });
-            this.updateElements();
+            updateStickyCells();
         }
 
+        /**
+         * @ngdoc method
+         * @name  updateViewportSize
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Updates the size of the viewport, then updates all registered sticky
+         * columns.
+         * 
+         * @param  {Number} width  Width of the viewport
+         * @param  {Number} height Height of the viewport
+         */
         function updateViewportSize(width, height) {
             _.extend(viewportRectangle, {
                 width: width,
                 height: height
             });
-            this.updateElements();
+            updateStickyCells();
         }
 
+        /**
+         * @ngdoc method
+         * @name  updateTableSize
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Updates the size of the table, then updates all registered sticky
+         * columns.
+         * 
+         * @param {Number} width  Width of the table
+         * @param {Number} height Height of the table
+         */
         function updateTableSize(width, height) {
             _.extend(tableRectangle, {
                 width: width,
                 height: height
             });
-            this.updateElements();
+            updateStickyCells();
         }
 
-        function updateElements() {
+
+        function updateStickyCells() {
             stickyCells.forEach(function(cellCtrl) {
                 cellCtrl.updatePosition(viewportRectangle, tableRectangle);
             });

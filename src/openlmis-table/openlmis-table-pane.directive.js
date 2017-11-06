@@ -23,32 +23,17 @@
      * @name openlmis-table.directive:openlmisTablePane
      *
      * @description
-     * The OpenLMIS table pane rearranges a table, so that it can be used even
-     * when the content of the table is extremely large.
+     * The OpenLMIS table pane adds elements to make extremely large tables
+     * performant and usable.This is done by adding the AngularJS Material
+     * virtualRepeat directive, which renders only visible elements to the
+     * screen.
      *
-     * To keep browser frame rates high, this directive implements the AngularJS
-     * Material virtualRepeat directive. This means that like the virtualRepeat
-     * directive, the ng-repeat attribute can only match statemeants formatted
-     * like "item in items".
+     * This element changes the page's layout, and adds an internal scroll to
+     * on the element. The table within the table pane will not scroll with the
+     * rest of the document.
      *
-     * Scrollbars are applied dynamically to this layout, as it is mean to make
-     * the table element be the only scrollable elemnt on the page.
-     * 
-     * Additionally, the directive statically places header and footers so they
-     * are not animated.
-     *
-     * @example
-     * ```
-     * <div class="openlmis-table-pane">
-     *     <table>
-     *         <tbody>
-     *             <tr ng-repeat="item in items">
-     *                 <td>Example</td>
-     *             </tr>
-     *          </tbody>
-     *     </table>
-     * <div>
-     * ```
+     * *NOTE:* The virtualRepeat directive can only function with ng-repeat
+     * statements that are formatted like "item in items"
      */
     angular
         .module('openlmis-table')
@@ -72,15 +57,8 @@
          * @param {Object} element openlmisTablePane element
          *
          * @description
-         * When the directive is compiled the setup method is run. 
-         * 
-         * In the post-link phase of the directive a ResizeObserver is created to
-         * watch if the table changes in size, which will trigger other layout
-         * functions.
-         *
-         * Additionally, the ResizeObserver recalculates table column widths.
-         *
-         * PerfectScrollbar elements are added in this phase. 
+         * Before the table element is rendered, the AngularJS Material
+         * virtualRepeat directive, and sticky-cell directives are applied.
          */
         function compile(element) {
             var table = element.find('table');
@@ -89,46 +67,118 @@
             return link;
         }
 
+        /**
+         * @ngdoc function
+         * @name  link
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} scope   AngularJS scope
+         * @param {Object} element openlmisTablePane element
+         * @param {Object} attrs   element attributes
+         * @param {Object} ctrl    OpenlmisTablePaneController instance
+         *
+         * @description
+         * Sets up PerfectScrollbar and runs functions to watch the size of the
+         * element and it's scroll position.
+         */
         function link(scope, element, attrs, ctrl) {
-            var debounceTime = 50;
+            var table = element.find('table'),
+                scrollContainer = element.find('.md-virtual-repeat-scroller');
 
-            var viewportObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+            PerfectScrollbar.initialize(scrollContainer[0]);
+
+            watchSize(scope, ctrl, element, table);
+            watchScroll(scope, ctrl, element, table);
+        }
+
+        /**
+         * @ngdoc function
+         * @name  watchScroll
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         * 
+         * @param  {Object} scope   [description]
+         * @param  {Object} ctrl    [description]
+         * @param  {Object} element [description]
+         * @param  {Object} table   [description]
+         *
+         * @description
+         * Registers a listener on the scrollable element within the table pane
+         * which will update the OpenlmisTablePaneController's scroll position.
+         *
+         * This function will destroy the listener when the scope is destroyed.
+         */
+        function watchScroll(scope, ctrl, element, table) {
+            var debounceTime = 50,
+                scrollContainer = element.find('.md-virtual-repeat-scroller'),
+                mdVirtualRepeatOfsetter = element.find('.md-virtual-repeat-offsetter'),
+                throttled = _.throttle(updateViewportPositionOnScroll, debounceTime);
+
+            scrollContainer.on('scroll', throttled);
+
+            scope.$on('$destroy', function() {
+                scrollContainer.off('scroll', throttled);
+            });
+
+            // Trigger scroll, so everything is rendered correctly on load
+            scrollContainer.trigger('scroll');
+
+            function updateViewportPositionOnScroll(event) {
+                var offseterValue,
+                    tableOffset = table.offset().top;
+
+                try {
+                    offseterValue = parseInt(mdVirtualRepeatOfsetter[0].style.transform.split('(')[1].split('px')[0]);
+                } catch(e) {
+                    offseterValue = 0;
+                }
+
+                ctrl.updateViewportPosition(event.currentTarget.scrollTop - offseterValue, event.target.scrollLeft);
+            }
+        }
+
+        /**
+         * @ngdoc function
+         * @name  watchScroll
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         * 
+         * @param  {Object} scope   [description]
+         * @param  {Object} ctrl    [description]
+         * @param  {Object} element [description]
+         * @param  {Object} table   [description]
+         *
+         * @description
+         * Sets up listeners of resize events of the table pane element and the
+         * table within the table pane. If either element changes size, that is
+         * reported to the OpenlmisTablePaneController.
+         *
+         * This function will destroy the listener when the scope is destroyed.
+         */
+        function watchSize(scope, ctrl, element, table) {
+            var debounceTime = 50,
+                viewportObserver,
+                tableObserver;
+
+            viewportObserver = new ResizeObserver(_.debounce(function(entities, observer) {
                 var rect = entities[0].contentRect;
                 ctrl.updateViewportSize(rect.width, rect.height);
             }, debounceTime));
             viewportObserver.observe(element[0]);
 
-            var tableObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+            tableObserver = new ResizeObserver(_.debounce(function(entities, observer) {
                 var rect = entities[0].contentRect;
                 ctrl.updateTableSize(rect.width, rect.height);
             }, debounceTime));
-            tableObserver.observe(element.find('table')[0]);
+            tableObserver.observe(table[0]);
 
-            var scrollContainer = element.find('.md-virtual-repeat-scroller');
-            PerfectScrollbar.initialize(scrollContainer[0]);
-
-            var mdVirtualRepeatCtrl = element.find('.md-virtual-repeat-container').controller('mdVirtualRepeatContainer');
-            function updateViewportPositionOnScroll(event) {
-                var offseterValue,
-                    scrollOffset = mdVirtualRepeatCtrl.scrollOffset;
-
-                try {
-                    offseterValue = parseInt(mdVirtualRepeatCtrl.offsetter.style.transform.split('(')[1].split('px')[0]);
-                } catch(e) {
-                    offseterValue = 0;
-                }
-
-                ctrl.updateViewportPosition(scrollOffset - offseterValue, event.target.scrollLeft);
-            }
-            scrollContainer.on('scroll', _.throttle(updateViewportPositionOnScroll, debounceTime));
-
-            // Trigger scroll, so everything is rendered correctly on load
-            scrollContainer.trigger('scroll');
+            scope.$on('$destroy', function() {
+                viewportObserver.unobserve(element[0]);
+                tableObserver.unobserve(table[0]);
+            });
         }
 
         /**
          * @ngdoc method
-         * @name  setup
+         * @name  setupVirtualRepeat
          * @methodOf openlmis-table.directive:openlmisTablePane
          *
          * @param {Object} container openlmisTablePane element
@@ -146,6 +196,17 @@
             repeatRow.removeAttr('ng-repeat');
         }
 
+        /**
+         * @ngdoc method
+         * @name  setupStickyCells
+         * @methodOf openlmis-table.directive:openlmisTablePane
+         *
+         * @param {Object} table table element within openlmis-table-pane
+         *
+         * @description
+         * Adds openlmis-table-sticky-cell directives to elements within the
+         * table. 
+         */
         function setupStickyCells(table) {
             table.find('thead').find('th, td').each(function(index, cell) {
                 cell.setAttribute('openlmis-table-sticky-cell', "");
@@ -164,6 +225,10 @@
                 cell.setAttribute('openlmis-sticky-column', "");
                 cell.setAttribute('openlmis-sticky-column-right', "");
             });
+
+            table.find('.col-sticky')
+            .removeClass('col-sticky')
+            .removeClass('col-sticky-right');
         }
 
     }
