@@ -85,15 +85,68 @@ Styleguide 4.6
 
     table {
         @extend .openlmis-table;
-    }
 
-    td, th {
-        &[openlmis-table-sticky-cell] {
-            position: relative;
+        td[openlmis-sticky-column],
+        th[openlmis-sticky-column] {
+            border-right: 1px $border-color solid !important;
+        }
+
+        td[openlmis-sticky-column][openlmis-sticky-column-right],
+        th[openlmis-sticky-column][openlmis-sticky-column-right] {
+            border-left: 1px $border-color solid !important;
+            border-right-width: 0px !important;
+            &:last-child {
+                border-right-width: 1px;
+            }
+        }
+
+        td[openlmis-sticky-column]:after,
+        th[openlmis-sticky-column]:after {
+            content: " ";
+            display: block;
+            position: absolute;
             top: 0px;
-            left: 0px;
-            z-index: 9;
-            transform: translate3d(0px, 0px, 0px);
+            z-index: -1;
+            width: $space-size/4;
+            height: 100%;
+            background: transparent;
+
+            background-image: linear-gradient(to right, $dark-gray, transparent);
+            right: ($space-size/4 + 1) * -1;
+        }
+        td[openlmis-sticky-column][openlmis-sticky-column-right]:after,
+        th[openlmis-sticky-column][openlmis-sticky-column-right]:after {
+            background-image: linear-gradient(to left, $dark-gray, transparent);
+            right: unset;
+            left: ($space-size/4 + 1) * -1;
+        }
+
+        thead, tfoot {
+            td, th {
+                &[openlmis-table-sticky-cell]:before {
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    left: 0px;
+                    z-index: -1;
+                    height: $space-size/4;
+                    width: 100%;
+                    background: transparent;
+                }
+            }
+        }
+
+        thead td[openlmis-table-sticky-cell]:before,
+        thead th[openlmis-table-sticky-cell]:before {
+            background-image: linear-gradient(to bottom, $dark-gray, transparent);
+            bottom: ($space-size/4 + 1) * -1;
+        }
+        
+        tfoot td[openlmis-table-sticky-cell]:before,
+        tfoot th[openlmis-table-sticky-cell]:before {
+            background-image: linear-gradient(to top, $dark-gray, transparent);
+            bottom: unset;
+            top: ($space-size/4 + 1) * -1;
         }
     }
 
@@ -114,25 +167,6 @@ Styleguide 4.6
               z-index: 11;
             }
         }
-    }
-
-    td[openlmis-sticky-column]
-    th[openlmis-sticky-column] {
-        border-right: 1px $border-color solid !important;
-    }
-
-    td[openlmis-sticky-column][openlmis-sticky-column-right]
-    th[openlmis-sticky-column][openlmis-sticky-column-right] {
-        border-left: 1px $border-color solid !important;
-        border-right-width: 0px !important;
-        &:last-child {
-            border-right-width: 1px;
-        }
-    }
-
-    tfoot td,
-    tfoot th {
-        border-top: 1px $border-color solid !important;
     }
 
 }

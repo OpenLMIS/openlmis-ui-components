@@ -144,8 +144,8 @@ $table-cell-padding: 0.5em !default;
       white-space: normal;
     }
 
-    thead {
-        th {
+    thead, tfoot {
+        th, td {
             color: $white;
             background: $dark-gray;
             background-image: linear-gradient(to top, $dark-gray, lighten($dark-gray, 15%));
