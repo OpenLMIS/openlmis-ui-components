@@ -13,6 +13,22 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmisTablePane directive', function() {
+describe('openlmis-table.directive:OpenlmisTablePane', function() {
+
+	describe('applies openlmis-table-sticky-cell position', function() {
+
+	});
+
+	describe('md-virtual-repeat-container', function() {
+
+	});
+
+	describe('watches scroll', function() {
+
+	});
+
+	describe('watches resize', function() {
+
+	});
 
 });
