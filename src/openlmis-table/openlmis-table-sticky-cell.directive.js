@@ -33,9 +33,9 @@
     angular.module('openlmis-table')
     .directive('openlmisTableStickyCell', directive);
 
-    directive.$inject = ['$$rAF'];
+    directive.$inject = ['$window'];
 
-    function directive($$rAF) {
+    function directive($window) {
         var directive = {
             restrict: 'A',
             controller: 'OpenlmisTableStickyCellController',
@@ -74,7 +74,7 @@
 
             tablePaneCtrl.registerStickyCell(cellCtrl);
             scope.$on('$destroy', function() {
-                ctrl.removeStickyCell(cellCtrl);
+                tablePaneCtrl.unregisterStickyCell(cellCtrl);
             });
         }
 
@@ -99,7 +99,7 @@
          */
         function modifyUpdatePositionForAnimation(cellCtrl, element) {
             var lastTransform,
-                cancelAnimationFrame,
+                animationFrameId,
                 originalUpdatePosition = cellCtrl.updatePosition;
 
             cellCtrl.updatePosition = animatePosition;
@@ -114,13 +114,13 @@
 
                 lastTransform = transform;
 
-                if(cancelAnimationFrame) {
-                    cancelAnimationFrame();
+                if(animationFrameId) {
+                    $window.cancelAnimationFrame(animationFrameId);
                 }
 
-                cancelAnimationFrame = $$rAF(function() {
+                animationFrameId = $window.requestAnimationFrame(function() {
                     element[0].style.transform = transform;
-                    cancelAnimationFrame = undefined;
+                    animationFrameId = undefined;
                 });
             }
         }
