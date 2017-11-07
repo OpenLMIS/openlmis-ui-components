@@ -39,7 +39,9 @@
         .module('openlmis-table')
         .directive('openlmisTablePane', directive);
 
-    function directive() {
+    directive.$inject = ['PerfectScrollbar', 'ResizeObserver'];
+
+    function directive(PerfectScrollbar, ResizeObserver) {
         var directive = {
             compile: compile,
             restrict: 'C',
@@ -78,7 +80,7 @@
          * @param {Object} ctrl    OpenlmisTablePaneController instance
          *
          * @description
-         * Sets up PerfectScrollbar and runs functions to watch the size of the
+         * Sets up scrollbars and runs functions to watch the size of the
          * element and it's scroll position.
          */
         function link(scope, element, attrs, ctrl) {
