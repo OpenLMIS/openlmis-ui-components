@@ -121,7 +121,7 @@ Styleguide 4.6
             left: ($space-size/4 + 1) * -1;
         }
 
-        thead, tfoot {
+        thead:last-child, tfoot tr:first-child {
             td, th {
                 &[openlmis-table-sticky-cell]:before {
                     content: " ";
