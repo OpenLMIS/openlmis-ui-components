@@ -12,6 +12,7 @@ New functionality:
 Bug fixes:
 * [OLMIS-3248](https://openlmis.atlassian.net/browse/OLMIS-3248): Added missing message for number validation.
 * [OLMIS-3170](https://openlmis.atlassian.net/browse/OLMIS-3170): Fixed auto resize input controls.
+* [OLMIS-3500](https://openlmis.atlassian.net/browse/OLMIS-3500): Fixed a bug with background changing color when scrolling.
 
 Improvements:
 
