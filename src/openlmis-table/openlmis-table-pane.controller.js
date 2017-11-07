@@ -35,12 +35,42 @@
             tableRectangle = {},
             viewportRectangle = {};
 
+        this.setScrollLeft = setScrollLeft;
+
         this.registerStickyCell = registerStickyCell;
         this.unregisterStickyCell = unregisterStickyCell;
 
         this.updateViewportSize = updateViewportSize;
         this.updateViewportPosition = updateViewportPosition;
+        this.updateViewportPadding = updateViewportPadding;
+
         this.updateTableSize = updateTableSize;
+
+        this.getTableRectangle = getTableRectangle;
+        this.getViewportRectangle = getViewportRectangle;
+
+        function getTableRectangle() {
+            return _.extend({}, tableRectangle);
+        }
+
+        function getViewportRectangle() {
+            return _.extend({}, viewportRectangle);
+        }
+
+        /**
+         * @ngdoc method
+         * @name  setScrollLeft
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Empty function to set the scroll position. A directive will register
+         * their own function here.
+         *
+         * @param {Number} number Position to set the scroll left value to
+         */
+        function setScrollLeft(number) {
+            // Placeholder for directive to override
+        }
 
         /**
          * @ngdoc method
@@ -90,6 +120,24 @@
                 left: left
             });
             updateStickyCells();
+        }
+
+        /**
+         * @ngdoc method
+         * @name  updateViewportPadding
+         * @methodOf openlmis-table.controller:OpenlmisTablePaneController
+         *
+         * @description
+         * Updates padding values for the viewport.
+         * 
+         * @param {Number} left  Left amount of padding on the viewport
+         * @param {Number} right Right amount of padding on the viewport
+         */
+        function updateViewportPadding(left, right) {
+            _.extend(viewportRectangle, {
+                paddingLeft: left,
+                paddingRight: right
+            });
         }
 
         /**

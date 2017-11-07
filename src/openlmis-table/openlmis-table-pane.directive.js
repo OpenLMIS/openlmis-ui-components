@@ -87,6 +87,10 @@
 
             PerfectScrollbar.initialize(scrollContainer[0]);
 
+            ctrl.setScrollLeft = function(num) {
+                scrollContainer[0].scrollLeft = num;
+            }
+
             watchSize(scope, ctrl, element, table);
             watchScroll(scope, ctrl, element, table);
         }
@@ -167,6 +171,21 @@
             tableObserver = new ResizeObserver(_.debounce(function(entities, observer) {
                 var rect = entities[0].contentRect;
                 ctrl.updateTableSize(rect.width, rect.height);
+
+                var offsetRight = 0,
+                    offsetLeft = 0;
+                table.find('tbody tr:first [openlmis-sticky-column]')
+                .each(function(index, cell) {
+                    if(cell.hasAttribute('openlmis-sticky-column-right')) {
+                        offsetRight += angular.element(cell).outerWidth();
+                    } else {
+                        offsetLeft += angular.element(cell).outerWidth();
+                    }
+                });
+
+                ctrl.updateViewportPadding(offsetLeft, offsetRight);
+
+
             }, debounceTime));
             tableObserver.observe(table[0]);
 
@@ -224,6 +243,10 @@
                 cell.setAttribute('openlmis-table-sticky-cell', "");
                 cell.setAttribute('openlmis-sticky-column', "");
                 cell.setAttribute('openlmis-sticky-column-right', "");
+            });
+
+            table.find('td,th').each(function(index, cell) {
+                cell.setAttribute('openlmis-table-pane-cell-focusable', "");
             });
 
             table.find('.col-sticky')
