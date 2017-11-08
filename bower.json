@@ -39,6 +39,14 @@
       "main": [
         "dist/js-shortid.js"
       ]
+    },
+    "perfect-scrollbar": {
+      "main": [
+        "src/css/variables.scss",
+        "src/css/mixins.scss",
+        "src/css/themes.scss",
+        "js/perfect-scrollbar.js"
+      ]
     }
   }
 }

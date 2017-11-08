@@ -140,7 +140,7 @@ $table-cell-padding: 0.5em !default;
 
     td .collapsable,
     th .collapsable {
-      max-width: $sidebar-width;
+      width: $sidebar-width;
       white-space: normal;
     }
 

@@ -83,8 +83,17 @@ Styleguide 4.6
         flex-grow: 1;
     }
 
+    .ps>.ps__scrollbar-x-rail,
+    .ps>.ps__scrollbar-y-rail {
+        z-index: 20;
+    }
+
     table {
         @extend .openlmis-table;
+
+        th, td {
+            padding: $space-size/2;
+        }
 
         td[openlmis-sticky-column],
         th[openlmis-sticky-column] {
@@ -119,6 +128,12 @@ Styleguide 4.6
             background-image: linear-gradient(to left, $dark-gray, transparent);
             right: unset;
             left: ($space-size/4 + 1) * -1;
+        }
+
+        td[openlmis-sticky-column][openlmis-sticky-column-right] + td[openlmis-sticky-column][openlmis-sticky-column-right] {
+            &:after {
+                content: unset;
+            }
         }
 
         thead:last-child, tfoot tr:first-child {
@@ -166,6 +181,20 @@ Styleguide 4.6
             &[openlmis-sticky-column] {
               z-index: 11;
             }
+        }
+    }
+
+    // This is added to keep perfectScrollbars from
+    // overlapping table cells
+    .ps table {
+        tfoot tr:last-child {
+            td, th {
+                padding-bottom: $space-size;
+            }
+        }
+        tr td:last-child,
+        tr th:last-child{
+            padding-right: $space-size;
         }
     }
 
