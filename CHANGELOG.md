@@ -1,4 +1,8 @@
+5.2.1 / In Progress
+===================
+
 5.2.0 / 2017-11-09
+==================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-3182:](https://openlmis.atlassian.net/browse/OLMIS-3182) Added openlmis-table-pane that implements high performance table rendering for large data tables.
