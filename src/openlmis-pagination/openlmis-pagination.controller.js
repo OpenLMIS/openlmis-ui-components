@@ -147,7 +147,7 @@
                 stateParams.page = newPage;
 
                 $state.go($state.current.name, stateParams, {
-                    reload: pagination.externalPagination,
+                    reload: pagination.externalPagination ? true : $state.current.name,
                     notify: pagination.externalPagination
                 });
             }
