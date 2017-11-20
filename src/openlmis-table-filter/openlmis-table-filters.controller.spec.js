@@ -210,7 +210,7 @@ describe('OpenlmisTableFiltersController', function() {
         });
 
     });
-
+/**
     describe('submit event', function() {
 
         beforeEach(prepareForm);
@@ -272,6 +272,7 @@ describe('OpenlmisTableFiltersController', function() {
         expect(formOneSubmitted).toBe(true);
         expect(formTwoSubmitted).toBe(true);
     });
+**/
 
     function prepareFilterButton() {
         prepareForm();
