@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('openlmisTableFilter directive', function() {
+describe('openlmisTableFilter directive', function() {
 
     var template, ctrlSpy;
 

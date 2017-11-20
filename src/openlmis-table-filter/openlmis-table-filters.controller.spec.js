@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('OpenlmisTableFiltersController', function() {
+describe('OpenlmisTableFiltersController', function() {
 
     var vm, form, $scope, filterButton;
 

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('openlmis-table-container-filter directive', function() {
+describe('openlmis-table-container-filter directive', function() {
 
     var container, $scope, ctrlSpy;
 
