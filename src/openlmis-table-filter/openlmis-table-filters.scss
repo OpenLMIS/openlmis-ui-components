@@ -64,9 +64,5 @@ Styleguide 2.5
 
 .openlmis-table-filters .popover-content{
     padding-right: 0.5em;
-
-    .select2-container.select2-container--open {
-        z-index: 1100;
-    }
-
+    z-index: 1030;
 }
