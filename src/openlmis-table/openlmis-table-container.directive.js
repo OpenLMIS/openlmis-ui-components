@@ -54,14 +54,14 @@
 
     function directive() {
         var directive = {
-            link: link,
+            compile: compile,
             restrict: 'C',
             priority: 10
         };
         return directive;
     }
 
-    function link(scope, element) {
+    function compile(element) {
         if (element.children('table').length == 1) {
             var toolbar = angular.element('<div class="toolbar"></div>'),
                 row = angular.element('<div class="row"></div>'),
