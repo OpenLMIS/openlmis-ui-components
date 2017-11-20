@@ -76,6 +76,8 @@
             } else {
                 form.prepend(element);
             }
+            
+            filterButton.show();
         }
 
         function registerForm(element) {
@@ -171,6 +173,7 @@
             .data('bs.popover')
             .tip()
             .addClass('openlmis-table-filters');
+            filterButton.hide();
 
             form.on('submit', hidePopover);
             form.find('#close-filters').on('click', hidePopover);

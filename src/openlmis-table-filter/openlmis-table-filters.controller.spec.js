@@ -15,7 +15,7 @@
 
 ddescribe('OpenlmisTableFiltersController', function() {
 
-    var vm, form, $scope;
+    var vm, form, $scope, filterButton;
 
     beforeEach(function() {
         module('openlmis-table-filter');
@@ -142,12 +142,9 @@ ddescribe('OpenlmisTableFiltersController', function() {
 
     describe('$onDestroy', function() {
 
-        beforeEach(prepareForm);
+        beforeEach(prepareFilterButton);
 
         it('should close modal', function() {
-            var filterButton = vm.getFilterButton();
-            spyOn(filterButton, 'popover').andCallThrough();
-
             vm.$onDestroy();
 
             expect(filterButton.popover).toHaveBeenCalledWith('hide');
@@ -155,15 +152,28 @@ ddescribe('OpenlmisTableFiltersController', function() {
 
     });
 
-    describe('popover', function() {
-
-        var filterButton;
+    describe('filterButton', function() {
 
         beforeEach(function() {
-            prepareForm();
-            filterButton = vm.getFilterButton();
-            spyOn(filterButton, 'popover').andCallThrough();
+            prepareFilterButton();
+            spyOn(filterButton, 'show');
         });
+
+        it('should be hidden if no elements were registered', function() {
+            expect(filterButton.show).not.toHaveBeenCalled();
+        });
+
+        it('should be visible if at least one element was registered', function() {
+            vm.registerElement(compileMarkup('<div></div>'));
+
+            expect(filterButton.show).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('popover', function() {
+
+        beforeEach(prepareFilterButton);
 
         it('should close on submit click', function() {
             form.find('#close-filters').click();
@@ -262,6 +272,12 @@ ddescribe('OpenlmisTableFiltersController', function() {
         expect(formOneSubmitted).toBe(true);
         expect(formTwoSubmitted).toBe(true);
     });
+
+    function prepareFilterButton() {
+        prepareForm();
+        filterButton = vm.getFilterButton();
+        spyOn(filterButton, 'popover').andCallThrough();
+    }
 
     function prepareForm() {
         vm.$onInit();
