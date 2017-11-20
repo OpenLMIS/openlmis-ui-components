@@ -160,7 +160,7 @@
         }
 
         function compileFilterButton() {
-            var filterButton = compileElement('<button class="filters">{{\'openlmisTableFilter.filter\' | message}}: {{vm.filledInputs.length}}</button>');
+            var filterButton = compileElement('<button class="filters">{{\'openlmisTableFilter.filter\' | message}}</button>');
 
             filterButton.popover({
                 html: true,
