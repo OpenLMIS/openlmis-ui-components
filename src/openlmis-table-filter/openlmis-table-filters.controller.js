@@ -47,10 +47,23 @@
 
         function submitForms() {
             if (forms) forms.each(submitForm);
+            broadcastEvent();
         }
 
         function submitForm(index, form) {
             angular.element(form).trigger('submit');
+        }
+
+        function broadcastEvent() {
+            var modelValues = {};
+            form.find(NGMODEL_ELEMENT).each(function(index, ngModelElement) {
+                var element = angular.element(ngModelElement),
+                    name = element.attr('name'),
+                    modelValue = element.controller('ngModel').$modelValue;
+
+                modelValues[name] = modelValue;
+            });
+            $scope.$broadcast('openlmis-table-filter', modelValues);
         }
 
         function registerElement(element) {

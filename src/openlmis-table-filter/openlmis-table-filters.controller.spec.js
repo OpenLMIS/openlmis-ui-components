@@ -201,6 +201,40 @@ ddescribe('OpenlmisTableFiltersController', function() {
 
     });
 
+    describe('submit event', function() {
+
+        beforeEach(prepareForm);
+
+        it('should contain a map of input names and model values', function() {
+            var modelValues,
+                modelOne = 'someValue1',
+                modelTwo = 1,
+                modelThree = {
+                    some: "otheValue"
+                };
+
+            $scope.modelOne = modelOne;
+            $scope.modelTwo = modelTwo;
+            $scope.modelThree = modelThree;
+
+            vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+            vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+            vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+            $scope.$on('openlmis-table-filter', function(event, args) {
+                modelValues = args;
+            });
+
+            form.submit();
+            $scope.$apply();
+
+            expect(modelValues.inputOne).toEqual(modelOne);
+            expect(modelValues.inputTwo).toEqual(modelTwo);
+            expect(modelValues.inputThree).toEqual(modelThree);
+        });
+
+    });
+
     it('should submit all registered forms if the main one was submitted', function() {
         window.onbeforeunload = function() {};
 
