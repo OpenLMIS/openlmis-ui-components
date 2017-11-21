@@ -18,10 +18,6 @@ describe('openlmisTableFilter directive', function() {
     var template, ctrlSpy;
 
     beforeEach(function() {
-        ctrlSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
-            'registerElement', 'getFilterButton'
-        ]);
-
         module('openlmis-table-filter', function($compileProvider, $controllerProvider) {
             $compileProvider.directive('table', function() {
                 var def = {
@@ -32,6 +28,9 @@ describe('openlmisTableFilter directive', function() {
                 return def;
             });
 
+            ctrlSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
+                'registerElement', 'getFilterButton'
+            ]);
             $controllerProvider.register('OpenlmisTableFiltersController', function() {
                 return ctrlSpy;
             });
