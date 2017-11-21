@@ -36,8 +36,8 @@ describe('openlmis-table-container-filter directive', function() {
 
         $scope = $rootScope.$new();
         container = compileMarkup(
-            '<div openlmis-table-filters>' +
-                '<div class="toolbar"></div>' +
+            '<div class="openlmis-table-container">' +
+                '<table></table>' +
             '</div>'
         );
     });

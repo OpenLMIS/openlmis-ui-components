@@ -210,7 +210,7 @@ describe('OpenlmisTableFiltersController', function() {
         });
 
     });
-/**
+
     describe('submit event', function() {
 
         beforeEach(prepareForm);
@@ -235,6 +235,7 @@ describe('OpenlmisTableFiltersController', function() {
                 modelValues = args;
             });
 
+            form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
             form.submit();
             $scope.$apply();
 
@@ -245,24 +246,30 @@ describe('OpenlmisTableFiltersController', function() {
 
     });
 
-    it('should submit all registered forms if the main one was submitted', function() {
-        window.onbeforeunload = function() {};
 
-        var formOne = compileMarkup('<form></form>'),
-            formTwo = compileMarkup('<form></form>');
+    it('should submit all registered forms if the main one was submitted', function() {
+        var formOne = compileMarkup('<form onsubmit="return false;"></form>'),
+            formTwo = compileMarkup('<form onsubmit="return false;"></form>');
 
         var formOneSubmitted;
-        formOne.on('submit', function() {
+        formOne.on('submit', function(event) {
             formOneSubmitted = true;
+            event.preventDefault();
         });
 
         var formTwoSubmitted;
-        formTwo.on('submit', function() {
+        formTwo.on('submit', function(event) {
             formTwoSubmitted = true;
+            event.preventDefault();
+        });
+
+        form.on('submit', function(event) {
+            event.preventDefault();
         });
 
         vm.$onInit();
         form = vm.getFormElement();
+        form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
 
         vm.registerElement(formOne);
         vm.registerElement(formTwo);
@@ -272,7 +279,7 @@ describe('OpenlmisTableFiltersController', function() {
         expect(formOneSubmitted).toBe(true);
         expect(formTwoSubmitted).toBe(true);
     });
-**/
+
 
     function prepareFilterButton() {
         prepareForm();
