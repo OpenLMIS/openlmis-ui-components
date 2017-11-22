@@ -19,10 +19,11 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-table-filter.openlmisTableFilters
+     * @name openlmis-table-filter.directive:openlmisTableFilters
      *
      * @description
-     *
+     * Adds the filter component to the table containers that have any filter elements with the
+     * openlmisTableFilter attribute.
      */
     angular
         .module('openlmis-table-filter')

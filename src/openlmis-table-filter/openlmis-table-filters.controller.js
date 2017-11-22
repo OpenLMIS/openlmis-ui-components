@@ -17,6 +17,14 @@
 
     'use strict';
 
+    /**
+     * @ngdoc controller
+     * @name openlmis-table-filter.controller:OpenlmisTableFiltersController
+     *
+     * @description
+     * Handles element registration and places the registered elements inside the filter form
+     * element.
+     */
     angular
         .module('openlmis-table-filter')
         .controller('OpenlmisTableFiltersController', OpenlmisTableFiltersController);
@@ -35,6 +43,15 @@
         vm.getFilterButton = getFilterButton;
         vm.$onDestroy = onDestroy;
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-table-filter.controller:OpenlmisTableFiltersController
+         * @name $onInit
+         *
+         * @description
+         * Initialization method of the OpenlmisTableFiltersController. Creates filter form and
+         * button and exposes them to the openlmisTableFilters directive.
+         */
         function onInit() {
             form = compileForm();
             form.on('submit', submitForms);
@@ -43,6 +60,62 @@
             submitButton = form.find(SUBMIT_ELEMENT);
 
             openPopoverIfFormIsInvalidAndPristine();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-table-filter.controller:OpenlmisTableFiltersController
+         * @name registerElement
+         *
+         * @description
+         * Registers the given element and places it inside the filter form. If the registered
+         * element is a form its content is copied to the filter form and the form is detached from
+         * the DOM. If a submit type element is registered(or element containing one) it will
+         * override the current filter form submit button. Any other element will be moved inside
+         * the filter form.
+         *
+         * @param  {Object} element the element to be registered
+         */
+        function registerElement(element) {
+            replaceSubmitButtonIfElementContainsSubmitButton(element);
+
+            if (element.is('form')) {
+                registerForm(element);
+            } else if (element.is(SUBMIT_ELEMENT)) {
+                submitButton.replaceWith(element);
+            } else {
+                form.prepend(element);
+            }
+
+            filterButton.show();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-table-filter.controller:OpenlmisTableFiltersController
+         * @name getFormElement
+         *
+         * @description
+         * Returns the filter form element.
+         *
+         * @return  {Object}    the filter form element
+         */
+        function getFormElement() {
+            return form;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-table-filter.controller:OpenlmisTableFiltersController
+         * @name getFilterButton
+         *
+         * @description
+         * Returns the filter button element.
+         *
+         * @return  {Object}    the filter button element
+         */
+        function getFilterButton() {
+            return filterButton;
         }
 
         function submitForms() {
@@ -66,20 +139,6 @@
             $scope.$broadcast('openlmis-table-filter', modelValues);
         }
 
-        function registerElement(element) {
-            replaceSubmitButtonIfElementContainsSubmitButton(element);
-
-            if (element.is('form')) {
-                registerForm(element);
-            } else if (element.is(SUBMIT_ELEMENT)) {
-                submitButton.replaceWith(element);
-            } else {
-                form.prepend(element);
-            }
-            
-            filterButton.show();
-        }
-
         function registerForm(element) {
             addForm(element);
             form.prepend(element.children().not(SUBMIT_ELEMENT));
@@ -99,14 +158,6 @@
             } else {
                 forms.push(form);
             }
-        }
-
-        function getFormElement() {
-            return form;
-        }
-
-        function getFilterButton() {
-            return filterButton;
         }
 
         function onDestroy() {

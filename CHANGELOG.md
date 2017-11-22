@@ -1,6 +1,9 @@
 5.2.1 / In Progress
 ===================
 
+New functionality added in a backwards-compatible manner:
+* [OLMIS-2656:](https://openlmis.atlassian.net/browse/OLMIS-2656) Added filter component.
+
 5.2.0 / 2017-11-09
 ==================
 

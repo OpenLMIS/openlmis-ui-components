@@ -19,10 +19,12 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-table-filter.openlmisTableFilter
+     * @name openlmis-table-filter.directive:openlmisTableFilter
      *
      * @description
-     *
+     * Registers the element to the openlmisTableFilters directive making it visible in the filter
+     * component popover. It requires openlmisTableFilters directive to be present on one of the
+     * ascendants.
      */
     angular
         .module('openlmis-table-filter')
