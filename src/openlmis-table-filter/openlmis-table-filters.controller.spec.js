@@ -254,17 +254,11 @@ describe('OpenlmisTableFiltersController', function() {
         var formOneSubmitted;
         formOne.on('submit', function(event) {
             formOneSubmitted = true;
-            event.preventDefault();
         });
 
         var formTwoSubmitted;
         formTwo.on('submit', function(event) {
             formTwoSubmitted = true;
-            event.preventDefault();
-        });
-
-        form.on('submit', function(event) {
-            event.preventDefault();
         });
 
         vm.$onInit();
