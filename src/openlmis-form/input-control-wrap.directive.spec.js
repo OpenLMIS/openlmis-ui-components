@@ -22,7 +22,7 @@ describe('Input Control Wrap', function() {
 	beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {
 		$compile = _$compile_;
 		scope = $rootScope.$new();
-		
+
 		spyOn($templateCache, 'get').andReturn('<div class="input-control" input-control></div>');
 	}));
 
@@ -88,4 +88,15 @@ describe('Input Control Wrap', function() {
 		expect(textarea.parents('[input-control]').length).toBe(1);
 	});
 
+    /*it('moves ng-if from input element to wrapper', function(){
+        var markup = '<form><textarea ng-if="abc"/></form>',
+            element = $compile(markup)(scope);
+
+        scope.$apply();
+
+        var textarea = element.find('textarea');
+
+        expect(textarea.parents('[input-control]').length).toBe(1);
+        expect(textarea.parents('[input-control]').attr('ng-if')).toEqual('abc');
+    });*/
 });

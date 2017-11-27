@@ -41,7 +41,7 @@
                     post: link
                 }
             },
-            priority: 20,
+            priority: 650,
             restrict: 'E',
             require: [
                 '?^inputControl',
@@ -91,7 +91,7 @@
             if(element.parents('[input-control]:first').length == 0) {
                 switch(element.attr('type')){
                     case 'button':
-                    case 'submit':                        
+                    case 'submit':
                     case 'radio':
                     case 'checkbox':
                         break;
@@ -107,16 +107,23 @@
          * @name wrap
          *
          * @description
-         * The input-control-wrap.html is loaded, and then compiled separetly.
+         * The input-control-wrap.html is loaded, and then compiled separately.
          *
          * jQuery's element.wrap wasn't used because it copies the HTML for the
          * input-control wrapper — meaning the angular elements are not
          * activated.
          */
-        function wrapElement(scope, element){
+        function wrapElement(scope, element) {
             var html = $templateCache.get('openlmis-form/input-control-wrap.html');
 
             var inputWrap = angular.element(html);
+
+            // moves ng-if attribute to the wrapper
+            if (element.attr('ng-if')) {
+                var ifStatement = element.attr('ng-if');
+                element.attr('ng-if', undefined);
+                inputWrap.attr('ng-if', ifStatement);
+            }
 
             // Add wrapper before so containing elements registered correctly
             inputWrap.insertBefore(element);
