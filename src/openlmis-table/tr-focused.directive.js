@@ -25,54 +25,74 @@
      * @description
      * Watches if the user's focus is in the current table row, and exposes
      * that state through trCtrl.
-     * 
+     *
      */
-    
+
     angular
         .module('openlmis-table')
         .directive('tr', directive);
 
     function directive() {
+        var focusInRow, focusedRow, rows = [];
+
         return {
             link: link,
             restrict: 'E'
         };
 
         function link(scope, element, attrs) {
-            var listenerSet;
-
-            element.on('focusin', onFocus);
-            scope.$on('$destroy', removeFocusListenters);
-
-            function onFocus(event) {
-                element.addClass('is-focused');
-                setFocusListenters();
-                if (!scope.$$phase) scope.$apply();       
+            if (!rows.length) {
+                angular.element('body').on('focusin', setSelectedRow);
             }
 
-            function onBlur(event) {
-                if(!jQuery.contains(element[0], event.target)){
-                    element.removeClass('is-focused');
-                    removeFocusListenters();
-                    if (!scope.$$phase) scope.$apply();
+            if (rows.indexOf(element) === -1) {
+                rows.push(element);
+            }
+
+            element.on('focusin', setFocusInRow);
+            element.on('$destroy', cleanUp);
+            scope.$on('$destroy', cleanUp);
+
+            function setFocusInRow() {
+                focusInRow = element;
+            }
+
+            function cleanUp() {
+                element.off('focusin', setFocusInRow);
+
+                if (focusInRow === element) {
+                    focusInRow = undefined;
+                }
+
+                if (focusedRow === element) {
+                    focusedRow = undefined;
+                }
+
+                var rowId = rows.indexOf(element);
+                if (rowId > -1) {
+                    rows.splice(rowId, 1);
+                }
+
+                if (!rows.length) {
+                    angular.element('body').off('focusin', setSelectedRow);
+                }
+            }
+        }
+
+        function setSelectedRow() {
+            if (focusInRow !== focusedRow && focusedRow) {
+                focusedRow.removeClass('is-focused');
+            }
+
+            if (focusInRow !== focusedRow) {
+                focusedRow = focusInRow;
+
+                if (focusedRow) {
+                    focusedRow.addClass('is-focused');
                 }
             }
 
-            function setFocusListenters() {
-                if(!listenerSet){
-                    listenerSet = true;
-                    angular.element('body').on('click', onBlur);
-                    angular.element('body').on('focusin', onBlur);
-                }
-            }
-
-            function removeFocusListenters(){
-                if(listenerSet){
-                    listenerSet = false;
-                    angular.element('body').off('focus', onBlur);
-                    angular.element('body').off('click', onBlur);
-                }
-            }
+            focusInRow = undefined;
         }
 
     }
