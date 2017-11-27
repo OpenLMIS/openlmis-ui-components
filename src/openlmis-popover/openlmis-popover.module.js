@@ -24,6 +24,7 @@
      */
     angular.module('openlmis-popover', [
         'openlmis-i18n',
+        'openlmis-templates',
         'openlmis-config'
         ]);
 })();
