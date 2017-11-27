@@ -25,53 +25,46 @@
      * @description
      * Watches if the user's focus is in the current table row, and exposes
      * that state through trCtrl.
-     * 
+     *
      */
-    
+
     angular
         .module('openlmis-table')
         .directive('tr', directive);
 
     function directive() {
+        var focusInRow, focusedRow;
+
+        angular.element('body').on('focusin', function() {
+            if (focusInRow !== focusedRow && focusedRow) {
+                focusedRow.removeClass('is-focused');
+                console.log('Left row');
+                console.log(focusedRow);
+            }
+
+            if (focusInRow !== focusedRow) {
+                focusedRow = focusInRow;
+
+                if (focusedRow) {
+                    focusedRow.addClass('is-focused');
+                    console.log('Entered row');
+                    console.log(focusedRow);
+                }
+            }
+
+            focusInRow = undefined
+        });
+
         return {
             link: link,
             restrict: 'E'
         };
 
         function link(scope, element, attrs) {
-            var listenerSet;
+            element.on('focusin', onFocusIn);
 
-            element.on('focusin', onFocus);
-            scope.$on('$destroy', removeFocusListenters);
-
-            function onFocus(event) {
-                element.addClass('is-focused');
-                setFocusListenters();
-                if (!scope.$$phase) scope.$apply();       
-            }
-
-            function onBlur(event) {
-                if(!jQuery.contains(element[0], event.target)){
-                    element.removeClass('is-focused');
-                    removeFocusListenters();
-                    if (!scope.$$phase) scope.$apply();
-                }
-            }
-
-            function setFocusListenters() {
-                if(!listenerSet){
-                    listenerSet = true;
-                    angular.element('body').on('click', onBlur);
-                    angular.element('body').on('focusin', onBlur);
-                }
-            }
-
-            function removeFocusListenters(){
-                if(listenerSet){
-                    listenerSet = false;
-                    angular.element('body').off('focus', onBlur);
-                    angular.element('body').off('click', onBlur);
-                }
+            function onFocusIn() {
+                focusInRow = element;
             }
         }
 
