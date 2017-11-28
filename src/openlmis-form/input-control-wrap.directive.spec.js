@@ -88,8 +88,8 @@ describe('Input Control Wrap', function() {
 		expect(textarea.parents('[input-control]').length).toBe(1);
 	});
 
-    /*it('moves ng-if from input element to wrapper', function(){
-        var markup = '<form><textarea ng-if="abc"/></form>',
+    it('moves ng-if from input element to wrapper', function(){
+        var markup = '<form><textarea ng-show="true"/></form>',
             element = $compile(markup)(scope);
 
         scope.$apply();
@@ -97,6 +97,6 @@ describe('Input Control Wrap', function() {
         var textarea = element.find('textarea');
 
         expect(textarea.parents('[input-control]').length).toBe(1);
-        expect(textarea.parents('[input-control]').attr('ng-if')).toEqual('abc');
-    });*/
+        expect(textarea.parents('[input-control]').attr('ng-show')).toEqual('true');
+    });
 });

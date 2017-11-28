@@ -25,7 +25,6 @@
      * @description
      * Wraps inputs with an input-control element, unless one already exists.
      */
-
     angular
         .module('openlmis-form')
         .directive('input', directive)
@@ -41,7 +40,7 @@
                     post: link
                 }
             },
-            priority: 650,
+            priority: 20,
             restrict: 'E',
             require: [
                 '?^inputControl',
@@ -96,7 +95,7 @@
                     case 'checkbox':
                         break;
                     default:
-                        wrapElement(scope, element);
+                        wrapElement(scope, element, attrs);
                 }
             }
         }
@@ -113,16 +112,15 @@
          * input-control wrapper — meaning the angular elements are not
          * activated.
          */
-        function wrapElement(scope, element) {
+        function wrapElement(scope, element, attrs) {
             var html = $templateCache.get('openlmis-form/input-control-wrap.html');
 
             var inputWrap = angular.element(html);
 
-            // moves ng-if attribute to the wrapper
-            if (element.attr('ng-if')) {
-                var ifStatement = element.attr('ng-if');
-                element.attr('ng-if', undefined);
-                inputWrap.attr('ng-if', ifStatement);
+            // moves ng-show attribute to the wrapper
+            if (attrs.ngShow) {
+                element.removeAttr('ng-show');
+                inputWrap.attr('ng-show', attrs.ngShow);
             }
 
             // Add wrapper before so containing elements registered correctly
