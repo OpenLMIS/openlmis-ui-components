@@ -4,6 +4,9 @@
 New functionality added in a backwards-compatible manner:
 * [OLMIS-2656:](https://openlmis.atlassian.net/browse/OLMIS-2656) Added filter component.
 
+Improvements:
+* [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.
+
 5.2.0 / 2017-11-09
 ==================
 
