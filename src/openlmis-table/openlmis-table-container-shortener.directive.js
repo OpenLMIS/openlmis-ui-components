@@ -48,14 +48,16 @@
 
             flexTable = jQuery('.openlmis-flex-table', element);
 
-            if (flexTable.length > 0) {
-                PerfectScrollbar.initialize(flexTable[0], {
-                    handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
-                    surpressScrollY: true,
-                    wheelPropagation: true
-                });
-                xScrollbar = jQuery('.ps__scrollbar-x-rail', element);
-            }
+            window.ready(function () {
+                if (flexTable.length > 0) {
+                    PerfectScrollbar.initialize(flexTable[0], {
+                        handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
+                        surpressScrollY: true,
+                        wheelPropagation: true
+                    });
+                    xScrollbar = jQuery('.ps__scrollbar-x-rail', element);
+                }
+            });
 
             window.on('scroll', blit);
             window.on('resize', update);
@@ -66,8 +68,8 @@
             });
 
             function update() {
-                if (xScrollbar) {
-                    PerfectScrollbar.update(xScrollbar[0]);
+                if (flexTable.length > 0) {
+                    PerfectScrollbar.update(flexTable[0]);
                     blit();
                 }
             }
@@ -83,8 +85,6 @@
                         var div = jQuery(this);
                         containerOffset += div.outerHeight();
                     });
-
-                    xScrollbar[0].style.setProperty('margin', 1);
 
                     if (containerOffset < windowHeight) {
                         xScrollbar[0].style.setProperty('--bottom-offset', 0);

@@ -40,10 +40,17 @@ describe('openlmisTableContainer', function() {
         });
         var originalHeight = $.prototype.height;
         spyOn($.prototype, 'height').andCallFake(function() {
+            // fake window.height() if windowHeight is provided; call through otherwise
             if (this[0] === $window && windowHeight !== undefined) {
                 return windowHeight;
             } else {
                 return originalHeight.apply(this, arguments);
+            }
+        });
+        spyOn($.prototype, 'ready').andCallFake(function() {
+            // call passed in function immediately; allows to test code that's in window.ready
+            if (arguments.length && typeof arguments[0] === 'function') {
+                arguments[0]();
             }
         });
         table = compileMarkup('<div class="openlmis-table-container"><table><tr><td><input  /></td></tr><tr><td><input /></td></tr></table></div>');

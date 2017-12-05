@@ -1,17 +1,19 @@
-.ps__scrollbar-x{
-  z-index: 5;
-  height: 10px !important;
+.openlmis-table-container {
+  .ps__scrollbar-x {
+    z-index: 5;
+    height: 10px !important;
+  }
+
+  .ps__scrollbar-x-rail, .ps__scrollbar-x-rail:not(hover) {
+    bottom: calc(var(--bottom-offset) * 1px) !important;
+    background-color: darken($light-gray, 5) !important;
+    height: 14px !important;
+    opacity: 1.0 !important;
+    z-index: 5;
+  }
 }
 
-.ps__scrollbar-x-rail, .ps__scrollbar-x-rail:not(hover){
-  bottom: calc(var(--bottom-offset) * 1px) !important;
-  background-color: darken($light-gray, 5) !important;
-  height: 14px !important;
-  opacity: 1.0 !important;
-  z-index: 5;
-}
-
-//default bottom-offset
+// default bottom-offset
 html {
   --bottom-offset: 0;
 }
