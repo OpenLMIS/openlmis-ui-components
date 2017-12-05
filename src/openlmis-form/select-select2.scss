@@ -108,6 +108,7 @@
         > input {
             @extend .form-control;
             width: 100%;
+            box-sizing: border-box;
         }
         &.select2-search--hide {
             display:none;
