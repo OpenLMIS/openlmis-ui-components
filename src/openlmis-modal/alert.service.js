@@ -36,26 +36,8 @@
 
         var modal;
 
-        this.warning = warning;
         this.error = error;
         this.success = success;
-
-        /**
-         * @ngdoc method
-         * @name warning
-         * @methodOf openlmis-modal.alertService
-         *
-         * @description
-         * Shows warning modal with custom message and returns promise.
-         *
-         * @param   {String}    title   the title of the alert
-         * @param   {String}    message the detailed message to be shown within the alert modal
-         * @return  {Promise}           the alert promise, if any other alert is already show this
-         *                              promise will be automatically rejected
-         */
-        function warning(title, message) {
-            return showAlert('is-warning', title, message);
-        }
 
         /**
          * @ngdoc method

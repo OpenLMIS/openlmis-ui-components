@@ -25,13 +25,6 @@
 	}
 }
 
-.alert-modal.is-warning .alert-main {
-	@include icon('exclamation-triangle');
-	&:before{
-		color: $orange;	
-	}
-}
-
 .alert-modal.is-error .alert-main {
 	@include icon('exclamation-circle');
 	&:before{
