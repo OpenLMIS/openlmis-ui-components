@@ -6,6 +6,7 @@ New functionality added in a backwards-compatible manner:
 
 Improvements:
 * [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.
+* [OLMIS-3080:](https://openlmis.atlassian.net/browse/OLMIS-3080) Removed warning modal
 
 5.2.0 / 2017-11-09
 ==================
