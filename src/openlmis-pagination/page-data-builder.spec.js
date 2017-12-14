@@ -21,9 +21,9 @@
         .module('openlmis-pagination')
         .factory('PageDataBuilder', PageDataBuilder);
 
-    PageDataBuilder.$inject = [];
+    PageDataBuilder.$inject = ['Page'];
 
-    function PageDataBuilder() {
+    function PageDataBuilder(Page) {
 
         PageDataBuilder.buildWithContent = buildWithContent;
 
