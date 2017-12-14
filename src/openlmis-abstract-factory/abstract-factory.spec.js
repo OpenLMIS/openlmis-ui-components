@@ -31,7 +31,7 @@ describe('AbstractFactory', function() {
 
         it('should throw exception when trying to instantiate', function() {
             expect(function() {
-                new AbstractFactory();
+                return new AbstractFactory();
             }).toThrow();
         });
 
@@ -43,7 +43,7 @@ describe('AbstractFactory', function() {
             classExtender.extend(ExtendingClass, AbstractFactory);
 
             expect(function() {
-                new ExtendingClass();
+                return new ExtendingClass();
             }).toThrow();
         });
 
@@ -57,7 +57,7 @@ describe('AbstractFactory', function() {
             ExtendingClass.prototype.buildFromResponse = function() {};
 
             expect(function() {
-                new ExtendingClass();
+                return new ExtendingClass();
             }).not.toThrow();
         });
 
