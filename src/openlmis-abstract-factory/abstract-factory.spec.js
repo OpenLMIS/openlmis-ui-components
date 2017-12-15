@@ -25,13 +25,34 @@ describe('AbstractFactory', function() {
         });
     });
 
+    describe('constructor', function() {
+
+        it('should throw exception when trying to instantiate without passing argument', function() {
+            expect(function() {
+                return new AbstractFactory();
+            }).toThrow();
+        });
+
+        it('should throw exception when trying to instantiate by passing object', function() {
+            expect(function() {
+                return new AbstractFactory({});
+            }).toThrow();
+        });
+
+        it('should instantiate Function was passed', function() {
+            expect(function() {
+                return new AbstractFactory(function() {});
+            }).not.toThrow();
+        });
+
+    });
+
     describe('buildFromResponseArray', function() {
 
         var dateFactory, dateResponses, dates;
 
         beforeEach(function() {
-            dateFactory = new AbstractFactory();
-            dateFactory.buildFromResponse = function() {};
+            dateFactory = new AbstractFactory(function() {});
 
             dateResponses = [
                 '2015-06-13T12:22:20Z',
@@ -60,9 +81,9 @@ describe('AbstractFactory', function() {
         it('should return a list class instances', function() {
             var result = dateFactory.buildFromResponseArray(dateResponses);
 
-            expect(result[0]).toBe(dates[dateResponses[0]]);
-            expect(result[1]).toBe(dates[dateResponses[1]]);
-            expect(result[2]).toBe(dates[dateResponses[2]]);
+            expect(result[0]).toEqual(dates[dateResponses[0]]);
+            expect(result[1]).toEqual(dates[dateResponses[1]]);
+            expect(result[2]).toEqual(dates[dateResponses[2]]);
         });
 
     });

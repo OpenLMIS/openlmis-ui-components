@@ -22,10 +22,9 @@
      * @name openlmis-abstract-factory.AbstractFactory
      *
      * @description
-     * Abstract class for transferring an array of server responses into a list of class objects.
-     * Extending class must implement "buildFromResponse" method in order for the inherited method
-     * to work. If the extending class doesn't implement the method an exception will be thrown when
-     * instantiating and object of that class.
+     * Abstract class for transferring an array of server responses into a list of objects.
+     * If a function is not provided an exception will be thrown when nstantiating and object of
+     * that class.
      */
     angular
         .module('openlmis-abstract-factory')
@@ -44,9 +43,14 @@
          * @constructor
          *
          * @description
-         * Responsible for checking whether implementing class has implements the abstract methods.
+         * Responsible for checking whether function was given as parameter.
          */
-        function AbstractFactory() {}
+        function AbstractFactory(buildFromResponse) {
+            if (!buildFromResponse || !(buildFromResponse instanceof Function)) {
+                throw 'Extending class must implement buildFromResponse method';
+            }
+            this.buildFromResponse = buildFromResponse;
+        }
 
         /**
          * @ngdoc method
@@ -54,10 +58,10 @@
          * @name buildFromResponseArray
          *
          * @description
-         * Builds a list of class objects from the list of server responses.
+         * Builds a list of objects from the list of server responses.
          *
          * @param  {Array}  responses   the list of server responses
-         * @return {Array}              the list of class objects
+         * @return {Array}              the list of objects
          */
         function buildFromResponseArray(responses) {
             var factory = this,
