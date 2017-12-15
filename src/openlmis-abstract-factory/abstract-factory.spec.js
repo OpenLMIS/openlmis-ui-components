@@ -15,52 +15,14 @@
 
 describe('AbstractFactory', function() {
 
-    var AbstractFactory, classExtender;
+    var AbstractFactory;
 
     beforeEach(function() {
-        module('openlmis-class-extender');
         module('openlmis-abstract-factory');
 
         inject(function($injector) {
             AbstractFactory = $injector.get('AbstractFactory');
-            classExtender = $injector.get('classExtender');
         });
-    });
-
-    describe('constructor', function() {
-
-        it('should throw exception when trying to instantiate', function() {
-            expect(function() {
-                return new AbstractFactory();
-            }).toThrow();
-        });
-
-        it('should throw exception when extending class does not implement buildFromResponse method', function() {
-            function ExtendingClass() {
-                AbstractFactory.apply(this, arguments);
-            }
-
-            classExtender.extend(ExtendingClass, AbstractFactory);
-
-            expect(function() {
-                return new ExtendingClass();
-            }).toThrow();
-        });
-
-        it('should instantiate if extending class implements buildFromResponse method', function() {
-            function ExtendingClass() {
-                AbstractFactory.apply(this, arguments);
-            }
-
-            classExtender.extend(ExtendingClass, AbstractFactory);
-
-            ExtendingClass.prototype.buildFromResponse = function() {};
-
-            expect(function() {
-                return new ExtendingClass();
-            }).not.toThrow();
-        });
-
     });
 
     describe('buildFromResponseArray', function() {
@@ -68,15 +30,8 @@ describe('AbstractFactory', function() {
         var dateFactory, dateResponses, dates;
 
         beforeEach(function() {
-            function DateFactory() {
-                AbstractFactory.apply(this, arguments);
-            }
-
-            classExtender.extend(DateFactory, AbstractFactory);
-
-            DateFactory.prototype.buildFromResponse = function() {};
-
-            dateFactory = new DateFactory();
+            dateFactory = new AbstractFactory();
+            dateFactory.buildFromResponse = function() {};
 
             dateResponses = [
                 '2015-06-13T12:22:20Z',
@@ -105,9 +60,9 @@ describe('AbstractFactory', function() {
         it('should return a list class instances', function() {
             var result = dateFactory.buildFromResponseArray(dateResponses);
 
-            expect(result[0] instanceof Date).toBe(true);
-            expect(result[1] instanceof Date).toBe(true);
-            expect(result[2] instanceof Date).toBe(true);
+            expect(result[0]).toBe(dates[dateResponses[0]]);
+            expect(result[1]).toBe(dates[dateResponses[1]]);
+            expect(result[2]).toBe(dates[dateResponses[2]]);
         });
 
     });

@@ -46,11 +46,7 @@
          * @description
          * Responsible for checking whether implementing class has implements the abstract methods.
          */
-        function AbstractFactory() {
-            if (!this.buildFromResponse) {
-                throw 'Extending class must implement buildFromResponse method';
-            }
-        }
+        function AbstractFactory() {}
 
         /**
          * @ngdoc method
