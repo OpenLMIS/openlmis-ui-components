@@ -25,7 +25,7 @@ Styleguide 2.3
     justify-content: space-between;
     font-size: 1em;
     align-items: center;
-    
+
     > * {
         flex: 0 0 auto;
         &:first-child {
@@ -36,7 +36,7 @@ Styleguide 2.3
     margin-bottom: $space-size;
     > ul {
         @extend .pagination;
-        margin: 0px;
+        margin: 0px 0px 0px 1em;
         border-color: $border-color;
 
         > li > a {
@@ -77,5 +77,5 @@ Styleguide 2.3
     border-right-width: 0px;
     &:hover{
         border-color: $border-color;
-    } 
+    }
 }
