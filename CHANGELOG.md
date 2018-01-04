@@ -5,7 +5,6 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-2656:](https://openlmis.atlassian.net/browse/OLMIS-2656) Added filter component.
 * [OLMIS-3738:](https://openlmis.atlassian.net/browse/OLMIS-3738) Added horizontal scrollbar to the table container.
 * Added classExtender service.
-* Added AbstractFactory class.
 
 Improvements:
 * [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.
