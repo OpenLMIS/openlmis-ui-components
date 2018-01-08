@@ -11,7 +11,6 @@
   "groupingSeparator": ",",
   "groupingSize": 3,
   "decimalSeparator": ".",
-  "defaultLanguage": "en",
   "analyticsTrackingId": "UA-CHANGE-ME",
   "defaultDebounce": 500,
   "defaultDateFormat": "dd/MM/yyyy",
