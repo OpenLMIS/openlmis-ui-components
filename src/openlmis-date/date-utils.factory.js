@@ -31,11 +31,13 @@
     dateUtils.$inject = ['$filter'];
 
     function dateUtils($filter) {
-        var factory = {
-            toDate: toDate,
-            toArray: toArray,
-            toStringDate: toStringDate
-        };
+        var NUMBER_OF_SECONDS_IN_DAY = 86400000,
+            factory = {
+                toDate: toDate,
+                toArray: toArray,
+                toStringDate: toStringDate,
+                addDaysToDate: addDaysToDate
+            };
         return factory;
 
         /**
@@ -57,15 +59,6 @@
                 // array[1] - 1, because in JavaScript months starts with 0 (to 11)
                 return new Date(source[0], source[1] - 1, source[2], source[3], source[4], source[5]);
             return undefined;
-        }
-
-        function fromISOString(isoDate) {
-            var date = new Date(isoDate);
-            if(isoDate.indexOf('Z') < 0) { // if date string does not contain time zone definition
-                var offset = date.getTimezoneOffset() * 60000; // remove time zone offset
-                date = new Date(date.getTime() + offset);
-            }
-            return date;
         }
 
         /**
@@ -96,6 +89,22 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-date.dateUtils
+         * @name addDaysToDate
+         *
+         * @description
+         * Adds days to given date.
+         *
+         * @param  {Date}    date         date to be changed
+         * @param  {Boolean} numberOfDays number of days to be added
+         * @return {Date}                 changed date
+         */
+        function addDaysToDate(date, numberOfDays) {
+            return new Date(date.setTime(date.getTime() + NUMBER_OF_SECONDS_IN_DAY * numberOfDays));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
          * @name toStringDate
          *
          * @description
@@ -106,6 +115,15 @@
          */
         function toStringDate(date) {
             return $filter('date')(date, 'yyyy-MM-dd');
+        }
+
+        function fromISOString(isoDate) {
+            var date = new Date(isoDate);
+            if(isoDate.indexOf('Z') < 0) { // if date string does not contain time zone definition
+                var offset = date.getTimezoneOffset() * 60000; // remove time zone offset
+                date = new Date(date.getTime() + offset);
+            }
+            return date;
         }
     }
 
