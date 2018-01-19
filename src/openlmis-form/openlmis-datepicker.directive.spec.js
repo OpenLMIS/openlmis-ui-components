@@ -17,7 +17,7 @@ describe('Datepicker directive', function() {
 
     'use strict';
 
-    var $compile, scope, element, filter, openlmisDateFilter;
+    var $timeout ,$compile, $rootScope, scope, element, filter, openlmisDateFilter;
 
     beforeEach(function() {
 
@@ -30,10 +30,13 @@ describe('Datepicker directive', function() {
             $provide.value('openlmisDateFilter', filter);
         });
 
-        inject(function(_$compile_, _$rootScope_) {
-            $compile = _$compile_;
-            scope = _$rootScope_.$new();
+        inject(function($injector) {
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            $timeout = $injector.get('$timeout');
         });
+
+        scope = $rootScope.$new();
 
         scope.endDate = new Date('2017-12-31T23:00:00.000Z');
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
@@ -55,5 +58,16 @@ describe('Datepicker directive', function() {
     it('should add disabled parameter', function() {
         var elem = angular.element(element);
         expect(elem.find('input').attr('disabled')).toEqual('disabled');
+    });
+
+    it('should remove disabled parameter if expression changes to false', function() {
+        var elem = angular.element(element);
+        expect(elem.find('input').attr('disabled')).toEqual('disabled');
+
+        scope.isDisabled = true;
+        scope.$apply();
+        $timeout(function() {
+            expect(elem.find('input').attr('disabled')).toEqual(undefined);
+        }, 100);
     });
 });

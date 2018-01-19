@@ -35,9 +35,18 @@ describe('dateUtils', function() {
 
     describe('toDate', function() {
 
+        it('should return undefined if parameter is null', function() {
+            expect(dateUtils.toDate(null)).toEqual(undefined);
+        });
+
         it('should create date from iso string', function() {
             var date = new Date('2017-05-12');
             expect(dateUtils.toDate(date.toISOString())).toEqual(date);
+        });
+
+        it('should remove time zone offset', function() {
+            var date = new Date('2017-01-31T10:12:14Z');
+            expect(dateUtils.toDate(date.toISOString())).toEqual(new Date('2017-01-31T10:12:14'));
         });
 
         it('should create date from array with 3 elements', function() {
@@ -48,6 +57,16 @@ describe('dateUtils', function() {
         it('should create date from array with 6 elements', function() {
             var date = new Date('2017-01-31T10:12:14Z');
             expect(dateUtils.toDate([2017, 1, 31, 10, 12, 14])).toEqual(date);
+        });
+
+        it('should return undefined if array has number of elements other that 3 or 6', function() {
+            expect(dateUtils.toDate([])).toEqual(undefined);
+            expect(dateUtils.toDate([1])).toEqual(undefined);
+            expect(dateUtils.toDate([1, 2])).toEqual(undefined);
+            expect(dateUtils.toDate([1, 2, 3, 4])).toEqual(undefined);
+            expect(dateUtils.toDate([1, 2, 3, 4, 5])).toEqual(undefined);
+            expect(dateUtils.toDate([1, 2, 3, 4, 5, 6, 7])).toEqual(undefined);
+            expect(dateUtils.toDate([1, 2, 3, 4, 5, 6, 7, 8])).toEqual(undefined);
         });
     });
 

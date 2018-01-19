@@ -35,7 +35,13 @@ describe('PaginationController', function() {
         };
 
         spyOn(paginationService, 'isExternalPagination').andReturn(true);
+        spyOn(paginationService, 'getPage').andReturn(0);
+        spyOn(paginationService, 'getSize').andReturn(2);
+        spyOn(paginationService, 'getTotalItems').andReturn(10);
+        spyOn(paginationService, 'getShowingItems').andReturn(2);
+
         spyOn(paginationFactory, 'getPage').andReturn([1]);
+
         spyOn($state, 'go').andReturn();
 
         vm = $controller('PaginationController', {
@@ -43,10 +49,38 @@ describe('PaginationController', function() {
             $stateParams: stateParams
         });
         vm.$onInit();
+    });
 
-        vm.totalItems = 10;
-        vm.pageSize = 2;
-        vm.page = 0;
+    describe('onInit', function() {
+
+        it('should setup view value for external pagination', function() {
+            expect(vm.page).toEqual(0);
+            expect(vm.pageSize).toEqual(2);
+            expect(vm.totalItems).toEqual(10);
+            expect(vm.showingItems).toEqual(2);
+        });
+
+        it('should setup view value for local pagination', function() {
+            paginationService.isExternalPagination.andReturn(false);
+            vm.list = [1];
+            vm.$onInit();
+
+            expect(vm.page).toEqual(0);
+            expect(vm.pageSize).toEqual(2);
+            expect(vm.totalItems).toEqual(vm.list.length);
+            expect(vm.pagedList).toEqual([1]);
+            expect(vm.showingItems).toEqual(vm.pagedList.length);
+        });
+    });
+
+    describe('watch paginated list', function() {
+
+        it('should fire on init when list changes', function() {
+            spyOn(vm, '$onInit');
+            vm.list = [];
+            $rootScope.$apply();
+            expect(vm.$onInit).toHaveBeenCalled();
+        });
     });
 
     describe('changePage', function() {
@@ -74,12 +108,24 @@ describe('PaginationController', function() {
             vm.changePage(newPage + 1);
             expect(vm.page).toEqual(newPage);
 
+            expect($state.go.callCount).toEqual(1);
+        });
+
+        it('should change page for local pagination', function() {
+            paginationService.isExternalPagination.andReturn(false);
+            vm.list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            vm.$onInit();
+
+            vm.changePage(newPage);
+
+            expect(paginationFactory.getPage).toHaveBeenCalledWith(vm.list, newPage, vm.pageSize);
+            expect(vm.page).toEqual(newPage);
             expect($state.go).toHaveBeenCalledWith($state.current.name, {
                 page: 4,
                 size: 2
             }, {
                 reload: $state.current.name,
-                notify: true
+                notify: false
             });
         });
     });

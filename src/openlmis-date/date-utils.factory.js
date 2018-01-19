@@ -54,7 +54,7 @@
         function toDate(source) {
             if (!source) return undefined;
             // when date is ISO string, not array
-            if (!angular.isArray(source)) return fromISOString(source); // when date is ISO string, not array
+            if (!angular.isArray(source)) return fromISOString(source);
             if (source.length === 3) return new Date(source[0], source[1] - 1, source[2]);
             if (source.length === 6)
                 // array[1] - 1, because in JavaScript months starts with 0 (to 11)

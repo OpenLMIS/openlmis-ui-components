@@ -87,7 +87,7 @@
          * @description
          * Holds number of all items.
          */
-        pagination.totalItems = undefined
+        pagination.totalItems = undefined;
 
         /**
          * @ngdoc property
@@ -103,7 +103,7 @@
         $scope.$watchCollection(function() {
             return pagination.list;
         }, function() {
-            onInit();
+            pagination.$onInit();
         });
 
         function onInit() {
@@ -136,7 +136,7 @@
         function changePage(newPage) {
             if(newPage >= 0 && newPage < getTotalPages()) {
 
-                if(!pagination.externalPagination) {
+                if (!pagination.externalPagination) {
                     pagination.pagedList = paginationFactory.getPage(pagination.list, newPage, pagination.pageSize);
                     pagination.showingItems = pagination.pagedList.length;
                 }
