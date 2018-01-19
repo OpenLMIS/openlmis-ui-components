@@ -36,7 +36,8 @@
        *     input-id="datepicker-id"
        *     change-method="afterChange()"
        *     min-date="10/05/2016"
-       *     max-date="endDate">
+       *     max-date="endDate"
+       *     disabled="endDate === null">
        * </openlmis-datepicker>
        *
        * <openlmis-datepicker
@@ -62,7 +63,8 @@
                 dateFormat: '=?',
                 language: '=?',
                 required: '=?',
-                invalidMessage: '=?'
+                invalidMessage: '=?',
+                disabled: '&?'
             },
             templateUrl: 'openlmis-form/openlmis-datepicker.html',
             link: link
@@ -99,6 +101,14 @@
                     }
                 } else {
                     scope.dateString = undefined;
+                }
+            });
+
+            scope.$watch('disabled', function() {
+                if ((scope.disabled instanceof Function && scope.disabled()) || scope.disabled === 'true') {
+                    datepicker.attr('disabled', 'disabled');
+                } else {
+                    datepicker.removeAttr('disabled');
                 }
             });
         }

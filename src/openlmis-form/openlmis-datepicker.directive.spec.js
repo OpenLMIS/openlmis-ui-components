@@ -37,7 +37,8 @@ describe('Datepicker directive', function() {
 
         scope.endDate = new Date('2017-12-31T23:00:00.000Z');
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
-        var html = '<openlmis-datepicker input-id="startDate" value="startDate" max-date="endDate"></openlmis-datepicker>';
+        scope.isDisabled = true;
+        var html = '<openlmis-datepicker input-id="startDate" value="startDate" max-date="endDate" disabled="isDisabled"></openlmis-datepicker>';
         element = $compile(html)(scope);
         scope.$apply();
     });
@@ -49,5 +50,10 @@ describe('Datepicker directive', function() {
     it('should have datepicker element', function() {
         var elem = angular.element(element);
         expect(elem.find('input').datepicker).toBeDefined();
+    });
+
+    it('should add disabled parameter', function() {
+        var elem = angular.element(element);
+        expect(elem.find('input').attr('disabled')).toEqual('disabled');
     });
 });
