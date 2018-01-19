@@ -45,8 +45,8 @@ describe('dateUtils', function() {
         });
 
         it('should remove time zone offset', function() {
-            var date = new Date('2017-01-31T10:12:14Z');
-            expect(dateUtils.toDate(date.toISOString())).toEqual(new Date('2017-01-31T10:12:14'));
+            var date = new Date('2017-01-31T10:12:14');
+            expect(dateUtils.toDate('2017-01-31T10:12:14')).toEqual(date);
         });
 
         it('should create date from array with 3 elements', function() {
