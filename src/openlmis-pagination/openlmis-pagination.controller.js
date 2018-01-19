@@ -108,14 +108,14 @@
 
         function onInit() {
             pagination.externalPagination = paginationService.isExternalPagination();
-            if(pagination.externalPagination) {
-                pagination.page = paginationService.getPage();
-                pagination.pageSize = paginationService.getSize();
+
+            pagination.page = paginationService.getPage();
+            pagination.pageSize = paginationService.getSize();
+
+            if (pagination.externalPagination) {
                 pagination.totalItems = paginationService.getTotalItems();
                 pagination.showingItems = paginationService.getShowingItems();
             } else {
-                pagination.page = paginationService.getPage();
-                pagination.pageSize = paginationService.getSize();
                 pagination.totalItems = pagination.list.length;
                 pagination.pagedList = paginationFactory.getPage(pagination.list, pagination.page, pagination.pageSize);
                 pagination.showingItems = pagination.pagedList.length;
@@ -147,7 +147,7 @@
                 stateParams.page = newPage;
 
                 $state.go($state.current.name, stateParams, {
-                    reload: pagination.externalPagination ? true : $state.current.name,
+                    reload: $state.current.name,
                     notify: pagination.externalPagination
                 });
             }

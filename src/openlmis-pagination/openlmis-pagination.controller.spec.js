@@ -15,7 +15,7 @@
 
 describe('PaginationController', function() {
 
-    var vm, scope, $controller, $state, paginationService;
+    var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory;
 
     beforeEach(function() {
 
@@ -26,20 +26,27 @@ describe('PaginationController', function() {
             $controller = $injector.get('$controller');
             paginationService = $injector.get('paginationService');
             paginationFactory = $injector.get('paginationFactory');
-
-            spyOn(paginationService, 'isExternalPagination').andReturn(true);
-            spyOn(paginationFactory, 'getPage').andReturn([1]);
-
-            vm = $controller('PaginationController', {
-                $scope: $injector.get('$rootScope')
-            });
-
-            vm.totalItems = 10;
-            vm.pageSize = 2;
-            vm.page = 0;
-
-            spyOn($state, 'go').andReturn();
+            $rootScope = $injector.get('$rootScope');
         });
+
+        stateParams = {
+            page: 0,
+            size: 2
+        };
+
+        spyOn(paginationService, 'isExternalPagination').andReturn(true);
+        spyOn(paginationFactory, 'getPage').andReturn([1]);
+        spyOn($state, 'go').andReturn();
+
+        vm = $controller('PaginationController', {
+            $scope: $rootScope.$new(),
+            $stateParams: stateParams
+        });
+        vm.$onInit();
+
+        vm.totalItems = 10;
+        vm.pageSize = 2;
+        vm.page = 0;
     });
 
     describe('changePage', function() {
@@ -52,6 +59,13 @@ describe('PaginationController', function() {
 
         it('should change current page', function() {
             expect(vm.page).toEqual(newPage);
+            expect($state.go).toHaveBeenCalledWith($state.current.name, {
+                page: 4,
+                size: 2
+            }, {
+                reload: $state.current.name,
+                notify: true
+            });
         });
 
         it('should not change current page if number is out of range', function() {
@@ -59,6 +73,14 @@ describe('PaginationController', function() {
 
             vm.changePage(newPage + 1);
             expect(vm.page).toEqual(newPage);
+
+            expect($state.go).toHaveBeenCalledWith($state.current.name, {
+                page: 4,
+                size: 2
+            }, {
+                reload: $state.current.name,
+                notify: true
+            });
         });
     });
 

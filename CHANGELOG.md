@@ -11,6 +11,7 @@ Improvements:
 * [OLMIS-3080:](https://openlmis.atlassian.net/browse/OLMIS-3080) Removed warning modal.
 * [OLMIS-2695](https://openlmis.atlassian.net/browse/OLMIS-2695): Added 'add days to date' method to date utils.
 * [OLMIS-2695](https://openlmis.atlassian.net/browse/OLMIS-2695): Added disabled attribute to datepicker.
+* [OLMIS-2695](https://openlmis.atlassian.net/browse/OLMIS-2695): Fixed changing page in pagination component to not reload parent state.
 
 5.2.0 / 2017-11-09
 ==================
