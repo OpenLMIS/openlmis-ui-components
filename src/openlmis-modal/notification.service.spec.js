@@ -15,41 +15,59 @@
 
 describe('notificationService', function() {
 
-    var timeout, notificationService, rootScope;
+    var $timeout, $rootScope, notificationService, loadingModalService;
 
-    beforeEach(module('openlmis-modal'));
+    beforeEach(function() {
+        module('openlmis-modal');
 
-    beforeEach(inject(function($templateCache) {
-        $templateCache.put('openlmis-modal/notification.html', '<div class="notification" ng-click="closeNotification()"></div>');
-        $templateCache.put('openlmis-modal/notification-container.html', "something");
-    }));
-
-    beforeEach(inject(function(_$rootScope_, _$timeout_, _notificationService_) {
-        timeout = _$timeout_;
-        notificationService = _notificationService_;
-        rootScope = _$rootScope_;
-    }));
+        inject(function($injector) {
+            $timeout = $injector.get('$timeout');
+            $rootScope = $injector.get('$rootScope');
+            notificationService = $injector.get('notificationService');
+            loadingModalService = $injector.get('loadingModalService');
+        });
+    });
 
     it('should hide error notification after clicking on it', function() {
         notificationService.error('some.message');
 
-        angular.element(document.querySelector('.notification')).trigger('click');
-
-        waitsFor(function() {
-            return angular.element(document.querySelector('.notification')).length < 1;
-        }, "notification to close.", 1000);
-
-        runs(function() {
-            expect(angular.element(document.querySelector('.notification')).length).toBe(0);
+        expect(findNotifications().length).toBe(1);
+        findNotifications().on('click', function(event) {
+            angular.element(event.target).trigger('webkitAnimationEnd');
         });
+
+        findNotifications().trigger('click');
+
+        expect(findNotifications().length).toBe(0);
     });
 
     it('should close success notification after delay', function() {
         notificationService.success('some.message');
 
-        timeout.flush();
+        expect(findNotifications().length).toBe(1);
 
-        expect(angular.element(document.querySelector('.notification')).length).toBe(0);
+        $timeout.flush();
+        findNotifications().trigger('webkitAnimationEnd');
+
+        expect(findNotifications().length).toBe(0);
     });
+
+    it('should show notification after loading modal closes', function() {
+        loadingModalService.open();
+
+        notificationService.success('some.message');
+        $rootScope.$apply();
+
+        expect(findNotifications().length).toBe(0);
+
+        loadingModalService.close();
+        $rootScope.$apply();
+
+        expect(findNotifications().length).toBe(1);
+    });
+
+    function findNotifications() {
+        return angular.element(document.querySelector('.notification'));
+    }
 
 });

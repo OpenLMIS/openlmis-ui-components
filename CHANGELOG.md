@@ -9,10 +9,11 @@ New functionality added in a backwards-compatible manner:
 Improvements:
 * [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.
 * [OLMIS-3080:](https://openlmis.atlassian.net/browse/OLMIS-3080) Removed warning modal.
-* [OLMIS-2695](https://openlmis.atlassian.net/browse/OLMIS-2695): Following improvements to components:
+* [OLMIS-2695:](https://openlmis.atlassian.net/browse/OLMIS-2695) Following improvements to components:
 ** Added 'add days to date' method to date utils.
 ** Added disabled attribute to datepicker.
 ** Fixed changing page in pagination component to not reload parent state.
+* [OLMIS-3326:](https://openlmis.atlassian.net/browse/OLMIS-3326) The notificationService will now wait for the loadingModalService to close before displaying any notification
 
 5.2.0 / 2017-11-09
 ==================

@@ -21,17 +21,20 @@
      * @name openlmis-modal.notificationService
      *
      * @description
-     * Service allows to display info/error/success notification element that expires after short period with custom message.
+     * Service allows to display info/error/success notification element that expires after short
+     * period with custom message. If the loading modal is open, the notification won't be displayed
+     * until it closes.
      */
     angular.module('openlmis-modal')
         .service('notificationService', service);
 
     service.$inject = [
-        '$rootScope', '$timeout', '$templateCache', '$templateRequest', '$compile', 'messageService'
+        '$rootScope', '$timeout', '$templateCache', '$templateRequest', '$compile',
+        'messageService', 'loadingModalService'
     ];
 
     function service($rootScope, $timeout, $templateCache, $templateRequest, $compile,
-                     messageService) {
+                     messageService, loadingModalService) {
 
         var container = createContainer(),
             template = $templateCache.get('openlmis-modal/notification.html');
@@ -83,8 +86,7 @@
         }
 
         function showMessage(message, type, icon) {
-            var notification,
-                timeoutPromise,
+            var timeoutPromise,
                 element,
                 isMouseOver = false,
                 timeoutCalled = false,
@@ -105,12 +107,19 @@
                 if(timeoutCalled) closeNotification();
             });
 
-            container.append(element);
-
-            setTimeout();
+            if (loadingModalService.isOpened) {
+                loadingModalService.open()
+                .then(function() {
+                    container.append(element);
+                    setTimeout();
+                });
+            } else {
+                container.append(element);
+                setTimeout();
+            }
 
             function setTimeout() {
-                timeoutPromise = $timeout(function(){
+                timeoutPromise = $timeout(function() {
                     timeoutCalled = true;
                     if(!isMouseOver) closeNotification();
                     return false;
@@ -119,7 +128,7 @@
 
             function closeNotification() {
                 element.addClass('hide-notification');
-                element.bind('webkitAnimationEnd',function(){
+                element.bind('webkitAnimationEnd', function() {
                     if(element) element.remove();
                     scope.$destroy();
                     element = undefined;

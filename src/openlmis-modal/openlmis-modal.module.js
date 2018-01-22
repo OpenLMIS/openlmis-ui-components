@@ -27,7 +27,8 @@
         'mgcrea.ngStrap',
         'ngAnimate',
         'ngSanitize',
-        'openlmis-i18n'
+        'openlmis-i18n',
+        'openlmis-templates'
     ]);
 
 })();
