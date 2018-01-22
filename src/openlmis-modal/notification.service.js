@@ -107,16 +107,11 @@
                 if(timeoutCalled) closeNotification();
             });
 
-            if (loadingModalService.isOpened) {
-                loadingModalService.open()
-                .then(function() {
-                    container.append(element);
-                    setTimeout();
-                });
-            } else {
+            loadingModalService.whenClosed()
+            .then(function() {
                 container.append(element);
                 setTimeout();
-            }
+            });
 
             function setTimeout() {
                 timeoutPromise = $timeout(function() {

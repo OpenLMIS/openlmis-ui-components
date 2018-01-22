@@ -30,6 +30,7 @@ describe('notificationService', function() {
 
     it('should hide error notification after clicking on it', function() {
         notificationService.error('some.message');
+        $rootScope.$apply();
 
         expect(findNotifications().length).toBe(1);
         findNotifications().on('click', function(event) {
@@ -43,6 +44,7 @@ describe('notificationService', function() {
 
     it('should close success notification after delay', function() {
         notificationService.success('some.message');
+        $rootScope.$apply();
 
         expect(findNotifications().length).toBe(1);
 
