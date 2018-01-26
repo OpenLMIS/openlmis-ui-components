@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6{
     font-size: $font-size;
     line-height: 1.2em;
     margin: 0px;
-    padding: 0.2em 0em;
+    padding: $space-size * 0.2 0em;
 }
 
 h1, h2 {
@@ -80,7 +80,7 @@ header,
 header,
 .heading {
     border-bottom: $heading-border-color 1px solid;
-    padding: 0.5em 0em;
+    padding: $space-size * 0.2 0em;
 }
 
 .sub-heading,
