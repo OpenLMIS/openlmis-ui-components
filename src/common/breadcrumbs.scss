@@ -17,9 +17,8 @@ Styleguide 2.1
 
 .breadcrumb {
 	background-color: transparent;
-	border-bottom: $border-color 1px solid;
 	padding: 0.5em 0px;
-	border-radius: 0px;
+	margin-bottom: 0px;
 	> li + li{
 		&::before{
 			padding: 0px 0.5em;
