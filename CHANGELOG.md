@@ -14,6 +14,7 @@ Improvements:
 ** Added disabled attribute to datepicker.
 ** Fixed changing page in pagination component to not reload parent state.
 * [OLMIS-3326:](https://openlmis.atlassian.net/browse/OLMIS-3326) The notificationService will now wait for the loadingModalService to close before displaying any notification
+* [OLMIS-3905:](https://openlmis.atlassian.net/browse/OLMIS-3905) Add min-width to select dropdown
 
 Bug fixes:
 * [OLMIS-3806:](https://openlmis.atlassian.net/browse/OLMIS-3806): Fixed date picker to not change selected date
