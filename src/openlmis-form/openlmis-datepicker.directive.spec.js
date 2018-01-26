@@ -60,6 +60,14 @@ describe('Datepicker directive', function() {
         expect(elem.find('input').datepicker).toBeDefined();
     });
 
+    it('should set selected datepicker value', function() {
+        var elem = angular.element(element);
+
+        $timeout(function() {
+            expect(elem.find('input').attr('value')).toEqual('31/01/2017');
+        }, 100);
+    });
+
     it('should add disabled parameter', function() {
         var elem = angular.element(element);
         expect(elem.find('input').attr('disabled')).toEqual('disabled');
