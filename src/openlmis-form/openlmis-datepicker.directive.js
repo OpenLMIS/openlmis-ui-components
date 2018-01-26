@@ -49,9 +49,9 @@
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
 
-    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT'];
+    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils'];
 
-    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils) {
         return {
             restrict: 'E',
             scope: {
@@ -95,7 +95,7 @@
             scope.$watch('value', function() {
                 scope.invalidMessage = undefined;
                 if (scope.value) {
-                    var dateString = $filter('openlmisDate')(scope.value);
+                    var dateString = dateUtils.toDate(scope.value);
                     if (dateString !== scope.dateString) {
                         scope.dateString = dateString;
                     }
