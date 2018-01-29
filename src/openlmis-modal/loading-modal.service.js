@@ -38,6 +38,7 @@
 
         this.open = open;
         this.close = close;
+        this.whenClosed = whenClosed;
         this.isOpened = false;
 
         /**
@@ -98,6 +99,24 @@
                 deferred.resolve();
                 deferred = undefined;
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-modal.loadingModalService
+         * @name whenClosed
+         *
+         * @description
+         * Returns a promise resolved when loading modal is closed. The resolved promise is returned
+         * if modal is closed.
+         * 
+         * @return {Promise}    the promise resolved when the modal is closed
+         */
+        function whenClosed() {
+            if (deferred) {
+                return deferred.promise;
+            }
+            return $q.resolve();
         }
     }
 

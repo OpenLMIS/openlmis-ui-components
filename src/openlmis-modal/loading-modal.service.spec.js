@@ -121,4 +121,37 @@ describe('loadingModalService', function() {
             expect(loadingModalService.isOpened).toBe(false);
         });
     });
+
+    describe('whenClosed', function() {
+
+        it('should return a promise if modal is open', function() {
+            loadingModalService.open();
+            $rootScope.$apply();
+
+            var closed;
+            loadingModalService.whenClosed()
+            .then(function() {
+                closed = true;
+            });
+
+            expect(closed).not.toBe(true);
+
+            loadingModalService.close();
+            $rootScope.$apply();
+
+            expect(closed).toBe(true);
+        });
+
+        it('should return a resolved promise if modal is closed', function() {
+            var closed;
+            loadingModalService.whenClosed()
+            .then(function() {
+                closed = true;
+            });
+            $rootScope.$apply();
+
+            expect(closed).toBe(true);
+        });
+
+    });
 });
