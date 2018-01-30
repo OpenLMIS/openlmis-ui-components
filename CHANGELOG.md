@@ -19,6 +19,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-3806:](https://openlmis.atlassian.net/browse/OLMIS-3806): Fixed date picker to not change selected date
+* [OLMIS-3909:](https://openlmis.atlassian.net/browse/OLMIS-3909): Fixed scrollbar hiding underneath sticky columns
 
 5.2.0 / 2017-11-09
 ==================
