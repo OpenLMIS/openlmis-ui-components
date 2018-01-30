@@ -38,6 +38,8 @@ describe('Datepicker directive', function() {
 
         scope = $rootScope.$new();
 
+        spyOn(console, 'error');
+
         scope.endDate = new Date('2017-12-31T23:00:00.000Z');
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
         scope.isDisabled = true;
@@ -77,5 +79,9 @@ describe('Datepicker directive', function() {
         $timeout(function() {
             expect(elem.find('input').attr('disabled')).toEqual(undefined);
         }, 100);
+    });
+
+    afterEach(function() {
+        expect(console.error).not.toHaveBeenCalled();
     });
 });
