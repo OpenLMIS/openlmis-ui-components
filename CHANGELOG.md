@@ -5,6 +5,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-3108:](https://openlmis.atlassian.net/browse/OLMIS-3108) Updated to use dev-ui v7 transifex build process
 * [OLMIS-2656:](https://openlmis.atlassian.net/browse/OLMIS-2656) Added filter component.
 * [OLMIS-3738:](https://openlmis.atlassian.net/browse/OLMIS-3738) Added horizontal scrollbar to the table container.
+* [OLMIS-3917](https://openlmis.atlassian.net/browse/OLMIS-3917): Added optional title to confirm modal.
 
 Improvements:
 * [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.

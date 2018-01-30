@@ -28,12 +28,12 @@
     angular.module('openlmis-modal')
         .service('confirmService', confirmService);
 
-    confirmService.$inject = ['openlmisModalService', 'messageService', '$q'];
+    confirmService.$inject = ['openlmisModalService', '$q'];
 
-    function confirmService(openlmisModalService, messageService, $q) {
+    function confirmService(openlmisModalService, $q) {
 
         this.confirm = confirm;
-        this.confirmDestroy = destroy;
+        this.confirmDestroy = confirmDestroy;
 
         /**
          * @ngdoc method
@@ -46,10 +46,11 @@
          * @param  {String}   message             Primary message to display at the top
          * @param  {String}   buttonMessage       Optional message to display on confirm button
          * @param  {String}   cancelButtonMessage Optional message to display on cancel button
+         * @param  {String}   titleMessage        Optional message to display on title header
          * @return {Promise}                      Confirm promise
          */
-        function confirm(message, buttonMessage, cancelButtonMessage) {
-            return makeModal(false, message, buttonMessage, cancelButtonMessage);
+        function confirm(message, buttonMessage, cancelButtonMessage, titleMessage) {
+            return makeModal(false, message, buttonMessage, cancelButtonMessage, titleMessage);
         }
 
         /**
@@ -63,13 +64,14 @@
          * @param  {String}  message              Message to display
          * @param  {String}  buttonMessage        Optional message to display on confirm button
          * @param  {String}  cancelButtonMessage  Optional message to display on cancel button
+         * @param  {String}  titleMessage         Optional message to display on title header
          * @return {Promise}                      Confirm promise
          */
-        function destroy(message, buttonMessage, cancelButtonMessage) {
-            return makeModal(true, message, buttonMessage, cancelButtonMessage);
+        function confirmDestroy(message, buttonMessage, cancelButtonMessage, titleMessage) {
+            return makeModal(true, message, buttonMessage, cancelButtonMessage, titleMessage);
         }
 
-        function makeModal(remove, message, buttonMessage, cancelButtonMessage) {
+        function makeModal(remove, message, buttonMessage, cancelButtonMessage, titleMessage) {
             var deferred = $q.defer();
 
             openlmisModalService.createDialog({
@@ -78,7 +80,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     className: function() {
-                        return remove ? "danger" : "primary";
+                        return remove ? 'danger' : 'primary';
                     },
                     message: function() {
                         return message;
@@ -88,6 +90,9 @@
                     },
                     cancelMessage: function() {
                         return cancelButtonMessage ? cancelButtonMessage : 'openlmisModal.cancel';
+                    },
+                    titleMessage: function() {
+                        return titleMessage;
                     },
                     confirmDeferred: function() {
                         return deferred;

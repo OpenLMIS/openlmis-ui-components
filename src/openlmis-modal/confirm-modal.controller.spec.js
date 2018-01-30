@@ -15,8 +15,8 @@
 
 describe('ConfirmModalController', function() {
 
-    var vm, $controller, messageService, className, message, confirmMessage, cancelMessage,
-        confirmDeferred, modalDeferred;
+    var vm, $controller, messageService, className, message, confirmMessage, cancelMessage, titleMessage,
+        confirmDeferred, modalDeferred, messageKey;
 
     beforeEach(function() {
         module('openlmis-modal');
@@ -31,6 +31,7 @@ describe('ConfirmModalController', function() {
         message = 'Modal message\nWith multiple lines';
         confirmMessage = 'Confirm Message';
         cancelMessage = 'Cancel Message';
+        titleMessage = 'Title message';
         confirmDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
         modalDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
 
@@ -39,6 +40,7 @@ describe('ConfirmModalController', function() {
             message: messageKey,
             confirmMessage: confirmMessage,
             cancelMessage: cancelMessage,
+            titleMessage: titleMessage,
             confirmDeferred: confirmDeferred,
             modalDeferred: modalDeferred
         });
@@ -74,6 +76,11 @@ describe('ConfirmModalController', function() {
             expect(vm.cancelMessage).toEqual(cancelMessage);
         });
 
+        it('should expose title message', function() {
+            vm.$onInit();
+
+            expect(vm.titleMessage).toEqual(titleMessage);
+        });
     });
 
     describe('confirm', function() {

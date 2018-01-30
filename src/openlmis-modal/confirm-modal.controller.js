@@ -29,11 +29,11 @@
         .controller('ConfirmModalController', controller);
 
     controller.$inject = [
-        'className', 'message', 'confirmMessage', 'cancelMessage', 'confirmDeferred',
+        'className', 'message', 'confirmMessage', 'cancelMessage', 'titleMessage', 'confirmDeferred',
         'messageService', 'modalDeferred'
     ];
 
-    function controller(className, message, confirmMessage, cancelMessage, confirmDeferred,
+    function controller(className, message, confirmMessage, cancelMessage, titleMessage, confirmDeferred,
                         messageService, modalDeferred) {
         var vm = this;
 
@@ -86,6 +86,17 @@
         vm.cancelMessage = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf openlmis-modal.controller:ConfirmModalController
+         * @type {String}
+         * @name titleMessage
+         *
+         * @description
+         * The message to be displayed on the header.
+         */
+        vm.titleMessage = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf openlmis-modal.controller:ConfirmModalController
          * @name $onInit
@@ -98,6 +109,7 @@
             vm.message = retrieveMessage(message);
             vm.confirmMessage = confirmMessage;
             vm.cancelMessage = cancelMessage;
+            vm.titleMessage = titleMessage;
         }
 
         /**
