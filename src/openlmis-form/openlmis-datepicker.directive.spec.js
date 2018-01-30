@@ -17,8 +17,7 @@ describe('Datepicker directive', function() {
 
     'use strict';
 
-    var $timeout ,$compile, $rootScope, scope, element, filter, openlmisDateFilter,
-        dateUtils;
+    var $timeout ,$compile, $rootScope, scope, element, filter, openlmisDateFilter;
 
     beforeEach(function() {
 
@@ -35,13 +34,9 @@ describe('Datepicker directive', function() {
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
             $timeout = $injector.get('$timeout');
-            dateUtils = $injector.get('dateUtils');
         });
 
         scope = $rootScope.$new();
-        spyOn(dateUtils, 'toDate').andCallFake(function(parameter) {
-            return parameter;
-        });
 
         scope.endDate = new Date('2017-12-31T23:00:00.000Z');
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
