@@ -49,9 +49,9 @@
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
 
-    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT'];
+    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils'];
 
-    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils) {
         return {
             restrict: 'E',
             scope: {
@@ -75,7 +75,7 @@
 
             if (scope.value) {
                 // Populate initial value, if passed to directive
-                scope.dateString = $filter('openlmisDate')(scope.value);
+                scope.dateString = getFilteredDate(scope.value);
             }
 
             var datepicker = element.find('input').datepicker({
@@ -83,7 +83,7 @@
             });
 
             datepicker.on('changeDate', function(event) {
-                var date = element.find('input').datepicker('getDate');
+                var date = element.find('input').datepicker('getUTCDate'); //////
 
                 scope.value = date ? date : undefined;
 
@@ -95,7 +95,7 @@
             scope.$watch('value', function() {
                 scope.invalidMessage = undefined;
                 if (scope.value) {
-                    var dateString = $filter('openlmisDate')(scope.value);
+                    var dateString = getFilteredDate(scope.value);
                     if (dateString !== scope.dateString) {
                         scope.dateString = dateString;
                     }
@@ -159,6 +159,14 @@
             }
 
             return labels;
+        }
+
+        function getFilteredDate(date) {
+            if (date instanceof Date) {
+                return $filter('openlmisDate')(dateUtils.toDate(date.toISOString()));
+            } else {
+                return $filter('openlmisDate')(dateUtils.toDate(date.value));
+            }
         }
     }
 
