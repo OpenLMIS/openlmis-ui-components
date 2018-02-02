@@ -17,7 +17,7 @@ describe('Datepicker directive', function() {
 
     'use strict';
 
-    var $timeout ,$compile, $rootScope, scope, element, filter, openlmisDateFilter;
+    var $timeout, $compile, $rootScope, scope, element, filter, openlmisDateFilter;
 
     beforeEach(function() {
 
@@ -58,6 +58,19 @@ describe('Datepicker directive', function() {
     });
 
     it('should set selected datepicker value', function() {
+        var elem = angular.element(element);
+
+        $timeout(function() {
+            expect(elem.find('input').attr('value')).toEqual('31/01/2017');
+        }, 100);
+    });
+
+    it('should remove timezone from selected date', function() {
+        Date.prototype.getTimezoneOffset = function () {
+            return 120;
+        }
+        scope.startDate = new Date('2017-01-31T23:00:00.000Z');
+
         var elem = angular.element(element);
 
         $timeout(function() {

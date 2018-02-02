@@ -83,7 +83,7 @@
             });
 
             datepicker.on('changeDate', function(event) {
-                var date = element.find('input').datepicker('getUTCDate'); //////
+                var date = element.find('input').datepicker('getDate');
 
                 scope.value = date ? date : undefined;
 
@@ -162,12 +162,13 @@
         }
 
         function getFilteredDate(date) {
+            var dateWithoutTimeZone;
             if (date instanceof Date) {
-                return $filter('openlmisDate')(dateUtils.toDate(date.toISOString()));
+                dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
             } else {
-                return $filter('openlmisDate')(dateUtils.toDate(date.value));
+                dateWithoutTimeZone = dateUtils.toDate(date.value);
             }
+            return $filter('openlmisDate')(dateWithoutTimeZone);
         }
     }
-
 })();
