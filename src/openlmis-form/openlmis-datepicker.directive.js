@@ -75,6 +75,7 @@
 
             if (scope.value) {
                 // Populate initial value, if passed to directive
+                scope.value = $filter('isoDate')(scope.value);
                 scope.dateString = getFilteredDate(scope.value);
             }
 
