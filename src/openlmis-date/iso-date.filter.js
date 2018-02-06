@@ -34,7 +34,9 @@
     function isoDateFilter() {
         return function(date) {
             if (date && angular.isDate(date)) {
-                var isoString = date.toISOString(),
+                var dateCopy = angular.copy(date);
+                dateCopy.setMinutes(-1 * (dateCopy.getMinutes() + dateCopy.getTimezoneOffset()));
+                var isoString = dateCopy.toISOString(),
                     tIndex = isoString.indexOf('T');
 
                 return isoString.slice(0, tIndex);
