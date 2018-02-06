@@ -85,7 +85,7 @@
             datepicker.on('changeDate', function(event) {
                 var date = element.find('input').datepicker('getDate');
 
-                scope.value = date ? date : undefined;
+                scope.value = date ? $filter('isoDate')(date) : undefined;
 
                 if (scope.changeMethod && scope.changeMethod instanceof Function) {
                     scope.changeMethod();
@@ -166,7 +166,7 @@
             if (date instanceof Date) {
                 dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
             } else {
-                dateWithoutTimeZone = dateUtils.toDate(date.value);
+                dateWithoutTimeZone = dateUtils.toDate(date);
             }
             return $filter('openlmisDate')(dateWithoutTimeZone);
         }
