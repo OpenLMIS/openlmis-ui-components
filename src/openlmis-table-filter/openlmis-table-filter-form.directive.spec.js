@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmisTableFilter directive', function() {
+describe('openlmisTableFilterForm directive', function() {
 
     var template, ctrlSpy;
 
@@ -45,7 +45,7 @@ describe('openlmisTableFilter directive', function() {
         ctrlSpy.getFilterButton.andReturn(compileMarkup('<button></button>'));
         template = compileMarkup(
             '<section class="openlmis-table-container">' +
-                '<div openlmis-table-filter></div>' +
+                '<div openlmis-table-filter-form></div>' +
                 '<table>' +
                     '<thead><tr><th></th></tr></thead>' +
                     '<tbody><tr><td></td></tr></tbody>' +
@@ -56,10 +56,9 @@ describe('openlmisTableFilter directive', function() {
 
     it('should register element in the openlmisTableFilters', function() {
         expect(ctrlSpy.registerElement)
-        .toHaveBeenCalledWith(angular.element(template.find('[openlmis-table-filter]')[0]));
+        .toHaveBeenCalledWith(angular.element(template.find('[openlmis-table-filter-form]')[0]));
     });
 
-    //TODO: DRY this a bit, as it is repeated in numerous tests
     function compileMarkup(markup) {
         var element = $compile(markup)($scope);
 
