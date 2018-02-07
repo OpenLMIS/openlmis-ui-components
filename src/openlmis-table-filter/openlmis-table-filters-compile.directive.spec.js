@@ -13,12 +13,21 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmis-table-filter directive', function() {
+describe('openlmis-table-filter compile directive', function() {
 
-    var container, $scope;
+    var $scope, $compile, ctrlSpy;
 
     beforeEach(function() {
-        module('openlmis-table-filter');
+        module('openlmis-table-filter', function($controllerProvider) {
+
+            // Stubs out DOM manipulation by OpenlmisTableFiltersController
+            ctrlSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
+                'registerElement', 'getFilterButton'
+            ]);
+            $controllerProvider.register('OpenlmisTableFiltersController', function() {
+                return ctrlSpy;
+            });
+        });
 
         inject(function($injector) {
             $compile = $injector.get('$compile');
@@ -26,15 +35,29 @@ describe('openlmis-table-filter directive', function() {
         });
 
         $scope = $rootScope.$new();
-        container = compileMarkup('<div class="openlmis-table-container"></div>');
     });
 
-    it('should add openlmis-table-filters directive', function() {
+    it('should add openlmis-table-filters directive to openlmis-table-container', function() {
+        var container = compileMarkup('<div class="openlmis-table-container"></div>');
+
         expect(container.attr('openlmis-table-filters')).not.toBeUndefined();
-        expect(container.controller('openlmisTableFilters')).not.toBeUndefined();
+        expect(container.controller('openlmis-table-filters')).not.toBeUndefined();
     });
 
-    //TODO: DRY this a bit, as it is repeated in numerous tests
+    it('should register openlmis-table-container child forms with OpenlmisTableFiltersController', function() {
+        var container = compileMarkup('<div class="openlmis-table-container"><form></form></div>');
+
+        expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
+        expect(ctrlSpy.registerElement).toHaveBeenCalled();
+    });
+
+    it('will only apply openlmis-table-filter to forms that are direct descendants of openlmis-table-container', function() {
+        var container = compileMarkup('<div class="openlmis-table-container"><form></form><div><form></form></div></div>');
+
+        expect(container.find('form').length).toBe(2);
+        expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
+    });
+
     function compileMarkup(markup) {
         var element = $compile(markup)($scope);
 

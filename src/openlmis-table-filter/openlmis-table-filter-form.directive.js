@@ -31,17 +31,16 @@
      * Here's an example of the directive usage:
      * ```
      * <section class="openlmis-table-container">
-     * <div openlmis-table-filter></div>
-     * <table>
-     *     <thead><tr><th></th></tr></thead>
-     * <tbody><tr><td></td></tr></tbody>
-     * </table>
+     *     <div openlmis-table-filter-form>
+     *         <label for="exampleFilter">Example</label>
+     *         <input id="exampleFilter" type="text" name="example" />
+     *     </div>
      * </section>
      * ```
      */
     angular
         .module('openlmis-table-filter')
-        .directive('openlmisTableFilter', openlmisTableFilterDirective);
+        .directive('openlmisTableFilterForm', openlmisTableFilterDirective);
 
     openlmisTableFilterDirective.$inject = [];
 

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmis-table-container-filter directive', function() {
+describe('openlmis-table-container-filters directive', function() {
 
     var container, $scope, ctrlSpy;
 
@@ -48,7 +48,6 @@ describe('openlmis-table-container-filter directive', function() {
         expect(element.length).toBe(1);
     });
 
-    //TODO: DRY this a bit, as it is repeated in numerous tests
     function compileMarkup(markup) {
         var element = $compile(markup)($scope);
 

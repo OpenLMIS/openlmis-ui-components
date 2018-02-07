@@ -41,7 +41,7 @@
     function directive($compile) {
         var directive = {
             restrict: 'C',
-            priority: 1,
+            priority: 100,
             terminal: true,
             compile: compile
         };
@@ -53,11 +53,17 @@
                 element.attr('openlmis-table-filters', '');
             }
 
+            element.children('form').each(function(index, formElement) {
+                if(!formElement.getAttribute('openlmis-table-filter-form')) {
+                    formElement.setAttribute('openlmis-table-filter-form', "");
+                }
+            });
+
             return link;
         }
 
         function link(scope, element) {
-            $compile(element, null, 1)(scope);
+            $compile(element, null, 100)(scope);
         }
     }
 
