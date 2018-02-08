@@ -167,8 +167,8 @@ $table-cell-padding: 0.5em !default;
     background-color: $background-color;
   }
 
-  &:nth-child(2n+1) > td {
-    background-color: $background-color-alt;
+  &:hover > td {
+    background-color: $brand-primary;
   }
 
   &.invalid-row > td,
