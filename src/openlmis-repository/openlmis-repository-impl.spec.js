@@ -37,6 +37,30 @@ describe('OpenLMISRepositoryImpl', function() {
         page = new PageDataBuilder().build();
     });
 
+    describe('constructor', function() {
+
+        var SOME_ID = 'some-id';
+
+        it('should accept url ending with slash', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + SOME_ID)
+            .respond(200, page);
+
+            new OpenLMISRepositoryImpl(BASE_URL + '/').get(SOME_ID);
+            $httpBackend.flush();
+        });
+
+        it('should accept url not ending with slash', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + SOME_ID)
+            .respond(200, page);
+
+            new OpenLMISRepositoryImpl(BASE_URL).get(SOME_ID);
+            $httpBackend.flush();
+        });
+
+    });
+
     describe('search', function() {
 
         it('should return server response on successful request', function() {
