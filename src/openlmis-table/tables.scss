@@ -113,6 +113,20 @@ in specifc cells
 Styleguide 4.0
 */
 
+@mixin table-row($color) {
+    > td {
+      background-color: $color;
+    }
+
+    &.secondary > td {
+      background-color: darken($color, 10%);
+    }
+
+    &.child > td {
+      padding: 0.25em;
+    }
+}
+
 $border-color-table: $border-color !default;
 $table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
 $table-cell-padding: 0.5em !default;
@@ -163,16 +177,14 @@ $table-cell-padding: 0.5em !default;
 }
 
 .openlmis-table tr {
-  > td {
-    background-color: $background-color;
-  }
+  @include table-row($background-color);
 
   &:hover > td {
     background-color: $brand-primary;
   }
 
   &.invalid-row > td,
-  &.is-invalid > td{
+  &.is-invalid > td {
     background-color: $background-color-danger;
   }
 
