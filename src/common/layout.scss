@@ -46,7 +46,7 @@ body {
 
     div[ui-view] {
         > *:not(:last-child) {
-            margin: 0 0 1em;
+            margin-bottom: 1em;
         }
 
          > h1,
