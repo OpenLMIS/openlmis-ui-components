@@ -9,6 +9,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-3995:](https://openlmis.atlassian.net/browse/OLMIS-3995) Added OpenLMISRepository and OpenLMISRepositoryImpl classes.
 
 Improvements:
+* [OLMIS-3876:](https://openlmis.atlassian.net/browse/OLMIS-3876) Applied filter component to all forms in an openlmis-table-container
 * [OLMIS-3563:](https://openlmis.atlassian.net/browse/OLMIS-3563) Added moving ng-if from input to wrapper element.
 * [OLMIS-3080:](https://openlmis.atlassian.net/browse/OLMIS-3080) Removed warning modal.
 * [OLMIS-2695:](https://openlmis.atlassian.net/browse/OLMIS-2695) Following improvements to components:
