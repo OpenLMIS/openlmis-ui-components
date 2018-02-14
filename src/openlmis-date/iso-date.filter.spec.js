@@ -26,8 +26,8 @@ describe('isoDate', function() {
     });
 
     it('should return ISO string without time part', function() {
-        var date = new Date();
-        expect($filter('isoDate')(date)).toEqual($filter('date')(date, 'yyyy-MM-dd'));
+        var date = new Date('2017-12-31T23:00:00.000Z');
+        expect($filter('isoDate')(date)).toEqual('2017-12-31');
     });
 
     it('should return null if given parameter is null', function() {
