@@ -28,9 +28,11 @@
         .module('openlmis-app-cache')
         .controller('OpenlmisAppCacheController', OpenlmisAppCacheController);
 
-    OpenlmisAppCacheController.$inject = ['$window', 'confirmService', '$rootScope', 'BUILD_DATE'];
+    OpenlmisAppCacheController.$inject = [
+        '$window', 'confirmService', '$rootScope', 'OPENLMIS_BUILD_DATE'
+    ];
 
-    function OpenlmisAppCacheController($window, confirmService, $rootScope, BUILD_DATE) {
+    function OpenlmisAppCacheController($window, confirmService, $rootScope, OPENLMIS_BUILD_DATE) {
         var vm = this,
             appCache = $window.applicationCache;
 
@@ -47,7 +49,7 @@
          */
         function onInit() {
             appCache.addEventListener('updateready', setUpdateReady);
-            vm.buildDate = BUILD_DATE;
+            vm.buildDate = OPENLMIS_BUILD_DATE;
             setUpdateReady();
         }
 
