@@ -7,6 +7,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-3738:](https://openlmis.atlassian.net/browse/OLMIS-3738) Added horizontal scrollbar to the table container.
 * [OLMIS-3917:](https://openlmis.atlassian.net/browse/OLMIS-3917) Added optional title to confirm modal.
 * [OLMIS-3995:](https://openlmis.atlassian.net/browse/OLMIS-3995) Added OpenLMISRepository and OpenLMISRepositoryImpl classes.
+* [OLMIS-3166:](https://openlmis.atlassian.net/browse/OLMIS-3166) Added openlmisAppCache component.
 
 Improvements:
 * [OLMIS-3876:](https://openlmis.atlassian.net/browse/OLMIS-3876) Applied filter component to all forms in an openlmis-table-container
