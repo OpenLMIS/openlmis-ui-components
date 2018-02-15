@@ -1,6 +1,6 @@
 @mixin button($color){
     display: block;
-    padding: 0.5em 1em;
+    padding: $space-size/2 $space-size;
 
     border-radius: $border-radius;
     border-top: $color 1px solid;

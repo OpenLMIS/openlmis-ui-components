@@ -24,15 +24,16 @@ $default-form-width: 440px !default;
 
 $brand-primary: $brand-blue !default;
 $brand-accent: $orange !default;
+
 $brand-danger: $red !default;
+$background-color-danger: #f1eaeb !default;
+
 $brand-success: $green !default;
-$brand-info: $blue !default;
+$background-color-success: #caebec !default;
 
 $background-color: $white !default;
 $background-color-alt: #f0f0f0 !default;
-$background-color-dark: $dark-gray !default;
-$background-color-danger: #f1eaeb !default;
-$background-color-success: #caebec !default;
+$background-color-dark: lighten($dark-gray,10) !default;
 
 $text-color: $dark-gray !default;
 $text-color-disabled: lighten($dark-gray, 15) !default;
@@ -40,20 +41,23 @@ $text-color-disabled: lighten($dark-gray, 15) !default;
 $link-color: $blue !default;
 $link-color-hover: darken($link-color, 15) !default;
 
+$focus-color: $blue !default;
+$background-color-focus: #DAF3FF !default;
+
 $border-color: darken($light-gray, 15) !default;
 $input-border: $border-color !default;
 
-$text-shadow-size: 5px !default;
-
 $border-radius: 4px !default;
 $border-width: 1px;
+
+// Resets all bootstrap rounded corners to same size
 $border-radius-base: $border-radius;
 $border-radius-large: $border-radius;
 $border-radius-small: $border-radius;
 
 // Spacing
 $padding2px:2px;
-$space-size: 20px !default;
+$space-size: 16px !default;
 $opacity: 0.6 !default;
 
 $sidebar-width: 220px !default;

@@ -24,190 +24,164 @@ in specifc cells
 <table class="openlmis-table">
   <thead>
     <tr>
-      <th>Fully Supply</th>
-      <th>Code</th>
+      <th>Checkbox</th>
       <th>Name</th>
-      <th>Strength</th>
-      <th>Unit of measure</th>
-      <th></th>
+      <th>Value</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td class="center-justified">
-        <i class="icon-ok"/>
-      </td>
-      <td>N-378013</td>
+      <td><input type="checkbox" /></td>
       <td>Tramedol</td>
-      <td>50mg/ml</td>
-      <td>mg</td>
+      <td><input type="number" /></td>
       <td>
         <button>Action</button>
       </td>
     </tr>
+    <tr class="is-secondary">
+        <td></td>
+        <td>Group Row</td>
+        <td></td>
+        <td></td>
+    </tr>
     <tr>
-      <td>
-        <i class="icon-ok"/>
-      </td>
-      <td>A41099</td>
+      <td><input type="checkbox" /></td>
       <td>Doxycycline</td>
-      <td>100</td>
-      <td>mg</td>
+      <td><input type="number" /></td>
       <td>
         <button>Action</button>
         <button>Other Action</button>
       </td>
     </tr>
-    <tr>
-      <td>
-        <i class="icon-ok"/>
-      </td>
-      <td>KM3375-2</td>
+    <tr class="is-disabled">
+      <td><input type="checkbox" /></td>
       <td>Malaria Rapid Diagnostic Test</td>
-      <td>1</td>
-      <td>each</td>
+      <td><input type="number" /></td>
       <td>
         <button>Action</button>
         <button>Other Action</button>
       </td>
     </tr>
     <tr class="is-invalid">
-      <td>
-
-      </td>
-      <td>ERROR</td>
+      <td><input type="checkbox" /></td>
       <td>Example Invalid Row</td>
-      <td>0</td>
-      <td>lots</td>
+      <td><input type="checkbox" /></td>
       <td>
         <button class="danger">Danger</button>
       </td>
     </tr>
-    <tr class="is-disabled">
+    <tr class="is-secondary">
+        <td></td>
+        <td>Group Row</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Malaria Rapid Diagnostic Test</td>
+      <td></td>
       <td>
-        <i class="icon-ok"/>
-      </td>
-      <td>DISABLED</td>
-      <td>Example Disabled Row</td>
-      <td>1</td>
-      <td>each</td>
-      <td>
-        <button disabled>Disabled</button>
+        <button>Action</button>
+        <button>Other Action</button>
       </td>
     </tr>
-    <tr class="is-disabled">
+    <tr class="is-child">
+      <td><input type="checkbox" /></td>
+      <td>Malaria Rapid Diagnostic Test</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr class="is-child">
+      <td><input type="checkbox" /></td>
+      <td>Malaria Rapid Diagnostic Test</td>
+      <td><input type="number" /></td>
       <td>
-        <i class="icon-ok"/>
-      </td>
-      <td>DISABLED</td>
-      <td>Other Disabled Row</td>
-      <td>1</td>
-      <td>each</td>
-      <td>
-        <button disabled>Disabled</button>
+        <button>Action</button>
+        <button>Other Action</button>
       </td>
     </tr>
+
   </tbody>
 </table>
 
 Styleguide 4.0
 */
 
-@mixin table-row($color) {
-    > td {
-      background-color: $color;
+$table-border-color: $border-color !default;
+$table-border-width: 1px !default;
+$table-cell-padding: $space-size/2 !default;
+
+$table-row-background-color: $background-color !default;
+$table-row-background-color-secondary: $background-color-alt !default;
+$table-row-background-color-error: $background-color-danger !default;
+$table-row-background-color-focus: $background-color-focus !default;
+
+$table-header-color: $background-color-dark !default;
+
+table {
+    border: $table-border-color $table-border-width solid;
+}
+
+tr {
+    border-top: $table-border-color $table-border-width solid;
+
+    &:first-child {
+        border-top-width: 0px;
     }
 
-    &.secondary > td {
-      background-color: darken($color, 10%);
+    &:hover,
+    &.is-focused {
+        background-color: $table-row-background-color-focus;
     }
 
-    &.child > td {
-      padding: 0.25em;
+    &.is-secondary {
+        background-color: $table-row-background-color-secondary;
+    }
+
+    &.is-child {
+        border-top-width: 0px;
+    }
+
+    &.is-disabled {
+        color: $text-color-disabled;
     }
 }
 
-$border-color-table: $border-color !default;
-$table-border: 1px $border-color-table solid !important; // this important is needed to override borders from inherited
-$table-cell-padding: 0.5em !default;
+td, th {
+    position: relative;
+    padding: $table-cell-padding;
+    border-left: $table-border-color $table-border-width solid;
+    vertical-align: middle;
 
-.openlmis-table {
-    @extend .table;
-    width: auto;
-    border-collapse: separate;
-    margin-bottom: 0px;
-
-    th:first-child, td:first-child {
-        border-left: $table-border;
+    &:first-child {
+        border-left-width: 0px;
     }
 
-    td, th {
-      padding: $table-cell-padding;
-      position: relative;
-      white-space: nowrap;
-      vertical-align: middle !important; // from requisition template screen
-      border-top: none !important;
-      border-left: none !important;
-      border-bottom: $table-border;
-      border-right: $table-border;
+    .collapsable {
+        width: $sidebar-width;
+        white-space: normal;
     }
 
-    td .collapsable,
-    th .collapsable {
-      width: $sidebar-width;
-      white-space: normal;
+    > button {
+        display: inline-block;
     }
+}
 
-    thead, tfoot {
-        th, td {
+thead,
+tfoot {
+
+    tr {
+        color: $white;
+        background-color: $table-header-color;
+
+        a {
             color: $white;
-            background: $dark-gray;
-            background-image: linear-gradient(to top, $dark-gray, lighten($dark-gray, 15%));
-            a {
-              color: $white;
-            }
-
-            > .show-popover {
-              margin-left: 0.5em;
-              height: 1em;
-              width: 1em;
-            }
         }
     }
-}
 
-.openlmis-table tr {
-  @include table-row($background-color);
+    tr:last-child {
+        background-image: linear-gradient(to bottom, $table-header-color, darken($table-header-color, 15%));
 
-  &:hover > td {
-    background-color: $brand-primary;
-  }
-
-  &.invalid-row > td,
-  &.is-invalid > td {
-    background-color: $background-color-danger;
-  }
-
-  &.is-disabled td {
-    color: $gray;
-  }
-}
-
-
-.openlmis-table td {
-  > button,
-  > button.primary {
-    display: inline-block;
-    float: none;
-    margin: 0px;
-    border-radius: 0px;
-    &:first-child{
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
     }
-    &:last-child{
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
-  }
 }
