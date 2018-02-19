@@ -42,7 +42,7 @@
 
         /**
          * @ngdoc property
-         * @propertyOf openlmis-app-cache.component:OpenlmisAppCacheController
+         * @propertyOf openlmis-app-cache.controller:OpenlmisAppCacheController
          * @type {boolean}
          * @name updateReady
          *
