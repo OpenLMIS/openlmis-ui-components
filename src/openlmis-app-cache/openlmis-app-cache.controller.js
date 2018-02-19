@@ -20,6 +20,7 @@
     /**
      * @ngdoc controller
      * @name openlmis-app-cache.controller:OpenlmisAppCacheController
+     *
      * @description
      * Controller for managing OpenlmisAppCacheComponent. Keeps track of whether UI is up to date
      * or not.
@@ -38,6 +39,17 @@
 
         vm.$onInit = onInit;
         vm.updateCache = updateCache;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-app-cache.component:OpenlmisAppCacheController
+         * @type {boolean}
+         * @name updateReady
+         *
+         * @description
+         * Flag defining whether software update is ready.
+         */
+        vm.updateReady = undefined;
 
         /**
          * @ngdoc method

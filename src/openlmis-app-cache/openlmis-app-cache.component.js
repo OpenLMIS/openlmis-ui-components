@@ -19,16 +19,21 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-app-cache.openlmisAppCache
+     * @name openlmis-app-cache.component:openlmisAppCache
      *
      * @description
      * Displays whether user has the up-to-date version of the UI. Provides a way to update it from
      * the UI.
+     *
+     * @example
+     * Here's an example of usage:
+     * ```
+     * <openlmisAppCache></openlmisAppCache>
+     * ```
      */
     angular
         .module('openlmis-app-cache')
         .component('openlmisAppCache', {
-            restrict: 'E',
             templateUrl: 'openlmis-app-cache/openlmis-app-cache.html',
             controller: 'OpenlmisAppCacheController',
             controllerAs: 'vm'

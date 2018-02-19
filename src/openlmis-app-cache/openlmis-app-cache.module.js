@@ -21,7 +21,8 @@
      * @module openlmis-app-cache
      *
      * @description
-     *
+     * Provides openlmisAppCache component, which informs user about available update to the UI. It
+     * also provides method to update it.
      */
     angular.module('openlmis-app-cache', [
         'openlmis-i18n',
