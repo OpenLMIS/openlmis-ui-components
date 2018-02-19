@@ -5,7 +5,7 @@
     "angular-filter": "^0.5",
     "angular-strap": "*",
     "analytics": "https://www.google-analytics.com/analytics.js",
-    "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/master/autosize-input.js",
+    "autosize-input": "https://raw.githubusercontent.com/yuanqing/autosize-input/cf73892e1b9ceff448c7ea5f4a41b4b8a6a3991c/autosize-input.js",
     "select2": "^4.0.3",
     "js-shortid": "shortid#^0.1.1",
     "bootstrap-datepicker": "1.7",
