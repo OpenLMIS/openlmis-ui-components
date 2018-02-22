@@ -32,7 +32,7 @@
 
     function OpenLMISRepositoryImpl($resource, $q) {
 
-        OpenLMISRepositoryImpl.prototype.search = search;
+        OpenLMISRepositoryImpl.prototype.query = query;
         OpenLMISRepositoryImpl.prototype.get = get;
 
         return OpenLMISRepositoryImpl;
@@ -44,7 +44,12 @@
                 resourceUrl = url.slice(0, -1)
             }
 
-            this.resource = $resource(resourceUrl + '/:id');
+            this.resource = $resource(resourceUrl + '/:id', {}, {
+                query: {
+                    url:  resourceUrl,
+                    isArray: false
+                }
+            });
         }
 
         /**
@@ -71,7 +76,7 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-repository.OpenLMISRepositoryImpl
-         * @name search
+         * @name query
          *
          * @description
          * Return the response of the GET request. Passes the given object as request parameters.
@@ -79,7 +84,7 @@
          * @param   {Object}    params  the map of request parameters
          * @return  {Promise}           the promise resolving to the server response
          */
-        function search(params) {
+        function query(params) {
             return this.resource.get(params).$promise;
         }
 

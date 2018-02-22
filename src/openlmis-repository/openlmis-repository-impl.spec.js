@@ -61,7 +61,7 @@ describe('OpenLMISRepositoryImpl', function() {
 
     });
 
-    describe('search', function() {
+    describe('query', function() {
 
         it('should return server response on successful request', function() {
             $httpBackend
@@ -69,7 +69,7 @@ describe('OpenLMISRepositoryImpl', function() {
             .respond(200, page);
 
             var result;
-            openLMISRepositoryImpl.search({
+            openLMISRepositoryImpl.query({
                 ids: ['id-one', 'id-two'],
                 paramOne: 'valueOne',
                 page: '0',
@@ -89,7 +89,7 @@ describe('OpenLMISRepositoryImpl', function() {
             .respond(200, page);
 
             var result;
-            openLMISRepositoryImpl.search()
+            openLMISRepositoryImpl.query()
             .then(function(page) {
                 result = page;
             });
@@ -104,7 +104,7 @@ describe('OpenLMISRepositoryImpl', function() {
             .respond(400);
 
             var rejected;
-            openLMISRepositoryImpl.search()
+            openLMISRepositoryImpl.query()
             .catch(function() {
                 rejected = true;
             });
