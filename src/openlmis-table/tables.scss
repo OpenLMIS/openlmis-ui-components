@@ -1,113 +1,3 @@
-/*
-Tables
-
-Tables in the OpenLMIS-UI should be used to represent data that needs to be
-read or edited across multiple attributes per item. If there isn't a need to
-look or interact with specific attributes of an item in the list, please use a
-list rather than a table. *Don't use tables for styling purposes.*
-
-A table without a container will always try to fit into the current widow, and
-not horizontally scroll.
-
-*Tables must include:*
-* `thead` that defines the column titles
-* `tbody` which will hold groups of items
-* Have an equal number of cells in each row
-* One cell in each row must be a title cell [(scope attributes are automatically added)](../../docs/#/api/openlmis.table:tableHeaderCell)
-
-*Tables do not:*
-* Include a title for the table, this should be styles as a page heading or
-sub-heading
-* Have an 'on click' action for the entire row, links or buttons may be placed
-in specifc cells
-
-<table class="openlmis-table">
-  <thead>
-    <tr>
-      <th>Checkbox</th>
-      <th>Name</th>
-      <th>Value</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><input type="checkbox" /></td>
-      <td>Tramedol</td>
-      <td><input type="number" /></td>
-      <td>
-        <button>Action</button>
-      </td>
-    </tr>
-    <tr class="is-secondary">
-        <td></td>
-        <td>Group Row</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-      <td><input type="checkbox" /></td>
-      <td>Doxycycline</td>
-      <td><input type="number" /></td>
-      <td>
-        <button>Action</button>
-        <button>Other Action</button>
-      </td>
-    </tr>
-    <tr class="is-disabled">
-      <td><input type="checkbox" /></td>
-      <td>Malaria Rapid Diagnostic Test</td>
-      <td><input type="number" /></td>
-      <td>
-        <button>Action</button>
-        <button>Other Action</button>
-      </td>
-    </tr>
-    <tr class="is-invalid">
-      <td><input type="checkbox" /></td>
-      <td>Example Invalid Row</td>
-      <td><input type="checkbox" /></td>
-      <td>
-        <button class="danger">Danger</button>
-      </td>
-    </tr>
-    <tr class="is-secondary">
-        <td></td>
-        <td>Group Row</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>Malaria Rapid Diagnostic Test</td>
-      <td></td>
-      <td>
-        <button>Action</button>
-        <button>Other Action</button>
-      </td>
-    </tr>
-    <tr class="is-child">
-      <td><input type="checkbox" /></td>
-      <td>Malaria Rapid Diagnostic Test</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr class="is-child">
-      <td><input type="checkbox" /></td>
-      <td>Malaria Rapid Diagnostic Test</td>
-      <td><input type="number" /></td>
-      <td>
-        <button>Action</button>
-        <button>Other Action</button>
-      </td>
-    </tr>
-
-  </tbody>
-</table>
-
-Styleguide 4.0
-*/
-
 $table-border-color: $border-color !default;
 $table-border-width: 1px !default;
 $table-cell-padding: $space-size/2 !default;
@@ -117,71 +7,93 @@ $table-row-background-color-secondary: $background-color-alt !default;
 $table-row-background-color-error: $background-color-danger !default;
 $table-row-background-color-focus: $background-color-focus !default;
 
-$table-header-color: $background-color-dark !default;
+$table-header-color: $white !default;
+$table-header-background-color: $background-color-dark !default;
 
-table {
+// Border logic
+.openlmis-table {
     border: $table-border-color $table-border-width solid;
-}
 
-tr {
-    border-top: $table-border-color $table-border-width solid;
+    td, th {
+        border-top: $table-border-color $table-border-width solid;
+        border-left: $table-border-color $table-border-width solid;
 
-    &:first-child {
+        &:first-child {
+            border-left-width: 0px;
+        }
+    }
+
+    tr:first-child > td {
         border-top-width: 0px;
-    }
-
-    &:hover,
-    &.is-focused {
-        background-color: $table-row-background-color-focus;
-    }
-
-    &.is-secondary {
-        background-color: $table-row-background-color-secondary;
-    }
-
-    &.is-child {
-        border-top-width: 0px;
-    }
-
-    &.is-disabled {
-        color: $text-color-disabled;
     }
 }
 
-td, th {
+.openlmis-table td,
+.openlmis-table th {
     position: relative;
-    padding: $table-cell-padding;
-    border-left: $table-border-color $table-border-width solid;
     vertical-align: middle;
+    padding: $table-cell-padding;
 
-    &:first-child {
-        border-left-width: 0px;
-    }
 
     .collapsable {
         width: $sidebar-width;
         white-space: normal;
     }
 
-    > button {
-        display: inline-block;
+    button {
+    display: inline-block;
     }
 }
 
-thead,
-tfoot {
-
-    tr {
-        color: $white;
-        background-color: $table-header-color;
-
-        a {
-            color: $white;
-        }
+@mixin table-row($bg, $bg-highlight) {
+    > * {
+        background: $bg;
     }
 
-    tr:last-child {
-        background-image: linear-gradient(to bottom, $table-header-color, darken($table-header-color, 15%));
-
+    &:hover > *,
+    &.is-highlighted > * {
+    background: $bg-highlight;
     }
+}
+
+.openlmis-table tr {
+    @include table-row(
+        $table-row-background-color, 
+        $table-row-background-color-focus
+    );
+}
+
+.openlmis-table tr.is-secondary,
+.openlmis-table tr.is-disabled {
+    @include table-row(
+        $table-row-background-color-secondary,
+        $table-row-background-color-secondary
+    );
+}
+
+.openlmis-table tr.is-child {
+    > td {
+        border-top-width: 0px;
+    }
+}
+
+.openlmis-table thead > tr,
+.openlmis-table tfoot > tr {
+    @include table-row(
+        $table-header-background-color,
+        $table-header-background-color
+    );
+
+    color: $table-header-color;
+    a {
+        color: $table-header-color;
+    }
+}
+
+.openlmis-table thead > tr:last-child > *{
+    background-image: linear-gradient(
+        to bottom,
+        $table-header-background-color,
+        darken($table-header-background-color, 15%)
+    );
 }
