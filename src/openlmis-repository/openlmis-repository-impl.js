@@ -85,7 +85,7 @@
          * @return  {Promise}           the promise resolving to the server response
          */
         function query(params) {
-            return this.resource.get(params).$promise;
+            return this.resource.query(params).$promise;
         }
 
     }
