@@ -1,6 +1,89 @@
+/*
+Tables
+
+Tables in the OpenLMIS-UI should be used to edit data across multiple items and
+those item's specific attributes. If there isn't a need to edit multiple items,
+use a list to style and display the items.
+
+*Tables must include:*
+* `thead` that defines the column titles
+* `tbody` which will hold groups of items
+* Have an equal number of cells in each row
+* One cell in each row must be a title cell [(scope attributes are automatically added)](../../docs/#/api/openlmis.table:tableHeaderCell)
+*NOTE:* If a column is number of any type, right align the column.
+
+*Tables do not:*
+* Include a title for the table, this should be styles as a page heading or
+sub-heading
+* Have an 'on click' action for the entire row, links or buttons may be placed
+in specifc cell
+* *Don't use tables for styling purposes.*
+
+*Types of Table Rows*
+There are 4 types of table rows that are supported in the OpenLMIS-UI. When designing
+a table, please use these row types.
+* _Normal_ is a row that is primary to the task being done
+* _Child_ is additional sub categories of the "parent" normal row
+* _Secondary_ is a row that is related to a subset of normal rows, as isn't directly editable
+* _Title_ rows group large numbers of rows, and only consist of a title that doesn't correspond to any table column
+
+<table class="openlmis-table" >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Another Value</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody tbody-title="Example Title Row">
+    <tr>
+      <td>Example Normal Row</td>
+      <td><input type="number" ng-model="value1a" /></td>
+      <td><input type="number" ng-model="value1b" /></td>
+      <td class="is-numeric">{{value1a + value1b}}</td>
+    </tr>
+    <tr class="is-secondary">
+        <td>Example Secondary Row</td>
+        <td class="is-numeric">{{value3a + value4a + value2a}}</td>
+        <td class="is-numeric">{{value3b + value4b + value2b}}</td>
+        <td class="is-numeric">{{value3a + value3b + value4a + value4b + value2a + value2b}}</td>
+    </tr>
+    <tr>
+      <td>Another Normal Row</td>
+      <td><input type="number" ng-model="value2a" /></td>
+      <td><input type="number" ng-model="value2b" /></td>
+      <td class="is-numeric">{{value2a + value2b}}</td>
+    </tr>
+    <tr>
+      <td>Normal row with children</td>
+      <td class="is-numeric">{{value3a + value4a}}</td>
+      <td class="is-numeric">{{value3b + value4b}}</td>
+      <td class="is-numeric">{{value3a + value3b + value4a + value4b}}</td>
+    </tr>
+    <tr class="is-child">
+      <td>Child Row</td>
+      <td><input type="number" ng-model="value3a" /></td>
+      <td><input type="number" ng-model="value3b" /></td>
+      <td class="is-numeric">{{value3a + value3b}}</td>
+    </tr>
+    <tr class="is-child">
+      <td>Second child row</td>
+      <td><input type="number" ng-model="value4a" /></td>
+      <td><input type="number" ng-model="value4b" /></td>
+      <td class="is-numeric">{{value4a + value4b}}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+Styleguide 4.0
+*/
+
 $table-border-color: $border-color !default;
 $table-border-width: 1px !default;
 $table-cell-padding: $space-size/2 !default;
+$table-cell-child-padding: $table-cell-padding/2 !default;
 
 $table-row-background-color: $background-color !default;
 $table-row-background-color-secondary: $background-color-alt !default;
@@ -34,14 +117,17 @@ $table-header-background-color: $background-color-dark !default;
     vertical-align: middle;
     padding: $table-cell-padding;
 
-
     .collapsable {
         width: $sidebar-width;
         white-space: normal;
     }
 
     button {
-    display: inline-block;
+      display: inline-block;
+    }
+
+    &.is-numeric {
+      text-align: right;
     }
 }
 
@@ -58,7 +144,7 @@ $table-header-background-color: $background-color-dark !default;
 
 .openlmis-table tr {
     @include table-row(
-        $table-row-background-color, 
+        $table-row-background-color,
         $table-row-background-color-focus
     );
 }
@@ -73,6 +159,7 @@ $table-header-background-color: $background-color-dark !default;
 
 .openlmis-table tr.is-child {
     > td {
+        padding: $table-cell-child-padding;
         border-top-width: 0px;
     }
 }
