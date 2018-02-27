@@ -89,4 +89,12 @@ describe('dateUtils', function() {
             expect(dateUtils.toStringDate(new Date('2017-05-12'))).toEqual('2017-05-12');
         });
     });
+
+    describe('convertEpochMilliToIsoDateString', function() {
+
+        it('should return ISO formatted date given epoch in milliseconds', function() {
+            expect(dateUtils.convertEpochMilliToIsoDateString(1514793600000)).toEqual('2018-01-01T08:00:00.000Z');
+        });
+    });
+
 });

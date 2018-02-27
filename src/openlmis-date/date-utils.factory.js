@@ -36,7 +36,8 @@
                 toDate: toDate,
                 toArray: toArray,
                 toStringDate: toStringDate,
-                addDaysToDate: addDaysToDate
+                addDaysToDate: addDaysToDate,
+                convertEpochMilliToIsoDateString: convertEpochMilliToIsoDateString
             };
         return factory;
 
@@ -127,6 +128,21 @@
                 date = new Date(date.getTime() + offset);
             }
             return date;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
+         * @name convertEpochMilliToIsoDateString
+         *
+         * @description
+         * Convert epoch in milliseconds to ISO-8601 formatted date.
+         *
+         * @param  {Number} epochMilli epoch in milliseconds
+         * @return {String}            ISO-8601 formatted date
+         */
+        function convertEpochMilliToIsoDateString(epochMilli) {
+            return new Date(epochMilli).toISOString();
         }
     }
 
