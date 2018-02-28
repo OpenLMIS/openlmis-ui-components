@@ -159,7 +159,7 @@ $table-header-background-color: $background-color-dark !default;
 
 .openlmis-table tr.is-child {
     > td {
-        padding: $table-cell-child-padding;
+        padding: $table-cell-child-padding $table-cell-padding;
         border-top-width: 0px;
     }
 }
