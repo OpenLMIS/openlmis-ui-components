@@ -1,5 +1,5 @@
-# OpenLMIS-UI Coding Conventions
-This document describes the desired formatting to be used withing the OpenLMIS-UI repositories, many of the conventions are adapted from [John Papa's Angular V1 styleguide,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md) [SMACSS by Jonathan Snook,](https://smacss.com/) and [Jens Meiert's maintainability guide.](https://meiert.com/en/blog/maintainability-guide/)
+# UI Coding Conventions
+This document describes the desired formatting to be used within the OpenLMIS-UI repositories. Many of the conventions are adapted from [John Papa's Angular V1 styleguide](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md), [SMACSS by Jonathan Snook](https://smacss.com/), and [Jens Meiert's maintainability guide](https://meiert.com/en/blog/maintainability-guide/).
 
 ## General
 The following conventions should be applied to all sections of UI development:
@@ -16,7 +16,7 @@ Use the following conventions:
 * If there are more than 12 files in a directory, try to divide files into subdirectories based on functional area
 
 ### Naming Convention
-In general we follow the [John-Papa naming conventions,](https://github.com/johnpapa/angular-styleguide/tree/master/a1#naming) later sections go into specifics about how to name a specific file type, while this section focuses on general naming and file structure.
+In general we follow the [John-Papa naming conventions](https://github.com/johnpapa/angular-styleguide/tree/master/a1#naming). Later sections go into specifics about how to name a specific file type, while this section focusses on general naming and file structure.
 
 Generally, all file names should use the following format `specific-name.file-type.ext` where:
 * `specific-name` is a dash-separated name for specific file-type
@@ -127,19 +127,19 @@ It's also [useful to wrap 3rd party objects and libraries](https://github.com/jo
 ### Replaced Values
 @@ should set own default values
 
-# Factory
-Factories should be the most used Angualr object type in any application. [John Papa insists that factories serve a single purpose,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#factories) and should be extended by variabled they are called with.
+## Factory
+Factories should be the most used Angular object type in any application. [John Papa insists that factories serve a single purpose](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#factories) and should be extended by variabled they are called with.
 
-This means that factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't nessicarry.
+This means that factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't necessary.
 
 _Should be used with UI-Router resolves, and get additional arguments_
 
-## Naming Convention
+### Naming Convention
 _**specificName**Factory_
 
 Factories should always be named lowercase camelCase. To avoid confussion between created objects and factories, all factories should have the word'Factory' appended to the end (this disagrees with John-Papa style).  
 
-## Example
+### Example
 
 ```
 angular.module('openlmis-sample')
@@ -159,9 +159,9 @@ function sample(){
 *Unit Testing Conventions*
 Test a factory much like you would test a service, except be sure to:
 * Declare a new factory at the start of every test
-* Exercise the producted object, not just the callback function
+* Exercise the produced object, not just the callback function
 
-#Interceptor
+## Interceptor
 This section is about events and messages, and how to modify them.
 
 HTTP Interceptors are technically factories that have been configured to 'intercept' certain types of requests in Angular and modify their behavior. This is recommended because other Angular objects can use consistent Angular objects, reducing the need to write code that is specialized for our own framework.
@@ -170,14 +170,14 @@ HTTP Interceptors are technically factories that have been configured to 'interc
 
 The Angular guide to writting [HTTP Interceptors is here](https://docs.angularjs.org/api/ng/service/$http#interceptors)
 
-## General Conventions
+### General Conventions
 * Write interceptors so they only chanage a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
 * Don't include HTTP Interceptors in openlmis-core, as the interceptor might be injected into all other unit tests — which could break everything
 
-## Unit Testing Conventions
+### Unit Testing Conventions
 The goal when unit testing an interceptor is to not only test input and output transformation functions, but to also make sure the interceptor is called at an appropriate time.
 
-# Javascript Class
+## Javascript Class
 Put all direct business logic in a pure javascript class.
 
 Pure javascript classes should only be used to ease the manipulation of data, but unlike factories, these object shouldn't create HTTP connections, and only focus on a single object.
@@ -188,34 +188,34 @@ Helps with code reusability
 
 Requisition/LineItem is good example
 
-## Naming Conventions
+### Naming Conventions
 _SampleName_
 
 Classes should be uppercase CamelCased, which represents that they are a class and need to be instantiated like an object (ie `new SampleName()`).
 
-# Routes
+## Routes
 Routing logic is defined by [UI-Router,](https://ui-router.github.io/ng1/) where a URL path is typically paired with an HTML View and Controller.
 
 *Use a factory where possible to keep resolve statements small and testable*
 
-## General Conventions
+### General Conventions
 * The [UI-Router resolve properties](https://github.com/angular-ui/ui-router/wiki#resolve) are used to ease loading on router
 * [Routes should define their own views,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#style-y271) if their layout is more complicated than a single section
 
-# Service
-[John Papa refers to services as Singletons,](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#services) which means they should only be used for application information that has a single instance. Examples of this would include the current user, the application's connection state, or the current library of localization messages.
+## Service
+[John Papa refers to services as Singletons](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#services), which means they should only be used for application information that has a single instance. Examples of this would include the current user, the application's connection state, or the current library of localization messages.
 
-## Conventions
+### Conventions
 * Services should always return an object
 * Services shouldn't have their state changed through properties, only method calls
 
-## Naming Convention
+### Naming Convention
 
 _**nameOfService**Service_
 
 Always lowercase camelCase the name of the object. Append 'Service' to the end of the service name so developers will know the object is a service, and changes will be persisted to other controllers.
 
-## Unit Testing Conventions
+### Unit Testing Conventions
 * Keep $httpBackend mock statements close to the specific places they are used (unless the statement is reusable)
 * Use Jasmine's spyOn method to mock the methods of other objects that are used
 * In some cases mocking an entire AngularJS Service, or a constant, will be required. This is possible by using [AngularJS's $provide object](https://docs.angularjs.org/api/auto/service/$provide) within a beforeEach block. This would look like
