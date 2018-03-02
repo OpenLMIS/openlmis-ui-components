@@ -1,9 +1,9 @@
-# UI Extention Guide
-This document outlines how to extend the OpenLMIS-UI. The extention mechanims are presented by the type of extention an implementer wants to achieve, and has brief code samples — more detailed code samples are availble in the OpenLMIS-UI coding conventions.
+# UI Extension Guide
+This document outlines how to extend the OpenLMIS-UI. The extension mechanims are presented by the type of extension an implementer wants to achieve, and has brief code samples — more detailed code samples are availble in the OpenLMIS-UI coding conventions.
 
-**NOTE:** Implementers are encouraged to not override files to create maintainable extentions. There are definitely situations where it makes sense to quickly override a file to create desired functionality. Overriding files makes recieving or sharing working code with other OpenLMIS-UI repositories difficult, which is why this technique is discouraged.
+**NOTE:** Implementers are encouraged to not override files to create maintainable extensions. There are definitely situations where it makes sense to quickly override a file to create desired functionality. Overriding files makes recieving or sharing working code with other OpenLMIS-UI repositories difficult, which is why this technique is discouraged.
 
-*The extentions the OpenLMIS-UI supports are:*
+*The extensions the OpenLMIS-UI supports are:*
 * **Content** such as specific message strings, images, or specific parts of HTML markup
 * **Styles** such as CSS presentation and AngularJS directives
 * **Javascript Objects** such as AngularJS services, factories, and controllers that control application logic  
@@ -34,7 +34,7 @@ An implementer can also create their own `messages_en.json` file and override sp
 Interpolated messages can't use data that is not directly passed to the message when it is parsed. This means that an implementer might need to extend a Javascript object or HTML file to get the desired output.
 
 ### Images
-Individual images are also easy to change, either by overriding the CSS style (see CSS extention section) or by overriding the image file.
+Individual images are also easy to change, either by overriding the CSS style (see CSS extension section) or by overriding the image file.
 
 To replace the default logo, it is best to override the logo.png file in the publishing image. Since image files are static and should only be placed with CSS — there is no technical debt incurred by replacing an image file.
 
@@ -72,16 +72,16 @@ There might be reasons to change a directive's implementation slightly, and to d
 Sometimes it's simpler to create a second directive that will run before (or after) the directive you are modifying. To understand how this is done, see the [AngularJS documentation on directive priority.](https://docs.angularjs.org/api/ng/service/$compile#-priority-).
 
 ## Javascript Objects
-Javascript objects refer to AngularJS objects such as services, factories, or controllers. These objects fetch data and process data used throughout the OpenLMIS-UI. For this reason, they are the best place to add extentions that modify OpenLMIS-UI workflows and logic. Each OpenLMIS-UI module might be constructed slightly differently, so consult the OpenLMIS-UI documentation to decide which Javascript Object to extend.
+Javascript objects refer to AngularJS objects such as services, factories, or controllers. These objects fetch data and process data used throughout the OpenLMIS-UI. For this reason, they are the best place to add extensions that modify OpenLMIS-UI workflows and logic. Each OpenLMIS-UI module might be constructed slightly differently, so consult the OpenLMIS-UI documentation to decide which Javascript Object to extend.
 
 An implementation might change a Javascript Object to:
 * Change the URL that data is loaded from
 * Perform secondary calculations on data before it is shown to the user
 * Modify OpenLMIS-UI workflows by opening an additional modal
 
-To make these changes, we use [AngularJS's decorator method.](https://docs.angularjs.org/guide/decorators) — each type of OpenLMIS-UI object has their own extention methods documented in the OpenLMIS-UI coding conventions.
+To make these changes, we use [AngularJS's decorator method.](https://docs.angularjs.org/guide/decorators) — each type of OpenLMIS-UI object has their own extension methods documented in the OpenLMIS-UI coding conventions.
 
-The most important point to remember is to add these extentions in a different module than where the Javascript object is defined. The reason for doing this is to keep the original unit tests applied (and working) for the object BEFORE your extentions are added to the object.
+The most important point to remember is to add these extensions in a different module than where the Javascript object is defined. The reason for doing this is to keep the original unit tests applied (and working) for the object BEFORE your extensions are added to the object.
 
 ## Pages
 Pages are the primary unit of any application, and the OpenLMIS-UI has support for adding new pages, replacing existing pages, and adding content to existing pages.
@@ -105,9 +105,9 @@ angular.module('custom-module').config(function($stateProvider){
 **NOTE:** Adding new pages to the OpenLMIS-UI should mostly be done in source code images, if the page adds functionality. If the page is implementation specific it sould be added in a publishing image. 
 
 ### Replacing an Existing Screen
-We expect that some implementations will need to make small changes to existing pages within the OpenLMIS-UI that go beyond the previous extention techniques mentiond. The most simple method of replacing a screen is implicitly replacing the `*.routes.js` file where the route is defined. Overriding these files doesn't risk much technical debt, as these files are mostly configuration and rarely contain the definition of more than one screen.
+We expect that some implementations will need to make small changes to existing pages within the OpenLMIS-UI that go beyond the previous extension techniques mentiond. The most simple method of replacing a screen is implicitly replacing the `*.routes.js` file where the route is defined. Overriding these files doesn't risk much technical debt, as these files are mostly configuration and rarely contain the definition of more than one screen.
 
-A more complex alternative is to modify the UI-Router configuration at run-time, which would allow for very nuanced changes that require their own unique unit tests. The following example shows how to change a page's template depending on a user's access rights. **NOTE:** This is an invasive techinque, and should only be done if all other extention methods don't work
+A more complex alternative is to modify the UI-Router configuration at run-time, which would allow for very nuanced changes that require their own unique unit tests. The following example shows how to change a page's template depending on a user's access rights. **NOTE:** This is an invasive techinque, and should only be done if all other extension methods don't work
 
 ```javascript
 angular.module('custom-module').run(function($state){
@@ -118,7 +118,7 @@ angular.module('custom-module').run(function($state){
 ```
 
 ### Extending a Screen
-This functionality is still underdevelopment, see [OLMIS-1682: Extention directive to allow insertion of UI components](https://openlmis.atlassian.net/browse/OLMIS-1682) for implementation details.
+This functionality is still under development, see [OLMIS-1682: extension directive to allow insertion of UI components](https://openlmis.atlassian.net/browse/OLMIS-1682) for implementation details.
 
 ### HTML Layouts
 There might be places where an implementor needs to completely change the layout of a page or element. An example of this might be adding an additional header, or a paragraph of instructions. This is simple because of AngularJS's markup pattern and the implicit file replacement.

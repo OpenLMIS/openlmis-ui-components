@@ -21,7 +21,7 @@ In general we follow the [John-Papa naming conventions,](https://github.com/john
 Generally, all file names should use the following format `specific-name.file-type.ext` where:
 * `specific-name` is a dash-separated name for specific file-type
 * `file-type` is the type of object that is being added (ie 'controller', 'service', or 'layout')
-* `ext` is the extention of the file (ie '.js', '.scss')
+* `ext` is the extension of the file (ie '.js', '.scss')
 
 Folder structure should aim to follow the [LIFT principal](https://github.com/johnpapa/angular-styleguide/tree/master/a1#application-structure-lift-principle) as closely as possible, with a couple extra notes:
 * There should only be one *.module.js file per directory hiearchy
