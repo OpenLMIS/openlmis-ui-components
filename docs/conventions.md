@@ -1,6 +1,6 @@
-# OpenLMIS-UI Conventions
+# UI Label Conventions
 
-The following document outlines how content and workflows should be displayed in the OpenLMIS-UI. This guide presents generalizations for how labels should be written and complex workflows should be organized.
+The following document outlines how content, labels and messages should be displayed in the OpenLMIS-UI. This guide presents generalizations for how labels should be written and complex workflows should be organized.
 
 ## Content Conventions
 The following are general stylistic rules for the OpenLMIS-UI, which implementers and developers should keep in mind while crafting content.
@@ -54,9 +54,3 @@ Instructions might be placed at the top of a form or after a confirmation to cla
 _Example_
 Do: "Authorize this requisition to send the requisition to the approval workflow."
 Do Not: "Authorize requisition — send to approval workflow" 
-
-## Workflow Conventions
-Stub
-
-## Domain Conventions
-Stub
