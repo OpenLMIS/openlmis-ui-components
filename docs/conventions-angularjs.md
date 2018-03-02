@@ -1,8 +1,11 @@
-# Modules
+# AngularJS Conventions
+This document accompanies the UI Coding Conventions. It gives specific guidance for AngularJS modules, controllers, directives, and filters.
+
+## Modules
 Modules in angular should describe and bind together a small unit of functionality. The OpenLMIS-UI build process should construct larger module units from theses small units.
 
-## Documentation
-Docs for modules must contain the module name and description. This should be thought of as an overview for the other obects within the module, and where appropriate gives an overview of how the modules fit together.
+### Documentation
+Docs for modules must contain the module name and description. This should be thought of as an overview for the other objects within the module, and where appropriate gives an overview of how the modules fit together.
 ```
 /**
  * @module module-name
@@ -49,17 +52,17 @@ that the controller exposes.
 ```
 
 
-# Directive
+## Directive
 Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
 
 *Make disticntion between directive and component -- components use E tag and isolate scope, directive use C and never isolate scope*
 
-## Conventions
+### Conventions
 * Restrict directives to only elements or attributes
 * Don't use an isolated scope unless you absolutely have to
 * If the directive needs extenal information, use a controller — don't manipulate data in a link function
 
-## Unit Testing
+### Unit Testing
 The bit secrect when unit testing a directive is to make sure to use the $compile function to return an element that is extended with jQuery. Once you have this object you will be able to interact with the directive by clicking, hovering, or triggering other DOM events.
 
 ```
@@ -87,7 +90,7 @@ describe('SampleDirective', function(){
 });
 ```
 
-## Documentation
+### Documentation
 Directive docs should have well described '@example' section. 
 
 Directive docs should always have '@restrict' annotation that takes as a value one of: A, E, C, M or any combination of those.
@@ -116,7 +119,7 @@ In order to make directive docs appear in directives section there needs to be '
  */
 ```
 
-## Extending a Directive
+### Extending a Directive
 You can extend a directive by using AngularJS's decorator pattern. Keep in mind that a directive might be applied to multiple places or have multiple directives applied to the same element name.
 
 ```Javascript
@@ -147,13 +150,12 @@ function directiveDecorator($delegate) {
 ```
 
 
-# Filters
+## Filters
 Use an AngularJS filter if:
 - You need to do complex formatting
-- You need to render value in HTML, and it doesn't make sense to include in a
-controller.
+- You need to render value in HTML, and it doesn't make sense to include in a controller.
 
-##### Documentation
+### Documentation
 Filter docs should follow the pattern from example below:
 ```
 /**
