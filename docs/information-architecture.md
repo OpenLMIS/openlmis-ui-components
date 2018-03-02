@@ -7,6 +7,8 @@ To support our shallow information architecture we:
 * Avoid “nested” navigation, meaning we prefer a single long list of pages instead of “folders within folders.”
 * Use strong defaults, because we don’t want to force a user to make lots of choices before getting to work. Ideally a user can navigate to a page and start doing work.
 
+See the [OpenLMIS Generic Workflows in Balsamiq](https://openlmis.mybalsamiq.com/projects/olmis-3609genericworkflows/grid) for an annotated set of mockups that show and explain these conventions. In addition, see the [Mockup Guidelines](https://openlmis.atlassian.net/wiki/spaces/OP/pages/140902547/Mockup+Guidelines) in the OpenLMIS wiki.
+
 ## Generic Page Types
 The following page types are guidelines for how to discuss the screens and pages that make up workflows that are implemented in the OpenLMIS-UI. Every page type should meet the following rules:
 * Each page has a unique URL address
@@ -19,10 +21,14 @@ All list views should:
 * Attempt to show the current state of an OpenLMIS Service
 * Avoid editing list items directly in the list (editing should be done in a detail or document view)
 
+See the [List View in Balsamiq](https://openlmis.mybalsamiq.com/projects/olmis-3609genericworkflows/List%20view) for annotated examples.
+
 ### Detail View
 A detail view most often shows editable details of an item from the proceeding list view. Our recommendation is to show item details inside a model, so a user doesn’t lose context of the list.
 
 Detail views should focus on a single set of data or a single action to an object. For example, on the CCE Inventory page, a user is presented with a list view of CCE Inventory items, and from this view there are two separate detail views. The first is a generic view for the history of that CCE Inventory item, while the second is a detail view specifically focused on updating the functional status for the inventory item. 
+
+An example mockup for Detail Views is included in the [List View in Balsamiq](https://openlmis.mybalsamiq.com/projects/olmis-3609genericworkflows/List%20view).
 
 ### Document View
 Document views represent a complex item, like a requisition or proof of delivery, and focuses on making these items editable. A document view is generally navigated to from a list view.
@@ -32,6 +38,8 @@ Document views should:
 * Cache all information that is needed on the page so the editing experience is fast and responsive for a user
 * Not implement pagination for tables of information, but rather show a long continuous table so the user feels it is a single large document
 
+See the [Document View in Balsamiq](https://openlmis.mybalsamiq.com/projects/olmis-3609genericworkflows/Document%20view) for annotated examples.
+
 ## Navigation
 In the OpenLMIS-UI, a user generally navigates from screen to screen where:
 * Each screen has a unique URL
@@ -39,7 +47,7 @@ In the OpenLMIS-UI, a user generally navigates from screen to screen where:
 
 The largest piece of navigation in the OpenLMIS-UI is the header navigation that displays links to specific views and workflows. There are other forms of navigation, like the Program and Facility Navigation (which is detailed below).
 
-Many screens will implement filter and sort controls that will change how information is shown in a view, but doesn’t actually represent a navigation change. Currently, in the OpenLMIS-UI it is most common that a list view will implement both a sort and filter control, while a document view will only show a filter control.
+Many screens will implement filter and sort controls that will change how information is shown in a view, but doesn’t actually represent a navigation change. Currently, in the OpenLMIS-UI it is most common that a list view will implement both a sort and filter control, while a document view will only show a filter control. Filters and sorts are included in the [List View in Balsamiq](https://openlmis.mybalsamiq.com/projects/olmis-3609genericworkflows/List%20view).
 
 ### Filter Controls
 A filter modifies information shown on a page. Filters are always optional, and should never be a primary feature in a screen. If a user is going to accomplish a task, the filter helps the user accomplish the task quicker -- but should never be the only way to accomplish the task.
