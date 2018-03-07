@@ -58,15 +58,15 @@ how button text should be phrased. See `button.close` for an example.
 
 ### Toggle Button
 Toggle can be used to give user an option of seeing certain elements in different ways.
-<div class="button-toggle">
-    <label class="selected">
-        <input type="radio">Active way
+<div class="button-toggle" ng-init="selected = 'one';">
+    <label ng-class="{'selected': selected === 'one'}">
+        <input ng-model="selected" value="one" type="radio">Option one
     </label>
-    <label>
-        <input type="radio">Non-active way
+    <label ng-class="{'selected': selected === 'two'}">
+        <input ng-model="selected" value="two" type="radio">Option two
     </label>
-    <label>
-        <input type="radio">Ather way
+    <label ng-class="{'selected': selected === 'three'}">
+        <input ng-model="selected" value="three" type="radio">Option three
     </label>
 </div>
 
