@@ -3,12 +3,7 @@ dl.horizontal-list {
     dt {
         float: left;
         clear: left;
-        text-align: right;
         font-weight: bold;
-    }
-
-    dt::after {
-        content: ":";
     }
 
     dd {
