@@ -165,6 +165,7 @@ Styleguide 4.1
         position: relative; // tell JS to calculate offset from here
         > table {
             @extend .openlmis-table;
+            width: 100%;
         }
     }
 
