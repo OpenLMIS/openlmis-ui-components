@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('tr empty row directive', function() {
+describe('tr empty row directive', function() {
 
     var element, $compile, $rootScope, scope;
 
