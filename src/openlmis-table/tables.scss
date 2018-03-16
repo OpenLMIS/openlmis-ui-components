@@ -96,7 +96,7 @@ $table-header-background-color: $background-color-dark !default;
 // Border logic
 .openlmis-table {
     border: $table-border-color $table-border-width solid;
-    border-collapse: collapse;
+    border-collapse: separate;
 
     td, th {
         border-top: $table-border-color $table-border-width solid;
