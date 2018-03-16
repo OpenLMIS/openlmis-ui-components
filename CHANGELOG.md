@@ -23,6 +23,7 @@ Improvements:
 * [OLMIS-3905:](https://openlmis.atlassian.net/browse/OLMIS-3905) Add min-width to select dropdown
 * [OLMIS-3908:](https://openlmis.atlassian.net/browse/OLMIS-3908) Reduced vertical space in page header
 * [OLMIS-4195:](https://openlmis.atlassian.net/browse/OLMIS-4195) Added empty-row directive
+* [OLMIS-4026:](https://openlmis.atlassian.net/browse/OLMIS-4026) Updated openlmis-table to display borders.
 
 Bug fixes:
 * [OLMIS-3806:](https://openlmis.atlassian.net/browse/OLMIS-3806): Fixed date picker to not change selected date
