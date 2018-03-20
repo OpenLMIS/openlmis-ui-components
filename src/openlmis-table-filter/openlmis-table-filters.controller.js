@@ -55,6 +55,13 @@
         function onInit() {
             form = compileForm();
             form.on('submit', submitForms);
+            $scope.count = 0;
+
+            $scope.$watchCollection(getNgModels, function(newValue, oldValue) {
+                if (newValue.length && newValue[0] !== undefined) {
+                    $scope.count++;
+                }
+            });
 
             filterButton = compileFilterButton();
             submitButton = form.find(SUBMIT_ELEMENT);
@@ -121,6 +128,7 @@
         function submitForms() {
             if (forms) forms.each(submitForm);
             broadcastEvent();
+            compileFilterButton();
         }
 
         function submitForm(index, form) {
@@ -213,7 +221,11 @@
         }
 
         function compileFilterButton() {
-            var filterButton = compileElement('<button class="filters">{{\'openlmisTableFilter.filter\' | message}}</button>');
+            var filterButton = compileElement(
+                '<button class="filters">{{\'openlmisTableFilter.filter\' | message }}' +
+                    '<span class="badge">{{count}}</span>' +
+                '</button>'
+            );
 
             filterButton.popover({
                 html: true,
@@ -238,6 +250,19 @@
 
         function hidePopover() {
             filterButton.popover('hide');
+        }
+
+        function getNgModels() {
+            var modelValues = [];
+
+            form.find(NGMODEL_ELEMENT).each(function(index, inputElement) {
+                var element = angular.element(inputElement),
+                    modelValue = element.controller('ngModel').$modelValue;
+                if (modelValue) {
+                    modelValues.push(modelValue);
+                }
+            });
+            return modelValues;
         }
     }
 

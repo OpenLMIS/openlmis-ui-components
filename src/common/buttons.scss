@@ -94,6 +94,15 @@ button {
         @include button($button-color-default);
         @include button-icon('plus');
     }
+
+    &.filters {
+        @include button($button-color-default);
+        @include button-icon('filter');
+
+        > span {
+            margin-left: 0.5em;
+        }
+    }
 }
 
 button.close {
