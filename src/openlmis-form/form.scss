@@ -118,6 +118,10 @@ form {
         }
     }
 
+    > div > label {
+        margin-right: 0.25em;
+    }
+
     > input[type="button"],
     > input[type="submit"],
     > button {
