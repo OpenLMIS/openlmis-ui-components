@@ -29,7 +29,7 @@
         .module('openlmis-table-filter')
         .controller('OpenlmisTableFiltersController', OpenlmisTableFiltersController);
 
-    OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout']
+    OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout'];
 
     function OpenlmisTableFiltersController($scope, $compile, $timeout) {
         var form, forms, submitButton, filterButton, ngModels,
@@ -256,7 +256,9 @@
             if(isFormSubmitted()) {
                 $scope.count = Object.keys(getNgModels).length;
             } else {
-                $scope.$apply(rollbackChanges);
+                _.defer(function() {
+                    $scope.$apply(rollbackChanges);
+                });
             }
         }
 
