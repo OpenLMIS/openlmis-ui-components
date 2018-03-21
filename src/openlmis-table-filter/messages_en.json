@@ -1,5 +1,6 @@
 {
     "openlmisTableFilter.update": "Update",
     "openlmisTableFilter.cancel": "Cancel",
-    "openlmisTableFilter.filter": "Filter"
+    "openlmisTableFilter.filter": "Filter",
+    "openlmisTableFilter.count": "(${count})"
 }

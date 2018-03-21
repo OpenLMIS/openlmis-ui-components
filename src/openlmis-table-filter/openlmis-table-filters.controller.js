@@ -29,10 +29,10 @@
         .module('openlmis-table-filter')
         .controller('OpenlmisTableFiltersController', OpenlmisTableFiltersController);
 
-    OpenlmisTableFiltersController.$inject = ['$scope', '$compile']
+    OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout']
 
-    function OpenlmisTableFiltersController($scope, $compile) {
-        var form, forms, submitButton, filterButton,
+    function OpenlmisTableFiltersController($scope, $compile, $timeout) {
+        var form, forms, submitButton, filterButton, ngModels,
             SUBMIT_ELEMENT = '[type="submit"]',
             NGMODEL_ELEMENT = '[ng-model]',
             vm = this;
@@ -55,13 +55,11 @@
         function onInit() {
             form = compileForm();
             form.on('submit', submitForms);
-            $scope.count = 0;
 
-            $scope.$watchCollection(getNgModels, function(newValue, oldValue) {
-                if (newValue.length && newValue[0] !== undefined) {
-                    $scope.count++;
-                }
-            });
+            $timeout(function() {
+                ngModels = getNgModels();
+                $scope.count = Object.keys(ngModels).length;
+            }, 50);
 
             filterButton = compileFilterButton();
             submitButton = form.find(SUBMIT_ELEMENT);
@@ -128,7 +126,6 @@
         function submitForms() {
             if (forms) forms.each(submitForm);
             broadcastEvent();
-            compileFilterButton();
         }
 
         function submitForm(index, form) {
@@ -211,6 +208,11 @@
             return formCtrl.$invalid && formCtrl.$pristine;
         }
 
+        function isFormSubmitted() {
+            var formCtrl = form.controller('form');
+            return formCtrl.$submitted;
+        }
+
         function compileForm() {
             return compileElement(
                 '<form>' +
@@ -223,7 +225,7 @@
         function compileFilterButton() {
             var filterButton = compileElement(
                 '<button class="filters">{{\'openlmisTableFilter.filter\' | message }}' +
-                    '<span class="badge">{{count}}</span>' +
+                    '<span ng-if="count && count !== 0">{{\'openlmisTableFilter.count\' | message: {count: count } }}</span>' +
                 '</button>'
             );
 
@@ -250,19 +252,41 @@
 
         function hidePopover() {
             filterButton.popover('hide');
+
+            if(isFormSubmitted()) {
+                $scope.count = Object.keys(getNgModels).length;
+            } else {
+                $scope.$apply(rollbackChanges);
+            }
         }
 
         function getNgModels() {
-            var modelValues = [];
+            var modelValues = {};
 
-            form.find(NGMODEL_ELEMENT).each(function(index, inputElement) {
-                var element = angular.element(inputElement),
+            form.find(NGMODEL_ELEMENT).each(function(index, ngModelElement) {
+                var element = angular.element(ngModelElement),
+                    name = element.attr('name'),
                     modelValue = element.controller('ngModel').$modelValue;
+
                 if (modelValue) {
-                    modelValues.push(modelValue);
+                    modelValues[name] = modelValue;
                 }
             });
             return modelValues;
+        }
+
+        function rollbackChanges() {
+            form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
+                var element = angular.element(formElement),
+                    name = element.attr('name'),
+                    ngModel = element.controller('ngModel'),
+                    modelValue = ngModel.$modelValue;
+
+                if (modelValue !== ngModels[name]) {
+                    ngModel.$setViewValue(ngModels[name]);
+                    ngModel.$render();
+                }
+            });
         }
     }
 
