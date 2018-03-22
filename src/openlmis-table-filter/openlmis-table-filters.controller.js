@@ -140,7 +140,7 @@
         }
 
         function broadcastEvent() {
-            $scope.$broadcast('openlmis-table-filter', getNgModels);
+            $scope.$broadcast('openlmis-table-filter', ngModels);
         }
 
         function registerForm(element) {
@@ -261,10 +261,8 @@
         function getNgModels() {
             var modelValues = {};
             form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
-                var element = angular.element(formElement),
-                    name = element.attr('name'),
-                    ngModel = element.controller('ngModel'),
-                    modelValue = ngModel.$modelValue;
+                var name = getName(formElement),
+                    modelValue = getModel(formElement).$modelValue;
 
                 modelValues[name] = modelValue;
             });
@@ -273,9 +271,8 @@
 
         function rollbackChanges() {
             form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
-                var element = angular.element(formElement),
-                    name = element.attr('name'),
-                    ngModel = element.controller('ngModel'),
+                var name = getName(formElement),
+                    ngModel = getModel(formElement),
                     modelValue = ngModel.$modelValue;
 
                 if (modelValue !== ngModels[name]) {
@@ -283,6 +280,14 @@
                     ngModel.$render();
                 }
             });
+        }
+
+        function getModel(formElement) {
+            return angular.element(formElement).controller('ngModel');
+        }
+
+        function getName(formElement) {
+            return angular.element(formElement).attr('name');
         }
 
         function getDefinedModelsLength(models) {
