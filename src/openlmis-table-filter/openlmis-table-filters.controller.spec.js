@@ -339,6 +339,40 @@ describe('OpenlmisTableFiltersController', function() {
         expect(formTwoSubmitted).toBe(true);
     });
 
+    it('should roll back changes if Cancel button was clicked', function() {
+        spyOn(_, 'defer').andCallFake(function(fn) {
+            fn();
+        });
+
+        $scope.modelOne = 'Some entered value';
+        $scope.modelTwo = 'Some other value';
+        $scope.modelThree = 'Some even different value';
+    
+        vm.$onInit();
+        $scope.$digest();
+
+        expect(vm.getFilterButton().find('span').length).toBe(0);
+
+        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+        $timeout.flush();
+
+        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+
+        $scope.modelOne = undefined;
+        $scope.modelTwo = undefined;
+        $scope.$digest();
+
+        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+
+        vm.getFormElement().find('#close-filters').click();
+        $scope.$apply();
+
+        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+    });
+
 
     function prepareFilterButton() {
         prepareForm();
