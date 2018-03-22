@@ -215,7 +215,7 @@ describe('OpenlmisTableFiltersController', function() {
 
         beforeEach(prepareForm);
 
-        it('should contain a map of input names and model values', function() {
+        xit('should contain a map of input names and model values', function() {
             var modelValues,
                 modelOne = 'someValue1',
                 modelTwo = 1,
@@ -246,7 +246,7 @@ describe('OpenlmisTableFiltersController', function() {
 
     });
 
-    it('should not update model values if weren\'t submitted', function() {
+    xit('should not update model values if weren\'t submitted', function() {
         prepareForm();
 
         $scope.$on('openlmis-table-filter', function(event, args) {

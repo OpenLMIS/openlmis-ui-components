@@ -58,9 +58,9 @@
             form.on('submit', submitForms);
 
             $timeout(function() {
-                ngModels = getNgModels(false);
-                $scope.count = Object.keys(ngModels).length;
-                checkIfFormIsActive();
+                ngModels = getNgModels();
+                $scope.count = getDefinedModelsLength(ngModels);
+                updateButtonState();
             }, 50);
 
             filterButton = compileFilterButton();
@@ -95,12 +95,8 @@
             }
 
             if(isFormSubmitted()) {
-                $scope.count = Object.keys(getNgModels(false)).length;
-                checkIfFormIsActive();
-            } else {
-                _.defer(function() {
-                    $scope.$apply(rollbackChanges);
-                });
+                $scope.count = getDefinedModelsLength(getNgModels);
+                updateButtonState();
             }
 
             filterButton.show();
@@ -144,7 +140,7 @@
         }
 
         function broadcastEvent() {
-            $scope.$broadcast('openlmis-table-filter', getNgModels(true));
+            $scope.$broadcast('openlmis-table-filter', getNgModels);
         }
 
         function registerForm(element) {
@@ -254,9 +250,15 @@
 
         function hidePopover() {
             filterButton.popover('hide');
+
+            if (!isFormSubmitted()) {
+                _.defer(function() {
+                    $scope.$apply(rollbackChanges);
+                });
+            }
         }
 
-        function getNgModels(includeUndefined) {
+        function getNgModels() {
             var modelValues = {};
             form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
                 var element = angular.element(formElement),
@@ -264,9 +266,7 @@
                     ngModel = element.controller('ngModel'),
                     modelValue = ngModel.$modelValue;
 
-                if (modelValue || includeUndefined) {
-                    modelValues[name] = modelValue;
-                }
+                modelValues[name] = modelValue;
             });
             return modelValues;
         }
@@ -285,7 +285,13 @@
             });
         }
 
-        function checkIfFormIsActive() {
+        function getDefinedModelsLength(models) {
+            return Object.keys(models).filter(function(key) {
+                return models[key];
+            }).length;
+        }
+
+        function updateButtonState() {
             if ($scope.count && $scope.count !== 0) {
                 $scope.class = 'is-active';
             }
