@@ -351,7 +351,7 @@ describe('OpenlmisTableFiltersController', function() {
         expect(formTwoSubmitted).toBe(true);
     });
 
-    xit('should update filters count after form was submitted', function() {
+    it('should update filters count after form was submitted', function() {
         $scope.modelOne = 'Some entered value';
         $scope.modelTwo = 'Some other value';
         $scope.modelThree = 'Some even different value';
@@ -377,6 +377,7 @@ describe('OpenlmisTableFiltersController', function() {
 
         form = vm.getFormElement();
         form.attr('onsubmit', 'return false;');
+        form.controller('form').$submitted = true;
         form.submit();
         $scope.$apply();
 

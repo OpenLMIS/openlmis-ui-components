@@ -202,10 +202,6 @@
             return formCtrl.$invalid && formCtrl.$pristine;
         }
 
-        function isFormSubmitted() {
-            return form.controller('form').$submitted;
-        }
-
         function compileForm() {
             return compileElement(
                 '<form>' +
@@ -299,6 +295,10 @@
             if ($scope.count && $scope.count !== 0) {
                 $scope.class = 'is-active';
             }
+        }
+
+        function isFormSubmitted() {
+            return form.controller('form').$submitted;
         }
     }
 
