@@ -15,7 +15,7 @@
 
 describe('OpenlmisTableFiltersController', function() {
 
-    var vm, form, $scope, filterButton, $controller, $compile, $rootScope;
+    var vm, form, $scope, filterButton, $controller, $compile, $rootScope, $timeout;
 
     beforeEach(function() {
         module('openlmis-table-filter');
@@ -24,12 +24,36 @@ describe('OpenlmisTableFiltersController', function() {
             $controller = $injector.get('$controller');
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
+            $timeout = $injector.get('$timeout');
         });
 
         $scope = $rootScope.$new();
         vm = $controller('OpenlmisTableFiltersController', {
             $scope: $scope
         });
+    });
+
+    describe('$onInit', function() {
+        
+        it('should set the count equal to number of filled inputs', function() {
+            $scope.modelOne = 'Some entered value';
+            $scope.modelTwo = undefined;
+            $scope.modelThree = 'Some other value';
+        
+            vm.$onInit();
+            $scope.$digest();
+
+            expect(vm.getFilterButton().find('span').length).toBe(0);
+
+            vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+            vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+            vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+            $timeout.flush();
+
+            expect(vm.getFilterButton().find('span').html()).toEqual('(2)');
+        });
+
     });
 
     describe('getFormElement', function() {
