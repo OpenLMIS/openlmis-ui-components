@@ -69,3 +69,16 @@ Styleguide 2.5
         padding-right: 0.5em;
     }
 }
+
+button.filters {
+    @include button($button-color-default);
+    @include button-icon('filter');
+
+    > span {
+        margin-left: 0.25em;
+    }
+
+    &.is-active {
+        @include button($button-color-primary);
+    }
+}

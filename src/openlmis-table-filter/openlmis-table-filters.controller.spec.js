@@ -215,7 +215,7 @@ describe('OpenlmisTableFiltersController', function() {
 
         beforeEach(prepareForm);
 
-        xit('should contain a map of input names and model values', function() {
+        it('should contain a map of input names and model values', function() {
             var modelValues,
                 modelOne = 'someValue1',
                 modelTwo = 1,
@@ -244,6 +244,47 @@ describe('OpenlmisTableFiltersController', function() {
             expect(modelValues.inputThree).toEqual(modelThree);
         });
 
+    });
+
+    it('should not update model values if weren\'t submitted', function() {
+        prepareForm();
+
+        $scope.$on('openlmis-table-filter', function(event, args) {
+            modelValues = args;
+        });
+
+        var modelValues,
+            modelOne = 'someValue1',
+            modelTwo = 1,
+            modelThree = {
+                some: 'otherValue'
+            };
+
+        $scope.modelOne = modelOne;
+        $scope.modelTwo = modelTwo;
+        $scope.modelThree = modelThree;
+
+        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+        form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
+        form.submit();
+        $scope.$apply();
+
+        $scope.modelOne = 'someValue2';
+        $scope.modelTwo = undefined;
+        $scope.modelThree = 'anotherValue';
+
+        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+        $scope.$apply();
+
+        expect(modelValues.inputOne).toEqual('someValue1');
+        expect(modelValues.inputTwo).toEqual(1);
+        expect(modelValues.inputThree).toEqual({ some: 'otherValue' });
     });
 
 

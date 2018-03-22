@@ -50,15 +50,17 @@
          *
          * @description
          * Initialization method of the OpenlmisTableFiltersController. Creates filter form and
-         * button and exposes them to the openlmisTableFilters directive.
+         * button and exposes them to the openlmisTableFilters directive. Filter button contains
+         * information about the number of selected (and submitted) filters.
          */
         function onInit() {
             form = compileForm();
             form.on('submit', submitForms);
 
             $timeout(function() {
-                ngModels = getNgModels();
+                ngModels = getNgModels(false);
                 $scope.count = Object.keys(ngModels).length;
+                checkIfFormIsActive();
             }, 50);
 
             filterButton = compileFilterButton();
@@ -90,6 +92,15 @@
                 submitButton.replaceWith(element);
             } else {
                 form.prepend(element);
+            }
+
+            if(isFormSubmitted()) {
+                $scope.count = Object.keys(getNgModels(false)).length;
+                checkIfFormIsActive();
+            } else {
+                _.defer(function() {
+                    $scope.$apply(rollbackChanges);
+                });
             }
 
             filterButton.show();
@@ -133,15 +144,7 @@
         }
 
         function broadcastEvent() {
-            var modelValues = {};
-            form.find(NGMODEL_ELEMENT).each(function(index, ngModelElement) {
-                var element = angular.element(ngModelElement),
-                    name = element.attr('name'),
-                    modelValue = element.controller('ngModel').$modelValue;
-
-                modelValues[name] = modelValue;
-            });
-            $scope.$broadcast('openlmis-table-filter', modelValues);
+            $scope.$broadcast('openlmis-table-filter', getNgModels(true));
         }
 
         function registerForm(element) {
@@ -209,8 +212,7 @@
         }
 
         function isFormSubmitted() {
-            var formCtrl = form.controller('form');
-            return formCtrl.$submitted;
+            return form.controller('form').$submitted;
         }
 
         function compileForm() {
@@ -224,8 +226,8 @@
 
         function compileFilterButton() {
             var filterButton = compileElement(
-                '<button class="filters">{{\'openlmisTableFilter.filter\' | message }}' +
-                    '<span ng-if="count && count !== 0">{{\'openlmisTableFilter.count\' | message: {count: count } }}</span>' +
+                '<button class="filters {{class}}">{{\'openlmisTableFilter.filter\' | message }}' +
+                    '<span ng-if="count && count !== 0">({{count}})</span>' +
                 '</button>'
             );
 
@@ -252,25 +254,17 @@
 
         function hidePopover() {
             filterButton.popover('hide');
-
-            if(isFormSubmitted()) {
-                $scope.count = Object.keys(getNgModels).length;
-            } else {
-                _.defer(function() {
-                    $scope.$apply(rollbackChanges);
-                });
-            }
         }
 
-        function getNgModels() {
+        function getNgModels(includeUndefined) {
             var modelValues = {};
-
-            form.find(NGMODEL_ELEMENT).each(function(index, ngModelElement) {
-                var element = angular.element(ngModelElement),
+            form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
+                var element = angular.element(formElement),
                     name = element.attr('name'),
-                    modelValue = element.controller('ngModel').$modelValue;
+                    ngModel = element.controller('ngModel'),
+                    modelValue = ngModel.$modelValue;
 
-                if (modelValue) {
+                if (modelValue || includeUndefined) {
                     modelValues[name] = modelValue;
                 }
             });
@@ -289,6 +283,12 @@
                     ngModel.$render();
                 }
             });
+        }
+
+        function checkIfFormIsActive() {
+            if ($scope.count && $scope.count !== 0) {
+                $scope.class = 'is-active';
+            }
         }
     }
 
