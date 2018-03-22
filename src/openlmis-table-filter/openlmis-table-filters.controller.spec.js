@@ -239,25 +239,30 @@ describe('OpenlmisTableFiltersController', function() {
 
         beforeEach(prepareForm);
 
-        xit('should contain a map of input names and model values', function() {
+        it('should contain a map of input names and model values', function() {
             var modelValues,
                 modelOne = 'someValue1',
                 modelTwo = 1,
                 modelThree = {
-                    some: "otheValue"
+                    some: "otherValue"
                 };
+
+            $scope.$on('openlmis-table-filter', function(event, args) {
+                modelValues = args;
+            });
 
             $scope.modelOne = modelOne;
             $scope.modelTwo = modelTwo;
             $scope.modelThree = modelThree;
 
+            vm.$onInit();
+            $scope.$digest();
+
             vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
             vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
             vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-            $scope.$on('openlmis-table-filter', function(event, args) {
-                modelValues = args;
-            });
+            $timeout.flush();
 
             form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
             form.submit();
@@ -270,12 +275,8 @@ describe('OpenlmisTableFiltersController', function() {
 
     });
 
-    xit('should not update model values if weren\'t submitted', function() {
+    it('should not update model values if weren\'t submitted', function() {
         prepareForm();
-
-        $scope.$on('openlmis-table-filter', function(event, args) {
-            modelValues = args;
-        });
 
         var modelValues,
             modelOne = 'someValue1',
@@ -284,13 +285,22 @@ describe('OpenlmisTableFiltersController', function() {
                 some: 'otherValue'
             };
 
+        $scope.$on('openlmis-table-filter', function(event, args) {
+            modelValues = args;
+        });
+
         $scope.modelOne = modelOne;
         $scope.modelTwo = modelTwo;
         $scope.modelThree = modelThree;
 
+        vm.$onInit();
+        $scope.$digest();
+
         vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
         vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
         vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+        $timeout.flush();
 
         form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
         form.submit();
@@ -303,6 +313,8 @@ describe('OpenlmisTableFiltersController', function() {
         vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
         vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
         vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+
+        $timeout.flush();
 
         $scope.$apply();
 
@@ -339,6 +351,7 @@ describe('OpenlmisTableFiltersController', function() {
         expect(formTwoSubmitted).toBe(true);
     });
 
+<<<<<<< HEAD
     it('should roll back changes if Cancel button was clicked', function() {
         spyOn(_, 'defer').andCallFake(function(fn) {
             fn();
@@ -348,6 +361,13 @@ describe('OpenlmisTableFiltersController', function() {
         $scope.modelTwo = 'Some other value';
         $scope.modelThree = 'Some even different value';
     
+=======
+    xit('should update filters count after form was submitted', function() {
+        $scope.modelOne = 'Some entered value';
+        $scope.modelTwo = 'Some other value';
+        $scope.modelThree = 'Some even different value';
+
+>>>>>>> OLMIS-3997: Added tests and added check if form is submitted
         vm.$onInit();
         $scope.$digest();
 
@@ -363,6 +383,7 @@ describe('OpenlmisTableFiltersController', function() {
 
         $scope.modelOne = undefined;
         $scope.modelTwo = undefined;
+<<<<<<< HEAD
         $scope.$digest();
 
         expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
@@ -371,6 +392,16 @@ describe('OpenlmisTableFiltersController', function() {
         $scope.$apply();
 
         expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+=======
+        $scope.$apply();
+
+        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+
+        form.submit();
+        $scope.$apply();
+
+        expect(vm.getFilterButton().find('span').html()).toEqual('(1)');
+>>>>>>> OLMIS-3997: Added tests and added check if form is submitted
     });
 
 

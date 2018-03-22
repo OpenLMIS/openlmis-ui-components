@@ -94,11 +94,6 @@
                 form.prepend(element);
             }
 
-            if(isFormSubmitted()) {
-                $scope.count = getDefinedModelsLength(getNgModels);
-                updateButtonState();
-            }
-
             filterButton.show();
         }
 
@@ -251,7 +246,11 @@
         function hidePopover() {
             filterButton.popover('hide');
 
-            if (!isFormSubmitted()) {
+            if(isFormSubmitted()) {
+                var models = getNgModels();
+                $scope.count = getDefinedModelsLength(models);
+                updateButtonState();
+            } else {
                 _.defer(function() {
                     $scope.$apply(rollbackChanges);
                 });
