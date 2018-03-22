@@ -371,18 +371,12 @@ describe('OpenlmisTableFiltersController', function() {
 
         $scope.modelOne = undefined;
         $scope.modelTwo = undefined;
-        $scope.$digest();
-
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
-
-        vm.getFormElement().find('#close-filters').click();
-        $scope.$apply();
-
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
         $scope.$apply();
 
         expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
 
+        form = vm.getFormElement();
+        form.attr('onsubmit', 'return false;');
         form.submit();
         $scope.$apply();
 
