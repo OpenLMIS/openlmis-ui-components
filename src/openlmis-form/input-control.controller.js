@@ -36,8 +36,8 @@
 
         var elements = [];
 
-        this.addNgModel = addNgModel;
-        this.getErrors = getErrors;
+        vm.addNgModel = addNgModel;
+        vm.getErrors = getErrors;
 
         /**
          * @ngdoc method

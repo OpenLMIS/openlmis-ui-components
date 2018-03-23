@@ -70,7 +70,6 @@
         function populate(locale) {
             if(!locale) locale = DEFAULT_LANGUAGE;
 
-            var deferred = $q.defer();
             if(OPENLMIS_MESSAGES[locale]){
                 localStorageService.add(LOCALE_STORAGE_KEY, locale);
                 $rootScope.$broadcast('openlmis.messages.populated');

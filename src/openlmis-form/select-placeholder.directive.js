@@ -93,7 +93,6 @@
             }
 
             var selectCtrl = ctrls[0],
-                ngModelCtrl = ctrls[1],
                 defaultPlaceholderText;
 
             selectCtrl.unknownOption

@@ -222,13 +222,9 @@
         }
 
         function extractDocs(response) {
-            var docs = [];
-
-            for (var row in response.rows) {
-                docs.push(response.rows[row].doc);
-            }
-
-            return docs;
+            return response.map(function(row) {
+                return row.doc;
+            });
         }
     }
 

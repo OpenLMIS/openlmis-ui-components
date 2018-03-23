@@ -46,7 +46,7 @@
                     url: function() {
                         return 'favicon.ico?_=' + new Date().getTime();
                     },
-                    timeout : 20000,
+                    timeout : 20000
                 }
             }
         };

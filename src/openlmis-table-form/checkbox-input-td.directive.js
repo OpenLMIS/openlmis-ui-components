@@ -29,7 +29,7 @@
         .directive('input', directive);
 
     function directive() {
-        return {
+        var directive = {
             link: link,
             restrict: 'E'
         };

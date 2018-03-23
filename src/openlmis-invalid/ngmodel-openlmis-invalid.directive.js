@@ -53,8 +53,7 @@
          * invalid.
          */
         function link(scope, element, attrs, ctrls) {
-            var openlmisInvalidCtrl = ctrls[0],
-                ngModelCtrl = ctrls[1];
+            var ngModelCtrl = ctrls[1];
 
             if(!ngModelCtrl) {
                 return ;

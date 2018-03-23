@@ -40,8 +40,7 @@
     }
 
     function link(scope, element, attrs, ctrls) {
-        var openlmisInvalidCtrl = ctrls[0],
-            openlmisPopoverCtrl = ctrls[1];
+        var openlmisPopoverCtrl = ctrls[1];
 
         element.on('openlmisInvalid.show', showMessage);
         element.on('openlmisInvalid.hide', hideMessage);

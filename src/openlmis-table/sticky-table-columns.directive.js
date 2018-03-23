@@ -283,8 +283,7 @@
              * prevent DOM reflows.
              */
             function setUpBlits(cell) {
-                var cellOffset = cell.position().left,
-                    cellWidth = cell.outerWidth(),
+                var cellWidth = cell.outerWidth(),
                     cellParent = cell.parent()[0];
 
                 return function() {
