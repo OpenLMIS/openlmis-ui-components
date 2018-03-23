@@ -10,7 +10,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-3166:](https://openlmis.atlassian.net/browse/OLMIS-3166) Added openlmisAppCache component.
 * [OLMIS-3826](https://openlmis.atlassian.net/browse/OLMIS-3826): Added facility filter to display formatted facilities.
 * [OLMIS-4127](https://openlmis.atlassian.net/browse/OLMIS-4127): Added util function to convert epoch in milliseconds to ISO-formatted date string.
-* [OLMIS-3997:](https://openlmis.atlassian.net/browse/OLMIS-3997): Added number of flters to the filter button.
+* [OLMIS-3779:](https://openlmis.atlassian.net/browse/OLMIS-3779): Added number of flters to the filter button.
 
 Improvements:
 * [OLMIS-3876:](https://openlmis.atlassian.net/browse/OLMIS-3876) Applied filter component to all forms in an openlmis-table-container
