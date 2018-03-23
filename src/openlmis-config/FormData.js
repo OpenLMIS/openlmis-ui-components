@@ -24,7 +24,7 @@
      * This constant wraps FormData, which is used to create Form Data requests.
      */
 
-	angular.module('openlmis-config')
-	    .constant('FormData', FormData);
+    angular.module('openlmis-config')
+        .constant('FormData', FormData);
 
 })();

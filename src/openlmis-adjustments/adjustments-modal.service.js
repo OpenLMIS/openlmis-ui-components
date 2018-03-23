@@ -33,8 +33,6 @@
     ];
 
     function adjustmentsModalService(openlmisModalService) {
-        var dialog;
-
         this.open = open;
 
         /**

@@ -89,7 +89,7 @@
                 appCache.swapCache();
                 $window.location.reload();
             })
-            .catch(function(error) {
+            .catch(function() {
                 appCache.swapCache();
                 $rootScope.$on('openlmis-auth.logout', function() {
                     $window.location.reload();

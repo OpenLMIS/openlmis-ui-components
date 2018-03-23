@@ -32,7 +32,7 @@
     OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout'];
 
     function OpenlmisTableFiltersController($scope, $compile, $timeout) {
-        var form, forms, submitButton, filterButton, ngModels,
+        var form, forms, submitButton, filterButton, ngModels, ngModelValues,
             SUBMIT_ELEMENT = '[type="submit"]',
             NGMODEL_ELEMENT = '[ng-model]',
             vm = this;
@@ -59,6 +59,7 @@
 
             $timeout(function() {
                 ngModels = getNgModels();
+                ngModelValues = getAllModelValues(ngModels);
                 $scope.count = getDefinedModelsLength(ngModels);
                 updateButtonState();
             }, 50);
@@ -135,7 +136,8 @@
         }
 
         function broadcastEvent() {
-            $scope.$broadcast('openlmis-table-filter', ngModels);
+            var modelValues = getAllModelValues(ngModels);
+            $scope.$broadcast('openlmis-table-filter', modelValues);
         }
 
         function registerForm(element) {
@@ -243,8 +245,7 @@
             filterButton.popover('hide');
 
             if(isFormSubmitted()) {
-                var models = getNgModels();
-                $scope.count = getDefinedModelsLength(models);
+                $scope.count = getDefinedModelsLength(ngModels);
                 updateButtonState();
             } else {
                 _.defer(function() {
@@ -257,9 +258,9 @@
             var modelValues = {};
             form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
                 var name = getName(formElement),
-                    modelValue = getModel(formElement).$modelValue;
+                    ngModel = getModel(formElement);
 
-                modelValues[name] = modelValue;
+                modelValues[name] = ngModel;
             });
             return modelValues;
         }
@@ -268,10 +269,11 @@
             form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
                 var name = getName(formElement),
                     ngModel = getModel(formElement),
-                    modelValue = ngModel.$modelValue;
+                    modelValue = ngModel.$modelValue,
+                    previousValue = ngModelValues[name];
 
-                if (modelValue !== ngModels[name]) {
-                    ngModel.$setViewValue(ngModels[name]);
+                if (modelValue !== previousValue) {
+                    ngModel.$setViewValue(previousValue);
                     ngModel.$render();
                 }
             });
@@ -287,8 +289,16 @@
 
         function getDefinedModelsLength(models) {
             return Object.keys(models).filter(function(key) {
-                return models[key];
+                return models[key].$modelValue;
             }).length;
+        }
+
+        function getAllModelValues(models) {
+            var modelValues = {};
+            Object.keys(models).forEach(function(key) {
+                modelValues[key] = models[key].$modelValue;
+            });
+            return modelValues;
         }
 
         function updateButtonState() {

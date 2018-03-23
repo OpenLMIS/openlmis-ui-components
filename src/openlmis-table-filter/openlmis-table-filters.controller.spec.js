@@ -206,6 +206,11 @@ describe('OpenlmisTableFiltersController', function() {
         });
 
         it('should close on cancel click', function() {
+            vm.registerElement(compileMarkup('<div></div>'));
+
+            $timeout.flush();
+            $scope.$apply();
+
             form.find('[type="submit"]').click();
 
             expect(filterButton.popover).toHaveBeenCalledWith('hide');
@@ -344,6 +349,8 @@ describe('OpenlmisTableFiltersController', function() {
 
         vm.registerElement(formOne);
         vm.registerElement(formTwo);
+
+        $timeout.flush();
 
         form.submit();
 

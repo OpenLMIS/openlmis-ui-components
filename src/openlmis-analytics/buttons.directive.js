@@ -37,7 +37,7 @@
         return {
             restrict: 'E',
             compile: compile
-        }
+        };
 
         // Compiles the directive, only adding the link function to an input
         // or button element
@@ -71,7 +71,8 @@
     function extractLabelFromText(text) {
         var firstQuote = text.indexOf("'");
         var lastQuote = text.lastIndexOf("'");
-        return text.slice(firstQuote + 1, lastQuote); // +1 because don't include the first quote
+        // +1 because don't include the first quote
+        return text.slice(firstQuote + 1, lastQuote);
     }
 
 })();

@@ -25,8 +25,8 @@
      */
     angular.module('openlmis-analytics', [
         'openlmis-local-storage',
-    	'openlmis-offline',
-    	'openlmis-i18n'
+        'openlmis-offline',
+        'openlmis-i18n'
     ]);
 
 })();
