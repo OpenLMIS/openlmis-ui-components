@@ -425,7 +425,7 @@ describe('OpenlmisTableFiltersController', function() {
         expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
     });
 
-    iit('should change button status if all inputs were cleared', function() {
+    it('should change button status if all inputs were cleared', function() {
         $scope.modelOne = 'Some entered value';
         $scope.modelTwo = 'Some other value';
         $scope.modelThree = 'Some even different value';
