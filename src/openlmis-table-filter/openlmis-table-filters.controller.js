@@ -304,6 +304,8 @@
         function updateButtonState() {
             if ($scope.count && $scope.count !== 0) {
                 $scope.class = 'is-active';
+            } else {
+                $scope.class = undefined;
             }
         }
 
