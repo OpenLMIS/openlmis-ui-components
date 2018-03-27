@@ -49,9 +49,12 @@
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
 
-    datepicker.$inject = ['$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils'];
+    datepicker.$inject = [
+        '$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils', 'DatepickerFormatTranslator'
+    ];
 
-    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils) {
+    function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils,
+                        DatepickerFormatTranslator) {
         return {
             restrict: 'E',
             scope: {
@@ -112,6 +115,33 @@
                     datepicker.removeAttr('disabled');
                 }
             });
+
+            element.on('$destroy', cleanUp);
+            scope.$on('destroy', cleanUp);
+
+            var input = element.find('input');
+
+            watchDate('minDate', 'setStartDate', -Infinity);
+            watchDate('maxDate', 'setEndDate', Infinity);
+
+            function watchDate(dateName, fnName, defaultValue) {
+                scope.$watch(dateName, function(newDate) {
+                    var formattedDate;
+
+                    if (newDate) {
+                        formattedDate = $filter('date')(
+                            new Date(newDate),
+                            new DatepickerFormatTranslator().translate(scope.dateFormat)
+                        );
+                    }
+
+                    input.datepicker(fnName, formattedDate || defaultValue);
+                });
+            }
+
+            function cleanUp() {
+                input = undefined;
+            }
         }
 
         function setupFormatting(scope) {

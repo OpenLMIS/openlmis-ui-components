@@ -20,14 +20,8 @@ describe('Datepicker directive', function() {
     var $timeout, $compile, $rootScope, scope, element, filter, openlmisDateFilter;
 
     beforeEach(function() {
-
-        filter = jasmine.createSpy('$filter');
-        openlmisDateFilter = jasmine.createSpy('openlmisDateFilter');
-        filter.andReturn(openlmisDateFilter);
-
         module('openlmis-templates');
         module('openlmis-form', function($provide) {
-            $provide.value('openlmisDateFilter', filter);
         });
 
         inject(function($injector) {
@@ -43,12 +37,11 @@ describe('Datepicker directive', function() {
         scope.endDate = new Date('2017-12-31T23:00:00.000Z');
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
         scope.isDisabled = true;
-        var html = '<openlmis-datepicker input-id="startDate" value="startDate" max-date="endDate" disabled="isDisabled"></openlmis-datepicker>';
-        element = $compile(html)(scope);
-        scope.$apply();
+
+        element = compileElement();
     });
 
-    it('should apply template', function () {
+    it('should apply template', function() {
         expect(element.html()).not.toEqual('');
     });
 
@@ -66,7 +59,7 @@ describe('Datepicker directive', function() {
     });
 
     it('should remove timezone from selected date', function() {
-        Date.prototype.getTimezoneOffset = function () {
+        Date.prototype.getTimezoneOffset = function() {
             return 120;
         }
         scope.startDate = new Date('2017-01-31T23:00:00.000Z');
@@ -102,7 +95,109 @@ describe('Datepicker directive', function() {
         }, 100);
     });
 
+    it('should not set start date if it is undefined', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+    });
+
+    it('should set start date if it is defined', function() {
+        scope = $rootScope.$new();
+        scope.startDate = '2018-03-27';
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+    });
+
+    it('should set start date to infinity if min date is set to undefined', function() {
+        scope = $rootScope.$new();
+        scope.startDate = '2018-03-27';
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+
+        scope.startDate = undefined;
+        scope.$apply();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+    });
+
+    it('should set start date to a date specified in the min date', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+
+        scope.startDate = '2018-03-27';
+        scope.$apply();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+    });
+
+    it('should not set end date if it is undefined', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+    });
+
+    it('should set end date if it is defined', function() {
+        scope = $rootScope.$new();
+        scope.endDate = '2018-03-27';
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+    });
+
+    it('should set end date to infinity if min date is set to undefined', function() {
+        scope = $rootScope.$new();
+        scope.endDate = '2018-03-27';
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+
+        scope.endDate = undefined;
+        scope.$apply();
+
+        expect(getInputElement().datepicker('getEndDate')).toEqual(Infinity);
+    });
+
+    it('should set end date to a date specified in the max date', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(getInputElement().datepicker('getEndDate')).toEqual(Infinity);
+
+        scope.endDate = '2018-03-27';
+        scope.$apply();
+
+        expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+    });
+
     afterEach(function() {
         expect(console.error).not.toHaveBeenCalled();
     });
+
+    function getInputElement() {
+        return element.find('input');
+    }
+
+    function compileElement() {
+        var element = $compile(
+            '<openlmis-datepicker input-id="startDate" value="startDate" min-date="startDate"' +
+                'max-date="endDate" disabled="isDisabled">' +
+            '</openlmis-datepicker>'
+        )(scope);
+        scope.$apply();
+        return element;
+    }
 });
