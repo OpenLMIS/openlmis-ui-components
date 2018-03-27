@@ -119,7 +119,8 @@
             element.on('$destroy', cleanUp);
             scope.$on('destroy', cleanUp);
 
-            var input = element.find('input');
+            var input = element.find('input'),
+                dateFormatTranslator = new DatepickerFormatTranslator();
 
             watchDate('minDate', 'setStartDate', -Infinity);
             watchDate('maxDate', 'setEndDate', Infinity);
@@ -131,7 +132,7 @@
                     if (newDate) {
                         formattedDate = $filter('date')(
                             new Date(newDate),
-                            new DatepickerFormatTranslator().translate(scope.dateFormat)
+                            dateFormatTranslator.translate(scope.dateFormat)
                         );
                     }
 

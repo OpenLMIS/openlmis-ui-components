@@ -38,8 +38,6 @@
         .module('openlmis-form')
         .factory('DatepickerFormatTranslator', DatepickerFormatTranslator);
 
-    DatepickerFormatTranslator.inject = [];
-
     function DatepickerFormatTranslator() {
 
         DatepickerFormatTranslator.prototype.translate = translate;
