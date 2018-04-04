@@ -66,7 +66,8 @@
                                                                                 // because all of them are getting into that method
                 if(canDisplayModal) {
                     canDisplayModal = false;
-                    $injector.get('alertService').error('openlmisOffline.actionNotAllowedOffline').then(function() {
+                    $injector.get('alertService').error('openlmisOffline.actionNotAllowedOffline')
+                    .finally(function() {
                         canDisplayModal = true;
                     });
                 }
