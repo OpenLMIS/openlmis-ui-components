@@ -15,7 +15,7 @@
 
 describe('openlmisModalService', function() {
 
-    var openlmisModalService, $rootScope, $modal;
+    var openlmisModalService, $rootScope, $modal, $timeout;
 
     beforeEach(function() {
         module('openlmis-modal', function($provide) {
@@ -43,6 +43,32 @@ describe('openlmisModalService', function() {
             $rootScope.$apply();
 
             expect(rejected).toBeTruthy();
+        });
+
+        it('should not hide modal when it is not displayed', function() {
+            var modal = openlmisModalService.createDialog({});
+
+            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, '$$hide');
+
+            modal.$isShown = false;
+            modal.hide();
+
+            expect(modal.$$hide).not.toHaveBeenCalled();
+        });
+
+        it('should hide modal when it is displayed', function() {
+            var modal = openlmisModalService.createDialog({});
+
+            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, '$$hide');
+
+            modal.$isShown = true;
+            modal.hide();
+
+            $timeout.flush();
+
+            expect(modal.$$hide).toHaveBeenCalled();
         });
 
         it('should not close on backdrop click as default', function() {
@@ -78,6 +104,7 @@ describe('openlmisModalService', function() {
     function services($injector) {
         openlmisModalService = $injector.get('openlmisModalService');
         $rootScope = $injector.get('$rootScope');
+        $timeout = $injector.get('$timeout');
     }
 
     function preapreModalSpy() {
