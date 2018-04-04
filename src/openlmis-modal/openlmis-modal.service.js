@@ -20,9 +20,9 @@
         .module('openlmis-modal')
         .service('openlmisModalService', service);
 
-    service.$inject = ['$q', '$modal'];
+    service.$inject = ['$q', '$modal', '$timeout'];
 
-    function service($q, $modal) {
+    function service($q, $modal, $timeout) {
         var modals = [];
 
         this.createDialog = createDialog;
@@ -96,11 +96,22 @@
         function decorateHide(dialog) {
             dialog.$$hide = dialog.hide;
             dialog.hide = function() {
-                dialog.$$hide();
                 if (dialog.$$deferred) {
                     dialog.$$deferred.reject();
                 }
+                hideOnTimeout(dialog);
             };
+        }
+
+        function hideOnTimeout(dialog) {
+            $timeout(function() {
+                if (dialog.$isShown) {
+                    dialog.$$hide();
+                    dialog.$$wasHidden = true;
+                } else if (!dialog.$$wasHidden) {
+                    hideOnTimeout(dialog);
+                }
+            });
         }
 
     }
