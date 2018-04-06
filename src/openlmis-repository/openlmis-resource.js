@@ -69,11 +69,11 @@
          * @name get
          *
          * @description
-         * Retrieves a shipment with the given ID.
+         * Retrieves an object with the given ID.
          *
-         * @param   {string}    id  the ID of the shipment
-         * @return  {Promise}       the promise resolving to server response, rejects if ID is not
-         *                          given or if the request fails
+         * @param  {string}  id the ID of the shipment
+         * @return {Promise}    the promise resolving to server response, rejects if ID is not given or if the request
+         *                      fails
          */
         function get(id) {
             if (id) {
@@ -92,8 +92,8 @@
          * @description
          * Return the response of the GET request. Passes the given object as request parameters.
          *
-         * @param   {Object}    params  the map of request parameters
-         * @return  {Promise}           the promise resolving to the server response
+         * @param  {Object}  params the map of request parameters
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails
          */
         function query(params) {
             var requests = [];
@@ -113,6 +113,18 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name update
+         * 
+         * @description
+         * Saves the given object on the OpenLMIS server. Uses PUT method.
+         * 
+         * @param  {Object}  object the object to be saved on the server
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
+         *                          undefined or if the ID is undefined
+         */
         function update(object) {
             if (object && object.id) {
                 return this.resource.update({
@@ -122,10 +134,33 @@
             return $q.reject();
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name create
+         * 
+         * @description
+         * Creates the given object on the OpenLMIS server. Uses POST method.
+         * 
+         * @param  {Object}  object the object to be created on the server
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails
+         */
         function create(object) {
             return this.resource.save(undefined, object).$promise;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name delete
+         * 
+         * @description
+         * Deletes the object on the OpenLMIS server.
+         * 
+         * @param  {Object}  object the object to be deleted from the server
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
+         *                          undefined or if the ID is undefined
+         */
         function deleteObject(object) {
             if (object && object.id) {
                 return this.resource.delete({
