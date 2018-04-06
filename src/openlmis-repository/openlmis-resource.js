@@ -106,6 +106,8 @@
             .then(function(responses) {
                 return responses.reduce(function(left, right) {
                     left.content = left.content.concat(right.content);
+                    left.numberOfElements += right.numberOfElements;
+                    left.totalElements += right.totalElements;
                     return left;
                 });
             });

@@ -25,6 +25,7 @@
      */
     angular.module('openlmis-repository', [
         'openlmis-config',
+        'openlmis-urls',
         'ngResource'
     ]);
 

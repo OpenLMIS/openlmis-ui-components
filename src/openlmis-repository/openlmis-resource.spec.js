@@ -1,0 +1,226 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2017 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU Affero General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU Affero General Public License for more details. You should have received a copy of
+ * the GNU Affero General Public License along with this program. If not, see
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ */
+
+describe('OpenlmisResource', function() {
+
+    var BASE_URL = 'some.url/com';
+
+    var openlmisResource, OpenlmisResource, $httpBackend, $rootScope, PageDataBuilder, page,
+        parameterSplitterMock;
+
+    beforeEach(function() {
+        module('openlmis-pagination');
+        module('openlmis-repository', function($provide) {
+            $provide.factory('ParameterSplitter', function() {
+                return function() {
+                    parameterSplitterMock = jasmine.createSpyObj('ParameterSplitter', ['split']);
+                    return parameterSplitterMock;
+                };
+            });
+        });
+
+        inject(function($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+            $rootScope = $injector.get('$rootScope');
+            OpenlmisResource = $injector.get('OpenlmisResource');
+            PageDataBuilder = $injector.get('PageDataBuilder');
+        });
+
+        openlmisResource = new OpenlmisResource(BASE_URL);
+
+        page = new PageDataBuilder().build();
+    });
+
+    describe('constructor', function() {
+
+        var SOME_ID = 'some-id';
+
+        it('should accept url ending with slash', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + SOME_ID)
+            .respond(200, page);
+
+            new OpenlmisResource(BASE_URL + '/').get(SOME_ID);
+            $httpBackend.flush();
+        });
+
+        it('should accept url not ending with slash', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + SOME_ID)
+            .respond(200, page);
+
+            new OpenlmisResource(BASE_URL).get(SOME_ID);
+            $httpBackend.flush();
+        });
+
+    });
+
+    describe('query', function() {
+
+        var params, pageTwo;
+
+        beforeEach(function() {
+            openlmisResource = new OpenlmisResource(BASE_URL);
+
+            params = {
+                some: [
+                    'paramOne',
+                    'paramTwo'
+                ]
+            };
+
+            parameterSplitterMock.split.andReturn([{
+                some: ['paramOne']
+            }, {
+                some: ['paramTwo']
+            }]);
+
+            page = PageDataBuilder.buildWithContent([{
+                id: 'obj-one'
+            }, {
+                id: 'obj-two'
+            }]);
+
+            pageTwo = PageDataBuilder.buildWithContent([{
+                id: 'obj-three'
+            }, {
+                id: 'obj-four'
+            }]);
+        });
+
+        it('should return page if only one request was sent', function() {
+            var params = {
+                some: 'param'
+            };
+
+            parameterSplitterMock.split.andReturn([params]);
+
+            $httpBackend
+            .expectGET(BASE_URL + '?some=param')
+            .respond(200, page);
+
+            var result;
+            openlmisResource.query(params)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+        });
+
+        it('should reject if any of the requests fails', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '?some=paramOne')
+            .respond(200, page);
+
+            $httpBackend
+            .expectGET(BASE_URL + '?some=paramTwo')
+            .respond(500);
+
+            var rejected;
+            openlmisResource.query(params)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should return merged page if multiple requests were sent', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '?some=paramOne')
+            .respond(200, page);
+
+            $httpBackend
+            .expectGET(BASE_URL + '?some=paramTwo')
+            .respond(200, pageTwo);
+
+            var result;
+            openlmisResource.query(params)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(result.content).toEqual([page.content[0], page.content[1], pageTwo.content[0], pageTwo.content[1]]);
+            expect(result.numberOfElements).toEqual(4);
+            expect(result.totalElements).toEqual(4);
+            expect(result.size).toEqual(page.size);
+        });
+
+    });
+
+    describe('get', function() {
+
+        var response;
+
+        beforeEach(function() {
+            response = {
+                id: 'some-id',
+                some: 'test-object'
+            };
+        });
+
+        it('should resolve to server response on successful request', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + response.id)
+            .respond(200, response);
+
+            var result;
+            openlmisResource.get(response.id)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+        });
+
+        it('should reject on failed request', function() {
+            $httpBackend
+            .expectGET(BASE_URL + '/' + response.id)
+            .respond(400);
+
+            var rejected;
+            openlmisResource.get(response.id)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            openlmisResource.get()
+            .catch(function() {
+                rejected = true;
+            });
+            $rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+
+    });
+
+    afterEach(function() {
+        $httpBackend.verifyNoOutstandingRequest();
+        $httpBackend.verifyNoOutstandingExpectation();
+    });
+
+});
