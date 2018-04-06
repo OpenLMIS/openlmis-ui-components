@@ -71,7 +71,7 @@
          * @description
          * Retrieves an object with the given ID.
          *
-         * @param  {string}  id the ID of the shipment
+         * @param  {string}  id the ID of the object
          * @return {Promise}    the promise resolving to server response, rejects if ID is not given or if the request
          *                      fails
          */
