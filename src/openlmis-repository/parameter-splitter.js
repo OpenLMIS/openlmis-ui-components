@@ -33,14 +33,16 @@
 
         function buildRequestsParams(uri, params) {
             if (shouldSplit(uri, params)) {
-                var splitted = split(params);
-                return buildRequestsParams(uri, splitted[0]).concat(buildRequestsParams(uri, splitted[1]));
+                var splitParams = split(params);
+                return buildRequestsParams(uri, splitParams[0]).concat(buildRequestsParams(uri, splitParams[1]));
             }
             return [params];
         }
 
         function shouldSplit(uri, params) {
-            return buildUriWithParams(uri, params).length > 2000;
+            return Object.keys(params).length > 0 &&
+                buildUriWithParams(uri, params).length > MAX_URI_LENGTH &&
+                canBeSplit(params);
         }
 
         function buildUriWithParams(uri, params) {
@@ -60,21 +62,6 @@
         }
 
         function split(params) {
-            if (Object.keys(params).length === 0) {
-                return [params];
-            }
-
-            var hasSplitableParams;
-            Object.keys(params).forEach(function(param) {
-                if (getParamList(params, param).length > 1) {
-                    hasSplitableParams = true;
-                }
-            });
-
-            if (!hasSplitableParams) {
-                return [params];
-            }
-
             var longestParamList = params[Object.keys(params)[0]];
             Object.keys(params).forEach(function(param) {
                 if (getParamList(params, longestParamList).length < getParamList(params, param).length) {
@@ -93,6 +80,16 @@
             right[longestParamList] = list.slice(chunkSize + leftOver, list.length);
 
             return [left, right];
+        }
+
+        function canBeSplit(params) {
+            var canBeSplit;
+            Object.keys(params).forEach(function(param) {
+                if (getParamList(params, param).length > 1) {
+                    canBeSplit = true;
+                }
+            });
+            return canBeSplit;
         }
 
         function getParamList(params, key) {
