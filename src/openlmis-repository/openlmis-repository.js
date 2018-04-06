@@ -17,11 +17,16 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-repository.OpenlmisRepository
+     * 
+     * @description
+     * Basic repository which exposes methods for retrieving, creating and updating objects inside the repository.
+     */
     angular
         .module('openlmis-repository')
         .factory('OpenlmisRepository', OpenlmisRepository);
-
-    OpenlmisRepository.inject = [];
 
     function OpenlmisRepository() {
         
@@ -31,11 +36,34 @@
 
         return OpenlmisRepository;
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisRepository
+         * @name OpenlmisRepository
+         * 
+         * @description
+         * Creates an instance of the OpenlmisRepository class.
+         * 
+         * @param {Function} domainClass the domain class to be handled by this repository, instances of this class will
+         *                               be returned every time any of the method is used
+         * @param {Object}   impl        the repository implementation
+         */
         function OpenlmisRepository(domainClass, impl) {
             this.class = domainClass;
             this.impl = impl;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisRepository
+         * @name create
+         * 
+         * @description
+         * Saves the given object in the repository
+         * 
+         * @param  {Object} object the object to be created in the repository
+         * @return {Object}        the created object
+         */
         function create(object) {
             var DomainClass = this.class,
                 repository = this;
@@ -46,6 +74,17 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisRepository
+         * @name get
+         * 
+         * @description
+         * Retrieves the object with the given id from the repository
+         * 
+         * @param  {Object} object the object to be created in the repository
+         * @return {Object}        the matching object
+         */
         function get(id) {
             var DomainClass = this.class,
                 repository = this;
@@ -56,6 +95,17 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisRepository
+         * @name update
+         * 
+         * @description
+         * Update the given object in the repository
+         * 
+         * @param  {Object} object the object to be updated in the repository
+         * @return {Object}        the updated object
+         */
         function update(object) {
             return this.impl.update(object);
         }
