@@ -24,7 +24,7 @@
     getMaxUriLength.inject = [];
 
     function getMaxUriLength() {
-        var maxUriLength = '@@FULFILLMENT_SERVICE_URL';
+        var maxUriLength = '@@MAX_URI_LENGTH';
 
         return maxUriLength ? parseInt(maxUriLength) : undefined;
     }

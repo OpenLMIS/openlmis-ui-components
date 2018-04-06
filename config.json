@@ -15,5 +15,6 @@
   "defaultDebounce": 500,
   "defaultDateFormat": "dd/MM/yyyy",
   "defaultDatepickerFormat": "dd/mm/yyyy",
-  "defaultDatetimeFormat": "dd/MM/yyyy HH:mm:ss"
+  "defaultDatetimeFormat": "dd/MM/yyyy HH:mm:ss",
+  "maxUriLength": 2000
 }
