@@ -17,6 +17,14 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-repository.ParameterSplitter
+     * 
+     * @description
+     * Responsible for splitting parameters into smaller chunks so the build URI is not exceeding the maximum URI
+     * length specified in the config file.
+     */
     angular
         .module('openlmis-repository')
         .factory('ParameterSplitter', ParameterSplitter);
@@ -25,74 +33,98 @@
 
     function ParameterSplitter(MAX_URI_LENGTH) {
 
-        ParameterSplitter.prototype.split = buildRequestsParams;
+        ParameterSplitter.prototype.split = split;
 
         return ParameterSplitter;
 
         function ParameterSplitter() {}
 
-        function buildRequestsParams(uri, params) {
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.ParameterSplitter
+         * @name split
+         * 
+         * @description
+         * Splits the given parameters map into 2 (or more) maps so the requests done using the returned maps of
+         * parameters won't cause "URI too long" exception on the server.
+         * 
+         * @param  {string} uri    the resource URI
+         * @param  {Object} params the map of query parameters
+         * @return {Array}         the array of split parameter maps
+         */
+        function split(uri, params) {
             if (shouldSplit(uri, params)) {
-                var splitParams = split(params);
-                return buildRequestsParams(uri, splitParams[0]).concat(buildRequestsParams(uri, splitParams[1]));
+                var paramsMap = splitParams(params);
+                return split(uri, paramsMap.left).concat(split(uri, paramsMap.right));
             }
             return [params];
         }
 
         function shouldSplit(uri, params) {
-            return Object.keys(params).length > 0 &&
-                buildUriWithParams(uri, params).length > MAX_URI_LENGTH &&
-                canBeSplit(params);
+            return calculateUriLength(uri, params) > MAX_URI_LENGTH && canBeSplit(params);
         }
 
-        function buildUriWithParams(uri, params) {
-            var uriWithParams = uri;
+        function calculateUriLength(uri, params) {
+            var uriWithParameters = uri;
 
             Object.keys(params).forEach(function(param) {
                 if (params[param] instanceof Array) {
                     params[param].forEach(function(value) {
-                        uriWithParams += '&' + param + '=' + value;
+                        uriWithParameters += '&' + param + '=' + value;
                     });
                 } else {
-                    uriWithParams += '&' + param + '=' + params[param];
+                    uriWithParameters += '&' + param + '=' + params[param];
                 }
             });
 
-            return uriWithParams;
-        }
-
-        function split(params) {
-            var longestParamList = params[Object.keys(params)[0]];
-            Object.keys(params).forEach(function(param) {
-                if (getParamList(params, longestParamList).length < getParamList(params, param).length) {
-                    longestParamList = param;
-                }
-            });
-
-            var left = angular.copy(params),
-                right = angular.copy(params);
-
-            var list = getParamList(params, longestParamList),
-                chunkSize = list.length / 2,
-                leftOver = list.length % 2;
-
-            left[longestParamList] = list.slice(0, chunkSize + leftOver);
-            right[longestParamList] = list.slice(chunkSize + leftOver, list.length);
-
-            return [left, right];
+            return uriWithParameters.length;
         }
 
         function canBeSplit(params) {
             var canBeSplit;
             Object.keys(params).forEach(function(param) {
-                if (getParamList(params, param).length > 1) {
+                if (getParamValues(params, param).length > 1) {
                     canBeSplit = true;
                 }
             });
             return canBeSplit;
         }
 
-        function getParamList(params, key) {
+        function splitParams(params) {
+            var paramWithTheBiggestValuesCount = findParamWithTheBiggestValuesCount(params);
+
+            var left = angular.copy(params),
+                right = angular.copy(params);
+
+            var list = getParamValues(params, paramWithTheBiggestValuesCount),
+                chunkSize = list.length / 2,
+                leftOver = list.length % 2;
+
+            left[paramWithTheBiggestValuesCount] = list.slice(0, chunkSize + leftOver);
+            right[paramWithTheBiggestValuesCount] = list.slice(chunkSize + leftOver, list.length);
+
+            return {
+                left: left,
+                right: right
+            };
+        }
+
+        function findParamWithTheBiggestValuesCount(params) {
+            var paramWithTheBiggestValuesCount = params[Object.keys(params)[0]];
+
+            Object.keys(params).forEach(function(param) {
+                var longestValuesListLength = getParamValues(params, paramWithTheBiggestValuesCount).length,
+                    paramValueListLength = getParamValues(params, param).length;
+
+                if (longestValuesListLength < paramValueListLength) {
+                    paramWithTheBiggestValuesCount = param;
+                }
+            });
+            
+            return paramWithTheBiggestValuesCount;
+        }
+
+        function getParamValues(params, key) {
             if (params[key] instanceof Array) {
                 return params[key];
             }
