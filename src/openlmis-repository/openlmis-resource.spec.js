@@ -218,6 +218,172 @@ describe('OpenlmisResource', function() {
 
     });
 
+    describe('create', function() {
+
+        var response, object;
+
+        beforeEach(function() {
+            response = {
+                id: 'some-id',
+                some: 'test-response'
+            };
+
+            object = {
+                some: 'test-response'
+            };
+        });
+
+        it('should resolve to server response on successful request', function() {
+            $httpBackend
+            .expectPOST(BASE_URL, object)
+            .respond(200, response);
+
+            var result;
+            openlmisResource.create(object)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+        });
+
+        it('should reject on failed request', function() {
+            $httpBackend
+            .expectPOST(BASE_URL, object)
+            .respond(400);
+
+            var rejected;
+            openlmisResource.create(object)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            openlmisResource.create()
+            .catch(function() {
+                rejected = true;
+            });
+            $rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+
+    });
+
+    describe('update', function() {
+
+        var object;
+
+        beforeEach(function() {
+            object = {
+                id: 'some-id',
+                some: 'test-response'
+            };
+        });
+
+        it('should resolve to server response on successful request', function() {
+            $httpBackend
+            .expectPUT(BASE_URL + '/' + object.id, object)
+            .respond(200, object);
+
+            var result;
+            openlmisResource.update(object)
+            .then(function(object) {
+                result = object;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(object));
+        });
+
+        it('should reject on failed request', function() {
+            $httpBackend
+            .expectPUT(BASE_URL + '/' + object.id, object)
+            .respond(400);
+
+            var rejected;
+            openlmisResource.update(object)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            openlmisResource.update()
+            .catch(function() {
+                rejected = true;
+            });
+            $rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+
+    });
+
+    describe('delete', function() {
+
+        var response;
+
+        beforeEach(function() {
+            response = {
+                id: 'some-id',
+                some: 'test-object'
+            };
+        });
+
+        it('should resolve on successful request', function() {
+            $httpBackend
+            .expectDELETE(BASE_URL + '/' + response.id)
+            .respond(200);
+
+            var resolved;
+            openlmisResource.delete(response)
+            .then(function() {
+                resolved = true;
+            });
+            $httpBackend.flush();
+
+            expect(resolved).toEqual(true);
+        });
+
+        it('should reject on failed request', function() {
+            $httpBackend
+            .expectDELETE(BASE_URL + '/' + response.id)
+            .respond(400);
+
+            var rejected;
+            openlmisResource.delete(response)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            openlmisResource.delete()
+            .catch(function() {
+                rejected = true;
+            });
+            $rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+
+    });
+
     afterEach(function() {
         $httpBackend.verifyNoOutstandingRequest();
         $httpBackend.verifyNoOutstandingExpectation();

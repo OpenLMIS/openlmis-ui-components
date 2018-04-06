@@ -114,9 +114,12 @@
         }
 
         function update(object) {
-            return this.resource.update({
-                id: object.id
-            }, object).$promise;
+            if (object && object.id) {
+                return this.resource.update({
+                    id: object.id
+                }, object).$promise;    
+            }
+            return $q.reject();
         }
 
         function create(object) {
@@ -124,9 +127,12 @@
         }
 
         function deleteObject(object) {
-            return this.resource.delete({
-                id: object.id
-            }).$promise;
+            if (object && object.id) {
+                return this.resource.delete({
+                    id: object.id
+                }).$promise;
+            }
+            return $q.reject();
         }
 
     }
