@@ -123,7 +123,7 @@ describe('ParameterSplitter', function() {
             });
         });
 
-        it('should split parameters unless it fits or number of values is 1', function() {
+        it('should stop splitting parameters if all params have only one value', function() {
             maxUriLength = 2;
 
             prepareSuite();
