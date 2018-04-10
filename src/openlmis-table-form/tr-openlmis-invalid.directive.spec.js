@@ -13,15 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('OpenLMIS Invalid TR', function() {
+ddescribe('OpenLMIS Invalid TR', function() {
     'use strict';
 
-    var $compile, scope;
+    var $compile, scope, $rootScope;
 
     beforeEach(module('openlmis-table-form'));
 
-    beforeEach(inject(function(_$compile_, $rootScope){        
-        $compile = _$compile_;
+    beforeEach(inject(function($injector) {        
+        $compile = $injector.get('$compile');
+        $rootScope = $injector.get('$rootScope');
         scope = $rootScope.$new();
     }));
 
@@ -51,6 +52,27 @@ describe('OpenLMIS Invalid TR', function() {
         scope.$apply();
 
         expect(table.find('tr.is-invalid').length).toBe(2);    
+    });
+
+    it('should emit event when showing errors', function() {
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid"><input /></td></tr></table>');
+
+        var result;
+        $rootScope.$on('openlmis.displayRowErrors', function() {
+            result = true;
+        });
+
+        expect(table.find('tr.is-invalid').length).toBe(0);
+
+        table.find('input:first').focus();
+        scope.$apply();
+
+        expect(table.find('tr.is-invalid').length).toBe(0);
+
+        table.find('input:last').focus();
+        scope.$apply();
+
+        expect(result).toBe(true);
     });
 
 

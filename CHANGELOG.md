@@ -33,6 +33,7 @@ Bug fixes:
 * [OLMIS-4195:](https://openlmis.atlassian.net/browse/OLMIS-4195): Forms styled with .openlmis-table-container will now flex to the match their parents
 * [OLMIS-4397:](https://openlmis.atlassian.net/browse/OLMIS-4397): Fixed min and max date restrictions on the datepicker
 * [OLMIS-4469:](https://openlmis.atlassian.net/browse/OLMIS-4469): Fixed hiding loading modal after it is shown
+* [OLMIS-4541:](https://openlmis.atlassian.net/browse/OLMIS-4541): Adjusted pagination error display with how the table validations work
 
 5.2.0 / 2017-11-09
 ==================
