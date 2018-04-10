@@ -71,12 +71,6 @@ describe('PaginationController', function() {
             expect(vm.pagedList).toEqual([1]);
             expect(vm.showingItems).toEqual(vm.pagedList.length);
         });
-
-        it('should leave showErrors flag undefined', function() {
-            vm.$onInit();
-
-            expect(vm.showErrors).toBeUndefined();
-        });
     });
 
     describe('watch paginated list', function() {
@@ -227,21 +221,9 @@ describe('PaginationController', function() {
             expect(vm.isPageValid(2)).toBe(true);
         });
 
-        it('should return true if showErrors flag is unset', function() {
-            vm.showErrors = undefined;
-
-            paginationService.itemValidator = function() {
-                return false;
-            };
-
-            expect(vm.isPageValid(0)).toBe(true);
-        });
-
         it('should return false if item validator returns false', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            vm.showErrors = true;
-            
             paginationService.itemValidator = function() {
                 return false;
             };
@@ -258,15 +240,5 @@ describe('PaginationController', function() {
 
             expect(vm.isPageValid(0)).toBe(true);
         });
-    });
-
-    it('should set showErrors flag on openlmis.displayRowErrors event', function() {
-        vm.$onInit();
-
-        expect(vm.showErrors).toBeUndefined();
-
-        $rootScope.$emit('openlmis.displayRowErrors');
-
-        expect(vm.showErrors).toBe(true);
     });
 });

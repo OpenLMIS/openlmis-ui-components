@@ -28,9 +28,9 @@
         .module('openlmis-pagination')
         .controller('PaginationController', controller);
 
-    controller.$inject = ['paginationService', '$state', '$stateParams', 'paginationFactory', '$scope', '$rootScope'];
+    controller.$inject = ['paginationService', '$state', '$stateParams', 'paginationFactory', '$scope'];
 
-    function controller(paginationService, $state, $stateParams, paginationFactory, $scope, $rootScope) {
+    function controller(paginationService, $state, $stateParams, paginationFactory, $scope) {
 
         var pagination = this;
 
@@ -120,10 +120,6 @@
                 pagination.pagedList = paginationFactory.getPage(pagination.list, pagination.page, pagination.pageSize);
                 pagination.showingItems = pagination.pagedList.length;
             }
-
-            $rootScope.$on('openlmis.displayRowErrors', function() {
-                pagination.showErrors = true;
-            });
         }
 
         /**
@@ -138,7 +134,7 @@
          * @param {Number} newPage New page number
          */
         function changePage(newPage) {
-            if (newPage >= 0 && newPage < getTotalPages()) {
+            if(newPage >= 0 && newPage < getTotalPages()) {
 
                 if (!pagination.externalPagination) {
                     pagination.pagedList = paginationFactory.getPage(pagination.list, newPage, pagination.pageSize);
@@ -233,12 +229,12 @@
             var pageNumbers = [],
                 i;
 
-            for (i = 3; i >= 0; i--) {
-                if (pagination.page - i >= 0) pageNumbers.push(pagination.page - i);
+            for(i = 3; i >= 0; i--) {
+                if(pagination.page - i >= 0) pageNumbers.push(pagination.page - i);
             }
 
-            for (i = 1; i <= 3; i++) {
-                if (pagination.page + i < getTotalPages()) pageNumbers.push(pagination.page + i);
+            for(i = 1; i <= 3; i++) {
+                if(pagination.page + i < getTotalPages()) pageNumbers.push(pagination.page + i);
             }
 
             return pageNumbers;
@@ -269,9 +265,8 @@
          * @return {Boolean} true if page is valid, false otherwise
          */
         function isPageValid(pageNumber) {
-            if (!pagination.showErrors || !paginationService.itemValidator) {
-                return true;
-            }
+
+            if(!paginationService.itemValidator) return true;
 
             var valid = true;
             angular.forEach(paginationFactory.getPage(pagination.list, pageNumber, pagination.pageSize), function(item) {
