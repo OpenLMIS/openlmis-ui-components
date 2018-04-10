@@ -27,7 +27,7 @@ describe('OpenLMIS Invalid TR', function() {
     }));
 
     it('hides error messages until focus moves outside TR', function(){
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid"><input /></td></tr></table>');
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input/></td></tr><tr><td openlmis-invalid="force invalid"><input/></td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
@@ -44,7 +44,7 @@ describe('OpenLMIS Invalid TR', function() {
     });
 
     it('shows error messages when openlmis-form-submit is fired', function(){
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid">Example</td></tr></table>');
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input/></td></tr><tr><td openlmis-invalid="force invalid">Example</td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
@@ -55,7 +55,7 @@ describe('OpenLMIS Invalid TR', function() {
     });
 
     it('should emit event when showing errors', function() {
-        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input  /></td></tr><tr><td openlmis-invalid="force invalid"><input /></td></tr></table>');
+        var table = compileMarkup('<table><tr><td openlmis-invalid="force invalid"><input/></td></tr><tr><td openlmis-invalid="force invalid"><input/></td></tr></table>');
 
         var result;
         $rootScope.$on('openlmis.displayRowErrors', function() {
