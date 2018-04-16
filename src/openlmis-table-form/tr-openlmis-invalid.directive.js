@@ -43,6 +43,10 @@
         };
 
         function link(scope, element, attrs, ctrls) {
+            if (element.parents('[suppress-tr-openlmis-invalid]').length) {
+                return;
+            }
+
             var wasFocused = false,
                 openlmisInvalidCtrl = ctrls[0],
                 tr = element.parents('tr:first');
