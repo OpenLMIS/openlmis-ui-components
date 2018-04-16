@@ -53,6 +53,8 @@
             }, updateErrors);
             scope.$watchCollection(canShowErrors, updateErrors);
 
+            element.on('$destroy', clearErrors);
+
             /**
              * @ngdoc method
              * @methodOf openlmis-invalid.directive:openlmis-invalid
