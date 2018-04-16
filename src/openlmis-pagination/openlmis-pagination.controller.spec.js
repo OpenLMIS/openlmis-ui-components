@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('PaginationController', function() {
+describe('PaginationController', function() {
 
     var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory, paginationElementMock,
         containerMock, tableMock, openlmisTableFormControllerMock;
@@ -39,7 +39,6 @@ ddescribe('PaginationController', function() {
         containerMock = jasmine.createSpyObj('containerElement', ['find']);
         tableMock = jasmine.createSpyObj('tableElement', ['controller']);
         openlmisTableFormControllerMock = jasmine.createSpyObj('openlmisTableFormController', ['showsErrors']);
-
 
         spyOn(paginationService, 'isExternalPagination').andReturn(true);
         spyOn(paginationService, 'getPage').andReturn(0);
@@ -234,7 +233,7 @@ ddescribe('PaginationController', function() {
             expect(vm.isPageValid(2)).toBe(true);
         });
 
-        iit('should return false if item validator returns false', function() {
+        it('should return false if item validator returns false', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
             vm.page = 1;
