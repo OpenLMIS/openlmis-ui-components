@@ -13,10 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('PaginationController', function() {
+describe('PaginationController', function() {
 
-    var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory, paginationElementMock,
-        containerMock, tableMock, openlmisTableFormControllerMock;
+    var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory;
 
     beforeEach(function() {
 
@@ -35,12 +34,6 @@ ddescribe('PaginationController', function() {
             size: 2
         };
 
-        paginationElementMock = jasmine.createSpyObj('paginationElement', ['parents']);
-        containerMock = jasmine.createSpyObj('containerElement', ['find']);
-        tableMock = jasmine.createSpyObj('tableElement', ['controller']);
-        openlmisTableFormControllerMock = jasmine.createSpyObj('openlmisTableFormController', ['showsErrors']);
-
-
         spyOn(paginationService, 'isExternalPagination').andReturn(true);
         spyOn(paginationService, 'getPage').andReturn(0);
         spyOn(paginationService, 'getSize').andReturn(2);
@@ -49,17 +42,11 @@ ddescribe('PaginationController', function() {
 
         spyOn(paginationFactory, 'getPage').andReturn([1]);
 
-        paginationElementMock.parents.andReturn(containerMock);
-        containerMock.find.andReturn(tableMock);
-        tableMock.controller.andReturn(openlmisTableFormControllerMock);
-        openlmisTableFormControllerMock.showsErrors.andReturn(false);
-
         spyOn($state, 'go').andReturn();
 
         vm = $controller('PaginationController', {
             $scope: $rootScope.$new(),
-            $stateParams: stateParams,
-            $element: paginationElementMock
+            $stateParams: stateParams
         });
         vm.$onInit();
     });
@@ -234,10 +221,9 @@ ddescribe('PaginationController', function() {
             expect(vm.isPageValid(2)).toBe(true);
         });
 
-        iit('should return false if item validator returns false', function() {
+        it('should return false if item validator returns false', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            vm.page = 1;
             paginationService.itemValidator = function() {
                 return false;
             };
@@ -248,7 +234,6 @@ ddescribe('PaginationController', function() {
         it('should return false if item validator returns true', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            vm.page = 1;
             paginationService.itemValidator = function() {
                 return true;
             };

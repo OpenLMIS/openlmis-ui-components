@@ -28,11 +28,9 @@
         .module('openlmis-pagination')
         .controller('PaginationController', controller);
 
-    controller.$inject = [
-        'paginationService', '$state', '$stateParams', 'paginationFactory', '$scope', '$rootScope', '$element'
-    ];
+    controller.$inject = ['paginationService', '$state', '$stateParams', 'paginationFactory', '$scope'];
 
-    function controller(paginationService, $state, $stateParams, paginationFactory, $scope, $rootScope, $element) {
+    function controller(paginationService, $state, $stateParams, paginationFactory, $scope) {
 
         var pagination = this;
 
@@ -122,11 +120,6 @@
                 pagination.pagedList = paginationFactory.getPage(pagination.list, pagination.page, pagination.pageSize);
                 pagination.showingItems = pagination.pagedList.length;
             }
-
-            pagination.openlmisTableFormCtrl = $element
-                .parents('.openlmis-table-container')
-                .find('[openlmis-table-form]')
-                .controller('openlmisTableForm');
         }
 
         /**
@@ -272,11 +265,8 @@
          * @return {Boolean} true if page is valid, false otherwise
          */
         function isPageValid(pageNumber) {
-            if (!paginationService.itemValidator) return true;
 
-            if (pageNumber === pagination.page) {
-                return !pagination.openlmisTableFormCtrl.showsErrors();
-            }
+            if(!paginationService.itemValidator) return true;
 
             var valid = true;
             angular.forEach(paginationFactory.getPage(pagination.list, pageNumber, pagination.pageSize), function(item) {
