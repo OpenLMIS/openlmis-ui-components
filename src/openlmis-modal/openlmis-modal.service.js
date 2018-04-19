@@ -99,19 +99,19 @@
                 if (dialog.$$deferred) {
                     dialog.$$deferred.reject();
                 }
-                hideOnTimeout(dialog);
+                hideModalIfShown(dialog);
             };
         }
 
-        function hideOnTimeout(dialog) {
-            $timeout(function() {
-                if (dialog.$isShown) {
-                    dialog.$$hide();
-                    dialog.$$wasHidden = true;
-                } else if (!dialog.$$wasHidden) {
-                    hideOnTimeout(dialog);
-                }
-            });
+        function hideModalIfShown(dialog) {
+            if (dialog.$isShown) {
+                dialog.$$hide();
+                dialog.$$wasHidden = true;
+            } else if (!dialog.$$wasHidden) {
+                $timeout(function() {
+                    hideModalIfShown(dialog);
+                });
+            }
         }
 
     }
