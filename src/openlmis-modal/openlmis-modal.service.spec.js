@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmisModalService', function() {
+ddescribe('openlmisModalService', function() {
 
     var openlmisModalService, $rootScope, $modal, $timeout;
 
@@ -66,6 +66,21 @@ describe('openlmisModalService', function() {
             modal.$isShown = true;
             modal.hide();
 
+            expect(modal.$$hide).toHaveBeenCalled();
+        });
+
+        it('should hide modal after it was shown', function() {
+            var modal = openlmisModalService.createDialog({});
+
+            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, '$$hide');
+
+            modal.$isShown = false;
+            modal.hide();
+
+            expect(modal.$$hide).not.toHaveBeenCalled();
+
+            modal.$isShown = true;
             $timeout.flush();
 
             expect(modal.$$hide).toHaveBeenCalled();
