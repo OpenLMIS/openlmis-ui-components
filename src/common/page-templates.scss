@@ -1,0 +1,311 @@
+/*
+Page Templates
+
+OpenLMIS pages should be created in consistent way. This section presents the proper style of them.
+
+Styleguide 7.0
+*/
+
+/*
+Admin Screens
+
+OpenLMIS pages should be created in consistent way. This section presents the proper style of them.
+
+markup:
+<h2>Facilities</h2>
+<section class="openlmis-table-container">
+    <button id="add-facility" class="add" on-click="onOpen()">
+        Add Facility
+    </button>
+    <form ng-submit="vm.search()">
+        <fieldset class="form-group">
+            <label>Facility Name</label>
+            <input type="text" id="facilityName" ng-model="vm.facilityName"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Geographic Zone</label>
+            <select>
+                <option>Neno District</option>
+            </select>
+        </fieldset>
+        <input type="submit" value="Search"/>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Facility Name</th>
+                <th>Facility Code</th>
+                <th>Geographic Zone</th>
+                <th>Facility Type</th>
+                <th>Active</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Comfort Health Clinic</td>
+                <td>HC01</td>
+                <td>Neno District</td>
+                <td>Health Center</td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <button><a href="section-7.html#kssref-7-1-2">Edit</a></button>
+                </td>
+            </tr>
+            <tr>
+                <td>Kankao Health Facility</td>
+                <td>HF01</td>
+                <td>Zomba District</td>
+                <td>Health Center</td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <openlmis-pagination/>
+</section>
+
+Styleguide 7.1
+*/
+
+/*
+Admin Screens - Addition modal
+
+OpenLMIS pages should be created in consistent way. This section presents the proper style of them.
+
+markup:
+<h2>Facilities</h2>
+<section class="openlmis-table-container">
+    <button id="add-facility" class="add" on-click="onOpen()">
+        Add Facility
+    </button>
+    <form ng-submit="vm.search()">
+        <fieldset class="form-group">
+            <label>Facility Name</label>
+            <input type="text" id="facilityName" ng-model="vm.facilityName"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Geographic Zone</label>
+            <select>
+                <option>Neno District</option>
+            </select>
+        </fieldset>
+        <input type="submit" value="Search"/>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Facility Name</th>
+                <th>Facility Code</th>
+                <th>Geographic Zone</th>
+                <th>Facility Type</th>
+                <th>Active</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Comfort Health Clinic</td>
+                <td>HC01</td>
+                <td>Neno District</td>
+                <td>Health Center</td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Kankao Health Facility</td>
+                <td>HF01</td>
+                <td>Zomba District</td>
+                <td>Health Center</td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <button>Edit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <openlmis-pagination/>
+</section>
+<div id="dialog-fade" class="modal-backdrop am-fade" style="position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 1040;"></div>
+<div id="dialog" class="modal ng-scope top am-fade" role="dialog" aria-hidden="true" style="z-index: 1050; display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="ng-binding">Add Facility</h1>
+            </div>
+            <div class="modal-body">
+                <form id="add-facility-form" ng-submit="vm.save()" class="ng-pristine ng-invalid ng-invalid-required ng-valid-openlmis-invalid" novalidate="">
+                    <label for="facility-name" class="ng-binding is-required">Facility Name</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><input id="facility-name" type="text" ng-model="vm.facility.name" required="" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" name="vm.facility.name"></div>
+                    <label for="facility-code" class="ng-binding is-required">Facility Code</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><input id="facility-code" type="text" ng-model="vm.facility.code" required="" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" name="vm.facility.code"></div>
+                    <label for="facility-type" class="ng-binding is-required">Facility Type</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><select required="" class="ng-pristine ng-untouched select2-hidden-accessible ng-empty ng-invalid ng-invalid-required" name="vm.facility.type" tabindex="-1" aria-hidden="true"><option value="" disabled="" class="placeholder" selected="selected">Select an option</option><option>Warehouse</option><option>Health Center</option><option>District Hospital</option><option>District Store</option><option>Provincial Store</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-facility-type-container"><span class="select2-selection__rendered" id="select2-facility-type-container"></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                    <label for="operational-date" class="ng-binding">Operational Date</label>
+                    <openlmis-datepicker input-id="operational-date" value="vm.facility.goLiveDate" class="ng-isolate-scope">
+                        <div class="olmis-datepicker">
+                            <i class="olmis-datepicker-icon"></i>
+                            <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                                <input id="operational-date" type="text" class="openlmis-datepicker form-control ng-pristine ng-untouched ng-empty ng-valid-openlmis-invalid ng-valid ng-valid-required"
+                                    autocomplete="off" data-provide="datepicker" data-date-language="en" data-date-clear-btn="true" data-date-today-highlight="true" data-date-autoclose="true"
+                                    ng-model="dateString" ng-required="" openlmis-invalid="" name="dateString">
+                            </div>
+                        </div>
+                    </openlmis-datepicker>
+                    <p class="note ng-binding">This is used in reporting to record the date the facility becomes operational</p>
+                    <label class="checkbox ng-binding" for="active-facility">
+                		    <input id="active-facility" type="checkbox" ng-model="vm.facility.active" class="ng-pristine ng-untouched ng-valid ng-not-empty" name="vm.facility.active">
+                		    Active Facility
+                	  </label>
+                    <p class="note ng-binding">This determines whether or not the facility can submit requisitions or receive deliveries</p>
+                    <label class="checkbox ng-binding" for="enabled">
+                		    <input id="enabled" type="checkbox" ng-model="vm.facility.enabled" class="ng-pristine ng-untouched ng-valid ng-not-empty" name="vm.facility.enabled">
+                		    Enabled
+                	  </label>
+                    <p class="note ng-binding">Checked = The facility can operate</p>
+                    <p class="note ng-binding">Unchecked = The facility is permanently decommissioned</p>
+                    <label for="geographic-zone" class="ng-binding is-required">Geographic Zone</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <select required="" class="ng-pristine ng-untouched select2-hidden-accessible ng-empty ng-invalid ng-invalid-required" name="vm.facility.geographicZone" tabindex="-1" aria-hidden="true">
+                            <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                            <option>Malawi</option>
+                            <option>Central Region</option>
+                            <option>Northern Region</option>
+                            <option>Southern Region</option>
+                            <option>Dedza District</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-geographic-zone-container"><span class="select2-selection__rendered" id="select2-geographic-zone-container"></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                    <label for="description" class="ng-binding">Description</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <textarea id="description" ng-model="vm.facility.description" class="ng-pristine ng-untouched ng-valid ng-empty" name="vm.facility.description"></textarea>
+                    </div>
+                    <label for="facility-operator" class="ng-binding">Facility Operator</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <select class="ng-pristine ng-untouched ng-valid select2-hidden-accessible ng-empty" name="vm.facility.operator" tabindex="-1" aria-hidden="true">
+                            <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                            <option>Ministry of Health</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;">
+                            <span class="selection">
+                                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-facility-operator-container">
+                                    <span class="select2-selection__rendered" id="select2-facility-operator-container"></span>
+                                </span>
+                            </span>
+                            <span class="dropdown-wrapper" aria-hidden="true"></span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" on-click="myFunction()" class="ng-binding">Cancel</button>
+                <button class="primary ng-binding" form="add-facility-form" on-click="myFunction()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function myFunction() {
+    document.getElementById("dialog").style.display = "none";
+    document.getElementById("dialog-fade").style.display = "none";
+}
+</script>
+
+Styleguide 7.1.1
+*/
+
+/*
+Admin Screens - Edition page
+
+OpenLMIS pages should be created in consistent way. This section presents the proper style of them.
+
+markup:
+<h2>Facilities</h2>
+<form id="add-facility-form" ng-submit="vm.save()" class="ng-pristine ng-invalid ng-invalid-required ng-valid-openlmis-invalid" novalidate="">
+                    <label for="facility-name" class="ng-binding is-required">Facility Name</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><input id="facility-name" type="text" ng-model="vm.facility.name" required="" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" name="vm.facility.name"></div>
+                    <label for="facility-code" class="ng-binding is-required">Facility Code</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><input id="facility-code" type="text" ng-model="vm.facility.code" required="" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" name="vm.facility.code"></div>
+                    <label for="facility-type" class="ng-binding is-required">Facility Type</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid=""><select required="" class="ng-pristine ng-untouched select2-hidden-accessible ng-empty ng-invalid ng-invalid-required" name="vm.facility.type" tabindex="-1" aria-hidden="true"><option value="" disabled="" class="placeholder" selected="selected">Select an option</option><option>Warehouse</option><option>Health Center</option><option>District Hospital</option><option>District Store</option><option>Provincial Store</option></select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-facility-type-container"><span class="select2-selection__rendered" id="select2-facility-type-container"></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                    <label for="operational-date" class="ng-binding">Operational Date</label>
+                    <openlmis-datepicker input-id="operational-date" value="vm.facility.goLiveDate" class="ng-isolate-scope">
+                        <div class="olmis-datepicker">
+                            <i class="olmis-datepicker-icon"></i>
+                            <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                                <input id="operational-date" type="text" class="openlmis-datepicker form-control ng-pristine ng-untouched ng-empty ng-valid-openlmis-invalid ng-valid ng-valid-required"
+                                    autocomplete="off" data-provide="datepicker" data-date-language="en" data-date-clear-btn="true" data-date-today-highlight="true" data-date-autoclose="true"
+                                    ng-model="dateString" ng-required="" openlmis-invalid="" name="dateString">
+                            </div>
+                        </div>
+                    </openlmis-datepicker>
+                    <p class="note ng-binding">This is used in reporting to record the date the facility becomes operational</p>
+                    <label class="checkbox ng-binding" for="active-facility">
+                		    <input id="active-facility" type="checkbox" ng-model="vm.facility.active" class="ng-pristine ng-untouched ng-valid ng-not-empty" name="vm.facility.active">
+                		    Active Facility
+                	  </label>
+                    <p class="note ng-binding">This determines whether or not the facility can submit requisitions or receive deliveries</p>
+                    <label class="checkbox ng-binding" for="enabled">
+                		    <input id="enabled" type="checkbox" ng-model="vm.facility.enabled" class="ng-pristine ng-untouched ng-valid ng-not-empty" name="vm.facility.enabled">
+                		    Enabled
+                	  </label>
+                    <p class="note ng-binding">Checked = The facility can operate</p>
+                    <p class="note ng-binding">Unchecked = The facility is permanently decommissioned</p>
+                    <label for="geographic-zone" class="ng-binding is-required">Geographic Zone</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <select required="" class="ng-pristine ng-untouched select2-hidden-accessible ng-empty ng-invalid ng-invalid-required" name="vm.facility.geographicZone" tabindex="-1" aria-hidden="true">
+                            <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                            <option>Malawi</option>
+                            <option>Central Region</option>
+                            <option>Northern Region</option>
+                            <option>Southern Region</option>
+                            <option>Dedza District</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-geographic-zone-container"><span class="select2-selection__rendered" id="select2-geographic-zone-container"></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                    <label for="description" class="ng-binding">Description</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <textarea id="description" ng-model="vm.facility.description" class="ng-pristine ng-untouched ng-valid ng-empty" name="vm.facility.description"></textarea>
+                    </div>
+                    <label for="facility-operator" class="ng-binding">Facility Operator</label>
+                    <div class="input-control ng-scope" input-control="" openlmis-invalid="">
+                        <select class="ng-pristine ng-untouched ng-valid select2-hidden-accessible ng-empty" name="vm.facility.operator" tabindex="-1" aria-hidden="true">
+                            <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                            <option>Ministry of Health</option>
+                        </select>
+                        <span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;">
+                            <span class="selection">
+                                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-facility-operator-container">
+                                    <span class="select2-selection__rendered" id="select2-facility-operator-container"></span>
+                                </span>
+                            </span>
+                            <span class="dropdown-wrapper" aria-hidden="true"></span>
+                        </span>
+                    </div>
+                </form>
+
+Styleguide 7.1.2
+*/
