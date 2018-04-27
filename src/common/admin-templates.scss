@@ -1,0 +1,202 @@
+/*
+Admin resource list
+
+OpenLMIS Administrator pages should be created in consistent way. This section presents the proper style of page with resource list.
+
+markup:
+<h2>Facilities</h2>
+<section class="openlmis-table-container">
+    <button id="add" class="add" onclick="openModal()">
+        Add Facility
+    </button>
+    <form ng-submit="vm.search()">
+        <fieldset class="form-group">
+            <label>Facility Name</label>
+            <input type="text" id="facilityName" ng-model="vm.facilityName"/>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Geographic Zone</label>
+            <select>
+                <option>Neno District</option>
+            </select>
+        </fieldset>
+        <input type="submit" value="Search"/>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Facility Name</th>
+                <th>Facility Code</th>
+                <th>Geographic Zone</th>
+                <th>Facility Type</th>
+                <th>Active</th>
+                <th>Enabled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Comfort Health Clinic</td>
+                <td>HC01</td>
+                <td>Neno District</td>
+                <td>Health Center</td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <i class="icon-ok"></i>
+                </td>
+                <td>
+                    <a href="section-8.html">
+                        <button>Edit</button>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<div id="dialog-fade" class="modal-backdrop am-fade" style="position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 1040; display: none;"></div>
+<div id="dialog" class="modal ng-scope top am-fade" role="dialog" aria-hidden="true" style="z-index: 1050; display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Add Facility</h1>
+            </div>
+            <div class="modal-body">
+                <form id="add-facility-form" ng-submit="vm.save()">
+                    <label class="is-required">Facility Name</label>
+                    <input type="text" ng-model="vm.facility.name" required>
+                    <label class="is-required">Facility Code</label>
+                    <input type="text" ng-model="vm.facility.code" required>
+                    <label class="is-required">Facility Type</label>
+                    <select ng-model="vm.facility.type" required>
+                        <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                        <option>Warehouse</option>
+                        <option>Health Center</option>
+                        <option>District Hospital</option>
+                        <option>District Store</option>
+                        <option>Provincial Store</option>
+                    </select>
+                    <label>Operational Date</label>
+                    <openlmis-datepicker value="vm.facility.goLiveDate"></openlmis-datepicker>
+                    <p>This is used in reporting to record the date the facility becomes operational</p>
+                    <label class="checkbox">
+                		    <input id="active-facility" type="checkbox" ng-model="vm.facility.active">
+                		    Active Facility
+                	  </label>
+                    <p>This determines whether or not the facility can submit requisitions or receive deliveries</p>
+                    <label class="checkbox">
+                		    <input type="checkbox" ng-model="vm.facility.enabled">
+                		    Enabled
+                	  </label>
+                    <p>Checked = The facility can operate</p>
+                    <p>Unchecked = The facility is permanently decommissioned</p>
+                    <label class="is-required">Geographic Zone</label>
+                    <select required="" ng-model="vm.facility.geographicZone" required>
+                        <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                        <option>Malawi</option>
+                        <option>Central Region</option>
+                        <option>Northern Region</option>
+                        <option>Southern Region</option>
+                        <option>Dedza District</option>
+                    </select>
+                    <label>Description</label>
+                    <textarea ng-model="vm.facility.description"></textarea>
+                    <label>Facility Operator</label>
+                    <select>
+                        <option value="" disabled="" class="placeholder" selected="selected">Select an option</option>
+                        <option>Ministry of Health</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" onclick="closeModal()">Cancel</button>
+                <button class="primary" onclick="closeModal()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(){
+        var modal = document.getElementById("dialog");
+        var backdrop = document.getElementById("dialog-fade");
+        backdrop.style.display = "block";
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("dialog");
+        var backdrop = document.getElementById("dialog-fade");
+        modal.style.display = "none";
+        backdrop.style.display = "none";
+    }
+</script>
+
+Styleguide 7.0
+*/
+
+/*
+Admin resource edit
+
+OpenLMIS Administrator pages should be created in consistent way. This section presents the proper style of edition page.
+
+markup:
+<h2>Facilities</h2>
+<form id="facility-edit=form" name="facilityEdit">
+    <label for="facilityName">Facility Name</label>
+    <input class="form-control" id="facilityName" value="Comfort Health Clinic" required/>
+    <label for="facilityCode">Facility Code</label>
+    <input class="form-control" id="facilityCode" value="HC01" required/>
+    <label class="is-required" for="facilityType">Facility Type</label>
+    <select ng-model="vm.facility.type" required>
+        <option>Warehouse</option>
+        <option class="placeholder" selected="selected">Health Center</option>
+        <option>District Hospital</option>
+        <option>District Store</option>
+        <option>Provincial Store</option>
+    </select>
+    <label class="is-required">Operational Date</label>
+    <openlmis-datepicker input-id="operationalDate" value="vm.facilityDetails.goLiveDate" required></openlmis-datepicker>
+    <p>This is used in reporting to record the date the facility becomes operational</p>
+    <label class="is-required">Geographic Zone</label>
+    <select ng-model="vm.facility.geographicZone" required>
+        <option>Malawi</option>
+        <option>Central Region</option>
+        <option>Northern Region</option>
+        <option>Southern Region</option>
+        <option class="placeholder" selected="selected">Neno District</option>
+    </select>
+    <label for="facilityActive" class="checkbox">
+       <input id="facilityActive" type="checkbox" value="true"/>
+       Active Facility
+    </label>
+    <p>This determines whether or not the facility can submit requisitions or receive deliveries</p>
+    <label for="facilityEnabled" class="checkbox">
+       <input id="facilityEnabled" type="checkbox"/>
+       Enabled
+    </label>
+    <p>Checked = The facility can operate</p>
+    <p>Unchecked = The facility is permanently decommissioned</p>
+    <label>Description</label>
+    <textarea></textarea>
+    <label for="facilityOperator">Facility Operator</label>
+    <select>
+        <option>Ministry of Health</option>
+    </select>
+</form>
+<div class="openlmis-toolbar button-group ng-scope">
+    <div class="button-group primary">
+        <a href="section-7.html">
+            <button class="primary" type="submit">Save</button>
+        </a>
+    </div>
+    <div class="button-group">
+        <a href="section-7.html">
+            <button>Cancel</button>
+        </a>
+    </div>
+</div>
+
+Styleguide 8.0
+*/
