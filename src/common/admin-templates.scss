@@ -7,7 +7,7 @@ markup:
 <h2>Facilities</h2>
 <section class="openlmis-table-container">
     <button id="add" class="add" onclick="openModal()">
-        Add Facility
+    Add Facility
     </button>
     <form ng-submit="vm.search()">
         <fieldset class="form-group">
@@ -55,8 +55,8 @@ markup:
         </tbody>
     </table>
 </section>
-<div id="dialog-fade" class="modal-backdrop am-fade" style="position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; z-index: 1040; display: none;"></div>
-<div id="dialog" class="modal ng-scope top am-fade" role="dialog" aria-hidden="true" style="z-index: 1050; display: none;">
+<div class="modal-backdrop am-fade" style="display: none;"></div>
+<div class="modal am-fade" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,14 +81,14 @@ markup:
                     <openlmis-datepicker value="vm.facility.goLiveDate"></openlmis-datepicker>
                     <p>This is used in reporting to record the date the facility becomes operational</p>
                     <label class="checkbox">
-                		    <input id="active-facility" type="checkbox" ng-model="vm.facility.active">
-                		    Active Facility
-                	  </label>
+                        <input id="active-facility" type="checkbox" ng-model="vm.facility.active">
+                        Active Facility
+                    </label>
                     <p>This determines whether or not the facility can submit requisitions or receive deliveries</p>
                     <label class="checkbox">
-                		    <input type="checkbox" ng-model="vm.facility.enabled">
-                		    Enabled
-                	  </label>
+                        <input type="checkbox" ng-model="vm.facility.enabled">
+                        Enabled
+                    </label>
                     <p>Checked = The facility can operate</p>
                     <p>Unchecked = The facility is permanently decommissioned</p>
                     <label class="is-required">Geographic Zone</label>
@@ -119,15 +119,15 @@ markup:
 
 <script>
     function openModal(){
-        var modal = document.getElementById("dialog");
-        var backdrop = document.getElementById("dialog-fade");
+        var modal = document.getElementsByClassName("modal")[0];
+        var backdrop = document.getElementsByClassName("modal-backdrop")[0];
         backdrop.style.display = "block";
         modal.style.display = "block";
     }
 
     function closeModal() {
-        var modal = document.getElementById("dialog");
-        var backdrop = document.getElementById("dialog-fade");
+        var modal = document.getElementsByClassName("modal")[0];
+        var backdrop = document.getElementsByClassName("modal-backdrop")[0];
         modal.style.display = "none";
         backdrop.style.display = "none";
     }
