@@ -107,6 +107,19 @@ describe('OpenlmisTagsInputController', function() {
             expect(result).toEqual(['TestTagTwo', 'TestTagThree']);
         });
 
+        it('should return empty list if the list of available tags is undefined', function() {
+            $scope.availableTags = undefined;
+
+            var result;
+            tagsInputVm.filterAvailableTags()
+            .then(function(tags) {
+                result = tags;
+            });
+            $rootScope.$apply();
+
+            expect(result).toEqual([]);
+        });
+
     });
 
 });

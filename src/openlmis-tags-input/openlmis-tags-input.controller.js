@@ -75,12 +75,12 @@
          * @return {Promise}      the promise resolving to filtered list
          */
         function filterAvailableTags(query) {
-            if (!query) {
-                return $q.resolve($scope.availableTags);
-            }
-
             if (!$scope.availableTags) {
                 return $q.resolve([]);
+            }
+
+            if (!query) {
+                return $q.resolve($scope.availableTags);
             }
 
             return $q.resolve($scope.availableTags.filter(function(tag) {
