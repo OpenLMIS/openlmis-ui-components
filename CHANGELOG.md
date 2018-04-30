@@ -1,3 +1,9 @@
+5.4.0 / Work in Progress
+========================
+
+New functionality added in a backwards-compatible manner:
+* [OLMIS-4600:](https://openlmis.atlassian.net/browse/OLMIS-4600) Added input for managing tags
+
 5.3.0 / 2018-04-24
 ==================
 

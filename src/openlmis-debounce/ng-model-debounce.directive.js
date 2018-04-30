@@ -53,6 +53,10 @@
         function shouldSetDefaultDebounceOption(element) {
             var options = element.attr('ng-model-options');
 
+            if (element.parents('tags-input').length) {
+                return false;
+            }
+
             if (options && options.contains('debounce')) {
                 return false;
             }

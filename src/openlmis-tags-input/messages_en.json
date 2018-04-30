@@ -1,0 +1,4 @@
+{
+    "openlmisTagsInput.invalidTagsEntered": "Entered text is not a valid tag",
+    "openlmisTagsInput.duplicatedTag": "This tag is already added"
+}

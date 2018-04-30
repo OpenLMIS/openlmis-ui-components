@@ -14,16 +14,19 @@
  */
 
 describe('ng-model debounce directive', function() {
-    var $compile, scope, $rootScope, $timeout;
+    
+    var $compile, scope, $rootScope;
 
-    beforeEach(module('openlmis-debounce'));
+    beforeEach(function() {
+        module('openlmis-tags-input');
+        module('openlmis-debounce');
 
-    beforeEach(inject(function($injector) {
-        $compile = $injector.get('$compile');
-        scope = $injector.get('$rootScope').$new();
-        $rootScope = $injector.get('$rootScope');
-        $timeout = $injector.get('$timeout');
-    }));
+        inject(function($injector) {
+            $compile = $injector.get('$compile');
+            scope = $injector.get('$rootScope').$new();
+            $rootScope = $injector.get('$rootScope');
+        });
+    });
 
     it('should add 500 ms debounce to ng-model', function(){
         var element = getCompiledElement('<input type="text" ng-model="value">'),
@@ -75,7 +78,16 @@ describe('ng-model debounce directive', function() {
     });
 
     it('should not set debounce option for checkboxes', function() {
-        var input = getCompiledElement('<input type="checkbox" ng-model="value"></input'),
+        var input = getCompiledElement('<input type="checkbox" ng-model="value"></input>'),
+            ngModel = input.controller('ngModel');
+
+        $rootScope.$apply();
+
+        expect(ngModel.$options.$$options.debounce).toBeFalsy();
+    });
+
+    it('should not set debounce option for openlmisTagsInpuy', function() {
+        var input = getCompiledElement('<openlmis-tags-input></openlmis-tags-input>').find('input'),
             ngModel = input.controller('ngModel');
 
         $rootScope.$apply();

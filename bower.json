@@ -12,7 +12,8 @@
     "pouchdb": "^6.3.4",
     "perfect-scrollbar": "^0.8.1",
     "angular-material": "^1.1.5",
-    "resize-observer-polyfill": "^1.4.2"
+    "resize-observer-polyfill": "^1.4.2",
+    "ng-tags-input": "3.2.0"
   },
   "overrides": {
     "angular-material": {
