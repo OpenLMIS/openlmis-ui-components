@@ -56,7 +56,7 @@
 
                 scope.$watch(function() {
                     return tagsInputModelCtrl.$valid;
-                }, function(valid) {
+                }, function() {
                     errorMessage = getErrorMessage();
                     if (errorMessage) {
                         ctrl.setErrorMessage(errorMessage);
@@ -65,7 +65,7 @@
 
                 scope.$watch(function() {
                     return inputModelCtrl.$modelValue;
-                }, function(modelValue) {
+                }, function() {
                     ctrl.setErrorMessage(errorMessage);
                 });
 
