@@ -53,7 +53,7 @@ describe('openlmisTagsInput', function() {
 
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.invalidTagsEntered"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
     });
 
     it('should wait with clearing error message for input change', function() {
@@ -66,17 +66,17 @@ describe('openlmisTagsInput', function() {
         tagsInputModel.$valid = false;
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.invalidTagsEntered"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
 
         tagsInputModel.$valid = true;
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.invalidTagsEntered"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
 
         inputModel.$setViewValue('tagFiv');
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.invalidTagsEntered"]').length).toBe(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(0);
     });
 
     afterEach(function() {

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('OpenlmisTagsInputController', function() {
+ddescribe('OpenlmisTagsInputController', function() {
 
     var tagsInputVm, $controller, $rootScope, $scope, availableTags;
 
@@ -48,6 +48,24 @@ describe('OpenlmisTagsInputController', function() {
             tagsInputVm.$onInit();
 
             expect(tagsInputVm.allowNewTags).toBe(true);
+        });
+
+        it('should set allowNewTags flag if string is passed', function() {
+            $scope.allowNewTags = 'false';
+            expect(tagsInputVm.allowNewTags).toBeUndefined();
+
+            tagsInputVm.$onInit();
+
+            expect(tagsInputVm.allowNewTags).toBe(false);
+        });
+
+        it('should set allowNewTags flag to false if false is passed', function() {
+            $scope.allowNewTags = false;
+            expect(tagsInputVm.allowNewTags).toBeUndefined();
+
+            tagsInputVm.$onInit();
+
+            expect(tagsInputVm.allowNewTags).toBe(false);
         });
 
     });

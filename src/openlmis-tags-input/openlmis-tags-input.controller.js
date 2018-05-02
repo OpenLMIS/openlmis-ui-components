@@ -45,7 +45,7 @@
          * Initialization method of the OpenlmisTagsInputController.
          */
         function onInit() {
-            tagsInputVm.allowNewTags = $scope.allowNewTags !== false;
+            tagsInputVm.allowNewTags = $scope.allowNewTags !== false && $scope.allowNewTags !== 'false';
         }
 
         /**

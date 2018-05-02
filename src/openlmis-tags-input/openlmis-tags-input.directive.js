@@ -20,9 +20,17 @@
     /**
      * @ngdoc directive
      * @name openlmis-tags-input.openlmisTagsInput
+     * @restrict E
      *
      * @description
      * Directive providing a method for adding and/or selecting tags.
+     * 
+     * @example 
+     * To add the tag selection component simply include the following code in your HTML file:
+     * ```
+     * <openlmis-tags-input ng-model="modelVar" available-tags="availableTags" allow-new-tags="true">
+     * </openlmis-tags-input>
+     * ```
      */
     angular
         .module('openlmis-tags-input')
@@ -83,7 +91,7 @@
                         return 'openlmisTagsInput.duplicatedTag';
                     }
 
-                    return 'openlmisTagsInput.invalidTagsEntered';
+                    return 'openlmisTagsInput.nonExistingTag';
                 }
 
                 function isDuplicate(tag) {
