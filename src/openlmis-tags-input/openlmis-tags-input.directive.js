@@ -49,7 +49,7 @@
             scope: {
                 ngModel: '=',
                 availableTags: '=',
-                allowNewTags: '='
+                allowNewTags: '@'
             }
         };
         return openlmisTagsInputDirective;

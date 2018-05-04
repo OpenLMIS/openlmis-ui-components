@@ -39,7 +39,7 @@ describe('openlmisTagsInput', function() {
 
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.duplicatedTag"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.duplicatedTag"]').length).toBe(1);
     });
 
     it('should set error if tag is not on the list of available tags', function() {
@@ -53,7 +53,7 @@ describe('openlmisTagsInput', function() {
 
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
     });
 
     it('should wait with clearing error message for input change', function() {
@@ -66,12 +66,12 @@ describe('openlmisTagsInput', function() {
         tagsInputModel.$valid = false;
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
 
         tagsInputModel.$valid = true;
         $rootScope.$apply();
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBeGreaterThan(0);
+        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
 
         inputModel.$setViewValue('tagFiv');
         $rootScope.$apply();

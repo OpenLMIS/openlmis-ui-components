@@ -40,36 +40,6 @@ describe('OpenlmisTagsInputController', function() {
         });
     });
 
-    describe('$onInit', function() {
-
-        it('should set allowNewTags flag', function() {
-            expect(tagsInputVm.allowNewTags).toBeUndefined();
-
-            tagsInputVm.$onInit();
-
-            expect(tagsInputVm.allowNewTags).toBe(true);
-        });
-
-        it('should set allowNewTags flag if string is passed', function() {
-            $scope.allowNewTags = 'false';
-            expect(tagsInputVm.allowNewTags).toBeUndefined();
-
-            tagsInputVm.$onInit();
-
-            expect(tagsInputVm.allowNewTags).toBe(false);
-        });
-
-        it('should set allowNewTags flag to false if false is passed', function() {
-            $scope.allowNewTags = false;
-            expect(tagsInputVm.allowNewTags).toBeUndefined();
-
-            tagsInputVm.$onInit();
-
-            expect(tagsInputVm.allowNewTags).toBe(false);
-        });
-
-    });
-
     describe('setErrorMessage', function() {
 
         it('should set message', function() {

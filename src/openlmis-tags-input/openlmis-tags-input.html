@@ -1,17 +1,9 @@
-<div class="input-control" openlmis-invalid="{{tagsInputVm.errorMessage | message}}" ng-show="tagsInputVm.allowNewTags" input-control>
-    <tags-input
-        ng-model="ngModel"
-        use-strings="true"
-        replace-spaces-with-dashes="false">
-            <auto-complete source="tagsInputVm.filterAvailableTags($query)"></auto-complete>
-    </tags-input>
-</div>
-<div class="input-control" openlmis-invalid="{{tagsInputVm.errorMessage | message}}" ng-show="!tagsInputVm.allowNewTags" input-control>
+<div class="input-control" openlmis-invalid="{{tagsInputVm.errorMessage | message}}" input-control>
     <tags-input
         ng-model="ngModel"
         use-strings="true"
         replace-spaces-with-dashes="false"
-        add-from-autocomplete-only="true">
+        add-from-autocomplete-only="{{allowNewTags === 'false'}}">
             <auto-complete source="tagsInputVm.filterAvailableTags($query)"></auto-complete>
     </tags-input>
 </div>

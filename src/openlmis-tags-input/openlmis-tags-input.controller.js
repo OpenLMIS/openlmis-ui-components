@@ -32,21 +32,8 @@
     function OpenlmisTagsInputController($scope, $q) {
         var tagsInputVm = this;
 
-        tagsInputVm.$onInit = onInit;
         tagsInputVm.setErrorMessage = setErrorMessage;
         tagsInputVm.filterAvailableTags = filterAvailableTags;
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-tags-input.controller:OpenlmisTagsInputController
-         * @name $onInit
-         *
-         * @description
-         * Initialization method of the OpenlmisTagsInputController.
-         */
-        function onInit() {
-            tagsInputVm.allowNewTags = $scope.allowNewTags !== false && $scope.allowNewTags !== 'false';
-        }
 
         /**
          * @ngdoc method
