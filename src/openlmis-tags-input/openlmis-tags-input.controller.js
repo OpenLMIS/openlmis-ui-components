@@ -20,6 +20,7 @@
     /**
      * @ngdoc controller
      * @name openlmis-tags-input.controller:OpenlmisTagsInputController
+     *
      * @description
      * Controller responsible for managing openlmisTagInput directive.
      */
