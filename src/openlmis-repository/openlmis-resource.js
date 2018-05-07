@@ -210,7 +210,7 @@
         }
 
         function isPaginated(config) {
-            return !config || config.paginated != false;
+            return !config || config.paginated || config.paginated === undefined;
         }
 
     }
