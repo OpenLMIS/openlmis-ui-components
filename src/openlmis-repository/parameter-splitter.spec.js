@@ -198,12 +198,12 @@ describe('ParameterSplitter', function() {
             });
         });
 
-        it('should throw exception if params are undefined', function() {
+        it('should return undefined as list if params are not given', function() {
             prepareSuite();
 
-            expect(function() {
-                new ParameterSplitter().split(uri);
-            }).toThrow();
+            var result = new ParameterSplitter().split(uri, undefined);
+
+            expect(result).toEqual([undefined]);
         });
     
     });

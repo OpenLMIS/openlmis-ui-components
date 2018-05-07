@@ -156,6 +156,23 @@ describe('OpenlmisResource', function() {
             expect(result.size).toEqual(page.size);
         });
 
+        it('should return response if params are not defined', function() {
+            parameterSplitterMock.split.andReturn([undefined]);
+
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL))
+                .respond(200, page);
+
+            var result;
+            openlmisResource.query()
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+        });
+
     });
 
     describe('query for list', function() {

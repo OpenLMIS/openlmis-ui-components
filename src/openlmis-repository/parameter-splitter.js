@@ -61,7 +61,7 @@
         }
 
         function shouldSplit(uri, params) {
-            return calculateUriLength(uri, params) > MAX_URI_LENGTH && canBeSplit(params);
+            return canBeSplit(params) && calculateUriLength(uri, params) > MAX_URI_LENGTH;
         }
 
         function calculateUriLength(uri, params) {
@@ -81,6 +81,10 @@
         }
 
         function canBeSplit(params) {
+            if (!params) {
+                return false;
+            }
+
             var canBeSplit;
             Object.keys(params).forEach(function(param) {
                 if (getParamValues(params, param).length > 1) {
