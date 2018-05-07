@@ -3,6 +3,7 @@
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-4600:](https://openlmis.atlassian.net/browse/OLMIS-4600) Added input for managing tags
+* [OLMIS-4623:](https://openlmis.atlassian.net/browse/OLMIS-4623) Added support for non-paginated endpoints to OpenlmisResource
 
 5.3.0 / 2018-04-24
 ==================

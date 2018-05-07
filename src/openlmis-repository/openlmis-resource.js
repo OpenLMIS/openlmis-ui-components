@@ -37,10 +37,27 @@
         OpenlmisResource.prototype.update = update;
         OpenlmisResource.prototype.create = create;
         OpenlmisResource.prototype.delete = deleteObject;
+        OpenlmisResource.prototype.throwMethodNotSupported = throwMethodNotSupported;
 
         return OpenlmisResource;
 
-        function OpenlmisResource(uri) {
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name OpenlmisResource
+         * @constructor
+         *
+         * @description
+         * Creates an instance of the OpenlmisResource class.
+         *
+         * Configuration options:
+         * - paginated - flag defining whether response returned by the query request is paginated; defaults to true
+         *
+         * @param {String} uri    the URI pointing to the resource
+         * @param {Object} config the optional configuration object, modifies the default behavior making this class
+         *                        more flexible
+         */
+        function OpenlmisResource(uri, config) {
             this.uri = uri;
             var resourceUrl = uri;
 
@@ -53,7 +70,7 @@
             this.resource = $resource(resourceUrl + '/:id', {}, {
                 query: {
                     url: resourceUrl,
-                    isArray: false
+                    isArray: !isPaginated(config)
                 },
                 update: {
                     method: 'PUT'
@@ -104,6 +121,15 @@
 
             return $q.all(requests)
             .then(function(responses) {
+                if (responses[0] instanceof Array) {
+                    return responses.reduce(function(left, right) {
+                        right.forEach(function(item) {
+                            left.push(item);
+                        });
+                        return left;
+                    });
+                }
+
                 return responses.reduce(function(left, right) {
                     left.content = left.content.concat(right.content);
                     left.numberOfElements += right.numberOfElements;
@@ -168,6 +194,23 @@
                 }).$promise;
             }
             return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name throwMethodNotSupported
+         *
+         * @description
+         * Throws 'Method not supported' exception. Useful for overriding methods which are not supported by specific
+         * endpoint.
+         */
+        function throwMethodNotSupported() {
+            throw 'Method not supported';
+        }
+
+        function isPaginated(config) {
+            return !config || config.paginated != false;
         }
 
     }

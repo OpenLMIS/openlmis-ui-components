@@ -68,19 +68,12 @@ describe('OpenlmisResource', function() {
 
     });
 
-    describe('query', function() {
+    describe('query for page', function() {
 
         var params, pageTwo;
 
         beforeEach(function() {
             openlmisResource = new OpenlmisResource(BASE_URL);
-
-            params = {
-                some: [
-                    'paramOne',
-                    'paramTwo'
-                ]
-            };
 
             parameterSplitterMock.split.andReturn([{
                 some: ['paramOne']
@@ -161,6 +154,96 @@ describe('OpenlmisResource', function() {
             expect(result.numberOfElements).toEqual(4);
             expect(result.totalElements).toEqual(4);
             expect(result.size).toEqual(page.size);
+        });
+
+    });
+
+    describe('query for list', function() {
+
+        var params, response, responseTwo;
+
+        beforeEach(function() {
+            openlmisResource = new OpenlmisResource(BASE_URL, {
+                paginated: false
+            });
+
+            parameterSplitterMock.split.andReturn([{
+                some: ['paramOne']
+            }, {
+                some: ['paramTwo']
+            }]);
+
+            response = [{
+                id: 'obj-one'
+            }, {
+                id: 'obj-two'
+            }];
+
+            responseTwo = [{
+                id: 'obj-three'
+            }, {
+                id: 'obj-four'
+            }];
+        });
+
+        it('should return response if only one request was sent', function() {
+            var params = {
+                some: 'param'
+            };
+
+            parameterSplitterMock.split.andReturn([params]);
+
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL + '?some=param'))
+                .respond(200, response);
+
+            var result;
+            openlmisResource.query(params)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+        });
+
+        it('should reject if any of the requests fails', function() {
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
+                .respond(200, response);
+
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
+                .respond(500);
+
+            var rejected;
+            openlmisResource.query(params)
+            .catch(function() {
+                rejected = true;
+            });
+            $httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should return merged list if multiple requests were sent', function() {
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
+                .respond(200, response);
+
+            $httpBackend
+                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
+                .respond(200, responseTwo);
+
+            var result;
+            openlmisResource.query(params)
+            .then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+
+            expect(angular.toJson(result))
+                .toEqual(angular.toJson([response[0], response[1], responseTwo[0], responseTwo[1]]));
         });
 
     });
@@ -381,6 +464,16 @@ describe('OpenlmisResource', function() {
             $rootScope.$apply();
 
             expect(rejected).toBe(true);
+        });
+
+    });
+
+    describe('throwMethodNotSupported', function() {
+
+        it('should throw error', function() {
+            expect(function() {
+                openlmisResource.throwMethodNotSupported();
+            }).toThrow('Method not supported');
         });
 
     });
