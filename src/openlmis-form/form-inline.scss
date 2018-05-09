@@ -71,3 +71,7 @@ form.form-inline,
 		}
 	}
 }
+
+.form-inline + .form-inline {
+    padding-top: 1em;
+}
