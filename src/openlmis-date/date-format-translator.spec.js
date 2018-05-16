@@ -13,47 +13,47 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('DatepickerFormatTranslator', function() {
+describe('DateFormatTranslator', function() {
 
-    var datepickerFormatTranslator, DatepickerFormatTranslator;
+    var dateFormatTranslator, DateFormatTranslator;
 
     beforeEach(function() {
         module('openlmis-form');
 
         inject(function($injector) {
-            DatepickerFormatTranslator = $injector.get('DatepickerFormatTranslator');
+            DateFormatTranslator = $injector.get('DateFormatTranslator');
         });
 
-        datepickerFormatTranslator = new DatepickerFormatTranslator();
+        dateFormatTranslator = new DateFormatTranslator();
     });
 
-    describe('translate', function() {
-    
+    describe('translateBootstrapToAngularDate', function() {
+
         it('should replace m with M', function() {
-            expect(datepickerFormatTranslator.translate('dd/m/yyyy'))
+            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/m/yyyy'))
                 .toEqual('dd/M/yyyy');
         });
 
         it('should replace mm with MM', function() {
-            expect(datepickerFormatTranslator.translate('dd/mm/yyyy'))
+            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/mm/yyyy'))
                 .toEqual('dd/MM/yyyy');
         });
 
         it('should replace M with MMM', function() {
-            expect(datepickerFormatTranslator.translate('dd/M/yyyy'))
+            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/M/yyyy'))
                 .toEqual('dd/MMM/yyyy');
         });
 
         it('should replace MM with MMMM', function() {
-            expect(datepickerFormatTranslator.translate('dd/MM/yyyy'))
+            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/MM/yyyy'))
                 .toEqual('dd/MMMM/yyyy');
         });
 
         it('should ignore non-M properties', function() {
-            expect(datepickerFormatTranslator.translate('dd/yyyy'))
+            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/yyyy'))
                 .toEqual('dd/yyyy');
         });
-    
+
     });
 
 });

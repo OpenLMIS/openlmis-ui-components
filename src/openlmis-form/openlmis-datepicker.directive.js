@@ -50,11 +50,12 @@
         .directive('openlmisDatepicker', datepicker);
 
     datepicker.$inject = [
-        '$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils', 'DatepickerFormatTranslator'
+        '$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils', 'DateFormatTranslator',
+        'DEFAULT_DATE_FORMAT'
     ];
 
     function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils,
-        DatepickerFormatTranslator) {
+        DateFormatTranslator, DEFAULT_DATE_FORMAT) {
         return {
             restrict: 'E',
             scope: {
@@ -74,6 +75,10 @@
         };
 
         function link(scope, element, attrs, modelCtrl) {
+            var dateFormat = scope.dateFormat || DEFAULT_DATE_FORMAT,
+                dateFormatTranslator = new DateFormatTranslator(),
+                momentDateFormat = dateFormatTranslator.translateAngularDateToMoment(dateFormat);
+
             setupFormatting(scope);
 
             var input = element.find('input'),
@@ -83,16 +88,7 @@
                 });
 
             ngModelCtrl.$validators.invalidDate = function(value) {
-                if (!value) {
-                    return true;
-                }
-
-                if (!/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/.test(value)) {
-                    return false;
-                }
-
-                var bits = value.split('/');
-                return Date.parse(bits[1] + '/' + bits[0] + '/' + bits[2]);
+                return !value || moment(value, momentDateFormat).isValid();
             };
 
             if (scope.value) {
@@ -134,8 +130,6 @@
             element.on('$destroy', cleanUp);
             scope.$on('destroy', cleanUp);
 
-            var dateFormatTranslator = new DatepickerFormatTranslator();
-
             watchDate('minDate', 'setStartDate', -Infinity);
             watchDate('maxDate', 'setEndDate', Infinity);
 
@@ -146,7 +140,7 @@
                     if (newDate) {
                         formattedDate = $filter('date')(
                             new Date(newDate),
-                            dateFormatTranslator.translate(scope.dateFormat)
+                            dateFormatTranslator.translateBootstrapToAngularDate(scope.dateFormat)
                         );
                     }
 
