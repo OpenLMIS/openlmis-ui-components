@@ -14,6 +14,7 @@
     "openlmisForm.min": "The number is too small",
     "openlmisForm.max": "The number is too large",
     "openlmisForm.number": "This field must be a number",
+    "openlmisForm.invalidDate": "This text is not a valid date",
 
     "openlmisForm.datepicker.today": "Today",
     "openlmisForm.datepicker.clear": "Clear",

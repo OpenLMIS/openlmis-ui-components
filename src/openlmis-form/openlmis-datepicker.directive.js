@@ -18,33 +18,33 @@
     'use strict';
 
     /**
-       * @ngdoc directive
-       * @restrict E
-       * @name openlmis-form.directive:openlmisDatepicker
-       *
-       * @description
-       * Directive allows to add date picker input.
-       *
-       * @example
-       * To make this directive work only 'value' attribute is required, however there are more attributes to use.
-       * In order to make datepicker input use id you can add 'input-id' attribute.
-       * The 'change-method' attribute takes function that will be executed after datepicker value change.
-       * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
-       * ```
-       * <openlmis-datepicker
-       * 	   value="startDate"
-       *     input-id="datepicker-id"
-       *     change-method="afterChange()"
-       *     min-date="10/05/2016"
-       *     max-date="endDate"
-       *     disabled="endDate === null">
-       * </openlmis-datepicker>
-       *
-       * <openlmis-datepicker
-       * 	   value="endDate">
-       * </openlmis-datepicker>
-       * ```
-       */
+     * @ngdoc directive
+     * @restrict E
+     * @name openlmis-form.directive:openlmisDatepicker
+     *
+     * @description
+     * Directive allows to add date picker input.
+     *
+     * @example
+     * To make this directive work only 'value' attribute is required, however there are more attributes to use.
+     * In order to make datepicker input use id you can add 'input-id' attribute.
+     * The 'change-method' attribute takes function that will be executed after datepicker value change.
+     * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
+     * ```
+     * <openlmis-datepicker
+     * 	   value="startDate"
+     *     input-id="datepicker-id"
+     *     change-method="afterChange()"
+     *     min-date="10/05/2016"
+     *     max-date="endDate"
+     *     disabled="endDate === null">
+     * </openlmis-datepicker>
+     *
+     * <openlmis-datepicker
+     * 	   value="endDate">
+     * </openlmis-datepicker>
+     * ```
+     */
     angular
         .module('openlmis-form')
         .directive('openlmisDatepicker', datepicker);
@@ -54,7 +54,7 @@
     ];
 
     function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils,
-                        DatepickerFormatTranslator) {
+        DatepickerFormatTranslator) {
         return {
             restrict: 'E',
             scope: {
@@ -76,18 +76,33 @@
         function link(scope, element, attrs, modelCtrl) {
             setupFormatting(scope);
 
+            var input = element.find('input'),
+                ngModelCtrl = input.controller('ngModel'),
+                datepicker = input.datepicker({
+                    format: scope.dateFormat
+                });
+
+            ngModelCtrl.$validators.invalidDate = function(value) {
+                if (!value) {
+                    return true;
+                }
+
+                if (!/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/.test(value)) {
+                    return false;
+                }
+
+                var bits = value.split('/');
+                return Date.parse(bits[1] + '/' + bits[0] + '/' + bits[2]);
+            };
+
             if (scope.value) {
                 // Populate initial value, if passed to directive
                 scope.value = $filter('isoDate')(scope.value);
                 scope.dateString = getFilteredDate(scope.value);
             }
 
-            var datepicker = element.find('input').datepicker({
-                format: scope.dateFormat
-            });
-
             datepicker.on('changeDate', function(event) {
-                var date = element.find('input').datepicker('getDate');
+                var date = input.datepicker('getDate');
 
                 scope.value = date ? $filter('isoDate')(date) : undefined;
 
@@ -119,8 +134,7 @@
             element.on('$destroy', cleanUp);
             scope.$on('destroy', cleanUp);
 
-            var input = element.find('input'),
-                dateFormatTranslator = new DatepickerFormatTranslator();
+            var dateFormatTranslator = new DatepickerFormatTranslator();
 
             watchDate('minDate', 'setStartDate', -Infinity);
             watchDate('maxDate', 'setEndDate', Infinity);

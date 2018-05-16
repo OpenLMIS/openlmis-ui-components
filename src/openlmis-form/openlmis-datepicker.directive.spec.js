@@ -183,6 +183,97 @@ describe('Datepicker directive', function() {
         expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
     });
 
+    it('should show error if text is not a valid date', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('some text, definitely not date').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(1);
+    });
+
+    it('should show error if day is 0', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('00/01/0000').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(1);
+    });
+
+    it('should show error if month is 0', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('01/00/0000').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(1);
+    });
+
+    it('should show error if day is over 31', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('32/01/0000').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(1);
+    });
+
+    it('should show error if month is over 12', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('31/13/0000').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(1);
+    });
+
+    it('should not show error if date is undefined', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+    });
+
+    it('should not show error for valid date', function() {
+        scope = $rootScope.$new();
+
+        element = compileElement();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+
+        element.find('input').val('31/12/2018').trigger('input');
+        scope.$apply();
+
+        expect(element.find('li:contains("invalidDate")').length).toBe(0);
+    });
+
     afterEach(function() {
         expect(console.error).not.toHaveBeenCalled();
     });
