@@ -5,6 +5,9 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-4600:](https://openlmis.atlassian.net/browse/OLMIS-4600) Added input for managing tags
 * [OLMIS-4623:](https://openlmis.atlassian.net/browse/OLMIS-4623) Added support for non-paginated endpoints to OpenlmisResource
 
+Improvements:
+* [OLMIS-4744](https://openlmis.atlassian.net/browse/OLMIS-4744): Added Jenkinsfile.
+
 Bug fixes:
 * [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component
 
