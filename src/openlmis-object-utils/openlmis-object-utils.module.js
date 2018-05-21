@@ -18,14 +18,11 @@
     'use strict';
 
     /**
-     * @module openlmis-object
+     * @module openlmis-object-utils
      *
      * @description
      * Provides the ObjectMapper.
      */
-    angular.module('openlmis-object', [
-        'openlmis-modal',
-        'ui.router'
-    ]);
+    angular.module('openlmis-object-utils', []);
 
 })();

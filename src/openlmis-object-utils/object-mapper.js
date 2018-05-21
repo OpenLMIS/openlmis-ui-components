@@ -19,13 +19,13 @@
 
     /**
      * @ngdoc service
-     * @name openlmis-object.ObjectMapper
+     * @name openlmis-object-utils.ObjectMapper
      *
      * @description
      * Responsible for preparing a map with object id as a key and name as a value.
      */
     angular
-        .module('openlmis-object')
+        .module('openlmis-object-utils')
         .factory('ObjectMapper', ObjectMapper);
 
     ObjectMapper.inject = ['$q'];
@@ -38,7 +38,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-object.ObjectMapper
+         * @methodOf openlmis-object-utils.ObjectMapper
          * @name ObjectMapper
          * @constructor
          *
@@ -49,7 +49,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-object.ObjectMapper
+         * @methodOf openlmis-object-utils.ObjectMapper
          * @name get
          *
          * @description

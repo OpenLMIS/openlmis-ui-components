@@ -18,7 +18,7 @@ describe('ObjectMapper', function() {
     var ObjectMapper, $rootScope, objectMapper, objectList;
 
     beforeEach(function() {
-        module('openlmis-object');
+        module('openlmis-object-utils');
 
         inject(function($injector) {
             ObjectMapper = $injector.get('ObjectMapper');
