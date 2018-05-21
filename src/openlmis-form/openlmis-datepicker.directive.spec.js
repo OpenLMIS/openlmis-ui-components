@@ -22,7 +22,7 @@ describe('Datepicker directive', function() {
     describe('for default date format', function() {
 
         beforeEach(function() {
-            initSuite('dd/MM/yyyy');
+            initSuite('dd/mm/yyyy');
         });
 
         it('should apply template', function() {
@@ -43,9 +43,6 @@ describe('Datepicker directive', function() {
         });
 
         it('should remove timezone from selected date', function() {
-            Date.prototype.getTimezoneOffset = function() {
-                return 120;
-            }
             scope.startDate = new Date('2017-01-31T23:00:00.000Z');
 
             var elem = angular.element(element);
@@ -258,12 +255,44 @@ describe('Datepicker directive', function() {
             expect(element.find('li:contains("invalidDate")').length).toBe(0);
         });
 
+        it('should update scope.value if date was entered with input', function() {
+            scope = $rootScope.$new();
+
+            element = compileElement();
+
+            element.find('input').val('31/12/2018').trigger('input');
+            scope.$apply();
+
+            expect(scope.date).toEqual('2018-12-31');
+        });
+
+        it('should update scope.value if input was cleared', function() {
+            scope = $rootScope.$new();
+
+            element = compileElement();
+
+            element.find('input').val('31/12/2018').trigger('input');
+            scope.$apply();
+
+            expect(scope.date).toEqual('2018-12-31');
+        });
+
+        it('should set initial value if it was given', function() {
+            scope = $rootScope.$new();
+
+            scope.date = '1977-05-25';
+
+            element = compileElement();
+
+            expect(element.find('input').val()).toEqual('25/05/1977');
+        });
+
     });
 
     describe('with custom date format', function() {
 
         it('should show errors if invalid date is given', function() {
-            initSuite('MM/yyyy/dd');
+            initSuite('mm/yyyy/dd');
 
             scope = $rootScope.$new();
 
@@ -297,7 +326,7 @@ describe('Datepicker directive', function() {
     function initSuite(dateFormat) {
         module('openlmis-templates');
         module('openlmis-form', function($provide) {
-            $provide.constant('DEFAULT_DATE_FORMAT', dateFormat);
+            $provide.constant('DEFAULT_DATEPICKER_FORMAT', dateFormat);
         });
 
         inject(function($injector) {
@@ -319,6 +348,8 @@ describe('Datepicker directive', function() {
 
     afterEach(function() {
         expect(console.error).not.toHaveBeenCalled();
+        scope.$destroy();
+        element = undefined;
     });
 
     function getInputElement() {
@@ -327,7 +358,7 @@ describe('Datepicker directive', function() {
 
     function compileElement() {
         var element = $compile(
-            '<openlmis-datepicker input-id="startDate" value="startDate" min-date="startDate"' +
+            '<openlmis-datepicker input-id="startDate" value="date" min-date="startDate"' +
                 'max-date="endDate" disabled="isDisabled">' +
             '</openlmis-datepicker>'
         )(scope);

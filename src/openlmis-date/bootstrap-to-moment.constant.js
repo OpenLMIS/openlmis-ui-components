@@ -19,25 +19,20 @@
 
     /**
      * @ngdoc object
-     * @name openlmis-date.ANGULAR_DATE_TO_MOMENT
+     * @name openlmis-date.BOOTSTRAP_TO_MOMENT
      *
      * @description
      * Translation map from translating from AngularJS Date Filter to moment.js.
      */
     angular
         .module('openlmis-date')
-        .constant('ANGULAR_DATE_TO_MOMENT', {
+        .constant('BOOTSTRAP_TO_MOMENT', {
             yyyy: 'YYYY',
             yy: 'YY',
             dd: 'DD',
             d: 'D',
-            EEEE: 'dddd',
-            EEE: 'ddd',
-            sss: 'SSS',
-            a: 'A',
-            Z: 'ZZ',
-            ww: 'WW',
-            w: 'W'
+            mm: 'MM',
+            m: 'M'
         });
 
 })();

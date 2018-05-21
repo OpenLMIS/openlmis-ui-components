@@ -38,12 +38,12 @@
         .module('openlmis-date')
         .factory('DateFormatTranslator', DateFormatTranslator);
 
-    DateFormatTranslator.$inject = ['ANGULAR_DATE_TO_MOMENT', 'BOOTSTRAP_TO_ANGULAR_DATE'];
+    DateFormatTranslator.$inject = ['BOOTSTRAP_TO_MOMENT', 'BOOTSTRAP_TO_ANGULAR_DATE'];
 
-    function DateFormatTranslator(ANGULAR_DATE_TO_MOMENT, BOOTSTRAP_TO_ANGULAR_DATE) {
+    function DateFormatTranslator(BOOTSTRAP_TO_MOMENT, BOOTSTRAP_TO_ANGULAR_DATE) {
 
         DateFormatTranslator.prototype.translateBootstrapToAngularDate = translateBootstrapToAngularDate;
-        DateFormatTranslator.prototype.translateAngularDateToMoment = translateAngularDateToMoment;
+        DateFormatTranslator.prototype.translateBootstrapToMoment = translateBootstrapToMoment;
 
         return DateFormatTranslator;
 
@@ -67,7 +67,7 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-date.DateFormatTranslator
-         * @name translateAngularDateToMoment
+         * @name translateBootstrapToMoment
          *
          * @description
          * Translates the provided AngularJS date filter format string into a moment.js friendly one.
@@ -75,8 +75,8 @@
          * @param  {String} angularDateFormat the AngularJS date filter format string
          * @return {String}                   the moment.js friendly date format string
          */
-        function translateAngularDateToMoment(angularDateFormat) {
-            return translate(angularDateFormat, ANGULAR_DATE_TO_MOMENT);
+        function translateBootstrapToMoment(angularDateFormat) {
+            return translate(angularDateFormat, BOOTSTRAP_TO_MOMENT);
         }
 
         function translate(dateFormat, translationMap) {

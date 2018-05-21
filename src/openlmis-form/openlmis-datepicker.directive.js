@@ -51,11 +51,11 @@
 
     datepicker.$inject = [
         '$filter', 'jQuery', 'messageService', 'DEFAULT_DATEPICKER_FORMAT', 'dateUtils', 'DateFormatTranslator',
-        'DEFAULT_DATE_FORMAT'
+        'moment'
     ];
 
     function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils,
-        DateFormatTranslator, DEFAULT_DATE_FORMAT) {
+                        DateFormatTranslator, moment) {
         return {
             restrict: 'E',
             scope: {
@@ -75,96 +75,108 @@
         };
 
         function link(scope, element, attrs, modelCtrl) {
-            var dateFormat = scope.dateFormat || DEFAULT_DATE_FORMAT,
-                dateFormatTranslator = new DateFormatTranslator(),
-                momentDateFormat = dateFormatTranslator.translateAngularDateToMoment(dateFormat);
+            var dateFormatTranslator = new DateFormatTranslator(),
+                input = element.find('input'),
+                momentDateFormat = dateFormatTranslator.translateBootstrapToMoment(getDateFormat(scope)),
+                datepicker;
 
-            setupFormatting(scope);
+            setInitialValue();
+            configureDatepicker();
+            setupDateFormatValidator();
 
-            var input = element.find('input'),
-                ngModelCtrl = input.controller('ngModel'),
-                datepicker = input.datepicker({
-                    format: scope.dateFormat
-                });
-
-            ngModelCtrl.$validators.invalidDate = function(value) {
-                return !value || moment(value, momentDateFormat).isValid();
-            };
-
-            if (scope.value) {
-                // Populate initial value, if passed to directive
-                scope.value = $filter('isoDate')(scope.value);
-                scope.dateString = getFilteredDate(scope.value);
-            }
-
-            datepicker.on('changeDate', function(event) {
-                var date = input.datepicker('getDate');
-
-                scope.value = date ? $filter('isoDate')(date) : undefined;
-
-                if (scope.changeMethod && scope.changeMethod instanceof Function) {
-                    scope.changeMethod();
-                }
-            });
-
-            scope.$watch('value', function() {
-                scope.invalidMessage = undefined;
-                if (scope.value) {
-                    var dateString = getFilteredDate(scope.value);
-                    if (dateString !== scope.dateString) {
-                        scope.dateString = dateString;
-                    }
-                } else {
-                    scope.dateString = undefined;
-                }
-            });
-
-            scope.$watch('disabled', function() {
-                if ((scope.disabled instanceof Function && scope.disabled()) || scope.disabled === 'true') {
-                    datepicker.attr('disabled', 'disabled');
-                } else {
-                    datepicker.removeAttr('disabled');
-                }
-            });
+            scope.$watch('dateString', updateValue);
+            scope.$watch('value', updateDateString);
+            scope.$watch('disabled', updateDisabledAttr);
 
             element.on('$destroy', cleanUp);
-            scope.$on('destroy', cleanUp);
+            scope.$on('$destroy', cleanUp);
 
             watchDate('minDate', 'setStartDate', -Infinity);
             watchDate('maxDate', 'setEndDate', Infinity);
 
+            function setInitialValue() {
+                if (scope.value) {
+                    // Populate initial value, if passed to directive
+                    scope.value = $filter('isoDate')(scope.value);
+                    updateDateString();
+                }
+            }
+
+            function configureDatepicker() {
+                var language = messageService.getCurrentLocale();
+
+                configureDatepickerLabels(language);
+
+                datepicker = input.datepicker({
+                    format: scope.dateFormat || DEFAULT_DATEPICKER_FORMAT,
+                    language: language,
+                    clearBtn: true,
+                    todayHighlight: true,
+                    autoclose: true,
+                    forceParse: false
+                });
+            }
+
+            function dateFormatValidator(value) {
+                return !value || moment(value, momentDateFormat, true).isValid();
+            }
+
+            function setupDateFormatValidator() {
+                input.controller('ngModel').$validators.invalidDate = dateFormatValidator;
+            }
+
+            function updateValue(value) {
+                var momentDate = moment(value, momentDateFormat, true);
+
+                scope.value = momentDate.isValid() ? $filter('isoDate')(momentDate.toDate()) : undefined;
+
+                if (scope.changeMethod && scope.changeMethod instanceof Function) {
+                    scope.changeMethod();
+                }
+            }
+
+            function updateDateString() {
+                scope.dateString = getFilteredDate(scope.value);
+            }
+
+            function updateDisabledAttr() {
+                if (isDisabled(scope.disabled)) {
+                    datepicker.attr('disabled', 'disabled');
+                } else {
+                    datepicker.removeAttr('disabled');
+                }
+            }
+
             function watchDate(dateName, fnName, defaultValue) {
                 scope.$watch(dateName, function(newDate) {
-                    var formattedDate;
-
-                    if (newDate) {
-                        formattedDate = $filter('date')(
-                            new Date(newDate),
-                            dateFormatTranslator.translateBootstrapToAngularDate(scope.dateFormat)
-                        );
-                    }
-
-                    input.datepicker(fnName, formattedDate || defaultValue);
+                    input.datepicker(fnName, getFilteredDate(newDate) || defaultValue);
                 });
             }
 
             function cleanUp() {
+                input.datepicker('destroy');
+                datepicker = undefined;
                 input = undefined;
             }
         }
 
-        function setupFormatting(scope) {
-            scope.language = messageService.getCurrentLocale();
-            scope.dateFormat = angular.isDefined(scope.dateFormat) ? scope.dateFormat : DEFAULT_DATEPICKER_FORMAT;
+        function getDateFormat(scope) {
+            return scope.dateFormat || DEFAULT_DATEPICKER_FORMAT;
+        }
 
+        function isDisabled(disabled) {
+            return (disabled instanceof Function && disabled()) || disabled === 'true';
+        }
+
+        function configureDatepickerLabels(language) {
             var datepickerSettings = jQuery.fn.datepicker.dates;
-            if (!datepickerSettings[scope.language]) {
+            if (!datepickerSettings[language]) {
                 // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
                 // for each language, while this property is required.
                 var localization = getDatepickerLabels();
                 localization.titleFormat = "MM yyyy";
 
-                datepickerSettings[scope.language] = localization;
+                datepickerSettings[language] = localization;
             }
         }
 
@@ -202,6 +214,10 @@
         }
 
         function getFilteredDate(date) {
+            if (!date) {
+                return undefined;
+            }
+
             var dateWithoutTimeZone;
             if (date instanceof Date) {
                 dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
