@@ -154,7 +154,9 @@
             }
 
             function cleanUp() {
-                input.datepicker('destroy');
+                if (input) {
+                    input.datepicker('destroy');
+                }
                 datepicker = undefined;
                 input = undefined;
             }
