@@ -3,6 +3,7 @@
     "openlmisForm.charactersLeft": "Characters left",
     "openlmisForm.clearSelection": "Clear selection",
     "openlmisForm.required": "This field is required",
+    "openlmisForm.email": "The given email address is invalid",
     "openlmisForm.savingChanges": "Saving changes",
     "openlmisForm.search": "Search",
     "openlmisForm.selectAnOption": "Select an option",
