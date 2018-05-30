@@ -15,7 +15,7 @@
 
 describe('paginationService', function() {
 
-    var paginationService, $q, $rootScope, PAGE_SIZE;
+    var paginationService, $q, $rootScope, PAGE_SIZE, $state;
 
     beforeEach(function() {
 
@@ -26,6 +26,7 @@ describe('paginationService', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             PAGE_SIZE = $injector.get('PAGE_SIZE');
+            $state = $injector.get('$state');
         });
     });
 
@@ -42,6 +43,8 @@ describe('paginationService', function() {
             promise;
 
         beforeEach(function() {
+            goToState('test.state', 'test');
+
             loadItemsFromAPI = jasmine.createSpy().andReturn($q.when({
                 size: stateParams.size,
                 number: stateParams.page,
@@ -50,6 +53,8 @@ describe('paginationService', function() {
             }));
             promise = paginationService.registerUrl(stateParams, loadItemsFromAPI);
             $rootScope.$apply();
+
+            $state.current.name = 'test.state';
         });
 
         it('should return promise', function() {
@@ -149,6 +154,9 @@ describe('paginationService', function() {
             promise;
 
         beforeEach(function() {
+            goToState('test.state', 'test');
+            $state.current.name = 'test.state';
+            $rootScope.$apply();
             loadItemsFromAPI = jasmine.createSpy().andReturn(items);
             promise = paginationService.registerList(validator, stateParams, loadItemsFromAPI);
             $rootScope.$apply();
@@ -213,4 +221,108 @@ describe('paginationService', function() {
             });
         });
     });
+
+    it('should keep parent state pagination parameters', function() {
+        goToState('test.state', 'test');
+
+        var paramsOne = {
+            page: 1,
+            size: 13
+        };
+        paginationService.registerUrl(paramsOne, function() {
+            return $q.resolve({
+                number: 1,
+                size: 13,
+                totalElements: 26,
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            });
+        });
+        $rootScope.$apply();
+
+        goToState('test.state.child', 'test.state');
+
+        var paramsTwo = {
+            page: 0,
+            size: 10
+        };
+        paginationService.registerList(null, paramsTwo, function() {
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+        });
+
+        $state.current.name = 'test.state.child';
+
+        expect(paginationService.getPage()).toEqual(0);
+        expect(paginationService.getSize()).toEqual(10);
+        expect(paginationService.isExternalPagination()).toEqual(false);
+        expect(paginationService.getTotalItems()).toEqual(20);
+
+        goToState('test.state', 'test.state.child');
+        $state.current.name = 'test.state';
+
+        expect(paginationService.getPage()).toEqual(1);
+        expect(paginationService.getSize()).toEqual(13);
+        expect(paginationService.getShowingItems()).toEqual(13);
+        expect(paginationService.isExternalPagination()).toEqual(true);
+        expect(paginationService.getTotalItems()).toEqual(26);
+    });
+
+    it('should clear pagination parameter if going to non-child state', function() {
+        goToState('test.state', 'test');
+
+        var paramsOne = {
+            page: 1,
+            size: 13
+        };
+        paginationService.registerUrl(paramsOne, function() {
+            return $q.resolve({
+                number: 1,
+                size: 13,
+                totalElements: 26,
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            });
+        });
+        $rootScope.$apply();
+
+        goToState('test.otherState', 'test.state');
+
+        var paramsTwo = {
+            page: 2,
+            size: 14
+        };
+        paginationService.registerUrl(paramsTwo, function() {
+            return $q.resolve({
+                number: 2,
+                size: 14,
+                totalElements: 42,
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+            });
+        });
+        $rootScope.$apply();
+
+        $state.current.name = 'test.otherState';
+
+        expect(paginationService.getPage()).toEqual(2);
+        expect(paginationService.getSize()).toEqual(14);
+        expect(paginationService.getShowingItems()).toEqual(14);
+        expect(paginationService.isExternalPagination()).toEqual(true);
+        expect(paginationService.getTotalItems()).toEqual(42);
+
+        goToState('test.otherState', 'test.state');
+        $state.current.name = 'test.state';
+
+        expect(paginationService.getPage()).toBeUndefined();
+        expect(paginationService.getSize()).toBeUndefined();
+        expect(paginationService.getShowingItems()).toBeUndefined();
+        expect(paginationService.isExternalPagination()).toBeUndefined();
+        expect(paginationService.getTotalItems()).toBeUndefined();
+    });
+
+    function goToState(to, from) {
+        $rootScope.$emit('$stateChangeStart', {
+            name: to
+        }, {
+            name: from
+        });
+    }
+
 });

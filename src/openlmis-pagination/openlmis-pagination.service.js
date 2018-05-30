@@ -26,12 +26,22 @@
      */
     angular
         .module('openlmis-pagination')
+        .run(run)
         .service('paginationService', service);
 
-    service.$inject = ['$q', '$state', 'PAGE_SIZE'];
+    run.$inject = ['paginationService'];
 
-    function service($q, $state, PAGE_SIZE) {
+    function run(paginationService) {
+        paginationService.init();
+    }
 
+    service.$inject = ['$q', '$state', 'PAGE_SIZE', '$rootScope'];
+
+    function service($q, $state, PAGE_SIZE, $rootScope) {
+
+        var stateName, stateParams, paginationParamsMap = {};
+
+        this.init = init;
         this.registerUrl = registerUrl;
         this.registerList = registerList;
         this.getSize = getSize;
@@ -40,13 +50,22 @@
         this.getShowingItems = getShowingItems;
         this.isExternalPagination = isExternalPagination;
 
-        var size,
-            page,
-            totalItems,
-            showingItems,
-            externalPagination,
-            stateParams,
-            stateName;
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-pagination.paginationService
+         * @name init
+         *
+         * @description
+         * Initiates the pagination service and fires up a listener for state changes.
+         */
+        function init() {
+            $rootScope.$on('$stateChangeStart', function(event, toState, fromState) {
+                if (toState.name.indexOf(fromState.name) === -1) {
+                    delete paginationParamsMap[fromState.name];
+                }
+                stateName = toState.name;
+            });
+        }
 
         /**
          * @ngdoc method
@@ -61,43 +80,46 @@
          * @return {Array}                    current page of items
          */
         function registerUrl(newStateParams, loadItemsMethod) {
-
             var deferred = $q.defer(),
                 promise;
 
-            if(!newStateParams.page) newStateParams.page = 0;
-            if(!newStateParams.size) newStateParams.size = PAGE_SIZE;
+            if (!newStateParams.page) newStateParams.page = 0;
+            if (!newStateParams.size) newStateParams.size = PAGE_SIZE;
 
-            if(shouldChangePageToFirstOne(newStateParams)) {
+            if (shouldChangePageToFirstOne(newStateParams)) {
                 newStateParams.page = 0;
             }
 
             promise = loadItemsMethod(newStateParams);
 
-            if(promise && promise.then) {
+            if (promise && promise.then) {
                 promise.then(function(response) {
-                    size = response.size;
-                    page = response.number;
-                    totalItems = response.totalElements;
-                    showingItems = response.content.length;
-                    externalPagination = true;
-                    stateParams = newStateParams;
-                    stateName = $state.current.name;
+                    paginationParamsMap[stateName] = {
+                        size: response.size,
+                        page: response.number,
+                        totalItems: response.totalElements,
+                        showingItems: response.content.length,
+                        externalPagination: true
+                    };
 
                     deferred.resolve(response.content);
                 }, function() {
                     deferred.reject();
                 });
             } else {
-                size = 0;
-                page = 0;
-                totalItems = 0;
-                showingItems = 0;
-                externalPagination = true;
-                stateParams = newStateParams;
-                stateName = $state.current.name;
+                paginationParamsMap[stateName] = {
+                    size: 0,
+                    page: 0,
+                    totalItems: 0,
+                    showingItems: 0,
+                    externalPagination: true
+                };
+
+
                 deferred.resolve([]);
             }
+
+            stateParams = newStateParams;
 
             this.itemValidator = null;
 
@@ -118,21 +140,23 @@
          * @return {Array}                    current page of items
          */
         function registerList(itemValidator, newStateParams, loadItemsMethod) {
-
             var deferred = $q.defer(),
-                pageItems,
                 items;
 
-            if(!newStateParams.page) newStateParams.page = 0;
-            if(!newStateParams.size) newStateParams.size = PAGE_SIZE;
+            if (!newStateParams.page) newStateParams.page = 0;
+            if (!newStateParams.size) newStateParams.size = PAGE_SIZE;
 
             items = loadItemsMethod();
-            totalItems = items.length;
-            externalPagination = false;
+
+            paginationParamsMap[stateName] = {
+                size: parseInt(newStateParams.size),
+                page: parseInt(newStateParams.page),
+                totalItems: items.length,
+                externalPagination: false
+            };
+
             this.itemValidator = itemValidator;
             stateName = $state.current.name;
-            size = parseInt(newStateParams.size);
-            page = parseInt(newStateParams.page);
             stateParams = newStateParams;
 
             deferred.resolve(items);
@@ -157,7 +181,7 @@
          * @return {Number} current page size
          */
         function getSize() {
-            return size;
+            return getPaginationParam('size');
         }
 
         /**
@@ -171,7 +195,7 @@
          * @return {Number} current page number
          */
         function getPage() {
-            return page;
+            return getPaginationParam('page');
         }
 
         /**
@@ -185,7 +209,7 @@
          * @return {Number} total items
          */
         function getTotalItems() {
-            return totalItems;
+            return getPaginationParam('totalItems');
         }
 
         /**
@@ -199,7 +223,7 @@
          * @return {Number} showing items number
          */
         function getShowingItems() {
-            return showingItems;
+            return getPaginationParam('showingItems');
         }
 
         /**
@@ -213,7 +237,13 @@
          * @return {Boolean} true if is API pagination, false otherwise
          */
         function isExternalPagination() {
-            return externalPagination;
+            return getPaginationParam('externalPagination');
+        }
+
+        function getPaginationParam(name) {
+            if (paginationParamsMap[$state.current.name]) {
+                return paginationParamsMap[$state.current.name][name];
+            }
         }
     }
 
