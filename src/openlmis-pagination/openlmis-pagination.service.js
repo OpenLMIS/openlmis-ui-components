@@ -59,10 +59,8 @@
          * Initiates the pagination service and fires up a listener for state changes.
          */
         function init() {
-            $rootScope.$on('$stateChangeStart', function(event, toState, fromState) {
-                if (toState.name.indexOf(fromState.name) === -1) {
-                    delete paginationParamsMap[fromState.name];
-                }
+            $rootScope.$on('$stateChangeStart', function(event, toState) {
+                clearPaginationParamsMap(toState.name);
                 stateName = toState.name;
             });
         }
@@ -244,6 +242,14 @@
             if (paginationParamsMap[$state.current.name]) {
                 return paginationParamsMap[$state.current.name][name];
             }
+        }
+
+        function clearPaginationParamsMap(toState) {
+            Object.keys(paginationParamsMap).forEach(function(state) {
+                if (toState.indexOf(state) === -1) {
+                    delete paginationParamsMap[state];
+                }
+            });
         }
     }
 

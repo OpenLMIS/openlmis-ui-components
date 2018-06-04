@@ -317,6 +317,62 @@ describe('paginationService', function() {
         expect(paginationService.getTotalItems()).toBeUndefined();
     });
 
+    it('should clear pagination parameter if going to state parents parent', function() {
+        goToState('test.state', 'test');
+
+        var paramsOne = {
+            page: 1,
+            size: 13
+        };
+        paginationService.registerUrl(paramsOne, function() {
+            return $q.resolve({
+                number: 1,
+                size: 13,
+                totalElements: 26,
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            });
+        });
+        $rootScope.$apply();
+
+        goToState('test.state.child', 'test.state');
+
+        var paramsTwo = {
+            page: 0,
+            size: 10
+        };
+        paginationService.registerList(null, paramsTwo, function() {
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+        });
+        $rootScope.$apply();
+
+        goToState('test.state.child.child', 'test.state.child');
+
+        var paramsThree = {
+            page: 2,
+            size: 2
+        };
+        paginationService.registerList(null, paramsThree, function() {
+            return [1, 2, 3, 4, 5];
+        });
+        $rootScope.$apply();
+
+        goToState('test.state', 'test.state.child.child');
+
+        $state.current.name = 'test.state.child';
+        expect(paginationService.getPage()).toBeUndefined();
+        expect(paginationService.getSize()).toBeUndefined();
+        expect(paginationService.getShowingItems()).toBeUndefined();
+        expect(paginationService.isExternalPagination()).toBeUndefined();
+        expect(paginationService.getTotalItems()).toBeUndefined();
+
+        $state.current.name = 'test.state.child.child';
+        expect(paginationService.getPage()).toBeUndefined();
+        expect(paginationService.getSize()).toBeUndefined();
+        expect(paginationService.getShowingItems()).toBeUndefined();
+        expect(paginationService.isExternalPagination()).toBeUndefined();
+        expect(paginationService.getTotalItems()).toBeUndefined();
+    });
+
     function goToState(to, from) {
         $rootScope.$emit('$stateChangeStart', {
             name: to
