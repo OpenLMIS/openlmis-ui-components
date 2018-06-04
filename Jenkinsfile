@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label {
+            label ""
+            customWorkspace "${JENKINS_HOME}/workspace/${env.JOB_NAME}-${BRANCH_NAME}"
+        }
+    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '15'))
         disableConcurrentBuilds()
