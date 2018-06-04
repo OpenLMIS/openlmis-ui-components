@@ -6,6 +6,7 @@ pipeline {
     }
     environment {
       PATH = "/usr/local/bin/:$PATH"
+      COMPOSE_PROJECT_NAME = "${JENKINS_HOME}/workspace/${env.JOB_NAME}-${BRANCH_NAME}"
     }
     stages {
         stage('Preparation') {
