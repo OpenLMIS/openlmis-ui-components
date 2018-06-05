@@ -144,7 +144,7 @@
                 var stateParams = angular.copy($stateParams);
 
                 pagination.page = newPage;
-                stateParams.page = newPage;
+                stateParams[paginationService.getPageParamName()] = newPage;
 
                 $state.go($state.current.name, stateParams, {
                     reload: $state.current.name,
@@ -265,15 +265,16 @@
          * @return {Boolean} true if page is valid, false otherwise
          */
         function isPageValid(pageNumber) {
+            var validateItem = paginationService.getItemValidator();
 
-            if(!paginationService.itemValidator) return true;
+            if (!validateItem) {
+                return true;
+            }
 
-            var valid = true;
-            angular.forEach(paginationFactory.getPage(pagination.list, pageNumber, pagination.pageSize), function(item) {
-                valid = valid && paginationService.itemValidator(item);
-            });
-
-            return valid;
+            return paginationFactory.getPage(pagination.list, pageNumber, pagination.pageSize)
+            .reduce(function(valid, item) {
+                return valid && validateItem(item);
+            }, true);
         }
     }
 })();

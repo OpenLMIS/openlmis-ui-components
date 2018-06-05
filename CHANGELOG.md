@@ -2,15 +2,16 @@
 ========================
 
 New functionality added in a backwards-compatible manner:
-* [OLMIS-4600:](https://openlmis.atlassian.net/browse/OLMIS-4600) Added input for managing tags
-* [OLMIS-4623:](https://openlmis.atlassian.net/browse/OLMIS-4623) Added support for non-paginated endpoints to OpenlmisResource
-* [OLMIS-4622](https://openlmis.atlassian.net/browse/OLMIS-4622): Added the object mapper class
+* [OLMIS-4600:](https://openlmis.atlassian.net/browse/OLMIS-4600) Added input for managing tags.
+* [OLMIS-4623:](https://openlmis.atlassian.net/browse/OLMIS-4623) Added support for non-paginated endpoints to OpenlmisResource.
+* [OLMIS-4622:](https://openlmis.atlassian.net/browse/OLMIS-4622) Added the object mapper class.
+* [OLMIS-3675:](https://openlmis.atlassian.net/browse/OLMIS-3675) Added support for custom pagination parameter names to the paginationService.
 
 Improvements:
 * [OLMIS-4744](https://openlmis.atlassian.net/browse/OLMIS-4744): Added Jenkinsfile.
 
 Bug fixes:
-* [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component
+* [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component.
 * [OLMIS-3675:](https://openlmis.atlassian.net/browse/OLMIS-3675) Fixed broken pagination when coming back to a paginated parent screen from a paginated child screen using "Back" button.
 
 5.3.0 / 2018-04-24

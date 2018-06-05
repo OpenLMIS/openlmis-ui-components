@@ -39,19 +39,19 @@ describe('paginationService', function() {
             },
             items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
             totalItems = 20,
-            loadItemsFromAPI,
+            loadItemsSpy,
             promise;
 
         beforeEach(function() {
             goToState('test.state', 'test');
 
-            loadItemsFromAPI = jasmine.createSpy().andReturn($q.when({
+            loadItemsSpy = jasmine.createSpy().andReturn($q.when({
                 size: stateParams.size,
                 number: stateParams.page,
                 totalElements: totalItems,
                 content: items
             }));
-            promise = paginationService.registerUrl(stateParams, loadItemsFromAPI);
+            promise = paginationService.registerUrl(stateParams, loadItemsSpy);
             $rootScope.$apply();
 
             $state.current.name = 'test.state';
@@ -93,13 +93,13 @@ describe('paginationService', function() {
         });
 
         it('should set item validator to null', function() {
-            expect(paginationService.itemValidator).toEqual(null);
+            expect(paginationService.getItemValidator()).toBeUndefined();
         });
 
         it('should set page size and number to default one if they are undefined', function() {
-            paginationService.registerUrl({}, loadItemsFromAPI);
+            paginationService.registerUrl({}, loadItemsSpy);
             $rootScope.$apply();
-            expect(loadItemsFromAPI).toHaveBeenCalledWith({
+            expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: PAGE_SIZE
             });
@@ -110,10 +110,10 @@ describe('paginationService', function() {
                 size: 20,
                 page: stateParams.page,
                 someParam: 'param'
-            }, loadItemsFromAPI);
+            }, loadItemsSpy);
             $rootScope.$apply();
 
-            expect(loadItemsFromAPI).toHaveBeenCalledWith({
+            expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: 20,
                 someParam: 'param'
@@ -122,22 +122,82 @@ describe('paginationService', function() {
 
         it('should set page size to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            $rootScope.$apply();
             expect(paginationService.getSize()).toEqual(0);
         });
 
         it('should set page number to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            $rootScope.$apply();
             expect(paginationService.getPage()).toEqual(0);
         });
 
         it('should set total items to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            $rootScope.$apply();
             expect(paginationService.getTotalItems()).toEqual(0);
         });
 
         it('should set showing items to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            $rootScope.$apply();
             expect(paginationService.getShowingItems()).toEqual(0);
+        });
+
+        it('should translate custom page parameter if it was given', function() {
+            var loadItemsSpy = jasmine.createSpy();
+
+            paginationService.registerUrl({
+                customPage: 10,
+                size: 20
+            }, loadItemsSpy, {
+                customPageParamName: 'customPage'
+            });
+            $rootScope.$apply();
+
+            expect(loadItemsSpy).toHaveBeenCalledWith({
+                page: 10,
+                size: 20
+            });
+        });
+
+        it('should translate custom size parameter if it was given', function() {
+            var loadItemsSpy = jasmine.createSpy();
+
+            paginationService.registerUrl({
+                page: 10,
+                customSize: 20
+            }, loadItemsSpy, {
+                customSizeParamName: 'customSize'
+            });
+            $rootScope.$apply();
+
+            expect(loadItemsSpy).toHaveBeenCalledWith({
+                page: 10,
+                size: 20
+            });
+        });
+
+        it('should init correct page param if custom page parameter name was given', function() {
+            var params = {};
+
+            paginationService.registerUrl(params, loadItemsSpy, {
+                customPageParamName: 'customPage'
+            });
+            $rootScope.$apply();
+
+            expect(params.customPage).toBe(0);
+        });
+
+        it('should init correct size param if custom size parameter name was given', function() {
+            var params = {};
+
+            paginationService.registerUrl(params, loadItemsSpy, {
+                customSizeParamName: 'customSize'
+            });
+            $rootScope.$apply();
+
+            expect(params.customSize).toBe(10);
         });
     });
 
@@ -149,7 +209,7 @@ describe('paginationService', function() {
                 someParam: 'param'
             },
             items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-            loadItemsFromAPI,
+            loadItemsSpy,
             validator = jasmine.createSpy(),
             promise;
 
@@ -157,8 +217,8 @@ describe('paginationService', function() {
             goToState('test.state', 'test');
             $state.current.name = 'test.state';
             $rootScope.$apply();
-            loadItemsFromAPI = jasmine.createSpy().andReturn(items);
-            promise = paginationService.registerList(validator, stateParams, loadItemsFromAPI);
+            loadItemsSpy = jasmine.createSpy().andReturn(items);
+            promise = paginationService.registerList(validator, stateParams, loadItemsSpy);
             $rootScope.$apply();
         });
 
@@ -194,13 +254,13 @@ describe('paginationService', function() {
         });
 
         it('should set item validator to null', function() {
-            expect(paginationService.itemValidator).toEqual(validator);
+            expect(paginationService.getItemValidator()).toEqual(validator);
         });
 
         it('should set page size and number to default one if they are undefined', function() {
-            paginationService.registerUrl({}, loadItemsFromAPI);
+            paginationService.registerUrl({}, loadItemsSpy);
             $rootScope.$apply();
-            expect(loadItemsFromAPI).toHaveBeenCalledWith({
+            expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: PAGE_SIZE
             });
@@ -211,10 +271,10 @@ describe('paginationService', function() {
                 size: 20,
                 page: stateParams.page,
                 someParam: 'param'
-            }, loadItemsFromAPI);
+            }, loadItemsSpy);
             $rootScope.$apply();
 
-            expect(loadItemsFromAPI).toHaveBeenCalledWith({
+            expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: 20,
                 someParam: 'param'
@@ -248,6 +308,7 @@ describe('paginationService', function() {
         paginationService.registerList(null, paramsTwo, function() {
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
         });
+        $rootScope.$apply();
 
         $state.current.name = 'test.state.child';
 

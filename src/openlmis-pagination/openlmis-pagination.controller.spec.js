@@ -15,7 +15,7 @@
 
 describe('PaginationController', function() {
 
-    var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory;
+    var vm, stateParams, $controller, $rootScope, $state, paginationService, paginationFactory, validatorSpy;
 
     beforeEach(function() {
 
@@ -30,15 +30,19 @@ describe('PaginationController', function() {
         });
 
         stateParams = {
-            page: 0,
+            customPageParamName: 0,
             size: 2
         };
+
+        validatorSpy = jasmine.createSpy();
 
         spyOn(paginationService, 'isExternalPagination').andReturn(true);
         spyOn(paginationService, 'getPage').andReturn(0);
         spyOn(paginationService, 'getSize').andReturn(2);
         spyOn(paginationService, 'getTotalItems').andReturn(10);
         spyOn(paginationService, 'getShowingItems').andReturn(2);
+        spyOn(paginationService, 'getPageParamName').andReturn('customPageParamName');
+        spyOn(paginationService, 'getItemValidator').andReturn(validatorSpy);
 
         spyOn(paginationFactory, 'getPage').andReturn([1]);
 
@@ -94,7 +98,7 @@ describe('PaginationController', function() {
         it('should change current page', function() {
             expect(vm.page).toEqual(newPage);
             expect($state.go).toHaveBeenCalledWith($state.current.name, {
-                page: 4,
+                customPageParamName: 4,
                 size: 2
             }, {
                 reload: $state.current.name,
@@ -121,7 +125,7 @@ describe('PaginationController', function() {
             expect(paginationFactory.getPage).toHaveBeenCalledWith(vm.list, newPage, vm.pageSize);
             expect(vm.page).toEqual(newPage);
             expect($state.go).toHaveBeenCalledWith($state.current.name, {
-                page: 4,
+                customPageParamName: 4,
                 size: 2
             }, {
                 reload: $state.current.name,
@@ -216,6 +220,8 @@ describe('PaginationController', function() {
     describe('isPageValid', function() {
 
         it('should return true if item validator is not defined', function() {
+            paginationService.getItemValidator.andReturn(undefined);
+
             expect(vm.isPageValid(1)).toBe(true);
             expect(vm.isPageValid(0)).toBe(true);
             expect(vm.isPageValid(2)).toBe(true);
@@ -224,19 +230,15 @@ describe('PaginationController', function() {
         it('should return false if item validator returns false', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            paginationService.itemValidator = function() {
-                return false;
-            };
+            validatorSpy.andReturn(false);
 
             expect(vm.isPageValid(0)).toBe(false);
         });
 
-        it('should return false if item validator returns true', function() {
+        it('should return true if item validator returns true', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            paginationService.itemValidator = function() {
-                return true;
-            };
+            validatorSpy.andReturn(true);
 
             expect(vm.isPageValid(0)).toBe(true);
         });

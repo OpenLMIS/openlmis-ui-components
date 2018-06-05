@@ -39,7 +39,7 @@
 
     function service($q, $state, PAGE_SIZE, $rootScope) {
 
-        var stateName, stateParams, paginationParamsMap = {};
+        var stateName, previousStateParams, paginationParamsMap = {};
 
         this.init = init;
         this.registerUrl = registerUrl;
@@ -49,6 +49,8 @@
         this.getTotalItems = getTotalItems;
         this.getShowingItems = getShowingItems;
         this.isExternalPagination = isExternalPagination;
+        this.getPageParamName = getPageParamName;
+        this.getItemValidator = getItemValidator;
 
         /**
          * @ngdoc method
@@ -74,54 +76,23 @@
          * Registers all pagination params for API pagination.
          *
          * @param  {Object}   newStateParams  state params
-         * @param  {Function} loadItemsMethod method that loads items
+         * @param  {Function} loadItems method that loads items
          * @return {Array}                    current page of items
          */
-        function registerUrl(newStateParams, loadItemsMethod) {
-            var deferred = $q.defer(),
-                promise;
-
-            if (!newStateParams.page) newStateParams.page = 0;
-            if (!newStateParams.size) newStateParams.size = PAGE_SIZE;
-
-            if (shouldChangePageToFirstOne(newStateParams)) {
-                newStateParams.page = 0;
-            }
-
-            promise = loadItemsMethod(newStateParams);
-
-            if (promise && promise.then) {
-                promise.then(function(response) {
-                    paginationParamsMap[stateName] = {
-                        size: response.size,
-                        page: response.number,
-                        totalItems: response.totalElements,
-                        showingItems: response.content.length,
-                        externalPagination: true
-                    };
-
-                    deferred.resolve(response.content);
-                }, function() {
-                    deferred.reject();
-                });
-            } else {
+        function registerUrl(newStateParams, loadItems, options) {
+            return register(newStateParams, loadItems, options)
+            .then(function(response) {
                 paginationParamsMap[stateName] = {
-                    size: 0,
-                    page: 0,
-                    totalItems: 0,
-                    showingItems: 0,
-                    externalPagination: true
+                    size: response ? response.size : 0,
+                    page: response ? response.number : 0,
+                    totalItems: response ? response.totalElements : 0,
+                    showingItems: response && response.content ? response.content.length : 0,
+                    externalPagination: true,
+                    pageParamName: getPageParamNameFromOptions(options),
+                    sizeParamName: getSizeParamNameFromOptions(options)
                 };
-
-
-                deferred.resolve([]);
-            }
-
-            stateParams = newStateParams;
-
-            this.itemValidator = null;
-
-            return deferred.promise;
+                return response ? response.content : [];
+            });
         }
 
         /**
@@ -134,38 +105,26 @@
          *
          * @param  {Object}   itemValidator   validator for items
          * @param  {Object}   newStateParams  state params
-         * @param  {Function} loadItemsMethod method that loads items
+         * @param  {Function} loadItems method that loads items
          * @return {Array}                    current page of items
          */
-        function registerList(itemValidator, newStateParams, loadItemsMethod) {
-            var deferred = $q.defer(),
-                items;
+        function registerList(itemValidator, newStateParams, loadItems, options) {
+            return register(newStateParams, loadItems, options)
+            .then(function(items) {
+                var pageParamName = getPageParamNameFromOptions(options),
+                    sizeParamName = getSizeParamNameFromOptions(options);
 
-            if (!newStateParams.page) newStateParams.page = 0;
-            if (!newStateParams.size) newStateParams.size = PAGE_SIZE;
-
-            items = loadItemsMethod();
-
-            paginationParamsMap[stateName] = {
-                size: parseInt(newStateParams.size),
-                page: parseInt(newStateParams.page),
-                totalItems: items.length,
-                externalPagination: false
-            };
-
-            this.itemValidator = itemValidator;
-            stateName = $state.current.name;
-            stateParams = newStateParams;
-
-            deferred.resolve(items);
-
-            return deferred.promise;
-        }
-
-        function shouldChangePageToFirstOne(newStateParams) {
-            return $state.current.name === stateName &&
-                !angular.equals(stateParams, newStateParams) &&
-                newStateParams.page === stateParams.page;
+                paginationParamsMap[stateName] = {
+                    size: parseInt(newStateParams[sizeParamName]),
+                    page: parseInt(newStateParams[pageParamName]),
+                    totalItems: items.length,
+                    externalPagination: false,
+                    pageParamName: pageParamName,
+                    sizeParamName: sizeParamName,
+                    itemValidator: itemValidator
+                };
+                return items;
+            });
         }
 
         /**
@@ -238,10 +197,58 @@
             return getPaginationParam('externalPagination');
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-pagination.paginationService
+         * @name getPageParamName
+         *
+         * @description
+         * Returns the name of the custom page parameter.
+         *
+         * @return {String} the name of the custom page parameter
+         */
+        function getPageParamName() {
+            return getPaginationParam('pageParamName');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-pagination.paginationService
+         * @name getItemValidator
+         *
+         * @description
+         * Returns item validation function.
+         *
+         * @return {Function} the item validator
+         */
+        function getItemValidator() {
+            return getPaginationParam('itemValidator');
+        }
+
         function getPaginationParam(name) {
             if (paginationParamsMap[$state.current.name]) {
                 return paginationParamsMap[$state.current.name][name];
             }
+        }
+
+        function register(stateParams, loadItems, options) {
+            var pageParamName = getPageParamNameFromOptions(options),
+                sizeParamName = getSizeParamNameFromOptions(options);
+
+            initPaginationParams(stateParams, pageParamName, sizeParamName);
+
+            if (shouldChangePageToFirstOne(stateParams, pageParamName)) {
+                stateParams[pageParamName] = 0;
+            }
+
+            previousStateParams = stateParams;
+
+            return $q.when(loadItems(translateToRequestParams(stateParams, pageParamName, sizeParamName)));
+        }
+
+        function shouldChangePageToFirstOne(newStateParams, pageParamName) {
+            return $state.current.name === stateName && !angular.equals(previousStateParams, newStateParams) &&
+                previousStateParams && newStateParams[pageParamName] === previousStateParams[pageParamName];
         }
 
         function clearPaginationParamsMap(toState) {
@@ -250,6 +257,46 @@
                     delete paginationParamsMap[state];
                 }
             });
+        }
+
+        function translateToRequestParams(stateParams, pageParamName, sizeParamName) {
+            var requestParams = angular.copy(stateParams);
+
+            if (pageParamName !== 'page') {
+                requestParams.page = requestParams[pageParamName];
+                delete requestParams[pageParamName];
+            }
+
+            if (sizeParamName !== 'size') {
+                requestParams.size = requestParams[sizeParamName];
+                delete requestParams[sizeParamName];
+            }
+
+            return requestParams;
+        }
+
+        function initPaginationParams(stateParams, pageParamName, sizeParamName) {
+            if (!stateParams[pageParamName]) {
+                stateParams[pageParamName] = 0;
+            }
+            if (!stateParams[sizeParamName]) {
+                stateParams[sizeParamName] = PAGE_SIZE;
+            }
+        }
+
+        function getPageParamNameFromOptions(options) {
+            return getParamNameFromOptions(options, 'customPageParamName', 'page');
+        }
+
+        function getSizeParamNameFromOptions(options) {
+            return getParamNameFromOptions(options, 'customSizeParamName', 'size');
+        }
+
+        function getParamNameFromOptions(options, param, defaultValue) {
+            if (!options || !options[param]) {
+                return defaultValue;
+            }
+            return options[param];
         }
     }
 
