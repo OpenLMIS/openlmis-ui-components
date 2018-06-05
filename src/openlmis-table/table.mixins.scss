@@ -1,0 +1,10 @@
+/*
+Table mixins
+
+Styleguide 1.0
+*/
+@mixin gray-table() {
+  tr:hover > td {
+    background-color: $brand-primary;
+  }
+}
