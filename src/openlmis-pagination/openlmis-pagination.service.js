@@ -76,7 +76,12 @@
          * Registers all pagination params for API pagination.
          *
          * @param  {Object}   newStateParams  state params
-         * @param  {Function} loadItems method that loads items
+         * @param  {Function} loadItems       method that loads items
+         * @param  {Object}   options         the optional configuration object, which let you specify custom parameter
+         *                                    names for page and size using the "customPageParamName" and
+         *                                    "customSizeParamName" properties, if they are specified parameters with
+         *                                    the given names will be used for storing current page and page size
+         *                                    instead of "page" and "size"
          * @return {Array}                    current page of items
          */
         function registerUrl(newStateParams, loadItems, options) {
@@ -105,7 +110,12 @@
          *
          * @param  {Object}   itemValidator   validator for items
          * @param  {Object}   newStateParams  state params
-         * @param  {Function} loadItems method that loads items
+         * @param  {Function} loadItems       method that loads items
+         * @param  {Object}   options         the optional configuration object, which let you specify custom parameter
+         *                                    names for page and size using the "customPageParamName" and
+         *                                    "customSizeParamName" properties, if they are specified parameters with
+         *                                    the given names will be used for storing current page and page size
+         *                                    instead of "page" and "size"
          * @return {Array}                    current page of items
          */
         function registerList(itemValidator, newStateParams, loadItems, options) {
