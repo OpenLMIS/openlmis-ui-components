@@ -235,6 +235,8 @@
             var pageParamName = getPageParamNameFromOptions(options),
                 sizeParamName = getSizeParamNameFromOptions(options);
 
+            warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName);
+
             initPaginationParams(stateParams, pageParamName, sizeParamName);
 
             if (shouldChangePageToFirstOne(stateParams, pageParamName)) {
@@ -297,6 +299,41 @@
                 return defaultValue;
             }
             return options[param];
+        }
+
+        function warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName) {
+            var statesUsingPageParam = [stateName],
+                statesUsingSizeParam = [stateName];
+
+            Object.keys(paginationParamsMap).forEach(function(state) {
+                if (state === stateName) {
+                    return;
+                }
+
+                if (paginationParamsMap[state].pageParamName === pageParamName) {
+                    statesUsingPageParam.push(state);
+                }
+
+                if (paginationParamsMap[state].sizeParamName === sizeParamName) {
+                    statesUsingSizeParam.push(state);
+                }
+            });
+
+            if (statesUsingPageParam.length > 1) {
+                console.warn(
+                    'States ' + statesUsingPageParam.join(', ') + ' are using the ' + pageParamName + ' parameter ' +
+                    'for indicating current page. This might cause some unexpected behavior with the pagination ' +
+                    'component. Please consider using the customPageParamName option.'
+                );
+            }
+
+            if (statesUsingSizeParam.length > 1) {
+                console.warn(
+                    'States ' + statesUsingSizeParam.join(', ') + ' are using the ' + pageParamName + ' parameter ' +
+                    'for indicating page size. This might cause some unexpected behavior with the pagination ' +
+                    'component. Please consider using the customSizeParamName option.'
+                );
+            }
         }
     }
 
