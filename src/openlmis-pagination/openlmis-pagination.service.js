@@ -23,6 +23,23 @@
      *
      * @description
      * Allows registering the pagination elements.
+     * 
+     * By default this service will use "page" and "size" URI parameters for storing the page number and size of the
+     * list. This, however, might introduce some unexpected behavior if one state and its descendants provide an option
+     * to paginate a list. In order to prevent such behavior an optional parameter can be passed to both register
+     * methods, which will let the pagination service use different URI parameters for storing the information about
+     * the current page and the page size. In order to utilize this feature "customPageParamName" and/or
+     * "customSizeParamName" options must be provided.
+     * 
+     * Here's a little example on how to do it
+     * ```
+     * paginationService.registerUrl(stateParams, loadItemsMethod, {
+     *     customPageParamName: 'customPage',
+     *     customSizeParamName: 'customSize'
+     * });
+     * ```
+     * From now on, pagination will use "customPage" and "customSize" parameters rather than "page" and "size" for
+     * storing page information for the state that called it.
      */
     angular
         .module('openlmis-pagination')
