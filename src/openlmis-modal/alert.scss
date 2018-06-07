@@ -38,3 +38,10 @@
 		color: $brand-success;
 	}
 }
+
+.alert-modal.is-info .alert-main {
+	@include icon('info-circle');
+	&:before {
+		color: $brand-primary;
+	}
+}

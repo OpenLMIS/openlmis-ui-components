@@ -28,12 +28,13 @@
         .module('openlmis-modal')
         .controller('AlertModalController', alertModalController);
 
-    alertModalController.$inject = ['alertClass', 'title', 'message'];
+    alertModalController.$inject = ['alertClass', 'title', 'message', 'buttonLabel', 'modalDeferred'];
 
-    function alertModalController(alertClass, title, message) {
+    function alertModalController(alertClass, title, message, buttonLabel, modalDeferred) {
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.close = modalDeferred.resolve;
 
         /**
          * @ngdoc property
@@ -69,6 +70,17 @@
         vm.message = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf openlmis-modal.controller:AlertModalController
+         * @type {String}
+         * @name buttonLabel
+         *
+         * @description
+         * The label to displayed on the confirmation button.
+         */
+        vm.buttonLabel = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf openlmis-modal.controller:AlertModalController
          * @name $onInit
@@ -80,6 +92,7 @@
             vm.alertClass = alertClass;
             vm.title = title;
             vm.message = message;
+            vm.buttonLabel = buttonLabel;
         }
     }
 

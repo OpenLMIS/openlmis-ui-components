@@ -38,6 +38,7 @@
 
         this.error = error;
         this.success = success;
+        this.info = info;
 
         /**
          * @ngdoc method
@@ -47,13 +48,19 @@
          * @description
          * Shows alert modal with custom message and calls callback after closing alert.
          *
-         * @param   {String}    title   the title of the alert
-         * @param   {String}    message the detailed message to be shown within the alert modal
-         * @return  {Promise}           the alert promise, if any other alert is already show this
-         *                              promise will be automatically rejected
+         * @param   {String}    title       the title of the alert
+         * @param   {String}    message     the detailed message to be shown within the alert modal
+         * @param   {String}    buttonLabel the label to be shown on the confirmation button
+         * @return  {Promise}               the alert promise, if any other alert is already show this
+         *                                  promise will be automatically rejected
          */
-        function error(title, message) {
-            return showAlert('is-error', title, message);
+        function error(title, message, buttonLabel) {
+            return showAlert({
+                class: 'is-error',
+                title: title,
+                message: message,
+                buttonLabel: buttonLabel
+            });
         }
 
         /**
@@ -64,17 +71,46 @@
          * @description
          * Shows success modal with custom message and calls callback after closing alert.
          *
-         * @param   {String}    title   the title of the alert
-         * @param   {String}    message the detailed message to be shown within the alert modal
-         * @return  {Promise}           the alert promise, if any other alert is already show this
-         *                              promise will be automatically rejected
+         * @param   {String}    title       the title of the alert
+         * @param   {String}    message     the detailed message to be shown within the alert modal
+         * @param   {String}    buttonLabel the label to be shown on the confirmation button
+         * @return  {Promise}               the alert promise, if any other alert is already show this
+         *                                  promise will be automatically rejected
          */
-        function success(title, message) {
-            return showAlert('is-success', title, message);
+        function success(title, message, buttonLabel) {
+            return showAlert({
+                class: 'is-success',
+                title: title,
+                message: message,
+                buttonLabel: buttonLabel
+            });
         }
 
-        function showAlert(alertClass, title, message) {
-            if (modal) return $q.reject();
+        /**
+         * @ngdoc method
+         * @name info
+         * @methodOf openlmis-modal.alertService
+         *
+         * @description
+         * Shows info modal with custom message and calls callback after closing alert. The configuration object accepts
+         * the following options:
+         * - title - the title of the alert
+         * - message - the detailed message to be shown within the alert modal
+         * - buttonLabel - the label to be shown on the confirmation button
+         *
+         * @param   {Object}  config the configuration object
+         * @return  {Promise}        the alert promise, if any other alert is already show this promise will be
+         *                           automatically rejected
+         */
+        function info(config) {
+            config.class = 'is-info';
+            return showAlert(config);
+        }
+
+        function showAlert(config) {
+            if (modal) {
+                return $q.reject();
+            }
 
             modal = openlmisModalService.createDialog({
                 controller: 'AlertModalController',
@@ -83,13 +119,16 @@
                 show: true,
                 resolve: {
                     alertClass: function() {
-                        return alertClass;
+                        return config.class;
                     },
                     title: function() {
-                        return title;
+                        return config.title;
                     },
                     message: function() {
-                        return message;
+                        return config.message;
+                    },
+                    buttonLabel: function() {
+                        return config.buttonLabel || 'openlmisModal.close';
                     }
                 }
             });

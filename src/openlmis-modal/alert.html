@@ -2,9 +2,6 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
                 <div class="alert-main">
                     <div class="alert-message">
                         <h2>{{vm.title | message}}</h2>
@@ -13,7 +10,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button ng-click="$hide()">{{'openlmisModal.close' | message}}</button>
+                <button ng-click="vm.close()">{{vm.buttonLabel | message}}</button>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
 
 describe('AlertModalController', function() {
 
-    var vm, $controller, alertClass, title, message;
+    var vm, $controller, alertClass, title, message, buttonLabel, modalDeferredSpy;
 
     beforeEach(function() {
         module('openlmis-modal');
@@ -27,19 +27,21 @@ describe('AlertModalController', function() {
         alertClass = 'error';
         title = 'Alert Title';
         message = 'Some modal message';
+        buttonLabel = 'OK';
+        modalDeferredSpy = jasmine.createSpyObj('modalDeferred', ['resolve']);
 
         vm = $controller('AlertModalController', {
             alertClass: alertClass,
             title: title,
-            message: message
+            message: message,
+            buttonLabel: buttonLabel,
+            modalDeferred: modalDeferredSpy
         });
+
+        vm.$onInit();
     });
 
     describe('$onInit', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
 
         it('should expose alert class', function() {
             expect(vm.alertClass).toEqual(alertClass);
@@ -53,6 +55,20 @@ describe('AlertModalController', function() {
             expect(vm.message).toEqual(message);
         });
 
+        it('should expose button label', function() {
+            expect(vm.buttonLabel).toEqual(buttonLabel);
+        });
+
+    });
+
+    describe('close', function() {
+    
+        it('should resolve the modalDeferred', function() {
+            vm.close();
+
+            expect(modalDeferredSpy.resolve).toHaveBeenCalled();
+        });
+    
     });
 
 });
