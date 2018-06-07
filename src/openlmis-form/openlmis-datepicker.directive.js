@@ -30,7 +30,7 @@
      * manually.
      * ```
      * <input type="text" openlmis-datepicker
-     * 	   ng-model="startDate"
+     *     ng-model="startDate"
      *     id="datepicker-id"
      *     ng-change="afterChange()"
      *     min-date="10/05/2016"
@@ -38,7 +38,7 @@
      *     disabled="endDate === null"/>
      *
      * <input type="text" openlmis-datepicker
-     * 	   ng-model="endDate"/>
+     *     ng-model="endDate"/>
      * ```
      */
     angular
