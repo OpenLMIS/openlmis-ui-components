@@ -42,7 +42,7 @@
         };
         return directive;
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
             if (shouldSkipElement(element)) {
                 return;
             }
@@ -56,12 +56,20 @@
         }
 
         function shouldSkipElement(element) {
-            var el = element[0],
-                parents = element.parents();
+            return element.parents().length < 2 ||
+                isOutsideTd(element) ||
+                isNotTextType(element);
+        }
 
-            return parents.length < 2 || parents[1].localName !== 'td' || parents[0].localName !== 'div'||
-                !parents[0].classList.contains('input-control') || el.type !== 'text' ||
-                element.attr('openlmis-datepicker');
+        function isOutsideTd(element) {
+            var parents = element.parents();
+
+            return parents[1].localName !== 'td' || parents[0].localName !== 'div' || 
+                !parents[0].classList.contains('input-control');
+        }
+
+        function isNotTextType(element) {
+            return element.attr('type') !== 'text' || element.attr('openlmis-datepicker');
         }
     }
 

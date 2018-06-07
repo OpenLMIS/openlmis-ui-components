@@ -119,66 +119,66 @@
             function getDateFormat(scope) {
                 return scope.dateFormat || DEFAULT_DATEPICKER_FORMAT;
             }
+        }
 
-            function configureDatepickerLabels(language) {
-                var datepickerSettings = jQuery.fn.datepicker.dates;
-                if (!datepickerSettings[language]) {
-                    // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
-                    // for each language, while this property is required.
-                    var localization = getDatepickerLabels();
-                    localization.titleFormat = 'MM yyyy';
+        function configureDatepickerLabels(language) {
+            var datepickerSettings = jQuery.fn.datepicker.dates;
+            if (!datepickerSettings[language]) {
+                // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
+                // for each language, while this property is required.
+                var localization = getDatepickerLabels();
+                localization.titleFormat = 'MM yyyy';
 
-                    datepickerSettings[language] = localization;
-                }
+                datepickerSettings[language] = localization;
+            }
+        }
+
+        function getDatepickerLabels() {
+            var labels = {
+                months: [],
+                monthsShort: [],
+                days: [],
+                daysShort: [],
+                daysMin: [],
+                today: messageService.get('openlmisForm.datepicker.today'),
+                clear: messageService.get('openlmisForm.datepicker.clear')
+            };
+
+            var longKey, shortKey, i;
+            for (i = 1; i <= 12; i++) {
+                longKey = 'openlmisForm.datepicker.monthNames.long.' + i;
+                labels.months.push(messageService.get(longKey));
+
+                shortKey = 'openlmisForm.datepicker.monthNames.short.' + i;
+                labels.monthsShort.push(messageService.get(shortKey));
             }
 
-            function getDatepickerLabels() {
-                var labels = {
-                    months: [],
-                    monthsShort: [],
-                    days: [],
-                    daysShort: [],
-                    daysMin: [],
-                    today: messageService.get('openlmisForm.datepicker.today'),
-                    clear: messageService.get('openlmisForm.datepicker.clear')
-                };
+            for (i = 1; i <= 7; i++) {
+                longKey = 'openlmisForm.datepicker.dayNames.long.' + i;
+                labels.days.push(messageService.get(longKey));
 
-                var longKey, shortKey, i;
-                for (i = 1; i <= 12; i++) {
-                    longKey = 'openlmisForm.datepicker.monthNames.long.' + i;
-                    labels.months.push(messageService.get(longKey));
+                shortKey = 'openlmisForm.datepicker.dayNames.short.' + i;
+                labels.daysShort.push(messageService.get(shortKey));
 
-                    shortKey = 'openlmisForm.datepicker.monthNames.short.' + i;
-                    labels.monthsShort.push(messageService.get(shortKey));
-                }
-
-                for (i = 1; i <= 7; i++) {
-                    longKey = 'openlmisForm.datepicker.dayNames.long.' + i;
-                    labels.days.push(messageService.get(longKey));
-
-                    shortKey = 'openlmisForm.datepicker.dayNames.short.' + i;
-                    labels.daysShort.push(messageService.get(shortKey));
-
-                    var minKey = 'openlmisForm.datepicker.dayNames.min.' + i;
-                    labels.daysMin.push(messageService.get(minKey));
-                }
-
-                return labels;
+                var minKey = 'openlmisForm.datepicker.dayNames.min.' + i;
+                labels.daysMin.push(messageService.get(minKey));
             }
 
-            function getFilteredDate(date) {
-                if (!date) {
-                    return undefined;
-                }
+            return labels;
+        }
 
-                var dateWithoutTimeZone;
-                if (date instanceof Date) {
-                    dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
-                } else {
-                    dateWithoutTimeZone = dateUtils.toDate(date);
-                }
-                return $filter('openlmisDate')(dateWithoutTimeZone);
+        function getFilteredDate(date) {
+            if (!date) {
+                return undefined;
             }
+
+            var dateWithoutTimeZone;
+            if (date instanceof Date) {
+                dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
+            } else {
+                dateWithoutTimeZone = dateUtils.toDate(date);
+            }
+            return $filter('openlmisDate')(dateWithoutTimeZone);
         }
     }
 })();
