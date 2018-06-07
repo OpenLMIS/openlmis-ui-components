@@ -56,6 +56,18 @@ describe('Input automatic resize directive', function() {
         expect(input[0].style.width).toBeGreaterThan('0px');
     });
 
+    it('should do nothing for date input', function() {
+        var input = compileMarkup(
+            '<td><input type="text" openlmis-datepicker ng-model="date"/></td>'
+        );
+        previousWidth = input[0].style.width;
+
+        input[0].value = 'some-invalid-date';
+        scope.$apply();
+
+        expect(input[0].style.width).toEqual(previousWidth);
+    });
+
     function compileMarkup(markup) {
         var element = $compile(markup)(scope);
         scope.$apply();

@@ -43,21 +43,25 @@
         return directive;
 
         function link(scope, element, attrs) {
-
-            var el = element[0],
-                parents = element.parents();
-
-            if(parents.length < 2 || parents[1].localName !== 'td' || parents[0].localName !== 'div'
-                || !parents[0].classList.contains('input-control') || el.type !== 'text') {
+            if (shouldSkipElement(element)) {
                 return;
             }
 
+            var el = element[0];
             scope.$watch(function() {
                 return el.value;
             }, function(newValue, oldValue) {
                 $window.autosizeInput(el);
             });
+        }
 
+        function shouldSkipElement(element) {
+            var el = element[0],
+                parents = element.parents();
+
+            return parents.length < 2 || parents[1].localName !== 'td' || parents[0].localName !== 'div'||
+                !parents[0].classList.contains('input-control') || el.type !== 'text' ||
+                element.attr('openlmis-datepicker');
         }
     }
 

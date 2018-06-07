@@ -19,30 +19,26 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
+     * @restrict A
      * @name openlmis-form.directive:openlmisDatepicker
      *
      * @description
      * Directive allows to add date picker input.
      *
      * @example
-     * To make this directive work only 'value' attribute is required, however there are more attributes to use.
-     * In order to make datepicker input use id you can add 'input-id' attribute.
-     * The 'change-method' attribute takes function that will be executed after datepicker value change.
-     * Datepicker directive also can take max-date and min-date attributes. Their values can be set from other datepickers or manually.
+     * Datepicker directive can take max-date and min-date attributes. Their values can be set from other datepickers or
+     * manually.
      * ```
-     * <openlmis-datepicker
-     * 	   value="startDate"
-     *     input-id="datepicker-id"
-     *     change-method="afterChange()"
+     * <input type="text" openlmis-datepicker
+     * 	   ng-model="startDate"
+     *     id="datepicker-id"
+     *     ng-change="afterChange()"
      *     min-date="10/05/2016"
      *     max-date="endDate"
-     *     disabled="endDate === null">
-     * </openlmis-datepicker>
+     *     disabled="endDate === null"/>
      *
-     * <openlmis-datepicker
-     * 	   value="endDate">
-     * </openlmis-datepicker>
+     * <input type="text" openlmis-datepicker
+     * 	   ng-model="endDate"/>
      * ```
      */
     angular
@@ -57,36 +53,34 @@
     function datepicker($filter, jQuery, messageService, DEFAULT_DATEPICKER_FORMAT, dateUtils,
                         DateFormatTranslator, moment) {
         return {
-            restrict: 'E',
+            restrict: 'A',
+            link: link,
             scope: {
-                value: '=',
-                inputId: '@?',
                 minDate: '=?',
                 maxDate: '=?',
-                changeMethod: '=?',
                 dateFormat: '=?',
-                language: '=?',
-                required: '=?',
-                invalidMessage: '=?',
-                disabled: '&?'
+                language: '=?'
             },
-            templateUrl: 'openlmis-form/openlmis-datepicker.html',
-            link: link
+            require: 'ngModel'
         };
 
-        function link(scope, element, attrs, modelCtrl) {
-            var dateFormatTranslator = new DateFormatTranslator(),
-                input = element.find('input'),
-                momentDateFormat = dateFormatTranslator.translateBootstrapToMoment(getDateFormat(scope)),
-                datepicker;
+        function link(scope, element, attrs, ngModelCtrl) {
+            var momentDateFormat = new DateFormatTranslator().translateBootstrapToMoment(getDateFormat(scope)),
+                ISO_FORMAT = 'YYYY-MM-DD';
 
-            setInitialValue();
             configureDatepicker();
-            setupDateFormatValidator();
 
-            scope.$watch('dateString', updateValue);
-            scope.$watch('value', updateDateString);
-            scope.$watch('disabled', updateDisabledAttr);
+            ngModelCtrl.$formatters.push(function(modelValue) {
+                return getFilteredDate(modelValue);
+            });
+
+            ngModelCtrl.$parsers.push(function(viewValue) {
+                return viewValue ? moment(viewValue, momentDateFormat, true).format(ISO_FORMAT) : viewValue;
+            });
+
+            ngModelCtrl.$validators.invalidDate = function (value) {
+                return !value || moment(value, ISO_FORMAT, true).isValid();
+            };
 
             element.on('$destroy', cleanUp);
             scope.$on('$destroy', cleanUp);
@@ -94,20 +88,13 @@
             watchDate('minDate', 'setStartDate', -Infinity);
             watchDate('maxDate', 'setEndDate', Infinity);
 
-            function setInitialValue() {
-                if (scope.value) {
-                    // Populate initial value, if passed to directive
-                    scope.value = $filter('isoDate')(scope.value);
-                    updateDateString();
-                }
-            }
-
             function configureDatepicker() {
                 var language = messageService.getCurrentLocale();
 
                 configureDatepickerLabels(language);
 
-                datepicker = input.datepicker({
+                element.parent().addClass('openlmis-datepicker');
+                element.datepicker({
                     format: scope.dateFormat || DEFAULT_DATEPICKER_FORMAT,
                     language: language,
                     clearBtn: true,
@@ -117,116 +104,81 @@
                 });
             }
 
-            function dateFormatValidator(value) {
-                return !value || moment(value, momentDateFormat, true).isValid();
-            }
-
-            function setupDateFormatValidator() {
-                input.controller('ngModel').$validators.invalidDate = dateFormatValidator;
-            }
-
-            function updateValue(value) {
-                var momentDate = moment(value, momentDateFormat, true);
-
-                scope.value = momentDate.isValid() ? $filter('isoDate')(momentDate.toDate()) : undefined;
-
-                if (scope.changeMethod && scope.changeMethod instanceof Function) {
-                    scope.changeMethod();
-                }
-            }
-
-            function updateDateString() {
-                scope.dateString = getFilteredDate(scope.value);
-            }
-
-            function updateDisabledAttr() {
-                if (isDisabled(scope.disabled)) {
-                    datepicker.attr('disabled', 'disabled');
-                } else {
-                    datepicker.removeAttr('disabled');
-                }
-            }
-
             function watchDate(dateName, fnName, defaultValue) {
                 scope.$watch(dateName, function(newDate) {
-                    input.datepicker(fnName, getFilteredDate(newDate) || defaultValue);
+                    element.datepicker(fnName, getFilteredDate(newDate) || defaultValue);
                 });
             }
 
             function cleanUp() {
-                if (input) {
-                    input.datepicker('destroy');
+                if (element) {
+                    element.datepicker('destroy');
                 }
-                datepicker = undefined;
-                input = undefined;
-            }
-        }
-
-        function getDateFormat(scope) {
-            return scope.dateFormat || DEFAULT_DATEPICKER_FORMAT;
-        }
-
-        function isDisabled(disabled) {
-            return (disabled instanceof Function && disabled()) || disabled === 'true';
-        }
-
-        function configureDatepickerLabels(language) {
-            var datepickerSettings = jQuery.fn.datepicker.dates;
-            if (!datepickerSettings[language]) {
-                // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
-                // for each language, while this property is required.
-                var localization = getDatepickerLabels();
-                localization.titleFormat = "MM yyyy";
-
-                datepickerSettings[language] = localization;
-            }
-        }
-
-        function getDatepickerLabels() {
-            var labels = {
-                months: [],
-                monthsShort: [],
-                days: [],
-                daysShort: [],
-                daysMin: [],
-                today: messageService.get('openlmisForm.datepicker.today'),
-                clear: messageService.get('openlmisForm.datepicker.clear')
-            };
-
-            for (var i = 1; i <= 12; i++) {
-                var longKey = 'openlmisForm.datepicker.monthNames.long.' + i;
-                labels.months.push(messageService.get(longKey));
-
-                var shortKey = 'openlmisForm.datepicker.monthNames.short.' + i;
-                labels.monthsShort.push(messageService.get(shortKey));
             }
 
-            for (var i = 1; i <= 7; i++) {
-                var longKey = 'openlmisForm.datepicker.dayNames.long.' + i;
-                labels.days.push(messageService.get(longKey));
-
-                var shortKey = 'openlmisForm.datepicker.dayNames.short.' + i;
-                labels.daysShort.push(messageService.get(shortKey));
-
-                var minKey = 'openlmisForm.datepicker.dayNames.min.' + i;
-                labels.daysMin.push(messageService.get(minKey));
+            function getDateFormat(scope) {
+                return scope.dateFormat || DEFAULT_DATEPICKER_FORMAT;
             }
 
-            return labels;
-        }
+            function configureDatepickerLabels(language) {
+                var datepickerSettings = jQuery.fn.datepicker.dates;
+                if (!datepickerSettings[language]) {
+                    // We explicitly pass titleFormat, because datepicker doesn't apply it automatically
+                    // for each language, while this property is required.
+                    var localization = getDatepickerLabels();
+                    localization.titleFormat = 'MM yyyy';
 
-        function getFilteredDate(date) {
-            if (!date) {
-                return undefined;
+                    datepickerSettings[language] = localization;
+                }
             }
 
-            var dateWithoutTimeZone;
-            if (date instanceof Date) {
-                dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
-            } else {
-                dateWithoutTimeZone = dateUtils.toDate(date);
+            function getDatepickerLabels() {
+                var labels = {
+                    months: [],
+                    monthsShort: [],
+                    days: [],
+                    daysShort: [],
+                    daysMin: [],
+                    today: messageService.get('openlmisForm.datepicker.today'),
+                    clear: messageService.get('openlmisForm.datepicker.clear')
+                };
+
+                var longKey, shortKey, i;
+                for (i = 1; i <= 12; i++) {
+                    longKey = 'openlmisForm.datepicker.monthNames.long.' + i;
+                    labels.months.push(messageService.get(longKey));
+
+                    shortKey = 'openlmisForm.datepicker.monthNames.short.' + i;
+                    labels.monthsShort.push(messageService.get(shortKey));
+                }
+
+                for (i = 1; i <= 7; i++) {
+                    longKey = 'openlmisForm.datepicker.dayNames.long.' + i;
+                    labels.days.push(messageService.get(longKey));
+
+                    shortKey = 'openlmisForm.datepicker.dayNames.short.' + i;
+                    labels.daysShort.push(messageService.get(shortKey));
+
+                    var minKey = 'openlmisForm.datepicker.dayNames.min.' + i;
+                    labels.daysMin.push(messageService.get(minKey));
+                }
+
+                return labels;
             }
-            return $filter('openlmisDate')(dateWithoutTimeZone);
+
+            function getFilteredDate(date) {
+                if (!date) {
+                    return undefined;
+                }
+
+                var dateWithoutTimeZone;
+                if (date instanceof Date) {
+                    dateWithoutTimeZone = dateUtils.toDate(date.toISOString());
+                } else {
+                    dateWithoutTimeZone = dateUtils.toDate(date);
+                }
+                return $filter('openlmisDate')(dateWithoutTimeZone);
+            }
         }
     }
 })();

@@ -1,4 +1,3 @@
-
 /*
 Date Picker
 
@@ -7,41 +6,37 @@ User the openlmis-datepicker to show an input that allows the user to select a d
 markup:
 <form>
 	<label for="example-datepicker">Select with no selection</label>
-    <openlmis-datepicker input-id="example-datepicker" value="startDate" />
+	<input id="example-datepicker" type="date" ng-model="startDate"/>
 </form>
 
 
 Styleguide 3.5
 */
 
-.olmis-datepicker {
-    position: relative;
-    min-width: $sidebar-width/2;
-}
-
-.olmis-datepicker-icon {
-    @include icon('calendar');
-  	position: absolute;
-  	padding: 10px;
-  	pointer-events: none;
-  	right: 0px;
+.openlmis-datepicker::after {
+	content: "\f073";
+	font: normal normal normal 14px/1 FontAwesome;
+	display: block;
+	height: 1em;
+	width: 1em;
+	position: absolute;
+	top: 50%;
+	right: 0.5em;
+	transform: translateY(-50%);
 }
 
 .datepicker {
-  .today:not(.active) {
-    background-color: $light-shadow !important;
-
-    &:hover {
-      background-color: $light-gray !important;
-    }
-  }
-
+	.today:not(.active) {
+		background-color: $light-shadow !important;
+		&:hover {
+			background-color: $light-gray !important;
+		}
+	}
 	.clear {
-	  @extend .btn-primary;
+		@extend .btn-primary;
 		border: 0px;
 		font-size: $font-size;
-
-		&:hover{
+		&:hover {
 			background-color: $brand-primary;
 			color: $white;
 		}

@@ -25,10 +25,6 @@ describe('Datepicker directive', function() {
             initSuite('dd/mm/yyyy');
         });
 
-        it('should apply template', function() {
-            expect(element.html()).not.toEqual('');
-        });
-
         it('should have datepicker element', function() {
             var elem = angular.element(element);
             expect(elem.find('input').datepicker).toBeDefined();
@@ -38,7 +34,7 @@ describe('Datepicker directive', function() {
             var elem = angular.element(element);
 
             $timeout(function() {
-                expect(elem.find('input').attr('value')).toEqual('31/01/2017');
+                expect(elem.attr('value')).toEqual('31/01/2017');
             }, 100);
         });
 
@@ -48,23 +44,23 @@ describe('Datepicker directive', function() {
             var elem = angular.element(element);
 
             $timeout(function() {
-                expect(elem.find('input').attr('value')).toEqual('31/01/2017');
+                expect(elem.attr('value')).toEqual('31/01/2017');
             }, 100);
         });
 
         it('should add disabled parameter', function() {
             var elem = angular.element(element);
-            expect(elem.find('input').attr('disabled')).toEqual('disabled');
+            expect(elem.attr('disabled')).toEqual('disabled');
         });
 
         it('should remove disabled parameter if expression changes to false', function() {
             var elem = angular.element(element);
-            expect(elem.find('input').attr('disabled')).toEqual('disabled');
+            expect(elem.attr('disabled')).toEqual('disabled');
 
             scope.isDisabled = true;
             scope.$apply();
             $timeout(function() {
-                expect(elem.find('input').attr('disabled')).toEqual(undefined);
+                expect(elem.attr('disabled')).toEqual(undefined);
             }, 100);
         });
 
@@ -81,7 +77,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set start date if it is defined', function() {
@@ -90,7 +86,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
         });
 
         it('should set start date to infinity if min date is set to undefined', function() {
@@ -99,12 +95,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
 
             scope.startDate = undefined;
             scope.$apply();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set start date to a date specified in the min date', function() {
@@ -112,12 +108,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
 
             scope.startDate = '2018-03-27';
             scope.$apply();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(new Date(scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
         });
 
         it('should not set end date if it is undefined', function() {
@@ -125,7 +121,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set end date if it is defined', function() {
@@ -134,7 +130,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
         });
 
         it('should set end date to infinity if min date is set to undefined', function() {
@@ -143,12 +139,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
 
             scope.endDate = undefined;
             scope.$apply();
 
-            expect(getInputElement().datepicker('getEndDate')).toEqual(Infinity);
+            expect(element.datepicker('getEndDate')).toEqual(Infinity);
         });
 
         it('should set end date to a date specified in the max date', function() {
@@ -156,12 +152,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(getInputElement().datepicker('getEndDate')).toEqual(Infinity);
+            expect(element.datepicker('getEndDate')).toEqual(Infinity);
 
             scope.endDate = '2018-03-27';
             scope.$apply();
 
-            expect(getInputElement().datepicker('getEndDate')).toEqual(new Date(scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
         });
 
         it('should show error if text is not a valid date', function() {
@@ -169,12 +165,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('some text, definitely not date').trigger('input');
+            element.val('some text, definitely not date').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if day is 0', function() {
@@ -182,12 +178,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('00/01/0000').trigger('input');
+            element.val('00/01/0000').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if month is 0', function() {
@@ -195,12 +191,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('01/00/0000').trigger('input');
+            element.val('01/00/0000').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if day is over 31', function() {
@@ -208,12 +204,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('32/01/0000').trigger('input');
+            element.val('32/01/0000').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if month is over 12', function() {
@@ -221,12 +217,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('31/13/0000').trigger('input');
+            element.val('31/13/0000').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should not show error if date is undefined', function() {
@@ -234,12 +230,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('').trigger('input');
+            element.val('').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
         it('should not show error for valid date', function() {
@@ -247,12 +243,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('31/12/2018').trigger('input');
+            element.val('31/12/2018').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
         it('should update scope.value if date was entered with input', function() {
@@ -260,7 +256,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            element.find('input').val('31/12/2018').trigger('input');
+            element.val('31/12/2018').trigger('input');
             scope.$apply();
 
             expect(scope.date).toEqual('2018-12-31');
@@ -271,7 +267,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            element.find('input').val('31/12/2018').trigger('input');
+            element.val('31/12/2018').trigger('input');
             scope.$apply();
 
             expect(scope.date).toEqual('2018-12-31');
@@ -284,7 +280,7 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('input').val()).toEqual('25/05/1977');
+            expect(element.val()).toEqual('25/05/1977');
         });
 
     });
@@ -298,12 +294,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('31/12/2018').trigger('input');
+            element.val('31/12/2018').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(1);
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should not show errors if valid date is given', function() {
@@ -313,12 +309,12 @@ describe('Datepicker directive', function() {
 
             element = compileElement();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            element.find('input').val('12/2018/31').trigger('input');
+            element.val('12/2018/31').trigger('input');
             scope.$apply();
 
-            expect(element.find('li:contains("invalidDate")').length).toBe(0);
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
     });
@@ -352,15 +348,10 @@ describe('Datepicker directive', function() {
         element = undefined;
     });
 
-    function getInputElement() {
-        return element.find('input');
-    }
-
     function compileElement() {
         var element = $compile(
-            '<openlmis-datepicker input-id="startDate" value="date" min-date="startDate"' +
-                'max-date="endDate" disabled="isDisabled">' +
-            '</openlmis-datepicker>'
+            '<input type="date" id="startDate" ng-model="date" min-date="startDate"' +
+                'max-date="endDate" disabled="isDisabled"/>'
         )(scope);
         scope.$apply();
         return element;
