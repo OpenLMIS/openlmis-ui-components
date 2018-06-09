@@ -63,7 +63,7 @@
             scope.$on('$destroy', unsetSelfAsLastOpenPopover);
 
             function unsetSelfAsLastOpenPopover() {
-                if (lastOpenPopover == element) {
+                if (lastOpenPopover === element) {
                     lastOpenPopover = null;
                 }
             }

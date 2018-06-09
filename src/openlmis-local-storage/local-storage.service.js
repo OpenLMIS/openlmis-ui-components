@@ -145,7 +145,7 @@ angularLocalStorage.service('localStorageService', [
   // Example use: localStorageService.cookie.add('library','angular');
   var addToCookies = function (key, value) {
 
-    if (typeof value == "undefined") return false;
+    if (typeof value === "undefined") return false;
 
     if (!browserSupportsCookies()) {
       $rootScope.$broadcast('LocalStorageModule.notification.error','COOKIES_NOT_SUPPORTED');
@@ -184,7 +184,7 @@ angularLocalStorage.service('localStorageService', [
       while (thisCookie.charAt(0)==' ') {
         thisCookie = thisCookie.substring(1,thisCookie.length);
       }
-      if (thisCookie.indexOf(prefix+key+'=') == 0) {
+      if (thisCookie.indexOf(prefix+key+'=') === 0) {
         return decodeURIComponent(thisCookie.substring(prefix.length+key.length+1,thisCookie.length));
       }
     }

@@ -53,7 +53,7 @@
              * string is empty.
              */
             function setTitle(title) {
-                if (title && title != '') {
+                if (title && title !== '') {
                     popoverCtrl.popoverScope.title = title;
                 } else {
                     popoverCtrl.popoverScope.title = false;

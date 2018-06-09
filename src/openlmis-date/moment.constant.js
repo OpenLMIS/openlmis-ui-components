@@ -26,6 +26,7 @@
      */
     angular
         .module('openlmis-date')
-        .constant('moment', moment); //eslint-disable-line no-undef
+        //eslint-disable-next-line no-undef
+        .constant('moment', moment);
 
 })();

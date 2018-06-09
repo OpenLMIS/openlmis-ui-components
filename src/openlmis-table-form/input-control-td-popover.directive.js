@@ -33,7 +33,8 @@
     function directive() {
         return {
             restrict: 'A',
-            priority: 4, // before input-control.directive.js
+            // before input-control.directive.js
+            priority: 4,
             link: link
         };
     }

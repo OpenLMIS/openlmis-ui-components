@@ -59,7 +59,7 @@
             function inputControlParseMessage(message) {
                 var messageKey = 'openlmisForm.' + message,
                     invalidMessage = messageService.get(messageKey);
-                if (invalidMessage == messageKey) {
+                if (invalidMessage === messageKey) {
                     return originalInvalidCtrlParseMessage.apply(openlmisInvalidCtrl, arguments);
                 } else {
                     return invalidMessage;

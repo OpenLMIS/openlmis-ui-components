@@ -59,7 +59,7 @@
             }
 
             scope.$watch(function() {
-                if (attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
+                if (attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid !== '') {
                     return attrs.openlmisInvalid;
                 } else {
                     return false;

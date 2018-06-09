@@ -50,7 +50,7 @@
         // The serverURL can be set with a grunt build argument
         // --serverURL=http://openlmis.server:location
         var serverURL = '@@OPENLMIS_SERVER_URL';
-        if (serverURL.substr(0, 2) != '@@') {
+        if (serverURL.substr(0, 2) !== '@@') {
             service.url = serverURL;
         }
 
@@ -66,10 +66,10 @@
         function getRootURL(url) {
             var offset = 0;
             if (url.substr(0, 7)
-                .toLowerCase() == 'http://') {
+                .toLowerCase() === 'http://') {
                 offset = 7;
             } else if (url.substr(0, 8)
-                .toLowerCase() == 'https://') {
+                .toLowerCase() === 'https://') {
                 offset = 8;
             }
 
@@ -96,10 +96,10 @@
         function formatURL() {
             var parts = [];
             angular.forEach(arguments, function(arg, index) {
-                if (index==0 && arg.substr(0, 4)
-                    .toLowerCase() == 'http') {
+                if (index === 0 && arg.substr(0, 4)
+                    .toLowerCase() === 'http') {
                     addURLtoServerURLs(arg);
-                } else if (index==0) {
+                } else if (index === 0) {
                     parts.push(service.url);
                 }
                 parts.push(arg);
@@ -121,13 +121,13 @@
             var urlsToCheck = serverURLs.concat(service.url);
 
             var i;
-            for (i=0; i<bypassURLs.length; i++) {
-                if (url.substring(0, bypassURLs[i].length) == bypassURLs[i]) {
+            for (i = 0; i < bypassURLs.length; i++) {
+                if (url.substring(0, bypassURLs[i].length) === bypassURLs[i]) {
                     return false;
                 }
             }
-            for (i=0; i<urlsToCheck.length; i++) {
-                if (url.indexOf(urlsToCheck[i]) == 0) {
+            for (i = 0; i < urlsToCheck.length; i++) {
+                if (url.indexOf(urlsToCheck[i]) === 0) {
                     return true;
                 }
             }

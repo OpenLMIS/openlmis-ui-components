@@ -43,7 +43,7 @@ describe("LocaleController", function () {
         var mockLocale = undefined;
         spyOn(messageService, 'populate').andCallFake(function(lang){
             var deferred = $q.defer();
-            if(lang == 'fail'){
+            if(lang === 'fail'){
                 deferred.reject();
             } else {
                 mockLocale = lang;

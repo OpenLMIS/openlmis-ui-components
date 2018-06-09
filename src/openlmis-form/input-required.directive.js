@@ -55,7 +55,8 @@
         return directive;
 
         function link(scope, element, attrs) {
-            var label; // keep the last found label reference here (incase something changes)
+            // keep the last found label reference here (incase something changes)
+            var label;
 
             if (attrs.type === 'radio' || attrs.type === 'checkbox') {
                 return;

@@ -136,7 +136,7 @@
             function getPlaceholder() {
                 var placeholderOption = element.children('.placeholder:first');
 
-                if (placeholderOption.length == 0) {
+                if (placeholderOption.length === 0) {
                     return false;
                 } else {
                     return {

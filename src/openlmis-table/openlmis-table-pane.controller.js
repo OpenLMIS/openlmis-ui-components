@@ -68,7 +68,8 @@
          *
          * @param {Number} number Position to set the scroll left value to
          */
-        function setScrollLeft(number) { //eslint-disable-line no-unused-vars
+        //eslint-disable-next-line no-unused-vars
+        function setScrollLeft(number) {
             // Placeholder for directive to override
         }
 

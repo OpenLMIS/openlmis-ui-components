@@ -85,7 +85,7 @@
         function setMessages(newMessages) {
             Object.keys(newMessages)
                 .forEach(function(key) {
-                    if (typeof(newMessages[key]) == 'boolean') {
+                    if (typeof(newMessages[key]) === 'boolean') {
                         newMessages[key] = vm.parseMessage(key);
                     }
                 });
@@ -112,7 +112,7 @@
         function parseMessage(message) {
             var openlmisInvalidMessageKey = 'openlmisInvalid.' + message,
                 openlmisInvalidMessage = messageService.get(openlmisInvalidMessageKey);
-            if (openlmisInvalidMessage == openlmisInvalidMessageKey) {
+            if (openlmisInvalidMessage === openlmisInvalidMessageKey) {
                 return messageService.get(message);
             } else {
                 return openlmisInvalidMessage;

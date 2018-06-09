@@ -152,12 +152,14 @@
                     parent.off('scroll', updateScrollPosition);
                 }
 
-                parent = element.parent(); // reset in case it changed...
+                // reset in case it changed...
+                parent = element.parent();
                 parent.on('scroll', updateScrollPosition);
 
                 createStickColumns();
                 updateScrollPosition();
-                animate(); // Remove
+                // remove
+                animate();
             }
 
             function createStickColumns() {
@@ -296,7 +298,7 @@
                 return function() {
                     var position = 0;
 
-                    if (currentParent != cellParent) {
+                    if (currentParent !== cellParent) {
                         resetCurrent(cellParent);
                     }
 

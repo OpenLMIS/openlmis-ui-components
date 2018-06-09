@@ -55,7 +55,7 @@
     function link(scope, element) {
         var submitButton = element.children('input[type="submit"]');
 
-        if (submitButton.length == 1) {
+        if (submitButton.length === 1) {
             var wrap = angular.element('<div class="button-group"></div>');
             wrap.append(submitButton.siblings('input[type="button"], button, .button-group'));
             wrap.insertBefore(submitButton);

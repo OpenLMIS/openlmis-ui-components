@@ -64,8 +64,8 @@
              */
             function getAttributeError() {
                 if (attrs.hasOwnProperty('openlmisInvalid') &&
-                    attrs.openlmisInvalid != '' &&
-                    attrs.openlmisInvalid != 'false') {
+                    attrs.openlmisInvalid !== '' &&
+                    attrs.openlmisInvalid !== 'false') {
                     return attrs.openlmisInvalid;
                 }
                 return false;

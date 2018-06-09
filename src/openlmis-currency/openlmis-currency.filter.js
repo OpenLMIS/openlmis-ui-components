@@ -36,7 +36,7 @@
 
     function filter(currencyService) {
         return function(value) {
-            if (value != null) {
+            if (value !== null) {
                 var settings = currencyService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
                     return formatMoney(value, settings) + '\u00A0' + settings.currencySymbol;

@@ -32,7 +32,7 @@
             // PhantomJS treats arguments as object
             var args = [];
             angular.forEach(arguments, function(arg) {
-                if (arg && arg != '') {
+                if (arg && arg !== '') {
                     args.push(arg);
                 }
             });
@@ -42,11 +42,11 @@
                 // clone argument to prevent changing original values
                 var uri = arg.slice(0);
                 // remove trailing slash, unless last argument
-                if (index != args.length-1 && uri[uri.length-1] == '/') {
-                    uri = uri.substr(0, uri.length-1);
+                if (index !== args.length - 1 && uri[uri.length - 1] === '/') {
+                    uri = uri.substr(0, uri.length - 1);
                 }
                 // remove first slash, unless first argument
-                if (index != 0 && uri[0] == '/') {
+                if (index !== 0 && uri[0] === '/') {
                     uri = uri.substr(1, uri.length);
                 }
 

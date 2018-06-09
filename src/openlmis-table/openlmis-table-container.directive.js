@@ -63,7 +63,7 @@
     }
 
     function compile(element) {
-        if (element.children('table').length == 1) {
+        if (element.children('table').length === 1) {
             var toolbar = angular.element('<div class="toolbar"></div>'),
                 row = angular.element('<div class="row"></div>'),
                 main = angular.element('<div class="main"></div>');
@@ -72,7 +72,7 @@
                 .each(function(index, childElement) {
                     if (['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1) {
                         toolbar.append(childElement);
-                    } else if (childElement.nodeName == 'FORM') {
+                    } else if (childElement.nodeName === 'FORM') {
                         row.append(childElement);
                     }
                 });

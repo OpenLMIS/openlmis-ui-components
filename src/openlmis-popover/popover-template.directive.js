@@ -54,7 +54,7 @@
             var popoverElement;
 
             scope.$watch(function() {
-                if (attrs.popoverTemplate && attrs.popoverTemplate != '') {
+                if (attrs.popoverTemplate && attrs.popoverTemplate !== '') {
                     return attrs.popoverTemplate;
                 } else {
                     return false;

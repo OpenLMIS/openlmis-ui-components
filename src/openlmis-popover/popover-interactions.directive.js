@@ -42,8 +42,10 @@
 
         function popoverLink(scope, element, attrs, popoverCtrl) {
 
-            var popoverIsOpen, // boolean, if popover is open
-                popoverCanOpen; // boolean, if popover element has focus and should be open
+            // boolean, if popover is open
+            var popoverIsOpen,
+                // boolean, if popover element has focus and should be open
+                popoverCanOpen;
 
             element.on('focus', focusedElement);
             element.on('focusin', focusedElement);

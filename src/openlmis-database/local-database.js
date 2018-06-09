@@ -146,7 +146,8 @@
          */
         function search(options) {
             return this.pouchDb.allDocs({
-                include_docs: true //eslint-disable-line camelcase
+                //eslint-disable-next-line camelcase
+                include_docs: true
             })
                 .then(extractDocs)
                 .then(function(docs) {

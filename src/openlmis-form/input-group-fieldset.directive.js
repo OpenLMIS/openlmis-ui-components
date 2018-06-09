@@ -126,7 +126,7 @@
                         name = elementName;
                     }
 
-                    if (!matches || type != elementType || name != elementName || !isSupportedType) {
+                    if (!matches || type !== elementType || name !== elementName || !isSupportedType) {
                         matches = false;
                     }
                 });

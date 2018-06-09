@@ -63,11 +63,11 @@
          */
         function setup(element, attrs) {
             // set unique ID (if not set)
-            if (!element.attr('id') || element.attr('id') == '') {
+            if (!element.attr('id') || element.attr('id') === '') {
                 element.attr('id', uniqueIdService.generate());
             }
 
-            if (!element.attr('name') || element.attr('name') == '') {
+            if (!element.attr('name') || element.attr('name') === '') {
                 if (attrs.ngModel) {
                     element.attr('name', attrs.ngModel);
                 } else {

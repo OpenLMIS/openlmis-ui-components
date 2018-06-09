@@ -131,7 +131,7 @@
                 if (offset + expandableElement.outerWidth() > table.width() + 1) {
                     offset = 0;
                 }
-                cssUpdate.transform = 'translate3d('+offset+'px, 0px, 0px)';
+                cssUpdate.transform = 'translate3d(' + offset + 'px, 0px, 0px)';
 
                 expandableElement.css(cssUpdate);
             }

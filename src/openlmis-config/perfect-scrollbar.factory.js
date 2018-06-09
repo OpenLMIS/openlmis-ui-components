@@ -26,6 +26,7 @@
      */
     angular
         .module('openlmis-config')
-        .constant('PerfectScrollbar', PerfectScrollbar); //eslint-disable-line no-undef
+        //eslint-disable-next-line no-undef
+        .constant('PerfectScrollbar', PerfectScrollbar);
 
 })();

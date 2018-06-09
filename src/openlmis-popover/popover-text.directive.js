@@ -54,7 +54,7 @@
                 textScope;
 
             scope.$watch(function() {
-                if (attrs.popover && attrs.popover != '') {
+                if (attrs.popover && attrs.popover !== '') {
                     return attrs.popover;
                 } else {
                     return false;

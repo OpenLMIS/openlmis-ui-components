@@ -108,7 +108,7 @@
 
             function animatePosition() {
                 var positionObj = originalUpdatePosition.apply(cellCtrl, arguments),
-                    transform = 'translate3d('+positionObj.left+'px, '+positionObj.top+'px, 0px)';
+                    transform = 'translate3d(' + positionObj.left + 'px, ' + positionObj.top + 'px, 0px)';
 
                 if (transform === lastTransform) {
                     return;

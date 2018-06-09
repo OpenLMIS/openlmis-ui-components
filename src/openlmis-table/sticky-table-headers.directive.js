@@ -67,10 +67,8 @@
             var parent = element.parent(),
                 window = angular.element($window),
                 containerOffset,
-                blits = []; // functions that update cell position
-
-            // // Updates blit array...
-            // updateStickyElements();
+                // functions that update cell position
+                blits = [];
 
             scope.$watchCollection(function() {
                 return element.find('thead th');
@@ -96,7 +94,8 @@
             function updateStickyElements() {
                 window.unbind('scroll', animate);
 
-                parent = element.parent(); // reset in case it changed...
+                // reset in case it changed...
+                parent = element.parent();
                 window.bind('scroll', animate);
 
                 // Make sure offsets are correct

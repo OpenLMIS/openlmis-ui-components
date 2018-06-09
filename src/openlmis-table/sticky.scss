@@ -5,8 +5,8 @@ Tables can have sticky columns to keep important elements within view.
 
   <div class="openlmis-table-container" ng-init="rows=[1,2,3,4,5,6,7,8,9,10];groups=[1,2];columns=[1,2,3];">
     <div class="button-group primary">
-      <button ng-show="groups.length == 2" ng-click="columns=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];groups=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];">Make Table Huge</button>
-      <button ng-show="groups.length != 2" ng-click="columns=[1,2,3];groups=[1,2]">Make Table Shorter</button>
+      <button ng-show="groups.length === 2" ng-click="columns=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];groups=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];">Make Table Huge</button>
+      <button ng-show="groups.length !== 2" ng-click="columns=[1,2,3];groups=[1,2]">Make Table Shorter</button>
     </div>
     <table>
       <thead>

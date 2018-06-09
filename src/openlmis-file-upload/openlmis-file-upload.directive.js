@@ -46,7 +46,7 @@
         return directive;
 
         function link(scope, element, attrs, ngModelController) {
-            if (element.attr('type') != 'file') {
+            if (element.attr('type') !== 'file') {
                 return;
             }
 

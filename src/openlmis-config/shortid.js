@@ -24,6 +24,7 @@
      */
 
     angular.module('openlmis-config')
-        .constant('shortid', shortid); //eslint-disable-line no-undef
+        //eslint-disable-next-line no-undef
+        .constant('shortid', shortid);
 
 })();

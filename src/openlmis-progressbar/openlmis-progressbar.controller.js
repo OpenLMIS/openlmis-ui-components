@@ -40,7 +40,7 @@
         };
 
         function onInit() {
-            if (!angular.isDefined(vm.max) || vm.max == 0) {
+            if (!angular.isDefined(vm.max) || vm.max === 0) {
                 vm.max = 100;
             }
         }

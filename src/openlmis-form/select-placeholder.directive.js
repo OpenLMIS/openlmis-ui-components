@@ -116,7 +116,8 @@
              * 
              */
             function updatePlaceholder() {
-                var placeholderText = defaultPlaceholderText.slice(0);  // copy the default so it persisits
+                // copy the default so it persists
+                var placeholderText = defaultPlaceholderText.slice(0);
                 if (placeholderText === '') {
                     if (attrs.placeholder) {
                         placeholderText = attrs.placeholder;
