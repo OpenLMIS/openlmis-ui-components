@@ -37,10 +37,8 @@
 
         function handleStateChangeError(event, toState, toParams, fromState, fromParams, error) {
             if (!isResponse(error)) {
-                alertService.error(
-                    'openlmisStateChangeError.internalApplicationError.title',
-                    'openlmisStateChangeError.internalApplicationError.message'
-                );
+                alertService.error('openlmisStateChangeError.internalApplicationError.title',
+                    'openlmisStateChangeError.internalApplicationError.message');
                 console.error(error);
             }
         }

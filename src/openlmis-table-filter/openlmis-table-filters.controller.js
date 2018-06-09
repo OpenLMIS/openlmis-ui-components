@@ -127,12 +127,15 @@
         }
 
         function submitForms() {
-            if (forms) forms.each(submitForm);
+            if (forms) {
+                forms.each(submitForm);
+            }
             broadcastEvent();
         }
 
         function submitForm(index, form) {
-            angular.element(form).trigger('submit');
+            angular.element(form)
+                .trigger('submit');
         }
 
         function broadcastEvent() {
@@ -142,22 +145,23 @@
 
         function registerForm(element) {
             addForm(element);
-            form.prepend(element.children().not(SUBMIT_ELEMENT));
+            form.prepend(element.children()
+                .not(SUBMIT_ELEMENT));
             element.detach();
         }
 
         function replaceSubmitButtonIfElementContainsSubmitButton(element) {
             var submit = element.find(SUBMIT_ELEMENT);
-            if (submit.length ) {
+            if (submit.length) {
                 submitButton.replaceWith(submit);
             }
         }
 
         function addForm(form) {
-            if (!forms) {
-                forms = form;
-            } else {
+            if (forms) {
                 forms.push(form);
+            } else {
+                forms = form;
             }
         }
 
@@ -185,11 +189,9 @@
         }
 
         function openPopoverIfFormIsInvalidAndPristine() {
-            var stopWatch = $scope.$watch(
-                isFormInvalidAndPristine,
+            var stopWatch = $scope.$watch(isFormInvalidAndPristine,
                 openPopoverAndStopWatch,
-                true
-            );
+                true);
 
             function openPopoverAndStopWatch(isInvalidAndPristine) {
                 if (isInvalidAndPristine) {
@@ -205,20 +207,17 @@
         }
 
         function compileForm() {
-            return compileElement(
-                '<form>' +
+            return compileElement('<form>' +
                     '<input id="close-filters" type="button" value="{{\'openlmisTableFilter.cancel\' | message}}"/>' +
                     '<input type="submit" value="{{\'openlmisTableFilter.update\' | message}}"/>' +
-                '</form>'
-            );
+                '</form>');
         }
 
         function compileFilterButton() {
-            var filterButton = compileElement(
-                '<button class="filters {{class}}">{{\'openlmisTableFilter.filter\' | message }}' +
+            var filterButton = compileElement('<button class="filters {{class}}">' +
+                    '{{\'openlmisTableFilter.filter\' | message }}' +
                     '<span ng-if="count && count !== 0">({{count}})</span>' +
-                '</button>'
-            );
+                '</button>');
 
             filterButton.popover({
                 html: true,
@@ -226,13 +225,14 @@
                 placement: 'auto top',
                 content: form
             })
-            .data('bs.popover')
-            .tip()
-            .addClass('openlmis-table-filters');
+                .data('bs.popover')
+                .tip()
+                .addClass('openlmis-table-filters');
             filterButton.hide();
 
             form.on('submit', hidePopover);
-            form.find('#close-filters').on('click', hidePopover);
+            form.find('#close-filters')
+                .on('click', hidePopover);
 
             return filterButton;
         }
@@ -244,7 +244,7 @@
         function hidePopover() {
             filterButton.popover('hide');
 
-            if(isFormSubmitted()) {
+            if (isFormSubmitted()) {
                 $scope.count = getDefinedModelsLength(ngModels);
                 updateButtonState();
             } else {
@@ -256,48 +256,54 @@
 
         function getNgModels() {
             var modelValues = {};
-            form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
-                var name = getName(formElement),
-                    ngModel = getModel(formElement);
+            form.find(NGMODEL_ELEMENT)
+                .each(function(index, formElement) {
+                    var name = getName(formElement),
+                        ngModel = getModel(formElement);
 
-                modelValues[name] = ngModel;
-            });
+                    modelValues[name] = ngModel;
+                });
             return modelValues;
         }
 
         function rollbackChanges() {
-            form.find(NGMODEL_ELEMENT).each(function(index, formElement) {
-                var name = getName(formElement),
-                    ngModel = getModel(formElement),
-                    modelValue = ngModel.$modelValue,
-                    previousValue = ngModelValues[name];
+            form.find(NGMODEL_ELEMENT)
+                .each(function(index, formElement) {
+                    var name = getName(formElement),
+                        ngModel = getModel(formElement),
+                        modelValue = ngModel.$modelValue,
+                        previousValue = ngModelValues[name];
 
-                if (modelValue !== previousValue) {
-                    ngModel.$setViewValue(previousValue);
-                    ngModel.$render();
-                }
-            });
+                    if (modelValue !== previousValue) {
+                        ngModel.$setViewValue(previousValue);
+                        ngModel.$render();
+                    }
+                });
         }
 
         function getModel(formElement) {
-            return angular.element(formElement).controller('ngModel');
+            return angular.element(formElement)
+                .controller('ngModel');
         }
 
         function getName(formElement) {
-            return angular.element(formElement).attr('name');
+            return angular.element(formElement)
+                .attr('name');
         }
 
         function getDefinedModelsLength(models) {
-            return Object.keys(models).filter(function(key) {
-                return models[key].$modelValue;
-            }).length;
+            return Object.keys(models)
+                .filter(function(key) {
+                    return models[key].$modelValue;
+                }).length;
         }
 
         function getAllModelValues(models) {
             var modelValues = {};
-            Object.keys(models).forEach(function(key) {
-                modelValues[key] = models[key].$modelValue;
-            });
+            Object.keys(models)
+                .forEach(function(key) {
+                    modelValues[key] = models[key].$modelValue;
+                });
             return modelValues;
         }
 

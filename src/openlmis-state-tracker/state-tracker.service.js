@@ -48,7 +48,7 @@
          * @param   {Object}    previousStateParams the previous state parameters
          */
         function setPreviousState(previousState, previousStateParams) {
-            if(!previousState.nonTrackable && previousState.name) {
+            if (!previousState.nonTrackable && previousState.name) {
                 stateStorage.clearAll();
                 stateStorage.put({
                     previousState: previousState.name,
@@ -74,7 +74,7 @@
          */
         function goToPreviousState(defaultState, stateParams, stateOptions) {
             var storedStates = stateStorage.getAll();
-            if(storedStates && storedStates.length > 0) {
+            if (storedStates && storedStates.length > 0) {
                 var storeParams = storedStates[0].previousStateParams,
                     params = storeParams ? angular.copy(storeParams) : {},
                     options = stateOptions ? angular.copy(stateOptions) : {};
@@ -88,7 +88,7 @@
                 }
 
                 $state.go(storedStates[0].previousState, params, options);
-            } else if(defaultState) {
+            } else if (defaultState) {
                 $state.go(defaultState);
             } else {
                 $state.reload();

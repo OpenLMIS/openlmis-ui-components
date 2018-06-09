@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc controller
@@ -27,7 +26,10 @@
     angular.module('openlmis-locale')
         .controller('LocaleController', LocaleController);
 
-    LocaleController.$inject = ['$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES', '$window']
+    LocaleController.$inject = [
+        '$scope', 'messageService', 'alertService', 'notificationService', 'OPENLMIS_LANGUAGES', '$window'
+    ];
+
     function LocaleController($scope, messageService, alertService, notificationService, OPENLMIS_LANGUAGES, $window) {
         var locale = this;
 
@@ -36,15 +38,17 @@
         locale.getLocaleName = getLocaleName;
 
         function onInit() {
-            locale.locales = Object.keys(OPENLMIS_LANGUAGES).sort();
+            locale.locales = Object.keys(OPENLMIS_LANGUAGES)
+                .sort();
 
             locale.selectedLocale = messageService.getCurrentLocale();
 
-            if(!locale.selectedLocale){
-                messageService.populate().then(function() {
-                    locale.selectedLocale = messageService.getCurrentLocale();
+            if (!locale.selectedLocale) {
+                messageService.populate()
+                    .then(function() {
+                        locale.selectedLocale = messageService.getCurrentLocale();
 
-                });
+                    });
             }
         }
 
@@ -59,13 +63,14 @@
          * @param {String} localeKey key of locale which user want to change to
          */
         function changeLocale(localeKey) {
-            if(localeKey) {
-                messageService.populate(localeKey).then(function() {
-                    locale.selectedLocale = messageService.getCurrentLocale();
-                    $window.location.reload();
-                }, function() {
-                    alertService.error('openlmisLocale.errorChangingLanguage');
-                });
+            if (localeKey) {
+                messageService.populate(localeKey)
+                    .then(function() {
+                        locale.selectedLocale = messageService.getCurrentLocale();
+                        $window.location.reload();
+                    }, function() {
+                        alertService.error('openlmisLocale.errorChangingLanguage');
+                    });
             }
         }
 
@@ -80,8 +85,8 @@
          * @param  {String} key key of locale
          * @return {String}     locale name
          */
-        function getLocaleName(key){
-            if(OPENLMIS_LANGUAGES[key]){
+        function getLocaleName(key) {
+            if (OPENLMIS_LANGUAGES[key]) {
                 return OPENLMIS_LANGUAGES[key];
             }
 

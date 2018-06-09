@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
@@ -60,7 +59,7 @@
             deferred = $q.defer();
 
             if (delay && !timeoutPromise) {
-                timeoutPromise = $timeout(function(){
+                timeoutPromise = $timeout(function() {
                     service.isOpened = true;
                     dialog = openlmisModalService.createDialog(angular.copy(options));
                     timeoutPromise = null;
@@ -84,12 +83,12 @@
         function close() {
             service.isOpened = false;
 
-            if(timeoutPromise) {
+            if (timeoutPromise) {
                 $timeout.cancel(timeoutPromise);
                 timeoutPromise = null;
             }
 
-            if(dialog) {
+            if (dialog) {
                 dialog.closed = true;
                 dialog.hide();
                 dialog = undefined;

@@ -26,7 +26,7 @@
      * register their ngModelCtrl to the InputControlController, which then 
      * returns aggrigated responses to the input-control directive.
      */
-    
+
     angular
         .module('openlmis-form')
         .controller('InputControlController', controller);
@@ -82,5 +82,5 @@
         }
 
     }
-        
+
 })();

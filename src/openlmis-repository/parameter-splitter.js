@@ -55,7 +55,8 @@
         function split(uri, params) {
             if (shouldSplit(uri, params)) {
                 var paramsMap = splitParams(params);
-                return split(uri, paramsMap.left).concat(split(uri, paramsMap.right));
+                return split(uri, paramsMap.left)
+                    .concat(split(uri, paramsMap.right));
             }
             return [params];
         }
@@ -67,15 +68,16 @@
         function calculateUriLength(uri, params) {
             var uriWithParameters = uri;
 
-            Object.keys(params).forEach(function(param) {
-                if (params[param] instanceof Array) {
-                    params[param].forEach(function(value) {
-                        uriWithParameters += '&' + param + '=' + value;
-                    });
-                } else {
-                    uriWithParameters += '&' + param + '=' + params[param];
-                }
-            });
+            Object.keys(params)
+                .forEach(function(param) {
+                    if (params[param] instanceof Array) {
+                        params[param].forEach(function(value) {
+                            uriWithParameters += '&' + param + '=' + value;
+                        });
+                    } else {
+                        uriWithParameters += '&' + param + '=' + params[param];
+                    }
+                });
 
             return uriWithParameters.length;
         }
@@ -86,11 +88,12 @@
             }
 
             var canBeSplit;
-            Object.keys(params).forEach(function(param) {
-                if (getParamValues(params, param).length > 1) {
-                    canBeSplit = true;
-                }
-            });
+            Object.keys(params)
+                .forEach(function(param) {
+                    if (getParamValues(params, param).length > 1) {
+                        canBeSplit = true;
+                    }
+                });
             return canBeSplit;
         }
 
@@ -116,15 +119,16 @@
         function findParamWithTheBiggestValuesCount(params) {
             var paramWithTheBiggestValuesCount = params[Object.keys(params)[0]];
 
-            Object.keys(params).forEach(function(param) {
-                var longestValuesListLength = getParamValues(params, paramWithTheBiggestValuesCount).length,
-                    paramValueListLength = getParamValues(params, param).length;
+            Object.keys(params)
+                .forEach(function(param) {
+                    var longestValuesListLength = getParamValues(params, paramWithTheBiggestValuesCount).length,
+                        paramValueListLength = getParamValues(params, param).length;
 
-                if (longestValuesListLength < paramValueListLength) {
-                    paramWithTheBiggestValuesCount = param;
-                }
-            });
-            
+                    if (longestValuesListLength < paramValueListLength) {
+                        paramWithTheBiggestValuesCount = param;
+                    }
+                });
+
             return paramWithTheBiggestValuesCount;
         }
 

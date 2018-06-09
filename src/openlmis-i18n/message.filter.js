@@ -37,7 +37,7 @@
     function messageFilter(messageService) {
         return function(msg, parameters) {
             return messageService.get(msg, parameters);
-        }
+        };
     }
 
 })();

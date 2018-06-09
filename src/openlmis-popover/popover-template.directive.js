@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -28,10 +27,10 @@
      */
 
     angular.module('openlmis-popover')
-    .directive('popoverTemplate', popoverDirective);
+        .directive('popoverTemplate', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$templateRequest'];
-    function popoverDirective($compile, $templateRequest){
+    function popoverDirective($compile, $templateRequest) {
         return {
             restrict: 'A',
             require: 'popover',
@@ -55,14 +54,14 @@
             var popoverElement;
 
             scope.$watch(function() {
-                if(attrs.popoverTemplate && attrs.popoverTemplate != '') {
-                    return attrs.popoverTemplate;    
+                if (attrs.popoverTemplate && attrs.popoverTemplate != '') {
+                    return attrs.popoverTemplate;
                 } else {
                     return false;
                 }
             }, function(templateURL) {
                 removePopoverTemplate();
-                if(templateURL) {
+                if (templateURL) {
                     makePopoverTemplate(templateURL);
                 }
             });
@@ -77,10 +76,11 @@
              * scope.
              */
             function makePopoverTemplate(url) {
-                $templateRequest(url).then(function(html){
-                    popoverElement = $compile(html)(scope);
-                    popoverCtrl.addElement(popoverElement);
-                });
+                $templateRequest(url)
+                    .then(function(html) {
+                        popoverElement = $compile(html)(scope);
+                        popoverCtrl.addElement(popoverElement);
+                    });
             }
 
             /**
@@ -93,7 +93,7 @@
              * element from the popover controller and then unset the variable.
              */
             function removePopoverTemplate() {
-                if(popoverElement){
+                if (popoverElement) {
                     popoverCtrl.removeElement(popoverElement);
                     popoverElement = undefined;
                 }

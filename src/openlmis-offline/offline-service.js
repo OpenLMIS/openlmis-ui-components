@@ -13,8 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc service
@@ -32,7 +32,10 @@
     function offlineService(Offline, $timeout, $q, $rootScope, localStorageFactory) {
         var service = this,
             storedFlag = localStorageFactory('offlineFlag'),
-            isOfflineFlag = localStorageFactory('offlineFlag').getAll().length ? localStorageFactory('offlineFlag').getAll()[0] : false;
+            isOfflineFlag = localStorageFactory('offlineFlag')
+                .getAll().length ?
+                localStorageFactory('offlineFlag')
+                    .getAll()[0] : false;
 
         service.checkConnection = checkConnection;
         service.isOffline = isOffline;
@@ -44,9 +47,10 @@
             checks: {
                 xhr: {
                     url: function() {
-                        return 'favicon.ico?_=' + new Date().getTime();
+                        return 'favicon.ico?_=' + new Date()
+                            .getTime();
                     },
-                    timeout : 20000
+                    timeout: 20000
                 }
             }
         };
@@ -72,15 +76,15 @@
 
             Offline.check();
 
-            function confirmedOnline(){
+            function confirmedOnline() {
                 clearEvents();
                 deferred.resolve();
             }
-            function confirmedOffline(){
+            function confirmedOffline() {
                 clearEvents();
                 deferred.reject();
             }
-            function clearEvents(){
+            function clearEvents() {
                 Offline.off('confirmed-up', confirmedOnline);
                 Offline.off('confirmed-down', confirmedOffline);
             }
@@ -103,21 +107,21 @@
         }
 
         function offline() {
-           $timeout(function() {
-               $rootScope.$broadcast('openlmis.offline');
-               isOfflineFlag = true;
-               storedFlag.clearAll();
-               storedFlag.put(true);
-           });
+            $timeout(function() {
+                $rootScope.$broadcast('openlmis.offline');
+                isOfflineFlag = true;
+                storedFlag.clearAll();
+                storedFlag.put(true);
+            });
         }
 
         function online() {
-           $timeout(function() {
-               $rootScope.$broadcast('openlmis.online');
-               isOfflineFlag = false;
-               storedFlag.clearAll();
-               storedFlag.put(false);
-           });
+            $timeout(function() {
+                $rootScope.$broadcast('openlmis.online');
+                isOfflineFlag = false;
+                storedFlag.clearAll();
+                storedFlag.put(false);
+            });
         }
     }
 })();

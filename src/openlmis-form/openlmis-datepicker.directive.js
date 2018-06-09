@@ -65,7 +65,8 @@
         };
 
         function link(scope, element, attrs, ngModelCtrl) {
-            var momentDateFormat = new DateFormatTranslator().translateBootstrapToMoment(getDateFormat(scope)),
+            var momentDateFormat = new DateFormatTranslator()
+                    .translateBootstrapToMoment(getDateFormat(scope)),
                 ISO_FORMAT = 'YYYY-MM-DD';
 
             configureDatepicker();
@@ -75,11 +76,13 @@
             });
 
             ngModelCtrl.$parsers.push(function(viewValue) {
-                return viewValue ? moment(viewValue, momentDateFormat, true).format(ISO_FORMAT) : viewValue;
+                return viewValue ? moment(viewValue, momentDateFormat, true)
+                    .format(ISO_FORMAT) : viewValue;
             });
 
-            ngModelCtrl.$validators.invalidDate = function (value) {
-                return !value || moment(value, ISO_FORMAT, true).isValid();
+            ngModelCtrl.$validators.invalidDate = function(value) {
+                return !value || moment(value, ISO_FORMAT, true)
+                    .isValid();
             };
 
             element.on('$destroy', cleanUp);
@@ -93,7 +96,8 @@
 
                 configureDatepickerLabels(language);
 
-                element.parent().addClass('openlmis-datepicker');
+                element.parent()
+                    .addClass('openlmis-datepicker');
                 element.datepicker({
                     format: scope.dateFormat || DEFAULT_DATEPICKER_FORMAT,
                     language: language,

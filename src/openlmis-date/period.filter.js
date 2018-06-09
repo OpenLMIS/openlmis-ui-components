@@ -49,7 +49,7 @@
                 transformed = startDate + ' - ' + endDate;
 
             return includeName ? period.name + ' (' + transformed + ')' : transformed;
-        }
+        };
     }
 
 })();

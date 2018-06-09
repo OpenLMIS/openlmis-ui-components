@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
-  'use strict';
+(function() {
+    'use strict';
 
-  /**
+    /**
    * @module openlmis-percentage
    *
    * @description
    * Responsible for converting number into percentage format.
    */
-  angular.module('openlmis-percentage', []);
+    angular.module('openlmis-percentage', []);
 })();

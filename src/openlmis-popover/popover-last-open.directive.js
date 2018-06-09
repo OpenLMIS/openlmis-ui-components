@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+(function() {
 
-(function(){
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -34,22 +34,24 @@
     var lastOpenPopover;
 
     angular.module('openlmis-popover')
-    .directive('popover', popoverDirective);
+        .directive('popover', popoverDirective);
 
     popoverDirective.$inject = ['jQuery'];
 
-    function popoverDirective(jQuery){
+    function popoverDirective(jQuery) {
         return {
             restrict: 'A',
             link: link
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
 
-            element.on('show.bs.popover', function(){
-                if(lastOpenPopover && lastOpenPopover !== element && !jQuery.contains(element[0], lastOpenPopover[0])) {
+            element.on('show.bs.popover', function() {
+                if (lastOpenPopover && lastOpenPopover !== element &&
+                    !jQuery.contains(element[0], lastOpenPopover[0])) {
+
                     var popoverCtrl = lastOpenPopover.controller('popover');
-                    if(popoverCtrl) {
+                    if (popoverCtrl) {
                         popoverCtrl.close();
                     }
                 }
@@ -61,9 +63,9 @@
             scope.$on('$destroy', unsetSelfAsLastOpenPopover);
 
             function unsetSelfAsLastOpenPopover() {
-                if (lastOpenPopover == element){
+                if (lastOpenPopover == element) {
                     lastOpenPopover = null;
-                }  
+                }
             }
 
         }

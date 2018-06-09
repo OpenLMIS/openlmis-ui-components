@@ -46,7 +46,7 @@
             compile: compile,
             restrict: 'C',
             priority: 10,
-            controller: "OpenlmisTablePaneController",
+            controller: 'OpenlmisTablePaneController',
             require: 'openlmisTablePane'
         };
         return directive;
@@ -91,10 +91,10 @@
 
             ctrl.setScrollLeft = function(num) {
                 scrollContainer[0].scrollLeft = num;
-            }
+            };
 
             watchSize(scope, ctrl, element, table);
-            watchScroll(scope, ctrl, element, table);
+            watchScroll(scope, ctrl, element);
         }
 
         /**
@@ -113,7 +113,7 @@
          *
          * This function will destroy the listener when the scope is destroyed.
          */
-        function watchScroll(scope, ctrl, element, table) {
+        function watchScroll(scope, ctrl, element) {
             var debounceTime = 50,
                 scrollContainer = element.find('.md-virtual-repeat-scroller'),
                 mdVirtualRepeatOfsetter = element.find('.md-virtual-repeat-offsetter'),
@@ -129,12 +129,11 @@
             scrollContainer.trigger('scroll');
 
             function updateViewportPositionOnScroll(event) {
-                var offseterValue,
-                    tableOffset = table.offset().top;
+                var offseterValue;
 
                 try {
                     offseterValue = parseInt(mdVirtualRepeatOfsetter[0].style.transform.split('(')[1].split('px')[0]);
-                } catch(e) {
+                } catch (e) {
                     offseterValue = 0;
                 }
 
@@ -164,29 +163,30 @@
                 viewportObserver,
                 tableObserver;
 
-            viewportObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+            viewportObserver = new ResizeObserver(_.debounce(function(entities) {
                 var rect = entities[0].contentRect;
                 ctrl.updateViewportSize(rect.width, rect.height);
             }, debounceTime));
             viewportObserver.observe(element[0]);
 
-            tableObserver = new ResizeObserver(_.debounce(function(entities, observer) {
+            tableObserver = new ResizeObserver(_.debounce(function(entities) {
                 var rect = entities[0].contentRect;
                 ctrl.updateTableSize(rect.width, rect.height);
 
                 var offsetRight = 0,
                     offsetLeft = 0;
                 table.find('tbody tr:first [openlmis-sticky-column]')
-                .each(function(index, cell) {
-                    if(cell.hasAttribute('openlmis-sticky-column-right')) {
-                        offsetRight += angular.element(cell).outerWidth();
-                    } else {
-                        offsetLeft += angular.element(cell).outerWidth();
-                    }
-                });
+                    .each(function(index, cell) {
+                        if (cell.hasAttribute('openlmis-sticky-column-right')) {
+                            offsetRight += angular.element(cell)
+                                .outerWidth();
+                        } else {
+                            offsetLeft += angular.element(cell)
+                                .outerWidth();
+                        }
+                    });
 
                 ctrl.updateViewportPadding(offsetLeft, offsetRight);
-
 
             }, debounceTime));
             tableObserver.observe(table[0]);
@@ -229,31 +229,38 @@
          * table. 
          */
         function setupStickyCells(table) {
-            table.find('thead').find('th, td').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-sticky-cell', "");
-                cell.setAttribute('openlmis-sticky-top', "");
-            });
-            table.find('tfoot').find('th, td').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-sticky-cell', "");
-                cell.setAttribute('openlmis-sticky-bottom', "");
-            });
-            table.find('.col-sticky').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-sticky-cell', "");
-                cell.setAttribute('openlmis-sticky-column', "");
-            });
-            table.find('.col-sticky.col-sticky-right').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-sticky-cell', "");
-                cell.setAttribute('openlmis-sticky-column', "");
-                cell.setAttribute('openlmis-sticky-column-right', "");
-            });
+            table.find('thead')
+                .find('th, td')
+                .each(function(index, cell) {
+                    cell.setAttribute('openlmis-table-sticky-cell', '');
+                    cell.setAttribute('openlmis-sticky-top', '');
+                });
+            table.find('tfoot')
+                .find('th, td')
+                .each(function(index, cell) {
+                    cell.setAttribute('openlmis-table-sticky-cell', '');
+                    cell.setAttribute('openlmis-sticky-bottom', '');
+                });
+            table.find('.col-sticky')
+                .each(function(index, cell) {
+                    cell.setAttribute('openlmis-table-sticky-cell', '');
+                    cell.setAttribute('openlmis-sticky-column', '');
+                });
+            table.find('.col-sticky.col-sticky-right')
+                .each(function(index, cell) {
+                    cell.setAttribute('openlmis-table-sticky-cell', '');
+                    cell.setAttribute('openlmis-sticky-column', '');
+                    cell.setAttribute('openlmis-sticky-column-right', '');
+                });
 
-            table.find('td,th').each(function(index, cell) {
-                cell.setAttribute('openlmis-table-pane-cell-focusable', "");
-            });
+            table.find('td,th')
+                .each(function(index, cell) {
+                    cell.setAttribute('openlmis-table-pane-cell-focusable', '');
+                });
 
             table.find('.col-sticky')
-            .removeClass('col-sticky')
-            .removeClass('col-sticky-right');
+                .removeClass('col-sticky')
+                .removeClass('col-sticky-right');
         }
 
     }

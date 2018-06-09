@@ -134,7 +134,7 @@
          * @param {Number} newPage New page number
          */
         function changePage(newPage) {
-            if(newPage >= 0 && newPage < getTotalPages()) {
+            if (newPage >= 0 && newPage < getTotalPages()) {
 
                 if (!pagination.externalPagination) {
                     pagination.pagedList = paginationFactory.getPage(pagination.list, newPage, pagination.pageSize);
@@ -229,12 +229,16 @@
             var pageNumbers = [],
                 i;
 
-            for(i = 3; i >= 0; i--) {
-                if(pagination.page - i >= 0) pageNumbers.push(pagination.page - i);
+            for (i = 3; i >= 0; i--) {
+                if (pagination.page - i >= 0) {
+                    pageNumbers.push(pagination.page - i);
+                }
             }
 
-            for(i = 1; i <= 3; i++) {
-                if(pagination.page + i < getTotalPages()) pageNumbers.push(pagination.page + i);
+            for (i = 1; i <= 3; i++) {
+                if (pagination.page + i < getTotalPages()) {
+                    pageNumbers.push(pagination.page + i);
+                }
             }
 
             return pageNumbers;
@@ -272,9 +276,9 @@
             }
 
             return paginationFactory.getPage(pagination.list, pageNumber, pagination.pageSize)
-            .reduce(function(valid, item) {
-                return valid && validateItem(item);
-            }, true);
+                .reduce(function(valid, item) {
+                    return valid && validateItem(item);
+                }, true);
         }
     }
 })();

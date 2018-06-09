@@ -42,28 +42,29 @@
             link: link
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
 
             createSelect();
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return element.val();
             }, updateSelect);
 
-            scope.$watch(function(){
-                return element.find(':selected').val();
+            scope.$watch(function() {
+                return element.find(':selected')
+                    .val();
             }, updateSelect);
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 var placeholderValues = [];
-                element.find('.placeholder').each(function(){
-                    placeholderValues.push(this.value);
-                });
+                element.find('.placeholder')
+                    .each(function() {
+                        placeholderValues.push(this.value);
+                    });
                 return placeholderValues.join(' - ');
             }, updateSelect);
 
             scope.$on('$destroy', destroySelect);
-
 
             /**
              * @ngdoc method
@@ -80,14 +81,14 @@
                     selectOnClose: true,
                     placeholder: getPlaceholder(),
                     language: {
-                        noResults: function(){
-                            return messageService.get("openlmisForm.selectNoResults");
+                        noResults: function() {
+                            return messageService.get('openlmisForm.selectNoResults');
                         }
                     }
                 };
 
                 var modalParent = element.parents('.modal');
-                if(modalParent.length > 0){
+                if (modalParent.length > 0) {
                     options['dropdownParent'] = modalParent;
                 }
 
@@ -95,19 +96,20 @@
 
                 // Stops select2 from opening a modal after clearing the selection 
                 // https://github.com/select2/select2/issues/3320
-                element.on('select2:unselecting', function(event) {
+                element.on('select2:unselecting', function() {
                     element.data('select2unselecting', true);
-                }).on('select2:opening', function(event) {
-                    if (element.data('select2unselecting')) {    
-                        element.removeData('select2unselecting');
-                        event.preventDefault();
-                    }
-                });
+                })
+                    .on('select2:opening', function(event) {
+                        if (element.data('select2unselecting')) {
+                            element.removeData('select2unselecting');
+                            event.preventDefault();
+                        }
+                    });
             }
 
             function destroySelect() {
-                if(element.data('select2')){
-                    element.select2("destroy");
+                if (element.data('select2')) {
+                    element.select2('destroy');
                 }
             }
 
@@ -119,7 +121,7 @@
              * @description
              * Triggers select2's "undocumented" change event
              */
-            function updateSelect(){
+            function updateSelect() {
                 element.trigger('change.select2');
             }
 
@@ -134,7 +136,7 @@
             function getPlaceholder() {
                 var placeholderOption = element.children('.placeholder:first');
 
-                if(placeholderOption.length == 0){
+                if (placeholderOption.length == 0) {
                     return false;
                 } else {
                     return {

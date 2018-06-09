@@ -28,7 +28,7 @@
      * layout and style between input elements and error messages (the using
      * openlmis-invalid).
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('inputControl', directive);
@@ -39,10 +39,10 @@
             priority: 5,
             restrict: 'EA',
             controller: 'InputControlController'
-        }
+        };
     }
 
-    function link(scope, element, attrs) {
+    function link(scope, element) {
         catchFocus();
         watchDisabled();
         watchVisible();
@@ -56,12 +56,12 @@
          * If any child element gets focus, the is-focused class is added to
          * the input-control element.
          */
-        function catchFocus(){
-            element.on('focusin', function(){
+        function catchFocus() {
+            element.on('focusin', function() {
                 element.addClass('is-focused');
             });
 
-            element.on('focusout', function(){
+            element.on('focusout', function() {
                 element.removeClass('is-focused');
             });
         }
@@ -77,12 +77,12 @@
          * input-control get the class 'is-disabled'
          */
         function watchDisabled() {
-            scope.$watch(function(){
+            scope.$watch(function() {
                 var inputElements = element.find('[name]').length,
                     disabledInputElements = element.find('[name]:disabled').length;
                 return inputElements === disabledInputElements;
-            }, function(isDisabled){
-                if(isDisabled){
+            }, function(isDisabled) {
+                if (isDisabled) {
                     element.addClass('is-disabled');
                 } else {
                     element.removeClass('is-disabled');
@@ -102,7 +102,7 @@
             scope.$watch(function() {
                 return element.children(':not(.ng-hide)').length > 0;
             }, function(isVisible) {
-                if(isVisible) {
+                if (isVisible) {
                     element.show();
                 } else {
                     element.hide();
@@ -110,5 +110,5 @@
             });
         }
     }
-        
+
 })();

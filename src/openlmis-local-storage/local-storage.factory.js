@@ -154,7 +154,7 @@
             function remove(item) {
                 executeWithStorageUpdate(function() {
                     removeItem(item);
-                })
+                });
             }
 
             /**
@@ -185,7 +185,7 @@
              */
             function clearAll() {
                 executeWithStorageUpdate(function() {
-                    items.splice(0,items.length);
+                    items.splice(0, items.length);
                 });
             }
 

@@ -13,8 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
+(function() {
 
     /**
      * @ngdoc object
@@ -24,7 +23,7 @@
      * This constant wraps shortid, which is used to generate uniqueIds
      */
 
-	angular.module('openlmis-config')
-	    .constant('shortid', shortid);
+    angular.module('openlmis-config')
+        .constant('shortid', shortid); //eslint-disable-line no-undef
 
 })();

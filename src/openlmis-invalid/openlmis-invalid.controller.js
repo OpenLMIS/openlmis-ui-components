@@ -24,12 +24,12 @@
      * @description
      * Contains and renders list of error messages.
      */
-    
+
     angular
         .module('openlmis-invalid')
         .controller('OpenlmisInvalidController', controller);
 
-    controller.$inject = ['messageService']
+    controller.$inject = ['messageService'];
     function controller(messageService) {
         var vm = this,
             messages = {},
@@ -44,7 +44,7 @@
 
         vm.isSuppressed = areMessagesSuppressed;
         vm.suppress = suppress;
-        vm.unsuppress = unsuppress; 
+        vm.unsuppress = unsuppress;
 
         vm.isHidden = messagesHidden;
         vm.show = showMessages;
@@ -64,7 +64,7 @@
          */
         function getMessages() {
             var messagesToReturn = {};
-            childControllers.forEach(function(child){
+            childControllers.forEach(function(child) {
                 angular.extend(messagesToReturn, child.getMessages());
             });
 
@@ -82,12 +82,13 @@
          * Sets the messages for the internal object, parsing any message
          * values that are a boolean with parseMessage
          */
-        function setMessages(newMessages){
-            Object.keys(newMessages).forEach(function(key) {
-                if(typeof(newMessages[key]) == 'boolean') {
-                    newMessages[key] = vm.parseMessage(key);
-                }
-            });
+        function setMessages(newMessages) {
+            Object.keys(newMessages)
+                .forEach(function(key) {
+                    if (typeof(newMessages[key]) == 'boolean') {
+                        newMessages[key] = vm.parseMessage(key);
+                    }
+                });
 
             messages = newMessages;
         }
@@ -111,10 +112,10 @@
         function parseMessage(message) {
             var openlmisInvalidMessageKey = 'openlmisInvalid.' + message,
                 openlmisInvalidMessage = messageService.get(openlmisInvalidMessageKey);
-            if(openlmisInvalidMessage != openlmisInvalidMessageKey) {
-                return openlmisInvalidMessage;
-            } else {
+            if (openlmisInvalidMessage == openlmisInvalidMessageKey) {
                 return messageService.get(message);
+            } else {
+                return openlmisInvalidMessage;
             }
         }
 
@@ -144,7 +145,7 @@
         function suppress() {
             isSuppressed = true;
 
-            childControllers.forEach(function(child){
+            childControllers.forEach(function(child) {
                 child.suppress();
             });
         }
@@ -160,7 +161,7 @@
         function unsuppress() {
             isSuppressed = false;
 
-            childControllers.forEach(function(child){
+            childControllers.forEach(function(child) {
                 child.unsuppress();
             });
         }
@@ -177,7 +178,7 @@
          * messages are suppressed, it will return true.
          */
         function messagesHidden() {
-            if(isSuppressed) {
+            if (isSuppressed) {
                 return true;
             }
 
@@ -195,7 +196,7 @@
         function showMessages() {
             isHidden = false;
 
-            childControllers.forEach(function(child){
+            childControllers.forEach(function(child) {
                 child.show();
             });
         }
@@ -211,7 +212,7 @@
         function hideMessages() {
             isHidden = true;
 
-            childControllers.forEach(function(child){
+            childControllers.forEach(function(child) {
                 child.hide();
             });
         }
@@ -230,13 +231,13 @@
         function registerInvalidController(child) {
             childControllers.push(child);
 
-            if(vm.isHidden()) {
+            if (vm.isHidden()) {
                 child.hide();
             } else {
                 child.show();
             }
 
-            if(vm.isSuppressed()){
+            if (vm.isSuppressed()) {
                 child.suppress();
             } else {
                 child.unsuppress();
@@ -259,5 +260,5 @@
         }
 
     }
-        
+
 })();

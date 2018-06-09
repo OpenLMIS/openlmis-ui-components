@@ -42,7 +42,7 @@
                 return isoString.slice(0, tIndex);
             }
             return date;
-        }
+        };
     }
 
 })();

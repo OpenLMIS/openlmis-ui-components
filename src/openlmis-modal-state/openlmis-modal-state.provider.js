@@ -67,7 +67,8 @@
 
         function parseState(state) {
             var dialog,
-                injects = getInjects(state).concat(state.parentResolves),
+                injects = getInjects(state)
+                    .concat(state.parentResolves),
                 modalDefinition = {
                     controllerAs: state.controllerAs ? state.controllerAs : 'vm',
                     controller: state.controller,
@@ -101,7 +102,7 @@
             }
         }
 
-        function getInjects(state, $state) {
+        function getInjects(state) {
             var injects = [];
 
             angular.forEach(state.resolve, function(resolve, name) {

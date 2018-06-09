@@ -34,9 +34,9 @@
             generate: generate
         };
 
-        function generate(){
+        function generate() {
             var id = shortid.gen();
-            if(jQuery('#' + id).length > 0){
+            if (jQuery('#' + id).length > 0) {
                 return generate();
             } else {
                 return id;

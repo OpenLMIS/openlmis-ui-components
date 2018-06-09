@@ -41,10 +41,10 @@
             scope: false,
             replace: false,
             link: link
-        }
+        };
         return directive;
 
-        function link(scope, element, attr) {
+        function link(scope) {
 
             /**
              * @ngdoc property
@@ -56,7 +56,7 @@
              * A boolean that says if there is an internet connection, as
              * determined by the offlineService.
              */
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return offlineService.isOffline();
             }, function(isOffline) {
                 scope.isOffline = isOffline;

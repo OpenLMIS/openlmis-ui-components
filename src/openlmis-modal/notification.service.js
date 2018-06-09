@@ -13,8 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc service
@@ -104,19 +104,23 @@
             });
             element.on('mouseout', function() {
                 isMouseOver = false;
-                if(timeoutCalled) closeNotification();
+                if (timeoutCalled) {
+                    closeNotification();
+                }
             });
 
             loadingModalService.whenClosed()
-            .then(function() {
-                container.append(element);
-                setTimeout();
-            });
+                .then(function() {
+                    container.append(element);
+                    setTimeout();
+                });
 
             function setTimeout() {
                 timeoutPromise = $timeout(function() {
                     timeoutCalled = true;
-                    if(!isMouseOver) closeNotification();
+                    if (!isMouseOver) {
+                        closeNotification();
+                    }
                     return false;
                 }, 5000);
             }
@@ -124,12 +128,14 @@
             function closeNotification() {
                 element.addClass('hide-notification');
                 element.bind('webkitAnimationEnd', function() {
-                    if(element) element.remove();
+                    if (element) {
+                        element.remove();
+                    }
                     scope.$destroy();
                     element = undefined;
                 });
 
-                if(timeoutPromise) {
+                if (timeoutPromise) {
                     $timeout.cancel(timeoutPromise);
                     timeoutPromise = undefined;
                 }
@@ -140,7 +146,8 @@
             var template = $templateCache.get('openlmis-modal/notification-container.html'),
                 container = angular.element(template);
 
-            angular.element(document.body).append(container);
+            angular.element(document.body)
+                .append(container);
 
             return container;
         }

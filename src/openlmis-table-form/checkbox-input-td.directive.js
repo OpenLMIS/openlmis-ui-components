@@ -35,8 +35,8 @@
         };
         return directive;
 
-        function link(scope, element, attrs) {
-            if(validTarget(element)) {
+        function link(scope, element) {
+            if (validTarget(element)) {
                 element.wrap('<label class="checkbox"></label>');
             }
         }
@@ -48,18 +48,14 @@
          * @methodOf openlmis-table-form.directive:checkboxInputTd
          *
          * @description
-         * Checks to see if a checkbox is a direct decendant of a table cell,
+         * Checks to see if a checkbox is a direct descendant of a table cell,
          * and if so returns true.
          */
         function validTarget(element) {
             var isCheckbox = element.attr('type') === 'checkbox',
                 isChildOfTD = element.parent()[0].nodeName.toLowerCase() === 'td';
 
-            if(isCheckbox && isChildOfTD) {
-                return true;
-            } else {
-                return false;
-            }
+            return isCheckbox && isChildOfTD;
         }
     }
 

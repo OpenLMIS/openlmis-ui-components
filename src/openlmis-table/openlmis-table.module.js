@@ -28,6 +28,6 @@
         'openlmis-config',
         'openlmis-templates',
         'material.components.virtualRepeat'
-    	]);
+    ]);
 
 })();

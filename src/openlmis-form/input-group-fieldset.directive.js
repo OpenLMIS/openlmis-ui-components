@@ -57,12 +57,12 @@
          * input control and sets openlmis invalid
          */
         function compile(element, attrs) {
-            if(isSingleTypeFieldset(element)) {
-                if(!attrs.hasOwnProperty('inputControl')) {
+            if (isSingleTypeFieldset(element)) {
+                if (!attrs.hasOwnProperty('inputControl')) {
                     element.attr('input-control', '');
                 }
 
-                if(!attrs.hasOwnProperty('openlmisInvalid')) {
+                if (!attrs.hasOwnProperty('openlmisInvalid')) {
                     element.attr('openlmis-invalid', '');
                 }
             }
@@ -93,42 +93,43 @@
                 name = false,
                 matches = true;
 
-            if(fieldset.find('fieldset').length > 0) {
+            if (fieldset.find('fieldset').length > 0) {
                 return false;
             }
 
-            if(fieldset.find('input[type="checkbox"], input[type="radio"]').length < 1) {
+            if (fieldset.find('input[type="checkbox"], input[type="radio"]').length < 1) {
                 return false;
             }
 
-            fieldset.find('input,[name],[ng-model]').each(function(index, element){
-                var elementName = element['name'],
-                    elementType = element['type'],
-                    
-                    supportedTypes = ['radio', 'checkbox'],
-                    isSupportedType = supportedTypes.indexOf(elementType.toLowerCase()) > -1;
-                
-                if(element.tagName.toLowerCase() !== 'input') {
-                    matches = false;
-                    return;
-                }                
+            fieldset.find('input,[name],[ng-model]')
+                .each(function(index, element) {
+                    var elementName = element['name'],
+                        elementType = element['type'],
 
-                if(element['ng-model']){
-                    elementName = element['ng-model'];
-                }
+                        supportedTypes = ['radio', 'checkbox'],
+                        isSupportedType = supportedTypes.indexOf(elementType.toLowerCase()) > -1;
 
-                if(!type) {
-                    type = elementType;
-                }
+                    if (element.tagName.toLowerCase() !== 'input') {
+                        matches = false;
+                        return;
+                    }
 
-                if(!name) {
-                    name = elementName;
-                }
+                    if (element['ng-model']) {
+                        elementName = element['ng-model'];
+                    }
 
-                if(!matches || type != elementType || name != elementName || !isSupportedType) {
-                    matches = false;
-                }
-            });
+                    if (!type) {
+                        type = elementType;
+                    }
+
+                    if (!name) {
+                        name = elementName;
+                    }
+
+                    if (!matches || type != elementType || name != elementName || !isSupportedType) {
+                        matches = false;
+                    }
+                });
 
             return matches;
         }

@@ -14,7 +14,7 @@
  */
 
 /* Start angularLocalStorage */
-
+/*eslint-disable */
 var angularLocalStorage = angular.module('openlmis-local-storage');
 
 // You should set a prefix to avoid overwriting any local storage variables from the rest of your app
@@ -34,7 +34,7 @@ angularLocalStorage.service('localStorageService', [
   // If there is a prefix set in the config lets use that with an appended period for readability
   //var prefix = angularLocalStorage.constant;
   if (prefix.substr(-1)!=='.') {
-    prefix = !!prefix ? prefix + '.' : '';
+    prefix = prefix ? prefix + '.' : '';
   }
 
   // Checks the browser to see if local storage is supported
@@ -204,7 +204,7 @@ angularLocalStorage.service('localStorageService', [
       while (thisCookie.charAt(0)==' ') {
         thisCookie = thisCookie.substring(1,thisCookie.length);
       }
-      key = thisCookie.substring(prefixLength,thisCookie.indexOf('='));
+      var key = thisCookie.substring(prefixLength,thisCookie.indexOf('='));
       removeFromCookies(key);
     }
   }
@@ -225,3 +225,4 @@ angularLocalStorage.service('localStorageService', [
   };
 
 }]);
+/*eslint-enable */

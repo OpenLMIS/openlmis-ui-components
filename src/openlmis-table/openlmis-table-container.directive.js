@@ -23,7 +23,8 @@
      * @name openlmis-table.directive:openlmisTableContainer
      *
      * @description
-     * Checks if there is a single table element with in the container, if so the contents are arranged to meet our custom layout.
+     * Checks if there is a single table element with in the container, if so the contents are arranged to meet our
+     * custom layout.
      *
      * @example
      * This one can be added as class to element that wraps 'table' element, 'form' element or both.
@@ -67,19 +68,22 @@
                 row = angular.element('<div class="row"></div>'),
                 main = angular.element('<div class="main"></div>');
 
-            element.children().each(function(index, childElement){
-                if(['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1){
-                    toolbar.append(childElement);
-                } else if(childElement.nodeName == 'FORM'){
-                    row.append(childElement);
-                }
-            });
+            element.children()
+                .each(function(index, childElement) {
+                    if (['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1) {
+                        toolbar.append(childElement);
+                    } else if (childElement.nodeName == 'FORM') {
+                        row.append(childElement);
+                    }
+                });
 
             main.append(toolbar);
 
             var table = element.children('table');
-            table.appendTo(main).wrap('<div class="openlmis-flex-table"></div>');
-            table.parent().after(element.children('openlmis-pagination'));
+            table.appendTo(main)
+                .wrap('<div class="openlmis-flex-table"></div>');
+            table.parent()
+                .after(element.children('openlmis-pagination'));
 
             row.append(main);
             element.append(row);

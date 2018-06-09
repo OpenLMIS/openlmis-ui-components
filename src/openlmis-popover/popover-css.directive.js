@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -27,9 +26,9 @@
      */
 
     angular.module('openlmis-popover')
-    .directive('popover', popoverDirective);
+        .directive('popover', popoverDirective);
 
-    function popoverDirective(){
+    function popoverDirective() {
         return {
             restrict: 'A',
             require: 'popover',
@@ -38,7 +37,7 @@
 
         function popoverLink(scope, element, attrs, popoverCtrl) {
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return attrs['popoverClass'];
             }, setCssClass);
 

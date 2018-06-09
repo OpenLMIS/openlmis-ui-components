@@ -32,8 +32,8 @@
      * ```
      */
     angular
-    .module('openlmis-form')
-    .directive('positiveInteger', positiveInteger);
+        .module('openlmis-form')
+        .directive('positiveInteger', positiveInteger);
 
     function positiveInteger() {
         var directive = {
@@ -48,9 +48,11 @@
             element.attr('type', 'text');
             element.addClass('number');
 
-            modelCtrl.$parsers.push(function (inputValue) {
+            modelCtrl.$parsers.push(function(inputValue) {
 
-                if (inputValue == undefined) return ''
+                if (inputValue == undefined) {
+                    return '';
+                }
                 var transformedInput = inputValue.replace(/[^0-9]/g, '');
                 if (transformedInput!=inputValue) {
                     modelCtrl.$setViewValue(transformedInput);

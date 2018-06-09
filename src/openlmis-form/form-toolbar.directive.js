@@ -15,7 +15,7 @@
 
 (function() {
 
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -43,16 +43,16 @@
      * ```
      */
     angular.module('openlmis-form')
-    .directive('form', formDirective);
+        .directive('form', formDirective);
 
     function formDirective() {
         return {
             restrict: 'E',
             link: link
-        }
+        };
     }
 
-    function link(scope, element, attrs) {
+    function link(scope, element) {
         var submitButton = element.children('input[type="submit"]');
 
         if (submitButton.length == 1) {

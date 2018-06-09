@@ -13,36 +13,36 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
-  'use strict';
+    'use strict';
 
-  /**
+    /**
    * @ngdoc controller
    * @name openlmis-progressbar.controller:ProgressbarController
    *
    * @description
    * Responsible for managing progressbar element.
    */
-  angular
-    .module('openlmis-progressbar')
-    .controller('ProgressbarController', controller);
+    angular
+        .module('openlmis-progressbar')
+        .controller('ProgressbarController', controller);
 
-  controller.$inject = ['percentageFilter'];
+    controller.$inject = ['percentageFilter'];
 
-  function controller(percentageFilter) {
-    var vm = this;
+    function controller(percentageFilter) {
+        var vm = this;
 
-    vm.$onInit = onInit;
+        vm.$onInit = onInit;
 
-    vm.getPercentage = function() {
-      return percentageFilter(vm.value / vm.max);
-    };
+        vm.getPercentage = function() {
+            return percentageFilter(vm.value / vm.max);
+        };
 
-    function onInit() {
-      if (!angular.isDefined(vm.max) || vm.max == 0) {
-        vm.max = 100;
-      }
+        function onInit() {
+            if (!angular.isDefined(vm.max) || vm.max == 0) {
+                vm.max = 100;
+            }
+        }
     }
-  }
 })();

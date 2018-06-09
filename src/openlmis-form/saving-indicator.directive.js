@@ -15,9 +15,9 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
+    /**
      * @ngdoc service
      * @name openlmis-form.directive:savingIndicator
      *
@@ -28,25 +28,25 @@
      * @example
      * ```
      * <saving-indicator
-     * 	   scope="scope"
-	 *	   object="someObject">
+     *        scope="scope"
+     *       object="someObject">
      * <openlmis-pagination/>
      * ```
      */
-	angular
-		.module('openlmis-form')
-		.directive('savingIndicator', directive);
+    angular
+        .module('openlmis-form')
+        .directive('savingIndicator', directive);
 
-	function directive() {
+    function directive() {
         return {
             restrict: 'E',
             scope: {
-			    object: '='
+                object: '='
             },
             replace: true,
-			controller: 'SavingIndicatorController',
-			controllerAs: 'indicator',
+            controller: 'SavingIndicatorController',
+            controllerAs: 'indicator',
             templateUrl: 'openlmis-form/saving-indicator.html'
         };
-	}
+    }
 })();

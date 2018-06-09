@@ -115,28 +115,29 @@
         function query(params) {
             var requests = [];
             var resource = this.resource;
-            this.splitter.split(this.uri, params).forEach(function(params) {
-                requests.push(resource.query(params).$promise);
-            });
+            this.splitter.split(this.uri, params)
+                .forEach(function(params) {
+                    requests.push(resource.query(params).$promise);
+                });
 
             return $q.all(requests)
-            .then(function(responses) {
-                if (responses[0] instanceof Array) {
-                    return responses.reduce(function(left, right) {
-                        right.forEach(function(item) {
-                            left.push(item);
+                .then(function(responses) {
+                    if (responses[0] instanceof Array) {
+                        return responses.reduce(function(left, right) {
+                            right.forEach(function(item) {
+                                left.push(item);
+                            });
+                            return left;
                         });
+                    }
+
+                    return responses.reduce(function(left, right) {
+                        left.content = left.content.concat(right.content);
+                        left.numberOfElements += right.numberOfElements;
+                        left.totalElements += right.totalElements;
                         return left;
                     });
-                }
-
-                return responses.reduce(function(left, right) {
-                    left.content = left.content.concat(right.content);
-                    left.numberOfElements += right.numberOfElements;
-                    left.totalElements += right.totalElements;
-                    return left;
                 });
-            });
         }
 
         /**
@@ -155,7 +156,7 @@
             if (object && object.id) {
                 return this.resource.update({
                     id: object.id
-                }, object).$promise;    
+                }, object).$promise;
             }
             return $q.reject();
         }

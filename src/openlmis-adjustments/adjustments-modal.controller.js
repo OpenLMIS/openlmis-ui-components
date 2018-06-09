@@ -187,9 +187,10 @@
          */
         function save() {
             if (preSave) {
-                preSave(vm.adjustments).then(function() {
-                    modalDeferred.resolve(vm.adjustments);
-                });
+                preSave(vm.adjustments)
+                    .then(function() {
+                        modalDeferred.resolve(vm.adjustments);
+                    });
             } else {
                 modalDeferred.resolve(vm.adjustments);
             }
@@ -206,7 +207,8 @@
          */
         function cancel() {
             if (preCancel) {
-                preCancel(vm.adjustments).then(modalDeferred.reject);
+                preCancel(vm.adjustments)
+                    .then(modalDeferred.reject);
             } else {
                 modalDeferred.reject();
             }

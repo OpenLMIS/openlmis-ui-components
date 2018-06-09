@@ -13,8 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
- (function() {
+(function() {
 
     'use strict';
 
@@ -62,14 +61,16 @@
             var canceler = $q.defer();
             config.timeout = canceler.promise;
 
-            if(offlineService.isOffline() && config.url.indexOf('.html') < 0) { // checks if calls for html file from cache
-                                                                                // because all of them are getting into that method
-                if(canDisplayModal) {
+            // checks if calls for html file from cache
+            if (offlineService.isOffline() && config.url.indexOf('.html') < 0) {
+                // because all of them are getting into that method
+                if (canDisplayModal) {
                     canDisplayModal = false;
-                    $injector.get('alertService').error('openlmisOffline.actionNotAllowedOffline')
-                    .finally(function() {
-                        canDisplayModal = true;
-                    });
+                    $injector.get('alertService')
+                        .error('openlmisOffline.actionNotAllowedOffline')
+                        .finally(function() {
+                            canDisplayModal = true;
+                        });
                 }
 
                 canceler.resolve();

@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -51,11 +50,11 @@
      */
 
     angular.module('openlmis-popover')
-    .directive('popover', popoverDirective);
+        .directive('popover', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$templateRequest', '$window'];
 
-    function popoverDirective($compile, $templateRequest, $window){
+    function popoverDirective($compile, $templateRequest, $window) {
         return {
             restrict: 'A',
             controller: 'PopoverController',
@@ -64,7 +63,7 @@
         };
 
         function popoverLink(scope, element, attrs, popoverCtrl) {
-            
+
             var popoverConfig = {
                 container: 'body',
                 placement: 'auto top',
@@ -84,20 +83,20 @@
              */
             var popoverScope = scope.$new(true);
             popoverCtrl.popoverScope = popoverScope;
-            
+
             makePopover();
 
             // Added to be able to open popover after closing it with close
             // button when trigger is set to 'click'
             // After clicking close button there was need to click on
             // targetElement two times to open popover again
-            element.on('hide.bs.popover', function(){
-                element.data("bs.popover").inState.click = false;
+            element.on('hide.bs.popover', function() {
+                element.data('bs.popover').inState.click = false;
             });
 
             scope.$on('$destroy', destroyPopover);
 
-            scope.$watchCollection(function(){
+            scope.$watchCollection(function() {
                 return popoverCtrl.getElements();
             }, function() {
                 element.trigger('openlmisPopover.change');
@@ -114,13 +113,12 @@
              */
             element.on('openlmisPopover.change', addHasPopoverClass);
             function addHasPopoverClass() {
-                if(popoverCtrl.getElements().length > 0) {
+                if (popoverCtrl.getElements().length > 0) {
                     element.addClass('has-popover');
                 } else {
                     element.removeClass('has-popover');
                 }
             }
-
 
             /**
              * @ngdoc method
@@ -141,7 +139,7 @@
 
             var originalTabIndex = element.attr('tabindex') || -1;
             function updateTabIndex() {
-                if(popoverCtrl.getElements().length > 0) {
+                if (popoverCtrl.getElements().length > 0) {
                     element.attr('tabindex', 0);
                 } else {
                     element.attr('tabindex', originalTabIndex);
@@ -191,20 +189,22 @@
              * popover.
              */
             function makePopover() {
-                $templateRequest('openlmis-popover/popover.html').then(function(templateHtml){
-                    var template = $compile(templateHtml)(popoverScope);
-                    popoverConfig.template = template;
+                $templateRequest('openlmis-popover/popover.html')
+                    .then(function(templateHtml) {
+                        var template = $compile(templateHtml)(popoverScope);
+                        popoverConfig.template = template;
 
-                    popoverConfig.content = function() {
-                        var elements = [];
-                        popoverCtrl.getElements().forEach(function(element){
-                            elements.push(element[0]);
-                        });
-                        return elements;
-                    }
+                        popoverConfig.content = function() {
+                            var elements = [];
+                            popoverCtrl.getElements()
+                                .forEach(function(element) {
+                                    elements.push(element[0]);
+                                });
+                            return elements;
+                        };
 
-                    element.popover(popoverConfig);
-                });
+                        element.popover(popoverConfig);
+                    });
             }
 
             /**
@@ -216,12 +216,14 @@
              * Removes the popover and any event listeners or classes added to
              * the original element.
              */
-            function destroyPopover(){
+            function destroyPopover() {
                 element.popover('destroy');
                 popoverScope.$destroy();
 
-                angular.element($window).off('resize', onWindowResize);
-                angular.element($window).off('scroll', onWindowResize);
+                angular.element($window)
+                    .off('resize', onWindowResize);
+                angular.element($window)
+                    .off('scroll', onWindowResize);
             }
 
             /**
@@ -234,22 +236,28 @@
              * with elements on the screen, so we close the popover if there is
              * ever any scrolling.
              */
-            element.on('show.bs.popover', function(){
-                angular.element($window).on('resize', onWindowResize);
-                angular.element($window).on('scroll', onWindowResize);
+            element.on('show.bs.popover', function() {
+                angular.element($window)
+                    .on('resize', onWindowResize);
+                angular.element($window)
+                    .on('scroll', onWindowResize);
                 // This should live somewhere else?
-                element.parents('.openlmis-flex-table').on('scroll', onWindowResize);
+                element.parents('.openlmis-flex-table')
+                    .on('scroll', onWindowResize);
             });
-            element.on('hide.bs.popover', function(){
-                angular.element($window).off('resize', onWindowResize);
-                angular.element($window).off('scroll', onWindowResize);
+            element.on('hide.bs.popover', function() {
+                angular.element($window)
+                    .off('resize', onWindowResize);
+                angular.element($window)
+                    .off('scroll', onWindowResize);
                 // This should live somewhere else?
-                element.parents('.openlmis-flex-table').off('scroll', onWindowResize);
+                element.parents('.openlmis-flex-table')
+                    .off('scroll', onWindowResize);
             });
 
             var resizeFrameId;
-            function onWindowResize(){
-                if(resizeFrameId) {
+            function onWindowResize() {
+                if (resizeFrameId) {
                     $window.cancelAnimationFrame(resizeFrameId);
                 }
 

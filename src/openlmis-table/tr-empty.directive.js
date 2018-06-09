@@ -54,15 +54,11 @@
                 return;
             }
 
-            element.after(
-                $compile(
-                    '<tr>' +
+            element.after($compile('<tr>' +
                         '<td class="openlmis-empty-row" colspan="{{emptyRowColSpan}}">' +
                             '{{emptyRowMessage}}' +
                         '</td>' +
-                    '</tr>'
-                )(scope)
-            );
+                    '</tr>')(scope));
         }
     }
 

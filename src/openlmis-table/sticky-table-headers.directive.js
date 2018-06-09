@@ -58,12 +58,11 @@
             link: link
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
             // Only check for sticky elements if within a table container
-            if(element.parents('.openlmis-table-container').length === 0) {
+            if (element.parents('.openlmis-table-container').length === 0) {
                 return ;
             }
-
 
             var parent = element.parent(),
                 window = angular.element($window),
@@ -101,19 +100,21 @@
                 window.bind('scroll', animate);
 
                 // Make sure offsets are correct
-                element.find('thead th').css('top', '0px');
+                element.find('thead th')
+                    .css('top', '0px');
 
                 blits = [];
-                element.find('thead th').each(function(index, cell) {
-                    setUpBlits(angular.element(cell));
-                });
+                element.find('thead th')
+                    .each(function(index, cell) {
+                        setUpBlits(angular.element(cell));
+                    });
 
                 animate();
             }
 
             var animationFrameId;
             function animate() {
-                if(animationFrameId) {
+                if (animationFrameId) {
                     $window.cancelAnimationFrame(animationFrameId);
                 }
                 animationFrameId = $window.requestAnimationFrame(blit);
@@ -131,8 +132,9 @@
 
                 containerOffset = parent[0].getBoundingClientRect().top;
 
-                if(containerOffset > 0 || containerOffset + parent[0].clientHeight < 0) {
-                    jQuery('.stuck-top', element).css('top', '0px');
+                if (containerOffset > 0 || containerOffset + parent[0].clientHeight < 0) {
+                    jQuery('.stuck-top', element)
+                        .css('top', '0px');
                     return;
                 }
 

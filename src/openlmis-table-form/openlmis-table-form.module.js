@@ -28,6 +28,6 @@
         'openlmis-table',
         'openlmis-popover',
         'openlmis-form'
-    	]);
+    ]);
 
 })();

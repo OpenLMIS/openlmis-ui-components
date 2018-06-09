@@ -29,7 +29,7 @@
         .factory('OpenlmisRepository', OpenlmisRepository);
 
     function OpenlmisRepository() {
-        
+
         OpenlmisRepository.prototype.create = create;
         OpenlmisRepository.prototype.get = get;
         OpenlmisRepository.prototype.update = update;
@@ -69,9 +69,9 @@
                 repository = this;
 
             return this.impl.create(object)
-            .then(function(response) {
-                return new DomainClass(response, repository);
-            });
+                .then(function(response) {
+                    return new DomainClass(response, repository);
+                });
         }
 
         /**
@@ -90,9 +90,9 @@
                 repository = this;
 
             return this.impl.get(id)
-            .then(function(response) {
-                return new DomainClass(response, repository);
-            });
+                .then(function(response) {
+                    return new DomainClass(response, repository);
+                });
         }
 
         /**

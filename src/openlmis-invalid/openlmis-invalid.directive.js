@@ -28,7 +28,7 @@
      * - An error message element is prepended to the element
      * - The .is-invalid class is added to the element
      */
-    
+
     angular
         .module('openlmis-invalid')
         .directive('openlmisInvalid', directive);
@@ -48,7 +48,7 @@
                 messageElement;
 
             scope.$watch(getAttributeError, updateErrors);
-            scope.$watchCollection(function(){
+            scope.$watchCollection(function() {
                 return openlmisInvalidCtrl.getMessages();
             }, updateErrors);
             scope.$watchCollection(canShowErrors, updateErrors);
@@ -63,7 +63,9 @@
              * string or unset.
              */
             function getAttributeError() {
-                if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '' && attrs.openlmisInvalid != 'false') {
+                if (attrs.hasOwnProperty('openlmisInvalid') &&
+                    attrs.openlmisInvalid != '' &&
+                    attrs.openlmisInvalid != 'false') {
                     return attrs.openlmisInvalid;
                 }
                 return false;
@@ -82,15 +84,15 @@
                 var messages = [],
                     message = getAttributeError();
 
-                if(message) {
+                if (message) {
                     messages.push(message);
                 }
 
-                angular.forEach(openlmisInvalidCtrl.getMessages(), function(value, key) {
+                angular.forEach(openlmisInvalidCtrl.getMessages(), function(value) {
                     messages.push(value);
                 });
 
-                if(messages.length > 0) {
+                if (messages.length > 0) {
                     showErrors(messages);
                 } else {
                     clearErrors();
@@ -111,9 +113,9 @@
 
                 element.trigger('openlmisInvalid.hide', [messageElement]);
 
-                if(messageElement){
+                if (messageElement) {
                     messageElement.remove();
-                    messageElement = undefined;                    
+                    messageElement = undefined;
                 }
             }
 
@@ -129,14 +131,14 @@
              * @param  {Array} messages List of messages to show
              */
             function showErrors(messages) {
-                if(!canShowErrors()){
+                if (!canShowErrors()) {
                     return ;
                 }
 
                 element.addClass('is-invalid');
                 messageScope.messages = messages;
 
-                if(!messageElement) {
+                if (!messageElement) {
                     var html = $templateCache.get('openlmis-invalid/openlmis-invalid.html');
                     messageElement = $compile(html)(messageScope);
 
@@ -155,11 +157,11 @@
              */
             element.on('openlmisInvalid.show', placeErrorMessage);
             function placeErrorMessage(event, messageElement) {
-                if(!event.isDefaultPrevented()) {
+                if (!event.isDefaultPrevented()) {
                     element.prepend(messageElement);
                 }
             }
-            
+
             function canShowErrors() {
                 return !openlmisInvalidCtrl.isHidden();
             }

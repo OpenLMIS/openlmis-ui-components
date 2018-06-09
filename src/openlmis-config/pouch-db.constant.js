@@ -26,6 +26,6 @@
      */
     angular
         .module('openlmis-config')
-        .constant('PouchDB', PouchDB);
+        .constant('PouchDB', PouchDB); //eslint-disable-line no-undef
 
 })();

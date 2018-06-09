@@ -26,7 +26,7 @@
      * Keeps table cells within the visible area of the table pane.
      */
     angular.module('openlmis-table')
-    .directive('openlmisTablePaneCellFocusable', directive);
+        .directive('openlmisTablePaneCellFocusable', directive);
 
     directive.$inject = ['$timeout'];
 
@@ -35,7 +35,7 @@
             restrict: 'A',
             require: '^^openlmisTablePane',
             link: link
-        }
+        };
         return directive;
 
         function link(scope, element, attrs, tablePaneCtrl) {
@@ -49,7 +49,7 @@
             });
 
             function checkVisibility() {
-                if(attrs.hasOwnProperty('openlmisStickyColumn')) {
+                if (attrs.hasOwnProperty('openlmisStickyColumn')) {
                     return;
                 }
 
@@ -65,14 +65,14 @@
                         isNotVisibleLeft = (leftBound >= cellPosition.left),
                         isNotVisibleRight = (rightBound <= cellPosition.left + cellWidth);
 
-                    if(isNotVisibleLeft || isNotVisibleRight) {
+                    if (isNotVisibleLeft || isNotVisibleRight) {
                         tablePaneCtrl.setScrollLeft(cellPosition.left - viewport.paddingLeft);
                     }
                 }, 500);
             }
 
             function cancelVisibility() {
-                if(visibilityTimeout) {
+                if (visibilityTimeout) {
                     $timeout.cancel(visibilityTimeout);
                     visibilityTimeout = undefined;
                 }

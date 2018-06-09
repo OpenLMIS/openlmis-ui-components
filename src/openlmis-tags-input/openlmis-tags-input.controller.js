@@ -72,7 +72,8 @@
             }
 
             return $q.resolve($scope.availableTags.filter(function(tag) {
-                return tag.toLowerCase().indexOf(query.toLowerCase()) > -1;
+                return tag.toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1;
             }));
         }
     }

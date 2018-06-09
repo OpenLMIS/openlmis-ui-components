@@ -26,11 +26,11 @@
      * Adds openlmis-invalid and openlmis-popover directives to a table cell,
      * if they are not already added.
      */
-    
+
     angular
         .module('openlmis-table-form')
         .directive('td', directive);
-    
+
     directive.$inject = ['$compile'];
 
     function directive($compile) {
@@ -39,15 +39,15 @@
             priority: 100,
             terminal: true,
             compile: function(element, attrs) {
-                if(!attrs.hasOwnProperty('openlmisInvalid')) {
+                if (!attrs.hasOwnProperty('openlmisInvalid')) {
                     element.attr('openlmis-invalid', '');
                 }
 
-                if(!attrs.hasOwnProperty('popover')) {
+                if (!attrs.hasOwnProperty('popover')) {
                     element.attr('popover', '');
                 }
 
-                return function(scope, element, attrs){
+                return function(scope, element) {
                     $compile(element, null, 100)(scope);
                 };
             }

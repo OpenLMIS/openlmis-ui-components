@@ -37,12 +37,10 @@
         .module('openlmis-facility')
         .filter('facility', facilityFilter);
 
-    facilityFilter.$inject = ['$filter'];
-
-    function facilityFilter($filter) {
+    function facilityFilter() {
         return function(facility) {
             return facility.code + ' - ' + facility.name;
-        }
+        };
     }
 
 })();

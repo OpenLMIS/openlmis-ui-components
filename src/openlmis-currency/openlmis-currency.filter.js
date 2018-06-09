@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
@@ -43,7 +42,7 @@
                     return formatMoney(value, settings) + '\u00A0' + settings.currencySymbol;
                 } else {
                     return settings.currencySymbol + formatMoney(value, settings);
-                 }
+                }
             }
         };
 
@@ -52,7 +51,7 @@
                 num = value.toFixed(settings.currencyDecimalPlaces);
 
             return num.replace('.', settings.decimalSeparator)
-                      .replace(new RegExp(re, 'g'), '$&' + settings.groupingSeparator);
+                .replace(new RegExp(re, 'g'), '$&' + settings.groupingSeparator);
         }
     }
 

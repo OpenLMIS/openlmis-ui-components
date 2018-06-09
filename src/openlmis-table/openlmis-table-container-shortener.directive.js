@@ -40,7 +40,6 @@
         };
         return directive;
 
-
         function link(scope, element) {
             var xScrollbar,
                 flexTable,
@@ -48,7 +47,7 @@
 
             flexTable = jQuery('.openlmis-flex-table', element);
 
-            window.ready(function () {
+            window.ready(function() {
                 if (flexTable.length > 0) {
                     PerfectScrollbar.initialize(flexTable[0], {
                         handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
@@ -81,10 +80,11 @@
                         containerOffset = parent[0].getBoundingClientRect().bottom;
 
                     // remove height of floating toolbar
-                    jQuery('.openlmis-toolbar').each(function () {
-                        var div = jQuery(this);
-                        containerOffset += div.outerHeight();
-                    });
+                    jQuery('.openlmis-toolbar')
+                        .each(function() {
+                            var div = jQuery(this);
+                            containerOffset += div.outerHeight();
+                        });
 
                     if (containerOffset < windowHeight) {
                         xScrollbar[0].style.setProperty('--bottom-offset', 0);
@@ -96,6 +96,5 @@
             }
         }
     }
-
 
 })();

@@ -44,7 +44,7 @@
     function factory(openlmisUrlService) {
         return function() {
             return openlmisUrlService.format.apply(this, arguments);
-        }
+        };
     }
 
 })();

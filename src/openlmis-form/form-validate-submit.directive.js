@@ -49,7 +49,7 @@
             element.on('submit', function(event) {
                 if (form.$invalid) {
                     event.stopImmediatePropagation();
-                    $timeout(function(){
+                    $timeout(function() {
                         alertService.error(messageService.get('openlmisForm.formInvalid'));
                     }, 10);
                 }

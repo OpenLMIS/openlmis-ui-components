@@ -26,7 +26,7 @@
      * Adds the 'is-required' class to a fieldset's legend if any element has
      * or is changed to have the required attribute.
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('inputControl', directive);
@@ -38,23 +38,25 @@
             require: [
                 'inputControl'
             ]
-        }
+        };
     }
 
-    function link(scope, element, attrs, inputCtrl) {
-    	if(element.prop('tagName') !== 'FIELDSET') {
-    		return;
-    	}
+    function link(scope, element) {
+        if (element.prop('tagName') !== 'FIELDSET') {
+            return;
+        }
 
-    	scope.$watchCollection(function(){
-    		return element.find('[required]');
-    	}, function(requiredElements) {
-    		if(requiredElements.length > 0){
-    			element.children('legend').addClass('is-required');
-    		} else {
-    			element.children('legend').removeClass('is-required');
-    		}
-    	});
+        scope.$watchCollection(function() {
+            return element.find('[required]');
+        }, function(requiredElements) {
+            if (requiredElements.length > 0) {
+                element.children('legend')
+                    .addClass('is-required');
+            } else {
+                element.children('legend')
+                    .removeClass('is-required');
+            }
+        });
     }
 
 })();

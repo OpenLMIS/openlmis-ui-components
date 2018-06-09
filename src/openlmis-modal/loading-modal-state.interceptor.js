@@ -13,10 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
-    "use strict";
+    'use strict';
 
     /**
      * @ngdoc service
@@ -28,8 +27,8 @@
     angular.module('openlmis-modal')
         .run(stateInterceptorListeners);
 
-    stateInterceptorListeners.$inject = ["$rootScope", "loadingModalService"];
-    function stateInterceptorListeners($rootScope, loadingModalService){
+    stateInterceptorListeners.$inject = ['$rootScope', 'loadingModalService'];
+    function stateInterceptorListeners($rootScope, loadingModalService) {
         $rootScope.$on('$stateChangeStart', function() {
             loadingModalService.open(true);
         });

@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -30,11 +29,11 @@
      */
 
     angular.module('openlmis-popover')
-    .directive('popover', popoverDirective);
+        .directive('popover', popoverDirective);
 
-    popoverDirective.$inject = ['$compile', '$timeout', '$templateRequest','$rootScope', '$window'];
+    popoverDirective.$inject = ['$compile', '$timeout'];
 
-    function popoverDirective($compile, $timeout, $templateRequest, $rootScope, $window){
+    function popoverDirective($compile, $timeout) {
         return {
             restrict: 'A',
             require: 'popover',
@@ -44,8 +43,7 @@
         function popoverLink(scope, element, attrs, popoverCtrl) {
 
             var popoverIsOpen, // boolean, if popover is open
-                popoverCanOpen, // boolean, if popover element has focus and should be open
-                isMouseFocused; // boolean, if popover element has the mouse over it or not
+                popoverCanOpen; // boolean, if popover element has focus and should be open
 
             element.on('focus', focusedElement);
             element.on('focusin', focusedElement);
@@ -55,10 +53,10 @@
             element.on('mouseout', blurredElement);
 
             // Keep track of popover state
-            element.on('openlmisPopover.open', function(){
+            element.on('openlmisPopover.open', function() {
                 popoverIsOpen = true;
             });
-            element.on('openlmisPopover.close', function(){
+            element.on('openlmisPopover.close', function() {
                 popoverIsOpen = false;
             });
 
@@ -76,12 +74,12 @@
             element.on('openlmisPopover.change', checkVisibility);
 
             popoverCtrl.updateTabIndex = function() {
-                if(popoverCtrl.getElements().length > 0) {
+                if (popoverCtrl.getElements().length > 0) {
                     element.attr('tabindex', 0);
                 } else {
                     element.attr('tabindex', -1);
                 }
-            }
+            };
 
             /**
              * @ngdoc method
@@ -92,7 +90,7 @@
              * Opens the popover, if it is closed.
              */
             function openPopover() {
-                if(!popoverIsOpen) {
+                if (!popoverIsOpen) {
                     popoverCtrl.open();
                 }
             }
@@ -106,17 +104,16 @@
              * Closes the popover, if it is open.
              */
             function closePopover() {
-                if(popoverIsOpen) {
+                if (popoverIsOpen) {
                     popoverCtrl.close();
                 }
             }
 
-
             // The following are helper functions used to debounce interactions
             // by 500 milliseconds.
             var popoverTimeout;
-            function cancelPopoverTimeout(){
-                if(popoverTimeout) {
+            function cancelPopoverTimeout() {
+                if (popoverTimeout) {
                     $timeout.cancel(popoverTimeout);
                 }
             }
@@ -125,7 +122,6 @@
                 cancelPopoverTimeout();
                 popoverTimeout = $timeout(fn, 250);
             }
-
 
             /**
              * @ngdoc method
@@ -166,7 +162,7 @@
             function checkVisibility() {
                 var popoverHasElements = popoverCtrl.getElements().length > 0;
 
-                if(popoverHasElements && popoverCanOpen) {
+                if (popoverHasElements && popoverCanOpen) {
                     openPopover();
                 } else {
                     closePopover();
@@ -183,9 +179,12 @@
              * the scope of the element.
              */
             function registerPopoverListeners() {
-                angular.element('body').on('focusin', bodyFocusHandler);
-                angular.element('body').on('click', bodyFocusHandler);
-                angular.element('body').on('mouseover', bodyFocusHandler);
+                angular.element('body')
+                    .on('focusin', bodyFocusHandler);
+                angular.element('body')
+                    .on('click', bodyFocusHandler);
+                angular.element('body')
+                    .on('mouseover', bodyFocusHandler);
             }
 
             /**
@@ -197,17 +196,20 @@
              * Removes listeners registered in registerPopoverListeners
              */
             function unregisterPopoverListeners() {
-                angular.element('body').off('focusin', bodyFocusHandler);
-                angular.element('body').off('click', bodyFocusHandler);
-                angular.element('body').off('mouseover', bodyFocusHandler);
+                angular.element('body')
+                    .off('focusin', bodyFocusHandler);
+                angular.element('body')
+                    .off('click', bodyFocusHandler);
+                angular.element('body')
+                    .off('mouseover', bodyFocusHandler);
             }
 
             function bodyFocusHandler(event) {
                 var target = angular.element(event.target);
 
-                if(element[0] === target[0] || isContainedByElement(target)) {
+                if (element[0] === target[0] || isContainedByElement(target)) {
                     focusedElement();
-                } else if(target.hasClass('popover') || target.parents('.popover').length > 0) {
+                } else if (target.hasClass('popover') || target.parents('.popover').length > 0) {
                     focusedElement();
                 } else {
                     blurredElement();
@@ -217,11 +219,12 @@
             function isContainedByElement(target) {
                 var isContained = false;
 
-                target.parents().each(function(index, targetParent){
-                    if(targetParent === element[0]){
-                        isContained = true;
-                    }
-                });
+                target.parents()
+                    .each(function(index, targetParent) {
+                        if (targetParent === element[0]) {
+                            isContained = true;
+                        }
+                    });
 
                 return isContained;
             }

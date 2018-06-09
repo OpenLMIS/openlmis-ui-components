@@ -81,7 +81,9 @@
                 methodName,
                 originalFn;
 
-            if (!ngSubmitPath) return;
+            if (!ngSubmitPath) {
+                return;
+            }
 
             methodScope = getMethodScope(scope, ngSubmitPath);
             methodName = getMethodName(ngSubmitPath);
@@ -91,7 +93,7 @@
                 var promise = originalFn.apply(this, arguments);
 
                 if (promise && promise.catch) {
-                    if(attrs.reloadForm !== undefined) {
+                    if (attrs.reloadForm !== undefined) {
                         promise.then(function() {
                             formCtrl.$setPristine();
                             formCtrl.$setUntouched();
@@ -121,7 +123,9 @@
             }
 
             function getMethodName(path) {
-                return path.split('.').pop().slice(0, -2);
+                return path.split('.')
+                    .pop()
+                    .slice(0, -2);
             }
 
             function handleError(error) {

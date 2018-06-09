@@ -80,16 +80,16 @@
 
             var pouchDb = this.pouchDb;
             return pouchDb.get(doc.id)
-            .then(function(stored) {
-                doc._id = stored._id;
-                doc._rev = stored._rev;
-            })
-            .catch(function() {
-                doc._id = doc.id;
-            })
-            .then(function() {
-                return pouchDb.put(doc);
-            });
+                .then(function(stored) {
+                    doc._id = stored._id;
+                    doc._rev = stored._rev;
+                })
+                .catch(function() {
+                    doc._id = doc.id;
+                })
+                .then(function() {
+                    return pouchDb.put(doc);
+                });
         }
 
         /**
@@ -125,9 +125,9 @@
          */
         function getAll() {
             return this.search()
-            .then(function(docs) {
-                return docs;
-            });
+                .then(function(docs) {
+                    return docs;
+                });
         }
 
         /**
@@ -146,15 +146,15 @@
          */
         function search(options) {
             return this.pouchDb.allDocs({
-                include_docs: true
+                include_docs: true //eslint-disable-line camelcase
             })
-            .then(extractDocs)
-            .then(function(docs) {
-                if (options) {
-                    return $filter('filter')(docs, options);
-                }
-                return docs;
-            });
+                .then(extractDocs)
+                .then(function(docs) {
+                    if (options) {
+                        return $filter('filter')(docs, options);
+                    }
+                    return docs;
+                });
         }
 
         /**
@@ -178,9 +178,9 @@
 
             var pouchDb = this.pouchDb;
             return pouchDb.get(id)
-            .then(function(doc) {
-                return pouchDb.remove(doc._id, doc._rev);
-            });
+                .then(function(doc) {
+                    return pouchDb.remove(doc._id, doc._rev);
+                });
         }
 
         /**
@@ -200,9 +200,9 @@
                 name = this.pouchDb.name;
 
             return this.pouchDb.destroy()
-            .then(function(response) {
-                database.pouchDb = new PouchDB(name);
-            });
+                .then(function() {
+                    database.pouchDb = new PouchDB(name);
+                });
         }
 
         function validate(doc) {

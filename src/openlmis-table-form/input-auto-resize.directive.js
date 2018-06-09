@@ -50,7 +50,7 @@
             var el = element[0];
             scope.$watch(function() {
                 return el.value;
-            }, function(newValue, oldValue) {
+            }, function() {
                 $window.autosizeInput(el);
             });
         }
@@ -64,7 +64,7 @@
         function isOutsideTd(element) {
             var parents = element.parents();
 
-            return parents[1].localName !== 'td' || parents[0].localName !== 'div' || 
+            return parents[1].localName !== 'td' || parents[0].localName !== 'div' ||
                 !parents[0].classList.contains('input-control');
         }
 

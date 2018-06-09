@@ -15,9 +15,9 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
+    /**
      * @ngdoc directive
      * @restrict A
      * @name openlmis-form.directive:charactersLeft
@@ -37,20 +37,20 @@
      * ng-maxlength is supported, rather than maxlength, which the browser uses
      * to have its own restrictions. 
      */
-	angular
-		.module('openlmis-form')
-		.directive('charactersLeft', directive);
+    angular
+        .module('openlmis-form')
+        .directive('charactersLeft', directive);
 
-	directive.$inject = ['$templateRequest', '$compile', '$timeout'];
+    directive.$inject = ['$templateRequest', '$compile', '$timeout'];
 
-	function directive($templateRequest, $compile, $timeout) {
-		return {
-			restrict: 'A',
+    function directive($templateRequest, $compile, $timeout) {
+        return {
+            restrict: 'A',
             require: ['charactersLeft', '?ngModel'],
             controller: 'CharactersLeftController',
             controllerAs: 'charactersLeftCtrl',
             link: link
-		};
+        };
 
         function link(scope, element, attrs, ctrls) {
             var charactersLeftElement,
@@ -63,7 +63,7 @@
             element.on('blur', removeElement);
             element.on('keypress', updateCharactersLeft);
 
-            scope.$on('$destroy', function(){
+            scope.$on('$destroy', function() {
                 removeElement();
                 charactersLeftElement = null;
 
@@ -72,20 +72,20 @@
                 element.off('keypress', updateCharactersLeft);
             });
 
-            if(ngModelCtrl){
+            if (ngModelCtrl) {
                 ngModelCtrl.$viewChangeListeners.push(updateCharactersLeft);
             }
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return attrs.ngMaxlength;
-            }, function(maxlength){
+            }, function(maxlength) {
                 charactersLeftCtrl.maxlength = maxlength;
                 updateCharactersLeft();
             });
 
             var updateDebounce;
             function updateCharactersLeft() {
-                if(updateDebounce) {
+                if (updateDebounce) {
                     $timeout.cancel(updateDebounce);
                 }
                 updateDebounce = $timeout(function() {
@@ -95,44 +95,51 @@
             }
 
             function makeElement() {
-                return $templateRequest('openlmis-form/characters-left.html').then(function(template) {
-                    var elementScope = scope.$new()
-                    elementScope.charactersLeftCtrl = charactersLeftCtrl;
+                return $templateRequest('openlmis-form/characters-left.html')
+                    .then(function(template) {
+                        var elementScope = scope.$new();
+                        elementScope.charactersLeftCtrl = charactersLeftCtrl;
 
-                    charactersLeftElement = $compile(template)(elementScope);
+                        charactersLeftElement = $compile(template)(elementScope);
 
-                    charactersLeftCtrl.charactersLeftElement = charactersLeftElement;
+                        charactersLeftCtrl.charactersLeftElement = charactersLeftElement;
 
-                    return charactersLeftElement;
-                });
+                        return charactersLeftElement;
+                    });
             }
 
-            function appendElement(template) {
-                if(element.attr('characters-left').toLowerCase() === 'false') {
+            function appendElement() {
+                if (element.attr('characters-left')
+                    .toLowerCase() === 'false') {
                     return;
                 }
 
-                if(charactersLeftElement.parents().length !== 0){
+                if (charactersLeftElement.parents().length !== 0) {
                     return;
                 }
 
-                if (element.parents('.input-control').length){
-                    if(element.parents('.input-control').next('.openlmis-invalid').length > 0){
-                        element.parents('.input-control').next('.openlmis-invalid').after(charactersLeftElement);
+                if (element.parents('.input-control').length) {
+                    if (element.parents('.input-control')
+                        .next('.openlmis-invalid').length > 0) {
+                        element.parents('.input-control')
+                            .next('.openlmis-invalid')
+                            .after(charactersLeftElement);
                     } else {
-                        element.parents('.input-control').after(charactersLeftElement);
+                        element.parents('.input-control')
+                            .after(charactersLeftElement);
                     }
                 } else if (element.next().length) {
                     charactersLeftElement.insertAfter(element);
                 } else {
-                    element.parent().append(charactersLeftElement);
+                    element.parent()
+                        .append(charactersLeftElement);
                 }
             }
 
-            function removeElement(){
+            function removeElement() {
                 charactersLeftElement.remove();
             }
         }
-	}
+    }
 
 })();

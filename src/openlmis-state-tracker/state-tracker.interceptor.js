@@ -28,7 +28,7 @@
 
     stateTrackerInterceptor.$inject = ['$rootScope', 'stateTrackerService'];
 
-    function stateTrackerInterceptor($rootScope, stateTrackerService){
+    function stateTrackerInterceptor($rootScope, stateTrackerService) {
         $rootScope.$on('$stateChangeSuccess', stateChanged);
 
         function stateChanged(event, toState, toParams, fromState, fromParams) {

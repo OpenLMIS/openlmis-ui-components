@@ -75,13 +75,14 @@
             // See if ng-repeat or ng-options changed
             scope.$watch(function() {
                 var options = [];
-                element.find(optionsSelector).each(function(){
-                    options.push(this.value);
-                });
+                element.find(optionsSelector)
+                    .each(function() {
+                        options.push(this.value);
+                    });
                 return options.join(',');
             }, updateSelect);
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return attrs.hasOwnProperty('required');
             }, updateSelect);
 
@@ -95,17 +96,18 @@
              * "placeholder") and then sets the select element to that value.
              */
             function updateSelect() {
-                if(!attrs.hasOwnProperty('required') || attrs.hasOwnProperty('noAutoSelect')){
+                if (!attrs.hasOwnProperty('required') || attrs.hasOwnProperty('noAutoSelect')) {
                     return ;
                 }
 
                 var options = element.children(optionsSelector);
 
-                if(options.length === 1) {
-                    var value = element.children(optionsSelector + ':first').val();
+                if (options.length === 1) {
+                    var value = element.children(optionsSelector + ':first')
+                        .val();
                     element.val(value);
 
-                    if(ngModelCtrl) {
+                    if (ngModelCtrl) {
                         var selectedValue = selectCtrl.readValue();
                         ngModelCtrl.$setViewValue(selectedValue);
                     }

@@ -58,8 +58,10 @@
             //This is a workaround to make the validations work in way they fit our form behavior.
             //The timeout here prevents tagsInputModelCtrl and inputModelCtrl from being undefined.
             $timeout(function() {
-                var tagsInputModelCtrl = element.find('tags-input').controller('ngModel'),
-                    inputModelCtrl = element.find('input').controller('ngModel'),
+                var tagsInputModelCtrl = element.find('tags-input')
+                        .controller('ngModel'),
+                    inputModelCtrl = element.find('input')
+                        .controller('ngModel'),
                     errorMessage;
 
                 scope.$watch(function() {

@@ -38,13 +38,13 @@
     openExternalUrl.$inject = ['loadingModalService', '$rootScope', '$window'];
     function openExternalUrl(loadingModalService, $rootScope, $window) {
         $rootScope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams) {
+            function(event, toState) {
                 if (toState.externalUrl) {
                     event.preventDefault();
                     loadingModalService.close();
                     $window.open(toState.externalUrl);
                 }
-        });
+            });
     }
 
 })();

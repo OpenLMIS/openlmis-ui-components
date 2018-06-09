@@ -42,10 +42,10 @@
 
         function compile(element, attrs) {
 
-            if(!attrs.hasOwnProperty('openlmisInvalid')) {
+            if (!attrs.hasOwnProperty('openlmisInvalid')) {
                 element.attr('openlmis-invalid', '');
             }
-            
+
             return link;
         }
 

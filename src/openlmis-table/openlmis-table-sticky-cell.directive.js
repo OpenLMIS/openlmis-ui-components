@@ -31,7 +31,7 @@
      * performant.
      */
     angular.module('openlmis-table')
-    .directive('openlmisTableStickyCell', directive);
+        .directive('openlmisTableStickyCell', directive);
 
     directive.$inject = ['$window'];
 
@@ -41,7 +41,7 @@
             controller: 'OpenlmisTableStickyCellController',
             require: ['openlmisTableStickyCell', '^^openlmisTablePane'],
             link: link
-        }
+        };
         return directive;
 
         /**
@@ -64,8 +64,10 @@
                 tablePaneCtrl = ctrls[1];
 
             cellCtrl.setup({
-                stickLeft: attrs.hasOwnProperty('openlmisStickyColumn') && !attrs.hasOwnProperty('openlmisStickyColumnRight'),
-                stickRight: attrs.hasOwnProperty('openlmisStickyColumn') && attrs.hasOwnProperty('openlmisStickyColumnRight'),
+                stickLeft: attrs.hasOwnProperty('openlmisStickyColumn') &&
+                           !attrs.hasOwnProperty('openlmisStickyColumnRight'),
+                stickRight: attrs.hasOwnProperty('openlmisStickyColumn') &&
+                            attrs.hasOwnProperty('openlmisStickyColumnRight'),
                 stickTop: attrs.hasOwnProperty('openlmisStickyTop'),
                 stickBottom: attrs.hasOwnProperty('openlmisStickyBottom')
             });
@@ -108,13 +110,13 @@
                 var positionObj = originalUpdatePosition.apply(cellCtrl, arguments),
                     transform = 'translate3d('+positionObj.left+'px, '+positionObj.top+'px, 0px)';
 
-                if(transform === lastTransform) {
+                if (transform === lastTransform) {
                     return;
                 }
 
                 lastTransform = transform;
 
-                if(animationFrameId) {
+                if (animationFrameId) {
                     $window.cancelAnimationFrame(animationFrameId);
                 }
 

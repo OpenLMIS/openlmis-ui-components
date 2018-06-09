@@ -13,8 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc service
@@ -25,7 +25,7 @@
      * UA tracking code.
      */
     angular.module('openlmis-analytics')
-    .service('analyticsService', service);
+        .service('analyticsService', service);
 
     service.$inject = ['$window', 'offlineService', 'localStorageFactory', '$rootScope'];
 
@@ -49,13 +49,13 @@
          * Can take any number of arguments and passes them directly to Google Analytics.
          */
         function track() {
-            if(!offlineService.isOffline()) {
-                ga.apply(this, arguments);
-            } else {
+            if (offlineService.isOffline()) {
                 gaEventsOfflineStorage.put({
                     arguments: arguments,
                     gaParameters: getGAParameters()
                 });
+            } else {
+                ga.apply(this, arguments);
             }
         }
 
@@ -93,8 +93,11 @@
             ga('set', 'screenResolution', parameters.screenResolution);
             ga('set', 'viewportSize', parameters.viewportSize);
             ga('set', 'language', parameters.language);
-            if(setQueueTime) ga('set', 'queueTime', Date.now() - new Date(parameters.time));
-            else ga('set', 'queueTime', 0);
+            if (setQueueTime) {
+                ga('set', 'queueTime', Date.now() - new Date(parameters.time));
+            } else {
+                ga('set', 'queueTime', 0);
+            }
         }
     }
 

@@ -23,7 +23,6 @@
     service.$inject = ['$q', '$modal', '$timeout'];
 
     function service($q, $modal, $timeout) {
-        var modals = [];
 
         this.createDialog = createDialog;
 
@@ -59,29 +58,29 @@
 
         function decorateOnBeforeShow(options) {
             options.$$onBeforeShow = options.onBeforeShow;
-            options.onBeforeShow = function ($modal) {
-        		// Angular 1.5 $onInit and $onDestroy life cycle event support
-        		if ($modal.$options.controllerAs) {
-        			var modalElementData = $modal.$element.data();
-        			var modalScope = modalElementData && modalElementData.$scope;
-        			if (modalScope) {
-        				var controller = modalScope[$modal.$options.controllerAs];
-        				if (controller) {
-        					// Manually trigger $onInit callback
-        					if (angular.isFunction(controller.$onInit)) {
-        						controller.$onInit();
-        					}
-        					// Manually trigger $onDestroy callback on scope destroy
-        					if (angular.isFunction(controller.$onDestroy)) {
-        						modalScope.$on('$destroy', controller.$onDestroy);
-        					}
-        				}
-        			}
-        		}
+            options.onBeforeShow = function($modal) {
+                // Angular 1.5 $onInit and $onDestroy life cycle event support
+                if ($modal.$options.controllerAs) {
+                    var modalElementData = $modal.$element.data();
+                    var modalScope = modalElementData && modalElementData.$scope;
+                    if (modalScope) {
+                        var controller = modalScope[$modal.$options.controllerAs];
+                        if (controller) {
+                            // Manually trigger $onInit callback
+                            if (angular.isFunction(controller.$onInit)) {
+                                controller.$onInit();
+                            }
+                            // Manually trigger $onDestroy callback on scope destroy
+                            if (angular.isFunction(controller.$onDestroy)) {
+                                modalScope.$on('$destroy', controller.$onDestroy);
+                            }
+                        }
+                    }
+                }
                 if (options.$$onBeforeShow) {
                     options.$$onBeforeShow($modal);
                 }
-        	};
+            };
         }
 
         function decorateResolve(options, deferred) {

@@ -25,12 +25,12 @@
      * @description
      * Makes sure the table cell element is focused.
      */
-    
+
     angular
         .module('openlmis-table')
         .directive('table', directive);
 
-    directive.$inject = ['$timeout', '$window']
+    directive.$inject = ['$timeout', '$window'];
 
     function directive($timeout, $window) {
         return {
@@ -39,14 +39,14 @@
         };
 
         function link(scope, element, attrs) {
-            if(!element.parents('.openlmis-table-container').length) {
+            if (!element.parents('.openlmis-table-container').length) {
                 return;
             }
 
             element.on('focus focusin', 'td, th', checkVisibilityDeferred);
             element.on('blur focusout', 'td, th', cancelVisibilityDeferred);
 
-            scope.$on('$destroy', function(){
+            scope.$on('$destroy', function() {
                 element.off('focus focusin', 'td, th', checkVisibilityDeferred);
                 element.off('blur focusout', 'td, th', cancelVisibilityDeferred);
             });
@@ -81,7 +81,7 @@
              * loses focus.
              */
             function cancelVisibilityDeferred() {
-                if(checkVisibilityTimeout) {
+                if (checkVisibilityTimeout) {
                     $timeout.cancel(checkVisibilityTimeout);
                 }
             }
@@ -101,10 +101,12 @@
              */
             function getTableCell(event) {
                 var nodeName = event.target.nodeName.toLowerCase();
-                if(nodeName === 'td' || nodeName === 'th') {
+                if (nodeName === 'td' || nodeName === 'th') {
                     return angular.element(event.target);
                 } else {
-                    return angular.element(event.target).parents('td, th').first();
+                    return angular.element(event.target)
+                        .parents('td, th')
+                        .first();
                 }
             }
 
@@ -123,10 +125,10 @@
                     visibleEdgeRight = 0,
                     leftOffset = element.parent()[0].scrollLeft;
 
-                if(attrs.leftEdge) {
+                if (attrs.leftEdge) {
                     visibleEdgeLeft = attrs.leftEdge;
                 }
-                if(attrs.rightEdge) {
+                if (attrs.rightEdge) {
                     visibleEdgeRight = attrs.rightEdge;
                 }
 
@@ -134,7 +136,7 @@
                     leftEdge: visibleEdgeLeft,
                     rightEdge: visibleEdgeRight,
                     leftOffset: leftOffset
-                }
+                };
             }
 
             /**
@@ -149,11 +151,11 @@
              * element, otherwise the table is scrolled.
              */
             function checkVisibility(tableCell) {
-                if(tableCell.length !== 1) {
+                if (tableCell.length !== 1) {
                     return;
                 }
 
-                if(tableCell.hasClass('stuck')){
+                if (tableCell.hasClass('stuck')) {
                     return;
                 }
 
@@ -162,7 +164,7 @@
                     width = tableCell.outerWidth(),
                     rightEdge = visibleArea.leftOffset + leftEdge + width;
 
-                if(leftEdge < visibleArea.leftEdge || rightEdge > visibleArea.rightEdge) {
+                if (leftEdge < visibleArea.leftEdge || rightEdge > visibleArea.rightEdge) {
                     scrollTable(visibleArea.leftOffset + leftEdge - visibleArea.leftEdge);
                 }
             }

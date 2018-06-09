@@ -31,7 +31,7 @@
 
     function run($rootScope, $location, analyticsService) {
 
-        $rootScope.$on('$stateChangeSuccess', function () {
+        $rootScope.$on('$stateChangeSuccess', function() {
             analyticsService.track('send', 'pageview', $location.path());
         });
     }

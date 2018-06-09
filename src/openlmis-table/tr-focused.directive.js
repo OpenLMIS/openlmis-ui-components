@@ -40,9 +40,10 @@
             restrict: 'E'
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element) {
             if (!rows.length) {
-                angular.element('body').on('focusin', setSelectedRow);
+                angular.element('body')
+                    .on('focusin', setSelectedRow);
             }
 
             if (rows.indexOf(element) === -1) {
@@ -74,7 +75,8 @@
                 }
 
                 if (!rows.length) {
-                    angular.element('body').off('focusin', setSelectedRow);
+                    angular.element('body')
+                        .off('focusin', setSelectedRow);
                 }
             }
         }

@@ -74,7 +74,6 @@
         };
         return directive;
 
-
         /**
          * @ngdoc method
          * @methodOf openlmis-form.directive:select-placeholder
@@ -88,7 +87,7 @@
          * 
          */
         function link(scope, element, attrs, ctrls) {
-            if(attrs.hasOwnProperty('noPlaceholder')) {
+            if (attrs.hasOwnProperty('noPlaceholder')) {
                 return ;
             }
 
@@ -118,8 +117,8 @@
              */
             function updatePlaceholder() {
                 var placeholderText = defaultPlaceholderText.slice(0);  // copy the default so it persisits
-                if(placeholderText === '') {
-                    if(attrs.placeholder) {
+                if (placeholderText === '') {
+                    if (attrs.placeholder) {
                         placeholderText = attrs.placeholder;
                     } else {
                         placeholderText = messageService.get('openlmisForm.selectAnOption');
@@ -142,15 +141,16 @@
             function prepareEmptyOption() {
                 var emptyOption = angular.element('<option value="" disabled class="placeholder"></option>');
 
-                element.children('option').each(function(index, option) {
-                    option = angular.element(option);
-                    if(!option.val() || option.val() === "") {
-                        emptyOption = option;
-                        option.addClass('placeholder');
-                    }
-                });
+                element.children('option')
+                    .each(function(index, option) {
+                        option = angular.element(option);
+                        if (!option.val() || option.val() === '') {
+                            emptyOption = option;
+                            option.addClass('placeholder');
+                        }
+                    });
 
-                if(!element.children('option.placeholder').length) {
+                if (!element.children('option.placeholder').length) {
                     element.prepend(emptyOption);
                 }
 

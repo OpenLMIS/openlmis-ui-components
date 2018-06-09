@@ -34,11 +34,11 @@
     directive.$inject = ['$compile', '$templateCache'];
     function directive($compile, $templateCache) {
         return {
-            compile: function(element, attrs){
+            compile: function() {
                 return {
                     pre: compile,
                     post: link
-                }
+                };
             },
             priority: 20,
             restrict: 'E',
@@ -62,11 +62,11 @@
             var inputCtrl = ctrls[0],
                 ngModelCtrl = ctrls[1];
 
-            if(!inputCtrl) {
+            if (!inputCtrl) {
                 return;
             }
 
-            if(inputCtrl && ngModelCtrl){
+            if (inputCtrl && ngModelCtrl) {
                 inputCtrl.addNgModel(ngModelCtrl);
             }
         }
@@ -87,15 +87,15 @@
          */
         function compile(scope, element, attrs) {
             // make sure input element is wrapped in an input control element
-            if(element.parents('[input-control]:first').length == 0) {
-                switch(element.attr('type')){
-                    case 'button':
-                    case 'submit':
-                    case 'radio':
-                    case 'checkbox':
-                        break;
-                    default:
-                        wrapElement(scope, element, attrs);
+            if (element.parents('[input-control]:first').length == 0) {
+                switch (element.attr('type')) {
+                case 'button':
+                case 'submit':
+                case 'radio':
+                case 'checkbox':
+                    break;
+                default:
+                    wrapElement(scope, element, attrs);
                 }
             }
         }

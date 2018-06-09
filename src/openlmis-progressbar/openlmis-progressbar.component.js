@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
-  'use strict';
+    'use strict';
 
-  /**
+    /**
    * @ngdoc service
    * @name openlmis-progressbar.component:openlmisProgressbar
    *
@@ -38,16 +38,16 @@
    * <openlmis-progressbar/>
    * ```
    */
-  angular
-    .module('openlmis-progressbar')
-    .component('openlmisProgressbar', {
-      controller: 'ProgressbarController',
-      controllerAs: 'vm',
-      templateUrl: 'openlmis-progressbar/openlmis-progressbar.html',
-      bindings: {
-        value: '<',
-        max: '<?',
-        title: '@?'
-      }
-    });
+    angular
+        .module('openlmis-progressbar')
+        .component('openlmisProgressbar', {
+            controller: 'ProgressbarController',
+            controllerAs: 'vm',
+            templateUrl: 'openlmis-progressbar/openlmis-progressbar.html',
+            bindings: {
+                value: '<',
+                max: '<?',
+                title: '@?'
+            }
+        });
 })();

@@ -103,18 +103,18 @@
          */
         function registerUrl(newStateParams, loadItems, options) {
             return register(newStateParams, loadItems, options)
-            .then(function(response) {
-                paginationParamsMap[stateName] = {
-                    size: response ? response.size : 0,
-                    page: response ? response.number : 0,
-                    totalItems: response ? response.totalElements : 0,
-                    showingItems: response && response.content ? response.content.length : 0,
-                    externalPagination: true,
-                    pageParamName: getPageParamNameFromOptions(options),
-                    sizeParamName: getSizeParamNameFromOptions(options)
-                };
-                return response ? response.content : [];
-            });
+                .then(function(response) {
+                    paginationParamsMap[stateName] = {
+                        size: response ? response.size : 0,
+                        page: response ? response.number : 0,
+                        totalItems: response ? response.totalElements : 0,
+                        showingItems: response && response.content ? response.content.length : 0,
+                        externalPagination: true,
+                        pageParamName: getPageParamNameFromOptions(options),
+                        sizeParamName: getSizeParamNameFromOptions(options)
+                    };
+                    return response ? response.content : [];
+                });
         }
 
         /**
@@ -137,21 +137,21 @@
          */
         function registerList(itemValidator, newStateParams, loadItems, options) {
             return register(newStateParams, loadItems, options)
-            .then(function(items) {
-                var pageParamName = getPageParamNameFromOptions(options),
-                    sizeParamName = getSizeParamNameFromOptions(options);
+                .then(function(items) {
+                    var pageParamName = getPageParamNameFromOptions(options),
+                        sizeParamName = getSizeParamNameFromOptions(options);
 
-                paginationParamsMap[stateName] = {
-                    size: parseInt(newStateParams[sizeParamName]),
-                    page: parseInt(newStateParams[pageParamName]),
-                    totalItems: items.length,
-                    externalPagination: false,
-                    pageParamName: pageParamName,
-                    sizeParamName: sizeParamName,
-                    itemValidator: itemValidator
-                };
-                return items;
-            });
+                    paginationParamsMap[stateName] = {
+                        size: parseInt(newStateParams[sizeParamName]),
+                        page: parseInt(newStateParams[pageParamName]),
+                        totalItems: items.length,
+                        externalPagination: false,
+                        pageParamName: pageParamName,
+                        sizeParamName: sizeParamName,
+                        itemValidator: itemValidator
+                    };
+                    return items;
+                });
         }
 
         /**
@@ -281,11 +281,12 @@
         }
 
         function clearPaginationParamsMap(toState) {
-            Object.keys(paginationParamsMap).forEach(function(state) {
-                if (toState.indexOf(state) === -1) {
-                    delete paginationParamsMap[state];
-                }
-            });
+            Object.keys(paginationParamsMap)
+                .forEach(function(state) {
+                    if (toState.indexOf(state) === -1) {
+                        delete paginationParamsMap[state];
+                    }
+                });
         }
 
         function translateToRequestParams(stateParams, pageParamName, sizeParamName) {
@@ -332,34 +333,31 @@
             var statesUsingPageParam = [stateName],
                 statesUsingSizeParam = [stateName];
 
-            Object.keys(paginationParamsMap).forEach(function(state) {
-                if (state === stateName) {
-                    return;
-                }
+            Object.keys(paginationParamsMap)
+                .forEach(function(state) {
+                    if (state === stateName) {
+                        return;
+                    }
 
-                if (paginationParamsMap[state].pageParamName === pageParamName) {
-                    statesUsingPageParam.push(state);
-                }
+                    if (paginationParamsMap[state].pageParamName === pageParamName) {
+                        statesUsingPageParam.push(state);
+                    }
 
-                if (paginationParamsMap[state].sizeParamName === sizeParamName) {
-                    statesUsingSizeParam.push(state);
-                }
-            });
+                    if (paginationParamsMap[state].sizeParamName === sizeParamName) {
+                        statesUsingSizeParam.push(state);
+                    }
+                });
 
             if (statesUsingPageParam.length > 1) {
-                console.warn(
-                    'States ' + statesUsingPageParam.join(', ') + ' are using the ' + pageParamName + ' parameter ' +
-                    'for indicating current page. This might cause some unexpected behavior with the pagination ' +
-                    'component. Please consider using the customPageParamName option.'
-                );
+                console.warn('States ' + statesUsingPageParam.join(', ') + ' are using the ' + pageParamName +
+                    ' parameter for indicating current page. This might cause some unexpected behavior with the ' +
+                    'pagination component. Please consider using the customPageParamName option.');
             }
 
             if (statesUsingSizeParam.length > 1) {
-                console.warn(
-                    'States ' + statesUsingSizeParam.join(', ') + ' are using the ' + pageParamName + ' parameter ' +
-                    'for indicating page size. This might cause some unexpected behavior with the pagination ' +
-                    'component. Please consider using the customSizeParamName option.'
-                );
+                console.warn('States ' + statesUsingSizeParam.join(', ') + ' are using the ' + pageParamName +
+                    ' parameter for indicating page size. This might cause some unexpected behavior with the ' +
+                    'pagination component. Please consider using the customSizeParamName option.');
             }
         }
     }

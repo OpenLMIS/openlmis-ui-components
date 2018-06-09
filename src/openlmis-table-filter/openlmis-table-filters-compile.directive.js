@@ -49,15 +49,16 @@
 
         function compile(element, attrs) {
 
-            if(!attrs.hasOwnProperty('openlmisTableFilters')) {
+            if (!attrs.hasOwnProperty('openlmisTableFilters')) {
                 element.attr('openlmis-table-filters', '');
             }
 
-            element.children('form').each(function(index, formElement) {
-                if(!formElement.getAttribute('openlmis-table-filter-form')) {
-                    formElement.setAttribute('openlmis-table-filter-form', "");
-                }
-            });
+            element.children('form')
+                .each(function(index, formElement) {
+                    if (!formElement.getAttribute('openlmis-table-filter-form')) {
+                        formElement.setAttribute('openlmis-table-filter-form', '');
+                    }
+                });
 
             return link;
         }

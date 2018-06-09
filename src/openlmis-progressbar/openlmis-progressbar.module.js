@@ -13,16 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
-  'use strict';
+    'use strict';
 
-  /**
+    /**
    * @module openlmis-progressbar
    *
    * @description
    * This module provides all logic, markups for progressbar in OpenLMIS-UI.
    */
-  angular.module('openlmis-progressbar', ['openlmis-percentage']);
+    angular.module('openlmis-progressbar', ['openlmis-percentage']);
 
 })();

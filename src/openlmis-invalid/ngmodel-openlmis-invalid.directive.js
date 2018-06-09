@@ -26,7 +26,7 @@
      * Watches the openlmis-invalid attribute, and sets the ng-model invalid
      * state if the object has a ng-model controller.
      */
-    
+
     angular
         .module('openlmis-invalid')
         .directive('openlmisInvalid', directive);
@@ -41,7 +41,6 @@
             ]
         };
 
-
         /**
          * @ngdoc method
          * @methodOf openlmis-invalid.directive:openlmis-invalid-ngmodel
@@ -55,24 +54,24 @@
         function link(scope, element, attrs, ctrls) {
             var ngModelCtrl = ctrls[1];
 
-            if(!ngModelCtrl) {
+            if (!ngModelCtrl) {
                 return ;
             }
 
-            scope.$watch(function(){
-                if(attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
+            scope.$watch(function() {
+                if (attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid != '') {
                     return attrs.openlmisInvalid;
                 } else {
                     return false;
                 }
             }, function(message) {
-                if(message){
+                if (message) {
                     ngModelCtrl.$setValidity('openlmisInvalid', false);
                     ngModelCtrl.$error.openlmisInvalid = message;
                 } else {
                     ngModelCtrl.$setValidity('openlmisInvalid', true);
                 }
-            })
+            });
         }
 
     }

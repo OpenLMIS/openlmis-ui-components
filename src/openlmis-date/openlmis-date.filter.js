@@ -37,7 +37,7 @@
     function openlmisDateFilter($filter, DEFAULT_DATE_FORMAT) {
         return function(date, dateFormat) {
             return $filter('date')(date, dateFormat ? dateFormat : DEFAULT_DATE_FORMAT);
-        }
+        };
     }
 
 })();

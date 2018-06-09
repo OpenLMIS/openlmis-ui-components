@@ -25,7 +25,7 @@
      * @description
      * Adds .is-invalid class if any child elements have the is-invalid class.
      */
-    
+
     angular
         .module('openlmis-table')
         .directive('tr', directive);
@@ -36,11 +36,11 @@
             restrict: 'E'
         };
 
-        function link(scope, element, attrs) {
-            scope.$watch(function(){
+        function link(scope, element) {
+            scope.$watch(function() {
                 return element.find('.is-invalid').length > 0;
             }, function(hasInvalidElements) {
-                if(hasInvalidElements){
+                if (hasInvalidElements) {
                     element.addClass('is-invalid');
                 } else {
                     element.removeClass('is-invalid');

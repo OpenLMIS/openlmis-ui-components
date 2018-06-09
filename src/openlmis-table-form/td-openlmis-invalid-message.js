@@ -25,11 +25,11 @@
      * @description
      * Displays the openlmis-invalid message in a popover.
      */
-    
+
     angular
         .module('openlmis-table-form')
         .directive('td', directive);
-    
+
     function directive() {
         return {
             restrict: 'E',

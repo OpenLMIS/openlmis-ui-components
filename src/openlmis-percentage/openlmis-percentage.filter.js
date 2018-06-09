@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
-  'use strict';
+    'use strict';
 
-  /**
+    /**
    * @ngdoc filter
    * @name openlmis-percentage.filter:percentage
    *
@@ -28,15 +28,15 @@
    * @param  {Integer} decimals number of digits in fraction. Default value is 0.
    * @return {String}           number in percentage formatted string
    */
-  angular
-    .module('openlmis-percentage')
-    .filter('percentage', filter);
+    angular
+        .module('openlmis-percentage')
+        .filter('percentage', filter);
 
-  filter.$inject = ['$filter'];
+    filter.$inject = ['$filter'];
 
-  function filter($filter) {
-    return function (number, decimals) {
-      return $filter('number')(number * 100, decimals || 0) + '%';
-    };
-  }
+    function filter($filter) {
+        return function(number, decimals) {
+            return $filter('number')(number * 100, decimals || 0) + '%';
+        };
+    }
 })();

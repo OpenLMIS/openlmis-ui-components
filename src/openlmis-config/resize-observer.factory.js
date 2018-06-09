@@ -26,6 +26,6 @@
      */
     angular
         .module('openlmis-config')
-        .constant('ResizeObserver', ResizeObserver);
+        .constant('ResizeObserver', ResizeObserver); //eslint-disable-line no-undef
 
 })();

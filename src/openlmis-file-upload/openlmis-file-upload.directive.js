@@ -56,13 +56,16 @@
             scope.clear = clear;
             scope.getFileName = getFileName;
 
-            $templateRequest('openlmis-file-upload/file-upload.html').then(function(html) {
-                var template = $compile(html)(scope);
-                element.before(template);
-            });
+            $templateRequest('openlmis-file-upload/file-upload.html')
+                .then(function(html) {
+                    var template = $compile(html)(scope);
+                    element.before(template);
+                });
 
-            element.parent().addClass('openlmis-file-upload');
-            element.parent().addClass('is-empty');
+            element.parent()
+                .addClass('openlmis-file-upload');
+            element.parent()
+                .addClass('is-empty');
 
             element.on('change', function(event) {
                 event.preventDefault();
@@ -70,7 +73,8 @@
                     var file = event.target.files[0];
 
                     if (file) {
-                        element.parent().removeClass('is-empty');
+                        element.parent()
+                            .removeClass('is-empty');
 
                         ngModelController.$setViewValue(file);
 
@@ -97,7 +101,8 @@
                 ngModelController.$setValidity('openlmisFileUpload.fileEmpty', true);
                 scope.filename = undefined;
                 element.val(undefined);
-                element.parent().addClass('is-empty');
+                element.parent()
+                    .addClass('is-empty');
             }
 
             function getFileName() {

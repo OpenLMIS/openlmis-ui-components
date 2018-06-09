@@ -13,8 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     angular.module('openlmis-popover')
         .controller('PopoverController', controller);
@@ -30,19 +30,19 @@
 
         function getElements() {
             var keys = Object.keys(elements);
-            keys = keys.sort(function(a,b) {
-                if(elements[a].priority !== elements[b].priority) {
-                    return elements[a].priority - elements[b].priority;
-                } else {
+            keys = keys.sort(function(a, b) {
+                if (elements[a].priority === elements[b].priority) {
                     // sort by item key order
                     return a - b;
+                } else {
+                    return elements[a].priority - elements[b].priority;
                 }
             });
 
             var toReturn = [];
-            keys.forEach(function(key){
+            keys.forEach(function(key) {
                 toReturn.push(elements[key].element);
-            });          
+            });
             return toReturn;
         }
 
@@ -50,7 +50,7 @@
         function addElement(element, priority) {
             itemNumber += 1;
 
-            if(priority === null || typeof(priority) !== 'number'){
+            if (priority === null || typeof(priority) !== 'number') {
                 priority = 10;
             }
 
@@ -64,13 +64,13 @@
 
         function removeElement(element) {
             var elementKey;
-            angular.forEach(elements, function(obj, key){
-                if(element === obj.element){
+            angular.forEach(elements, function(obj, key) {
+                if (element === obj.element) {
                     elementKey = key;
                 }
             });
 
-            if(elementKey){
+            if (elementKey) {
                 delete elements[elementKey];
                 return true;
             } else {

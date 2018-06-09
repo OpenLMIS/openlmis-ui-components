@@ -13,8 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @module openlmis-popover
@@ -26,5 +26,5 @@
         'openlmis-i18n',
         'openlmis-templates',
         'openlmis-config'
-        ]);
+    ]);
 })();

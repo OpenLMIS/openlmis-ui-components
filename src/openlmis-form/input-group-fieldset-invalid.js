@@ -55,7 +55,7 @@
      * </fieldset>
      * ```
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('fieldset', directive);
@@ -69,16 +69,16 @@
                 '?inputControl',
                 '?openlmisInvalid'
             ]
-        }
+        };
     }
 
     function link(scope, element, attrs, ctrls) {
-    	var inputCtrl = ctrls[0],
+        var inputCtrl = ctrls[0],
             invalidCtrl = ctrls[1];
 
-        if(!inputCtrl || !invalidCtrl) {
-    		return;
-    	}
+        if (!inputCtrl || !invalidCtrl) {
+            return;
+        }
 
         element.on('openlmisInvalid.show', showMessage);
 
@@ -87,7 +87,7 @@
             event.stopPropagation();
 
             var legend = element.children('legend:first');
-            if(legend.length > 0) {
+            if (legend.length > 0) {
                 legend.after(messageElement);
             } else {
                 element.prepend(messageElement);

@@ -13,9 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
-(function(){
-    "use strict";
+(function() {
+    'use strict';
 
     /**
      * @ngdoc directive
@@ -30,16 +29,15 @@
      */
 
     angular.module('openlmis-popover')
-    .directive('popover', popoverDirective);
+        .directive('popover', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$templateRequest'];
-    function popoverDirective($compile, $templateRequest){
+    function popoverDirective($compile, $templateRequest) {
         return {
             restrict: 'A',
             require: 'popover',
             link: popoverLink
         };
-
 
         /**
          * @ngdoc method
@@ -55,16 +53,16 @@
             var textElement,
                 textScope;
 
-            scope.$watch(function(){
-                if(attrs.popover && attrs.popover != ''){
+            scope.$watch(function() {
+                if (attrs.popover && attrs.popover != '') {
                     return attrs.popover;
                 } else {
                     return false;
                 }
-            }, function(text){
-                if(text && textElement && textScope) {
+            }, function(text) {
+                if (text && textElement && textScope) {
                     textScope.text = text;
-                } else if(text) {
+                } else if (text) {
                     makePopoverText(text);
                 } else {
                     removePopoverText();
@@ -87,14 +85,14 @@
                 removePopoverText();
 
                 $templateRequest('openlmis-popover/popover-text.html')
-                .then(function(html) {
-                    textScope = scope.$new();
-                    textScope.text = text;
+                    .then(function(html) {
+                        textScope = scope.$new();
+                        textScope.text = text;
 
-                    textElement = $compile(html)(textScope);
+                        textElement = $compile(html)(textScope);
 
-                    popoverCtrl.addElement(textElement);
-                });
+                        popoverCtrl.addElement(textElement);
+                    });
             }
 
             /**
@@ -107,11 +105,11 @@
              * text element and destroys the text's scope.
              */
             function removePopoverText() {
-                if(textElement){
+                if (textElement) {
                     popoverCtrl.removeElement(textElement);
                     textElement = undefined;
                 }
-                if(textScope) {
+                if (textScope) {
                     textScope.$destroy();
                     textScope = undefined;
                 }

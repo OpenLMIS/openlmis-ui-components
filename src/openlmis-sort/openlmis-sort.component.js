@@ -36,11 +36,11 @@
      * @example
      * ```
      * <openlmis-sort
-     * 	   sort="vm.sort"
-     * 	   on-change="vm.onChange",
-     * 	   options="vm.options"
-     * 	   external-sort="true"
-     * 	   state-param-name="sortA">
+     *        sort="vm.sort"
+     *        on-change="vm.onChange",
+     *        options="vm.options"
+     *        external-sort="true"
+     *        state-param-name="sortA">
      * <openlmis-sort/>
      * ```
      */

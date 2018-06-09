@@ -62,7 +62,7 @@
 
         function link(scope, element, attrs) {
             // Only check for sticky elements if within a table container
-            if(element.parents('.openlmis-table-container').length === 0) {
+            if (element.parents('.openlmis-table-container').length === 0) {
                 return ;
             }
 
@@ -85,22 +85,23 @@
             }, updateStickyElementsDelayed);
 
             // If the window changes sizes, update the view
-            angular.element($window).bind('resize', updateStickyElementsDelayed);
+            angular.element($window)
+                .bind('resize', updateStickyElementsDelayed);
 
             scope.$on('$destroy', function() {
-                angular.element($window).unbind('resize', updateStickyElementsDelayed);
+                angular.element($window)
+                    .unbind('resize', updateStickyElementsDelayed);
                 parent.off('scroll', blit);
                 parent = undefined;
             });
 
             var updateTimeout;
             function updateStickyElementsDelayed() {
-                if(updateTimeout) {
+                if (updateTimeout) {
                     $timeout.cancel(updateTimeout);
                 }
                 updateTimeout = $timeout(sendUpdateEvent, 100);
             }
-
 
             var scrollLeftOffset;
             function updateScrollPosition() {
@@ -110,14 +111,14 @@
 
             var animationLoopId;
             function animate() {
-                if(animationLoopId) {
+                if (animationLoopId) {
                     window.cancelAnimationFrame(animationLoopId);
                 }
                 animationLoopId = window.requestAnimationFrame(blit);
             }
 
-            scope.$on('$destroy', function(){
-                if(animationLoopId) {
+            scope.$on('$destroy', function() {
+                if (animationLoopId) {
                     window.cancelAnimationFrame(animationLoopId);
                 }
             });
@@ -144,10 +145,10 @@
             function updateStickyElements() {
                 // Remove all the classes so calculation function is "clean"
                 jQuery('.stuck', element)
-                .removeClass('stuck stuck-right stuck-left')
-                .css('left', '0px');
+                    .removeClass('stuck stuck-right stuck-left')
+                    .css('left', '0px');
 
-                if(parent) {
+                if (parent) {
                     parent.off('scroll', updateScrollPosition);
                 }
 
@@ -163,44 +164,49 @@
                 stickyColumns = [];
 
                 // Create blit functions
-                element.find('thead tr:last .col-sticky').each(function(index, cell) {
-                    var column = {};
+                element.find('thead tr:last .col-sticky')
+                    .each(function(index, cell) {
+                        var column = {};
 
-                    cell = angular.element(cell);
+                        cell = angular.element(cell);
 
-                    column.index = cell.parent().children().index(cell).toString();
-                    column.blit = setUpBlits(cell);
+                        column.index = cell.parent()
+                            .children()
+                            .index(cell)
+                            .toString();
+                        column.blit = setUpBlits(cell);
 
-                    stickyColumns.push(column);
-                });
-
-                element.find('th, td').each(function(index, cell) {
-                    cell = angular.element(cell);
-
-                    if(cell.parents('tr.title').length > 0) {
-                        return ;
-                    }
-                    
-                    var cellIndex = 0;
-                    cell.prevAll().each(function(index, el){
-                        if(el.getAttribute('colspan')) {
-                            cellIndex += parseInt(el.getAttribute('colspan'));
-                        } else {
-                            cellIndex += 1;
-                        }
+                        stickyColumns.push(column);
                     });
 
+                element.find('th, td')
+                    .each(function(index, cell) {
+                        cell = angular.element(cell);
 
-                    stickyColumns.forEach(function(column){
-                        if(cellIndex.toString() === column.index) {
-                            if(!column.cells) {
-                                column.cells = cell;
-                            } else {
-                                column.cells = column.cells.add(cell);
+                        if (cell.parents('tr.title').length > 0) {
+                            return ;
+                        }
+
+                        var cellIndex = 0;
+                        cell.prevAll()
+                            .each(function(index, el) {
+                                if (el.getAttribute('colspan')) {
+                                    cellIndex += parseInt(el.getAttribute('colspan'));
+                                } else {
+                                    cellIndex += 1;
+                                }
+                            });
+
+                        stickyColumns.forEach(function(column) {
+                            if (cellIndex.toString() === column.index) {
+                                if (column.cells) {
+                                    column.cells = column.cells.add(cell);
+                                } else {
+                                    column.cells = cell;
+                                }
                             }
-                        }
+                        });
                     });
-                });
             }
 
             /**
@@ -218,7 +224,7 @@
                 lastPositionUpdate = undefined;
             });
             function blit() {
-                if(lastPositionUpdate === undefined || lastPositionUpdate !== scrollLeftOffset) {
+                if (lastPositionUpdate === undefined || lastPositionUpdate !== scrollLeftOffset) {
                     lastPositionUpdate = scrollLeftOffset;
 
                     calculateViewableArea();
@@ -232,13 +238,14 @@
 
             function calculateViewableArea() {
                 tableWidth = element.width();
-                parentWidth = element.parent().width();
+                parentWidth = element.parent()
+                    .width();
 
                 leftEdge = 0 - element.position().left;
                 rightEdge = parentWidth + leftEdge;
             }
 
-            function resetCurrent(parent){
+            function resetCurrent(parent) {
                 currentParent = parent;
                 currentLeftOffset = 0;
                 currentRightOffset = 0;
@@ -248,17 +255,17 @@
                 angular.forEach(stickyColumns, function(column) {
                     var position = column.blit();
 
-                    if(column.offset === position) {
+                    if (column.offset === position) {
                         return;
                     }
                     column.offset = position;
 
                     column.cells.css('transform', 'translate3d(' + position + 'px, 0px, 0px)');
 
-                    if(position > 0) {
+                    if (position > 0) {
                         column.cells.addClass('stuck stuck-left');
                         column.cells.removeClass('stuck-right');
-                    } else if(position < 0) {
+                    } else if (position < 0) {
                         column.cells.addClass('stuck stuck-right');
                         column.cells.removeClass('stuck-left');
                     } else {
@@ -289,13 +296,13 @@
                 return function() {
                     var position = 0;
 
-                    if(currentParent != cellParent) {
+                    if (currentParent != cellParent) {
                         resetCurrent(cellParent);
                     }
 
-                    if(cell.hasClass('sticky-right') && canFit()) {
+                    if (cell.hasClass('sticky-right') && canFit()) {
                         position = rightBlit();
-                    } else if(canFit()) {
+                    } else if (canFit()) {
                         position = leftBlit();
                     }
 
@@ -309,7 +316,7 @@
                 function leftBlit() {
                     var position = leftEdge;
                     // if offset, cell will break table
-                    if(position + cellWidth > tableWidth) {
+                    if (position + cellWidth > tableWidth) {
                         return 0;
                     }
 
@@ -320,7 +327,7 @@
                 function rightBlit() {
                     var position = 0 - (tableWidth - parentWidth - leftEdge);
                     // if offset, this will run off screen
-                    if(position >= 0) {
+                    if (position >= 0) {
                         return 0;
                     }
 

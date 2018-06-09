@@ -26,7 +26,7 @@
      * When an openlmis-invalid instance is created, it checks to see if there
      * is a parent input-control element it can register to.
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('openlmisInvalid', directive);
@@ -39,13 +39,15 @@
         };
 
         function link(scope, element, attrs, openlmisInvalidCtrl) {
-            element.parents('[input-control]:first').each(function(index, parentElement) {
-                var parentInvalidCtrl = angular.element(parentElement).controller('openlmisInvalid');
-                if(parentInvalidCtrl) {
-                    parentInvalidCtrl.registerController(openlmisInvalidCtrl);
-                    openlmisInvalidCtrl.suppress();
-                }
-            });
+            element.parents('[input-control]:first')
+                .each(function(index, parentElement) {
+                    var parentInvalidCtrl = angular.element(parentElement)
+                        .controller('openlmisInvalid');
+                    if (parentInvalidCtrl) {
+                        parentInvalidCtrl.registerController(openlmisInvalidCtrl);
+                        openlmisInvalidCtrl.suppress();
+                    }
+                });
         }
     }
 

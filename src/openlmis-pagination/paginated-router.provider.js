@@ -34,7 +34,7 @@
     function factory(PAGE_SIZE) {
         this.resolve = resolve;
 
-        this.$get = [function(){}];
+        this.$get = [function() {}];
 
         /**
          * @ngdoc method
@@ -59,10 +59,8 @@
                 if (!toResolve.items) {
                     toResolve.items = externalItemsResolve;
                 }
-            } else {
-                if (!toResolve.totalItems && toResolve.items) {
-                    toResolve.totalItems = totalItemsResolve;
-                }
+            } else if (!toResolve.totalItems && toResolve.items) {
+                toResolve.totalItems = totalItemsResolve;
             }
             if (!toResolve.stateParams) {
                 toResolve.stateParams = stateParamsResolve;
@@ -82,7 +80,7 @@
         function stateParamsResolve($stateParams) {
             var stateParams = angular.copy($stateParams);
 
-            stateParams.size = $stateParams.size ? parseInt($stateParams.size) : PAGE_SIZE
+            stateParams.size = $stateParams.size ? parseInt($stateParams.size) : PAGE_SIZE;
             stateParams.page = $stateParams.page ? parseInt($stateParams.page) : 0;
 
             if (stateParams.offline) {

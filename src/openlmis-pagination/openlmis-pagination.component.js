@@ -15,9 +15,9 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
+    /**
      * @ngdoc service
      * @name openlmis-pagination.component:openlmisPagination
      *
@@ -33,20 +33,20 @@
      * @example
      * ```
      * <openlmis-pagination
-     * 	   list="allItems"
-	 *	   paged-list="items">
+     *        list="allItems"
+     *       paged-list="items">
      * <openlmis-pagination/>
      * ```
      */
-	angular
-		.module('openlmis-pagination')
-		.component('openlmisPagination', {
-			controller: 'PaginationController',
-			controllerAs: 'pagination',
+    angular
+        .module('openlmis-pagination')
+        .component('openlmisPagination', {
+            controller: 'PaginationController',
+            controllerAs: 'pagination',
             templateUrl: 'openlmis-pagination/openlmis-pagination.html',
-			bindings: {
-				list: '=?',
-				pagedList: '=?'
-			}
-		});
+            bindings: {
+                list: '=?',
+                pagedList: '=?'
+            }
+        });
 })();

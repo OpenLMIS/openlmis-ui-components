@@ -15,19 +15,18 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	/**
+    /**
      * @ngdoc controller
      * @name openlmis-form.controller:charactersLeft
      *
      * @description
      * Exposes methods used in the charactersLeft directive.
      */
-	angular
-		.module('openlmis-form')
-		.controller('CharactersLeftController', controller);
-
+    angular
+        .module('openlmis-form')
+        .controller('CharactersLeftController', controller);
 
     controller.$inject = ['$element'];
     function controller($element) {
@@ -42,14 +41,14 @@
         vm.maxlength;
 
         function updateCharactersLeft() {
-            if(!vm.maxlength) {
+            if (!vm.maxlength) {
                 return;
             }
 
             vm.numberOfCharacters = $element.val().length;
             vm.charactersLeft = vm.maxlength - vm.numberOfCharacters;
 
-            if(vm.charactersLeft < 0) {
+            if (vm.charactersLeft < 0) {
                 vm.areCharactersLeft = false;
             } else {
                 vm.areCharactersLeft = true;

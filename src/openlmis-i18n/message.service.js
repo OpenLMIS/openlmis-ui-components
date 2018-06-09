@@ -68,9 +68,11 @@
          * @return {Promise}        Promise
          */
         function populate(locale) {
-            if(!locale) locale = DEFAULT_LANGUAGE;
+            if (!locale) {
+                locale = DEFAULT_LANGUAGE;
+            }
 
-            if(OPENLMIS_MESSAGES[locale]){
+            if (OPENLMIS_MESSAGES[locale]) {
                 localStorageService.add(LOCALE_STORAGE_KEY, locale);
                 $rootScope.$broadcast('openlmis.messages.populated');
                 return $q.when();
@@ -94,11 +96,12 @@
             var displayMessage = keyWithArgs[0];
             var parameters = keyWithArgs[1];
             var currentLocale = getCurrentLocale();
-            if(OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]){
-                displayMessage = OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]
+            if (OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]]) {
+                displayMessage = OPENLMIS_MESSAGES[currentLocale][keyWithArgs[0]];
             }
             if (parameters) {
-                displayMessage = displayMessage.replace(/\$\{([\s]*[^;\s\{]+[\s]*)\}/g, function(_, match){
+                //eslint-disable-next-line no-useless-escape
+                displayMessage = displayMessage.replace(/\$\{([\s]*[^;\s\{]+[\s]*)\}/g, function(_, match) {
                     return parameters[match.trim()];
                 });
             }

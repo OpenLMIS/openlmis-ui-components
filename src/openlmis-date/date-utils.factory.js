@@ -53,13 +53,22 @@
          * @return {Date}          parsed date
          */
         function toDate(source) {
-            if (!source) return undefined;
+            if (!source) {
+                return undefined;
+            }
             // when date is ISO string, not array
-            if (!angular.isArray(source)) return fromISOString(source);
-            if (source.length === 3) return new Date(source[0], source[1] - 1, source[2]);
-            if (source.length === 6)
-                // array[1] - 1, because in JavaScript months starts with 0 (to 11)
+            if (!angular.isArray(source)) {
+                return fromISOString(source);
+            }
+
+            if (source.length === 3) {
+                return new Date(source[0], source[1] - 1, source[2]);
+            }
+
+            // array[1] - 1, because in JavaScript months starts with 0 (to 11)
+            if (source.length === 6) {
                 return new Date(source[0], source[1] - 1, source[2], source[3], source[4], source[5]);
+            }
             return undefined;
         }
 
@@ -80,7 +89,7 @@
             array.push(date.getFullYear());
             array.push(date.getMonth() + 1);
             array.push(date.getDate());
-            if(includeTime) {
+            if (includeTime) {
                 array.push(date.getHours());
                 array.push(date.getMinutes());
                 array.push(date.getSeconds());
@@ -142,7 +151,8 @@
          * @return {String}            ISO-8601 formatted date
          */
         function convertEpochMilliToIsoDateString(epochMilli) {
-            return new Date(epochMilli).toISOString();
+            return new Date(epochMilli)
+                .toISOString();
         }
     }
 

@@ -79,23 +79,21 @@
                 return;
             }
 
-            confirmService.confirm(
-                'openlmisAppCache.cacheUpdate.message',
+            confirmService.confirm('openlmisAppCache.cacheUpdate.message',
                 'openlmisAppCache.cacheUpdate.label',
                 'openlmisAppCache.cacheUpdate.cancel',
-                'openlmisAppCache.cacheUpdate.title'
-            )
-            .then(function() {
-                appCache.swapCache();
-                $window.location.reload();
-            })
-            .catch(function() {
-                appCache.swapCache();
-                $rootScope.$on('openlmis-auth.logout', function() {
+                'openlmisAppCache.cacheUpdate.title')
+                .then(function() {
+                    appCache.swapCache();
                     $window.location.reload();
-                });
-            })
-            .finally(setUpdateReady);
+                })
+                .catch(function() {
+                    appCache.swapCache();
+                    $rootScope.$on('openlmis-auth.logout', function() {
+                        $window.location.reload();
+                    });
+                })
+                .finally(setUpdateReady);
         }
 
         function setUpdateReady() {

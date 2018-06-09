@@ -22,13 +22,13 @@
      * @name openlmis-table.controller:OpenlmisTablePaneController
      *
      * @description
-     * This controller keeps track of the table and viewport dimentions, and
+     * This controller keeps track of the table and viewport dimensions, and
      * orchestrates updating those dimensions to table cells that are
      * registered to this controller.
      */
 
     angular.module('openlmis-table')
-    .controller('OpenlmisTablePaneController', controller);
+        .controller('OpenlmisTablePaneController', controller);
 
     function controller() {
         var stickyCells = [],
@@ -68,7 +68,7 @@
          *
          * @param {Number} number Position to set the scroll left value to
          */
-        function setScrollLeft(number) {
+        function setScrollLeft(number) { //eslint-disable-line no-unused-vars
             // Placeholder for directive to override
         }
 
@@ -78,14 +78,14 @@
          * @methodOf openlmis-table.controller:OpenlmisTablePaneController
          *
          * @description
-         * Registers a cell controller, so that when upateCells is called, the
+         * Registers a cell controller, so that when updateCells is called, the
          * updatePosition method on the cell controller is called.
          * 
          * @param  {Object} cellCtrl Controller for a table cell
          */
         function registerStickyCell(cellCtrl) {
             stickyCells.push(cellCtrl);
-        };
+        }
 
         /**
          * @ngdoc method
@@ -99,9 +99,8 @@
          */
         function unregisterStickyCell(cellCtrl) {
             stickyCells = _.without(stickyCells, cellCtrl);
-        };
+        }
 
-        
         /**
          * @ngdoc method
          * @name  updateViewportPosition
@@ -180,13 +179,11 @@
             updateStickyCells();
         }
 
-
         function updateStickyCells() {
             stickyCells.forEach(function(cellCtrl) {
                 cellCtrl.updatePosition(viewportRectangle, tableRectangle);
             });
         }
     }
-
 
 })();

@@ -26,7 +26,8 @@
      * Takes the title attribute from a tbody element and changes it into a style-able banner.
      *
      * @example
-     * To add a title heading to any tbody element, just add a title element with a translated string (this element will not translate strings for you)
+     * To add a title heading to any tbody element, just add a title element with a translated string (this element will
+     * not translate strings for you)
      * ```
      * <table>
      *   <tbody tbody-title="Category Title">
@@ -60,23 +61,24 @@
         };
 
         function link(scope, element, attrs) {
-            if(attrs.tbodyTitle && attrs.tbodyTitle !== "") {
+            if (attrs.tbodyTitle && attrs.tbodyTitle !== '') {
                 var titleScope = scope.$new(true);
 
                 titleScope.title = attrs.tbodyTitle;
 
                 scope.$watch(function() {
-                    return element.children('tr:not(.title):first').children('td, th').length;
+                    return element.children('tr:not(.title):first')
+                        .children('td, th').length;
                 }, function(num) {
                     titleScope.colspan = num;
                 });
 
                 var html = $templateCache.get('openlmis-table/tbody-title.html'),
                     titleElement = $compile(html)(titleScope);
-                
+
                 element.prepend(titleElement);
 
-                if(element.parents('.openlmis-table-container').length > 0) {
+                if (element.parents('.openlmis-table-container').length > 0) {
                     var table = element.parents('table:first');
 
                     // openlmis-table-container will rewrite table's parent
@@ -84,30 +86,33 @@
                     var parent = table.parent();
                     scope.$watch(function() {
                         return table.parent()[0];
-                    }, function(newParent) {
+                    }, function() {
                         parent.off('scroll', animate);
                         parent = table.parent();
                         parent.on('scroll', animate);
                     });
 
-                    angular.element($window).bind('resize', animate);
+                    angular.element($window)
+                        .bind('resize', animate);
 
                     element.on('$destroy', function() {
                         parent.off('scroll', animate);
-                        angular.element($window).unbind('resize', animate);
+                        angular.element($window)
+                            .unbind('resize', animate);
                     });
 
                     scope.$watch(function() {
                         return jQuery('td, th', table).length;
                     }, animate);
 
-                    angular.element($window).bind('resize', animate);
+                    angular.element($window)
+                        .bind('resize', animate);
                 }
             }
 
             var animationFrameId;
             function animate() {
-                if(animationFrameId) {
+                if (animationFrameId) {
                     $window.cancelAnimationFrame(animationFrameId);
                 }
                 animationFrameId = $window.requestAnimationFrame(blit);
@@ -116,15 +121,14 @@
             function blit() {
                 var expandableElement = titleElement.find('div'),
                     cssUpdate = {};
-                
 
                 var width = getWidthString(expandableElement);
-                if(width) {
+                if (width) {
                     cssUpdate.width = width;
                 }
-                    
+
                 var offset = table.position().left * -1;
-                if(offset + expandableElement.outerWidth() > table.width() + 1) {
+                if (offset + expandableElement.outerWidth() > table.width() + 1) {
                     offset = 0;
                 }
                 cssUpdate.transform = 'translate3d('+offset+'px, 0px, 0px)';
@@ -136,7 +140,7 @@
             function getWidthString(expandableElement) {
                 var parentWidth = parent.outerWidth();
 
-                if(parentWidth === lastParentWidth) {
+                if (parentWidth === lastParentWidth) {
                     return;
                 }
                 lastParentWidth = parentWidth;
@@ -163,7 +167,6 @@
                         widthString += ' - ' + colSpan.css(attr);
                     }
                 });
-
 
                 return widthString + ')';
             }

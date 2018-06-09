@@ -38,9 +38,7 @@
         .module('openlmis-table-filter')
         .directive('openlmisTableFilters', directive);
 
-    directive.$inject = ['$compile', '$rootScope'];
-
-    function directive($compile, $rootScope) {
+    function directive() {
         var directive = {
             restrict: 'A',
             controller: 'OpenlmisTableFiltersController',
@@ -49,7 +47,8 @@
         return directive;
 
         function link(scope, element, attrs, openlmisTableFiltersCtrl) {
-            element.find('.toolbar').append(openlmisTableFiltersCtrl.getFilterButton());
+            element.find('.toolbar')
+                .append(openlmisTableFiltersCtrl.getFilterButton());
         }
     }
 

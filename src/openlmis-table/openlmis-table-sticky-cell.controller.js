@@ -32,117 +32,117 @@
      */
 
     angular.module('openlmis-table')
-    .controller('OpenlmisTableStickyCellController', controller);
+        .controller('OpenlmisTableStickyCellController', controller);
 
     function controller() {
-    	var isStickyLeft,
-	        isStickyRight,
-	        isStickyTop,
-	        isStickyBottom;
+        var isStickyLeft,
+            isStickyRight,
+            isStickyTop,
+            isStickyBottom;
 
-	    this.setup = setup;
-		this.updatePosition = updatePosition;
+        this.setup = setup;
+        this.updatePosition = updatePosition;
 
-		/**
-		 * @ngdoc method
-		 * @name  setup
-		 * @methodOf openlmis-table.controller:OpenlmisTableStickyCellController
-		 *
-		 * @description
-		 * Takes a configuration object, and sets internal configuration
-		 * variables.
-		 *
-		 * The configuration object should look like:
-		 * ```
-		 * {
-		 *   stickBottom: true,
-		 *   stickLeft: true,
-		 *   stickRight: false,
-		 *   stickTop: false
-		 * }
-		 * ```
-		 * 
-		 * @param  {Object} config Configuration object
-		 */
-		function setup(config) {
-			if(config.stickLeft) {
-				isStickyLeft = true;
-			}
-			if(config.stickRight) {
-				isStickyRight = true;
-			}
-			if(config.stickTop) {
-				isStickyTop = true;
-			}
-			if(config.stickBottom) {
-				isStickyBottom = true;
-			}
-		}
+        /**
+         * @ngdoc method
+         * @name  setup
+         * @methodOf openlmis-table.controller:OpenlmisTableStickyCellController
+         *
+         * @description
+         * Takes a configuration object, and sets internal configuration
+         * variables.
+         *
+         * The configuration object should look like:
+         * ```
+         * {
+         *   stickBottom: true,
+         *   stickLeft: true,
+         *   stickRight: false,
+         *   stickTop: false
+         * }
+         * ```
+         * 
+         * @param  {Object} config Configuration object
+         */
+        function setup(config) {
+            if (config.stickLeft) {
+                isStickyLeft = true;
+            }
+            if (config.stickRight) {
+                isStickyRight = true;
+            }
+            if (config.stickTop) {
+                isStickyTop = true;
+            }
+            if (config.stickBottom) {
+                isStickyBottom = true;
+            }
+        }
 
-		/**
-		 * @ngdoc method
-		 * @name  updatePosition
-		 * @methodOf openlmis-table.controller:OpenlmisTableStickyCellController
-		 *
-		 * @description
-		 * Takes rectangle objects for the viewport and table elements, and
-		 * then figures out which offset positions need to be caluclated for
-		 * the element.
-		 * 
-		 * @param  {[type]} viewport [description]
-		 * @param  {[type]} table    [description]
-		 */
-		function updatePosition(viewport, table) {
-			var position = {
-				left: 0,
-				top: 0
-			};
+        /**
+         * @ngdoc method
+         * @name  updatePosition
+         * @methodOf openlmis-table.controller:OpenlmisTableStickyCellController
+         *
+         * @description
+         * Takes rectangle objects for the viewport and table elements, and
+         * then figures out which offset positions need to be caluclated for
+         * the element.
+         * 
+         * @param  {[type]} viewport [description]
+         * @param  {[type]} table    [description]
+         */
+        function updatePosition(viewport, table) {
+            var position = {
+                left: 0,
+                top: 0
+            };
 
-			if(isStickyLeft) {
-				position.left = getLeftOffset(viewport, table);
-			}
-			if(isStickyRight) {
-				position.left = getRightOffset(viewport, table);
-			}
-			if(isStickyBottom) {
-				position.top = getBottomOffset(viewport, table);
-			}
-			if(isStickyTop) {
-				position.top = getTopOffset(viewport, table);
-			}
+            if (isStickyLeft) {
+                position.left = getLeftOffset(viewport);
+            }
+            if (isStickyRight) {
+                position.left = getRightOffset(viewport, table);
+            }
+            if (isStickyBottom) {
+                position.top = getBottomOffset(viewport, table);
+            }
+            if (isStickyTop) {
+                position.top = getTopOffset(viewport);
+            }
 
-			// Make sure position values are valid, otherwise make zero
-			if(!position.left) {
-				position.left = 0;
-			}
-			if(!position.top) {
-				position.top = 0;
-			}
+            // Make sure position values are valid, otherwise make zero
+            if (!position.left) {
+                position.left = 0;
+            }
+            if (!position.top) {
+                position.top = 0;
+            }
 
-			return position;
-		};
+            return position;
+        }
 
-		function getLeftOffset(viewport, table) {
+        function getLeftOffset(viewport) {
             return viewport.left;
-		}
+        }
 
-		function getTopOffset(viewport, table) {
+        function getTopOffset(viewport) {
             return viewport.top;
-		}
+        }
 
-		function getRightOffset(viewport, table) {
-			if(viewport.width > table.width) {
-				return 0;
-			}
-			return (viewport.left + viewport.width) - table.width;
-		}
+        function getRightOffset(viewport, table) {
+            if (viewport.width > table.width) {
+                return 0;
+            }
+            return (viewport.left + viewport.width) - table.width;
+        }
 
-		function getBottomOffset(viewport, table) {
-			if(viewport.height > table.height) {
-				return 0;
-			}
-			return (viewport.top + viewport.height) - table.height;
-		}
+        function getBottomOffset(viewport, table) {
+            if (viewport.height > table.height) {
+                return 0;
+            }
+            return (viewport.top + viewport.height) - table.height;
+        }
 
     }
 

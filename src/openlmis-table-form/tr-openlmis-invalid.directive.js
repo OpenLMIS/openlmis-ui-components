@@ -30,7 +30,7 @@
      * the $submitted state, or a openlmis-form-submit event is sent through
      * the scope.
      */
-    
+
     angular
         .module('openlmis-table-form')
         .directive('openlmisInvalid', directive);
@@ -51,24 +51,24 @@
                 openlmisInvalidCtrl = ctrls[0],
                 tr = element.parents('tr:first');
 
-            if(tr.length === 0) {
+            if (tr.length === 0) {
                 return;
             }
 
             openlmisInvalidCtrl.hide();
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return tr.hasClass('is-focused');
             }, function(isFocused) {
-                if(isFocused) {
+                if (isFocused) {
                     wasFocused = true;
                 }
-                if(!isFocused && wasFocused){
+                if (!isFocused && wasFocused) {
                     openlmisInvalidCtrl.show();
                 }
             });
 
-            scope.$on('openlmis-form-submit', function(){
+            scope.$on('openlmis-form-submit', function() {
                 openlmisInvalidCtrl.show();
             });
         }

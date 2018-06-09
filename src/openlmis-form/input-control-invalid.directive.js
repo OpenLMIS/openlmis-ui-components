@@ -28,7 +28,7 @@
      * layout and style between input elements and error messages (the using
      * openlmis-invalid).
      */
-    
+
     angular
         .module('openlmis-form')
         .directive('inputControl', directive);
@@ -46,7 +46,7 @@
             ]
         };
 
-       function link(scope, element, attrs, ctrls) {
+        function link(scope, element, attrs, ctrls) {
             var inputCtrl = ctrls[0],
                 openlmisInvalidCtrl = ctrls[1];
 
@@ -59,10 +59,10 @@
             function inputControlParseMessage(message) {
                 var messageKey = 'openlmisForm.' + message,
                     invalidMessage = messageService.get(messageKey);
-                if(invalidMessage != messageKey) {
-                    return invalidMessage;
-                } else {
+                if (invalidMessage == messageKey) {
                     return originalInvalidCtrlParseMessage.apply(openlmisInvalidCtrl, arguments);
+                } else {
+                    return invalidMessage;
                 }
             }
 
@@ -78,12 +78,12 @@
              * If openlmisInvalid is also set on the element, the error message
              * object is passed to openlmisInvalid.
              */
-            function watchErrors(){
+            function watchErrors() {
                 scope.$watchCollection(inputCtrl.getErrors, updateErrors);
                 scope.$watch(hasErrorsSurpressed, updateErrors);
             }
 
-            function updateErrors(){
+            function updateErrors() {
                 var messages = inputCtrl.getErrors();
                 openlmisInvalidCtrl.setMessages(messages);
             }
@@ -107,10 +107,10 @@
             }
 
             function showMessage(event, messageElement) {
-                if(!event.isDefaultPrevented()) {
+                if (!event.isDefaultPrevented()) {
                     event.preventDefault();
 
-                    if(element.parents('.form-inline').length > 0) {
+                    if (element.parents('.form-inline').length > 0) {
                         messageElement.remove();
                     } else {
                         element.after(messageElement);
@@ -119,5 +119,5 @@
             }
         }
     }
-        
+
 })();

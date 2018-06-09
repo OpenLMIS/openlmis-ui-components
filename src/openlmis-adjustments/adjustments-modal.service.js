@@ -76,7 +76,7 @@
                       preCancel, filterReasons) {
 
             return openlmisModalService.createDialog({
-                backdrop  : 'static',
+                backdrop: 'static',
                 controller: 'AdjustmentsModalController',
                 controllerAs: 'vm',
                 templateUrl: 'openlmis-adjustments/adjustments-modal.html',

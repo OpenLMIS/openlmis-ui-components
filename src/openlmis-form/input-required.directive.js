@@ -57,23 +57,23 @@
         function link(scope, element, attrs) {
             var label; // keep the last found label reference here (incase something changes)
 
-            if(attrs.type === 'radio' || attrs.type === 'checkbox') {
+            if (attrs.type === 'radio' || attrs.type === 'checkbox') {
                 return;
             }
 
-            scope.$watch(function(){
-                if(attrs.hasOwnProperty('required')){
+            scope.$watch(function() {
+                if (attrs.hasOwnProperty('required')) {
                     return attrs.required;
                 } else {
                     return false;
                 }
             }, update);
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return attrs.id;
             }, update);
 
-            function update(){
-                if(label){
+            function update() {
+                if (label) {
                     label.removeClass('is-required');
                 }
 

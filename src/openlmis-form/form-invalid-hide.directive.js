@@ -41,14 +41,14 @@
             var formCtrl = ctrls[1],
                 invalidCtrl = ctrls[0];
 
-            if(!formCtrl) {
+            if (!formCtrl) {
                 return ;
             }
 
-            scope.$watch(function(){
+            scope.$watch(function() {
                 return formCtrl.$submitted;
             }, function(submitted) {
-                if(submitted){
+                if (submitted) {
                     invalidCtrl.show();
                 } else {
                     invalidCtrl.hide();

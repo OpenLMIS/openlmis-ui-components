@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
     'use strict';
 
@@ -76,7 +75,7 @@
          * @description
          * Retrieves currency settings from config file.
          */
-        function getCurrencySettingsFromConfig () {
+        function getCurrencySettingsFromConfig() {
             var currencySettings = {};
 
             currencySettings['currencyCode'] = '@@CURRENCY_CODE';

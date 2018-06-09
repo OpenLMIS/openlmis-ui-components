@@ -82,9 +82,10 @@
         function translate(dateFormat, translationMap) {
             var translatedDateFormat = dateFormat;
 
-            Object.keys(translationMap).forEach(function(from) {
-                translatedDateFormat = replaceWith(translatedDateFormat, from, translationMap[from]);
-            });
+            Object.keys(translationMap)
+                .forEach(function(from) {
+                    translatedDateFormat = replaceWith(translatedDateFormat, from, translationMap[from]);
+                });
 
             return translatedDateFormat;
         }
