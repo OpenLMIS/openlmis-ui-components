@@ -44,7 +44,7 @@
 
         function link(scope, element) {
 
-            createSelect();
+            createSelect(element);
 
             scope.$watch(function() {
                 return element.val();
@@ -66,47 +66,6 @@
 
             scope.$on('$destroy', destroySelect);
 
-            /**
-             * @ngdoc method
-             * @methodOf openlmis-form.directive:select-search-option
-             * @name createSelect
-             *
-             * @description
-             * Creates the select2 element
-             */
-            function createSelect() {
-                var options = {
-                    minimumResultsForSearch: PAGE_SIZE,
-                    allowClear: true,
-                    selectOnClose: true,
-                    placeholder: getPlaceholder(),
-                    language: {
-                        noResults: function() {
-                            return messageService.get('openlmisForm.selectNoResults');
-                        }
-                    }
-                };
-
-                var modalParent = element.parents('.modal');
-                if (modalParent.length > 0) {
-                    options['dropdownParent'] = modalParent;
-                }
-
-                element.select2(options);
-
-                // Stops select2 from opening a modal after clearing the selection 
-                // https://github.com/select2/select2/issues/3320
-                element.on('select2:unselecting', function() {
-                    element.data('select2unselecting', true);
-                })
-                    .on('select2:opening', function(event) {
-                        if (element.data('select2unselecting')) {
-                            element.removeData('select2unselecting');
-                            event.preventDefault();
-                        }
-                    });
-            }
-
             function destroySelect() {
                 if (element.data('select2')) {
                     element.select2('destroy');
@@ -124,26 +83,68 @@
             function updateSelect() {
                 element.trigger('change.select2');
             }
+        }
 
-            /**
-             * @ngdoc method
-             * @methodOf openlmis-form.directive:select-search-option
-             * @name getPlaceholder
-             *
-             * @description
-             * Gets the placeholder text from the first item in the placeholder list
-             */
-            function getPlaceholder() {
-                var placeholderOption = element.children('.placeholder:first');
-
-                if (placeholderOption.length === 0) {
-                    return false;
-                } else {
-                    return {
-                        id: placeholderOption.val(),
-                        text: placeholderOption.text()
-                    };
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-form.directive:select-search-option
+         * @name createSelect
+         *
+         * @description
+         * Creates the select2 element
+         */
+        function createSelect(element) {
+            var options = {
+                minimumResultsForSearch: PAGE_SIZE,
+                allowClear: true,
+                selectOnClose: true,
+                placeholder: getPlaceholder(element),
+                language: {
+                    noResults: function() {
+                        return messageService.get('openlmisForm.selectNoResults');
+                    }
                 }
+            };
+
+            var modalParent = element.parents('.modal');
+            if (modalParent.length > 0) {
+                options['dropdownParent'] = modalParent;
+            }
+
+            element.select2(options);
+
+            // Stops select2 from opening a modal after clearing the selection 
+            // https://github.com/select2/select2/issues/3320
+            element
+                .on('select2:unselecting', function() {
+                    element.data('select2unselecting', true);
+                })
+                .on('select2:opening', function(event) {
+                    if (element.data('select2unselecting')) {
+                        element.removeData('select2unselecting');
+                        event.preventDefault();
+                    }
+                });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-form.directive:select-search-option
+         * @name getPlaceholder
+         *
+         * @description
+         * Gets the placeholder text from the first item in the placeholder list
+         */
+        function getPlaceholder(element) {
+            var placeholderOption = element.children('.placeholder:first');
+
+            if (placeholderOption.length === 0) {
+                return false;
+            } else {
+                return {
+                    id: placeholderOption.val(),
+                    text: placeholderOption.text()
+                };
             }
         }
     }

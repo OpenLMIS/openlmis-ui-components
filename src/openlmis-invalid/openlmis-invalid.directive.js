@@ -47,29 +47,15 @@
             var messageScope = scope.$new(),
                 messageElement;
 
-            scope.$watch(getAttributeError, updateErrors);
+            scope.$watch(function() {
+                return getAttributeError(attrs);
+            }, updateErrors);
+
             scope.$watchCollection(function() {
                 return openlmisInvalidCtrl.getMessages();
             }, updateErrors);
-            scope.$watchCollection(canShowErrors, updateErrors);
 
-            /**
-             * @ngdoc method
-             * @methodOf openlmis-invalid.directive:openlmis-invalid
-             * @name  getAttributeError
-             *
-             * @description
-             * Returns the message in openlmisInvalid, or false if an empty
-             * string or unset.
-             */
-            function getAttributeError() {
-                if (attrs.hasOwnProperty('openlmisInvalid') &&
-                    attrs.openlmisInvalid !== '' &&
-                    attrs.openlmisInvalid !== 'false') {
-                    return attrs.openlmisInvalid;
-                }
-                return false;
-            }
+            scope.$watchCollection(canShowErrors, updateErrors);
 
             /**
              * @ngdoc method
@@ -82,7 +68,7 @@
              */
             function updateErrors() {
                 var messages = [],
-                    message = getAttributeError();
+                    message = getAttributeError(attrs);
 
                 if (message) {
                     messages.push(message);
@@ -165,6 +151,24 @@
             function canShowErrors() {
                 return !openlmisInvalidCtrl.isHidden();
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-invalid.directive:openlmis-invalid
+         * @name  getAttributeError
+         *
+         * @description
+         * Returns the message in openlmisInvalid, or false if an empty
+         * string or unset.
+         */
+        function getAttributeError(attrs) {
+            if (attrs.hasOwnProperty('openlmisInvalid') &&
+                attrs.openlmisInvalid !== '' &&
+                attrs.openlmisInvalid !== 'false') {
+                return attrs.openlmisInvalid;
+            }
+            return false;
         }
 
     }
