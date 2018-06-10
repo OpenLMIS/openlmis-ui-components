@@ -25,6 +25,7 @@
      * an error message is thrown by AngularJS.
      */
     angular.module('openlmis-offline')
-        .constant('Offline', Offline); //eslint-disable-next-line no-undef
+        //eslint-disable-next-line no-undef
+        .constant('Offline', Offline);
 
 })();
