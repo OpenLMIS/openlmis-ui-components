@@ -26,25 +26,42 @@ describe('ObjectMapper', function() {
         });
 
         objectList = [
-            { id: '1', name: 'Name1'},
-            { id: '2', name: 'Name2'}
+            {
+                id: '1',
+                name: 'Name1'
+            }, {
+                id: '2',
+                name: 'Name2'
+            }
         ];
 
         objectMapper = new ObjectMapper();
     });
 
-    describe('get', function() {
+    describe('map', function() {
 
-        it('should map objects', function() {
+        it('should map objects to id', function() {
             var result;
 
-            objectMapper.get(objectList)
-            .then(function(response) {
-                result = response;
-            });
+            objectMapper.map(objectList)
+                .then(function(response) {
+                    result = response;
+                });
             $rootScope.$apply();
 
-            expect(result).not.toBeUndefined();
+            expect(result[objectList[0].id]).toEqual(objectList[0]);
+            expect(result[objectList[1].id]).toEqual(objectList[1]);
+        });
+
+        it('should map property to id if the property name was given', function() {
+            var result;
+
+            objectMapper.map(objectList, 'name')
+                .then(function(response) {
+                    result = response;
+                });
+            $rootScope.$apply();
+
             expect(result[objectList[0].id]).toEqual(objectList[0].name);
             expect(result[objectList[1].id]).toEqual(objectList[1].name);
         });

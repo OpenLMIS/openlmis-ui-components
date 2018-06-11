@@ -32,7 +32,7 @@
 
     function ObjectMapper($q) {
 
-        ObjectMapper.prototype.get = get;
+        ObjectMapper.prototype.map = map;
 
         return ObjectMapper;
 
@@ -50,16 +50,21 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-object-utils.ObjectMapper
-         * @name get
+         * @name map
          *
          * @description
-         * Maps the object name by object id and returns promise.
+         * Maps the object (or property) name to object id and returns promise.
          */
-        function get(objectList) {
-            var map = {};
-            objectList.forEach(function(object) {
-                map[object.id] = object.name;
-            });
+        function map(objectList, propertyName) {
+            if (!objectList) {
+                return undefined;
+            }
+
+            var map = objectList.reduce(function(map, object) {
+                map[object.id] = propertyName ? object[propertyName] : object;
+                return map;
+            }, {});
+
             return $q.resolve(map);
         }
 
