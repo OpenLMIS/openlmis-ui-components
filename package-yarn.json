@@ -20,5 +20,40 @@
   },
   "scripts": {
     "preinstall": "mkdir -p analytics && curl -o analytics/analytics.js https://www.google-analytics.com/analytics.js"
+  },
+  "overrides": {
+    "angular-material": {
+      "main": [
+        "modules/js/virtualRepeat/virtualRepeat.js",
+        "modules/js/virtualRepeat/virtualRepeat.css",
+        "modules/js/showHide/showHide.js",
+        "modules/js/core/core.js",
+        "modules/js/core/core.css"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "scss/font-awesome.scss",
+        "fonts/fontawesome-webfont.woff"
+      ]
+    },
+    "select2": {
+      "main": [
+        "dist/js/select2.js"
+      ]
+    },
+    "js-shortid": {
+      "main": [
+        "dist/js-shortid.js"
+      ]
+    },
+    "perfect-scrollbar": {
+      "main": [
+        "src/css/variables.scss",
+        "src/css/mixins.scss",
+        "src/css/themes.scss",
+        "js/perfect-scrollbar.js"
+      ]
+    }
   }
 }
