@@ -22,7 +22,7 @@
     "preinstall": "mkdir -p analytics && curl -o analytics/analytics.js https://www.google-analytics.com/analytics.js"
   },
   "overrides": {
-    "angular-material": {
+    "@bower_components/angular-material": {
       "main": [
         "modules/js/virtualRepeat/virtualRepeat.js",
         "modules/js/virtualRepeat/virtualRepeat.css",
@@ -31,23 +31,23 @@
         "modules/js/core/core.css"
       ]
     },
-    "font-awesome": {
+    "@bower_components/font-awesome": {
       "main": [
         "scss/font-awesome.scss",
         "fonts/fontawesome-webfont.woff"
       ]
     },
-    "select2": {
+    "@bower_components/select2": {
       "main": [
         "dist/js/select2.js"
       ]
     },
-    "js-shortid": {
+    "@bower_components/js-shortid": {
       "main": [
         "dist/js-shortid.js"
       ]
     },
-    "perfect-scrollbar": {
+    "@bower_components/perfect-scrollbar": {
       "main": [
         "src/css/variables.scss",
         "src/css/mixins.scss",
