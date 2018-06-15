@@ -37,11 +37,12 @@
 
         /**
          * @ngdoc method
-         * @methodOf admin-template-configure-columns.requisitionTemplateService
+         * @methodOf openlmis-feature-flag.featureFlagService
          * @name get
          *
          * @description
-         * Returns true if feature flag is turned on, false otherwise. If there is 
+         * Returns true if feature flag is turned on, false otherwise. 
+         * If there is no flag with given name undefined will be returned.
          *
          * @param  {String}  name feature flag name
          * @return {boolean}      current status of feature flag.
@@ -56,11 +57,12 @@
 
         /**
          * @ngdoc method
-         * @methodOf admin-template-configure-columns.requisitionTemplateService
+         * @methodOf openlmis-feature-flag.featureFlagService
          * @name set
          *
          * @description
-         * Sets 
+         * Sets a boolean value under given flag name. 
+         * If value does not equal 'true' or 'false' default value will be used instead.
          *
          * @param {String}  name         feature flag name
          * @param {String}  value        value retrieved from environment variable
