@@ -10,6 +10,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-4622:](https://openlmis.atlassian.net/browse/OLMIS-4622) Added the object mapper class.
 * [OLMIS-3675:](https://openlmis.atlassian.net/browse/OLMIS-3675) Added support for custom pagination parameter names to the paginationService.
 * [OLMIS-4838:](https://openlmis.atlassian.net/browse/OLMIS-4838) Added option to display informational alert to the alertService.
+* [OLMIS-4838](https://openlmis.atlassian.net/browse/OLMIS-4838): Added feature flag service.
 
 Improvements:
 * [OLMIS-4744](https://openlmis.atlassian.net/browse/OLMIS-4744): Added Jenkinsfile.
