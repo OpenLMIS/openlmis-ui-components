@@ -29,7 +29,6 @@ describe('featureFlagService', function() {
 
         it('should get flag value if set', function() {
             featureFlagService.set('new-flag', '', true);
-            dump(featureFlagService);
             expect(featureFlagService.get('new-flag')).toBe(true);
         });
 

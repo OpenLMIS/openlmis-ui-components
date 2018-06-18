@@ -22,7 +22,7 @@
      * @name openlmis-feature-flag.featureFlagService
      *
      * @description
-     * Allows to get current status of feature flag.
+     * Allows getting current status of feature flag.
      */
     angular
         .module('openlmis-feature-flag')
