@@ -243,6 +243,7 @@
 
         function hidePopover() {
             filterButton.popover('hide');
+            filterButton.data('bs.popover').inState.click = false;
 
             if (isFormSubmitted()) {
                 $scope.count = getDefinedModelsLength(ngModels);

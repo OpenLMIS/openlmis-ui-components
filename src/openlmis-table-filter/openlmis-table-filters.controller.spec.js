@@ -199,13 +199,13 @@ describe('OpenlmisTableFiltersController', function() {
 
         beforeEach(prepareFilterButton);
 
-        it('should close on submit click', function() {
+        it('should close on cancel click', function() {
             form.find('#close-filters').click();
 
             expect(filterButton.popover).toHaveBeenCalledWith('hide');
         });
 
-        it('should close on cancel click', function() {
+        it('should close on submit click', function() {
             vm.registerElement(compileMarkup('<div></div>'));
 
             $timeout.flush();
@@ -236,6 +236,17 @@ describe('OpenlmisTableFiltersController', function() {
             $scope.$apply();
 
             expect(filterButton.popover).not.toHaveBeenCalledWith('show');
+        });
+
+        it('should open if form was previously closed', function() {
+            form.find('#close-filters').click();
+
+            expect(filterButton.popover).toHaveBeenCalledWith('hide');
+
+            form.controller('form').$setValidity('isInvalid', false);
+            $scope.$apply();
+
+            expect(filterButton.popover).toHaveBeenCalledWith('show');
         });
 
     });
