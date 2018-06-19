@@ -18,7 +18,7 @@
     'use strict';
 
     /**
-     * @module
+     * @module openlmis-feature-flag
      *
      * @description
      * Responsible for managing feature flags for OpenLMIS.
