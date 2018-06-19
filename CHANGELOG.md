@@ -20,6 +20,7 @@ Bug fixes:
 * [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component.
 * [OLMIS-3675:](https://openlmis.atlassian.net/browse/OLMIS-3675) Fixed broken pagination when coming back to a paginated parent screen from a paginated child screen using "Back" button.
 * [OLMIS-4838:](https://openlmis.atlassian.net/browse/OLMIS-4838) Fixed bug with alert promise not being resolved after the modal was closed.
+* [OLMIS-4481:](https://openlmis.atlassian.net/browse/OLMIS-4481) Fixed bug with double click required to open filter popover,
 
 5.3.0 / 2018-04-24
 ==================
