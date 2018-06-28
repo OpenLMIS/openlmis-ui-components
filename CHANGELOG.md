@@ -15,6 +15,7 @@ New functionality added in a backwards-compatible manner:
 Improvements:
 * [OLMIS-4744](https://openlmis.atlassian.net/browse/OLMIS-4744): Added Jenkinsfile.
 * [OLMIS-4795](https://openlmis.atlassian.net/browse/OLMIS-4795): Updated dev-ui to version 8.
+* [OLMIS-4935](https://openlmis.atlassian.net/browse/OLMIS-4935): Added UUID v4 generator.
 
 Bug fixes:
 * [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component.
