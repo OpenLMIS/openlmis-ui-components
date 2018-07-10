@@ -33,6 +33,7 @@
         OpenlmisRepository.prototype.create = create;
         OpenlmisRepository.prototype.get = get;
         OpenlmisRepository.prototype.update = update;
+        OpenlmisRepository.prototype.query = query;
 
         return OpenlmisRepository;
 
@@ -108,6 +109,30 @@
          */
         function update(object) {
             return this.impl.update(object);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisRepository
+         * @name query
+         *
+         * @description
+         * Retrieves objects matching the given parameters from the repository.
+         *
+         * @param  {Object} params the params to search the repository with
+         * @return {Object}        the matching objects
+         */
+        function query(params) {
+            var DomainClass = this.class,
+                repository = this;
+
+            return this.impl.query(params)
+                .then(function(page) {
+                    page.content = page.content.map(function(response) {
+                        return new DomainClass(response, repository);
+                    });
+                    return page;
+                });
         }
 
     }

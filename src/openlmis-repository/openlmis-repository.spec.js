@@ -15,22 +15,35 @@
 
 describe('OpenlmisRepository', function() {
 
-    var $q, $rootScope, OpenlmisRepository, impl, repository, object;
+    var $q, $rootScope, OpenlmisRepository, impl, repository, object, objectTwo, page, PageDataBuilder;
 
     beforeEach(function() {
+        module('openlmis-pagination');
         module('openlmis-repository');
 
         inject(function($injector) {
             OpenlmisRepository = $injector.get('OpenlmisRepository');
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
+            PageDataBuilder = $injector.get('PageDataBuilder');
         });
 
         object = {
             id: 'some-id'
         };
-        
-        impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update']);
+
+        objectTwo = {
+            id: 'some-other-id'
+        };
+
+        page = new PageDataBuilder()
+            .withContent([
+                object,
+                objectTwo
+            ])
+            .build();
+
+        impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update', 'query']);
         impl.create.andCallFake(function(param) {
             return $q.resolve(param);
         });
@@ -44,7 +57,10 @@ describe('OpenlmisRepository', function() {
             param.name = 'some-name';
             return $q.resolve(param);
         });
-        
+        impl.query.andCallFake(function() {
+            return $q.resolve(page);
+        });
+
         repository = new OpenlmisRepository(DomainClass, impl);
     });
 
@@ -122,6 +138,33 @@ describe('OpenlmisRepository', function() {
         it('should return updated object', function() {
             expect(result.name).toEqual('some-name');
         });
+    });
+
+    ddescribe('query', function() {
+
+        var params, result;
+
+        beforeEach(function() {
+            params = {
+                paramOne: 'valueOne',
+                paramTwo: 'valueTwo'
+            };
+
+            repository.query(params)
+                .then(function(response) {
+                    result = response;
+                });
+            $rootScope.$apply();
+        });
+
+        it('should call impl query', function() {
+            expect(impl.query).toHaveBeenCalledWith(params);
+        });
+
+        it('should return page', function() {
+            expect(result).toEqual(page);
+        });
+
     });
 
     function DomainClass(object, repository) {
