@@ -140,7 +140,7 @@ describe('OpenlmisRepository', function() {
         });
     });
 
-    ddescribe('query', function() {
+    describe('query', function() {
 
         var params, result;
 
