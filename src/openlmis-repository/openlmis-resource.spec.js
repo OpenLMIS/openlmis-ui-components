@@ -384,7 +384,8 @@ describe('OpenlmisResource', function() {
         beforeEach(function() {
             object = {
                 id: 'some-id',
-                some: 'test-response'
+                some: 'test-response',
+                customId: 'custom-id-value'
             };
         });
 
@@ -429,26 +430,40 @@ describe('OpenlmisResource', function() {
             expect(rejected).toBe(true);
         });
 
+        it('should respect idParam option', function() {
+            openlmisResource = new OpenlmisResource(BASE_URL, {
+                idParam: 'customId'
+            });
+
+            $httpBackend
+                .expectPUT(openlmisUrlFactory(BASE_URL + '/' + object.customId), object)
+                .respond(200, object);
+
+            openlmisResource.update(object);
+            $httpBackend.flush();
+        });
+
     });
 
     describe('delete', function() {
 
-        var response;
+        var object;
 
         beforeEach(function() {
-            response = {
+            object = {
                 id: 'some-id',
-                some: 'test-object'
+                some: 'test-object',
+                customId: 'custom-id-value'
             };
         });
 
         it('should resolve on successful request', function() {
             $httpBackend
-                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + response.id))
+                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.id))
                 .respond(200);
 
             var resolved;
-            openlmisResource.delete(response)
+            openlmisResource.delete(object)
                 .then(function() {
                     resolved = true;
                 });
@@ -459,11 +474,11 @@ describe('OpenlmisResource', function() {
 
         it('should reject on failed request', function() {
             $httpBackend
-                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + response.id))
+                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.id))
                 .respond(400);
 
             var rejected;
-            openlmisResource.delete(response)
+            openlmisResource.delete(object)
                 .catch(function() {
                     rejected = true;
                 });
@@ -481,6 +496,19 @@ describe('OpenlmisResource', function() {
             $rootScope.$apply();
 
             expect(rejected).toBe(true);
+        });
+
+        it('should respect idParam option', function() {
+            openlmisResource = new OpenlmisResource(BASE_URL, {
+                idParam: 'customId'
+            });
+
+            $httpBackend
+                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.customId))
+                .respond(200);
+
+            openlmisResource.delete(object);
+            $httpBackend.flush();
         });
 
     });

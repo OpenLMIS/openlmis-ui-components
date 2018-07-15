@@ -77,6 +77,7 @@
                 }
             });
 
+            this.idParam = getIdParam(config);
             this.splitter = new ParameterSplitter();
         }
 
@@ -153,9 +154,9 @@
          *                          undefined or if the ID is undefined
          */
         function update(object) {
-            if (object && object.id) {
+            if (object) {
                 return this.resource.update({
-                    id: object.id
+                    id: object[this.idParam]
                 }, object).$promise;
             }
             return $q.reject();
@@ -189,9 +190,9 @@
          *                          undefined or if the ID is undefined
          */
         function deleteObject(object) {
-            if (object && object.id) {
+            if (object && object[this.idParam]) {
                 return this.resource.delete({
-                    id: object.id
+                    id: object[this.idParam]
                 }).$promise;
             }
             return $q.reject();
@@ -212,6 +213,13 @@
 
         function isPaginated(config) {
             return !config || config.paginated || config.paginated === undefined;
+        }
+
+        function getIdParam(config) {
+            if (config) {
+                return config.idParam || 'id';
+            }
+            return 'id';
         }
 
     }
