@@ -1,5 +1,5 @@
-5.3.1 / Work in Progress
-========================
+5.3.1 / 2018-07-18
+==================
 
 Improvements:
 * [OLMIS-4935](https://openlmis.atlassian.net/browse/OLMIS-4935): Added UUID v4 generator.
