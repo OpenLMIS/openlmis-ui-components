@@ -24,6 +24,7 @@
      */
     angular.module('openlmis-state-tracker', [
         'openlmis-local-storage',
+        'openlmis-offline',
         'ui.router'
     ]);
 

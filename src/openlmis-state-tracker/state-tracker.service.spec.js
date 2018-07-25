@@ -14,8 +14,7 @@
  */
 describe('stateTrackerService', function() {
 
-    var stateTrackerService, $state, stateStorage,
-        previousState, previousStateParams;
+    var stateTrackerService, $state, stateStorage, previousState, previousStateParams, offlineServiceMock;
 
     beforeEach(function() {
         module('openlmis-state-tracker', function($provide) {
@@ -24,6 +23,11 @@ describe('stateTrackerService', function() {
                 return function() {
                     return stateStorage;
                 };
+            });
+
+            offlineServiceMock = jasmine.createSpyObj('offlineService', ['isOffline']);
+            $provide.service('offlineService', function() {
+                return offlineServiceMock;
             });
         });
 
@@ -165,6 +169,21 @@ describe('stateTrackerService', function() {
             stateTrackerService.goToPreviousState('state', null, {
                 reload: false
             });
+
+            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+                reload: false
+            });
+        });
+
+        it('should not reload state if offline', function() {
+            stateStorage.getAll.andReturn([{
+                previousState: previousState.name,
+                previousStateParams: previousStateParams
+            }]);
+
+            offlineServiceMock.isOffline.andReturn(true);
+
+            stateTrackerService.goToPreviousState('state', null);
 
             expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
                 reload: false

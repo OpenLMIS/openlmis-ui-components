@@ -18,6 +18,7 @@ Improvements:
 * [OLMIS-4935](https://openlmis.atlassian.net/browse/OLMIS-4935): Added UUID v4 generator.
 * [OLMIS-4985](https://openlmis.atlassian.net/browse/OLMIS-4985): Extended OpenlmisRepository with the ability to query.
 * [OLMIS-4984](https://openlmis.atlassian.net/browse/OLMIS-4984): Extended OpenlmisRepository with the ability to specify custom id parameter name.
+* [OLMIS-4535](https://openlmis.atlassian.net/browse/OLMIS-4535): StateTrackerService will no longer trigger reload by default when offline.
 
 Bug fixes:
 * [OLMIS-4415:](https://openlmis.atlassian.net/browse/OLMIS-4415) Fixed weird datepicker behavior when entering the text instead of picking it from the component.

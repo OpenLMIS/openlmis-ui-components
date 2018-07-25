@@ -27,9 +27,9 @@
         .module('openlmis-state-tracker')
         .service('stateTrackerService', service);
 
-    service.$inject = ['$state', 'localStorageFactory'];
+    service.$inject = ['$state', 'localStorageFactory', 'offlineService'];
 
-    function service($state, localStorageFactory) {
+    function service($state, localStorageFactory, offlineService) {
 
         var stateStorage = localStorageFactory('stateStorage');
 
@@ -84,7 +84,7 @@
                 }
 
                 if (!options.hasOwnProperty('reload')) {
-                    options.reload = true;
+                    options.reload = !offlineService.isOffline();
                 }
 
                 $state.go(storedStates[0].previousState, params, options);
