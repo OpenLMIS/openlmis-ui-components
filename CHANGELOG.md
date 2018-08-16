@@ -1,5 +1,5 @@
-6.0.0 / Work in Progress
-========================
+6.0.0 / 2018-08-16
+==================
 
 Breaking changes:
 * [OLMIS-4813:](https://openlmis.atlassian.net/browse/OLMIS-4813) Changed syntax for using datepicker.
