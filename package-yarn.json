@@ -54,6 +54,12 @@
         "src/css/themes.scss",
         "js/perfect-scrollbar.js"
       ]
+    },
+    "@bower_components/pouchdb": {
+      "main": [
+        "dist/pouchdb.js",
+        "dist/pouchdb.find.js"
+      ]
     }
   }
 }

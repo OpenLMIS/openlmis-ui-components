@@ -1,3 +1,9 @@
+6.0.1 / Work in Progress
+========================
+
+New functionality added in a backwards-compatible manner:
+* [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235) Added pouchdb-find.
+
 6.0.0 / 2018-08-16
 ==================
 
