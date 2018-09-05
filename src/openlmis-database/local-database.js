@@ -24,20 +24,20 @@
      * @description
      * Represents a single local database. Currently this uses PouchDB internally. If multiple
      * instances of this class are created with the same resource name they both reference the same
-     * database.
+     * database. All methods return AngularJS promises.
      */
     angular
         .module('openlmis-database')
         .factory('LocalDatabase', LocalDatabase);
 
-    LocalDatabase.$inject = ['PouchDB', '$filter'];
+    LocalDatabase.$inject = ['PouchDB', '$q'];
 
-    function LocalDatabase(PouchDB, $filter) {
+    function LocalDatabase(PouchDB, $q) {
 
         LocalDatabase.prototype.put = put;
+        LocalDatabase.prototype.putAll = putAll;
         LocalDatabase.prototype.get = get;
         LocalDatabase.prototype.getAll = getAll;
-        LocalDatabase.prototype.search = search;
         LocalDatabase.prototype.remove = remove;
         LocalDatabase.prototype.removeAll = removeAll;
 
@@ -78,18 +78,40 @@
         function put(doc) {
             validate(doc);
 
-            var pouchDb = this.pouchDb;
-            return pouchDb.get(doc.id)
-                .then(function(stored) {
-                    doc._id = stored._id;
-                    doc._rev = stored._rev;
-                })
-                .catch(function() {
-                    doc._id = doc.id;
-                })
-                .then(function() {
-                    return pouchDb.put(doc);
-                });
+            var pouchDb = this.pouchDb,
+                promise = this.pouchDb.get(doc.id)
+                    .then(function(stored) {
+                        doc._id = stored._id;
+                        doc._rev = stored._rev;
+                    })
+                    .catch(function() {
+                        doc._id = doc.id;
+                    })
+                    .then(function() {
+                        return pouchDb.put(doc);
+                    });
+
+            return $q.when(promise);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.LocalDatabase
+         * @name putAll
+         *
+         * @description
+         * Saves the given documents (objects) into the database. 
+         *
+         * @param  {Object}     docs the list of document to be saved (updated) into the database
+         * @return {Promise}         the promise, which resolves when the documents have been successfully saved into
+         *                           the database, the promise will be rejected if documents couldn't be saved for any
+         *                           reason
+         */
+        function putAll(docs) {
+            docs.forEach(function(doc) {
+                doc._id = doc.id;
+            });
+            return $q.when(this.pouchDb.bulkDocs(docs));
         }
 
         /**
@@ -108,7 +130,7 @@
          */
         function get(id) {
             validateId(id);
-            return this.pouchDb.get(id);
+            return $q.when(this.pouchDb.get(id));
         }
 
         /**
@@ -124,38 +146,10 @@
          *                      be retrieved for any reason
          */
         function getAll() {
-            return this.search()
-                .then(function(docs) {
-                    return docs;
-                });
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.LocalDatabase
-         * @name search
-         *
-         * @description
-         * Retrieves all the documents matching given options. If the options are not defined then
-         * all documents are returned.
-         *
-         * @param  {Object}     options the options to filter documents with
-         * @return {Promise}            the promise, which resolves when the documents have been
-         *                              retrieved from the database, the promise will be rejected
-         *                              if the documents couldn't be retrieved for any reason
-         */
-        function search(options) {
-            return this.pouchDb.allDocs({
+            return $q.when(this.pouchDb.allDocs({
                 //eslint-disable-next-line camelcase
                 include_docs: true
-            })
-                .then(extractDocs)
-                .then(function(docs) {
-                    if (options) {
-                        return $filter('filter')(docs, options);
-                    }
-                    return docs;
-                });
+            })).then(extractDocs);
         }
 
         /**
@@ -178,9 +172,9 @@
             validateId(id);
 
             var pouchDb = this.pouchDb;
-            return pouchDb.get(id)
+            return this.get(id)
                 .then(function(doc) {
-                    return pouchDb.remove(doc._id, doc._rev);
+                    return $q.when(pouchDb.remove(doc._id, doc._rev));
                 });
         }
 
@@ -200,7 +194,7 @@
             var database = this,
                 name = this.pouchDb.name;
 
-            return this.pouchDb.destroy()
+            return $q.when(this.pouchDb.destroy())
                 .then(function() {
                     database.pouchDb = new PouchDB(name);
                 });
@@ -223,7 +217,7 @@
         }
 
         function extractDocs(response) {
-            return response.map(function(row) {
+            return response.rows.map(function(row) {
                 return row.doc;
             });
         }
