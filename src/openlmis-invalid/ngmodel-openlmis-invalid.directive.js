@@ -61,9 +61,9 @@
             scope.$watch(function() {
                 if (attrs.hasOwnProperty('openlmisInvalid') && attrs.openlmisInvalid !== '') {
                     return attrs.openlmisInvalid;
-                } else {
-                    return false;
                 }
+                return false;
+
             }, function(message) {
                 if (message) {
                     ngModelCtrl.$setValidity('openlmisInvalid', false);

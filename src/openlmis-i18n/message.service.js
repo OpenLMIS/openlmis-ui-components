@@ -76,9 +76,9 @@
                 localStorageService.add(LOCALE_STORAGE_KEY, locale);
                 $rootScope.$broadcast('openlmis.messages.populated');
                 return $q.when();
-            } else {
-                return $q.reject();
             }
+            return $q.reject();
+
         }
 
         /**

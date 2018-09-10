@@ -65,9 +65,9 @@
             scope.$watch(function() {
                 if (attrs.hasOwnProperty('required')) {
                     return attrs.required;
-                } else {
-                    return false;
                 }
+                return false;
+
             }, update);
             scope.$watch(function() {
                 return attrs.id;

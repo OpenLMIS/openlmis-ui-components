@@ -56,9 +56,9 @@
             scope.$watch(function() {
                 if (attrs.popoverTemplate && attrs.popoverTemplate !== '') {
                     return attrs.popoverTemplate;
-                } else {
-                    return false;
                 }
+                return false;
+
             }, function(templateURL) {
                 removePopoverTemplate();
                 if (templateURL) {

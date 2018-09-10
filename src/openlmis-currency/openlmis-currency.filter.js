@@ -40,9 +40,9 @@
                 var settings = currencyService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
                     return formatMoney(value, settings) + '\u00A0' + settings.currencySymbol;
-                } else {
-                    return settings.currencySymbol + formatMoney(value, settings);
                 }
+                return settings.currencySymbol + formatMoney(value, settings);
+
             }
         };
 

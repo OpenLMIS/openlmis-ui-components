@@ -61,9 +61,9 @@
                     invalidMessage = messageService.get(messageKey);
                 if (invalidMessage === messageKey) {
                     return originalInvalidCtrlParseMessage.apply(openlmisInvalidCtrl, arguments);
-                } else {
-                    return invalidMessage;
                 }
+                return invalidMessage;
+
             }
 
             /**

@@ -56,9 +56,9 @@
             scope.$watch(function() {
                 if (attrs.popover && attrs.popover !== '') {
                     return attrs.popover;
-                } else {
-                    return false;
                 }
+                return false;
+
             }, function(text) {
                 if (text && textElement && textScope) {
                     textScope.text = text;

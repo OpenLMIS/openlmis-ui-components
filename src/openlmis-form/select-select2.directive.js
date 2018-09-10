@@ -140,12 +140,12 @@
 
             if (placeholderOption.length === 0) {
                 return false;
-            } else {
-                return {
-                    id: placeholderOption.val(),
-                    text: placeholderOption.text()
-                };
             }
+            return {
+                id: placeholderOption.val(),
+                text: placeholderOption.text()
+            };
+
         }
     }
 })();

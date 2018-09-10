@@ -34,9 +34,9 @@
                 if (elements[a].priority === elements[b].priority) {
                     // sort by item key order
                     return a - b;
-                } else {
-                    return elements[a].priority - elements[b].priority;
                 }
+                return elements[a].priority - elements[b].priority;
+
             });
 
             var toReturn = [];
@@ -73,9 +73,9 @@
             if (elementKey) {
                 delete elements[elementKey];
                 return true;
-            } else {
-                return false;
             }
+            return false;
+
         }
     }
 

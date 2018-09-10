@@ -38,9 +38,9 @@
             var id = shortid.gen();
             if (jQuery('#' + id).length > 0) {
                 return generate();
-            } else {
-                return id;
             }
+            return id;
+
         }
     }
 

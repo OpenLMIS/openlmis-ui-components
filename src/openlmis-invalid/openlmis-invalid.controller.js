@@ -114,9 +114,9 @@
                 openlmisInvalidMessage = messageService.get(openlmisInvalidMessageKey);
             if (openlmisInvalidMessage === openlmisInvalidMessageKey) {
                 return messageService.get(message);
-            } else {
-                return openlmisInvalidMessage;
             }
+            return openlmisInvalidMessage;
+
         }
 
         /**

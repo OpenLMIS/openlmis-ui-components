@@ -103,11 +103,11 @@
                 var nodeName = event.target.nodeName.toLowerCase();
                 if (nodeName === 'td' || nodeName === 'th') {
                     return angular.element(event.target);
-                } else {
-                    return angular.element(event.target)
-                        .parents('td, th')
-                        .first();
                 }
+                return angular.element(event.target)
+                    .parents('td, th')
+                    .first();
+
             }
 
             /**
