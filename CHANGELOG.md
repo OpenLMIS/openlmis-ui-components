@@ -1,7 +1,7 @@
 6.0.1 / Work in Progress
 ========================
 
-New functionality added in a backwards-compatible manner:
+Improvements:
 * [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235): Extended LocalDatabase class:
   * Added pouchdb-find.
   * Added putAll method to the LocalDatabase.
