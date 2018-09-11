@@ -90,9 +90,6 @@ describe('LocalDatabase', function() {
             }, 'The database should have responded', 500);
 
             runs(function() {
-                $rootScope.$apply();
-                $rootScope.$apply();
-                $rootScope.$apply();
                 expect(success).toBe(true);
             });
         });
