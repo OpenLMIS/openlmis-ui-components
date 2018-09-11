@@ -14,31 +14,35 @@
  */
 
 describe('Input Group Fieldset Invalid', function() {
-	var scope;
+    var scope;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($rootScope) {
-		scope = $rootScope.$new();
-	}));
+    beforeEach(inject(function($rootScope) {
+        scope = $rootScope.$new();
+    }));
 
-	it('Adds error message below fieldset legend', inject(function($compile){
-		var markup = '<fieldset><legend></legend><input type="radio" name="example" ng-model="example" required /></fieldset>',
-			fieldset = $compile(markup)(scope),
-			legend = fieldset.find('legend');
+    it('Adds error message below fieldset legend', inject(function($compile) {
+        var markup = '<fieldset>' +
+                '<legend></legend>' +
+                '<input type="radio" name="example" ng-model="example" required />' +
+            '</fieldset>',
+            fieldset = $compile(markup)(scope),
+            legend = fieldset.find('legend');
 
-		scope.$apply();
+        scope.$apply();
 
-		expect(legend.next().hasClass('openlmis-invalid')).toBe(true);
-	}));
+        expect(legend.next().hasClass('openlmis-invalid')).toBe(true);
+    }));
 
-	it('Adds error message to top of fieldset if no legend', inject(function($compile){
-		var markup = '<fieldset><input type="radio" name="example" ng-model="example" required /></fieldset>',
-			fieldset = $compile(markup)(scope);
+    it('Adds error message to top of fieldset if no legend', inject(function($compile) {
+        var markup = '<fieldset><input type="radio" name="example" ng-model="example" required /></fieldset>',
+            fieldset = $compile(markup)(scope);
 
-		scope.$apply();
+        scope.$apply();
 
-		expect(fieldset.children().first().hasClass('openlmis-invalid')).toBe(true);
-	}));
+        expect(fieldset.children().first()
+            .hasClass('openlmis-invalid')).toBe(true);
+    }));
 
 });

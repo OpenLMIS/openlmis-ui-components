@@ -13,37 +13,32 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('LocaleController', function() {
 
-describe("LocaleController", function () {
+    var messageService, alertService, notificationService, $rootScope, $q;
 
-    beforeEach(function(){
-
-        angular.mock.module("openlmis-config", function($provide){
+    beforeEach(function() {
+        angular.mock.module('openlmis-config', function($provide) {
             $provide.constant('OPENLMIS_LANGUAGES', {
-                "test": "Test Language",
-                "en": "English"
+                test: 'Test Language',
+                en: 'English'
             });
-        })
+        });
 
-    });
+        module('openlmis-locale');
 
-    beforeEach(module('openlmis-locale'));
-
-    var messageService, alertService, notificationService, openlmisLanguages, state, window;
-
-    beforeEach(inject(function ($rootScope, $q, _messageService_, _alertService_,
-                                _notificationService_, _OPENLMIS_LANGUAGES_, _$window_) {
-
-        messageService = _messageService_;
-        alertService = _alertService_;
-        notificationService = _notificationService_;
-        openlmisLanguages = _OPENLMIS_LANGUAGES_;
-        window = _$window_;
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $q = $injector.get('$q');
+            messageService = $injector.get('messageService');
+            alertService = $injector.get('alertService');
+            notificationService = $injector.get('notificationService');
+        });
 
         var mockLocale = undefined;
-        spyOn(messageService, 'populate').andCallFake(function(lang){
+        spyOn(messageService, 'populate').andCallFake(function(lang) {
             var deferred = $q.defer();
-            if(lang === 'fail'){
+            if (lang === 'fail') {
                 deferred.reject();
             } else {
                 mockLocale = lang;
@@ -52,22 +47,22 @@ describe("LocaleController", function () {
             }
             return deferred.promise;
         });
-        spyOn(messageService, 'getCurrentLocale').andCallFake(function(){
+        spyOn(messageService, 'getCurrentLocale').andCallFake(function() {
             return mockLocale;
         });
 
         spyOn(notificationService, 'success');
         spyOn(alertService, 'error');
         spyOn(window.location, 'reload');
-    }));
+    });
 
-    describe('shows loaded languages', function(){
+    describe('shows loaded languages', function() {
         var controller;
 
-        beforeEach(inject(function($rootScope, $controller){
-            var scope = $rootScope.$new();
+        beforeEach(inject(function($rootScope, $controller) {
+            var $scope = $rootScope.$new();
             controller = $controller('LocaleController', {
-                $scope: scope,
+                $scope: $scope,
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
@@ -76,27 +71,27 @@ describe("LocaleController", function () {
             controller.$onInit();
         }));
 
-        it('in a sorted order', function(){
+        it('in a sorted order', function() {
             expect(controller.locales.length).toBe(2);
             expect(controller.locales[0]).toBe('en');
         });
 
-        it('gets the locale name', function(){
+        it('gets the locale name', function() {
             expect(controller.getLocaleName('en')).toBe('English');
             expect(controller.getLocaleName('foo')).toBe('foo');
         });
     });
 
-    describe('on start up', function(){
-        var scope, controller;
+    describe('on start up', function() {
+        var $scope, controller;
 
-        beforeEach(inject(function($rootScope){
-            scope = $rootScope.$new();
+        beforeEach(inject(function($rootScope) {
+            $scope = $rootScope.$new();
         }));
 
-        it('loads the default locale when messageService locale not set', inject(function($controller){
+        it('loads the default locale when messageService locale not set', inject(function($controller) {
             controller = $controller('LocaleController', {
-                $scope: scope,
+                $scope: $scope,
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
@@ -107,11 +102,11 @@ describe("LocaleController", function () {
             expect(messageService.populate).toHaveBeenCalled();
         }));
 
-        it("does't load the default locale when the messageService locale is set", inject(function($controller){
+        it('does\'t load the default locale when the messageService locale is set', inject(function($controller) {
             messageService.populate('foo');
 
             controller = $controller('LocaleController', {
-                $scope: scope,
+                $scope: $scope,
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
@@ -123,15 +118,15 @@ describe("LocaleController", function () {
         }));
     });
 
-    describe('while running', function(){
-        var scope, controller;
+    describe('while running', function() {
+        var $scope, controller;
 
-        beforeEach(inject(function($rootScope, $controller){
-            scope = $rootScope.$new();
+        beforeEach(inject(function($rootScope, $controller) {
+            $scope = $rootScope.$new();
             messageService.currentLocale = 'javascript';
 
             controller = $controller('LocaleController', {
-                $scope: scope,
+                $scope: $scope,
                 messageService: messageService,
                 alertService: alertService,
                 notificationService: notificationService,
@@ -139,20 +134,20 @@ describe("LocaleController", function () {
             });
         }));
 
-        it("can change locale", function () {
+        it('can change locale', function() {
             controller.selectedLocale = 'some';
 
             controller.changeLocale('pt');
-            scope.$apply();
+            $scope.$apply();
 
             expect(messageService.populate).toHaveBeenCalledWith('pt');
             expect(window.location.reload).toHaveBeenCalled();
         });
 
-        it("will throw an error if changing locale is unsuccessful", function () {
+        it('will throw an error if changing locale is unsuccessful', function() {
             // spy on populate will reject on fail...
             controller.changeLocale('fail');
-            scope.$apply();
+            $scope.$apply();
 
             expect(alertService.error).toHaveBeenCalled();
         });

@@ -165,9 +165,9 @@ describe('OpenlmisResource', function() {
 
             var result;
             openlmisResource.query()
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $httpBackend.flush();
 
             expect(angular.toJson(result)).toEqual(angular.toJson(page));
@@ -216,9 +216,9 @@ describe('OpenlmisResource', function() {
 
             var result;
             openlmisResource.query(params)
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $httpBackend.flush();
 
             expect(angular.toJson(result)).toEqual(angular.toJson(response));
@@ -235,9 +235,9 @@ describe('OpenlmisResource', function() {
 
             var rejected;
             openlmisResource.query(params)
-            .catch(function() {
-                rejected = true;
-            });
+                .catch(function() {
+                    rejected = true;
+                });
             $httpBackend.flush();
 
             expect(rejected).toEqual(true);
@@ -254,9 +254,9 @@ describe('OpenlmisResource', function() {
 
             var result;
             openlmisResource.query(params)
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $httpBackend.flush();
 
             expect(angular.toJson(result))

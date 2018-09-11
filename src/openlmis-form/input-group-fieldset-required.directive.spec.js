@@ -14,30 +14,30 @@
  */
 
 describe('Input Control Fieldset', function() {
-	var fieldset, scope;
+    var fieldset, scope;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($compile, $rootScope) {
-		scope = $rootScope.$new();
-		
-		var markup = '<fieldset input-control><legend></legend><input required /></fieldset>';
-		fieldset = $compile(markup)(scope);
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
 
-		scope.$apply();
+        var markup = '<fieldset input-control><legend></legend><input required /></fieldset>';
+        fieldset = $compile(markup)(scope);
 
-	}));
+        scope.$apply();
 
-	it('applies is-required class to legend if one or more elements are required', function(){
-		var legend = fieldset.find('legend');
+    }));
 
-		// original mark-up sets the input as required
-		expect(legend.hasClass('is-required')).toBe(true);
+    it('applies is-required class to legend if one or more elements are required', function() {
+        var legend = fieldset.find('legend');
 
-		fieldset.find('[required]').removeAttr('required');
-		scope.$apply();
+        // original mark-up sets the input as required
+        expect(legend.hasClass('is-required')).toBe(true);
 
-		expect(legend.hasClass('is-required')).toBe(false);
-	});
+        fieldset.find('[required]').removeAttr('required');
+        scope.$apply();
+
+        expect(legend.hasClass('is-required')).toBe(false);
+    });
 
 });

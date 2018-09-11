@@ -31,13 +31,13 @@ describe('Select one option directive', function() {
             scope.options = [];
             element = $compile(
                 '<select ng-model="value" ng-options="option for option in options" required></select>'
-                )(scope);
+            )(scope);
             scope.$apply();
             element = angular.element(element[0]);
         });
     });
 
-    it('will set ngModel to first option, if there is only one option available', function(){
+    it('will set ngModel to first option, if there is only one option available', function() {
         scope.options = ['foo', 'bar', 'baz'];
         scope.$apply();
 
@@ -49,7 +49,7 @@ describe('Select one option directive', function() {
         expect(scope.value).toBe('foo');
     });
 
-    it('will only auto select if the element is required', function(){
+    it('will only auto select if the element is required', function() {
         element.removeAttr('required');
         scope.options = ['foo'];
         scope.$apply();

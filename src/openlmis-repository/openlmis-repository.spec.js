@@ -81,9 +81,9 @@ describe('OpenlmisRepository', function() {
 
         beforeEach(function() {
             repository.create(object)
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $rootScope.$apply();
         });
 
@@ -103,9 +103,9 @@ describe('OpenlmisRepository', function() {
 
         beforeEach(function() {
             repository.get(object.id)
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $rootScope.$apply();
         });
 
@@ -125,9 +125,9 @@ describe('OpenlmisRepository', function() {
 
         beforeEach(function() {
             repository.update(object)
-            .then(function(response) {
-                result = response;
-            });
+                .then(function(response) {
+                    result = response;
+                });
             $rootScope.$apply();
         });
 

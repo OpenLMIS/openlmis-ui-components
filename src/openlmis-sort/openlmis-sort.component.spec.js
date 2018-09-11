@@ -26,9 +26,10 @@ describe('openlmis sort component', function() {
             $templateCache = $injector.get('$templateCache');
         });
 
-        $templateCache.put('openlmis-sort/openlmis-sort.html', "something");
+        $templateCache.put('openlmis-sort/openlmis-sort.html', 'something');
 
-        var markup = '<openlmis-sort sort="sortValue" on-change="onChange" options="options" external-sort="external" state-param-name="sortName"><openlmis-sort/>';
+        var markup = '<openlmis-sort sort="sortValue" on-change="onChange" options="options" external-sort="external"' +
+            'state-param-name="sortName"><openlmis-sort/>';
 
         scope = $rootScope.$new();
         scope.sortValue = 'username';
@@ -36,8 +37,8 @@ describe('openlmis sort component', function() {
             return 'parameter: ' + param;
         };
         scope.options = {
-            'username': 'sort.username.message',
-            'firstName': 'sort.firstName.message'
+            username: 'sort.username.message',
+            firstName: 'sort.firstName.message'
         };
         scope.external = true;
         scope.sortName = 'sortParamName';
@@ -53,8 +54,8 @@ describe('openlmis sort component', function() {
 
     it('should assign proper values', function() {
         expect(controller.options).toEqual({
-            'username': 'sort.username.message',
-            'firstName': 'sort.firstName.message'
+            username: 'sort.username.message',
+            firstName: 'sort.firstName.message'
         });
         expect(controller.externalSort).toEqual(true);
         expect(controller.stateParamName).toEqual('sortParamName');

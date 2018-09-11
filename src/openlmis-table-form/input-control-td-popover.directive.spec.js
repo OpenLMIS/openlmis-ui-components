@@ -20,25 +20,25 @@ describe('TD input-control popover directive', function() {
 
     beforeEach(inject(function(_$compile_, $rootScope) {
         $compile = _$compile_;
-        scope = $rootScope.$new();      
+        scope = $rootScope.$new();
     }));
 
-    beforeEach(function(){
+    beforeEach(function() {
         var html = '<td><div input-control openlmis-invalid="{{error}}"></div></td>',
             element = $compile(html)(scope);
 
         input = element.find('[input-control]:first');
     });
 
-    it('Adds openlmis-popover to input-control directives in a TD', function(){
+    it('Adds openlmis-popover to input-control directives in a TD', function() {
         expect(input.controller('popover')).not.toBeUndefined();
     });
 
-    it('Displays error messages in the popover', function(){
+    it('Displays error messages in the popover', function() {
         var popoverCtrl = input.controller('popover');
         spyOn(popoverCtrl, 'addElement').andCallThrough();
 
-        scope.error = "Error!";
+        scope.error = 'Error!';
         scope.$apply();
 
         expect(popoverCtrl.addElement).toHaveBeenCalled();
@@ -47,10 +47,10 @@ describe('TD input-control popover directive', function() {
     it('Sets input-control tabindex to -1', function() {
         expect(input.attr('tabindex')).toBeUndefined();
 
-        scope.error = "Error!";
+        scope.error = 'Error!';
         scope.$apply();
 
-        expect(input.attr('tabindex')).toBe("-1");
+        expect(input.attr('tabindex')).toBe('-1');
     });
 
 });

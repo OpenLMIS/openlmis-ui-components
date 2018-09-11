@@ -56,7 +56,9 @@ describe('ConfirmModalController', function() {
 
         it('should expose parsed message', function() {
             spyOn(messageService, 'get').andCallFake(function(key) {
-                if (key === messageKey) return message;
+                if (key === messageKey) {
+                    return message;
+                }
             });
 
             vm.$onInit();
@@ -106,7 +108,6 @@ describe('ConfirmModalController', function() {
 
             expect(confirmDeferred.reject).toHaveBeenCalled();
         });
-
 
         it('should resolve modal promise', function() {
             vm.cancel();

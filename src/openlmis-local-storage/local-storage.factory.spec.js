@@ -33,7 +33,7 @@ describe('localStorageFactory', function() {
             localStorageServiceSpy = jasmine.createSpyObj('localStorageService', ['add', 'get']);
             localStorageServiceSpy.get.andCallFake(function(resourceName) {
                 return resourceName === 'items' ? items : undefined;
-            })
+            });
             $provide.factory('localStorageService', function() {
                 return localStorageServiceSpy;
             });
@@ -55,7 +55,7 @@ describe('localStorageFactory', function() {
                 id: 3,
                 name: 'item3'
             };
-        })
+        });
 
         it('should put item', function() {
             itemStorage.put(item);
@@ -71,7 +71,7 @@ describe('localStorageFactory', function() {
 
             expect(items.length).toBe(2);
             expect(items[1]).toEqual(item);
-        })
+        });
 
         it('should update storage', function() {
             itemStorage.put(item);
@@ -79,22 +79,25 @@ describe('localStorageFactory', function() {
             expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
         });
 
-        it('should not modify the storage object, unless the object is explicitly updated', function(){
+        it('should not modify the storage object, unless the object is explicitly updated', function() {
             itemStorage.put(item);
 
             var firstItem = itemStorage.getBy('id', 3);
             expect(firstItem.name).toEqual('item3');
 
-            firstItem.name = "foo bar"; // don't save this change
+            // don't save this change
+            firstItem.name = 'foo bar';
 
             var secondItem = itemStorage.getBy('id', 3);
             expect(secondItem.name).toEqual('item3');
 
-            secondItem.name = "foo baz";
-            itemStorage.put(secondItem); // just saved the item
+            secondItem.name = 'foo baz';
+            // just saved the item
+            itemStorage.put(secondItem);
 
             var thirdItem = itemStorage.getBy('id', 3);
-            expect(thirdItem.name).toEqual('foo baz'); // a newly pulled item got the changes
+            // a newly pulled item got the changes
+            expect(thirdItem.name).toEqual('foo baz');
         });
 
     });
@@ -127,7 +130,7 @@ describe('localStorageFactory', function() {
             itemStorage.clearAll();
 
             expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
-        })
+        });
 
     });
 
@@ -146,28 +149,38 @@ describe('localStorageFactory', function() {
     describe('search', function() {
 
         it('should search with default filter by id', function() {
-            var result = itemStorage.search({id: items[0].id});
+            var result = itemStorage.search({
+                id: items[0].id
+            });
 
             expect(result.length).toBe(1);
             expect(result[0]).toEqual(items[0]);
         });
 
         it('should search with default filter by name', function() {
-            var result = itemStorage.search({name: items[1].name});
+            var result = itemStorage.search({
+                name: items[1].name
+            });
 
             expect(result.length).toBe(1);
             expect(result[0]).toEqual(items[1]);
         });
 
         it('should search with default filter by name and id', function() {
-            var result = itemStorage.search({name: items[1].name, id: items[1].id});
+            var result = itemStorage.search({
+                name: items[1].name,
+                id: items[1].id
+            });
 
             expect(result.length).toBe(1);
             expect(result[0]).toEqual(items[1]);
         });
 
         it('should failed to search with default filter by wrong name', function() {
-            var result = itemStorage.search({name: items[0].name, id: items[1].id});
+            var result = itemStorage.search({
+                name: items[0].name,
+                id: items[1].id
+            });
 
             expect(result.length).toBe(0);
         });
@@ -211,10 +224,12 @@ describe('localStorageFactory', function() {
     });
 
     function compare(a, b) {
-        if (a.id < b.id)
+        if (a.id < b.id) {
             return -1;
-        if (a.id > b.id)
+        }
+        if (a.id > b.id) {
             return 1;
+        }
         return 0;
     }
 });

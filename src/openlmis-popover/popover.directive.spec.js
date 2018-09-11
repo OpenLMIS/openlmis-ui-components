@@ -13,29 +13,30 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('PopoverDirective', function() {
 
-describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, popover, popoverCtrl, jQuery, $timeout;
+    var scope, element, popover, popoverCtrl, jQuery, $compile, $rootScope;
 
-    beforeEach(module('openlmis-popover'));
-    beforeEach(module('openlmis-templates'));
+    beforeEach(function() {
+        module('openlmis-popover');
+        module('openlmis-templates');
 
-    beforeEach(inject(function(_jQuery_){
-        jQuery = _jQuery_;
+        inject(function($injector) {
+            jQuery = $injector.get('jQuery');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+        });
+
         spyOn(jQuery.prototype, 'popover').andCallThrough();
-    }));
 
-    beforeEach(inject(function(_$timeout_){
-        $timeout = _$timeout_;
-    }));
-
-    beforeEach(inject(function($compile, $rootScope){
         scope = $rootScope.$new();
 
-        scope.popoverTitle = "Popover Title";
-        scope.popoverClass = "example-class";
+        scope.popoverTitle = 'Popover Title';
+        scope.popoverClass = 'example-class';
 
-        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
+        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >' +
+            '... other stuff ....' +
+            '</div>';
         element = $compile(html)(scope);
 
         angular.element('body').append(element);
@@ -46,81 +47,82 @@ describe("PopoverDirective", function () {
         scope.$apply();
 
         popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
-    }));
+    });
 
-    it('adds a popover when the popover directive is added', function(){
+    it('adds a popover when the popover directive is added', function() {
         expect(jQuery.prototype.popover).toHaveBeenCalled();
     });
 
-    it('triggers openlmisPopover.change when content from PopoverController changes', function(){
-        var num = 0
-        element.on('openlmisPopover.change', function(){
+    it('triggers openlmisPopover.change when content from PopoverController changes', function() {
+        var num = 0;
+        element.on('openlmisPopover.change', function() {
             num += 1;
         });
 
         popoverCtrl.getElements.andReturn([]);
         scope.$apply();
 
-        expect(num).toBe(1);        
+        expect(num).toBe(1);
     });
 
-    it('adds the .has-popover class to the element when there is content from PopoverController', function(){
+    it('adds the .has-popover class to the element when there is content from PopoverController', function() {
         expect(element.hasClass('has-popover')).toBe(true);
 
         popoverCtrl.getElements.andReturn([]);
         scope.$apply();
 
-        expect(element.hasClass('has-popover')).toBe(false);        
+        expect(element.hasClass('has-popover')).toBe(false);
     });
 
     it('gets popover content from PopoverController', function() {
         var elements = [angular.element('<p>Test</p>')];
         popoverCtrl.getElements.andReturn(elements);
 
-        element.popover('show'); // this is what updates the popover content
+        // this is what updates the popover content
+        element.popover('show');
         expect(popoverCtrl.getElements).toHaveBeenCalled();
         expect(popover.find('.popover-content').text()).toBe('Test');
 
         elements.push(angular.element('<p>Example</p>'));
-        
+
         element.popover('show');
         expect(popover.find('.popover-content').text()).toBe('TestExample');
     });
 
-    it('adds an open method to popoverCtrl', function(){
+    it('adds an open method to popoverCtrl', function() {
         expect(popoverCtrl.open).not.toBeFalsy();
 
         var opened = false;
-        element.on('openlmisPopover.open', function(){
+        element.on('openlmisPopover.open', function() {
             opened = true;
         });
 
-        popoverCtrl.open();        
+        popoverCtrl.open();
         expect(opened).toBe(true);
     });
 
-    it('adds a close method to popoverCtrl', function(){
+    it('adds a close method to popoverCtrl', function() {
         expect(popoverCtrl.close).not.toBeFalsy();
 
         var closed = false;
-        element.on('openlmisPopover.close', function(){
+        element.on('openlmisPopover.close', function() {
             closed = true;
         });
 
-        popoverCtrl.close();        
+        popoverCtrl.close();
         expect(closed).toBe(true);
     });
 
-    it('adds the popoverScope to the PopoverController', function(){
+    it('adds the popoverScope to the PopoverController', function() {
         expect(popoverCtrl.popoverScope).not.toBeFalsy();
         expect(popoverCtrl.popoverScope.$apply).not.toBeFalsy();
     });
 
-    it('adds a close function to the PopoverController', function(){
+    it('adds a close function to the PopoverController', function() {
         expect(popoverCtrl.popoverScope.closePopover).not.toBeFalsy();
 
         var closed = false;
-        element.on('openlmisPopover.close', function(){
+        element.on('openlmisPopover.close', function() {
             closed = true;
         });
 
@@ -129,17 +131,17 @@ describe("PopoverDirective", function () {
         expect(closed).toBe(true);
     });
 
-    it('exposes an updateTabIndex method on popoverCtrl', function(){
+    it('exposes an updateTabIndex method on popoverCtrl', function() {
         expect(popoverCtrl.updateTabIndex).not.toBeFalsy();
     });
 
-    it('it changes the elements tabindex when the popover controllers content changes', function(){
+    it('it changes the elements tabindex when the popover controllers content changes', function() {
         expect(element.attr('tabindex')).toBe('0');
 
         popoverCtrl.getElements.andReturn([]);
         scope.$apply();
 
-        expect(element.attr('tabindex')).toBe('-1');      
+        expect(element.attr('tabindex')).toBe('-1');
     });
 
 });

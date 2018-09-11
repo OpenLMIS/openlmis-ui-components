@@ -23,7 +23,7 @@ describe('Input automatic resize directive', function() {
         scope = $injector.get('$rootScope').$new();
     }));
 
-    beforeEach(function(){
+    beforeEach(function() {
         html = compileMarkup('<td><input type="text" value="100"/></td>');
         input = html.find('input');
 
@@ -34,7 +34,7 @@ describe('Input automatic resize directive', function() {
         expect(previousWidth).toBeGreaterThan('0px');
     });
 
-    it('should stretch input if value is longer than previous', function(){
+    it('should stretch input if value is longer than previous', function() {
         input[0].value = 100000;
 
         $compile(html)(scope);
@@ -46,7 +46,7 @@ describe('Input automatic resize directive', function() {
         expect(input[0].style.width).toBeGreaterThan(previousWidth);
     });
 
-    it('should shrink input if value is shorter than previous', function(){
+    it('should shrink input if value is shorter than previous', function() {
         input[0].value = 1;
 
         $compile(html)(scope);

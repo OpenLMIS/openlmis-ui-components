@@ -42,7 +42,7 @@ describe('ParameterSplitter', function() {
                 paramOne: 'very long parameter, event longer than that paramTwo',
                 paramTwo: [
                     'valueOne',
-                    'valueTwo',
+                    'valueTwo'
                 ]
             };
 
@@ -86,7 +86,7 @@ describe('ParameterSplitter', function() {
             expect(result[0]).toEqual({
                 paramOne: [
                     'valueOne',
-                    'valueTwo',
+                    'valueTwo'
                 ],
                 paramTwo: [
                     'valueFive',
@@ -96,7 +96,7 @@ describe('ParameterSplitter', function() {
             expect(result[1]).toEqual({
                 paramOne: [
                     'valueOne',
-                    'valueTwo',
+                    'valueTwo'
                 ],
                 paramTwo: [
                     'valueSeven'
@@ -105,7 +105,7 @@ describe('ParameterSplitter', function() {
             expect(result[2]).toEqual({
                 paramOne: [
                     'valueThree',
-                    'valueFour',
+                    'valueFour'
                 ],
                 paramTwo: [
                     'valueFive',
@@ -115,7 +115,7 @@ describe('ParameterSplitter', function() {
             expect(result[3]).toEqual({
                 paramOne: [
                     'valueThree',
-                    'valueFour',
+                    'valueFour'
                 ],
                 paramTwo: [
                     'valueSeven'
@@ -205,7 +205,7 @@ describe('ParameterSplitter', function() {
 
             expect(result).toEqual([undefined]);
         });
-    
+
     });
 
     function prepareSuite() {

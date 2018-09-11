@@ -51,7 +51,7 @@ describe('openlmis-external-url', function() {
                 });
             });
 
-            inject(function (_$rootScope_, _loadingModalService_, _$window_) {
+            inject(function(_$rootScope_, _loadingModalService_, _$window_) {
                 $rootScope = _$rootScope_;
                 loadingModalService = _loadingModalService_;
                 $window = _$window_;
@@ -59,28 +59,38 @@ describe('openlmis-external-url', function() {
         });
 
         it('should close loading modal when external url provided', function() {
-            $rootScope.$broadcast('$stateChangeStart', {name: 'myState', externalUrl: 'http://my.url'});
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState',
+                externalUrl: 'http://my.url'
+            });
             $rootScope.$apply();
 
             expect(loadingModalService.close).toHaveBeenCalled();
         });
 
         it('should open url when external url provided', function() {
-            $rootScope.$broadcast('$stateChangeStart', {name: 'myState', externalUrl: 'http://my.url'});
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState',
+                externalUrl: 'http://my.url'
+            });
             $rootScope.$apply();
 
             expect($window.open).toHaveBeenCalled();
         });
 
         it('should not close loading modal when external url not provided', function() {
-            $rootScope.$broadcast('$stateChangeStart', {name: 'myState'});
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState'
+            });
             $rootScope.$apply();
 
             expect(loadingModalService.close).not.toHaveBeenCalled();
         });
 
         it('should not open url when external url not provided', function() {
-            $rootScope.$broadcast('$stateChangeStart', {name: 'myState'});
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState'
+            });
             $rootScope.$apply();
 
             expect($window.open).not.toHaveBeenCalled();

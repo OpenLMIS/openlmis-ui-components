@@ -21,7 +21,7 @@ describe('isoDate', function() {
         module('openlmis-date');
 
         inject(function($injector) {
-           $filter = $injector.get('$filter');
+            $filter = $injector.get('$filter');
         });
     });
 

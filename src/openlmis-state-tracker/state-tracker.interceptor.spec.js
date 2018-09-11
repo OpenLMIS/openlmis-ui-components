@@ -17,7 +17,7 @@ describe('stateTrackerInterceptor', function() {
     var stateTrackerService, $state, $rootScope;
 
     beforeEach(function() {
-        module('openlmis-state-tracker', function($stateProvider){
+        module('openlmis-state-tracker', function($stateProvider) {
             $stateProvider.state('stateOne', {
                 url: '/stateOne?param'
             });
@@ -26,7 +26,7 @@ describe('stateTrackerInterceptor', function() {
 
         inject(function($injector) {
             $state = $injector.get('$state');
-            $rootScope = $injector.get("$rootScope");
+            $rootScope = $injector.get('$rootScope');
             stateTrackerService = $injector.get('stateTrackerService');
         });
     });

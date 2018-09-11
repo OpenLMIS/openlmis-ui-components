@@ -15,7 +15,7 @@
 
 describe('openlmisTableFilterForm directive', function() {
 
-    var template, ctrlSpy;
+    var template, ctrlSpy, $rootScope, $compile, $scope;
 
     beforeEach(function() {
         module('openlmis-table-filter', function($compileProvider, $controllerProvider) {
@@ -56,7 +56,7 @@ describe('openlmisTableFilterForm directive', function() {
 
     it('should register element in the openlmisTableFilters', function() {
         expect(ctrlSpy.registerElement)
-        .toHaveBeenCalledWith(angular.element(template.find('[openlmis-table-filter-form]')[0]));
+            .toHaveBeenCalledWith(angular.element(template.find('[openlmis-table-filter-form]')[0]));
     });
 
     function compileMarkup(markup) {

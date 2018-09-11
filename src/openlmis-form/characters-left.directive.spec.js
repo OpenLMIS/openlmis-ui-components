@@ -13,92 +13,95 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Characters left directive', function(){
-	var element, input, scope, $timeout, charactersLeftCtrl;
+describe('Characters left directive', function() {
+    var element, input, scope, $timeout, charactersLeftCtrl;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($compile, $rootScope, _$timeout_){
-		$timeout = _$timeout_;
+    beforeEach(inject(function($compile, $rootScope, _$timeout_) {
+        $timeout = _$timeout_;
 
-		var markup = '<div><input type="text" characters-left ng-maxlength="5" ng-model="example" /><span>{{example}}</span></div>';
+        var markup = '<div>' +
+            '<input type="text" characters-left ng-maxlength="5" ng-model="example" />' +
+            '<span>{{example}}</span>' +
+        '</div>';
 
-		scope = $rootScope.$new();
-		scope.example = "test";
+        scope = $rootScope.$new();
+        scope.example = 'test';
 
-		element = $compile(markup)(scope);
-		angular.element('body').append(element);
+        element = $compile(markup)(scope);
+        angular.element('body').append(element);
 
-		scope.$apply();
-		$timeout.flush();
+        scope.$apply();
+        $timeout.flush();
 
-		input = element.find('input');
+        input = element.find('input');
 
-		charactersLeftCtrl = input.controller('charactersLeft');
-		spyOn(charactersLeftCtrl, 'updateCharactersLeft').andCallThrough();
-	}));
+        charactersLeftCtrl = input.controller('charactersLeft');
+        spyOn(charactersLeftCtrl, 'updateCharactersLeft').andCallThrough();
+    }));
 
-	it('displays the characters left element when element is focused', function(){
-		expect(element.find('.characters-left').length).toBe(0);		
+    it('displays the characters left element when element is focused', function() {
+        expect(element.find('.characters-left').length).toBe(0);
 
-		input.focus();
-		scope.$apply();
+        input.focus();
+        scope.$apply();
 
-		expect(element.find('.characters-left').length).toBe(1);
+        expect(element.find('.characters-left').length).toBe(1);
 
-		input.blur();
-		scope.$apply();
+        input.blur();
+        scope.$apply();
 
-		expect(element.find('.characters-left').length).toBe(0);		
-	});
+        expect(element.find('.characters-left').length).toBe(0);
+    });
 
-	it('will debounce changes to update characters left', function(){
-		input.focus();
+    it('will debounce changes to update characters left', function() {
+        input.focus();
 
-		scope.example = "text";
-		input.keypress();
-		scope.$apply();
+        scope.example = 'text';
+        input.keypress();
+        scope.$apply();
 
-		scope.example = "test";
-		input.keypress();
-		scope.$apply();
+        scope.example = 'test';
+        input.keypress();
+        scope.$apply();
 
-		$timeout.flush();
+        $timeout.flush();
 
-		// Has done multiple changes, but only one call to updateCharactersLeft
-		expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(1);
+        // Has done multiple changes, but only one call to updateCharactersLeft
+        expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(1);
 
-		scope.example = "foo";
-		input.keypress();
-		scope.$apply();
-		$timeout.flush();
-		// Another change, just to make sure it works
-		expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(2);
-	});
+        scope.example = 'foo';
+        input.keypress();
+        scope.$apply();
+        $timeout.flush();
+        // Another change, just to make sure it works
+        expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(2);
+    });
 
-	it('shows an error state when the model value is longer than the allowed length', function(){
-		input.focus();
-		scope.example = "Long text";
-		input.keypress();
-		scope.$apply();
-		$timeout.flush();
+    it('shows an error state when the model value is longer than the allowed length', function() {
+        input.focus();
+        scope.example = 'Long text';
+        input.keypress();
+        scope.$apply();
+        $timeout.flush();
 
-		expect(element.find('.characters-left').hasClass('is-invalid')).toBe(true);
+        expect(element.find('.characters-left').hasClass('is-invalid')).toBe(true);
 
-		scope.example = "four";
-		input.keypress();
-		scope.$apply();
-		$timeout.flush();
+        scope.example = 'four';
+        input.keypress();
+        scope.$apply();
+        $timeout.flush();
 
-		expect(element.find('.characters-left').hasClass('is-invalid')).toBe(false);
-	});
+        expect(element.find('.characters-left').hasClass('is-invalid')).toBe(false);
+    });
 
-	it('hides characters-left element when characters-left attribute is "false"', function(){
-		input.attr('characters-left', "false");
-		
-		input.focus();
-		scope.$apply();
+    it('hides characters-left element when characters-left attribute is "false"', function() {
+        input.attr('characters-left', 'false');
 
-		expect(element.find('.characters-left').length).toBe(0);
-	});
+        input.focus();
+        scope.$apply();
+
+        expect(element.find('.characters-left').length).toBe(0);
+    });
 });

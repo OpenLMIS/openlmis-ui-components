@@ -13,39 +13,39 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 describe('currencyService', function() {
 
-    var $httpBackend, currencyService, openlmisUrlFactory,
-        localStorageService, currencySettings = {},
-        settingsJson = '{"currencyCode":"USD","currencySymbol":"$","currencySymbolSide":"left","currencyDecimalPlaces":2,"groupingSeparator":",","groupingSize":3,"decimalSeparator":"."}';
+    var $httpBackend, currencyService, openlmisUrlFactory, localStorageService, currencySettings, settingsJson;
 
-
-    beforeEach(function () {
+    beforeEach(function() {
         module('openlmis-currency');
 
-        inject(function (_$httpBackend_, _currencyService_, _openlmisUrlFactory_, _localStorageService_) {
-            $httpBackend = _$httpBackend_;
-            currencyService = _currencyService_;
-            openlmisUrlFactory = _openlmisUrlFactory_;
-            localStorageService = _localStorageService_;
+        inject(function($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+            currencyService = $injector.get('currencyService');
+            openlmisUrlFactory = $injector.get('openlmisUrlFactory');
+            localStorageService = $injector.get('localStorageService');
         });
 
-        currencySettings['currencyCode'] = 'USD';
-        currencySettings['currencySymbol'] = '$';
-        currencySettings['currencySymbolSide'] = 'left';
-        currencySettings['currencyDecimalPlaces'] = 2;
-        currencySettings['groupingSeparator'] = ',';
-        currencySettings['groupingSize'] = 3;
-        currencySettings['decimalSeparator'] = '.';
+        currencySettings = {
+            currencyCode: 'USD',
+            currencySymbol: '$',
+            currencySymbolSide: 'left',
+            currencyDecimalPlaces: 2,
+            groupingSeparator: ',',
+            groupingSize: 3,
+            decimalSeparator: '.'
+        };
+
+        settingsJson = angular.toJson(currencySettings);
     });
 
-    it('should get currency settings from storage', function () {
+    it('should get currency settings from storage', function() {
         spyOn(localStorageService, 'get').andReturn(settingsJson);
         expect(currencyService.getFromStorage()).toEqual(currencySettings);
     });
 
-    it('should get currency settings and save it to storage', function () {
+    it('should get currency settings and save it to storage', function() {
         $httpBackend
             .when('GET', openlmisUrlFactory('/api/currencySettings'))
             .respond(200, currencySettings);
@@ -59,7 +59,7 @@ describe('currencyService', function() {
             .toHaveBeenCalledWith('currencySettings', settingsJson);
     });
 
-    it('should get currency settings from config and save it to storage', function () {
+    it('should get currency settings from config and save it to storage', function() {
         spyOn(localStorageService, 'add');
 
         currencyService.getCurrencySettingsFromConfig();
@@ -67,7 +67,7 @@ describe('currencyService', function() {
         expect(localStorageService.add).toHaveBeenCalled();
     });
 
-    afterEach(function () {
+    afterEach(function() {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
     });

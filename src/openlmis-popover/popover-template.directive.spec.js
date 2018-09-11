@@ -13,19 +13,19 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('popoverTemplate directive', function(){
+describe('popoverTemplate directive', function() {
     var element, scope, popoverCtrl, templateURL;
 
     beforeEach(module('openlmis-popover'));
 
-    beforeEach(inject(function($templateCache){
+    beforeEach(inject(function($templateCache) {
         var html = '<div><p ng-if="!clicks">No clicks</p><p ng-if="clicks">{{clicks}} clicks</p>';
 
         templateURL = 'example/popover.html';
         $templateCache.put(templateURL, html);
     }));
 
-    beforeEach(inject(function($compile, $rootScope){
+    beforeEach(inject(function($compile, $rootScope) {
         var html = '<button popover popover-template="{{templateURL}}">Example</button>';
 
         scope = $rootScope.$new();
@@ -41,7 +41,7 @@ describe('popoverTemplate directive', function(){
         scope.$apply();
     }));
 
-    it('adds the rendered templateURL into the element\'s popover', function(){
+    it('adds the rendered templateURL into the element\'s popover', function() {
         expect(popoverCtrl.addElement).toHaveBeenCalled();
 
         var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
@@ -54,7 +54,7 @@ describe('popoverTemplate directive', function(){
         expect(addedElement.text()).toBe('2 clicks');
     });
 
-    it('re-renders the tempalte if the template URL is changed', inject(function($templateCache){
+    it('re-renders the tempalte if the template URL is changed', inject(function($templateCache) {
         var newTemplateHtml = '<p>Example</p>',
             newTemplateUrl = 'example/example.html';
         $templateCache.put(newTemplateUrl, newTemplateHtml);
@@ -63,22 +63,22 @@ describe('popoverTemplate directive', function(){
         scope.$apply();
 
         expect(popoverCtrl.removeElement).toHaveBeenCalled();
-        
+
         var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
         expect(removedElement.text()).toBe('No clicks');
 
         expect(popoverCtrl.addElement).toHaveBeenCalled();
-        
+
         var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
         expect(addedElement.text()).toBe('Example');
     }));
 
-    it('removes the rendered template when the attribute is changed to an empty string', function(){
+    it('removes the rendered template when the attribute is changed to an empty string', function() {
         scope.templateURL = '';
         scope.$apply();
 
         expect(popoverCtrl.removeElement).toHaveBeenCalled();
-        
+
         var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
         expect(removedElement.text()).toBe('No clicks');
     });

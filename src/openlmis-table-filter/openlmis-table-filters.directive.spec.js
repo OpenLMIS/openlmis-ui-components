@@ -15,10 +15,10 @@
 
 describe('openlmis-table-container-filters directive', function() {
 
-    var container, $scope, ctrlSpy;
+    var container, $scope, $rootScope, $compile;
 
     beforeEach(function() {
-        module('openlmis-table-filter', function($compileProvider, $controllerProvider) {
+        module('openlmis-table-filter', function($compileProvider) {
             $compileProvider.directive('table', function() {
                 var def = {
                     priority: 100,

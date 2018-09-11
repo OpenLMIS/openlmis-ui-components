@@ -69,7 +69,7 @@ describe('tr empty row directive', function() {
         );
         $rootScope.$digest();
 
-        expect(element.find('td.openlmis-empty-row').html()).toEqual("Some message");
+        expect(element.find('td.openlmis-empty-row').html()).toEqual('Some message');
     });
 
     it('should set colspan', function() {
@@ -80,7 +80,7 @@ describe('tr empty row directive', function() {
         );
         $rootScope.$digest();
 
-        expect(element.find('td.openlmis-empty-row').attr('colspan')).toEqual("3");
+        expect(element.find('td.openlmis-empty-row').attr('colspan')).toEqual('3');
     });
 
     it('should not work with non-tr elements', function() {

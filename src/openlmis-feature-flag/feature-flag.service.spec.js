@@ -19,7 +19,7 @@ describe('featureFlagService', function() {
 
     beforeEach(function() {
         module('openlmis-feature-flag');
-        
+
         inject(function($injector) {
             featureFlagService = $injector.get('featureFlagService');
         });

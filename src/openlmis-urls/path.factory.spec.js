@@ -13,53 +13,55 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('pathFactory', function() {
 
-describe("pathFactory", function () {
+    var pathFactory, url;
 
-    beforeEach(module('openlmis-urls'));
+    beforeEach(function() {
+        module('openlmis-urls');
 
-    var pathFactory;
-    beforeEach(inject(function(_pathFactory_){
-        pathFactory = _pathFactory_;
-    }));
-
-    it("drops empty arguments", function(){
-        url = pathFactory("/", false, "");
-        expect(url).toBe("/");
-
-        url = pathFactory("/foo", "", "bar/");
-        expect(url).toBe("/foo/bar/");
-
-        url = pathFactory("", "bar/");
-        expect(url).toBe("bar/");
+        inject(function($injector) {
+            pathFactory = $injector.get('pathFactory');
+        });
     });
 
-    it("leaves the first slash, if entered", function(){
-        url = pathFactory("/foo", "bar/");
-        expect(url).toBe("/foo/bar/");
+    it('drops empty arguments', function() {
+        url = pathFactory('/', false, '');
+        expect(url).toBe('/');
 
-        url = pathFactory("foo", "bar/");
-        expect(url).toBe("foo/bar/");
+        url = pathFactory('/foo', '', 'bar/');
+        expect(url).toBe('/foo/bar/');
+
+        url = pathFactory('', 'bar/');
+        expect(url).toBe('bar/');
     });
 
-    it("leaves trailing slash on last argument, if entered", function(){
-        url = pathFactory("/foo", "bar/");
-        expect(url).toBe("/foo/bar/");
+    it('leaves the first slash, if entered', function() {
+        url = pathFactory('/foo', 'bar/');
+        expect(url).toBe('/foo/bar/');
 
-        url = pathFactory("/foo", "/baz/", "bar/");
-        expect(url).toBe("/foo/baz/bar/");
-
-        url = pathFactory("/foo", "/baz/", "bar");
-        expect(url).toBe("/foo/baz/bar");
+        url = pathFactory('foo', 'bar/');
+        expect(url).toBe('foo/bar/');
     });
 
-    it("should combine trailing slashes from arguments", function(){
+    it('leaves trailing slash on last argument, if entered', function() {
+        url = pathFactory('/foo', 'bar/');
+        expect(url).toBe('/foo/bar/');
+
+        url = pathFactory('/foo', '/baz/', 'bar/');
+        expect(url).toBe('/foo/baz/bar/');
+
+        url = pathFactory('/foo', '/baz/', 'bar');
+        expect(url).toBe('/foo/baz/bar');
+    });
+
+    it('should combine trailing slashes from arguments', function() {
         // Two arguments
-        url = pathFactory("/foo/","/bar/");
-        expect(url).toBe("/foo/bar/");
+        url = pathFactory('/foo/', '/bar/');
+        expect(url).toBe('/foo/bar/');
         // n arguments, varried slashes
-        url = pathFactory("/foo/", "/baz/bar/", "blip");
-        expect(url).toBe("/foo/baz/bar/blip");
+        url = pathFactory('/foo/', '/baz/bar/', 'blip');
+        expect(url).toBe('/foo/baz/bar/blip');
     });
 
 });

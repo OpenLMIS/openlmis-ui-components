@@ -294,7 +294,7 @@ describe('paginationService', function() {
                 number: 1,
                 size: 13,
                 totalElements: 26,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
         $rootScope.$apply();
@@ -339,7 +339,7 @@ describe('paginationService', function() {
                 number: 1,
                 size: 13,
                 totalElements: 26,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
         $rootScope.$apply();
@@ -355,7 +355,7 @@ describe('paginationService', function() {
                 number: 2,
                 size: 14,
                 totalElements: 42,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
             });
         });
         $rootScope.$apply();
@@ -390,7 +390,7 @@ describe('paginationService', function() {
                 number: 1,
                 size: 13,
                 totalElements: 26,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
         $rootScope.$apply();

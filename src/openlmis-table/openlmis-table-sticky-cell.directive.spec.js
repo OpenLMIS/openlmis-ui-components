@@ -14,7 +14,7 @@
  */
 
 describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
-    var scope;
+    var scope, $compile, tableElement;
 
     beforeEach(module('openlmis-table'));
 
@@ -69,20 +69,25 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
         beforeEach(inject(function(openlmisTableStickyCellDirective) {
             stickyCellCtrl = jasmine.createSpyObj('stickyCellCtrl', ['setup', 'updatePosition']);
-            stickyCellCtrl.updatePosition.andReturn({top:0, left:0});
+            stickyCellCtrl.updatePosition.andReturn({
+                top: 0,
+                left: 0
+            });
 
             openlmisTableStickyCellDirective[0].controller = function() {
                 return stickyCellCtrl;
-            }
+            };
         }));
 
         beforeEach(inject(function($injector) {
             $compile = $injector.get('$compile');
-            tableElement = angular.element('<div class="openlmis-table-pane"><table><tr><td openlmis-table-sticky-cell></td></tr></table></div>');
+            tableElement = angular.element(
+                '<div class="openlmis-table-pane"><table><tr><td openlmis-table-sticky-cell></td></tr></table></div>'
+            );
         }));
 
         it('sticks left if has attribute openlmis-sticky-column', function() {
-            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-column', "");
+            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-column', '');
             $compile(tableElement)(scope);
 
             expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickLeft).toBe(true);
@@ -90,8 +95,8 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
         it('sticks right if has attribute openlmis-sticky-column and openlmis-stick-column-right', function() {
             tableElement.find('[openlmis-table-sticky-cell]')
-            .attr('openlmis-sticky-column', "")
-            .attr('openlmis-sticky-column-right', "");
+                .attr('openlmis-sticky-column', '')
+                .attr('openlmis-sticky-column-right', '');
 
             $compile(tableElement)(scope);
 
@@ -100,14 +105,14 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         });
 
         it('sticks top if has attribute openlmis-sticky-top', function() {
-            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-top', "");
+            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-top', '');
             $compile(tableElement)(scope);
 
             expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickTop).toBe(true);
         });
 
         it('sticks bottom if has attribute openlmis-sticky-bottom', function() {
-            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-bottom', "");
+            tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-bottom', '');
             $compile(tableElement)(scope);
 
             expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickBottom).toBe(true);
@@ -118,14 +123,17 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         var $window, stickyCellCtrl, cell, position;
 
         beforeEach(inject(function(openlmisTableStickyCellDirective) {
-            position = {top: 0, left:0};
+            position = {
+                top: 0,
+                left: 0
+            };
 
             stickyCellCtrl = jasmine.createSpyObj('stickyCellCtrl', ['setup', 'updatePosition']);
             stickyCellCtrl.updatePosition.andReturn(position);
 
             openlmisTableStickyCellDirective[0].controller = function() {
                 return stickyCellCtrl;
-            }
+            };
         }));
 
         beforeEach(inject(function($injector) {
@@ -140,10 +148,12 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
         beforeEach(inject(function($injector) {
             $compile = $injector.get('$compile');
-            tableElement = angular.element('<div class="openlmis-table-pane"><table><tr><td openlmis-table-sticky-cell></td></tr></table></div>');
+            tableElement = angular.element(
+                '<div class="openlmis-table-pane"><table><tr><td openlmis-table-sticky-cell></td></tr></table></div>'
+            );
             var compiled = $compile(tableElement)(scope);
 
-             cell = compiled.find('[openlmis-table-sticky-cell]');
+            cell = compiled.find('[openlmis-table-sticky-cell]');
         }));
 
         it('is updated on the transform property', function() {
@@ -188,5 +198,5 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             expect($window.cancelAnimationFrame).toHaveBeenCalled();
         });
     });
-    
+
 });

@@ -14,23 +14,19 @@
  */
 
 describe('openlmis-table.directive:OpenlmisTablePane', function() {
-    var scope, $compile;
 
-    beforeEach(module('openlmis-table'));
+    var $scope, $compile, $rootScope;
 
-    beforeEach(inject(function($rootScope, $injector) {
-        scope = $rootScope.$new();
-        $compile = $injector.get('$compile');
-    }));
+    beforeEach(function() {
+        module('openlmis-table');
 
-    function compileTablePane() {
-        var tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
-            markup = '<div class="openlmis-table-pane"><table>' + tbody + '</table></div>',
-            element = angular.element(markup);
-        angular.element('body').append(element);
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $compile = $injector.get('$compile');
+        });
 
-        return $compile(element)(scope);
-    }
+        $scope = $rootScope.$new();
+    });
 
     // COMMENTED OUT BECAUSE IT BREAKS OTHER UNIT TESTS (for unknown reason)
 
@@ -38,12 +34,14 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
     //     var tablePaneElement;
 
     //     beforeEach(function() {
-    //         var thead = '<thead><tr><th class="col-sticky"></th><th></th><th class="col-sticky col-sticky-right"></th></tr></thead>',
+    //         var thead = '<thead><tr><th class="col-sticky"></th><th></th>' +
+    //                 '<th class="col-sticky col-sticky-right"></th></tr></thead>',
     //             tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
-    //             tfoot = '<tfoot><tr><td class="col-sticky"></td><td></td><td class="col-sticky col-sticky-right"></td></tr></tfoot>',
+    //             tfoot = '<tfoot><tr><td class="col-sticky"></td><td></td>' +
+    //                 '<td class="col-sticky col-sticky-right"></td></tr></tfoot>',
     //             markup = '<div class="openlmis-table-pane"><table>' + thead + tbody + tfoot + '</table></div>';
 
-    //         tablePaneElement = $compile(markup)(scope);
+    //         tablePaneElement = $compile(markup)($scope);
     //     });
 
     //     it('to all thead and tfoot elements', function() {
@@ -78,10 +76,6 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
             tablePaneElement = compileTablePane();
         });
 
-        afterEach(function() {
-            tablePaneElement.remove();
-        });
-
         it('changes ng-repeat to md-virtual-repeat', function() {
             var text = tablePaneElement.html();
 
@@ -97,24 +91,25 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
         it('adds md-virtual-repeat-scroller', function() {
             expect(tablePaneElement.find('.md-virtual-repeat-scroller').length).toBe(1);
         });
-    });
-
-    describe('watches scroll', function() {
-        var scroller, tablePaneElement;
-
-        beforeEach(function() {
-            spyOn(_,'throttle').andCallFake(function(fn, duration) {
-                return function(e) { fn(e); };
-            });
-        });
-
-        beforeEach(function() {
-            tablePaneElement = compileTablePane();
-            scroller = tablePaneElement.find('.md-virtual-repeat-scroller');
-        });
 
         afterEach(function() {
             tablePaneElement.remove();
+        });
+    });
+
+    describe('watches scroll', function() {
+
+        var scroller, tablePaneElement;
+
+        beforeEach(function() {
+            spyOn(_, 'throttle').andCallFake(function(fn) {
+                return function(e) {
+                    fn(e);
+                };
+            });
+
+            tablePaneElement = compileTablePane();
+            scroller = tablePaneElement.find('.md-virtual-repeat-scroller');
         });
 
         it('is throttled', function() {
@@ -130,25 +125,19 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
 
             expect(tablePaneCtrl.updateViewportPosition).toHaveBeenCalled();
         });
+
+        afterEach(function() {
+            tablePaneElement.remove();
+        });
     });
 
-    // describe('watches resize', function() {
+    function compileTablePane() {
+        var tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
+            markup = '<div class="openlmis-table-pane"><table>' + tbody + '</table></div>',
+            element = angular.element(markup);
+        angular.element('body').append(element);
 
-    //     it('debounces resize events', function() {
-
-    //     });
-
-    //     it('updates viewport size', function() {
-
-    //     });
-
-    //     it('updates table size', function() {
-
-    //     });
-
-    //     it('updates viewport padding from sticky columns', function() {
-
-    //     });
-    // });
+        return $compile(element)($scope);
+    }
 
 });

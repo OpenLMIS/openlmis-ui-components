@@ -65,8 +65,6 @@ describe('Datepicker directive', function() {
         });
 
         it('should change scope value from Date to filtered iso string', function() {
-            var elem = angular.element(element);
-
             $timeout(function() {
                 expect(scope.startDate).toEqual('2017-12-31');
             }, 100);

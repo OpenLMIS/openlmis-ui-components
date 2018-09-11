@@ -13,51 +13,54 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Characters left controller', function(){
-	var element, input, scope, $timeout, vm;
+describe('Characters left controller', function() {
+    var element, input, scope, $timeout, vm;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($compile, $rootScope, _$timeout_){
-		$timeout = _$timeout_;
+    beforeEach(inject(function($compile, $rootScope, _$timeout_) {
+        $timeout = _$timeout_;
 
-		var markup = '<div><input type="text" characters-left ng-maxlength="5" ng-model="example" /><span>{{example}}</span></div>';
+        var markup = '<div>' +
+            '<input type="text" characters-left ng-maxlength="5" ng-model="example" />' +
+            '<span>{{example}}</span>' +
+        '</div>';
 
-		scope = $rootScope.$new();
-		scope.example = "test";
+        scope = $rootScope.$new();
+        scope.example = 'test';
 
-		element = $compile(markup)(scope);
-		angular.element('body').append(element);
+        element = $compile(markup)(scope);
+        angular.element('body').append(element);
 
-		scope.$apply();
-		$timeout.flush();
+        scope.$apply();
+        $timeout.flush();
 
-		input = element.find('input');
+        input = element.find('input');
 
-		vm = input.controller('charactersLeft');
-	}));
+        vm = input.controller('charactersLeft');
+    }));
 
-	it('has charactersLeftElement set by directive element', function(){
-		expect(vm.charactersLeftElement).not.toBe(null);
-	});
+    it('has charactersLeftElement set by directive element', function() {
+        expect(vm.charactersLeftElement).not.toBe(null);
+    });
 
-	it('has maxlength set by directive element', function(){
-		expect(vm.maxlength).toBe(5);
-	});
+    it('has maxlength set by directive element', function() {
+        expect(vm.maxlength).toBe(5);
+    });
 
-	it('calculates the number of characters left', function(){
-		vm.updateCharactersLeft();
+    it('calculates the number of characters left', function() {
+        vm.updateCharactersLeft();
 
-		expect(vm.areCharactersLeft).toBe(true);
-		expect(vm.charactersLeft).toBe(1);
+        expect(vm.areCharactersLeft).toBe(true);
+        expect(vm.charactersLeft).toBe(1);
 
-		scope.example = "Longer word";
-		input.keypress();
-		scope.$apply();
-		$timeout.flush();
+        scope.example = 'Longer word';
+        input.keypress();
+        scope.$apply();
+        $timeout.flush();
 
-		expect(vm.areCharactersLeft).toBe(false);
-		expect(vm.charactersLeft).toBe(-6);
-	});
+        expect(vm.areCharactersLeft).toBe(false);
+        expect(vm.charactersLeft).toBe(-6);
+    });
 
 });

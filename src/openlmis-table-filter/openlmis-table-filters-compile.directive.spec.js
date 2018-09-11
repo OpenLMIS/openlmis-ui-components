@@ -15,7 +15,7 @@
 
 describe('openlmis-table-filter compile directive', function() {
 
-    var $scope, $compile, ctrlSpy;
+    var $scope, $compile, ctrlSpy, $rootScope;
 
     beforeEach(function() {
         module('openlmis-table-filter', function($controllerProvider) {
@@ -51,12 +51,15 @@ describe('openlmis-table-filter compile directive', function() {
         expect(ctrlSpy.registerElement).toHaveBeenCalled();
     });
 
-    it('will only apply openlmis-table-filter to forms that are direct descendants of openlmis-table-container', function() {
-        var container = compileMarkup('<div class="openlmis-table-container"><form></form><div><form></form></div></div>');
+    it('will only apply openlmis-table-filter to forms that are direct descendants of openlmis-table-container',
+        function() {
+            var container = compileMarkup(
+                '<div class="openlmis-table-container"><form></form><div><form></form></div></div>'
+            );
 
-        expect(container.find('form').length).toBe(2);
-        expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
-    });
+            expect(container.find('form').length).toBe(2);
+            expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
+        });
 
     function compileMarkup(markup) {
         var element = $compile(markup)($scope);

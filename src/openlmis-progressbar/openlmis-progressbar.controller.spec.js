@@ -13,32 +13,32 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('ProgressbarController', function () {
+describe('ProgressbarController', function() {
 
-  var vm, $controller;
+    var vm, $controller;
 
-  beforeEach(function () {
+    beforeEach(function() {
 
-    module('openlmis-progressbar');
+        module('openlmis-progressbar');
 
-    inject(function (_$controller_, _percentageFilter_) {
-      vm = _$controller_('ProgressbarController', {
-        percentageFitler: _percentageFilter_
-      });
+        inject(function($injector) {
+            $controller = $injector.get('$controller');
+        });
+
+        vm = $controller('ProgressbarController');
     });
-  });
 
-  it('should init max value by default if not provided', function () {
-    vm.$onInit();
+    it('should init max value by default if not provided', function() {
+        vm.$onInit();
 
-    expect(vm.max).toBe(100);
-  });
+        expect(vm.max).toBe(100);
+    });
 
-  it('should init max value by default if 0 is provided', function () {
-    vm.max = 0;
-    vm.$onInit();
+    it('should init max value by default if 0 is provided', function() {
+        vm.max = 0;
+        vm.$onInit();
 
-    expect(vm.max).toBe(100);
-  });
+        expect(vm.max).toBe(100);
+    });
 
 });

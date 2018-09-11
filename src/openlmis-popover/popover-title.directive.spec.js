@@ -13,29 +13,30 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('PopoverDirective', function() {
 
-describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, popover, popoverCtrl, jQuery, $timeout;
+    var scope, element, popover, popoverCtrl, jQuery, $rootScope, $compile;
 
-    beforeEach(module('openlmis-popover'));
-    beforeEach(module('openlmis-templates'));
+    beforeEach(function() {
+        module('openlmis-popover');
+        module('openlmis-templates');
 
-    beforeEach(inject(function(_jQuery_){
-        jQuery = _jQuery_;
+        inject(function($injector) {
+            jQuery = $injector.get('jQuery');
+            $rootScope = $injector.get('$rootScope');
+            $compile = $injector.get('$compile');
+        });
+
         spyOn(jQuery.prototype, 'popover').andCallThrough();
-    }));
 
-    beforeEach(inject(function(_$timeout_){
-        $timeout = _$timeout_;
-    }));
-
-    beforeEach(inject(function($compile, $rootScope){
         scope = $rootScope.$new();
 
-        scope.popoverTitle = "Popover Title";
-        scope.popoverClass = "example-class";
+        scope.popoverTitle = 'Popover Title';
+        scope.popoverClass = 'example-class';
 
-        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
+        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}">' +
+                '... other stuff ....' +
+            '</div>';
         element = $compile(html)(scope);
 
         angular.element('body').append(element);
@@ -46,9 +47,9 @@ describe("PopoverDirective", function () {
         scope.$apply();
 
         popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
-    }));
+    });
 
-    it('allows the title element to be updated', function(){
+    it('allows the title element to be updated', function() {
         expect(popover.children('h3').text()).toBe('Popover Title');
 
         scope.popoverTitle = 'Example Title';
@@ -57,7 +58,7 @@ describe("PopoverDirective", function () {
         expect(popover.children('h3').text()).toBe('Example Title');
     });
 
-    it('hides the title element when there is no title', function(){
+    it('hides the title element when there is no title', function() {
         scope.popoverTitle = '';
         scope.$apply();
 

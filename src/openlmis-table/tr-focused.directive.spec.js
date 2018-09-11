@@ -20,12 +20,12 @@ describe('TR Focused Directive', function() {
 
     beforeEach(module('openlmis-table'));
 
-    beforeEach(inject(function(_$compile_, $rootScope){        
+    beforeEach(inject(function(_$compile_, $rootScope) {
         $compile = _$compile_;
         scope = $rootScope.$new();
     }));
 
-    it('Sets trCtrl focused to true until focused moved out of row', function(){
+    it('Sets trCtrl focused to true until focused moved out of row', function() {
         var table = compileMarkup('<table><tr><td><input  /></td></tr><tr><td><input /></td></tr></table>'),
             tr = table.find('tr:first');
 
@@ -41,7 +41,6 @@ describe('TR Focused Directive', function() {
 
         expect(tr.hasClass('is-focused')).toBe(false);
     });
-
 
     function compileMarkup(markup) {
         var element = $compile(markup)(scope);

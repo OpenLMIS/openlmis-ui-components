@@ -34,12 +34,12 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     describe('$onInit', function() {
-        
+
         it('should set the count equal to number of filled inputs', function() {
             $scope.modelOne = 'Some entered value';
             $scope.modelTwo = undefined;
             $scope.modelThree = 'Some other value';
-        
+
             vm.$onInit();
             $scope.$digest();
 
@@ -51,7 +51,8 @@ describe('OpenlmisTableFiltersController', function() {
 
             $timeout.flush();
 
-            expect(vm.getFilterButton().find('span').html()).toEqual('(2)');
+            expect(vm.getFilterButton().find('span')
+                .html()).toEqual('(2)');
         });
 
     });
@@ -260,7 +261,7 @@ describe('OpenlmisTableFiltersController', function() {
                 modelOne = 'someValue1',
                 modelTwo = 1,
                 modelThree = {
-                    some: "otherValue"
+                    some: 'otherValue'
                 };
 
             $scope.$on('openlmis-table-filter', function(event, args) {
@@ -280,7 +281,8 @@ describe('OpenlmisTableFiltersController', function() {
 
             $timeout.flush();
 
-            form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
+            //ugly hack to prevent page reload
+            form.attr('onsubmit', 'return false;');
             form.submit();
             $scope.$apply();
 
@@ -318,7 +320,8 @@ describe('OpenlmisTableFiltersController', function() {
 
         $timeout.flush();
 
-        form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
+        //ugly hack to prevent page reload
+        form.attr('onsubmit', 'return false;');
         form.submit();
         $scope.$apply();
 
@@ -336,27 +339,29 @@ describe('OpenlmisTableFiltersController', function() {
 
         expect(modelValues.inputOne).toEqual('someValue1');
         expect(modelValues.inputTwo).toEqual(1);
-        expect(modelValues.inputThree).toEqual({ some: 'otherValue' });
+        expect(modelValues.inputThree).toEqual({
+            some: 'otherValue'
+        });
     });
-
 
     it('should submit all registered forms if the main one was submitted', function() {
         var formOne = compileMarkup('<form onsubmit="return false;"></form>'),
             formTwo = compileMarkup('<form onsubmit="return false;"></form>');
 
         var formOneSubmitted;
-        formOne.on('submit', function(event) {
+        formOne.on('submit', function() {
             formOneSubmitted = true;
         });
 
         var formTwoSubmitted;
-        formTwo.on('submit', function(event) {
+        formTwo.on('submit', function() {
             formTwoSubmitted = true;
         });
 
         vm.$onInit();
         form = vm.getFormElement();
-        form.attr('onsubmit', 'return false;'); //ugly hack to prevent page reload
+        //ugly hack to prevent page reload
+        form.attr('onsubmit', 'return false;');
 
         vm.registerElement(formOne);
         vm.registerElement(formTwo);
@@ -385,13 +390,15 @@ describe('OpenlmisTableFiltersController', function() {
 
         $timeout.flush();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(3)');
 
         $scope.modelOne = undefined;
         $scope.modelTwo = undefined;
         $scope.$apply();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(3)');
 
         form = vm.getFormElement();
         form.attr('onsubmit', 'return false;');
@@ -399,7 +406,8 @@ describe('OpenlmisTableFiltersController', function() {
         form.submit();
         $scope.$apply();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(1)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(1)');
     });
 
     it('should roll back changes if Cancel button was clicked', function() {
@@ -422,18 +430,22 @@ describe('OpenlmisTableFiltersController', function() {
 
         $timeout.flush();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(3)');
 
         $scope.modelOne = undefined;
         $scope.modelTwo = undefined;
         $scope.$digest();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(3)');
 
-        vm.getFormElement().find('#close-filters').click();
+        vm.getFormElement().find('#close-filters')
+            .click();
         $scope.$apply();
 
-        expect(vm.getFilterButton().find('span').html()).toEqual('(3)');
+        expect(vm.getFilterButton().find('span')
+            .html()).toEqual('(3)');
     });
 
     it('should change button status if all inputs were cleared', function() {

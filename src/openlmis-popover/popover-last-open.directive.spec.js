@@ -13,34 +13,34 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('PopoverDirective', function() {
+    var $scope, element, popoverCtrl, jQuery, otherElement, otherPopoverCtrl, $compile, $rootScope;
 
-describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, popover, popoverCtrl, jQuery, $timeout;
+    beforeEach(function() {
+        module('openlmis-popover');
+        module('openlmis-templates');
 
-    beforeEach(module('openlmis-popover'));
-    beforeEach(module('openlmis-templates'));
+        inject(function($injector) {
+            jQuery = $injector.get('jQuery');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+        });
 
-    beforeEach(inject(function(_jQuery_){
-        jQuery = _jQuery_;
         spyOn(jQuery.prototype, 'popover').andCallThrough();
-    }));
 
-    beforeEach(inject(function(_$timeout_){
-        $timeout = _$timeout_;
-    }));
+        $scope = $rootScope.$new();
 
-    beforeEach(inject(function($compile, $rootScope){
-        scope = $rootScope.$new();
+        $scope.popoverTitle = 'Popover Title';
+        $scope.popoverClass = 'example-class';
 
-        scope.popoverTitle = "Popover Title";
-        scope.popoverClass = "example-class";
-
-        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
-        element = $compile(html)(scope);
+        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >' +
+                '... other stuff ....' +
+            '</div>';
+        element = $compile(html)($scope);
         angular.element('body').append(element);
 
         var otherHtml = '<div popover>Something...</div>';
-        otherElement = $compile(otherHtml)(scope);
+        otherElement = $compile(otherHtml)($scope);
         angular.element('body').append(otherElement);
 
         popoverCtrl = element.controller('popover');
@@ -49,12 +49,10 @@ describe("PopoverDirective", function () {
         otherPopoverCtrl = otherElement.controller('popover');
         spyOn(otherPopoverCtrl, 'getElements').andReturn([angular.element('<p>Example</p>')]);
 
-        scope.$apply();
+        $scope.$apply();
+    });
 
-        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
-    }));
-
-    it('closes one popover, when the other opens', function(){
+    it('closes one popover, when the other opens', function() {
         spyOn(popoverCtrl, 'close').andCallThrough();
 
         popoverCtrl.open();

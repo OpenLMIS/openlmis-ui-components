@@ -15,7 +15,7 @@
 
 describe('SortController', function() {
 
-    var vm, $state, $controller, result;
+    var vm, $state, $controller, $stateParams;
 
     beforeEach(function() {
         module('openlmis-sort');
@@ -25,16 +25,16 @@ describe('SortController', function() {
             $controller = $injector.get('$controller');
         });
 
-        stateParams = {
+        $stateParams = {
             sort: 'username'
         };
 
         vm = $controller('SortController', {
-            $stateParams: stateParams
+            $stateParams: $stateParams
         });
         vm.options = {
-            'username': 'some.message.1',
-            'firstName,asc': 'some.message.2',
+            username: 'some.message.1',
+            'firstName,asc': 'some.message.2'
         };
         vm.onChange = jasmine.createSpy();
         vm.externalSort = true;
@@ -53,7 +53,7 @@ describe('SortController', function() {
 
         it('should set sort selection to one from state parameters', function() {
             vm.$onInit();
-            expect(vm.sort).toEqual(stateParams.sort);
+            expect(vm.sort).toEqual($stateParams.sort);
         });
 
         it('should set externalSort to default true value', function() {
@@ -95,9 +95,9 @@ describe('SortController', function() {
 
         it('call state go based on externalSort value', function() {
             $state.current.name = 'current.state';
-            stateParams.sort = 'username';
+            $stateParams.sort = 'username';
             vm.changeSort('username');
-            expect($state.go).toHaveBeenCalledWith('current.state', stateParams, {
+            expect($state.go).toHaveBeenCalledWith('current.state', $stateParams, {
                 reload: vm.externalSort,
                 notify: vm.externalSort
             });

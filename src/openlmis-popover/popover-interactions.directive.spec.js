@@ -13,31 +13,32 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('PopoverDirective', function() {
 
-describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, otherElement, popover, popoverCtrl, jQuery, $timeout;
+    var $scope, element, otherElement, popoverCtrl, jQuery, $timeout, $rootScope, $compile;
 
-    beforeEach(module('openlmis-popover'));
-    beforeEach(module('openlmis-templates'));
+    beforeEach(function() {
+        module('openlmis-popover');
+        module('openlmis-templates');
 
-    beforeEach(inject(function(_jQuery_){
-        jQuery = _jQuery_;
+        inject(function($injector) {
+            jQuery = $injector.get('jQuery');
+            $timeout = $injector.get('$timeout');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+        });
+
         spyOn(jQuery.prototype, 'popover').andCallThrough();
-    }));
 
-    beforeEach(inject(function(_$timeout_){
-        $timeout = _$timeout_;
-    }));
+        $scope = $rootScope.$new();
 
+        $scope.popoverTitle = 'Popover Title';
+        $scope.popoverClass = 'example-class';
 
-    beforeEach(inject(function($compile, $rootScope){
-        scope = $rootScope.$new();
-
-        scope.popoverTitle = "Popover Title";
-        scope.popoverClass = "example-class";
-
-        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
-        element = $compile(html)(scope);
+        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}">' +
+                '... other stuff ....' +
+            '</div>';
+        element = $compile(html)($scope);
 
         angular.element('body').append(element);
 
@@ -49,10 +50,10 @@ describe("PopoverDirective", function () {
         spyOn(popoverCtrl, 'open').andCallThrough();
         spyOn(popoverCtrl, 'close').andCallThrough();
 
-        scope.$apply();
-    }));
+        $scope.$apply();
+    });
 
-    it('opens when the element gets focus, and closes when blurred', function(){
+    it('opens when the element gets focus, and closes when blurred', function() {
         element.focus();
         $timeout.flush();
         expect(popoverCtrl.open).toHaveBeenCalled();
@@ -62,7 +63,7 @@ describe("PopoverDirective", function () {
         expect(popoverCtrl.close).toHaveBeenCalled();
     });
 
-    it('opens when the element is moused over, and closes when the mouse moves else where', function(){
+    it('opens when the element is moused over, and closes when the mouse moves else where', function() {
         element.mouseover();
         $timeout.flush();
         expect(popoverCtrl.open).toHaveBeenCalled();

@@ -16,44 +16,60 @@
 describe('openlmisTableContainer', function() {
     'use strict';
 
-    var $compile, $window, PerfectScrollbar, scope, table, windowHeight;
-
-    beforeEach( module('openlmis-table', function($compileProvider) {
-        $compileProvider.directive('table', function() {
-            var def = {
-                priority: 100,
-                terminal: true,
-                restrict: 'E'
-            };
-            return def;
-        });
-    }));
-
-    beforeEach(module('openlmis-config'));
+    var $compile, $window, PerfectScrollbar, $scope, $rootScope, table, windowHeight;
 
     beforeEach(function() {
-        inject(function(_$compile_, $rootScope, _$window_, _PerfectScrollbar_) {
-            $compile = _$compile_;
-            $window = _$window_;
-            PerfectScrollbar = _PerfectScrollbar_;
-            scope = $rootScope.$new();
+        module('openlmis-table', function($compileProvider) {
+            $compileProvider.directive('table', function() {
+                var def = {
+                    priority: 100,
+                    terminal: true,
+                    restrict: 'E'
+                };
+                return def;
+            });
         });
+
+        module('openlmis-config');
+
+        inject(function($injector) {
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            $window = $injector.get('$window');
+            PerfectScrollbar = $injector.get('PerfectScrollbar');
+        });
+
+        $scope = $rootScope.$new();
+
         var originalHeight = $.prototype.height;
         spyOn($.prototype, 'height').andCallFake(function() {
             // fake window.height() if windowHeight is provided; call through otherwise
             if (this[0] === $window && windowHeight !== undefined) {
                 return windowHeight;
-            } else {
-                return originalHeight.apply(this, arguments);
             }
+            return originalHeight.apply(this, arguments);
+
         });
+
         spyOn($.prototype, 'ready').andCallFake(function() {
             // call passed in function immediately; allows to test code that's in window.ready
             if (arguments.length && typeof arguments[0] === 'function') {
                 arguments[0]();
             }
         });
-        table = compileMarkup('<div class="openlmis-table-container"><table><tr><td><input  /></td></tr><tr><td><input /></td></tr></table></div>');
+
+        table = compileMarkup(
+            '<div class="openlmis-table-container">' +
+                '<table>' +
+                    '<tr>' +
+                        '<td><input /></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td><input /></td>' +
+                    '</tr>' +
+                '</table>' +
+            '</div>'
+        );
 
         // make horizontal scrollbar visible
         table.css('width', 200 + 'px');
@@ -68,7 +84,7 @@ describe('openlmisTableContainer', function() {
         spyOn(PerfectScrollbar, 'update');
 
         angular.element($window).triggerHandler('resize');
-        scope.$apply();
+        $scope.$apply();
 
         expect(PerfectScrollbar.update).toHaveBeenCalled();
     });
@@ -83,24 +99,24 @@ describe('openlmisTableContainer', function() {
         windowHeight = calculateContainerOffset(scrollbar) - 100;
 
         angular.element($window).triggerHandler('scroll');
-        scope.$apply();
+        $scope.$apply();
 
         // then: scrollbar should have css property --bottom-offset=100
         expect(scrollbar[0].style.setProperty).toHaveBeenCalledWith('--bottom-offset', 100);
     });
 
     function compileMarkup(markup) {
-        var element = $compile(markup)(scope);
+        var element = $compile(markup)($scope);
 
         angular.element('body').append(element);
-        scope.$apply();
+        $scope.$apply();
 
         return element;
     }
 
     function calculateContainerOffset(scrollbar) {
         var offset = scrollbar.parent()[0].getBoundingClientRect().bottom;
-        jQuery('.openlmis-toolbar').each(function () {
+        jQuery('.openlmis-toolbar').each(function() {
             var div = jQuery(this);
             offset += div.outerHeight();
         });

@@ -13,10 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Input Control OpenlmisInvalid Child Directive', function(){
+describe('Input Control OpenlmisInvalid Child Directive', function() {
     var parent, parentController, child, childController, scope;
 
-    
     beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function($compile, $rootScope) {
@@ -41,7 +40,7 @@ describe('Input Control OpenlmisInvalid Child Directive', function(){
         expect(parentController.getChildren().length).toBe(1);
     });
 
-    it('changing parent state will change child state', function(){
+    it('changing parent state will change child state', function() {
         var showCalls = childController.show.calls.length,
             hideCalls = childController.hide.calls.length;
 

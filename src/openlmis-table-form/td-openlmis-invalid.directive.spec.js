@@ -20,9 +20,9 @@ describe('TD openlmis-invalid', function() {
 
     beforeEach(module('openlmis-table-form'));
 
-    it('always gets openlmisInvalid controller', inject(function($compile, $rootScope){
+    it('always gets openlmisInvalid controller', inject(function($compile, $rootScope) {
         var markup = '<td></td>';
-        
+
         scope = $rootScope.$new();
         element = $compile(markup)(scope);
 
@@ -31,9 +31,9 @@ describe('TD openlmis-invalid', function() {
         expect(element.controller('openlmisInvalid')).not.toBeFalsy();
     }));
 
-    it('does not overwrite existing openlmis-invalid directive', inject(function($compile, $rootScope){
+    it('does not overwrite existing openlmis-invalid directive', inject(function($compile, $rootScope) {
         var markup = '<td openlmis-invalid="{{invalidMessage}}" ></td>';
-        
+
         scope = $rootScope.$new();
         element = $compile(markup)(scope);
 
@@ -43,10 +43,10 @@ describe('TD openlmis-invalid', function() {
 
         expect(Object.keys(controller.getMessages()).length).toBe(0);
 
-        scope.invalidMessage = "Example";
+        scope.invalidMessage = 'Example';
         scope.$apply();
 
-        expect(element.hasClass('is-invalid')).toBe(true);        
+        expect(element.hasClass('is-invalid')).toBe(true);
     }));
 
     it('works with ng-repeat', inject(function($compile, $rootScope) {

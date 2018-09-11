@@ -14,39 +14,39 @@
  */
 
 describe('TD has single input control', function() {
-	var $compile, scope;
+    var $compile, scope;
 
-	beforeEach(module('openlmis-table-form'));
+    beforeEach(module('openlmis-table-form'));
 
-	beforeEach(inject(function(_$compile_, $rootScope) {
-		$compile = _$compile_;
-		scope = $rootScope.$new();		
-	}));
+    beforeEach(inject(function(_$compile_, $rootScope) {
+        $compile = _$compile_;
+        scope = $rootScope.$new();
+    }));
 
-	it('adds has-single-input-control class to table cell elements with a single input', function(){
-		var markup = '<table><tr><td><input /></td></tr></table>',
-			element = $compile(markup)(scope);
-		scope.$apply();
+    it('adds has-single-input-control class to table cell elements with a single input', function() {
+        var markup = '<table><tr><td><input /></td></tr></table>',
+            element = $compile(markup)(scope);
+        scope.$apply();
 
-		var tableCell = element.find('td');
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);
-	});
+        var tableCell = element.find('td');
+        expect(tableCell.hasClass('has-single-input-control')).toBe(true);
+    });
 
-	it('removes has-single-input-control, if there is more than one input-control', function(){
-		var markup = '<table><tr><td><input /></td></tr></table>',
-			element = $compile(markup)(scope);
-		scope.$apply();
+    it('removes has-single-input-control, if there is more than one input-control', function() {
+        var markup = '<table><tr><td><input /></td></tr></table>',
+            element = $compile(markup)(scope);
+        scope.$apply();
 
-		var tableCell = element.find('td');
-		expect(tableCell.hasClass('has-single-input-control')).toBe(true);	
+        var tableCell = element.find('td');
+        expect(tableCell.hasClass('has-single-input-control')).toBe(true);
 
-		var newInput = angular.element('<input />');
-		tableCell.append(newInput);
+        var newInput = angular.element('<input />');
+        tableCell.append(newInput);
 
-		$compile(newInput)(scope);
-		scope.$apply();
+        $compile(newInput)(scope);
+        scope.$apply();
 
-		expect(tableCell.hasClass('has-single-input-control')).toBe(false);
-	});
+        expect(tableCell.hasClass('has-single-input-control')).toBe(false);
+    });
 
 });

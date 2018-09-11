@@ -13,77 +13,77 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('OpenLMIS Popover Controller', function(){
-	var popoverCtrl, $compile, $rootScope;
+describe('OpenLMIS Popover Controller', function() {
+    var popoverCtrl, $compile, $rootScope;
 
     beforeEach(module('openlmis-popover'));
 
-	beforeEach(inject(function(_$compile_, _$rootScope_){
-		$compile = _$compile_;
-		$rootScope = _$rootScope_;
-	}));
+    beforeEach(inject(function(_$compile_, _$rootScope_) {
+        $compile = _$compile_;
+        $rootScope = _$rootScope_;
+    }));
 
-	beforeEach(inject(function($controller){
-		popoverCtrl = $controller('PopoverController');
-	}));
+    beforeEach(inject(function($controller) {
+        popoverCtrl = $controller('PopoverController');
+    }));
 
-	it('can register HTML elements, and return them as a list', function(){
-		var element = angular.element('<p>Example</p>');
+    it('can register HTML elements, and return them as a list', function() {
+        var element = angular.element('<p>Example</p>');
 
-		expect(popoverCtrl.getElements()).toEqual([]);
+        expect(popoverCtrl.getElements()).toEqual([]);
 
-		popoverCtrl.addElement(element);
+        popoverCtrl.addElement(element);
 
-		expect(popoverCtrl.getElements()).toEqual([element]);
-	});
+        expect(popoverCtrl.getElements()).toEqual([element]);
+    });
 
-	it('allows HTML elements to be removed', function() {
-		var element = angular.element('<p>Example</p>'),
-			secondElement = angular.element('<p>Foo</p>');
+    it('allows HTML elements to be removed', function() {
+        var element = angular.element('<p>Example</p>'),
+            secondElement = angular.element('<p>Foo</p>');
 
-		popoverCtrl.addElement(element);
-		popoverCtrl.addElement(secondElement);
+        popoverCtrl.addElement(element);
+        popoverCtrl.addElement(secondElement);
 
-		expect(popoverCtrl.getElements()).toEqual([element, secondElement]);
+        expect(popoverCtrl.getElements()).toEqual([element, secondElement]);
 
-		var returnValue = popoverCtrl.removeElement(element);
-		expect(returnValue).toBe(true);
-		expect(popoverCtrl.getElements()).toEqual([secondElement]);
+        var returnValue = popoverCtrl.removeElement(element);
+        expect(returnValue).toBe(true);
+        expect(popoverCtrl.getElements()).toEqual([secondElement]);
 
-		// Make sure we can't remove an item twice
-		returnValue = popoverCtrl.removeElement(element);
-		expect(returnValue).toBe(false);
+        // Make sure we can't remove an item twice
+        returnValue = popoverCtrl.removeElement(element);
+        expect(returnValue).toBe(false);
 
-		// Make sure removing can identitify dynamic elements
-		var scope = $rootScope.$new(),
-			dynamicElement = $compile('<p>{{value}}</p>')(scope);
-		scope.value = "Cool example string";
-		scope.$apply();
+        // Make sure removing can identitify dynamic elements
+        var scope = $rootScope.$new(),
+            dynamicElement = $compile('<p>{{value}}</p>')(scope);
+        scope.value = 'Cool example string';
+        scope.$apply();
 
-		popoverCtrl.addElement(dynamicElement);
-		expect(popoverCtrl.getElements()).toEqual([secondElement, dynamicElement]);
+        popoverCtrl.addElement(dynamicElement);
+        expect(popoverCtrl.getElements()).toEqual([secondElement, dynamicElement]);
 
-		scope.value = "Changing the dynamic element should not matter - because DYNAMIC";
-		scope.$apply();
+        scope.value = 'Changing the dynamic element should not matter - because DYNAMIC';
+        scope.$apply();
 
-		popoverCtrl.removeElement(dynamicElement);
-		expect(popoverCtrl.getElements()).toEqual([secondElement]);
+        popoverCtrl.removeElement(dynamicElement);
+        expect(popoverCtrl.getElements()).toEqual([secondElement]);
 
-		// Removing the last element
-		popoverCtrl.removeElement(secondElement);
-		expect(popoverCtrl.getElements()).toEqual([]);		
-	});
+        // Removing the last element
+        popoverCtrl.removeElement(secondElement);
+        expect(popoverCtrl.getElements()).toEqual([]);
+    });
 
-	it('will keep the list of HTML elements ordered by priority', function() {
-		var element = angular.element('<p>Example</p>'),
-			secondElement = angular.element('<p>Foo</p>'),
-			thirdElement = angular.element('<p>Baz</p>');
+    it('will keep the list of HTML elements ordered by priority', function() {
+        var element = angular.element('<p>Example</p>'),
+            secondElement = angular.element('<p>Foo</p>'),
+            thirdElement = angular.element('<p>Baz</p>');
 
-		popoverCtrl.addElement(element, 11);
-		popoverCtrl.addElement(secondElement);
-		popoverCtrl.addElement(thirdElement, 5);
+        popoverCtrl.addElement(element, 11);
+        popoverCtrl.addElement(secondElement);
+        popoverCtrl.addElement(thirdElement, 5);
 
-		expect(popoverCtrl.getElements()).toEqual([thirdElement, secondElement, element]);
-	});
+        expect(popoverCtrl.getElements()).toEqual([thirdElement, secondElement, element]);
+    });
 
 });

@@ -13,10 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Input-Control invalid compile directive', function(){
+describe('Input-Control invalid compile directive', function() {
     var parent, parentController, child, childController, scope;
 
-    
     beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function($compile, $rootScope) {
@@ -44,6 +43,5 @@ describe('Input-Control invalid compile directive', function(){
         expect(element.attr('openlmis-invalid')).not.toBeUndefined();
         expect(element.controller('openlmisInvalid')).not.toBeUndefined();
     }));
-
 
 });

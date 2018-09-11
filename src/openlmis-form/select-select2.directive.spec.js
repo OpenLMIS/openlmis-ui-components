@@ -23,7 +23,7 @@ describe('Select2 for select elements', function() {
 
         module('openlmis-templates');
 
-        module('openlmis-pagination', function($provide){
+        module('openlmis-pagination', function($provide) {
             $provide.constant('PAGE_SIZE', 3);
         });
 
@@ -35,15 +35,15 @@ describe('Select2 for select elements', function() {
 
             spyOn(jQuery.prototype, 'select2').andCallThrough();
 
-            spyOn(messageService, 'get').andCallFake(function(){
-            	return "placeholder text";
+            spyOn(messageService, 'get').andCallFake(function() {
+                return 'placeholder text';
             });
 
             scope = $rootScope.$new();
-            scope.options = [1,2];
+            scope.options = [1, 2];
             element = $compile(
                 '<div><select ng-model="value" ng-options="option for option in options"></select></div>'
-                )(scope);
+            )(scope);
             scope.$apply();
 
             angular.element('body').append(element);
@@ -53,7 +53,7 @@ describe('Select2 for select elements', function() {
     });
 
     it('instantiates a select2 element', function() {
-    	expect(jQuery.prototype.select2).toHaveBeenCalled();
+        expect(jQuery.prototype.select2).toHaveBeenCalled();
     });
 
     it('sets the placeholder value, if there is a placeholder element', function() {
@@ -61,17 +61,17 @@ describe('Select2 for select elements', function() {
         expect(placeholder.text).toBe('placeholder text');
     });
 
-    it('hides the search box when there are less options than PAGE_SIZE', function(){
-    	var minimumResultsForSearch = jQuery.prototype.select2.mostRecentCall.args[0].minimumResultsForSearch;
-    	expect(minimumResultsForSearch).toBe(3);
+    it('hides the search box when there are less options than PAGE_SIZE', function() {
+        var minimumResultsForSearch = jQuery.prototype.select2.mostRecentCall.args[0].minimumResultsForSearch;
+        expect(minimumResultsForSearch).toBe(3);
     });
 
-    it('does not open the select dropdown after clearning the selection', function(){
+    it('does not open the select dropdown after clearning the selection', function() {
         scope.value = 2;
         scope.$apply();
 
         var openedSelect = false;
-        select.on("select2:open", function () {
+        select.on('select2:open', function() {
             openedSelect = true;
         });
 

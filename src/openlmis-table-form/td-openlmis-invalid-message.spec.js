@@ -13,44 +13,44 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('TD openlmisInvalid message', function(){
-	var element, scope, openlmisPopoverCtrl;
+describe('TD openlmisInvalid message', function() {
+    var element, scope, openlmisPopoverCtrl;
 
-	beforeEach(module('openlmis-table-form'));
+    beforeEach(module('openlmis-table-form'));
 
-	beforeEach(inject(function($rootScope, $compile){
-		var markup = '<td openlmis-invalid="{{message}}" ></td>';
-		scope = $rootScope.$new();
-		element = $compile(markup)(scope);
+    beforeEach(inject(function($rootScope, $compile) {
+        var markup = '<td openlmis-invalid="{{message}}" ></td>';
+        scope = $rootScope.$new();
+        element = $compile(markup)(scope);
 
-		openlmisPopoverCtrl = element.controller('popover');
-		spyOn(openlmisPopoverCtrl, 'addElement').andCallThrough();
-		spyOn(openlmisPopoverCtrl, 'removeElement').andCallThrough();
+        openlmisPopoverCtrl = element.controller('popover');
+        spyOn(openlmisPopoverCtrl, 'addElement').andCallThrough();
+        spyOn(openlmisPopoverCtrl, 'removeElement').andCallThrough();
 
-		scope.$apply();	
-	}));
+        scope.$apply();
+    }));
 
-	it('will add invalidMessageElement to popover, not table cell', function(){
-		scope.message = "Error";
-		scope.$apply();
+    it('will add invalidMessageElement to popover, not table cell', function() {
+        scope.message = 'Error';
+        scope.$apply();
 
-		expect(openlmisPopoverCtrl.addElement).toHaveBeenCalled();
-		
-		var messageElement = openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
-		expect(messageElement.text().indexOf('Error')).not.toBe(-1);
-	});
+        expect(openlmisPopoverCtrl.addElement).toHaveBeenCalled();
 
-	it('will remove invalidMessageElement from popover when not invalid', function(){
-		scope.message = "Error";
-		scope.$apply();
+        var messageElement = openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
+        expect(messageElement.text().indexOf('Error')).not.toBe(-1);
+    });
 
-		scope.message = false;
-		scope.$apply();
+    it('will remove invalidMessageElement from popover when not invalid', function() {
+        scope.message = 'Error';
+        scope.$apply();
 
-		expect(openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
+        scope.message = false;
+        scope.$apply();
 
-		var messageElement = openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
-		expect(messageElement.text().indexOf('Error')).not.toBe(-1);
-	});
+        expect(openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
+
+        var messageElement = openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
+        expect(messageElement.text().indexOf('Error')).not.toBe(-1);
+    });
 
 });

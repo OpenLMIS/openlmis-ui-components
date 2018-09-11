@@ -15,7 +15,7 @@
 
 describe('openlmisTagsInput', function() {
 
-    var element, $compile, $rootScope, $scope, $timeout, tagsInputModel, inputModel;
+    var $compile, $rootScope, $scope, $timeout, tagsInputModel, inputModel;
 
     beforeEach(function() {
         module('openlmis-tags-input');

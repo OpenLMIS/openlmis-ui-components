@@ -21,17 +21,17 @@ describe('Input required directive', function() {
         module('openlmis-form');
     });
 
-    describe('- input test -', function(){
+    describe('- input test -', function() {
         var scope,
             element;
 
-        beforeEach(inject(function($compile, $rootScope){
+        beforeEach(inject(function($compile, $rootScope) {
             scope = $rootScope.$new();
             scope.isRequired = true;
             scope.id = 'input';
             element = $compile(
                 '<form><label for="input">Label</label><input id="{{id}}" ng-required="isRequired" /></form>'
-                )(scope);
+            )(scope);
             angular.element('body').append(element);
             scope.$apply();
 
@@ -42,7 +42,7 @@ describe('Input required directive', function() {
             expect(element.find('label').hasClass('is-required')).toBe(true);
         });
 
-        it('removes the required label if not required', function(){
+        it('removes the required label if not required', function() {
             expect(element.find('label').hasClass('is-required')).toBe(true);
 
             scope.isRequired = false;
@@ -51,7 +51,7 @@ describe('Input required directive', function() {
             expect(element.find('label').hasClass('is-required')).toBe(false);
         });
 
-        it('removes the required label if the ID changes', function(){
+        it('removes the required label if the ID changes', function() {
             expect(element.find('label').hasClass('is-required')).toBe(true);
 
             scope.id = 'different-id';
@@ -61,22 +61,22 @@ describe('Input required directive', function() {
         });
     });
 
-    it('marks the select label as required', inject(function($compile, $rootScope){
+    it('marks the select label as required', inject(function($compile, $rootScope) {
         var scope = $rootScope.$new();
         var element = $compile(
             '<form><label for="select">Label</label><select id="select" required ></select></form>'
-            )(scope);
+        )(scope);
         angular.element('body').append(element);
         scope.$apply();
 
         expect(element.find('label').hasClass('is-required')).toBe(true);
     }));
 
-    it('marks the textarea label as required', inject(function($compile, $rootScope){
+    it('marks the textarea label as required', inject(function($compile, $rootScope) {
         var scope = $rootScope.$new();
         var element = $compile(
             '<form><label for="textarea">Label</label><textarea id="textarea" required /></form>'
-            )(scope);
+        )(scope);
         angular.element('body').append(element);
         scope.$apply();
 

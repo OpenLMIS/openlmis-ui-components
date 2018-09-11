@@ -13,55 +13,49 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
+describe('PopoverDirective', function() {
 
-describe("PopoverDirective", function () {
-    var scope, $httpBackend, element, popover, popoverCtrl, jQuery, $timeout;
+    var scope, element, popover, popoverCtrl, jQuery, $compile, $rootScope;
 
-    beforeEach(module('openlmis-popover'));
-    beforeEach(module('openlmis-templates'));
+    beforeEach(function() {
+        module('openlmis-popover');
+        module('openlmis-templates');
 
-    beforeEach(inject(function(_jQuery_){
-        jQuery = _jQuery_;
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
-    }));
-
-    beforeEach(inject(function(_$timeout_){
-        $timeout = _$timeout_;
-    }));
-
-
-    describe('popover', function(){
-
-        beforeEach(inject(function($compile, $rootScope){
-            scope = $rootScope.$new();
-
-            scope.popoverTitle = "Popover Title";
-            scope.popoverClass = "example-class";
-
-            var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >... other stuff ....</div>';
-            element = $compile(html)(scope);
-
-            angular.element('body').append(element);
-
-            popoverCtrl = element.controller('popover');
-            spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
-
-            scope.$apply();
-
-            popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
-        }));
-
-
-        it('has a custom css class attribute, which will updated', function(){
-            expect(popover.hasClass('example-class')).toBe(true);
-
-            scope.popoverClass = 'is-error';
-            scope.$apply();
-            
-            expect(popover.hasClass('example-class')).toBe(false);
-            expect(popover.hasClass('is-error')).toBe(true);            
+        inject(function($injector) {
+            jQuery = $injector.get('jQuery');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
         });
 
+        spyOn(jQuery.prototype, 'popover').andCallThrough();
+
+        scope = $rootScope.$new();
+
+        scope.popoverTitle = 'Popover Title';
+        scope.popoverClass = 'example-class';
+
+        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}">' +
+                '... other stuff ....' +
+            '</div>';
+        element = $compile(html)(scope);
+
+        angular.element('body').append(element);
+
+        popoverCtrl = element.controller('popover');
+        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+
+        scope.$apply();
+
+        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
     });
 
+    it('has a custom css class attribute, which will updated', function() {
+        expect(popover.hasClass('example-class')).toBe(true);
+
+        scope.popoverClass = 'is-error';
+        scope.$apply();
+
+        expect(popover.hasClass('example-class')).toBe(false);
+        expect(popover.hasClass('is-error')).toBe(true);
+    });
 });

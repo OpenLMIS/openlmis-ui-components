@@ -65,9 +65,9 @@ describe('OpenlmisTagsInputController', function() {
         it('should return all if undefined is given', function() {
             var result;
             tagsInputVm.filterAvailableTags()
-            .then(function(tags) {
-                result = tags;
-            });
+                .then(function(tags) {
+                    result = tags;
+                });
             $rootScope.$apply();
 
             expect(result).toEqual(availableTags);
@@ -76,9 +76,9 @@ describe('OpenlmisTagsInputController', function() {
         it('should return filtered tags if query is defined', function() {
             var result;
             tagsInputVm.filterAvailableTags('TestTagT')
-            .then(function(tags) {
-                result = tags;
-            });
+                .then(function(tags) {
+                    result = tags;
+                });
             $rootScope.$apply();
 
             expect(result).toEqual(['TestTagTwo', 'TestTagThree']);
@@ -87,9 +87,9 @@ describe('OpenlmisTagsInputController', function() {
         it('should omit letter casing when searching', function() {
             var result;
             tagsInputVm.filterAvailableTags('testtagt')
-            .then(function(tags) {
-                result = tags;
-            });
+                .then(function(tags) {
+                    result = tags;
+                });
             $rootScope.$apply();
 
             expect(result).toEqual(['TestTagTwo', 'TestTagThree']);
@@ -100,9 +100,9 @@ describe('OpenlmisTagsInputController', function() {
 
             var result;
             tagsInputVm.filterAvailableTags()
-            .then(function(tags) {
-                result = tags;
-            });
+                .then(function(tags) {
+                    result = tags;
+                });
             $rootScope.$apply();
 
             expect(result).toEqual([]);

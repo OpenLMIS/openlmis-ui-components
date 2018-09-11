@@ -49,8 +49,8 @@ describe('adjustmentsModalService', function() {
         isDisabled = true;
 
         summaries = {
-            'keyOne': function() {},
-            'keyTwo': function() {}
+            keyOne: function() {},
+            keyTwo: function() {}
         };
 
         preSave = function() {};
@@ -96,7 +96,6 @@ describe('adjustmentsModalService', function() {
         it('should pass title if it is defined', function() {
             adjustmentsModalService.open(adjustments, reasons, title);
 
-            var passed = getResolvedValue('title');
             expect(getResolvedValue('title')).toBe(title);
         });
 

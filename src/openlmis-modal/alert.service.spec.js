@@ -144,9 +144,9 @@ describe('alertService', function() {
 
             var rejected;
             alertService.success(title, message, buttonLabel)
-            .catch(function() {
-                rejected = true;
-            });
+                .catch(function() {
+                    rejected = true;
+                });
             $rootScope.$apply();
 
             expect(rejected).toEqual(true);
@@ -156,9 +156,9 @@ describe('alertService', function() {
 
             rejected = undefined;
             alertService.success(title, message, buttonLabel)
-            .catch(function() {
-                rejected = true;
-            });
+                .catch(function() {
+                    rejected = true;
+                });
             $rootScope.$apply();
 
             expect(rejected).toBeUndefined();
@@ -232,10 +232,10 @@ describe('alertService', function() {
 
             var rejected;
             alertService.info({
-                    title: title,
-                    message: message,
-                    buttonLabel: buttonLabel
-                })
+                title: title,
+                message: message,
+                buttonLabel: buttonLabel
+            })
                 .catch(function() {
                     rejected = true;
                 });
@@ -248,10 +248,10 @@ describe('alertService', function() {
 
             rejected = undefined;
             alertService.info({
-                    title: title,
-                    message: message,
-                    buttonLabel: buttonLabel
-                })
+                title: title,
+                message: message,
+                buttonLabel: buttonLabel
+            })
                 .catch(function() {
                     rejected = true;
                 });

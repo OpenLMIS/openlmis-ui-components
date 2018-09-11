@@ -15,19 +15,17 @@
 
 describe('openlmisDateFilter', function() {
 
-    var $filter, DEFAULT_DATE_FORMAT;
+    var $filter;
 
     beforeEach(function() {
-
-        angular.mock.module("openlmis-date", function($provide){
+        angular.mock.module('openlmis-date', function($provide) {
             $provide.constant('DEFAULT_DATE_FORMAT', 'shortDate');
         });
 
         module('openlmis-date');
 
-        inject(function(_$filter_, _DEFAULT_DATE_FORMAT_) {
-           $filter = _$filter_;
-           DEFAULT_DATE_FORMAT = _DEFAULT_DATE_FORMAT_;
+        inject(function($injector) {
+            $filter = $injector.get('$filter');
         });
     });
 

@@ -14,7 +14,7 @@
  */
 
 describe('ng-model debounce directive', function() {
-    
+
     var $compile, scope, $rootScope;
 
     beforeEach(function() {
@@ -28,7 +28,7 @@ describe('ng-model debounce directive', function() {
         });
     });
 
-    it('should add 500 ms debounce to ng-model', function(){
+    it('should add 500 ms debounce to ng-model', function() {
         var element = getCompiledElement('<input type="text" ng-model="value">'),
             ngModel = element.controller('ngModel');
 
@@ -40,18 +40,21 @@ describe('ng-model debounce directive', function() {
         });
     });
 
-    it('should not override provided ngModelOptions by default value', function(){
+    it('should not override provided ngModelOptions by default value', function() {
         var element = getCompiledElement('<input ng-model="value" ng-model-options="{debounce: 5000}">'),
-            ngModel = element.controller('ngModel'),
-            input = element.find('input');
+            ngModel = element.controller('ngModel');
 
         $rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toEqual(5000);
     });
 
-    it('child element should inherit ng-model-options from parent', function(){
-        var element = getCompiledElement('<td ng-model-options="{debounce: 5000}"><input ng-model="value" ng-model-options="{debounce: \'$inherit\'}"></td>'),
+    it('child element should inherit ng-model-options from parent', function() {
+        var element = getCompiledElement(
+                '<td ng-model-options="{debounce: 5000}">' +
+                    '<input ng-model="value" ng-model-options="{debounce: \'$inherit\'}">' +
+                '</td>'
+            ),
             ngModel = element.find('input').controller('ngModel');
 
         $rootScope.$apply();

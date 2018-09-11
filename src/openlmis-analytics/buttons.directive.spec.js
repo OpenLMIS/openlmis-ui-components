@@ -14,25 +14,23 @@
  */
 
 describe('Button directives', function() {
-    var $compile,
-        $rootScope;
+
+    var $compile, $rootScope, analyticsService;
 
     beforeEach(function() {
-
         module('openlmis-analytics');
 
-        inject(function(_$compile_, _$rootScope_, _analyticsService_, _$location_) {
-            $compile = _$compile_;
-            $rootScope = _$rootScope_;
-            analyticsService = _analyticsService_;
-            $location = _$location_;
-
-            spyOn(analyticsService, 'track');
+        inject(function($injector) {
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            analyticsService = $injector.get('analyticsService');
         });
+
+        spyOn(analyticsService, 'track');
     });
 
     it('will track click events on button elements with the untranslated text', function() {
-        var element = $compile("<button>{{'label.name' | message}}</button>")($rootScope.$new());
+        var element = $compile('<button>{{\'label.name\' | message}}</button>')($rootScope.$new());
 
         $rootScope.$apply();
         angular.element(element[0]).click();
@@ -43,7 +41,7 @@ describe('Button directives', function() {
     });
 
     it('will track click events on input elements of type submit with the untranslated text', function() {
-        var element = $compile("<input type=\"submit\" value=\"{{'label.name' | message}}\"/>")($rootScope.$new());
+        var element = $compile('<input type="submit" value="{{\'label.name\' | message}}"/>')($rootScope.$new());
 
         $rootScope.$apply();
         angular.element(element[0]).click();
@@ -54,7 +52,7 @@ describe('Button directives', function() {
     });
 
     it('will track click events on input elements of type button with the untranslated text', function() {
-        var element = $compile("<input type=\"button\" value=\"{{'label.name' | message}}\"/>")($rootScope.$new());
+        var element = $compile('<input type="button" value="{{\'label.name\' | message}}"/>')($rootScope.$new());
 
         $rootScope.$apply();
         angular.element(element[0]).click();
@@ -65,7 +63,7 @@ describe('Button directives', function() {
     });
 
     it('will not track click events on input elements of type other than submit and button', function() {
-        var element = $compile("<input type=\"text\"/>")($rootScope.$new());
+        var element = $compile('<input type="text"/>')($rootScope.$new());
 
         $rootScope.$apply();
         angular.element(element[0]).click();

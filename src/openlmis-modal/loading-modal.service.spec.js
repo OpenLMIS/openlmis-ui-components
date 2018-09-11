@@ -15,7 +15,7 @@
 describe('loadingModalService', function() {
 
     var loadingModalService, $q, $timeout, $rootScope, openlmisModalServiceMock, dialog,
-        dialogDeferred;
+        dialogDeferred, expectedDialogOptions;
 
     beforeEach(function() {
         expectedDialogOptions = {
@@ -44,8 +44,6 @@ describe('loadingModalService', function() {
 
         openlmisModalServiceMock.createDialog.andReturn(dialog);
     });
-
-
 
     describe('open', function() {
 
@@ -130,9 +128,9 @@ describe('loadingModalService', function() {
 
             var closed;
             loadingModalService.whenClosed()
-            .then(function() {
-                closed = true;
-            });
+                .then(function() {
+                    closed = true;
+                });
 
             expect(closed).not.toBe(true);
 
@@ -145,9 +143,9 @@ describe('loadingModalService', function() {
         it('should return a resolved promise if modal is closed', function() {
             var closed;
             loadingModalService.whenClosed()
-            .then(function() {
-                closed = true;
-            });
+                .then(function() {
+                    closed = true;
+                });
             $rootScope.$apply();
 
             expect(closed).toBe(true);

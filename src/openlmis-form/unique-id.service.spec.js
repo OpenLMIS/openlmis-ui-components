@@ -23,22 +23,22 @@ describe('Unique ID Service', function() {
 
     beforeEach(inject(function(_uniqueIdService_) {
         uniqueIdService = _uniqueIdService_;
-    }))
+    }));
 
-    it('generates a unique id that is a string', function(){
+    it('generates a unique id that is a string', function() {
         var id = uniqueIdService.generate();
         expect(typeof(id)).toBe('string');
     });
 
-    describe('makes unique ids for DOM', function(){
-        beforeEach(inject(function(shortid){
+    describe('makes unique ids for DOM', function() {
+        beforeEach(inject(function(shortid) {
             var randomIds = ['ABC', 'DEF', 'GHI'];
-            spyOn(shortid, 'gen').andCallFake(function(){
+            spyOn(shortid, 'gen').andCallFake(function() {
                 return randomIds.shift();
             });
         }));
 
-        it('will not return an id that exists as a current DOM element', function(){
+        it('will not return an id that exists as a current DOM element', function() {
             var div = document.createElement('div');
             div.id = 'ABC';
             document.body.appendChild(div);

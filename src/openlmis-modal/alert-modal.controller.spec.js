@@ -62,13 +62,13 @@ describe('AlertModalController', function() {
     });
 
     describe('close', function() {
-    
+
         it('should resolve the modalDeferred', function() {
             vm.close();
 
             expect(modalDeferredSpy.resolve).toHaveBeenCalled();
         });
-    
+
     });
 
 });

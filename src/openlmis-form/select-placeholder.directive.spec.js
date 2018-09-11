@@ -25,60 +25,60 @@ describe('Select directive', function() {
 
     beforeEach(module('openlmis-form'));
 
-    beforeEach(inject(function(_$compile_, $rootScope){
+    beforeEach(inject(function(_$compile_, $rootScope) {
         $compile = _$compile_;
         scope = $rootScope.$new();
     }));
 
-    beforeEach(inject(function(messageService){
-        spyOn(messageService, 'get').andCallFake(function(key){
+    beforeEach(inject(function(messageService) {
+        spyOn(messageService, 'get').andCallFake(function(key) {
             return key;
         });
     }));
 
-    function makeElement(string){
+    function makeElement(string) {
         var element = $compile(string)(scope);
         scope.$apply();
         return element;
     }
 
-    it('shows placeholder attribute as first option', function(){
+    it('shows placeholder attribute as first option', function() {
         scope.options = [];
         var element = makeElement(
             '<select></select>'
-            );
+        );
 
         var firstOption = element.children('option:first');
         expect(firstOption.hasClass('placeholder')).toBe(true);
         expect(firstOption.text()).toBe('openlmisForm.selectAnOption');
     });
 
-    it('reads the placeholder value of an element', function(){
-       scope.options = [];
+    it('reads the placeholder value of an element', function() {
+        scope.options = [];
         var element = makeElement(
             '<select placeholder="something"></select>'
-            );
+        );
 
         expect(element.children('option.placeholder').text()).toBe('something');
     });
 
-    it("won't overwrite a placeholder that is set as an option", function(){
-       var element = makeElement(
+    it('won\'t overwrite a placeholder that is set as an option', function() {
+        var element = makeElement(
             '<select placeholder="something">'
             + '<option value="">My Placeholder</option>'
             + '</select>'
-            );
+        );
 
         expect(element.children('option.placeholder').text()).toBe('My Placeholder');
     });
 
-    it("will not use a placeholder when no-placeholder is set", function(){
+    it('will not use a placeholder when no-placeholder is set', function() {
         var element = makeElement(
             '<select no-placeholder>'
             + '<option value="1">First element</option>'
             + '<option value="2">Second element</option>'
             + '</select>'
-            );
+        );
 
         expect(element.children('option:first').text()).toBe('First element');
     });

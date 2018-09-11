@@ -15,10 +15,10 @@
 
 describe('analyticsService', function() {
 
-    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService, date;
+    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService, date,
+        $rootScope;
 
     beforeEach(function() {
-
         module('openlmis-analytics', function($provide) {
 
             var ga = jasmine.createSpy();
@@ -37,7 +37,7 @@ describe('analyticsService', function() {
             $window = {
                 ga: ga
             };
-            $provide.value("$window", $window);
+            $provide.value('$window', $window);
 
             gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
             gaOfflineEvents.getAll.andReturn([]);
@@ -50,23 +50,22 @@ describe('analyticsService', function() {
             });
         });
 
-        inject(function(_offlineService_, _analyticsService_, _$rootScope_) {
-
-            offlineStatus = false;
-
-            analyticsService = _analyticsService_;
-            offlineService = _offlineService_;
-            $rootScope = _$rootScope_;
-
-            spyOn(offlineService, 'isOffline').andCallFake(function() {
-                return offlineStatus;
-            });
-
-            spyOn($rootScope, '$on').andCallThrough();
-
-            date = new Date();
-            spyOn(Date, 'now').andReturn(date);
+        inject(function($injector) {
+            offlineService = $injector.get('offlineService');
+            analyticsService = $injector.get('analyticsService');
+            $rootScope = $injector.get('$rootScope');
         });
+
+        offlineStatus = false;
+
+        spyOn(offlineService, 'isOffline').andCallFake(function() {
+            return offlineStatus;
+        });
+
+        spyOn($rootScope, '$on').andCallThrough();
+
+        date = new Date();
+        spyOn(Date, 'now').andReturn(date);
     });
 
     describe('on init', function() {

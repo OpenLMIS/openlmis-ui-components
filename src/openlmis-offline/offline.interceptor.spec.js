@@ -15,7 +15,7 @@
 
 describe('offlineInterceptor', function() {
 
-    var provider, offlineService, alertServiceMock;
+    var offlineInterceptor, offlineService, alertServiceMock, interceptors, $rootScope, $q;
 
     beforeEach(function() {
         module('openlmis-offline', function($provide, $httpProvider) {
@@ -27,13 +27,12 @@ describe('offlineInterceptor', function() {
             });
         });
 
-        inject(function(offlineInterceptor, _$rootScope_, _$q_, _offlineService_) {
-            provider = offlineInterceptor;
-            $q = _$q_;
-            $rootScope = _$rootScope_;
-            offlineService = _offlineService_;
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $rootScope = $injector.get('$rootScope');
+            offlineService = $injector.get('offlineService');
+            offlineInterceptor = $injector.get('offlineInterceptor');
         });
-
 
     });
 
@@ -51,7 +50,7 @@ describe('offlineInterceptor', function() {
                 promise = $q.defer();
                 return promise.promise;
             });
-            returnedConfig = provider.request(config);
+            returnedConfig = offlineInterceptor.request(config);
         });
 
         it('should be registered', function() {
@@ -67,14 +66,14 @@ describe('offlineInterceptor', function() {
         });
 
         it('should not show second alert modal when first is not closed', function() {
-            provider.request(config);
+            offlineInterceptor.request(config);
             expect(alertServiceMock.error.callCount).toBe(1);
         });
 
         it('should show second alert modal when first is not closed', function() {
             promise.resolve();
             $rootScope.$apply();
-            provider.request(config);
+            offlineInterceptor.request(config);
             expect(alertServiceMock.error.callCount).toBe(2);
         });
 
@@ -94,7 +93,7 @@ describe('offlineInterceptor', function() {
                 url: 'some.html'
             };
 
-            returnedConfig = provider.request(config);
+            returnedConfig = offlineInterceptor.request(config);
 
             returnedConfig.timeout.then(function() {
                 isResolved = true;

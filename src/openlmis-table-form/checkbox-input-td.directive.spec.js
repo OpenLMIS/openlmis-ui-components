@@ -14,26 +14,30 @@
  */
 
 describe('openlmis-table-form.directive:checkboxInputTD', function() {
-    var $compile, $rootScope, input;
 
-    beforeEach(module('openlmis-table-form'));
+    var $compile, $rootScope, element;
 
-    beforeEach(inject(function(_$compile_, _$rootScope_) {
-        $compile = _$compile_;
-        $rootScope = _$rootScope_;
-    }));
+    beforeEach(function() {
+        module('openlmis-table-form');
 
-    it('will wrap a label element around a checkbox input directly placed in a table cell', function(){
-        var markup = '<td><input type="checkbox" /></td>'
-            element = $compile(markup)($rootScope.$new());
-
-        expect(element.find('input').parent()[0].nodeName.toLowerCase()).toBe('label');
-        expect(element.find('input').parents('label').hasClass('checkbox')).toBe(true);
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $compile = $injector.get('$compile');
+        });
     });
 
-    it('will not add a label to an input already wrapped with a label', function(){
-        var markup = '<td><label><input type="checkbox" />Example</label></td>'
-            element = $compile(markup)($rootScope.$new());
+    it('will wrap a label element around a checkbox input directly placed in a table cell', function() {
+        var markup = '<td><input type="checkbox" /></td>';
+        element = $compile(markup)($rootScope.$new());
+
+        expect(element.find('input').parent()[0].nodeName.toLowerCase()).toBe('label');
+        expect(element.find('input').parents('label')
+            .hasClass('checkbox')).toBe(true);
+    });
+
+    it('will not add a label to an input already wrapped with a label', function() {
+        var markup = '<td><label><input type="checkbox" />Example</label></td>';
+        element = $compile(markup)($rootScope.$new());
 
         expect(element.find('input').parents('label').length).toEqual(1);
     });

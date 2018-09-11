@@ -21,12 +21,12 @@ describe('TR is Invalid', function() {
     beforeEach(module('openlmis-templates'));
     beforeEach(module('openlmis-table'));
 
-    beforeEach(inject(function(_$compile_, $rootScope){        
+    beforeEach(inject(function(_$compile_, $rootScope) {
         $compile = _$compile_;
         scope = $rootScope.$new();
     }));
 
-    it('TR gets is-invalid class when child element has is-invalid class', function(){
+    it('TR gets is-invalid class when child element has is-invalid class', function() {
         var table = compileMarkup('<table><tr><td></td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
@@ -37,7 +37,7 @@ describe('TR is Invalid', function() {
         expect(table.find('tr.is-invalid').length).toBe(1);
     });
 
-    it('TR gets is-invalid class when any descendent element has is-invalid class', function(){
+    it('TR gets is-invalid class when any descendent element has is-invalid class', function() {
         var table = compileMarkup('<table><tr><td><p><a></a></p></td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
@@ -47,7 +47,6 @@ describe('TR is Invalid', function() {
 
         expect(table.find('tr.is-invalid').length).toBe(1);
     });
-
 
     function compileMarkup(markup) {
         var element = $compile(markup)(scope);

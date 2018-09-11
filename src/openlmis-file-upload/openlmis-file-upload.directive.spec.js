@@ -15,10 +15,10 @@
 
 /*describe('File input directive', function() {
 
-	var $timeout, $rootScope, $compile,
+    var $timeout, $rootScope, $compile,
         input, inputElement, scope, file;
 
-	beforeEach(function() {
+    beforeEach(function() {
 
         module('openlmis-file-upload');
         module('openlmis-form');
@@ -27,7 +27,7 @@
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
             $timeout = $injector.get('$timeout');
-	    });
+        });
 
         var markup = '<form><input type="file" ng-model="example" id="file" accept=".csv"/></form>';
 
@@ -50,7 +50,7 @@
 
     it('should add openlmis-file-input class to parent', function() {
         expect(parent.hasClass('openlmis-file-input')).toBe(true);
-	});
+    });
 
     it('should assign file value to ng-model', function() {
         inputElement.triggerHandler({
@@ -62,7 +62,7 @@
         scope.$apply();
 
         expect(scope.example).toEqual(file);
-	});
+    });
 
     it('should clear ng-model', function() {
         file.name = 'file.abc';
@@ -80,7 +80,7 @@
         scope.$apply();
 
         expect(scope.example).toEqual(undefined);
-	});
+    });
 
     it('should trigger click after clicking select button', function() {
         var result;
@@ -92,12 +92,12 @@
         $rootScope.$apply();
 
         expect(result).toEqual('click-triggered');
-	});
+    });
 
     it('should expose file name', function() {
         scope.example = file;
         scope.$apply();
 
         expect(scope.getFileName()).toEqual(file.name);
-	});
+    });
 });*/

@@ -13,37 +13,42 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Input Control Invalid directive', function(){
+describe('Input Control Invalid directive', function() {
 
-	var form, element, inputs, scope;
+    var form, element, inputs, scope;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($compile, $rootScope) {
-		scope = $rootScope.$new();
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
 
-		var markup = '<form name="exampleForm"><div input-control openlmis-invalid ><input ng-model="example" required /><input ng-model="foo" /></div></form>';
-		form = $compile(markup)(scope);
+        var markup = '<form name="exampleForm">' +
+                '<div input-control openlmis-invalid >' +
+                    '<input ng-model="example" required /><input ng-model="foo" />' +
+                '</div>' +
+            '</form>';
+        form = $compile(markup)(scope);
 
-		angular.element('body').append(form);
+        angular.element('body').append(form);
 
-		scope.exampleForm.$setSubmitted();
+        scope.exampleForm.$setSubmitted();
 
-		scope.$apply();
+        scope.$apply();
 
-		element = form.find('[input-control]');
-		inputs = element.find('input');
-	}));
+        element = form.find('[input-control]');
+        inputs = element.find('input');
+    }));
 
-	it('reacts to error state of child inputs', function() {
-		expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(true);
-		expect(element.hasClass('is-invalid')).toBe(true);
+    it('reacts to error state of child inputs', function() {
+        expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(true);
+        expect(element.hasClass('is-invalid')).toBe(true);
 
-		scope.example = "123"; // setting value for required input
-		scope.$apply();
+        // setting value for required input
+        scope.example = '123';
+        scope.$apply();
 
-		expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(false);
-		expect(element.hasClass('is-invalid')).toBe(false);
-	});
+        expect(angular.element(inputs[0]).hasClass('ng-invalid')).toBe(false);
+        expect(element.hasClass('is-invalid')).toBe(false);
+    });
 
 });

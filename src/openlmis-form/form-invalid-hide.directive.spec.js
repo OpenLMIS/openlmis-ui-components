@@ -13,32 +13,32 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('Form Invalid Hide Directive', function(){
-	var form, scope;
+describe('Form Invalid Hide Directive', function() {
+    var form, scope;
 
-	beforeEach(module('openlmis-form'));
+    beforeEach(module('openlmis-form'));
 
-	beforeEach(inject(function($compile, $rootScope, $q){
-		var markup = '<form name="exampleForm"><input ng-model="example" required /></form>';
+    beforeEach(inject(function($compile, $rootScope) {
+        var markup = '<form name="exampleForm"><input ng-model="example" required /></form>';
 
-		scope = $rootScope.$new();
+        scope = $rootScope.$new();
 
-		form = $compile(markup)(scope);
-		angular.element('body').append(form);
+        form = $compile(markup)(scope);
+        angular.element('body').append(form);
 
-		scope.$apply();
-	}));
+        scope.$apply();
+    }));
 
-	it('supresses error messages when the form is not submitted', function(){
-		// NOTE: form is unsubmitted
-		expect(form.find('.is-invalid').length).toBe(0);
-		expect(form.find('.openlmis-invalid').length).toBe(0);
+    it('supresses error messages when the form is not submitted', function() {
+        // NOTE: form is unsubmitted
+        expect(form.find('.is-invalid').length).toBe(0);
+        expect(form.find('.openlmis-invalid').length).toBe(0);
 
-		scope.exampleForm.$setSubmitted();
-		scope.$apply();
+        scope.exampleForm.$setSubmitted();
+        scope.$apply();
 
-		expect(form.find('.is-invalid').length).not.toBe(0);
-		expect(form.find('.openlmis-invalid').length).not.toBe(0);		
-	});
+        expect(form.find('.is-invalid').length).not.toBe(0);
+        expect(form.find('.openlmis-invalid').length).not.toBe(0);
+    });
 
 });

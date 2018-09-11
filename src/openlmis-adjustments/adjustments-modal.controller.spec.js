@@ -52,8 +52,8 @@ describe('AdjustmentsModalController', function() {
         isDisabled = true;
 
         summaries = {
-            'keyOne': function() {},
-            'keyTwo': function() {}
+            keyOne: function() {},
+            keyTwo: function() {}
         };
 
         spyOn(modalDeferred, 'resolve');
