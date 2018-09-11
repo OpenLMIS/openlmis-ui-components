@@ -108,6 +108,7 @@
          *                           reason
          */
         function putAll(docs) {
+            console.log('putting all');
             docs.forEach(function(doc) {
                 doc._id = doc.id;
             });
@@ -194,6 +195,7 @@
             var database = this,
                 name = this.pouchDb.name;
 
+            console.log('removing all');
             return $q.when(this.pouchDb.destroy())
                 .then(function() {
                     database.pouchDb = new PouchDB(name);
