@@ -3,8 +3,8 @@
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235): Extended LocalDatabase class:
-** Added pouchdb-find.
-** Added putAll method to the LocalDatabase.
+  * Added pouchdb-find.
+  * Added putAll method to the LocalDatabase.
 
 6.0.0 / 2018-08-16
 ==================
