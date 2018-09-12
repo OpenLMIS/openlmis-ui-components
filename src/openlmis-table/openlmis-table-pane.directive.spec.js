@@ -28,47 +28,6 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
         $scope = $rootScope.$new();
     });
 
-    // COMMENTED OUT BECAUSE IT BREAKS OTHER UNIT TESTS (for unknown reason)
-
-    // describe('applies openlmis-table-sticky-cell', function() {
-    //     var tablePaneElement;
-
-    //     beforeEach(function() {
-    //         var thead = '<thead><tr><th class="col-sticky"></th><th></th>' +
-    //                 '<th class="col-sticky col-sticky-right"></th></tr></thead>',
-    //             tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
-    //             tfoot = '<tfoot><tr><td class="col-sticky"></td><td></td>' +
-    //                 '<td class="col-sticky col-sticky-right"></td></tr></tfoot>',
-    //             markup = '<div class="openlmis-table-pane"><table>' + thead + tbody + tfoot + '</table></div>';
-
-    //         tablePaneElement = $compile(markup)($scope);
-    //     });
-
-    //     it('to all thead and tfoot elements', function() {
-    //         expect(tablePaneElement.find('thead [openlmis-table-sticky-cell]').length).toBe(3);
-    //         expect(tablePaneElement.find('tfoot [openlmis-table-sticky-cell]').length).toBe(3);
-    //     });
-
-    //     it('and openlmis-sticky-top to all thead elements', function() {
-    //         expect(tablePaneElement.find('thead [openlmis-sticky-top]').length).toBe(3);
-    //     });
-
-    //     it('and openlmis-sticky-bottom to all tfoot elements', function() {
-    //         expect(tablePaneElement.find('tfoot [openlmis-sticky-bottom]').length).toBe(3);
-    //     });
-
-    //     it('and openlmis-sticky-column to all elements that had .col-sticky class', function() {
-    //         expect(tablePaneElement.find('[openlmis-sticky-column]').length).toBe(4);
-    //         expect(tablePaneElement.find('.col-sticky').length).toBe(0);
-    //     });
-
-    //     it('and openlmis-sticky-column-right to all elements that had .col-sticky class', function() {
-    //         expect(tablePaneElement.find('[openlmis-sticky-column-right]').length).toBe(2);
-    //         expect(tablePaneElement.find('.col-sticky-right').length).toBe(0);
-    //     });
-
-    // });
-
     describe('md-virtual-repeat-container', function() {
         var tablePaneElement;
 
