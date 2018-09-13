@@ -33,13 +33,14 @@ describe('analytics500Interceptor', function() {
     });
 
     it('should be registered', function() {
-        expect(interceptors.indexOf('analytics500Interceptor') > -1).toBe(true);
+        expect(interceptors.indexOf('analytics500Interceptor')).toBeGreaterThan(-1);
     });
 
     it('should send event to Google Analytics on 5xx status', function() {
         response.status = 500;
 
         provider.responseError(response);
+
         expect(analyticsService.track).toHaveBeenCalled();
         expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('5xx Error');
     });

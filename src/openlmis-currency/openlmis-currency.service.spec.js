@@ -42,6 +42,7 @@ describe('currencyService', function() {
 
     it('should get currency settings from storage', function() {
         spyOn(localStorageService, 'get').andReturn(settingsJson);
+
         expect(currencyService.getFromStorage()).toEqual(currencySettings);
     });
 

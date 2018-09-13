@@ -57,6 +57,7 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
         vm.updateViewportPosition(100, 42);
 
         var viewportRectangle = cell.updatePosition.mostRecentCall.args[0];
+
         expect(viewportRectangle.top).toBe(100);
         expect(viewportRectangle.left).toBe(42);
     });

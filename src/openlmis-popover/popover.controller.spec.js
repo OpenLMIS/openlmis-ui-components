@@ -47,11 +47,13 @@ describe('OpenLMIS Popover Controller', function() {
         expect(popoverCtrl.getElements()).toEqual([element, secondElement]);
 
         var returnValue = popoverCtrl.removeElement(element);
+
         expect(returnValue).toBe(true);
         expect(popoverCtrl.getElements()).toEqual([secondElement]);
 
         // Make sure we can't remove an item twice
         returnValue = popoverCtrl.removeElement(element);
+
         expect(returnValue).toBe(false);
 
         // Make sure removing can identitify dynamic elements
@@ -61,16 +63,19 @@ describe('OpenLMIS Popover Controller', function() {
         scope.$apply();
 
         popoverCtrl.addElement(dynamicElement);
+
         expect(popoverCtrl.getElements()).toEqual([secondElement, dynamicElement]);
 
         scope.value = 'Changing the dynamic element should not matter - because DYNAMIC';
         scope.$apply();
 
         popoverCtrl.removeElement(dynamicElement);
+
         expect(popoverCtrl.getElements()).toEqual([secondElement]);
 
         // Removing the last element
         popoverCtrl.removeElement(secondElement);
+
         expect(popoverCtrl.getElements()).toEqual([]);
     });
 

@@ -29,6 +29,7 @@ describe('featureFlagService', function() {
 
         it('should get flag value if set', function() {
             featureFlagService.set('new-flag', '', true);
+
             expect(featureFlagService.get('new-flag')).toBe(true);
         });
 
@@ -41,17 +42,21 @@ describe('featureFlagService', function() {
 
         it('should set default flag value', function() {
             featureFlagService.set('new-flag', '', true);
+
             expect(featureFlagService.get('new-flag')).toBe(true);
 
             featureFlagService.set('other-flag', '${OTHER_FLAG}', false);
+
             expect(featureFlagService.get('other-flag')).toBe(false);
         });
 
         it('should set given flag', function() {
             featureFlagService.set('new-flag', 'false', true);
+
             expect(featureFlagService.get('new-flag')).toBe(false);
 
             featureFlagService.set('other-flag', 'true', false);
+
             expect(featureFlagService.get('other-flag')).toBe(true);
         });
     });

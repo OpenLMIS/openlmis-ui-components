@@ -57,6 +57,7 @@ describe('openlmis sort component', function() {
             username: 'sort.username.message',
             firstName: 'sort.firstName.message'
         });
+
         expect(controller.externalSort).toEqual(true);
         expect(controller.stateParamName).toEqual('sortParamName');
         expect(angular.isFunction(controller.onChange)).toBe(true);

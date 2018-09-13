@@ -80,7 +80,7 @@ describe('openlmisCurrencyFilter', function() {
         expect($filter('openlmisCurrency')(23.43)).toEqual('23.43\u00A0zł');
     }));
 
-    it('should properly round up money values', inject(function($filter) {
+    it('should properly round up decimal places', inject(function($filter) {
         currencySettings['currencySymbol'] = 'zł';
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 2;
@@ -96,7 +96,7 @@ describe('openlmisCurrencyFilter', function() {
         expect($filter('openlmisCurrency')(22223.5)).toEqual('22,224\u00A0¥');
     }));
 
-    it('should properly round up money values', inject(function($filter) {
+    it('should properly round down money values', inject(function($filter) {
         currencySettings['currencySymbol'] = '¥';
         currencySettings['currencySymbolSide'] = 'right';
         currencySettings['currencyDecimalPlaces'] = 0;

@@ -27,40 +27,50 @@ describe('pathFactory', function() {
 
     it('drops empty arguments', function() {
         url = pathFactory('/', false, '');
+
         expect(url).toBe('/');
 
         url = pathFactory('/foo', '', 'bar/');
+
         expect(url).toBe('/foo/bar/');
 
         url = pathFactory('', 'bar/');
+
         expect(url).toBe('bar/');
     });
 
     it('leaves the first slash, if entered', function() {
         url = pathFactory('/foo', 'bar/');
+
         expect(url).toBe('/foo/bar/');
 
         url = pathFactory('foo', 'bar/');
+
         expect(url).toBe('foo/bar/');
     });
 
     it('leaves trailing slash on last argument, if entered', function() {
         url = pathFactory('/foo', 'bar/');
+
         expect(url).toBe('/foo/bar/');
 
         url = pathFactory('/foo', '/baz/', 'bar/');
+
         expect(url).toBe('/foo/baz/bar/');
 
         url = pathFactory('/foo', '/baz/', 'bar');
+
         expect(url).toBe('/foo/baz/bar');
     });
 
     it('should combine trailing slashes from arguments', function() {
         // Two arguments
         url = pathFactory('/foo/', '/bar/');
+
         expect(url).toBe('/foo/bar/');
         // n arguments, varried slashes
         url = pathFactory('/foo/', '/baz/bar/', 'blip');
+
         expect(url).toBe('/foo/baz/bar/blip');
     });
 

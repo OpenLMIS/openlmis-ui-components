@@ -32,6 +32,7 @@ describe('OpenlmisInvalidController', function() {
         });
 
         var messages = vm.getMessages();
+
         expect(Object.keys(messages).length).toBe(2);
         expect(Object.keys(messages)).toContain('foo');
         expect(Object.keys(messages)).toContain('test');
@@ -41,6 +42,7 @@ describe('OpenlmisInvalidController', function() {
         vm.setMessages({
             test: true
         });
+
         expect(Object.keys(vm.getMessages())).toContain('test');
 
         vm.resetMessages();
@@ -83,6 +85,7 @@ describe('OpenlmisInvalidController', function() {
         expect(vm.isHidden()).toBe(true);
 
         vm.show();
+
         expect(vm.isHidden()).toBe(true);
     });
 
@@ -125,6 +128,7 @@ describe('OpenlmisInvalidController', function() {
             expect(child.isHidden()).toBe(false);
 
             vm.registerController(child);
+
             expect(child.isHidden()).toBe(true);
         });
 

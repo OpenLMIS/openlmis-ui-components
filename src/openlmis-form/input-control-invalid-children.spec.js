@@ -45,9 +45,11 @@ describe('Input Control OpenlmisInvalid Child Directive', function() {
             hideCalls = childController.hide.calls.length;
 
         parentController.show();
+
         expect(childController.show.calls.length).toBe(showCalls + 1);
 
         parentController.hide();
+
         expect(childController.hide.calls.length).toBe(hideCalls + 1);
     });
 

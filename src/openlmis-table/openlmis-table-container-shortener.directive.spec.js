@@ -91,6 +91,7 @@ describe('openlmisTableContainer', function() {
 
     it('should set bottom-offset property when scrolling', function() {
         var scrollbar = table.find('.ps__scrollbar-x-rail');
+
         expect(scrollbar.length).toBe(1);
 
         spyOn(scrollbar[0].style, 'setProperty');

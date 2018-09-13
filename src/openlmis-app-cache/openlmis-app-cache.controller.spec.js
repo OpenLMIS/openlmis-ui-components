@@ -114,6 +114,7 @@ describe('OpenlmisAppCacheController', function() {
                 'openlmisAppCache.cacheUpdate.cancel',
                 'openlmisAppCache.cacheUpdate.title'
             );
+
             expect(applicationCacheMock.swapCache).not.toHaveBeenCalled();
             expect(locationMock.reload).not.toHaveBeenCalled();
         });

@@ -37,6 +37,7 @@ describe('TD openlmisInvalid message', function() {
         expect(openlmisPopoverCtrl.addElement).toHaveBeenCalled();
 
         var messageElement = openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
+
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });
 
@@ -50,6 +51,7 @@ describe('TD openlmisInvalid message', function() {
         expect(openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
 
         var messageElement = openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
+
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });
 

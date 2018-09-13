@@ -56,20 +56,24 @@ describe('PopoverDirective', function() {
     it('opens when the element gets focus, and closes when blurred', function() {
         element.focus();
         $timeout.flush();
+
         expect(popoverCtrl.open).toHaveBeenCalled();
 
         otherElement.focus();
         $timeout.flush();
+
         expect(popoverCtrl.close).toHaveBeenCalled();
     });
 
     it('opens when the element is moused over, and closes when the mouse moves else where', function() {
         element.mouseover();
         $timeout.flush();
+
         expect(popoverCtrl.open).toHaveBeenCalled();
 
         element.mouseout();
         $timeout.flush();
+
         expect(popoverCtrl.close).toHaveBeenCalled();
     });
 

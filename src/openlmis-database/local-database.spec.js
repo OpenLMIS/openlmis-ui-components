@@ -34,8 +34,6 @@ describe('LocalDatabase', function() {
 
         database = new LocalDatabase('testDatabase');
         dbResponded = false;
-
-        expect(pouchDb).toBe(database.pouchDb);
     });
 
     describe('put', function() {
@@ -409,6 +407,7 @@ describe('LocalDatabase', function() {
                             angular.forEach(docs, function(doc) {
                                 contains = angular.equals(putDoc, doc) || contains;
                             });
+
                             expect(contains).toBe(true);
                         });
                         success = true;

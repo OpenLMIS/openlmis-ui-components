@@ -46,6 +46,7 @@ describe('SortController', function() {
 
         it('should throw error if on change method is not a function', function() {
             vm.onChange = 'some-string';
+
             expect(function() {
                 vm.$onInit();
             }).toThrow(new Error('Parameter onChange is not a function!'));
@@ -53,26 +54,31 @@ describe('SortController', function() {
 
         it('should set sort selection to one from state parameters', function() {
             vm.$onInit();
+
             expect(vm.sort).toEqual($stateParams.sort);
         });
 
         it('should set externalSort to default true value', function() {
             vm.externalSort = undefined;
             vm.$onInit();
+
             expect(vm.externalSort).toEqual(true);
 
             vm.externalSort = null;
             vm.$onInit();
+
             expect(vm.externalSort).toEqual(true);
         });
 
         it('should set stateParamName to default if its null', function() {
             vm.stateParamName = undefined;
             vm.$onInit();
+
             expect(vm.stateParamName).toEqual('sort');
 
             vm.stateParamName = 'customStateParamName';
             vm.$onInit();
+
             expect(vm.stateParamName).toEqual('customStateParamName');
         });
     });
@@ -85,11 +91,13 @@ describe('SortController', function() {
 
         it('assign new sort value', function() {
             vm.changeSort('username');
+
             expect(vm.sort).toEqual('username');
         });
 
         it('call onChange method with newly selected sort as parameter', function() {
             vm.changeSort('username');
+
             expect(vm.onChange).toHaveBeenCalledWith('username');
         });
 
@@ -97,6 +105,7 @@ describe('SortController', function() {
             $state.current.name = 'current.state';
             $stateParams.sort = 'username';
             vm.changeSort('username');
+
             expect($state.go).toHaveBeenCalledWith('current.state', $stateParams, {
                 reload: vm.externalSort,
                 notify: vm.externalSort
@@ -112,14 +121,17 @@ describe('SortController', function() {
 
         it('should return proper display message if exists in options', function() {
             vm.sort = 'username';
+
             expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
 
             vm.sort = 'firstName,asc';
+
             expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
         });
 
         it('should return undefined if sort does not exists in options', function() {
             vm.sort = 'some-sort-value';
+
             expect(vm.getCurrentSortDisplay()).toEqual(undefined);
         });
     });

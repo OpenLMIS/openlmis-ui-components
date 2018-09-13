@@ -44,6 +44,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             viewport.top = 123;
 
             var position = vm.updatePosition(viewport, table);
+
             expect(position.top).toBe(123);
         });
 
@@ -53,6 +54,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             var position = vm.updatePosition(viewport, table);
+
             expect(position.top).toBe(-1500);
         });
 
@@ -63,6 +65,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             viewport.left = 123;
 
             var position = vm.updatePosition(viewport, table);
+
             expect(position.left).toBe(123);
         });
 
@@ -72,6 +75,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             var position = vm.updatePosition(viewport, table);
+
             expect(position.left).toBe(-500);
         });
     });
@@ -84,6 +88,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.top).toBe(0);
 
             viewport.top = 500;
@@ -104,6 +109,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.left).toBe(0);
 
             viewport.left = 700;
@@ -124,6 +130,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.left).toBe(-500);
 
             viewport.left = 700;
@@ -148,6 +155,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             table.width = 1000;
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.left).toBe(0);
         });
 
@@ -158,6 +166,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             });
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.top).toBe(-1500);
 
             viewport.top = 700;
@@ -182,6 +191,7 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
             table.height = 1000;
 
             position = vm.updatePosition(viewport, table);
+
             expect(position.top).toBe(0);
         });
 

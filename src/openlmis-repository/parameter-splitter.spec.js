@@ -93,6 +93,7 @@ describe('ParameterSplitter', function() {
                     'valueSix'
                 ]
             });
+
             expect(result[1]).toEqual({
                 paramOne: [
                     'valueOne',
@@ -102,6 +103,7 @@ describe('ParameterSplitter', function() {
                     'valueSeven'
                 ]
             });
+
             expect(result[2]).toEqual({
                 paramOne: [
                     'valueThree',
@@ -112,6 +114,7 @@ describe('ParameterSplitter', function() {
                     'valueSix'
                 ]
             });
+
             expect(result[3]).toEqual({
                 paramOne: [
                     'valueThree',
@@ -147,30 +150,39 @@ describe('ParameterSplitter', function() {
             expect(result[0]).toEqual({
                 some: ['long']
             });
+
             expect(result[1]).toEqual({
                 some: ['param']
             });
+
             expect(result[2]).toEqual({
                 some: ['array']
             });
+
             expect(result[3]).toEqual({
                 some: ['too']
             });
+
             expect(result[4]).toEqual({
                 some: ['long']
             });
+
             expect(result[5]).toEqual({
                 some: ['to']
             });
+
             expect(result[6]).toEqual({
                 some: ['send']
             });
+
             expect(result[7]).toEqual({
                 some: ['as']
             });
+
             expect(result[8]).toEqual({
                 some: ['one']
             });
+
             expect(result[9]).toEqual({
                 some: ['request']
             });
@@ -193,6 +205,7 @@ describe('ParameterSplitter', function() {
             expect(result[0]).toEqual({
                 some: ['long', 'param']
             });
+
             expect(result[1]).toEqual({
                 some: ['array']
             });

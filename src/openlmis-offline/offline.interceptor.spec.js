@@ -54,7 +54,7 @@ describe('offlineInterceptor', function() {
         });
 
         it('should be registered', function() {
-            expect(interceptors.indexOf('offlineInterceptor') > -1).toBe(true);
+            expect(interceptors.indexOf('offlineInterceptor')).toBeGreaterThan(-1);
         });
 
         it('should check if is offline', function() {
@@ -67,6 +67,7 @@ describe('offlineInterceptor', function() {
 
         it('should not show second alert modal when first is not closed', function() {
             offlineInterceptor.request(config);
+
             expect(alertServiceMock.error.callCount).toBe(1);
         });
 
@@ -74,6 +75,7 @@ describe('offlineInterceptor', function() {
             promise.resolve();
             $rootScope.$apply();
             offlineInterceptor.request(config);
+
             expect(alertServiceMock.error.callCount).toBe(2);
         });
 
@@ -83,6 +85,7 @@ describe('offlineInterceptor', function() {
                 isResolved = true;
             });
             $rootScope.$apply();
+
             expect(isResolved).toBe(true);
         });
 

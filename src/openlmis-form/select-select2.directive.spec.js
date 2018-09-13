@@ -58,11 +58,13 @@ describe('Select2 for select elements', function() {
 
     it('sets the placeholder value, if there is a placeholder element', function() {
         var placeholder = jQuery.prototype.select2.mostRecentCall.args[0].placeholder;
+
         expect(placeholder.text).toBe('placeholder text');
     });
 
     it('hides the search box when there are less options than PAGE_SIZE', function() {
         var minimumResultsForSearch = jQuery.prototype.select2.mostRecentCall.args[0].minimumResultsForSearch;
+
         expect(minimumResultsForSearch).toBe(3);
     });
 

@@ -45,6 +45,7 @@ describe('popoverTemplate directive', function() {
         expect(popoverCtrl.addElement).toHaveBeenCalled();
 
         var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
+
         expect(addedElement.text()).toBe('No clicks');
 
         // Make sure scope updates are applied to the element
@@ -65,11 +66,13 @@ describe('popoverTemplate directive', function() {
         expect(popoverCtrl.removeElement).toHaveBeenCalled();
 
         var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
+
         expect(removedElement.text()).toBe('No clicks');
 
         expect(popoverCtrl.addElement).toHaveBeenCalled();
 
         var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
+
         expect(addedElement.text()).toBe('Example');
     }));
 
@@ -80,6 +83,7 @@ describe('popoverTemplate directive', function() {
         expect(popoverCtrl.removeElement).toHaveBeenCalled();
 
         var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
+
         expect(removedElement.text()).toBe('No clicks');
     });
 });

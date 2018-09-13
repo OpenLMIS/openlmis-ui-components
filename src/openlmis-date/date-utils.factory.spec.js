@@ -29,6 +29,7 @@ describe('dateUtils', function() {
 
         it('should add days', function() {
             var date = dateUtils.addDaysToDate(new Date('2017-05-10'), 2);
+
             expect(date).toEqual(new Date('2017-05-12'));
         });
     });
@@ -41,21 +42,25 @@ describe('dateUtils', function() {
 
         it('should create date from iso string', function() {
             var date = new Date('2017-05-12');
+
             expect(dateUtils.toDate(date.toISOString())).toEqual(date);
         });
 
         it('should remove time zone offset', function() {
             var date = new Date('2017-01-31T10:12:14');
+
             expect(dateUtils.toDate('2017-01-31T10:12:14')).toEqual(date);
         });
 
         it('should create date from array with 3 elements', function() {
             var date = new Date('2017-05-12');
+
             expect(dateUtils.toDate([2017, 5, 12])).toEqual(date);
         });
 
         it('should create date from array with 6 elements', function() {
             var date = new Date('2017-01-31T10:12:14Z');
+
             expect(dateUtils.toDate([2017, 1, 31, 10, 12, 14])).toEqual(date);
         });
 
@@ -74,11 +79,13 @@ describe('dateUtils', function() {
 
         it('should convert to date without time', function() {
             var date = new Date('2017-05-10');
+
             expect(dateUtils.toArray(date, false)).toEqual([2017, 5, 10]);
         });
 
         it('should convert to date with time', function() {
             var date = new Date('2017-05-08T10:12:14Z');
+
             expect(dateUtils.toArray(date, true)).toEqual([2017, 5, 8, 10, 12, 14]);
         });
     });

@@ -80,12 +80,14 @@ describe('PopoverDirective', function() {
 
         // this is what updates the popover content
         element.popover('show');
+
         expect(popoverCtrl.getElements).toHaveBeenCalled();
         expect(popover.find('.popover-content').text()).toBe('Test');
 
         elements.push(angular.element('<p>Example</p>'));
 
         element.popover('show');
+
         expect(popover.find('.popover-content').text()).toBe('TestExample');
     });
 
@@ -98,6 +100,7 @@ describe('PopoverDirective', function() {
         });
 
         popoverCtrl.open();
+
         expect(opened).toBe(true);
     });
 
@@ -110,6 +113,7 @@ describe('PopoverDirective', function() {
         });
 
         popoverCtrl.close();
+
         expect(closed).toBe(true);
     });
 

@@ -170,14 +170,17 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             position.top = 100;
 
             stickyCellCtrl.updatePosition();
+
             expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
 
             stickyCellCtrl.updatePosition();
+
             expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
 
             position.top = 101;
 
             stickyCellCtrl.updatePosition();
+
             expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 2);
         });
 

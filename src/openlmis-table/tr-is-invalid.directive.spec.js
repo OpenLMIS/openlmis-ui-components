@@ -19,6 +19,7 @@ describe('TR is Invalid', function() {
     var $compile, scope;
 
     beforeEach(module('openlmis-templates'));
+
     beforeEach(module('openlmis-table'));
 
     beforeEach(inject(function(_$compile_, $rootScope) {

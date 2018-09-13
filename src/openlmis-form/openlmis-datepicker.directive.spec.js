@@ -27,6 +27,7 @@ describe('Datepicker directive', function() {
 
         it('should have datepicker element', function() {
             var elem = angular.element(element);
+
             expect(elem.find('input').datepicker).toBeDefined();
         });
 
@@ -50,11 +51,13 @@ describe('Datepicker directive', function() {
 
         it('should add disabled parameter', function() {
             var elem = angular.element(element);
+
             expect(elem.attr('disabled')).toEqual('disabled');
         });
 
         it('should remove disabled parameter if expression changes to false', function() {
             var elem = angular.element(element);
+
             expect(elem.attr('disabled')).toEqual('disabled');
 
             scope.isDisabled = true;

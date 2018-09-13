@@ -91,17 +91,20 @@ describe('analyticsService', function() {
 
         it('should track all calls in google analytics', function() {
             analyticsService.track('all', 'arguments', 'to', 'ga');
+
             expect($window.ga.apply).toHaveBeenCalledWith(analyticsService, ['all', 'arguments', 'to', 'ga']);
         });
 
         it('should not track ga while offline', function() {
 
             analyticsService.track('foo');
+
             expect($window.ga.apply).toHaveBeenCalled();
 
             offlineStatus = true;
 
             analyticsService.track('foo');
+
             expect($window.ga.apply.callCount).toEqual(1);
         });
     });

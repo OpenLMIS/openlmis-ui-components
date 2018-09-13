@@ -62,7 +62,7 @@ describe('alertService', function() {
             expect(getResolve('message')).toEqual(message);
         });
 
-        it('should pass message', function() {
+        it('should pass label', function() {
             alertService.error(title, message, buttonLabel);
 
             expect(getResolve('buttonLabel')).toEqual(buttonLabel);
@@ -127,7 +127,7 @@ describe('alertService', function() {
             expect(getResolve('message')).toEqual(message);
         });
 
-        it('should pass message', function() {
+        it('should pass label', function() {
             alertService.success(title, message, buttonLabel);
 
             expect(getResolve('buttonLabel')).toEqual(buttonLabel);
@@ -204,7 +204,7 @@ describe('alertService', function() {
             expect(getResolve('message')).toEqual(message);
         });
 
-        it('should pass message', function() {
+        it('should pass label', function() {
             alertService.info({
                 title: title,
                 message: message,

@@ -26,6 +26,7 @@ describe('ServerURL', function() {
 
     it('format should always return string', function() {
         var url = openlmisUrlService.format('/someURL');
+
         expect(typeof(url)).toBe('string');
     });
 
@@ -38,20 +39,25 @@ describe('ServerURL', function() {
 
     it('can take N-arguments', function() {
         var url = openlmisUrlService.format('sample', 'url');
+
         expect(url).toEqual('http://localhost/sample/url');
 
         url = openlmisUrlService.format('sample', 'url', 'with/three/arguments');
+
         expect(url).toEqual('http://localhost/sample/url/with/three/arguments');
 
         url = openlmisUrlService.format('sample', 'url', 'with', 'more', 'than', 'three/arguments');
+
         expect(url).toEqual('http://localhost/sample/url/with/more/than/three/arguments');
     });
 
     it('won\'t replace urls that start with http', function() {
         var url = openlmisUrlService.format('http://this.is/my', 'service');
+
         expect(url).toEqual('http://this.is/my/service');
 
         var url2 = openlmisUrlService.format('/this/will/be', 'prefixed');
+
         expect(url2).toEqual('http://localhost/this/will/be/prefixed');
     });
 
@@ -59,11 +65,13 @@ describe('ServerURL', function() {
     // Our service
         var url = 'http://localhost/sampleURL';
         var bool = openlmisUrlService.check(url);
+
         expect(bool).toEqual(true);
 
         // Not our service
         url = 'http://www.google.com';
         bool = openlmisUrlService.check(url);
+
         expect(bool).toEqual(false);
     });
 
@@ -73,10 +81,12 @@ describe('ServerURL', function() {
 
         var url = 'http://sample.url/endpoint';
         var bool = openlmisUrlService.check(url);
+
         expect(bool).toEqual(true);
 
         url = 'https://more.complicated/endpoint';
         bool = openlmisUrlService.check(url);
+
         expect(bool).toEqual(true);
     });
 

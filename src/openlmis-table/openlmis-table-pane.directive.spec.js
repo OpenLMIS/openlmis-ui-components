@@ -44,6 +44,7 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
 
         it('adds md-virtual-repeat-container around the table element', function() {
             var table = tablePaneElement.find('table');
+
             expect(table.parents('.md-virtual-repeat-container').length).toBe(1);
         });
 
@@ -73,6 +74,7 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
 
         it('is throttled', function() {
             scroller.trigger('scroll');
+
             expect(_.throttle).toHaveBeenCalled();
         });
 

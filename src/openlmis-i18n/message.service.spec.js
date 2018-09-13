@@ -36,6 +36,7 @@ describe('MessageService', function() {
         });
 
     });
+
     beforeEach(module('openlmis-i18n'));
 
     beforeEach(inject(function(_$rootScope_, _messageService_, _localStorageService_) {
@@ -51,6 +52,7 @@ describe('MessageService', function() {
 
     it('loads a default languge when populated without any parameters', function() {
         messageService.populate();
+
         expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'en');
     });
 
@@ -67,6 +69,7 @@ describe('MessageService', function() {
             name: 'Jane'
         };
         var expected = 'hello Jane!';
+
         expect(messageService.get('messageWithParam', person)).toBe(expected);
     });
 
@@ -76,12 +79,14 @@ describe('MessageService', function() {
             status: 'NEW'
         };
         var expected = 'Object with id: 123, status: NEW';
+
         expect(messageService.get('messageWithParams', object)).toBe(expected);
     });
 
     it('returns the message string with parameters in array', function() {
         var array = ['123', 'NEW'];
         var expected = 'Object with id: 123, status: NEW';
+
         expect(messageService.get('messageWithParams2', array)).toBe(expected);
     });
 
@@ -95,6 +100,7 @@ describe('MessageService', function() {
 
     it('broadcasts an event when the locale is successfully changed', function() {
         messageService.populate('test');
+
         expect($rootScope.$broadcast).toHaveBeenCalledWith('openlmis.messages.populated');
     });
 

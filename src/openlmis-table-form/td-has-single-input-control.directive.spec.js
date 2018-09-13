@@ -29,6 +29,7 @@ describe('TD has single input control', function() {
         scope.$apply();
 
         var tableCell = element.find('td');
+
         expect(tableCell.hasClass('has-single-input-control')).toBe(true);
     });
 
@@ -38,6 +39,7 @@ describe('TD has single input control', function() {
         scope.$apply();
 
         var tableCell = element.find('td');
+
         expect(tableCell.hasClass('has-single-input-control')).toBe(true);
 
         var newInput = angular.element('<input />');

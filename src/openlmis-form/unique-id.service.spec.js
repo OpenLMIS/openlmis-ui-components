@@ -27,6 +27,7 @@ describe('Unique ID Service', function() {
 
     it('generates a unique id that is a string', function() {
         var id = uniqueIdService.generate();
+
         expect(typeof(id)).toBe('string');
     });
 

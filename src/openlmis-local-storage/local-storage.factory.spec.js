@@ -83,12 +83,14 @@ describe('localStorageFactory', function() {
             itemStorage.put(item);
 
             var firstItem = itemStorage.getBy('id', 3);
+
             expect(firstItem.name).toEqual('item3');
 
             // don't save this change
             firstItem.name = 'foo bar';
 
             var secondItem = itemStorage.getBy('id', 3);
+
             expect(secondItem.name).toEqual('item3');
 
             secondItem.name = 'foo baz';

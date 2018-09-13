@@ -17,6 +17,7 @@ describe('Input Control Wrap', function() {
     var $compile, scope;
 
     beforeEach(module('openlmis-templates'));
+
     beforeEach(module('openlmis-form'));
 
     beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {

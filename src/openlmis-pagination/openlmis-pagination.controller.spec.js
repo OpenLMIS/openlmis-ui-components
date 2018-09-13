@@ -83,6 +83,7 @@ describe('PaginationController', function() {
             spyOn(vm, '$onInit');
             vm.list = [];
             $rootScope.$apply();
+
             expect(vm.$onInit).toHaveBeenCalled();
         });
     });
@@ -110,6 +111,7 @@ describe('PaginationController', function() {
             expect(vm.page).toEqual(newPage);
 
             vm.changePage(newPage + 1);
+
             expect(vm.page).toEqual(newPage);
 
             expect($state.go.callCount).toEqual(1);
@@ -139,6 +141,7 @@ describe('PaginationController', function() {
             var lastPage = vm.page;
 
             vm.nextPage();
+
             expect(vm.page).toEqual(lastPage + 1);
         });
     });
@@ -168,11 +171,13 @@ describe('PaginationController', function() {
 
         it('should check if page is first one', function() {
             vm.changePage(0);
+
             expect(vm.isFirstPage()).toBe(true);
         });
 
         it('should call change page callback', function() {
             vm.changePage(1);
+
             expect(vm.isFirstPage()).toBe(false);
         });
     });
@@ -181,11 +186,13 @@ describe('PaginationController', function() {
 
         it('should return true if page is last', function() {
             vm.changePage(4);
+
             expect(vm.isLastPage()).toBe(true);
         });
 
         it('should return false if page is not last', function() {
             vm.changePage(3);
+
             expect(vm.isLastPage()).toBe(false);
         });
     });
@@ -202,6 +209,7 @@ describe('PaginationController', function() {
 
         it('should return correct number of elements if selected page is not first one', function() {
             vm.page = 3;
+
             expect(vm.getPages().length).toBe(5);
         });
     });

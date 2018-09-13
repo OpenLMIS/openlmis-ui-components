@@ -99,6 +99,7 @@ describe('paginationService', function() {
         it('should set page size and number to default one if they are undefined', function() {
             paginationService.registerUrl({}, loadItemsSpy);
             $rootScope.$apply();
+
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: PAGE_SIZE
@@ -123,24 +124,28 @@ describe('paginationService', function() {
         it('should set page size to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
             $rootScope.$apply();
+
             expect(paginationService.getSize()).toEqual(0);
         });
 
         it('should set page number to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
             $rootScope.$apply();
+
             expect(paginationService.getPage()).toEqual(0);
         });
 
         it('should set total items to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
             $rootScope.$apply();
+
             expect(paginationService.getTotalItems()).toEqual(0);
         });
 
         it('should set showing items to 0 when method does not return promise', function() {
             paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
             $rootScope.$apply();
+
             expect(paginationService.getShowingItems()).toEqual(0);
         });
 
@@ -260,6 +265,7 @@ describe('paginationService', function() {
         it('should set page size and number to default one if they are undefined', function() {
             paginationService.registerUrl({}, loadItemsSpy);
             $rootScope.$apply();
+
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: PAGE_SIZE
@@ -420,6 +426,7 @@ describe('paginationService', function() {
         goToState('test.state', 'test.state.child.child');
 
         $state.current.name = 'test.state.child';
+
         expect(paginationService.getPage()).toBeUndefined();
         expect(paginationService.getSize()).toBeUndefined();
         expect(paginationService.getShowingItems()).toBeUndefined();
@@ -427,6 +434,7 @@ describe('paginationService', function() {
         expect(paginationService.getTotalItems()).toBeUndefined();
 
         $state.current.name = 'test.state.child.child';
+
         expect(paginationService.getPage()).toBeUndefined();
         expect(paginationService.getSize()).toBeUndefined();
         expect(paginationService.getShowingItems()).toBeUndefined();
