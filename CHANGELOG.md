@@ -1,5 +1,8 @@
-6.0.1 / Work in Progress
+7.0.0 / Work in Progress
 ========================
+
+Breaking changes:
+* [OLMIS-5409](https://openlmis.atlassian.net/browse/OLMIS-5409): Changed syntax for using sort component.
 
 Improvements:
 * [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235): Extended LocalDatabase class:

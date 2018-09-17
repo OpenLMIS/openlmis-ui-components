@@ -4,7 +4,7 @@
         {{ctrl.getCurrentSortDisplay() | message}}
     </button>
     <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(option, display) in ctrl.options">
+        <li ng-repeat="(display, option) in ctrl.options">
             <a ng-click="ctrl.changeSort(option)"
                 ng-class="{'selected': (ctrl.sort === option)}">
                 {{display | message}}

@@ -33,8 +33,8 @@ describe('SortController', function() {
             $stateParams: $stateParams
         });
         vm.options = {
-            username: 'some.message.1',
-            'firstName,asc': 'some.message.2'
+            'some.message.1': ['username'],
+            'some.message.2': ['firstName,asc']
         };
         vm.onChange = jasmine.createSpy();
         vm.externalSort = true;
