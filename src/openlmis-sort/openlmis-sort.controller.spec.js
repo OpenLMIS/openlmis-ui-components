@@ -34,7 +34,8 @@ describe('SortController', function() {
         });
         vm.options = {
             'some.message.1': ['username'],
-            'some.message.2': ['firstName,asc']
+            'some.message.2': ['firstName,asc'],
+            'some.message.3': ['lastName,desc', 'firstName,asc']
         };
         vm.onChange = jasmine.createSpy();
         vm.externalSort = true;
@@ -119,14 +120,28 @@ describe('SortController', function() {
             vm.$onInit();
         });
 
-        it('should return proper display message if exists in options', function() {
+        it('should return proper display message if exists in options for non-array values', function() {
             vm.sort = 'username';
 
-            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
+            expect(vm.getCurrentSortDisplay()).toEqual('some.message.1');
 
             vm.sort = 'firstName,asc';
 
-            expect(vm.getCurrentSortDisplay()).toEqual(vm.options[vm.sort]);
+            expect(vm.getCurrentSortDisplay()).toEqual('some.message.2');
+        });
+
+        it('should return proper display message if exists in options for array values', function() {
+            vm.sort = ['username'];
+
+            expect(vm.getCurrentSortDisplay()).toEqual('some.message.1');
+
+            vm.sort = ['firstName,asc'];
+
+            expect(vm.getCurrentSortDisplay()).toEqual('some.message.2');
+
+            vm.sort = ['lastName,desc', 'firstName,asc'];
+
+            expect(vm.getCurrentSortDisplay()).toEqual('some.message.3');
         });
 
         it('should return undefined if sort does not exists in options', function() {
