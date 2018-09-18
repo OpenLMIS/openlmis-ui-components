@@ -151,7 +151,7 @@
         function getCurrentSortDisplay() {
             var result;
             angular.forEach(ctrl.options, function(value, display) {
-                var currentSort = _.isArray(ctrl.sort) ? ctrl.sort : [ctrl.sort];
+                var currentSort = ctrl.sort instanceof Array ? ctrl.sort : [ctrl.sort];
 
                 if (_.isEqual(value, currentSort)) {
                     result = display;
