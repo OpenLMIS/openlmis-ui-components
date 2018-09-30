@@ -2,7 +2,7 @@
 
 # Update everything (just in case)
 npm rebuild
-npm install
+npm install --no-optional
 
 # Built and test
 grunt
