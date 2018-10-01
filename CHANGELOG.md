@@ -5,6 +5,12 @@ Breaking changes:
 * [OLMIS-5409](https://openlmis.atlassian.net/browse/OLMIS-5409): Changed syntax for using sort component.
 
 Improvements:
+* [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.
+
+6.0.1 / 2018-10-01
+==================
+
+Improvements:
 * [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235): Extended LocalDatabase class:
   * Added pouchdb-find.
   * Added putAll method to the LocalDatabase.
