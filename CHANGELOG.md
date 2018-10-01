@@ -1,5 +1,5 @@
-6.0.1 / Work in Progress
-========================
+6.0.1 / 2018-10-01
+==================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-5235:](https://openlmis.atlassian.net/browse/OLMIS-5235): Extended LocalDatabase class:
