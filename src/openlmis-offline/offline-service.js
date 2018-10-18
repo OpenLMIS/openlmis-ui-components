@@ -27,9 +27,10 @@
     angular.module('openlmis-offline')
         .service('offlineService', offlineService);
 
-    offlineService.$inject = ['Offline', '$timeout', '$q', '$rootScope', 'localStorageFactory'];
+    offlineService.$inject = ['Offline', '$timeout', '$q', '$rootScope', 'localStorageFactory',
+        'OFFLINE_CHECK_TIME_OUT'];
 
-    function offlineService(Offline, $timeout, $q, $rootScope, localStorageFactory) {
+    function offlineService(Offline, $timeout, $q, $rootScope, localStorageFactory, OFFLINE_CHECK_TIME_OUT) {
         var service = this,
             storedFlag = localStorageFactory('offlineFlag'),
             isOfflineFlag = localStorageFactory('offlineFlag')
@@ -50,7 +51,7 @@
                         return 'favicon.ico?_=' + new Date()
                             .getTime();
                     },
-                    timeout: 20000
+                    timeout: OFFLINE_CHECK_TIME_OUT
                 }
             }
         };

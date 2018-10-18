@@ -26,6 +26,14 @@
      */
     angular.module('openlmis-offline')
         //eslint-disable-next-line no-undef
-        .constant('Offline', Offline);
+        .constant('Offline', Offline)
+        .constant('OFFLINE_CHECK_TIME_OUT', getOfflineCheckTimeOut());
+
+    function getOfflineCheckTimeOut() {
+        var offlineCheckTimeOut = '@@OFFLINE_CHECK_TIME_OUT';
+
+        return (parseInt(offlineCheckTimeOut) && parseInt(offlineCheckTimeOut) > 0)
+            ? parseInt(offlineCheckTimeOut) : 20000;
+    }
 
 })();
