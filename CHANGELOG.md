@@ -4,6 +4,9 @@
 Breaking changes:
 * [OLMIS-5409](https://openlmis.atlassian.net/browse/OLMIS-5409): Changed syntax for using sort component.
 
+New functionality added in a backwards-compatible manner:
+* [OLMIS-5625](https://openlmis.atlassian.net/browse/OLMIS-5625): Added OpenlmisValidator class.
+
 Improvements:
 * [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.
 * [OLMIS-3446](https://openlmis.atlassian.net/browse/OLMIS-3446): Make offline latency timeout configurable at build time
