@@ -6,6 +6,7 @@ Breaking changes:
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-5625](https://openlmis.atlassian.net/browse/OLMIS-5625): Added OpenlmisValidator class.
+* [OLMIS-5625](https://openlmis.atlassian.net/browse/OLMIS-5625): Added OpenlmisArrayDecorator class.
 
 Improvements:
 * [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.
