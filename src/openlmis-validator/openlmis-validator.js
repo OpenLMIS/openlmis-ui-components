@@ -94,8 +94,7 @@
          * 
          * @param {int} number           the number to be validate
          * @param {int} max              the maximum that can't be reached
-         * @param {String} errorMessage  the error message to be thrown when object is not an instance of the given
-         *                               class
+         * @param {String} errorMessage  the error message to be thrown when number is bigger or equal to max
          */
         function validateLesserThan(number, max, errorMessage) {
             this.validateExists(number, 'Given number must be defined');
@@ -116,9 +115,9 @@
          * Checks whether object with the given ID already exists in the given array.
          * 
          * @param {int} objects          the objects array
-         * @param {int} max              the maximum that can't be reached
-         * @param {String} errorMessage  the error message to be thrown when object is not an instance of the given
-         *                               class
+         * @param {int} id               the id of to be tested
+         * @param {String} errorMessage  the error message to be thrown when object with the given ID already exists in
+         *                               the array
          */
         function validateObjectWithIdDoesNotExist(objects, id, errorMessage) {
             this.validateExists(objects, 'Given objects must be defined');
