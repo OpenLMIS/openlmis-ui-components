@@ -11,6 +11,7 @@ New functionality added in a backwards-compatible manner:
 Improvements:
 * [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.
 * [OLMIS-3446](https://openlmis.atlassian.net/browse/OLMIS-3446): Make offline latency timeout configurable at build time
+* [OLMIS-5488](https://openlmis.atlassian.net/browse/OLMIS-5488): Added styles for select2 inside popover and sidebar components
 
 6.0.1 / 2018-10-01
 ==================
