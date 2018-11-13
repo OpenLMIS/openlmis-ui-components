@@ -94,5 +94,9 @@ body {
         width: $sidebar-width;
         float: left;
         margin-right: 1em;
+
+        .select2 {
+            width: ($sidebar-width - 16px);
+        }
     }
 }

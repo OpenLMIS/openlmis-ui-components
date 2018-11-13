@@ -28,6 +28,8 @@ Styleguide 1.5
 */
 
 .popover {
+	max-width: $popover-width;
+
 	> button.close {
 		position: absolute;
 		top: 0px;
@@ -47,6 +49,10 @@ Styleguide 1.5
 		overflow: hidden;
 		padding: 0.5em;
 		padding-right: 2em;
+
+		.select2 {
+			max-width: ($popover-width - 34px) !important;
+		}
 	}
 
 	> h3 + > .popover-content{
