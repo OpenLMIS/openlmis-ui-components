@@ -56,9 +56,15 @@ $border-radius-large: $border-radius;
 $border-radius-small: $border-radius;
 
 // Spacing
+$padding-small: 0.5em;
+$padding: (2 * $padding-small);
+$padding-large: (2 * $padding);
+
+$margin: 1em;
+
 $padding2px:2px;
 $space-size: 16px !default;
 $opacity: 0.6 !default;
 
-$sidebar-width: 15.715em !default;
-$popover-width: 19.715em;
+$sidebar-width: 16em !default;
+$popover-width: 20em;

@@ -40,28 +40,28 @@ Styleguide 1.5
 		background-color: $background-color-alt;
 		font-size: 1em;
 		line-height: 1em;
-		padding: 0.5em;
-		padding-right: 2em;
+		padding: $padding-small;
+		padding-right: $padding-large;
 		margin: 0em;
 	}
 
 	> .popover-content{
 		overflow: hidden;
-		padding: 0.5em;
-		padding-right: 2em;
+		padding: $padding-small;
+		padding-right: $padding-large;
 
 		.select2 {
-			// popover width minus padding (0.5em for left and 2em for right)
-			max-width: ($popover-width - 2.5em) !important;
+			// popover width minus left padding minus right padding
+			max-width: ($popover-width - $padding-small - $padding-large) !important;
 		}
 	}
 
 	> h3 + > .popover-content{
-		padding-right: 0.5em;
+		padding-right: $padding-small;
 
 		.select2 {
-			// popover width minus padding (0.5em for left and right)
-			max-width: ($popover-width - 1em) !important;
+			// popover width minus left padding minus right padding
+			max-width: ($popover-width - (2 * $padding-small)) !important;
 		}
 	}
 }

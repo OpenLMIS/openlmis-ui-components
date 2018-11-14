@@ -93,11 +93,11 @@ body {
     .sidebar {
         width: $sidebar-width;
         float: left;
-        margin-right: 1em;
+        margin-right: $margin;
 
         .select2 {
             // sidebar width minus right margin
-            width: ($sidebar-width - 1em) !important;
+            width: ($sidebar-width - $margin) !important;
         }
     }
 }
