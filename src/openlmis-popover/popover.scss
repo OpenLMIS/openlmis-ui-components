@@ -51,12 +51,18 @@ Styleguide 1.5
 		padding-right: 2em;
 
 		.select2 {
-			max-width: ($popover-width - 34px) !important;
+			// popover width minus padding (0.5em for left and 2em for right)
+			max-width: ($popover-width - 2.5em) !important;
 		}
 	}
 
 	> h3 + > .popover-content{
 		padding-right: 0.5em;
+
+		.select2 {
+			// popover width minus padding (0.5em for left and right)
+			max-width: ($popover-width - 1em) !important;
+		}
 	}
 }
 

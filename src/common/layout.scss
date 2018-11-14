@@ -96,7 +96,8 @@ body {
         margin-right: 1em;
 
         .select2 {
-            width: ($sidebar-width - 16px) !important;
+            // sidebar width minus right margin
+            width: ($sidebar-width - 1em) !important;
         }
     }
 }
