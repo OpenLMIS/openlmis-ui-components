@@ -15,54 +15,57 @@
 
 describe('OpenlmisResource', function() {
 
-    var BASE_URL = 'some.url/com';
-
-    var openlmisResource, OpenlmisResource, $httpBackend, $rootScope, PageDataBuilder, page,
-        parameterSplitterMock, openlmisUrlFactory;
-
     beforeEach(function() {
         module('openlmis-pagination');
+
+        var context = this;
         module('openlmis-repository', function($provide) {
             $provide.factory('ParameterSplitter', function() {
                 return function() {
-                    parameterSplitterMock = jasmine.createSpyObj('ParameterSplitter', ['split']);
-                    return parameterSplitterMock;
+                    context.parameterSplitterMock = jasmine.createSpyObj('ParameterSplitter', ['split']);
+                    return context.parameterSplitterMock;
                 };
             });
         });
 
         inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $rootScope = $injector.get('$rootScope');
-            OpenlmisResource = $injector.get('OpenlmisResource');
-            PageDataBuilder = $injector.get('PageDataBuilder');
-            openlmisUrlFactory = $injector.get('openlmisUrlFactory');
+            this.$httpBackend = $injector.get('$httpBackend');
+            this.$rootScope = $injector.get('$rootScope');
+            this.OpenlmisResource = $injector.get('OpenlmisResource');
+            this.PageDataBuilder = $injector.get('PageDataBuilder');
+            this.openlmisUrlFactory = $injector.get('openlmisUrlFactory');
         });
 
-        openlmisResource = new OpenlmisResource(BASE_URL);
+        this.BASE_URL = 'some.url/com';
+        this.openlmisResource = new this.OpenlmisResource(this.BASE_URL);
 
-        page = new PageDataBuilder().build();
+        this.page = new this.PageDataBuilder().build();
     });
 
     describe('constructor', function() {
 
-        var SOME_ID = 'some-id';
+        beforeEach(function() {
+            this.SOME_ID = 'some-id';
+        });
 
         it('should accept url ending with slash', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '/' + SOME_ID))
-                .respond(200, page);
+            var $httpBackend = this.$httpBackend;
 
-            new OpenlmisResource(BASE_URL + '/').get(SOME_ID);
+            $httpBackend.expectGET(this.openlmisUrlFactory(this.BASE_URL + '/' + this.SOME_ID))
+                .respond(200, this.page);
+
+            new this.OpenlmisResource(this.BASE_URL + '/').get(this.SOME_ID);
             $httpBackend.flush();
         });
 
         it('should accept url not ending with slash', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '/' + SOME_ID))
-                .respond(200, page);
+            var $httpBackend = this.$httpBackend;
 
-            new OpenlmisResource(BASE_URL).get(SOME_ID);
+            $httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '/' + this.SOME_ID))
+                .respond(200, this.page);
+
+            new this.OpenlmisResource(this.BASE_URL).get(this.SOME_ID);
             $httpBackend.flush();
         });
 
@@ -70,24 +73,26 @@ describe('OpenlmisResource', function() {
 
     describe('query for page', function() {
 
-        var params, pageTwo;
-
         beforeEach(function() {
-            openlmisResource = new OpenlmisResource(BASE_URL);
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL);
 
-            parameterSplitterMock.split.andReturn([{
+            this.params = {
+                some: 'param'
+            };
+
+            this.parameterSplitterMock.split.andReturn([{
                 some: ['paramOne']
             }, {
                 some: ['paramTwo']
             }]);
 
-            page = PageDataBuilder.buildWithContent([{
+            this.page = this.PageDataBuilder.buildWithContent([{
                 id: 'obj-one'
             }, {
                 id: 'obj-two'
             }]);
 
-            pageTwo = PageDataBuilder.buildWithContent([{
+            this.pageTwo = this.PageDataBuilder.buildWithContent([{
                 id: 'obj-three'
             }, {
                 id: 'obj-four'
@@ -95,108 +100,111 @@ describe('OpenlmisResource', function() {
         });
 
         it('should return page if only one request was sent', function() {
-            var params = {
-                some: 'param'
-            };
+            this.parameterSplitterMock.split.andReturn([this.params]);
 
-            parameterSplitterMock.split.andReturn([params]);
-
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=param'))
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=param'))
+                .respond(200, this.page);
 
             var result;
-            openlmisResource.query(params)
+            this.openlmisResource.query(this.params)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.page));
         });
 
         it('should reject if any of the requests fails', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
+                .respond(200, this.page);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramTwo'))
                 .respond(500);
 
             var rejected;
-            openlmisResource.query(params)
+            this.openlmisResource
+                .query({
+                    some: 'param'
+                })
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should return merged page if multiple requests were sent', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
+                .respond(200, this.page);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
-                .respond(200, pageTwo);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramTwo'))
+                .respond(200, this.pageTwo);
 
             var result;
-            openlmisResource.query(params)
+            this.openlmisResource.query(this.params)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(result.content).toEqual([page.content[0], page.content[1], pageTwo.content[0], pageTwo.content[1]]);
+            expect(result.content).toEqual([
+                this.page.content[0],
+                this.page.content[1],
+                this.pageTwo.content[0],
+                this.pageTwo.content[1]
+            ]);
+
             expect(result.numberOfElements).toEqual(4);
             expect(result.totalElements).toEqual(4);
-            expect(result.size).toEqual(page.size);
+            expect(result.size).toEqual(this.page.size);
         });
 
         it('should return response if params are not defined', function() {
-            parameterSplitterMock.split.andReturn([undefined]);
+            this.parameterSplitterMock.split.andReturn([undefined]);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL))
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL))
+                .respond(200, this.page);
 
             var result;
-            openlmisResource.query()
+            this.openlmisResource.query()
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.page));
         });
 
     });
 
     describe('query for list', function() {
 
-        var params, response, responseTwo;
-
         beforeEach(function() {
-            openlmisResource = new OpenlmisResource(BASE_URL, {
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 paginated: false
             });
 
-            parameterSplitterMock.split.andReturn([{
+            this.parameterSplitterMock.split.andReturn([{
                 some: ['paramOne']
             }, {
                 some: ['paramTwo']
             }]);
 
-            response = [{
+            this.response = [{
                 id: 'obj-one'
             }, {
                 id: 'obj-two'
             }];
 
-            responseTwo = [{
+            this.responseTwo = [{
                 id: 'obj-three'
             }, {
                 id: 'obj-four'
@@ -208,111 +216,114 @@ describe('OpenlmisResource', function() {
                 some: 'param'
             };
 
-            parameterSplitterMock.split.andReturn([params]);
+            this.parameterSplitterMock.split.andReturn([params]);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=param'))
-                .respond(200, response);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=param'))
+                .respond(200, this.response);
 
             var result;
-            openlmisResource.query(params)
+            this.openlmisResource.query(params)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.response));
         });
 
         it('should reject if any of the requests fails', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
-                .respond(200, response);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
+                .respond(200, this.response);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramTwo'))
                 .respond(500);
 
             var rejected;
-            openlmisResource.query(params)
+            this.openlmisResource.query(this.params)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should return merged list if multiple requests were sent', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramOne'))
-                .respond(200, response);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
+                .respond(200, this.response);
 
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '?some=paramTwo'))
-                .respond(200, responseTwo);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramTwo'))
+                .respond(200, this.responseTwo);
 
             var result;
-            openlmisResource.query(params)
+            this.openlmisResource.query(this.params)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(angular.toJson(result))
-                .toEqual(angular.toJson([response[0], response[1], responseTwo[0], responseTwo[1]]));
+                .toEqual(angular.toJson([
+                    this.response[0],
+                    this.response[1],
+                    this.responseTwo[0],
+                    this.responseTwo[1]
+                ]));
         });
 
     });
 
     describe('get', function() {
 
-        var response;
-
         beforeEach(function() {
-            response = {
+            this.response = {
                 id: 'some-id',
                 some: 'test-object'
             };
         });
 
         it('should resolve to server response on successful request', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '/' + response.id))
-                .respond(200, response);
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '/' + this.response.id))
+                .respond(200, this.response);
 
             var result;
-            openlmisResource.get(response.id)
+            this.openlmisResource.get(this.response.id)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.response));
         });
 
         it('should reject on failed request', function() {
-            $httpBackend
-                .expectGET(openlmisUrlFactory(BASE_URL + '/' + response.id))
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '/' + this.response.id))
                 .respond(400);
 
             var rejected;
-            openlmisResource.get(response.id)
+            this.openlmisResource.get(this.response.id)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should reject if null was given', function() {
             var rejected;
-            openlmisResource.get()
+            this.openlmisResource.get()
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBe(true);
         });
@@ -321,56 +332,54 @@ describe('OpenlmisResource', function() {
 
     describe('create', function() {
 
-        var response, object;
-
         beforeEach(function() {
-            response = {
+            this.response = {
                 id: 'some-id',
                 some: 'test-response'
             };
 
-            object = {
+            this.object = {
                 some: 'test-response'
             };
         });
 
         it('should resolve to server response on successful request', function() {
-            $httpBackend
-                .expectPOST(openlmisUrlFactory(BASE_URL), object)
-                .respond(200, response);
+            this.$httpBackend
+                .expectPOST(this.openlmisUrlFactory(this.BASE_URL), this.object)
+                .respond(200, this.response);
 
             var result;
-            openlmisResource.create(object)
+            this.openlmisResource.create(this.object)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.response));
         });
 
         it('should reject on failed request', function() {
-            $httpBackend
-                .expectPOST(openlmisUrlFactory(BASE_URL), object)
+            this.$httpBackend
+                .expectPOST(this.openlmisUrlFactory(this.BASE_URL), this.object)
                 .respond(400);
 
             var rejected;
-            openlmisResource.create(object)
+            this.openlmisResource.create(this.object)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should reject if null was given', function() {
             var rejected;
-            openlmisResource.create()
+            this.openlmisResource.create()
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBe(true);
         });
@@ -379,10 +388,8 @@ describe('OpenlmisResource', function() {
 
     describe('update', function() {
 
-        var object;
-
         beforeEach(function() {
-            object = {
+            this.object = {
                 id: 'some-id',
                 some: 'test-response',
                 customId: 'custom-id-value'
@@ -390,56 +397,57 @@ describe('OpenlmisResource', function() {
         });
 
         it('should resolve to server response on successful request', function() {
-            $httpBackend
-                .expectPUT(openlmisUrlFactory(BASE_URL + '/' + object.id), object)
-                .respond(200, object);
+            this.$httpBackend
+                .expectPUT(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.id), this.object)
+                .respond(200, this.object);
 
             var result;
-            openlmisResource.update(object)
+            this.openlmisResource.update(this.object)
                 .then(function(object) {
                     result = object;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(object));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.object));
         });
 
         it('should reject on failed request', function() {
-            $httpBackend
-                .expectPUT(openlmisUrlFactory(BASE_URL + '/' + object.id), object)
+            this.$httpBackend
+                .expectPUT(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.id), this.object)
                 .respond(400);
 
             var rejected;
-            openlmisResource.update(object)
+            this.openlmisResource.update(this.object)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should reject if null was given', function() {
             var rejected;
-            openlmisResource.update()
+            this.openlmisResource.update()
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBe(true);
         });
 
         it('should respect idParam option', function() {
-            openlmisResource = new OpenlmisResource(BASE_URL, {
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 idParam: 'customId'
             });
 
+            var $httpBackend = this.$httpBackend;
             $httpBackend
-                .expectPUT(openlmisUrlFactory(BASE_URL + '/' + object.customId), object)
-                .respond(200, object);
+                .expectPUT(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.customId), this.object)
+                .respond(200, this.object);
 
-            openlmisResource.update(object);
+            this.openlmisResource.update(this.object);
             $httpBackend.flush();
         });
 
@@ -447,10 +455,8 @@ describe('OpenlmisResource', function() {
 
     describe('delete', function() {
 
-        var object;
-
         beforeEach(function() {
-            object = {
+            this.object = {
                 id: 'some-id',
                 some: 'test-object',
                 customId: 'custom-id-value'
@@ -458,56 +464,57 @@ describe('OpenlmisResource', function() {
         });
 
         it('should resolve on successful request', function() {
-            $httpBackend
-                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.id))
+            this.$httpBackend
+                .expectDELETE(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.id))
                 .respond(200);
 
             var resolved;
-            openlmisResource.delete(object)
+            this.openlmisResource.delete(this.object)
                 .then(function() {
                     resolved = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(resolved).toEqual(true);
         });
 
         it('should reject on failed request', function() {
-            $httpBackend
-                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.id))
+            this.$httpBackend
+                .expectDELETE(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.id))
                 .respond(400);
 
             var rejected;
-            openlmisResource.delete(object)
+            this.openlmisResource.delete(this.object)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should reject if null was given', function() {
             var rejected;
-            openlmisResource.delete()
+            this.openlmisResource.delete()
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBe(true);
         });
 
         it('should respect idParam option', function() {
-            openlmisResource = new OpenlmisResource(BASE_URL, {
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 idParam: 'customId'
             });
 
+            var $httpBackend = this.$httpBackend;
             $httpBackend
-                .expectDELETE(openlmisUrlFactory(BASE_URL + '/' + object.customId))
+                .expectDELETE(this.openlmisUrlFactory(this.BASE_URL + '/' + this.object.customId))
                 .respond(200);
 
-            openlmisResource.delete(object);
+            this.openlmisResource.delete(this.object);
             $httpBackend.flush();
         });
 
@@ -516,6 +523,8 @@ describe('OpenlmisResource', function() {
     describe('throwMethodNotSupported', function() {
 
         it('should throw error', function() {
+            var openlmisResource = this.openlmisResource;
+
             expect(function() {
                 openlmisResource.throwMethodNotSupported();
             }).toThrow('Method not supported');
@@ -524,8 +533,8 @@ describe('OpenlmisResource', function() {
     });
 
     afterEach(function() {
-        $httpBackend.verifyNoOutstandingRequest();
-        $httpBackend.verifyNoOutstandingExpectation();
+        this.$httpBackend.verifyNoOutstandingRequest();
+        this.$httpBackend.verifyNoOutstandingExpectation();
     });
 
 });
