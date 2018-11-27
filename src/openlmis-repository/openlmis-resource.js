@@ -34,6 +34,7 @@
 
         OpenlmisResource.prototype.query = query;
         OpenlmisResource.prototype.get = get;
+        OpenlmisResource.prototype.getAll = getAll;
         OpenlmisResource.prototype.update = update;
         OpenlmisResource.prototype.create = create;
         OpenlmisResource.prototype.delete = deleteObject;
@@ -59,6 +60,7 @@
          */
         function OpenlmisResource(uri, config) {
             this.uri = uri;
+            this.config = config;
             var resourceUrl = uri;
 
             if (uri.slice(-1) === '/') {
@@ -100,6 +102,25 @@
                 }).$promise;
             }
             return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
+         * @name getAll
+         *
+         * @description
+         * Return the response of the GET request in a form of a list. Passes the given object as request parameters.
+         *
+         * @param  {Object}  params the map of request parameters
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails
+         */
+        function getAll(params) {
+            var config = this.config;
+            return this.query(params)
+                .then(function(response) {
+                    return isPaginated(config) ? response.content : response;
+                });
         }
 
         /**

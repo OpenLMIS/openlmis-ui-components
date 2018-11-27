@@ -29,6 +29,7 @@ describe('OpenlmisResource', function() {
         });
 
         inject(function($injector) {
+            this.$q = $injector.get('$q');
             this.$httpBackend = $injector.get('$httpBackend');
             this.$rootScope = $injector.get('$rootScope');
             this.OpenlmisResource = $injector.get('OpenlmisResource');
@@ -516,6 +517,84 @@ describe('OpenlmisResource', function() {
 
             this.openlmisResource.delete(this.object);
             $httpBackend.flush();
+        });
+
+    });
+
+    describe('getAll for list', function() {
+
+        beforeEach(function() {
+            this.response = [{
+                id: 'obj-one'
+            }, {
+                id: 'obj-two'
+            }];
+
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
+                paginated: false
+            });
+
+            spyOn(this.openlmisResource, 'query').andReturn(this.$q.resolve(this.response));
+        });
+
+        it('should call query', function() {
+            var params = {
+                paramOne: 'paramOne'
+            };
+
+            this.openlmisResource.getAll(params);
+            this.$rootScope.$apply();
+
+            expect(this.openlmisResource.query).toHaveBeenCalledWith(params);
+        });
+
+        it('should return the list', function() {
+            var result;
+            this.openlmisResource.getAll()
+                .then(function(list) {
+                    result = list;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.response);
+        });
+
+    });
+
+    describe('getAll for page', function() {
+
+        beforeEach(function() {
+            this.page = this.PageDataBuilder.buildWithContent([{
+                id: 'obj-one'
+            }, {
+                id: 'obj-two'
+            }]);
+
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL);
+
+            spyOn(this.openlmisResource, 'query').andReturn(this.$q.resolve(this.page));
+        });
+
+        it('should call query', function() {
+            var params = {
+                paramOne: 'paramOne'
+            };
+
+            this.openlmisResource.getAll(params);
+            this.$rootScope.$apply();
+
+            expect(this.openlmisResource.query).toHaveBeenCalledWith(params);
+        });
+
+        it('should return the list', function() {
+            var result;
+            this.openlmisResource.getAll()
+                .then(function(list) {
+                    result = list;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.page.content);
         });
 
     });
