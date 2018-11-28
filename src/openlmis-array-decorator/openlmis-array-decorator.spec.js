@@ -22,17 +22,24 @@ describe('OpenlmisArrayDecorator', function() {
             this.OpenlmisArrayDecorator = $injector.get('OpenlmisArrayDecorator');
         });
 
-        this.objectsArray = [{
+        this.object = {
             id: 2
-        }, {
-            id: 0
-        }, {
-            id: 2
-        }, {
-            id: 1
-        }, {
-            id: 3
-        }];
+        };
+
+        this.objectsArray = [
+            this.object,
+            {
+                id: 0
+            },
+            this.object,
+            {
+                id: 1
+            },
+            {
+                id: 3
+            },
+            angular.copy(this.object)
+        ];
 
         spyOn(console, 'warn');
     });
@@ -114,7 +121,8 @@ describe('OpenlmisArrayDecorator', function() {
 
             expect(result).toEqual([
                 this.objectsArray[0],
-                this.objectsArray[2]
+                this.objectsArray[2],
+                this.objectsArray[5]
             ]);
         });
 
@@ -196,6 +204,25 @@ describe('OpenlmisArrayDecorator', function() {
             expect(function() {
                 decoratedObjectsArray.getById(undefined);
             }).toThrow('Given ID is undefined');
+        });
+
+    });
+
+    describe('getAllWithUniqueIds', function() {
+
+        beforeEach(function() {
+            this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(this.objectsArray);
+        });
+
+        it('should return without duplicates', function() {
+            var result = this.decoratedObjectsArray.getAllWithUniqueIds();
+
+            expect(result).toEqual([
+                this.objectsArray[0],
+                this.objectsArray[1],
+                this.objectsArray[3],
+                this.objectsArray[4]
+            ]);
         });
 
     });

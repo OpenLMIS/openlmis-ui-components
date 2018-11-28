@@ -41,17 +41,9 @@
             validator.validateExists(array, 'Given array is undefined');
             validator.validateInstanceOf(array, Array, 'Given object is not an instance of Array');
 
-            if (array.filterById) {
-                console.warn('Given array already has filterById method');
-            } else {
-                array.filterById = filterById;
-            }
-
-            if (array.getById) {
-                console.warn('Given array already has getById method');
-            } else {
-                array.getById = getById;
-            }
+            extendWith(array, 'filterById', filterById);
+            extendWith(array, 'getById', getById);
+            extendWith(array, 'getAllWithUniqueIds', getAllWithUniqueIds);
 
             return array;
         }
@@ -93,6 +85,40 @@
             validator.validateLesserThan(filtered.length, 2, 'Array contains multiple objects with the same ID');
 
             return filtered[0];
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name getAllWithUniqueIds
+         *
+         * @description
+         * Return a list of items with unique IDs.
+         *
+         * @return {Array}  the list of items with unique ids
+         */
+        function getAllWithUniqueIds() {
+            var filtered = [];
+
+            this.forEach(function(item) {
+                var existing = filtered.filter(function(filtered) {
+                    return filtered.id === item.id;
+                });
+
+                if (!existing.length) {
+                    filtered.push(item);
+                }
+            });
+
+            return filtered;
+        }
+
+        function extendWith(array, fnName, fn) {
+            if (array[fnName]) {
+                console.warn('Given array already has ' + fnName + ' method');
+            } else {
+                array[fnName] = fn;
+            }
         }
 
     }
