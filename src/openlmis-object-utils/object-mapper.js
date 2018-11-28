@@ -28,9 +28,7 @@
         .module('openlmis-object-utils')
         .factory('ObjectMapper', ObjectMapper);
 
-    ObjectMapper.inject = ['$q'];
-
-    function ObjectMapper($q) {
+    function ObjectMapper() {
 
         ObjectMapper.prototype.map = map;
 
@@ -65,7 +63,7 @@
                 return map;
             }, {});
 
-            return $q.resolve(map);
+            return map;
         }
 
     }

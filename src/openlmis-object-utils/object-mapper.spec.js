@@ -15,17 +15,15 @@
 
 describe('ObjectMapper', function() {
 
-    var ObjectMapper, $rootScope, objectMapper, objectList;
-
     beforeEach(function() {
         module('openlmis-object-utils');
 
+        var ObjectMapper;
         inject(function($injector) {
             ObjectMapper = $injector.get('ObjectMapper');
-            $rootScope = $injector.get('$rootScope');
         });
 
-        objectList = [
+        this.objectList = [
             {
                 id: '1',
                 name: 'Name1'
@@ -35,35 +33,23 @@ describe('ObjectMapper', function() {
             }
         ];
 
-        objectMapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper();
     });
 
     describe('map', function() {
 
         it('should map objects to id', function() {
-            var result;
+            var result = this.objectMapper.map(this.objectList);
 
-            objectMapper.map(objectList)
-                .then(function(response) {
-                    result = response;
-                });
-            $rootScope.$apply();
-
-            expect(result[objectList[0].id]).toEqual(objectList[0]);
-            expect(result[objectList[1].id]).toEqual(objectList[1]);
+            expect(result[this.objectList[0].id]).toEqual(this.objectList[0]);
+            expect(result[this.objectList[1].id]).toEqual(this.objectList[1]);
         });
 
         it('should map property to id if the property name was given', function() {
-            var result;
+            var result = this.objectMapper.map(this.objectList, 'name');
 
-            objectMapper.map(objectList, 'name')
-                .then(function(response) {
-                    result = response;
-                });
-            $rootScope.$apply();
-
-            expect(result[objectList[0].id]).toEqual(objectList[0].name);
-            expect(result[objectList[1].id]).toEqual(objectList[1].name);
+            expect(result[this.objectList[0].id]).toEqual(this.objectList[0].name);
+            expect(result[this.objectList[1].id]).toEqual(this.objectList[1].name);
         });
 
     });
