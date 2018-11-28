@@ -11,6 +11,7 @@ New functionality added in a backwards-compatible manner:
   * Extended OpenlmisResource with the getAll method.
   * Made ObjectMapper.map method synchronous.
   * Extended OpenlmisArrayDecorator with getAllWithUniqueIds method.
+  * Changed the condition for when page should be reloaded when using pagination.
 
 Improvements:
 * [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.

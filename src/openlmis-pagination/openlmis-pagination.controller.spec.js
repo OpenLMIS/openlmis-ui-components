@@ -102,7 +102,7 @@ describe('PaginationController', function() {
                 customPageParamName: 4,
                 size: 2
             }, {
-                reload: $state.current.name,
+                reload: true,
                 notify: true
             });
         });
@@ -130,7 +130,7 @@ describe('PaginationController', function() {
                 customPageParamName: 4,
                 size: 2
             }, {
-                reload: $state.current.name,
+                reload: false,
                 notify: false
             });
         });
