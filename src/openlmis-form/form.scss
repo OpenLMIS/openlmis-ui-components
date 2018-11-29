@@ -139,11 +139,6 @@ form {
 	div.checkbox > label {
         width: 100%
     }
-
-    .note {
-        font-size: 1em;
-        font-style: italic;
-    }
 }
 
 .form-label {
@@ -195,4 +190,15 @@ input[type="number"] {
 
 input.date {
     text-align: left;
+}
+
+.note {
+    font-size: 1em;
+    font-style: italic;
+}
+
+form + label,
+section + label {
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
 }
