@@ -1,7 +1,7 @@
 version: "2"
 services:
   ui-components:
-    image: openlmis/dev-ui:8.1.0-SNAPSHOT
+    image: openlmis/dev-ui:8.1.0-RC1
     ports:
       - "9000:9000"
       - "9876:9876"
