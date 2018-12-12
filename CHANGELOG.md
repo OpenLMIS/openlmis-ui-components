@@ -1,5 +1,5 @@
-7.0.0 / Work in Progress
-========================
+7.0.0 / 2018-12-12
+==================
 
 Breaking changes:
 * [OLMIS-5409](https://openlmis.atlassian.net/browse/OLMIS-5409): Changed syntax for using sort component.
