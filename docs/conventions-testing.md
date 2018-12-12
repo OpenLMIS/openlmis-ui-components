@@ -4,7 +4,7 @@ A unit tests has 3 goals that it should accomplish to test a javascript object:
 * Tests as few objects as possible
 * Demonstrates how an object should be used
 
-With those 3 goals in mind, its important to realize that the variety of AngularJS object types means that the same approact won't work for each and every object. Since the OpenLMIS-UI coding conventions layout patterns for different types of AngularJS objects, it's also possible to illustrate how to unit test objects that follow those conventions.
+With those 3 goals in mind, its important to realize that the variety of AngularJS object types means that the same approach won't work for each and every object. Since the OpenLMIS-UI coding conventions layout patterns for different types of AngularJS objects, it's also possible to illustrate how to unit test objects that follow those conventions.
 
 Check out [AngularJS's unit testing guide](https://docs.angularjs.org/guide/unit-testing), its well written and many of out tests follow their styles.
 

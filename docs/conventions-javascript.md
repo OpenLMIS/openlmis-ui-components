@@ -3,15 +3,15 @@ This document describes the desired formatting to be used within the OpenLMIS-UI
 
 ## General
 The following conventions should be applied to all sections of UI development:
-* All intentation should be 4 spaces
+* All indentation should be 4 spaces
 * Legacy code should be refactored to meet coding conventions
-* No thrid party libraries should be included in a OpenLMIS-UI repository
+* No third party libraries should be included in a OpenLMIS-UI repository
 
 ## File Structure
 All file types should be organized together within the `src` directory according to functionality, not file type — the goal is to keep related files together.
 
 Use the following conventions:
-* File names are lowercase and dash-seperated
+* File names are lowercase and dash-separated
 * Files in a directory should be as flat as possible (avoid sub-directories)
 * If there are more than 12 files in a directory, try to divide files into subdirectories based on functional area
 
@@ -24,8 +24,8 @@ Generally, all file names should use the following format `specific-name.file-ty
 * `ext` is the extension of the file (ie '.js', '.scss')
 
 Folder structure should aim to follow the [LIFT principal](https://github.com/johnpapa/angular-styleguide/tree/master/a1#application-structure-lift-principle) as closely as possible, with a couple extra notes:
-* There should only be one *.module.js file per directory hiearchy
-* Only consider creating a sub-directory if file names are long and repatitive, such that a sub-directory would improve meaning
+* There should only be one *.module.js file per directory hierarchy
+* Only consider creating a sub-directory if file names are long and repetitive, such that a sub-directory would improve meaning
 *Each file type section below has specifics on their naming conventions*
 
 
@@ -33,7 +33,7 @@ Folder structure should aim to follow the [LIFT principal](https://github.com/jo
 Almost everything in the OpenLMIS-UI is Javascript. These are general guidelines for how to write and test your code.
 
 General conventions:
-* All code should be within an [immedately invoked scope](https://github.com/johnpapa/angular-styleguide/tree/master/a1#iife)
+* All code should be within an [immediately invoked scope](https://github.com/johnpapa/angular-styleguide/tree/master/a1#iife)
 * *ONLY ONE OBJECT PER FILE*
 * Variable and function names should be written in camelCase
 * All Angular object names should be written in CamelCase
@@ -112,54 +112,20 @@ Properties should have parameters like in the following example:
 
 
 ## Constants
-Constants are Javascript variables that won't change but need to be resued between multiple objects within an Angular module. Using constants is important because it becomes possible to track an objects dependencies, rather than use variables set on the global scope.
+Constants are Javascript variables that won't change but need to be reused between multiple objects within an Angular module. Using constants is important because it becomes possible to track an objects dependencies, rather than use variables set on the global scope.
 
-It's also [useful to wrap 3rd party objects and libraries](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#vendor-globals) (like jQuery or bootbox) as an Angular constant. This is useful because the dependency is declared on the object. Another useful feature is that if the library or object isn't included, Angualr will throw a single verbose error message.
+It's also [useful to wrap 3rd party objects and libraries](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#vendor-globals) (like jQuery or bootbox) as an Angular constant. This is useful because the dependency is declared on the object. Another useful feature is that if the library or object isn't included, Angular will throw a single verbose error message.
 
 *Add rule about when its ok to add a group of constants -- if a grouping of values, use a plural name*
 
 *Conventions:*
 * All constant variable names should be upper case and use underscores instead of spaces (ie VARIABLE_NAME)
-* If a constant is only relivant to a single Angular object, set it as a variable inside the scope, not as an Angular constant
+* If a constant is only relevant to a single Angular object, set it as a variable inside the scope, not as an Angular constant
 * If the constant value needs to change depending on build variables, format the value like @@VARIABLE_VALUE, and which should be replaced by the grunt build process if there is a matching value
 * Wrap 3rd party services as constants, if are not already registered with Angular
 
 ### Replaced Values
 @@ should set own default values
-
-## Factory
-Factories should be the most used Angular object type in any application. [John Papa insists that factories serve a single purpose](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md#factories) and should be extended by variabled they are called with.
-
-This means that factories should generally return a function that will return an object or set of objects that can be manipulated. It is common for a factory to include methods for interacting with a server, but this isn't necessary.
-
-_Should be used with UI-Router resolves, and get additional arguments_
-
-### Naming Convention
-_**specificName**Factory_
-
-Factories should always be named lowercase camelCase. To avoid confussion between created objects and factories, all factories should have the word'Factory' appended to the end (this disagrees with John-Papa style).  
-
-### Example
-
-```
-angular.module('openlmis-sample')
-    .factory('sampleFactory', sample);
-
-sample.$inject = [];
-function sample(){
-	var savedContext;
-
-	return {
-		method: method,
-		otherMethod: otherMethod
-	}
-}
-```
-
-*Unit Testing Conventions*
-Test a factory much like you would test a service, except be sure to:
-* Declare a new factory at the start of every test
-* Exercise the produced object, not just the callback function
 
 ## Interceptor
 This section is about events and messages, and how to modify them.
@@ -168,10 +134,10 @@ HTTP Interceptors are technically factories that have been configured to 'interc
 
 *Keep all objects in a single file - so its easier to understand the actions that are being taken*
 
-The Angular guide to writting [HTTP Interceptors is here](https://docs.angularjs.org/api/ng/service/$http#interceptors)
+The Angular guide to writing [HTTP Interceptors is here](https://docs.angularjs.org/api/ng/service/$http#interceptors)
 
 ### General Conventions
-* Write interceptors so they only chanage a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
+* Write interceptors so they only change a request on certain conditions, so other unit tests don't have to be modified for the interceptors conditions
 * Don't include HTTP Interceptors in openlmis-core, as the interceptor might be injected into all other unit tests — which could break everything
 
 ### Unit Testing Conventions
@@ -223,11 +189,202 @@ Always lowercase camelCase the name of the object. Append 'Service' to the end o
 ```
 beforeEach(module($provide){
 	// mock out a tape recorder service, which is used else where
-	tape = jasmine.createSpyObj('tape', ['play', 'pause', 'stop', 'rewind']);
+	this.tape = jasmine.createSpyObj('tape', ['play', 'pause', 'stop', 'rewind']);
 
 	// overwrite an existing service
+	var tape = this.tape;
 	$provide.service('TapeRecorderService', function(){
 		return tape;
 	});
 });
+```
+
+## Class
+
+Class is a our custom pattern that was designed to make our codebase easier to migrate to ES6 once we add support for it as it mimics how the ES6 classes looks like.
+
+When to use:
+* factories,
+* services,
+* domain classes that define some logic.
+
+When not to use:
+* interceptors,
+* domain objects that does not have any logic.
+
+### How to define
+```Javascript
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc service
+     * @name module-name.ClassName
+     *
+     * @description
+     * Example class.
+     */
+    angular
+        .module('module-name')
+        .factory('ClassName', ClassName);
+
+    function ClassName() {
+
+        ClassName.prototype.exampleMethod = exampleMethod;
+
+        return ClassName;
+
+        /**
+         * @ngdoc method
+         * @methodOf module-name.ClassName
+         * @name ClassName
+         *
+         * @description
+         * Creates a new instance of the ClassName class.
+         *
+         * @param  {Object}  parameter the constructor parameter
+         * @return {Object}            the object of the ClassName class
+         */
+        function ClassName(parameter) {
+            this.parameter = parameter;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf module-name.ClassName
+         * @name exampleMethod
+         *
+         * @description
+         * Creates a new instance of the ClassName class.
+         *
+         * @param  {Object}  parameter the method parameter
+         * @return {Object}            the result of the method
+         */
+        function exampleMethod() {
+            //do something
+        }
+    }
+
+})();
+```
+
+### Extending classes
+
+In order to extend a class we can use the classExtender factory that deals will basic prototype extension.
+
+```Javascript
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc service
+     * @name module-name.ClassName
+     *
+     * @description
+     * Example extending class class.
+     */
+    angular
+        .module('shipment')
+        .factory('ExtendingClass', ExtendingClass);
+
+    ExtendingClass.$inject = ['ExtendedClass', 'classExtender'];
+
+    function ExtendingClass(ExtendedClass, classExtender) {
+
+        classExtender.extend(ExtendingClass, ExtendedClass);
+
+        return ExtendingClass;
+
+        function ExtendingClass() {
+            //add the following line to call the constructor of the super class
+            this.super.apply(this, arguments);
+        }
+    }
+
+})();
+```
+
+### Singletons
+
+In order to create a singleton we should still elevate AngularJS dependency injection capabilities. The className object will be shared across the whole application and can be injected using AngularJS dependency injection.
+
+```Javascript
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc service
+     * @name module-name.ClassName
+     *
+     * @description
+     * Example class.
+     */
+    angular
+        .module('module-name')
+        .factory('ClassName', ClassName);
+
+    function ClassName() {
+
+        ClassName.prototype.exampleMethod = exampleMethod;
+
+        return ClassName;
+
+        /**
+         * @ngdoc method
+         * @methodOf module-name.ClassName
+         * @name ClassName
+         *
+         * @description
+         * Creates a new instance of the ClassName class.
+         *
+         * @param  {Object}  parameter the constructor parameter
+         * @return {Object}            the object of the ClassName class
+         */
+        function ClassName(parameter) {
+            this.parameter = parameter;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf module-name.ClassName
+         * @name exampleMethod
+         *
+         * @description
+         * Creates a new instance of the ClassName class.
+         *
+         * @param  {Object}  parameter the method parameter
+         * @return {Object}            the result of the method
+         */
+        function exampleMethod() {
+            //do something
+        }
+    }
+
+})();
+
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc service
+     * @name module-name.ClassName
+     *
+     * @description
+     * Example class.
+     */
+    angular
+        .module('module-name')
+        .factory('className', className);
+
+    className.$inject = ['ClassName'];
+
+    function className(ClassName) {
+        return new ClassName();
+    }
+
+})();
 ```

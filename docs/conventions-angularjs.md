@@ -42,12 +42,11 @@ that the controller exposes.
 
 ```
 /**
- * @ngdoc service
+ * @ngdoc controller
  * @name module-name.controller:controllerName
  *
  * @description
  * Controller description.
- *
  */
 ```
 
@@ -55,19 +54,20 @@ that the controller exposes.
 ## Directive
 Directives are pieces of HTML markup that have been extended to do a certain function. *This is the only place where it is reasonable to manipulate the DOM*.
 
-*Make disticntion between directive and component -- components use E tag and isolate scope, directive use C and never isolate scope*
+*Make distinction between directive and component -- components use E tag and isolate scope, directive use C and never isolate scope*
 
 ### Conventions
 * Restrict directives to only elements or attributes
 * Don't use an isolated scope unless you absolutely have to
-* If the directive needs extenal information, use a controller — don't manipulate data in a link function
+* If the directive needs external information, use a controller — don't manipulate data in a link function
 
 ### Unit Testing
-The bit secrect when unit testing a directive is to make sure to use the $compile function to return an element that is extended with jQuery. Once you have this object you will be able to interact with the directive by clicking, hovering, or triggering other DOM events.
+The bit secret when unit testing a directive is to make sure to use the $compile function to return an element that is extended with jQuery. Once you have this object you will be able to interact with the directive by clicking, hovering, or triggering other DOM events.
 
 ```
-describe('SampleDirective', function(){
-	it('gets compiled and shows the selected item name', function($compile, $rootScope){
+describe('SampleDirective', function() {
+
+	it('gets compiled and shows the selected item name', function($compile, $rootScope) {
 		var scope = $rootScope.$new();
 		scope['item'] = {
 			name: "Sample Title"
@@ -76,7 +76,8 @@ describe('SampleDirective', function(){
 
 		expect(element.text()).toBe("Sample Title");
 	});
-	it('responds to being clicked', function($compile, $rootScope){
+
+	it('responds to being clicked', function($compile, $rootScope) {
 		var element = $compile("<sample-directive selected='item'></sample-directive>")($rootScope.$new());
 
 		// check before the action
@@ -87,6 +88,7 @@ describe('SampleDirective', function(){
 		// this could also be looking at a spy to see what the values are
 		expect(element.text()).toBe("I was clicked");
 	});
+
 });
 ```
 

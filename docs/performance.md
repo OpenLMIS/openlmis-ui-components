@@ -7,7 +7,7 @@ This set of conventions is about detecting, diagnosing, and fixing common
 performance issues that have been a problem in the OpenLMIS-UI.
 
 ## Blocking the DOM
-Use asynchronus Javascript (promises) so you don't block the thread. This will
+Use asynchronous Javascript (promises) so you don't block the thread. This will
 cause web browers to think the OpenLMIS-UI is crashing, and it will try to close
 the browser tab.
 

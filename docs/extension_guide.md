@@ -1,7 +1,7 @@
 # UI Extension Guide
-This document outlines how to extend the OpenLMIS-UI. The extension mechanims are presented by the type of extension an implementer wants to achieve, and has brief code samples — more detailed code samples are availble in the OpenLMIS-UI coding conventions.
+This document outlines how to extend the OpenLMIS-UI. The extension mechanism are presented by the type of extension an implementer wants to achieve, and has brief code samples — more detailed code samples are available in the OpenLMIS-UI coding conventions.
 
-**NOTE:** Implementers are encouraged to not override files to create maintainable extensions. There are definitely situations where it makes sense to quickly override a file to create desired functionality. Overriding files makes recieving or sharing working code with other OpenLMIS-UI repositories difficult, which is why this technique is discouraged.
+**NOTE:** Implementers are encouraged to not override files to create maintainable extensions. There are definitely situations where it makes sense to quickly override a file to create desired functionality. Overriding files makes receiving or sharing working code with other OpenLMIS-UI repositories difficult, which is why this technique is discouraged.
 
 *The extensions the OpenLMIS-UI supports are:*
 * **Content** such as specific message strings, images, or specific parts of HTML markup
@@ -15,7 +15,7 @@ To learn more about the types of files, and how they can be extended, see the Op
 Most of the content in the OpenLMIS-UI is returned from the OpenLMIS Services, which should be modified in the OpenLMIS Services themselves. Other forms of content are static messages and images used throughout the OpenLMIS-UI. 
 
 ### Messages
-Messages are translateable pieces of content that are a part of the OpenLMIS-UI. The best way to update a message is by configuring the OpenLMIS-UI to use your implementation's Transifex settings and editing the message directly in Transifex. What Transifex does is replace a message key, which is defined in the UI, with a human readable message. *This is how the OpenLMIS-UI supports multiple languages.*
+Messages are translatable pieces of content that are a part of the OpenLMIS-UI. The best way to update a message is by configuring the OpenLMIS-UI to use your implementation's Transifex settings and editing the message directly in Transifex. What Transifex does is replace a message key, which is defined in the UI, with a human readable message. *This is how the OpenLMIS-UI supports multiple languages.*
 
 See the example below:
 
@@ -54,7 +54,7 @@ body a {
 
 ```
 
-In addition to keeping the CSS simple, the OpenLMIS-UI uses SASS variables to implement colors and spacing across the UI, which means changing a color is as simple as declaring a variable. The OpenLMIS-UI's sass varibles follow a semantic naming pattern, and `!default` variables are implemented in smaller files, which make it easy to update patterns.
+In addition to keeping the CSS simple, the OpenLMIS-UI uses SASS variables to implement colors and spacing across the UI, which means changing a color is as simple as declaring a variable. The OpenLMIS-UI's sass variables follow a semantic naming pattern, and `!default` variables are implemented in smaller files, which make it easy to update patterns.
 
 To update Sass variables in a publishing image, create a file `src/variables.scss` and declare variables without `!default`
 ```
@@ -102,12 +102,12 @@ angular.module('custom-module').config(function($stateProvider){
 });
 ```
 
-**NOTE:** Adding new pages to the OpenLMIS-UI should mostly be done in source code images, if the page adds functionality. If the page is implementation specific it sould be added in a publishing image. 
+**NOTE:** Adding new pages to the OpenLMIS-UI should mostly be done in source code images, if the page adds functionality. If the page is implementation specific it should be added in a publishing image. 
 
 ### Replacing an Existing Screen
-We expect that some implementations will need to make small changes to existing pages within the OpenLMIS-UI that go beyond the previous extension techniques mentiond. The most simple method of replacing a screen is implicitly replacing the `*.routes.js` file where the route is defined. Overriding these files doesn't risk much technical debt, as these files are mostly configuration and rarely contain the definition of more than one screen.
+We expect that some implementations will need to make small changes to existing pages within the OpenLMIS-UI that go beyond the previous extension techniques mentioned. The most simple method of replacing a screen is implicitly replacing the `*.routes.js` file where the route is defined. Overriding these files doesn't risk much technical debt, as these files are mostly configuration and rarely contain the definition of more than one screen.
 
-A more complex alternative is to modify the UI-Router configuration at run-time, which would allow for very nuanced changes that require their own unique unit tests. The following example shows how to change a page's template depending on a user's access rights. **NOTE:** This is an invasive techinque, and should only be done if all other extension methods don't work
+A more complex alternative is to modify the UI-Router configuration at run-time, which would allow for very nuanced changes that require their own unique unit tests. The following example shows how to change a page's template depending on a user's access rights. **NOTE:** This is an invasive technique, and should only be done if all other extension methods don't work.
 
 ```javascript
 angular.module('custom-module').run(function($state){

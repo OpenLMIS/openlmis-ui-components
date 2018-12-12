@@ -6,7 +6,7 @@ The following document outlines how content, labels and messages should be displ
 The following are general stylistic rules for the OpenLMIS-UI, which implementers and developers should keep in mind while crafting content.
 
 ### Titles
-Titles include page titles, report titles, headings within a page (H2, H3, etc), and the subject line of email notifcations. Links in the main navigation menu are generally page titles. Most other strings that appear on-screen are Labels, Buttons or others described further below.
+Titles include page titles, report titles, headings within a page (H2, H3, etc), and the subject line of email notifications. Links in the main navigation menu are generally page titles. Most other strings that appear on-screen are Labels, Buttons or others described further below.
 
 Titles should be written so they describe a specific object and state. If there is a state that is being applied to the object in a title, the state is first in the present tense. The first letter of each word in a title should be capitalized, except for the articles of the sentence. Titles do not contain punctuation.
 
