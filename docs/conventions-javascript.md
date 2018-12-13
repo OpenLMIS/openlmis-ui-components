@@ -353,10 +353,9 @@ In order to create a singleton we should still elevate AngularJS dependency inje
          * @name exampleMethod
          *
          * @description
-         * Creates a new instance of the ClassName class.
+         * Description of the example method.
          *
-         * @param  {Object}  parameter the method parameter
-         * @return {Object}            the result of the method
+         * @return {Object}  the result of the method
          */
         function exampleMethod() {
             //do something
