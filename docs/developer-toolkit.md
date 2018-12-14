@@ -8,6 +8,8 @@ Index
 * [OpenlmisResource](#openlmisresource)
 * [OpenlmisRepository](#openlmisrepository)
 * [OpenlmisRepositoryImpl](#openlmisrepositoryimpl)
+* [ObjectMapper](#objectmapper)
+* [OpenlmisArrayDecorator](#openlmisarraydecorator)
 
 ## classExtender
 
@@ -431,7 +433,7 @@ Below is an example on how to create a sub-class of the OpenlmisResource.
          * @methodOf custom.CustomRepository
          * @name CustomRepository
          * @constructor
-         * 
+         *
          * @description
          * Creates an object of the CustomRepository class. It no implementation is provided it
          * will use an instance of the CustomResource class by default.
@@ -638,7 +640,7 @@ new UserResource(new UserResourceImpl());
          * @methodOf custom.UserRepository
          * @name UserRepository
          * @constructor
-         * 
+         *
          * @description
          * Creates an object of the UserRepository class. It no implementation is provided it
          * will use an instance of the UserRepositoryImpl class by default.
@@ -649,4 +651,85 @@ new UserResource(new UserResourceImpl());
     }
 
 })();
+```
+
+## ObjectMapper
+
+This small utility class is responsible for creating a map out of a list of object mapped by the specified field. As an
+example let's look at the following list.
+
+```Javascript
+var objects = [{
+        id: 'one',
+        field: 'value one'
+    }, {
+        id: 'two',
+        field: 'value two'
+    }, {
+        id: 'three',
+        field: 'value three'
+    }];
+```
+
+As an example we're going to map the list by id (it is a default field to map by). We can do it in the following way.
+
+```Javascript
+var objectsMap = new ObjectMapper().map(list);
+```
+
+In order to specify a custom field to map by you can do the following.
+
+```Javascript
+var objectsMap = new ObjectMapper().map(list, 'field');
+```
+
+As a result, we will get the following objects as a result.
+
+```Javascript
+//var objectsMap = new ObjectMapper().map(list);
+{
+    one: {
+        id: 'one',
+        field: 'value one'
+    },
+    two: {
+        id: 'two',
+        field: 'value two'
+    },
+    three: {
+        id: 'three',
+        field: 'value three'
+    }
+}
+
+//var objectsMap = new ObjectMapper().map(list, 'field');
+{
+    'value one': {
+        id: 'one',
+        field: 'value one'
+    },
+    'value two': {
+        id: 'two',
+        field: 'value two'
+    },
+    'value three': {
+        id: 'three',
+        field: 'value three'
+    }
+}
+```
+
+## OpenlmisArrayDecorator
+
+This utility class is responsible for extending lists with custom methods like searching by ID, filtering by ID and
+getting a list of unique objects from the list. Below is an example of the usage.
+
+```Javascript
+var list = [...];
+
+new OpenlmisArrayDecorator(list);
+
+list.filterById(id);
+list.getById(id);
+list.getAllWithUniqueIds();
 ```
