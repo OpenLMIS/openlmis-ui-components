@@ -1,5 +1,5 @@
 # UI Extension Guide
-This document outlines how to extend the OpenLMIS-UI. The extension mechanisms are presented by the type of extension an implementer wants to achieve, and has brief code samples — more detailed code samples are available in the OpenLMIS-UI coding conventions.
+This document outlines how to extend the OpenLMIS-UI. The extension mechanism are presented by the type of extension an implementer wants to achieve, and has brief code samples — more detailed code samples are available in the OpenLMIS-UI coding conventions.
 
 **NOTE:** Implementers are encouraged to not override files to create maintainable extensions. There are definitely situations where it makes sense to quickly override a file to create desired functionality. Overriding files makes receiving or sharing working code with other OpenLMIS-UI repositories difficult, which is why this technique is discouraged.
 

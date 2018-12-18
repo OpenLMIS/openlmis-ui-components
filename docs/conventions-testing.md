@@ -14,7 +14,7 @@ Here are some general rules to keep in mind while writing any unit tests:
 
 ### Defining variables
 
-The version of Jasmine we're using discourages using the define-block scoped variables as they might be causing memory leaks. In order to prevent that, it is suggested to use 'this' as a way of sharing variables between beforeEach, afterEach, inject and it blocks. Keep in mind that closures inside those block will have a different context and thus 'this' will refer to a different object. Below are two examples on how to and how to not write unit tests for OpenLMIS.
+The version of Jasmine we're using discourages using the define-block scoped variables as they might be causing memory leaks. In order to prevent it is suggested to use 'this' as a way of sharing variables between beforeEach, afterEach, inject and it blocks. Keep in mind that closures inside those block will have a different context and thus 'this' will refer to a different object. Below are two examples on how to and how to not write unit tests for OpenLMIS.
 
 #### Do
 

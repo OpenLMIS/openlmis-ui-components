@@ -392,7 +392,7 @@ Represents a single domain concept that has some logic and should not be created
 
 ### Usage
 
-Just like OpenlmisResource this class is designed to be sub-classed rather than being used on its own. However, here's an example on how to use it on its own.
+Just like OpenlmisResource this class is designed to be sub-classed rather than being used on it's own. However, here's an example on how to use it on its own.
 
 ```Javascript
 new OpenlmisResource(DomainClass, new OpenlmisResource('/api/domainClass'));

@@ -44,7 +44,7 @@ Angular allows HTML files to have variables and simple logic evaluated within th
 * Use filters to format variable output — don't format variables in a controller
 
 ## HTML Form Markup
-A goal for the OpenLMIS-UI is to keep business logic separated from styling, which allows for a more testable and extensible platform. Creating data entry forms is generally where logic and styling get tangled together because of the need to show error responses and validation in meaningful ways. [AngularJS has built-in features](https://docs.angularjs.org/guide/forms) to help foster this type of separation, and OpenLMIS-UI extends AngularJS's features to a basic set of error and validation features.
+A goal for the OpenLMIS-UI is to keep business logic separated from styling, which allows for a more testable and extendable platform. Creating data entry forms is generally where logic and styling get tangled together because of the need to show error responses and validation in meaningful ways. [AngularJS has built-in features](https://docs.angularjs.org/guide/forms) to help foster this type of separation, and OpenLMIS-UI extends AngularJS's features to a basic set of error and validation features.
 
 The goal here is to attempt to keep developers and other implementers from creating their own form submission and validation - which is too easy in Javascript frameworks like AngularJS.
 
