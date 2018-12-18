@@ -1,3 +1,9 @@
+7.0.1 / Work in Progress
+========================
+
+Improvements:
+* [OLMIS-5840](https://openlmis.atlassian.net/browse/OLMIS-5840): Added handling for the $stateChangePrevented event.
+
 7.0.0 / 2018-12-12
 ==================
 
