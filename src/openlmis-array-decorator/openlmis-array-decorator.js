@@ -44,6 +44,7 @@
             extendWith(array, 'filterById', filterById);
             extendWith(array, 'getById', getById);
             extendWith(array, 'getAllWithUniqueIds', getAllWithUniqueIds);
+            extendWith(array, 'sortBy', sortBy);
 
             return array;
         }
@@ -85,6 +86,30 @@
             validator.validateLesserThan(filtered.length, 2, 'Array contains multiple objects with the same ID');
 
             return filtered[0];
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name sortBy
+         *
+         * @description
+         * Sorts the array by the given property.
+         * 
+         * @param {String} propertyName  the name of the property to sort by.
+         */
+        function sortBy(propertyName) {
+            this.sort(function(a, b) {
+                if (a[propertyName] > b[propertyName]) {
+                    return 1;
+                }
+
+                if (a[propertyName] < b[propertyName]) {
+                    return -1;
+                }
+
+                return 0;
+            });
         }
 
         /**

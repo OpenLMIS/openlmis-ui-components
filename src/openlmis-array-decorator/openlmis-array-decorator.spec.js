@@ -23,20 +23,24 @@ describe('OpenlmisArrayDecorator', function() {
         });
 
         this.object = {
-            id: 2
+            id: 2,
+            property: 'other'
         };
 
         this.objectsArray = [
             this.object,
             {
-                id: 0
+                id: 0,
+                property: 'Middle Property'
             },
             this.object,
             {
-                id: 1
+                id: 1,
+                property: 'post Property'
             },
             {
-                id: 3
+                id: 3,
+                property: 'First property'
             },
             angular.copy(this.object)
         ];
@@ -204,6 +208,25 @@ describe('OpenlmisArrayDecorator', function() {
             expect(function() {
                 decoratedObjectsArray.getById(undefined);
             }).toThrow('Given ID is undefined');
+        });
+
+    });
+
+    describe('sortBy', function() {
+
+        beforeEach(function() {
+            this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(angular.copy(this.objectsArray));
+        });
+
+        it('should sort by given property', function() {
+            this.decoratedObjectsArray.sortBy('property');
+
+            expect(this.decoratedObjectsArray[0]).toEqual(this.objectsArray[4]);
+            expect(this.decoratedObjectsArray[1]).toEqual(this.objectsArray[1]);
+            expect(this.decoratedObjectsArray[2]).toEqual(this.objectsArray[0]);
+            expect(this.decoratedObjectsArray[3]).toEqual(this.objectsArray[2]);
+            expect(this.decoratedObjectsArray[4]).toEqual(this.objectsArray[5]);
+            expect(this.decoratedObjectsArray[5]).toEqual(this.objectsArray[3]);
         });
 
     });
