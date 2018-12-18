@@ -94,17 +94,20 @@
          * @name sortBy
          *
          * @description
-         * Sorts the array by the given property.
+         * Sorts the array by the given property in alphabetical order ignoring casing.
          * 
-         * @param {String} propertyName  the name of the property to sort by.
+         * @param {String} propertyName  the name of the property to sort by
          */
         function sortBy(propertyName) {
             this.sort(function(a, b) {
-                if (a[propertyName] > b[propertyName]) {
+                var aProperty = a[propertyName].toLowerCase(),
+                    bProperty = b[propertyName].toLowerCase();
+
+                if (aProperty > bProperty) {
                     return 1;
                 }
 
-                if (a[propertyName] < b[propertyName]) {
+                if (aProperty < bProperty) {
                     return -1;
                 }
 

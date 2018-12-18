@@ -42,7 +42,11 @@ describe('OpenlmisArrayDecorator', function() {
                 id: 3,
                 property: 'First property'
             },
-            angular.copy(this.object)
+            angular.copy(this.object),
+            {
+                id: 7,
+                property: 'latter property'
+            }
         ];
 
         spyOn(console, 'warn');
@@ -218,15 +222,16 @@ describe('OpenlmisArrayDecorator', function() {
             this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(angular.copy(this.objectsArray));
         });
 
-        it('should sort by given property', function() {
+        it('should sort by given property in alphabetical order ignoring casing', function() {
             this.decoratedObjectsArray.sortBy('property');
 
             expect(this.decoratedObjectsArray[0]).toEqual(this.objectsArray[4]);
-            expect(this.decoratedObjectsArray[1]).toEqual(this.objectsArray[1]);
-            expect(this.decoratedObjectsArray[2]).toEqual(this.objectsArray[0]);
-            expect(this.decoratedObjectsArray[3]).toEqual(this.objectsArray[2]);
-            expect(this.decoratedObjectsArray[4]).toEqual(this.objectsArray[5]);
-            expect(this.decoratedObjectsArray[5]).toEqual(this.objectsArray[3]);
+            expect(this.decoratedObjectsArray[1]).toEqual(this.objectsArray[6]);
+            expect(this.decoratedObjectsArray[2]).toEqual(this.objectsArray[1]);
+            expect(this.decoratedObjectsArray[3]).toEqual(this.objectsArray[0]);
+            expect(this.decoratedObjectsArray[4]).toEqual(this.objectsArray[2]);
+            expect(this.decoratedObjectsArray[5]).toEqual(this.objectsArray[5]);
+            expect(this.decoratedObjectsArray[6]).toEqual(this.objectsArray[3]);
         });
 
     });
@@ -244,7 +249,8 @@ describe('OpenlmisArrayDecorator', function() {
                 this.objectsArray[0],
                 this.objectsArray[1],
                 this.objectsArray[3],
-                this.objectsArray[4]
+                this.objectsArray[4],
+                this.objectsArray[6]
             ]);
         });
 
