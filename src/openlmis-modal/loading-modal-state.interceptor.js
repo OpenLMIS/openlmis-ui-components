@@ -28,22 +28,13 @@
         .run(stateInterceptorListeners);
 
     stateInterceptorListeners.$inject = ['$rootScope', 'loadingModalService'];
-
     function stateInterceptorListeners($rootScope, loadingModalService) {
-
-        $rootScope.$on('$stateChangeStart', openLoadingModal);
-        $rootScope.$on('$stateChangeSuccess', closeLoadingModal);
-        $rootScope.$on('$stateChangeError', closeLoadingModal);
-        $rootScope.$on('$stateNotFound', closeLoadingModal);
-        $rootScope.$on('$stateChangePrevented', closeLoadingModal);
-
-        function openLoadingModal() {
+        $rootScope.$on('$stateChangeStart', function() {
             loadingModalService.open(true);
-        }
-
-        function closeLoadingModal() {
-            loadingModalService.close();
-        }
+        });
+        $rootScope.$on('$stateChangeSuccess', loadingModalService.close);
+        $rootScope.$on('$stateChangeError', loadingModalService.close);
+        $rootScope.$on('$stateNotFound', loadingModalService.close);
     }
 
 })();
