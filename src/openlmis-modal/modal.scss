@@ -16,6 +16,11 @@
 		}
 	}
 
+	.modal-body > p {
+		overflow-wrap: break-word;
+		word-break: break-all;
+	}
+
 	.modal-footer{
 		@extend .button-group;
 		margin: 0px;
