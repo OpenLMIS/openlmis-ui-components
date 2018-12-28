@@ -4,6 +4,9 @@
 Improvements:
 * [OLMIS-5822](https://openlmis.atlassian.net/browse/OLMIS-5822): Extended the OpenlmisArrayDecorator with a sortBy class.
 
+Bug fixes:
+* [OLMIS-3987:](https://openlmis.atlassian.net/browse/OLMIS-3987) Fixed wrapping long text in modals.
+
 7.0.0 / 2018-12-12
 ==================
 
