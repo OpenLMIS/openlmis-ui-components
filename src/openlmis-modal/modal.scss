@@ -16,7 +16,8 @@
 		}
 	}
 
-	.modal-body > p {
+	.modal-body > p,
+	.modal-header > h1 {
 		overflow-wrap: break-word;
 		word-break: break-all;
 	}
