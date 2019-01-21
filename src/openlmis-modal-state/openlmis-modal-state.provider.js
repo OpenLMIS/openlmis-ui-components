@@ -67,14 +67,17 @@
 
         function parseState(state) {
             var dialog,
-                injects = getInjects(state)
-                    .concat(state.parentResolves),
+                injects = getInjects(state),
                 modalDefinition = {
                     controllerAs: state.controllerAs ? state.controllerAs : 'vm',
                     controller: state.controller,
                     templateUrl: state.templateUrl,
                     resolve: {}
                 };
+
+            if (state.parentResolves) {
+                injects = injects.concat(state.parentResolves);
+            }
 
             state.onEnter = onEnter;
             state.onExit = onExit;

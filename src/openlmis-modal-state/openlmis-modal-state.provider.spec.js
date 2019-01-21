@@ -17,25 +17,32 @@ describe('modalStateProvider', function() {
 
     beforeEach(function() {
         var suite = this;
-        angular.module('fake-module', [
+        angular.module('provider-inject-module', [
             'openlmis-modal-state'
         ]).config(function(modalStateProvider, $stateProvider) {
             suite.modalStateProvider = modalStateProvider;
             suite.$stateProvider = $stateProvider;
+
         });
 
-        module('openlmis-modal-state', 'fake-module');
+        module('provider-inject-module');
+        module('openlmis-modal-state');
 
         inject(function($injector) {
             this.openlmisModalService = $injector.get('openlmisModalService');
             this.$rootScope = $injector.get('$rootScope');
             this.$q = $injector.get('$q');
+            this.$location = $injector.get('$location');
+            this.$state = $injector.get('$state');
         });
 
         this.dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
         spyOn(this.$stateProvider, 'state').andCallThrough();
         spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialogSpy);
+
+        this.goToUrl = goToUrl;
+        this.getResolvedValue = getResolvedValue;
     });
 
     it('should register state without template url', function() {
@@ -65,71 +72,64 @@ describe('modalStateProvider', function() {
     describe('state', function() {
 
         beforeEach(function() {
-            this.modalStateProvider.state('some.state', {});
-            this.state = this.$stateProvider.state.calls[0].args[1];
+            this.modalStateProvider.state('someState', {
+                url: '/someState',
+                resolve: {
+                    keyOne: function() {
+                        return 'valueOne';
+                    }
+                }
+            });
+
+            this.modalStateProvider.state('someOtherState', {
+                url: '/someOtherState'
+            });
+
+            this.modalStateProvider.state('someState.someChildState', {
+                url: '/someChildState',
+                parentResolves: ['keyOne'],
+                resolve: {
+                    keyTwo: function(keyOne) {
+                        return keyOne + ' plus valueTwo';
+                    }
+                }
+            });
         });
 
         it('should open modal on enter', function() {
-            this.state.onEnter(this.openlmisModalService);
+            this.goToUrl('/someState');
 
             expect(this.openlmisModalService.createDialog).toHaveBeenCalled();
         });
 
         it('should close modal on exit', function() {
-            this.state.onEnter(this.openlmisModalService);
-            this.state.onExit();
+            this.goToUrl('/someState');
+            this.goToUrl('/someOtherState');
 
             expect(this.dialogSpy.hide).toHaveBeenCalled();
         });
 
-    });
+        it('should resolve values', function() {
+            this.goToUrl('/someState');
 
-    describe('modal', function() {
-
-        beforeEach(function() {
-            this.modalStateProvider.state('some.state', {
-                resolve: {
-                    someObject: function() {}
-                },
-                parentResolves: ['someParentObject']
-            });
-
-            this.someObject = {
-                id: 'some-object-id'
-            };
-
-            this.someParentObject = {
-                id: 'some-parent-object-id'
-            };
-
-            this.$stateProvider.state.calls[0].args[1]
-                .onEnter(this.openlmisModalService, this.someObject, this.someParentObject);
-
-            this.modal = this.openlmisModalService.createDialog.calls[0].args[0];
+            expect(this.getResolvedValue('keyOne')).toEqual('valueOne');
         });
 
-        it('should pass resolved values', function() {
-            var result;
+        it('should make parent state resolves available to children', function() {
+            this.goToUrl('/someState/someChildState');
 
-            this.$q.when(this.modal.resolve.someObject()).then(function(someObject) {
-                result = someObject;
-            });
-            this.$rootScope.$apply();
-
-            expect(result).toEqual(this.someObject);
-        });
-
-        it('should pass parent resolved values', function() {
-            var result;
-
-            this.$q.when(this.modal.resolve.someParentObject()).then(function(someParentObject) {
-                result = someParentObject;
-            });
-            this.$rootScope.$apply();
-
-            expect(result).toEqual(this.someParentObject);
+            expect(this.getResolvedValue('keyTwo')).toEqual('valueOne plus valueTwo');
         });
 
     });
+
+    function goToUrl(url) {
+        this.$location.url(url);
+        this.$rootScope.$apply();
+    }
+
+    function getResolvedValue(name) {
+        return this.$state.$current.locals.globals[name];
+    }
 
 });
