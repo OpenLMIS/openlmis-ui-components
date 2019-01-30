@@ -45,6 +45,7 @@
             extendWith(array, 'getById', getById);
             extendWith(array, 'getAllWithUniqueIds', getAllWithUniqueIds);
             extendWith(array, 'sortBy', sortBy);
+            extendWith(array, 'getUnique', getUnique);
 
             return array;
         }
@@ -131,6 +132,32 @@
             this.forEach(function(item) {
                 var existing = filtered.filter(function(filtered) {
                     return filtered.id === item.id;
+                });
+
+                if (!existing.length) {
+                    filtered.push(item);
+                }
+            });
+
+            return filtered;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name getUnique
+         *
+         * @description
+         * Return a list of unique items.
+         *
+         * @return {Array}  the list of unique items
+         */
+        function getUnique() {
+            var filtered = [];
+
+            this.forEach(function(item) {
+                var existing = filtered.filter(function(filtered) {
+                    return filtered === item;
                 });
 
                 if (!existing.length) {

@@ -27,6 +27,13 @@ describe('OpenlmisArrayDecorator', function() {
             property: 'other'
         };
 
+        this.idsArray = [
+            'first-id',
+            'second-id',
+            'first-id',
+            'third-id'
+        ];
+
         this.objectsArray = [
             this.object,
             {
@@ -251,6 +258,24 @@ describe('OpenlmisArrayDecorator', function() {
                 this.objectsArray[3],
                 this.objectsArray[4],
                 this.objectsArray[6]
+            ]);
+        });
+
+    });
+
+    describe('getUnique', function() {
+
+        beforeEach(function() {
+            this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(this.idsArray);
+        });
+
+        it('should return without duplicates', function() {
+            var result = this.decoratedObjectsArray.getUnique();
+
+            expect(result).toEqual([
+                this.idsArray[0],
+                this.idsArray[1],
+                this.idsArray[3]
             ]);
         });
 
