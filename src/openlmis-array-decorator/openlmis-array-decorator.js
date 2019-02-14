@@ -46,6 +46,12 @@
             extendWith(array, 'getAllWithUniqueIds', getAllWithUniqueIds);
             extendWith(array, 'sortBy', sortBy);
             extendWith(array, 'getUnique', getUnique);
+            extendWith(array, 'pushAll', pushAll);
+            extendWith(array, 'asArray', asArray);
+            extendWith(array, 'mapTo', mapTo);
+            extendWith(array, 'filterOutUndefined', filterOutUndefined);
+
+            decorate(array, 'filter');
 
             return array;
         }
@@ -114,6 +120,8 @@
 
                 return 0;
             });
+
+            return this;
         }
 
         /**
@@ -127,7 +135,7 @@
          * @return {Array}  the list of items with unique ids
          */
         function getAllWithUniqueIds() {
-            var filtered = [];
+            var filtered = new OpenlmisArrayDecorator([]);
 
             this.forEach(function(item) {
                 var existing = filtered.filter(function(filtered) {
@@ -168,12 +176,94 @@
             return filtered;
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name pushAll
+         *
+         * @description
+         * Add all items into this array.
+         *
+         * @return {Array}  this array
+         */
+        function pushAll(items) {
+            var array = this;
+            items.forEach(function(item) {
+                array.push(item);
+            });
+
+            return this;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name asArray
+         *
+         * @description
+         * Converts this array into pure JS array.
+         *
+         * @return {Array}  a pure JS array
+         */
+        function asArray() {
+            var array = [];
+
+            this.forEach(function(item) {
+                array.push(item);
+            });
+
+            return array;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name filterOutUndefined
+         *
+         * @description
+         * Filters out items with undefined property with the given name, if the name is not given it filters out
+         * undefined items.
+         * 
+         * @param  {string} propertyName  the name of the property to filter by
+         * @return {Array}                the decorated array without matching items
+         */
+        function filterOutUndefined(propertyName) {
+            return new OpenlmisArrayDecorator(this.filter(function(item) {
+                return propertyName ? item[propertyName] : item;
+            }));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-array-decorator.OpenlmisArrayDecorator
+         * @name map
+         *
+         * @description
+         * Maps items in this array to the given property.
+         * 
+         * @param  {string} propertyName  the name of the property to map to
+         * @return {Array}                the decorated array of the given property values
+         */
+        function mapTo(propertyName) {
+            return new OpenlmisArrayDecorator(this.map(function(item) {
+                return item[propertyName];
+            }));
+        }
+
         function extendWith(array, fnName, fn) {
             if (array[fnName]) {
                 console.warn('Given array already has ' + fnName + ' method');
             } else {
                 array[fnName] = fn;
             }
+        }
+
+        function decorate(array, fnName) {
+            var originalFn = array[fnName];
+
+            array[fnName] = function() {
+                return new OpenlmisArrayDecorator(originalFn.apply(this, arguments));
+            };
         }
 
     }

@@ -38,7 +38,8 @@ describe('OpenlmisArrayDecorator', function() {
             this.object,
             {
                 id: 0,
-                property: 'Middle Property'
+                property: 'Middle Property',
+                definedProperty: 'not undefined'
             },
             this.object,
             {
@@ -132,7 +133,7 @@ describe('OpenlmisArrayDecorator', function() {
         });
 
         it('should return objects with the given ID', function() {
-            var result = this.decoratedObjectsArray.filterById(2);
+            var result = this.decoratedObjectsArray.filterById(2).asArray();
 
             expect(result).toEqual([
                 this.objectsArray[0],
@@ -142,7 +143,7 @@ describe('OpenlmisArrayDecorator', function() {
         });
 
         it('should return object with ID equal to 0 if 0 is given', function() {
-            var result = this.decoratedObjectsArray.filterById(0);
+            var result = this.decoratedObjectsArray.filterById(0).asArray();
 
             expect(result).toEqual([
                 this.objectsArray[1]
@@ -150,7 +151,7 @@ describe('OpenlmisArrayDecorator', function() {
         });
 
         it('should return empty list if no object matches', function() {
-            var result = this.decoratedObjectsArray.filterById(5);
+            var result = this.decoratedObjectsArray.filterById(5).asArray();
 
             expect(result).toEqual([]);
         });
@@ -250,7 +251,7 @@ describe('OpenlmisArrayDecorator', function() {
         });
 
         it('should return without duplicates', function() {
-            var result = this.decoratedObjectsArray.getAllWithUniqueIds();
+            var result = this.decoratedObjectsArray.getAllWithUniqueIds().asArray();
 
             expect(result).toEqual([
                 this.objectsArray[0],
@@ -277,6 +278,92 @@ describe('OpenlmisArrayDecorator', function() {
                 this.idsArray[1],
                 this.idsArray[3]
             ]);
+        });
+
+    });
+
+    describe('pushAll', function() {
+
+        beforeEach(function() {
+            this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(this.objectsArray);
+        });
+
+        it('should add all items from the given list to this list', function() {
+            var objects = [{
+                id: 'new-object-one'
+            }, {
+                id: 'new-object-two'
+            }];
+
+            this.decoratedObjectsArray.pushAll(objects);
+
+            expect(this.decoratedObjectsArray.indexOf(objects[0])).toBeGreaterThan(-1);
+            expect(this.decoratedObjectsArray.indexOf(objects[1])).toBeGreaterThan(-1);
+        });
+
+    });
+
+    describe('asArray', function() {
+
+        it('should convert the decorated array to a pure JS array', function() {
+            var expected = angular.copy(this.objectsArray);
+
+            expect(new this.OpenlmisArrayDecorator(this.objectsArray).asArray()).toEqual(expected);
+        });
+
+    });
+
+    describe('mapTo', function() {
+
+        beforeEach(function() {
+            this.result = new this.OpenlmisArrayDecorator(this.objectsArray).mapTo('property');
+        });
+
+        it('should map objects to the given property', function() {
+            expect(this.result.asArray()).toEqual([
+                'other',
+                'Middle Property',
+                'other',
+                'post Property',
+                'First property',
+                'other',
+                'latter property'
+            ]);
+        });
+
+    });
+
+    describe('filterOutUndefined', function() {
+
+        beforeEach(function() {
+            this.decoratedObjectsArray = new this.OpenlmisArrayDecorator(this.objectsArray);
+        });
+
+        it('should return a list of objects which have the property set if the property name is defined', function() {
+            expect(this.decoratedObjectsArray.filterOutUndefined('definedProperty').asArray()).toEqual([
+                this.objectsArray[1]
+            ]);
+        });
+
+        it('should return a list of defined object if property name was not defined', function() {
+            this.decoratedObjectsArray.push(undefined);
+
+            expect(this.decoratedObjectsArray.length).toEqual(8);
+
+            var result = this.decoratedObjectsArray.filterOutUndefined().asArray();
+
+            expect(result.length).toEqual(7);
+            expect(result.indexOf(undefined)).toEqual(-1);
+        });
+
+    });
+
+    describe('filter', function() {
+
+        it('should return a decorated array', function() {
+            expect(new this.OpenlmisArrayDecorator(this.objectsArray).filter(function(item) {
+                return item;
+            }).mapTo).not.toBeUndefined();
         });
 
     });

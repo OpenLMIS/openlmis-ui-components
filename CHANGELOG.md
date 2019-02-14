@@ -5,6 +5,7 @@ Improvements:
 * [OLMIS-5822](https://openlmis.atlassian.net/browse/OLMIS-5822): Extended the OpenlmisArrayDecorator with a sortBy class.
 * [OLMIS-5655](https://openlmis.atlassian.net/browse/OLMIS-5655): Updated modalStateProvider to not require parentResolves property when it is empty.
 * [OLMIS-3773](https://openlmis.atlassian.net/browse/OLMIS-3773): Extended the OpenlmisArrayDecorator with a getUnique method.
+* [OLMIS-5837](https://openlmis.atlassian.net/browse/OLMIS-5837): Extended the OpenlmisArrayDecorator with a pushAll, mapTo, filterOutUndefined and asArray methods.
 
 Bug fixes:
 * [OLMIS-3987:](https://openlmis.atlassian.net/browse/OLMIS-3987) Fixed wrapping long text in modals.
