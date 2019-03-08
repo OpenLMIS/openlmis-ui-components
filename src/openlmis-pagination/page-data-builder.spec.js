@@ -30,6 +30,12 @@
         PageDataBuilder.prototype.withContent = withContent;
         PageDataBuilder.prototype.withNumberOfElements = withNumberOfElements;
         PageDataBuilder.prototype.withTotalElements = withTotalElements;
+        PageDataBuilder.prototype.withTotalPages = withTotalPages;
+        PageDataBuilder.prototype.withFirst = withFirst;
+        PageDataBuilder.prototype.withLast = withLast;
+        PageDataBuilder.prototype.withNumber = withNumber;
+        PageDataBuilder.prototype.withSize = withSize;
+        PageDataBuilder.prototype.withSort = withSort;
         PageDataBuilder.prototype.build = build;
 
         return PageDataBuilder;
@@ -46,8 +52,33 @@
             this.content = [];
         }
 
+        function withFirst(first) {
+            this.first = first;
+            return this;
+        }
+
+        function withLast(last) {
+            this.last = last;
+            return this;
+        }
+
+        function withNumber(number) {
+            this.number = number;
+            return this;
+        }
+
+        function withTotalPages(totalPages) {
+            this.totalPages = totalPages;
+            return this;
+        }
+
         function withContent(newContent) {
             this.content = newContent;
+            return this;
+        }
+
+        function withSize(size) {
+            this.size = size;
             return this;
         }
 
@@ -58,6 +89,11 @@
 
         function withTotalElements(newTotalElements) {
             this.totalElements = newTotalElements;
+            return this;
+        }
+
+        function withSort(sort) {
+            this.sort = sort;
             return this;
         }
 
