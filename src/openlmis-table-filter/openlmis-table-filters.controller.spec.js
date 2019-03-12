@@ -212,7 +212,7 @@ describe('OpenlmisTableFiltersController', function() {
             $timeout.flush();
             $scope.$apply();
 
-            form.find('[type="submit"]').click();
+            form.submit();
 
             expect(filterButton.popover).toHaveBeenCalledWith('hide');
         });

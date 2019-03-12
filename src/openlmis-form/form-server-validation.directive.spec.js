@@ -48,7 +48,7 @@ describe('formServerValidation', function() {
         spyOn(alertService, 'error');
         createForm();
 
-        formElement.find('#submit').click();
+        formElement.submit();
         ngSubmitDeferred.reject({
             data: {
                 message: message,
@@ -67,7 +67,7 @@ describe('formServerValidation', function() {
         inputTwoModel = formElement.find('#inputTwo').controller('ngModel');
         spyOn(inputTwoModel, '$setValidity');
 
-        formElement.find('#submit').click();
+        formElement.submit();
         ngSubmitDeferred.reject({
             data: {
                 inputTwo: 'notCool'
@@ -85,14 +85,16 @@ describe('formServerValidation', function() {
         inputTwoModel = formElement.find('#inputTwo').controller('ngModel');
         spyOn(inputTwoModel, '$setValidity');
 
-        formElement.find('#submit').click();
+        formElement.submit();
         ngSubmitDeferred.reject({
             data: {
                 inputTwo: 'notCool'
             }
         });
         $rootScope.$apply();
-        inputTwoModel.$modelValue = 'otherValue';
+        formElement.find('#inputTwo')
+            .val('otherValue')
+            .trigger('input');
 
         expect(inputTwoModel.$setValidity).toHaveBeenCalledWith('notCool', true);
     });

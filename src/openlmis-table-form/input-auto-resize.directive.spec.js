@@ -27,11 +27,11 @@ describe('Input automatic resize directive', function() {
         html = compileMarkup('<td><input type="text" value="100"/></td>');
         input = html.find('input');
 
-        previousWidth = input[0].style.width;
+        previousWidth = parseInt(input[0].style.width, 10);
     });
 
     it('should set width value as greater than zero if input is not empty', function() {
-        expect(previousWidth).toBeGreaterThan('0px');
+        expect(previousWidth).toBeGreaterThan(0);
     });
 
     it('should stretch input if value is longer than previous', function() {
@@ -43,7 +43,7 @@ describe('Input automatic resize directive', function() {
         $compile(html)(scope);
         scope.$apply();
 
-        expect(input[0].style.width).toBeGreaterThan(previousWidth);
+        expect(parseInt(input[0].style.width, 10)).toBeGreaterThan(previousWidth);
     });
 
     it('should shrink input if value is shorter than previous', function() {
@@ -52,8 +52,10 @@ describe('Input automatic resize directive', function() {
         $compile(html)(scope);
         scope.$apply();
 
-        expect(input[0].style.width).toBeLessThan(previousWidth);
-        expect(input[0].style.width).toBeGreaterThan('0px');
+        var width = parseInt(input[0].style.width, 10);
+
+        expect(width).toBeLessThan(previousWidth);
+        expect(width).toBeGreaterThan(0);
     });
 
     it('should do nothing for date input', function() {
