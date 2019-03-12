@@ -51,10 +51,7 @@
             scope.$watch(function() {
                 return el.value;
             }, function() {
-                console.log('changing');
-                console.log(el);
                 $window.autosizeInput(el);
-                console.log(el);
             });
         }
 
