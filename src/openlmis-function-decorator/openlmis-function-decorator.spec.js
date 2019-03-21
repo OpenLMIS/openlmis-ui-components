@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('FunctionDecorator', function() {
+describe('FunctionDecorator', function() {
 
     beforeEach(function() {
         module('openlmis-function-decorator');
