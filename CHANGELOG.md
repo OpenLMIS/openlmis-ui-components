@@ -6,6 +6,7 @@ Improvements:
 * [OLMIS-5655](https://openlmis.atlassian.net/browse/OLMIS-5655): Updated modalStateProvider to not require parentResolves property when it is empty.
 * [OLMIS-3773](https://openlmis.atlassian.net/browse/OLMIS-3773): Extended the OpenlmisArrayDecorator with a getUnique method.
 * [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Added FunctionDecorator class.
+* [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Extended the OpenlmisResource with the ability to pass custom parameters when calling create method.
 
 Bug fixes:
 * [OLMIS-3987:](https://openlmis.atlassian.net/browse/OLMIS-3987) Fixed wrapping long text in modals.

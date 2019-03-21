@@ -385,6 +385,18 @@ describe('OpenlmisResource', function() {
             expect(rejected).toBe(true);
         });
 
+        //eslint-disable-next-line jasmine/missing-expect
+        it('should pass custom parameters if they were given', function() {
+            this.$httpBackend
+                .expectPOST(this.openlmisUrlFactory(this.BASE_URL + '?customParam=customParamValue'))
+                .respond(200);
+
+            this.openlmisResource.create(this.object, {
+                customParam: 'customParamValue'
+            });
+            this.$httpBackend.flush();
+        });
+
     });
 
     describe('update', function() {

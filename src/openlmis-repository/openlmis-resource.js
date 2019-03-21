@@ -191,11 +191,12 @@
          * @description
          * Creates the given object on the OpenLMIS server. Uses POST method.
          * 
-         * @param  {Object}  object the object to be created on the server
-         * @return {Promise}        the promise resolving to the server response, rejected if request fails
+         * @param  {Object}  object        the object to be created on the server
+         * @param  {Object}  customParams  the custom parameters to be passed to the request
+         * @return {Promise}               the promise resolving to the server response, rejected if request fails
          */
-        function create(object) {
-            return this.resource.save(undefined, object).$promise;
+        function create(object, customParams) {
+            return this.resource.save(customParams, object).$promise;
         }
 
         /**
