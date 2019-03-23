@@ -31,7 +31,7 @@ describe('confirmService', function() {
     describe('confirm', function() {
 
         it('should open modal with default values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            openlmisModalService.createDialog.and.callFake(function(options) {
                 expect(options.resolve.className()).toEqual('primary');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('openlmisModal.ok');
@@ -43,7 +43,7 @@ describe('confirmService', function() {
         });
 
         it('should open modal with passed values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            openlmisModalService.createDialog.and.callFake(function(options) {
                 expect(options.resolve.className()).toEqual('primary');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('buttonMessage');
@@ -58,7 +58,7 @@ describe('confirmService', function() {
     describe('confirmDestroy', function() {
 
         it('should open modal with default values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            openlmisModalService.createDialog.and.callFake(function(options) {
                 expect(options.resolve.className()).toEqual('danger');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('openlmisModal.ok');
@@ -70,7 +70,7 @@ describe('confirmService', function() {
         });
 
         it('should open modal with passed values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            openlmisModalService.createDialog.and.callFake(function(options) {
                 expect(options.resolve.className()).toEqual('danger');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('buttonMessage');

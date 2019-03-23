@@ -23,14 +23,14 @@ describe('Input Control OpenlmisInvalid Child Directive', function() {
 
         parent = $compile('<div input-control></div>')(scope);
         parentController = parent.controller('openlmisInvalid');
-        spyOn(parentController, 'registerController').andCallThrough();
+        spyOn(parentController, 'registerController').and.callThrough();
 
         child = angular.element('<button openlmis-invalid />').appendTo(parent);
         $compile(child)(scope);
 
         childController = child.controller('openlmisInvalid');
-        spyOn(childController, 'show').andCallThrough();
-        spyOn(childController, 'hide').andCallThrough();
+        spyOn(childController, 'show').and.callThrough();
+        spyOn(childController, 'hide').and.callThrough();
 
         scope.$apply();
     }));
@@ -41,16 +41,16 @@ describe('Input Control OpenlmisInvalid Child Directive', function() {
     });
 
     it('changing parent state will change child state', function() {
-        var showCalls = childController.show.calls.length,
-            hideCalls = childController.hide.calls.length;
+        var showCalls = childController.show.calls.count(),
+            hideCalls = childController.hide.calls.count();
 
         parentController.show();
 
-        expect(childController.show.calls.length).toBe(showCalls + 1);
+        expect(childController.show.calls.count()).toBe(showCalls + 1);
 
         parentController.hide();
 
-        expect(childController.hide.calls.length).toBe(hideCalls + 1);
+        expect(childController.hide.calls.count()).toBe(hideCalls + 1);
     });
 
 });

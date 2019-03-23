@@ -55,7 +55,7 @@ describe('ConfirmModalController', function() {
         });
 
         it('should expose parsed message', function() {
-            spyOn(messageService, 'get').andCallFake(function(key) {
+            spyOn(messageService, 'get').and.callFake(function(key) {
                 if (key === messageKey) {
                     return message;
                 }

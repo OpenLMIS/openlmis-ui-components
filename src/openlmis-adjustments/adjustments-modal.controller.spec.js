@@ -221,7 +221,7 @@ describe('AdjustmentsModalController', function() {
             var preSaveDeferred = $q.defer();
 
             preSave = jasmine.createSpy();
-            preSave.andReturn(preSaveDeferred.promise);
+            preSave.and.returnValue(preSaveDeferred.promise);
 
             initController();
             vm.$onInit();
@@ -241,7 +241,7 @@ describe('AdjustmentsModalController', function() {
             var preSaveDeferred = $q.defer();
 
             preSave = jasmine.createSpy('preSaveSpy');
-            preSave.andReturn(preSaveDeferred.promise);
+            preSave.and.returnValue(preSaveDeferred.promise);
 
             initController();
             vm.$onInit();
@@ -274,7 +274,7 @@ describe('AdjustmentsModalController', function() {
             var preCancelDeferred = $q.defer();
 
             preCancel = jasmine.createSpy('preCancelSpy');
-            preCancel.andReturn(preCancelDeferred.promise);
+            preCancel.and.returnValue(preCancelDeferred.promise);
 
             initController();
             vm.$onInit();
@@ -294,7 +294,7 @@ describe('AdjustmentsModalController', function() {
             var preCancelDeferred = $q.defer();
 
             preCancel = jasmine.createSpy('preCancelSpy');
-            preCancel.andReturn(preCancelDeferred.promise);
+            preCancel.and.returnValue(preCancelDeferred.promise);
 
             initController();
             vm.$onInit();

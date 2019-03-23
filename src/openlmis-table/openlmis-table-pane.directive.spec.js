@@ -62,7 +62,7 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
         var scroller, tablePaneElement;
 
         beforeEach(function() {
-            spyOn(_, 'throttle').andCallFake(function(fn) {
+            spyOn(_, 'throttle').and.callFake(function(fn) {
                 return function(e) {
                     fn(e);
                 };

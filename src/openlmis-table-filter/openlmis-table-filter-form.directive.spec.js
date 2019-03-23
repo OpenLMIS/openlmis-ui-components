@@ -42,7 +42,7 @@ describe('openlmisTableFilterForm directive', function() {
         });
 
         $scope = $rootScope.$new();
-        ctrlSpy.getFilterButton.andReturn(compileMarkup('<button></button>'));
+        ctrlSpy.getFilterButton.and.returnValue(compileMarkup('<button></button>'));
         template = compileMarkup(
             '<section class="openlmis-table-container">' +
                 '<div openlmis-table-filter-form></div>' +

@@ -81,7 +81,7 @@ describe('OpenlmisResource', function() {
                 some: 'param'
             };
 
-            this.parameterSplitterMock.split.andReturn([{
+            this.parameterSplitterMock.split.and.returnValue([{
                 some: ['paramOne']
             }, {
                 some: ['paramTwo']
@@ -101,7 +101,7 @@ describe('OpenlmisResource', function() {
         });
 
         it('should return page if only one request was sent', function() {
-            this.parameterSplitterMock.split.andReturn([this.params]);
+            this.parameterSplitterMock.split.and.returnValue([this.params]);
 
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=param'))
@@ -168,7 +168,7 @@ describe('OpenlmisResource', function() {
         });
 
         it('should return response if params are not defined', function() {
-            this.parameterSplitterMock.split.andReturn([undefined]);
+            this.parameterSplitterMock.split.and.returnValue([undefined]);
 
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory(this.BASE_URL))
@@ -193,7 +193,7 @@ describe('OpenlmisResource', function() {
                 paginated: false
             });
 
-            this.parameterSplitterMock.split.andReturn([{
+            this.parameterSplitterMock.split.and.returnValue([{
                 some: ['paramOne']
             }, {
                 some: ['paramTwo']
@@ -217,7 +217,7 @@ describe('OpenlmisResource', function() {
                 some: 'param'
             };
 
-            this.parameterSplitterMock.split.andReturn([params]);
+            this.parameterSplitterMock.split.and.returnValue([params]);
 
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=param'))
@@ -546,7 +546,7 @@ describe('OpenlmisResource', function() {
                 paginated: false
             });
 
-            spyOn(this.openlmisResource, 'query').andReturn(this.$q.resolve(this.response));
+            spyOn(this.openlmisResource, 'query').and.returnValue(this.$q.resolve(this.response));
         });
 
         it('should call query', function() {
@@ -584,7 +584,7 @@ describe('OpenlmisResource', function() {
 
             this.openlmisResource = new this.OpenlmisResource(this.BASE_URL);
 
-            spyOn(this.openlmisResource, 'query').andReturn(this.$q.resolve(this.page));
+            spyOn(this.openlmisResource, 'query').and.returnValue(this.$q.resolve(this.page));
         });
 
         it('should call query', function() {

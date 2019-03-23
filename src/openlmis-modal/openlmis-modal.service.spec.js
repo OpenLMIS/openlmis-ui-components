@@ -48,7 +48,7 @@ describe('openlmisModalService', function() {
         it('should not hide modal when it is not displayed', function() {
             var modal = openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = false;
@@ -60,7 +60,7 @@ describe('openlmisModalService', function() {
         it('should hide modal when it is displayed', function() {
             var modal = openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = true;
@@ -72,7 +72,7 @@ describe('openlmisModalService', function() {
         it('should hide modal after it was shown', function() {
             var modal = openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = false;
@@ -89,13 +89,13 @@ describe('openlmisModalService', function() {
         it('should not close on backdrop click as default', function() {
             openlmisModalService.createDialog({});
 
-            expect($modal.calls[0].args[0].backdrop).toEqual('static');
+            expect($modal.calls.argsFor(0)[0].backdrop).toEqual('static');
         });
 
         it('should not close on ESC click as default', function() {
             openlmisModalService.createDialog({});
 
-            expect($modal.calls[0].args[0].keyboard).toEqual(false);
+            expect($modal.calls.argsFor(0)[0].keyboard).toEqual(false);
         });
 
         it('should allow default backdrop behavior override', function() {
@@ -103,7 +103,7 @@ describe('openlmisModalService', function() {
                 backdrop: false
             });
 
-            expect($modal.calls[0].args[0].backdrop).toEqual(false);
+            expect($modal.calls.argsFor(0)[0].backdrop).toEqual(false);
         });
 
         it('should allow default ESC behavior override', function() {
@@ -111,7 +111,7 @@ describe('openlmisModalService', function() {
                 keyboard: true
             });
 
-            expect($modal.calls[0].args[0].keyboard).toEqual(true);
+            expect($modal.calls.argsFor(0)[0].keyboard).toEqual(true);
 
         });
     });
@@ -124,7 +124,7 @@ describe('openlmisModalService', function() {
 
     function preapreModalSpy() {
         $modal = jasmine.createSpy('$modal');
-        $modal.andCallFake(function(dialog) {
+        $modal.and.callFake(function(dialog) {
             dialog.hide = function() {};
             return dialog;
         });

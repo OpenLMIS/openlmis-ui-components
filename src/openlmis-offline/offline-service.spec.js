@@ -20,7 +20,7 @@ describe('offlineService', function() {
     beforeEach(function() {
         module('openlmis-offline', function($provide) {
             storedFlag = jasmine.createSpyObj('storedFlag', ['put', 'clearAll', 'getAll']);
-            storedFlag.getAll.andReturn([false]);
+            storedFlag.getAll.and.returnValue([false]);
 
             $provide.factory('localStorageFactory', function() {
                 return function() {
@@ -50,7 +50,7 @@ describe('offlineService', function() {
             var spy = jasmine.createSpy();
             $rootScope.$on('openlmis.online', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
+            spyOn(offline, 'check').and.callFake(function() {
                 offline.trigger('confirmed-up');
             });
 
@@ -69,7 +69,7 @@ describe('offlineService', function() {
             var spy = jasmine.createSpy();
             $rootScope.$on('openlmis.offline', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
+            spyOn(offline, 'check').and.callFake(function() {
                 offline.trigger('confirmed-down');
             });
 
@@ -88,7 +88,7 @@ describe('offlineService', function() {
             var spy = jasmine.createSpy();
             $rootScope.$on('openlmis.online', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
+            spyOn(offline, 'check').and.callFake(function() {
                 offline.trigger('up');
             });
 
@@ -107,7 +107,7 @@ describe('offlineService', function() {
             var spy = jasmine.createSpy();
             $rootScope.$on('openlmis.offline', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
+            spyOn(offline, 'check').and.callFake(function() {
                 offline.trigger('down');
             });
 

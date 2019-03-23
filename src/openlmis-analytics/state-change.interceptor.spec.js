@@ -32,8 +32,8 @@ describe('analyticsStateChangeInterceptor', function() {
         $rootScope.$apply();
 
         expect(analyticsService.track).toHaveBeenCalled();
-        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(analyticsService.track.mostRecentCall.args[1]).toBe('pageview');
+        expect(analyticsService.track.calls.mostRecent().args[0]).toBe('send');
+        expect(analyticsService.track.calls.mostRecent().args[1]).toBe('pageview');
     });
 
 });

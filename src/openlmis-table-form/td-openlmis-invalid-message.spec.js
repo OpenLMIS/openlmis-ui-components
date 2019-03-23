@@ -24,8 +24,8 @@ describe('TD openlmisInvalid message', function() {
         element = $compile(markup)(scope);
 
         openlmisPopoverCtrl = element.controller('popover');
-        spyOn(openlmisPopoverCtrl, 'addElement').andCallThrough();
-        spyOn(openlmisPopoverCtrl, 'removeElement').andCallThrough();
+        spyOn(openlmisPopoverCtrl, 'addElement').and.callThrough();
+        spyOn(openlmisPopoverCtrl, 'removeElement').and.callThrough();
 
         scope.$apply();
     }));
@@ -36,7 +36,7 @@ describe('TD openlmisInvalid message', function() {
 
         expect(openlmisPopoverCtrl.addElement).toHaveBeenCalled();
 
-        var messageElement = openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
+        var messageElement = openlmisPopoverCtrl.addElement.calls.mostRecent().args[0];
 
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });
@@ -50,7 +50,7 @@ describe('TD openlmisInvalid message', function() {
 
         expect(openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
 
-        var messageElement = openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
+        var messageElement = openlmisPopoverCtrl.removeElement.calls.mostRecent().args[0];
 
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });

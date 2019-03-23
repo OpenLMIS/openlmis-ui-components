@@ -35,9 +35,9 @@ describe('Button directives', function() {
         $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.calls.mostRecent().args[0]).toBe('send');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventAction']).toBe('label.name');
     });
 
     it('will track click events on input elements of type submit with the untranslated text', function() {
@@ -46,9 +46,9 @@ describe('Button directives', function() {
         $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.calls.mostRecent().args[0]).toBe('send');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventAction']).toBe('label.name');
     });
 
     it('will track click events on input elements of type button with the untranslated text', function() {
@@ -57,9 +57,9 @@ describe('Button directives', function() {
         $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.calls.mostRecent().args[0]).toBe('send');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventAction']).toBe('label.name');
     });
 
     it('will not track click events on input elements of type other than submit and button', function() {
@@ -68,6 +68,6 @@ describe('Button directives', function() {
         $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(analyticsService.track.calls.length).toEqual(0);
+        expect(analyticsService.track.calls.count()).toEqual(0);
     });
 });

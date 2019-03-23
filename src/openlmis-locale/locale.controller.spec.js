@@ -35,7 +35,7 @@ describe('LocaleController', function() {
 
         var mockLocale = undefined,
             context = this;
-        spyOn(this.messageService, 'populate').andCallFake(function(lang) {
+        spyOn(this.messageService, 'populate').and.callFake(function(lang) {
             var deferred = context.$q.defer();
             if (lang === 'fail') {
                 deferred.reject();
@@ -46,7 +46,7 @@ describe('LocaleController', function() {
             }
             return deferred.promise;
         });
-        spyOn(this.messageService, 'getCurrentLocale').andCallFake(function() {
+        spyOn(this.messageService, 'getCurrentLocale').and.callFake(function() {
             return mockLocale;
         });
 
@@ -116,7 +116,7 @@ describe('LocaleController', function() {
             });
 
             // messageService.populate was only called at top
-            expect(this.messageService.populate.calls.length).toBe(1);
+            expect(this.messageService.populate.calls.count()).toBe(1);
         }));
     });
 

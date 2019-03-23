@@ -75,7 +75,7 @@ describe('stateTrackerService', function() {
     describe('goToPreviousState', function() {
 
         it('should restore the state', function() {
-            stateStorage.getAll.andReturn([
+            stateStorage.getAll.and.returnValue([
                 {
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
@@ -90,7 +90,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should restore the state if default one is present and previous is stored', function() {
-            stateStorage.getAll.andReturn([
+            stateStorage.getAll.and.returnValue([
                 {
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
@@ -105,7 +105,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should call default state', function() {
-            stateStorage.getAll.andReturn([]);
+            stateStorage.getAll.and.returnValue([]);
 
             stateTrackerService.goToPreviousState('some.state');
 
@@ -113,7 +113,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should reload current state', function() {
-            stateStorage.getAll.andReturn([]);
+            stateStorage.getAll.and.returnValue([]);
 
             stateTrackerService.goToPreviousState();
 
@@ -121,7 +121,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should override stored state parameters if they were given', function() {
-            stateStorage.getAll.andReturn([
+            stateStorage.getAll.and.returnValue([
                 {
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
@@ -141,7 +141,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should pass stateOptions', function() {
-            stateStorage.getAll.andReturn([
+            stateStorage.getAll.and.returnValue([
                 {
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
@@ -159,7 +159,7 @@ describe('stateTrackerService', function() {
         });
 
         it('should not override given reload option', function() {
-            stateStorage.getAll.andReturn([
+            stateStorage.getAll.and.returnValue([
                 {
                     previousState: previousState.name,
                     previousStateParams: previousStateParams
@@ -176,12 +176,12 @@ describe('stateTrackerService', function() {
         });
 
         it('should not reload state if offline', function() {
-            stateStorage.getAll.andReturn([{
+            stateStorage.getAll.and.returnValue([{
                 previousState: previousState.name,
                 previousStateParams: previousStateParams
             }]);
 
-            offlineServiceMock.isOffline.andReturn(true);
+            offlineServiceMock.isOffline.and.returnValue(true);
 
             stateTrackerService.goToPreviousState('state', null);
 

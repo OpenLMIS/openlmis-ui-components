@@ -43,7 +43,7 @@ describe('SavingIndicatorController', function() {
     describe('onInit', function() {
 
         beforeEach(function() {
-            spyOn(scope, '$watch').andCallThrough();
+            spyOn(scope, '$watch').and.callThrough();
         });
 
         it('should set icon class and message', function() {

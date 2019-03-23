@@ -45,7 +45,7 @@ describe('MessageService', function() {
         localStorageService = _localStorageService_;
 
         getLocaleSpy = spyOn(localStorageService, 'get');
-        getLocaleSpy.andReturn('en');
+        getLocaleSpy.and.returnValue('en');
         spyOn(localStorageService, 'add');
         spyOn($rootScope, '$broadcast');
     }));
@@ -92,7 +92,7 @@ describe('MessageService', function() {
 
     it('can change the current locale', function() {
         messageService.populate('test');
-        getLocaleSpy.andReturn('test');
+        getLocaleSpy.and.returnValue('test');
 
         expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'test');
         expect(messageService.get('sample')).toBe('foo');

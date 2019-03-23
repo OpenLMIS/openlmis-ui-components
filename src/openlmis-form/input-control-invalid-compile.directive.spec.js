@@ -23,14 +23,14 @@ describe('Input-Control invalid compile directive', function() {
 
         parent = $compile('<div input-control></div>')(scope);
         parentController = parent.controller('openlmisInvalid');
-        spyOn(parentController, 'registerController').andCallThrough();
+        spyOn(parentController, 'registerController').and.callThrough();
 
         child = angular.element('<button openlmis-invalid />').appendTo(parent);
         $compile(child)(scope);
 
         childController = child.controller('openlmisInvalid');
-        spyOn(childController, 'show').andCallThrough();
-        spyOn(childController, 'hide').andCallThrough();
+        spyOn(childController, 'show').and.callThrough();
+        spyOn(childController, 'hide').and.callThrough();
 
         scope.$apply();
     }));

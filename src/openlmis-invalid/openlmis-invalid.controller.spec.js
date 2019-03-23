@@ -20,7 +20,7 @@ describe('OpenlmisInvalidController', function() {
 
     beforeEach(inject(function($controller, _messageService_) {
         messageService = _messageService_;
-        spyOn(messageService, 'get').andReturn('parsed message');
+        spyOn(messageService, 'get').and.returnValue('parsed message');
 
         vm = $controller('OpenlmisInvalidController');
     }));

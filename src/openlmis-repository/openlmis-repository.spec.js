@@ -44,20 +44,20 @@ describe('OpenlmisRepository', function() {
             .build();
 
         impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update', 'query']);
-        impl.create.andCallFake(function(param) {
+        impl.create.and.callFake(function(param) {
             return $q.resolve(param);
         });
-        impl.get.andCallFake(function(id) {
+        impl.get.and.callFake(function(id) {
             if (id === object.id) {
                 return $q.resolve(object);
             }
             return $q.reject();
         });
-        impl.update.andCallFake(function(param) {
+        impl.update.and.callFake(function(param) {
             param.name = 'some-name';
             return $q.resolve(param);
         });
-        impl.query.andCallFake(function() {
+        impl.query.and.callFake(function() {
             return $q.resolve(page);
         });
 

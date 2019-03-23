@@ -411,7 +411,7 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     it('should roll back changes if Cancel button was clicked', function() {
-        spyOn(_, 'defer').andCallFake(function(fn) {
+        spyOn(_, 'defer').and.callFake(function(fn) {
             fn();
         });
 
@@ -490,7 +490,7 @@ describe('OpenlmisTableFiltersController', function() {
     function prepareFilterButton() {
         prepareForm();
         filterButton = vm.getFilterButton();
-        spyOn(filterButton, 'popover').andCallThrough();
+        spyOn(filterButton, 'popover').and.callThrough();
     }
 
     function prepareForm() {

@@ -32,7 +32,7 @@ describe('openlmis-invalid directive', function() {
 
         var invalidCtrl = element.controller('openlmisInvalid');
 
-        spyOn(invalidCtrl, 'getMessages').andCallFake(function() {
+        spyOn(invalidCtrl, 'getMessages').and.callFake(function() {
             return messagesObj;
         });
 
@@ -44,11 +44,11 @@ describe('openlmis-invalid directive', function() {
     it('adds error message element when openlmis-invalid is set and not empty', function() {
         expect(element.children().length).toBe(0);
 
-        scope.invalidMessage = 'Sample message';
+        scope.invalidMessage = 'Invalid message';
         scope.$apply();
 
         expect(element.children().length).toBe(1);
-        expect(element.text().indexOf('Sample message')).not.toBe(-1);
+        expect(element.text().indexOf('Invalid message')).not.toBe(-1);
 
         scope.invalidMessage = '';
         scope.$apply();
@@ -94,7 +94,7 @@ describe('openlmis-invalid directive', function() {
 
     it('will not show an error element if openlmisInvalidController isHidden is true', function() {
         var invalidCtrl = element.controller('openlmisInvalid');
-        spyOn(invalidCtrl, 'isHidden').andReturn(true);
+        spyOn(invalidCtrl, 'isHidden').and.returnValue(true);
 
         messagesObj = {
             test: 'Sample message'

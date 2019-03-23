@@ -27,7 +27,7 @@ describe('PopoverDirective', function() {
             $rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
+        spyOn(jQuery.prototype, 'popover').and.callThrough();
 
         scope = $rootScope.$new();
 
@@ -42,11 +42,11 @@ describe('PopoverDirective', function() {
         angular.element('body').append(element);
 
         popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        spyOn(popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
 
         scope.$apply();
 
-        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
+        popover = jQuery.prototype.popover.calls.mostRecent().args[0].template;
     });
 
     it('adds a popover when the popover directive is added', function() {
@@ -59,7 +59,7 @@ describe('PopoverDirective', function() {
             num += 1;
         });
 
-        popoverCtrl.getElements.andReturn([]);
+        popoverCtrl.getElements.and.returnValue([]);
         scope.$apply();
 
         expect(num).toBe(1);
@@ -68,7 +68,7 @@ describe('PopoverDirective', function() {
     it('adds the .has-popover class to the element when there is content from PopoverController', function() {
         expect(element.hasClass('has-popover')).toBe(true);
 
-        popoverCtrl.getElements.andReturn([]);
+        popoverCtrl.getElements.and.returnValue([]);
         scope.$apply();
 
         expect(element.hasClass('has-popover')).toBe(false);
@@ -76,7 +76,7 @@ describe('PopoverDirective', function() {
 
     it('gets popover content from PopoverController', function() {
         var elements = [angular.element('<p>Test</p>')];
-        popoverCtrl.getElements.andReturn(elements);
+        popoverCtrl.getElements.and.returnValue(elements);
 
         // this is what updates the popover content
         element.popover('show');
@@ -142,7 +142,7 @@ describe('PopoverDirective', function() {
     it('it changes the elements tabindex when the popover controllers content changes', function() {
         expect(element.attr('tabindex')).toBe('0');
 
-        popoverCtrl.getElements.andReturn([]);
+        popoverCtrl.getElements.and.returnValue([]);
         scope.$apply();
 
         expect(element.attr('tabindex')).toBe('-1');

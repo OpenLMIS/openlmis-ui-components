@@ -36,17 +36,17 @@ describe('PaginationController', function() {
 
         validatorSpy = jasmine.createSpy();
 
-        spyOn(paginationService, 'isExternalPagination').andReturn(true);
-        spyOn(paginationService, 'getPage').andReturn(0);
-        spyOn(paginationService, 'getSize').andReturn(2);
-        spyOn(paginationService, 'getTotalItems').andReturn(10);
-        spyOn(paginationService, 'getShowingItems').andReturn(2);
-        spyOn(paginationService, 'getPageParamName').andReturn('customPageParamName');
-        spyOn(paginationService, 'getItemValidator').andReturn(validatorSpy);
+        spyOn(paginationService, 'isExternalPagination').and.returnValue(true);
+        spyOn(paginationService, 'getPage').and.returnValue(0);
+        spyOn(paginationService, 'getSize').and.returnValue(2);
+        spyOn(paginationService, 'getTotalItems').and.returnValue(10);
+        spyOn(paginationService, 'getShowingItems').and.returnValue(2);
+        spyOn(paginationService, 'getPageParamName').and.returnValue('customPageParamName');
+        spyOn(paginationService, 'getItemValidator').and.returnValue(validatorSpy);
 
-        spyOn(paginationFactory, 'getPage').andReturn([1]);
+        spyOn(paginationFactory, 'getPage').and.returnValue([1]);
 
-        spyOn($state, 'go').andReturn();
+        spyOn($state, 'go').and.returnValue();
 
         vm = $controller('PaginationController', {
             $scope: $rootScope.$new(),
@@ -65,7 +65,7 @@ describe('PaginationController', function() {
         });
 
         it('should setup view value for local pagination', function() {
-            paginationService.isExternalPagination.andReturn(false);
+            paginationService.isExternalPagination.and.returnValue(false);
             vm.list = [1];
             vm.$onInit();
 
@@ -114,11 +114,11 @@ describe('PaginationController', function() {
 
             expect(vm.page).toEqual(newPage);
 
-            expect($state.go.callCount).toEqual(1);
+            expect($state.go.calls.count()).toEqual(1);
         });
 
         it('should change page for local pagination', function() {
-            paginationService.isExternalPagination.andReturn(false);
+            paginationService.isExternalPagination.and.returnValue(false);
             vm.list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
             vm.$onInit();
 
@@ -228,7 +228,7 @@ describe('PaginationController', function() {
     describe('isPageValid', function() {
 
         it('should return true if item validator is not defined', function() {
-            paginationService.getItemValidator.andReturn(undefined);
+            paginationService.getItemValidator.and.returnValue(undefined);
 
             expect(vm.isPageValid(1)).toBe(true);
             expect(vm.isPageValid(0)).toBe(true);
@@ -238,7 +238,7 @@ describe('PaginationController', function() {
         it('should return false if item validator returns false', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            validatorSpy.andReturn(false);
+            validatorSpy.and.returnValue(false);
 
             expect(vm.isPageValid(0)).toBe(false);
         });
@@ -246,7 +246,7 @@ describe('PaginationController', function() {
         it('should return true if item validator returns true', function() {
             vm.totalItems = 1;
             vm.pageSize = 1;
-            validatorSpy.andReturn(true);
+            validatorSpy.and.returnValue(true);
 
             expect(vm.isPageValid(0)).toBe(true);
         });

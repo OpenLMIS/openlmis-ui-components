@@ -42,7 +42,7 @@ describe('analytics500Interceptor', function() {
         provider.responseError(response);
 
         expect(analyticsService.track).toHaveBeenCalled();
-        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('5xx Error');
+        expect(analyticsService.track.calls.mostRecent().args[2]['eventCategory']).toBe('5xx Error');
     });
 
 });

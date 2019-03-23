@@ -24,7 +24,7 @@ describe('Input Control Wrap', function() {
         $compile = _$compile_;
         scope = $rootScope.$new();
 
-        spyOn($templateCache, 'get').andReturn('<div class="input-control" input-control></div>');
+        spyOn($templateCache, 'get').and.returnValue('<div class="input-control" input-control></div>');
     }));
 
     describe('- input -', function() {

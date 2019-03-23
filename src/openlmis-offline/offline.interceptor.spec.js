@@ -45,8 +45,8 @@ describe('offlineInterceptor', function() {
             };
 
         beforeEach(function() {
-            spyOn(offlineService, 'isOffline').andReturn(true);
-            alertServiceMock.error.andCallFake(function() {
+            spyOn(offlineService, 'isOffline').and.returnValue(true);
+            alertServiceMock.error.and.callFake(function() {
                 promise = $q.defer();
                 return promise.promise;
             });
@@ -68,7 +68,7 @@ describe('offlineInterceptor', function() {
         it('should not show second alert modal when first is not closed', function() {
             offlineInterceptor.request(config);
 
-            expect(alertServiceMock.error.callCount).toBe(1);
+            expect(alertServiceMock.error.calls.count()).toBe(1);
         });
 
         it('should show second alert modal when first is not closed', function() {
@@ -76,7 +76,7 @@ describe('offlineInterceptor', function() {
             $rootScope.$apply();
             offlineInterceptor.request(config);
 
-            expect(alertServiceMock.error.callCount).toBe(2);
+            expect(alertServiceMock.error.calls.count()).toBe(2);
         });
 
         it('should resolve cancel promise', function() {

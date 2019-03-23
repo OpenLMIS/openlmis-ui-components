@@ -31,7 +31,7 @@ describe('Select directive', function() {
     }));
 
     beforeEach(inject(function(messageService) {
-        spyOn(messageService, 'get').andCallFake(function(key) {
+        spyOn(messageService, 'get').and.callFake(function(key) {
             return key;
         });
     }));

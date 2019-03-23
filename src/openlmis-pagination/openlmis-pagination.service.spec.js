@@ -45,7 +45,7 @@ describe('paginationService', function() {
         beforeEach(function() {
             goToState('test.state', 'test');
 
-            loadItemsSpy = jasmine.createSpy().andReturn($q.when({
+            loadItemsSpy = jasmine.createSpy().and.returnValue($q.when({
                 size: stateParams.size,
                 number: stateParams.page,
                 totalElements: totalItems,
@@ -122,28 +122,28 @@ describe('paginationService', function() {
         });
 
         it('should set page size to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             $rootScope.$apply();
 
             expect(paginationService.getSize()).toEqual(0);
         });
 
         it('should set page number to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             $rootScope.$apply();
 
             expect(paginationService.getPage()).toEqual(0);
         });
 
         it('should set total items to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             $rootScope.$apply();
 
             expect(paginationService.getTotalItems()).toEqual(0);
         });
 
         it('should set showing items to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             $rootScope.$apply();
 
             expect(paginationService.getShowingItems()).toEqual(0);
@@ -222,7 +222,7 @@ describe('paginationService', function() {
             goToState('test.state', 'test');
             $state.current.name = 'test.state';
             $rootScope.$apply();
-            loadItemsSpy = jasmine.createSpy().andReturn(items);
+            loadItemsSpy = jasmine.createSpy().and.returnValue(items);
             promise = paginationService.registerList(validator, stateParams, loadItemsSpy);
             $rootScope.$apply();
         });

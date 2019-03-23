@@ -27,7 +27,7 @@ describe('PopoverDirective', function() {
             $rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
+        spyOn(jQuery.prototype, 'popover').and.callThrough();
 
         scope = $rootScope.$new();
 
@@ -42,11 +42,11 @@ describe('PopoverDirective', function() {
         angular.element('body').append(element);
 
         popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        spyOn(popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
 
         scope.$apply();
 
-        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
+        popover = jQuery.prototype.popover.calls.mostRecent().args[0].template;
     });
 
     it('has a custom css class attribute, which will updated', function() {

@@ -36,7 +36,7 @@ describe('TD input-control popover directive', function() {
 
     it('Displays error messages in the popover', function() {
         var popoverCtrl = input.controller('popover');
-        spyOn(popoverCtrl, 'addElement').andCallThrough();
+        spyOn(popoverCtrl, 'addElement').and.callThrough();
 
         scope.error = 'Error!';
         scope.$apply();

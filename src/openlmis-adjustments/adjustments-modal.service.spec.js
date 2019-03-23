@@ -26,7 +26,7 @@ describe('adjustmentsModalService', function() {
             openlmisModalService = $injector.get('openlmisModalService');
         });
 
-        spyOn(openlmisModalService, 'createDialog').andCallThrough();
+        spyOn(openlmisModalService, 'createDialog').and.callThrough();
 
         reasons = [{
             name: 'Reason One'
@@ -190,7 +190,7 @@ describe('adjustmentsModalService', function() {
     });
 
     function getResolvedValue(key) {
-        return openlmisModalService.createDialog.calls[0].args[0].resolve[key];
+        return openlmisModalService.createDialog.calls.argsFor(0)[0].resolve[key];
     }
 
 });

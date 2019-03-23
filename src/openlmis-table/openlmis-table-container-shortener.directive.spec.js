@@ -42,7 +42,7 @@ describe('openlmisTableContainer', function() {
         $scope = $rootScope.$new();
 
         var originalHeight = $.prototype.height;
-        spyOn($.prototype, 'height').andCallFake(function() {
+        spyOn($.prototype, 'height').and.callFake(function() {
             // fake window.height() if windowHeight is provided; call through otherwise
             if (this[0] === $window && windowHeight !== undefined) {
                 return windowHeight;
@@ -51,7 +51,7 @@ describe('openlmisTableContainer', function() {
 
         });
 
-        spyOn($.prototype, 'ready').andCallFake(function() {
+        spyOn($.prototype, 'ready').and.callFake(function() {
             // call passed in function immediately; allows to test code that's in window.ready
             if (arguments.length && typeof arguments[0] === 'function') {
                 arguments[0]();

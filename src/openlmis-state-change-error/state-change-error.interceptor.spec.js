@@ -26,8 +26,8 @@ describe('stateChangeErrorInterceptor', function() {
         });
 
         error = undefined;
-        spyOn(console, 'error').andReturn();
-        spyOn(alertService, 'error').andReturn();
+        spyOn(console, 'error').and.returnValue();
+        spyOn(alertService, 'error').and.returnValue();
     });
 
     it('should print error to console', function() {

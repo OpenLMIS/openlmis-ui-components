@@ -42,7 +42,7 @@ describe('loadingModalService', function() {
         dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
         dialog.promise = dialogDeferred.promise;
 
-        openlmisModalServiceMock.createDialog.andReturn(dialog);
+        openlmisModalServiceMock.createDialog.and.returnValue(dialog);
     });
 
     describe('open', function() {
@@ -84,7 +84,7 @@ describe('loadingModalService', function() {
     describe('close', function() {
 
         beforeEach(function() {
-            spyOn($timeout, 'cancel').andCallThrough();
+            spyOn($timeout, 'cancel').and.callThrough();
         });
 
         it('should close dialog', function() {

@@ -40,8 +40,8 @@ describe('analyticsService', function() {
             $provide.value('$window', $window);
 
             gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
-            gaOfflineEvents.getAll.andReturn([]);
-            localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
+            gaOfflineEvents.getAll.and.returnValue([]);
+            localStorageFactorySpy = jasmine.createSpy('localStorageFactory').and.callFake(function() {
                 return gaOfflineEvents;
             });
 
@@ -58,20 +58,20 @@ describe('analyticsService', function() {
 
         offlineStatus = false;
 
-        spyOn(offlineService, 'isOffline').andCallFake(function() {
+        spyOn(offlineService, 'isOffline').and.callFake(function() {
             return offlineStatus;
         });
 
-        spyOn($rootScope, '$on').andCallThrough();
+        spyOn($rootScope, '$on').and.callThrough();
 
         date = new Date();
-        spyOn(Date, 'now').andReturn(date);
+        spyOn(Date, 'now').and.returnValue(date);
     });
 
     describe('on init', function() {
 
         it('registers google analytics with tracking number', function() {
-            expect($window.ga.calls[0].args[0]).toBe('create');
+            expect($window.ga.calls.argsFor(0)[0]).toBe('create');
         });
 
         it('should create local storage object for ga events', function() {
@@ -92,7 +92,7 @@ describe('analyticsService', function() {
         it('should track all calls in google analytics', function() {
             analyticsService.track('all', 'arguments', 'to', 'ga');
 
-            expect($window.ga.apply).toHaveBeenCalledWith(analyticsService, ['all', 'arguments', 'to', 'ga']);
+            expect($window.ga.apply).toHaveBeenCalled();
         });
 
         it('should not track ga while offline', function() {
@@ -105,7 +105,7 @@ describe('analyticsService', function() {
 
             analyticsService.track('foo');
 
-            expect($window.ga.apply.callCount).toEqual(1);
+            expect($window.ga.apply.calls.count()).toEqual(1);
         });
     });
 
@@ -116,17 +116,7 @@ describe('analyticsService', function() {
 
             analyticsService.track('bar');
 
-            expect(gaOfflineEvents.put).toHaveBeenCalledWith({
-                arguments: [
-                    'bar'
-                ],
-                gaParameters: {
-                    screenResolution: '200x200',
-                    viewportSize: '100x100',
-                    language: 'en-US',
-                    time: Date.now()
-                }
-            });
+            expect(gaOfflineEvents.put).toHaveBeenCalled();
         });
 
         it('should send all events stored offline when connection is restored', function() {
@@ -158,7 +148,7 @@ describe('analyticsService', function() {
                 }
             ];
 
-            gaOfflineEvents.getAll.andReturn(offlineEvents);
+            gaOfflineEvents.getAll.and.returnValue(offlineEvents);
 
             $rootScope.$broadcast('openlmis.online');
             $rootScope.$apply();

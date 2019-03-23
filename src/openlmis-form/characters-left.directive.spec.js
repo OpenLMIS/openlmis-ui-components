@@ -38,7 +38,7 @@ describe('Characters left directive', function() {
         input = element.find('input');
 
         charactersLeftCtrl = input.controller('charactersLeft');
-        spyOn(charactersLeftCtrl, 'updateCharactersLeft').andCallThrough();
+        spyOn(charactersLeftCtrl, 'updateCharactersLeft').and.callThrough();
     }));
 
     it('displays the characters left element when element is focused', function() {
@@ -69,14 +69,14 @@ describe('Characters left directive', function() {
         $timeout.flush();
 
         // Has done multiple changes, but only one call to updateCharactersLeft
-        expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(1);
+        expect(charactersLeftCtrl.updateCharactersLeft.calls.count()).toBe(1);
 
         scope.example = 'foo';
         input.keypress();
         scope.$apply();
         $timeout.flush();
         // Another change, just to make sure it works
-        expect(charactersLeftCtrl.updateCharactersLeft.calls.length).toBe(2);
+        expect(charactersLeftCtrl.updateCharactersLeft.calls.count()).toBe(2);
     });
 
     it('shows an error state when the model value is longer than the allowed length', function() {

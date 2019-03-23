@@ -23,7 +23,7 @@ describe('Input directive', function() {
         $compile = _$compile_;
         scope = $rootScope.$new();
 
-        spyOn(uniqueIdService, 'generate').andReturn('ABC');
+        spyOn(uniqueIdService, 'generate').and.returnValue('ABC');
     }));
 
     it('makes a unique ID, if not already set', function() {

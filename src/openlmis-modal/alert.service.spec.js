@@ -33,7 +33,7 @@ describe('alertService', function() {
             promise: modalDeferred.promise
         };
 
-        spyOn(openlmisModalService, 'createDialog').andReturn(modalMock);
+        spyOn(openlmisModalService, 'createDialog').and.returnValue(modalMock);
     });
 
     describe('error', function() {
@@ -263,7 +263,7 @@ describe('alertService', function() {
     });
 
     function getResolve(name) {
-        return openlmisModalService.createDialog.mostRecentCall.args[0].resolve[name]();
+        return openlmisModalService.createDialog.calls.mostRecent().args[0].resolve[name]();
     }
 
 });

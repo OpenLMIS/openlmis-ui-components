@@ -42,8 +42,8 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
                 tablePane = $compile(markup)(scope);
 
             tablePaneCtrl = tablePane.controller('openlmisTablePane');
-            spyOn(tablePaneCtrl, 'registerStickyCell').andCallThrough();
-            spyOn(tablePaneCtrl, 'unregisterStickyCell').andCallThrough();
+            spyOn(tablePaneCtrl, 'registerStickyCell').and.callThrough();
+            spyOn(tablePaneCtrl, 'unregisterStickyCell').and.callThrough();
 
             element = angular.element('<td openlmis-table-sticky-cell></td>');
             tablePane.find('tr').append(element);
@@ -69,7 +69,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
         beforeEach(inject(function(openlmisTableStickyCellDirective) {
             stickyCellCtrl = jasmine.createSpyObj('stickyCellCtrl', ['setup', 'updatePosition']);
-            stickyCellCtrl.updatePosition.andReturn({
+            stickyCellCtrl.updatePosition.and.returnValue({
                 top: 0,
                 left: 0
             });
@@ -90,7 +90,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-column', '');
             $compile(tableElement)(scope);
 
-            expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickLeft).toBe(true);
+            expect(stickyCellCtrl.setup.calls.mostRecent().args[0].stickLeft).toBe(true);
         });
 
         it('sticks right if has attribute openlmis-sticky-column and openlmis-stick-column-right', function() {
@@ -100,22 +100,22 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
             $compile(tableElement)(scope);
 
-            expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickLeft).toBe(false);
-            expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickRight).toBe(true);
+            expect(stickyCellCtrl.setup.calls.mostRecent().args[0].stickLeft).toBe(false);
+            expect(stickyCellCtrl.setup.calls.mostRecent().args[0].stickRight).toBe(true);
         });
 
         it('sticks top if has attribute openlmis-sticky-top', function() {
             tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-top', '');
             $compile(tableElement)(scope);
 
-            expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickTop).toBe(true);
+            expect(stickyCellCtrl.setup.calls.mostRecent().args[0].stickTop).toBe(true);
         });
 
         it('sticks bottom if has attribute openlmis-sticky-bottom', function() {
             tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-bottom', '');
             $compile(tableElement)(scope);
 
-            expect(stickyCellCtrl.setup.mostRecentCall.args[0].stickBottom).toBe(true);
+            expect(stickyCellCtrl.setup.calls.mostRecent().args[0].stickBottom).toBe(true);
         });
     });
 
@@ -129,7 +129,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             };
 
             stickyCellCtrl = jasmine.createSpyObj('stickyCellCtrl', ['setup', 'updatePosition']);
-            stickyCellCtrl.updatePosition.andReturn(position);
+            stickyCellCtrl.updatePosition.and.returnValue(position);
 
             openlmisTableStickyCellDirective[0].controller = function() {
                 return stickyCellCtrl;
@@ -139,7 +139,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         beforeEach(inject(function($injector) {
             $window = $injector.get('$window');
             $window.requestAnimationFrame = jasmine.createSpy('requestAnimationFrame');
-            $window.requestAnimationFrame.andCallFake(function(fn) {
+            $window.requestAnimationFrame.and.callFake(function(fn) {
                 fn();
             });
 
@@ -166,26 +166,26 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         });
 
         it('is not updated when the position is the same as the last position', function() {
-            var originalAnimationFrames = $window.requestAnimationFrame.calls.length;
+            var originalAnimationFrames = $window.requestAnimationFrame.calls.count();
             position.top = 100;
 
             stickyCellCtrl.updatePosition();
 
-            expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
+            expect($window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 1);
 
             stickyCellCtrl.updatePosition();
 
-            expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
+            expect($window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 1);
 
             position.top = 101;
 
             stickyCellCtrl.updatePosition();
 
-            expect($window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 2);
+            expect($window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 2);
         });
 
         it('will cancel pending animationFrame if position is updated', function() {
-            $window.requestAnimationFrame.andCallFake(function() {
+            $window.requestAnimationFrame.and.callFake(function() {
                 // NOTE: Not calling function, so all animation frames will be "pending"
                 return 'animationFrameId';
             });
