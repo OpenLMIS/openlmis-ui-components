@@ -1,0 +1,13 @@
+.openlmis-cron-selection {
+    display: flex;
+    align-items: center;
+
+    &>* {
+        margin-right: 0.5em;
+    }
+
+    .input-control>input {
+        width: 2em;
+        text-align: right
+    }
+}

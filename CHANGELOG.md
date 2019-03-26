@@ -1,6 +1,9 @@
 7.0.1 / Work in Progress
 ========================
 
+New functionality added in a backwards-compatible manner:
+* [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Added openlmisCronSelection component.
+
 Improvements:
 * [OLMIS-5822](https://openlmis.atlassian.net/browse/OLMIS-5822): Extended the OpenlmisArrayDecorator with a sortBy class.
 * [OLMIS-5655](https://openlmis.atlassian.net/browse/OLMIS-5655): Updated modalStateProvider to not require parentResolves property when it is empty.
