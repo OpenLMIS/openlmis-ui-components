@@ -25,6 +25,7 @@
      */
     angular.module('openlmis-currency', [
         'openlmis-local-storage',
+        'openlmis-locale',
         'openlmis-offline',
         'openlmis-urls',
         'ngResource'

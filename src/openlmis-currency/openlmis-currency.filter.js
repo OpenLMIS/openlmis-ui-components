@@ -32,12 +32,12 @@
         .module('openlmis-currency')
         .filter('openlmisCurrency', filter);
 
-    filter.$inject = ['currencyService'];
+    filter.$inject = ['localeService'];
 
-    function filter(currencyService) {
+    function filter(localeService) {
         return function(value) {
             if (value !== null && value !== undefined) {
-                var settings = currencyService.getFromStorage();
+                var settings = localeService.getFromStorage();
                 if (settings.currencySymbolSide === 'right') {
                     return formatMoney(value, settings) + '\u00A0' + settings.currencySymbol;
                 }
