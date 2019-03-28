@@ -33,11 +33,28 @@
         .module('openlmis-date')
         .filter('openlmisDatetime', openlmisDatetimeFilter);
 
-    openlmisDatetimeFilter.$inject = ['$filter', 'DEFAULT_DATETIME_FORMAT'];
+    openlmisDatetimeFilter.$inject = ['$filter', 'DEFAULT_DATETIME_FORMAT', 'localeService', 'moment'];
 
-    function openlmisDatetimeFilter($filter, DEFAULT_DATETIME_FORMAT) {
-        return function(datetime, datetimeFormat) {
-            return $filter('date')(datetime, datetimeFormat ? datetimeFormat : DEFAULT_DATETIME_FORMAT);
+    function openlmisDatetimeFilter($filter, DEFAULT_DATETIME_FORMAT, localeService, moment) {
+        return function(datetime, datetimeFormat, timezone) {
+            if (!datetimeFormat) {
+                if (localeService.getFromStorage() && localeService.getFromStorage().dateTimeFormat) {
+                    datetimeFormat = localeService.getFromStorage().dateTimeFormat;
+                } else {
+                    datetimeFormat = DEFAULT_DATETIME_FORMAT;
+                }
+            }
+
+            if (!timezone) {
+                if (localeService.getFromStorage() && localeService.getFromStorage().timeZoneId) {
+                    var offset = moment.tz(datetime, localeService.getFromStorage().timeZoneId).format('Z');
+                    timezone = offset;
+                } else {
+                    timezone = 'UTC';
+                }
+            }
+
+            return $filter('date')(datetime, datetimeFormat, timezone);
         };
     }
 

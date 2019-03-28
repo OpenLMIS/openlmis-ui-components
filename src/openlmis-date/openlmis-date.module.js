@@ -23,6 +23,8 @@
      * @description
      * The openlmis-date module is responsible for dates.
      */
-    angular.module('openlmis-date', []);
+    angular.module('openlmis-date', [
+        'openlmis-locale'
+    ]);
 
 })();

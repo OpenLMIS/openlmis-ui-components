@@ -28,6 +28,9 @@
         'openlmis-modal',
         'openlmis-templates',
         'openlmis-config',
+        'openlmis-local-storage',
+        'openlmis-urls',
+        'ngResource',
         'ui.router'
     ]);
 
