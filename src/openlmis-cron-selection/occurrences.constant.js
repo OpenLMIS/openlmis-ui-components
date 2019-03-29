@@ -22,26 +22,13 @@
      * @name openlmis-cron-selection.SIMPLE_CRON_REGEX
      *
      * @description
-     * Stores a regex for testing whether string is a simple cron expression meaning it can be displayed by the
-     * openlmis-cron-selection directive in a user friendly way.
+     * Stores keys for possible occurrences.
      */
     angular
         .module('openlmis-cron-selection')
-        .constant('SIMPLE_CRON_REGEX', new RegExp(
-            '^' +
-            //seconds, only 0 allowed
-            '0 ' +
-            //minutes, 0 - 59 allowed
-            '[0-5]?[0-9] ' +
-            //hour, 0 - 23 allowed
-            '([0-1][0-9]|2[0-3]|[0-9]) ' +
-            //day, only every day allowed
-            '\\* ' +
-            //month, only every day allowed
-            '\\* ' +
-            //weekday, only daily or once a week allowed
-            '([*]|[0-6])' +
-            '$'
-        ));
+        .constant('OCCURRENCES', {
+            DAILY: 'openlmisCronSelection.daily',
+            WEEKLY: 'openlmisCronSelection.weekly'
+        });
 
 })();

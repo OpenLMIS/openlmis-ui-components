@@ -1,0 +1,16 @@
+{
+    "openlmisCronSelection.weekly": "Weekly",
+    "openlmisCronSelection.daily": "Daily",
+    "openlmisCronSelection.hourOutOfRange": "Hour must be between 0 and 23",
+    "openlmisCronSelection.minuteOutOfRange": "Minute must be between 0 and 59",
+    "openlmisCronSelection.invalidCron": "Invalid cron expression",
+    "openlmisCronSelection.sunday": "Sunday",
+    "openlmisCronSelection.monday": "Monday",
+    "openlmisCronSelection.tuesday": "Tuesday",
+    "openlmisCronSelection.wednesday": "Wednesday",
+    "openlmisCronSelection.thursday": "Thursday",
+    "openlmisCronSelection.friday": "Friday",
+    "openlmisCronSelection.saturday": "Saturday",
+    "openlmisCronSelection.on": "on",
+    "openlmisCronSelection.at": "at"
+}

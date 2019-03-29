@@ -36,31 +36,29 @@
         .module('openlmis-cron-selection')
         .directive('openlmisCronSelection', openlmisCronSelectionDirective);
 
-    openlmisCronSelectionDirective.$inject = ['CRON_REGEX', 'SIMPLE_CRON_REGEX', 'WEEKDAYS'];
+    openlmisCronSelectionDirective.$inject = ['CRON_REGEX', 'SIMPLE_CRON_REGEX', 'WEEKDAYS', 'OCCURRENCES'];
 
-    function openlmisCronSelectionDirective(CRON_REGEX, SIMPLE_CRON_REGEX, WEEKDAYS) {
+    function openlmisCronSelectionDirective(CRON_REGEX, SIMPLE_CRON_REGEX, WEEKDAYS, OCCURRENCES) {
         return {
             link: link,
             templateUrl: 'openlmis-cron-selection/openlmis-cron-selection.html',
             require: 'ngModel',
-            scope: {},
+            scope: {
+                ngRequired: '=',
+                ngDisabled: '='
+            },
             restrict: 'E'
         };
 
         function link(scope, _, __, ngModelCtrl) {
             scope.weekdays = WEEKDAYS;
+            scope.occurrences = OCCURRENCES;
 
-            scope.validateHour = function() {
-                return validateHour(scope.hour, scope.isComplex);
-            };
-
-            scope.validateMinute = function() {
-                return validateMinute(scope.minute, scope.isComplex);
-            };
-
-            scope.validateCronExpression = function() {
-                return validateCronExpression(scope.cronExpression, scope.isComplex);
-            };
+            scope.validateHour = validateHour;
+            scope.validateMinute = validateMinute;
+            scope.validateCronExpression = validateCronExpression;
+            scope.isWeekly = isWeekly;
+            scope.isDaily = isDaily;
 
             ngModelCtrl.$formatters.push(modelToViewValue);
             ngModelCtrl.$parsers.push(viewToModelValue);
@@ -92,29 +90,32 @@
             }
 
             function modelToViewValue(modelValue) {
-                var split = modelValue.split(' '),
-                    minute = split[1],
-                    hour = split[2],
-                    weekday = split[5],
-                    cronExpression = modelValue;
+                var isComplex;
+                if (modelValue) {
+                    var split = modelValue.split(' '),
+                        minute = split[1],
+                        hour = split[2],
+                        weekday = split[5],
+                        cronExpression = modelValue;
+                }
+                isComplex = modelValue ? isComplexCron(modelValue) : false;
 
-                return buildViewValue(minute, hour, weekday, cronExpression, isComplexCron(modelValue));
+                return buildViewValue(minute, hour, weekday, cronExpression, isComplex);
             }
 
             function viewToModelValue(viewValue) {
                 if (viewValue.isComplex) {
-                    return isValidCron(viewValue.cronExpression) ? viewValue.cronExpression : undefined;
+                    return isValidCron(viewValue.cronExpression) ? viewValue.cronExpression : '';
                 }
                 if (isViewValueValid(viewValue)) {
                     return buildModelValue(viewValue.minute, viewValue.hour, viewValue.weekday);
                 }
-                return undefined;
+                return '';
             }
 
-            function validateCronExpression(cronExpression, isComplex) {
-                if (isComplex && !isValidCron(cronExpression)) {
-                    return 'openlmisCronSelection.invalidCron';
-                }
+            function validateCronExpression(cronExpression, isComplex, ngDisabled) {
+                return !ngDisabled && isComplex && cronExpression && !isValidCron(cronExpression) ?
+                    'openlmisCronSelection.invalidCron' : undefined;
             }
 
             function isValidCron(cronExpression) {
@@ -125,24 +126,48 @@
                 return !SIMPLE_CRON_REGEX.test(value);
             }
 
+            function evaluateDefaultForWeekly(oldVal, newVal) {
+                var SUNDAY = 0;
+                if (isWeekly(newVal) && isDaily(oldVal)) {
+                    return SUNDAY;
+                }
+            }
+
+            function evaluateOccurrence(weekday) {
+                if (weekday) {
+                    var DAILY = '*';
+                    return weekday === DAILY ? OCCURRENCES.DAILY : OCCURRENCES.WEEKLY;
+                }
+            }
+
+            function evaluateWeekday(occurrence, weekday, defaultForWeekly) {
+                var DAILY = '*';
+                if (isDaily(occurrence)) {
+                    return DAILY;
+                } else if (isWeekly(occurrence)) {
+                    return weekday === undefined ? defaultForWeekly : weekday;
+                }
+                return undefined;
+            }
+
+            function isDaily(occurrence) {
+                return occurrence === OCCURRENCES.DAILY;
+            }
+
+            function isWeekly(occurrence) {
+                return occurrence === OCCURRENCES.WEEKLY;
+            }
         }
     }
 
-    function evaluateDefaultForWeekly(oldVal, newVal) {
-        var SUNDAY = 0;
-        if (newVal === 'Weekly' && oldVal === 'Daily') {
-            return SUNDAY;
-        }
-    }
-
-    function validateHour(hour, isComplex) {
-        if (hour && !isComplex && !isBetween(hour, 0, 23)) {
+    function validateHour(hour, isComplex, ngDisabled) {
+        if (!ngDisabled && hour && !isComplex && !isBetween(hour, 0, 23)) {
             return 'openlmisCronSelection.hourOutOfRange';
         }
     }
 
-    function validateMinute(minute, isComplex) {
-        if (minute && !isComplex && !isBetween(minute, 0, 59)) {
+    function validateMinute(minute, isComplex, ngDisabled) {
+        if (!ngDisabled && minute && !isComplex && !isBetween(minute, 0, 59)) {
             return 'openlmisCronSelection.minuteOutOfRange';
         }
     }
@@ -158,12 +183,12 @@
     }
 
     function isHourValid(hour) {
-        return !_.isUndefined(hour)
+        return (hour || hour === 0)
             && isBetween(hour, 0, 23);
     }
 
     function isMinuteValid(minute) {
-        return !_.isUndefined(minute)
+        return (minute || minute === 0)
             && isBetween(minute, 0, 59);
     }
 
@@ -174,29 +199,6 @@
 
     function buildModelValue(minute, hour, weekday) {
         return '0 ' + minute + ' ' + hour + ' * * ' + weekday;
-    }
-
-    function evaluateOccurrence(weekday) {
-        var DAILY = '*';
-        return weekday === DAILY ? 'Daily' : 'Weekly';
-    }
-
-    function evaluateWeekday(occurrence, weekday, defaultForWeekly) {
-        var DAILY = '*';
-        if (isDaily(occurrence)) {
-            return DAILY;
-        } else if (isWeekly(occurrence)) {
-            return weekday === undefined ? defaultForWeekly : weekday;
-        }
-        return undefined;
-    }
-
-    function isDaily(occurrence) {
-        return occurrence === 'Daily';
-    }
-
-    function isWeekly(occurrence) {
-        return occurrence === 'Weekly';
     }
 
     function convertWeekdayToNumber(weekdays, weekday) {

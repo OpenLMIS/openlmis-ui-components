@@ -28,6 +28,8 @@ describe('<openlmis-cron-selection/>', function() {
 
         this.scope = this.$rootScope.$new();
         this.scope.cronExpression = '0 30 13 * * *';
+        this.scope.ngRequired = true;
+        this.scope.ngDisabled = false;
 
         var translations = {
             'openlmisCronSelection.weekly': 'weekly',
@@ -51,7 +53,12 @@ describe('<openlmis-cron-selection/>', function() {
     });
 
     function compileElement(markup) {
-        var element = this.$compile(markup || '<openlmis-cron-selection ng-model="cronExpression"/>')(this.scope);
+        var defaultMarkup = '<openlmis-cron-selection ' +
+            'ng-model="cronExpression" ' +
+            'ng-required="ngRequired" ' +
+            'ng-disabled="ngDisabled"/>';
+
+        var element = this.$compile(markup || defaultMarkup)(this.scope);
         this.$rootScope.$apply();
         return element;
     }
@@ -73,19 +80,35 @@ describe('<openlmis-cron-selection/>', function() {
 
             var element = this.compileElement();
 
-            expect(element.find('#occurrence').val()).toEqual('string:Weekly');
+            var value = element.find('#occurrence').val();
+
+            expect(element.find('[value=\'' + value + '\']')
+                .attr('label')).toEqual('weekly');
         });
 
         it('should set occurrence to daily if initial cron expression is daily', function() {
             var element = this.compileElement();
 
-            expect(element.find('#occurrence').val()).toEqual('string:Daily');
+            var value = element.find('#occurrence').val();
+
+            expect(element.find('[value=\'' + value + '\']')
+                .attr('label')).toEqual('daily');
+        });
+
+        it('should not set occurrence if initial cron is empty ', function() {
+            this.scope.cronExpression = '';
+
+            var element = this.compileElement();
+
+            expect(element.find('select#occurrence').val()).toBeFalsy();
         });
 
         it('should update model after changing from daily to weekly', function() {
             var element = this.compileElement();
 
-            element.find('select#occurrence').val('string:Weekly')
+            var value = element.find('[label="weekly"]').attr('value');
+
+            element.find('select#occurrence').val(value)
                 .change();
 
             expect(this.scope.cronExpression).toEqual('0 30 13 * * 0');
@@ -96,26 +119,21 @@ describe('<openlmis-cron-selection/>', function() {
 
             var element = this.compileElement();
 
-            element.find('select#occurrence').val('string:Daily')
+            var value = element.find('[label="daily"]').attr('value');
+
+            element.find('select#occurrence').val(value)
                 .change();
 
             expect(this.scope.cronExpression).toEqual('0 30 13 * * *');
         });
 
-        it('should update model to undefined if occurrence is not selected', function() {
+        it('should update model to empty string if occurrence is not selected', function() {
             var element = this.compileElement();
 
             element.find('select#occurrence').val('')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
-        });
-
-        it('should be required', function() {
-            var element = this.compileElement();
-
-            expect(element.find('select#occurrence')
-                .prop('required')).toBe(true);
+            expect(this.scope.cronExpression).toBe('');
         });
 
     });
@@ -128,9 +146,9 @@ describe('<openlmis-cron-selection/>', function() {
             expect(element.find('select#weekday').parents('.ng-hide')
                 .get(0)).toBeDefined();
 
-            element.find('#occurrence').val('string:Weekly')
+            var value = element.find('[label="weekly"]').attr('value');
+            element.find('select#occurrence').val(value)
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('select#weekday').parents('.ng-hide')
                 .get(0)).toBeUndefined();
@@ -154,7 +172,6 @@ describe('<openlmis-cron-selection/>', function() {
 
             element.find('#occurrence').val('string:Daily')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('select#weekday').parents('.ng-hide')
                 .get(0)).toBeDefined();
@@ -181,12 +198,11 @@ describe('<openlmis-cron-selection/>', function() {
 
             element.find('select#weekday').val(value)
                 .change();
-            this.$rootScope.$apply();
 
             expect(this.scope.cronExpression).toEqual('0 30 13 * * 2');
         });
 
-        it('should update model to undefined if weekday is not selected', function() {
+        it('should update model to empty string if weekday is not selected', function() {
             this.scope.cronExpression = '0 30 13 * * 4';
 
             var element = this.compileElement();
@@ -194,7 +210,7 @@ describe('<openlmis-cron-selection/>', function() {
             element.find('select#weekday').val('')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
         it('should update model after selecting Sunday', function() {
@@ -210,6 +226,7 @@ describe('<openlmis-cron-selection/>', function() {
 
         it('should make weekday selection required if weekly digest is selected', function() {
             this.scope.cronExpression = '0 30 13 * * 4';
+            this.scope.isRequired = 'true';
 
             var element = this.compileElement();
 
@@ -249,13 +266,13 @@ describe('<openlmis-cron-selection/>', function() {
             expect(this.scope.cronExpression).toEqual('0 30 12 * * *');
         });
 
-        it('should update model to undefined if hour is not selected', function() {
+        it('should update model to empty string if hour is not selected', function() {
             var element = this.compileElement();
 
             element.find('input#hour').val('')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
         it('should update model after setting hour to 0', function() {
@@ -267,48 +284,38 @@ describe('<openlmis-cron-selection/>', function() {
             expect(this.scope.cronExpression).toEqual('0 30 0 * * *');
         });
 
-        it('should update model to undefined after changing hour to 24', function() {
+        it('should update model to empty string after changing hour to 24', function() {
             var element = this.compileElement();
 
             element.find('input#hour').val('24')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
-        it('should update model to undefined after changing hour to over 24', function() {
+        it('should update model to empty string after changing hour to over 24', function() {
             var element = this.compileElement();
 
             element.find('input#hour').val('600')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
-        it('should update model to undefined after changing hour to negative number', function() {
+        it('should update model to empty string after changing hour to negative number', function() {
             var element = this.compileElement();
 
             element.find('input#hour').val('-1')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
-        });
-
-        it('should be required', function() {
-            var element = this.compileElement();
-
-            expect(element.find('input#hour')
-                .prop('required')).toBe(true);
+            expect(this.scope.cronExpression).toBe('');
         });
 
         it('should show error after changing hour to 24', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#hour')
-                .val('24')
+            element.find('input#hour').val('24')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("hourOutOfRange")').get(0)).toBeDefined();
         });
@@ -316,11 +323,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should show error after changing hour to over 24', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#hour')
-                .val('600')
+            element.find('input#hour').val('600')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("hourOutOfRange")').get(0)).toBeDefined();
         });
@@ -328,11 +332,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should show error after changing hour to negative number', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#hour')
-                .val('-1')
+            element.find('input#hour').val('-1')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("hourOutOfRange")').get(0)).toBeDefined();
         });
@@ -340,11 +341,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should not show hour our of range error for undefined hour', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#hour')
-                .val('')
+            element.find('input#hour').val('')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("hourOutOfRange")').get(0)).toBeUndefined();
         });
@@ -374,13 +372,13 @@ describe('<openlmis-cron-selection/>', function() {
             expect(this.scope.cronExpression).toEqual('0 45 13 * * *');
         });
 
-        it('should update model to undefined if minute is not selected', function() {
+        it('should update model to empty string if minute is not selected', function() {
             var element = this.compileElement();
 
             element.find('input#minute').val('')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
         it('should update model after setting minute to 0', function() {
@@ -392,48 +390,38 @@ describe('<openlmis-cron-selection/>', function() {
             expect(this.scope.cronExpression).toEqual('0 0 13 * * *');
         });
 
-        it('should update model to undefined if minute is set to 60', function() {
+        it('should update model to empty string if minute is set to 60', function() {
             var element = this.compileElement();
 
             element.find('input#minute').val('60')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
-        it('should update model to undefined after changing minute to over 60', function() {
+        it('should update model to empty string after changing minute to over 60', function() {
             var element = this.compileElement();
 
             element.find('input#minute').val('600')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
+            expect(this.scope.cronExpression).toBe('');
         });
 
-        it('should update model to undefined after changing minute to negative number', function() {
+        it('should update model to empty string after changing minute to negative number', function() {
             var element = this.compileElement();
 
             element.find('input#minute').val('-1')
                 .change();
 
-            expect(this.scope.cronExpression).toBeUndefined();
-        });
-
-        it('should be required', function() {
-            var element = this.compileElement();
-
-            expect(element.find('input#minute')
-                .prop('required')).toBe(true);
+            expect(this.scope.cronExpression).toBe('');
         });
 
         it('should show error after changing minute to 60', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#minute')
-                .val('60')
+            element.find('input#minute').val('60')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("minuteOutOfRange")').get(0)).toBeDefined();
         });
@@ -441,11 +429,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should show error after changing minute to over 60', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#minute')
-                .val('600')
+            element.find('input#minute').val('600')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("minuteOutOfRange")').get(0)).toBeDefined();
         });
@@ -453,11 +438,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should show error after changing minute to negative number', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#minute')
-                .val('-1')
+            element.find('input#minute').val('-1')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("minuteOutOfRange")').get(0)).toBeDefined();
         });
@@ -465,11 +447,8 @@ describe('<openlmis-cron-selection/>', function() {
         it('should not show minute our of range error for undefined minute', function() {
             var element = this.compileElement();
 
-            element
-                .find('input#minute')
-                .val('')
+            element.find('input#minute').val('')
                 .change();
-            this.$rootScope.$apply();
 
             expect(element.find('*:contains("minuteOutOfRange")').get(0)).toBeUndefined();
         });
@@ -509,9 +488,7 @@ describe('<openlmis-cron-selection/>', function() {
 
             var element = this.compileElement();
 
-            element
-                .find('input#cronExpression')
-                .val('0 0/16 * * * 6')
+            element.find('input#cronExpression').val('0 0/16 * * * 6')
                 .change();
 
             expect(this.scope.cronExpression).toEqual('0 0/16 * * * 6');
@@ -551,6 +528,42 @@ describe('<openlmis-cron-selection/>', function() {
             expect(element.find('*:contains("invalidCron")').get(0)).toBeDefined();
         });
 
+        it('should not validate cron for empty field', function() {
+            this.scope.cronExpression = '* * * * *';
+
+            var element = this.compileElement();
+
+            element.find('input#cronExpression').val('')
+                .change();
+            this.scope.$digest();
+
+            expect(element.find('*:contains("invalidCron")').get(0)).toBeUndefined();
+        });
+
+    });
+
+    it('should show regular controls for undefined cron', function() {
+        this.scope.cronExpression = undefined;
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence').parents('.ng-hide')
+            .get(0)).toBeUndefined();
+
+        expect(element.find('input#cronExpression').parents('.ng-hide')
+            .get(0)).toBeDefined();
+    });
+
+    it('should show regular controls for empty cron', function() {
+        this.scope.cronExpression = '';
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence').parents('.ng-hide')
+            .get(0)).toBeUndefined();
+
+        expect(element.find('input#cronExpression').parents('.ng-hide')
+            .get(0)).toBeDefined();
     });
 
     it('should be restricted to element', function() {
@@ -565,6 +578,161 @@ describe('<openlmis-cron-selection/>', function() {
         element = this.compileElement(markup);
 
         expect(element.find('#occurrence').get(0)).toBeUndefined();
+    });
+
+    it('should make all fields disabled if directive is marked as disabled', function() {
+        this.scope.ngDisabled = true;
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('disabled')).toBe(true);
+
+        expect(element.find('select#weekday')
+            .prop('disabled')).toBe(true);
+
+        expect(element.find('input#hour')
+            .prop('disabled')).toBe(true);
+
+        expect(element.find('input#minute')
+            .prop('disabled')).toBe(true);
+
+        expect(element.find('input#cronExpression')
+            .prop('disabled')).toBe(true);
+    });
+
+    it('should make all fields enabled if directive is marked as enabled', function() {
+        this.scope.ngDisabled = false;
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('disabled')).toBe(false);
+
+        expect(element.find('select#weekday')
+            .prop('disabled')).toBe(false);
+
+        expect(element.find('input#hour')
+            .prop('disabled')).toBe(false);
+
+        expect(element.find('input#minute')
+            .prop('disabled')).toBe(false);
+
+        expect(element.find('input#cronExpression')
+            .prop('disabled')).toBe(false);
+    });
+
+    it('should make all fields required if directive is marked as required', function() {
+        this.scope.cronExpression = '0 0 0 * * 4';
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('required')).toBe(true);
+
+        expect(element.find('select#weekday')
+            .prop('required')).toBe(true);
+
+        expect(element.find('input#hour')
+            .prop('required')).toBe(true);
+
+        expect(element.find('input#minute')
+            .prop('required')).toBe(true);
+
+        expect(element.find('input#cronExpression')
+            .prop('required')).toBe(true);
+    });
+
+    it('should make all fields optional if directive is marked as optional', function() {
+        this.scope.ngRequired = false;
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('required')).toBe(false);
+
+        expect(element.find('select#weekday')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#hour')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#minute')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#cronExpression')
+            .prop('required')).toBe(false);
+    });
+
+    it('should make all fields optional if directive is marked as disabled', function() {
+        this.scope.ngDisabled = true;
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('required')).toBe(false);
+
+        expect(element.find('select#weekday')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#hour')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#minute')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#cronExpression')
+            .prop('required')).toBe(false);
+    });
+
+    it('should disable validations for disabled fields for simple cron', function() {
+        this.scope.ngDisabled = false;
+
+        var element = this.compileElement();
+
+        element.find('input#hour').val('123')
+            .change();
+        element.find('input#minute').val('123')
+            .change();
+
+        this.scope.ngDisabled = true;
+        this.$rootScope.$apply();
+
+        expect(element.find('*:contains("hourOutOfRange")').get(0)).toBeUndefined();
+        expect(element.find('*:contains("minuteOutOfRange")').get(0)).toBeUndefined();
+    });
+
+    it('should disable validations for disabled fields for complex cron', function() {
+        this.scope.ngDisabled = false;
+        this.scope.cronExpression = '0 0/15 0 * * *';
+
+        var element = this.compileElement();
+
+        element.find('input#cronExpression').val('Totally invalid cron expression')
+            .change();
+
+        this.scope.ngDisabled = true;
+        this.$rootScope.$apply();
+
+        expect(element.find('*:contains("invalidCron")').get(0)).toBeUndefined();
+    });
+
+    it('should be valid when disabled', function() {
+        this.scope.ngDisabled = true;
+        this.scope.cronExpression = undefined;
+
+        var element = this.compileElement();
+
+        expect(element.controller('ngModel').$valid).toBe(true);
+    });
+
+    it('should be valid when optional', function() {
+        this.scope.ngRequired = false;
+        this.scope.cronExpression = undefined;
+
+        var element = this.compileElement();
+
+        expect(element.controller('ngModel').$valid).toBe(true);
     });
 
 });
