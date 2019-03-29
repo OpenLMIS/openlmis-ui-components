@@ -27,31 +27,23 @@
      *
      * @param  {String} datetime        datetime to be formatted
      * @param  {String} dateTimeFormat  (optional) format of the datetime
+     * @param  {String} timezone        (optional) timezone with which to format (e.g. America/Los_Angeles)
      * @return {String}                 formatted datetime
      */
     angular
         .module('openlmis-date')
         .filter('openlmisDatetime', openlmisDatetimeFilter);
 
-    openlmisDatetimeFilter.$inject = ['$filter', 'DEFAULT_DATETIME_FORMAT', 'localeService', 'moment'];
+    openlmisDatetimeFilter.$inject = ['$filter', 'localeService', 'moment'];
 
-    function openlmisDatetimeFilter($filter, DEFAULT_DATETIME_FORMAT, localeService, moment) {
+    function openlmisDatetimeFilter($filter, localeService, moment) {
         return function(datetime, datetimeFormat, timezone) {
             if (!datetimeFormat) {
-                if (localeService.getFromStorage() && localeService.getFromStorage().dateTimeFormat) {
-                    datetimeFormat = localeService.getFromStorage().dateTimeFormat;
-                } else {
-                    datetimeFormat = DEFAULT_DATETIME_FORMAT;
-                }
+                datetimeFormat = localeService.getFromStorage().dateTimeFormat;
             }
 
             if (!timezone) {
-                if (localeService.getFromStorage() && localeService.getFromStorage().timeZoneId) {
-                    var offset = moment.tz(datetime, localeService.getFromStorage().timeZoneId).format('Z');
-                    timezone = offset;
-                } else {
-                    timezone = 'UTC';
-                }
+                timezone = moment.tz(datetime, localeService.getFromStorage().timeZoneId).format('Z');
             }
 
             return $filter('date')(datetime, datetimeFormat, timezone);

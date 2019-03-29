@@ -18,10 +18,6 @@ describe('openlmisDateFilter', function() {
     var $filter, localeSettings = {}, offset;
 
     beforeEach(function() {
-        angular.mock.module('openlmis-date', function($provide) {
-            $provide.constant('DEFAULT_DATE_FORMAT', 'shortDate');
-        });
-
         var localeServiceSpy = {
             getFromStorage: function() {
                 return localeSettings;
@@ -68,34 +64,15 @@ describe('openlmisDateFilter', function() {
         expect($filter('openlmisDate')('2017-10-01', 'fullDate', 'UTC')).toEqual('Sunday, October 1, 2017');
     });
 
-    it('should return date in format specified and timezone from setting if set', function() {
+    it('should return date in format specified and timezone from setting', function() {
         expect($filter('openlmisDate')('2017-10-01', 'shortDate')).toEqual('9/30/17');
     });
 
-    it('should return date in format specified and timezone UTC if setting not set', function() {
-        localeSettings['timeZoneId'] = undefined;
-
-        expect($filter('openlmisDate')('2017-10-01', 'shortDate')).toEqual('10/1/17');
-    });
-
-    it('should return date in timezone specified and format from setting if set', function() {
+    it('should return date in timezone specified and format from setting', function() {
         expect($filter('openlmisDate')('2017-10-01', undefined, 'UTC')).toEqual('01/10/2017');
     });
 
-    it('should return date in timezone specified and default format if setting not set', function() {
-        localeSettings['dateFormat'] = undefined;
-
-        expect($filter('openlmisDate')('2017-10-01', undefined, 'UTC')).toEqual('10/1/17');
-    });
-
-    it('should return date in format and timezone from settings if set', function() {
+    it('should return date in format and timezone from settings', function() {
         expect($filter('openlmisDate')('2017-10-01')).toEqual('30/09/2017');
-    });
-
-    it('should return date in default format and timezone UTC if settings not set', function() {
-        localeSettings['timeZoneId'] = undefined;
-        localeSettings['dateFormat'] = undefined;
-
-        expect($filter('openlmisDate')('2017-10-01')).toEqual('10/1/17');
     });
 });

@@ -15,14 +15,37 @@
 
 describe('periodFilter', function() {
 
-    var $filter, period;
+    var $filter, period, localeSettings = {}, offset;
 
     beforeEach(function() {
-        angular.mock.module('openlmis-date', function($provide) {
-            $provide.constant('DEFAULT_DATE_FORMAT', 'shortDate');
-        });
+        var localeServiceSpy = {
+            getFromStorage: function() {
+                return localeSettings;
+            }
+        };
 
-        module('openlmis-date');
+        var momentSpy = {
+            tz: function() {
+                return {
+                    format: function() {
+                        return offset;
+                    }
+                };
+            }
+        };
+
+        localeSettings['timeZoneId'] = 'UTC';
+        localeSettings['dateFormat'] = 'M/d/yy';
+        offset = '-07:00';
+
+        module('openlmis-date', function($provide) {
+            $provide.service('localeService', function() {
+                return localeServiceSpy;
+            });
+            $provide.service('moment', function() {
+                return momentSpy;
+            });
+        });
 
         inject(function($injector) {
             $filter = $injector.get('$filter');

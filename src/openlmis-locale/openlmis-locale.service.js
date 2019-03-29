@@ -27,9 +27,9 @@
         .module('openlmis-locale')
         .service('localeService', service);
 
-    service.$inject = ['$q', '$resource', 'openlmisUrlFactory', 'localStorageService'];
+    service.$inject = ['$resource', 'openlmisUrlFactory', 'localStorageService'];
 
-    function service($q, $resource, openlmisUrlFactory, localStorageService) {
+    function service($resource, openlmisUrlFactory, localStorageService) {
 
         var resource = $resource(openlmisUrlFactory('/localeSettings'));
 
@@ -48,9 +48,9 @@
          * @return {Promise} promise that resolves when settings are taken.
          */
         function getLocaleSettings() {
-            var deferred = $q.defer(), localeSettings = {};
+            var localeSettings = {};
 
-            resource.get({}, function(data) {
+            return resource.get({}).$promise.then(function(data) {
                 localeSettings['currencyCode'] = data.currencyCode;
                 localeSettings['currencySymbol'] = data.currencySymbol;
                 localeSettings['currencySymbolSide'] = data.currencySymbolSide;
@@ -62,12 +62,8 @@
                 localeSettings['dateFormat'] = data.dateFormat;
                 localeSettings['dateTimeFormat'] = data.dateTimeFormat;
                 localStorageService.add('localeSettings', angular.toJson(localeSettings));
-                deferred.resolve();
-            }, function() {
-                deferred.reject();
-            });
-
-            return deferred.promise;
+            })
+                .catch(getLocaleSettingsFromConfig);
         }
 
         /**
@@ -105,6 +101,10 @@
          * @return {Object} locale settings.
          */
         function getFromStorage() {
+            var localeSettings = localStorageService.get('localeSettings');
+            if (!localeSettings) {
+                getLocaleSettingsFromConfig();
+            }
             return angular.fromJson(localStorageService.get('localeSettings'));
         }
     }
