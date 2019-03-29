@@ -1,8 +1,10 @@
-7.0.1 / Work in Progress
+7.1.0 / Work in Progress
 ========================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Added openlmisCronSelection component.
+* [OLMIS-4944](https://openlmis.atlassian.net/browse/OLMIS-4944): Added a new localeService to get locale settings from the OpenLMIS server.
+* [OLMIS-4944](https://openlmis.atlassian.net/browse/OLMIS-4944): Refactored date filters to use locale settings, with support for a timezone parameter.
 
 Improvements:
 * [OLMIS-5822](https://openlmis.atlassian.net/browse/OLMIS-5822): Extended the OpenlmisArrayDecorator with a sortBy class.
@@ -10,7 +12,6 @@ Improvements:
 * [OLMIS-3773](https://openlmis.atlassian.net/browse/OLMIS-3773): Extended the OpenlmisArrayDecorator with a getUnique method.
 * [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Added FunctionDecorator class.
 * [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Extended the OpenlmisResource with the ability to pass custom parameters when calling create method.
-* [OLMIS-4944](https://openlmis.atlassian.net/browse/OLMIS-4944): Added a new localeService to get locale settings from the OpenLMIS server, and refactor date filters to use locale settings, including timezone.
 
 Bug fixes:
 * [OLMIS-3987:](https://openlmis.atlassian.net/browse/OLMIS-3987) Fixed wrapping long text in modals.
