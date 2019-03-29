@@ -67,18 +67,25 @@
          * Decorates the function with loading. This decoration is transparent, meaning it won't change the function and
          * returned promise behaviors.
          *
-         * @param {Function}           fn  the function to decorate
-         * @return {FunctionDecorator}     this instance of the Function Decorator
+         * @param {bool}               leaveOpen  flag defining whether loading modal should stay open after resolving
+         *                                        the promise returned by the decorated method.
+         * @return {FunctionDecorator}            this instance of the Function Decorator
          */
-        function withLoading() {
+        function withLoading(leaveOpen) {
             var originalFn = this.fn;
             this.fn = function() {
                 loadingModalService.open();
-                return originalFn.apply(undefined, arguments)
-                    .then(function(result) {
+
+                var promise = originalFn.apply(undefined, arguments);
+
+                if (!leaveOpen) {
+                    promise = promise.then(function(result) {
                         loadingModalService.close();
                         return result;
-                    })
+                    });
+                }
+
+                return promise
                     .catch(function(error) {
                         loadingModalService.close();
                         return $q.reject(error);

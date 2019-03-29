@@ -241,6 +241,20 @@ describe('FunctionDecorator', function() {
             expect(error).toEqual(this.resolveError);
         });
 
+        it('should not close loading modal after original function resolves if leaveOpen flag is set', function() {
+            var decorated = new this.FunctionDecorator()
+                .decorateFunction(this.fn)
+                .withLoading(true)
+                .getDecoratedFunction();
+
+            decorated();
+
+            this.functionDeferred.resolve();
+            this.$rootScope.$apply();
+
+            expect(this.loadingModalService.close).not.toHaveBeenCalled();
+        });
+
     });
 
 });
