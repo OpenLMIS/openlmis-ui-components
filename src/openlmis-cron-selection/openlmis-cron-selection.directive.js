@@ -78,11 +78,8 @@
             scope.$watch('hour', handleScopeChange);
 
             function handleScopeChange(newVal, oldVal) {
-                var weekday = evaluateWeekday(
-                    scope.occurrence,
-                    convertWeekdayToNumber(scope.weekdays, scope.weekday),
-                    evaluateDefaultForWeekly(oldVal, newVal)
-                );
+                var weekday = evaluateWeekday(scope.occurrence, convertWeekdayToNumber(scope.weekdays, scope.weekday),
+                    evaluateDefaultForWeekly(oldVal, newVal));
 
                 ngModelCtrl.$setViewValue(buildViewValue(
                     scope.minute, scope.hour, weekday, scope.cronExpression, scope.isComplex
@@ -127,7 +124,7 @@
 
             function evaluateDefaultForWeekly(oldVal, newVal) {
                 var SUNDAY = 0;
-                if (isWeekly(newVal) && isDaily(oldVal)) {
+                if (isWeekly(newVal, OCCURRENCES) && isDaily(oldVal, OCCURRENCES)) {
                     return SUNDAY;
                 }
             }
@@ -141,22 +138,22 @@
 
             function evaluateWeekday(occurrence, weekday, defaultForWeekly) {
                 var DAILY = '*';
-                if (isDaily(occurrence)) {
+                if (isDaily(occurrence, OCCURRENCES)) {
                     return DAILY;
-                } else if (isWeekly(occurrence)) {
+                } else if (isWeekly(occurrence, OCCURRENCES)) {
                     return weekday === undefined ? defaultForWeekly : weekday;
                 }
                 return undefined;
             }
-
-            function isDaily(occurrence) {
-                return occurrence === OCCURRENCES.DAILY;
-            }
-
-            function isWeekly(occurrence) {
-                return occurrence === OCCURRENCES.WEEKLY;
-            }
         }
+    }
+
+    function isDaily(occurrence, OCCURRENCES) {
+        return occurrence === OCCURRENCES.DAILY;
+    }
+
+    function isWeekly(occurrence, OCCURRENCES) {
+        return occurrence === OCCURRENCES.WEEKLY;
     }
 
     function validateHour(hour, isComplex, ngDisabled) {

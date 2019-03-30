@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('<openlmis-cron-selection/>', function() {
+describe('<openlmis-cron-selection/>', function() {
 
     beforeEach(function() {
         module('openlmis-cron-selection');
