@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('<openlmis-cron-selection/>', function() {
+ddescribe('<openlmis-cron-selection/>', function() {
 
     beforeEach(function() {
         module('openlmis-cron-selection');
@@ -622,7 +622,7 @@ describe('<openlmis-cron-selection/>', function() {
             .prop('disabled')).toBe(false);
     });
 
-    it('should make all fields required if directive is marked as required', function() {
+    it('should make all regular controls required if directive is marked as required for simple cron', function() {
         this.scope.cronExpression = '0 0 0 * * 4';
 
         var element = this.compileElement();
@@ -638,6 +638,27 @@ describe('<openlmis-cron-selection/>', function() {
 
         expect(element.find('input#minute')
             .prop('required')).toBe(true);
+
+        expect(element.find('input#cronExpression')
+            .prop('required')).toBe(false);
+    });
+
+    it('should make cron expression input required if directive is marked as required for complex cron', function() {
+        this.scope.cronExpression = '0 0 0/5 * * 4';
+
+        var element = this.compileElement();
+
+        expect(element.find('select#occurrence')
+            .prop('required')).toBe(false);
+
+        expect(element.find('select#weekday')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#hour')
+            .prop('required')).toBe(false);
+
+        expect(element.find('input#minute')
+            .prop('required')).toBe(false);
 
         expect(element.find('input#cronExpression')
             .prop('required')).toBe(true);

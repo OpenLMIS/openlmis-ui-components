@@ -90,7 +90,6 @@
             }
 
             function modelToViewValue(modelValue) {
-                var isComplex;
                 if (modelValue) {
                     var split = modelValue.split(' '),
                         minute = split[1],
@@ -98,7 +97,7 @@
                         weekday = split[5],
                         cronExpression = modelValue;
                 }
-                isComplex = modelValue ? isComplexCron(modelValue) : false;
+                var isComplex = modelValue ? isComplexCron(modelValue) : false;
 
                 return buildViewValue(minute, hour, weekday, cronExpression, isComplex);
             }
@@ -114,12 +113,12 @@
             }
 
             function validateCronExpression(cronExpression, isComplex, ngDisabled) {
-                return !ngDisabled && isComplex && cronExpression && !isValidCron(cronExpression) ?
+                return !ngDisabled && isComplex && !isValidCron(cronExpression) ?
                     'openlmisCronSelection.invalidCron' : undefined;
             }
 
             function isValidCron(cronExpression) {
-                return CRON_REGEX.test(cronExpression);
+                return !cronExpression || CRON_REGEX.test(cronExpression);
             }
 
             function isComplexCron(value) {

@@ -8,16 +8,16 @@
             ng-disabled="ngDisabled"></select>
     </div>
 
-    <div ng-show="isWeekly(occurrence)">{{'openlmisCronSelection.on' | message}}</div>
+    <div ng-show="isWeekly(occurrence, occurrences)">{{'openlmisCronSelection.on' | message}}</div>
 
     <div openlmis-invalid
-        ng-show="isWeekly(occurrence)">
+        ng-show="isWeekly(occurrence, occurrences)">
 
         <select
             id="weekday"
             ng-model="weekday"
             ng-options="option as (option | message) for option in weekdays"
-            ng-required="!ngDisabled && ngRequired && !isComplex && isWeekly(occurrence)"
+            ng-required="!ngDisabled && ngRequired && !isComplex && isWeekly(occurrence, occurrences)"
             ng-disabled="ngDisabled"
             ></select>
     </div>
@@ -58,5 +58,5 @@
         type="text"
         ng-model="cronExpression"
         ng-disabled="ngDisabled"
-        ng-required="!ngDisabled && ngRequired"/>
+        ng-required="!ngDisabled && ngRequired && isComplex"/>
 </div>
