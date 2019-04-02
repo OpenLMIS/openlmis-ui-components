@@ -15,41 +15,22 @@
 
 describe('openlmisDatetimeFilter', function() {
 
-    var $filter, localeSettings = {}, offset = '-07:00';
+    var $filter, localeService, moment, localeSettings = {};
 
     beforeEach(function() {
-        var localeServiceSpy = {
-            getFromStorage: function() {
-                return localeSettings;
-            }
-        };
-
-        var momentSpy = {
-            tz: function() {
-                return {
-                    format: function() {
-                        return offset;
-                    }
-                };
-            }
-        };
-
         localeSettings['timeZoneId'] = 'America/Los_Angeles';
         localeSettings['dateTimeFormat'] = 'dd/MM/yyyy HH:mm:ssZ';
-        offset = '-07:00';
 
-        module('openlmis-date', function($provide) {
-            $provide.service('localeService', function() {
-                return localeServiceSpy;
-            });
-            $provide.service('moment', function() {
-                return momentSpy;
-            });
-        });
+        module('openlmis-date');
 
         inject(function($injector) {
             $filter = $injector.get('$filter');
+            localeService = $injector.get('localeService');
+            moment = $injector.get('moment');
         });
+
+        spyOn(localeService, 'getFromStorage').andReturn(localeSettings);
+        spyOn(moment, 'tz').andCallThrough();
     });
 
     it('should return date in format and timezone specified', function() {
