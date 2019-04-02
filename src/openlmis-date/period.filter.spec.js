@@ -15,40 +15,18 @@
 
 describe('periodFilter', function() {
 
-    var $filter, period, localeSettings = {}, offset;
+    var $filter, localeService, moment, period, localeSettings = {};
 
     beforeEach(function() {
-        var localeServiceSpy = {
-            getFromStorage: function() {
-                return localeSettings;
-            }
-        };
-
-        var momentSpy = {
-            tz: function() {
-                return {
-                    format: function() {
-                        return offset;
-                    }
-                };
-            }
-        };
-
         localeSettings['timeZoneId'] = 'UTC';
         localeSettings['dateFormat'] = 'M/d/yy';
-        offset = '-07:00';
 
-        module('openlmis-date', function($provide) {
-            $provide.service('localeService', function() {
-                return localeServiceSpy;
-            });
-            $provide.service('moment', function() {
-                return momentSpy;
-            });
-        });
+        module('openlmis-date');
 
         inject(function($injector) {
             $filter = $injector.get('$filter');
+            localeService = $injector.get('localeService');
+            moment = $injector.get('moment');
         });
 
         period = {
@@ -56,6 +34,9 @@ describe('periodFilter', function() {
             startDate: '2017-01-01',
             endDate: '2017-01-31'
         };
+
+        spyOn(localeService, 'getFromStorage').andReturn(localeSettings);
+        spyOn(moment, 'tz').andCallThrough();
     });
 
     it('should return period string with name', function() {
