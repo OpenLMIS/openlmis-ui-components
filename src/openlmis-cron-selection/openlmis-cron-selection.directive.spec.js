@@ -16,7 +16,12 @@
 describe('<openlmis-cron-selection/>', function() {
 
     beforeEach(function() {
-        module('openlmis-cron-selection');
+
+        module('openlmis-cron-selection', function($provide) {
+            $provide.factory('positiveIntegerDirective', function() {
+                return {};
+            });
+        });
 
         inject(function($injector) {
             this.$rootScope = $injector.get('$rootScope');
@@ -251,6 +256,12 @@ describe('<openlmis-cron-selection/>', function() {
             expect(element.find('input#hour').get(0)).toBeDefined();
         });
 
+        it('should only allow positive integers', function() {
+            var element = this.compileElement();
+
+            expect(element.find('input[positive-integer]#hour').get(0)).toBeDefined();
+        });
+
         it('should set hour for initial cron expression', function() {
             var element = this.compileElement();
 
@@ -355,6 +366,12 @@ describe('<openlmis-cron-selection/>', function() {
             var element = this.compileElement();
 
             expect(element.find('input#minute').get(0)).toBeDefined();
+        });
+
+        it('should only allow positive integers', function() {
+            var element = this.compileElement();
+
+            expect(element.find('input[positive-integer]#minute').get(0)).toBeDefined();
         });
 
         it('should set minutes for initial cron expression', function() {
