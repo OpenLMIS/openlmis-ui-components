@@ -15,6 +15,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-3987:](https://openlmis.atlassian.net/browse/OLMIS-3987) Fixed wrapping long text in modals.
+* [OLMIS-6167:](https://openlmis.atlassian.net/browse/OLMIS-6167) Fixed issue with a weird popover showing after using enter on the select product modal.
 
 7.0.0 / 2018-12-12
 ==================
