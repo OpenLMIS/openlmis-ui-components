@@ -37,38 +37,10 @@
             NGMODEL_ELEMENT = '[ng-model]',
             vm = this;
 
-        vm.$onInit = onInit;
         vm.registerElement = registerElement;
         vm.getFormElement = getFormElement;
         vm.getFilterButton = getFilterButton;
         vm.$onDestroy = onDestroy;
-
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-table-filter.controller:OpenlmisTableFiltersController
-         * @name $onInit
-         *
-         * @description
-         * Initialization method of the OpenlmisTableFiltersController. Creates filter form and
-         * button and exposes them to the openlmisTableFilters directive. Filter button contains
-         * information about the number of selected (and submitted) filters.
-         */
-        function onInit() {
-            form = compileForm();
-            form.on('submit', submitForms);
-
-            $timeout(function() {
-                ngModels = getNgModels();
-                ngModelValues = getAllModelValues(ngModels);
-                $scope.count = getDefinedModelsLength(ngModels);
-                updateButtonState();
-            }, 50);
-
-            filterButton = compileFilterButton();
-            submitButton = form.find(SUBMIT_ELEMENT);
-
-            openPopoverIfFormIsInvalidAndPristine();
-        }
 
         /**
          * @ngdoc method
@@ -85,6 +57,9 @@
          * @param  {Object} element the element to be registered
          */
         function registerElement(element) {
+            if (!form) {
+                initializeElements();
+            }
             replaceSubmitButtonIfElementContainsSubmitButton(element);
 
             if (element.is('form')) {
@@ -124,6 +99,23 @@
          */
         function getFilterButton() {
             return filterButton;
+        }
+
+        function initializeElements() {
+            form = compileForm();
+            form.on('submit', submitForms);
+
+            $timeout(function() {
+                ngModels = getNgModels();
+                ngModelValues = getAllModelValues(ngModels);
+                $scope.count = getDefinedModelsLength(ngModels);
+                updateButtonState();
+            }, 50);
+
+            filterButton = compileFilterButton();
+            submitButton = form.find(SUBMIT_ELEMENT);
+
+            openPopoverIfFormIsInvalidAndPristine();
         }
 
         function submitForms() {
@@ -166,18 +158,26 @@
         }
 
         function onDestroy() {
-            hidePopover();
-            filterButton.remove();
-            filterButton = undefined;
+            if (filterButton) {
+                hidePopover();
+                filterButton.remove();
+                filterButton = undefined;
+            }
 
-            submitButton.remove();
-            submitButton = undefined;
+            if (submitButton) {
+                submitButton.remove();
+                submitButton = undefined;
+            }
 
-            form.remove();
-            form = undefined;
+            if (form) {
+                form.remove();
+                form = undefined;
+            }
 
-            removeForms();
-            forms = undefined;
+            if (forms) {
+                removeForms();
+                forms = undefined;
+            }
         }
 
         function removeForms() {

@@ -15,67 +15,43 @@
 
 describe('OpenlmisTableFiltersController', function() {
 
-    var vm, form, $scope, filterButton, $controller, $compile, $rootScope, $timeout;
-
     beforeEach(function() {
         module('openlmis-table-filter');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
+            this.$controller = $injector.get('$controller');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
         });
 
-        $scope = $rootScope.$new();
-        vm = $controller('OpenlmisTableFiltersController', {
-            $scope: $scope
-        });
-    });
-
-    describe('$onInit', function() {
-
-        it('should set the count equal to number of filled inputs', function() {
-            $scope.modelOne = 'Some entered value';
-            $scope.modelTwo = undefined;
-            $scope.modelThree = 'Some other value';
-
-            vm.$onInit();
-            $scope.$digest();
-
-            expect(vm.getFilterButton().find('span').length).toBe(0);
-
-            vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-            vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-            vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
-
-            $timeout.flush();
-
-            expect(vm.getFilterButton().find('span')
-                .html()).toEqual('(2)');
+        this.$scope = this.$rootScope.$new();
+        this.vm = this.$controller('OpenlmisTableFiltersController', {
+            $scope: this.$scope
         });
 
+        this.compileMarkup = compileMarkup;
     });
 
     describe('getFormElement', function() {
 
-        it('should return undefined if controller was not initialized', function() {
-            expect(vm.getFormElement()).toBeUndefined();
+        it('should return undefined if no element was added', function() {
+            expect(this.vm.getFormElement()).toBeUndefined();
         });
 
-        it('should return form if controller was initialized', function() {
-            vm.$onInit();
+        it('should return form if element was registered', function() {
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
 
-            form = vm.getFormElement();
+            var form = this.vm.getFormElement();
 
             expect(form).not.toBeUndefined();
             expect(form.is('form')).toBe(true);
         });
 
         it('should return a form with a submit button', function() {
-            vm.$onInit();
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
 
-            form = vm.getFormElement();
+            var form = this.vm.getFormElement();
 
             expect(form.find('[type="submit"]').length).toBe(1);
         });
@@ -84,14 +60,14 @@ describe('OpenlmisTableFiltersController', function() {
 
     describe('getFilterButton', function() {
 
-        it('should return undefined if controller was not initialized', function() {
-            expect(vm.getFilterButton()).toBeUndefined();
+        it('should return undefined if no element was registered', function() {
+            expect(this.vm.getFilterButton()).toBeUndefined();
         });
 
         it('should return form if controller was initialized', function() {
-            vm.$onInit();
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
 
-            filterButton = vm.getFilterButton();
+            var filterButton = this.vm.getFilterButton();
 
             expect(filterButton).not.toBeUndefined();
             expect(filterButton.is('button')).toBe(true);
@@ -101,23 +77,24 @@ describe('OpenlmisTableFiltersController', function() {
 
     describe('registerElement', function() {
 
-        beforeEach(prepareForm);
-
         it('should add registered element to the form', function() {
             var element = angular.element('<div id="one"></div>');
 
-            vm.registerElement(element);
+            this.vm.registerElement(element);
 
-            expect(form.find(element).length).toBe(1);
+            expect(this.vm.getFormElement().find(element).length).toBe(1);
         });
 
         it('should override submit if some other submit element was marked as filter', function() {
             var submit = angular.element('<input type="submit"/>');
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
+
+            var form = this.vm.getFormElement();
 
             expect(form.find('[type="submit"]').is(submit)).toBe(false);
 
-            vm.registerElement(submit);
-            $rootScope.$apply();
+            this.vm.registerElement(submit);
+            this.$rootScope.$apply();
 
             expect(form.find('[type="submit"]').length).toBe(1);
             expect(form.find('[type="submit"]').is(submit)).toBe(true);
@@ -127,12 +104,15 @@ describe('OpenlmisTableFiltersController', function() {
             var submit = angular.element('<input type="submit"/>'),
                 element = angular.element('<div></div>');
 
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
+            var form = this.vm.getFormElement();
+
             element.append(submit);
 
             expect(form.find('[type="submit"]').is(submit)).toBe(false);
 
-            vm.registerElement(element);
-            $rootScope.$apply();
+            this.vm.registerElement(element);
+            this.$rootScope.$apply();
 
             expect(form.find('[type="submit"]').length).toBe(1);
             expect(form.find('[type="submit"]').is(submit)).toBe(true);
@@ -146,7 +126,9 @@ describe('OpenlmisTableFiltersController', function() {
             newForm.append(elementOne);
             newForm.append(elementTwo);
 
-            vm.registerElement(newForm);
+            this.vm.registerElement(newForm);
+
+            var form = this.vm.getFormElement();
 
             expect(form.find(elementOne).length).toBe(1);
             expect(form.find(elementTwo).length).toBe(1);
@@ -158,7 +140,7 @@ describe('OpenlmisTableFiltersController', function() {
 
             spyOn(newForm, 'detach');
 
-            vm.registerElement(newForm);
+            this.vm.registerElement(newForm);
 
             expect(newForm.detach).toHaveBeenCalled();
         });
@@ -167,94 +149,107 @@ describe('OpenlmisTableFiltersController', function() {
 
     describe('$onDestroy', function() {
 
-        beforeEach(prepareFilterButton);
+        it('should close modal if element was registered', function() {
+            this.vm.registerElement(angular.element('<div id="one"></div>'));
 
-        it('should close modal', function() {
-            vm.$onDestroy();
+            var filterButton = this.vm.getFilterButton();
+            spyOn(filterButton, 'popover').andCallThrough();
+
+            this.vm.$onDestroy();
 
             expect(filterButton.popover).toHaveBeenCalledWith('hide');
+        });
+
+        it('should do nothing if element was not registered', function() {
+            var vm = this.vm;
+
+            expect(function() {
+                vm.$onDestroy();
+            }).not.toThrow();
         });
 
     });
 
     describe('filterButton', function() {
 
-        beforeEach(function() {
-            prepareFilterButton();
-            spyOn(filterButton, 'show');
-        });
-
         it('should be hidden if no elements were registered', function() {
-            expect(filterButton.show).not.toHaveBeenCalled();
+            var filterButton = this.vm.getFilterButton();
+
+            expect(filterButton).toBeUndefined();
         });
 
         it('should be visible if at least one element was registered', function() {
-            vm.registerElement(compileMarkup('<div></div>'));
+            this.vm.registerElement(angular.element('<div></div>'));
 
-            expect(filterButton.show).toHaveBeenCalled();
+            var filterButton = this.vm.getFilterButton();
+
+            expect(filterButton).toBeDefined();
         });
 
     });
 
     describe('popover', function() {
 
-        beforeEach(prepareFilterButton);
+        beforeEach(function() {
+            this.vm.registerElement(angular.element('<div></div>'));
+
+            this.form = this.vm.getFormElement();
+            this.filterButton = this.vm.getFilterButton();
+
+            spyOn(this.filterButton, 'popover').andCallThrough();
+        });
 
         it('should close on cancel click', function() {
-            form.find('#close-filters').click();
+            this.form.find('#close-filters').click();
 
-            expect(filterButton.popover).toHaveBeenCalledWith('hide');
+            expect(this.filterButton.popover).toHaveBeenCalledWith('hide');
         });
 
         it('should close on submit click', function() {
-            vm.registerElement(compileMarkup('<div></div>'));
+            this.$timeout.flush();
+            this.$scope.$apply();
 
-            $timeout.flush();
-            $scope.$apply();
+            this.form.submit();
 
-            form.submit();
-
-            expect(filterButton.popover).toHaveBeenCalledWith('hide');
+            expect(this.filterButton.popover).toHaveBeenCalledWith('hide');
         });
 
         it('should not open if form is pristine and valid', function() {
-            expect(filterButton.popover).not.toHaveBeenCalledWith('show');
+            expect(this.filterButton.popover).not.toHaveBeenCalledWith('show');
         });
 
         //This handles popover opening when we enter the state and the form is has empty required
         //fields
         it('should open if form is pristine and invalid', function() {
-            expect(filterButton.popover).not.toHaveBeenCalledWith('show');
+            expect(this.filterButton.popover).not.toHaveBeenCalledWith('show');
 
-            form.controller('form').$setValidity('isInvalid', false);
-            $scope.$apply();
+            this.form.controller('form').$setValidity('isInvalid', false);
+            this.$scope.$apply();
 
-            expect(filterButton.popover).toHaveBeenCalledWith('show');
+            expect(this.filterButton.popover).toHaveBeenCalledWith('show');
         });
 
         it('should not open if form is dirty and invalid', function() {
-            form.controller('form').$setDirty();
-            $scope.$apply();
+            this.$scope.$apply();
+            this.form.controller('form').$setDirty();
 
-            expect(filterButton.popover).not.toHaveBeenCalledWith('show');
+            expect(this.filterButton.popover).not.toHaveBeenCalledWith('show');
         });
 
         it('should open if form was previously closed', function() {
-            form.find('#close-filters').click();
+            this.form.find('#close-filters').click();
 
-            expect(filterButton.popover).toHaveBeenCalledWith('hide');
+            expect(this.filterButton.popover).toHaveBeenCalledWith('hide');
 
-            form.controller('form').$setValidity('isInvalid', false);
-            $scope.$apply();
+            this.form.controller('form').$setValidity('isInvalid', false);
+            this.$scope.$apply();
 
-            expect(filterButton.popover).toHaveBeenCalledWith('show');
+            expect(this.filterButton.popover).toHaveBeenCalledWith('show');
         });
 
     });
 
     describe('submit event', function() {
-
-        beforeEach(prepareForm);
 
         it('should contain a map of input names and model values', function() {
             var modelValues,
@@ -264,27 +259,27 @@ describe('OpenlmisTableFiltersController', function() {
                     some: 'otherValue'
                 };
 
-            $scope.$on('openlmis-table-filter', function(event, args) {
+            this.$scope.$on('openlmis-table-filter', function(event, args) {
                 modelValues = args;
             });
 
-            $scope.modelOne = modelOne;
-            $scope.modelTwo = modelTwo;
-            $scope.modelThree = modelThree;
+            this.$scope.modelOne = modelOne;
+            this.$scope.modelTwo = modelTwo;
+            this.$scope.modelThree = modelThree;
 
-            vm.$onInit();
-            $scope.$digest();
+            this.$scope.$digest();
 
-            vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-            vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-            vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+            this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+            this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+            this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-            $timeout.flush();
+            this.$timeout.flush();
 
+            var form = this.vm.getFormElement();
             //ugly hack to prevent page reload
             form.attr('onsubmit', 'return false;');
             form.submit();
-            $scope.$apply();
+            this.$scope.$apply();
 
             expect(modelValues.inputOne).toEqual(modelOne);
             expect(modelValues.inputTwo).toEqual(modelTwo);
@@ -294,8 +289,6 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     it('should not update model values if weren\'t submitted', function() {
-        prepareForm();
-
         var modelValues,
             modelOne = 'someValue1',
             modelTwo = 1,
@@ -303,39 +296,39 @@ describe('OpenlmisTableFiltersController', function() {
                 some: 'otherValue'
             };
 
-        $scope.$on('openlmis-table-filter', function(event, args) {
+        this.$scope.$on('openlmis-table-filter', function(event, args) {
             modelValues = args;
         });
 
-        $scope.modelOne = modelOne;
-        $scope.modelTwo = modelTwo;
-        $scope.modelThree = modelThree;
+        this.$scope.modelOne = modelOne;
+        this.$scope.modelTwo = modelTwo;
+        this.$scope.modelThree = modelThree;
 
-        vm.$onInit();
-        $scope.$digest();
+        this.$scope.$digest();
 
-        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-        $timeout.flush();
+        this.$timeout.flush();
 
+        var form = this.vm.getFormElement();
         //ugly hack to prevent page reload
         form.attr('onsubmit', 'return false;');
         form.submit();
-        $scope.$apply();
+        this.$scope.$apply();
 
-        $scope.modelOne = 'someValue2';
-        $scope.modelTwo = undefined;
-        $scope.modelThree = 'anotherValue';
+        this.$scope.modelOne = 'someValue2';
+        this.$scope.modelTwo = undefined;
+        this.$scope.modelThree = 'anotherValue';
 
-        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-        $timeout.flush();
+        this.$timeout.flush();
 
-        $scope.$apply();
+        this.$scope.$apply();
 
         expect(modelValues.inputOne).toEqual('someValue1');
         expect(modelValues.inputTwo).toEqual(1);
@@ -345,8 +338,8 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     it('should submit all registered forms if the main one was submitted', function() {
-        var formOne = compileMarkup('<form onsubmit="return false;"></form>'),
-            formTwo = compileMarkup('<form onsubmit="return false;"></form>');
+        var formOne = this.compileMarkup('<form onsubmit="return false;"></form>'),
+            formTwo = this.compileMarkup('<form onsubmit="return false;"></form>');
 
         var formOneSubmitted;
         formOne.on('submit', function() {
@@ -358,15 +351,14 @@ describe('OpenlmisTableFiltersController', function() {
             formTwoSubmitted = true;
         });
 
-        vm.$onInit();
-        form = vm.getFormElement();
+        this.vm.registerElement(formOne);
+        this.vm.registerElement(formTwo);
+
+        var form = this.vm.getFormElement();
         //ugly hack to prevent page reload
         form.attr('onsubmit', 'return false;');
 
-        vm.registerElement(formOne);
-        vm.registerElement(formTwo);
-
-        $timeout.flush();
+        this.$timeout.flush();
 
         form.submit();
 
@@ -375,38 +367,35 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     it('should update filters count after form was submitted', function() {
-        $scope.modelOne = 'Some entered value';
-        $scope.modelTwo = 'Some other value';
-        $scope.modelThree = 'Some even different value';
+        this.$scope.modelOne = 'Some entered value';
+        this.$scope.modelTwo = 'Some other value';
+        this.$scope.modelThree = 'Some even different value';
 
-        vm.$onInit();
-        $scope.$digest();
+        expect(this.vm.getFilterButton()).toBeUndefined();
 
-        expect(vm.getFilterButton().find('span').length).toBe(0);
+        this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+        this.$timeout.flush();
 
-        $timeout.flush();
-
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(3)');
 
-        $scope.modelOne = undefined;
-        $scope.modelTwo = undefined;
-        $scope.$apply();
+        this.$scope.modelOne = undefined;
+        this.$scope.modelTwo = undefined;
+        this.$scope.$apply();
 
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(3)');
 
-        form = vm.getFormElement();
+        var form = this.vm.getFormElement();
         form.attr('onsubmit', 'return false;');
         form.controller('form').$submitted = true;
         form.submit();
-        $scope.$apply();
+        this.$scope.$apply();
 
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(1)');
     });
 
@@ -415,95 +404,78 @@ describe('OpenlmisTableFiltersController', function() {
             fn();
         });
 
-        $scope.modelOne = 'Some entered value';
-        $scope.modelTwo = 'Some other value';
-        $scope.modelThree = 'Some even different value';
+        this.$scope.modelOne = 'Some entered value';
+        this.$scope.modelTwo = 'Some other value';
+        this.$scope.modelThree = 'Some even different value';
 
-        vm.$onInit();
-        $scope.$digest();
+        expect(this.vm.getFilterButton()).toBeUndefined();
 
-        expect(vm.getFilterButton().find('span').length).toBe(0);
+        this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+        this.$timeout.flush();
 
-        $timeout.flush();
-
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(3)');
 
-        $scope.modelOne = undefined;
-        $scope.modelTwo = undefined;
-        $scope.$digest();
+        this.$scope.modelOne = undefined;
+        this.$scope.modelTwo = undefined;
+        this.$scope.$digest();
 
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(3)');
 
-        vm.getFormElement().find('#close-filters')
+        this.vm.getFormElement().find('#close-filters')
             .click();
-        $scope.$apply();
+        this.$scope.$apply();
 
-        expect(vm.getFilterButton().find('span')
+        expect(this.vm.getFilterButton().find('span')
             .html()).toEqual('(3)');
     });
 
     it('should change button status if all inputs were cleared', function() {
-        $scope.modelOne = 'Some entered value';
-        $scope.modelTwo = 'Some other value';
-        $scope.modelThree = 'Some even different value';
+        this.$scope.modelOne = 'Some entered value';
+        this.$scope.modelTwo = 'Some other value';
+        this.$scope.modelThree = 'Some even different value';
 
-        vm.$onInit();
-        $scope.$digest();
+        expect(this.vm.getFilterButton()).toBeUndefined();
 
-        expect(vm.getFilterButton().find('span').length).toBe(0);
+        this.vm.registerElement(this.compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
+        this.vm.registerElement(this.compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
 
-        vm.registerElement(compileMarkup('<input name="inputOne" ng-model="modelOne"/>'));
-        vm.registerElement(compileMarkup('<input name="inputTwo" ng-model="modelTwo"/>'));
-        vm.registerElement(compileMarkup('<input name="inputThree" ng-model="modelThree"/>'));
+        this.$timeout.flush();
 
-        $timeout.flush();
+        expect(this.vm.getFilterButton().hasClass('is-active')).toBe(true);
 
-        expect(vm.getFilterButton().hasClass('is-active')).toBe(true);
+        this.$scope.modelOne = undefined;
+        this.$scope.modelTwo = undefined;
+        this.$scope.$apply();
 
-        $scope.modelOne = undefined;
-        $scope.modelTwo = undefined;
-        $scope.$apply();
-
-        form = vm.getFormElement();
+        var form = this.vm.getFormElement();
         form.attr('onsubmit', 'return false;');
         form.controller('form').$submitted = true;
         form.submit();
-        $scope.$apply();
+        this.$scope.$apply();
 
-        expect(vm.getFilterButton().hasClass('is-active')).toBe(true);
+        expect(this.vm.getFilterButton().hasClass('is-active')).toBe(true);
 
-        $scope.modelThree = undefined;
-        $scope.$apply();
+        this.$scope.modelThree = undefined;
+        this.$scope.$apply();
 
         form.submit();
-        $scope.$apply();
+        this.$scope.$apply();
 
-        expect(vm.getFilterButton().hasClass('is-active')).toBe(false);
+        expect(this.vm.getFilterButton().hasClass('is-active')).toBe(false);
     });
-
-    function prepareFilterButton() {
-        prepareForm();
-        filterButton = vm.getFilterButton();
-        spyOn(filterButton, 'popover').andCallThrough();
-    }
-
-    function prepareForm() {
-        vm.$onInit();
-        form = vm.getFormElement();
-    }
 
     //TODO: DRY this a bit, as it is repeated in numerous tests
     function compileMarkup(markup) {
-        var element = $compile(markup)($scope);
+        var element = this.$compile(markup)(this.$scope);
 
         angular.element('body').append(element);
-        $scope.$apply();
+        this.$scope.$apply();
 
         return element;
     }

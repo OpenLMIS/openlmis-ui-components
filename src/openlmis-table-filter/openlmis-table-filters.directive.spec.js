@@ -15,8 +15,6 @@
 
 describe('openlmis-table-container-filters directive', function() {
 
-    var container, $scope, $rootScope, $compile;
-
     beforeEach(function() {
         module('openlmis-table-filter', function($compileProvider) {
             $compileProvider.directive('table', function() {
@@ -30,26 +28,38 @@ describe('openlmis-table-container-filters directive', function() {
         });
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
         });
 
-        $scope = $rootScope.$new();
-        container = compileMarkup(
+        this.compileMarkup = compileMarkup;
+    });
+
+    it('should add filter button with popover if any filter has been registered', function() {
+        var container = this.compileMarkup(
+            '<div class="openlmis-table-container">' +
+                '<form></form>' +
+                '<table></table>' +
+            '</div>'
+        );
+
+        expect(container.find('button.filters').length).toBe(1);
+    });
+
+    it('should not add button with popover if none filters have been registered', function() {
+        var container = this.compileMarkup(
             '<div class="openlmis-table-container">' +
                 '<table></table>' +
             '</div>'
         );
-    });
 
-    it('should add filter button with popover if any filter has been registered', function() {
-        var element = container.find('button.filters');
-
-        expect(element.length).toBe(1);
+        expect(container.find('button.filters').length).toBe(0);
     });
 
     function compileMarkup(markup) {
-        var element = $compile(markup)($scope);
+        var $scope = this.$rootScope.$new();
+        var element = this.$compile(markup)($scope);
 
         angular.element('body').append(element);
         $scope.$apply();
