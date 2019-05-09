@@ -14,31 +14,35 @@
  */
 
 describe('Form Invalid Hide Directive', function() {
-    var form, scope;
 
-    beforeEach(module('openlmis-form'));
+    beforeEach(function() {
+        module('openlmis-form');
 
-    beforeEach(inject(function($compile, $rootScope) {
+        inject(function($injector) {
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+        });
+
         var markup = '<form name="exampleForm"><input ng-model="example" required /></form>';
 
-        scope = $rootScope.$new();
+        this.scope = this.$rootScope.$new();
 
-        form = $compile(markup)(scope);
-        angular.element('body').append(form);
+        this.form = this.$compile(markup)(this.scope);
+        angular.element('body').append(this.form);
 
-        scope.$apply();
-    }));
+        this.scope.$apply();
+    });
 
     it('supresses error messages when the form is not submitted', function() {
         // NOTE: form is unsubmitted
-        expect(form.find('.is-invalid').length).toBe(0);
-        expect(form.find('.openlmis-invalid').length).toBe(0);
+        expect(this.form.find('.is-invalid').length).toBe(0);
+        expect(this.form.find('.openlmis-invalid').length).toBe(0);
 
-        scope.exampleForm.$setSubmitted();
-        scope.$apply();
+        this.scope.exampleForm.$setSubmitted();
+        this.scope.$apply();
 
-        expect(form.find('.is-invalid').length).not.toBe(0);
-        expect(form.find('.openlmis-invalid').length).not.toBe(0);
+        expect(this.form.find('.is-invalid').length).not.toBe(0);
+        expect(this.form.find('.openlmis-invalid').length).not.toBe(0);
     });
 
 });

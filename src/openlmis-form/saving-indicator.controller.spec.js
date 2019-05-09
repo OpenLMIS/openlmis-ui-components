@@ -15,19 +15,17 @@
 
 describe('SavingIndicatorController', function() {
 
-    var vm, scope, $timeout, $rootScope, $controller;
-
     beforeEach(function() {
         module('openlmis-form');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
+            this.$controller = $injector.get('$controller');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
         });
 
-        scope = $rootScope.$new();
-        scope.object = {
+        this.scope = this.$rootScope.$new();
+        this.scope.object = {
             requisitionLineItems: [
                 {
                     value: 1
@@ -35,61 +33,61 @@ describe('SavingIndicatorController', function() {
             ]
         };
 
-        vm = $controller('SavingIndicatorController', {
-            $scope: scope
+        this.vm = this.$controller('SavingIndicatorController', {
+            $scope: this.scope
         });
     });
 
     describe('onInit', function() {
 
         beforeEach(function() {
-            spyOn(scope, '$watch').andCallThrough();
+            spyOn(this.scope, '$watch').andCallThrough();
         });
 
         it('should set icon class and message', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('openlmisForm.changesSaved');
+            expect(this.vm.iconClass).toBe('saved');
+            expect(this.vm.message).toBe('openlmisForm.changesSaved');
         });
 
         it('should set watcher', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(scope.$watch).toHaveBeenCalled();
+            expect(this.scope.$watch).toHaveBeenCalled();
         });
     });
 
     describe('saving status', function() {
 
         beforeEach(function() {
-            vm.$onInit();
-            scope.$digest();
+            this.vm.$onInit();
+            this.scope.$digest();
         });
 
         it('should not change status if changes were not made', function() {
-            scope.object.requisitionLineItems[0].value = 1;
-            scope.$digest();
+            this.scope.object.requisitionLineItems[0].value = 1;
+            this.scope.$digest();
 
-            expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('openlmisForm.changesSaved');
+            expect(this.vm.iconClass).toBe('saved');
+            expect(this.vm.message).toBe('openlmisForm.changesSaved');
         });
 
         it('should change status to saving after changes were made', function() {
-            scope.object.requisitionLineItems[0].value = 2;
-            scope.$digest();
+            this.scope.object.requisitionLineItems[0].value = 2;
+            this.scope.$digest();
 
-            expect(vm.iconClass).toBe('saving');
-            expect(vm.message).toBe('openlmisForm.savingChanges');
+            expect(this.vm.iconClass).toBe('saving');
+            expect(this.vm.message).toBe('openlmisForm.savingChanges');
         });
 
         it('should change status back to saved after timeout', function() {
-            scope.object.requisitionLineItems[0].value = 2;
-            scope.$digest();
-            $timeout.flush();
+            this.scope.object.requisitionLineItems[0].value = 2;
+            this.scope.$digest();
+            this.$timeout.flush();
 
-            expect(vm.iconClass).toBe('saved');
-            expect(vm.message).toBe('openlmisForm.changesSaved');
+            expect(this.vm.iconClass).toBe('saved');
+            expect(this.vm.message).toBe('openlmisForm.changesSaved');
         });
     });
 });

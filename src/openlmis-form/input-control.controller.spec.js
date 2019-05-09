@@ -15,27 +15,29 @@
 
 describe('inputControl Controller', function() {
 
-    var vm;
+    beforeEach(function() {
+        module('openlmis-form');
 
-    beforeEach(module('openlmis-form'));
+        inject(function($injector) {
+            this.$controller = $injector.get('$controller');
+        });
 
-    beforeEach(inject(function($controller) {
-        vm = $controller('InputControlController');
-    }));
+        this.vm = this.$controller('InputControlController');
+    });
 
     it('returns list of errors for ngModelCtrl objects that are registered', function() {
         var ngModelCtrl = {
             $error: {}
         };
-        vm.addNgModel(ngModelCtrl);
+        this.vm.addNgModel(ngModelCtrl);
 
-        expect(Object.keys(vm.getErrors()).length).toBe(0);
+        expect(Object.keys(this.vm.getErrors()).length).toBe(0);
 
         ngModelCtrl.$error['required'] = true;
         ngModelCtrl.$error['foo'] = 'bar';
 
-        expect(vm.getErrors().required).toBe(true);
-        expect(vm.getErrors().foo).toBe('bar');
+        expect(this.vm.getErrors().required).toBe(true);
+        expect(this.vm.getErrors().foo).toBe('bar');
     });
 
 });

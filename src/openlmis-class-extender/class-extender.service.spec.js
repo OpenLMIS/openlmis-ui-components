@@ -13,15 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('classExtender', function() {
-
-    var classExtender;
+describe('this.classExtender', function() {
 
     beforeEach(function() {
         module('openlmis-class-extender');
 
         inject(function($injector) {
-            classExtender = $injector.get('classExtender');
+            this.classExtender = $injector.get('classExtender');
         });
     });
 
@@ -44,18 +42,22 @@ describe('classExtender', function() {
         });
 
         it('should extend class', function() {
-            classExtender.extend(ExtendingClass, ParentClass);
+            this.classExtender.extend(ExtendingClass, ParentClass);
 
             expect(new ExtendingClass().getX()).toBe(ORIGINAL_X_VALUE);
         });
 
         it('should throw exception if extending class is undefined', function() {
+            var classExtender = this.classExtender;
+
             expect(function() {
                 classExtender.extend(undefined, ParentClass);
             }).toThrow('The extending class must be defined');
         });
 
         it('should throw exception if parent class is undefined', function() {
+            var classExtender = this.classExtender;
+
             expect(function() {
                 classExtender.extend(ExtendingClass, undefined);
             }).toThrow('The parent class must be defined');
@@ -68,8 +70,8 @@ describe('classExtender', function() {
 
             function OtherExtendingClass() {}
 
-            classExtender.extend(ExtendingClass, ParentClass);
-            classExtender.extend(OtherExtendingClass, ParentClass);
+            this.classExtender.extend(ExtendingClass, ParentClass);
+            this.classExtender.extend(OtherExtendingClass, ParentClass);
 
             ExtendingClass.prototype.getX = function() {
                 return extendingClassX;

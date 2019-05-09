@@ -15,21 +15,18 @@
 
 describe('AdjustmentsModalController', function() {
 
-    var vm, $controller, $q, $rootScope, modalDeferred, adjustments, reasons, title, message,
-        isDisabled, summaries, preSave, preCancel, filterReasons;
-
     beforeEach(function() {
         module('openlmis-adjustments');
 
         inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            $controller = $injector.get('$controller');
+            this.$q = $injector.get('$q');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$controller = $injector.get('$controller');
         });
 
-        modalDeferred = $q.defer();
+        this.modalDeferred = this.$q.defer();
 
-        reasons = [{
+        this.reasons = [{
             name: 'Reason One'
         }, {
             name: 'Reason Two'
@@ -37,69 +34,71 @@ describe('AdjustmentsModalController', function() {
             name: 'Reason Three'
         }];
 
-        adjustments = [{
-            reason: reasons[0],
+        this.adjustments = [{
+            reason: this.reasons[0],
             quantity: 10
         }, {
-            reason: reasons[1],
+            reason: this.reasons[1],
             quantity: 11
         }];
 
-        title = 'some title';
+        this.title = 'some title';
 
-        message = 'some message';
+        this.message = 'some message';
 
-        isDisabled = true;
+        this.isDisabled = true;
 
-        summaries = {
+        this.summaries = {
             keyOne: function() {},
             keyTwo: function() {}
         };
 
-        spyOn(modalDeferred, 'resolve');
-        spyOn(modalDeferred, 'reject');
+        spyOn(this.modalDeferred, 'resolve');
+        spyOn(this.modalDeferred, 'reject');
+
+        this.initController = initController;
     });
 
     describe('$onInit', function() {
 
         beforeEach(function() {
-            initController();
+            this.initController();
         });
 
         it('should expose title', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.title).toBe(title);
+            expect(this.vm.title).toBe(this.title);
         });
 
         it('should expose message', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.message).toBe(message);
+            expect(this.vm.message).toBe(this.message);
         });
 
         it('should expose isDisabled', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.isDisabled).toBe(isDisabled);
+            expect(this.vm.isDisabled).toBe(this.isDisabled);
         });
 
         it('should expose adjustments', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.adjustments).toBe(adjustments);
+            expect(this.vm.adjustments).toBe(this.adjustments);
         });
 
         it('should expose reasons', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.reasons).toBe(reasons);
+            expect(this.vm.reasons).toBe(this.reasons);
         });
 
         it('should expose summaries', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.summaries).toBe(summaries);
+            expect(this.vm.summaries).toBe(this.summaries);
         });
 
     });
@@ -107,48 +106,48 @@ describe('AdjustmentsModalController', function() {
     describe('addAdjustment', function() {
 
         beforeEach(function() {
-            initController();
+            this.initController();
 
-            vm.$onInit();
+            this.vm.$onInit();
 
-            vm.reason = vm.reasons[0];
-            vm.quantity = 13;
+            this.vm.reason = this.vm.reasons[0];
+            this.vm.quantity = 13;
         });
 
         it('should add adjustment to the adjustment list', function() {
-            vm.addAdjustment();
+            this.vm.addAdjustment();
 
-            expect(vm.adjustments[2]).toEqual({
-                reason: reasons[0],
+            expect(this.vm.adjustments[2]).toEqual({
+                reason: this.reasons[0],
                 quantity: 13
             });
         });
 
         it('should clear quantity', function() {
-            expect(vm.quantity).not.toBeUndefined();
+            expect(this.vm.quantity).not.toBeUndefined();
 
-            vm.addAdjustment();
+            this.vm.addAdjustment();
 
-            expect(vm.quantity).toBeUndefined();
+            expect(this.vm.quantity).toBeUndefined();
         });
 
         it('should clear reason', function() {
-            expect(vm.reason).not.toBeUndefined();
+            expect(this.vm.reason).not.toBeUndefined();
 
-            vm.addAdjustment();
+            this.vm.addAdjustment();
 
-            expect(vm.reason).toBeUndefined();
+            expect(this.vm.reason).toBeUndefined();
         });
 
         it('should call filterReasons if provided', function() {
-            filterReasons = jasmine.createSpy('filterReasonsSpy');
+            this.filterReasons = jasmine.createSpy('filterReasonsSpy');
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.addAdjustment();
+            this.vm.addAdjustment();
 
-            expect(filterReasons).toHaveBeenCalledWith(vm.adjustments);
+            expect(this.filterReasons).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
     });
@@ -156,52 +155,52 @@ describe('AdjustmentsModalController', function() {
     describe('removeAdjustment', function() {
 
         beforeEach(function() {
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
         });
 
         it('should remove adjustment from the adjustment list', function() {
-            expect(vm.adjustments.length).toBe(2);
+            expect(this.vm.adjustments.length).toBe(2);
 
-            vm.removeAdjustment(vm.adjustments[0]);
+            this.vm.removeAdjustment(this.vm.adjustments[0]);
 
-            expect(vm.adjustments).toEqual([{
-                reason: reasons[1],
+            expect(this.vm.adjustments).toEqual([{
+                reason: this.reasons[1],
                 quantity: 11
             }]);
         });
 
         it('should not remove adjustment if it is not on the list', function() {
-            expect(vm.adjustments.length).toBe(2);
+            expect(this.vm.adjustments.length).toBe(2);
 
-            vm.removeAdjustment({
-                reason: reasons[1],
+            this.vm.removeAdjustment({
+                reason: this.reasons[1],
                 quantity: 3
             });
 
-            expect(vm.adjustments.length).toBe(2);
+            expect(this.vm.adjustments.length).toBe(2);
         });
 
         it('should not remove adjustment if it is undefined', function() {
-            expect(vm.adjustments.length).toBe(2);
+            expect(this.vm.adjustments.length).toBe(2);
 
-            vm.removeAdjustment(undefined);
+            this.vm.removeAdjustment(undefined);
 
-            expect(vm.adjustments.length).toBe(2);
+            expect(this.vm.adjustments.length).toBe(2);
         });
 
         it('should call filterReasons if provided', function() {
-            filterReasons = jasmine.createSpy('filterReasonsSpy');
+            this.filterReasons = jasmine.createSpy('filterReasonsSpy');
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.removeAdjustment({
-                reason: reasons[1],
+            this.vm.removeAdjustment({
+                reason: this.reasons[1],
                 quantity: 3
             });
 
-            expect(filterReasons).toHaveBeenCalledWith(vm.adjustments);
+            expect(this.filterReasons).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
     });
@@ -209,52 +208,52 @@ describe('AdjustmentsModalController', function() {
     describe('save', function() {
 
         it('should resolve modalDeferred if preSave is not defined', function() {
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.save();
+            this.vm.save();
 
-            expect(modalDeferred.resolve).toHaveBeenCalledWith(vm.adjustments);
+            expect(this.modalDeferred.resolve).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
         it('should call preSave function before resolving modalDeferred', function() {
-            var preSaveDeferred = $q.defer();
+            var preSaveDeferred = this.$q.defer();
 
-            preSave = jasmine.createSpy();
-            preSave.andReturn(preSaveDeferred.promise);
+            this.preSave = jasmine.createSpy();
+            this.preSave.andReturn(preSaveDeferred.promise);
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.save();
+            this.vm.save();
 
-            expect(preSave).toHaveBeenCalledWith(vm.adjustments);
-            expect(modalDeferred.resolve).not.toHaveBeenCalled();
+            expect(this.preSave).toHaveBeenCalledWith(this.vm.adjustments);
+            expect(this.modalDeferred.resolve).not.toHaveBeenCalled();
 
             preSaveDeferred.resolve();
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(modalDeferred.resolve).toHaveBeenCalledWith(vm.adjustments);
+            expect(this.modalDeferred.resolve).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
         it('should not resolve modalDeferred if preSave promise was rejected', function() {
-            var preSaveDeferred = $q.defer();
+            var preSaveDeferred = this.$q.defer();
 
-            preSave = jasmine.createSpy('preSaveSpy');
-            preSave.andReturn(preSaveDeferred.promise);
+            this.preSave = jasmine.createSpy('preSaveSpy');
+            this.preSave.andReturn(preSaveDeferred.promise);
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.save();
+            this.vm.save();
 
-            expect(preSave).toHaveBeenCalledWith(vm.adjustments);
-            expect(modalDeferred.resolve).not.toHaveBeenCalled();
+            expect(this.preSave).toHaveBeenCalledWith(this.vm.adjustments);
+            expect(this.modalDeferred.resolve).not.toHaveBeenCalled();
 
             preSaveDeferred.reject();
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(modalDeferred.resolve).not.toHaveBeenCalled();
+            expect(this.modalDeferred.resolve).not.toHaveBeenCalled();
         });
 
     });
@@ -262,68 +261,68 @@ describe('AdjustmentsModalController', function() {
     describe('cancel', function() {
 
         it('should reject modalDeferred if preCancel is not defined', function() {
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.cancel();
+            this.vm.cancel();
 
-            expect(modalDeferred.reject).toHaveBeenCalled();
+            expect(this.modalDeferred.reject).toHaveBeenCalled();
         });
 
         it('should call preCancel function before closing modal', function() {
-            var preCancelDeferred = $q.defer();
+            var preCancelDeferred = this.$q.defer();
 
-            preCancel = jasmine.createSpy('preCancelSpy');
-            preCancel.andReturn(preCancelDeferred.promise);
+            this.preCancel = jasmine.createSpy('preCancelSpy');
+            this.preCancel.andReturn(preCancelDeferred.promise);
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.cancel();
+            this.vm.cancel();
 
-            expect(preCancel).toHaveBeenCalledWith(vm.adjustments);
-            expect(modalDeferred.reject).not.toHaveBeenCalled();
+            expect(this.preCancel).toHaveBeenCalledWith(this.vm.adjustments);
+            expect(this.modalDeferred.reject).not.toHaveBeenCalled();
 
             preCancelDeferred.resolve();
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(modalDeferred.reject).toHaveBeenCalled();
+            expect(this.modalDeferred.reject).toHaveBeenCalled();
         });
 
         it('should not reject modalDeferred if preCancel promise was rejected', function() {
-            var preCancelDeferred = $q.defer();
+            var preCancelDeferred = this.$q.defer();
 
-            preCancel = jasmine.createSpy('preCancelSpy');
-            preCancel.andReturn(preCancelDeferred.promise);
+            this.preCancel = jasmine.createSpy('preCancelSpy');
+            this.preCancel.andReturn(preCancelDeferred.promise);
 
-            initController();
-            vm.$onInit();
+            this.initController();
+            this.vm.$onInit();
 
-            vm.cancel();
+            this.vm.cancel();
 
-            expect(preCancel).toHaveBeenCalledWith(vm.adjustments);
-            expect(modalDeferred.reject).not.toHaveBeenCalled();
+            expect(this.preCancel).toHaveBeenCalledWith(this.vm.adjustments);
+            expect(this.modalDeferred.reject).not.toHaveBeenCalled();
 
             preCancelDeferred.reject();
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(modalDeferred.reject).not.toHaveBeenCalled();
+            expect(this.modalDeferred.reject).not.toHaveBeenCalled();
         });
 
     });
 
     function initController() {
-        vm = $controller('AdjustmentsModalController', {
-            modalDeferred: modalDeferred,
-            adjustments: adjustments,
-            reasons: reasons,
-            title: title,
-            message: message,
-            isDisabled: isDisabled,
-            summaries: summaries,
-            preSave: preSave,
-            preCancel: preCancel,
-            filterReasons: filterReasons
+        this.vm = this.$controller('AdjustmentsModalController', {
+            modalDeferred: this.modalDeferred,
+            adjustments: this.adjustments,
+            reasons: this.reasons,
+            title: this.title,
+            message: this.message,
+            isDisabled: this.isDisabled,
+            summaries: this.summaries,
+            preSave: this.preSave,
+            preCancel: this.preCancel,
+            filterReasons: this.filterReasons
         });
     }
 

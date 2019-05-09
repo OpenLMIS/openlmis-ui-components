@@ -13,12 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('analyticsService', function() {
-
-    var analyticsService, $window, offlineStatus, gaOfflineEvents, localStorageFactorySpy, offlineService, date,
-        $rootScope;
+describe('this.analyticsService', function() {
 
     beforeEach(function() {
+        this.screenResolution = '200x200';
+        this.viewportSize = '100x100';
+        this.language = 'en-US';
+
+        var context = this;
         module('openlmis-analytics', function($provide) {
 
             var ga = jasmine.createSpy();
@@ -26,153 +28,149 @@ describe('analyticsService', function() {
                 b: {
                     data: {
                         values: {
-                            ':screenResolution': '200x200',
-                            ':viewportSize': '100x100',
-                            ':language': 'en-US'
+                            ':screenResolution': context.screenResolution,
+                            ':viewportSize': context.viewportSize,
+                            ':language': context.language
                         }
                     }
                 }
             }];
             ga.apply = jasmine.createSpy();
-            $window = {
+            context.$window = {
                 ga: ga
             };
-            $provide.value('$window', $window);
+            $provide.value('$window', context.$window);
 
-            gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
-            gaOfflineEvents.getAll.andReturn([]);
-            localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
-                return gaOfflineEvents;
+            context.gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
+            context.gaOfflineEvents.getAll.andReturn([]);
+            context.localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
+                return context.gaOfflineEvents;
             });
 
             $provide.service('localStorageFactory', function() {
-                return localStorageFactorySpy;
+                return context.localStorageFactorySpy;
             });
         });
 
         inject(function($injector) {
-            offlineService = $injector.get('offlineService');
-            analyticsService = $injector.get('analyticsService');
-            $rootScope = $injector.get('$rootScope');
+            this.offlineService = $injector.get('offlineService');
+            this.analyticsService = $injector.get('analyticsService');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        offlineStatus = false;
+        this.offlineStatus = false;
+        this.date = new Date();
+        this.gaParameters = {
+            screenResolution: this.screenResolution,
+            viewportSize: this.viewportSize,
+            language: this.language
+        };
 
-        spyOn(offlineService, 'isOffline').andCallFake(function() {
-            return offlineStatus;
+        spyOn(this.$rootScope, '$on').andCallThrough();
+        spyOn(Date, 'now').andReturn(this.date);
+        spyOn(this.offlineService, 'isOffline').andCallFake(function() {
+            return context.offlineStatus;
         });
-
-        spyOn($rootScope, '$on').andCallThrough();
-
-        date = new Date();
-        spyOn(Date, 'now').andReturn(date);
     });
 
     describe('on init', function() {
 
         it('registers google analytics with tracking number', function() {
-            expect($window.ga.calls[0].args[0]).toBe('create');
+            expect(this.$window.ga.calls[0].args[0]).toBe('create');
         });
 
         it('should create local storage object for ga events', function() {
-            expect(localStorageFactorySpy).toHaveBeenCalledWith('googleAnalytics');
+            expect(this.localStorageFactorySpy).toHaveBeenCalledWith('googleAnalytics');
         });
 
         it('should provide tracking method', function() {
-            expect(angular.isFunction(analyticsService.track)).toBe(true);
+            expect(angular.isFunction(this.analyticsService.track)).toBe(true);
         });
 
         it('should check if there is no events stored', function() {
-            expect(gaOfflineEvents.getAll).toHaveBeenCalled();
+            expect(this.gaOfflineEvents.getAll).toHaveBeenCalled();
         });
     });
 
     describe('online tracking', function() {
 
         it('should track all calls in google analytics', function() {
-            analyticsService.track('all', 'arguments', 'to', 'ga');
+            this.analyticsService.track('all', 'arguments', 'to', 'ga');
 
-            expect($window.ga.apply).toHaveBeenCalledWith(analyticsService, ['all', 'arguments', 'to', 'ga']);
+            expect(this.$window.ga.apply).toHaveBeenCalledWith(this.analyticsService, ['all', 'arguments', 'to', 'ga']);
         });
 
         it('should not track ga while offline', function() {
 
-            analyticsService.track('foo');
+            this.analyticsService.track('foo');
 
-            expect($window.ga.apply).toHaveBeenCalled();
+            expect(this.$window.ga.apply).toHaveBeenCalled();
 
-            offlineStatus = true;
+            this.offlineStatus = true;
 
-            analyticsService.track('foo');
+            this.analyticsService.track('foo');
 
-            expect($window.ga.apply.callCount).toEqual(1);
+            expect(this.$window.ga.apply.callCount).toEqual(1);
         });
     });
 
     describe('offline tracking', function() {
 
         it('should store events while offline', function() {
-            offlineStatus = true;
+            this.offlineStatus = true;
 
-            analyticsService.track('bar');
+            this.analyticsService.track('bar');
 
-            expect(gaOfflineEvents.put).toHaveBeenCalledWith({
+            expect(this.gaOfflineEvents.put).toHaveBeenCalledWith({
                 arguments: [
                     'bar'
                 ],
-                gaParameters: {
-                    screenResolution: '200x200',
-                    viewportSize: '100x100',
-                    language: 'en-US',
-                    time: Date.now()
-                }
+                gaParameters: _.extend({}, this.gaParameters, {
+                    time: this.date
+                })
             });
         });
 
         it('should send all events stored offline when connection is restored', function() {
+            var args = ['arg1', 'arg2', 'arg3', 'arg4'];
+            var offsets = [0, 1000, 2000];
 
             var offlineEvents = [
                 {
                     arguments: {
-                        0: 'arg1',
-                        1: 'arg2'
+                        0: args[0],
+                        1: args[1]
                     },
-                    gaParameters: {
-                        screenResolution: '200x200',
-                        viewportSize: '100x100',
-                        language: 'en-US',
-                        time: date - 1000
-                    }
+                    gaParameters: _.extend({}, this.gaParameters, {
+                        time: this.date - 1000
+                    })
                 },
                 {
                     arguments: {
-                        0: 'arg3',
-                        1: 'arg4'
+                        0: args[2],
+                        1: args[3]
                     },
-                    gaParameters: {
-                        screenResolution: '200x200',
-                        viewportSize: '100x100',
-                        language: 'en-US',
-                        time: date - 2000
-                    }
+                    gaParameters: _.extend({}, this.gaParameters, {
+                        time: this.date - 2000
+                    })
                 }
             ];
 
-            gaOfflineEvents.getAll.andReturn(offlineEvents);
+            this.gaOfflineEvents.getAll.andReturn(offlineEvents);
 
-            $rootScope.$broadcast('openlmis.online');
-            $rootScope.$apply();
+            this.$rootScope.$broadcast('openlmis.online');
+            this.$rootScope.$apply();
 
-            expect($window.ga.apply).toHaveBeenCalledWith(null, ['arg1', 'arg2']);
-            expect($window.ga.apply).toHaveBeenCalledWith(null, ['arg3', 'arg4']);
+            expect(this.$window.ga.apply).toHaveBeenCalledWith(null, [args[0], args[1]]);
+            expect(this.$window.ga.apply).toHaveBeenCalledWith(null, [args[2], args[3]]);
 
-            expect($window.ga).toHaveBeenCalledWith('set', 'viewportSize', '100x100');
-            expect($window.ga).toHaveBeenCalledWith('set', 'screenResolution', '200x200');
-            expect($window.ga).toHaveBeenCalledWith('set', 'language', 'en-US');
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'viewportSize', this.viewportSize);
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'screenResolution', this.screenResolution);
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'language', this.language);
 
-            expect($window.ga).toHaveBeenCalledWith('set', 'queueTime', 1000);
-            expect($window.ga).toHaveBeenCalledWith('set', 'queueTime', 2000);
-            expect($window.ga).toHaveBeenCalledWith('set', 'queueTime', 0);
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'queueTime', offsets[1]);
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'queueTime', offsets[2]);
+            expect(this.$window.ga).toHaveBeenCalledWith('set', 'queueTime', offsets[0]);
         });
 
     });

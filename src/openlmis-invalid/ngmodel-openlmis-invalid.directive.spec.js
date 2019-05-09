@@ -14,25 +14,29 @@
  */
 
 describe('openlmis-invalid-ngmodel', function() {
-    var element, scope;
 
-    beforeEach(module('openlmis-invalid'));
+    beforeEach(function() {
+        module('openlmis-invalid');
 
-    beforeEach(inject(function($compile, $rootScope) {
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
+
         var markup = '<input ng-model="example" openlmis-invalid="{{invalidMessage}}" />';
-        scope = $rootScope.$new();
-        element = $compile(markup)(scope);
+        this.scope = this.$rootScope.$new();
+        this.element = this.$compile(markup)(this.scope);
 
-        scope.$apply();
-    }));
+        this.scope.$apply();
+    });
 
     it('sets ngModelCtrl to invalid when openlmis-invalid is set', function() {
-        expect(element.hasClass('ng-invalid')).toBe(false);
+        expect(this.element.hasClass('ng-invalid')).toBe(false);
 
-        scope.invalidMessage = 'Example error';
-        scope.$apply();
+        this.scope.invalidMessage = 'Example error';
+        this.scope.$apply();
 
-        expect(element.hasClass('ng-invalid')).toBe(true);
+        expect(this.element.hasClass('ng-invalid')).toBe(true);
     });
 
 });

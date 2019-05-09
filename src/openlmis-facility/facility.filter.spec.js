@@ -15,22 +15,22 @@
 
 describe('facilityFilter', function() {
 
-    var $filter, facility;
-
     beforeEach(function() {
         module('openlmis-facility');
 
         inject(function($injector) {
-            $filter = $injector.get('$filter');
+            this.$filter = $injector.get('$filter');
         });
 
-        facility = {
+        this.facility = {
             name: 'FacilityName',
             code: 'CODE01'
         };
+
+        this.facilityFilter = this.$filter('facility');
     });
 
     it('should return period string with name', function() {
-        expect($filter('facility')(facility)).toEqual('CODE01 - FacilityName');
+        expect(this.facilityFilter(this.facility)).toEqual('CODE01 - FacilityName');
     });
 });

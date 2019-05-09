@@ -15,18 +15,16 @@
 
 describe('Unique ID Service', function() {
 
-    'use strict';
+    beforeEach(function() {
+        module('openlmis-form');
 
-    var uniqueIdService;
-
-    beforeEach(module('openlmis-form'));
-
-    beforeEach(inject(function(_uniqueIdService_) {
-        uniqueIdService = _uniqueIdService_;
-    }));
+        inject(function($injector) {
+            this.uniqueIdService = $injector.get('uniqueIdService');
+        });
+    });
 
     it('generates a unique id that is a string', function() {
-        var id = uniqueIdService.generate();
+        var id = this.uniqueIdService.generate();
 
         expect(typeof(id)).toBe('string');
     });
@@ -44,7 +42,7 @@ describe('Unique ID Service', function() {
             div.id = 'ABC';
             document.body.appendChild(div);
 
-            var id = uniqueIdService.generate();
+            var id = this.uniqueIdService.generate();
 
             expect(id).not.toBe('ABC');
         });

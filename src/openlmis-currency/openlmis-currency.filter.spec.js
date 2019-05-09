@@ -15,101 +15,98 @@
 
 describe('openlmisCurrencyFilter', function() {
 
-    var localeSettings = {};
-
     beforeEach(function() {
-        var localeServiceSpy = {
-            getFromStorage: function() {
-                return localeSettings;
-            }
+        module('openlmis-currency');
+
+        inject(function($injector) {
+            this.localeService = $injector.get('localeService');
+            this.$filter = $injector.get('$filter');
+        });
+
+        this.localeSettings = {
+            groupingSeparator: ',',
+            groupingSize: 3,
+            decimalSeparator: '.'
         };
 
-        localeSettings['groupingSeparator'] = ',';
-        localeSettings['groupingSize'] = 3;
-        localeSettings['decimalSeparator'] = '.';
-
-        module('openlmis-currency', function($provide) {
-            $provide.service('localeService', function() {
-                return localeServiceSpy;
-            });
-        });
+        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
     });
 
-    it('should format money with currency symbol on left', inject(function($filter) {
-        localeSettings['currencySymbol'] = '$';
-        localeSettings['currencySymbolSide'] = 'left';
-        localeSettings['currencyDecimalPlaces'] = 2;
+    it('should format money with currency symbol on left', function() {
+        this.localeSettings.currencySymbol = '$';
+        this.localeSettings.currencySymbolSide = 'left';
+        this.localeSettings.currencyDecimalPlaces = 2;
 
-        expect($filter('openlmisCurrency')(23.43)).toEqual('$23.43');
-    }));
+        expect(this.$filter('openlmisCurrency')(23.43)).toEqual('$23.43');
+    });
 
-    it('should format money with proper separation for USD', inject(function($filter) {
-        localeSettings['currencySymbol'] = '$';
-        localeSettings['currencySymbolSide'] = 'left';
-        localeSettings['currencyDecimalPlaces'] = 2;
+    it('should format money with proper separation for USD', function() {
+        this.localeSettings.currencySymbol = '$';
+        this.localeSettings.currencySymbolSide = 'left';
+        this.localeSettings.currencyDecimalPlaces = 2;
 
-        expect($filter('openlmisCurrency')(23333333333.43)).toEqual('$23,333,333,333.43');
-    }));
+        expect(this.$filter('openlmisCurrency')(23333333333.43)).toEqual('$23,333,333,333.43');
+    });
 
-    it('should format money with proper separation for PLN', inject(function($filter) {
-        localeSettings['currencySymbol'] = 'zł';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 2;
-        localeSettings['groupingSeparator'] = ' ';
-        localeSettings['decimalSeparator'] = ',';
+    it('should format money with proper separation for PLN', function() {
+        this.localeSettings.currencySymbol = 'zł';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 2;
+        this.localeSettings.groupingSeparator = ' ';
+        this.localeSettings.decimalSeparator = ',';
 
-        expect($filter('openlmisCurrency')(23333333333.43)).toEqual('23 333 333 333,43\u00A0zł');
-    }));
+        expect(this.$filter('openlmisCurrency')(23333333333.43)).toEqual('23 333 333 333,43\u00A0zł');
+    });
 
-    it('should format money with groupingSize', inject(function($filter) {
-        localeSettings['currencySymbol'] = 'zł';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 2;
-        localeSettings['groupingSeparator'] = ' ';
-        localeSettings['decimalSeparator'] = ',';
-        localeSettings['groupingSize'] = 2;
+    it('should format money with groupingSize', function() {
+        this.localeSettings.currencySymbol = 'zł';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 2;
+        this.localeSettings.groupingSeparator = ' ';
+        this.localeSettings.decimalSeparator = ',';
+        this.localeSettings.groupingSize = 2;
 
-        expect($filter('openlmisCurrency')(23333.43)).toEqual('2 33 33,43\u00A0zł');
-    }));
+        expect(this.$filter('openlmisCurrency')(23333.43)).toEqual('2 33 33,43\u00A0zł');
+    });
 
-    it('should format money with currency symbol on right', inject(function($filter) {
-        localeSettings['currencySymbol'] = 'zł';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 2;
+    it('should format money with currency symbol on right', function() {
+        this.localeSettings.currencySymbol = 'zł';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 2;
 
-        expect($filter('openlmisCurrency')(23.43)).toEqual('23.43\u00A0zł');
-    }));
+        expect(this.$filter('openlmisCurrency')(23.43)).toEqual('23.43\u00A0zł');
+    });
 
-    it('should properly round up decimal places', inject(function($filter) {
-        localeSettings['currencySymbol'] = 'zł';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 2;
+    it('should properly round up decimal places', function() {
+        this.localeSettings.currencySymbol = 'zł';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 2;
 
-        expect($filter('openlmisCurrency')(23.439999997)).toEqual('23.44\u00A0zł');
-    }));
+        expect(this.$filter('openlmisCurrency')(23.439999997)).toEqual('23.44\u00A0zł');
+    });
 
-    it('should properly round up money values', inject(function($filter) {
-        localeSettings['currencySymbol'] = '¥';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 0;
+    it('should properly round up money values', function() {
+        this.localeSettings.currencySymbol = '¥';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 0;
 
-        expect($filter('openlmisCurrency')(22223.5)).toEqual('22,224\u00A0¥');
-    }));
+        expect(this.$filter('openlmisCurrency')(22223.5)).toEqual('22,224\u00A0¥');
+    });
 
-    it('should properly round down money values', inject(function($filter) {
-        localeSettings['currencySymbol'] = '¥';
-        localeSettings['currencySymbolSide'] = 'right';
-        localeSettings['currencyDecimalPlaces'] = 0;
+    it('should properly round down money values', function() {
+        this.localeSettings.currencySymbol = '¥';
+        this.localeSettings.currencySymbolSide = 'right';
+        this.localeSettings.currencyDecimalPlaces = 0;
 
-        expect($filter('openlmisCurrency')(22223.49)).toEqual('22,223\u00A0¥');
-    }));
+        expect(this.$filter('openlmisCurrency')(22223.49)).toEqual('22,223\u00A0¥');
+    });
 
-    it('should handle null value', inject(function($filter) {
-        expect($filter('openlmisCurrency')(null)).toEqual(undefined);
-    }));
+    it('should handle null value', function() {
+        expect(this.$filter('openlmisCurrency')(null)).toEqual(undefined);
+    });
 
-    it('should handle undefined value', inject(function($filter) {
-        expect($filter('openlmisCurrency')(undefined)).toEqual(undefined);
-    }));
+    it('should handle undefined value', function() {
+        expect(this.$filter('openlmisCurrency')(undefined)).toEqual(undefined);
+    });
 
 });

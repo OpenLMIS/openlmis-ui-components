@@ -15,42 +15,40 @@
 
 describe('DateFormatTranslator', function() {
 
-    var dateFormatTranslator, DateFormatTranslator;
-
     beforeEach(function() {
         module('openlmis-form');
 
         inject(function($injector) {
-            DateFormatTranslator = $injector.get('DateFormatTranslator');
+            this.DateFormatTranslator = $injector.get('DateFormatTranslator');
         });
 
-        dateFormatTranslator = new DateFormatTranslator();
+        this.dateFormatTranslator = new this.DateFormatTranslator();
     });
 
     describe('translateBootstrapToAngularDate', function() {
 
         it('should replace m with M', function() {
-            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/m/yyyy'))
+            expect(this.dateFormatTranslator.translateBootstrapToAngularDate('dd/m/yyyy'))
                 .toEqual('dd/M/yyyy');
         });
 
         it('should replace mm with MM', function() {
-            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/mm/yyyy'))
+            expect(this.dateFormatTranslator.translateBootstrapToAngularDate('dd/mm/yyyy'))
                 .toEqual('dd/MM/yyyy');
         });
 
         it('should replace M with MMM', function() {
-            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/M/yyyy'))
+            expect(this.dateFormatTranslator.translateBootstrapToAngularDate('dd/M/yyyy'))
                 .toEqual('dd/MMM/yyyy');
         });
 
         it('should replace MM with MMMM', function() {
-            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/MM/yyyy'))
+            expect(this.dateFormatTranslator.translateBootstrapToAngularDate('dd/MM/yyyy'))
                 .toEqual('dd/MMMM/yyyy');
         });
 
         it('should ignore non-M properties', function() {
-            expect(dateFormatTranslator.translateBootstrapToAngularDate('dd/yyyy'))
+            expect(this.dateFormatTranslator.translateBootstrapToAngularDate('dd/yyyy'))
                 .toEqual('dd/yyyy');
         });
 

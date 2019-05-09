@@ -15,35 +15,37 @@
 
 describe('periodFilter', function() {
 
-    var $filter, localeService, moment, period, localeSettings = {};
-
     beforeEach(function() {
-        localeSettings['timeZoneId'] = 'UTC';
-        localeSettings['dateFormat'] = 'M/d/yy';
-
         module('openlmis-date');
 
         inject(function($injector) {
-            $filter = $injector.get('$filter');
-            localeService = $injector.get('localeService');
-            moment = $injector.get('moment');
+            this.$filter = $injector.get('$filter');
+            this.localeService = $injector.get('localeService');
+            this.moment = $injector.get('moment');
         });
 
-        period = {
+        this.localeSettings = {
+            timeZoneId: 'UTC',
+            dateFormat: 'M/d/yy'
+        };
+
+        this.period = {
             name: 'PeriodName',
             startDate: '2017-01-01',
             endDate: '2017-01-31'
         };
 
-        spyOn(localeService, 'getFromStorage').andReturn(localeSettings);
-        spyOn(moment, 'tz').andCallThrough();
+        this.periodFilter = this.$filter('period');
+
+        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
+        spyOn(this.moment, 'tz').andCallThrough();
     });
 
     it('should return period string with name', function() {
-        expect($filter('period')(period, true)).toEqual('PeriodName (1/1/17 - 1/31/17)');
+        expect(this.periodFilter(this.period, true)).toEqual('PeriodName (1/1/17 - 1/31/17)');
     });
 
     it('should return period string without name', function() {
-        expect($filter('period')(period, false)).toEqual('1/1/17 - 1/31/17');
+        expect(this.periodFilter(this.period, false)).toEqual('1/1/17 - 1/31/17');
     });
 });
