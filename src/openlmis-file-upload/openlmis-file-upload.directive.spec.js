@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/*describe('File input directive', function() {
+describe('File input directive', function() {
 
     beforeEach(function() {
         module('openlmis-file-upload');
@@ -94,4 +94,4 @@
 
         expect(this.scope.getFileName()).toEqual(this.file.name);
     });
-});*/
+});
