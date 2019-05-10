@@ -14,28 +14,25 @@
  */
 
 describe('Input Group', function() {
+    var $compile, scope;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
-
-        this.scope = this.$rootScope.$new();
-    });
+    beforeEach(inject(function(_$compile_, $rootScope) {
+        $compile = _$compile_;
+        scope = $rootScope.$new();
+    }));
 
     it('adds input-control directive to fieldsets with inputs that have same name attribute', function() {
         var markup = '<fieldset><input type="radio" name="example" /><input type="radio" name="example" /></fieldset>',
-            fieldset = this.$compile(markup)(this.scope);
+            fieldset = $compile(markup)(scope);
 
         expect(fieldset.attr('input-control')).toBe('');
         expect(fieldset.attr('openlmis-invalid')).toBe('');
 
         // Counter example, which will not add input-control or openlmis-invalid;
         markup = '<fieldset><input type="radio" name="willNot" /><input type="radio" name="work" /></fieldset>';
-        fieldset = this.$compile(markup)(this.scope);
+        fieldset = $compile(markup)(scope);
 
         expect(fieldset.attr('input-control')).toBeUndefined();
         expect(fieldset.attr('openlmis-invalid')).toBeUndefined();
@@ -43,19 +40,19 @@ describe('Input Group', function() {
 
     it('only adds input-control directive if input type is radio OR checkbox', function() {
         var markup = '<fieldset><input type="radio" name="example" /></fieldset>',
-            fieldset = this.$compile(markup)(this.scope);
+            fieldset = $compile(markup)(scope);
 
         expect(fieldset.attr('input-control')).toBe('');
         expect(fieldset.attr('openlmis-invalid')).toBe('');
 
         markup = '<fieldset><input type="checkbox" name="example" /></fieldset>';
-        fieldset = this.$compile(markup)(this.scope);
+        fieldset = $compile(markup)(scope);
 
         expect(fieldset.attr('input-control')).toBe('');
         expect(fieldset.attr('openlmis-invalid')).toBe('');
 
         markup = '<fieldset><input type="text" /></fieldset>';
-        fieldset = this.$compile(markup)(this.scope);
+        fieldset = $compile(markup)(scope);
 
         expect(fieldset.attr('input-control')).toBeUndefined();
         expect(fieldset.attr('openlmis-invalid')).toBeUndefined();

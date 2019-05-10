@@ -14,58 +14,86 @@
  */
 
 describe('openlmis-external-url', function() {
+    var $rootScope, loadingModalService, $window;
 
-    beforeEach(function() {
-        module('openlmis-external-url');
+    describe('run block', function() {
+        beforeEach(function() {
+            module('openlmis-external-url', function($provide) {
+                $provide.value('$rootScope', {
+                    $on: jasmine.createSpy(),
+                    $watch: jasmine.createSpy(),
+                    $evalAsync: jasmine.createSpy()
+                });
+            });
 
-        inject(function($injector) {
-            this.$rootScope = $injector.get('$rootScope');
-            this.loadingModalService = $injector.get('loadingModalService');
-            this.$window = $injector.get('$window');
+            inject(function(_$rootScope_) {
+                $rootScope =  _$rootScope_;
+            });
         });
 
-        this.state = {
-            name: 'myState',
-            externalUrl: 'http://my.url'
-        };
-
-        this.stateWithoutUrl = {
-            name: 'myState'
-        };
-
-        spyOn(this.loadingModalService, 'open');
-        spyOn(this.loadingModalService, 'close');
-        spyOn(this.$window, 'open');
+        it('should call rootScope $on method', function() {
+            expect($rootScope.$on).toHaveBeenCalledWith('$stateChangeStart', jasmine.any(Function));
+        });
     });
 
     describe('state change', function() {
+        beforeEach(function() {
+            module('openlmis-external-url', function($provide) {
+                $provide.service('loadingModalService', function() {
+                    return {
+                        close: jasmine.createSpy(),
+                        open: jasmine.createSpy()
+                    };
+                });
+
+                $provide.value('$window', {
+                    open: jasmine.createSpy()
+                });
+            });
+
+            inject(function(_$rootScope_, _loadingModalService_, _$window_) {
+                $rootScope = _$rootScope_;
+                loadingModalService = _loadingModalService_;
+                $window = _$window_;
+            });
+        });
 
         it('should close loading modal when external url provided', function() {
-            this.$rootScope.$broadcast('$stateChangeStart', this.state);
-            this.$rootScope.$apply();
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState',
+                externalUrl: 'http://my.url'
+            });
+            $rootScope.$apply();
 
-            expect(this.loadingModalService.close).toHaveBeenCalled();
+            expect(loadingModalService.close).toHaveBeenCalled();
         });
 
         it('should open url when external url provided', function() {
-            this.$rootScope.$broadcast('$stateChangeStart', this.state);
-            this.$rootScope.$apply();
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState',
+                externalUrl: 'http://my.url'
+            });
+            $rootScope.$apply();
 
-            expect(this.$window.open).toHaveBeenCalled();
+            expect($window.open).toHaveBeenCalled();
         });
 
         it('should not close loading modal when external url not provided', function() {
-            this.$rootScope.$broadcast('$stateChangeStart', this.stateWithoutUrl);
-            this.$rootScope.$apply();
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState'
+            });
+            $rootScope.$apply();
 
-            expect(this.loadingModalService.close).not.toHaveBeenCalled();
+            expect(loadingModalService.close).not.toHaveBeenCalled();
         });
 
         it('should not open url when external url not provided', function() {
-            this.$rootScope.$broadcast('$stateChangeStart', this.stateWithoutUrl);
-            this.$rootScope.$apply();
+            $rootScope.$broadcast('$stateChangeStart', {
+                name: 'myState'
+            });
+            $rootScope.$apply();
 
-            expect(this.$window.open).not.toHaveBeenCalled();
+            expect($window.open).not.toHaveBeenCalled();
         });
     });
 });

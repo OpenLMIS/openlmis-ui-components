@@ -15,59 +15,59 @@
 
 describe('Button directives', function() {
 
+    var $compile, $rootScope, analyticsService;
+
     beforeEach(function() {
         module('openlmis-analytics');
 
         inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-            this.analyticsService = $injector.get('analyticsService');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            analyticsService = $injector.get('analyticsService');
         });
 
-        spyOn(this.analyticsService, 'track');
+        spyOn(analyticsService, 'track');
     });
 
     it('will track click events on button elements with the untranslated text', function() {
-        var element = this.$compile('<button>{{\'label.name\' | message}}</button>')(this.$rootScope.$new());
+        var element = $compile('<button>{{\'label.name\' | message}}</button>')($rootScope.$new());
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(this.analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
     });
 
     it('will track click events on input elements of type submit with the untranslated text', function() {
-        var element = this
-            .$compile('<input type="submit" value="{{\'label.name\' | message}}"/>')(this.$rootScope.$new());
+        var element = $compile('<input type="submit" value="{{\'label.name\' | message}}"/>')($rootScope.$new());
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(this.analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
     });
 
     it('will track click events on input elements of type button with the untranslated text', function() {
-        var element = this
-            .$compile('<input type="button" value="{{\'label.name\' | message}}"/>')(this.$rootScope.$new());
+        var element = $compile('<input type="button" value="{{\'label.name\' | message}}"/>')($rootScope.$new());
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(this.analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
-        expect(this.analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
+        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('Button Click');
+        expect(analyticsService.track.mostRecentCall.args[2]['eventAction']).toBe('label.name');
     });
 
     it('will not track click events on input elements of type other than submit and button', function() {
-        var element = this.$compile('<input type="text"/>')(this.$rootScope.$new());
+        var element = $compile('<input type="text"/>')($rootScope.$new());
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
         angular.element(element[0]).click();
 
-        expect(this.analyticsService.track.calls.length).toEqual(0);
+        expect(analyticsService.track.calls.length).toEqual(0);
     });
 });

@@ -14,9 +14,10 @@
  */
 
 describe('MessageService', function() {
-
+    var $rootScope, messageService, localStorageService, getLocaleSpy;
     beforeEach(function() {
-        module('openlmis-i18n', function($provide) {
+
+        angular.mock.module('openlmis-config', function($provide) {
             $provide.constant('DEFAULT_LANGUAGE', 'en');
 
             $provide.constant('OPENLMIS_MESSAGES', {
@@ -34,29 +35,33 @@ describe('MessageService', function() {
             });
         });
 
-        inject(function($injector) {
-            this.$rootScope = $injector.get('$rootScope');
-            this.messageService = $injector.get('messageService');
-            this.localStorageService = $injector.get('localStorageService');
-        });
-
-        spyOn(this.localStorageService, 'get').andReturn('en');
-        spyOn(this.localStorageService, 'add');
-        spyOn(this.$rootScope, '$broadcast');
     });
 
-    it('loads a default language when populated without any parameters', function() {
-        this.messageService.populate();
+    beforeEach(module('openlmis-i18n'));
 
-        expect(this.localStorageService.add).toHaveBeenCalledWith('current_locale', 'en');
+    beforeEach(inject(function(_$rootScope_, _messageService_, _localStorageService_) {
+        $rootScope = _$rootScope_;
+        messageService = _messageService_;
+        localStorageService = _localStorageService_;
+
+        getLocaleSpy = spyOn(localStorageService, 'get');
+        getLocaleSpy.andReturn('en');
+        spyOn(localStorageService, 'add');
+        spyOn($rootScope, '$broadcast');
+    }));
+
+    it('loads a default languge when populated without any parameters', function() {
+        messageService.populate();
+
+        expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'en');
     });
 
     it('returns existing translation', function() {
-        expect(this.messageService.get('sample')).toBe('message');
+        expect(messageService.get('sample')).toBe('message');
     });
 
     it('returns the message string when a translation doesn\'t exist', function() {
-        expect(this.messageService.get('foobar')).toBe('foobar');
+        expect(messageService.get('foobar')).toBe('foobar');
     });
 
     it('returns the message string with parameter', function() {
@@ -65,7 +70,7 @@ describe('MessageService', function() {
         };
         var expected = 'hello Jane!';
 
-        expect(this.messageService.get('messageWithParam', person)).toBe(expected);
+        expect(messageService.get('messageWithParam', person)).toBe(expected);
     });
 
     it('returns the message string with multiple parameters', function() {
@@ -75,39 +80,39 @@ describe('MessageService', function() {
         };
         var expected = 'Object with id: 123, status: NEW';
 
-        expect(this.messageService.get('messageWithParams', object)).toBe(expected);
+        expect(messageService.get('messageWithParams', object)).toBe(expected);
     });
 
     it('returns the message string with parameters in array', function() {
         var array = ['123', 'NEW'];
         var expected = 'Object with id: 123, status: NEW';
 
-        expect(this.messageService.get('messageWithParams2', array)).toBe(expected);
+        expect(messageService.get('messageWithParams2', array)).toBe(expected);
     });
 
     it('can change the current locale', function() {
-        this.messageService.populate('test');
-        this.localStorageService.get.andReturn('test');
+        messageService.populate('test');
+        getLocaleSpy.andReturn('test');
 
-        expect(this.localStorageService.add).toHaveBeenCalledWith('current_locale', 'test');
-        expect(this.messageService.get('sample')).toBe('foo');
+        expect(localStorageService.add).toHaveBeenCalledWith('current_locale', 'test');
+        expect(messageService.get('sample')).toBe('foo');
     });
 
     it('broadcasts an event when the locale is successfully changed', function() {
-        this.messageService.populate('test');
+        messageService.populate('test');
 
-        expect(this.$rootScope.$broadcast).toHaveBeenCalledWith('openlmis.messages.populated');
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('openlmis.messages.populated');
     });
 
     it('resolves a promise when the locale is changed', function() {
         var success = false;
 
-        var promise = this.messageService.populate('test');
+        var promise = messageService.populate('test');
         promise.then(function() {
             success = true;
         });
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
 
         expect(success).toBe(true);
     });
@@ -115,12 +120,12 @@ describe('MessageService', function() {
     it('rejects the promise when locale isn\'t changed', function() {
         var success = false;
 
-        var promise = this.messageService.populate('foo');
+        var promise = messageService.populate('foo');
         promise.catch(function() {
             success = true;
         });
 
-        this.$rootScope.$apply();
+        $rootScope.$apply();
 
         expect(success).toBe(true);
     });

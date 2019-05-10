@@ -14,35 +14,32 @@
  */
 
 describe('Input Group Fieldset Invalid', function() {
+    var scope;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$rootScope = $injector.get('$rootScope');
-        });
-
-        this.scope = this.$rootScope.$new();
-    });
+    beforeEach(inject(function($rootScope) {
+        scope = $rootScope.$new();
+    }));
 
     it('Adds error message below fieldset legend', inject(function($compile) {
         var markup = '<fieldset>' +
                 '<legend></legend>' +
                 '<input type="radio" name="example" ng-model="example" required />' +
             '</fieldset>',
-            fieldset = $compile(markup)(this.scope),
+            fieldset = $compile(markup)(scope),
             legend = fieldset.find('legend');
 
-        this.scope.$apply();
+        scope.$apply();
 
         expect(legend.next().hasClass('openlmis-invalid')).toBe(true);
     }));
 
     it('Adds error message to top of fieldset if no legend', inject(function($compile) {
         var markup = '<fieldset><input type="radio" name="example" ng-model="example" required /></fieldset>',
-            fieldset = $compile(markup)(this.scope);
+            fieldset = $compile(markup)(scope);
 
-        this.scope.$apply();
+        scope.$apply();
 
         expect(fieldset.children().first()
             .hasClass('openlmis-invalid')).toBe(true);

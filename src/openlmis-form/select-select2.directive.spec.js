@@ -15,34 +15,41 @@
 
 describe('Select2 for select elements', function() {
 
+    'use strict';
+
+    var jQuery, $compile, scope, element, select;
+
     beforeEach(function() {
+
+        module('openlmis-templates');
+
         module('openlmis-pagination', function($provide) {
             $provide.constant('PAGE_SIZE', 3);
         });
+
         module('openlmis-form');
 
-        inject(function($injector) {
-            this.jQuery = $injector.get('jQuery');
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-            this.messageService = $injector.get('messageService');
+        inject(function(_jQuery_, _$compile_, $rootScope, messageService) {
+            jQuery = _jQuery_;
+            $compile = _$compile_;
+
+            spyOn(jQuery.prototype, 'select2').andCallThrough();
+
+            spyOn(messageService, 'get').andCallFake(function() {
+                return 'placeholder text';
+            });
+
+            scope = $rootScope.$new();
+            scope.options = [1, 2];
+            element = $compile(
+                '<div><select ng-model="value" ng-options="option for option in options"></select></div>'
+            )(scope);
+            scope.$apply();
+
+            angular.element('body').append(element);
+
+            select = element.find('select');
         });
-
-        spyOn(this.jQuery.prototype, 'select2').andCallThrough();
-        spyOn(this.messageService, 'get').andCallFake(function() {
-            return 'placeholder text';
-        });
-
-        this.scope = this.$rootScope.$new();
-        this.scope.options = [1, 2];
-        this.element = this.$compile(
-            '<div><select ng-model="value" ng-options="option for option in options"></select></div>'
-        )(this.scope);
-        this.scope.$apply();
-
-        angular.element('body').append(this.element);
-
-        this.select = this.element.find('select');
     });
 
     it('instantiates a select2 element', function() {
@@ -62,16 +69,16 @@ describe('Select2 for select elements', function() {
     });
 
     it('does not open the select dropdown after clearning the selection', function() {
-        this.scope.value = 2;
-        this.scope.$apply();
+        scope.value = 2;
+        scope.$apply();
 
         var openedSelect = false;
-        this.select.on('select2:open', function() {
+        select.on('select2:open', function() {
             openedSelect = true;
         });
 
-        this.element.find('.select2-selection__clear').trigger('mousedown');
-        this.scope.$apply();
+        element.find('.select2-selection__clear').trigger('mousedown');
+        scope.$apply();
 
         expect(openedSelect).toBe(false);
     });

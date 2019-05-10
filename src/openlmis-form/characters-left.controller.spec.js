@@ -14,56 +14,53 @@
  */
 
 describe('Characters left controller', function() {
+    var element, input, scope, $timeout, vm;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$rootScope = $injector.get('$rootScope');
-            this.$compile = $injector.get('$compile');
-            this.$timeout = $injector.get('$timeout');
-        });
+    beforeEach(inject(function($compile, $rootScope, _$timeout_) {
+        $timeout = _$timeout_;
 
         var markup = '<div>' +
             '<input type="text" characters-left ng-maxlength="5" ng-model="example" />' +
             '<span>{{example}}</span>' +
-            '</div>';
+        '</div>';
 
-        this.scope = this.$rootScope.$new();
-        this.scope.example = 'test';
+        scope = $rootScope.$new();
+        scope.example = 'test';
 
-        this.element = this.$compile(markup)(this.scope);
-        angular.element('body').append(this.element);
+        element = $compile(markup)(scope);
+        angular.element('body').append(element);
 
-        this.scope.$apply();
-        this.$timeout.flush();
+        scope.$apply();
+        $timeout.flush();
 
-        this.input = this.element.find('input');
+        input = element.find('input');
 
-        this.vm = this.input.controller('charactersLeft');
-    });
+        vm = input.controller('charactersLeft');
+    }));
 
     it('has charactersLeftElement set by directive element', function() {
-        expect(this.vm.charactersLeftElement).not.toBe(null);
+        expect(vm.charactersLeftElement).not.toBe(null);
     });
 
     it('has maxlength set by directive element', function() {
-        expect(this.vm.maxlength).toBe(5);
+        expect(vm.maxlength).toBe(5);
     });
 
     it('calculates the number of characters left', function() {
-        this.vm.updateCharactersLeft();
+        vm.updateCharactersLeft();
 
-        expect(this.vm.areCharactersLeft).toBe(true);
-        expect(this.vm.charactersLeft).toBe(1);
+        expect(vm.areCharactersLeft).toBe(true);
+        expect(vm.charactersLeft).toBe(1);
 
-        this.scope.example = 'Longer word';
-        this.input.keypress();
-        this.scope.$apply();
-        this.$timeout.flush();
+        scope.example = 'Longer word';
+        input.keypress();
+        scope.$apply();
+        $timeout.flush();
 
-        expect(this.vm.areCharactersLeft).toBe(false);
-        expect(this.vm.charactersLeft).toBe(-6);
+        expect(vm.areCharactersLeft).toBe(false);
+        expect(vm.charactersLeft).toBe(-6);
     });
 
 });

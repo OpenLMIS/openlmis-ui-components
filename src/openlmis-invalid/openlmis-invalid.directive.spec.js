@@ -14,92 +14,94 @@
  */
 
 describe('openlmis-invalid directive', function() {
-
-    var messagesObj;
+    var element, scope, messagesObj, $compile, $rootScope;
 
     beforeEach(function() {
+        module('openlmis-templates');
         module('openlmis-invalid');
 
         inject(function($injector) {
-            this.$rootScope = $injector.get('$rootScope');
-            this.$compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            $compile = $injector.get('$compile');
         });
 
         var markup = '<div openlmis-invalid="{{invalidMessage}}" ></div>';
 
-        this.scope = this.$rootScope.$new();
-        this.element = this.$compile(markup)(this.scope);
+        scope = $rootScope.$new();
+        element = $compile(markup)(scope);
 
-        var invalidCtrl = this.element.controller('openlmisInvalid');
+        var invalidCtrl = element.controller('openlmisInvalid');
 
         spyOn(invalidCtrl, 'getMessages').andCallFake(function() {
             return messagesObj;
         });
 
-        this.scope.$apply();
+        scope.$apply();
+
+        angular.element('body').append(element);
     });
 
     it('adds error message element when openlmis-invalid is set and not empty', function() {
-        expect(this.element.children().length).toBe(0);
+        expect(element.children().length).toBe(0);
 
-        this.scope.invalidMessage = 'Sample message';
-        this.scope.$apply();
+        scope.invalidMessage = 'Sample message';
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(1);
-        expect(this.element.text().indexOf('Sample message')).not.toBe(-1);
+        expect(element.children().length).toBe(1);
+        expect(element.text().indexOf('Sample message')).not.toBe(-1);
 
-        this.scope.invalidMessage = '';
-        this.scope.$apply();
+        scope.invalidMessage = '';
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(0);
+        expect(element.children().length).toBe(0);
     });
 
     it('adds an error message if OpenlmisInvalidController returns any messages', function() {
         messagesObj = {
             test: 'Sample message'
         };
-        this.scope.$apply();
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(1);
-        expect(this.element.text().indexOf('Sample message')).not.toBe(-1);
+        expect(element.children().length).toBe(1);
+        expect(element.text().indexOf('Sample message')).not.toBe(-1);
     });
 
     it('combines error messages from OpenlmisInvalidController and openlmis-invalid attribute', function() {
-        this.scope.invalidMessage = 'OpenLMIS Invalid Message';
+        scope.invalidMessage = 'OpenLMIS Invalid Message';
         messagesObj = {
             test: 'Other example message'
         };
-        this.scope.$apply();
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(1);
-        expect(this.element.text().indexOf('Other example message')).not.toBe(-1);
-        expect(this.element.text().indexOf('OpenLMIS Invalid Message')).not.toBe(-1);
+        expect(element.children().length).toBe(1);
+        expect(element.text().indexOf('Other example message')).not.toBe(-1);
+        expect(element.text().indexOf('OpenLMIS Invalid Message')).not.toBe(-1);
     });
 
     it('removes the error element when there are no messages available', function() {
         messagesObj = {
             test: 'Sample message'
         };
-        this.scope.$apply();
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(1);
+        expect(element.children().length).toBe(1);
 
         messagesObj = {};
-        this.scope.$apply();
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(0);
+        expect(element.children().length).toBe(0);
     });
 
     it('will not show an error element if openlmisInvalidController isHidden is true', function() {
-        var invalidCtrl = this.element.controller('openlmisInvalid');
+        var invalidCtrl = element.controller('openlmisInvalid');
         spyOn(invalidCtrl, 'isHidden').andReturn(true);
 
         messagesObj = {
             test: 'Sample message'
         };
-        this.scope.$apply();
+        scope.$apply();
 
-        expect(this.element.children().length).toBe(0);
+        expect(element.children().length).toBe(0);
     });
 
     it('triggers openlmisInvalid.show and openlmisInvalid.hide with the messageElement', function() {
@@ -108,47 +110,47 @@ describe('openlmis-invalid directive', function() {
             messageElement = false;
 
         // Remaking element because something gets lost with test suite...
-        this.scope = this.$rootScope.$new();
-        this.scope.message = 'Example';
-        this.element = this.$compile('<p openlmis-invalid="{{message}}">Stuff</p>')(this.scope);
+        scope = $rootScope.$new();
+        scope.message = 'Example';
+        element = $compile('<p openlmis-invalid="{{message}}">Stuff</p>')(scope);
 
-        this.element.on('openlmisInvalid.show', function(event, el) {
+        element.on('openlmisInvalid.show', function(event, el) {
             showEvent = true;
             messageElement = el;
         });
 
-        this.element.on('openlmisInvalid.hide', function() {
+        element.on('openlmisInvalid.hide', function() {
             hideEvent = true;
         });
 
-        this.scope.$apply();
+        scope.$apply();
 
         expect(showEvent).toBe(true);
 
         expect(messageElement).not.toBeFalsy();
         expect(messageElement.text().indexOf('Example')).not.toBe(-1);
 
-        this.scope.message = false;
-        this.scope.$apply();
+        scope.message = false;
+        scope.$apply();
 
         expect(hideEvent).toBe(true);
     });
 
     it('will not place message element if openlmisInvalid.show is canceled', function() {
-        this.scope = this.$rootScope.$new();
+        scope = $rootScope.$new();
 
-        this.element = angular.element('<p openlmis-invalid="Example">Stuff</p>');
+        element = angular.element('<p openlmis-invalid="Example">Stuff</p>');
 
         // To stop applying an invalid element, you must place a listener on
-        // the this.scope BEFORE openlmis-invalid directive is run.
-        this.element.on('openlmisInvalid.show', function(event) {
+        // the scope BEFORE openlmis-invalid directive is run.
+        element.on('openlmisInvalid.show', function(event) {
             event.preventDefault();
         });
 
-        this.$compile(this.element)(this.scope);
-        this.scope.$apply();
+        $compile(element)(scope);
+        scope.$apply();
 
-        expect(this.element.text().indexOf('Example')).toBe(-1);
+        expect(element.text().indexOf('Example')).toBe(-1);
     });
 
 });

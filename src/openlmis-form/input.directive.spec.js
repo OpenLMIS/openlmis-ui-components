@@ -15,72 +15,69 @@
 
 describe('Input directive', function() {
 
-    beforeEach(function() {
-        module('openlmis-form');
+    var $compile, scope;
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-            this.uniqueIdService = $injector.get('uniqueIdService');
-        });
+    beforeEach(module('openlmis-form'));
 
-        this.scope = this.$rootScope.$new();
+    beforeEach(inject(function(_$compile_, $rootScope, uniqueIdService) {
+        $compile = _$compile_;
+        scope = $rootScope.$new();
 
-        spyOn(this.uniqueIdService, 'generate').andReturn('ABC');
-    });
+        spyOn(uniqueIdService, 'generate').andReturn('ABC');
+    }));
 
     it('makes a unique ID, if not already set', function() {
         var markup = '<input />',
-            element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+            element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('id')).toBe('ABC');
 
         markup = '<input id="" />';
-        element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+        element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('id')).toBe('ABC');
 
         markup = '<input id="preset-id" />';
-        element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+        element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('id')).toBe('preset-id');
     });
 
     it('sets the name property to the ng-model property value, if not already set', function() {
         var markup = '<input ng-model="foo" />',
-            element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+            element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('name')).toBe('foo');
 
         markup = '<input ng-model="foo" name="preset" />';
-        element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+        element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('name')).toBe('preset');
     });
 
     it('sets the name property to the id property value, if not already set', function() {
         var markup = '<input id="foo" />',
-            element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+            element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('name')).toBe('input-foo');
 
         markup = '<input id="foo" name="preset" />';
-        element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+        element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('name')).toBe('preset');
     });
 
     it('works with select elements', function() {
         var markup = '<select />',
-            element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+            element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('id')).toBe('ABC');
         expect(element.attr('name')).toBe('input-ABC');
@@ -88,8 +85,8 @@ describe('Input directive', function() {
 
     it('works with textarea elements', function() {
         var markup = '<textarea />',
-            element = this.$compile(markup)(this.scope);
-        this.scope.$apply();
+            element = $compile(markup)(scope);
+        scope.$apply();
 
         expect(element.attr('id')).toBe('ABC');
         expect(element.attr('name')).toBe('input-ABC');

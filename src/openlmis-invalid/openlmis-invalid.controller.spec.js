@@ -14,27 +14,24 @@
  */
 
 describe('OpenlmisInvalidController', function() {
+    var vm, messageService;
 
-    beforeEach(function() {
-        module('openlmis-invalid');
+    beforeEach(module('openlmis-invalid'));
 
-        inject(function($injector) {
-            this.$controller = $injector.get('$controller');
-            this.messageService = $injector.get('messageService');
-        });
+    beforeEach(inject(function($controller, _messageService_) {
+        messageService = _messageService_;
+        spyOn(messageService, 'get').andReturn('parsed message');
 
-        spyOn(this.messageService, 'get').andReturn('parsed message');
-
-        this.vm = this.$controller('OpenlmisInvalidController');
-    });
+        vm = $controller('OpenlmisInvalidController');
+    }));
 
     it('allows message objects to be get and set', function() {
-        this.vm.setMessages({
+        vm.setMessages({
             foo: 'bar',
             test: true
         });
 
-        var messages = this.vm.getMessages();
+        var messages = vm.getMessages();
 
         expect(Object.keys(messages).length).toBe(2);
         expect(Object.keys(messages)).toContain('foo');
@@ -42,54 +39,54 @@ describe('OpenlmisInvalidController', function() {
     });
 
     it('can reset the message object', function() {
-        this.vm.setMessages({
+        vm.setMessages({
             test: true
         });
 
-        expect(Object.keys(this.vm.getMessages())).toContain('test');
+        expect(Object.keys(vm.getMessages())).toContain('test');
 
-        this.vm.resetMessages();
+        vm.resetMessages();
 
-        expect(Object.keys(this.vm.getMessages()).length).toBe(0);
+        expect(Object.keys(vm.getMessages()).length).toBe(0);
     });
 
     it('will get messageService values for message keys with a boolean value', function() {
-        this.vm.setMessages({
+        vm.setMessages({
             foo: 'bar',
             test: true
         });
 
-        var messages = this.vm.getMessages();
+        var messages = vm.getMessages();
 
         expect(messages.foo).toBe('bar');
         expect(messages.test).toBe('parsed message');
     });
 
     it('will attempt to get a openlmisInvalid-prefixed message key', function() {
-        this.vm.setMessages({
+        vm.setMessages({
             test: true
         });
 
-        expect(this.messageService.get).toHaveBeenCalledWith('openlmisInvalid.test');
+        expect(messageService.get).toHaveBeenCalledWith('openlmisInvalid.test');
     });
 
     it('starts elements with not hidden', function() {
-        expect(this.vm.isHidden()).toBe(false);
+        expect(vm.isHidden()).toBe(false);
     });
 
     it('can suppress an elements messages, even if the elements messages are shown', function() {
-        this.vm.suppress();
+        vm.suppress();
 
-        this.vm.setMessages({
+        vm.setMessages({
             test: 'test'
         });
 
-        expect(this.vm.isSuppressed()).toBe(true);
-        expect(this.vm.isHidden()).toBe(true);
+        expect(vm.isSuppressed()).toBe(true);
+        expect(vm.isHidden()).toBe(true);
 
-        this.vm.show();
+        vm.show();
 
-        expect(this.vm.isHidden()).toBe(true);
+        expect(vm.isHidden()).toBe(true);
     });
 
     describe('inherits state', function() {
@@ -100,9 +97,9 @@ describe('OpenlmisInvalidController', function() {
         }));
 
         it('merges child messages into parent messages', function() {
-            this.vm.registerController(child);
+            vm.registerController(child);
 
-            this.vm.setMessages({
+            vm.setMessages({
                 test: '123',
                 foo: 'bar'
             });
@@ -112,7 +109,7 @@ describe('OpenlmisInvalidController', function() {
                 example: 'example'
             });
 
-            expect(this.vm.getMessages()).toEqual({
+            expect(vm.getMessages()).toEqual({
                 // parent overwrites child
                 test: '123',
                 foo: 'bar',
@@ -122,41 +119,41 @@ describe('OpenlmisInvalidController', function() {
         });
 
         it('makes the childs state the same as the partent', function() {
-            expect(this.vm.isHidden()).toBe(false);
+            expect(vm.isHidden()).toBe(false);
             expect(child.isHidden()).toBe(false);
 
-            this.vm.hide();
+            vm.hide();
 
-            expect(this.vm.isHidden()).toBe(true);
+            expect(vm.isHidden()).toBe(true);
             expect(child.isHidden()).toBe(false);
 
-            this.vm.registerController(child);
+            vm.registerController(child);
 
             expect(child.isHidden()).toBe(true);
         });
 
         it('updates childs state when parents state is changed', function() {
-            this.vm.registerController(child);
+            vm.registerController(child);
 
-            expect(this.vm.isHidden()).toBe(false);
+            expect(vm.isHidden()).toBe(false);
             expect(child.isHidden()).toBe(false);
 
-            this.vm.hide();
+            vm.hide();
 
-            expect(this.vm.isHidden()).toBe(true);
+            expect(vm.isHidden()).toBe(true);
             expect(child.isHidden()).toBe(true);
 
-            this.vm.show();
+            vm.show();
 
-            expect(this.vm.isHidden()).toBe(false);
+            expect(vm.isHidden()).toBe(false);
             expect(child.isHidden()).toBe(false);
 
-            expect(this.vm.isSuppressed()).toBe(false);
+            expect(vm.isSuppressed()).toBe(false);
             expect(child.isSuppressed()).toBe(false);
 
-            this.vm.suppress();
+            vm.suppress();
 
-            expect(this.vm.isSuppressed()).toBe(true);
+            expect(vm.isSuppressed()).toBe(true);
             expect(child.isSuppressed()).toBe(true);
 
             expect(child.isHidden()).toBe(true);

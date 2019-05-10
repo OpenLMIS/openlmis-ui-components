@@ -14,47 +14,43 @@
  */
 
 describe('Input Control OpenlmisInvalid Child Directive', function() {
+    var parent, parentController, child, childController, scope;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
 
-        this.scope = this.$rootScope.$new();
+        parent = $compile('<div input-control></div>')(scope);
+        parentController = parent.controller('openlmisInvalid');
+        spyOn(parentController, 'registerController').andCallThrough();
 
-        this.parent = this.$compile('<div input-control></div>')(this.scope);
-        this.parentController = this.parent.controller('openlmisInvalid');
-        spyOn(this.parentController, 'registerController').andCallThrough();
+        child = angular.element('<button openlmis-invalid />').appendTo(parent);
+        $compile(child)(scope);
 
-        this.child = angular.element('<button openlmis-invalid />').appendTo(this.parent);
-        this.$compile(this.child)(this.scope);
+        childController = child.controller('openlmisInvalid');
+        spyOn(childController, 'show').andCallThrough();
+        spyOn(childController, 'hide').andCallThrough();
 
-        this.childController = this.child.controller('openlmisInvalid');
-        spyOn(this.childController, 'show').andCallThrough();
-        spyOn(this.childController, 'hide').andCallThrough();
+        scope.$apply();
+    }));
 
-        this.scope.$apply();
+    it('registers the child to the parentController', function() {
+        expect(parentController.registerController).toHaveBeenCalled();
+        expect(parentController.getChildren().length).toBe(1);
     });
 
-    it('registers the this.child to the parentController', function() {
-        expect(this.parentController.registerController).toHaveBeenCalled();
-        expect(this.parentController.getChildren().length).toBe(1);
-    });
+    it('changing parent state will change child state', function() {
+        var showCalls = childController.show.calls.length,
+            hideCalls = childController.hide.calls.length;
 
-    it('changing this.parent state will change child state', function() {
-        var showCalls = this.childController.show.calls.length,
-            hideCalls = this.childController.hide.calls.length;
+        parentController.show();
 
-        this.parentController.show();
+        expect(childController.show.calls.length).toBe(showCalls + 1);
 
-        expect(this.childController.show.calls.length).toBe(showCalls + 1);
+        parentController.hide();
 
-        this.parentController.hide();
-
-        expect(this.childController.hide.calls.length).toBe(hideCalls + 1);
+        expect(childController.hide.calls.length).toBe(hideCalls + 1);
     });
 
 });

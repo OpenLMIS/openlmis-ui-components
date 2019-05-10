@@ -14,31 +14,28 @@
  */
 
 describe('Input Control Fieldset', function() {
+    var fieldset, scope;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
-
-        this.scope = this.$rootScope.$new();
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
 
         var markup = '<fieldset input-control><legend></legend><input required /></fieldset>';
-        this.fieldset = this.$compile(markup)(this.scope);
+        fieldset = $compile(markup)(scope);
 
-        this.scope.$apply();
-    });
+        scope.$apply();
+
+    }));
 
     it('applies is-required class to legend if one or more elements are required', function() {
-        var legend = this.fieldset.find('legend');
+        var legend = fieldset.find('legend');
 
         // original mark-up sets the input as required
         expect(legend.hasClass('is-required')).toBe(true);
 
-        this.fieldset.find('[required]').removeAttr('required');
-        this.scope.$apply();
+        fieldset.find('[required]').removeAttr('required');
+        scope.$apply();
 
         expect(legend.hasClass('is-required')).toBe(false);
     });

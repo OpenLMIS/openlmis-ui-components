@@ -15,274 +15,273 @@
 
 describe('Datepicker directive', function() {
 
-    beforeEach(function() {
-        this.initSuite = initSuite;
-        this.compileElement = compileElement;
-    });
+    'use strict';
+
+    var $timeout, $compile, $rootScope, scope, element;
 
     describe('for default date format', function() {
 
         beforeEach(function() {
-            this.initSuite('dd/mm/yyyy');
+            initSuite('dd/mm/yyyy');
         });
 
         it('should have datepicker element', function() {
-            var elem = angular.element(this.element);
+            var elem = angular.element(element);
 
             expect(elem.find('input').datepicker).toBeDefined();
         });
 
         it('should set selected datepicker value', function() {
-            var elem = angular.element(this.element);
+            var elem = angular.element(element);
 
-            this.$timeout(function() {
+            $timeout(function() {
                 expect(elem.attr('value')).toEqual('31/01/2017');
             }, 100);
         });
 
         it('should remove timezone from selected date', function() {
-            this.scope.startDate = new Date('2017-01-31T23:00:00.000Z');
+            scope.startDate = new Date('2017-01-31T23:00:00.000Z');
 
-            var elem = angular.element(this.element);
+            var elem = angular.element(element);
 
-            this.$timeout(function() {
+            $timeout(function() {
                 expect(elem.attr('value')).toEqual('31/01/2017');
             }, 100);
         });
 
         it('should add disabled parameter', function() {
-            var elem = angular.element(this.element);
+            var elem = angular.element(element);
 
             expect(elem.attr('disabled')).toEqual('disabled');
         });
 
         it('should remove disabled parameter if expression changes to false', function() {
-            var elem = angular.element(this.element);
+            var elem = angular.element(element);
 
             expect(elem.attr('disabled')).toEqual('disabled');
 
-            this.scope.isDisabled = true;
-            this.scope.$apply();
-            this.$timeout(function() {
+            scope.isDisabled = true;
+            scope.$apply();
+            $timeout(function() {
                 expect(elem.attr('disabled')).toEqual(undefined);
             }, 100);
         });
 
-        it('should change this.scope value from Date to filtered iso string', function() {
-            this.$timeout(function() {
-                expect(this.scope.startDate).toEqual('2017-12-31');
+        it('should change scope value from Date to filtered iso string', function() {
+            $timeout(function() {
+                expect(scope.startDate).toEqual('2017-12-31');
             }, 100);
         });
 
         it('should not set start date if it is undefined', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set start date if it is defined', function() {
-            this.scope = this.$rootScope.$new();
-            this.scope.startDate = '2018-03-27';
+            scope = $rootScope.$new();
+            scope.startDate = '2018-03-27';
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(new Date(this.scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
         });
 
         it('should set start date to infinity if min date is set to undefined', function() {
-            this.scope = this.$rootScope.$new();
-            this.scope.startDate = '2018-03-27';
+            scope = $rootScope.$new();
+            scope.startDate = '2018-03-27';
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(new Date(this.scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
 
-            this.scope.startDate = undefined;
-            this.scope.$apply();
+            scope.startDate = undefined;
+            scope.$apply();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set start date to a date specified in the min date', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
 
-            this.scope.startDate = '2018-03-27';
-            this.scope.$apply();
+            scope.startDate = '2018-03-27';
+            scope.$apply();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(new Date(this.scope.startDate));
+            expect(element.datepicker('getStartDate')).toEqual(new Date(scope.startDate));
         });
 
         it('should not set end date if it is undefined', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getStartDate')).toEqual(-Infinity);
+            expect(element.datepicker('getStartDate')).toEqual(-Infinity);
         });
 
         it('should set end date if it is defined', function() {
-            this.scope = this.$rootScope.$new();
-            this.scope.endDate = '2018-03-27';
+            scope = $rootScope.$new();
+            scope.endDate = '2018-03-27';
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getEndDate')).toEqual(new Date(this.scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
         });
 
         it('should set end date to infinity if min date is set to undefined', function() {
-            this.scope = this.$rootScope.$new();
-            this.scope.endDate = '2018-03-27';
+            scope = $rootScope.$new();
+            scope.endDate = '2018-03-27';
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getEndDate')).toEqual(new Date(this.scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
 
-            this.scope.endDate = undefined;
-            this.scope.$apply();
+            scope.endDate = undefined;
+            scope.$apply();
 
-            expect(this.element.datepicker('getEndDate')).toEqual(Infinity);
+            expect(element.datepicker('getEndDate')).toEqual(Infinity);
         });
 
         it('should set end date to a date specified in the max date', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.datepicker('getEndDate')).toEqual(Infinity);
+            expect(element.datepicker('getEndDate')).toEqual(Infinity);
 
-            this.scope.endDate = '2018-03-27';
-            this.scope.$apply();
+            scope.endDate = '2018-03-27';
+            scope.$apply();
 
-            expect(this.element.datepicker('getEndDate')).toEqual(new Date(this.scope.endDate));
+            expect(element.datepicker('getEndDate')).toEqual(new Date(scope.endDate));
         });
 
         it('should show error if text is not a valid date', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('some text, definitely not date').trigger('input');
-            this.scope.$apply();
+            element.val('some text, definitely not date').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if day is 0', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('00/01/0000').trigger('input');
-            this.scope.$apply();
+            element.val('00/01/0000').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if month is 0', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('01/00/0000').trigger('input');
-            this.scope.$apply();
+            element.val('01/00/0000').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if day is over 31', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('32/01/0000').trigger('input');
-            this.scope.$apply();
+            element.val('32/01/0000').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should show error if month is over 12', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('31/13/0000').trigger('input');
-            this.scope.$apply();
+            element.val('31/13/0000').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should not show error if date is undefined', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('').trigger('input');
-            this.scope.$apply();
+            element.val('').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
         it('should not show error for valid date', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('31/12/2018').trigger('input');
-            this.scope.$apply();
+            element.val('31/12/2018').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
-        it('should update this.scope.value if date was entered with input', function() {
-            this.scope = this.$rootScope.$new();
+        it('should update scope.value if date was entered with input', function() {
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            this.element.val('31/12/2018').trigger('input');
-            this.scope.$apply();
+            element.val('31/12/2018').trigger('input');
+            scope.$apply();
 
-            expect(this.scope.date).toEqual('2018-12-31');
+            expect(scope.date).toEqual('2018-12-31');
         });
 
-        it('should update this.scope.value if input was cleared', function() {
-            this.scope = this.$rootScope.$new();
+        it('should update scope.value if input was cleared', function() {
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            this.element.val('31/12/2018').trigger('input');
-            this.scope.$apply();
+            element.val('31/12/2018').trigger('input');
+            scope.$apply();
 
-            expect(this.scope.date).toEqual('2018-12-31');
+            expect(scope.date).toEqual('2018-12-31');
         });
 
         it('should set initial value if it was given', function() {
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.scope.date = '1977-05-25';
+            scope.date = '1977-05-25';
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.val()).toEqual('25/05/1977');
+            expect(element.val()).toEqual('25/05/1977');
         });
 
     });
@@ -290,71 +289,72 @@ describe('Datepicker directive', function() {
     describe('with custom date format', function() {
 
         it('should show errors if invalid date is given', function() {
-            this.initSuite('mm/yyyy/dd');
+            initSuite('mm/yyyy/dd');
 
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('31/12/2018').trigger('input');
-            this.scope.$apply();
+            element.val('31/12/2018').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeTruthy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeTruthy();
         });
 
         it('should not show errors if valid date is given', function() {
-            this.initSuite('MM/yyyy/dd');
+            initSuite('MM/yyyy/dd');
 
-            this.scope = this.$rootScope.$new();
+            scope = $rootScope.$new();
 
-            this.element = this.compileElement();
+            element = compileElement();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
 
-            this.element.val('12/2018/31').trigger('input');
-            this.scope.$apply();
+            element.val('12/2018/31').trigger('input');
+            scope.$apply();
 
-            expect(this.element.controller('ngModel').$error.invalidDate).toBeFalsy();
+            expect(element.controller('ngModel').$error.invalidDate).toBeFalsy();
         });
 
     });
 
     function initSuite(dateFormat) {
+        module('openlmis-templates');
         module('openlmis-form', function($provide) {
             $provide.constant('DEFAULT_DATEPICKER_FORMAT', dateFormat);
         });
 
         inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-            this.$timeout = $injector.get('$timeout');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            $timeout = $injector.get('$timeout');
         });
 
-        this.scope = this.$rootScope.$new();
+        scope = $rootScope.$new();
 
         spyOn(console, 'error');
 
-        this.scope.endDate = new Date('2017-12-31T23:00:00.000Z');
-        this.scope.startDate = new Date('2017-01-31T23:00:00.000Z');
-        this.scope.isDisabled = true;
+        scope.endDate = new Date('2017-12-31T23:00:00.000Z');
+        scope.startDate = new Date('2017-01-31T23:00:00.000Z');
+        scope.isDisabled = true;
 
-        this.element = this.compileElement();
+        element = compileElement();
     }
 
     afterEach(function() {
         expect(console.error).not.toHaveBeenCalled();
-        this.scope.$destroy();
-        this.element = undefined;
+        scope.$destroy();
+        element = undefined;
     });
 
     function compileElement() {
-        var element = this.$compile(
+        var element = $compile(
             '<input type="date" id="startDate" ng-model="date" min-date="startDate"' +
                 'max-date="endDate" disabled="isDisabled"/>'
-        )(this.scope);
-        this.scope.$apply();
+        )(scope);
+        scope.$apply();
         return element;
     }
 });

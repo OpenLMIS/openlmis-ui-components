@@ -15,17 +15,20 @@
 
 describe('adjustmentsModalService', function() {
 
+    var adjustmentsModalService, adjustments, reasons, title, message, isDisabled, summaries,
+        preSave, preCancel, filterReasons, openlmisModalService;
+
     beforeEach(function() {
         module('openlmis-adjustments');
 
         inject(function($injector) {
-            this.adjustmentsModalService = $injector.get('adjustmentsModalService');
-            this.openlmisModalService = $injector.get('openlmisModalService');
+            adjustmentsModalService = $injector.get('adjustmentsModalService');
+            openlmisModalService = $injector.get('openlmisModalService');
         });
 
-        spyOn(this.openlmisModalService, 'createDialog').andCallThrough();
+        spyOn(openlmisModalService, 'createDialog').andCallThrough();
 
-        this.reasons = [{
+        reasons = [{
             name: 'Reason One'
         }, {
             name: 'Reason Two'
@@ -33,35 +36,31 @@ describe('adjustmentsModalService', function() {
             name: 'Reason Three'
         }];
 
-        this.adjustments = [{
-            reason: this.reasons[0],
+        adjustments = [{
+            reason: reasons[0],
             quantity: 10
         }, {
-            reason: this.reasons[1],
+            reason: reasons[1],
             quantity: 11
         }];
 
-        this.title = 'some title';
+        title = 'some title';
 
-        this.isDisabled = true;
+        isDisabled = true;
 
-        this.summaries = {
+        summaries = {
             keyOne: function() {},
             keyTwo: function() {}
         };
 
-        this.preSave = function() {};
-        this.preCancel = function() {};
-        this.filterReasons = function() {};
-
-        this.getResolvedValue = getResolvedValue;
+        preSave = function() {};
+        preCancel = function() {};
+        filterReasons = function() {};
     });
 
     describe('open', function() {
 
         it('should throw exception if adjustments are missing', function() {
-            var adjustmentsModalService = this.adjustmentsModalService;
-
             expect(function() {
                 adjustmentsModalService.open(undefined);
             }).toThrow('adjustments must be defined');
@@ -72,9 +71,6 @@ describe('adjustmentsModalService', function() {
         });
 
         it('should throw exception if reasons are missing', function() {
-            var adjustmentsModalService = this.adjustmentsModalService,
-                adjustments = this.adjustments;
-
             expect(function() {
                 adjustmentsModalService.open(adjustments, undefined);
             }).toThrow('reasons must be defined');
@@ -85,116 +81,108 @@ describe('adjustmentsModalService', function() {
         });
 
         it('should copy the list of adjustments', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons);
+            adjustmentsModalService.open(adjustments, reasons);
 
-            expect(this.getResolvedValue('adjustments')).toEqual(this.adjustments);
-            expect(this.getResolvedValue('adjustments')).not.toBe(this.adjustments);
+            expect(getResolvedValue('adjustments')).toEqual(adjustments);
+            expect(getResolvedValue('adjustments')).not.toBe(adjustments);
         });
 
         it('should default to \'openlmisAdjustments.adjustments\' if title is undefined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined);
+            adjustmentsModalService.open(adjustments, reasons, undefined);
 
-            expect(this.getResolvedValue('title')).toEqual('openlmisAdjustments.adjustments');
+            expect(getResolvedValue('title')).toEqual('openlmisAdjustments.adjustments');
         });
 
         it('should pass title if it is defined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.title);
+            adjustmentsModalService.open(adjustments, reasons, title);
 
-            expect(this.getResolvedValue('title')).toBe(this.title);
+            expect(getResolvedValue('title')).toBe(title);
         });
 
         it('should pass message if it is defined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined, this.message);
+            adjustmentsModalService.open(adjustments, reasons, undefined, message);
 
-            expect(this.getResolvedValue('message')).toBe(this.message);
+            expect(getResolvedValue('message')).toBe(message);
         });
 
         it('should pass isDisabled', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined, undefined, this.isDisabled);
+            adjustmentsModalService.open(adjustments, reasons, undefined, undefined, isDisabled);
 
-            expect(this.getResolvedValue('isDisabled')).toBe(this.isDisabled);
+            expect(getResolvedValue('isDisabled')).toBe(isDisabled);
         });
 
         it('should pass summaries if it is defined', function() {
-            this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, this.summaries
+            adjustmentsModalService.open(
+                adjustments, reasons, undefined, undefined, undefined, summaries
             );
 
-            expect(this.getResolvedValue('summaries')).toBe(this.summaries);
+            expect(getResolvedValue('summaries')).toBe(summaries);
         });
 
         it('should throw exception if any of the summaries is not a function', function() {
-            this.summaries.keyOne = 'definitely not a function';
-
-            var context = this;
+            summaries.keyOne = 'definitely not a function';
 
             expect(function() {
-                context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, context.summaries
+                adjustmentsModalService.open(
+                    adjustments, reasons, undefined, undefined, undefined, summaries
                 );
             }).toThrow('summaries must be a key-function map');
         });
 
         it('should pass preSave if it is defined', function() {
-            this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, this.preSave
+            adjustmentsModalService.open(
+                adjustments, reasons, undefined, undefined, undefined, undefined, preSave
             );
 
-            expect(this.getResolvedValue('preSave')).toBe(this.preSave);
+            expect(getResolvedValue('preSave')).toBe(preSave);
         });
 
         it('should throw exception if preSave is given but not a function', function() {
-            this.preSave = 'definitely not a function';
-
-            var context = this;
+            preSave = 'definitely not a function';
 
             expect(function() {
-                context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, context.preSave
+                adjustmentsModalService.open(
+                    adjustments, reasons, undefined, undefined, undefined, undefined, preSave
                 );
             }).toThrow('preSave must be a function');
         });
 
         it('should pass preCancel if it is defined', function() {
-            this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, undefined,
-                this.preCancel
+            adjustmentsModalService.open(
+                adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                preCancel
             );
 
-            expect(this.getResolvedValue('preCancel')).toBe(this.preCancel);
+            expect(getResolvedValue('preCancel')).toBe(preCancel);
         });
 
         it('should throw exception if preCancel is given but not a function', function() {
-            this.preCancel = 'definitely not a function';
-
-            var context = this;
+            preCancel = 'definitely not a function';
 
             expect(function() {
-                context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, undefined,
-                    context.preCancel
+                adjustmentsModalService.open(
+                    adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                    preCancel
                 );
             }).toThrow('preCancel must be a function');
         });
 
         it('should pass filterReasons if it is defined', function() {
-            this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, undefined,
-                undefined, this.filterReasons
+            adjustmentsModalService.open(
+                adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                undefined, filterReasons
             );
 
-            expect(this.getResolvedValue('filterReasons')).toBe(this.filterReasons);
+            expect(getResolvedValue('filterReasons')).toBe(filterReasons);
         });
 
         it('should throw exception if filterReasons is given but not a function', function() {
-            this.filterReasons = 'definitely not a function';
-
-            var context = this;
+            filterReasons = 'definitely not a function';
 
             expect(function() {
-                context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, undefined,
-                    undefined, context.filterReasons
+                adjustmentsModalService.open(
+                    adjustments, reasons, undefined, undefined, undefined, undefined, undefined,
+                    undefined, filterReasons
                 );
             }).toThrow('filterReasons must be a function');
         });
@@ -202,7 +190,7 @@ describe('adjustmentsModalService', function() {
     });
 
     function getResolvedValue(key) {
-        return this.openlmisModalService.createDialog.calls[0].args[0].resolve[key];
+        return openlmisModalService.createDialog.calls[0].args[0].resolve[key];
     }
 
 });

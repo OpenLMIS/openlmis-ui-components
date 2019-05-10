@@ -14,38 +14,34 @@
  */
 
 describe('Input-Control invalid compile directive', function() {
+    var parent, parentController, child, childController, scope;
 
-    beforeEach(function() {
-        module('openlmis-form');
+    beforeEach(module('openlmis-form'));
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
+    beforeEach(inject(function($compile, $rootScope) {
+        scope = $rootScope.$new();
 
-        this.scope = this.$rootScope.$new();
+        parent = $compile('<div input-control></div>')(scope);
+        parentController = parent.controller('openlmisInvalid');
+        spyOn(parentController, 'registerController').andCallThrough();
 
-        this.parent = this.$compile('<div input-control></div>')(this.scope);
-        this.parentController = this.parent.controller('openlmisInvalid');
-        spyOn(this.parentController, 'registerController').andCallThrough();
+        child = angular.element('<button openlmis-invalid />').appendTo(parent);
+        $compile(child)(scope);
 
-        this.child = angular.element('<button openlmis-invalid />').appendTo(this.parent);
-        this.$compile(this.child)(this.scope);
+        childController = child.controller('openlmisInvalid');
+        spyOn(childController, 'show').andCallThrough();
+        spyOn(childController, 'hide').andCallThrough();
 
-        this.childController = this.child.controller('openlmisInvalid');
-        spyOn(this.childController, 'show').andCallThrough();
-        spyOn(this.childController, 'hide').andCallThrough();
+        scope.$apply();
+    }));
 
-        this.scope.$apply();
-    });
-
-    it('adds openlmis-invalid directive to input-control', function() {
-        var scope = this.$rootScope.$new(),
+    it('adds openlmis-invalid directive to input-control', inject(function($rootScope, $compile) {
+        var scope = $rootScope.$new(),
             html = '<div input-control></div>',
-            element = this.$compile(html)(scope);
+            element = $compile(html)(scope);
 
         expect(element.attr('openlmis-invalid')).not.toBeUndefined();
         expect(element.controller('openlmisInvalid')).not.toBeUndefined();
-    });
+    }));
 
 });

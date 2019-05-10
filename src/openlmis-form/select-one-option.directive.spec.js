@@ -15,40 +15,45 @@
 
 describe('Select one option directive', function() {
 
+    'use strict';
+
+    var $compile, scope, element;
+
     beforeEach(function() {
+
+        module('openlmis-templates');
         module('openlmis-form');
 
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
+        inject(function(_$compile_, $rootScope) {
+            $compile = _$compile_;
 
-        this.scope = this.$rootScope.$new();
-        this.scope.options = [];
-        this.element = this.$compile(
-            '<select ng-model="value" ng-options="option for option in options" required></select>'
-        )(this.scope);
-        this.scope.$apply();
-        this.element = angular.element(this.element[0]);
+            scope = $rootScope.$new();
+            scope.options = [];
+            element = $compile(
+                '<select ng-model="value" ng-options="option for option in options" required></select>'
+            )(scope);
+            scope.$apply();
+            element = angular.element(element[0]);
+        });
     });
 
     it('will set ngModel to first option, if there is only one option available', function() {
-        this.scope.options = ['foo', 'bar', 'baz'];
-        this.scope.$apply();
+        scope.options = ['foo', 'bar', 'baz'];
+        scope.$apply();
 
-        expect(this.scope.value).toBeUndefined();
+        expect(scope.value).toBeUndefined();
 
-        this.scope.options = ['foo'];
-        this.scope.$apply();
+        scope.options = ['foo'];
+        scope.$apply();
 
-        expect(this.scope.value).toBe('foo');
+        expect(scope.value).toBe('foo');
     });
 
     it('will only auto select if the element is required', function() {
-        this.element.removeAttr('required');
-        this.scope.options = ['foo'];
-        this.scope.$apply();
+        element.removeAttr('required');
+        scope.options = ['foo'];
+        scope.$apply();
 
-        expect(this.element.val()).not.toBe('foo');
+        expect(element.val()).not.toBe('foo');
     });
 });

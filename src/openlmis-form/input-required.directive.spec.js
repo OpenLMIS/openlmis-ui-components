@@ -14,50 +14,50 @@
  */
 
 describe('Input required directive', function() {
+    'use strict';
 
     beforeEach(function() {
+        module('openlmis-templates');
         module('openlmis-form');
-
-        inject(function($injector) {
-            this.$compile = $injector.get('$compile');
-            this.$rootScope = $injector.get('$rootScope');
-        });
-
-        this.scope = this.$rootScope.$new();
-        this.scope.isRequired = true;
-        this.scope.id = 'input';
-
-        this.element = this.$compile(
-            '<form><label for="input">Label</label><input id="{{id}}" ng-required="isRequired" /></form>'
-        )(this.scope);
-
-        angular.element('body').append(this.element);
-        this.scope.$apply();
     });
 
     describe('- input test -', function() {
+        var scope,
+            element;
+
+        beforeEach(inject(function($compile, $rootScope) {
+            scope = $rootScope.$new();
+            scope.isRequired = true;
+            scope.id = 'input';
+            element = $compile(
+                '<form><label for="input">Label</label><input id="{{id}}" ng-required="isRequired" /></form>'
+            )(scope);
+            angular.element('body').append(element);
+            scope.$apply();
+
+        }));
 
         it('marks the input label as required', function() {
 
-            expect(this.element.find('label').hasClass('is-required')).toBe(true);
+            expect(element.find('label').hasClass('is-required')).toBe(true);
         });
 
         it('removes the required label if not required', function() {
-            expect(this.element.find('label').hasClass('is-required')).toBe(true);
+            expect(element.find('label').hasClass('is-required')).toBe(true);
 
-            this.scope.isRequired = false;
-            this.scope.$apply();
+            scope.isRequired = false;
+            scope.$apply();
 
-            expect(this.element.find('label').hasClass('is-required')).toBe(false);
+            expect(element.find('label').hasClass('is-required')).toBe(false);
         });
 
         it('removes the required label if the ID changes', function() {
-            expect(this.element.find('label').hasClass('is-required')).toBe(true);
+            expect(element.find('label').hasClass('is-required')).toBe(true);
 
-            this.scope.id = 'different-id';
-            this.scope.$apply();
+            scope.id = 'different-id';
+            scope.$apply();
 
-            expect(this.element.find('label').hasClass('is-required')).toBe(false);
+            expect(element.find('label').hasClass('is-required')).toBe(false);
         });
     });
 

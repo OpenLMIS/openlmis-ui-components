@@ -15,29 +15,31 @@
 
 describe('isoDate', function() {
 
+    var $filter;
+
     beforeEach(function() {
         module('openlmis-date');
 
         inject(function($injector) {
-            this.$filter = $injector.get('$filter');
+            $filter = $injector.get('$filter');
         });
     });
 
     it('should return ISO string without time part', function() {
         var date = new Date('2017-12-31T23:00:00.000Z');
 
-        expect(this.$filter('isoDate')(date)).toEqual('2017-12-31');
+        expect($filter('isoDate')(date)).toEqual('2017-12-31');
     });
 
     it('should return null if given parameter is null', function() {
         var date = null;
 
-        expect(this.$filter('isoDate')(date)).toBe(null);
+        expect($filter('isoDate')(date)).toBe(null);
     });
 
     it('should return parameter value if given parameter is not Date object', function() {
         var date = '2017-12-8';
 
-        expect(this.$filter('isoDate')(date)).toBe(date);
+        expect($filter('isoDate')(date)).toBe(date);
     });
 });
