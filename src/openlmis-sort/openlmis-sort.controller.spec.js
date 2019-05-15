@@ -15,38 +15,38 @@
 
 describe('SortController', function() {
 
-    var vm, $state, $controller, $stateParams;
-
     beforeEach(function() {
         module('openlmis-sort');
 
         inject(function($injector) {
-            $state = $injector.get('$state');
-            $controller = $injector.get('$controller');
+            this.$state = $injector.get('$state');
+            this.$controller = $injector.get('$controller');
         });
 
-        $stateParams = {
+        this.$stateParams = {
             sort: 'username'
         };
 
-        vm = $controller('SortController', {
-            $stateParams: $stateParams
+        this.vm = this.$controller('SortController', {
+            $stateParams: this.$stateParams
         });
-        vm.options = {
+        this.vm.options = {
             'some.message.1': ['username'],
             'some.message.2': ['firstName,asc'],
             'some.message.3': ['lastName,desc', 'firstName,asc']
         };
-        vm.onChange = jasmine.createSpy();
-        vm.externalSort = true;
+        this.vm.onChange = jasmine.createSpy();
+        this.vm.externalSort = true;
 
-        spyOn($state, 'go').andReturn();
+        spyOn(this.$state, 'go').andReturn();
     });
 
     describe('init', function() {
 
         it('should throw error if on change method is not a function', function() {
-            vm.onChange = 'some-string';
+            this.vm.onChange = 'some-string';
+
+            var vm = this.vm;
 
             expect(function() {
                 vm.$onInit();
@@ -54,62 +54,62 @@ describe('SortController', function() {
         });
 
         it('should set sort selection to one from state parameters', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.sort).toEqual($stateParams.sort);
+            expect(this.vm.sort).toEqual(this.$stateParams.sort);
         });
 
         it('should set externalSort to default true value', function() {
-            vm.externalSort = undefined;
-            vm.$onInit();
+            this.vm.externalSort = undefined;
+            this.vm.$onInit();
 
-            expect(vm.externalSort).toEqual(true);
+            expect(this.vm.externalSort).toEqual(true);
 
-            vm.externalSort = null;
-            vm.$onInit();
+            this.vm.externalSort = null;
+            this.vm.$onInit();
 
-            expect(vm.externalSort).toEqual(true);
+            expect(this.vm.externalSort).toEqual(true);
         });
 
         it('should set stateParamName to default if its null', function() {
-            vm.stateParamName = undefined;
-            vm.$onInit();
+            this.vm.stateParamName = undefined;
+            this.vm.$onInit();
 
-            expect(vm.stateParamName).toEqual('sort');
+            expect(this.vm.stateParamName).toEqual('sort');
 
-            vm.stateParamName = 'customStateParamName';
-            vm.$onInit();
+            this.vm.stateParamName = 'customStateParamName';
+            this.vm.$onInit();
 
-            expect(vm.stateParamName).toEqual('customStateParamName');
+            expect(this.vm.stateParamName).toEqual('customStateParamName');
         });
     });
 
     describe('changeSort', function() {
 
         beforeEach(function() {
-            vm.$onInit();
+            this.vm.$onInit();
         });
 
         it('assign new sort value', function() {
-            vm.changeSort('username');
+            this.vm.changeSort('username');
 
-            expect(vm.sort).toEqual('username');
+            expect(this.vm.sort).toEqual('username');
         });
 
         it('call onChange method with newly selected sort as parameter', function() {
-            vm.changeSort('username');
+            this.vm.changeSort('username');
 
-            expect(vm.onChange).toHaveBeenCalledWith('username');
+            expect(this.vm.onChange).toHaveBeenCalledWith('username');
         });
 
         it('call state go based on externalSort value', function() {
-            $state.current.name = 'current.state';
-            $stateParams.sort = 'username';
-            vm.changeSort('username');
+            this.$state.current.name = 'current.state';
+            this.$stateParams.sort = 'username';
+            this.vm.changeSort('username');
 
-            expect($state.go).toHaveBeenCalledWith('current.state', $stateParams, {
-                reload: vm.externalSort,
-                notify: vm.externalSort
+            expect(this.$state.go).toHaveBeenCalledWith('current.state', this.$stateParams, {
+                reload: this.vm.externalSort,
+                notify: this.vm.externalSort
             });
         });
     });
@@ -117,37 +117,37 @@ describe('SortController', function() {
     describe('getCurrentSortDisplay', function() {
 
         beforeEach(function() {
-            vm.$onInit();
+            this.vm.$onInit();
         });
 
         it('should return proper display message if exists in options for non-array values', function() {
-            vm.sort = 'username';
+            this.vm.sort = 'username';
 
-            expect(vm.getCurrentSortDisplay()).toEqual('some.message.1');
+            expect(this.vm.getCurrentSortDisplay()).toEqual('some.message.1');
 
-            vm.sort = 'firstName,asc';
+            this.vm.sort = 'firstName,asc';
 
-            expect(vm.getCurrentSortDisplay()).toEqual('some.message.2');
+            expect(this.vm.getCurrentSortDisplay()).toEqual('some.message.2');
         });
 
         it('should return proper display message if exists in options for array values', function() {
-            vm.sort = ['username'];
+            this.vm.sort = ['username'];
 
-            expect(vm.getCurrentSortDisplay()).toEqual('some.message.1');
+            expect(this.vm.getCurrentSortDisplay()).toEqual('some.message.1');
 
-            vm.sort = ['firstName,asc'];
+            this.vm.sort = ['firstName,asc'];
 
-            expect(vm.getCurrentSortDisplay()).toEqual('some.message.2');
+            expect(this.vm.getCurrentSortDisplay()).toEqual('some.message.2');
 
-            vm.sort = ['lastName,desc', 'firstName,asc'];
+            this.vm.sort = ['lastName,desc', 'firstName,asc'];
 
-            expect(vm.getCurrentSortDisplay()).toEqual('some.message.3');
+            expect(this.vm.getCurrentSortDisplay()).toEqual('some.message.3');
         });
 
         it('should return undefined if sort does not exists in options', function() {
-            vm.sort = 'some-sort-value';
+            this.vm.sort = 'some-sort-value';
 
-            expect(vm.getCurrentSortDisplay()).toEqual(undefined);
+            expect(this.vm.getCurrentSortDisplay()).toEqual(undefined);
         });
     });
 });

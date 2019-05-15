@@ -14,47 +14,54 @@
  */
 
 describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
-    var vm;
 
-    beforeEach(module('openlmis-table'));
+    beforeEach(function() {
+        module('openlmis-table');
 
-    beforeEach(inject(function($controller) {
-        vm = $controller('OpenlmisTablePaneController');
-    }));
+        inject(function($injector) {
+            this.$controller = $injector.get('$controller');
+        });
+
+        this.vm = this.$controller('OpenlmisTablePaneController');
+
+        this.createTableCellControllerMock = function() {
+            return jasmine.createSpyObj('TableCellController', ['updatePosition']);
+        };
+    });
 
     it('will register a sticky table cell controller', function() {
-        var cell1 = makeMockTableCellController(),
-            cell2 = makeMockTableCellController();
+        var cell1 = this.createTableCellControllerMock(),
+            cell2 = this.createTableCellControllerMock();
 
-        vm.registerStickyCell(cell1);
-        vm.registerStickyCell(cell2);
+        this.vm.registerStickyCell(cell1);
+        this.vm.registerStickyCell(cell2);
 
-        vm.updateTableSize(100, 100);
+        this.vm.updateTableSize(100, 100);
 
         expect(cell1.updatePosition).toHaveBeenCalled();
         expect(cell2.updatePosition).toHaveBeenCalled();
     });
 
     it('will unregister a sticky table cell controller', function() {
-        var cell1 = makeMockTableCellController(),
-            cell2 = makeMockTableCellController();
+        var cell1 = this.createTableCellControllerMock(),
+            cell2 = this.createTableCellControllerMock();
 
-        vm.registerStickyCell(cell1);
-        vm.registerStickyCell(cell2);
+        this.vm.registerStickyCell(cell1);
+        this.vm.registerStickyCell(cell2);
 
-        vm.unregisterStickyCell(cell1);
+        this.vm.unregisterStickyCell(cell1);
 
-        vm.updateTableSize(100, 100);
+        this.vm.updateTableSize(100, 100);
 
         expect(cell1.updatePosition).not.toHaveBeenCalled();
         expect(cell2.updatePosition).toHaveBeenCalled();
     });
 
     it('will update the viewport position and update registered sticky cells', function() {
-        var cell = makeMockTableCellController();
-        vm.registerStickyCell(cell);
+        var cell = this.createTableCellControllerMock();
+        this.vm.registerStickyCell(cell);
 
-        vm.updateViewportPosition(100, 42);
+        this.vm.updateViewportPosition(100, 42);
 
         var viewportRectangle = cell.updatePosition.mostRecentCall.args[0];
 
@@ -63,10 +70,10 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
     });
 
     it('will update the viewport size and update registered sticky cells', function() {
-        var cell = makeMockTableCellController();
-        vm.registerStickyCell(cell);
+        var cell = this.createTableCellControllerMock();
+        this.vm.registerStickyCell(cell);
 
-        vm.updateViewportSize(1000, 700);
+        this.vm.updateViewportSize(1000, 700);
 
         var viewportRectangle = cell.updatePosition.mostRecentCall.args[0];
 
@@ -75,20 +82,14 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
     });
 
     it('will update the table size and update registered sticky cells', function() {
-        var cell = makeMockTableCellController();
-        vm.registerStickyCell(cell);
+        var cell = this.createTableCellControllerMock();
+        this.vm.registerStickyCell(cell);
 
-        vm.updateTableSize(800, 1200);
+        this.vm.updateTableSize(800, 1200);
 
         var tableRectangle = cell.updatePosition.mostRecentCall.args[1];
 
         expect(tableRectangle.width).toBe(800);
         expect(tableRectangle.height).toBe(1200);
     });
-
-    function makeMockTableCellController() {
-        return {
-            updatePosition: jasmine.createSpy('updatePosition')
-        };
-    }
 });

@@ -14,43 +14,46 @@
  */
 
 describe('TD input-control popover directive', function() {
-    var $compile, scope, input;
-
-    beforeEach(module('openlmis-table-form'));
-
-    beforeEach(inject(function(_$compile_, $rootScope) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
-    }));
 
     beforeEach(function() {
-        var html = '<td><div input-control openlmis-invalid="{{error}}"></div></td>',
-            element = $compile(html)(scope);
+        module('openlmis-table-form');
 
-        input = element.find('[input-control]:first');
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
+
+        this.$scope = this.$rootScope.$new();
+
+        var markup =
+            '<td>' +
+                '<div input-control openlmis-invalid="{{error}}"></div>' +
+            '</td>';
+
+        this.input = this.$compile(markup)(this.$scope).find('[input-control]:first');
     });
 
     it('Adds openlmis-popover to input-control directives in a TD', function() {
-        expect(input.controller('popover')).not.toBeUndefined();
+        expect(this.input.controller('popover')).not.toBeUndefined();
     });
 
     it('Displays error messages in the popover', function() {
-        var popoverCtrl = input.controller('popover');
+        var popoverCtrl = this.input.controller('popover');
         spyOn(popoverCtrl, 'addElement').andCallThrough();
 
-        scope.error = 'Error!';
-        scope.$apply();
+        this.$scope.error = 'Error!';
+        this.$scope.$apply();
 
         expect(popoverCtrl.addElement).toHaveBeenCalled();
     });
 
     it('Sets input-control tabindex to -1', function() {
-        expect(input.attr('tabindex')).toBeUndefined();
+        expect(this.input.attr('tabindex')).toBeUndefined();
 
-        scope.error = 'Error!';
-        scope.$apply();
+        this.$scope.error = 'Error!';
+        this.$scope.$apply();
 
-        expect(input.attr('tabindex')).toBe('-1');
+        expect(this.input.attr('tabindex')).toBe('-1');
     });
 
 });

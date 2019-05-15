@@ -15,20 +15,17 @@
 
 describe('localeService', function() {
 
-    var $httpBackend, localeService, openlmisUrlFactory, localStorageService, localeSettings, settingsJson,
-        defaultLocaleSettings, defaultSettingsJson;
-
     beforeEach(function() {
         module('openlmis-locale');
 
         inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            localeService = $injector.get('localeService');
-            openlmisUrlFactory = $injector.get('openlmisUrlFactory');
-            localStorageService = $injector.get('localStorageService');
+            this.$httpBackend = $injector.get('$httpBackend');
+            this.localeService = $injector.get('localeService');
+            this.openlmisUrlFactory = $injector.get('openlmisUrlFactory');
+            this.localStorageService = $injector.get('localStorageService');
         });
 
-        localeSettings = {
+        this.localeSettings = {
             currencyCode: 'PLN',
             currencySymbol: 'zł',
             currencySymbolSide: 'right',
@@ -42,7 +39,7 @@ describe('localeService', function() {
         };
 
         //these must be the same as config.json
-        defaultLocaleSettings = {
+        this.defaultLocaleSettings = {
             currencyCode: 'USD',
             currencySymbol: '$',
             currencySymbolSide: 'left',
@@ -55,64 +52,64 @@ describe('localeService', function() {
             dateTimeFormat: 'dd/MM/yyyy HH:mm:ss'
         };
 
-        settingsJson = angular.toJson(localeSettings);
-        defaultSettingsJson = angular.toJson(defaultLocaleSettings);
+        this.settingsJson = angular.toJson(this.localeSettings);
+        this.defaultSettingsJson = angular.toJson(this.defaultLocaleSettings);
     });
 
     it('should get locale settings from storage', function() {
-        spyOn(localStorageService, 'get').andReturn(settingsJson);
+        spyOn(this.localStorageService, 'get').andReturn(this.settingsJson);
 
-        expect(localeService.getFromStorage()).toEqual(localeSettings);
+        expect(this.localeService.getFromStorage()).toEqual(this.localeSettings);
     });
 
     it('should set locale settings from config if none in storage and get settings', function() {
-        spyOn(localStorageService, 'get').andReturn(undefined);
-        spyOn(localStorageService, 'add');
+        spyOn(this.localStorageService, 'get').andReturn(undefined);
+        spyOn(this.localStorageService, 'add');
 
-        localeService.getFromStorage();
+        this.localeService.getFromStorage();
 
-        expect(localStorageService.add).toHaveBeenCalled();
+        expect(this.localStorageService.add).toHaveBeenCalled();
     });
 
     it('should get locale settings and save it to storage', function() {
-        $httpBackend
-            .when('GET', openlmisUrlFactory('/localeSettings'))
-            .respond(200, localeSettings);
-        spyOn(localStorageService, 'add');
+        this.$httpBackend
+            .when('GET', this.openlmisUrlFactory('/localeSettings'))
+            .respond(200, this.localeSettings);
+        spyOn(this.localStorageService, 'add');
 
-        localeService.getLocaleSettings();
+        this.localeService.getLocaleSettings();
 
-        $httpBackend.flush();
+        this.$httpBackend.flush();
 
-        expect(localStorageService.add)
-            .toHaveBeenCalledWith('localeSettings', settingsJson);
+        expect(this.localStorageService.add)
+            .toHaveBeenCalledWith('localeSettings', this.settingsJson);
     });
 
     it('should fail in getting locale settings and save default values to storage', function() {
-        $httpBackend
-            .when('GET', openlmisUrlFactory('/localeSettings'))
+        this.$httpBackend
+            .when('GET', this.openlmisUrlFactory('/localeSettings'))
             .respond(404);
-        spyOn(localStorageService, 'add');
+        spyOn(this.localStorageService, 'add');
 
-        localeService.getLocaleSettings();
+        this.localeService.getLocaleSettings();
 
-        $httpBackend.flush();
+        this.$httpBackend.flush();
 
-        expect(localStorageService.add)
-            .toHaveBeenCalledWith('localeSettings', defaultSettingsJson);
+        expect(this.localStorageService.add)
+            .toHaveBeenCalledWith('localeSettings', this.defaultSettingsJson);
     });
 
     it('should get locale settings from config and save it to storage', function() {
-        spyOn(localStorageService, 'add');
+        spyOn(this.localStorageService, 'add');
 
-        localeService.getLocaleSettingsFromConfig();
+        this.localeService.getLocaleSettingsFromConfig();
 
-        expect(localStorageService.add).toHaveBeenCalled();
+        expect(this.localStorageService.add).toHaveBeenCalled();
     });
 
     afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
+        this.$httpBackend.verifyNoOutstandingExpectation();
+        this.$httpBackend.verifyNoOutstandingRequest();
     });
 
 });

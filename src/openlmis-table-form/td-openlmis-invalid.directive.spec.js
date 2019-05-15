@@ -14,54 +14,57 @@
  */
 
 describe('TD openlmis-invalid', function() {
-    'use strict';
 
-    var element, scope;
+    beforeEach(function() {
+        module('openlmis-table-form');
 
-    beforeEach(module('openlmis-table-form'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
 
-    it('always gets openlmisInvalid controller', inject(function($compile, $rootScope) {
+        this.compileElement = function(markup) {
+            this.$scope = this.$rootScope.$new();
+            this.element = this.$compile(markup)(this.$scope);
+            this.$scope.$apply();
+        };
+
         var markup = '<td></td>';
+        this.compileElement(markup);
+    });
 
-        scope = $rootScope.$new();
-        element = $compile(markup)(scope);
+    it('always gets openlmisInvalid controller', function() {
+        expect(this.element.controller('openlmisInvalid')).not.toBeFalsy();
+    });
 
-        scope.$apply();
-
-        expect(element.controller('openlmisInvalid')).not.toBeFalsy();
-    }));
-
-    it('does not overwrite existing openlmis-invalid directive', inject(function($compile, $rootScope) {
+    it('does not overwrite existing openlmis-invalid directive', function() {
         var markup = '<td openlmis-invalid="{{invalidMessage}}" ></td>';
 
-        scope = $rootScope.$new();
-        element = $compile(markup)(scope);
+        this.compileElement(markup);
 
-        scope.$apply();
+        expect(Object.keys(this.element.controller('openlmisInvalid').getMessages()).length).toBe(0);
 
-        var controller = element.controller('openlmisInvalid');
+        this.$scope.invalidMessage = 'Example';
+        this.$scope.$apply();
 
-        expect(Object.keys(controller.getMessages()).length).toBe(0);
+        expect(this.element.hasClass('is-invalid')).toBe(true);
+    });
 
-        scope.invalidMessage = 'Example';
-        scope.$apply();
+    it('works with ng-repeat', function() {
+        var markup =
+            '<table>' +
+                '<tr>' +
+                    '<td ng-repeat="i in [1,2,3,4]">{{i}}</td>' +
+                '<tr>' +
+            '</table>';
 
-        expect(element.hasClass('is-invalid')).toBe(true);
-    }));
+        this.compileElement(markup);
 
-    it('works with ng-repeat', inject(function($compile, $rootScope) {
-        var markup = '<table><tr><td ng-repeat="i in [1,2,3,4]">{{i}}</td><tr></table>';
+        expect(this.element.find('td').length).toBe(4);
 
-        scope = $rootScope.$new();
-        element = $compile(markup)(scope);
-
-        scope.$apply();
-
-        expect(element.find('td').length).toBe(4);
-
-        element.find('td').each(function(i, element) {
+        this.element.find('td').each(function(i, element) {
             expect(angular.element(element).controller('openlmisInvalid')).not.toBeFalsy();
         });
 
-    }));
+    });
 });

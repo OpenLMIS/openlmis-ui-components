@@ -15,137 +15,134 @@
 
 describe('PopoverDirective', function() {
 
-    var scope, element, popover, popoverCtrl, jQuery, $compile, $rootScope;
-
     beforeEach(function() {
         module('openlmis-popover');
-        module('openlmis-templates');
 
         inject(function($injector) {
-            jQuery = $injector.get('jQuery');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.jQuery = $injector.get('jQuery');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
 
-        scope = $rootScope.$new();
+        this.$scope = this.$rootScope.$new();
 
-        scope.popoverTitle = 'Popover Title';
-        scope.popoverClass = 'example-class';
+        this.$scope.popoverTitle = 'Popover Title';
+        this.$scope.popoverClass = 'example-class';
 
         var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >' +
             '... other stuff ....' +
             '</div>';
-        element = $compile(html)(scope);
+        this.element = this.$compile(html)(this.$scope);
 
-        angular.element('body').append(element);
+        angular.element('body').append(this.element);
 
-        popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        this.popoverCtrl = this.element.controller('popover');
+        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
 
-        scope.$apply();
+        this.$scope.$apply();
 
-        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
+        this.popover = this.jQuery.prototype.popover.mostRecentCall.args[0].template;
     });
 
     it('adds a popover when the popover directive is added', function() {
-        expect(jQuery.prototype.popover).toHaveBeenCalled();
+        expect(this.jQuery.prototype.popover).toHaveBeenCalled();
     });
 
     it('triggers openlmisPopover.change when content from PopoverController changes', function() {
         var num = 0;
-        element.on('openlmisPopover.change', function() {
+        this.element.on('openlmisPopover.change', function() {
             num += 1;
         });
 
-        popoverCtrl.getElements.andReturn([]);
-        scope.$apply();
+        this.popoverCtrl.getElements.andReturn([]);
+        this.$scope.$apply();
 
         expect(num).toBe(1);
     });
 
     it('adds the .has-popover class to the element when there is content from PopoverController', function() {
-        expect(element.hasClass('has-popover')).toBe(true);
+        expect(this.element.hasClass('has-popover')).toBe(true);
 
-        popoverCtrl.getElements.andReturn([]);
-        scope.$apply();
+        this.popoverCtrl.getElements.andReturn([]);
+        this.$scope.$apply();
 
-        expect(element.hasClass('has-popover')).toBe(false);
+        expect(this.element.hasClass('has-popover')).toBe(false);
     });
 
     it('gets popover content from PopoverController', function() {
         var elements = [angular.element('<p>Test</p>')];
-        popoverCtrl.getElements.andReturn(elements);
+        this.popoverCtrl.getElements.andReturn(elements);
 
         // this is what updates the popover content
-        element.popover('show');
+        this.element.popover('show');
 
-        expect(popoverCtrl.getElements).toHaveBeenCalled();
-        expect(popover.find('.popover-content').text()).toBe('Test');
+        expect(this.popoverCtrl.getElements).toHaveBeenCalled();
+        expect(this.popover.find('.popover-content').text()).toBe('Test');
 
         elements.push(angular.element('<p>Example</p>'));
 
-        element.popover('show');
+        this.element.popover('show');
 
-        expect(popover.find('.popover-content').text()).toBe('TestExample');
+        expect(this.popover.find('.popover-content').text()).toBe('TestExample');
     });
 
     it('adds an open method to popoverCtrl', function() {
-        expect(popoverCtrl.open).not.toBeFalsy();
+        expect(this.popoverCtrl.open).not.toBeFalsy();
 
         var opened = false;
-        element.on('openlmisPopover.open', function() {
+        this.element.on('openlmisPopover.open', function() {
             opened = true;
         });
 
-        popoverCtrl.open();
+        this.popoverCtrl.open();
 
         expect(opened).toBe(true);
     });
 
     it('adds a close method to popoverCtrl', function() {
-        expect(popoverCtrl.close).not.toBeFalsy();
+        expect(this.popoverCtrl.close).not.toBeFalsy();
 
         var closed = false;
-        element.on('openlmisPopover.close', function() {
+        this.element.on('openlmisPopover.close', function() {
             closed = true;
         });
 
-        popoverCtrl.close();
+        this.popoverCtrl.close();
 
         expect(closed).toBe(true);
     });
 
     it('adds the popoverScope to the PopoverController', function() {
-        expect(popoverCtrl.popoverScope).not.toBeFalsy();
-        expect(popoverCtrl.popoverScope.$apply).not.toBeFalsy();
+        expect(this.popoverCtrl.popoverScope).not.toBeFalsy();
+        expect(this.popoverCtrl.popoverScope.$apply).not.toBeFalsy();
     });
 
     it('adds a close function to the PopoverController', function() {
-        expect(popoverCtrl.popoverScope.closePopover).not.toBeFalsy();
+        expect(this.popoverCtrl.popoverScope.closePopover).not.toBeFalsy();
 
         var closed = false;
-        element.on('openlmisPopover.close', function() {
+        this.element.on('openlmisPopover.close', function() {
             closed = true;
         });
 
-        popoverCtrl.popoverScope.closePopover();
+        this.popoverCtrl.popoverScope.closePopover();
 
         expect(closed).toBe(true);
     });
 
     it('exposes an updateTabIndex method on popoverCtrl', function() {
-        expect(popoverCtrl.updateTabIndex).not.toBeFalsy();
+        expect(this.popoverCtrl.updateTabIndex).not.toBeFalsy();
     });
 
     it('it changes the elements tabindex when the popover controllers content changes', function() {
-        expect(element.attr('tabindex')).toBe('0');
+        expect(this.element.attr('tabindex')).toBe('0');
 
-        popoverCtrl.getElements.andReturn([]);
-        scope.$apply();
+        this.popoverCtrl.getElements.andReturn([]);
+        this.$scope.$apply();
 
-        expect(element.attr('tabindex')).toBe('-1');
+        expect(this.element.attr('tabindex')).toBe('-1');
     });
 
 });

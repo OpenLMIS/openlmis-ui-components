@@ -14,75 +14,75 @@
  */
 
 describe('popoverTemplate directive', function() {
-    var element, scope, popoverCtrl, templateURL;
 
-    beforeEach(module('openlmis-popover'));
+    beforeEach(function() {
+        module('openlmis-popover');
 
-    beforeEach(inject(function($templateCache) {
-        var html = '<div><p ng-if="!clicks">No clicks</p><p ng-if="clicks">{{clicks}} clicks</p>';
+        inject(function($injector) {
+            this.$templateCache = $injector.get('$templateCache');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
 
-        templateURL = 'example/popover.html';
-        $templateCache.put(templateURL, html);
-    }));
+        var template = '<div><p ng-if="!clicks">No clicks</p><p ng-if="clicks">{{clicks}} clicks</p>';
+        this.templateURL = 'example/popover.html';
+        this.$templateCache.put(this.templateURL, template);
 
-    beforeEach(inject(function($compile, $rootScope) {
         var html = '<button popover popover-template="{{templateURL}}">Example</button>';
 
-        scope = $rootScope.$new();
-        scope.templateURL = templateURL;
+        this.scope = this.$rootScope.$new();
+        this.scope.templateURL = this.templateURL;
+        this.element = this.$compile(html)(this.scope);
+        this.popoverCtrl = this.element.controller('popover');
 
-        element = $compile(html)(scope);
-        angular.element('body').append(element);
+        spyOn(this.popoverCtrl, 'addElement').andCallThrough();
+        spyOn(this.popoverCtrl, 'removeElement').andCallThrough();
 
-        popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'addElement').andCallThrough();
-        spyOn(popoverCtrl, 'removeElement').andCallThrough();
-
-        scope.$apply();
-    }));
+        this.scope.$apply();
+    });
 
     it('adds the rendered templateURL into the element\'s popover', function() {
-        expect(popoverCtrl.addElement).toHaveBeenCalled();
+        expect(this.popoverCtrl.addElement).toHaveBeenCalled();
 
-        var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
+        var addedElement = this.popoverCtrl.addElement.mostRecentCall.args[0];
 
         expect(addedElement.text()).toBe('No clicks');
 
         // Make sure scope updates are applied to the element
-        scope.clicks = 2;
-        scope.$apply();
+        this.scope.clicks = 2;
+        this.scope.$apply();
 
         expect(addedElement.text()).toBe('2 clicks');
     });
 
-    it('re-renders the tempalte if the template URL is changed', inject(function($templateCache) {
+    it('re-renders the template if the template URL is changed', inject(function($templateCache) {
         var newTemplateHtml = '<p>Example</p>',
             newTemplateUrl = 'example/example.html';
         $templateCache.put(newTemplateUrl, newTemplateHtml);
 
-        scope.templateURL = newTemplateUrl;
-        scope.$apply();
+        this.scope.templateURL = newTemplateUrl;
+        this.scope.$apply();
 
-        expect(popoverCtrl.removeElement).toHaveBeenCalled();
+        expect(this.popoverCtrl.removeElement).toHaveBeenCalled();
 
-        var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
+        var removedElement = this.popoverCtrl.removeElement.mostRecentCall.args[0];
 
         expect(removedElement.text()).toBe('No clicks');
 
-        expect(popoverCtrl.addElement).toHaveBeenCalled();
+        expect(this.popoverCtrl.addElement).toHaveBeenCalled();
 
-        var addedElement = popoverCtrl.addElement.mostRecentCall.args[0];
+        var addedElement = this.popoverCtrl.addElement.mostRecentCall.args[0];
 
         expect(addedElement.text()).toBe('Example');
     }));
 
     it('removes the rendered template when the attribute is changed to an empty string', function() {
-        scope.templateURL = '';
-        scope.$apply();
+        this.scope.templateURL = '';
+        this.scope.$apply();
 
-        expect(popoverCtrl.removeElement).toHaveBeenCalled();
+        expect(this.popoverCtrl.removeElement).toHaveBeenCalled();
 
-        var removedElement = popoverCtrl.removeElement.mostRecentCall.args[0];
+        var removedElement = this.popoverCtrl.removeElement.mostRecentCall.args[0];
 
         expect(removedElement.text()).toBe('No clicks');
     });

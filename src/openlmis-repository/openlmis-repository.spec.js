@@ -15,63 +15,62 @@
 
 describe('OpenlmisRepository', function() {
 
-    var $q, $rootScope, OpenlmisRepository, impl, repository, object, objectTwo, page, PageDataBuilder;
-
     beforeEach(function() {
         module('openlmis-pagination');
         module('openlmis-repository');
 
         inject(function($injector) {
-            OpenlmisRepository = $injector.get('OpenlmisRepository');
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            PageDataBuilder = $injector.get('PageDataBuilder');
+            this.OpenlmisRepository = $injector.get('OpenlmisRepository');
+            this.$q = $injector.get('$q');
+            this.$rootScope = $injector.get('$rootScope');
+            this.PageDataBuilder = $injector.get('PageDataBuilder');
         });
 
-        object = {
+        this.object = {
             id: 'some-id'
         };
 
-        objectTwo = {
+        this.objectTwo = {
             id: 'some-other-id'
         };
 
-        page = new PageDataBuilder()
+        this.page = new this.PageDataBuilder()
             .withContent([
-                object,
-                objectTwo
+                this.object,
+                this.objectTwo
             ])
             .build();
 
-        impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update', 'query']);
-        impl.create.andCallFake(function(param) {
-            return $q.resolve(param);
+        var context = this;
+        this.impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update', 'query']);
+        this.impl.create.andCallFake(function(param) {
+            return context.$q.resolve(param);
         });
-        impl.get.andCallFake(function(id) {
-            if (id === object.id) {
-                return $q.resolve(object);
+        this.impl.get.andCallFake(function(id) {
+            if (id === context.object.id) {
+                return context.$q.resolve(context.object);
             }
-            return $q.reject();
+            return context.$q.reject();
         });
-        impl.update.andCallFake(function(param) {
+        this.impl.update.andCallFake(function(param) {
             param.name = 'some-name';
-            return $q.resolve(param);
+            return context.$q.resolve(param);
         });
-        impl.query.andCallFake(function() {
-            return $q.resolve(page);
+        this.impl.query.andCallFake(function() {
+            return context.$q.resolve(context.page);
         });
 
-        repository = new OpenlmisRepository(DomainClass, impl);
+        this.repository = new this.OpenlmisRepository(DomainClass, this.impl);
     });
 
     describe('constructor', function() {
 
         it('should expose class', function() {
-            expect(repository.class).toEqual(DomainClass);
+            expect(this.repository.class).toEqual(DomainClass);
         });
 
         it('should expose repository implementation', function() {
-            expect(repository.impl).toEqual(impl);
+            expect(this.repository.impl).toEqual(this.impl);
         });
     });
 
@@ -80,20 +79,20 @@ describe('OpenlmisRepository', function() {
         var result;
 
         beforeEach(function() {
-            repository.create(object)
+            this.repository.create(this.object)
                 .then(function(response) {
                     result = response;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
         });
 
         it('should call impl create method', function() {
-            expect(impl.create).toHaveBeenCalledWith(object);
+            expect(this.impl.create).toHaveBeenCalledWith(this.object);
         });
 
         it('should call constructor', function() {
-            expect(result.object).toEqual(object);
-            expect(result.repository).toEqual(repository);
+            expect(result.object).toEqual(this.object);
+            expect(result.repository).toEqual(this.repository);
         });
     });
 
@@ -102,20 +101,20 @@ describe('OpenlmisRepository', function() {
         var result;
 
         beforeEach(function() {
-            repository.get(object.id)
+            this.repository.get(this.object.id)
                 .then(function(response) {
                     result = response;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
         });
 
         it('should call impl get method', function() {
-            expect(impl.get).toHaveBeenCalledWith(object.id);
+            expect(this.impl.get).toHaveBeenCalledWith(this.object.id);
         });
 
         it('should call constructor', function() {
-            expect(result.object).toEqual(object);
-            expect(result.repository).toEqual(repository);
+            expect(result.object).toEqual(this.object);
+            expect(result.repository).toEqual(this.repository);
         });
     });
 
@@ -124,15 +123,15 @@ describe('OpenlmisRepository', function() {
         var result;
 
         beforeEach(function() {
-            repository.update(object)
+            this.repository.update(this.object)
                 .then(function(response) {
                     result = response;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
         });
 
         it('should call impl get', function() {
-            expect(impl.update).toHaveBeenCalledWith(object);
+            expect(this.impl.update).toHaveBeenCalledWith(this.object);
         });
 
         it('should return updated object', function() {
@@ -150,19 +149,19 @@ describe('OpenlmisRepository', function() {
                 paramTwo: 'valueTwo'
             };
 
-            repository.query(params)
+            this.repository.query(params)
                 .then(function(response) {
                     result = response;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
         });
 
         it('should call impl query', function() {
-            expect(impl.query).toHaveBeenCalledWith(params);
+            expect(this.impl.query).toHaveBeenCalledWith(params);
         });
 
         it('should return page', function() {
-            expect(result).toEqual(page);
+            expect(result).toEqual(this.page);
         });
 
     });

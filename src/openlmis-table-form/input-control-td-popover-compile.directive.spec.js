@@ -14,18 +14,21 @@
  */
 
 describe('TD input-control popover compile directive', function() {
-    var $compile, scope;
 
-    beforeEach(module('openlmis-table-form'));
+    beforeEach(function() {
+        module('openlmis-table-form');
 
-    beforeEach(inject(function(_$compile_, $rootScope) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
-    }));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
+
+        this.$scope = this.$rootScope.$new();
+    });
 
     it('Adds openlmis-popover to input-control directives in a TD', function() {
         var html = '<td><div input-control></div></td>',
-            element = $compile(html)(scope),
+            element = this.$compile(html)(this.$scope),
             input = element.find('[input-control]:first');
 
         expect(input.controller('popover')).not.toBeUndefined();

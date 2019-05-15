@@ -14,48 +14,45 @@
  */
 
 describe('TR is Invalid', function() {
-    'use strict';
 
-    var $compile, scope;
+    beforeEach(function() {
+        module('openlmis-table');
 
-    beforeEach(module('openlmis-templates'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
 
-    beforeEach(module('openlmis-table'));
+        this.$scope = this.$rootScope.$new();
 
-    beforeEach(inject(function(_$compile_, $rootScope) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
-    }));
+        this.compileMarkup =  function(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            this.$scope.$apply();
+
+            return element;
+        };
+    });
 
     it('TR gets is-invalid class when child element has is-invalid class', function() {
-        var table = compileMarkup('<table><tr><td></td></tr></table>');
+        var table = this.compileMarkup('<table><tr><td></td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('td').addClass('is-invalid');
-        scope.$apply();
+        this.$scope.$apply();
 
         expect(table.find('tr.is-invalid').length).toBe(1);
     });
 
     it('TR gets is-invalid class when any descendent element has is-invalid class', function() {
-        var table = compileMarkup('<table><tr><td><p><a></a></p></td></tr></table>');
+        var table = this.compileMarkup('<table><tr><td><p><a></a></p></td></tr></table>');
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('a').addClass('is-invalid');
-        scope.$apply();
+        this.$scope.$apply();
 
         expect(table.find('tr.is-invalid').length).toBe(1);
     });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)(scope);
-
-        angular.element('body').append(element);
-        scope.$apply();
-
-        return element;
-    }
 
 });

@@ -15,30 +15,27 @@
 
 describe('ProgressbarController', function() {
 
-    var vm, $controller;
-
     beforeEach(function() {
-
         module('openlmis-progressbar');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
+            this.$controller = $injector.get('$controller');
         });
 
-        vm = $controller('ProgressbarController');
+        this.vm = this.$controller('ProgressbarController');
     });
 
     it('should init max value by default if not provided', function() {
-        vm.$onInit();
+        this.vm.$onInit();
 
-        expect(vm.max).toBe(100);
+        expect(this.vm.max).toBe(100);
     });
 
     it('should init max value by default if 0 is provided', function() {
-        vm.max = 0;
-        vm.$onInit();
+        this.vm.max = 0;
+        this.vm.$onInit();
 
-        expect(vm.max).toBe(100);
+        expect(this.vm.max).toBe(100);
     });
 
 });

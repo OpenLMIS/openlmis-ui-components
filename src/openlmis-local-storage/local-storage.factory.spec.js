@@ -15,89 +15,92 @@
 
 describe('localStorageFactory', function() {
 
-    var localStorageFactory, items, itemStorage, localStorageServiceSpy;
-
     beforeEach(function() {
-        items = [
-            {
-                id: 1,
-                name: 'item1'
-            },
-            {
-                id: 2,
-                name: 'item2'
+        module('openlmis-local-storage');
+
+        inject(function($injector) {
+            this.localStorageService = $injector.get('localStorageService');
+            this.localStorageFactory = $injector.get('localStorageFactory');
+        });
+
+        this.items = [{
+            id: 1,
+            name: 'item1'
+        },
+        {
+            id: 2,
+            name: 'item2'
+        }];
+
+        var items = this.items;
+        spyOn(this.localStorageService, 'add');
+        spyOn(this.localStorageService, 'get').andCallFake(function(resourceName) {
+            return resourceName === 'items' ? items : undefined;
+        });
+
+        this.itemsLocalStorage = this.localStorageFactory('items');
+
+        this.compare = function(a, b) {
+            if (a.id < b.id) {
+                return -1;
             }
-        ];
-
-        module('openlmis-local-storage', function($provide) {
-            localStorageServiceSpy = jasmine.createSpyObj('localStorageService', ['add', 'get']);
-            localStorageServiceSpy.get.andCallFake(function(resourceName) {
-                return resourceName === 'items' ? items : undefined;
-            });
-            $provide.factory('localStorageService', function() {
-                return localStorageServiceSpy;
-            });
-        });
-
-        inject(function(_localStorageFactory_) {
-            localStorageFactory = _localStorageFactory_;
-        });
-
-        itemStorage = localStorageFactory('items');
+            if (a.id > b.id) {
+                return 1;
+            }
+            return 0;
+        };
     });
 
     describe('put', function() {
 
-        var item;
-
         beforeEach(function() {
-            item = {
+            this.item = {
                 id: 3,
                 name: 'item3'
             };
         });
 
         it('should put item', function() {
-            itemStorage.put(item);
+            this.itemsLocalStorage.put(this.item);
 
-            expect(items.length).toBe(3);
-            expect(items[2]).toEqual(item);
+            expect(this.items.length).toBe(3);
+            expect(this.items[2]).toEqual(this.item);
         });
 
         it('should update object if item with the same id exist', function() {
-            item.id = 1;
+            this.item.id = 1;
 
-            itemStorage.put(item);
+            this.itemsLocalStorage.put(this.item);
 
-            expect(items.length).toBe(2);
-            expect(items[1]).toEqual(item);
+            expect(this.items.length).toBe(2);
+            expect(this.items[1]).toEqual(this.item);
         });
 
         it('should update storage', function() {
-            itemStorage.put(item);
+            this.itemsLocalStorage.put(this.item);
 
-            expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
+            expect(this.localStorageService.add).toHaveBeenCalledWith('items', angular.toJson(this.items));
         });
 
         it('should not modify the storage object, unless the object is explicitly updated', function() {
-            itemStorage.put(item);
+            this.itemsLocalStorage.put(this.item);
 
-            var firstItem = itemStorage.getBy('id', 3);
+            var firstItem = this.itemsLocalStorage.getBy('id', 3);
 
             expect(firstItem.name).toEqual('item3');
 
             // don't save this change
             firstItem.name = 'foo bar';
 
-            var secondItem = itemStorage.getBy('id', 3);
+            var secondItem = this.itemsLocalStorage.getBy('id', 3);
 
             expect(secondItem.name).toEqual('item3');
 
             secondItem.name = 'foo baz';
             // just saved the item
-            itemStorage.put(secondItem);
+            this.itemsLocalStorage.put(secondItem);
 
-            var thirdItem = itemStorage.getBy('id', 3);
+            var thirdItem = this.itemsLocalStorage.getBy('id', 3);
             // a newly pulled item got the changes
             expect(thirdItem.name).toEqual('foo baz');
         });
@@ -107,15 +110,15 @@ describe('localStorageFactory', function() {
     describe('getBy', function() {
 
         it('should get item by id', function() {
-            var result = itemStorage.getBy('id', 1);
+            var result = this.itemsLocalStorage.getBy('id', 1);
 
-            expect(result).toEqual(items[0]);
+            expect(result).toEqual(this.items[0]);
         });
 
         it('should get item by name', function() {
-            var result = itemStorage.getBy('name', 'item2');
+            var result = this.itemsLocalStorage.getBy('name', 'item2');
 
-            expect(result).toEqual(items[1]);
+            expect(result).toEqual(this.items[1]);
         });
 
     });
@@ -123,15 +126,15 @@ describe('localStorageFactory', function() {
     describe('clearAll', function() {
 
         it('should remove all items', function() {
-            itemStorage.clearAll();
+            this.itemsLocalStorage.clearAll();
 
-            expect(items.length).toBe(0);
+            expect(this.items.length).toBe(0);
         });
 
         it('should update storage', function() {
-            itemStorage.clearAll();
+            this.itemsLocalStorage.clearAll();
 
-            expect(localStorageServiceSpy.add).toHaveBeenCalledWith('items', angular.toJson(items));
+            expect(this.localStorageService.add).toHaveBeenCalledWith('items', angular.toJson(this.items));
         });
 
     });
@@ -139,49 +142,49 @@ describe('localStorageFactory', function() {
     describe('getAll', function() {
 
         it('should get all items', function() {
-            var result = itemStorage.getAll();
-            result.sort(compare);
+            var result = this.itemsLocalStorage.getAll();
+            result.sort(this.compare);
 
             expect(result.length).toBe(2);
-            expect(result[0]).toEqual(items[0]);
-            expect(result[1]).toEqual(items[1]);
+            expect(result[0]).toEqual(this.items[0]);
+            expect(result[1]).toEqual(this.items[1]);
         });
     });
 
     describe('search', function() {
 
         it('should search with default filter by id', function() {
-            var result = itemStorage.search({
-                id: items[0].id
+            var result = this.itemsLocalStorage.search({
+                id: this.items[0].id
             });
 
             expect(result.length).toBe(1);
-            expect(result[0]).toEqual(items[0]);
+            expect(result[0]).toEqual(this.items[0]);
         });
 
         it('should search with default filter by name', function() {
-            var result = itemStorage.search({
-                name: items[1].name
+            var result = this.itemsLocalStorage.search({
+                name: this.items[1].name
             });
 
             expect(result.length).toBe(1);
-            expect(result[0]).toEqual(items[1]);
+            expect(result[0]).toEqual(this.items[1]);
         });
 
         it('should search with default filter by name and id', function() {
-            var result = itemStorage.search({
-                name: items[1].name,
-                id: items[1].id
+            var result = this.itemsLocalStorage.search({
+                name: this.items[1].name,
+                id: this.items[1].id
             });
 
             expect(result.length).toBe(1);
-            expect(result[0]).toEqual(items[1]);
+            expect(result[0]).toEqual(this.items[1]);
         });
 
         it('should failed to search with default filter by wrong name', function() {
-            var result = itemStorage.search({
-                name: items[0].name,
-                id: items[1].id
+            var result = this.itemsLocalStorage.search({
+                name: this.items[0].name,
+                id: this.items[1].id
             });
 
             expect(result.length).toBe(0);
@@ -192,46 +195,36 @@ describe('localStorageFactory', function() {
 
         it('should remove item by id', function() {
             var result,
-                id = items[0].id;
+                id = this.items[0].id;
 
-            itemStorage.removeBy('id', id);
-            result = itemStorage.getAll();
+            this.itemsLocalStorage.removeBy('id', id);
+            result = this.itemsLocalStorage.getAll();
 
-            expect(itemStorage.getBy('id', id)).toBe(undefined);
+            expect(this.itemsLocalStorage.getBy('id', id)).toBe(undefined);
             expect(result.length).toBe(1);
         });
 
         it('should remove item by name', function() {
             var result,
-                name = items[0].name;
+                name = this.items[0].name;
 
-            itemStorage.removeBy('name', name);
-            result = itemStorage.getAll();
+            this.itemsLocalStorage.removeBy('name', name);
+            result = this.itemsLocalStorage.getAll();
 
-            expect(itemStorage.getBy('name', name)).toBe(undefined);
+            expect(this.itemsLocalStorage.getBy('name', name)).toBe(undefined);
             expect(result.length).toBe(1);
         });
 
         it('should not remove item with wrong value', function() {
             var result;
 
-            itemStorage.removeBy('name', 'otherName');
-            result = itemStorage.getAll();
-            result.sort(compare);
+            this.itemsLocalStorage.removeBy('name', 'otherName');
+            result = this.itemsLocalStorage.getAll();
+            result.sort(this.compare);
 
             expect(result.length).toBe(2);
-            expect(result[0]).toEqual(items[0]);
-            expect(result[1]).toEqual(items[1]);
+            expect(result[0]).toEqual(this.items[0]);
+            expect(result[1]).toEqual(this.items[1]);
         });
     });
-
-    function compare(a, b) {
-        if (a.id < b.id) {
-            return -1;
-        }
-        if (a.id > b.id) {
-            return 1;
-        }
-        return 0;
-    }
 });

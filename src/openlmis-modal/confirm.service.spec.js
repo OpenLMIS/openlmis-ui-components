@@ -15,23 +15,21 @@
 
 describe('confirmService', function() {
 
-    var confirmService, openlmisModalService;
-
     beforeEach(function() {
         module('openlmis-modal');
 
         inject(function($injector) {
-            confirmService = $injector.get('confirmService');
-            openlmisModalService = $injector.get('openlmisModalService');
+            this.confirmService = $injector.get('confirmService');
+            this.openlmisModalService = $injector.get('openlmisModalService');
         });
 
-        spyOn(openlmisModalService, 'createDialog');
+        spyOn(this.openlmisModalService, 'createDialog');
     });
 
     describe('confirm', function() {
 
         it('should open modal with default values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            this.openlmisModalService.createDialog.andCallFake(function(options) {
                 expect(options.resolve.className()).toEqual('primary');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('openlmisModal.ok');
@@ -39,11 +37,11 @@ describe('confirmService', function() {
                 expect(options.resolve.titleMessage()).toEqual(undefined);
             });
 
-            confirmService.confirm('someMessage');
+            this.confirmService.confirm('someMessage');
         });
 
         it('should open modal with passed values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            this.openlmisModalService.createDialog.andCallFake(function(options) {
                 expect(options.resolve.className()).toEqual('primary');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('buttonMessage');
@@ -51,14 +49,14 @@ describe('confirmService', function() {
                 expect(options.resolve.titleMessage()).toEqual('titleMessage');
             });
 
-            confirmService.confirm('someMessage', 'buttonMessage', 'cancelButtonMessage', 'titleMessage');
+            this.confirmService.confirm('someMessage', 'buttonMessage', 'cancelButtonMessage', 'titleMessage');
         });
     });
 
     describe('confirmDestroy', function() {
 
         it('should open modal with default values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            this.openlmisModalService.createDialog.andCallFake(function(options) {
                 expect(options.resolve.className()).toEqual('danger');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('openlmisModal.ok');
@@ -66,11 +64,11 @@ describe('confirmService', function() {
                 expect(options.resolve.titleMessage()).toEqual(undefined);
             });
 
-            confirmService.confirmDestroy('someMessage');
+            this.confirmService.confirmDestroy('someMessage');
         });
 
         it('should open modal with passed values', function() {
-            openlmisModalService.createDialog.andCallFake(function(options) {
+            this.openlmisModalService.createDialog.andCallFake(function(options) {
                 expect(options.resolve.className()).toEqual('danger');
                 expect(options.resolve.message()).toEqual('someMessage');
                 expect(options.resolve.confirmMessage()).toEqual('buttonMessage');
@@ -78,7 +76,7 @@ describe('confirmService', function() {
                 expect(options.resolve.titleMessage()).toEqual('titleMessage');
             });
 
-            confirmService.confirmDestroy('someMessage', 'buttonMessage', 'cancelButtonMessage', 'titleMessage');
+            this.confirmService.confirmDestroy('someMessage', 'buttonMessage', 'cancelButtonMessage', 'titleMessage');
         });
     });
 });

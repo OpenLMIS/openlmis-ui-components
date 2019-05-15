@@ -15,16 +15,27 @@
 
 describe('openlmisModalService', function() {
 
-    var openlmisModalService, $rootScope, $modal, $timeout;
-
     beforeEach(function() {
+        this.$modal = jasmine.createSpy('$modal');
+
+        var $modal = this.$modal;
         module('openlmis-modal', function($provide) {
             $provide.service('$modal', function() {
-                return preapreModalSpy();
+                return $modal;
             });
         });
 
-        inject(services);
+        inject(function($injector) {
+            this.openlmisModalService = $injector.get('openlmisModalService');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
+        });
+
+        this.$modal.andCallFake(function(dialog) {
+            return _.extend({}, dialog, {
+                hide: function() {}
+            });
+        });
     });
 
     describe('modal', function() {
@@ -32,7 +43,7 @@ describe('openlmisModalService', function() {
         //OLMIS-25434
         //This was causing the alert service to be unable to open one after another
         it('should reject promise when hiding modal', function() {
-            var modal = openlmisModalService.createDialog({}),
+            var modal = this.openlmisModalService.createDialog({}),
                 rejected;
 
             modal.promise.catch(function() {
@@ -40,13 +51,13 @@ describe('openlmisModalService', function() {
             });
 
             modal.hide();
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBeTruthy();
         });
 
         it('should not hide modal when it is not displayed', function() {
-            var modal = openlmisModalService.createDialog({});
+            var modal = this.openlmisModalService.createDialog({});
 
             spyOn(modal, 'hide').andCallThrough();
             spyOn(modal, '$$hide');
@@ -58,7 +69,7 @@ describe('openlmisModalService', function() {
         });
 
         it('should hide modal when it is displayed', function() {
-            var modal = openlmisModalService.createDialog({});
+            var modal = this.openlmisModalService.createDialog({});
 
             spyOn(modal, 'hide').andCallThrough();
             spyOn(modal, '$$hide');
@@ -70,7 +81,7 @@ describe('openlmisModalService', function() {
         });
 
         it('should hide modal after it was shown', function() {
-            var modal = openlmisModalService.createDialog({});
+            var modal = this.openlmisModalService.createDialog({});
 
             spyOn(modal, 'hide').andCallThrough();
             spyOn(modal, '$$hide');
@@ -81,54 +92,39 @@ describe('openlmisModalService', function() {
             expect(modal.$$hide).not.toHaveBeenCalled();
 
             modal.$isShown = true;
-            $timeout.flush();
+            this.$timeout.flush();
 
             expect(modal.$$hide).toHaveBeenCalled();
         });
 
         it('should not close on backdrop click as default', function() {
-            openlmisModalService.createDialog({});
+            this.openlmisModalService.createDialog({});
 
-            expect($modal.calls[0].args[0].backdrop).toEqual('static');
+            expect(this.$modal.calls[0].args[0].backdrop).toEqual('static');
         });
 
         it('should not close on ESC click as default', function() {
-            openlmisModalService.createDialog({});
+            this.openlmisModalService.createDialog({});
 
-            expect($modal.calls[0].args[0].keyboard).toEqual(false);
+            expect(this.$modal.calls[0].args[0].keyboard).toEqual(false);
         });
 
         it('should allow default backdrop behavior override', function() {
-            openlmisModalService.createDialog({
+            this.openlmisModalService.createDialog({
                 backdrop: false
             });
 
-            expect($modal.calls[0].args[0].backdrop).toEqual(false);
+            expect(this.$modal.calls[0].args[0].backdrop).toEqual(false);
         });
 
         it('should allow default ESC behavior override', function() {
-            openlmisModalService.createDialog({
+            this.openlmisModalService.createDialog({
                 keyboard: true
             });
 
-            expect($modal.calls[0].args[0].keyboard).toEqual(true);
+            expect(this.$modal.calls[0].args[0].keyboard).toEqual(true);
 
         });
     });
-
-    function services($injector) {
-        openlmisModalService = $injector.get('openlmisModalService');
-        $rootScope = $injector.get('$rootScope');
-        $timeout = $injector.get('$timeout');
-    }
-
-    function preapreModalSpy() {
-        $modal = jasmine.createSpy('$modal');
-        $modal.andCallFake(function(dialog) {
-            dialog.hide = function() {};
-            return dialog;
-        });
-        return $modal;
-    }
 
 });

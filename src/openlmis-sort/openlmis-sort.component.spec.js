@@ -14,53 +14,52 @@
  */
 
 describe('openlmis sort component', function() {
-    var $templateCache, $timeout, $rootScope, $compile, scope, element, controller;
 
     beforeEach(function() {
         module('openlmis-sort');
 
         inject(function($injector) {
-            $timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
-            $compile = $injector.get('$compile');
-            $templateCache = $injector.get('$templateCache');
+            this.$timeout = $injector.get('$timeout');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$templateCache = $injector.get('$templateCache');
         });
 
-        $templateCache.put('openlmis-sort/openlmis-sort.html', 'something');
+        this.$templateCache.put('openlmis-sort/openlmis-sort.html', 'something');
 
         var markup = '<openlmis-sort sort="sortValue" on-change="onChange" options="options" external-sort="external"' +
             'state-param-name="sortName"><openlmis-sort/>';
 
-        scope = $rootScope.$new();
-        scope.sortValue = 'username';
-        scope.onChange = function(param) {
+        this.$scope = this.$rootScope.$new();
+        this.$scope.sortValue = 'username';
+        this.$scope.onChange = function(param) {
             return 'parameter: ' + param;
         };
-        scope.options = {
+        this.$scope.options = {
             username: 'sort.username.message',
             firstName: 'sort.firstName.message'
         };
-        scope.external = true;
-        scope.sortName = 'sortParamName';
+        this.$scope.external = true;
+        this.$scope.sortName = 'sortParamName';
 
-        element = $compile(markup)(scope);
-        angular.element('body').append(element);
+        this.element = this.$compile(markup)(this.$scope);
+        angular.element('body').append(this.element);
 
-        scope.$apply();
-        $timeout.flush();
+        this.$scope.$apply();
+        this.$timeout.flush();
 
-        controller = angular.element('openlmis-sort').controller('openlmisSort');
+        this.controller = angular.element('openlmis-sort').controller('openlmisSort');
     });
 
     it('should assign proper values', function() {
-        expect(controller.options).toEqual({
+        expect(this.controller.options).toEqual({
             username: 'sort.username.message',
             firstName: 'sort.firstName.message'
         });
 
-        expect(controller.externalSort).toEqual(true);
-        expect(controller.stateParamName).toEqual('sortParamName');
-        expect(angular.isFunction(controller.onChange)).toBe(true);
-        expect(controller.onChange('some-value')).toEqual('parameter: some-value');
+        expect(this.controller.externalSort).toEqual(true);
+        expect(this.controller.stateParamName).toEqual('sortParamName');
+        expect(angular.isFunction(this.controller.onChange)).toBe(true);
+        expect(this.controller.onChange('some-value')).toEqual('parameter: some-value');
     });
 });

@@ -15,81 +15,80 @@
 
 describe('stateChangeErrorInterceptor', function() {
 
-    var $rootScope, alertService, error;
-
     beforeEach(function() {
         module('openlmis-state-change-error');
 
         inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            alertService = $injector.get('alertService');
+            this.$rootScope = $injector.get('$rootScope');
+            this.alertService = $injector.get('alertService');
         });
 
-        error = undefined;
+        this.error = undefined;
+
         spyOn(console, 'error').andReturn();
-        spyOn(alertService, 'error').andReturn();
+        spyOn(this.alertService, 'error').andReturn();
+
+        this.emitStateChangeErrorEvent = function() {
+            this.$rootScope.$emit(
+                '$stateChangeError',
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+                this.error
+            );
+        };
     });
 
     it('should print error to console', function() {
-        error = 'Some state change error';
+        this.error = 'Some state change error';
 
-        emitStateChangeErrorEvent();
+        this.emitStateChangeErrorEvent();
 
-        expect(console.error).toHaveBeenCalledWith(error);
+        expect(console.error).toHaveBeenCalledWith(this.error);
     });
 
     it('should open modal', function() {
-        error = 'Some state change error';
+        this.error = 'Some state change error';
 
-        emitStateChangeErrorEvent();
+        this.emitStateChangeErrorEvent();
 
-        expect(alertService.error).toHaveBeenCalledWith(
+        expect(this.alertService.error).toHaveBeenCalledWith(
             'openlmisStateChangeError.internalApplicationError.title',
             'openlmisStateChangeError.internalApplicationError.message'
         );
     });
 
     it('should not open modal if error is server response', function() {
-        error = {
+        this.error = {
             status: undefined,
             statusText: undefined,
             data: undefined
         };
 
-        emitStateChangeErrorEvent();
+        this.emitStateChangeErrorEvent();
 
-        expect(alertService.error).not.toHaveBeenCalled();
+        expect(this.alertService.error).not.toHaveBeenCalled();
     });
 
     it('should not print error to console if error is server response', function() {
-        error = {
+        this.error = {
             status: undefined,
             statusText: undefined,
             data: undefined
         };
 
-        emitStateChangeErrorEvent();
+        this.emitStateChangeErrorEvent();
 
         expect(console.error).not.toHaveBeenCalled();
     });
 
     it('should open modal if error is undefined', function() {
-        error = undefined;
+        this.error = undefined;
 
-        emitStateChangeErrorEvent();
+        this.emitStateChangeErrorEvent();
 
-        expect(alertService.error).toHaveBeenCalled();
+        expect(this.alertService.error).toHaveBeenCalled();
     });
-
-    function emitStateChangeErrorEvent() {
-        $rootScope.$emit(
-            '$stateChangeError',
-            undefined,
-            undefined,
-            undefined,
-            undefined,
-            error
-        );
-    }
 
 });

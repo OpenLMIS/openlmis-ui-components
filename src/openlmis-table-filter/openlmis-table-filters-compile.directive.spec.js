@@ -15,59 +15,68 @@
 
 describe('openlmis-table-filter compile directive', function() {
 
-    var $scope, $compile, ctrlSpy, $rootScope;
-
     beforeEach(function() {
-        module('openlmis-table-filter', function($controllerProvider) {
+        this.openlmisTableFiltersControllerMock = jasmine.createSpyObj('OpenlmisTableFiltersController', [
+            'registerElement', 'getFilterButton'
+        ]);
 
-            // Stubs out DOM manipulation by OpenlmisTableFiltersController
-            ctrlSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
-                'registerElement', 'getFilterButton'
-            ]);
+        var openlmisTableFiltersControllerMock = this.openlmisTableFiltersControllerMock;
+        module('openlmis-table-filter', function($controllerProvider) {
             $controllerProvider.register('OpenlmisTableFiltersController', function() {
-                return ctrlSpy;
+                return openlmisTableFiltersControllerMock;
             });
         });
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        $scope = $rootScope.$new();
+        this.$scope = this.$rootScope.$new();
+
+        var context = this;
+        this.compileMarkup = function(markup) {
+            var element = context.$compile(markup)(context.$scope);
+            context.$scope.$apply();
+            return element;
+        };
     });
 
     it('should add openlmis-table-filters directive to openlmis-table-container', function() {
-        var container = compileMarkup('<div class="openlmis-table-container"></div>');
+        var markup = '<div class="openlmis-table-container"></div>';
+
+        var container = this.compileMarkup(markup);
 
         expect(container.attr('openlmis-table-filters')).not.toBeUndefined();
         expect(container.controller('openlmis-table-filters')).not.toBeUndefined();
     });
 
     it('should register openlmis-table-container child forms with OpenlmisTableFiltersController', function() {
-        var container = compileMarkup('<div class="openlmis-table-container"><form></form></div>');
+        var markup =
+            '<div class="openlmis-table-container">' +
+                '<form></form>' +
+            '</div>';
+
+        var container = this.compileMarkup(markup);
 
         expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
-        expect(ctrlSpy.registerElement).toHaveBeenCalled();
+        expect(this.openlmisTableFiltersControllerMock.registerElement).toHaveBeenCalled();
     });
 
     it('will only apply openlmis-table-filter to forms that are direct descendants of openlmis-table-container',
         function() {
-            var container = compileMarkup(
-                '<div class="openlmis-table-container"><form></form><div><form></form></div></div>'
-            );
+            var markup =
+                '<div class="openlmis-table-container">' +
+                    '<form></form>' +
+                    '<div>' +
+                        '<form></form>' +
+                    '</div>' +
+                '</div>';
+
+            var container = this.compileMarkup(markup);
 
             expect(container.find('form').length).toBe(2);
             expect(container.find('form[openlmis-table-filter-form]').length).toBe(1);
         });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)($scope);
-
-        angular.element('body').append(element);
-        $scope.$apply();
-
-        return element;
-    }
 
 });

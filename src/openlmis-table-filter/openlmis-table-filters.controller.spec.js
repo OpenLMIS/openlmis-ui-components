@@ -30,7 +30,11 @@ describe('OpenlmisTableFiltersController', function() {
             $scope: this.$scope
         });
 
-        this.compileMarkup = compileMarkup;
+        this.compileMarkup = function(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            this.$scope.$apply();
+            return element;
+        };
     });
 
     describe('getFormElement', function() {
@@ -469,15 +473,5 @@ describe('OpenlmisTableFiltersController', function() {
 
         expect(this.vm.getFilterButton().hasClass('is-active')).toBe(false);
     });
-
-    //TODO: DRY this a bit, as it is repeated in numerous tests
-    function compileMarkup(markup) {
-        var element = this.$compile(markup)(this.$scope);
-
-        angular.element('body').append(element);
-        this.$scope.$apply();
-
-        return element;
-    }
 
 });

@@ -15,30 +15,43 @@
 
 describe('ParameterSplitter', function() {
 
-    var ParameterSplitter, uri, maxUriLength, params;
+    beforeEach(function() {
+        this.prepareSuite = function() {
+            var maxUriLength = this.maxUriLength;
+            module('openlmis-repository', function($provide) {
+                $provide.constant('MAX_URI_LENGTH', maxUriLength);
+            });
+
+            inject(function($injector) {
+                this.ParameterSplitter = $injector.get('ParameterSplitter');
+            });
+
+            this.uri = '/someUri';
+        };
+    });
 
     describe('split', function() {
 
         it('should return params as array even without splitting', function() {
-            maxUriLength = 200;
+            this.maxUriLength = 200;
 
-            prepareSuite();
+            this.prepareSuite();
 
-            params = {
+            this.params = {
                 some: 'param'
             };
 
-            var result = new ParameterSplitter().split(uri, params);
+            var result = new this.ParameterSplitter().split(this.uri, this.params);
 
-            expect(result).toEqual([params]);
+            expect(result).toEqual([this.params]);
         });
 
         it('should split parameter with the biggest number of values', function() {
-            maxUriLength = 100;
+            this.maxUriLength = 100;
 
-            prepareSuite();
+            this.prepareSuite();
 
-            params = {
+            this.params = {
                 paramOne: 'very long parameter, event longer than that paramTwo',
                 paramTwo: [
                     'valueOne',
@@ -46,15 +59,15 @@ describe('ParameterSplitter', function() {
                 ]
             };
 
-            var result = new ParameterSplitter().split(uri, params);
+            var result = new this.ParameterSplitter().split(this.uri, this.params);
 
             expect(result).toEqual([{
-                paramOne: params.paramOne,
+                paramOne: this.params.paramOne,
                 paramTwo: [
                     'valueOne'
                 ]
             }, {
-                paramOne: params.paramOne,
+                paramOne: this.params.paramOne,
                 paramTwo: [
                     'valueTwo'
                 ]
@@ -62,11 +75,11 @@ describe('ParameterSplitter', function() {
         });
 
         it('should always split parameters with the biggest number of values', function() {
-            maxUriLength = 84;
+            this.maxUriLength = 84;
 
-            prepareSuite();
+            this.prepareSuite();
 
-            params = {
+            this.params = {
                 paramOne: [
                     'valueOne',
                     'valueTwo',
@@ -80,7 +93,7 @@ describe('ParameterSplitter', function() {
                 ]
             };
 
-            var result = new ParameterSplitter().split(uri, params);
+            var result = new this.ParameterSplitter().split(this.uri, this.params);
 
             expect(result.length).toEqual(4);
             expect(result[0]).toEqual({
@@ -127,11 +140,11 @@ describe('ParameterSplitter', function() {
         });
 
         it('should stop splitting parameters if all params have only one value', function() {
-            maxUriLength = 2;
+            this.maxUriLength = 2;
 
-            prepareSuite();
+            this.prepareSuite();
 
-            var result = new ParameterSplitter().split(uri, {
+            var result = new this.ParameterSplitter().split(this.uri, {
                 some: [
                     'long',
                     'param',
@@ -189,11 +202,11 @@ describe('ParameterSplitter', function() {
         });
 
         it('should not miss any value for odd values count', function() {
-            maxUriLength = 29;
+            this.maxUriLength = 29;
 
-            prepareSuite();
+            this.prepareSuite();
 
-            var result = new ParameterSplitter().split(uri, {
+            var result = new this.ParameterSplitter().split(this.uri, {
                 some: [
                     'long',
                     'param',
@@ -212,25 +225,13 @@ describe('ParameterSplitter', function() {
         });
 
         it('should return undefined as list if params are not given', function() {
-            prepareSuite();
+            this.prepareSuite();
 
-            var result = new ParameterSplitter().split(uri, undefined);
+            var result = new this.ParameterSplitter().split(this.uri, undefined);
 
             expect(result).toEqual([undefined]);
         });
 
     });
-
-    function prepareSuite() {
-        module('openlmis-repository', function($provide) {
-            $provide.constant('MAX_URI_LENGTH', maxUriLength);
-        });
-
-        inject(function($injector) {
-            ParameterSplitter = $injector.get('ParameterSplitter');
-        });
-
-        uri = '/someUri';
-    }
 
 });

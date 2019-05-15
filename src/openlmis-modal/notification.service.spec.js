@@ -15,61 +15,59 @@
 
 describe('notificationService', function() {
 
-    var $timeout, $rootScope, notificationService, loadingModalService;
-
     beforeEach(function() {
         module('openlmis-modal');
 
         inject(function($injector) {
-            $timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
-            notificationService = $injector.get('notificationService');
-            loadingModalService = $injector.get('loadingModalService');
+            this.$timeout = $injector.get('$timeout');
+            this.$rootScope = $injector.get('$rootScope');
+            this.notificationService = $injector.get('notificationService');
+            this.loadingModalService = $injector.get('loadingModalService');
         });
+
+        this.findNotifications = function() {
+            return angular.element(document.querySelector('.notification'));
+        };
     });
 
     it('should hide error notification after clicking on it', function() {
-        notificationService.error('some.message');
-        $rootScope.$apply();
+        this.notificationService.error('some.message');
+        this.$rootScope.$apply();
 
-        expect(findNotifications().length).toBe(1);
-        findNotifications().on('click', function(event) {
+        expect(this.findNotifications().length).toBe(1);
+        this.findNotifications().on('click', function(event) {
             angular.element(event.target).trigger('webkitAnimationEnd');
         });
 
-        findNotifications().trigger('click');
+        this.findNotifications().trigger('click');
 
-        expect(findNotifications().length).toBe(0);
+        expect(this.findNotifications().length).toBe(0);
     });
 
     it('should close success notification after delay', function() {
-        notificationService.success('some.message');
-        $rootScope.$apply();
+        this.notificationService.success('some.message');
+        this.$rootScope.$apply();
 
-        expect(findNotifications().length).toBe(1);
+        expect(this.findNotifications().length).toBe(1);
 
-        $timeout.flush();
-        findNotifications().trigger('webkitAnimationEnd');
+        this.$timeout.flush();
+        this.findNotifications().trigger('webkitAnimationEnd');
 
-        expect(findNotifications().length).toBe(0);
+        expect(this.findNotifications().length).toBe(0);
     });
 
     it('should show notification after loading modal closes', function() {
-        loadingModalService.open();
+        this.loadingModalService.open();
 
-        notificationService.success('some.message');
-        $rootScope.$apply();
+        this.notificationService.success('some.message');
+        this.$rootScope.$apply();
 
-        expect(findNotifications().length).toBe(0);
+        expect(this.findNotifications().length).toBe(0);
 
-        loadingModalService.close();
-        $rootScope.$apply();
+        this.loadingModalService.close();
+        this.$rootScope.$apply();
 
-        expect(findNotifications().length).toBe(1);
+        expect(this.findNotifications().length).toBe(1);
     });
-
-    function findNotifications() {
-        return angular.element(document.querySelector('.notification'));
-    }
 
 });

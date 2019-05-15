@@ -14,41 +14,49 @@
  */
 
 describe('TR Focused Directive', function() {
-    'use strict';
 
-    var $compile, scope;
+    beforeEach(function() {
+        module('openlmis-table');
 
-    beforeEach(module('openlmis-table'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
 
-    beforeEach(inject(function(_$compile_, $rootScope) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
-    }));
+        var markup =
+            '<table>' +
+                '<tr>' +
+                    '<td>' +
+                        '<input  />' +
+                    '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td>' +
+                        '<input />' +
+                    '</td>' +
+                '</tr>' +
+            '</table>';
+
+        this.$scope = this.$rootScope.$new();
+        this.table = this.$compile(markup)(this.$scope);
+        angular.element('body').append(this.table);
+        this.$rootScope.$apply();
+    });
 
     it('Sets trCtrl focused to true until focused moved out of row', function() {
-        var table = compileMarkup('<table><tr><td><input  /></td></tr><tr><td><input /></td></tr></table>'),
-            tr = table.find('tr:first');
+        var tr = this.table.find('tr:first');
 
         expect(tr.hasClass('is-focused')).toBe(false);
 
-        table.find('input:first').focus();
-        scope.$apply();
+        this.table.find('input:first').focus();
+        this.$rootScope.$apply();
 
         expect(tr.hasClass('is-focused')).toBe(true);
 
-        table.find('input:last').focus();
-        scope.$apply();
+        this.table.find('input:last').focus();
+        this.$rootScope.$apply();
 
         expect(tr.hasClass('is-focused')).toBe(false);
     });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)(scope);
-
-        angular.element('body').append(element);
-        scope.$apply();
-
-        return element;
-    }
 
 });

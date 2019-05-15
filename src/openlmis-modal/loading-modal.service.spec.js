@@ -14,139 +14,127 @@
  */
 describe('loadingModalService', function() {
 
-    var loadingModalService, $q, $timeout, $rootScope, openlmisModalServiceMock, dialog,
-        dialogDeferred, expectedDialogOptions;
-
     beforeEach(function() {
-        expectedDialogOptions = {
+
+        module('openlmis-modal');
+
+        inject(function($injector) {
+            this.loadingModalService = $injector.get('loadingModalService');
+            this.openlmisModalService = $injector.get('openlmisModalService');
+            this.$q = $injector.get('$q');
+            this.$timeout = $injector.get('$timeout');
+            this.$rootScope = $injector.get('$rootScope');
+        });
+
+        this.dialogDeferred  = this.$q.defer();
+        this.dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
+        this.dialog.promise = this.dialogDeferred.promise;
+        this.expectedDialogOptions = {
             backdrop: 'static',
             templateUrl: 'openlmis-modal/loading-modal.html'
         };
 
-        openlmisModalServiceMock = jasmine.createSpyObj('openlmisModalService', ['createDialog']);
-
-        module('openlmis-modal', function($provide) {
-            $provide.service('openlmisModalService', function() {
-                return openlmisModalServiceMock;
-            });
-        });
-
-        inject(function($injector) {
-            loadingModalService = $injector.get('loadingModalService');
-            $q = $injector.get('$q');
-            $timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
-        });
-
-        dialogDeferred  = $q.defer();
-        dialog = jasmine.createSpyObj('dialog', ['show', 'hide']);
-        dialog.promise = dialogDeferred.promise;
-
-        openlmisModalServiceMock.createDialog.andReturn(dialog);
+        spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialog);
+        spyOn(this.$timeout, 'cancel').andCallThrough();
     });
 
     describe('open', function() {
 
         it('should return promise', function() {
-            expect(loadingModalService.open().then).not.toBeUndefined();
+            expect(this.loadingModalService.open().then).not.toBeUndefined();
         });
 
         it('should create dialog', function() {
-            loadingModalService.open();
+            this.loadingModalService.open();
 
-            expect(openlmisModalServiceMock.createDialog)
-                .toHaveBeenCalledWith(expectedDialogOptions);
+            expect(this.openlmisModalService.createDialog).toHaveBeenCalledWith(this.expectedDialogOptions);
         });
 
         it('should show dialog if called without delay', function() {
-            loadingModalService.open();
+            this.loadingModalService.open();
 
-            expect(openlmisModalServiceMock.createDialog).toHaveBeenCalled();
+            expect(this.openlmisModalService.createDialog).toHaveBeenCalled();
         });
 
         it('should show dialog after delay', function() {
-            loadingModalService.open(true);
+            this.loadingModalService.open(true);
 
-            expect(openlmisModalServiceMock.createDialog).not.toHaveBeenCalled();
+            expect(this.openlmisModalService.createDialog).not.toHaveBeenCalled();
 
-            $timeout.flush();
+            this.$timeout.flush();
 
-            expect(openlmisModalServiceMock.createDialog).toHaveBeenCalled();
+            expect(this.openlmisModalService.createDialog).toHaveBeenCalled();
         });
 
         it('should set isOpened flag', function() {
-            loadingModalService.open();
+            this.loadingModalService.open();
 
-            expect(loadingModalService.isOpened).toBe(true);
+            expect(this.loadingModalService.isOpened).toBe(true);
         });
     });
 
     describe('close', function() {
 
-        beforeEach(function() {
-            spyOn($timeout, 'cancel').andCallThrough();
-        });
-
         it('should close dialog', function() {
-            loadingModalService.open();
-            loadingModalService.close();
+            this.loadingModalService.open();
+            this.loadingModalService.close();
 
-            expect(dialog.hide).toHaveBeenCalled();
+            expect(this.dialog.hide).toHaveBeenCalled();
         });
 
         it('should cancel timeout if showing dialog was delayed', function() {
-            loadingModalService.open(true);
-            loadingModalService.close();
+            this.loadingModalService.open(true);
+            this.loadingModalService.close();
 
-            expect($timeout.cancel).toHaveBeenCalled();
+            expect(this.$timeout.cancel).toHaveBeenCalled();
         });
 
         it('should resolve promise returned by show', function() {
             var result;
 
-            loadingModalService.open().then(function() {
+            this.loadingModalService.open().then(function() {
                 result = 'something';
             });
-            loadingModalService.close();
-            $rootScope.$apply();
+            this.loadingModalService.close();
+            this.$rootScope.$apply();
 
             expect(result).toEqual('something');
         });
 
         it('should set isOpened flag', function() {
-            loadingModalService.close();
+            this.loadingModalService.close();
 
-            expect(loadingModalService.isOpened).toBe(false);
+            expect(this.loadingModalService.isOpened).toBe(false);
         });
     });
 
     describe('whenClosed', function() {
 
         it('should return a promise if modal is open', function() {
-            loadingModalService.open();
-            $rootScope.$apply();
+            this.loadingModalService.open();
+            this.$rootScope.$apply();
 
             var closed;
-            loadingModalService.whenClosed()
+            this.loadingModalService.whenClosed()
                 .then(function() {
                     closed = true;
                 });
 
             expect(closed).not.toBe(true);
 
-            loadingModalService.close();
-            $rootScope.$apply();
+            this.loadingModalService.close();
+            this.$rootScope.$apply();
 
             expect(closed).toBe(true);
         });
 
         it('should return a resolved promise if modal is closed', function() {
             var closed;
-            loadingModalService.whenClosed()
+            this.loadingModalService.whenClosed()
                 .then(function() {
                     closed = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(closed).toBe(true);
         });

@@ -33,38 +33,36 @@ describe('openlmis-table-container-filters directive', function() {
             this.$timeout = $injector.get('$timeout');
         });
 
-        this.compileMarkup = compileMarkup;
+        this.$scope = this.$rootScope.$new();
+
+        this.compileMarkup = function compileMarkup(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            this.$rootScope.$apply();
+            return element;
+        };
     });
 
     it('should add filter button with popover if any filter has been registered', function() {
-        var container = this.compileMarkup(
+        var markup =
             '<div class="openlmis-table-container">' +
                 '<form></form>' +
                 '<table></table>' +
-            '</div>'
-        );
+            '</div>';
+
+        var container = this.compileMarkup(markup);
 
         expect(container.find('button.filters').length).toBe(1);
     });
 
     it('should not add button with popover if none filters have been registered', function() {
-        var container = this.compileMarkup(
+        var markup =
             '<div class="openlmis-table-container">' +
                 '<table></table>' +
-            '</div>'
-        );
+            '</div>';
+
+        var container = this.compileMarkup(markup);
 
         expect(container.find('button.filters').length).toBe(0);
     });
-
-    function compileMarkup(markup) {
-        var $scope = this.$rootScope.$new();
-        var element = this.$compile(markup)($scope);
-
-        angular.element('body').append(element);
-        $scope.$apply();
-
-        return element;
-    }
 
 });

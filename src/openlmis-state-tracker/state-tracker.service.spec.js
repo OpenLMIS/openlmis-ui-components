@@ -12,16 +12,17 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-describe('stateTrackerService', function() {
+describe('this.stateTrackerService', function() {
 
-    var stateTrackerService, $state, stateStorage, previousState, previousStateParams, offlineServiceMock;
+    var offlineServiceMock;
 
     beforeEach(function() {
+        var context = this;
         module('openlmis-state-tracker', function($provide) {
-            stateStorage = jasmine.createSpyObj('stateStorage', ['put', 'clearAll', 'getAll']);
+            context.stateStorage = jasmine.createSpyObj('stateStorage', ['put', 'clearAll', 'getAll']);
             $provide.factory('localStorageFactory', function() {
                 return function() {
-                    return stateStorage;
+                    return context.stateStorage;
                 };
             });
 
@@ -32,42 +33,42 @@ describe('stateTrackerService', function() {
         });
 
         inject(function($injector) {
-            stateTrackerService = $injector.get('stateTrackerService');
-            $state = $injector.get('$state');
+            this.stateTrackerService = $injector.get('stateTrackerService');
+            this.$state = $injector.get('$state');
         });
 
-        previousState = {
+        this.previousState = {
             name: 'stateOne'
         };
-        previousStateParams = {
+        this.previousStateParams = {
             param: 'one',
             paramTwo: 'two'
         };
 
-        spyOn($state, 'go');
-        spyOn($state, 'reload');
+        spyOn(this.$state, 'go');
+        spyOn(this.$state, 'reload');
     });
 
     describe('setPreviousState', function() {
 
-        it('should set previousState and previousStateParams', function() {
-            stateTrackerService.setPreviousState(previousState, previousStateParams);
+        it('should set this.previousState and this.previousStateParams', function() {
+            this.stateTrackerService.setPreviousState(this.previousState, this.previousStateParams);
 
-            expect(stateStorage.clearAll).toHaveBeenCalled();
-            expect(stateStorage.put).toHaveBeenCalledWith({
-                previousState: previousState.name,
-                previousStateParams: previousStateParams
+            expect(this.stateStorage.clearAll).toHaveBeenCalled();
+            expect(this.stateStorage.put).toHaveBeenCalledWith({
+                previousState: this.previousState.name,
+                previousStateParams: this.previousStateParams
             });
         });
 
         it('should not store nonTrackable state', function() {
-            stateTrackerService.setPreviousState({
+            this.stateTrackerService.setPreviousState({
                 name: 'NonTrackableState',
                 nonTrackable: true
             }, {});
 
-            expect(stateStorage.clearAll).not.toHaveBeenCalled();
-            expect(stateStorage.put).not.toHaveBeenCalled();
+            expect(this.stateStorage.clearAll).not.toHaveBeenCalled();
+            expect(this.stateStorage.put).not.toHaveBeenCalled();
         });
 
     });
@@ -75,64 +76,64 @@ describe('stateTrackerService', function() {
     describe('goToPreviousState', function() {
 
         it('should restore the state', function() {
-            stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.andReturn([
                 {
-                    previousState: previousState.name,
-                    previousStateParams: previousStateParams
+                    previousState: this.previousState.name,
+                    previousStateParams: this.previousStateParams
                 }
             ]);
 
-            stateTrackerService.goToPreviousState();
+            this.stateTrackerService.goToPreviousState();
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, this.previousStateParams, {
                 reload: true
             });
         });
 
         it('should restore the state if default one is present and previous is stored', function() {
-            stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.andReturn([
                 {
-                    previousState: previousState.name,
-                    previousStateParams: previousStateParams
+                    previousState: this.previousState.name,
+                    previousStateParams: this.previousStateParams
                 }
             ]);
 
-            stateTrackerService.goToPreviousState('some.state');
+            this.stateTrackerService.goToPreviousState('some.state');
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, this.previousStateParams, {
                 reload: true
             });
         });
 
         it('should call default state', function() {
-            stateStorage.getAll.andReturn([]);
+            this.stateStorage.getAll.andReturn([]);
 
-            stateTrackerService.goToPreviousState('some.state');
+            this.stateTrackerService.goToPreviousState('some.state');
 
-            expect($state.go).toHaveBeenCalledWith('some.state');
+            expect(this.$state.go).toHaveBeenCalledWith('some.state');
         });
 
         it('should reload current state', function() {
-            stateStorage.getAll.andReturn([]);
+            this.stateStorage.getAll.andReturn([]);
 
-            stateTrackerService.goToPreviousState();
+            this.stateTrackerService.goToPreviousState();
 
-            expect($state.reload).toHaveBeenCalled();
+            expect(this.$state.reload).toHaveBeenCalled();
         });
 
         it('should override stored state parameters if they were given', function() {
-            stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.andReturn([
                 {
-                    previousState: previousState.name,
-                    previousStateParams: previousStateParams
+                    previousState: this.previousState.name,
+                    previousStateParams: this.previousStateParams
                 }
             ]);
 
-            stateTrackerService.goToPreviousState('state', {
+            this.stateTrackerService.goToPreviousState('state', {
                 param: 'three'
             });
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, {
                 param: 'three',
                 paramTwo: 'two'
             }, {
@@ -141,51 +142,51 @@ describe('stateTrackerService', function() {
         });
 
         it('should pass stateOptions', function() {
-            stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.andReturn([
                 {
-                    previousState: previousState.name,
-                    previousStateParams: previousStateParams
+                    previousState: this.previousState.name,
+                    previousStateParams: this.previousStateParams
                 }
             ]);
 
-            stateTrackerService.goToPreviousState('state', null, {
+            this.stateTrackerService.goToPreviousState('state', null, {
                 someOption: false
             });
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, this.previousStateParams, {
                 reload: true,
                 someOption: false
             });
         });
 
         it('should not override given reload option', function() {
-            stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.andReturn([
                 {
-                    previousState: previousState.name,
-                    previousStateParams: previousStateParams
+                    previousState: this.previousState.name,
+                    previousStateParams: this.previousStateParams
                 }
             ]);
 
-            stateTrackerService.goToPreviousState('state', null, {
+            this.stateTrackerService.goToPreviousState('state', null, {
                 reload: false
             });
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, this.previousStateParams, {
                 reload: false
             });
         });
 
         it('should not reload state if offline', function() {
-            stateStorage.getAll.andReturn([{
-                previousState: previousState.name,
-                previousStateParams: previousStateParams
+            this.stateStorage.getAll.andReturn([{
+                previousState: this.previousState.name,
+                previousStateParams: this.previousStateParams
             }]);
 
             offlineServiceMock.isOffline.andReturn(true);
 
-            stateTrackerService.goToPreviousState('state', null);
+            this.stateTrackerService.goToPreviousState('state', null);
 
-            expect($state.go).toHaveBeenCalledWith(previousState.name, previousStateParams, {
+            expect(this.$state.go).toHaveBeenCalledWith(this.previousState.name, this.previousStateParams, {
                 reload: false
             });
         });

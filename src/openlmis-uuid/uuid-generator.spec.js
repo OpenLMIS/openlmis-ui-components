@@ -15,23 +15,21 @@
 
 describe('UuidGenerator', function() {
 
-    var UuidGenerator, generator;
-
     beforeEach(function() {
         module('openlmis-uuid');
 
         inject(function($injector) {
-            UuidGenerator = $injector.get('UuidGenerator');
+            this.UuidGenerator = $injector.get('UuidGenerator');
         });
 
-        generator = new UuidGenerator();
+        this.generator = new this.UuidGenerator();
     });
 
     describe('generate', function() {
 
         it('should generate UUIDv4', function() {
             var regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
-                result = generator.generate();
+                result = this.generator.generate();
 
             expect(regex.test(result.toUpperCase())).toBe(true);
         });

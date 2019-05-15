@@ -15,47 +15,44 @@
 
 describe('PopoverDirective', function() {
 
-    var scope, element, popover, popoverCtrl, jQuery, $compile, $rootScope;
-
     beforeEach(function() {
         module('openlmis-popover');
-        module('openlmis-templates');
 
         inject(function($injector) {
-            jQuery = $injector.get('jQuery');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.jQuery = $injector.get('jQuery');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
 
-        scope = $rootScope.$new();
+        this.scope = this.$rootScope.$new();
 
-        scope.popoverTitle = 'Popover Title';
-        scope.popoverClass = 'example-class';
+        this.scope.popoverTitle = 'Popover Title';
+        this.scope.popoverClass = 'example-class';
 
         var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}">' +
                 '... other stuff ....' +
             '</div>';
-        element = $compile(html)(scope);
+        this.element = this.$compile(html)(this.scope);
 
-        angular.element('body').append(element);
+        angular.element('body').append(this.element);
 
-        popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        this.popoverCtrl = this.element.controller('popover');
+        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
 
-        scope.$apply();
+        this.scope.$apply();
 
-        popover = jQuery.prototype.popover.mostRecentCall.args[0].template;
+        this.popover = this.jQuery.prototype.popover.mostRecentCall.args[0].template;
     });
 
     it('has a custom css class attribute, which will updated', function() {
-        expect(popover.hasClass('example-class')).toBe(true);
+        expect(this.popover.hasClass('example-class')).toBe(true);
 
-        scope.popoverClass = 'is-error';
-        scope.$apply();
+        this.scope.popoverClass = 'is-error';
+        this.scope.$apply();
 
-        expect(popover.hasClass('example-class')).toBe(false);
-        expect(popover.hasClass('is-error')).toBe(true);
+        expect(this.popover.hasClass('example-class')).toBe(false);
+        expect(this.popover.hasClass('is-error')).toBe(true);
     });
 });

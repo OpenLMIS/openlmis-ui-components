@@ -15,63 +15,61 @@
 
 describe('pathFactory', function() {
 
-    var pathFactory, url;
-
     beforeEach(function() {
         module('openlmis-urls');
 
         inject(function($injector) {
-            pathFactory = $injector.get('pathFactory');
+            this.pathFactory = $injector.get('pathFactory');
         });
     });
 
     it('drops empty arguments', function() {
-        url = pathFactory('/', false, '');
+        this.url = this.pathFactory('/', false, '');
 
-        expect(url).toBe('/');
+        expect(this.url).toBe('/');
 
-        url = pathFactory('/foo', '', 'bar/');
+        this.url = this.pathFactory('/foo', '', 'bar/');
 
-        expect(url).toBe('/foo/bar/');
+        expect(this.url).toBe('/foo/bar/');
 
-        url = pathFactory('', 'bar/');
+        this.url = this.pathFactory('', 'bar/');
 
-        expect(url).toBe('bar/');
+        expect(this.url).toBe('bar/');
     });
 
     it('leaves the first slash, if entered', function() {
-        url = pathFactory('/foo', 'bar/');
+        this.url = this.pathFactory('/foo', 'bar/');
 
-        expect(url).toBe('/foo/bar/');
+        expect(this.url).toBe('/foo/bar/');
 
-        url = pathFactory('foo', 'bar/');
+        this.url = this.pathFactory('foo', 'bar/');
 
-        expect(url).toBe('foo/bar/');
+        expect(this.url).toBe('foo/bar/');
     });
 
     it('leaves trailing slash on last argument, if entered', function() {
-        url = pathFactory('/foo', 'bar/');
+        this.url = this.pathFactory('/foo', 'bar/');
 
-        expect(url).toBe('/foo/bar/');
+        expect(this.url).toBe('/foo/bar/');
 
-        url = pathFactory('/foo', '/baz/', 'bar/');
+        this.url = this.pathFactory('/foo', '/baz/', 'bar/');
 
-        expect(url).toBe('/foo/baz/bar/');
+        expect(this.url).toBe('/foo/baz/bar/');
 
-        url = pathFactory('/foo', '/baz/', 'bar');
+        this.url = this.pathFactory('/foo', '/baz/', 'bar');
 
-        expect(url).toBe('/foo/baz/bar');
+        expect(this.url).toBe('/foo/baz/bar');
     });
 
     it('should combine trailing slashes from arguments', function() {
         // Two arguments
-        url = pathFactory('/foo/', '/bar/');
+        this.url = this.pathFactory('/foo/', '/bar/');
 
-        expect(url).toBe('/foo/bar/');
+        expect(this.url).toBe('/foo/bar/');
         // n arguments, varried slashes
-        url = pathFactory('/foo/', '/baz/bar/', 'blip');
+        this.url = this.pathFactory('/foo/', '/baz/bar/', 'blip');
 
-        expect(url).toBe('/foo/baz/bar/blip');
+        expect(this.url).toBe('/foo/baz/bar/blip');
     });
 
 });

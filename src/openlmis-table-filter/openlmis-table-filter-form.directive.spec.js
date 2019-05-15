@@ -15,9 +15,12 @@
 
 describe('openlmisTableFilterForm directive', function() {
 
-    var template, ctrlSpy, $rootScope, $compile, $scope;
-
     beforeEach(function() {
+        this.openlmisTableFiltersControllerSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
+            'registerElement', 'getFilterButton'
+        ]);
+
+        var openlmisTableFiltersControllerSpy = this.openlmisTableFiltersControllerSpy;
         module('openlmis-table-filter', function($compileProvider, $controllerProvider) {
             $compileProvider.directive('table', function() {
                 var def = {
@@ -28,44 +31,32 @@ describe('openlmisTableFilterForm directive', function() {
                 return def;
             });
 
-            ctrlSpy = jasmine.createSpyObj('OpenlmisTableFiltersController', [
-                'registerElement', 'getFilterButton'
-            ]);
             $controllerProvider.register('OpenlmisTableFiltersController', function() {
-                return ctrlSpy;
+                return openlmisTableFiltersControllerSpy;
             });
         });
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        $scope = $rootScope.$new();
-        ctrlSpy.getFilterButton.andReturn(compileMarkup('<button></button>'));
-        template = compileMarkup(
+        var markup =
             '<section class="openlmis-table-container">' +
                 '<div openlmis-table-filter-form></div>' +
                 '<table>' +
                     '<thead><tr><th></th></tr></thead>' +
                     '<tbody><tr><td></td></tr></tbody>' +
                 '</table>' +
-            '</section>'
-        );
+            '</section>';
+
+        this.template = this.$compile(markup)(this.$rootScope.$new());
+        this.$rootScope.$apply();
     });
 
     it('should register element in the openlmisTableFilters', function() {
-        expect(ctrlSpy.registerElement)
-            .toHaveBeenCalledWith(angular.element(template.find('[openlmis-table-filter-form]')[0]));
+        expect(this.openlmisTableFiltersControllerSpy.registerElement)
+            .toHaveBeenCalledWith(angular.element(this.template.find('[openlmis-table-filter-form]')[0]));
     });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)($scope);
-
-        angular.element('body').append(element);
-        $scope.$apply();
-
-        return element;
-    }
 
 });

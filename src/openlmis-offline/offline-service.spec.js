@@ -15,13 +15,12 @@
 
 describe('offlineService', function() {
 
-    var offline, offlineService, timeout, $rootScope, storedFlag;
-
     beforeEach(function() {
-        module('openlmis-offline', function($provide) {
-            storedFlag = jasmine.createSpyObj('storedFlag', ['put', 'clearAll', 'getAll']);
-            storedFlag.getAll.andReturn([false]);
+        this.storedFlag = jasmine.createSpyObj('storedFlag', ['put', 'clearAll', 'getAll']);
+        this.storedFlag.getAll.andReturn([false]);
 
+        var storedFlag = this.storedFlag;
+        module('openlmis-offline', function($provide) {
             $provide.factory('localStorageFactory', function() {
                 return function() {
                     return storedFlag;
@@ -30,17 +29,17 @@ describe('offlineService', function() {
         });
 
         inject(function($injector) {
-            offlineService = $injector.get('offlineService');
-            offline = $injector.get('Offline');
-            timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
+            this.offlineService = $injector.get('offlineService');
+            this.Offline = $injector.get('Offline');
+            this.$timeout = $injector.get('$timeout');
+            this.$rootScope = $injector.get('$rootScope');
         });
     });
 
     describe('init', function() {
         it('should restore offline flag if it was stored in local storage', function() {
-            expect(storedFlag.getAll).toHaveBeenCalled();
-            expect(offlineService.isOffline()).toBe(false);
+            expect(this.storedFlag.getAll).toHaveBeenCalled();
+            expect(this.offlineService.isOffline()).toBe(false);
         });
     });
 
@@ -48,77 +47,81 @@ describe('offlineService', function() {
 
         it('should return false when there is internet connection', function() {
             var spy = jasmine.createSpy();
-            $rootScope.$on('openlmis.online', spy);
+            this.$rootScope.$on('openlmis.online', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
-                offline.trigger('confirmed-up');
+            var Offline = this.Offline;
+            spyOn(Offline, 'check').andCallFake(function() {
+                Offline.trigger('confirmed-up');
             });
 
-            offlineService.checkConnection();
-            timeout.flush(30001);
+            this.offlineService.checkConnection();
+            this.$timeout.flush(30001);
 
-            var isOffline = offlineService.isOffline();
+            var isOffline = this.offlineService.isOffline();
 
             expect(isOffline).toBe(false);
-            expect(storedFlag.clearAll).toHaveBeenCalled();
-            expect(storedFlag.put).toHaveBeenCalledWith(false);
+            expect(this.storedFlag.clearAll).toHaveBeenCalled();
+            expect(this.storedFlag.put).toHaveBeenCalledWith(false);
             expect(spy).toHaveBeenCalled();
         });
 
         it('should return true when there is no internet connection', function() {
             var spy = jasmine.createSpy();
-            $rootScope.$on('openlmis.offline', spy);
+            this.$rootScope.$on('openlmis.offline', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
-                offline.trigger('confirmed-down');
+            var Offline = this.Offline;
+            spyOn(Offline, 'check').andCallFake(function() {
+                Offline.trigger('confirmed-down');
             });
 
-            offlineService.checkConnection();
-            timeout.flush(30001);
+            this.offlineService.checkConnection();
+            this.$timeout.flush(30001);
 
-            var isOffline = offlineService.isOffline();
+            var isOffline = this.offlineService.isOffline();
 
             expect(isOffline).toBe(true);
-            expect(storedFlag.clearAll).toHaveBeenCalled();
-            expect(storedFlag.put).toHaveBeenCalledWith(true);
+            expect(this.storedFlag.clearAll).toHaveBeenCalled();
+            expect(this.storedFlag.put).toHaveBeenCalledWith(true);
             expect(spy).toHaveBeenCalled();
         });
 
         it('should return false when the connection has gone from down to up', function() {
             var spy = jasmine.createSpy();
-            $rootScope.$on('openlmis.online', spy);
+            this.$rootScope.$on('openlmis.online', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
-                offline.trigger('up');
+            var Offline = this.Offline;
+            spyOn(Offline, 'check').andCallFake(function() {
+                Offline.trigger('up');
             });
 
-            offlineService.checkConnection();
-            timeout.flush(30001);
+            this.offlineService.checkConnection();
+            this.$timeout.flush(30001);
 
-            var isOffline = offlineService.isOffline();
+            var isOffline = this.offlineService.isOffline();
 
             expect(isOffline).toBe(false);
-            expect(storedFlag.clearAll).toHaveBeenCalled();
-            expect(storedFlag.put).toHaveBeenCalledWith(false);
+            expect(this.storedFlag.clearAll).toHaveBeenCalled();
+            expect(this.storedFlag.put).toHaveBeenCalledWith(false);
             expect(spy).toHaveBeenCalled();
         });
 
         it('should return true when the connection has gone from up to down', function() {
             var spy = jasmine.createSpy();
-            $rootScope.$on('openlmis.offline', spy);
+            this.$rootScope.$on('openlmis.offline', spy);
 
-            spyOn(offline, 'check').andCallFake(function() {
-                offline.trigger('down');
+            var Offline = this.Offline;
+            spyOn(Offline, 'check').andCallFake(function() {
+                Offline.trigger('down');
             });
 
-            offlineService.checkConnection();
-            timeout.flush(30001);
+            this.offlineService.checkConnection();
+            this.$timeout.flush(30001);
 
-            var isOffline = offlineService.isOffline();
+            var isOffline = this.offlineService.isOffline();
 
             expect(isOffline).toBe(true);
-            expect(storedFlag.clearAll).toHaveBeenCalled();
-            expect(storedFlag.put).toHaveBeenCalledWith(true);
+            expect(this.storedFlag.clearAll).toHaveBeenCalled();
+            expect(this.storedFlag.put).toHaveBeenCalledWith(true);
             expect(spy).toHaveBeenCalled();
         });
 

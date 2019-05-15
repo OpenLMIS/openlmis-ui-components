@@ -15,88 +15,82 @@
 
 describe('ConfirmModalController', function() {
 
-    var vm, $controller, messageService, className, message, confirmMessage, cancelMessage, titleMessage,
-        confirmDeferred, modalDeferred, messageKey;
-
     beforeEach(function() {
         module('openlmis-modal');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
-            messageService = $injector.get('messageService');
+            this.$controller = $injector.get('$controller');
+            this.messageService = $injector.get('messageService');
         });
 
-        className = 'class-name';
-        messageKey = 'modalMessage';
-        message = 'Modal message\nWith multiple lines';
-        confirmMessage = 'Confirm Message';
-        cancelMessage = 'Cancel Message';
-        titleMessage = 'Title message';
-        confirmDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
-        modalDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
+        this.className = 'class-name';
+        this.messageKey = 'modalMessage';
+        this.message = 'Modal message\nWith multiple lines';
+        this.confirmMessage = 'Confirm Message';
+        this.cancelMessage = 'Cancel Message';
+        this.titleMessage = 'Title message';
+        this.confirmDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
+        this.modalDeferred = jasmine.createSpyObj('confirmDeferred', ['resolve', 'reject']);
 
-        vm = $controller('ConfirmModalController', {
-            className: className,
-            message: messageKey,
-            confirmMessage: confirmMessage,
-            cancelMessage: cancelMessage,
-            titleMessage: titleMessage,
-            confirmDeferred: confirmDeferred,
-            modalDeferred: modalDeferred
+        this.vm = this.$controller('ConfirmModalController', {
+            className: this.className,
+            message: this.messageKey,
+            confirmMessage: this.confirmMessage,
+            cancelMessage: this.cancelMessage,
+            titleMessage: this.titleMessage,
+            confirmDeferred: this.confirmDeferred,
+            modalDeferred: this.modalDeferred
         });
     });
 
     describe('$onInit', function() {
 
         it('should expose class name', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.className).toEqual(className);
+            expect(this.vm.className).toEqual(this.className);
         });
 
         it('should expose parsed message', function() {
-            spyOn(messageService, 'get').andCallFake(function(key) {
-                if (key === messageKey) {
-                    return message;
-                }
-            });
+            spyOn(this.messageService, 'get').andReturn(this.message);
 
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.message).toEqual('Modal message<br/>With multiple lines');
+            expect(this.vm.message).toEqual('Modal message<br/>With multiple lines');
+            expect(this.messageService.get).toHaveBeenCalledWith(this.messageKey);
         });
 
         it('should expose confirm message', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.confirmMessage).toEqual(confirmMessage);
+            expect(this.vm.confirmMessage).toEqual(this.confirmMessage);
         });
 
         it('should expose cancel message', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.cancelMessage).toEqual(cancelMessage);
+            expect(this.vm.cancelMessage).toEqual(this.cancelMessage);
         });
 
         it('should expose title message', function() {
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.titleMessage).toEqual(titleMessage);
+            expect(this.vm.titleMessage).toEqual(this.titleMessage);
         });
     });
 
     describe('confirm', function() {
 
         it('should resolve confirm promise', function() {
-            vm.confirm();
+            this.vm.confirm();
 
-            expect(confirmDeferred.resolve).toHaveBeenCalled();
+            expect(this.confirmDeferred.resolve).toHaveBeenCalled();
         });
 
         it('should resolve modal promise', function() {
-            vm.confirm();
+            this.vm.confirm();
 
-            expect(modalDeferred.resolve).toHaveBeenCalled();
+            expect(this.modalDeferred.resolve).toHaveBeenCalled();
         });
 
     });
@@ -104,15 +98,15 @@ describe('ConfirmModalController', function() {
     describe('cancel', function() {
 
         it('should resolve confirm promise', function() {
-            vm.cancel();
+            this.vm.cancel();
 
-            expect(confirmDeferred.reject).toHaveBeenCalled();
+            expect(this.confirmDeferred.reject).toHaveBeenCalled();
         });
 
         it('should resolve modal promise', function() {
-            vm.cancel();
+            this.vm.cancel();
 
-            expect(modalDeferred.resolve).toHaveBeenCalled();
+            expect(this.modalDeferred.resolve).toHaveBeenCalled();
         });
 
     });

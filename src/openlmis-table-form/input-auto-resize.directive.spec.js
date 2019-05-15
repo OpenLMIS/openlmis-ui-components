@@ -14,66 +14,74 @@
  */
 
 describe('Input automatic resize directive', function() {
-    var $compile, scope, input, html, previousWidth;
-
-    beforeEach(module('openlmis-table-form'));
-
-    beforeEach(inject(function($injector) {
-        $compile = $injector.get('$compile');
-        scope = $injector.get('$rootScope').$new();
-    }));
 
     beforeEach(function() {
-        html = compileMarkup('<td><input type="text" value="100"/></td>');
-        input = html.find('input');
+        module('openlmis-table-form');
 
-        previousWidth = parseInt(input[0].style.width, 10);
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+
+        });
+
+        this.compileMarkup = function(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            this.$scope.$apply();
+            return element;
+        };
+
+        var markup =
+            '<td>' +
+                '<input type="text" value="100"/>' +
+            '</td>';
+
+        this.$scope = this.$rootScope.$new();
+        this.html = this.compileMarkup(markup);
+        this.input = this.html.find('input');
+
+        this.previousWidth = parseInt(this.input[0].style.width, 10);
     });
 
     it('should set width value as greater than zero if input is not empty', function() {
-        expect(previousWidth).toBeGreaterThan(0);
+        expect(this.previousWidth).toBeGreaterThan(0);
     });
 
     it('should stretch input if value is longer than previous', function() {
-        input[0].value = 100000;
+        this.input[0].value = 100000;
 
-        $compile(html)(scope);
-        scope.$apply();
+        this.$compile(this.html)(this.$scope);
+        this.$scope.$apply();
 
-        $compile(html)(scope);
-        scope.$apply();
+        this.$compile(this.html)(this.$scope);
+        this.$scope.$apply();
 
-        expect(parseInt(input[0].style.width, 10)).toBeGreaterThan(previousWidth);
+        expect(parseInt(this.input[0].style.width, 10)).toBeGreaterThan(this.previousWidth);
     });
 
     it('should shrink input if value is shorter than previous', function() {
-        input[0].value = 1;
+        this.input[0].value = 1;
 
-        $compile(html)(scope);
-        scope.$apply();
+        this.$compile(this.html)(this.$scope);
+        this.$scope.$apply();
 
-        var width = parseInt(input[0].style.width, 10);
+        var width = parseInt(this.input[0].style.width, 10);
 
-        expect(width).toBeLessThan(previousWidth);
+        expect(width).toBeLessThan(this.previousWidth);
         expect(width).toBeGreaterThan(0);
     });
 
     it('should do nothing for date input', function() {
-        var input = compileMarkup(
-            '<td><input type="text" openlmis-datepicker ng-model="date"/></td>'
-        );
-        previousWidth = input[0].style.width;
+        var markup =
+            '<td>' +
+                '<input type="text" openlmis-datepicker ng-model="date"/>' +
+            '</td>';
+
+        var input = this.compileMarkup(markup);
+        this.previousWidth = input[0].style.width;
 
         input[0].value = 'some-invalid-date';
-        scope.$apply();
+        this.$scope.$apply();
 
-        expect(input[0].style.width).toEqual(previousWidth);
+        expect(input[0].style.width).toEqual(this.previousWidth);
     });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)(scope);
-        scope.$apply();
-
-        return element;
-    }
 });

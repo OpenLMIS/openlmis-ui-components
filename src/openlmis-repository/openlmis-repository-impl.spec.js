@@ -15,48 +15,45 @@
 
 describe('OpenLMISRepositoryImpl', function() {
 
-    var BASE_URL = 'some.url/com';
-
-    var openLMISRepositoryImpl, OpenLMISRepositoryImpl, $httpBackend, $rootScope, PageDataBuilder,
-        page;
-
     beforeEach(function() {
         module('openlmis-config');
         module('openlmis-pagination');
         module('openlmis-repository');
 
         inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $rootScope = $injector.get('$rootScope');
-            OpenLMISRepositoryImpl = $injector.get('OpenLMISRepositoryImpl');
-            PageDataBuilder = $injector.get('PageDataBuilder');
+            this.$httpBackend = $injector.get('$httpBackend');
+            this.$rootScope = $injector.get('$rootScope');
+            this.OpenLMISRepositoryImpl = $injector.get('OpenLMISRepositoryImpl');
+            this.PageDataBuilder = $injector.get('PageDataBuilder');
         });
 
-        openLMISRepositoryImpl = new OpenLMISRepositoryImpl(BASE_URL);
+        this.BASE_URL = 'some.url/com';
+        this.SOME_ID = 'some-id';
+        this.openLMISRepositoryImpl = new this.OpenLMISRepositoryImpl(this.BASE_URL);
 
-        page = new PageDataBuilder().build();
+        this.page = new this.PageDataBuilder().build();
     });
 
     describe('constructor', function() {
 
-        var SOME_ID = 'some-id';
-
+        //eslint-disable-next-line jasmine/missing-expect
         it('should accept url ending with slash', function() {
-            $httpBackend
-                .expectGET(BASE_URL + '/' + SOME_ID)
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.BASE_URL + '/' + this.SOME_ID)
+                .respond(200, this.page);
 
-            new OpenLMISRepositoryImpl(BASE_URL + '/').get(SOME_ID);
-            $httpBackend.flush();
+            new this.OpenLMISRepositoryImpl(this.BASE_URL + '/').get(this.SOME_ID);
+            this.$httpBackend.flush();
         });
 
+        //eslint-disable-next-line jasmine/missing-expect
         it('should accept url not ending with slash', function() {
-            $httpBackend
-                .expectGET(BASE_URL + '/' + SOME_ID)
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.BASE_URL + '/' + this.SOME_ID)
+                .respond(200, this.page);
 
-            new OpenLMISRepositoryImpl(BASE_URL).get(SOME_ID);
-            $httpBackend.flush();
+            new this.OpenLMISRepositoryImpl(this.BASE_URL).get(this.SOME_ID);
+            this.$httpBackend.flush();
         });
 
     });
@@ -64,12 +61,12 @@ describe('OpenLMISRepositoryImpl', function() {
     describe('query', function() {
 
         it('should return server response on successful request', function() {
-            $httpBackend
-                .expectGET(BASE_URL + '?ids=id-one&ids=id-two&page=0&paramOne=valueOne&size=3')
-                .respond(200, page);
+            this.$httpBackend
+                .expectGET(this.BASE_URL + '?ids=id-one&ids=id-two&page=0&paramOne=valueOne&size=3')
+                .respond(200, this.page);
 
             var result;
-            openLMISRepositoryImpl.query({
+            this.openLMISRepositoryImpl.query({
                 ids: ['id-one', 'id-two'],
                 paramOne: 'valueOne',
                 page: '0',
@@ -78,37 +75,37 @@ describe('OpenLMISRepositoryImpl', function() {
                 .then(function(page) {
                     result = page;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.page));
         });
 
-        it('should accept undefine as argument', function() {
-            $httpBackend
-                .expectGET(BASE_URL)
-                .respond(200, page);
+        it('should accept undefined as argument', function() {
+            this.$httpBackend
+                .expectGET(this.BASE_URL)
+                .respond(200, this.page);
 
             var result;
-            openLMISRepositoryImpl.query()
+            this.openLMISRepositoryImpl.query()
                 .then(function(page) {
                     result = page;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(page));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.page));
         });
 
         it('should reject if request was not successful', function() {
-            $httpBackend
-                .expectGET(BASE_URL)
+            this.$httpBackend
+                .expectGET(this.BASE_URL)
                 .respond(400);
 
             var rejected;
-            openLMISRepositoryImpl.query()
+            this.openLMISRepositoryImpl.query()
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toBe(true);
         });
@@ -117,52 +114,50 @@ describe('OpenLMISRepositoryImpl', function() {
 
     describe('get', function() {
 
-        var response;
-
         beforeEach(function() {
-            response = {
+            this.response = {
                 id: 'some-id',
                 some: 'test-object'
             };
         });
 
         it('should resolve to server response on successful request', function() {
-            $httpBackend
-                .expectGET(BASE_URL + '/' + response.id)
-                .respond(200, response);
+            this.$httpBackend
+                .expectGET(this.BASE_URL + '/' + this.response.id)
+                .respond(200, this.response);
 
             var result;
-            openLMISRepositoryImpl.get(response.id)
+            this.openLMISRepositoryImpl.get(this.response.id)
                 .then(function(response) {
                     result = response;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
-            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.response));
         });
 
         it('should reject on failed request', function() {
-            $httpBackend
-                .expectGET(BASE_URL + '/' + response.id)
+            this.$httpBackend
+                .expectGET(this.BASE_URL + '/' + this.response.id)
                 .respond(400);
 
             var rejected;
-            openLMISRepositoryImpl.get(response.id)
+            this.openLMISRepositoryImpl.get(this.response.id)
                 .catch(function() {
                     rejected = true;
                 });
-            $httpBackend.flush();
+            this.$httpBackend.flush();
 
             expect(rejected).toEqual(true);
         });
 
         it('should reject if null was given', function() {
             var rejected;
-            openLMISRepositoryImpl.get()
+            this.openLMISRepositoryImpl.get()
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBe(true);
         });
@@ -170,8 +165,8 @@ describe('OpenLMISRepositoryImpl', function() {
     });
 
     afterEach(function() {
-        $httpBackend.verifyNoOutstandingRequest();
-        $httpBackend.verifyNoOutstandingExpectation();
+        this.$httpBackend.verifyNoOutstandingRequest();
+        this.$httpBackend.verifyNoOutstandingExpectation();
     });
 
 });

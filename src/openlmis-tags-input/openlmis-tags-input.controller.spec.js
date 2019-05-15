@@ -15,47 +15,45 @@
 
 describe('OpenlmisTagsInputController', function() {
 
-    var tagsInputVm, $controller, $rootScope, $scope, availableTags;
-
     beforeEach(function() {
         module('openlmis-tags-input');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $rootScope = $injector.get('$rootScope');
+            this.$controller = $injector.get('$controller');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        availableTags = [
+        this.availableTags = [
             'TestTagOne',
             'TestTagTwo',
             'TestTagThree'
         ];
 
-        $scope = $rootScope.$new();
-        $scope.availableTags = availableTags;
-        $scope.allowNewTags = true;
+        this.$scope = this.$rootScope.$new();
+        this.$scope.availableTags = this.availableTags;
+        this.$scope.allowNewTags = true;
 
-        tagsInputVm = $controller('OpenlmisTagsInputController', {
-            $scope: $scope
+        this.tagsInputVm = this.$controller('OpenlmisTagsInputController', {
+            $scope: this.$scope
         });
     });
 
     describe('setErrorMessage', function() {
 
         it('should set message', function() {
-            expect(tagsInputVm.errorMessage).toBeUndefined();
+            expect(this.tagsInputVm.errorMessage).toBeUndefined();
 
-            tagsInputVm.setErrorMessage('some.error.message');
+            this.tagsInputVm.setErrorMessage('some.error.message');
 
-            expect(tagsInputVm.errorMessage).toEqual('some.error.message');
+            expect(this.tagsInputVm.errorMessage).toEqual('some.error.message');
         });
 
         it('should unset message if undefined is given', function() {
-            tagsInputVm.errorMessage = 'some.error.message';
+            this.tagsInputVm.errorMessage = 'some.error.message';
 
-            tagsInputVm.setErrorMessage(undefined);
+            this.tagsInputVm.setErrorMessage(undefined);
 
-            expect(tagsInputVm.errorMessage).toBeUndefined();
+            expect(this.tagsInputVm.errorMessage).toBeUndefined();
         });
 
     });
@@ -64,46 +62,46 @@ describe('OpenlmisTagsInputController', function() {
 
         it('should return all if undefined is given', function() {
             var result;
-            tagsInputVm.filterAvailableTags()
+            this.tagsInputVm.filterAvailableTags()
                 .then(function(tags) {
                     result = tags;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(result).toEqual(availableTags);
+            expect(result).toEqual(this.availableTags);
         });
 
         it('should return filtered tags if query is defined', function() {
             var result;
-            tagsInputVm.filterAvailableTags('TestTagT')
+            this.tagsInputVm.filterAvailableTags('TestTagT')
                 .then(function(tags) {
                     result = tags;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(result).toEqual(['TestTagTwo', 'TestTagThree']);
         });
 
         it('should omit letter casing when searching', function() {
             var result;
-            tagsInputVm.filterAvailableTags('testtagt')
+            this.tagsInputVm.filterAvailableTags('testtagt')
                 .then(function(tags) {
                     result = tags;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(result).toEqual(['TestTagTwo', 'TestTagThree']);
         });
 
         it('should return empty list if the list of available tags is undefined', function() {
-            $scope.availableTags = undefined;
+            this.$scope.availableTags = undefined;
 
             var result;
-            tagsInputVm.filterAvailableTags()
+            this.tagsInputVm.filterAvailableTags()
                 .then(function(tags) {
                     result = tags;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(result).toEqual([]);
         });

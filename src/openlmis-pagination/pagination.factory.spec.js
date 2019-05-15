@@ -15,35 +15,33 @@
 
 describe('paginationFactory', function() {
 
-    var paginationFactory, items;
-
     beforeEach(function() {
         module('openlmis-pagination');
 
         inject(function($injector) {
-            paginationFactory = $injector.get('paginationFactory');
+            this.paginationFactory = $injector.get('paginationFactory');
         });
 
-        items = [
+        this.items = [
             'itemOne', 'itemTwo', 'itemThree', 'itemFour', 'itemFive', 'itemSix', 'itemSeven',
             'itemEight', 'itemNine', 'itemTen', 'itemEleven'
         ];
     });
 
     it('getPage should return full page', function() {
-        expect(paginationFactory.getPage(items, 0, 3)).toEqual([
-            items[0], items[1], items[2]
+        expect(this.paginationFactory.getPage(this.items, 0, 3)).toEqual([
+            this.items[0], this.items[1], this.items[2]
         ]);
     });
 
     it('getPage should return last page correctly', function() {
-        expect(paginationFactory.getPage(items, 3, 3)).toEqual([
-            items[9], items[10]
+        expect(this.paginationFactory.getPage(this.items, 3, 3)).toEqual([
+            this.items[9], this.items[10]
         ]);
     });
 
     it('getPage should return empty array if the page is out of range', function() {
-        expect(paginationFactory.getPage(items, 5, 3)).toEqual([]);
+        expect(this.paginationFactory.getPage(this.items, 5, 3)).toEqual([]);
     });
 
 });

@@ -41,8 +41,13 @@ describe('modalStateProvider', function() {
         spyOn(this.$stateProvider, 'state').andCallThrough();
         spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialogSpy);
 
-        this.goToUrl = goToUrl;
-        this.getResolvedValue = getResolvedValue;
+        this.goToUrl = function(url) {
+            this.$location.url(url);
+            this.$rootScope.$apply();
+        };
+        this.getResolvedValue = function(name) {
+            return this.$state.$current.locals.globals[name];
+        };
     });
 
     it('should register state without template url', function() {
@@ -122,14 +127,5 @@ describe('modalStateProvider', function() {
         });
 
     });
-
-    function goToUrl(url) {
-        this.$location.url(url);
-        this.$rootScope.$apply();
-    }
-
-    function getResolvedValue(name) {
-        return this.$state.$current.locals.globals[name];
-    }
 
 });

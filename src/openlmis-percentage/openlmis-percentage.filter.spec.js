@@ -14,25 +14,26 @@
  */
 
 describe('percentage', function() {
-    var filter;
 
     beforeEach(function() {
         module('openlmis-percentage');
 
-        inject(function(_$filter_) {
-            filter = _$filter_('percentage');
+        inject(function($injector) {
+            this.$filter = $injector.get('$filter');
         });
+
+        this.percentageFilter = this.$filter('percentage');
     });
 
     it('should convert to percentage format with no decimal', function() {
-        expect(filter(0)).toEqual('0%');
-        expect(filter(0.5555)).toEqual('56%');
-        expect(filter(0.5545)).toEqual('55%');
-        expect(filter(0.5)).toEqual('50%');
+        expect(this.percentageFilter(0)).toEqual('0%');
+        expect(this.percentageFilter(0.5555)).toEqual('56%');
+        expect(this.percentageFilter(0.5545)).toEqual('55%');
+        expect(this.percentageFilter(0.5)).toEqual('50%');
     });
 
     it('should convert to percentage format with given decimal', function() {
-        expect(filter(0.5555, 2)).toEqual('55.55%');
-        expect(filter(0.5, 2)).toEqual('50.00%');
+        expect(this.percentageFilter(0.5555, 2)).toEqual('55.55%');
+        expect(this.percentageFilter(0.5, 2)).toEqual('50.00%');
     });
 });

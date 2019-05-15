@@ -15,48 +15,46 @@
 
 describe('AlertModalController', function() {
 
-    var vm, $controller, alertClass, title, message, buttonLabel, modalDeferredSpy;
-
     beforeEach(function() {
         module('openlmis-modal');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
+            this.$controller = $injector.get('$controller');
         });
 
-        alertClass = 'error';
-        title = 'Alert Title';
-        message = 'Some modal message';
-        buttonLabel = 'OK';
-        modalDeferredSpy = jasmine.createSpyObj('modalDeferred', ['resolve']);
+        this.alertClass = 'error';
+        this.title = 'Alert Title';
+        this.message = 'Some modal message';
+        this.buttonLabel = 'OK';
+        this.modalDeferredSpy = jasmine.createSpyObj('modalDeferred', ['resolve']);
 
-        vm = $controller('AlertModalController', {
-            alertClass: alertClass,
-            title: title,
-            message: message,
-            buttonLabel: buttonLabel,
-            modalDeferred: modalDeferredSpy
+        this.vm = this.$controller('AlertModalController', {
+            alertClass: this.alertClass,
+            title: this.title,
+            message: this.message,
+            buttonLabel: this.buttonLabel,
+            modalDeferred: this.modalDeferredSpy
         });
 
-        vm.$onInit();
+        this.vm.$onInit();
     });
 
     describe('$onInit', function() {
 
         it('should expose alert class', function() {
-            expect(vm.alertClass).toEqual(alertClass);
+            expect(this.vm.alertClass).toEqual(this.alertClass);
         });
 
         it('should expose alert title', function() {
-            expect(vm.title).toEqual(title);
+            expect(this.vm.title).toEqual(this.title);
         });
 
         it('should expose alert message', function() {
-            expect(vm.message).toEqual(message);
+            expect(this.vm.message).toEqual(this.message);
         });
 
         it('should expose button label', function() {
-            expect(vm.buttonLabel).toEqual(buttonLabel);
+            expect(this.vm.buttonLabel).toEqual(this.buttonLabel);
         });
 
     });
@@ -64,9 +62,9 @@ describe('AlertModalController', function() {
     describe('close', function() {
 
         it('should resolve the modalDeferred', function() {
-            vm.close();
+            this.vm.close();
 
-            expect(modalDeferredSpy.resolve).toHaveBeenCalled();
+            expect(this.modalDeferredSpy.resolve).toHaveBeenCalled();
         });
 
     });

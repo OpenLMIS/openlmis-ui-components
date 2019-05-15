@@ -15,83 +15,83 @@
 
 describe('openlmisTagsInput', function() {
 
-    var $compile, $rootScope, $scope, $timeout, tagsInputModel, inputModel;
-
     beforeEach(function() {
         module('openlmis-tags-input');
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
         });
 
-        $scope = $rootScope.$new();
-        $scope.tags = ['tagOne', 'tagTwo'];
-        $scope.availableTags = ['tagOne', 'tagTwo', 'tagThree'];
+        this.$scope = this.$rootScope.$new();
+        this.$scope.tags = ['tagOne', 'tagTwo'];
+        this.$scope.availableTags = ['tagOne', 'tagTwo', 'tagThree'];
+
+        this.compileElement = function(template) {
+            this.element = this.$compile(template)(this.$scope);
+            this.$scope.$digest();
+            this.$timeout.flush();
+
+            this.tagsInputModel = this.element.find('tags-input').controller('ngModel');
+            this.inputModel = this.element.find('input').controller('ngModel');
+        };
     });
 
     it('should set error if tag is duplicated', function() {
-        var element = compileElement('<openlmis-tags-input ng-model="tags"></openlmis-tags-input>');
+        var markup = '<openlmis-tags-input ng-model="tags"></openlmis-tags-input>';
 
-        inputModel.$setViewValue('tagTwo');
-        tagsInputModel.$valid = false;
+        this.compileElement(markup);
 
-        $rootScope.$apply();
+        this.inputModel.$setViewValue('tagTwo');
+        this.tagsInputModel.$valid = false;
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.duplicatedTag"]').length).toBe(1);
+        this.$rootScope.$apply();
+
+        expect(this.element.find('[openlmis-invalid="openlmisTagsInput.duplicatedTag"]').length).toBe(1);
     });
 
     it('should set error if tag is not on the list of available tags', function() {
-        var element = compileElement(
+        var markup =
             '<openlmis-tags-input ng-model="tags" allow-new-tags="false" available-tags="availableTags">' +
-            '</openlmis-tags-input>'
-        );
+            '</openlmis-tags-input>';
 
-        inputModel.$setViewValue('tagFive');
-        tagsInputModel.$valid = false;
+        this.compileElement(markup);
 
-        $rootScope.$apply();
+        this.inputModel.$setViewValue('tagFive');
+        this.tagsInputModel.$valid = false;
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
+        this.$rootScope.$apply();
+
+        expect(this.element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
     });
 
     it('should wait with clearing error message for input change', function() {
-        var element = compileElement(
+        var markup =
             '<openlmis-tags-input ng-model="tags" allow-new-tags="false" available-tags="availableTags">' +
-            '</openlmis-tags-input>'
-        );
+            '</openlmis-tags-input>';
 
-        inputModel.$setViewValue('tagFive');
-        tagsInputModel.$valid = false;
-        $rootScope.$apply();
+        this.compileElement(markup);
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
+        this.inputModel.$setViewValue('tagFive');
+        this.tagsInputModel.$valid = false;
+        this.$rootScope.$apply();
 
-        tagsInputModel.$valid = true;
-        $rootScope.$apply();
+        expect(this.element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
+        this.tagsInputModel.$valid = true;
+        this.$rootScope.$apply();
 
-        inputModel.$setViewValue('tagFiv');
-        $rootScope.$apply();
+        expect(this.element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(1);
 
-        expect(element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(0);
+        this.inputModel.$setViewValue('tagFiv');
+        this.$rootScope.$apply();
+
+        expect(this.element.find('[openlmis-invalid="openlmisTagsInput.nonExistingTag"]').length).toBe(0);
     });
 
     afterEach(function() {
-        $scope.$destroy();
+        this.$scope.$destroy();
     });
-
-    function compileElement(template) {
-        var element = $compile(template)($scope);
-        $scope.$digest();
-        $timeout.flush();
-
-        tagsInputModel = element.find('tags-input').controller('ngModel');
-        inputModel = element.find('input').controller('ngModel');
-
-        return element;
-    }
 
 });

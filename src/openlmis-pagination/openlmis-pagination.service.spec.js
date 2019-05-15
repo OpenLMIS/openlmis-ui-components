@@ -15,106 +15,111 @@
 
 describe('paginationService', function() {
 
-    var paginationService, $q, $rootScope, PAGE_SIZE, $state;
-
     beforeEach(function() {
 
         module('openlmis-pagination');
 
         inject(function($injector) {
-            paginationService = $injector.get('paginationService');
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            PAGE_SIZE = $injector.get('PAGE_SIZE');
-            $state = $injector.get('$state');
+            this.paginationService = $injector.get('paginationService');
+            this.$q = $injector.get('$q');
+            this.$rootScope = $injector.get('$rootScope');
+            this.PAGE_SIZE = $injector.get('PAGE_SIZE');
+            this.$state = $injector.get('$state');
         });
+
+        this.goToState = function(to, from) {
+            this.$rootScope.$emit('$stateChangeStart', {
+                name: to
+            }, {
+                name: from
+            });
+        };
     });
 
     describe('registerUrl', function() {
 
-        var stateParams = {
+        beforeEach(function() {
+            this.stateParams = {
                 page: 1,
                 size: 15,
                 someParam: 'param'
-            },
-            items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-            totalItems = 20,
-            loadItemsSpy,
-            promise;
+            };
 
-        beforeEach(function() {
-            goToState('test.state', 'test');
+            this.items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+            this.totalItems = 20;
 
-            loadItemsSpy = jasmine.createSpy().andReturn($q.when({
-                size: stateParams.size,
-                number: stateParams.page,
-                totalElements: totalItems,
-                content: items
+            this.goToState('test.state', 'test');
+
+            this.loadItemsSpy = jasmine.createSpy().andReturn(this.$q.when({
+                size: this.stateParams.size,
+                number: this.stateParams.page,
+                totalElements: this.totalItems,
+                content: this.items
             }));
-            promise = paginationService.registerUrl(stateParams, loadItemsSpy);
-            $rootScope.$apply();
+            this.promise = this.paginationService.registerUrl(this.stateParams, this.loadItemsSpy);
+            this.$rootScope.$apply();
 
-            $state.current.name = 'test.state';
+            this.$state.current.name = 'test.state';
         });
 
         it('should return promise', function() {
-            expect(promise.then).not.toBe(undefined);
+            expect(this.promise.then).not.toBe(undefined);
         });
 
         it('should returned resolved items', function() {
             var resolvedItems;
 
-            promise.then(function(response) {
+            this.promise.then(function(response) {
                 resolvedItems = response;
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
-            expect(resolvedItems).toEqual(items);
+            expect(resolvedItems).toEqual(this.items);
         });
 
         it('should set page size', function() {
-            expect(paginationService.getSize()).toEqual(stateParams.size);
+            expect(this.paginationService.getSize()).toEqual(this.stateParams.size);
         });
 
         it('should set page number', function() {
-            expect(paginationService.getPage()).toEqual(stateParams.page);
+            expect(this.paginationService.getPage()).toEqual(this.stateParams.page);
         });
 
         it('should set total items', function() {
-            expect(paginationService.getTotalItems()).toEqual(totalItems);
+            expect(this.paginationService.getTotalItems()).toEqual(this.totalItems);
         });
 
         it('should set showing items', function() {
-            expect(paginationService.getShowingItems()).toEqual(items.length);
+            expect(this.paginationService.getShowingItems()).toEqual(this.items.length);
         });
 
         it('should set external pagination flag', function() {
-            expect(paginationService.isExternalPagination()).toBe(true);
+            expect(this.paginationService.isExternalPagination()).toBe(true);
         });
 
         it('should set item validator to null', function() {
-            expect(paginationService.getItemValidator()).toBeUndefined();
+            expect(this.paginationService.getItemValidator()).toBeUndefined();
         });
 
         it('should set page size and number to default one if they are undefined', function() {
-            paginationService.registerUrl({}, loadItemsSpy);
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, this.loadItemsSpy);
+            this.$rootScope.$apply();
 
-            expect(loadItemsSpy).toHaveBeenCalledWith({
+            expect(this.loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
-                size: PAGE_SIZE
+                size: this.PAGE_SIZE
             });
         });
 
         it('should set page number to 0 if state params have changed', function() {
-            paginationService.registerUrl({
+            this.paginationService.registerUrl({
                 size: 20,
-                page: stateParams.page,
+                page: this.stateParams.page,
                 someParam: 'param'
-            }, loadItemsSpy);
-            $rootScope.$apply();
+            }, this.loadItemsSpy);
+            this.$rootScope.$apply();
 
-            expect(loadItemsSpy).toHaveBeenCalledWith({
+            expect(this.loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
                 size: 20,
                 someParam: 'param'
@@ -122,43 +127,43 @@ describe('paginationService', function() {
         });
 
         it('should set page size to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.$rootScope.$apply();
 
-            expect(paginationService.getSize()).toEqual(0);
+            expect(this.paginationService.getSize()).toEqual(0);
         });
 
         it('should set page number to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.$rootScope.$apply();
 
-            expect(paginationService.getPage()).toEqual(0);
+            expect(this.paginationService.getPage()).toEqual(0);
         });
 
         it('should set total items to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.$rootScope.$apply();
 
-            expect(paginationService.getTotalItems()).toEqual(0);
+            expect(this.paginationService.getTotalItems()).toEqual(0);
         });
 
         it('should set showing items to 0 when method does not return promise', function() {
-            paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.$rootScope.$apply();
 
-            expect(paginationService.getShowingItems()).toEqual(0);
+            expect(this.paginationService.getShowingItems()).toEqual(0);
         });
 
         it('should translate custom page parameter if it was given', function() {
             var loadItemsSpy = jasmine.createSpy();
 
-            paginationService.registerUrl({
+            this.paginationService.registerUrl({
                 customPage: 10,
                 size: 20
             }, loadItemsSpy, {
                 customPageParamName: 'customPage'
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 10,
@@ -169,13 +174,13 @@ describe('paginationService', function() {
         it('should translate custom size parameter if it was given', function() {
             var loadItemsSpy = jasmine.createSpy();
 
-            paginationService.registerUrl({
+            this.paginationService.registerUrl({
                 page: 10,
                 customSize: 20
             }, loadItemsSpy, {
                 customSizeParamName: 'customSize'
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 10,
@@ -186,10 +191,10 @@ describe('paginationService', function() {
         it('should init correct page param if custom page parameter name was given', function() {
             var params = {};
 
-            paginationService.registerUrl(params, loadItemsSpy, {
+            this.paginationService.registerUrl(params, this.loadItemsSpy, {
                 customPageParamName: 'customPage'
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(params.customPage).toBe(0);
         });
@@ -197,10 +202,10 @@ describe('paginationService', function() {
         it('should init correct size param if custom size parameter name was given', function() {
             var params = {};
 
-            paginationService.registerUrl(params, loadItemsSpy, {
+            this.paginationService.registerUrl(params, this.loadItemsSpy, {
                 customSizeParamName: 'customSize'
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(params.customSize).toBe(10);
         });
@@ -219,12 +224,12 @@ describe('paginationService', function() {
             promise;
 
         beforeEach(function() {
-            goToState('test.state', 'test');
-            $state.current.name = 'test.state';
-            $rootScope.$apply();
+            this.goToState('test.state', 'test');
+            this.$state.current.name = 'test.state';
+            this.$rootScope.$apply();
             loadItemsSpy = jasmine.createSpy().andReturn(items);
-            promise = paginationService.registerList(validator, stateParams, loadItemsSpy);
-            $rootScope.$apply();
+            promise = this.paginationService.registerList(validator, stateParams, loadItemsSpy);
+            this.$rootScope.$apply();
         });
 
         it('should return promise', function() {
@@ -237,48 +242,48 @@ describe('paginationService', function() {
             promise.then(function(response) {
                 resolvedItems = response;
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(resolvedItems).toEqual(items);
         });
 
         it('should set page size', function() {
-            expect(paginationService.getSize()).toEqual(stateParams.size);
+            expect(this.paginationService.getSize()).toEqual(stateParams.size);
         });
 
         it('should set page number', function() {
-            expect(paginationService.getPage()).toEqual(stateParams.page);
+            expect(this.paginationService.getPage()).toEqual(stateParams.page);
         });
 
         it('should set total items', function() {
-            expect(paginationService.getTotalItems()).toEqual(items.length);
+            expect(this.paginationService.getTotalItems()).toEqual(items.length);
         });
 
         it('should set external pagination flag', function() {
-            expect(paginationService.isExternalPagination()).toBe(false);
+            expect(this.paginationService.isExternalPagination()).toBe(false);
         });
 
         it('should set item validator to null', function() {
-            expect(paginationService.getItemValidator()).toEqual(validator);
+            expect(this.paginationService.getItemValidator()).toEqual(validator);
         });
 
         it('should set page size and number to default one if they are undefined', function() {
-            paginationService.registerUrl({}, loadItemsSpy);
-            $rootScope.$apply();
+            this.paginationService.registerUrl({}, loadItemsSpy);
+            this.$rootScope.$apply();
 
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
-                size: PAGE_SIZE
+                size: this.PAGE_SIZE
             });
         });
 
         it('should set page number to 0 if state params have changed', function() {
-            paginationService.registerUrl({
+            this.paginationService.registerUrl({
                 size: 20,
                 page: stateParams.page,
                 someParam: 'param'
             }, loadItemsSpy);
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(loadItemsSpy).toHaveBeenCalledWith({
                 page: 0,
@@ -289,13 +294,15 @@ describe('paginationService', function() {
     });
 
     it('should keep parent state pagination parameters', function() {
-        goToState('test.state', 'test');
+        this.goToState('test.state', 'test');
 
         var paramsOne = {
             page: 1,
             size: 13
         };
-        paginationService.registerUrl(paramsOne, function() {
+
+        var $q = this.$q;
+        this.paginationService.registerUrl(paramsOne, function() {
             return $q.resolve({
                 number: 1,
                 size: 13,
@@ -303,44 +310,46 @@ describe('paginationService', function() {
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        goToState('test.state.child', 'test.state');
+        this.goToState('test.state.child', 'test.state');
 
         var paramsTwo = {
             page: 0,
             size: 10
         };
-        paginationService.registerList(null, paramsTwo, function() {
+        this.paginationService.registerList(null, paramsTwo, function() {
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        $state.current.name = 'test.state.child';
+        this.$state.current.name = 'test.state.child';
 
-        expect(paginationService.getPage()).toEqual(0);
-        expect(paginationService.getSize()).toEqual(10);
-        expect(paginationService.isExternalPagination()).toEqual(false);
-        expect(paginationService.getTotalItems()).toEqual(20);
+        expect(this.paginationService.getPage()).toEqual(0);
+        expect(this.paginationService.getSize()).toEqual(10);
+        expect(this.paginationService.isExternalPagination()).toEqual(false);
+        expect(this.paginationService.getTotalItems()).toEqual(20);
 
-        goToState('test.state', 'test.state.child');
-        $state.current.name = 'test.state';
+        this.goToState('test.state', 'test.state.child');
+        this.$state.current.name = 'test.state';
 
-        expect(paginationService.getPage()).toEqual(1);
-        expect(paginationService.getSize()).toEqual(13);
-        expect(paginationService.getShowingItems()).toEqual(13);
-        expect(paginationService.isExternalPagination()).toEqual(true);
-        expect(paginationService.getTotalItems()).toEqual(26);
+        expect(this.paginationService.getPage()).toEqual(1);
+        expect(this.paginationService.getSize()).toEqual(13);
+        expect(this.paginationService.getShowingItems()).toEqual(13);
+        expect(this.paginationService.isExternalPagination()).toEqual(true);
+        expect(this.paginationService.getTotalItems()).toEqual(26);
     });
 
     it('should clear pagination parameter if going to non-child state', function() {
-        goToState('test.state', 'test');
+        this.goToState('test.state', 'test');
 
         var paramsOne = {
             page: 1,
             size: 13
         };
-        paginationService.registerUrl(paramsOne, function() {
+
+        var $q = this.$q;
+        this.paginationService.registerUrl(paramsOne, function() {
             return $q.resolve({
                 number: 1,
                 size: 13,
@@ -348,15 +357,15 @@ describe('paginationService', function() {
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        goToState('test.otherState', 'test.state');
+        this.goToState('test.otherState', 'test.state');
 
         var paramsTwo = {
             page: 2,
             size: 14
         };
-        paginationService.registerUrl(paramsTwo, function() {
+        this.paginationService.registerUrl(paramsTwo, function() {
             return $q.resolve({
                 number: 2,
                 size: 14,
@@ -364,34 +373,36 @@ describe('paginationService', function() {
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
             });
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        $state.current.name = 'test.otherState';
+        this.$state.current.name = 'test.otherState';
 
-        expect(paginationService.getPage()).toEqual(2);
-        expect(paginationService.getSize()).toEqual(14);
-        expect(paginationService.getShowingItems()).toEqual(14);
-        expect(paginationService.isExternalPagination()).toEqual(true);
-        expect(paginationService.getTotalItems()).toEqual(42);
+        expect(this.paginationService.getPage()).toEqual(2);
+        expect(this.paginationService.getSize()).toEqual(14);
+        expect(this.paginationService.getShowingItems()).toEqual(14);
+        expect(this.paginationService.isExternalPagination()).toEqual(true);
+        expect(this.paginationService.getTotalItems()).toEqual(42);
 
-        goToState('test.otherState', 'test.state');
-        $state.current.name = 'test.state';
+        this.goToState('test.otherState', 'test.state');
+        this.$state.current.name = 'test.state';
 
-        expect(paginationService.getPage()).toBeUndefined();
-        expect(paginationService.getSize()).toBeUndefined();
-        expect(paginationService.getShowingItems()).toBeUndefined();
-        expect(paginationService.isExternalPagination()).toBeUndefined();
-        expect(paginationService.getTotalItems()).toBeUndefined();
+        expect(this.paginationService.getPage()).toBeUndefined();
+        expect(this.paginationService.getSize()).toBeUndefined();
+        expect(this.paginationService.getShowingItems()).toBeUndefined();
+        expect(this.paginationService.isExternalPagination()).toBeUndefined();
+        expect(this.paginationService.getTotalItems()).toBeUndefined();
     });
 
     it('should clear pagination parameter if going to state parents parent', function() {
-        goToState('test.state', 'test');
+        this.goToState('test.state', 'test');
 
         var paramsOne = {
             page: 1,
             size: 13
         };
-        paginationService.registerUrl(paramsOne, function() {
+
+        var $q = this.$q;
+        this.paginationService.registerUrl(paramsOne, function() {
             return $q.resolve({
                 number: 1,
                 size: 13,
@@ -399,55 +410,47 @@ describe('paginationService', function() {
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        goToState('test.state.child', 'test.state');
+        this.goToState('test.state.child', 'test.state');
 
         var paramsTwo = {
             page: 0,
             size: 10
         };
-        paginationService.registerList(null, paramsTwo, function() {
+        this.paginationService.registerList(null, paramsTwo, function() {
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        goToState('test.state.child.child', 'test.state.child');
+        this.goToState('test.state.child.child', 'test.state.child');
 
         var paramsThree = {
             page: 2,
             size: 2
         };
-        paginationService.registerList(null, paramsThree, function() {
+        this.paginationService.registerList(null, paramsThree, function() {
             return [1, 2, 3, 4, 5];
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        goToState('test.state', 'test.state.child.child');
+        this.goToState('test.state', 'test.state.child.child');
 
-        $state.current.name = 'test.state.child';
+        this.$state.current.name = 'test.state.child';
 
-        expect(paginationService.getPage()).toBeUndefined();
-        expect(paginationService.getSize()).toBeUndefined();
-        expect(paginationService.getShowingItems()).toBeUndefined();
-        expect(paginationService.isExternalPagination()).toBeUndefined();
-        expect(paginationService.getTotalItems()).toBeUndefined();
+        expect(this.paginationService.getPage()).toBeUndefined();
+        expect(this.paginationService.getSize()).toBeUndefined();
+        expect(this.paginationService.getShowingItems()).toBeUndefined();
+        expect(this.paginationService.isExternalPagination()).toBeUndefined();
+        expect(this.paginationService.getTotalItems()).toBeUndefined();
 
-        $state.current.name = 'test.state.child.child';
+        this.$state.current.name = 'test.state.child.child';
 
-        expect(paginationService.getPage()).toBeUndefined();
-        expect(paginationService.getSize()).toBeUndefined();
-        expect(paginationService.getShowingItems()).toBeUndefined();
-        expect(paginationService.isExternalPagination()).toBeUndefined();
-        expect(paginationService.getTotalItems()).toBeUndefined();
+        expect(this.paginationService.getPage()).toBeUndefined();
+        expect(this.paginationService.getSize()).toBeUndefined();
+        expect(this.paginationService.getShowingItems()).toBeUndefined();
+        expect(this.paginationService.isExternalPagination()).toBeUndefined();
+        expect(this.paginationService.getTotalItems()).toBeUndefined();
     });
-
-    function goToState(to, from) {
-        $rootScope.$emit('$stateChangeStart', {
-            name: to
-        }, {
-            name: from
-        });
-    }
 
 });

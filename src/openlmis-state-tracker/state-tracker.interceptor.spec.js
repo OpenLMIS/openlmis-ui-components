@@ -14,8 +14,6 @@
  */
 describe('stateTrackerInterceptor', function() {
 
-    var stateTrackerService, $state, $rootScope;
-
     beforeEach(function() {
         module('openlmis-state-tracker', function($stateProvider) {
             $stateProvider.state('stateOne', {
@@ -25,25 +23,26 @@ describe('stateTrackerInterceptor', function() {
         });
 
         inject(function($injector) {
-            $state = $injector.get('$state');
-            $rootScope = $injector.get('$rootScope');
-            stateTrackerService = $injector.get('stateTrackerService');
+            this.$state = $injector.get('$state');
+            this.$rootScope = $injector.get('$rootScope');
+            this.stateTrackerService = $injector.get('stateTrackerService');
         });
     });
 
     it('should store the previous state if state has changed', function() {
-        $state.go('stateOne', {
+        this.$state.go('stateOne', {
             param: 'someParam'
         });
-        $rootScope.$apply();
-        spyOn(stateTrackerService, 'setPreviousState');
+        this.$rootScope.$apply();
 
-        $state.go('stateTwo', {
+        spyOn(this.stateTrackerService, 'setPreviousState');
+
+        this.$state.go('stateTwo', {
             param: 'someParam'
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        expect(stateTrackerService.setPreviousState).toHaveBeenCalledWith({
+        expect(this.stateTrackerService.setPreviousState).toHaveBeenCalledWith({
             url: '/stateOne?param',
             name: 'stateOne'
         }, {
@@ -52,16 +51,17 @@ describe('stateTrackerInterceptor', function() {
     });
 
     it('should not store state if only parameters changed', function() {
-        $state.go('stateOne');
-        $rootScope.$apply();
-        spyOn(stateTrackerService, 'setPreviousState');
+        this.$state.go('stateOne');
+        this.$rootScope.$apply();
 
-        $state.go('stateOne', {
+        spyOn(this.stateTrackerService, 'setPreviousState');
+
+        this.$state.go('stateOne', {
             param: 'some'
         });
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
-        expect(stateTrackerService.setPreviousState).not.toHaveBeenCalled();
+        expect(this.stateTrackerService.setPreviousState).not.toHaveBeenCalled();
     });
 
 });

@@ -15,66 +15,63 @@
 
 describe('PopoverDirective', function() {
 
-    var $scope, element, otherElement, popoverCtrl, jQuery, $timeout, $rootScope, $compile;
-
     beforeEach(function() {
         module('openlmis-popover');
-        module('openlmis-templates');
 
         inject(function($injector) {
-            jQuery = $injector.get('jQuery');
-            $timeout = $injector.get('$timeout');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.jQuery = $injector.get('jQuery');
+            this.$timeout = $injector.get('$timeout');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
 
-        $scope = $rootScope.$new();
+        this.$scope = this.$rootScope.$new();
 
-        $scope.popoverTitle = 'Popover Title';
-        $scope.popoverClass = 'example-class';
+        this.$scope.popoverTitle = 'Popover Title';
+        this.$scope.popoverClass = 'example-class';
 
         var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}">' +
                 '... other stuff ....' +
             '</div>';
-        element = $compile(html)($scope);
+        this.element = this.$compile(html)(this.$scope);
 
-        angular.element('body').append(element);
+        angular.element('body').append(this.element);
 
-        otherElement = angular.element('<button id="other" >Other</button>');
-        angular.element('body').append(otherElement);
+        this.otherElement = angular.element('<button id="other" >Other</button>');
+        angular.element('body').append(this.otherElement);
 
-        popoverCtrl = element.controller('popover');
-        spyOn(popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
-        spyOn(popoverCtrl, 'open').andCallThrough();
-        spyOn(popoverCtrl, 'close').andCallThrough();
+        this.popoverCtrl = this.element.controller('popover');
+        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        spyOn(this.popoverCtrl, 'open').andCallThrough();
+        spyOn(this.popoverCtrl, 'close').andCallThrough();
 
-        $scope.$apply();
+        this.$scope.$apply();
     });
 
     it('opens when the element gets focus, and closes when blurred', function() {
-        element.focus();
-        $timeout.flush();
+        this.element.focus();
+        this.$timeout.flush();
 
-        expect(popoverCtrl.open).toHaveBeenCalled();
+        expect(this.popoverCtrl.open).toHaveBeenCalled();
 
-        otherElement.focus();
-        $timeout.flush();
+        this.otherElement.focus();
+        this.$timeout.flush();
 
-        expect(popoverCtrl.close).toHaveBeenCalled();
+        expect(this.popoverCtrl.close).toHaveBeenCalled();
     });
 
     it('opens when the element is moused over, and closes when the mouse moves else where', function() {
-        element.mouseover();
-        $timeout.flush();
+        this.element.mouseover();
+        this.$timeout.flush();
 
-        expect(popoverCtrl.open).toHaveBeenCalled();
+        expect(this.popoverCtrl.open).toHaveBeenCalled();
 
-        element.mouseout();
-        $timeout.flush();
+        this.element.mouseout();
+        this.$timeout.flush();
 
-        expect(popoverCtrl.close).toHaveBeenCalled();
+        expect(this.popoverCtrl.close).toHaveBeenCalled();
     });
 
 });

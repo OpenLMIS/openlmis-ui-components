@@ -15,86 +15,86 @@
 
 describe('alertService', function() {
 
-    var alertService, $q, $rootScope, openlmisModalService, modalMock, title, message, buttonLabel, modalDeferred;
-
     beforeEach(function() {
         module('openlmis-modal');
 
         inject(function($injector) {
-            alertService = $injector.get('alertService');
-            openlmisModalService = $injector.get('openlmisModalService');
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
+            this.alertService = $injector.get('alertService');
+            this.openlmisModalService = $injector.get('openlmisModalService');
+            this.$q = $injector.get('$q');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        modalDeferred = $q.defer();
+        this.modalDeferred = this.$q.defer();
 
-        modalMock = {
-            promise: modalDeferred.promise
+        this.modalMock = {
+            promise: this.modalDeferred.promise
         };
 
-        spyOn(openlmisModalService, 'createDialog').andReturn(modalMock);
+        spyOn(this.openlmisModalService, 'createDialog').andReturn(this.modalMock);
+
+        this.getResolve = getResolve;
     });
 
     describe('error', function() {
 
         beforeEach(function() {
-            title = 'Error Title';
-            message = 'Error Message';
-            buttonLabel = 'Error Label';
+            this.title = 'Error Title';
+            this.message = 'Error Message';
+            this.buttonLabel = 'Error Label';
         });
 
         it('should pass is-error as class', function() {
-            alertService.error(title, message, buttonLabel);
+            this.alertService.error(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('alertClass')).toEqual('is-error');
+            expect(this.getResolve('alertClass')).toEqual('is-error');
         });
 
         it('should pass title', function() {
-            alertService.error(title, message, buttonLabel);
+            this.alertService.error(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('title')).toEqual(title);
+            expect(this.getResolve('title')).toEqual(this.title);
         });
 
         it('should pass message', function() {
-            alertService.error(title, message, buttonLabel);
+            this.alertService.error(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('message')).toEqual(message);
+            expect(this.getResolve('message')).toEqual(this.message);
         });
 
         it('should pass label', function() {
-            alertService.error(title, message, buttonLabel);
+            this.alertService.error(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('buttonLabel')).toEqual(buttonLabel);
+            expect(this.getResolve('buttonLabel')).toEqual(this.buttonLabel);
         });
 
         it('should default button message to openlmisModal.close', function() {
-            alertService.error(title, message);
+            this.alertService.error(this.title, this.message);
 
-            expect(getResolve('buttonLabel')).toEqual('openlmisModal.close');
+            expect(this.getResolve('buttonLabel')).toEqual('openlmisModal.close');
         });
 
         it('should reject if previous alert is open', function() {
-            alertService.error(title, message, buttonLabel);
+            this.alertService.error(this.title, this.message, this.buttonLabel);
 
             var rejected;
-            alertService.error(title, message, buttonLabel)
+            this.alertService.error(this.title, this.message, this.buttonLabel)
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toEqual(true);
 
-            modalDeferred.resolve();
-            $rootScope.$apply();
+            this.modalDeferred.resolve();
+            this.$rootScope.$apply();
 
             rejected = undefined;
-            alertService.error(title, message, buttonLabel)
+            this.alertService.error(this.title, this.message, this.buttonLabel)
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBeUndefined();
         });
@@ -104,62 +104,62 @@ describe('alertService', function() {
     describe('success', function() {
 
         beforeEach(function() {
-            title = 'Success Title';
-            message = 'Success Message';
-            buttonLabel = 'Success Label';
+            this.title = 'Success Title';
+            this.message = 'Success Message';
+            this.buttonLabel = 'Success Label';
         });
 
         it('should pass is-success as class', function() {
-            alertService.success(title, message, buttonLabel);
+            this.alertService.success(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('alertClass')).toEqual('is-success');
+            expect(this.getResolve('alertClass')).toEqual('is-success');
         });
 
         it('should pass title', function() {
-            alertService.success(title, message, buttonLabel);
+            this.alertService.success(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('title')).toEqual(title);
+            expect(this.getResolve('title')).toEqual(this.title);
         });
 
         it('should pass message', function() {
-            alertService.success(title, message, buttonLabel);
+            this.alertService.success(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('message')).toEqual(message);
+            expect(this.getResolve('message')).toEqual(this.message);
         });
 
         it('should pass label', function() {
-            alertService.success(title, message, buttonLabel);
+            this.alertService.success(this.title, this.message, this.buttonLabel);
 
-            expect(getResolve('buttonLabel')).toEqual(buttonLabel);
+            expect(this.getResolve('buttonLabel')).toEqual(this.buttonLabel);
         });
 
         it('should default button message to openlmisModal.close', function() {
-            alertService.success(title, message);
+            this.alertService.success(this.title, this.message);
 
-            expect(getResolve('buttonLabel')).toEqual('openlmisModal.close');
+            expect(this.getResolve('buttonLabel')).toEqual('openlmisModal.close');
         });
 
         it('should reject if previous alert is open', function() {
-            alertService.success(title, message, buttonLabel);
+            this.alertService.success(this.title, this.message, this.buttonLabel);
 
             var rejected;
-            alertService.success(title, message, buttonLabel)
+            this.alertService.success(this.title, this.message, this.buttonLabel)
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toEqual(true);
 
-            modalDeferred.resolve();
-            $rootScope.$apply();
+            this.modalDeferred.resolve();
+            this.$rootScope.$apply();
 
             rejected = undefined;
-            alertService.success(title, message, buttonLabel)
+            this.alertService.success(this.title, this.message, this.buttonLabel)
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBeUndefined();
         });
@@ -169,93 +169,93 @@ describe('alertService', function() {
     describe('info', function() {
 
         beforeEach(function() {
-            title = 'Info Title';
-            message = 'Info Message';
-            buttonLabel = 'Info Label';
+            this.title = 'Info Title';
+            this.message = 'Info Message';
+            this.buttonLabel = 'Info Label';
         });
 
         it('should pass is-info as class', function() {
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             });
 
-            expect(getResolve('alertClass')).toEqual('is-info');
+            expect(this.getResolve('alertClass')).toEqual('is-info');
         });
 
         it('should pass title', function() {
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             });
 
-            expect(getResolve('title')).toEqual(title);
+            expect(this.getResolve('title')).toEqual(this.title);
         });
 
         it('should pass message', function() {
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             });
 
-            expect(getResolve('message')).toEqual(message);
+            expect(this.getResolve('message')).toEqual(this.message);
         });
 
         it('should pass label', function() {
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             });
 
-            expect(getResolve('buttonLabel')).toEqual(buttonLabel);
+            expect(this.getResolve('buttonLabel')).toEqual(this.buttonLabel);
         });
 
         it('should default button message to openlmisModal.close', function() {
-            alertService.info({
-                title: title,
-                message: message
+            this.alertService.info({
+                title: this.title,
+                message: this.message
             });
 
-            expect(getResolve('buttonLabel')).toEqual('openlmisModal.close');
+            expect(this.getResolve('buttonLabel')).toEqual('openlmisModal.close');
         });
 
         it('should reject if previous alert is open', function() {
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             });
 
             var rejected;
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             })
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toEqual(true);
 
-            modalDeferred.resolve();
-            $rootScope.$apply();
+            this.modalDeferred.resolve();
+            this.$rootScope.$apply();
 
             rejected = undefined;
-            alertService.info({
-                title: title,
-                message: message,
-                buttonLabel: buttonLabel
+            this.alertService.info({
+                title: this.title,
+                message: this.message,
+                buttonLabel: this.buttonLabel
             })
                 .catch(function() {
                     rejected = true;
                 });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(rejected).toBeUndefined();
         });
@@ -263,7 +263,7 @@ describe('alertService', function() {
     });
 
     function getResolve(name) {
-        return openlmisModalService.createDialog.mostRecentCall.args[0].resolve[name]();
+        return this.openlmisModalService.createDialog.mostRecentCall.args[0].resolve[name]();
     }
 
 });

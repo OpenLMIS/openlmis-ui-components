@@ -15,66 +15,62 @@
 
 describe('OpenLMIS Invalid TR', function() {
 
-    'use strict';
-
-    var $compile, $scope, $rootScope;
-
     beforeEach(function() {
         module('openlmis-table-form');
 
         inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
         });
 
-        $scope = $rootScope.$new();
+        this.$scope = this.$rootScope.$new();
+
+        this.compileMarkup = function(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            angular.element('body').append(element);
+            this.$scope.$apply();
+            return element;
+        };
     });
 
     it('hides error messages until focus moves outside TR', function() {
-        var table = compileMarkup(
+        var markup =
             '<table>' +
                 '<tr><td openlmis-invalid="force invalid"><input/></td></tr>' +
                 '<tr><td openlmis-invalid="force invalid"><input/></td></tr>' +
-            '</table>'
-        );
+            '</table>';
+
+        var table = this.compileMarkup(markup);
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('input:first').focus();
-        $scope.$apply();
+        this.$scope.$apply();
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
         table.find('input:last').focus();
-        $scope.$apply();
+        this.$scope.$apply();
 
         // NOTE: Only 1 of the 2 possible errors are showing, which is correct.
         expect(table.find('tr.is-invalid').length).toBe(1);
     });
 
     it('shows error messages when openlmis-form-submit is fired', function() {
-        var table = compileMarkup(
+        var markup =
             '<table>' +
                 '<tr><td openlmis-invalid="force invalid"><input/></td></tr>' +
                 '<tr><td openlmis-invalid="force invalid">Example</td></tr>' +
-            '</table>'
-        );
+            '</table>';
+
+        var table = this.compileMarkup(markup);
 
         expect(table.find('tr.is-invalid').length).toBe(0);
 
-        $scope.$broadcast('openlmis-form-submit');
-        $scope.$apply();
+        this.$scope.$broadcast('openlmis-form-submit');
+        this.$scope.$apply();
 
         expect(table.find('tr.is-invalid').length).toBe(2);
     });
-
-    function compileMarkup(markup) {
-        var element = $compile(markup)($scope);
-
-        angular.element('body').append(element);
-        $scope.$apply();
-
-        return element;
-    }
 
 });

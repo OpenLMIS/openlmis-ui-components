@@ -15,76 +15,67 @@
 
 describe('offlineInterceptor', function() {
 
-    var offlineInterceptor, offlineService, alertServiceMock, interceptors, $rootScope, $q;
-
     beforeEach(function() {
-        module('openlmis-offline', function($provide, $httpProvider) {
-            interceptors = $httpProvider.interceptors;
-
-            alertServiceMock = jasmine.createSpyObj('alertService', ['error']);
-            $provide.service('alertService', function() {
-                return alertServiceMock;
-            });
+        var context = this;
+        // This should be added as module dependency after 3.6 release.
+        module('openlmis-modal');
+        module('openlmis-offline', function($httpProvider) {
+            context.interceptors = $httpProvider.interceptors;
         });
 
         inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            offlineService = $injector.get('offlineService');
-            offlineInterceptor = $injector.get('offlineInterceptor');
+            this.$q = $injector.get('$q');
+            this.$rootScope = $injector.get('$rootScope');
+            this.offlineService = $injector.get('offlineService');
+            this.offlineInterceptor = $injector.get('offlineInterceptor');
+            this.alertService = $injector.get('alertService');
         });
 
+        this.deferred = this.$q.defer();
+        this.config = {
+            url: 'some.url'
+        };
+
+        spyOn(this.alertService, 'error').andReturn(this.deferred.promise);
+        spyOn(this.offlineService, 'isOffline').andReturn(true);
+
+        this.returnedConfig = this.offlineInterceptor.request(this.config);
     });
 
     describe('request', function() {
 
-        var promise,
-            returnedConfig,
-            config = {
-                url: 'some.url'
-            };
-
-        beforeEach(function() {
-            spyOn(offlineService, 'isOffline').andReturn(true);
-            alertServiceMock.error.andCallFake(function() {
-                promise = $q.defer();
-                return promise.promise;
-            });
-            returnedConfig = offlineInterceptor.request(config);
-        });
-
         it('should be registered', function() {
-            expect(interceptors.indexOf('offlineInterceptor')).toBeGreaterThan(-1);
+            expect(this.interceptors.indexOf('offlineInterceptor')).toBeGreaterThan(-1);
         });
 
         it('should check if is offline', function() {
-            expect(offlineService.isOffline).toHaveBeenCalled();
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
         });
 
         it('should show alert modal', function() {
-            expect(alertServiceMock.error).toHaveBeenCalledWith('openlmisOffline.actionNotAllowedOffline');
+            expect(this.alertService.error).toHaveBeenCalledWith('openlmisOffline.actionNotAllowedOffline');
         });
 
         it('should not show second alert modal when first is not closed', function() {
-            offlineInterceptor.request(config);
+            this.offlineInterceptor.request(this.config);
 
-            expect(alertServiceMock.error.callCount).toBe(1);
+            expect(this.alertService.error.callCount).toBe(1);
         });
 
         it('should show second alert modal when first is not closed', function() {
-            promise.resolve();
-            $rootScope.$apply();
-            offlineInterceptor.request(config);
+            this.deferred.resolve();
+            this.$rootScope.$apply();
+            this.offlineInterceptor.request(this.config);
 
-            expect(alertServiceMock.error.callCount).toBe(2);
+            expect(this.alertService.error.callCount).toBe(2);
         });
 
         it('should resolve cancel promise', function() {
             var isResolved = false;
-            returnedConfig.timeout.then(function() {
+            this.returnedConfig.timeout.then(function() {
                 isResolved = true;
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(isResolved).toBe(true);
         });
@@ -92,16 +83,16 @@ describe('offlineInterceptor', function() {
         it('should pass through .html urls', function() {
 
             var isResolved = false;
-            config = {
+            this.config = {
                 url: 'some.html'
             };
 
-            returnedConfig = offlineInterceptor.request(config);
+            this.returnedConfig = this.offlineInterceptor.request(this.config);
 
-            returnedConfig.timeout.then(function() {
+            this.returnedConfig.timeout.then(function() {
                 isResolved = true;
             });
-            $rootScope.$apply();
+            this.$rootScope.$apply();
 
             expect(isResolved).toBe(false);
         });

@@ -15,85 +15,84 @@
 
 describe('tr empty row directive', function() {
 
-    var element, $compile, $rootScope, scope;
-
     beforeEach(function() {
         module('openlmis-table');
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
 
-        scope = $rootScope.$new();
+        this.scope = this.$rootScope.$new();
+
+        this.compileElement = function(markup) {
+            var element = this.$compile(markup)(this.scope);
+            this.$rootScope.$digest();
+            return element;
+        };
     });
 
     it('should do nothing if no attributes are set', function() {
-        element = compileElement(
+        var markup =
             '<tbody>' +
                 '<tr></tr>' +
-            '</tbody>'
-        );
-        $rootScope.$digest();
+            '</tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('tr').length).toEqual(1);
     });
 
     it('should do nothing if empty-row attribute is false', function() {
-        element = compileElement(
+        var markup =
             '<tbody>' +
                 '<tr empty-row="false"></tr>' +
-            '</tbody>'
-        );
-        $rootScope.$digest();
+            '</tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('tr').length).toEqual(1);
     });
 
     it('should add extra row if empty-row is set to true', function() {
-        element = compileElement(
+        var markup =
             '<tbody>' +
                 '<tr empty-row="true"></tr>' +
-            '</tbody>'
-        );
-        $rootScope.$digest();
+            '</tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('tr').length).toEqual(2);
     });
 
     it('should set the message', function() {
-        element = compileElement(
+        var markup =
             '<tbody>' +
                 '<tr empty-row="true" empty-row-message="Some message"></tr>' +
-            '</tbody>'
-        );
-        $rootScope.$digest();
+            '</tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('td.openlmis-empty-row').html()).toEqual('Some message');
     });
 
     it('should set colspan', function() {
-        element = compileElement(
+        var markup =
             '<tbody>' +
                 '<tr empty-row="true" empty-row-col-span="3"></tr>' +
-            '</tbody>'
-        );
-        $rootScope.$digest();
+            '</tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('td.openlmis-empty-row').attr('colspan')).toEqual('3');
     });
 
     it('should not work with non-tr elements', function() {
-        element = compileElement(
-            '<tbody empty-row="true"></tbody>'
-        );
-        $rootScope.$digest();
+        var markup = '<tbody empty-row="true"></tbody>';
+
+        var element = this.compileElement(markup);
 
         expect(element.find('td.openlmis-empty-row').length).toEqual(0);
     });
-
-    function compileElement(element) {
-        return $compile(element)(scope);
-    }
 
 });

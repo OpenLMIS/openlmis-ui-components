@@ -15,30 +15,45 @@
 
 describe('openlmis-table-form.directive:checkboxInputTD', function() {
 
-    var $compile, $rootScope, element;
-
     beforeEach(function() {
         module('openlmis-table-form');
 
         inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
         });
+
+        this.$scope = this.$rootScope.$new();
+
+        this.compileElement = function(markup) {
+            var element = this.$compile(markup)(this.$scope);
+            this.$rootScope.$apply();
+            return element;
+        };
     });
 
     it('will wrap a label element around a checkbox input directly placed in a table cell', function() {
-        var markup = '<td><input type="checkbox" /></td>';
-        element = $compile(markup)($rootScope.$new());
+        var markup =
+            '<td>' +
+                '<input type="checkbox" />' +
+            '</td>';
 
-        expect(element.find('input').parent()[0].nodeName.toLowerCase()).toBe('label');
-        expect(element.find('input').parents('label')
-            .hasClass('checkbox')).toBe(true);
+        this.element = this.compileElement(markup);
+
+        expect(this.element.children('label').length).toEqual(1);
+        expect(this.element.find('label').hasClass('checkbox')).toBe(true);
     });
 
     it('will not add a label to an input already wrapped with a label', function() {
-        var markup = '<td><label><input type="checkbox" />Example</label></td>';
-        element = $compile(markup)($rootScope.$new());
+        var markup =
+            '<td>' +
+                '<label>' +
+                    '<input type="checkbox" />Example' +
+                '</label>' +
+            '</td>';
 
-        expect(element.find('input').parents('label').length).toEqual(1);
+        this.element = this.compileElement(markup);
+
+        expect(this.element.find('label').length).toEqual(1);
     });
 });

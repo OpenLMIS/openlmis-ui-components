@@ -14,67 +14,68 @@
  */
 
 describe('openlmis-table.controller:OpenlmisTableStickyCellController', function() {
-    var vm, viewport, table;
-
-    beforeEach(module('openlmis-table'));
-
-    beforeEach(inject(function($controller) {
-        vm = $controller('OpenlmisTableStickyCellController');
-    }));
 
     beforeEach(function() {
-        viewport = {
+        module('openlmis-table');
+
+        inject(function($injector) {
+            this.$controller = $injector.get('$controller');
+        });
+
+        this.viewport = {
             top: 0,
             left: 0,
             width: 1000,
             height: 500
         };
 
-        table = {
+        this.table = {
             width: 1500,
             height: 2000
         };
+
+        this.vm = this.$controller('OpenlmisTableStickyCellController');
     });
 
     describe('setup', function() {
         it('can setup isStickyTop', function() {
-            vm.setup({
+            this.vm.setup({
                 stickTop: true
             });
-            viewport.top = 123;
+            this.viewport.top = 123;
 
-            var position = vm.updatePosition(viewport, table);
+            var position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(123);
         });
 
         it('can setup isStickyBottom', function() {
-            vm.setup({
+            this.vm.setup({
                 stickBottom: true
             });
 
-            var position = vm.updatePosition(viewport, table);
+            var position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(-1500);
         });
 
         it('can setup isStickyLeft', function() {
-            vm.setup({
+            this.vm.setup({
                 stickLeft: true
             });
-            viewport.left = 123;
+            this.viewport.left = 123;
 
-            var position = vm.updatePosition(viewport, table);
+            var position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(123);
         });
 
         it('can setup isStickyRight', function() {
-            vm.setup({
+            this.vm.setup({
                 stickRight: true
             });
 
-            var position = vm.updatePosition(viewport, table);
+            var position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(-500);
         });
@@ -83,129 +84,129 @@ describe('openlmis-table.controller:OpenlmisTableStickyCellController', function
     describe('updatePosition', function() {
         it('will always stick top to viewport top', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickTop: true
             });
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(0);
 
-            viewport.top = 500;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.top = 500;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(500);
 
-            viewport.top = 9000;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.top = 9000;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(9000);
         });
 
         it('will always stick left to viewport left', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickLeft: true
             });
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(0);
 
-            viewport.left = 700;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.left = 700;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(700);
 
-            viewport.left = 15000;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.left = 15000;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(15000);
         });
 
         it('will always stick right to visible edge', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickRight: true
             });
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(-500);
 
-            viewport.left = 700;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.left = 700;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(200);
 
-            viewport.width = 500;
-            viewport.left = 1000;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.width = 500;
+            this.viewport.left = 1000;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(0);
         });
 
         it('will not stick right if viewport is wider than table', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickRight: true
             });
 
-            viewport.width = 1500;
-            table.width = 1000;
+            this.viewport.width = 1500;
+            this.table.width = 1000;
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.left).toBe(0);
         });
 
         it('will always stick bottom to visible edge', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickBottom: true
             });
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(-1500);
 
-            viewport.top = 700;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.top = 700;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(-800);
 
-            viewport.height = 1000;
-            viewport.top = 1000;
-            position = vm.updatePosition(viewport, table);
+            this.viewport.height = 1000;
+            this.viewport.top = 1000;
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(0);
         });
 
         it('will not stick bottom if viewport is taller than table', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickBottom: true
             });
 
-            viewport.height = 1500;
-            table.height = 1000;
+            this.viewport.height = 1500;
+            this.table.height = 1000;
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(0);
         });
 
         it('will return a value of zero if viewport or table misconfigured', function() {
             var position;
-            vm.setup({
+            this.vm.setup({
                 stickRight: true,
                 stickBottom: true
             });
 
-            viewport.height = undefined;
-            table.width = undefined;
+            this.viewport.height = undefined;
+            this.table.width = undefined;
 
-            position = vm.updatePosition(viewport, table);
+            position = this.vm.updatePosition(this.viewport, this.table);
 
             expect(position.top).toBe(0);
             expect(position.left).toBe(0);

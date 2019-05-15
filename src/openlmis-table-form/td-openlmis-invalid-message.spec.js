@@ -14,43 +14,47 @@
  */
 
 describe('TD openlmisInvalid message', function() {
-    var element, scope, openlmisPopoverCtrl;
 
-    beforeEach(module('openlmis-table-form'));
+    beforeEach(function() {
+        module('openlmis-table-form');
 
-    beforeEach(inject(function($rootScope, $compile) {
+        inject(function($injector) {
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+        });
+
         var markup = '<td openlmis-invalid="{{message}}" ></td>';
-        scope = $rootScope.$new();
-        element = $compile(markup)(scope);
+        this.scope = this.$rootScope.$new();
+        this.element = this.$compile(markup)(this.scope);
 
-        openlmisPopoverCtrl = element.controller('popover');
-        spyOn(openlmisPopoverCtrl, 'addElement').andCallThrough();
-        spyOn(openlmisPopoverCtrl, 'removeElement').andCallThrough();
+        this.openlmisPopoverCtrl = this.element.controller('popover');
+        spyOn(this.openlmisPopoverCtrl, 'addElement').andCallThrough();
+        spyOn(this.openlmisPopoverCtrl, 'removeElement').andCallThrough();
 
-        scope.$apply();
-    }));
+        this.scope.$apply();
+    });
 
     it('will add invalidMessageElement to popover, not table cell', function() {
-        scope.message = 'Error';
-        scope.$apply();
+        this.scope.message = 'Error';
+        this.scope.$apply();
 
-        expect(openlmisPopoverCtrl.addElement).toHaveBeenCalled();
+        expect(this.openlmisPopoverCtrl.addElement).toHaveBeenCalled();
 
-        var messageElement = openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
+        var messageElement = this.openlmisPopoverCtrl.addElement.mostRecentCall.args[0];
 
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });
 
     it('will remove invalidMessageElement from popover when not invalid', function() {
-        scope.message = 'Error';
-        scope.$apply();
+        this.scope.message = 'Error';
+        this.scope.$apply();
 
-        scope.message = false;
-        scope.$apply();
+        this.scope.message = false;
+        this.scope.$apply();
 
-        expect(openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
+        expect(this.openlmisPopoverCtrl.removeElement).toHaveBeenCalled();
 
-        var messageElement = openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
+        var messageElement = this.openlmisPopoverCtrl.removeElement.mostRecentCall.args[0];
 
         expect(messageElement.text().indexOf('Error')).not.toBe(-1);
     });

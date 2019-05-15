@@ -15,61 +15,59 @@
 
 describe('Popover Text Directive', function() {
 
-    var element, $scope, popoverCtrl, $templateCache, $rootScope, $compile;
-
     beforeEach(function() {
         module('openlmis-popover');
 
         inject(function($injector) {
-            $templateCache = $injector.get('$templateCache');
-            $rootScope = $injector.get('$rootScope');
-            $compile = $injector.get('$compile');
+            this.$templateCache = $injector.get('$templateCache');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
         });
 
-        spyOn($templateCache, 'get').andReturn('<div>{{text}}</div>');
+        spyOn(this.$templateCache, 'get').andReturn('<div>{{text}}</div>');
 
-        $scope = $rootScope.$new();
+        this.$scope = this.$rootScope.$new();
 
         var markup = '<button popover="{{popoverText}}" />';
-        element = $compile(markup)($scope);
-        $scope.$apply();
+        this.element = this.$compile(markup)(this.$scope);
+        this.$scope.$apply();
 
-        popoverCtrl = element.controller('popover');
+        this.popoverCtrl = this.element.controller('popover');
 
-        spyOn(popoverCtrl, 'addElement').andCallThrough();
-        spyOn(popoverCtrl, 'removeElement').andCallThrough();
+        spyOn(this.popoverCtrl, 'addElement').andCallThrough();
+        spyOn(this.popoverCtrl, 'removeElement').andCallThrough();
     });
 
     it('adds a text element to the popover controller', function() {
-        $scope.popoverText = 'Hello World!';
-        $scope.$apply();
+        this.$scope.popoverText = 'Hello World!';
+        this.$scope.$apply();
 
-        expect(popoverCtrl.addElement).toHaveBeenCalled();
+        expect(this.popoverCtrl.addElement).toHaveBeenCalled();
     });
 
     it('allows the text to be updated without re-adding the element', function() {
-        $scope.popoverText = 'Hello World!';
-        $scope.$apply();
+        this.$scope.popoverText = 'Hello World!';
+        this.$scope.$apply();
 
-        expect(popoverCtrl.getElements()[0].text()).toBe('Hello World!');
+        expect(this.popoverCtrl.getElements()[0].text()).toBe('Hello World!');
 
-        $scope.popoverText = 'Foo Bar';
-        $scope.$apply();
+        this.$scope.popoverText = 'Foo Bar';
+        this.$scope.$apply();
 
-        expect(popoverCtrl.getElements()[0].text()).toBe('Foo Bar');
-        expect(popoverCtrl.addElement.calls.length).toBe(1);
+        expect(this.popoverCtrl.getElements()[0].text()).toBe('Foo Bar');
+        expect(this.popoverCtrl.addElement.calls.length).toBe(1);
     });
 
     it('will remove the text element from the popover controller if the popover attribute is empty (ie "")',
         function() {
-            $scope.popoverText = 'Hello World!';
-            $scope.$apply();
+            this.$scope.popoverText = 'Hello World!';
+            this.$scope.$apply();
 
-            expect(popoverCtrl.addElement).toHaveBeenCalled();
+            expect(this.popoverCtrl.addElement).toHaveBeenCalled();
 
-            $scope.popoverText = '';
-            $scope.$apply();
+            this.$scope.popoverText = '';
+            this.$scope.$apply();
 
-            expect(popoverCtrl.removeElement).toHaveBeenCalled();
+            expect(this.popoverCtrl.removeElement).toHaveBeenCalled();
         });
 });
