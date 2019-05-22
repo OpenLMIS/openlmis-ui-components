@@ -25,7 +25,22 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
             $compile = $injector.get('$compile');
         });
 
+        var markup =
+            '<div class="openlmis-table-pane">' +
+                '<table>' +
+                    '<tbody>' +
+                        '<tr ng-repeat="item in items">' +
+                            '<td></td>' +
+                            '<td></td>' +
+                            '<td></td>' +
+                        '</tr>' +
+                    '</tbody>' +
+                '</table>' +
+            '</div>';
+
         $scope = $rootScope.$new();
+        this.tablePaneElement = $compile(markup)($scope);
+        this.tablePaneCtrl = this.tablePaneElement.controller('openlmisTablePane');
     });
 
     describe('md-virtual-repeat-container', function() {
@@ -89,6 +104,73 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
 
         afterEach(function() {
             tablePaneElement.remove();
+        });
+    });
+
+    describe('applies openlmis-table-sticky-cell', function() {
+
+        beforeEach(function() {
+            var thead = '<thead><tr><th class="col-sticky"></th><th></th><th class="col-sticky col-sticky-right">' +
+                        '</th></tr></thead>',
+                tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
+                tfoot = '<tfoot><tr><td class="col-sticky"></td><td></td><td class="col-sticky col-sticky-right">' +
+                        '</td></tr></tfoot>',
+                markupStickyElements = '<div class="openlmis-table-pane"><table>' + thead + tbody + tfoot +
+                        '</table></div>';
+
+            this.tablePaneElement = $compile(markupStickyElements)($scope);
+        });
+
+        it('to all thead and tfoot elements', function() {
+            expect(this.tablePaneElement.find('thead [openlmis-table-sticky-cell]').length).toBe(3);
+            expect(this.tablePaneElement.find('tfoot [openlmis-table-sticky-cell]').length).toBe(3);
+        });
+
+        it('and openlmis-sticky-top to all thead elements', function() {
+            expect(this.tablePaneElement.find('thead [openlmis-sticky-top]').length).toBe(3);
+        });
+
+        it('and openlmis-sticky-bottom to all tfoot elements', function() {
+            expect(this.tablePaneElement.find('tfoot [openlmis-sticky-bottom]').length).toBe(3);
+        });
+
+        it('and openlmis-sticky-column to all elements that had .col-sticky class', function() {
+            expect(this.tablePaneElement.find('[openlmis-sticky-column]').length).toBe(4);
+            expect(this.tablePaneElement.find('.col-sticky').length).toBe(0);
+        });
+
+        it('and openlmis-sticky-column-right to all elements that had .col-sticky class', function() {
+            expect(this.tablePaneElement.find('[openlmis-sticky-column-right]').length).toBe(2);
+            expect(this.tablePaneElement.find('.col-sticky-right').length).toBe(0);
+        });
+
+    });
+
+    describe('watches resize', function() {
+
+        beforeEach(function() {
+            spyOn(_, 'debounce').andCallFake(function(fn) {
+                return function() {
+                    return fn;
+                };
+            });
+
+            var tbody = '<tbody><tr ng-repeat="item in items"><td></td><td></td><td></td></tr></tbody>',
+                table = '<table>' + tbody + '</table>';
+            this.tableElement = angular.element(table);
+
+            this.viewportRectangle = this.tablePaneCtrl.getTableRectangle();
+            this.viewportRectangle.width = 500;
+        });
+
+        it('debounces resize events', function() {
+            new ResizeObserver(_.debounce()).observe(this.tablePaneElement[0]);
+
+            expect(_.debounce).toHaveBeenCalled();
+        });
+
+        afterEach(function() {
+            this.tablePaneElement.remove();
         });
     });
 
