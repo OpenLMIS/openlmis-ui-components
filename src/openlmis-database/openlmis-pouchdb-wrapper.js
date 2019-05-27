@@ -16,13 +16,7 @@
 (function() {
 
     'use strict';
-    /**
-     * @ngdoc service
-     * @name openlmis-database.PouchDBWrapper
-     *
-     * @description
-     * Wraps PouchDB with AngularJS promises.
-     */
+
     angular
         .module('openlmis-database')
         .factory('PouchDBWrapper', PouchDBWrapper);
@@ -40,108 +34,31 @@
 
         return PouchDBWrapper;
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.LocalDatabase
-         * @constructor
-         * @name LocalDatabase
-         *
-         * @description
-         * Creates a new database for the given resource.
-         *
-         * @param {string} name  the name of the resource to create/open the database
-         */
         function PouchDBWrapper(name) {
             this.pouchDb = new PouchDB(name);
             this.name = name;
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name get
-         *
-         * @description
-         * Wrapper for the get method of the PouchDB.
-         *
-         * @param  {string}   id  the ID of the document to retrieve from the database
-         * @return {Promise}      the PouchDB promise wrapped in AngularJS one
-         */
         function get(id) {
             return $q.when(this.pouchDb.get(id));
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name put
-         *
-         * @description
-         * Wrapper for the put method of the PouchDB.
-         *
-         * @param  {string}   doc  the doc to be saved
-         * @return {Promise}       the PouchDB promise wrapped in AngularJS one
-         */
         function put(doc) {
             return $q.when(this.pouchDb.put(doc));
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name get
-         *
-         * @description
-         * Wrapper for the destroy method of the PouchDB.
-         *
-         * @return {Promise}      the PouchDB promise wrapped in AngularJS one
-         */
         function destroy() {
             return $q.when(this.pouchDb.destroy());
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name remove
-         *
-         * @description
-         * Wrapper for the remove method of the PouchDB.
-         *
-         * @param  {string}   id     the ID of the document to remove from the database
-         * @param  {string}   revId  the revision ID of the document to remove from the database
-         * @return {Promise}         the PouchDB promise wrapped in AngularJS one
-         */
         function remove(id, revId) {
             return $q.when(this.pouchDb.remove(id, revId));
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name allDocs
-         *
-         * @description
-         * Wrapper for the allDocs method of the PouchDB.
-         *
-         * @param  {string}   params  the parameters to search database with
-         * @return {Promise}          the PouchDB promise wrapped in AngularJS one
-         */
         function allDocs(params) {
             return $q.when(this.pouchDb.allDocs(params));
         }
 
-        /**
-         * @ngdoc method
-         * @methodOf openlmis-database.PouchDBWrapper
-         * @name allDocs
-         *
-         * @description
-         * Wrapper for the bulkDocs method of the PouchDB.
-         *
-         * @param  {string}   docs  the documents to save
-         * @return {Promise}        the PouchDB promise wrapped in AngularJS one
-         */
         function bulkDocs(docs) {
             return $q.when(this.pouchDb.bulkDocs(docs));
         }
