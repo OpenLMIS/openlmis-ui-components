@@ -82,7 +82,10 @@ describe('LocalDatabase', function() {
                 $rootScope.$apply();
             });
 
-            waitForDb();
+            waitsFor(function() {
+                $rootScope.$apply();
+                return dbResponded;
+            }, 'The database should have responded', 500);
 
             runs(function() {
                 expect(success).toBe(true);
@@ -479,7 +482,8 @@ describe('LocalDatabase', function() {
                         success = true;
                         dbResponded = true;
                     })
-                    .catch(function() {
+                    .catch(function(error) {
+                        console.log(error);
                         dbResponded = true;
                     });
             });
@@ -504,7 +508,7 @@ describe('LocalDatabase', function() {
 
         waitsFor(function() {
             return dbDestroyed;
-        }, 'The database should be destroyed', 5000);
+        }, 'The database should be destroyed', 1000);
 
     });
 
@@ -512,7 +516,7 @@ describe('LocalDatabase', function() {
         waitsFor(function() {
             $rootScope.$apply();
             return dbResponded;
-        }, 'The database should have responded', 5000);
+        }, 'The database should have responded', 1000);
     }
 
 });
