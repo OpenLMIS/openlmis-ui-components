@@ -1,5 +1,5 @@
-7.1.0 / Work in Progress
-========================
+7.1.0 / 2019-05-27
+==================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-6020](https://openlmis.atlassian.net/browse/OLMIS-6020): Added openlmisCronSelection component.
