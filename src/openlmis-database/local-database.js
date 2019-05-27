@@ -30,9 +30,9 @@
         .module('openlmis-database')
         .factory('LocalDatabase', LocalDatabase);
 
-    LocalDatabase.$inject = ['PouchDBWrapper'];
+    LocalDatabase.$inject = ['PouchDB', '$q'];
 
-    function LocalDatabase(PouchDBWrapper) {
+    function LocalDatabase(PouchDB, $q) {
 
         LocalDatabase.prototype.put = put;
         LocalDatabase.prototype.putAll = putAll;
@@ -57,7 +57,7 @@
          * @param       {[type]} resourceName the name of the resource to create/open the database
          */
         function LocalDatabase(resourceName) {
-            this.pouchDb = new PouchDBWrapper(resourceName);
+            this.pouchDb = new PouchDB(resourceName);
         }
 
         /**
@@ -78,18 +78,20 @@
         function put(doc) {
             validate(doc);
 
-            var pouchDb = this.pouchDb;
-            return this.pouchDb.get(doc.id)
-                .then(function(stored) {
-                    doc._id = stored._id;
-                    doc._rev = stored._rev;
-                })
-                .catch(function() {
-                    doc._id = doc.id;
-                })
-                .then(function() {
-                    return pouchDb.put(doc);
-                });
+            var pouchDb = this.pouchDb,
+                promise = this.pouchDb.get(doc.id)
+                    .then(function(stored) {
+                        doc._id = stored._id;
+                        doc._rev = stored._rev;
+                    })
+                    .catch(function() {
+                        doc._id = doc.id;
+                    })
+                    .then(function() {
+                        return pouchDb.put(doc);
+                    });
+
+            return $q.when(promise);
         }
 
         /**
@@ -109,7 +111,7 @@
             docs.forEach(function(doc) {
                 doc._id = doc.id;
             });
-            return this.pouchDb.bulkDocs(docs);
+            return $q.when(this.pouchDb.bulkDocs(docs));
         }
 
         /**
@@ -128,7 +130,7 @@
          */
         function get(id) {
             validateId(id);
-            return this.pouchDb.get(id);
+            return $q.when(this.pouchDb.get(id));
         }
 
         /**
@@ -144,12 +146,10 @@
          *                      be retrieved for any reason
          */
         function getAll() {
-            return this.pouchDb
-                .allDocs({
-                    //eslint-disable-next-line camelcase
-                    include_docs: true
-                })
-                .then(extractDocs);
+            return $q.when(this.pouchDb.allDocs({
+                //eslint-disable-next-line camelcase
+                include_docs: true
+            })).then(extractDocs);
         }
 
         /**
@@ -172,10 +172,9 @@
             validateId(id);
 
             var pouchDb = this.pouchDb;
-            return this
-                .get(id)
+            return this.get(id)
                 .then(function(doc) {
-                    return pouchDb.remove(doc._id, doc._rev);
+                    return $q.when(pouchDb.remove(doc._id, doc._rev));
                 });
         }
 
@@ -195,10 +194,9 @@
             var database = this,
                 name = this.pouchDb.name;
 
-            return this.pouchDb
-                .destroy()
+            return $q.when(this.pouchDb.destroy())
                 .then(function() {
-                    database.pouchDb = new PouchDBWrapper(name);
+                    database.pouchDb = new PouchDB(name);
                 });
         }
 
