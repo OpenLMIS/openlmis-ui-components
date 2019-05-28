@@ -15,30 +15,30 @@
 
 describe('LocalDatabase', function() {
 
-    var LocalDatabase, pouchDb, database, $rootScope, dbResponded;
-
     beforeEach(function() {
-        module('openlmis-database', function($provide, PouchDB) {
-            var originalPouchDB = PouchDB;
-
-            $provide.constant('PouchDB', function(name) {
-                pouchDb = new originalPouchDB(name);
-                return pouchDb;
-            });
-        });
+        module('openlmis-database');
 
         inject(function($injector) {
-            LocalDatabase = $injector.get('LocalDatabase');
-            $rootScope = $injector.get('$rootScope');
+            this.LocalDatabase = $injector.get('LocalDatabase');
+            this.$rootScope = $injector.get('$rootScope');
+            this.PouchDBWrapper = $injector.get('PouchDBWrapper');
+            this.$q = $injector.get('$q');
         });
 
-        database = new LocalDatabase('testDatabase');
-        dbResponded = false;
+        this.database = new this.LocalDatabase('testDatabase');
+
+        spyOn(this.PouchDBWrapper.prototype, 'put');
+        spyOn(this.PouchDBWrapper.prototype, 'get');
+        spyOn(this.PouchDBWrapper.prototype, 'remove');
+        spyOn(this.PouchDBWrapper.prototype, 'allDocs');
+        spyOn(this.PouchDBWrapper.prototype, 'destroy');
     });
 
     describe('put', function() {
 
         it('should throw exception if object is undefined', function() {
+            var database = this.database;
+
             expect(function() {
                 database.put();
             }).toThrow('Object must be defined!');
@@ -53,166 +53,55 @@ describe('LocalDatabase', function() {
         });
 
         it('should throw exception if object does not have ID', function() {
+            var database = this.database;
+
             expect(function() {
                 database.put({});
             }).toThrow('Object must have ID!');
         });
 
-        it('should copy the id of the object to _id', function() {
-            var success;
-
-            runs(function() {
-                database.put({
-                    id: 'some-id'
-                })
-                    .then(function() {
-                        return pouchDb.get('some-id');
-                    })
-                    .then(function(object) {
-                        expect(object).not.toBeUndefined();
-                    })
-                    .then(function() {
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-
-                $rootScope.$apply();
-            });
-
-            waitsFor(function() {
-                $rootScope.$apply();
-                return dbResponded;
-            }, 'The database should have responded', 500);
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
-        });
-
         it('should update existing object with the same id', function() {
-            var success;
-
-            runs(function() {
-                pouchDb.put({
+            var originalDoc = {
                     id: 'some-id',
-                    _id: 'some-id',
+                    _id: 'some-id'
+                },
+                doc = {
+                    id: 'some-id',
                     field: 'value'
-                })
-                    .then(function() {
-                        return database.put({
-                            id: 'some-id',
-                            field: 'updated value'
-                        });
-                    })
-                    .then(function() {
-                        return pouchDb.get('some-id');
-                    })
-                    .then(function(updated) {
-                        expect(updated.id).toEqual('some-id');
-                        expect(updated.field).toEqual('updated value');
-                    })
-                    .then(function() {
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
+                };
 
-            waitForDb();
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve(originalDoc));
 
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            var success;
+            this.database.put(doc)
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith(_.extend({}, doc, originalDoc));
+            expect(this.PouchDBWrapper.prototype.get).toHaveBeenCalledWith(doc.id);
         });
 
         it('should save the object if an object with the given id is not stored yet', function() {
+            var doc = {
+                id: 'some-id'
+            };
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
+
             var success;
+            this.database.put(doc)
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
 
-            runs(function() {
-                pouchDb.put({
-                    id: 'some-id-one',
-                    _id: 'some-id-one'
-                })
-                    .then(function() {
-                        return pouchDb.put({
-                            id: 'some-id-two',
-                            _id: 'some-id-two'
-                        });
-                    })
-                    .then(function() {
-                        return pouchDb.put({
-                            id: 'some-id-three',
-                            _id: 'some-id-three'
-                        });
-                    })
-                    .then(function() {
-                        return database.put({
-                            id: 'some-other-id'
-                        });
-                    })
-                    .then(function() {
-                        return pouchDb.allDocs();
-                    })
-                    .then(function(response) {
-                        expect(response.total_rows).toBe(4);
-                    })
-                    .then(function() {
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
-
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
-        });
-
-        it('should save multiple object with different ID', function() {
-            var success;
-
-            runs(function() {
-                return database.put({
-                    id: 'some-id-one'
-                })
-                    .then(function() {
-                        return database.put({
-                            id: 'some-id-two'
-                        });
-                    })
-                    .then(function() {
-                        return database.put({
-                            id: 'some-id-three'
-                        });
-                    })
-                    .then(function() {
-                        return pouchDb.allDocs();
-                    })
-                    .then(function(response) {
-                        expect(response.total_rows).toBe(3);
-                    })
-                    .then(function() {
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
-
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.get).toHaveBeenCalledWith(doc.id);
+            expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
+                _id: 'some-id',
+                id: 'some-id'
             });
         });
 
@@ -221,6 +110,8 @@ describe('LocalDatabase', function() {
     describe('get', function() {
 
         it('should throw exception if ID is not given', function() {
+            var database = this.database;
+
             expect(function() {
                 database.get();
             }).toThrow('ID must be defined!');
@@ -235,57 +126,34 @@ describe('LocalDatabase', function() {
         });
 
         it('should resolve promise if object exists', function() {
-            var success, _rev;
+            var doc = {
+                _id: 'some-id',
+                id: 'some-id'
+            };
 
-            runs(function() {
-                pouchDb.put({
-                    _id: 'some-id',
-                    id: 'some-id'
-                })
-                    .then(function(response) {
-                        _rev = response.rev;
-                        return database.get('some-id');
-                    })
-                    .then(function(stored) {
-                        expect(stored).toEqual({
-                            id: 'some-id',
-                            _id: 'some-id',
-                            _rev: _rev
-                        });
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve(doc));
 
-            waitForDb();
+            var result;
+            this.database.get('some-id')
+                .then(function(doc) {
+                    result = doc;
+                });
+            this.$rootScope.$apply();
 
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            expect(result).toEqual(doc);
         });
 
         it('should reject promise if object does not exist', function() {
-            var error;
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
 
-            runs(function() {
-                database.get('some-id')
-                    .then(function() {
-                        dbResponded = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                        error = true;
-                    });
-            });
+            var rejected;
+            this.database.get('some-id')
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
 
-            waitForDb();
-
-            runs(function() {
-                expect(error).toBe(true);
-            });
+            expect(rejected).toBe(true);
         });
 
     });
@@ -293,6 +161,8 @@ describe('LocalDatabase', function() {
     describe('remove', function() {
 
         it('should throw exception if ID is not given', function() {
+            var database = this.database;
+
             expect(function() {
                 database.remove();
             }).toThrow('ID must be defined!');
@@ -307,55 +177,36 @@ describe('LocalDatabase', function() {
         });
 
         it('should resolve promise if doc was removed', function() {
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve({
+                _id: 'some-id',
+                _rev: 'some-rev-id'
+            }));
+            this.PouchDBWrapper.prototype.remove.andReturn(this.$q.resolve());
+
             var success;
+            this.database.remove('some-id')
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
 
-            runs(function() {
-                pouchDb.put({
-                    _id: 'some-id',
-                    id: 'some-id'
-                })
-                    .then(function() {
-                        return database.remove('some-id');
-                    })
-                    .then(function() {
-                        return pouchDb.allDocs();
-                    })
-                    .then(function(response) {
-                        expect(response.total_rows).toEqual(0);
-                        dbResponded = true;
-                        success = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
-
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.get).toHaveBeenCalledWith('some-id');
+            expect(this.PouchDBWrapper.prototype.remove).toHaveBeenCalledWith('some-id', 'some-rev-id');
         });
 
         it('should reject promise if doc with the given ID does not exist', function() {
-            var error;
+            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
 
-            runs(function() {
-                database.remove('some-id')
-                    .then(function() {
-                        dbResponded = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                        error = true;
-                    });
-            });
+            var rejected;
+            this.database.remove('some-id')
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
 
-            waitForDb();
-
-            runs(function() {
-                expect(error).toBe(true);
-            });
+            expect(rejected).toBe(true);
+            expect(this.PouchDBWrapper.prototype.get).toHaveBeenCalledWith('some-id');
         });
 
     });
@@ -363,88 +214,53 @@ describe('LocalDatabase', function() {
     describe('getAll', function() {
 
         it('should return list of all docs', function() {
-            var success, putDocs = [];
+            var docs = [{
+                id: 'one',
+                _id: 'one',
+                _rev: 'one'
+            }, {
+                id: 'two',
+                _id: 'two',
+                _rev: 'two'
+            }, {
+                id: 'three',
+                _id: 'three',
+                _rev: 'three'
+            }];
 
-            runs(function() {
-                pouchDb.put({
-                    _id: 'one',
-                    id: 'one'
-                })
-                    .then(function(doc) {
-                        putDocs.push({
-                            id: 'one',
-                            _id: 'one',
-                            _rev: doc.rev
-                        });
-                        return pouchDb.put({
-                            _id: 'two',
-                            id: 'two'
-                        });
-                    })
-                    .then(function(doc) {
-                        putDocs.push({
-                            id: 'two',
-                            _id: 'two',
-                            _rev: doc.rev
-                        });
-                        return pouchDb.put({
-                            _id: 'three',
-                            id: 'three'
-                        });
-                    })
-                    .then(function(doc) {
-                        putDocs.push({
-                            id: 'three',
-                            _id: 'three',
-                            _rev: doc.rev
-                        });
-                        return database.getAll();
-                    })
-                    .then(function(docs) {
-                        expect(docs.length).toBe(3);
-                        angular.forEach(putDocs, function(putDoc) {
-                            var contains = false;
-                            angular.forEach(docs, function(doc) {
-                                contains = angular.equals(putDoc, doc) || contains;
-                            });
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: [{
+                    doc: docs[0]
+                }, {
+                    doc: docs[1]
+                }, {
+                    doc: docs[2]
+                }]
+            }));
 
-                            expect(contains).toBe(true);
-                        });
-                        success = true;
-                        dbResponded = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
+            var result;
+            this.database.getAll()
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
 
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            expect(result).toEqual(docs);
         });
 
         it('should return empty list if database is empty', function() {
-            var success;
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: []
+            }));
 
-            runs(function() {
-                database.getAll()
-                    .then(function(docs) {
-                        expect(docs).toEqual([]);
-                        success = true;
-                        dbResponded = true;
-                    })
-                    .catch(function() {
-                        dbResponded = true;
-                    });
-            });
+            var result;
+            this.database.getAll()
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
 
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            expect(result).toEqual([]);
         });
 
     });
@@ -452,71 +268,13 @@ describe('LocalDatabase', function() {
     describe('removeAll', function() {
 
         it('should remove all entries', function() {
-            var success;
+            this.PouchDBWrapper.prototype.destroy.andReturn(this.$q.resolve());
 
-            runs(function() {
-                pouchDb.put({
-                    _id: 'one',
-                    id: 'one'
-                })
-                    .then(function() {
-                        return pouchDb.put({
-                            _id: 'two',
-                            id: 'two'
-                        });
-                    })
-                    .then(function() {
-                        return pouchDb.put({
-                            _id: 'three',
-                            id: 'three'
-                        });
-                    })
-                    .then(function() {
-                        return database.removeAll();
-                    })
-                    .then(function() {
-                        return database.getAll();
-                    })
-                    .then(function(docs) {
-                        expect(docs.length).toBe(0);
-                        success = true;
-                        dbResponded = true;
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                        dbResponded = true;
-                    });
-            });
+            this.database.removeAll();
 
-            waitForDb();
-
-            runs(function() {
-                expect(success).toBe(true);
-            });
+            expect(this.PouchDBWrapper.prototype.destroy).toHaveBeenCalled();
         });
 
     });
-
-    afterEach(function() {
-        var dbDestroyed;
-
-        runs(function() {
-            pouchDb.destroy().then(function() {
-                dbDestroyed = true;
-            });
-        });
-
-        waitsFor(function() {
-            return dbDestroyed;
-        }, 'The database should be destroyed', 1000);
-
-    });
-
-    function waitForDb() {
-        waitsFor(function() {
-            $rootScope.$apply();
-            return dbResponded;
-        }, 'The database should have responded', 1000);
-    }
 
 });
