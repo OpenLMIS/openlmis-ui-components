@@ -27,9 +27,13 @@ describe('Input required directive', function() {
         this.scope.isRequired = true;
         this.scope.id = 'input';
 
-        this.element = this.$compile(
-            '<form><label for="input">Label</label><input id="{{id}}" ng-required="isRequired" /></form>'
-        )(this.scope);
+        var markup =
+            '<form>' +
+                '<label for="input">Label</label>' +
+                '<input id="{{id}}" ng-required="isRequired" />' +
+            '</form>';
+
+        this.element = this.$compile(markup)(this.scope);
 
         angular.element('body').append(this.element);
         this.scope.$apply();

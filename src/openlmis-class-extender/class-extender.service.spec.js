@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('this.classExtender', function() {
+describe('classExtender', function() {
 
     beforeEach(function() {
         module('openlmis-class-extender');

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('this.analyticsService', function() {
+describe('analyticsService', function() {
 
     beforeEach(function() {
         this.screenResolution = '200x200';

@@ -32,14 +32,15 @@ describe('formServerValidation', function() {
 
         spyOn(this.alertService, 'error');
 
-        this.createForm = function() {
-            this.formElement = this.$compile(
-                '<form name="testForm" ng-submit="someObject.submitMethod()">' +
+        var markup =
+            '<form name="testForm" ng-submit="someObject.submitMethod()">' +
                 '<input ng-model="inputOne" />' +
                 '<input id="inputTwo" name="inputTwo" ng-model="inputTwo" />' +
                 '<input id="submit" type="submit" />' +
-                '</form>'
-            )(this.scope);
+            '</form>';
+
+        this.createForm = function() {
+            this.formElement = this.$compile(markup)(this.scope);
         };
     });
 

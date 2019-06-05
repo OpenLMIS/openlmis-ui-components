@@ -140,7 +140,7 @@ describe('openlmis-invalid directive', function() {
         this.element = angular.element('<p openlmis-invalid="Example">Stuff</p>');
 
         // To stop applying an invalid element, you must place a listener on
-        // the this.scope BEFORE openlmis-invalid directive is run.
+        // the scope BEFORE openlmis-invalid directive is run.
         this.element.on('openlmisInvalid.show', function(event) {
             event.preventDefault();
         });
