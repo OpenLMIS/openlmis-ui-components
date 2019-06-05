@@ -30,9 +30,9 @@
         .module('openlmis-database')
         .factory('LocalDatabase', LocalDatabase);
 
-    LocalDatabase.$inject = ['PouchDBWrapper', '$q'];
+    LocalDatabase.$inject = ['PouchDBWrapper'];
 
-    function LocalDatabase(PouchDBWrapper, $q) {
+    function LocalDatabase(PouchDBWrapper) {
 
         LocalDatabase.prototype.put = put;
         LocalDatabase.prototype.putAll = putAll;
@@ -192,13 +192,13 @@
          *                      rejected if the documents couldn't be deleted for any reason
          */
         function removeAll() {
-            var database = this;
+            var database = this,
+                name = this.pouchDb.name;
 
-            return this.getAll()
-                .then(function(docs) {
-                    return $q.all(docs.map(function(doc) {
-                        return database.pouchDb.remove(doc._id, doc._rev);
-                    }));
+            return this.pouchDb
+                .destroy()
+                .then(function() {
+                    database.pouchDb = new PouchDBWrapper(name);
                 });
         }
 

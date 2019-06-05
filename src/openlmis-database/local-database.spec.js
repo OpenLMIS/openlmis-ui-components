@@ -32,20 +32,6 @@ describe('LocalDatabase', function() {
         spyOn(this.PouchDBWrapper.prototype, 'remove');
         spyOn(this.PouchDBWrapper.prototype, 'allDocs');
         spyOn(this.PouchDBWrapper.prototype, 'destroy');
-
-        this.docs = [{
-            id: 'one',
-            _id: 'one',
-            _rev: 'one'
-        }, {
-            id: 'two',
-            _id: 'two',
-            _rev: 'two'
-        }, {
-            id: 'three',
-            _id: 'three',
-            _rev: 'three'
-        }];
     });
 
     describe('put', function() {
@@ -228,14 +214,27 @@ describe('LocalDatabase', function() {
     describe('getAll', function() {
 
         it('should return list of all docs', function() {
+            var docs = [{
+                id: 'one',
+                _id: 'one',
+                _rev: 'one'
+            }, {
+                id: 'two',
+                _id: 'two',
+                _rev: 'two'
+            }, {
+                id: 'three',
+                _id: 'three',
+                _rev: 'three'
+            }];
 
             this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
                 rows: [{
-                    doc: this.docs[0]
+                    doc: docs[0]
                 }, {
-                    doc: this.docs[1]
+                    doc: docs[1]
                 }, {
-                    doc: this.docs[2]
+                    doc: docs[2]
                 }]
             }));
 
@@ -246,7 +245,7 @@ describe('LocalDatabase', function() {
                 });
             this.$rootScope.$apply();
 
-            expect(result).toEqual(this.docs);
+            expect(result).toEqual(docs);
         });
 
         it('should return empty list if database is empty', function() {
@@ -268,37 +267,12 @@ describe('LocalDatabase', function() {
 
     describe('removeAll', function() {
 
-        beforeEach(function() {
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
-                rows: [{
-                    doc: this.docs[0]
-                }, {
-                    doc: this.docs[1]
-                }, {
-                    doc: this.docs[2]
-                }]
-            }));
-        });
-
         it('should remove all entries', function() {
+            this.PouchDBWrapper.prototype.destroy.andReturn(this.$q.resolve());
+
             this.database.removeAll();
-            this.$rootScope.$apply();
 
-            expect(this.PouchDBWrapper.prototype.remove).toHaveBeenCalledWith(this.docs[0]._id, this.docs[0]._rev);
-            expect(this.PouchDBWrapper.prototype.remove).toHaveBeenCalledWith(this.docs[1]._id, this.docs[1]._rev);
-            expect(this.PouchDBWrapper.prototype.remove).toHaveBeenCalledWith(this.docs[2]._id, this.docs[2]._rev);
-        });
-
-        it('should resolve after removing all elements', function() {
-            var success;
-            this.database
-                .removeAll()
-                .then(function() {
-                    success = true;
-                });
-            this.$rootScope.$apply();
-
-            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.destroy).toHaveBeenCalled();
         });
 
     });
