@@ -15,49 +15,49 @@
 
 describe('openlmisDatepickerCompile', function() {
 
-    var $compile, $rootScope, element, $scope;
-
     beforeEach(function() {
         module('openlmis-form');
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
+
+        this.compileElement = compileElement;
     });
 
     it('should date input with openlmis datepicker', function() {
-        compileElement('<input type="date" ng-model="dateModel"/>');
+        this.compileElement('<input type="date" ng-model="dateModel"/>');
 
-        expect(element.attr('openlmis-datepicker')).not.toBeUndefined();
+        expect(this.element.attr('openlmis-datepicker')).not.toBeUndefined();
     });
 
     it('should attach openlmis-datepicker class to the parent element', function() {
-        compileElement('<input type="date" ng-model="dateModel"/>');
+        this.compileElement('<input type="date" ng-model="dateModel"/>');
 
-        expect(element.parent().hasClass('openlmis-datepicker')).toBe(true);
+        expect(this.element.parent().hasClass('openlmis-datepicker')).toBe(true);
     });
 
     it('should copy all attributes', function() {
-        compileElement(
+        this.compileElement(
             '<input type="date" some-weird-attribute-that="i-definitely-did-not-hard-coded" ng-model="dateModel"/>'
         );
 
-        expect(element.attr('openlmis-datepicker')).not.toBeUndefined();
-        expect(element.attr('some-weird-attribute-that')).toEqual('i-definitely-did-not-hard-coded');
+        expect(this.element.attr('openlmis-datepicker')).not.toBeUndefined();
+        expect(this.element.attr('some-weird-attribute-that')).toEqual('i-definitely-did-not-hard-coded');
     });
 
     it('should do nothing if input not of date type', function() {
-        compileElement('<input type="text" ng-model="dateModel"/>');
+        this.compileElement('<input type="text" ng-model="dateModel"/>');
 
-        expect(element.attr('openlmis-datepicker')).toBeUndefined();
-        expect(element.parent().hasClass('openlmis-datepicker')).toBe(false);
+        expect(this.element.attr('openlmis-datepicker')).toBeUndefined();
+        expect(this.element.parent().hasClass('openlmis-datepicker')).toBe(false);
     });
 
     function compileElement(template) {
-        $scope = $rootScope.$new();
-        element = $compile(template)($scope);
-        $scope.$apply();
+        this.$scope = this.$rootScope.$new();
+        this.element = this.$compile(template)(this.$scope);
+        this.$scope.$apply();
     }
 
 });

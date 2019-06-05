@@ -14,39 +14,40 @@
  */
 
 describe('Input Control Wrap', function() {
-    var $compile, scope;
 
-    beforeEach(module('openlmis-templates'));
+    beforeEach(function() {
+        module('openlmis-form');
 
-    beforeEach(module('openlmis-form'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$templateCache = $injector.get('$templateCache');
+        });
 
-    beforeEach(inject(function(_$compile_, $rootScope, $templateCache) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
+        this.scope = this.$rootScope.$new();
 
-        spyOn($templateCache, 'get').andReturn('<div class="input-control" input-control></div>');
-    }));
+        spyOn(this.$templateCache, 'get').andReturn('<div class="input-control" input-control></div>');
+    });
 
     describe('- input -', function() {
-        var element, input;
 
         beforeEach(inject(function() {
             var markup = '<form><input /></form>';
-            element = $compile(markup)(scope);
-            scope.$apply();
+            this.element = this.$compile(markup)(this.scope);
+            this.scope.$apply();
 
-            input = element.find('input');
+            this.input = this.element.find('input');
         }));
 
         it('adds an input-control element around an input', function() {
-            expect(input.parents('[input-control]').length).toBe(1);
+            expect(this.input.parents('[input-control]').length).toBe(1);
         });
     });
 
     it('does not add input-control elements if parent(s) are input-control', function() {
         var markup = '<form><div id="example" input-control ><input /></div></form>',
-            element = $compile(markup)(scope);
-        scope.$apply();
+            element = this.$compile(markup)(this.scope);
+        this.scope.$apply();
 
         var input = element.find('input');
 
@@ -57,43 +58,43 @@ describe('Input Control Wrap', function() {
 
     it('does not add input-control elements to input types SUBMIT and BUTTON', function() {
         var markup = '<form><input type="button" /></form>',
-            element = $compile(markup)(scope),
+            element = this.$compile(markup)(this.scope),
             input = element.find('input');
-        scope.$apply();
+        this.scope.$apply();
 
         expect(input.parents('[input-control]').length).toBe(0);
 
         markup = '<form><input type="submit" /></form>',
-        element = $compile(markup)(scope);
+        element = this.$compile(markup)(this.scope);
         input = element.find('input');
-        scope.$apply();
+        this.scope.$apply();
 
         expect(input.parents('[input-control]').length).toBe(0);
     });
 
     it('adds an input-control element around select elements', function() {
         var markup = '<form><select /></form>',
-            element = $compile(markup)(scope),
+            element = this.$compile(markup)(this.scope),
             select = element.find('select');
-        scope.$apply();
+        this.scope.$apply();
 
         expect(select.parents('[input-control]').length).toBe(1);
     });
 
     it('adds an input-control element around textarea elements', function() {
         var markup = '<form><textarea /></form>',
-            element = $compile(markup)(scope),
+            element = this.$compile(markup)(this.scope),
             textarea = element.find('textarea');
-        scope.$apply();
+        this.scope.$apply();
 
         expect(textarea.parents('[input-control]').length).toBe(1);
     });
 
     it('moves ng-if from input element to wrapper', function() {
         var markup = '<form><textarea ng-show="true"/></form>',
-            element = $compile(markup)(scope);
+            element = this.$compile(markup)(this.scope);
 
-        scope.$apply();
+        this.scope.$apply();
 
         var textarea = element.find('textarea');
 

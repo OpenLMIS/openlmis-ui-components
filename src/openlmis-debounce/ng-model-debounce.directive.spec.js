@@ -15,24 +15,24 @@
 
 describe('ng-model debounce directive', function() {
 
-    var $compile, scope, $rootScope;
-
     beforeEach(function() {
         module('openlmis-tags-input');
         module('openlmis-debounce');
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            scope = $injector.get('$rootScope').$new();
-            $rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
         });
+
+        this.scope = this.$rootScope.$new();
+        this.getCompiledElement = getCompiledElement;
     });
 
     it('should add 500 ms debounce to ng-model', function() {
-        var element = getCompiledElement('<input type="text" ng-model="value">'),
+        var element = this.getCompiledElement('<input type="text" ng-model="value">'),
             ngModel = element.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toEqual({
             default: 500,
@@ -41,67 +41,67 @@ describe('ng-model debounce directive', function() {
     });
 
     it('should not override provided ngModelOptions by default value', function() {
-        var element = getCompiledElement('<input ng-model="value" ng-model-options="{debounce: 5000}">'),
+        var element = this.getCompiledElement('<input ng-model="value" ng-model-options="{debounce: 5000}">'),
             ngModel = element.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toEqual(5000);
     });
 
     it('child element should inherit ng-model-options from parent', function() {
-        var element = getCompiledElement(
+        var element = this.getCompiledElement(
                 '<td ng-model-options="{debounce: 5000}">' +
                     '<input ng-model="value" ng-model-options="{debounce: \'$inherit\'}">' +
                 '</td>'
             ),
             ngModel = element.find('input').controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toEqual(5000);
     });
 
     it('should not set debounce option for select', function() {
-        var select = getCompiledElement('<select ng-model="value"></select'),
+        var select = this.getCompiledElement('<select ng-model="value"></select'),
             ngModel = select.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toBeFalsy();
     });
 
     it('should not set debounce option for radio inputs', function() {
-        var input = getCompiledElement('<input type="radio" ng-model="value"></input>'),
+        var input = this.getCompiledElement('<input type="radio" ng-model="value"></input>'),
             ngModel = input.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toBeFalsy();
     });
 
     it('should not set debounce option for checkboxes', function() {
-        var input = getCompiledElement('<input type="checkbox" ng-model="value"></input>'),
+        var input = this.getCompiledElement('<input type="checkbox" ng-model="value"></input>'),
             ngModel = input.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toBeFalsy();
     });
 
     it('should not set debounce option for openlmisTagsInpuy', function() {
-        var input = getCompiledElement('<openlmis-tags-input></openlmis-tags-input>').find('input'),
+        var input = this.getCompiledElement('<openlmis-tags-input></openlmis-tags-input>').find('input'),
             ngModel = input.controller('ngModel');
 
-        $rootScope.$apply();
+        this.$rootScope.$apply();
 
         expect(ngModel.$options.$$options.debounce).toBeFalsy();
     });
 
     function getCompiledElement(html) {
-        var compiledElement = $compile(html)(scope);
+        var compiledElement = this.$compile(html)(this.scope);
         angular.element('body').append(compiledElement);
-        scope.$digest();
+        this.scope.$digest();
         return compiledElement;
     }
 

@@ -14,26 +14,25 @@
  */
 
 describe('analyticsStateChangeInterceptor', function() {
-    var analyticsService, $rootScope;
 
     beforeEach(function() {
         module('openlmis-analytics');
 
-        inject(function(_analyticsService_, _$rootScope_) {
-            analyticsService = _analyticsService_;
-            spyOn(analyticsService, 'track');
-
-            $rootScope = _$rootScope_;
+        inject(function($injector) {
+            this.analyticsService = $injector.get('analyticsService');
+            this.$rootScope = $injector.get('$rootScope');
         });
+
+        spyOn(this.analyticsService, 'track');
     });
 
     it('sends a page view event on $StateChangeSuccess', function() {
-        $rootScope.$broadcast('$stateChangeSuccess');
-        $rootScope.$apply();
+        this.$rootScope.$broadcast('$stateChangeSuccess');
+        this.$rootScope.$apply();
 
-        expect(analyticsService.track).toHaveBeenCalled();
-        expect(analyticsService.track.mostRecentCall.args[0]).toBe('send');
-        expect(analyticsService.track.mostRecentCall.args[1]).toBe('pageview');
+        expect(this.analyticsService.track).toHaveBeenCalled();
+        expect(this.analyticsService.track.mostRecentCall.args[0]).toBe('send');
+        expect(this.analyticsService.track.mostRecentCall.args[1]).toBe('pageview');
     });
 
 });

@@ -15,33 +15,30 @@
 
 describe('OpenlmisAppCacheController', function() {
 
-    var vm, $controller, $window, $rootScope, confirmService, applicationCacheMock, locationMock,
-        $q;
-
     beforeEach(function() {
         module('openlmis-app-cache');
 
         inject(function($injector) {
-            $window = $injector.get('$window');
-            confirmService = $injector.get('confirmService');
-            $rootScope = $injector.get('$rootScope');
-            $controller = $injector.get('$controller');
-            $q = $injector.get('$q');
+            this.$window = $injector.get('$window');
+            this.confirmService = $injector.get('confirmService');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$controller = $injector.get('$controller');
+            this.$q = $injector.get('$q');
         });
 
-        applicationCacheMock = jasmine.createSpyObj('applicationCache', [
+        this.applicationCacheMock = jasmine.createSpyObj('applicationCache', [
             'addEventListener', 'swapCache'
         ]);
-        applicationCacheMock.UPDATEREADY = $window.applicationCache.UPDATEREADY;
+        this.applicationCacheMock.UPDATEREADY = this.$window.applicationCache.UPDATEREADY;
 
-        locationMock = jasmine.createSpyObj('location', ['reload']);
+        this.locationMock = jasmine.createSpyObj('location', ['reload']);
 
-        spyOn(confirmService, 'confirm');
+        spyOn(this.confirmService, 'confirm');
 
-        vm = $controller('OpenlmisAppCacheController', {
+        this.vm = this.$controller('OpenlmisAppCacheController', {
             $window: {
-                applicationCache: applicationCacheMock,
-                location: locationMock
+                applicationCache: this.applicationCacheMock,
+                location: this.locationMock
             }
         });
     });
@@ -49,38 +46,38 @@ describe('OpenlmisAppCacheController', function() {
     describe('$onInit', function() {
 
         it('should set updateReady flag to true if update is ready', function() {
-            applicationCacheMock.status = $window.applicationCache.UPDATEREADY;
+            this.applicationCacheMock.status = this.$window.applicationCache.UPDATEREADY;
 
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.updateReady).toBe(true);
+            expect(this.vm.updateReady).toBe(true);
         });
 
         it('should set updateReady flag to false if update is not ready', function() {
-            applicationCacheMock.status = $window.applicationCache.CHECKING;
+            this.applicationCacheMock.status = this.$window.applicationCache.CHECKING;
 
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.updateReady).toBe(false);
+            expect(this.vm.updateReady).toBe(false);
         });
 
         it('should set a listener for appCache.UPDATEREADY', function() {
             var callback;
-            applicationCacheMock.addEventListener.andCallFake(function(event, handler) {
+            this.applicationCacheMock.addEventListener.andCallFake(function(event, handler) {
                 if (event === 'updateready') {
                     callback = handler;
                 }
             });
 
-            vm.$onInit();
+            this.vm.$onInit();
 
-            expect(vm.updateReady).toBe(false);
+            expect(this.vm.updateReady).toBe(false);
 
-            applicationCacheMock.status = $window.applicationCache.UPDATEREADY;
+            this.applicationCacheMock.status = this.$window.applicationCache.UPDATEREADY;
 
             callback();
 
-            expect(vm.updateReady).toBe(true);
+            expect(this.vm.updateReady).toBe(true);
         });
 
     });
@@ -88,63 +85,63 @@ describe('OpenlmisAppCacheController', function() {
     describe('updateCache', function() {
 
         beforeEach(function() {
-            vm.$onInit();
+            this.vm.$onInit();
         });
 
         it('should do nothing if update is not ready', function() {
-            vm.updateReady = false;
+            this.vm.updateReady = false;
 
-            vm.updateCache();
-            $rootScope.$apply();
+            this.vm.updateCache();
+            this.$rootScope.$apply();
 
-            expect(confirmService.confirm).not.toHaveBeenCalled();
-            expect(applicationCacheMock.swapCache).not.toHaveBeenCalled();
-            expect(locationMock.reload).not.toHaveBeenCalled();
+            expect(this.confirmService.confirm).not.toHaveBeenCalled();
+            expect(this.applicationCacheMock.swapCache).not.toHaveBeenCalled();
+            expect(this.locationMock.reload).not.toHaveBeenCalled();
         });
 
         it('should open confirmation modal before anything', function() {
-            vm.updateReady = true;
-            confirmService.confirm.andReturn($q.resolve());
+            this.vm.updateReady = true;
+            this.confirmService.confirm.andReturn(this.$q.resolve());
 
-            vm.updateCache();
+            this.vm.updateCache();
 
-            expect(confirmService.confirm).toHaveBeenCalledWith(
+            expect(this.confirmService.confirm).toHaveBeenCalledWith(
                 'openlmisAppCache.cacheUpdate.message',
                 'openlmisAppCache.cacheUpdate.label',
                 'openlmisAppCache.cacheUpdate.cancel',
                 'openlmisAppCache.cacheUpdate.title'
             );
 
-            expect(applicationCacheMock.swapCache).not.toHaveBeenCalled();
-            expect(locationMock.reload).not.toHaveBeenCalled();
+            expect(this.applicationCacheMock.swapCache).not.toHaveBeenCalled();
+            expect(this.locationMock.reload).not.toHaveBeenCalled();
         });
 
         it('should swap cache and reload after confirmation', function() {
-            vm.updateReady = true;
-            confirmService.confirm.andReturn($q.resolve());
+            this.vm.updateReady = true;
+            this.confirmService.confirm.andReturn(this.$q.resolve());
 
-            vm.updateCache();
-            $rootScope.$apply();
+            this.vm.updateCache();
+            this.$rootScope.$apply();
 
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect(applicationCacheMock.swapCache).toHaveBeenCalled();
-            expect(locationMock.reload).toHaveBeenCalled();
+            expect(this.confirmService.confirm).toHaveBeenCalled();
+            expect(this.applicationCacheMock.swapCache).toHaveBeenCalled();
+            expect(this.locationMock.reload).toHaveBeenCalled();
         });
 
         it('should swap cache and reload on logout after rejection', function() {
-            vm.updateReady = true;
-            confirmService.confirm.andReturn($q.reject());
+            this.vm.updateReady = true;
+            this.confirmService.confirm.andReturn(this.$q.reject());
 
-            vm.updateCache();
-            $rootScope.$apply();
+            this.vm.updateCache();
+            this.$rootScope.$apply();
 
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect(applicationCacheMock.swapCache).toHaveBeenCalled();
-            expect(locationMock.reload).not.toHaveBeenCalled();
+            expect(this.confirmService.confirm).toHaveBeenCalled();
+            expect(this.applicationCacheMock.swapCache).toHaveBeenCalled();
+            expect(this.locationMock.reload).not.toHaveBeenCalled();
 
-            $rootScope.$emit('openlmis-auth.logout');
+            this.$rootScope.$emit('openlmis-auth.logout');
 
-            expect(locationMock.reload).toHaveBeenCalled();
+            expect(this.locationMock.reload).toHaveBeenCalled();
         });
 
     });

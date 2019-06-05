@@ -15,49 +15,47 @@
 
 describe('featureFlagService', function() {
 
-    var featureFlagService;
-
     beforeEach(function() {
         module('openlmis-feature-flag');
 
         inject(function($injector) {
-            featureFlagService = $injector.get('featureFlagService');
+            this.featureFlagService = $injector.get('featureFlagService');
         });
     });
 
     describe('get', function() {
 
         it('should get flag value if set', function() {
-            featureFlagService.set('new-flag', '', true);
+            this.featureFlagService.set('new-flag', '', true);
 
-            expect(featureFlagService.get('new-flag')).toBe(true);
+            expect(this.featureFlagService.get('new-flag')).toBe(true);
         });
 
         it('should get undefined if flag is not set', function() {
-            expect(featureFlagService.get('new-flag')).toBeUndefined();
+            expect(this.featureFlagService.get('new-flag')).toBeUndefined();
         });
     });
 
     describe('set', function() {
 
         it('should set default flag value', function() {
-            featureFlagService.set('new-flag', '', true);
+            this.featureFlagService.set('new-flag', '', true);
 
-            expect(featureFlagService.get('new-flag')).toBe(true);
+            expect(this.featureFlagService.get('new-flag')).toBe(true);
 
-            featureFlagService.set('other-flag', '${OTHER_FLAG}', false);
+            this.featureFlagService.set('other-flag', '${OTHER_FLAG}', false);
 
-            expect(featureFlagService.get('other-flag')).toBe(false);
+            expect(this.featureFlagService.get('other-flag')).toBe(false);
         });
 
         it('should set given flag', function() {
-            featureFlagService.set('new-flag', 'false', true);
+            this.featureFlagService.set('new-flag', 'false', true);
 
-            expect(featureFlagService.get('new-flag')).toBe(false);
+            expect(this.featureFlagService.get('new-flag')).toBe(false);
 
-            featureFlagService.set('other-flag', 'true', false);
+            this.featureFlagService.set('other-flag', 'true', false);
 
-            expect(featureFlagService.get('other-flag')).toBe(true);
+            expect(this.featureFlagService.get('other-flag')).toBe(true);
         });
     });
 

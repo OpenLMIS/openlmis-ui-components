@@ -14,103 +14,96 @@
  */
 describe('formServerValidation', function() {
 
-    var $rootScope, $compile, $q, alertService, scope, formElement, ngSubmitDeferred;
-
     beforeEach(function() {
         module('openlmis-form');
 
         inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $compile = $injector.get('$compile');
-            $q = $injector.get('$q');
-            alertService = $injector.get('alertService');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$compile = $injector.get('$compile');
+            this.$q = $injector.get('$q');
+            this.alertService = $injector.get('alertService');
         });
 
-        ngSubmitDeferred = $q.defer();
+        this.scope = this.$rootScope.$new();
+        this.ngSubmitFn = jasmine.createSpy();
+        this.scope.someObject = {
+            submitMethod: this.ngSubmitFn
+        };
 
-        scope = $rootScope.$new();
-        scope.someObject = {
-            submitMethod: ngSubmitFn
+        spyOn(this.alertService, 'error');
+
+        this.createForm = function() {
+            this.formElement = this.$compile(
+                '<form name="testForm" ng-submit="someObject.submitMethod()">' +
+                '<input ng-model="inputOne" />' +
+                '<input id="inputTwo" name="inputTwo" ng-model="inputTwo" />' +
+                '<input id="submit" type="submit" />' +
+                '</form>'
+            )(this.scope);
         };
     });
 
     it('should decorate ngSubmit function', function() {
-        expect(scope.someObject.submitMethod).toBe(ngSubmitFn);
+        expect(this.scope.someObject.submitMethod).toBe(this.ngSubmitFn);
 
-        createForm();
+        this.createForm();
 
-        expect(scope.someObject.submitMethod).not.toBe(ngSubmitFn);
+        expect(this.scope.someObject.submitMethod).not.toBe(this.ngSubmitFn);
     });
 
     it('should display alert if response contains messageKey', function() {
         var message = 'someError';
 
-        spyOn(alertService, 'error');
-        createForm();
-
-        formElement.submit();
-        ngSubmitDeferred.reject({
+        this.ngSubmitFn.andReturn(this.$q.reject({
             data: {
                 message: message,
                 messageKey: 'someMessageKey'
             }
-        });
-        $rootScope.$apply();
+        }));
 
-        expect(alertService.error).toHaveBeenCalledWith(message);
+        this.createForm();
+        this.formElement.submit();
+        this.$rootScope.$apply();
+
+        expect(this.alertService.error).toHaveBeenCalledWith(message);
     });
 
     it('should set model validity if response does not contain messageKey', function() {
         var inputTwoModel;
-
-        createForm();
-        inputTwoModel = formElement.find('#inputTwo').controller('ngModel');
-        spyOn(inputTwoModel, '$setValidity');
-
-        formElement.submit();
-        ngSubmitDeferred.reject({
+        this.ngSubmitFn.andReturn(this.$q.reject({
             data: {
                 inputTwo: 'notCool'
             }
-        });
-        $rootScope.$apply();
+        }));
+
+        this.createForm();
+        inputTwoModel = this.formElement.find('#inputTwo').controller('ngModel');
+        spyOn(inputTwoModel, '$setValidity');
+
+        this.formElement.submit();
+        this.$rootScope.$apply();
 
         expect(inputTwoModel.$setValidity).toHaveBeenCalledWith('notCool', false);
     });
 
     it('should set model validity if model value changed', function() {
-        var inputTwoModel;
-
-        createForm();
-        inputTwoModel = formElement.find('#inputTwo').controller('ngModel');
-        spyOn(inputTwoModel, '$setValidity');
-
-        formElement.submit();
-        ngSubmitDeferred.reject({
+        this.ngSubmitFn.andReturn(this.$q.reject({
             data: {
                 inputTwo: 'notCool'
             }
-        });
-        $rootScope.$apply();
-        formElement.find('#inputTwo')
+        }));
+
+        this.createForm();
+        var inputTwoModel = this.formElement.find('#inputTwo').controller('ngModel');
+        spyOn(inputTwoModel, '$setValidity');
+
+        this.formElement.submit();
+        this.$rootScope.$apply();
+        this.formElement.find('#inputTwo')
             .val('otherValue')
             .trigger('input');
 
         expect(inputTwoModel.$setValidity).toHaveBeenCalledWith('notCool', true);
     });
-
-    function createForm() {
-        formElement = $compile(
-            '<form name="testForm" ng-submit="someObject.submitMethod()">' +
-                '<input ng-model="inputOne" />' +
-                '<input id="inputTwo" name="inputTwo" ng-model="inputTwo" />' +
-                '<input id="submit" type="submit" />' +
-            '</form>'
-        )(scope);
-    }
-
-    function ngSubmitFn() {
-        return ngSubmitDeferred.promise;
-    }
 
 });

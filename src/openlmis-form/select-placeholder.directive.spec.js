@@ -15,36 +15,32 @@
 
 describe('Select directive', function() {
 
-    'use strict';
-
-    var $compile, scope;
-
     beforeEach(function() {
-        module('openlmis-templates');
-    });
+        module('openlmis-form');
 
-    beforeEach(module('openlmis-form'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.messageService = $injector.get('messageService');
+        });
 
-    beforeEach(inject(function(_$compile_, $rootScope) {
-        $compile = _$compile_;
-        scope = $rootScope.$new();
-    }));
-
-    beforeEach(inject(function(messageService) {
-        spyOn(messageService, 'get').andCallFake(function(key) {
+        spyOn(this.messageService, 'get').andCallFake(function(key) {
             return key;
         });
-    }));
 
-    function makeElement(string) {
-        var element = $compile(string)(scope);
-        scope.$apply();
-        return element;
-    }
+        this.scope = this.$rootScope.$new();
+
+        var context = this;
+        this.makeElement = function makeElement(template) {
+            var element = context.$compile(template)(context.scope);
+            context.scope.$apply();
+            return element;
+        };
+    });
 
     it('shows placeholder attribute as first option', function() {
-        scope.options = [];
-        var element = makeElement(
+        this.scope.options = [];
+        var element = this.makeElement(
             '<select></select>'
         );
 
@@ -55,8 +51,8 @@ describe('Select directive', function() {
     });
 
     it('reads the placeholder value of an element', function() {
-        scope.options = [];
-        var element = makeElement(
+        this.scope.options = [];
+        var element = this.makeElement(
             '<select placeholder="something"></select>'
         );
 
@@ -64,7 +60,7 @@ describe('Select directive', function() {
     });
 
     it('won\'t overwrite a placeholder that is set as an option', function() {
-        var element = makeElement(
+        var element = this.makeElement(
             '<select placeholder="something">'
             + '<option value="">My Placeholder</option>'
             + '</select>'
@@ -74,7 +70,7 @@ describe('Select directive', function() {
     });
 
     it('will not use a placeholder when no-placeholder is set', function() {
-        var element = makeElement(
+        var element = this.makeElement(
             '<select no-placeholder>'
             + '<option value="1">First element</option>'
             + '<option value="2">Second element</option>'

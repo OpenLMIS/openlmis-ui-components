@@ -15,19 +15,17 @@
 
 describe('currencyService', function() {
 
-    var $httpBackend, currencyService, openlmisUrlFactory, localStorageService, currencySettings, settingsJson;
-
     beforeEach(function() {
         module('openlmis-currency');
 
         inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            currencyService = $injector.get('currencyService');
-            openlmisUrlFactory = $injector.get('openlmisUrlFactory');
-            localStorageService = $injector.get('localStorageService');
+            this.$httpBackend = $injector.get('$httpBackend');
+            this.currencyService = $injector.get('currencyService');
+            this.openlmisUrlFactory = $injector.get('openlmisUrlFactory');
+            this.localStorageService = $injector.get('localStorageService');
         });
 
-        currencySettings = {
+        this.currencySettings = {
             currencyCode: 'USD',
             currencySymbol: '$',
             currencySymbolSide: 'left',
@@ -37,40 +35,40 @@ describe('currencyService', function() {
             decimalSeparator: '.'
         };
 
-        settingsJson = angular.toJson(currencySettings);
+        this.settingsJson = angular.toJson(this.currencySettings);
     });
 
     it('should get currency settings from storage', function() {
-        spyOn(localStorageService, 'get').andReturn(settingsJson);
+        spyOn(this.localStorageService, 'get').andReturn(this.settingsJson);
 
-        expect(currencyService.getFromStorage()).toEqual(currencySettings);
+        expect(this.currencyService.getFromStorage()).toEqual(this.currencySettings);
     });
 
     it('should get currency settings and save it to storage', function() {
-        $httpBackend
-            .when('GET', openlmisUrlFactory('/api/currencySettings'))
-            .respond(200, currencySettings);
-        spyOn(localStorageService, 'add');
+        this.$httpBackend
+            .when('GET', this.openlmisUrlFactory('/api/currencySettings'))
+            .respond(200, this.currencySettings);
+        spyOn(this.localStorageService, 'add');
 
-        currencyService.getCurrencySettings();
+        this.currencyService.getCurrencySettings();
 
-        $httpBackend.flush();
+        this.$httpBackend.flush();
 
-        expect(localStorageService.add)
-            .toHaveBeenCalledWith('currencySettings', settingsJson);
+        expect(this.localStorageService.add)
+            .toHaveBeenCalledWith('currencySettings', this.settingsJson);
     });
 
     it('should get currency settings from config and save it to storage', function() {
-        spyOn(localStorageService, 'add');
+        spyOn(this.localStorageService, 'add');
 
-        currencyService.getCurrencySettingsFromConfig();
+        this.currencyService.getCurrencySettingsFromConfig();
 
-        expect(localStorageService.add).toHaveBeenCalled();
+        expect(this.localStorageService.add).toHaveBeenCalled();
     });
 
     afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
+        this.$httpBackend.verifyNoOutstandingExpectation();
+        this.$httpBackend.verifyNoOutstandingRequest();
     });
 
 });

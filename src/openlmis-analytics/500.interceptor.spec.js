@@ -15,34 +15,33 @@
 
 describe('analytics500Interceptor', function() {
 
-    var provider, analyticsService, interceptors, response;
-
     beforeEach(function() {
+        var context = this;
         module('openlmis-analytics', function($provide, $httpProvider) {
-            interceptors = $httpProvider.interceptors;
+            context.interceptors = $httpProvider.interceptors;
         });
 
         inject(function(analytics500Interceptor, _analyticsService_) {
-            provider = analytics500Interceptor;
-            analyticsService = _analyticsService_;
+            this.provider = analytics500Interceptor;
+            this.analyticsService = _analyticsService_;
 
-            spyOn(analyticsService, 'track');
+            spyOn(this.analyticsService, 'track');
         });
 
-        response = {};
+        this.response = {};
     });
 
     it('should be registered', function() {
-        expect(interceptors.indexOf('analytics500Interceptor')).toBeGreaterThan(-1);
+        expect(this.interceptors.indexOf('analytics500Interceptor')).toBeGreaterThan(-1);
     });
 
     it('should send event to Google Analytics on 5xx status', function() {
-        response.status = 500;
+        this.response.status = 500;
 
-        provider.responseError(response);
+        this.provider.responseError(this.response);
 
-        expect(analyticsService.track).toHaveBeenCalled();
-        expect(analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('5xx Error');
+        expect(this.analyticsService.track).toHaveBeenCalled();
+        expect(this.analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('5xx Error');
     });
 
 });

@@ -15,71 +15,74 @@
 
 describe('Input Control directive', function() {
 
-    var form, element, inputs, scope;
+    beforeEach(function() {
+        module('openlmis-form');
 
-    beforeEach(module('openlmis-form'));
+        inject(function($injector) {
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+        });
 
-    beforeEach(inject(function($compile, $rootScope) {
-        scope = $rootScope.$new();
+        this.scope = this.$rootScope.$new();
 
         var markup = '<form name="exampleForm">' +
             '<div input-control openlmis-invalid>' +
-                '<input ng-model="example" ng-hide="hideOne" required />' +
-                '<input ng-model="foo" ng-hide="hideTwo" />' +
+            '<input ng-model="example" ng-hide="hideOne" required />' +
+            '<input ng-model="foo" ng-hide="hideTwo" />' +
             '</div>' +
-        '</form>';
-        form = angular.element(markup).appendTo('body');
-        $compile(form)(scope);
+            '</form>';
+        this.form = angular.element(markup).appendTo('body');
+        this.$compile(this.form)(this.scope);
 
-        scope.exampleForm.$setSubmitted();
+        this.scope.exampleForm.$setSubmitted();
 
-        scope.$apply();
+        this.scope.$apply();
 
-        element = form.find('[input-control]');
-        inputs = element.find('input');
-    }));
+        this.element = this.form.find('[input-control]');
+        this.inputs = this.element.find('input');
+    });
 
     it('adds is-focused class when child inputs get focus', function() {
-        var input = element.find('input:first');
+        var input = this.element.find('input:first');
 
         input.focus();
-        scope.$apply();
+        this.scope.$apply();
 
-        expect(element.hasClass('is-focused')).toBe(true);
+        expect(this.element.hasClass('is-focused')).toBe(true);
 
         input.blur();
-        scope.$apply();
+        this.scope.$apply();
 
-        expect(element.hasClass('is-focused')).toBe(false);
+        expect(this.element.hasClass('is-focused')).toBe(false);
     });
 
     it('gets disabled class when all child inputs are disabled', function() {
-        expect(element.hasClass('is-disabled')).toBe(false);
+        expect(this.element.hasClass('is-disabled')).toBe(false);
 
-        inputs.prop('disabled', true);
-        scope.$apply();
+        this.inputs.prop('disabled', true);
+        this.scope.$apply();
 
-        expect(element.hasClass('is-disabled')).toBe(true);
+        expect(this.element.hasClass('is-disabled')).toBe(true);
 
-        element.find('input:first').prop('disabled', false);
-        scope.$apply();
+        this.element.find('input:first').prop('disabled', false);
+        this.scope.$apply();
 
-        expect(element.hasClass('is-disabled')).toBe(false);
+        expect(this.element.hasClass('is-disabled')).toBe(false);
     });
 
     it('gets hidden if there are no visible child elements', function() {
-        expect(element.is(':visible')).toBe(true);
+        expect(this.element.is(':visible')).toBe(true);
 
-        scope.hideOne = true;
-        scope.hideTwo = true;
-        scope.$apply();
+        this.scope.hideOne = true;
+        this.scope.hideTwo = true;
+        this.scope.$apply();
 
-        expect(element.is(':visible')).toBe(false);
+        expect(this.element.is(':visible')).toBe(false);
 
-        scope.hideOne = false;
-        scope.$apply();
+        this.scope.hideOne = false;
+        this.scope.$apply();
 
-        expect(element.is(':visible')).toBe(true);
+        expect(this.element.is(':visible')).toBe(true);
     });
 
 });

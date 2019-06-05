@@ -13,91 +13,85 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/*describe('File input directive', function() {
-
-    var $timeout, $rootScope, $compile,
-        input, inputElement, scope, file;
+describe('File input directive', function() {
 
     beforeEach(function() {
-
         module('openlmis-file-upload');
         module('openlmis-form');
 
         inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
+            this.$compile = $injector.get('$compile');
+            this.$rootScope = $injector.get('$rootScope');
+            this.$timeout = $injector.get('$timeout');
         });
 
-        var markup = '<form><input type="file" ng-model="example" id="file" accept=".csv"/></form>';
+        var markup = '<form><input id="file" type="file" ng-model="example" id="file" accept=".csv"/></form>';
+        this.scope = this.$rootScope.$new();
+        this.input = this.$compile(markup)(this.scope);
+        this.scope.$apply();
+        this.$timeout.flush();
 
-        scope = $rootScope.$new();
+        this.inputElement = angular.element(this.input.find('input'));
+        this.parent = this.inputElement.parent();
 
-        input = $compile(markup)(scope);
-        angular.element('body').append(input);
-
-        scope.$apply();
-        $timeout.flush();
-
-        inputElement = angular.element(document.querySelector('#file'));
-
-        parent = input.parent();
-
-        file = {
+        this.file = {
             name: 'file.csv'
         };
     });
 
     it('should add openlmis-file-input class to parent', function() {
-        expect(parent.hasClass('openlmis-file-input')).toBe(true);
+        expect(this.parent.hasClass('openlmis-file-upload')).toBe(true);
     });
 
     it('should assign file value to ng-model', function() {
-        inputElement.triggerHandler({
+        this.inputElement.triggerHandler({
             type: 'change',
             target: {
-                files: [file]
+                files: [this.file]
             }
         });
-        scope.$apply();
+        this.scope.$apply();
 
-        expect(scope.example).toEqual(file);
+        expect(this.scope.example).toEqual(this.file);
     });
 
     it('should clear ng-model', function() {
-        file.name = 'file.abc';
-        inputElement.triggerHandler({
+        this.file.name = 'file.abc';
+        this.inputElement.triggerHandler({
             type: 'change',
             target: {
-                files: [file]
+                files: [this.file]
             }
         });
-        scope.$apply();
+        this.scope.$apply();
 
-        expect(scope.example).toEqual(file);
+        expect(this.scope.example).toEqual(this.file);
 
-        scope.clear();
-        scope.$apply();
+        this.scope.clear();
+        this.scope.$apply();
 
-        expect(scope.example).toEqual(undefined);
+        expect(this.scope.example).toEqual(undefined);
     });
 
     it('should trigger click after clicking select button', function() {
         var result;
-        inputElement.on('change', function() {
+        this.inputElement.on('click', function() {
             result = 'click-triggered';
         });
 
-        scope.select();
-        $rootScope.$apply();
+        this.inputElement.parent().find('button')
+            .trigger('click');
+
+        this.scope.select();
+        this.$rootScope.$apply();
 
         expect(result).toEqual('click-triggered');
     });
 
     it('should expose file name', function() {
-        scope.example = file;
-        scope.$apply();
+        this.scope.example = this.file;
+        this.scope.$apply();
 
-        expect(scope.getFileName()).toEqual(file.name);
+        expect(this.scope.getFileName()).toEqual(this.file.name);
     });
-});*/
+});
