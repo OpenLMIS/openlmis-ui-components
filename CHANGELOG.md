@@ -3,6 +3,7 @@
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-6350](https://openlmis.atlassian.net/browse/OLMIS-6350): Added openlmisOkIcon component.
+* [OLMIS-6380](https://openlmis.atlassian.net/browse/OLMIS-6380): Added openlmis-datetime module.
 
 7.1.0 / 2019-05-27
 ==================

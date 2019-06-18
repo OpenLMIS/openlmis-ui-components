@@ -79,6 +79,15 @@
   version "3.3.7"
   resolved "https://codeload.github.com/twbs/bootstrap-sass/tar.gz/5d6b2ebba0c2a5885ce2f0e01e9218db3d3b5e47"
 
+"@bower_components/eonasdan/bootstrap-datetimepicker@eonasdan/bootstrap-datetimepicker#^4.17.47":
+  version "4.17.47"
+  resolved "https://codeload.github.com/eonasdan/bootstrap-datetimepicker/tar.gz/25c11d79e614bc6463a87c3dd9cbf8280422e006"
+  dependencies:
+    bootstrap "^3.3"
+    jquery "^1.8.3 || ^2.0 || ^3.0"
+    moment "^2.10"
+    moment-timezone "^0.4.0"
+
 "@bower_components/font-awesome@FortAwesome/Font-Awesome#^4.6.3":
   version "4.7.0"
   resolved "https://codeload.github.com/FortAwesome/Font-Awesome/tar.gz/a8386aae19e200ddb0f6845b5feeee5eb7013687"
@@ -263,6 +272,11 @@ boom@5.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-5.2.0.tgz#5dd9da6ee3a5f302077436290cb717d3f4a54e02"
   dependencies:
     hoek "4.x.x"
+
+bootstrap@^3.3:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.4.1.tgz#c3a347d419e289ad11f4033e3c4132b87c081d72"
+  integrity sha512-yN5oZVmRCwe5aKwzRj6736nSmKDX7pLYwsXiCj/EYmo16hODaBiT4En5btW/jhBF/seV+XMx3aYwukYC3A49DA==
 
 buffer-alloc-unsafe@^1.1.0:
   version "1.1.0"
@@ -680,6 +694,11 @@ jquery-mousewheel@~3.1.13:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
+"jquery@^1.8.3 || ^2.0 || ^3.0":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
+  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -834,7 +853,14 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-"moment@>= 2.9.0":
+moment-timezone@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.4.1.tgz#81f598c3ad5e22cdad796b67ecd8d88d0f5baa06"
+  integrity sha1-gfWYw61eIs2teWtn7NjYjQ9bqgY=
+  dependencies:
+    moment ">= 2.6.0"
+
+"moment@>= 2.6.0", "moment@>= 2.9.0", moment@^2.10:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
