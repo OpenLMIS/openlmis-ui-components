@@ -35,13 +35,13 @@ describe('openlmisDatetimePicker directive', function() {
     it('should show initial value', function() {
         this.$scope.datetime = '2019-06-18T09:40:07.825Z';
 
-        this.compileMarkup('<input type="datetime" ng-model="datetime"/>');
+        this.compileMarkup('<input type="text" openlmis-datetimepicker ng-model="datetime"/>');
 
         expect(this.element.val()).toEqual('06/18/2019 9:40 AM');
     });
 
     it('should update model after user enters date', function() {
-        this.compileMarkup('<input type="datetime" ng-model="datetime"/>');
+        this.compileMarkup('<input type="text" openlmis-datetimepicker ng-model="datetime"/>');
 
         this.element.triggerHandler({
             type: 'dp.change',
@@ -54,7 +54,7 @@ describe('openlmisDatetimePicker directive', function() {
     it('should set min date', function() {
         this.$scope.minDate = '2019-06-18T09:40:07.825Z';
 
-        this.compileMarkup('<input type="datetime" ng-model="datetime" min-date="minDate"/>');
+        this.compileMarkup('<input type="text" openlmis-datetimepicker ng-model="datetime" min-date="minDate"/>');
 
         expect(this.element.data('DateTimePicker').minDate()).toEqual(this.moment('2019-06-18T09:40:07.825Z'));
     });
@@ -62,7 +62,7 @@ describe('openlmisDatetimePicker directive', function() {
     it('should set max date', function() {
         this.$scope.maxDate = '2019-06-18T09:40:07.825Z';
 
-        this.compileMarkup('<input type="datetime" ng-model="datetime" max-date="maxDate"/>');
+        this.compileMarkup('<input type="text" openlmis-datetimepicker ng-model="datetime" max-date="maxDate"/>');
 
         expect(this.element.data('DateTimePicker').maxDate()).toEqual(this.moment('2019-06-18T09:40:07.825Z'));
     });

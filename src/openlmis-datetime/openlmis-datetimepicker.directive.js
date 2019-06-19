@@ -29,7 +29,8 @@
      * Datetime picker directive can take max-date and min-date attributes. Their values can be set from other datetime
      * picker or manually.
      * ```
-     * <input type="datetime"
+     * <input type="text"
+     *     openlmis-datetimepicker
      *     ng-model="startDate"
      *     id="datepicker-id"
      *     min-date="10/05/2016"
@@ -38,28 +39,20 @@
      */
     angular
         .module('openlmis-datetime')
-        .directive('input', openlmisDatetimePickerDirective);
+        .directive('openlmisDatetimepicker', openlmisDatetimePickerDirective);
 
     openlmisDatetimePickerDirective.$inject = ['messageService', 'localeService', 'moment'];
 
     function openlmisDatetimePickerDirective(messageService, localeService, moment) {
         return {
-            restrict: 'E',
-            compile: compile,
+            restrict: 'A',
+            link: link,
             scope: {
                 minDate: '=?',
                 maxDate: '=?'
             },
             require: 'ngModel'
         };
-
-        function compile(element) {
-            if (element.attr('type') === 'datetime') {
-                element.attr('type', 'text');
-
-                return link;
-            }
-        }
 
         function link(scope, element, attrs, ngModelCtrl) {
             element.datetimepicker({
@@ -100,7 +93,10 @@
                 if (ngModelCtrl.$viewValue && isNaN(ngModelCtrl.$viewValue)) {
                     dateTimePicker.defaultDate(moment(ngModelCtrl.$viewValue));
                 }
-                dateTimePicker.defaultDate(ngModelCtrl.$viewValue);
+
+                if (ngModelCtrl.$viewValue) {
+                    dateTimePicker.defaultDate(ngModelCtrl.$viewValue);
+                }
             };
 
             ngModelCtrl.$formatters.push(function(modelValue) {
