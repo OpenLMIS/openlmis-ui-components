@@ -1,0 +1,12 @@
+<article class="message">
+    <header>
+        <div class="title">{{$ctrl.title}}</div>
+        <div class="date">
+            {{$ctrl.userFirstName}}
+            {{$ctrl.userLastName}}
+            on
+            {{$ctrl.createdDate | openlmisDate}}
+        </div>
+    </header>
+    <div class="content">{{$ctrl.message}}</div>
+</article>

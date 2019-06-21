@@ -1,0 +1,22 @@
+.message {
+  @extend .clearfix;
+  margin-top: 1em;
+  padding-bottom: 1em;
+
+  > header {
+    margin-bottom: 1em;
+
+    >.title {
+      font-weight: bold;
+    }
+
+    > .date {
+      font-style: italic;
+    }
+  }
+
+  > .content {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
