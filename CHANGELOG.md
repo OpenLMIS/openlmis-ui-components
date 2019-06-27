@@ -6,6 +6,9 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-6380](https://openlmis.atlassian.net/browse/OLMIS-6380): Added openlmis-datetime module.
 * [OLMIS-6361](https://openlmis.atlassian.net/browse/OLMIS-6361): Added openlmis-message component.
 
+Improvements:
+* [OLMIS-6357](https://openlmis.atlassian.net/browse/OLMIS-6357): Updated LocalDatabase to reopen database connection for every action.
+
 7.1.0 / 2019-05-27
 ==================
 

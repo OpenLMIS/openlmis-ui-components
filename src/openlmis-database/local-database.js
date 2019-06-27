@@ -57,7 +57,8 @@
          * @param       {[type]} resourceName the name of the resource to create/open the database
          */
         function LocalDatabase(resourceName) {
-            this.pouchDb = new PouchDBWrapper(resourceName);
+            this.resourceName = resourceName;
+            this.pouchDb = new PouchDBWrapper(this.resourceName);
         }
 
         /**
@@ -78,8 +79,8 @@
         function put(doc) {
             validate(doc);
 
-            var pouchDb = this.pouchDb;
-            return this.pouchDb.get(doc.id)
+            var pouchDb = new PouchDBWrapper(this.resourceName);
+            return pouchDb.get(doc.id)
                 .then(function(stored) {
                     doc._id = stored._id;
                     doc._rev = stored._rev;
@@ -109,7 +110,7 @@
             docs.forEach(function(doc) {
                 doc._id = doc.id;
             });
-            return this.pouchDb.bulkDocs(docs);
+            return new PouchDBWrapper(this.resourceName).bulkDocs(docs);
         }
 
         /**
@@ -128,7 +129,7 @@
          */
         function get(id) {
             validateId(id);
-            return this.pouchDb.get(id);
+            return new PouchDBWrapper(this.resourceName).get(id);
         }
 
         /**
@@ -144,7 +145,7 @@
          *                      be retrieved for any reason
          */
         function getAll() {
-            return this.pouchDb
+            return new PouchDBWrapper(this.resourceName)
                 .allDocs({
                     //eslint-disable-next-line camelcase
                     include_docs: true
@@ -171,8 +172,8 @@
         function remove(id) {
             validateId(id);
 
-            var pouchDb = this.pouchDb;
-            return this
+            var pouchDb = new PouchDBWrapper(this.resourceName);
+            return pouchDb
                 .get(id)
                 .then(function(doc) {
                     return pouchDb.remove(doc._id, doc._rev);
@@ -192,14 +193,7 @@
          *                      rejected if the documents couldn't be deleted for any reason
          */
         function removeAll() {
-            var database = this,
-                name = this.pouchDb.name;
-
-            return this.pouchDb
-                .destroy()
-                .then(function() {
-                    database.pouchDb = new PouchDBWrapper(name);
-                });
+            return new PouchDBWrapper(this.resourceName).destroy();
         }
 
         function validate(doc) {
