@@ -58,7 +58,6 @@
          */
         function LocalDatabase(resourceName) {
             this.resourceName = resourceName;
-            this.pouchDb = new PouchDBWrapper(this.resourceName);
         }
 
         /**
