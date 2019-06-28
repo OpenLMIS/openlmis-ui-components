@@ -1,14 +1,13 @@
 <article class="message">
     <header>
         <div class="title">
-            <p>{{$ctrl.messageTitle}}</p>
+            <p>{{ctrl.messageTitle}}</p>
         </div>
-        <div class="date">
-            {{$ctrl.userFirstName}}
-            {{$ctrl.userLastName}}
-            {{'openlmisMessage.on' | message}}
-            {{$ctrl.createdDate | openlmisDate}}
-        </div>
+        <openlmis-message-creation-details
+            user-first-name="ctrl.userFirstName"
+            user-last-name="ctrl.userLastName"
+            created-date="ctrl.createdDate">
+        </openlmis-message-creation-details>
     </header>
-    <div class="content">{{$ctrl.messageContent}}</div>
+    <div class="content">{{ctrl.messageContent}}</div>
 </article>

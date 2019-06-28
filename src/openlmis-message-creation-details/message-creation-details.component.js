@@ -19,33 +19,30 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-message.component:message
+     * @name openlmis-message-creation-details.component:openlmis-message-creation-details
      *
      * @description
-     * Displays openlmis messages.
+     * Displays message author name with created date.
      *
      * @example
      * Here's an example of usage:
      * ```
-     * <openlmis-message
-     *      message-title="vm.title"
+     * <openlmis-message-creation-details
      *      user-first-name="vm.userFirstName"
      *      user-last-name="vm.userLastName"
-     *      created-date="vm.createdDate"
-     *      message-content="vm.message">
-     * </openlmis-message>
+     *      created-date="vm.createdDate">
+     * </openlmis-message-creation-details>
      * ```
      */
     angular
-        .module('openlmis-message')
-        .component('openlmisMessage', {
-            templateUrl: 'openlmis-message/message.html',
-            controllerAs: 'ctrl',
+        .module('openlmis-message-creation-details')
+        .component('openlmisMessageCreationDetails', {
+            controller: 'MessageCreationDetailsController',
+            controllerAs: 'messageCreationDetailsCtrl',
+            templateUrl: 'openlmis-message-creation-details/message-creation-details.html',
             bindings: {
-                messageTitle: '<',
                 userFirstName: '<',
                 userLastName: '<',
-                messageContent: '<',
                 createdDate: '<'
             }
         });

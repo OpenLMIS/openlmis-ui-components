@@ -18,36 +18,36 @@
     'use strict';
 
     /**
-     * @ngdoc directive
-     * @name openlmis-message.component:message
+     * @ngdoc controller
+     * @name openlmis-message-creation-details.controller:MessageCreationDetailsController
      *
      * @description
-     * Displays openlmis messages.
-     *
-     * @example
-     * Here's an example of usage:
-     * ```
-     * <openlmis-message
-     *      message-title="vm.title"
-     *      user-first-name="vm.userFirstName"
-     *      user-last-name="vm.userLastName"
-     *      created-date="vm.createdDate"
-     *      message-content="vm.message">
-     * </openlmis-message>
-     * ```
+     * Responsible for managing message creation details.
      */
     angular
-        .module('openlmis-message')
-        .component('openlmisMessage', {
-            templateUrl: 'openlmis-message/message.html',
-            controllerAs: 'ctrl',
-            bindings: {
-                messageTitle: '<',
-                userFirstName: '<',
-                userLastName: '<',
-                messageContent: '<',
-                createdDate: '<'
-            }
-        });
+        .module('openlmis-message-creation-details')
+        .controller('MessageCreationDetailsController', controller);
 
+    controller.$inject = ['$filter'];
+
+    function controller($filter) {
+
+        var ctrl = this;
+
+        ctrl.$onInit = onInit;
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-message-creation-details.controller:MessageCreationDetailsController
+         * @name onInit
+         *
+         * @description
+         * Initiate method for MessageCreationDetailsController.
+         */
+        function onInit() {
+            if (ctrl.createdDate) {
+                ctrl.createdDate = $filter('openlmisDate')(ctrl.createdDate);
+            }
+        }
+    }
 })();

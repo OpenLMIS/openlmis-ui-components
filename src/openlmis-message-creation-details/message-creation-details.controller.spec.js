@@ -13,21 +13,28 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function() {
+describe('MessageCreationDetailsController', function() {
 
-    'use strict';
+    beforeEach(function() {
+        module('openlmis-message-creation-details');
+        module('openlmis-date');
 
-    /**
-     * @module openlmis-message
-     *
-     * @description
-     * The openlmis-message module is responsible for displaying
-     * message/comment elements within the OpenLMIS-UI.
-     */
-    angular.module('openlmis-message', [
-        'openlmis-templates',
-        'ui.router',
-        'openlmis-message-creation-details'
-    ]);
+        inject(function($injector) {
+            this.$filter = $injector.get('$filter');
+            this.$controller = $injector.get('$controller');
+        });
 
-})();
+        this.vm = this.$controller('MessageCreationDetailsController');
+        this.dateFilter = this.$filter('openlmisDate');
+    });
+
+    describe('init', function() {
+
+        it('should use filter to display date in user-friendly format', function() {
+            this.vm.createdDate = '2019-06-28T12:27:13.920Z';
+            this.vm.$onInit();
+
+            expect(this.vm.createdDate).toEqual('28/06/2019');
+        });
+    });
+});

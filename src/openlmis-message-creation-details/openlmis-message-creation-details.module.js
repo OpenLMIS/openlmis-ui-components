@@ -18,36 +18,15 @@
     'use strict';
 
     /**
-     * @ngdoc directive
-     * @name openlmis-message.component:message
+     * @module openlmis-message-creation-details
      *
      * @description
-     * Displays openlmis messages.
-     *
-     * @example
-     * Here's an example of usage:
-     * ```
-     * <openlmis-message
-     *      message-title="vm.title"
-     *      user-first-name="vm.userFirstName"
-     *      user-last-name="vm.userLastName"
-     *      created-date="vm.createdDate"
-     *      message-content="vm.message">
-     * </openlmis-message>
-     * ```
+     * The openlmis-message-creation-details module is responsible for displaying
+     * message/comment creation details within the OpenLMIS-UI.
      */
-    angular
-        .module('openlmis-message')
-        .component('openlmisMessage', {
-            templateUrl: 'openlmis-message/message.html',
-            controllerAs: 'ctrl',
-            bindings: {
-                messageTitle: '<',
-                userFirstName: '<',
-                userLastName: '<',
-                messageContent: '<',
-                createdDate: '<'
-            }
-        });
+    angular.module('openlmis-message-creation-details', [
+        'openlmis-templates',
+        'ui.router'
+    ]);
 
 })();
