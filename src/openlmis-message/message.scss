@@ -9,6 +9,13 @@
 
     >.title {
       font-weight: bold;
+      display: block;
+      max-width: 65%;
+
+      > p {
+        overflow-wrap: break-word;
+        word-break: break-all;
+      }
     }
 
     > .date {

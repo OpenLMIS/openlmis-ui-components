@@ -28,11 +28,11 @@
      * Here's an example of usage:
      * ```
      * <openlmis-message
-     *      title="vm.title"
+     *      message-title="vm.title"
      *      user-first-name="vm.userFirstName"
      *      user-last-name="vm.userLastName"
      *      created-date="vm.createdDate"
-     *      message="vm.message">
+     *      message-content="vm.message">
      * </openlmis-message>
      * ```
      */
@@ -41,10 +41,10 @@
         .component('openlmisMessage', {
             templateUrl: 'openlmis-message/message.html',
             bindings: {
-                title: '<',
+                messageTitle: '<',
                 userFirstName: '<',
                 userLastName: '<',
-                message: '<',
+                messageContent: '<',
                 createdDate: '<'
             }
         });

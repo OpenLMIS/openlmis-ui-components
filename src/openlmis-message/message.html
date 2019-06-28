@@ -1,6 +1,8 @@
 <article class="message">
     <header>
-        <div class="title">{{$ctrl.title}}</div>
+        <div class="title">
+            <p>{{$ctrl.messageTitle}}</p>
+        </div>
         <div class="date">
             {{$ctrl.userFirstName}}
             {{$ctrl.userLastName}}
@@ -8,5 +10,5 @@
             {{$ctrl.createdDate | openlmisDate}}
         </div>
     </header>
-    <div class="content">{{$ctrl.message}}</div>
+    <div class="content">{{$ctrl.messageContent}}</div>
 </article>
