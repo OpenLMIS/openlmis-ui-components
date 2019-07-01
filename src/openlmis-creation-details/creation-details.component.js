@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc directive
-     * @name openlmis-message-creation-details.component:openlmis-message-creation-details
+     * @name openlmis-creation-details.component:openlmis-creation-details
      *
      * @description
      * Displays message author name with created date.
@@ -27,19 +27,19 @@
      * @example
      * Here's an example of usage:
      * ```
-     * <openlmis-message-creation-details
+     * <openlmis-creation-details
      *      user-first-name="vm.userFirstName"
      *      user-last-name="vm.userLastName"
      *      created-date="vm.createdDate">
-     * </openlmis-message-creation-details>
+     * </openlmis-creation-details>
      * ```
      */
     angular
-        .module('openlmis-message-creation-details')
-        .component('openlmisMessageCreationDetails', {
-            controller: 'MessageCreationDetailsController',
-            controllerAs: 'messageCreationDetailsCtrl',
-            templateUrl: 'openlmis-message-creation-details/message-creation-details.html',
+        .module('openlmis-creation-details')
+        .component('openlmisCreationDetails', {
+            controller: 'CreationDetailsController',
+            controllerAs: 'creationDetailsCtrl',
+            templateUrl: 'openlmis-creation-details/creation-details.html',
             bindings: {
                 userFirstName: '<',
                 userLastName: '<',

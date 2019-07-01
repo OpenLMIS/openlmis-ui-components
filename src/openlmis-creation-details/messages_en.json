@@ -1,0 +1,3 @@
+{
+    "openlmisCreationDetails.header": "${userFirstName} ${userLastName} on ${createdDate}"
+}

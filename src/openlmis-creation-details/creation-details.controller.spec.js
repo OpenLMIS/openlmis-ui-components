@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('MessageCreationDetailsController', function() {
+describe('CreationDetailsController', function() {
 
     beforeEach(function() {
-        module('openlmis-message-creation-details');
+        module('openlmis-creation-details');
         module('openlmis-date');
 
         inject(function($injector) {
@@ -24,7 +24,7 @@ describe('MessageCreationDetailsController', function() {
             this.$controller = $injector.get('$controller');
         });
 
-        this.vm = this.$controller('MessageCreationDetailsController');
+        this.vm = this.$controller('CreationDetailsController');
         this.dateFilter = this.$filter('openlmisDate');
     });
 

@@ -19,14 +19,14 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-message-creation-details.controller:MessageCreationDetailsController
+     * @name openlmis-creation-details.controller:CreationDetailsController
      *
      * @description
-     * Responsible for managing message creation details.
+     * Responsible for managing creation details.
      */
     angular
-        .module('openlmis-message-creation-details')
-        .controller('MessageCreationDetailsController', controller);
+        .module('openlmis-creation-details')
+        .controller('CreationDetailsController', controller);
 
     controller.$inject = ['$filter'];
 
@@ -38,11 +38,11 @@
 
         /**
          * @ngdoc method
-         * @methodOf openlmis-message-creation-details.controller:MessageCreationDetailsController
+         * @methodOf openlmis-creation-details.controller:CreationDetailsController
          * @name onInit
          *
          * @description
-         * Initiate method for MessageCreationDetailsController.
+         * Initiate method for CreationDetailsController.
          */
         function onInit() {
             if (ctrl.createdDate) {

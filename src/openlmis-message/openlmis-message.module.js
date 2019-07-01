@@ -27,7 +27,7 @@
     angular.module('openlmis-message', [
         'openlmis-templates',
         'ui.router',
-        'openlmis-message-creation-details'
+        'openlmis-creation-details'
     ]);
 
 })();

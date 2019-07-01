@@ -18,13 +18,13 @@
     'use strict';
 
     /**
-     * @module openlmis-message-creation-details
+     * @module openlmis-creation-details
      *
      * @description
-     * The openlmis-message-creation-details module is responsible for displaying
+     * The openlmis-creation-details module is responsible for displaying
      * message/comment creation details within the OpenLMIS-UI.
      */
-    angular.module('openlmis-message-creation-details', [
+    angular.module('openlmis-creation-details', [
         'openlmis-templates',
         'ui.router'
     ]);
