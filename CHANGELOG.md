@@ -10,6 +10,9 @@ New functionality added in a backwards-compatible manner:
 Improvements:
 * [OLMIS-6357](https://openlmis.atlassian.net/browse/OLMIS-6357): Updated LocalDatabase to reopen database connection for every action.
 
+Bug fixes:
+* [OLMIS-6403](https://openlmis.atlassian.net/browse/OLMIS-6403) Fixed incorrect Start Date and Expiry Date behaviour for system notifications.
+
 7.1.0 / 2019-05-27
 ==================
 

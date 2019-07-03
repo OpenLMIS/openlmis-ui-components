@@ -104,7 +104,7 @@
             });
 
             ngModelCtrl.$parsers.push(function(viewValue) {
-                return viewValue.toISOString();
+                return viewValue ? viewValue.toISOString() : null;
             });
 
             ngModelCtrl.$validators.invalidDate = function(modelValue, viewValue) {
