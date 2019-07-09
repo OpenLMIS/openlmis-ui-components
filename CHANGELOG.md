@@ -12,7 +12,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-6403](https://openlmis.atlassian.net/browse/OLMIS-6403) Fixed incorrect Start Date and Expiry Date behaviour for system notifications.
-
+* [OLMIS-6330](https://openlmis.atlassian.net/browse/OLMIS-6330): fixed trigerring reference-ui build.
 7.1.0 / 2019-05-27
 ==================
 
