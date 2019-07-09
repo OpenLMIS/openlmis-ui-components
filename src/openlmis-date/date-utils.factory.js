@@ -58,7 +58,7 @@
             }
             // when date is ISO string, not array
             if (!angular.isArray(source)) {
-                return fromISOString(source);
+                return new Date(source);
             }
 
             if (source.length === 3) {
@@ -126,17 +126,6 @@
          */
         function toStringDate(date) {
             return $filter('date')(date, 'yyyy-MM-dd');
-        }
-
-        function fromISOString(isoDate) {
-            var date = new Date(isoDate);
-            // if date string does not contain time zone definition
-            if (isoDate.indexOf('Z') < 0) {
-                // remove time zone offset
-                var offset = date.getTimezoneOffset() * 60000;
-                date = new Date(date.getTime() + offset);
-            }
-            return date;
         }
 
         /**
