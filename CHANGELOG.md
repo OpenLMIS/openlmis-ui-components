@@ -14,6 +14,7 @@ Bug fixes:
 * [OLMIS-6403](https://openlmis.atlassian.net/browse/OLMIS-6403) Fixed incorrect Start Date and Expiry Date behaviour for system notifications.
 * [OLMIS-6330](https://openlmis.atlassian.net/browse/OLMIS-6330): fixed trigerring reference-ui build.
 * [OLMIS-6301](https://openlmis.atlassian.net/browse/OLMIS-6301): Removed code where added timezone to string date if not contain timezone definition.
+* [OLMIS-6456](https://openlmis.atlassian.net/browse/OLMIS-6456): Fixed dates filter of periods in the initiated requisition and in POD.
 
 7.1.0 / 2019-05-27
 ==================

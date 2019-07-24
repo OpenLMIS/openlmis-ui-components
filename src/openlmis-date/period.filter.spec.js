@@ -42,10 +42,10 @@ describe('periodFilter', function() {
     });
 
     it('should return period string with name', function() {
-        expect(this.periodFilter(this.period, true)).toEqual('PeriodName (1/1/17 - 1/31/17)');
+        expect(this.periodFilter(this.period, true)).toEqual('PeriodName (01/01/2017 - 31/01/2017)');
     });
 
     it('should return period string without name', function() {
-        expect(this.periodFilter(this.period, false)).toEqual('1/1/17 - 1/31/17');
+        expect(this.periodFilter(this.period, false)).toEqual('01/01/2017 - 31/01/2017');
     });
 });
