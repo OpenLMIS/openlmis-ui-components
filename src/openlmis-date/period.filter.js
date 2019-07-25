@@ -23,8 +23,8 @@
      *
      * @description
      * Parses the given period into more readable form. Depending on whether the includeName flag
-     * is set it will parse the period into "PeriodName (01/01/2017 - 31/01/17)" or just
-     * "01/01/2017 - 31/01/17".
+     * is set it will parse the period into "PeriodName (1/1/17 - 1/31/17)" or just
+     * "1/1/17 - 1/31/17".
      *
      * @param   {Object}  period      the period to be formated
      * @param   {Boolean} includeName the flag defining whether name of period should be included
@@ -40,12 +40,13 @@
         .module('openlmis-date')
         .filter('period', periodFilter);
 
-    periodFilter.$inject = ['$filter'];
+    periodFilter.$inject = ['$filter', 'localeService'];
 
-    function periodFilter($filter) {
+    function periodFilter($filter, localeService) {
         return function(period, includeName) {
-            var startDate = $filter('date')(period.startDate, 'dd/MM/yyyy'),
-                endDate = $filter('date')(period.endDate, 'dd/MM/yyyy'),
+            var dateFormat = localeService.getFromStorage().dateFormat;
+            var startDate = $filter('date')(period.startDate, dateFormat),
+                endDate = $filter('date')(period.endDate, dateFormat),
                 transformed = startDate + ' - ' + endDate;
 
             return includeName ? period.name + ' (' + transformed + ')' : transformed;
