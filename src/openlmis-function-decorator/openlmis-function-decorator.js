@@ -28,15 +28,16 @@
         .module('openlmis-function-decorator')
         .factory('FunctionDecorator', FunctionDecorator);
 
-    FunctionDecorator.$inject = ['loadingModalService', 'notificationService', '$q'];
+    FunctionDecorator.$inject = ['loadingModalService', 'notificationService', '$q', 'confirmService'];
 
-    function FunctionDecorator(loadingModalService, notificationService, $q) {
+    function FunctionDecorator(loadingModalService, notificationService, $q, confirmService) {
 
         FunctionDecorator.prototype.decorateFunction = decorateFunction;
         FunctionDecorator.prototype.withLoading = withLoading;
         FunctionDecorator.prototype.withSuccessNotification = withSuccessNotification;
         FunctionDecorator.prototype.withErrorNotification = withErrorNotification;
         FunctionDecorator.prototype.getDecoratedFunction = getDecoratedFunction;
+        FunctionDecorator.prototype.withConfirm = withConfirm;
 
         return FunctionDecorator;
 
@@ -98,7 +99,7 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-function-decorator.FunctionDecorator
-         * @name withLoading
+         * @name withSuccessNotification
          *
          * @description
          * Decorates the function with successful notification after the original function resolves its promise. This
@@ -124,7 +125,7 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-function-decorator.FunctionDecorator
-         * @name withLoading
+         * @name withErrorNotification
          *
          * @description
          * Decorates the function with error notification after the original function rejects its promise. This
@@ -149,7 +150,32 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-function-decorator.FunctionDecorator
-         * @name withLoading
+         * @name withConfirm
+         *
+         * @description
+         * Decorates the function with corfirm service before the original function resolves its promise. This
+         * decoration is transparent, meaning it won't change the function and returned promise behaviors.
+         *
+         * @param {Function}           fn              the function to decorate
+         * @param {string}             confirmMessage  the confirm message to display
+         * @return {FunctionDecorator}                 this instance of the Function Decorator
+         */
+        function withConfirm(confirmMessage) {
+            var originalFn = this.fn;
+            this.fn = function() {
+                return confirmService.confirm(confirmMessage)
+                    .then(function() {
+                        console.log('then');
+                        return originalFn.apply(undefined, arguments);
+                    });
+            };
+            return this;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-function-decorator.FunctionDecorator
+         * @name getDecoratedFunction
          *
          * @description
          * Returns the decorated function.

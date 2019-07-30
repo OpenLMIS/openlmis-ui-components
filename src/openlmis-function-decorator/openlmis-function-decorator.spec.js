@@ -24,6 +24,7 @@ describe('FunctionDecorator', function() {
             this.$rootScope = $injector.get('$rootScope');
             this.notificationService = $injector.get('notificationService');
             this.loadingModalService = $injector.get('loadingModalService');
+            this.confirmService = $injector.get('confirmService');
         });
 
         this.functionDeferred = this.$q.defer();
@@ -31,16 +32,16 @@ describe('FunctionDecorator', function() {
         this.errorMessage = 'Error Message';
         this.resolveValue = 'Some resolved value';
         this.resolveError = 'Some error message';
+        this.confirmMessage = 'Are you sure?';
 
         var functionDeferred = this.functionDeferred;
-        this.fn = function() {
-            return functionDeferred.promise;
-        };
+        this.fn = jasmine.createSpy('fn').andReturn(functionDeferred.promise);
 
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
         spyOn(this.loadingModalService, 'open');
         spyOn(this.loadingModalService, 'close');
+        spyOn(this.confirmService, 'confirm').andReturn(this.$q.resolve());
     });
 
     describe('getDecoratedFunction', function() {
@@ -253,6 +254,72 @@ describe('FunctionDecorator', function() {
             this.$rootScope.$apply();
 
             expect(this.loadingModalService.close).not.toHaveBeenCalled();
+        });
+
+        describe('withConfirm', function() {
+
+            it('should show confirmation modal', function() {
+                var decorated = new this.FunctionDecorator()
+                    .decorateFunction(this.fn)
+                    .withConfirm(this.confirmMessage)
+                    .getDecoratedFunction();
+
+                decorated();
+                this.functionDeferred.resolve();
+                this.$rootScope.$apply();
+
+                expect(this.confirmService.confirm).toHaveBeenCalledWith(this.confirmMessage);
+            });
+
+            it('should not execute function if confirmation modal rejected', function() {
+                this.confirmService.confirm.andReturn(this.$q.reject());
+
+                var decorated = new this.FunctionDecorator()
+                    .decorateFunction(this.fn)
+                    .withConfirm(this.confirmMessage)
+                    .getDecoratedFunction();
+
+                decorated();
+                this.functionDeferred.resolve();
+                this.$rootScope.$apply();
+
+                expect(this.fn).not.toHaveBeenCalled();
+            });
+
+            it('should not change the function resolve behavior', function() {
+                var decorated = new this.FunctionDecorator()
+                    .decorateFunction(this.fn)
+                    .withConfirm(this.confirmMessage)
+                    .getDecoratedFunction();
+
+                var result;
+                decorated()
+                    .then(function(resolveValue) {
+                        result = resolveValue;
+                    });
+                this.functionDeferred.resolve(this.resolveValue);
+                this.$rootScope.$apply();
+
+                expect(result).toEqual(this.resolveValue);
+            });
+
+            it('should not change the function reject behavior', function() {
+                var decorated = new this.FunctionDecorator()
+                    .decorateFunction(this.fn)
+                    .withConfirm(this.confirmMessage)
+                    .getDecoratedFunction();
+
+                var error;
+                decorated()
+                    .catch(function(resolveError) {
+                        error = resolveError;
+                    });
+                this.functionDeferred.reject(this.resolveError);
+                this.$rootScope.$apply();
+
+                expect(error).toEqual(this.resolveError);
+            });
+
         });
 
     });
