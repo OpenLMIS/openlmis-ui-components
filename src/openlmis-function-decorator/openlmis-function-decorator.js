@@ -165,7 +165,6 @@
             this.fn = function() {
                 return confirmService.confirm(confirmMessage)
                     .then(function() {
-                        console.log('then');
                         return originalFn.apply(undefined, arguments);
                     });
             };
