@@ -163,9 +163,10 @@
         function withConfirm(confirmMessage) {
             var originalFn = this.fn;
             this.fn = function() {
+                var args = arguments;
                 return confirmService.confirm(confirmMessage)
                     .then(function() {
-                        return originalFn.apply(undefined, arguments);
+                        return originalFn.apply(undefined, args);
                     });
             };
             return this;

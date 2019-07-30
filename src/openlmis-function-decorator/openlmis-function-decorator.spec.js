@@ -286,6 +286,19 @@ describe('FunctionDecorator', function() {
                 expect(this.fn).not.toHaveBeenCalled();
             });
 
+            it('should execute function with proper arguments', function() {
+                var decorated = new this.FunctionDecorator()
+                    .decorateFunction(this.fn)
+                    .withConfirm(this.confirmMessage)
+                    .getDecoratedFunction();
+
+                decorated('arg');
+                this.functionDeferred.resolve();
+                this.$rootScope.$apply();
+
+                expect(this.fn).toHaveBeenCalledWith('arg');
+            });
+
             it('should not change the function resolve behavior', function() {
                 var decorated = new this.FunctionDecorator()
                     .decorateFunction(this.fn)
