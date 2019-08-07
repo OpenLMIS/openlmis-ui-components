@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmisDatetimeFilter', function() {
+describe('openlmisBsDatetimeFilter', function() {
 
     beforeEach(function() {
         module('openlmis-datetime');
@@ -22,15 +22,15 @@ describe('openlmisDatetimeFilter', function() {
             this.$filter = $injector.get('$filter');
         });
 
-        this.openlmisDateTimeFilter = this.$filter('openlmisDatetime');
+        this.openlmisBsDatetimeFilter = this.$filter('openlmisBsDatetime');
     });
 
     it('should return a string for valid date', function() {
-        expect(this.openlmisDateTimeFilter('2019-06-18T09:40:07.825Z')).toEqual('06/18/2019 9:40 AM');
+        expect(this.openlmisBsDatetimeFilter('2019-06-18T09:40:07.825Z')).toEqual('06/18/2019 9:40 AM');
     });
 
     it('should return undefined if date time is undefined', function() {
-        expect(this.openlmisDateTimeFilter()).toBeUndefined();
+        expect(this.openlmisBsDatetimeFilter()).toBeUndefined();
     });
 
 });

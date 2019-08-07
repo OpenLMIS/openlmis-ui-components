@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc filter
-     * @name openlmis-datetime.filter:openlmisDatetime
+     * @name openlmis-datetime.filter:openlmisBsDatetime
      *
      * @description
      * Parses the given datetime into more user-friendly string.
@@ -30,20 +30,20 @@
      * @example
      * In the HTML:
      * ```
-     * <td>{{datetime | openlmisDatetime}}</td>
+     * <td>{{datetime | openlmisBsDatetime}}</td>
      * ```
      * In the JS:
      * ```
-     * $filter('datetime')(openlmisDatetime);
+     * $filter('datetime')(openlmisBsDatetime);
      * ```
      */
     angular
         .module('openlmis-datetime')
-        .filter('openlmisDatetime', openlmisDatetimeFilter);
+        .filter('openlmisBsDatetime', openlmisBsDatetimeFilter);
 
-    openlmisDatetimeFilter.$inject = ['moment'];
+    openlmisBsDatetimeFilter.$inject = ['moment'];
 
-    function openlmisDatetimeFilter(moment) {
+    function openlmisBsDatetimeFilter(moment) {
         return function(datetime) {
             if (datetime) {
                 return moment(datetime).format('L LT');
