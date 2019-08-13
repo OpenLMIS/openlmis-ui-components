@@ -107,14 +107,14 @@
         });
 
         function onInit() {
-            pagination.externalPagination = paginationService.isExternalPagination();
+            pagination.externalPagination = paginationService.isExternalPagination(pagination.paginationId);
 
-            pagination.page = paginationService.getPage();
-            pagination.pageSize = paginationService.getSize();
+            pagination.page = paginationService.getPage(pagination.paginationId);
+            pagination.pageSize = paginationService.getSize(pagination.paginationId);
 
             if (pagination.externalPagination) {
-                pagination.totalItems = paginationService.getTotalItems();
-                pagination.showingItems = paginationService.getShowingItems();
+                pagination.totalItems = paginationService.getTotalItems(pagination.paginationId);
+                pagination.showingItems = paginationService.getShowingItems(pagination.paginationId);
             } else {
                 pagination.totalItems = pagination.list.length;
                 pagination.pagedList = paginationFactory.getPage(pagination.list, pagination.page, pagination.pageSize);
@@ -135,21 +135,11 @@
          */
         function changePage(newPage) {
             if (newPage >= 0 && newPage < getTotalPages()) {
-
-                if (!pagination.externalPagination) {
-                    pagination.pagedList = paginationFactory.getPage(pagination.list, newPage, pagination.pageSize);
-                    pagination.showingItems = pagination.pagedList.length;
-                }
-
                 var stateParams = angular.copy($stateParams);
 
-                pagination.page = newPage;
-                stateParams[paginationService.getPageParamName()] = newPage;
+                stateParams[paginationService.getPageParamName(pagination.paginationId)] = newPage;
 
-                $state.go($state.current.name, stateParams, {
-                    reload: pagination.externalPagination,
-                    notify: pagination.externalPagination
-                });
+                $state.go($state.current.name, stateParams);
             }
         }
 
@@ -269,7 +259,7 @@
          * @return {Boolean} true if page is valid, false otherwise
          */
         function isPageValid(pageNumber) {
-            var validateItem = paginationService.getItemValidator();
+            var validateItem = paginationService.getItemValidator(pagination.paginationId);
 
             if (!validateItem) {
                 return true;

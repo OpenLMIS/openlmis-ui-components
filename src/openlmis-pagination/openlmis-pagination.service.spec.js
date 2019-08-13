@@ -111,21 +111,6 @@ describe('paginationService', function() {
             });
         });
 
-        it('should set page number to 0 if state params have changed', function() {
-            this.paginationService.registerUrl({
-                size: 20,
-                page: this.stateParams.page,
-                someParam: 'param'
-            }, this.loadItemsSpy);
-            this.$rootScope.$apply();
-
-            expect(this.loadItemsSpy).toHaveBeenCalledWith({
-                page: 0,
-                size: 20,
-                someParam: 'param'
-            });
-        });
-
         it('should set page size to 0 when method does not return promise', function() {
             this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
             this.$rootScope.$apply();
@@ -276,21 +261,6 @@ describe('paginationService', function() {
                 size: this.PAGE_SIZE
             });
         });
-
-        it('should set page number to 0 if state params have changed', function() {
-            this.paginationService.registerUrl({
-                size: 20,
-                page: stateParams.page,
-                someParam: 'param'
-            }, loadItemsSpy);
-            this.$rootScope.$apply();
-
-            expect(loadItemsSpy).toHaveBeenCalledWith({
-                page: 0,
-                size: 20,
-                someParam: 'param'
-            });
-        });
     });
 
     it('should keep parent state pagination parameters', function() {
@@ -302,6 +272,7 @@ describe('paginationService', function() {
         };
 
         var $q = this.$q;
+        var paginationId = 'urlList';
         this.paginationService.registerUrl(paramsOne, function() {
             return $q.resolve({
                 number: 1,
@@ -309,6 +280,8 @@ describe('paginationService', function() {
                 totalElements: 26,
                 content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
             });
+        }, {
+            paginationId: paginationId
         });
         this.$rootScope.$apply();
 
@@ -322,135 +295,17 @@ describe('paginationService', function() {
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
         });
         this.$rootScope.$apply();
-
-        this.$state.current.name = 'test.state.child';
 
         expect(this.paginationService.getPage()).toEqual(0);
         expect(this.paginationService.getSize()).toEqual(10);
         expect(this.paginationService.isExternalPagination()).toEqual(false);
         expect(this.paginationService.getTotalItems()).toEqual(20);
 
-        this.goToState('test.state', 'test.state.child');
-        this.$state.current.name = 'test.state';
-
-        expect(this.paginationService.getPage()).toEqual(1);
-        expect(this.paginationService.getSize()).toEqual(13);
-        expect(this.paginationService.getShowingItems()).toEqual(13);
-        expect(this.paginationService.isExternalPagination()).toEqual(true);
-        expect(this.paginationService.getTotalItems()).toEqual(26);
-    });
-
-    it('should clear pagination parameter if going to non-child state', function() {
-        this.goToState('test.state', 'test');
-
-        var paramsOne = {
-            page: 1,
-            size: 13
-        };
-
-        var $q = this.$q;
-        this.paginationService.registerUrl(paramsOne, function() {
-            return $q.resolve({
-                number: 1,
-                size: 13,
-                totalElements: 26,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-            });
-        });
-        this.$rootScope.$apply();
-
-        this.goToState('test.otherState', 'test.state');
-
-        var paramsTwo = {
-            page: 2,
-            size: 14
-        };
-        this.paginationService.registerUrl(paramsTwo, function() {
-            return $q.resolve({
-                number: 2,
-                size: 14,
-                totalElements: 42,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            });
-        });
-        this.$rootScope.$apply();
-
-        this.$state.current.name = 'test.otherState';
-
-        expect(this.paginationService.getPage()).toEqual(2);
-        expect(this.paginationService.getSize()).toEqual(14);
-        expect(this.paginationService.getShowingItems()).toEqual(14);
-        expect(this.paginationService.isExternalPagination()).toEqual(true);
-        expect(this.paginationService.getTotalItems()).toEqual(42);
-
-        this.goToState('test.otherState', 'test.state');
-        this.$state.current.name = 'test.state';
-
-        expect(this.paginationService.getPage()).toBeUndefined();
-        expect(this.paginationService.getSize()).toBeUndefined();
-        expect(this.paginationService.getShowingItems()).toBeUndefined();
-        expect(this.paginationService.isExternalPagination()).toBeUndefined();
-        expect(this.paginationService.getTotalItems()).toBeUndefined();
-    });
-
-    it('should clear pagination parameter if going to state parents parent', function() {
-        this.goToState('test.state', 'test');
-
-        var paramsOne = {
-            page: 1,
-            size: 13
-        };
-
-        var $q = this.$q;
-        this.paginationService.registerUrl(paramsOne, function() {
-            return $q.resolve({
-                number: 1,
-                size: 13,
-                totalElements: 26,
-                content: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-            });
-        });
-        this.$rootScope.$apply();
-
-        this.goToState('test.state.child', 'test.state');
-
-        var paramsTwo = {
-            page: 0,
-            size: 10
-        };
-        this.paginationService.registerList(null, paramsTwo, function() {
-            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-        });
-        this.$rootScope.$apply();
-
-        this.goToState('test.state.child.child', 'test.state.child');
-
-        var paramsThree = {
-            page: 2,
-            size: 2
-        };
-        this.paginationService.registerList(null, paramsThree, function() {
-            return [1, 2, 3, 4, 5];
-        });
-        this.$rootScope.$apply();
-
-        this.goToState('test.state', 'test.state.child.child');
-
-        this.$state.current.name = 'test.state.child';
-
-        expect(this.paginationService.getPage()).toBeUndefined();
-        expect(this.paginationService.getSize()).toBeUndefined();
-        expect(this.paginationService.getShowingItems()).toBeUndefined();
-        expect(this.paginationService.isExternalPagination()).toBeUndefined();
-        expect(this.paginationService.getTotalItems()).toBeUndefined();
-
-        this.$state.current.name = 'test.state.child.child';
-
-        expect(this.paginationService.getPage()).toBeUndefined();
-        expect(this.paginationService.getSize()).toBeUndefined();
-        expect(this.paginationService.getShowingItems()).toBeUndefined();
-        expect(this.paginationService.isExternalPagination()).toBeUndefined();
-        expect(this.paginationService.getTotalItems()).toBeUndefined();
+        expect(this.paginationService.getPage(paginationId)).toEqual(1);
+        expect(this.paginationService.getSize(paginationId)).toEqual(13);
+        expect(this.paginationService.getShowingItems(paginationId)).toEqual(13);
+        expect(this.paginationService.isExternalPagination(paginationId)).toEqual(true);
+        expect(this.paginationService.getTotalItems(paginationId)).toEqual(26);
     });
 
 });
