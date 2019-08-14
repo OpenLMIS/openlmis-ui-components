@@ -52,11 +52,11 @@
         paginationService.init();
     }
 
-    service.$inject = ['$q', '$state', 'PAGE_SIZE'];
+    service.$inject = ['$q', '$state', 'PAGE_SIZE', '$rootScope'];
 
-    function service($q, $state, PAGE_SIZE) {
+    function service($q, $state, PAGE_SIZE, $rootScope) {
 
-        var paginationParamsMap = {};
+        var stateName, previousStateParams, paginationParamsMap = {};
 
         this.init = init;
         this.registerUrl = registerUrl;
@@ -78,6 +78,10 @@
          * Initiates the pagination service and fires up a listener for state changes.
          */
         function init() {
+            $rootScope.$on('$stateChangeStart', function(event, toState) {
+                clearPaginationParamsMap(toState.name);
+                stateName = toState.name;
+            });
         }
 
         /**
@@ -100,7 +104,7 @@
         function registerUrl(newStateParams, loadItems, options) {
             return register(newStateParams, loadItems, options)
                 .then(function(response) {
-                    paginationParamsMap[getPaginationIdFromOptions(options)] = {
+                    paginationParamsMap[stateName] = {
                         size: response ? response.size : 0,
                         page: response ? response.number : 0,
                         totalItems: response ? response.totalElements : 0,
@@ -137,7 +141,7 @@
                     var pageParamName = getPageParamNameFromOptions(options),
                         sizeParamName = getSizeParamNameFromOptions(options);
 
-                    paginationParamsMap[getPaginationIdFromOptions(options)] = {
+                    paginationParamsMap[stateName] = {
                         size: parseInt(newStateParams[sizeParamName]),
                         page: parseInt(newStateParams[pageParamName]),
                         totalItems: items.length,
@@ -160,8 +164,8 @@
          *
          * @return {Number} current page size
          */
-        function getSize(paginationId) {
-            return getPaginationParam(paginationId, 'size');
+        function getSize() {
+            return getPaginationParam('size');
         }
 
         /**
@@ -174,8 +178,8 @@
          *
          * @return {Number} current page number
          */
-        function getPage(paginationId) {
-            return getPaginationParam(paginationId, 'page');
+        function getPage() {
+            return getPaginationParam('page');
         }
 
         /**
@@ -188,8 +192,8 @@
          *
          * @return {Number} total items
          */
-        function getTotalItems(paginationId) {
-            return getPaginationParam(paginationId, 'totalItems');
+        function getTotalItems() {
+            return getPaginationParam('totalItems');
         }
 
         /**
@@ -202,8 +206,8 @@
          *
          * @return {Number} showing items number
          */
-        function getShowingItems(paginationId) {
-            return getPaginationParam(paginationId, 'showingItems');
+        function getShowingItems() {
+            return getPaginationParam('showingItems');
         }
 
         /**
@@ -216,8 +220,8 @@
          *
          * @return {Boolean} true if is API pagination, false otherwise
          */
-        function isExternalPagination(paginationId) {
-            return getPaginationParam(paginationId, 'externalPagination');
+        function isExternalPagination() {
+            return getPaginationParam('externalPagination');
         }
 
         /**
@@ -230,8 +234,8 @@
          *
          * @return {String} the name of the custom page parameter
          */
-        function getPageParamName(paginationId) {
-            return getPaginationParam(paginationId, 'pageParamName');
+        function getPageParamName() {
+            return getPaginationParam('pageParamName');
         }
 
         /**
@@ -244,13 +248,13 @@
          *
          * @return {Function} the item validator
          */
-        function getItemValidator(paginationId) {
-            return getPaginationParam(paginationId, 'itemValidator');
+        function getItemValidator() {
+            return getPaginationParam('itemValidator');
         }
 
-        function getPaginationParam(paginationId, name) {
-            if (paginationParamsMap[paginationId]) {
-                return paginationParamsMap[paginationId][name];
+        function getPaginationParam(name) {
+            if (paginationParamsMap[$state.current.name]) {
+                return paginationParamsMap[$state.current.name][name];
             }
         }
 
@@ -258,9 +262,31 @@
             var pageParamName = getPageParamNameFromOptions(options),
                 sizeParamName = getSizeParamNameFromOptions(options);
 
+            warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName);
+
             initPaginationParams(stateParams, pageParamName, sizeParamName);
 
+            if (shouldChangePageToFirstOne(stateParams, pageParamName)) {
+                stateParams[pageParamName] = 0;
+            }
+
+            previousStateParams = stateParams;
+
             return $q.when(loadItems(translateToRequestParams(stateParams, pageParamName, sizeParamName)));
+        }
+
+        function shouldChangePageToFirstOne(newStateParams, pageParamName) {
+            return $state.current.name === stateName && !angular.equals(previousStateParams, newStateParams) &&
+                previousStateParams && newStateParams[pageParamName] === previousStateParams[pageParamName];
+        }
+
+        function clearPaginationParamsMap(toState) {
+            Object.keys(paginationParamsMap)
+                .forEach(function(state) {
+                    if (toState.indexOf(state) === -1) {
+                        delete paginationParamsMap[state];
+                    }
+                });
         }
 
         function translateToRequestParams(stateParams, pageParamName, sizeParamName) {
@@ -297,24 +323,41 @@
         }
 
         function getParamNameFromOptions(options, param, defaultValue) {
-            if (!options) {
+            if (!options || !options[param]) {
                 return defaultValue;
             }
-
-            if (options[param]) {
-                return options[param];
-            }
-
-            if (options.paginationId) {
-                return options.paginationId + defaultValue.charAt(0).toUpperCase() + defaultValue.slice(1);
-            }
-
-            return defaultValue;
+            return options[param];
         }
 
-        function getPaginationIdFromOptions(options) {
-            if (options) {
-                return options.paginationId;
+        function warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName) {
+            var statesUsingPageParam = [stateName],
+                statesUsingSizeParam = [stateName];
+
+            Object.keys(paginationParamsMap)
+                .forEach(function(state) {
+                    if (state === stateName) {
+                        return;
+                    }
+
+                    if (paginationParamsMap[state].pageParamName === pageParamName) {
+                        statesUsingPageParam.push(state);
+                    }
+
+                    if (paginationParamsMap[state].sizeParamName === sizeParamName) {
+                        statesUsingSizeParam.push(state);
+                    }
+                });
+
+            if (statesUsingPageParam.length > 1) {
+                console.warn('States ' + statesUsingPageParam.join(', ') + ' are using the ' + pageParamName +
+                    ' parameter for indicating current page. This might cause some unexpected behavior with the ' +
+                    'pagination component. Please consider using the customPageParamName option.');
+            }
+
+            if (statesUsingSizeParam.length > 1) {
+                console.warn('States ' + statesUsingSizeParam.join(', ') + ' are using the ' + pageParamName +
+                    ' parameter for indicating page size. This might cause some unexpected behavior with the ' +
+                    'pagination component. Please consider using the customSizeParamName option.');
             }
         }
     }

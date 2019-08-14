@@ -45,181 +45,179 @@ describe('PaginationController', function() {
 
         spyOn(this.$state, 'go').andReturn();
 
-        this.initController = function() {
-            this.pagination = this.$controller('PaginationController', {
-                $scope: this.$rootScope.$new(),
-                $stateParams: this.$stateParams
-            });
-            this.pagination.$onInit();
-        };
-
-        this.initController();
+        this.vm = this.$controller('PaginationController', {
+            $scope: this.$rootScope.$new(),
+            $stateParams: this.$stateParams
+        });
+        this.vm.$onInit();
     });
 
     describe('onInit', function() {
 
         it('should setup view value for external pagination', function() {
-            expect(this.pagination.page).toEqual(0);
-            expect(this.pagination.pageSize).toEqual(2);
-            expect(this.pagination.totalItems).toEqual(10);
-            expect(this.pagination.showingItems).toEqual(2);
+            expect(this.vm.page).toEqual(0);
+            expect(this.vm.pageSize).toEqual(2);
+            expect(this.vm.totalItems).toEqual(10);
+            expect(this.vm.showingItems).toEqual(2);
         });
 
         it('should setup view value for local pagination', function() {
             this.paginationService.isExternalPagination.andReturn(false);
-            this.pagination.list = [1];
-            this.pagination.$onInit();
+            this.vm.list = [1];
+            this.vm.$onInit();
 
-            expect(this.pagination.page).toEqual(0);
-            expect(this.pagination.pageSize).toEqual(2);
-            expect(this.pagination.totalItems).toEqual(this.pagination.list.length);
-            expect(this.pagination.pagedList).toEqual([1]);
-            expect(this.pagination.showingItems).toEqual(this.pagination.pagedList.length);
+            expect(this.vm.page).toEqual(0);
+            expect(this.vm.pageSize).toEqual(2);
+            expect(this.vm.totalItems).toEqual(this.vm.list.length);
+            expect(this.vm.pagedList).toEqual([1]);
+            expect(this.vm.showingItems).toEqual(this.vm.pagedList.length);
         });
     });
 
     describe('watch paginated list', function() {
 
         it('should fire on init when list changes', function() {
-            spyOn(this.pagination, '$onInit');
-            this.pagination.list = [];
+            spyOn(this.vm, '$onInit');
+            this.vm.list = [];
             this.$rootScope.$apply();
 
-            expect(this.pagination.$onInit).toHaveBeenCalled();
+            expect(this.vm.$onInit).toHaveBeenCalled();
         });
     });
 
     describe('changePage', function() {
 
         beforeEach(function() {
-            this.$stateParams.customPageParamName = 4;
-            this.initController();
+            this.newPage = 4;
+            this.vm.changePage(this.newPage);
         });
 
         it('should change current page', function() {
-            this.newPage = 1;
-
-            this.pagination.changePage(this.newPage);
-
+            expect(this.vm.page).toEqual(this.newPage);
             expect(this.$state.go).toHaveBeenCalledWith(this.$state.current.name, {
-                customPageParamName: this.newPage,
+                customPageParamName: 4,
                 size: 2
-            });
-        });
-
-        it('should change page for local pagination', function() {
-            this.paginationService.isExternalPagination.andReturn(false);
-            this.pagination.list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-            this.pagination.$onInit();
-
-            this.newPage = 1;
-            this.pagination.changePage(this.newPage);
-
-            expect(this.$state.go).toHaveBeenCalledWith(this.$state.current.name, {
-                customPageParamName: this.newPage,
-                size: 2
+            }, {
+                reload: true,
+                notify: true
             });
         });
 
         it('should not change current page if number is out of range', function() {
-            this.pagination.changePage(this.pagination.getTotalPages());
+            expect(this.vm.page).toEqual(this.newPage);
 
-            expect(this.$state.go).not.toHaveBeenCalled();
+            this.vm.changePage(this.newPage + 1);
+
+            expect(this.vm.page).toEqual(this.newPage);
+
+            expect(this.$state.go.callCount).toEqual(1);
+        });
+
+        it('should change page for local pagination', function() {
+            this.paginationService.isExternalPagination.andReturn(false);
+            this.vm.list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            this.vm.$onInit();
+
+            this.vm.changePage(this.newPage);
+
+            expect(this.paginationFactory.getPage).toHaveBeenCalledWith(this.vm.list, this.newPage, this.vm.pageSize);
+            expect(this.vm.page).toEqual(this.newPage);
+            expect(this.$state.go).toHaveBeenCalledWith(this.$state.current.name, {
+                customPageParamName: 4,
+                size: 2
+            }, {
+                reload: false,
+                notify: false
+            });
         });
     });
 
     describe('nextPage', function() {
         it('should change page to the next one', function() {
-            var lastPage = this.pagination.page;
+            var lastPage = this.vm.page;
 
-            this.pagination.nextPage();
+            this.vm.nextPage();
 
-            expect(this.$state.go).toHaveBeenCalledWith(this.$state.current.name, {
-                customPageParamName: lastPage + 1,
-                size: 2
-            });
+            expect(this.vm.page).toEqual(lastPage + 1);
         });
     });
 
     describe('previousPage', function() {
         it('should change page to the last one', function() {
-            var lastPage = (this.pagination.page = 1);
+            var lastPage = (this.vm.page = 1);
 
-            this.pagination.previousPage();
+            this.vm.previousPage();
 
-            expect(this.$state.go).toHaveBeenCalledWith(this.$state.current.name, {
-                customPageParamName: lastPage - 1,
-                size: 2
-            });
+            expect(this.vm.page).toEqual(lastPage - 1);
         });
     });
 
     describe('isCurrentPage', function() {
 
         it('should check if page is current one', function() {
-            expect(this.pagination.isCurrentPage(this.pagination.page)).toBe(true);
+            expect(this.vm.isCurrentPage(this.vm.page)).toBe(true);
         });
 
         it('should call change page callback', function() {
-            expect(this.pagination.isCurrentPage(this.pagination.page + 1)).toBe(false);
+            expect(this.vm.isCurrentPage(this.vm.page + 1)).toBe(false);
         });
     });
 
     describe('isFirstPage', function() {
 
-        it('should return true if page is first', function() {
-            this.pagination.page = 0;
+        it('should check if page is first one', function() {
+            this.vm.changePage(0);
 
-            expect(this.pagination.isFirstPage()).toBe(true);
+            expect(this.vm.isFirstPage()).toBe(true);
         });
 
-        it('should return false if page is not first', function() {
-            this.pagination.page = 1;
+        it('should call change page callback', function() {
+            this.vm.changePage(1);
 
-            expect(this.pagination.isFirstPage()).toBe(false);
+            expect(this.vm.isFirstPage()).toBe(false);
         });
     });
 
     describe('isLastPage', function() {
 
         it('should return true if page is last', function() {
-            this.pagination.page = 4;
+            this.vm.changePage(4);
 
-            expect(this.pagination.isLastPage()).toBe(true);
+            expect(this.vm.isLastPage()).toBe(true);
         });
 
         it('should return false if page is not last', function() {
-            this.pagination.changePage(3);
+            this.vm.changePage(3);
 
-            expect(this.pagination.isLastPage()).toBe(false);
+            expect(this.vm.isLastPage()).toBe(false);
         });
     });
 
     describe('getPages', function() {
 
         it('should return array', function() {
-            expect(angular.isArray(this.pagination.getPages())).toBe(true);
+            expect(angular.isArray(this.vm.getPages())).toBe(true);
         });
 
         it('should return correct number of elements', function() {
-            expect(this.pagination.getPages().length).toBe(4);
+            expect(this.vm.getPages().length).toBe(4);
         });
 
         it('should return correct number of elements if selected page is not first one', function() {
-            this.pagination.page = 3;
+            this.vm.page = 3;
 
-            expect(this.pagination.getPages().length).toBe(5);
+            expect(this.vm.getPages().length).toBe(5);
         });
     });
 
     describe('getTotalPages', function() {
 
         it('should return number', function() {
-            expect(angular.isNumber(this.pagination.getTotalPages())).toBe(true);
+            expect(angular.isNumber(this.vm.getTotalPages())).toBe(true);
         });
 
         it('should return correct number of elements', function() {
-            expect(this.pagination.getTotalPages()).toBe(5);
+            expect(this.vm.getTotalPages()).toBe(5);
         });
     });
 
@@ -228,25 +226,25 @@ describe('PaginationController', function() {
         it('should return true if item validator is not defined', function() {
             this.paginationService.getItemValidator.andReturn(undefined);
 
-            expect(this.pagination.isPageValid(1)).toBe(true);
-            expect(this.pagination.isPageValid(0)).toBe(true);
-            expect(this.pagination.isPageValid(2)).toBe(true);
+            expect(this.vm.isPageValid(1)).toBe(true);
+            expect(this.vm.isPageValid(0)).toBe(true);
+            expect(this.vm.isPageValid(2)).toBe(true);
         });
 
         it('should return false if item validator returns false', function() {
-            this.pagination.totalItems = 1;
-            this.pagination.pageSize = 1;
+            this.vm.totalItems = 1;
+            this.vm.pageSize = 1;
             this.validatorSpy.andReturn(false);
 
-            expect(this.pagination.isPageValid(0)).toBe(false);
+            expect(this.vm.isPageValid(0)).toBe(false);
         });
 
         it('should return true if item validator returns true', function() {
-            this.pagination.totalItems = 1;
-            this.pagination.pageSize = 1;
+            this.vm.totalItems = 1;
+            this.vm.pageSize = 1;
             this.validatorSpy.andReturn(true);
 
-            expect(this.pagination.isPageValid(0)).toBe(true);
+            expect(this.vm.isPageValid(0)).toBe(true);
         });
     });
 });

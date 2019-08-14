@@ -45,7 +45,6 @@
             controllerAs: 'pagination',
             templateUrl: 'openlmis-pagination/openlmis-pagination.html',
             bindings: {
-                paginationId: '=?',
                 list: '=?',
                 pagedList: '=?'
             }
