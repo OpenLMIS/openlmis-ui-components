@@ -52,11 +52,11 @@
         paginationService.init();
     }
 
-    service.$inject = ['$q', '$state', 'PAGE_SIZE', '$rootScope'];
+    service.$inject = ['$q', '$state', 'PAGE_SIZE'];
 
-    function service($q, $state, PAGE_SIZE, $rootScope) {
+    function service($q, $state, PAGE_SIZE) {
 
-        var stateName, previousStateParams, paginationParamsMap = {};
+        var paginationParamsMap = {};
 
         this.init = init;
         this.registerUrl = registerUrl;
@@ -78,10 +78,6 @@
          * Initiates the pagination service and fires up a listener for state changes.
          */
         function init() {
-            $rootScope.$on('$stateChangeStart', function(event, toState) {
-                clearPaginationParamsMap(toState.name);
-                stateName = toState.name;
-            });
         }
 
         /**
@@ -104,7 +100,7 @@
         function registerUrl(newStateParams, loadItems, options) {
             return register(newStateParams, loadItems, options)
                 .then(function(response) {
-                    paginationParamsMap[stateName] = {
+                    paginationParamsMap[getPaginationIdFromOptions(options)] = {
                         size: response ? response.size : 0,
                         page: response ? response.number : 0,
                         totalItems: response ? response.totalElements : 0,
@@ -141,7 +137,7 @@
                     var pageParamName = getPageParamNameFromOptions(options),
                         sizeParamName = getSizeParamNameFromOptions(options);
 
-                    paginationParamsMap[stateName] = {
+                    paginationParamsMap[getPaginationIdFromOptions(options)] = {
                         size: parseInt(newStateParams[sizeParamName]),
                         page: parseInt(newStateParams[pageParamName]),
                         totalItems: items.length,
@@ -164,8 +160,8 @@
          *
          * @return {Number} current page size
          */
-        function getSize() {
-            return getPaginationParam('size');
+        function getSize(paginationId) {
+            return getPaginationParam(paginationId, 'size');
         }
 
         /**
@@ -178,8 +174,8 @@
          *
          * @return {Number} current page number
          */
-        function getPage() {
-            return getPaginationParam('page');
+        function getPage(paginationId) {
+            return getPaginationParam(paginationId, 'page');
         }
 
         /**
@@ -192,8 +188,8 @@
          *
          * @return {Number} total items
          */
-        function getTotalItems() {
-            return getPaginationParam('totalItems');
+        function getTotalItems(paginationId) {
+            return getPaginationParam(paginationId, 'totalItems');
         }
 
         /**
@@ -206,8 +202,8 @@
          *
          * @return {Number} showing items number
          */
-        function getShowingItems() {
-            return getPaginationParam('showingItems');
+        function getShowingItems(paginationId) {
+            return getPaginationParam(paginationId, 'showingItems');
         }
 
         /**
@@ -220,8 +216,8 @@
          *
          * @return {Boolean} true if is API pagination, false otherwise
          */
-        function isExternalPagination() {
-            return getPaginationParam('externalPagination');
+        function isExternalPagination(paginationId) {
+            return getPaginationParam(paginationId, 'externalPagination');
         }
 
         /**
@@ -234,8 +230,8 @@
          *
          * @return {String} the name of the custom page parameter
          */
-        function getPageParamName() {
-            return getPaginationParam('pageParamName');
+        function getPageParamName(paginationId) {
+            return getPaginationParam(paginationId, 'pageParamName');
         }
 
         /**
@@ -248,13 +244,13 @@
          *
          * @return {Function} the item validator
          */
-        function getItemValidator() {
-            return getPaginationParam('itemValidator');
+        function getItemValidator(paginationId) {
+            return getPaginationParam(paginationId, 'itemValidator');
         }
 
-        function getPaginationParam(name) {
-            if (paginationParamsMap[$state.current.name]) {
-                return paginationParamsMap[$state.current.name][name];
+        function getPaginationParam(paginationId, name) {
+            if (paginationParamsMap[paginationId]) {
+                return paginationParamsMap[paginationId][name];
             }
         }
 
@@ -262,31 +258,9 @@
             var pageParamName = getPageParamNameFromOptions(options),
                 sizeParamName = getSizeParamNameFromOptions(options);
 
-            warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName);
-
             initPaginationParams(stateParams, pageParamName, sizeParamName);
 
-            if (shouldChangePageToFirstOne(stateParams, pageParamName)) {
-                stateParams[pageParamName] = 0;
-            }
-
-            previousStateParams = stateParams;
-
             return $q.when(loadItems(translateToRequestParams(stateParams, pageParamName, sizeParamName)));
-        }
-
-        function shouldChangePageToFirstOne(newStateParams, pageParamName) {
-            return $state.current.name === stateName && !angular.equals(previousStateParams, newStateParams) &&
-                previousStateParams && newStateParams[pageParamName] === previousStateParams[pageParamName];
-        }
-
-        function clearPaginationParamsMap(toState) {
-            Object.keys(paginationParamsMap)
-                .forEach(function(state) {
-                    if (toState.indexOf(state) === -1) {
-                        delete paginationParamsMap[state];
-                    }
-                });
         }
 
         function translateToRequestParams(stateParams, pageParamName, sizeParamName) {
@@ -323,41 +297,24 @@
         }
 
         function getParamNameFromOptions(options, param, defaultValue) {
-            if (!options || !options[param]) {
+            if (!options) {
                 return defaultValue;
             }
-            return options[param];
-        }
 
-        function warnIfMultipleStatesUseTheSameParamNames(pageParamName, sizeParamName) {
-            var statesUsingPageParam = [stateName],
-                statesUsingSizeParam = [stateName];
-
-            Object.keys(paginationParamsMap)
-                .forEach(function(state) {
-                    if (state === stateName) {
-                        return;
-                    }
-
-                    if (paginationParamsMap[state].pageParamName === pageParamName) {
-                        statesUsingPageParam.push(state);
-                    }
-
-                    if (paginationParamsMap[state].sizeParamName === sizeParamName) {
-                        statesUsingSizeParam.push(state);
-                    }
-                });
-
-            if (statesUsingPageParam.length > 1) {
-                console.warn('States ' + statesUsingPageParam.join(', ') + ' are using the ' + pageParamName +
-                    ' parameter for indicating current page. This might cause some unexpected behavior with the ' +
-                    'pagination component. Please consider using the customPageParamName option.');
+            if (options[param]) {
+                return options[param];
             }
 
-            if (statesUsingSizeParam.length > 1) {
-                console.warn('States ' + statesUsingSizeParam.join(', ') + ' are using the ' + pageParamName +
-                    ' parameter for indicating page size. This might cause some unexpected behavior with the ' +
-                    'pagination component. Please consider using the customSizeParamName option.');
+            if (options.paginationId) {
+                return options.paginationId + defaultValue.charAt(0).toUpperCase() + defaultValue.slice(1);
+            }
+
+            return defaultValue;
+        }
+
+        function getPaginationIdFromOptions(options) {
+            if (options) {
+                return options.paginationId;
             }
         }
     }
