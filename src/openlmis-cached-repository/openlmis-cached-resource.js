@@ -67,6 +67,7 @@
 
             this.isVersioned = isVersioned(config);
             config.cache = true;
+            this.config = config;
             this.openlmisResource = new OpenlmisResource(uri, config);
 
         }

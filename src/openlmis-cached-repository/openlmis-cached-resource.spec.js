@@ -516,6 +516,109 @@ describe('OpenlmisCachedResource', function() {
         });
     });
 
+    describe('getAll', function() {
+        beforeEach(function() {
+
+            this.pageWithLastModified = {
+                content: {
+                    content: [{
+                        id: 'obj-one',
+                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                        _id: 'obj-one'
+                    }, {
+                        id: 'obj-two',
+                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                        _id: 'obj-two'
+                    }]
+                }
+            };
+
+            this.pageVersioned = {
+                content: {
+                    content: [{
+                        id: 'obj-one',
+                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                        _id: 'obj-one/1',
+                        meta: {
+                            versionNumber: 1
+                        }
+                    }, {
+                        id: 'obj-two',
+                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                        _id: 'obj-two/1',
+                        meta: {
+                            versionNumber: 1
+                        }
+                    }]
+                }
+            };
+
+            this.lastModified = {
+                date: 'Thu, 22 Aug 2019 09:18:43 GMT'
+            };
+
+        });
+
+        it('should resolve for paginated', function() {
+            var config = {
+                cache: true,
+                paginated: true
+            };
+
+            var openlmisCachedResource = new this.OpenlmisCachedResource(
+                this.BASE_URL, 'testDatabase', config
+            );
+
+            spyOn(this.OpenlmisResource.prototype, 'query').andReturn(this.queryDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'allDocsWithLatestVersion')
+                .andReturn(this.allDocsWithLatestVersionDeferred.promise);
+
+            openlmisCachedResource.isVersioned = false;
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+
+            var result = openlmisCachedResource.getAll(undefined);
+            this.getDeferred.resolve(this.lastModified);
+            this.queryDeferred.resolve(this.pageWithLastModified);
+            this.$rootScope.$apply();
+
+            expect(result.$$state.value).toEqual(this.pageWithLastModified.content);
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
+        it('should resolve for non paginated', function() {
+            var config = {
+                cache: true,
+                paginated: false
+            };
+
+            var openlmisCachedResource = new this.OpenlmisCachedResource(
+                this.BASE_URL, 'testDatabase', config
+            );
+
+            spyOn(this.OpenlmisResource.prototype, 'query').andReturn(this.queryDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'allDocsWithLatestVersion')
+                .andReturn(this.allDocsWithLatestVersionDeferred.promise);
+
+            openlmisCachedResource.isVersioned = false;
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+
+            var result = openlmisCachedResource.getAll(undefined);
+            this.getDeferred.resolve(this.lastModified);
+            this.queryDeferred.resolve(this.pageWithLastModified);
+            this.$rootScope.$apply();
+
+            expect(result.$$state.value).toEqual(this.pageWithLastModified);
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
+    });
+
     describe('throwMethodNotSupported', function() {
 
         it('should throw error', function() {
