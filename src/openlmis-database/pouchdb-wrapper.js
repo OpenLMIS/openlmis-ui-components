@@ -144,7 +144,7 @@
          */
         function allDocsWithLatestVersion() {
             var pouchdb = this.pouchDb;
-            return pouchDb.createIndex({
+            return pouchdb.createIndex({
                 index: {
                     fields: ['latest']
                 }
