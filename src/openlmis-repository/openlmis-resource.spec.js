@@ -596,12 +596,14 @@ describe('OpenlmisResource', function() {
         it('should resolve to server response to cache versioned resource on successful request', function() {
             var response = {
                 id: 'some-id',
-                _id: 'some-id',
+                _id: 'some-id/1',
                 some: 'test-object',
+                meta: {},
                 lastModified: this.lastModified,
                 status: 200
             };
 
+            response.meta['versionNumber'] = 1;
             var openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 cache: true,
                 versioned: true
@@ -720,12 +722,14 @@ describe('OpenlmisResource', function() {
         it('should resolve to server response to cache versioned resource on successful request', function() {
             var response = {
                 id: 'some-id',
-                _id: 'some-id',
+                _id: 'some-id/1',
                 some: 'test-object',
+                meta: {},
                 lastModified: this.lastModified,
                 status: 200
             };
 
+            response.meta['versionNumber'] = 1;
             var openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 cache: true,
                 versioned: true
@@ -846,12 +850,14 @@ describe('OpenlmisResource', function() {
         it('should resolve to server response to cache versioned resource on successful request', function() {
             var response = {
                 id: 'some-id',
-                _id: 'some-id',
+                _id: 'some-id/1',
                 some: 'test-object',
+                meta: {},
                 lastModified: this.lastModified,
                 status: 200
             };
 
+            response.meta['versionNumber'] = 1;
             var openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
                 cache: true,
                 versioned: true

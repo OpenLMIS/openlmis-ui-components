@@ -310,19 +310,19 @@
                 update: {
                     method: 'PUT',
                     transformResponse: function(data, headers, status) {
-                        return transformResponse(data, headers, status);
+                        return transformResponse(data, headers, status, config);
                     }
                 },
                 save: {
                     method: 'POST',
                     transformResponse: function(data, headers, status) {
-                        return transformResponse(data, headers, status);
+                        return transformResponse(data, headers, status, config);
                     }
                 },
                 delete: {
                     method: 'DELETE',
                     transformResponse: function(data, headers, status) {
-                        return transformResponse(data, headers, status);
+                        return transformResponse(data, headers, status, config);
                     }
                 }
             });
