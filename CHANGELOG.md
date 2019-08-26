@@ -8,6 +8,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-6359](https://openlmis.atlassian.net/browse/OLMIS-6359): Added missing message openlmisForm.maxlength.
 * [OLMIS-6442](https://openlmis.atlassian.net/browse/OLMIS-6442): Added confirmation modal to the FunctionDecorator.
 * [OLMIS-6441](https://openlmis.atlassian.net/browse/OLMIS-6441): Added directive positive-decimal.
+* [OLMIS-6487](https://openlmis.atlassian.net/browse/OLMIS-6487): Added implementation for get and getAll functions in OpenlmisCacheResource on UI.
 
 Improvements:
 * [OLMIS-6357](https://openlmis.atlassian.net/browse/OLMIS-6357): Updated LocalDatabase to reopen database connection for every action.

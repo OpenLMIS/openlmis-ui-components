@@ -1,0 +1,270 @@
+/*
+ * This program is part of the OpenLMIS logistics management information system platform software.
+ * Copyright © 2017 VillageReach
+ *
+ * This program is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU Affero General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ *  
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * See the GNU Affero General Public License for more details. You should have received a copy of
+ * the GNU Affero General Public License along with this program. If not, see
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ */
+
+(function() {
+
+    'use strict';
+
+    /**
+     * @ngdoc service
+     * @name openlmis-cached-repository.OpenlmisCachedResource
+     *
+     * @description
+     * Generic repository for communicating with the OpenLMIS RESTful endpoints and local database.
+     */
+    angular
+        .module('openlmis-cached-repository')
+        .factory('OpenlmisCachedResource', OpenlmisCachedResource);
+
+    OpenlmisCachedResource.$inject = ['$q', 'LocalDatabase', 'OpenlmisResource'];
+
+    function OpenlmisCachedResource($q, LocalDatabase, OpenlmisResource) {
+
+        OpenlmisCachedResource.prototype.get = get;
+        OpenlmisCachedResource.prototype.query = query;
+        OpenlmisCachedResource.prototype.getAll = getAll;
+        OpenlmisCachedResource.prototype.update = update;
+        OpenlmisCachedResource.prototype.create = create;
+        OpenlmisCachedResource.prototype.delete = deleteObject;
+        OpenlmisCachedResource.prototype.throwMethodNotSupported = throwMethodNotSupported;
+
+        return OpenlmisCachedResource;
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name OpenlmisCachedResource
+         * @constructor
+         *
+         * @description
+         * Creates an instance of the OpenlmisCachedResource class.
+         *
+         * Configuration options:
+         * - paginated - flag defining whether response returned by the query request is paginated; defaults to true
+         * - versioned - flag defining whether handled resource is versioned; defaults to false
+         *
+         * @param {String} uri              the URI pointing to the resource
+         * @param {String} databaseName     the databaseName pointing to the resource
+         * @param {Object} config           the optional configuration object, modifies the default behavior 
+         *                                  making this class
+         *                                  more flexible
+         */
+        function OpenlmisCachedResource(uri, databaseName, config) {
+            var newDatabase = new LocalDatabase(databaseName);
+            this.database = newDatabase;
+
+            this.isVersioned = isVersioned(config);
+            config.cache = true;
+            this.openlmisResource = new OpenlmisResource(uri, config);
+
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name get
+         *
+         * @description
+         * Retrieves an object with the given ID from cache or from the server.
+         *
+         * @param  {string}  id        the ID of the object
+         * @param  {strong}  versionId (optional) the version of the object
+         * @return {Promise}           the promise resolving to matching object, rejects if ID is not given or if the
+         *                             request fails
+         */
+        function get(id, versionId) {
+            if (id) {
+                var openlmisResource = this.openlmisResource,
+                    database = this.database,
+                    isVersioned = this.isVersioned;
+
+                return database.allDocsByIndex(id, versionId).then(function(result) {
+                    if (!result[0] || !versionId) {
+                        openlmisResource.lastModified = result[0] ? result[0].lastModified : undefined;
+                        return openlmisResource.get(id, versionId)
+                            .then(function(response) {
+                                isVersioned ? database.putVersioned(response.content) : database.put(response.content);
+                                return response.content;
+                            }, function(response) {
+                                if (response.status === 304) {
+                                    return result[0];
+                                }
+                            });
+                    }
+                    return result[0];
+                });
+            }
+            return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name query
+         *
+         * @description
+         * Return the response of the GET request or cached value. Passes the given object as request parameters.
+         *
+         * @param  {Object}  params the map of request parameters
+         * @return {Promise}        the promise resolving to the server response or cached value, 
+         *                          rejected if request fails
+         */
+        function query(params) {
+            var openlmisResource = this.openlmisResource,
+                database = this.database,
+                isVersioned = this.isVersioned;
+
+            return getLastModifiedDate(database).then(function(lastModifiedDate) {
+                openlmisResource.lastModified = lastModifiedDate;
+                return openlmisResource.query(params)
+                    .then(function(response) {
+                        if (canSaveLastModifiedDate(params)) {
+                            database.put({
+                                id: '_local/lastModified',
+                                date: response.lastModified
+                            });
+                            response.content.content.forEach(function(doc) {
+                                isVersioned ? database.putVersioned(doc) : database.put(doc);
+                            });
+                        }
+                        return response;
+                    }, function(response) {
+                        if (response.status === 304) {
+                            return database.allDocsWithLatestVersion()
+                                .then(function(response) {
+                                    var docs = {};
+                                    docs.content = response.docs;
+                                    return docs;
+                                });
+                        }
+                    });
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name getAll
+         *
+         * @description
+         * Return the response of the GET request or cached value in a form of a list. 
+         * Passes the given object as request
+         * parameters.
+         *
+         * @param  {Object}  params the map of request parameters
+         * @return {Promise}        the promise resolving to the server response or cached value, 
+         *                          rejected if request fails
+         */
+        function getAll(params) {
+            var config = this.config;
+            return this.query(params)
+                .then(function(response) {
+                    return isPaginated(config) ? response.content : response;
+                });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name update
+         *
+         * @description
+         * Saves the given object on the OpenLMIS server. Uses PUT method. Caches the result.
+         *
+         * @param  {Object}  object the object to be saved on the server
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
+         *                          undefined or if the ID is undefined
+         */
+        function update(object) {
+            var openlmisResource = this.openlmisResource;
+            return openlmisResource.update(object);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name create
+         *
+         * @description
+         * Creates the given object on the OpenLMIS server. Uses POST method. Caches the result.
+         *
+         * @param  {Object}  object        the object to be created on the server
+         * @param  {Object}  params        the parameters to be passed to the request
+         * @return {Promise}               the promise resolving to the server response, rejected if request fails
+         */
+        function create(object, params) {
+            var openlmisResource = this.openlmisResource;
+            return openlmisResource.create(object, params);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name delete
+         *
+         * @description
+         * Deletes the object on the OpenLMIS server. Removes the cached object.
+         *
+         * @param  {Object}  object the object to be deleted from the server
+         * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
+         *                          undefined or if the ID is undefined
+         */
+        function deleteObject(object) {
+            var openlmisResource = this.openlmisResource;
+            return openlmisResource.deleteObject(object);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name throwMethodNotSupported
+         *
+         * @description
+         * Throws 'Method not supported' exception. Useful for overriding methods which are not supported by specific
+         * endpoint.
+         */
+        function throwMethodNotSupported() {
+            throw 'Method not supported';
+        }
+
+        function isVersioned(config) {
+            return !config || config.versioned || config.versioned === undefined;
+        }
+
+        function getLastModifiedDate(database) {
+            return database.get('_local/lastModified')
+                .then(function(result) {
+                    return result.date;
+                })
+                .catch(function() {
+                    return undefined;
+                });
+        }
+
+        function canSaveLastModifiedDate(params) {
+            for (var param in params) {
+                if (param !== 'sort' && params[param]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function isPaginated(config) {
+            return !config || config.paginated || config.paginated === undefined;
+        }
+    }
+
+})();

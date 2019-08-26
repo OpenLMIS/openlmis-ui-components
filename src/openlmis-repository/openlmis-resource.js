@@ -68,6 +68,8 @@
             }
 
             resourceUrl = openlmisUrlFactory(resourceUrl);
+            this.resourceUrl = resourceUrl;
+            this.lastModified = undefined;
 
             this.resource = $resource(resourceUrl + '/:id', {}, {
                 query: {
@@ -81,6 +83,7 @@
 
             this.idParam = getIdParam(config);
             this.splitter = new ParameterSplitter();
+            this.isVersioned = isVersioned(config);
         }
 
         /**
@@ -91,13 +94,23 @@
          * @description
          * Retrieves an object with the given ID.
          *
-         * @param  {string}  id the ID of the object
-         * @return {Promise}    the promise resolving to server response, rejects if ID is not given or if the request
-         *                      fails
+         * @param  {string}  id            the ID of the object
+         * @param  {string}  versionNumber the optional version number of the object
+         * @return {Promise}               the promise resolving to server response,
+         *                                 rejects if ID is not given or if the request fails
          */
-        function get(id) {
+        function get(id, versionNumber) {
             if (id) {
-                return this.resource.get({
+                var resourceUrl = this.resourceUrl,
+                    params = {
+                        versionNumber: versionNumber
+                    },
+                    resource = this.resource;
+
+                if (this.config && this.config.cache) {
+                    resource = generateResource(resourceUrl, this.lastModified, this.config, params);
+                }
+                return resource.get({
                     id: id
                 }).$promise;
             }
@@ -135,10 +148,17 @@
          * @return {Promise}        the promise resolving to the server response, rejected if request fails
          */
         function query(params) {
-            var requests = [];
-            var resource = this.resource;
+            var requests = [],
+                resourceUrl = this.resourceUrl,
+                config = this.config,
+                resource = this.resource,
+                lastModified = this.lastModified;
+
             this.splitter.split(this.uri, params)
                 .forEach(function(params) {
+                    if (config && config.cache && !params) {
+                        resource = generateResource(resourceUrl, lastModified, config, params);
+                    }
                     requests.push(resource.query(params).$promise);
                 });
 
@@ -242,6 +262,73 @@
                 return config.idParam || 'id';
             }
             return 'id';
+        }
+
+        function generateResource(resourceUrl, headerValue, config, params) {
+            var header = {};
+
+            if (headerValue) {
+                header['If-Modified-Since'] = headerValue;
+            }
+
+            return $resource(resourceUrl + '/:id', params, {
+                get: {
+                    method: 'GET',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status, config);
+                    },
+                    headers: header,
+                    isArray: !isPaginated(config)
+                },
+                query: {
+                    url: resourceUrl,
+                    method: 'GET',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status, config);
+                    },
+                    headers: header,
+                    isArray: !isPaginated(config)
+                }
+            });
+        }
+
+        function transformJson(data) {
+            if (data) {
+                return angular.fromJson(data);
+            }
+            return data;
+        }
+
+        function transformResponse(data, headers, status, config) {
+            var response = {};
+            data = transformJson(data);
+            response.content = data;
+
+            if (response.content) {
+                if (response.content.content) {
+                    response.content.content.forEach(function(doc) {
+                        doc.lastModified = headers('last-modified');
+                        doc._id = isVersioned(config) ? doc.id + '/' + doc.meta.versionNumber : doc.id;
+                    });
+                } else if (response.content instanceof Array) {
+                    response.content.forEach(function(doc) {
+                        doc.lastModified = headers('last-modified');
+                        doc._id = isVersioned(config) ? doc.id + '/'
+                            + doc.meta.versionNumber : doc.id;
+                    });
+                } else {
+                    response.content.lastModified = headers('last-modified');
+                    response.content._id = isVersioned(config) ? response.content.id + '/'
+                        + response.content.meta.versionNumber : response.content.id;
+                }
+                response.lastModified = headers('last-modified');
+            }
+            response.status = status;
+            return response;
+        }
+
+        function isVersioned(config) {
+            return config && config.versioned;
         }
 
     }
