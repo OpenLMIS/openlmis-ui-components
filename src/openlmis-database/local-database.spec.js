@@ -27,11 +27,38 @@ describe('LocalDatabase', function() {
 
         this.database = new this.LocalDatabase('testDatabase');
 
+        this.docs = [{
+            id: 'one',
+            _id: 'one/4',
+            _rev: 'four',
+            meta: {
+                versionNumber: 4
+            },
+            latest: true
+        }, {
+            id: 'one',
+            _id: 'one/3',
+            _rev: 'three',
+            meta: {
+                versionNumber: 3
+            },
+            latest: false
+        }, {
+            id: 'one',
+            _id: 'one/1',
+            _rev: 'one',
+            meta: {
+                versionNumber: 1
+            },
+            latest: false
+        }];
+
         spyOn(this.PouchDBWrapper.prototype, 'put');
         spyOn(this.PouchDBWrapper.prototype, 'get');
         spyOn(this.PouchDBWrapper.prototype, 'remove');
         spyOn(this.PouchDBWrapper.prototype, 'allDocs');
         spyOn(this.PouchDBWrapper.prototype, 'destroy');
+        spyOn(this.PouchDBWrapper.prototype, 'allDocsWithLatestVersion');
     });
 
     describe('put', function() {
@@ -105,6 +132,219 @@ describe('LocalDatabase', function() {
             });
         });
 
+    });
+
+    describe('putVersioned', function() {
+
+        it('should throw exception if object is undefined', function() {
+            var database = this.database;
+
+            expect(function() {
+                database.putVersioned();
+            }).toThrow('Object must be defined!');
+
+            expect(function() {
+                database.putVersioned(null);
+            }).toThrow('Object must be defined!');
+
+            expect(function() {
+                database.putVersioned(undefined);
+            }).toThrow('Object must be defined!');
+        });
+
+        it('should throw exception if object does not have ID', function() {
+            var database = this.database;
+
+            expect(function() {
+                database.putVersioned({});
+            }).toThrow('Object must have ID!');
+        });
+
+        it('should not save existing object with the same id if it has the latest version', function() {
+
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: [{
+                    doc: this.docs[0]
+                }, {
+                    doc: this.docs[1]
+                }, {
+                    doc: this.docs[2]
+                }]
+            }));
+
+            var params = {
+                endkey: 'one/4',
+                startkey: 'one/4\uffff',
+                descending: true,
+                //eslint-disable-next-line camelcase
+                include_docs: true
+            };
+
+            var success;
+            this.database.putVersioned(this.docs[0])
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.put).not.toHaveBeenCalled();
+            expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
+        });
+
+        it('should save existing object with the same id if there is newer version', function() {
+
+            var updatedDoc = {
+                id: 'one',
+                _id: 'one/5',
+                _rev: 'five',
+                meta: {
+                    versionNumber: 5
+                }
+            };
+
+            var params = {
+                endkey: 'one/5',
+                startkey: 'one/5\uffff',
+                descending: true,
+                //eslint-disable-next-line camelcase
+                include_docs: true
+            };
+
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: [{
+                    doc: this.docs[0]
+                }, {
+                    doc: this.docs[1]
+                }, {
+                    doc: this.docs[2]
+                }]
+            }));
+
+            var success;
+            this.database.putVersioned(updatedDoc)
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
+            expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(2);
+            expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
+                id: 'one',
+                _id: 'one/4',
+                _rev: 'four',
+                meta: {
+                    versionNumber: 4
+                },
+                latest: false
+            });
+
+            expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
+                id: 'one',
+                _id: 'one/5',
+                _rev: 'five',
+                meta: {
+                    versionNumber: 5
+                },
+                latest: true
+            });
+        });
+    });
+
+    it('should save existing object with the same id if it has not the latest', function() {
+
+        var updatedDoc = {
+            id: 'one',
+            _id: 'one/2',
+            _rev: 'two',
+            meta: {
+                versionNumber: 2
+            }
+        };
+
+        var params = {
+            endkey: 'one/2',
+            startkey: 'one/2\uffff',
+            descending: true,
+            //eslint-disable-next-line camelcase
+            include_docs: true
+        };
+
+        this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            rows: [{
+                doc: this.docs[0]
+            }, {
+                doc: this.docs[1]
+            }, {
+                doc: this.docs[2]
+            }]
+        }));
+
+        var success;
+        this.database.putVersioned(updatedDoc)
+            .then(function() {
+                success = true;
+            });
+        this.$rootScope.$apply();
+
+        expect(success).toBe(true);
+        expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
+        expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(1);
+        expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
+            id: 'one',
+            _id: 'one/2',
+            _rev: 'two',
+            meta: {
+                versionNumber: 2
+            },
+            latest: false
+        });
+    });
+
+    it('should save existing object with the same id if it has not the latest2', function() {
+
+        var updatedDoc = {
+            id: 'one',
+            _id: 'one/1',
+            _rev: 'one',
+            meta: {
+                versionNumber: 1
+            }
+        };
+
+        var params = {
+            endkey: 'one/1',
+            startkey: 'one/1\uffff',
+            descending: true,
+            //eslint-disable-next-line camelcase
+            include_docs: true
+        };
+
+        this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            rows: []
+        }));
+
+        var success;
+        this.database.putVersioned(updatedDoc)
+            .then(function() {
+                success = true;
+            });
+        this.$rootScope.$apply();
+
+        expect(success).toBe(true);
+        expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
+        expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(1);
+        expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
+            id: 'one',
+            _id: 'one/1',
+            _rev: 'one',
+            meta: {
+                versionNumber: 1
+            },
+            latest: true
+        });
     });
 
     describe('get', function() {
@@ -214,27 +454,14 @@ describe('LocalDatabase', function() {
     describe('getAll', function() {
 
         it('should return list of all docs', function() {
-            var docs = [{
-                id: 'one',
-                _id: 'one',
-                _rev: 'one'
-            }, {
-                id: 'two',
-                _id: 'two',
-                _rev: 'two'
-            }, {
-                id: 'three',
-                _id: 'three',
-                _rev: 'three'
-            }];
 
             this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
                 rows: [{
-                    doc: docs[0]
+                    doc: this.docs[0]
                 }, {
-                    doc: docs[1]
+                    doc: this.docs[1]
                 }, {
-                    doc: docs[2]
+                    doc: this.docs[2]
                 }]
             }));
 
@@ -245,7 +472,7 @@ describe('LocalDatabase', function() {
                 });
             this.$rootScope.$apply();
 
-            expect(result).toEqual(docs);
+            expect(result).toEqual(this.docs);
         });
 
         it('should return empty list if database is empty', function() {
@@ -255,6 +482,128 @@ describe('LocalDatabase', function() {
 
             var result;
             this.database.getAll()
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual([]);
+        });
+
+    });
+
+    describe('allDocsWithLatestVersion', function() {
+
+        beforeEach(function() {
+
+            this.docs = [{
+                id: 'one',
+                _id: 'one/4',
+                _rev: 'one',
+                meta: {
+                    versionNumber: 4
+                },
+                latest: true
+            }, {
+                id: 'two',
+                _id: 'two/1',
+                _rev: 'two',
+                meta: {
+                    versionNumber: 1
+                },
+                latest: true
+            }, {
+                id: 'three',
+                _id: 'three/6',
+                _rev: 'three',
+                meta: {
+                    versionNumber: 6
+                },
+                latest: true
+            }];
+        });
+
+        it('should return list of all docs', function() {
+
+            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.andReturn(this.$q.resolve([
+                this.docs[0],
+                this.docs[1],
+                this.docs[2]
+            ]));
+
+            var result;
+            this.database.allDocsWithLatestVersion()
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.docs);
+        });
+
+        it('should return empty list if database is empty', function() {
+            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.andReturn(this.$q.resolve([]));
+
+            var result;
+            this.database.allDocsWithLatestVersion()
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual([]);
+        });
+
+    });
+
+    describe('allDocsByIndex', function() {
+
+        it('should return list of docs with the given id', function() {
+
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: [{
+                    doc: this.docs[0]
+                }, {
+                    doc: this.docs[1]
+                }, {
+                    doc: this.docs[2]
+                }]
+            }));
+
+            var result;
+            this.database.allDocsByIndex(this.docs[0].id)
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.docs);
+        });
+
+        it('should return list of docs with the given id and version', function() {
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: [{
+                    doc: this.docs[0]
+                }]
+            }));
+
+            var result;
+            this.database.allDocsByIndex(this.docs[0].id, this.docs[0].meta.versionNumber)
+                .then(function(docs) {
+                    result = docs;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toEqual([this.docs[0]]);
+        });
+
+        it('should return empty list if any record from database matches', function() {
+            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+                rows: []
+            }));
+
+            var result;
+            this.database.allDocsByIndex(this.docs[0].id, this.docs[0].meta.versionNumber)
                 .then(function(docs) {
                     result = docs;
                 });

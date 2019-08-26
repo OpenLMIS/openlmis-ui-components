@@ -37,6 +37,7 @@
         PouchDBWrapper.prototype.destroy = destroy;
         PouchDBWrapper.prototype.allDocs = allDocs;
         PouchDBWrapper.prototype.bulkDocs = bulkDocs;
+        PouchDBWrapper.prototype.allDocsWithLatestVersion = allDocsWithLatestVersion;
 
         return PouchDBWrapper;
 
@@ -129,6 +130,36 @@
          */
         function allDocs(params) {
             return $q.when(this.pouchDb.allDocs(params));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.PouchDBWrapper
+         * @name allDocsWithLatestVersion
+         *
+         * @description
+         * Wrapper for the find method of the PouchDB to search all lastest versioned documents.
+         *
+         * @return {Promise}                the PouchDB promise wrapped in AngularJS one
+         */
+        function allDocsWithLatestVersion() {
+            var pouchdb = this.pouchDb;
+            return pouchDb.createIndex({
+                index: {
+                    fields: ['latest']
+                }
+            })
+                .then(function() {
+                    return $q.when(pouchdb.find({
+                        selector: {
+                            latest: {
+                                $eq: true
+                            }
+                        },
+                        //eslint-disable-next-line camelcase
+                        include_docs: true
+                    }));
+                });
         }
 
         /**

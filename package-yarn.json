@@ -59,7 +59,8 @@
     },
     "@bower_components/pouchdb": {
       "main": [
-        "dist/pouchdb.js"
+        "dist/pouchdb.js",
+        "dist/pouchdb.find.js"
       ]
     }
   }

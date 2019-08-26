@@ -37,9 +37,12 @@
         LocalDatabase.prototype.put = put;
         LocalDatabase.prototype.putAll = putAll;
         LocalDatabase.prototype.get = get;
+        LocalDatabase.prototype.putVersioned = putVersioned;
         LocalDatabase.prototype.getAll = getAll;
+        LocalDatabase.prototype.allDocsByIndex = allDocsByIndex;
         LocalDatabase.prototype.remove = remove;
         LocalDatabase.prototype.removeAll = removeAll;
+        LocalDatabase.prototype.allDocsWithLatestVersion = allDocsWithLatestVersion;
 
         return LocalDatabase;
 
@@ -89,6 +92,40 @@
                 })
                 .then(function() {
                     return pouchDb.put(doc);
+                });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.LocalDatabase
+         * @name putVersioned
+         *
+         * @description
+         * Saves the given document (object) into the database. 
+         * If an document with the same ID and the same versionNumber already exist in the database
+         * it will not be updated.
+         *
+         * @param  {Object}     doc the document to be saved (updated) into the database
+         * @return {Promise}        the promise, which resolves when the document has been
+         *                          successfully saved into the database, the promise will be
+         *                          rejected if document couldn't be saved for any reason
+         */
+        function putVersioned(doc) {
+            validate(doc);
+            var pouchDb = new PouchDBWrapper(this.resourceName);
+            return this.allDocsByIndex(doc.id, doc.meta.versionNumber)
+                .then(function(result) {
+                    doc.latest = true;
+                    if (result[0] && result[0].meta.versionNumber < doc.meta.versionNumber) {
+                        result[0].latest = false;
+                        pouchDb.put(result[0]);
+                        return pouchDb.put(doc);
+                    } else if (result[0] && result[0].meta.versionNumber > doc.meta.versionNumber) {
+                        doc.latest = false;
+                        return pouchDb.put(doc);
+                    } else if (!result[0]) {
+                        return pouchDb.put(doc);
+                    }
                 });
         }
 
@@ -149,6 +186,54 @@
                     //eslint-disable-next-line camelcase
                     include_docs: true
                 })
+                .then(extractDocs);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.LocalDatabase
+         * @name allDocsWithLatestVersion
+         *
+         * @description
+         * Retrieves all latest versioned documents stored in the database.
+         *
+         * @return {Promise}    the promise, which resolves to list of all the documents stored in
+         *                      the database, the promise will be rejected if the documents couldn't
+         *                      be retrieved for any reason
+         */
+        function allDocsWithLatestVersion() {
+            return new PouchDBWrapper(this.resourceName)
+                .allDocsWithLatestVersion();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.LocalDatabase
+         * @name allDocsByIndex
+         *
+         * @description
+         * Retrieves all versioned or nonversioned documents with the given ID 
+         * and optional param version number from the database. 
+         * The id must be defined, otherwise an exception will me thrown.
+         *
+         * @param  {String}     id              the ID of the document to retrieve from the database
+         * @param  {String}     versionNumber   the optional param of the document to retrieve from the database
+         * @return {Promise}                    the promise, which resolves when the document has been retrieved
+         *                                      from the database, the promise will be rejected if the document
+         *                                      couldn't be retrieved for any reason
+         */
+        function allDocsByIndex(id, versionNumber) {
+            validateId(id);
+
+            var params = {
+                endkey: versionNumber ? id + '/' + versionNumber : id,
+                startkey: versionNumber ? id + '/' + versionNumber + '\uffff' : id + '\uffff',
+                descending: true,
+                //eslint-disable-next-line camelcase
+                include_docs: true
+            };
+            return new PouchDBWrapper(this.resourceName)
+                .allDocs(params)
                 .then(extractDocs);
         }
 
