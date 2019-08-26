@@ -279,4 +279,17 @@ describe('OpenlmisCachedResource', function() {
             expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
         });
     });
+
+    describe('throwMethodNotSupported', function() {
+
+        it('should throw error', function() {
+            var openlmisCachedResource = this.openlmisCachedResource;
+
+            expect(function() {
+                openlmisCachedResource.throwMethodNotSupported();
+            }).toThrow('Method not supported');
+        });
+
+    });
+
 });

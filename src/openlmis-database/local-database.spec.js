@@ -173,8 +173,8 @@ describe('LocalDatabase', function() {
             }));
 
             var params = {
-                endkey: 'one/4',
-                startkey: 'one/4\uffff',
+                endkey: 'one',
+                startkey: 'one\uffff',
                 descending: true,
                 //eslint-disable-next-line camelcase
                 include_docs: true
@@ -204,8 +204,8 @@ describe('LocalDatabase', function() {
             };
 
             var params = {
-                endkey: 'one/5',
-                startkey: 'one/5\uffff',
+                endkey: 'one',
+                startkey: 'one\uffff',
                 descending: true,
                 //eslint-disable-next-line camelcase
                 include_docs: true
@@ -253,7 +253,7 @@ describe('LocalDatabase', function() {
         });
     });
 
-    it('should save existing object with the same id if it has not the latest', function() {
+    it('should save existing object with the same id if it has not the latest version', function() {
 
         var updatedDoc = {
             id: 'one',
@@ -265,8 +265,8 @@ describe('LocalDatabase', function() {
         };
 
         var params = {
-            endkey: 'one/2',
-            startkey: 'one/2\uffff',
+            endkey: 'one',
+            startkey: 'one\uffff',
             descending: true,
             //eslint-disable-next-line camelcase
             include_docs: true
@@ -303,7 +303,7 @@ describe('LocalDatabase', function() {
         });
     });
 
-    it('should save existing object with the same id if it has not the latest2', function() {
+    it('should save existing object with the same id as the latest version', function() {
 
         var updatedDoc = {
             id: 'one',
@@ -315,8 +315,8 @@ describe('LocalDatabase', function() {
         };
 
         var params = {
-            endkey: 'one/1',
-            startkey: 'one/1\uffff',
+            endkey: 'one',
+            startkey: 'one\uffff',
             descending: true,
             //eslint-disable-next-line camelcase
             include_docs: true

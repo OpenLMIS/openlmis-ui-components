@@ -113,7 +113,7 @@
         function putVersioned(doc) {
             validate(doc);
             var pouchDb = new PouchDBWrapper(this.resourceName);
-            return this.allDocsByIndex(doc.id, doc.meta.versionNumber)
+            return this.allDocsByIndex(doc.id)
                 .then(function(result) {
                     doc.latest = true;
                     if (result[0] && result[0].meta.versionNumber < doc.meta.versionNumber) {
