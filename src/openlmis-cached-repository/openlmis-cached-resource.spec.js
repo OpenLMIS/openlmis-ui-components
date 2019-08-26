@@ -27,6 +27,9 @@ describe('OpenlmisCachedResource', function() {
             this.LocalDatabase = $injector.get('LocalDatabase');
         });
 
+        this.updateDeferred = this.$q.defer();
+        this.createDeferred = this.$q.defer();
+        this.deleteDeferred = this.$q.defer();
         this.getDeferred = this.$q.defer();
         this.allDocsByIndexDeferred = this.$q.defer();
         this.lastModifiedDateDeferred = this.$q.defer();
@@ -280,6 +283,239 @@ describe('OpenlmisCachedResource', function() {
         });
     });
 
+    describe('update', function() {
+
+        beforeEach(function() {
+            this.response = {
+                content: {
+                    id: 'some-id',
+                    doc: {
+                        _id: 'some-id',
+                        _rev: 'some-rev',
+                        object: {
+                            id: 'some-id',
+                            some: 'test-response',
+                            customId: 'custom-id-value'
+                        }
+                    }
+                }
+            };
+
+            spyOn(this.OpenlmisResource.prototype, 'update').andReturn(this.updateDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.response.content.doc);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response.content.doc);
+            this.openlmisCachedResource.isVersioned = false;
+
+        });
+
+        it('should cache non-versioned response on successful request', function() {
+            this.openlmisCachedResource.update(this.response);
+
+            this.updateDeferred.resolve(this.response);
+            this.getDeferred.resolve(this.response.content.doc);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
+        it('should cache versioned response on successful request', function() {
+            this.openlmisCachedResource.isVersioned = true;
+
+            this.openlmisCachedResource.update(this.response);
+            this.updateDeferred.resolve(this.response);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
+        });
+
+        it('should reject on failed request', function() {
+            this.openlmisCachedResource.update(this.response);
+
+            this.updateDeferred.reject();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            this.openlmisCachedResource.update()
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+    });
+
+    describe('create', function() {
+
+        beforeEach(function() {
+
+            this.response = {
+                content: {
+                    id: 'some-id',
+                    doc: {
+                        _id: 'some-id',
+                        _rev: 'some-rev',
+                        object: {
+                            id: 'some-id',
+                            some: 'test-response',
+                            customId: 'custom-id-value'
+                        }
+                    }
+                }
+            };
+
+            spyOn(this.OpenlmisResource.prototype, 'create').andReturn(this.createDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.response.content.doc);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response.content.doc);
+            this.openlmisCachedResource.isVersioned = false;
+
+        });
+
+        it('should cache non-versioned response on successful request', function() {
+            this.openlmisCachedResource.create(this.response);
+
+            this.createDeferred.resolve(this.response);
+            this.getDeferred.resolve(this.response.content.doc);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
+        it('should cache versioned response on successful request', function() {
+            this.openlmisCachedResource.isVersioned = true;
+
+            this.openlmisCachedResource.create(this.response);
+            this.createDeferred.resolve(this.response);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
+        });
+
+        it('should reject on failed request', function() {
+            this.openlmisCachedResource.create(this.response);
+
+            this.createDeferred.reject();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+        });
+
+    });
+
+    describe('delete', function() {
+
+        beforeEach(function() {
+
+            this.results = [
+                {
+                    content: {
+                        id: 'some-id',
+                        doc: {
+                            _id: 'some-id',
+                            _rev: 'some-rev',
+                            object: {
+                                id: 'some-id',
+                                some: 'test-response',
+                                customId: 'custom-id-value'
+                            }
+                        }
+                    }
+                }
+            ];
+
+            spyOn(this.OpenlmisResource.prototype, 'delete').andReturn(this.deleteDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'remove');
+            this.openlmisCachedResource.isVersioned = false;
+
+        });
+
+        it('should resolve non versioned on successful request', function() {
+            this.openlmisCachedResource.delete(this.results[0].content);
+
+            this.deleteDeferred.resolve(this.results[0]);
+            this.allDocsByIndexDeferred.resolve(this.results);
+            this.getDeferred.resolve(this.results[0].content.doc);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.remove).toHaveBeenCalled();
+        });
+
+        it('should resolve versioned on successful request', function() {
+            this.openlmisCachedResource.isVersioned = true;
+            this.openlmisCachedResource.delete(this.results[0].content);
+
+            this.deleteDeferred.resolve(this.results[0]);
+            this.allDocsByIndexDeferred.resolve(this.results[0]);
+            this.getDeferred.resolve(this.results[0].content.doc);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.remove).toHaveBeenCalled();
+        });
+
+        it('should resolve all found versioned on successful request', function() {
+            var anotherResult = {
+                content: {
+                    id: 'some-id',
+                    doc: {
+                        _id: 'some-id',
+                        _rev: 'some-rev2',
+                        object: {
+                            id: 'some-id',
+                            some: 'test-response',
+                            customId: 'custom-id-value'
+                        }
+                    }
+                }
+            };
+
+            this.results.push(anotherResult);
+            this.openlmisCachedResource.isVersioned = true;
+            this.openlmisCachedResource.delete(this.results[0].content);
+
+            this.deleteDeferred.resolve(this.results[0]);
+            this.allDocsByIndexDeferred.resolve(this.results);
+            this.getDeferred.resolve(this.results[0].content.doc);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.remove).toHaveBeenCalled();
+        });
+
+        it('should reject on failed request', function() {
+            this.openlmisCachedResource.delete(this.results[0].content);
+
+            this.deleteDeferred.reject();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.remove).not.toHaveBeenCalled();
+        });
+
+        it('should reject on failed request to local database', function() {
+            this.openlmisCachedResource.delete(this.results[0].content);
+
+            this.deleteDeferred.resolve(this.response);
+            this.getDeferred.reject();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.remove).not.toHaveBeenCalled();
+        });
+    });
+
     describe('throwMethodNotSupported', function() {
 
         it('should throw error', function() {
@@ -289,7 +525,6 @@ describe('OpenlmisCachedResource', function() {
                 openlmisCachedResource.throwMethodNotSupported();
             }).toThrow('Method not supported');
         });
-
     });
 
 });

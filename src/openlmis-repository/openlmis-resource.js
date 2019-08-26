@@ -196,7 +196,13 @@
          */
         function update(object) {
             if (object) {
-                return this.resource.update({
+                var resourceUrl = this.resourceUrl,
+                    resource = this.resource;
+
+                if (this.config && this.config.cache) {
+                    resource = generateResource(resourceUrl, undefined, this.config, undefined);
+                }
+                return resource.update({
                     id: object[this.idParam]
                 }, object).$promise;
             }
@@ -216,7 +222,13 @@
          * @return {Promise}               the promise resolving to the server response, rejected if request fails
          */
         function create(object, customParams) {
-            return this.resource.save(customParams, object).$promise;
+            var resourceUrl = this.resourceUrl,
+                resource = this.resource;
+
+            if (this.config && this.config.cache) {
+                resource = generateResource(resourceUrl, undefined, this.config, customParams);
+            }
+            return resource.save(customParams, object).$promise;
         }
 
         /**
@@ -232,8 +244,14 @@
          *                          undefined or if the ID is undefined
          */
         function deleteObject(object) {
+            var resourceUrl = this.resourceUrl,
+                resource = this.resource;
+
+            if (this.config && this.config.cache) {
+                resource = generateResource(resourceUrl, {}, this.config, undefined);
+            }
             if (object && object[this.idParam]) {
-                return this.resource.delete({
+                return resource.delete({
                     id: object[this.idParam]
                 }).$promise;
             }
@@ -288,6 +306,24 @@
                     },
                     headers: header,
                     isArray: !isPaginated(config)
+                },
+                update: {
+                    method: 'PUT',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status);
+                    }
+                },
+                save: {
+                    method: 'POST',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status);
+                    }
+                },
+                delete: {
+                    method: 'DELETE',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status);
+                    }
                 }
             });
         }

@@ -188,8 +188,45 @@
          *                          undefined or if the ID is undefined
          */
         function update(object) {
-            var openlmisResource = this.openlmisResource;
-            return openlmisResource.update(object);
+            var database = this.database,
+                openlmisResource = this.openlmisResource,
+                isVersioned = this.isVersioned;
+
+            if (object) {
+                return openlmisResource.update(object)
+                    .then(function(response) {
+                        if (isVersioned) {
+                            database.putVersioned(response.content);
+                            return response.content;
+                        }
+                        database.get(response.content.id)
+                            .catch(function(error) {
+                                if (error.name === 'not_found') {
+                                    return {
+                                        _id: response.content.id,
+                                        object: response.content
+                                    };
+                                }
+                                throw error;
+                            })
+                            .then(function(doc) {
+                                database.put({
+                                    id: doc._id,
+                                    _rev: doc._rev,
+                                    object: doc
+                                });
+                                return response.content;
+                            })
+                            .catch(function(error) {
+                                return $q.reject(error);
+                            });
+                    })
+                    .catch(function(error) {
+                        return $q.reject(error);
+                    });
+            }
+
+            return $q.reject();
         }
 
         /**
@@ -205,8 +242,26 @@
          * @return {Promise}               the promise resolving to the server response, rejected if request fails
          */
         function create(object, params) {
-            var openlmisResource = this.openlmisResource;
-            return openlmisResource.create(object, params);
+            var database = this.database,
+                openlmisResource = this.openlmisResource,
+                isVersioned = this.isVersioned;
+
+            return openlmisResource.create(object, params)
+                .then(function(response) {
+                    if (isVersioned) {
+                        database.putVersioned(response.content);
+                        return response.content;
+                    }
+
+                    database.put({
+                        id: response.content.id,
+                        object: response.content
+                    });
+                    return response.content;
+                })
+                .catch(function(error) {
+                    return $q.reject(error);
+                });
         }
 
         /**
@@ -222,8 +277,28 @@
          *                          undefined or if the ID is undefined
          */
         function deleteObject(object) {
-            var openlmisResource = this.openlmisResource;
-            return openlmisResource.deleteObject(object);
+            var database = this.database,
+                openlmisResource = this.openlmisResource;
+
+            if (object) {
+                return openlmisResource.delete(object)
+                    .then(function(response) {
+                        database.allDocsByIndex(response.content.id)
+                            .then(function(results) {
+                                if (results.length > 1) {
+                                    results.forEach(function(resource) {
+                                        removeFromCache(resource.content, database);
+                                    });
+                                } else {
+                                    removeFromCache(response.content, database);
+                                }
+                            });
+                    })
+                    .catch(function(error) {
+                        return $q.reject(error);
+                    });
+            }
+            return $q.reject();
         }
 
         /**
@@ -264,6 +339,15 @@
 
         function isPaginated(config) {
             return !config || config.paginated || config.paginated === undefined;
+        }
+
+        function removeFromCache(resource, database) {
+            database.get(resource.id).then(function(doc) {
+                return database.remove(doc);
+            })
+                .catch(function(error) {
+                    return $q.reject(error);
+                });
         }
     }
 
