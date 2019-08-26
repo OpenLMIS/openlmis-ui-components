@@ -320,6 +320,20 @@ describe('OpenlmisCachedResource', function() {
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });
 
+        it('should cache non-versioned response when not found in cache', function() {
+            var notFoundError = new Error();
+            notFoundError.name = 'not_found';
+
+            this.openlmisCachedResource.update(this.response);
+
+            this.updateDeferred.resolve(this.response);
+            this.getDeferred.reject(notFoundError);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
         it('should cache versioned response on successful request', function() {
             this.openlmisCachedResource.isVersioned = true;
 
