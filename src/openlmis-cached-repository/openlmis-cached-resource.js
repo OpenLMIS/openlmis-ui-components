@@ -33,7 +33,7 @@
     function OpenlmisCachedResource($q, LocalDatabase, OpenlmisResource) {
 
         OpenlmisCachedResource.prototype.get = get;
-        OpenlmisCachedResource.prototype.getVersionedDocs = getVersionedDocs;
+        OpenlmisCachedResource.prototype.getByVersionIdentities = getByVersionIdentities;
         OpenlmisCachedResource.prototype.query = query;
         OpenlmisCachedResource.prototype.getAll = getAll;
         OpenlmisCachedResource.prototype.update = update;
@@ -123,17 +123,17 @@
          * @return {Array}                  the array to matching objects, rejects if objects list 
          *                                  is not given or if the request fails         
          */
-        function getVersionedDocs(objectsList) {
+        function getByVersionIdentities(objectsList) {
             if (objectsList) {
                 var database = this.database,
                     openlmisResource = this.openlmisResource,
-                    cachedDocs = [],
+                    promises = [],
                     finalDocsList = [],
                     searchList = {};
                 searchList.identities = [];
 
                 objectsList.forEach(function(item) {
-                    cachedDocs.push(database.allDocsByIndex(item.id, item.versionNumber)
+                    promises.push(database.allDocsByIndex(item.id, item.versionNumber)
                         .then(function(result) {
                             if (result[0]) {
                                 return result[0];
@@ -142,7 +142,7 @@
                         }));
                 });
 
-                return $q.all(cachedDocs).then(function(docs) {
+                return $q.all(promises).then(function(docs) {
                     docs.forEach(function(doc) {
                         if (doc) {
                             finalDocsList.push(doc);

@@ -165,7 +165,7 @@ describe('OpenlmisCachedResource', function() {
 
     });
 
-    describe('getVersionedDocs', function() {
+    describe('getByVersionIdentities', function() {
 
         beforeEach(function() {
             this.listIds = [{
@@ -194,14 +194,14 @@ describe('OpenlmisCachedResource', function() {
             };
         });
 
-        it('should cache response on successful request', function() {
+        it('should return records from local database and not send a request to the server', function() {
             spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
 
             this.openlmisCachedResource.isVersioned = true;
             var result;
-            this.openlmisCachedResource.getVersionedDocs(this.listIds)
+            this.openlmisCachedResource.getByVersionIdentities(this.listIds)
                 .then(function(response) {
                     result = response;
                 });
@@ -214,14 +214,14 @@ describe('OpenlmisCachedResource', function() {
             expect(this.OpenlmisResource.prototype.search).not.toHaveBeenCalled();
         });
 
-        it('should cache response on successful request3333', function() {
+        it('should send a request to the server if records are not in the local database', function() {
             spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_2);
 
             this.openlmisCachedResource.isVersioned = true;
             var result;
-            this.openlmisCachedResource.getVersionedDocs(this.listIds)
+            this.openlmisCachedResource.getByVersionIdentities(this.listIds)
                 .then(function(response) {
                     result = response;
                 });
@@ -240,7 +240,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
 
-            this.openlmisCachedResource.getVersionedDocs(this.listIds);
+            this.openlmisCachedResource.getByVersionIdentities(this.listIds);
             this.allDocsByIndexDeferred.resolve([]);
             this.searchDeferred.reject();
             this.$rootScope.$apply();
@@ -255,7 +255,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
 
             var rejected;
-            this.openlmisCachedResource.getVersionedDocs()
+            this.openlmisCachedResource.getByVersionIdentities()
                 .catch(function() {
                     rejected = true;
                 });
