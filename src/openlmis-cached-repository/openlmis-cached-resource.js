@@ -33,6 +33,7 @@
     function OpenlmisCachedResource($q, LocalDatabase, OpenlmisResource) {
 
         OpenlmisCachedResource.prototype.get = get;
+        OpenlmisCachedResource.prototype.getVersionedDocs = getVersionedDocs;
         OpenlmisCachedResource.prototype.query = query;
         OpenlmisCachedResource.prototype.getAll = getAll;
         OpenlmisCachedResource.prototype.update = update;
@@ -105,6 +106,65 @@
                             });
                     }
                     return result[0];
+                });
+            }
+            return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name getVersionedDocs
+         *
+         * @description
+         * Retrieves a list of object from cache or from server if docs not exists in cache
+         *
+         * @param  {string}  objectsList    the list of the objects with id and specific version number
+         * @return {Array}                  the array to matching objects, rejects if objects list 
+         *                                  is not given or if the request fails         
+         */
+        function getVersionedDocs(objectsList) {
+            if (objectsList) {
+                var database = this.database,
+                    openlmisResource = this.openlmisResource,
+                    cachedDocs = [],
+                    finalDocsList = [],
+                    searchList = {};
+                searchList.identities = [];
+
+                objectsList.forEach(function(item) {
+                    cachedDocs.push(database.allDocsByIndex(item.id, item.versionNumber)
+                        .then(function(result) {
+                            if (result[0]) {
+                                return result[0];
+                            }
+                            searchList.identities.push(item);
+                        }));
+                });
+
+                return $q.all(cachedDocs).then(function(docs) {
+                    docs.forEach(function(doc) {
+                        if (doc) {
+                            finalDocsList.push(doc);
+                        }
+                    });
+
+                    if (searchList.identities.length > 0) {
+                        openlmisResource.resourceUrl = openlmisResource.resourceUrl + '/search';
+                        return openlmisResource.search(searchList).then(function(result) {
+                            result.content.content.forEach(function(doc) {
+                                finalDocsList.push(doc);
+                                database.putVersioned(doc);
+                            });
+                            return $q.all(finalDocsList).then(function(result) {
+                                return result;
+                            });
+                        })
+                            .catch(function(error) {
+                                return $q.reject(error);
+                            });
+                    }
+                    return finalDocsList;
                 });
             }
             return $q.reject();

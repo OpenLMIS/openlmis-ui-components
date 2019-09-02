@@ -31,6 +31,7 @@ describe('OpenlmisCachedResource', function() {
         this.createDeferred = this.$q.defer();
         this.deleteDeferred = this.$q.defer();
         this.getDeferred = this.$q.defer();
+        this.searchDeferred = this.$q.defer();
         this.allDocsByIndexDeferred = this.$q.defer();
         this.lastModifiedDateDeferred = this.$q.defer();
         this.queryDeferred = this.$q.defer();
@@ -162,6 +163,106 @@ describe('OpenlmisCachedResource', function() {
             expect(rejected).toBe(true);
         });
 
+    });
+
+    describe('getVersionedDocs', function() {
+
+        beforeEach(function() {
+            this.listIds = [{
+                id: 'one-id',
+                versionNumber: 1
+            }];
+            //eslint-disable-next-line camelcase
+            this.response_1 = [{
+                id: 'one-id',
+                _id: 'one-id',
+                _rev: 'one-rev',
+                some: 'test-response',
+                lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT'
+            }];
+            //eslint-disable-next-line camelcase
+            this.response_2 = {
+                content: {
+                    content: [{
+                        id: 'one-id',
+                        _id: 'one-id',
+                        _rev: 'one-rev',
+                        some: 'test-response',
+                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT'
+                    }]
+                }
+            };
+        });
+
+        it('should cache response on successful request', function() {
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
+
+            this.openlmisCachedResource.isVersioned = true;
+            var result;
+            this.openlmisCachedResource.getVersionedDocs(this.listIds)
+                .then(function(response) {
+                    result = response;
+                });
+            this.allDocsByIndexDeferred.resolve(this.response_1);
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.response_1);
+            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.OpenlmisResource.prototype.search).not.toHaveBeenCalled();
+        });
+
+        it('should cache response on successful request3333', function() {
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_2);
+
+            this.openlmisCachedResource.isVersioned = true;
+            var result;
+            this.openlmisCachedResource.getVersionedDocs(this.listIds)
+                .then(function(response) {
+                    result = response;
+                });
+            this.allDocsByIndexDeferred.resolve([]);
+            this.searchDeferred.resolve(this.response_2);
+            this.$rootScope.$apply();
+
+            expect(result).toEqual(this.response_2.content.content);
+            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
+            expect(this.OpenlmisResource.prototype.search).toHaveBeenCalled();
+        });
+
+        it('should reject on failed request', function() {
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
+
+            this.openlmisCachedResource.getVersionedDocs(this.listIds);
+            this.allDocsByIndexDeferred.resolve([]);
+            this.searchDeferred.reject();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.OpenlmisResource.prototype.search).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+        });
+
+        it('should reject if null was given', function() {
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
+
+            var rejected;
+            this.openlmisCachedResource.getVersionedDocs()
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
     });
 
     describe('query', function() {

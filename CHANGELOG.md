@@ -9,6 +9,8 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-6442](https://openlmis.atlassian.net/browse/OLMIS-6442): Added confirmation modal to the FunctionDecorator.
 * [OLMIS-6441](https://openlmis.atlassian.net/browse/OLMIS-6441): Added directive positive-decimal.
 * [OLMIS-6487](https://openlmis.atlassian.net/browse/OLMIS-6487): Added implementation for get and getAll functions in OpenlmisCacheResource on UI.
+* [OLMIS-6538](https://openlmis.atlassian.net/browse/OLMIS-6538): Added implementation for getVersionedIds function in OpenlmisCacheResource on UI to search multiple id with specific version.
+
 * [OLMIS-6486](https://openlmis.atlassian.net/browse/OLMIS-6486): Added implementation for create, update and delete functions in OpenlmisCacheResource on UI.
 
 Improvements:

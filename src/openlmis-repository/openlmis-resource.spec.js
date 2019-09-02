@@ -694,6 +694,76 @@ describe('OpenlmisResource', function() {
 
     });
 
+    describe('search', function() {
+
+        beforeEach(function() {
+            this.response = {
+                id: 'some-id',
+                _id: 'some-id/1',
+                some: 'test-object',
+                meta: {
+                    versionNumber: 1
+                },
+                lastModified: this.lastModified,
+                status: 200
+            };
+
+            this.object = [{
+                id: 'some-id',
+                varsionNumber: 1
+            }];
+
+            this.openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
+                cache: true,
+                versioned: true
+            });
+        });
+
+        it('should resolve to server response on successful request', function() {
+            this.$httpBackend
+                .expectPOST(this.openlmisUrlFactory(this.BASE_URL), this.object)
+                .respond(200, this.response, {
+                    'last-modified': this.lastModified
+                });
+
+            var result;
+            this.openlmisResource.search(this.object)
+                .then(function(response) {
+                    result = response.content;
+                });
+            this.$httpBackend.flush();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(this.response));
+        });
+
+        it('should reject on failed request', function() {
+            this.$httpBackend
+                .expectPOST(this.openlmisUrlFactory(this.BASE_URL), this.object)
+                .respond(400);
+
+            var rejected;
+            this.openlmisResource.search(this.object)
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$httpBackend.flush();
+
+            expect(rejected).toEqual(true);
+        });
+
+        it('should reject if null was given', function() {
+            var rejected;
+            this.openlmisResource.search()
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(rejected).toBe(true);
+        });
+
+    });
+
     describe('update', function() {
 
         beforeEach(function() {

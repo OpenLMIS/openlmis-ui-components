@@ -38,6 +38,7 @@
         OpenlmisResource.prototype.update = update;
         OpenlmisResource.prototype.create = create;
         OpenlmisResource.prototype.delete = deleteObject;
+        OpenlmisResource.prototype.search = search;
         OpenlmisResource.prototype.throwMethodNotSupported = throwMethodNotSupported;
 
         return OpenlmisResource;
@@ -234,6 +235,27 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-repository.OpenlmisResource
+         * @name search
+         * 
+         * @description
+         * Search the given objects on the OpenLMIS server. Uses POST method.
+         * 
+         * @param  {Object}  objectsList   the objects list to be searched on the server
+         * @return {Promise}               the promise resolving to the server response, rejected if request fails
+         */
+        function search(objectsList) {
+            if (objectsList) {
+                var resourceUrl = this.resourceUrl;
+                var resource = generateResource(resourceUrl, undefined, this.config, undefined);
+
+                return resource.search(undefined, objectsList).$promise;
+            }
+            return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-repository.OpenlmisResource
          * @name delete
          * 
          * @description
@@ -314,6 +336,12 @@
                     }
                 },
                 save: {
+                    method: 'POST',
+                    transformResponse: function(data, headers, status) {
+                        return transformResponse(data, headers, status, config);
+                    }
+                },
+                search: {
                     method: 'POST',
                     transformResponse: function(data, headers, status) {
                         return transformResponse(data, headers, status, config);
