@@ -56,7 +56,27 @@ describe('openlmisTableFilterForm directive', function() {
 
     it('should register element in the openlmisTableFilters', function() {
         expect(this.openlmisTableFiltersControllerSpy.registerElement)
-            .toHaveBeenCalledWith(angular.element(this.template.find('[openlmis-table-filter-form]')[0]));
+            .toHaveBeenCalledWith(angular.element(this.template.find('[openlmis-table-filter-form]')[0]), 'body');
+    });
+
+    it('should register element with .modal-content as container', function() {
+        var markup =
+            '<div class="modal-content">' +
+                '<section class="openlmis-table-container">' +
+                    '<div openlmis-table-filter-form></div>' +
+                    '<table>' +
+                        '<thead><tr><th></th></tr></thead>' +
+                        '<tbody><tr><td></td></tr></tbody>' +
+                    '</table>' +
+                '</section>' +
+            '</div>';
+
+        this.template = this.$compile(markup)(this.$rootScope.$new());
+        this.$rootScope.$apply();
+
+        expect(this.openlmisTableFiltersControllerSpy.registerElement)
+            .toHaveBeenCalledWith(angular.element(this.template.find('[openlmis-table-filter-form]')[0]),
+                '.modal-content');
     });
 
 });

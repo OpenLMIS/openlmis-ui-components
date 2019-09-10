@@ -53,7 +53,8 @@
         return directive;
 
         function link(scope, element, attrs, openlmisTableFiltersCtrl) {
-            openlmisTableFiltersCtrl.registerElement(element);
+            var container = element.parents().hasClass('modal-content') ? '.modal-content' : 'body';
+            openlmisTableFiltersCtrl.registerElement(element, container);
         }
     }
 

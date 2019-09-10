@@ -253,6 +253,37 @@ describe('OpenlmisTableFiltersController', function() {
 
     });
 
+    describe('popover options', function() {
+
+        it('should be set properly when filter is used on the screen', function() {
+            this.vm.registerElement(angular.element('<div></div>'), 'body');
+
+            this.form = this.vm.getFormElement();
+            this.filterButton = this.vm.getFilterButton();
+
+            spyOn(this.filterButton, 'popover').andCallThrough();
+
+            expect(this.filterButton.data('bs.popover').options.html).toBeTruthy();
+            expect(this.filterButton.data('bs.popover').options.container).toEqual('body');
+            expect(this.filterButton.data('bs.popover').options.placement).toEqual('auto top');
+            expect(this.filterButton.data('bs.popover').options.content).toEqual(this.form);
+        });
+
+        it('should be set properly when filter is used on the modal', function() {
+            this.vm.registerElement(angular.element('<div></div>'), '.modal-content');
+
+            this.form = this.vm.getFormElement();
+            this.filterButton = this.vm.getFilterButton();
+
+            spyOn(this.filterButton, 'popover').andCallThrough();
+
+            expect(this.filterButton.data('bs.popover').options.html).toBeTruthy();
+            expect(this.filterButton.data('bs.popover').options.container).toEqual('.modal-content');
+            expect(this.filterButton.data('bs.popover').options.placement).toEqual('auto top');
+            expect(this.filterButton.data('bs.popover').options.content).toEqual(this.form);
+        });
+    });
+
     describe('submit event', function() {
 
         it('should contain a map of input names and model values', function() {

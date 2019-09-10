@@ -56,9 +56,9 @@
          *
          * @param  {Object} element the element to be registered
          */
-        function registerElement(element) {
+        function registerElement(element, container) {
             if (!form) {
-                initializeElements();
+                initializeElements(container);
             }
             replaceSubmitButtonIfElementContainsSubmitButton(element);
 
@@ -101,7 +101,7 @@
             return filterButton;
         }
 
-        function initializeElements() {
+        function initializeElements(container) {
             form = compileForm();
             form.on('submit', submitForms);
 
@@ -112,7 +112,7 @@
                 updateButtonState();
             }, 50);
 
-            filterButton = compileFilterButton();
+            filterButton = compileFilterButton(container);
             submitButton = form.find(SUBMIT_ELEMENT);
 
             openPopoverIfFormIsInvalidAndPristine();
@@ -203,6 +203,9 @@
 
         function isFormInvalidAndPristine() {
             var formCtrl = form.controller('form');
+            if (!formCtrl) {
+                return false;
+            }
             return formCtrl.$invalid && formCtrl.$pristine;
         }
 
@@ -213,7 +216,7 @@
                 '</form>');
         }
 
-        function compileFilterButton() {
+        function compileFilterButton(container) {
             var filterButton = compileElement('<button class="filters {{class}}">' +
                     '{{\'openlmisTableFilter.filter\' | message }}' +
                     '<span ng-if="count && count !== 0">({{count}})</span>' +
@@ -221,7 +224,7 @@
 
             filterButton.popover({
                 html: true,
-                container: 'body',
+                container: container,
                 placement: 'auto top',
                 content: form
             })
