@@ -12,7 +12,7 @@ New functionality added in a backwards-compatible manner:
 * [OLMIS-6538](https://openlmis.atlassian.net/browse/OLMIS-6538): Added implementation for getVersionedIds function in OpenlmisCacheResource on UI to search multiple id with specific version.
 
 * [OLMIS-6486](https://openlmis.atlassian.net/browse/OLMIS-6486): Added implementation for create, update and delete functions in OpenlmisCacheResource on UI.
-* [OLMIS-6438](https://openlmis.atlassian.net/browse/OLMIS-6438): Added posibility to use filter component in modal.
+* [OLMIS-6438](https://openlmis.atlassian.net/browse/OLMIS-6438): Added possibility to use filter component in modal.
 
 Improvements:
 * [OLMIS-6357](https://openlmis.atlassian.net/browse/OLMIS-6357): Updated LocalDatabase to reopen database connection for every action.
