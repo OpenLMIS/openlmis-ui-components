@@ -28,9 +28,10 @@
         .module('openlmis-cached-repository')
         .factory('OpenlmisCachedResource', OpenlmisCachedResource);
 
-    OpenlmisCachedResource.$inject = ['$q', 'LocalDatabase', 'OpenlmisResource'];
+    OpenlmisCachedResource.$inject = ['$q', 'LocalDatabase', 'OpenlmisResource', 'offlineService',
+        'alertService'];
 
-    function OpenlmisCachedResource($q, LocalDatabase, OpenlmisResource) {
+    function OpenlmisCachedResource($q, LocalDatabase, OpenlmisResource, offlineService, alertService) {
 
         OpenlmisCachedResource.prototype.get = get;
         OpenlmisCachedResource.prototype.getByVersionIdentities = getByVersionIdentities;
@@ -59,15 +60,18 @@
          * @param {String} uri              the URI pointing to the resource
          * @param {String} databaseName     the databaseName pointing to the resource
          * @param {Object} config           the optional configuration object, modifies the default behavior 
-         *                                  making this class
-         *                                  more flexible
+         *                                  making this class more flexible
          */
         function OpenlmisCachedResource(uri, databaseName, config) {
             var newDatabase = new LocalDatabase(databaseName);
             this.database = newDatabase;
 
             this.isVersioned = isVersioned(config);
-            config.cache = true;
+            if (config) {
+                config.cache = true;
+                config.offlineMessage = config.offlineMessage ?
+                    config.offlineMessage : 'openlmisCachedResource.offlineMessage';
+            }
             this.config = config;
             this.openlmisResource = new OpenlmisResource(uri, config);
 
@@ -129,7 +133,8 @@
                     openlmisResource = this.openlmisResource,
                     promises = [],
                     finalDocsList = [],
-                    searchList = {};
+                    searchList = {},
+                    config = this.config;
                 searchList.identities = [];
 
                 objectsList.forEach(function(item) {
@@ -149,7 +154,10 @@
                         }
                     });
 
-                    if (searchList.identities.length > 0) {
+                    if (searchList.identities.length > 0 && offlineService.isOffline()) {
+                        alertService.error(config.offlineMessage);
+                        return $q.reject();
+                    } else if (searchList.identities.length > 0) {
                         openlmisResource.resourceUrl = openlmisResource.resourceUrl + '/search';
                         return openlmisResource.search(searchList).then(function(result) {
                             result.content.content.forEach(function(doc) {

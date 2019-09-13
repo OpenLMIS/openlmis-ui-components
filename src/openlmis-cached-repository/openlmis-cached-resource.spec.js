@@ -18,6 +18,8 @@ describe('OpenlmisCachedResource', function() {
     beforeEach(function() {
         module('openlmis-cached-repository');
         module('openlmis-repository');
+        module('openlmis-offline');
+        module('openlmis-modal');
 
         inject(function($injector) {
             this.$q = $injector.get('$q');
@@ -25,6 +27,8 @@ describe('OpenlmisCachedResource', function() {
             this.OpenlmisCachedResource = $injector.get('OpenlmisCachedResource');
             this.OpenlmisResource = $injector.get('OpenlmisResource');
             this.LocalDatabase = $injector.get('LocalDatabase');
+            this.alertService = $injector.get('alertService');
+            this.offlineService = $injector.get('offlineService');
         });
 
         this.updateDeferred = this.$q.defer();
@@ -38,13 +42,15 @@ describe('OpenlmisCachedResource', function() {
         this.allDocsWithLatestVersionDeferred = this.$q.defer();
         this.database = new this.LocalDatabase('testDatabase');
         this.config = {
-            cache: true
+            cache: true,
+            offlineMessage: 'offline.message'
         };
         this.BASE_URL = 'some.url/com';
 
         this.openlmisCachedResource = new this.OpenlmisCachedResource(
             this.BASE_URL, 'testDatabase', this.config
         );
+        spyOn(this.offlineService, 'isOffline').andReturn(false);
     });
 
     describe('get', function() {
@@ -233,6 +239,24 @@ describe('OpenlmisCachedResource', function() {
             expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
             expect(this.OpenlmisResource.prototype.search).toHaveBeenCalled();
+        });
+
+        it('should not send a request to the server if offline', function() {
+            this.offlineService.isOffline.andReturn(true);
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_2);
+            spyOn(this.alertService, 'error');
+
+            this.openlmisCachedResource.isVersioned = true;
+            this.openlmisCachedResource.getByVersionIdentities(this.listIds);
+            this.allDocsByIndexDeferred.resolve([]);
+            this.$rootScope.$apply();
+
+            expect(this.alertService.error).toHaveBeenCalledWith(this.config.offlineMessage);
+            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.OpenlmisResource.prototype.search).not.toHaveBeenCalled();
         });
 
         it('should reject on failed request', function() {
