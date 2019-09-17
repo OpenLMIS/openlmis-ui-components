@@ -179,13 +179,13 @@ describe('OpenlmisCachedResource', function() {
                 versionNumber: 1
             }];
             //eslint-disable-next-line camelcase
-            this.response_1 = [{
+            this.response_1 = {
                 id: 'one-id',
                 _id: 'one-id',
                 _rev: 'one-rev',
                 some: 'test-response',
                 lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT'
-            }];
+            };
             //eslint-disable-next-line camelcase
             this.response_2 = {
                 content: {
@@ -201,7 +201,7 @@ describe('OpenlmisCachedResource', function() {
         });
 
         it('should return records from local database and not send a request to the server', function() {
-            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
 
@@ -211,17 +211,17 @@ describe('OpenlmisCachedResource', function() {
                 .then(function(response) {
                     result = response;
                 });
-            this.allDocsByIndexDeferred.resolve(this.response_1);
+            this.getDeferred.resolve(this.response_1);
             this.$rootScope.$apply();
 
-            expect(result).toEqual(this.response_1);
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(result).toEqual([this.response_1]);
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.OpenlmisResource.prototype.search).not.toHaveBeenCalled();
         });
 
         it('should send a request to the server if records are not in the local database', function() {
-            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_2);
 
@@ -231,45 +231,45 @@ describe('OpenlmisCachedResource', function() {
                 .then(function(response) {
                     result = response;
                 });
-            this.allDocsByIndexDeferred.resolve([]);
+            this.getDeferred.resolve();
             this.searchDeferred.resolve(this.response_2);
             this.$rootScope.$apply();
 
             expect(result).toEqual(this.response_2.content.content);
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
             expect(this.OpenlmisResource.prototype.search).toHaveBeenCalled();
         });
 
         it('should not send a request to the server if offline', function() {
             this.offlineService.isOffline.andReturn(true);
-            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_2);
             spyOn(this.alertService, 'error');
 
             this.openlmisCachedResource.isVersioned = true;
             this.openlmisCachedResource.getByVersionIdentities(this.listIds);
-            this.allDocsByIndexDeferred.resolve([]);
+            this.getDeferred.resolve();
             this.$rootScope.$apply();
 
             expect(this.alertService.error).toHaveBeenCalledWith(this.config.offlineMessage);
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.OpenlmisResource.prototype.search).not.toHaveBeenCalled();
         });
 
         it('should reject on failed request', function() {
-            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
             spyOn(this.OpenlmisResource.prototype, 'search').andReturn(this.searchDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.response_1);
 
             this.openlmisCachedResource.getByVersionIdentities(this.listIds);
-            this.allDocsByIndexDeferred.resolve([]);
+            this.getDeferred.resolve();
             this.searchDeferred.reject();
             this.$rootScope.$apply();
 
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
             expect(this.OpenlmisResource.prototype.search).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
         });

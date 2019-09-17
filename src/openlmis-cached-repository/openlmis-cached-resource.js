@@ -138,10 +138,10 @@
                 searchList.identities = [];
 
                 objectsList.forEach(function(item) {
-                    promises.push(database.allDocsByIndex(item.id, item.versionNumber)
+                    promises.push(database.get(item.id + '/' + item.versionNumber)
                         .then(function(result) {
-                            if (result[0]) {
-                                return result[0];
+                            if (result) {
+                                return result;
                             }
                             searchList.identities.push(item);
                         }));
