@@ -1,5 +1,5 @@
-7.2.0 / Work in Progress
-========================
+7.2.0 / 2019-10-17
+==================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-6350](https://openlmis.atlassian.net/browse/OLMIS-6350): Added openlmisOkIcon component.
