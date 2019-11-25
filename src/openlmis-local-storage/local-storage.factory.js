@@ -87,7 +87,7 @@
                         if (item.id) {
                             removeItemBy('id', item.id);
                         }
-                        items.push(typeof item === 'object' ? angular.copy(item) : item);
+                        items.push(typeof item === 'object' ? JSON.parse(JSON.stringify(item)) : item);
                     });
                 }
             }
