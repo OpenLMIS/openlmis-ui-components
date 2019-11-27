@@ -264,7 +264,7 @@
         }
 
         function translateToRequestParams(stateParams, pageParamName, sizeParamName) {
-            var requestParams = angular.copy(stateParams);
+            var requestParams = JSON.parse(JSON.stringify(stateParams));
 
             if (pageParamName !== 'page') {
                 requestParams.page = requestParams[pageParamName];

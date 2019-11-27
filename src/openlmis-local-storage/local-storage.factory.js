@@ -107,7 +107,7 @@
              */
             function getBy(property, value) {
                 var filtered = searchItems(toParams(property, value));
-                return filtered.length ? angular.copy(filtered[0]) : undefined;
+                return filtered.length ? JSON.parse(JSON.stringify(filtered[0])) : undefined;
             }
 
             /**
