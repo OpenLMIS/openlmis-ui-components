@@ -101,15 +101,18 @@
          */
         function sortBy(propertyName) {
             this.sort(function(a, b) {
-                var aProperty = a[propertyName].toLowerCase(),
-                    bProperty = b[propertyName].toLowerCase();
 
-                if (aProperty > bProperty) {
-                    return 1;
-                }
+                if (undefined !== a[propertyName] && undefined !== b[propertyName]) {
+                    var aProperty = a[propertyName].toLowerCase(),
+                        bProperty = b[propertyName].toLowerCase();
 
-                if (aProperty < bProperty) {
-                    return -1;
+                    if (aProperty > bProperty) {
+                        return 1;
+                    }
+
+                    if (aProperty < bProperty) {
+                        return -1;
+                    }
                 }
 
                 return 0;

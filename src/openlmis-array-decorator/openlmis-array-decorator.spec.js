@@ -56,6 +56,23 @@ describe('OpenlmisArrayDecorator', function() {
             }
         ];
 
+        this.undefinedArray = [
+            {
+                id: 0
+            },
+            {
+                id: 1
+            },
+            {
+                id: 2,
+                property: 'b-property'
+            },
+            {
+                id: 3,
+                property: 'a-property'
+            }
+        ];
+
         spyOn(console, 'warn');
     });
 
@@ -239,6 +256,17 @@ describe('OpenlmisArrayDecorator', function() {
             expect(this.decoratedObjectsArray[4]).toEqual(this.objectsArray[2]);
             expect(this.decoratedObjectsArray[5]).toEqual(this.objectsArray[5]);
             expect(this.decoratedObjectsArray[6]).toEqual(this.objectsArray[3]);
+        });
+
+        it('should sort by given property but should not change order when two properties are undefined', function() {
+            this.newUndefinedArray = new this.OpenlmisArrayDecorator(angular.copy(this.undefinedArray));
+
+            this.newUndefinedArray.sortBy('property');
+
+            expect(this.newUndefinedArray[0]).toEqual(this.undefinedArray[0]);
+            expect(this.newUndefinedArray[1]).toEqual(this.undefinedArray[1]);
+            expect(this.newUndefinedArray[2]).toEqual(this.undefinedArray[3]);
+            expect(this.newUndefinedArray[3]).toEqual(this.undefinedArray[2]);
         });
 
     });
