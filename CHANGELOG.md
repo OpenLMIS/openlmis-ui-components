@@ -4,6 +4,9 @@
 Improvements:
 * [OLMIS-6684](https://openlmis.atlassian.net/browse/OLMIS-6684): Updated pagination component to allow providing a function to call before changing page.
     * Got rid of angular.copy to improve performance in some places.
+    
+Bug fixes:
+* [OLMIS-6612](https://openlmis.atlassian.net/browse/OLMIS-6612): Added check whether the property exists before sorting array by given property.
 
 7.2.0 / 2019-10-17
 ==================
@@ -143,7 +146,6 @@ Bug fixes:
 * [OLMIS-4195:](https://openlmis.atlassian.net/browse/OLMIS-4195): Forms styled with .openlmis-table-container will now flex to the match their parents
 * [OLMIS-4397:](https://openlmis.atlassian.net/browse/OLMIS-4397): Fixed min and max date restrictions on the datepicker
 * [OLMIS-4469:](https://openlmis.atlassian.net/browse/OLMIS-4469): Fixed hiding loading modal after it is shown
-* [OLMIS-6612:](https://openlmis.atlassian.net/browse/OLMIS-6612): Added check whether the property exists before sorting array by given property.
 
 5.2.0 / 2017-11-09
 ==================
