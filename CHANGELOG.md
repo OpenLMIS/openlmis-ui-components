@@ -1,3 +1,10 @@
+7.2.1-SNAPSHOT / WIP
+====================
+
+Improvements:
+* [OLMIS-6684](https://openlmis.atlassian.net/browse/OLMIS-6684): Updated pagination component to allow providing a function to call before changing page.
+    * Got rid of angular.copy to improve performance in some places.
+
 7.2.0 / 2019-10-17
 ==================
 
