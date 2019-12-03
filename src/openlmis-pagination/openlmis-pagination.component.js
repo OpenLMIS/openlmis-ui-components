@@ -47,7 +47,8 @@
             bindings: {
                 paginationId: '=?',
                 list: '=?',
-                pagedList: '=?'
+                pagedList: '=?',
+                onPageChange: '=?'
             }
         });
 })();

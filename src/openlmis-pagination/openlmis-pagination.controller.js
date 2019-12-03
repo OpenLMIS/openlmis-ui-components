@@ -139,6 +139,12 @@
 
                 stateParams[paginationService.getPageParamName(pagination.paginationId)] = newPage;
 
+                if (pagination.onPageChange instanceof Function) {
+                    return pagination.onPageChange().then(function() {
+                        $state.go($state.current.name, stateParams);
+                    });
+                }
+
                 $state.go($state.current.name, stateParams);
             }
         }
