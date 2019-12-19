@@ -1,5 +1,5 @@
-7.2.1-SNAPSHOT / WIP
-====================
+7.2.1 / 2019-12-19
+==================
 
 Improvements:
 * [OLMIS-6684](https://openlmis.atlassian.net/browse/OLMIS-6684): Updated pagination component to allow providing a function to call before changing page.
