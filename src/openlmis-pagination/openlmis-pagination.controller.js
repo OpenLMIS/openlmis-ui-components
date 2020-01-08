@@ -140,8 +140,8 @@
                 stateParams[paginationService.getPageParamName(pagination.paginationId)] = newPage;
 
                 if (pagination.onPageChange instanceof Function) {
-                    return pagination.onPageChange().then(function() {
-                        $state.go($state.current.name, stateParams);
+                    return pagination.onPageChange().then(function(params) {
+                        $state.go($state.current.name, Object.assign(stateParams, params));
                     });
                 }
 

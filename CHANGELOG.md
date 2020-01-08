@@ -1,3 +1,9 @@
+7.2.2-SNAPSHOT / WIP
+====================
+
+Bug fixes:
+* [OLMIS-6724](https://openlmis.atlassian.net/browse/OLMIS-6724): Updated pagination component to use params returned by a function to call before changing page (if it is provided).
+
 7.2.1 / 2019-12-19
 ==================
 
