@@ -13,6 +13,7 @@ Improvements:
     
 Bug fixes:
 * [OLMIS-6612](https://openlmis.atlassian.net/browse/OLMIS-6612): Added check whether the property exists before sorting array by given property.
+* [OLMIS-6740](https://openlmis.atlassian.net/browse/OLMIS-6740): Fixed wrapping text in modal body.
 
 7.2.0 / 2019-10-17
 ==================
