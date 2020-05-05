@@ -41,7 +41,8 @@
         return directive;
 
         function link(scope, element) {
-            var xScrollbar,
+            var ps,
+                xScrollbar,
                 flexTable,
                 window = jQuery($window);
 
@@ -49,12 +50,10 @@
 
             window.ready(function() {
                 if (flexTable.length > 0) {
-                    PerfectScrollbar.initialize(flexTable[0], {
-                        handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
-                        surpressScrollY: true,
-                        wheelPropagation: true
+                    ps = new PerfectScrollbar(flexTable[0], {
+                        surpressScrollY: true
                     });
-                    xScrollbar = jQuery('.ps__scrollbar-x-rail', element);
+                    xScrollbar = jQuery('.ps__rail-x', element);
                 }
             });
 
@@ -68,7 +67,7 @@
 
             function update() {
                 if (flexTable.length > 0) {
-                    PerfectScrollbar.update(flexTable[0]);
+                    ps.update();
                     blit();
                 }
             }

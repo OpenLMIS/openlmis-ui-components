@@ -83,20 +83,20 @@ describe('openlmisTableContainer', function() {
     });
 
     it('should initiate perfect scrollbar', function() {
-        expect(this.table.find('.ps__scrollbar-x-rail').length).toBe(1);
+        expect(this.table.find('.ps__rail-x').length).toBe(1);
     });
 
     it('should call update method when resizing screen', function() {
-        spyOn(this.PerfectScrollbar, 'update');
+        spyOn(this.PerfectScrollbar.prototype, 'update');
 
         angular.element(this.$window).triggerHandler('resize');
         this.$scope.$apply();
 
-        expect(this.PerfectScrollbar.update).toHaveBeenCalled();
+        expect(this.PerfectScrollbar.prototype.update).toHaveBeenCalled();
     });
 
     it('should set bottom-offset property when scrolling', function() {
-        var scrollbar = this.table.find('.ps__scrollbar-x-rail');
+        var scrollbar = this.table.find('.ps__rail-x');
 
         expect(scrollbar.length).toBe(1);
 

@@ -9,7 +9,7 @@
     "@bower_components/js-shortid": "zzzhan/js-shortid#^0.1.1",
     "@bower_components/bootstrap-datepicker": "eternicode/bootstrap-datepicker#1.7",
     "@bower_components/pouchdb": "pouchdb/pouchdb#^6.3.4",
-    "@bower_components/perfect-scrollbar": "noraesae/perfect-scrollbar-bower#^0.8.1",
+    "@bower_components/perfect-scrollbar": "mdbootstrap/perfect-scrollbar#^1.5.0",
     "@bower_components/angular-material": "angular/bower-material#^1.1.5",
     "@bower_components/resize-observer-polyfill": "que-etc/resize-observer-polyfill#^1.4.2",
     "@bower_components/ng-tags-input": "mbenford/ngTagsInput-bower#3.2.0",
@@ -51,10 +51,8 @@
     },
     "@bower_components/perfect-scrollbar": {
       "main": [
-        "src/css/variables.scss",
-        "src/css/mixins.scss",
-        "src/css/themes.scss",
-        "js/perfect-scrollbar.js"
+        "css/perfect-scrollbar.css",
+        "dist/perfect-scrollbar.js"
       ]
     },
     "@bower_components/pouchdb": {

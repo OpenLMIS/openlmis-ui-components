@@ -87,7 +87,7 @@
             var table = element.find('table'),
                 scrollContainer = element.find('.md-virtual-repeat-scroller');
 
-            PerfectScrollbar.initialize(scrollContainer[0]);
+            new PerfectScrollbar(scrollContainer[0]);
 
             ctrl.setScrollLeft = function(num) {
                 scrollContainer[0].scrollLeft = num;
