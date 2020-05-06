@@ -30,9 +30,9 @@
         .module('openlmis-table')
         .directive('openlmisTableContainer', directive);
 
-    directive.$inject = ['jQuery', '$window', 'PerfectScrollbar'];
+    directive.$inject = ['jQuery', '$window'];
 
-    function directive(jQuery, $window, PerfectScrollbar) {
+    function directive(jQuery, $window) {
         var directive = {
             link: link,
             restrict: 'C',
@@ -41,8 +41,7 @@
         return directive;
 
         function link(scope, element) {
-            var ps,
-                xScrollbar,
+            var xScrollbar,
                 flexTable,
                 window = jQuery($window);
 
@@ -50,10 +49,12 @@
 
             window.ready(function() {
                 if (flexTable.length > 0) {
-                    ps = new PerfectScrollbar(flexTable[0], {
-                        surpressScrollY: true
+                    $(flexTable[0]).perfectScrollbar({
+                        handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
+                        surpressScrollY: true,
+                        wheelPropagation: true
                     });
-                    xScrollbar = jQuery('.ps__rail-x', element);
+                    xScrollbar = jQuery('.ps-scrollbar-x-rail', element);
                 }
             });
 
@@ -67,7 +68,7 @@
 
             function update() {
                 if (flexTable.length > 0) {
-                    ps.update();
+                    $(flexTable[0]).perfectScrollbar('update');
                     blit();
                 }
             }

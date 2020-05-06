@@ -118,9 +118,9 @@
   version "0.7.19"
   resolved "https://codeload.github.com/HubSpot/offline/tar.gz/a17291864212aab9ae9325c7ce5a2e0f541e96bf"
 
-"@bower_components/perfect-scrollbar@mdbootstrap/perfect-scrollbar#^1.5.0":
-  version "1.5.0"
-  resolved "https://codeload.github.com/mdbootstrap/perfect-scrollbar/tar.gz/87ce05ef007ad11194d47160374fcccd96230a4d"
+"@bower_components/perfect-scrollbar@noraesae/perfect-scrollbar-bower#^0.6.12":
+  version "0.5.9"
+  resolved "https://codeload.github.com/noraesae/perfect-scrollbar-bower/tar.gz/5f29dfcd6162b802a6a9407c4530d8797b59684d"
 
 "@bower_components/pouchdb@pouchdb/pouchdb#^6.3.4":
   version "6.4.3"

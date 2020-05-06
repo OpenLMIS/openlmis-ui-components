@@ -39,9 +39,9 @@
         .module('openlmis-table')
         .directive('openlmisTablePane', directive);
 
-    directive.$inject = ['PerfectScrollbar', 'ResizeObserver'];
+    directive.$inject = ['ResizeObserver'];
 
-    function directive(PerfectScrollbar, ResizeObserver) {
+    function directive(ResizeObserver) {
         var directive = {
             compile: compile,
             restrict: 'C',
@@ -87,7 +87,7 @@
             var table = element.find('table'),
                 scrollContainer = element.find('.md-virtual-repeat-scroller');
 
-            new PerfectScrollbar(scrollContainer[0]);
+            $(scrollContainer[0]).perfectScrollbar();
 
             ctrl.setScrollLeft = function(num) {
                 scrollContainer[0].scrollLeft = num;
