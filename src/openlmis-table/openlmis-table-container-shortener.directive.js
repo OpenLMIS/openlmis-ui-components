@@ -51,7 +51,7 @@
                 if (flexTable.length > 0) {
                     $(flexTable[0]).perfectScrollbar({
                         handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
-                        surpressScrollY: true,
+                        suppressScrollY: true,
                         wheelPropagation: true
                     });
                     xScrollbar = jQuery('.ps-scrollbar-x-rail', element);

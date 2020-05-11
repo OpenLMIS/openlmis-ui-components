@@ -1,15 +1,17 @@
 .openlmis-table-container {
-  .ps__scrollbar-x {
+  .ps-scrollbar-x {
     z-index: 5;
     height: 10px !important;
+    background-color: #333 !important;
   }
 
-  .ps__scrollbar-x-rail, .ps__scrollbar-x-rail:not(hover) {
+  .ps-scrollbar-x-rail, .ps-scrollbar-x-rail:not(hover) {
     bottom: calc(var(--bottom-offset) * 1px) !important;
     background-color: darken($light-gray, 5) !important;
     height: 14px !important;
     opacity: 1.0 !important;
     z-index: 10;
+    border-radius: unset;
   }
 }
 

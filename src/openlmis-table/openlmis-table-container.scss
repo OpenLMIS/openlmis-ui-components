@@ -108,6 +108,11 @@ the current table sort order is recommended.*
 
 Styleguide 4.1
 */
+
+.ps-container {
+    overflow: hidden !important;
+}
+
 .openlmis-table-container {
     position: relative;
     overflow: hidden;
