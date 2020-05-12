@@ -85,7 +85,7 @@ describe('openlmisTableContainer', function() {
         expect(this.table.find('.ps-scrollbar-x-rail').length).toBe(1);
     });
 
-    iit('should call update method when resizing screen', function() {
+    it('should call update method when resizing screen', function() {
         spyOn($.fn, 'perfectScrollbar');
 
         angular.element(this.$window).triggerHandler('resize');
