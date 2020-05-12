@@ -85,14 +85,14 @@ describe('openlmisTableContainer', function() {
         expect(this.table.find('.ps-scrollbar-x-rail').length).toBe(1);
     });
 
-    // it('should call update method when resizing screen', function() {
-    //     spyOn(this.PerfectScrollbar, 'update');
+    iit('should call update method when resizing screen', function() {
+        spyOn($.fn, 'perfectScrollbar');
 
-    //     angular.element(this.$window).triggerHandler('resize');
-    //     this.$scope.$apply();
+        angular.element(this.$window).triggerHandler('resize');
+        this.$scope.$apply();
 
-    //     expect(this.PerfectScrollbar.update).toHaveBeenCalled();
-    // });
+        expect($.fn.perfectScrollbar).toHaveBeenCalledWith('update');
+    });
 
     it('should set bottom-offset property when scrolling', function() {
         var scrollbar = this.table.find('.ps-scrollbar-x-rail');
