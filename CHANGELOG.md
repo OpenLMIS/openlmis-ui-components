@@ -1,3 +1,9 @@
+7.2.3 / 2020-05-12
+==================
+
+Bug fixes:
+* [COV-52](https://openlmis.atlassian.net/browse/COV-52): Fixed issue with invalid perfect-scrollbar dependency
+
 7.2.2 / 2020-04-14
 ==================
 
