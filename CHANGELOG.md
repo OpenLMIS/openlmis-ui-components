@@ -1,3 +1,9 @@
+7.2.4 / WIP
+==================
+
+Bug fixes:
+* [OLMIS-6923](https://openlmis.atlassian.net/browse/OLMIS-6923): Fixed issue with Google Analytics dependency
+
 7.2.3 / 2020-05-12
 ==================
 

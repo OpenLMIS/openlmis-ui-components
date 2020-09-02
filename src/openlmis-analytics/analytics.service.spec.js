@@ -25,12 +25,14 @@ describe('analyticsService', function() {
 
             var ga = jasmine.createSpy();
             ga.P = [{
-                b: {
+                model: {
                     data: {
-                        values: {
-                            ':screenResolution': context.screenResolution,
-                            ':viewportSize': context.viewportSize,
-                            ':language': context.language
+                        b: {
+                            values: {
+                                ':screenResolution': context.screenResolution,
+                                ':viewportSize': context.viewportSize,
+                                ':language': context.language
+                            }
                         }
                     }
                 }

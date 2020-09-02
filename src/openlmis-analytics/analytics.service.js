@@ -82,9 +82,9 @@
 
         function getGAParameters() {
             return {
-                screenResolution: ga.P[0].b.data.values[':screenResolution'],
-                viewportSize: ga.P[0].b.data.values[':viewportSize'],
-                language: ga.P[0].b.data.values[':language'],
+                screenResolution: ga.P[0].model.data.b.values[':screenResolution'],
+                viewportSize: ga.P[0].model.data.b.values[':viewportSize'],
+                language: ga.P[0].model.data.b.values[':language'],
                 time: Date.now()
             };
         }
