@@ -3,6 +3,7 @@
 
 Bug fixes:
 * [OLMIS-6923](https://openlmis.atlassian.net/browse/OLMIS-6923): Fixed issue with Google Analytics dependency
+* [OLMIS-6920](https://openlmis.atlassian.net/browse/OLMIS-6920): Fixed issue with opening Physical Inventory with trade item products
 
 7.2.3 / 2020-05-12
 ==================

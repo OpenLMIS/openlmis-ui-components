@@ -206,9 +206,14 @@
                                 id: '_local/lastModified',
                                 date: response.lastModified
                             });
+                        }
+                        if (response.content.content) {
                             response.content.content.forEach(function(doc) {
                                 isVersioned ? database.putVersioned(doc) : database.put(doc);
                             });
+
+                            var properContent = angular.copy(response.content.content);
+                            response.content = properContent;
                         }
                         return response;
                     }, function(response) {
