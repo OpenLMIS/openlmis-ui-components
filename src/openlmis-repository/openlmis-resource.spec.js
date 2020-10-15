@@ -188,11 +188,9 @@ describe('OpenlmisResource', function() {
 
         it('should return merged page from double content requests', function() {
             var adjustedContentResponse = {},
-                adjustedContentResponse1 = {},
-                adjustedContentResponse2 = {};
+                adjustedContentResponse1 = {};
             adjustedContentResponse.content = this.page;
             adjustedContentResponse1.content = this.pageTwo;
-            adjustedContentResponse2.content = this.pageThree;
 
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
