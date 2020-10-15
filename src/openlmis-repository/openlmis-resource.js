@@ -165,30 +165,7 @@
 
             return $q.all(requests)
                 .then(function(responses) {
-                    if (responses[0] instanceof Array) {
-                        return responses.reduce(function(left, right) {
-                            right.forEach(function(item) {
-                                left.push(item);
-                            });
-                            return left;
-                        });
-                    }
-
-                    if (responses[0].content.content !== undefined && responses.length > 1) {
-                        return responses.reduce(function(left, right) {
-                            left.content.content = left.content.content.concat(right.content.content);
-                            left.content.numberOfElements += right.content.numberOfElements;
-                            left.content.totalElements += right.content.totalElements;
-                            return left;
-                        });
-                    }
-
-                    return responses.reduce(function(left, right) {
-                        left.content = left.content.concat(right.content);
-                        left.numberOfElements += right.numberOfElements;
-                        left.totalElements += right.totalElements;
-                        return left;
-                    });
+                    return mergeResponses(responses);
                 });
         }
 
@@ -406,6 +383,32 @@
 
         function isPageAndSortParams(params) {
             return params.sort !== undefined && params.page !== undefined;
+        }
+
+        function mergeResponses(responses) {
+            if (responses[0] instanceof Array) {
+                return responses.reduce(function(left, right) {
+                    right.forEach(function(item) {
+                        left.push(item);
+                    });
+                    return left;
+                });
+            }
+
+            if (responses[0].content.content !== undefined && responses.length > 1) {
+                return responses.reduce(function(left, right) {
+                    left.content.content = left.content.content.concat(right.content.content);
+                    left.content.numberOfElements += right.content.numberOfElements;
+                    left.content.totalElements += right.content.totalElements;
+                    return left;
+                });
+            }
+            return responses.reduce(function(left, right) {
+                left.content = left.content.concat(right.content);
+                left.numberOfElements += right.numberOfElements;
+                left.totalElements += right.totalElements;
+                return left;
+            });
         }
     }
 
