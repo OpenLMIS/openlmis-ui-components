@@ -186,6 +186,43 @@ describe('OpenlmisResource', function() {
             expect(lastModified).toEqual(this.lastModified);
         });
 
+        it('should return merged page from double content requests', function() {
+            var adjustedContentResponse = {},
+                adjustedContentResponse1 = {},
+                adjustedContentResponse2 = {};
+            adjustedContentResponse.content = this.page;
+            adjustedContentResponse1.content = this.pageTwo;
+            adjustedContentResponse2.content = this.pageThree;
+
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
+                .respond(200, adjustedContentResponse);
+
+            this.$httpBackend
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramTwo'))
+                .respond(200, adjustedContentResponse1);
+
+            var result;
+
+            this.openlmisResource.query(this.params)
+                .then(function(response) {
+                    result = response;
+                });
+
+            this.$httpBackend.flush();
+
+            expect(result.content.content).toEqual([
+                this.page.content[0],
+                this.page.content[1],
+                this.pageTwo.content[0],
+                this.pageTwo.content[1]
+            ]);
+
+            expect(result.content.numberOfElements).toEqual(4);
+            expect(result.content.totalElements).toEqual(4);
+            expect(result.content.size).toEqual(this.page.size);
+        });
+
         it('should return page if only one request was sent', function() {
             this.parameterSplitterMock.split.andReturn([this.params]);
 

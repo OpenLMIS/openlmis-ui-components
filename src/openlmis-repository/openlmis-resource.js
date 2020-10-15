@@ -174,6 +174,15 @@
                         });
                     }
 
+                    if (responses[0].content.content !== undefined && responses.length > 1) {
+                        return responses.reduce(function(left, right) {
+                            left.content.content = left.content.content.concat(right.content.content);
+                            left.content.numberOfElements += right.content.numberOfElements;
+                            left.content.totalElements += right.content.totalElements;
+                            return left;
+                        });
+                    }
+
                     return responses.reduce(function(left, right) {
                         left.content = left.content.concat(right.content);
                         left.numberOfElements += right.numberOfElements;
