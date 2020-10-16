@@ -175,14 +175,10 @@
                     }
 
                     return responses.reduce(function(left, right) {
-                        if (left.content.content === undefined) {
-                            left.content = left.content.concat(right.content);
-                            left.numberOfElements += right.numberOfElements;
-                            left.totalElements += right.totalElements;
+                        if (left.content.content) {
+                            left.content = shortenMerge(left.content, right.content);
                         } else {
-                            left.content.content = left.content.content.concat(right.content.content);
-                            left.content.numberOfElements += right.content.numberOfElements;
-                            left.content.totalElements += right.content.totalElements;
+                            left = shortenMerge(left, right);
                         }
                         return left;
                     });
@@ -403,6 +399,13 @@
 
         function isPageAndSortParams(params) {
             return params.sort !== undefined && params.page !== undefined;
+        }
+
+        function shortenMerge(left, right) {
+            left.content = left.content.concat(right.content);
+            left.numberOfElements += right.numberOfElements;
+            left.totalElements += right.totalElements;
+            return left;
         }
     }
 })();
