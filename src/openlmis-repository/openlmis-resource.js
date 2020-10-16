@@ -165,7 +165,27 @@
 
             return $q.all(requests)
                 .then(function(responses) {
-                    return mergeResponses(responses);
+                    if (responses[0] instanceof Array) {
+                        return responses.reduce(function(left, right) {
+                            right.forEach(function(item) {
+                                left.push(item);
+                            });
+                            return left;
+                        });
+                    }
+
+                    return responses.reduce(function(left, right) {
+                        if (left.content.content === undefined) {
+                            left.content = left.content.concat(right.content);
+                            left.numberOfElements += right.numberOfElements;
+                            left.totalElements += right.totalElements;
+                        } else {
+                            left.content.content = left.content.content.concat(right.content.content);
+                            left.content.numberOfElements += right.content.numberOfElements;
+                            left.content.totalElements += right.content.totalElements;
+                        }
+                        return left;
+                    });
                 });
         }
 
@@ -384,25 +404,5 @@
         function isPageAndSortParams(params) {
             return params.sort !== undefined && params.page !== undefined;
         }
-
-        function mergeResponses(responses) {
-            return responses.reduce(function(left, right) {
-                if (responses[0] instanceof Array) {
-                    right.forEach(function(item) {
-                        left.push(item);
-                    });
-                } else if (left.content.content === undefined) {
-                    left.content = left.content.concat(right.content);
-                    left.numberOfElements += right.numberOfElements;
-                    left.totalElements += right.totalElements;
-                } else {
-                    left.content.content = left.content.content.concat(right.content.content);
-                    left.content.numberOfElements += right.content.numberOfElements;
-                    left.content.totalElements += right.content.totalElements;
-                }
-                return left;
-            });
-        }
     }
-
 })();
