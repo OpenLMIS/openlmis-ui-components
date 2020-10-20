@@ -176,9 +176,9 @@
 
                     return responses.reduce(function(left, right) {
                         if (left.content.content) {
-                            mergeResponses(left.content, right.content);
+                            left.content = shortenMerge(left.content, right.content);
                         } else {
-                            mergeResponses(left, right);
+                            left = shortenMerge(left, right);
                         }
                         return left;
                     });
@@ -401,10 +401,11 @@
             return params.sort !== undefined && params.page !== undefined;
         }
 
-        function mergeResponses(left, right) {
+        function shortenMerge(left, right) {
             left.content = left.content.concat(right.content);
             left.numberOfElements += right.numberOfElements;
             left.totalElements += right.totalElements;
+            return left;
         }
     }
 })();
