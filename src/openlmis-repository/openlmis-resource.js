@@ -157,7 +157,7 @@
 
             this.splitter.split(this.uri, params)
                 .forEach(function(params) {
-                    if (config && config.cache && (!params || !isPageAndSortParams(params))) {
+                    if (config && config.cache && !params) {
                         resource = generateResource(resourceUrl, lastModified, config, params);
                     }
                     requests.push(resource.query(params).$promise);
@@ -395,10 +395,6 @@
 
         function isVersioned(config) {
             return config && config.versioned;
-        }
-
-        function isPageAndSortParams(params) {
-            return params.sort !== undefined && params.page !== undefined;
         }
 
         function mergeResponses(left, right) {

@@ -438,43 +438,6 @@ describe('OpenlmisResource', function() {
             expect(lastModified).toEqual(this.lastModified);
         });
 
-        it('should resolve to response for cache versioned, with id params on successful request', function() {
-            var params = {
-                ids: [
-                    'obj-one',
-                    'obj-two'
-                ]
-            };
-
-            var openlmisResource = new this.OpenlmisResource(this.BASE_URL, {
-                cache: true,
-                versioned: true
-            });
-            this.parameterSplitterMock.split.andReturn([params]);
-
-            this.$httpBackend
-                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?ids=obj-one&ids=obj-two'))
-                .respond(200, this.pageVersioned, {
-                    'last-modified': this.lastModified
-                });
-
-            var result,
-                status,
-                lastModified;
-
-            openlmisResource.query(params, this.lastModified)
-                .then(function(response) {
-                    result = response.content.content;
-                    status = response.status;
-                    lastModified = response.lastModified;
-                });
-            this.$httpBackend.flush();
-
-            expect(angular.toJson(result)).toEqual(angular.toJson(this.pageVersioned.content));
-            expect(status).toEqual(200);
-            expect(lastModified).toEqual(this.lastModified);
-        });
-
         it('should reject if any of the requests fails', function() {
             this.$httpBackend
                 .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?some=paramOne'))
