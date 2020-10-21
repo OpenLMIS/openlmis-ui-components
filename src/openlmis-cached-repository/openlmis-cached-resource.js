@@ -212,7 +212,7 @@
                                 isVersioned ? database.putVersioned(doc) : database.put(doc);
                             });
 
-                            var properContent = angular.copy(response.content.content);
+                            var properContent = JSON.parse(JSON.stringify(response.content.content));
                             response.content = properContent;
                         }
                         return response;
