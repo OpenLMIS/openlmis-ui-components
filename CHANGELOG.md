@@ -5,6 +5,8 @@ Bug fixes:
 * [OLMIS-6923](https://openlmis.atlassian.net/browse/OLMIS-6923): Fixed issue with Google Analytics dependency
 * [OLMIS-6920](https://openlmis.atlassian.net/browse/OLMIS-6920): Fixed issue with opening Physical Inventory with trade item products
 * [OLMIS-6949](https://openlmis.atlassian.net/browse/OLMIS-6949): Fixed issue with making adjustments for Essential Meds
+* [OLMIS-6960](https://openlmis.atlassian.net/browse/OLMIS-6960): Fixed extended Edit Supply Partner page load time after removing an association
+
 7.2.3 / 2020-05-12
 ==================
 
