@@ -440,7 +440,7 @@ describe('OpenlmisResource', function() {
 
         it('should resolve to response for cache versioned, with id params on successful request', function() {
             var params = {
-                ids: [
+                id: [
                     'obj-one',
                     'obj-two'
                 ]
@@ -453,7 +453,7 @@ describe('OpenlmisResource', function() {
             this.parameterSplitterMock.split.andReturn([params]);
 
             this.$httpBackend
-                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?ids=obj-one&ids=obj-two'))
+                .expectGET(this.openlmisUrlFactory(this.BASE_URL + '?id=obj-one&id=obj-two'))
                 .respond(200, this.pageVersioned, {
                     'last-modified': this.lastModified
                 });
