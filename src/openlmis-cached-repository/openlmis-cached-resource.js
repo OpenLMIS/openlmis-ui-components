@@ -189,10 +189,11 @@
          * Return the response of the GET request or cached value. Passes the given object as request parameters.
          *
          * @param  {Object}  params the map of request parameters
+         * @param  {Object}  docId  an additional parameter specifying id, if not given in response
          * @return {Promise}        the promise resolving to the server response or cached value, 
          *                          rejected if request fails
          */
-        function query(params) {
+        function query(params, docId) {
             var openlmisResource = this.openlmisResource,
                 database = this.database,
                 isVersioned = this.isVersioned;
@@ -207,14 +208,14 @@
                                 date: response.lastModified
                             });
                         }
-                        if (response.content.content) {
-                            response.content.content.forEach(function(doc) {
-                                isVersioned ? database.putVersioned(doc) : database.put(doc);
-                            });
 
-                            var properContent = JSON.parse(JSON.stringify(response.content.content));
-                            response.content = properContent;
+                        if (response.content.content) {
+                            response.content = response.content.content;
                         }
+
+                        saveToLocalDatabase(response.content, isVersioned, database, docId);
+                        response.content = JSON.parse(JSON.stringify(response.content));
+
                         return response;
                     }, function(response) {
                         if (response.status === 304) {
@@ -424,6 +425,19 @@
                 .catch(function(error) {
                     return $q.reject(error);
                 });
+        }
+
+        function saveToLocalDatabase(data, isVersioned, database, docId) {
+            if (docId) {
+                database.put({
+                    id: docId,
+                    content: data
+                });
+            } else {
+                data.forEach(function(doc) {
+                    isVersioned ? database.putVersioned(doc) : database.put(doc);
+                });
+            }
         }
     }
 
