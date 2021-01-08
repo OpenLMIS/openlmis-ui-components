@@ -1,3 +1,9 @@
+7.2.5 / WIP
+==================
+
+Improvements:
+* [OLMIS-7165](https://openlmis.atlassian.net/browse/OLMIS-7165): Added a possibility to save data to the local database with its own docId.
+
 7.2.4 / 2020-11-17
 ==================
 
