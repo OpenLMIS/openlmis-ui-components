@@ -34,6 +34,7 @@ describe('OpenlmisCachedResource', function() {
         this.updateDeferred = this.$q.defer();
         this.createDeferred = this.$q.defer();
         this.deleteDeferred = this.$q.defer();
+        this.deleteAllDeferred = this.$q.defer();
         this.getDeferred = this.$q.defer();
         this.searchDeferred = this.$q.defer();
         this.allDocsByIndexDeferred = this.$q.defer();
@@ -668,6 +669,43 @@ describe('OpenlmisCachedResource', function() {
 
             expect(this.LocalDatabase.prototype.remove).not.toHaveBeenCalled();
         });
+    });
+
+    describe('deleteAll', function() {
+
+        beforeEach(function() {
+            this.openlmisCachedResource.isVersioned = false;
+        });
+
+        it('should resolve non versioned on successful request', function() {
+            spyOn(this.LocalDatabase.prototype, 'removeAll').andReturn(this.deleteAllDeferred.promise);
+
+            this.openlmisCachedResource.deleteAll();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.removeAll).toHaveBeenCalled();
+        });
+
+        it('should resolve versioned on successful request', function() {
+            spyOn(this.LocalDatabase.prototype, 'removeAll').andReturn(this.deleteAllDeferred.promise);
+            this.openlmisCachedResource.isVersioned = true;
+
+            this.openlmisCachedResource.deleteAll();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.removeAll).toHaveBeenCalled();
+        });
+
+        it('should reject on failed request', function() {
+            spyOn(this.OpenlmisCachedResource.prototype, 'deleteAll').andReturn(this.deleteAllDeferred.reject);
+            spyOn(this.LocalDatabase.prototype, 'removeAll');
+
+            this.openlmisCachedResource.deleteAll();
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.removeAll).not.toHaveBeenCalled();
+        });
+
     });
 
     describe('getAll', function() {

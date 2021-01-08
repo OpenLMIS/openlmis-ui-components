@@ -40,6 +40,7 @@
         OpenlmisCachedResource.prototype.update = update;
         OpenlmisCachedResource.prototype.create = create;
         OpenlmisCachedResource.prototype.delete = deleteObject;
+        OpenlmisCachedResource.prototype.deleteAll = deleteAll;
         OpenlmisCachedResource.prototype.throwMethodNotSupported = throwMethodNotSupported;
 
         return OpenlmisCachedResource;
@@ -376,6 +377,22 @@
                     });
             }
             return $q.reject();
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-cached-repository.OpenlmisCachedResource
+         * @name deleteAll
+         *
+         * @description
+         * Removes all records from a resource's database.
+         */
+        function deleteAll() {
+            var database = this.database;
+            return database.removeAll()
+                .catch(function(error) {
+                    return $q.reject(error);
+                });
         }
 
         /**
