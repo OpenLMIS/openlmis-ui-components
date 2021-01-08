@@ -365,6 +365,21 @@ describe('OpenlmisCachedResource', function() {
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });
 
+        it('should save records to localdatabase with docId param', function() {
+            this.openlmisCachedResource.isVersioned = false;
+            var docId = 'programId-1/facilityId-1';
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+
+            this.openlmisCachedResource.query(undefined, docId);
+            this.getDeferred.resolve(this.lastModified);
+            this.queryDeferred.resolve(this.pageWithLastModified);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
+        });
+
         it('should return record from local database when response has status 304', function() {
             this.reject = {
                 status: 304
