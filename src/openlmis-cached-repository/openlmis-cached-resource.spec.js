@@ -297,6 +297,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.LocalDatabase.prototype, 'get').andReturn(this.getDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'allDocsWithLatestVersion')
                 .andReturn(this.allDocsWithLatestVersionDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
 
             this.pageWithLastModified = {
                 content: {
@@ -418,6 +419,47 @@ describe('OpenlmisCachedResource', function() {
             this.$rootScope.$apply();
 
             expect(result.$$state.value.content).toEqual(pageVersioned.docs);
+            expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+        });
+
+        it('should return records by id params from local database in offline mode', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.openlmisCachedResource.isVersioned = false;
+            var params = {
+                id: ['obj-one']
+            };
+
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+
+            this.allDocsByIndexDeferred.resolve(this.pageWithLastModified.content.content);
+            var result;
+            this.openlmisCachedResource.query(params)
+                .then(function(response) {
+                    result = response;
+                });
+            this.$rootScope.$apply();
+
+            expect(result.content[0]).toEqual(this.pageWithLastModified.content.content[0]);
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+        });
+
+        it('should return records by docId from local database in offline mode', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.openlmisCachedResource.isVersioned = false;
+            var docId = 'programId-1/facilityId-1';
+
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+
+            this.getDeferred.resolve(this.pageWithLastModified);
+            var result = this.openlmisCachedResource.query(undefined, docId);
+            this.$rootScope.$apply();
+
+            expect(result.$$state.value.content).toEqual(this.pageWithLastModified.content);
             expect(this.LocalDatabase.prototype.get).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();

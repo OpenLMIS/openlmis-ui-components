@@ -199,6 +199,10 @@
                 database = this.database,
                 isVersioned = this.isVersioned;
 
+            if (offlineService.isOffline()) {
+                return getFromLocalDatabase(database, params, docId);
+            }
+
             return getLastModifiedDate(database).then(function(lastModifiedDate) {
                 openlmisResource.lastModified = lastModifiedDate;
                 return openlmisResource.query(params)
@@ -455,6 +459,31 @@
                     isVersioned ? database.putVersioned(doc) : database.put(doc);
                 });
             }
+        }
+
+        function getFromLocalDatabase(database, params, docId) {
+            if (docId) {
+                return database.get(docId)
+                    .then(function(response) {
+                        return response;
+                    });
+            }
+            var promises = [];
+
+            params['id'].forEach(function(id) {
+                promises.push(database.allDocsByIndex(id)
+                    .then(function(result) {
+                        if (result[0]) {
+                            return result[0];
+                        }
+                    }));
+            });
+
+            return $q.all(promises).then(function(response) {
+                var docs = {};
+                docs.content = response;
+                return docs;
+            });
         }
     }
 
