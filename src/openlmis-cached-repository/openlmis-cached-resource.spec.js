@@ -447,6 +447,31 @@ describe('OpenlmisCachedResource', function() {
             expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
         });
 
+        it('should reject if records not found by id params in local database when offline', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.openlmisCachedResource.isVersioned = false;
+            var params = {
+                id: ['obj-one']
+            };
+
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.alertService, 'error');
+
+            this.allDocsByIndexDeferred.resolve(undefined);
+            var result;
+            this.openlmisCachedResource.query(params)
+                .then(function(response) {
+                    result = response;
+                });
+            this.$rootScope.$apply();
+
+            expect(result).toBeUndefined();
+            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith(this.config.offlineMessage);
+        });
+
         it('should return records by docId from local database in offline mode', function() {
             this.offlineService.isOffline.andReturn(true);
             this.openlmisCachedResource.isVersioned = false;

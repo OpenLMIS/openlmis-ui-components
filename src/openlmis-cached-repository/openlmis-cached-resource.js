@@ -197,10 +197,11 @@
         function query(params, docId) {
             var openlmisResource = this.openlmisResource,
                 database = this.database,
-                isVersioned = this.isVersioned;
+                isVersioned = this.isVersioned,
+                config = this.config;
 
             if (offlineService.isOffline()) {
-                return getFromLocalDatabase(database, params, docId);
+                return getFromLocalDatabase(database, params, docId, config);
             }
 
             return getLastModifiedDate(database).then(function(lastModifiedDate) {
@@ -461,7 +462,7 @@
             }
         }
 
-        function getFromLocalDatabase(database, params, docId) {
+        function getFromLocalDatabase(database, params, docId, config) {
             if (docId) {
                 return database.get(docId)
                     .then(function(response) {
@@ -476,6 +477,7 @@
                         if (result[0]) {
                             return result[0];
                         }
+                        return $q.reject();
                     }));
             });
 
@@ -483,7 +485,11 @@
                 var docs = {};
                 docs.content = response;
                 return docs;
-            });
+            })
+                .catch(function(error) {
+                    alertService.error(config.offlineMessage);
+                    return $q.reject(error);
+                });
         }
     }
 
