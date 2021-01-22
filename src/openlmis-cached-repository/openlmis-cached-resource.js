@@ -201,7 +201,14 @@
                 config = this.config;
 
             if (offlineService.isOffline()) {
-                return getFromLocalDatabase(database, params, docId, config);
+                return database.info()
+                    .then(function() {
+                        return getFromLocalDatabase(database, params, docId, config);
+                    })
+                    .catch(function(error) {
+                        alertService.error(config.offlineMessage);
+                        return $q.reject(error);
+                    });
             }
 
             return getLastModifiedDate(database).then(function(lastModifiedDate) {

@@ -37,6 +37,7 @@ describe('OpenlmisCachedResource', function() {
         this.deleteAllDeferred = this.$q.defer();
         this.getDeferred = this.$q.defer();
         this.searchDeferred = this.$q.defer();
+        this.infoDeferred = this.$q.defer();
         this.allDocsByIndexDeferred = this.$q.defer();
         this.lastModifiedDateDeferred = this.$q.defer();
         this.queryDeferred = this.$q.defer();
@@ -298,6 +299,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.LocalDatabase.prototype, 'allDocsWithLatestVersion')
                 .andReturn(this.allDocsWithLatestVersionDeferred.promise);
             spyOn(this.LocalDatabase.prototype, 'allDocsByIndex').andReturn(this.allDocsByIndexDeferred.promise);
+            spyOn(this.LocalDatabase.prototype, 'info').andReturn(this.infoDeferred.promise);
 
             this.pageWithLastModified = {
                 content: {
@@ -434,6 +436,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
             spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
 
+            this.infoDeferred.resolve();
             this.allDocsByIndexDeferred.resolve(this.pageWithLastModified.content.content);
             var result;
             this.openlmisCachedResource.query(params)
@@ -458,6 +461,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
             spyOn(this.alertService, 'error');
 
+            this.infoDeferred.resolve();
             this.allDocsByIndexDeferred.resolve(undefined);
             var result;
             this.openlmisCachedResource.query(params)
@@ -472,6 +476,23 @@ describe('OpenlmisCachedResource', function() {
             expect(this.alertService.error).toHaveBeenCalledWith(this.config.offlineMessage);
         });
 
+        it('should reject if offline and local database does not exist', function() {
+            this.offlineService.isOffline.andReturn(true);
+            this.openlmisCachedResource.isVersioned = false;
+            var params = {
+                id: ['obj-one']
+            };
+
+            spyOn(this.alertService, 'error');
+
+            this.infoDeferred.reject();
+            this.openlmisCachedResource.query(params);
+            this.$rootScope.$apply();
+
+            expect(this.LocalDatabase.prototype.info).toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith(this.config.offlineMessage);
+        });
+
         it('should return records by docId from local database in offline mode', function() {
             this.offlineService.isOffline.andReturn(true);
             this.openlmisCachedResource.isVersioned = false;
@@ -480,6 +501,7 @@ describe('OpenlmisCachedResource', function() {
             spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
             spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
 
+            this.infoDeferred.resolve();
             this.getDeferred.resolve(this.pageWithLastModified);
             var result = this.openlmisCachedResource.query(undefined, docId);
             this.$rootScope.$apply();

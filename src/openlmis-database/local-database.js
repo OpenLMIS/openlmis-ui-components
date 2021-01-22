@@ -39,6 +39,7 @@
         LocalDatabase.prototype.get = get;
         LocalDatabase.prototype.putVersioned = putVersioned;
         LocalDatabase.prototype.getAll = getAll;
+        LocalDatabase.prototype.info = info;
         LocalDatabase.prototype.allDocsByIndex = allDocsByIndex;
         LocalDatabase.prototype.remove = remove;
         LocalDatabase.prototype.removeAll = removeAll;
@@ -61,6 +62,20 @@
          */
         function LocalDatabase(resourceName) {
             this.resourceName = resourceName;
+        }
+
+        /**
+         * @ngdoc methodOf
+         * @methodOf openlmis-database.LocalDatabase
+         * @name info
+         *
+         * @description
+         * Returns database information.
+         *
+         * @return {Promise}    the promise, which resolves when the database exists
+         */
+        function info() {
+            return new PouchDBWrapper(this.resourceName).info();
         }
 
         /**

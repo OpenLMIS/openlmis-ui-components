@@ -27,6 +27,7 @@ describe('LocalDatabase', function() {
 
         spyOn(this.PouchDB.prototype, 'put');
         spyOn(this.PouchDB.prototype, 'get');
+        spyOn(this.PouchDB.prototype, 'info');
         spyOn(this.PouchDB.prototype, 'remove');
         spyOn(this.PouchDB.prototype, 'allDocs');
         spyOn(this.PouchDB.prototype, 'destroy');
@@ -74,6 +75,25 @@ describe('LocalDatabase', function() {
             expect(result).toBe(promise);
             expect(this.$q.when).toHaveBeenCalledWith(jsPromise);
             expect(this.PouchDB.prototype.put).toHaveBeenCalledWith(doc);
+        });
+
+    });
+
+    describe('info', function() {
+
+        it('should wrap PouchDB get', function() {
+            var promise = this.$q.resolve(),
+                //eslint-disable-next-line no-undef
+                jsPromise = new Promise(function() {});
+
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.info.andReturn(jsPromise);
+
+            var result = this.databaseWrapper.info();
+
+            expect(result).toBe(promise);
+            expect(this.$q.when).toHaveBeenCalledWith(jsPromise);
+            expect(this.PouchDB.prototype.info).toHaveBeenCalled();
         });
 
     });

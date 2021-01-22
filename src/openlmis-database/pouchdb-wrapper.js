@@ -33,6 +33,7 @@
 
         PouchDBWrapper.prototype.get = get;
         PouchDBWrapper.prototype.put = put;
+        PouchDBWrapper.prototype.info = info;
         PouchDBWrapper.prototype.remove = remove;
         PouchDBWrapper.prototype.destroy = destroy;
         PouchDBWrapper.prototype.allDocs = allDocs;
@@ -55,6 +56,20 @@
         function PouchDBWrapper(name) {
             this.pouchDb = new PouchDB(name);
             this.name = name;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-database.PouchDBWrapper
+         * @name info
+         *
+         * @description
+         * Wrapper for the info method of the PouchDB.
+         *
+         * @return {Promise}      the PouchDB promise wrapped in AngularJS one
+         */
+        function info() {
+            return $q.when(this.pouchDb.info());
         }
 
         /**

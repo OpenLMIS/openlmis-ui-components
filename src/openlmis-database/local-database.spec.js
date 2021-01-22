@@ -55,6 +55,7 @@ describe('LocalDatabase', function() {
 
         spyOn(this.PouchDBWrapper.prototype, 'put');
         spyOn(this.PouchDBWrapper.prototype, 'get');
+        spyOn(this.PouchDBWrapper.prototype, 'info');
         spyOn(this.PouchDBWrapper.prototype, 'remove');
         spyOn(this.PouchDBWrapper.prototype, 'allDocs');
         spyOn(this.PouchDBWrapper.prototype, 'destroy');
@@ -622,6 +623,38 @@ describe('LocalDatabase', function() {
             this.database.removeAll();
 
             expect(this.PouchDBWrapper.prototype.destroy).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('info', function() {
+
+        it('should resolve promise if database exists', function() {
+            this.PouchDBWrapper.prototype.info.andReturn(this.$q.resolve());
+
+            var success;
+            this.database.info()
+                .then(function() {
+                    success = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(success).toBe(true);
+            expect(this.PouchDBWrapper.prototype.info).toHaveBeenCalled();
+        });
+
+        it('should reject promise if doc with the given ID does not exist', function() {
+            this.PouchDBWrapper.prototype.info.andReturn(this.$q.reject());
+
+            var rejected;
+            this.database.info()
+                .catch(function() {
+                    rejected = true;
+                });
+            this.$rootScope.$apply();
+
+            expect(rejected).toBe(true);
+            expect(this.PouchDBWrapper.prototype.info).toHaveBeenCalled();
         });
 
     });
