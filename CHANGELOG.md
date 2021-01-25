@@ -4,6 +4,7 @@
 Improvements:
 * [OLMIS-7165](https://openlmis.atlassian.net/browse/OLMIS-7165): Added a possibility to save data to the local database with its own docId.
 * [OLMIS-7182](https://openlmis.atlassian.net/browse/OLMIS-7182): Introduced a possibility in OpenlmisCachedResource to fetch data in offline mode.
+* [OLMIS-7187](https://openlmis.atlassian.net/browse/OLMIS-7187): Made caching Openlmis Cached Resource possible also by other params than id.
 
 7.2.4 / 2020-11-17
 ==================
