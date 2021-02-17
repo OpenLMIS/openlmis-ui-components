@@ -27,12 +27,10 @@ describe('analyticsService', function() {
             ga.P = [{
                 model: {
                     data: {
-                        b: {
-                            values: {
-                                ':screenResolution': context.screenResolution,
-                                ':viewportSize': context.viewportSize,
-                                ':language': context.language
-                            }
+                        ea: {
+                            ':screenResolution': context.screenResolution,
+                            ':viewportSize': context.viewportSize,
+                            ':language': context.language
                         }
                     }
                 }
