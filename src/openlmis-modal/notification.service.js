@@ -42,6 +42,7 @@
         this.info = info;
         this.success = success;
         this.error = error;
+        this.offline = offline;
 
         /**
          * @ngdoc method
@@ -83,6 +84,20 @@
          */
         function info(infoMessage) {
             return showMessage(infoMessage, 'is-info');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-modal.notificationService
+         * @name offline
+         *
+         * @description
+         * Shows offline message element with custom message and return promise.
+         *
+         * @param {String} offlineMessage info message to display
+         */
+        function offline(offlineMessage) {
+            return showMessage(offlineMessage, 'is-offline');
         }
 
         function showMessage(message, type, icon) {

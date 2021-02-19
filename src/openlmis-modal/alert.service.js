@@ -39,6 +39,7 @@
         this.error = error;
         this.success = success;
         this.info = info;
+        this.offline = offline;
 
         /**
          * @ngdoc method
@@ -105,6 +106,29 @@
         function info(config) {
             config.class = 'is-info';
             return showAlert(config);
+        }
+
+        /**
+         * @ngdoc method
+         * @name offline
+         * @methodOf openlmis-modal.alertService
+         *
+         * @description
+         * Shows offline modal with custom message and calls callback after closing alert.
+         *
+         * @param   {String}    title       the title of the alert
+         * @param   {String}    message     the detailed message to be shown within the alert modal
+         * @param   {String}    buttonLabel the label to be shown on the confirmation button
+         * @return  {Promise}               the alert promise, if any other alert is already show this
+         *                                  promise will be automatically rejected
+         */
+        function offline(title, message, buttonLabel) {
+            return showAlert({
+                class: 'is-offline',
+                title: title,
+                message: message,
+                buttonLabel: buttonLabel
+            });
         }
 
         function showAlert(config) {

@@ -40,9 +40,17 @@ Styleguide 1.6
 		background-color: $background-color-success;
 	}
 
+	&.is-offline {
+		@include icon('bolt');
+		color: $black;
+		border-color: $brand-offline;
+		background-color: $background-color-offline;
+	}
+
 	&.is-success,
 	&.is-error,
-	&.is-danger {
+	&.is-danger,
+	&.is-offline {
 		padding-left: 4em;
 		&::before {
 			font-size: 2em;
@@ -50,6 +58,13 @@ Styleguide 1.6
 			top: 50%;
 			left: 0.5em;
 			transform: translateY(-50%);
+		}
+	}
+
+	&.is-offline {
+		&::before {
+			color: $brand-offline;
+			left: 0.75em;
 		}
 	}
 
@@ -66,7 +81,7 @@ Styleguide 1.6
 
 }
 
-.alert-info, .alert-danger, .alert-success {
+.alert-info, .alert-danger, .alert-success, .alert-offline {
 	@extend .alert;
 }
 

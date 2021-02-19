@@ -23,7 +23,8 @@ $notification-width: 350px !default;
     position: relative;
 
     &.is-error,
-    &.is-success {
+    &.is-success,
+    &.is-offline {
         padding-left: 4em;
         &::before {
             font-size: 2em;
@@ -43,6 +44,15 @@ $notification-width: 350px !default;
         background-color: $brand-success;
         color: $white;
     }
+
+    &.is-offline {
+        background-color: $brand-offline;
+        color: $white;
+		&::before {
+			color: $white;
+            left: 0.75em;
+		}
+	}
 }
 
 .notification:first-child {

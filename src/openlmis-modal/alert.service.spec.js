@@ -260,6 +260,71 @@ describe('alertService', function() {
             expect(rejected).toBeUndefined();
         });
 
+        describe('offline', function() {
+
+            beforeEach(function() {
+                this.title = 'Offline Title';
+                this.message = 'Offline Message';
+                this.buttonLabel = 'Offline Label';
+            });
+
+            it('should pass is-offline as class', function() {
+                this.alertService.offline(this.title, this.message, this.buttonLabel);
+
+                expect(this.getResolve('alertClass')).toEqual('is-offline');
+            });
+
+            it('should pass title', function() {
+                this.alertService.offline(this.title, this.message, this.buttonLabel);
+
+                expect(this.getResolve('title')).toEqual(this.title);
+            });
+
+            it('should pass message', function() {
+                this.alertService.offline(this.title, this.message, this.buttonLabel);
+
+                expect(this.getResolve('message')).toEqual(this.message);
+            });
+
+            it('should pass label', function() {
+                this.alertService.offline(this.title, this.message, this.buttonLabel);
+
+                expect(this.getResolve('buttonLabel')).toEqual(this.buttonLabel);
+            });
+
+            it('should default button message to openlmisModal.close', function() {
+                this.alertService.offline(this.title, this.message);
+
+                expect(this.getResolve('buttonLabel')).toEqual('openlmisModal.close');
+            });
+
+            it('should reject if previous alert is open', function() {
+                this.alertService.offline(this.title, this.message, this.buttonLabel);
+
+                var rejected;
+                this.alertService.offline(this.title, this.message, this.buttonLabel)
+                    .catch(function() {
+                        rejected = true;
+                    });
+                this.$rootScope.$apply();
+
+                expect(rejected).toEqual(true);
+
+                this.modalDeferred.resolve();
+                this.$rootScope.$apply();
+
+                rejected = undefined;
+                this.alertService.offline(this.title, this.message, this.buttonLabel)
+                    .catch(function() {
+                        rejected = true;
+                    });
+                this.$rootScope.$apply();
+
+                expect(rejected).toBeUndefined();
+            });
+
+        });
+
     });
 
     function getResolve(name) {

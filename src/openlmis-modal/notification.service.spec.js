@@ -56,6 +56,32 @@ describe('notificationService', function() {
         expect(this.findNotifications().length).toBe(0);
     });
 
+    it('should hide offline notification after clicking on it', function() {
+        this.notificationService.offline('some.message');
+        this.$rootScope.$apply();
+
+        expect(this.findNotifications().length).toBe(1);
+        this.findNotifications().on('click', function(event) {
+            angular.element(event.target).trigger('webkitAnimationEnd');
+        });
+
+        this.findNotifications().trigger('click');
+
+        expect(this.findNotifications().length).toBe(0);
+    });
+
+    it('should close offline notification after delay', function() {
+        this.notificationService.offline('some.message');
+        this.$rootScope.$apply();
+
+        expect(this.findNotifications().length).toBe(1);
+
+        this.$timeout.flush();
+        this.findNotifications().trigger('webkitAnimationEnd');
+
+        expect(this.findNotifications().length).toBe(0);
+    });
+
     it('should show notification after loading modal closes', function() {
         this.loadingModalService.open();
 
