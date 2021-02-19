@@ -9,6 +9,9 @@ Improvements:
 Bug fixes:
 * [OLMIS-7203](https://openlmis.atlassian.net/browse/OLMIS-7203): Fixed issue with Google Analytics dependency
 
+New functionality that are backwards-compatible:
+* [OLMIS-7173](https://openlmis.atlassian.net/browse/OLMIS-7173): Added offline alert and notifications.
+
 7.2.4 / 2020-11-17
 ==================
 
