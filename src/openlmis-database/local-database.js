@@ -30,9 +30,9 @@
         .module('openlmis-database')
         .factory('LocalDatabase', LocalDatabase);
 
-    LocalDatabase.$inject = ['PouchDBWrapper'];
+    LocalDatabase.$inject = ['PouchDBWrapper', 'offlineService', 'alertService', '$q'];
 
-    function LocalDatabase(PouchDBWrapper) {
+    function LocalDatabase(PouchDBWrapper, offlineService, alertService, $q) {
 
         LocalDatabase.prototype.put = put;
         LocalDatabase.prototype.putAll = putAll;
@@ -60,8 +60,9 @@
          *
          * @param       {[type]} resourceName the name of the resource to create/open the database
          */
-        function LocalDatabase(resourceName) {
+        function LocalDatabase(resourceName, offlineMessage) {
             this.resourceName = resourceName;
+            this.offlineMessage = offlineMessage;
         }
 
         /**
@@ -196,7 +197,25 @@
          *                      be retrieved for any reason
          */
         function getAll() {
-            return new PouchDBWrapper(this.resourceName)
+            var pouchDb = new PouchDBWrapper(this.resourceName, this.offlineMessage),
+                offlineMessage = this.offlineMessage;
+
+            if (offlineService.isOffline()) {
+                return this.info()
+                    .then(function() {
+                        return pouchDb.allDocs({
+                            //eslint-disable-next-line camelcase
+                            include_docs: true
+                        });
+                    })
+                    .then(extractDocs)
+                    .catch(function(error) {
+                        alertService.error(offlineMessage);
+                        return $q.reject(error);
+                    });
+            }
+
+            return pouchDb
                 .allDocs({
                     //eslint-disable-next-line camelcase
                     include_docs: true

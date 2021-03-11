@@ -17,15 +17,19 @@ describe('LocalDatabase', function() {
 
     beforeEach(function() {
         module('openlmis-database');
+        module('openlmis-offline');
+        module('openlmis-modal');
 
         inject(function($injector) {
             this.LocalDatabase = $injector.get('LocalDatabase');
             this.$rootScope = $injector.get('$rootScope');
             this.PouchDBWrapper = $injector.get('PouchDBWrapper');
             this.$q = $injector.get('$q');
+            this.offlineService = $injector.get('offlineService');
+            this.alertService = $injector.get('alertService');
         });
 
-        this.database = new this.LocalDatabase('testDatabase');
+        this.database = new this.LocalDatabase('testDatabase', 'testMessage');
 
         this.docs = [{
             id: 'one',
@@ -489,6 +493,20 @@ describe('LocalDatabase', function() {
             this.$rootScope.$apply();
 
             expect(result).toEqual([]);
+        });
+
+        it('should reject if data is not cached in offline mode', function() {
+            this.PouchDBWrapper.prototype.info.andReturn(this.$q.resolve());
+
+            spyOn(this.alertService, 'error');
+            spyOn(this.offlineService, 'isOffline');
+
+            this.offlineService.isOffline.andReturn(true);
+            this.database.getAll();
+            this.$rootScope.$apply();
+
+            expect(this.offlineService.isOffline).toHaveBeenCalled();
+            expect(this.alertService.error).toHaveBeenCalledWith('testMessage');
         });
 
     });
