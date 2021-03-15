@@ -8,6 +8,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-7203](https://openlmis.atlassian.net/browse/OLMIS-7203): Fixed issue with Google Analytics dependency
+* [OLMIS-7220](https://openlmis.atlassian.net/browse/OLMIS-7220): Refactored getAll method in local database to reject when it is not available.
 
 New functionality that are backwards-compatible:
 * [OLMIS-7173](https://openlmis.atlassian.net/browse/OLMIS-7173): Added offline alert and notifications.
