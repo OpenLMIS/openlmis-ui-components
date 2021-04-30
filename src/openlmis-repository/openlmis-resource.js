@@ -189,10 +189,10 @@
          * @ngdoc method
          * @methodOf openlmis-repository.OpenlmisResource
          * @name update
-         * 
+         *
          * @description
          * Saves the given object on the OpenLMIS server. Uses PUT method.
-         * 
+         *
          * @param  {Object}  object the object to be saved on the server
          * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
          *                          undefined or if the ID is undefined
@@ -216,10 +216,10 @@
          * @ngdoc method
          * @methodOf openlmis-repository.OpenlmisResource
          * @name create
-         * 
+         *
          * @description
          * Creates the given object on the OpenLMIS server. Uses POST method.
-         * 
+         *
          * @param  {Object}  object        the object to be created on the server
          * @param  {Object}  customParams  the custom parameters to be passed to the request
          * @return {Promise}               the promise resolving to the server response, rejected if request fails
@@ -238,10 +238,10 @@
          * @ngdoc method
          * @methodOf openlmis-repository.OpenlmisResource
          * @name search
-         * 
+         *
          * @description
          * Search the given objects on the OpenLMIS server. Uses POST method.
-         * 
+         *
          * @param  {Object}  objectsList   the objects list to be searched on the server
          * @return {Promise}               the promise resolving to the server response, rejected if request fails
          */
@@ -259,10 +259,10 @@
          * @ngdoc method
          * @methodOf openlmis-repository.OpenlmisResource
          * @name delete
-         * 
+         *
          * @description
          * Deletes the object on the OpenLMIS server.
-         * 
+         *
          * @param  {Object}  object the object to be deleted from the server
          * @return {Promise}        the promise resolving to the server response, rejected if request fails or object is
          *                          undefined or if the ID is undefined

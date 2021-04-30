@@ -800,7 +800,7 @@ describe('OpenlmisCachedResource', function() {
     describe('getAll', function() {
         beforeEach(function() {
 
-            this.pageWithLastModified = {
+            this.responseWithPagination = {
                 content: {
                     content: [{
                         id: 'obj-one',
@@ -814,24 +814,22 @@ describe('OpenlmisCachedResource', function() {
                 }
             };
 
-            this.pageVersioned = {
-                content: {
-                    content: [{
-                        id: 'obj-one',
-                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
-                        _id: 'obj-one/1',
-                        meta: {
-                            versionNumber: 1
-                        }
-                    }, {
-                        id: 'obj-two',
-                        lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
-                        _id: 'obj-two/1',
-                        meta: {
-                            versionNumber: 1
-                        }
-                    }]
-                }
+            this.responseWithNoPagination = {
+                content: [{
+                    id: 'obj-one',
+                    lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                    _id: 'obj-one/1',
+                    meta: {
+                        versionNumber: 1
+                    }
+                }, {
+                    id: 'obj-two',
+                    lastModified: 'Thu, 22 Aug 2019 09:18:43 GMT',
+                    _id: 'obj-two/1',
+                    meta: {
+                        versionNumber: 1
+                    }
+                }]
             };
 
             this.lastModified = {
@@ -856,15 +854,16 @@ describe('OpenlmisCachedResource', function() {
                 .andReturn(this.allDocsWithLatestVersionDeferred.promise);
 
             openlmisCachedResource.isVersioned = false;
-            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
-            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned')
+                .andReturn(this.responseWithPagination.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.responseWithPagination.content.content[0]);
 
             var result = openlmisCachedResource.getAll(undefined);
             this.getDeferred.resolve(this.lastModified);
-            this.queryDeferred.resolve(this.pageWithLastModified);
+            this.queryDeferred.resolve(this.responseWithPagination);
             this.$rootScope.$apply();
 
-            expect(result.$$state.value).toEqual(this.pageWithLastModified.content);
+            expect(result.$$state.value).toEqual(this.responseWithPagination.content.content);
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });
@@ -885,15 +884,15 @@ describe('OpenlmisCachedResource', function() {
                 .andReturn(this.allDocsWithLatestVersionDeferred.promise);
 
             openlmisCachedResource.isVersioned = false;
-            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.pageWithLastModified.content.content[0]);
-            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.pageWithLastModified.content.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'putVersioned').andReturn(this.responseWithNoPagination.content[0]);
+            spyOn(this.LocalDatabase.prototype, 'put').andReturn(this.responseWithNoPagination.content[0]);
 
             var result = openlmisCachedResource.getAll(undefined);
             this.getDeferred.resolve(this.lastModified);
-            this.queryDeferred.resolve(this.pageWithLastModified);
+            this.queryDeferred.resolve(this.responseWithNoPagination);
             this.$rootScope.$apply();
 
-            expect(result.$$state.value).toEqual(this.pageWithLastModified);
+            expect(result.$$state.value).toEqual(this.responseWithNoPagination.content);
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });

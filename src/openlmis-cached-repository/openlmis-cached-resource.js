@@ -60,7 +60,7 @@
          *
          * @param {String} uri              the URI pointing to the resource
          * @param {String} databaseName     the databaseName pointing to the resource
-         * @param {Object} config           the optional configuration object, modifies the default behavior 
+         * @param {Object} config           the optional configuration object, modifies the default behavior
          *                                  making this class more flexible
          */
         function OpenlmisCachedResource(uri, databaseName, config) {
@@ -125,8 +125,8 @@
          * Retrieves a list of object from cache or from server if docs not exists in cache
          *
          * @param  {string}  objectsList    the list of the objects with id and specific version number
-         * @return {Array}                  the array to matching objects, rejects if objects list 
-         *                                  is not given or if the request fails         
+         * @return {Array}                  the array to matching objects, rejects if objects list
+         *                                  is not given or if the request fails
          */
         function getByVersionIdentities(objectsList) {
             if (objectsList) {
@@ -191,7 +191,7 @@
          *
          * @param  {Object}  params the map of request parameters
          * @param  {Object}  docId  an additional parameter specifying id, if not given in response
-         * @return {Promise}        the promise resolving to the server response or cached value, 
+         * @return {Promise}        the promise resolving to the server response or cached value,
          *                          rejected if request fails
          */
         function query(params, docId) {
@@ -222,14 +222,15 @@
                             });
                         }
 
+                        var content = response.content;
+
                         if (response.content.content) {
-                            response.content = response.content.content;
+                            content = response.content.content;
                         }
 
-                        saveToLocalDatabase(response.content, isVersioned, database, docId);
-                        response.content = JSON.parse(JSON.stringify(response.content));
+                        saveToLocalDatabase(content, isVersioned, database, docId);
 
-                        return response;
+                        return response.content;
                     }, function(response) {
                         if (response.status === 304) {
                             return database.allDocsWithLatestVersion()
@@ -249,12 +250,12 @@
          * @name getAll
          *
          * @description
-         * Return the response of the GET request or cached value in a form of a list. 
+         * Return the response of the GET request or cached value in a form of a list.
          * Passes the given object as request
          * parameters.
          *
          * @param  {Object}  params the map of request parameters
-         * @return {Promise}        the promise resolving to the server response or cached value, 
+         * @return {Promise}        the promise resolving to the server response or cached value,
          *                          rejected if request fails
          */
         function getAll(params) {
