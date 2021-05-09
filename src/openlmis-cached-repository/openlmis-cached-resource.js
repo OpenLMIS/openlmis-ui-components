@@ -228,7 +228,9 @@
                             content = response.content.content;
                         }
 
-                        saveToLocalDatabase(content, isVersioned, database, docId);
+                        if (!docId || (params.page === undefined && docId)) {
+                            saveToLocalDatabase(content, isVersioned, database, docId);
+                        }
 
                         return response.content;
                     }, function(response) {
