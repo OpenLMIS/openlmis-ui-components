@@ -908,7 +908,7 @@ describe('OpenlmisCachedResource', function() {
             this.queryDeferred.resolve(this.responseWithNoPagination);
             this.$rootScope.$apply();
 
-            expect(result.$$state.value).toEqual(this.responseWithNoPagination.content);
+            expect(result.$$state.value).toEqual(this.responseWithNoPagination);
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });

@@ -11,6 +11,7 @@ Bug fixes:
 * [OLMIS-7220](https://openlmis.atlassian.net/browse/OLMIS-7220): Refactored getAll method in local database to reject when it is not available.
 * [OLMIS-7246](https://openlmis.atlassian.net/browse/OLMIS-7246): Fixed issue with missing pagination in Stock on Hand table.
 * [OLMIS-7259](https://openlmis.atlassian.net/browse/OLMIS-7259): Not saving data to pouchDb with docId param when it is paginated.
+* [OLMIS-7271](https://openlmis.atlassian.net/browse/OLMIS-7271): Fixed displaying products in the products table.
 
 New functionality that are backwards-compatible:
 * [OLMIS-7173](https://openlmis.atlassian.net/browse/OLMIS-7173): Added offline alert and notifications.

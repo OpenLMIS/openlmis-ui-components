@@ -222,17 +222,15 @@
                             });
                         }
 
-                        var content = response.content;
-
                         if (response.content.content) {
-                            content = response.content.content;
+                            response = response.content;
                         }
 
                         if (!docId || (params.page === undefined && docId)) {
-                            saveToLocalDatabase(content, isVersioned, database, docId);
+                            saveToLocalDatabase(response.content, isVersioned, database, docId);
                         }
 
-                        return response.content;
+                        return response;
                     }, function(response) {
                         if (response.status === 304) {
                             return database.allDocsWithLatestVersion()
