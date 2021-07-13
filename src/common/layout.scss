@@ -39,17 +39,17 @@ body {
 }
 
 .page {
-    @media screen and (max-width: $small){
-        margin: 1%;
-        padding: 1%;
-    }
-
     flex-grow: 0;
     margin: 1em;
     box-shadow: 0 0 0.5em $shadow;
     border: 0;
     background: $white;
     padding: 1em 2em;
+    
+    @media screen and (max-width: $small){
+        margin: 1%;
+        padding: 1%;
+    }
 
     div[ui-view] {
         > *:not(:last-child) {
