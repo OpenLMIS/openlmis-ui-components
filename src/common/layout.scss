@@ -6,6 +6,8 @@ navigation and readability.
 
 Styleguide 2.0
 */
+$small: 480px;
+
 html {
     height: 100%;
 }
@@ -37,6 +39,11 @@ body {
 }
 
 .page {
+    @media screen and (max-width: $small){
+        margin: 1%;
+        padding: 1%;
+    }
+
     flex-grow: 0;
     margin: 1em;
     box-shadow: 0 0 0.5em $shadow;

@@ -1,3 +1,9 @@
+7.2.6 / WIP
+==================
+
+Improvements:
+ * [OLMIS-7323](https://openlmis.atlassian.net/browse/OLMIS-7323): Improved pages to be responsive on low screen resolutions   
+
 7.2.5 / 2021-05-27
 ==================
 
