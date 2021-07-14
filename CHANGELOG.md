@@ -2,7 +2,8 @@
 ==================
 
 Improvements:
- * [OLMIS-7323](https://openlmis.atlassian.net/browse/OLMIS-7323): Improved pages to be responsive on low screen resolutions   
+* [OLMIS-7323](https://openlmis.atlassian.net/browse/OLMIS-7323): Improved pages to be responsive on low screen resolutions.
+* [OLMIS-7319](https://openlmis.atlassian.net/browse/OLMIS-7319): Added breakpoints variables based on bootstrap.
 
 7.2.5 / 2021-05-27
 ==================
