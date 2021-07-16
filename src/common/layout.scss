@@ -6,7 +6,6 @@ navigation and readability.
 
 Styleguide 2.0
 */
-$small: 480px;
 
 html {
     height: 100%;
@@ -46,7 +45,7 @@ body {
     background: $white;
     padding: 1em 2em;
     
-    @media screen and (max-width: $small){
+    @media screen and (max-width: $res-sm){
         margin: 1%;
         padding: 1%;
     }
