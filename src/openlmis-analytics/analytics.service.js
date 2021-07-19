@@ -27,9 +27,11 @@
     angular.module('openlmis-analytics')
         .service('analyticsService', service);
 
-    service.$inject = ['$window', 'offlineService', 'localStorageFactory', '$rootScope'];
+    service.$inject = ['$window', 'offlineService', 'localStorageFactory', '$rootScope',
+        'messageService', 'localStorageService'];
 
-    function service($window, offlineService, localStorageFactory, $rootScope) {
+    function service($window, offlineService, localStorageFactory, $rootScope,
+                     messageService, localStorageService) {
         var ga = $window.ga,
             gaEventsOfflineStorage = localStorageFactory('googleAnalytics');
 
@@ -60,7 +62,6 @@
         }
 
         function applyGAStoredEvents() {
-
             var service = this,
                 gaParameters = getGAParameters();
 
@@ -85,6 +86,7 @@
                 screenResolution: ga.P[0].model.data.ea[':screenResolution'],
                 viewportSize: ga.P[0].model.data.ea[':viewportSize'],
                 language: ga.P[0].model.data.ea[':language'],
+                userId: localStorageService.get('USER_ID'),
                 time: Date.now()
             };
         }
@@ -93,6 +95,8 @@
             ga('set', 'screenResolution', parameters.screenResolution);
             ga('set', 'viewportSize', parameters.viewportSize);
             ga('set', 'language', parameters.language);
+            ga('set', 'userId', parameters.userId);
+
             if (setQueueTime) {
                 ga('set', 'queueTime', Date.now() - new Date(parameters.time));
             } else {
@@ -100,5 +104,4 @@
             }
         }
     }
-
 })();

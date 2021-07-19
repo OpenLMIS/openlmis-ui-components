@@ -19,6 +19,7 @@ describe('analyticsService', function() {
         this.screenResolution = '200x200';
         this.viewportSize = '100x100';
         this.language = 'en-US';
+        this.userId = 'USER_ID';
 
         var context = this;
         module('openlmis-analytics', function($provide) {
@@ -56,6 +57,7 @@ describe('analyticsService', function() {
             this.offlineService = $injector.get('offlineService');
             this.analyticsService = $injector.get('analyticsService');
             this.$rootScope = $injector.get('$rootScope');
+            this.localStorageService = $injector.get('localStorageService');
         });
 
         this.offlineStatus = false;
@@ -63,11 +65,13 @@ describe('analyticsService', function() {
         this.gaParameters = {
             screenResolution: this.screenResolution,
             viewportSize: this.viewportSize,
-            language: this.language
+            language: this.language,
+            userId: this.userId
         };
 
         spyOn(this.$rootScope, '$on').andCallThrough();
         spyOn(Date, 'now').andReturn(this.date);
+        spyOn(this.localStorageService, 'get').andReturn('USER_ID');
         spyOn(this.offlineService, 'isOffline').andCallFake(function() {
             return context.offlineStatus;
         });
