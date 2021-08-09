@@ -78,7 +78,7 @@ Styleguide 3.4
 */
 
 select{
-	@extend .form-control;
+	@extend .form-control !optional;
 
 	&[disabled] + a.clear{
 		display: none;

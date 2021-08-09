@@ -67,6 +67,8 @@ that is not nessicarry.
 Styleguide 4.5
 */
 
+@import "../common/icon.mixins";
+
 th.has-popover {
   @include icon('info-circle');
   padding-right: 2em !important;
@@ -76,14 +78,14 @@ th.has-popover {
     top: 50%;
     right: 0.5em;
     transform: translateY(-50%);
-  }  
+  }
 }
 
 .openlmis-table > tbody > tr > td.is-invalid,
 td.is-invalid {
   @include icon('exclamation-circle');
   padding-right: 2em;
-  
+
   &::before{
     color: $brand-danger;
     position: absolute;
@@ -95,7 +97,7 @@ td.is-invalid {
 
 .popover .openlmis-invalid {
   > * {
-    @extend .unstyled-error;
+    @extend .unstyled-error !optional;
   }
 }
 
@@ -105,7 +107,7 @@ th {
   > input[type="checkbox"]:first-child + > label:last-child,
   > input[type="checkbox"]:last-child + > label:first-child{
     position: absolute;
-    top: -100em;    
+    top: -100em;
   }
   > label:last-child + > input[type="checkbox"]:first-child,
   > label:first-child + > input[type="checkbox"]:last-child,

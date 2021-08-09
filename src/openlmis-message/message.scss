@@ -1,5 +1,5 @@
 .message {
-  @extend .clearfix;
+  @extend .clearfix !optional;
   margin-top: 14px;
   padding-bottom: 14px;
   font-size: 14px;

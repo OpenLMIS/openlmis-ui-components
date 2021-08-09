@@ -1,3 +1,5 @@
+@import "../common/icon.mixins";
+
 .alert-modal {
 
 	.alert-main{
@@ -28,7 +30,7 @@
 .alert-modal.is-error .alert-main {
 	@include icon('exclamation-circle');
 	&:before{
-		color: $brand-danger;	
+		color: $brand-danger;
 	}
 }
 

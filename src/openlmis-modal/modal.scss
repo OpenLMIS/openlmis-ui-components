@@ -1,3 +1,4 @@
+@import "../common/variables";
 
 .modal {
 
@@ -23,7 +24,7 @@
 	}
 
 	.modal-footer{
-		@extend .button-group;
+		@extend .button-group !optional;
 		margin: 0px;
 	}
 

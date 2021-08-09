@@ -12,10 +12,11 @@ markup:
 
 Styleguide 1.6
 */
+@import "icon.mixins";
 
 .alert {
-	@extend .alert-info;
-	@extend .clearfix;
+	@extend .alert-info !optional;
+	@extend .clearfix !optional;
 	position: relative;
 	border: 0px;
 	margin: 0px;
@@ -70,7 +71,7 @@ Styleguide 1.6
 	}
 
 	&.is-info {
-		@extend .alert-info;
+		@extend .alert-info !optional;
 	}
 
 	> button {
@@ -83,13 +84,13 @@ Styleguide 1.6
 }
 
 .alert-info, .alert-danger, .alert-success, .alert-offline {
-	@extend .alert;
+	@extend .alert !optional;
 }
 
-.alert-danger{
-	@extend .alert.is-danger;
+.alert-danger {
+	@extend .alert, .is-danger !optional;
 }
 
-.alert-success{
-	@extend .alert.is-success;
+.alert-success {
+	@extend .alert, .is-success !optional;
 }

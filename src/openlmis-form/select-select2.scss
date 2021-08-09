@@ -1,3 +1,5 @@
+@import "../common/icon.mixins";
+
 .select2-hidden-accessible{
     border: 0 !important;
     clip: rect(0 0 0 0) !important;
@@ -10,7 +12,7 @@
 }
 
 .select2 {
-    @extend .form-control;
+    @extend .form-control !optional;
     overflow: hidden;
     // Select2 sets the width in the style (which we don't want)
     width: auto !important;
@@ -70,10 +72,10 @@
             color: $brand-danger;
         }
     }
-    
+
     &.select2-container--open,
     &.select2-container--focus {
-        @extend .form-control.is-focused;
+        @extend .form-control, .is-focused !optional;
 
         .select2-selection--single > .select2-selection__arrow {
             color: $brand-primary;
@@ -81,7 +83,7 @@
     }
 
     &.select2-container--disabled {
-        @extend .form-control.is-disabled;
+        @extend .form-control, .is-disabled !optional;
     }
 
 }
@@ -107,7 +109,7 @@
         padding: 0.5em;
         padding-top: 0em;
         > input {
-            @extend .form-control;
+            @extend .form-control !optional;
             width: 100%;
             box-sizing: border-box;
         }
@@ -117,7 +119,7 @@
     }
 
     ul{
-        @extend .list-unstyled;
+        @extend .list-unstyled !optional;
         padding: 0px;
         margin: 0px;
         max-height: @@PAGE_SIZE * 2em;
@@ -163,7 +165,7 @@
         }
         &:before {
             border-width: $font-size + $border-width;
-            margin-left: 0 - ($font-size + $border-width);      
+            margin-left: 0 - ($font-size + $border-width);
         }
     }
 

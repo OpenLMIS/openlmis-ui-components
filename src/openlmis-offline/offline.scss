@@ -14,6 +14,7 @@ markup:
 
 Styleguide 5.0
 */
+@import "../common/variables";
 
 a.is-offline,
 button.is-offline{
@@ -21,6 +22,6 @@ button.is-offline{
 		content: "\f0e7";
 		font-family: FontAwesome;
 		display: inline-block;
-		padding-right: $space-size/2; 
+		padding-right: $space-size/2;
 	}
 }

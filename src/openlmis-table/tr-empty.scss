@@ -1,3 +1,6 @@
+@import "../common/variables";
+@import "../common/icon.mixins";
+
 td.openlmis-empty-row {
     @include icon("exclamation-circle");
     &:before {

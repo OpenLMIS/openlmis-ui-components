@@ -69,6 +69,7 @@ virtual scrolling so that extremely large lists and pages can be rendered.
 
 Styleguide 4.6
 */
+@import "../common/variables";
 
 .openlmis-table-pane {
     display: flex;
@@ -89,7 +90,7 @@ Styleguide 4.6
     }
 
     table {
-        @extend .openlmis-table;
+        @extend .openlmis-table !optional;
 
         th, td {
             padding: $space-size/2;
@@ -156,7 +157,7 @@ Styleguide 4.6
             background-image: linear-gradient(to bottom, $dark-gray, transparent);
             bottom: ($space-size/4 + 1) * -1;
         }
-        
+
         tfoot td[openlmis-table-sticky-cell]:before,
         tfoot th[openlmis-table-sticky-cell]:before {
             background-image: linear-gradient(to top, $dark-gray, transparent);

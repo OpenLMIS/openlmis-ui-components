@@ -143,7 +143,7 @@ Styleguide 4.1
         }
 
         > form {
-          @extend form.filters;
+          @extend form, .filters !optional;
         }
     }
 
@@ -169,7 +169,7 @@ Styleguide 4.1
         overflow: auto;
         position: relative; // tell JS to calculate offset from here
         > table {
-            @extend .openlmis-table;
+            @extend .openlmis-table !optional;
             width: 100%;
         }
     }

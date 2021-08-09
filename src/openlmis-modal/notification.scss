@@ -1,3 +1,5 @@
+@import "../common/variables";
+
 $notification-width: 350px !default;
 
 .notification-container {
@@ -12,8 +14,8 @@ $notification-width: 350px !default;
 }
 
 .notification {
-    @extend .alert;
-    @extend .fadeIn;
+    @extend .alert !optional;
+    @extend .fadeIn !optional;
     background-color: $background-color-dark;
     color: $white;
     font-weight: bold;

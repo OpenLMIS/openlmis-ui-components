@@ -6,7 +6,7 @@ form-level messages.
 
 Form-level messages are shown to the user immedately after the form submission
 fails. This is done with an alert modal to explain the error to the user, then
-return the user's focus to the form that needs correction. See the 
+return the user's focus to the form that needs correction. See the
 form-server-validation directive for a pattern of how to display form-level
 errors.
 
@@ -14,7 +14,7 @@ Input-level messages must be shown on every form control input that is invalid
 and contains an error. Error messages related to an input must use the ARIA
 described by label to make sure the error accessible.
 
-The OpenLMIS-UI provides easy ways to display form-control error messages, by 
+The OpenLMIS-UI provides easy ways to display form-control error messages, by
 either reading Angular's FormController or the error-span factory.
 
 markup:
@@ -62,9 +62,10 @@ markup:
 
 Styleguide 3.3
 */
+@import "../common/variables";
 
 .form-error {
-	@extend .alert.is-error;
+	@extend .alert, .is-error !optional;
 	position: relative;
 	background-color: $brand-danger;
 	color: $white;
@@ -75,11 +76,11 @@ Styleguide 3.3
 }
 
 form > .alert.is-error {
-	@extend .form-error;
+	@extend .form-error !optional;
 }
 
 .input-error {
-	@extend .alert.is-error;
+	@extend .alert, .is-error !optional;
 	&::before {
 		content: "";
 	}
@@ -107,16 +108,16 @@ form > .alert.is-error {
 }
 
 .openlmis-invalid {
-	@extend .list-unstyled;
+	@extend .list-unstyled !optional;
 	> * {
-		@extend .form-error;
+		@extend .form-error !optional;
 	}
 }
 
 .input-control + .openlmis-invalid,
 legend + .openlmis-invalid {
 	> * {
-		@extend .input-error;
+		@extend .input-error !optional;
 	}
 }
 
@@ -125,7 +126,7 @@ form.form-inline {
 	> .openlmis-invalid {
 		min-width: 100%;
 		>  * {
-			@extend .input-error;
+			@extend .input-error !optional;
 		}
 	}
 }

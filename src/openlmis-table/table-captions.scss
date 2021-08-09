@@ -84,12 +84,12 @@ Styleguide 4.2
 }
 
 .openlmis-table > caption{
-  @extend .alert;
+  @extend .alert !optional;
   display: table-caption;
   margin: 1em 0em;
 
   &.error {
-    @extend .alert.is-error;
+    @extend .alert, .is-error !optional;
     display: table-caption;
   }
 }

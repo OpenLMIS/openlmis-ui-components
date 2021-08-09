@@ -1,3 +1,5 @@
+@import "../common/icon.mixins";
+
 .saving-indicator {
 
     text-align: right;
@@ -7,14 +9,14 @@
     }
 
     .saved {
-        @extend .icon;
+        @extend .icon !optional;
         @include icon('check-circle');
         color: $green;
     }
 
     .saving {
-        @extend .icon;
-        @extend .loading;
+        @extend .icon !optional;
+        @extend .loading !optional;
         font-size: 1em;
     }
 }

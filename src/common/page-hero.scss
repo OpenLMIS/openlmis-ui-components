@@ -1,3 +1,4 @@
+@import "variables";
 
 .page-hero {
 	position: relative;
@@ -24,19 +25,19 @@
 	}
 }
 
-@media(min-width: $screen-sm-min){
-	.page-hero{
-		padding: 1.2em;
-		> * {
-			display: block;
-			width: $screen-sm-min - 100px;
-		}
-		h2 em{
-			display: block;
-			font-size: 0.9em;
-		}
-	}
-}
+//@media(min-width: $screen-sm-min){
+//	.page-hero{
+//		padding: 1.2em;
+//		> * {
+//			display: block;
+//			width: $screen-sm-min - 100px;
+//		}
+//		h2 em{
+//			display: block;
+//			font-size: 0.9em;
+//		}
+//	}
+//}
 
 .page-hero .title {
   position: relative;

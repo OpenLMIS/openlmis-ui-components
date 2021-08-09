@@ -1,5 +1,6 @@
+@import "variables";
+
 @mixin icon($icon) {
-    @extend ".fa-#{$icon} !optional";
     font-family: $font-family;
     &::before {
         font-family: FontAwesome;

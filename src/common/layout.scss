@@ -6,6 +6,7 @@ navigation and readability.
 
 Styleguide 2.0
 */
+@import "variables";
 
 html {
     height: 100%;
@@ -44,7 +45,7 @@ body {
     border: 0;
     background: $white;
     padding: 1em 2em;
-    
+
     @media screen and (max-width: $res-sm){
         margin: 1%;
         padding: 1%;
@@ -58,20 +59,20 @@ body {
          > h1,
          > h2,
         > header {
-            @extend .heading;
+            @extend .heading !optional;
             background-color: transparent;
         }
 
         > section {
              > h3,
             > header {
-                @extend .sub-heading;
+                @extend .sub-heading !optional;
             }
         }
 
         > nav > ul {
-            @extend .nav;
-            @extend .nav-tabs;
+            @extend .nav !optional;
+            @extend .nav-tabs !optional;
 
             > li > a {
                 background-color: $background-color-alt;

@@ -88,6 +88,8 @@ element.
 
 Styleguide 3.0
 */
+@import "../common/variables";
+
 form {
     display: flex;
     flex-direction: row;
@@ -152,7 +154,7 @@ form {
 
 form {
     > label {
-        @extend .form-label;
+        @extend .form-label !optional;
     }
 
     fieldset.form-control > legend,
@@ -169,7 +171,7 @@ form {
 }
 
 fieldset > legend {
-    @extend .form-label;
+    @extend .form-label !optional;
     padding: 0px;
     border-bottom-width: 0;
 }
@@ -180,7 +182,7 @@ textarea {
 
 fieldset,
 .form-group {
-    @extend form;
+    @extend form !optional;
 }
 
 input.number,

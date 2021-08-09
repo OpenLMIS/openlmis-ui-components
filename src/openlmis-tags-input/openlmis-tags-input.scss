@@ -52,6 +52,8 @@ markup:
 Styleguide 3.8.3
 */
 
+@import "../common/variables";
+
 tags-input {
     width: 100%;
 
@@ -76,7 +78,7 @@ tags-input {
         }
 
         .tag-item {
-            @extend button;
+            @extend button !optional;
             padding: 0 0.5em;
         }
     }

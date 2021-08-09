@@ -1,3 +1,5 @@
+@import "variables";
+
 @mixin button($color){
     display: block;
     padding: $space-size/2 $space-size;
@@ -16,10 +18,10 @@
     }
 
     color: $button-text-color;
-    text-shadow: 0px 0px 0.1em $button-text-shadow-color; 
-    
+    text-shadow: 0px 0px 0.1em $button-text-shadow-color;
+
     background: $color;
-    background-image: linear-gradient(to bottom,  lighten($color, 10%), lighten($color, 5%) 10%, $color);
+    background-image: linear-gradient(to bottom, lighten($color, 10%), lighten($color, 5%) 10%, $color);
 
     &:hover,
     &:active,

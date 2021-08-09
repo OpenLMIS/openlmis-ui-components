@@ -18,6 +18,7 @@ Example:
 
 Styleguide 2.3
 */
+@import "../common/variables";
 
 .openlmis-pagination {
 
@@ -35,7 +36,7 @@ Styleguide 2.3
 
     margin-bottom: $space-size;
     > ul {
-        @extend .pagination;
+        @extend .pagination !optional;
         margin: 0px 0px 0px 1em;
         border-color: $border-color;
 
@@ -47,12 +48,12 @@ Styleguide 2.3
         }
 
         .active a {
-            @extend button.primary;
+            @extend button, .primary !optional;
             @extend .openlmis-pagination-link;
         }
 
         .invalid a {
-            @extend button.danger;
+            @extend button, .danger !optional;
             @extend .openlmis-pagination-link;
         }
 

@@ -1,8 +1,10 @@
+@import "variables";
+
 $loading-logo-size: 72px;
 
 body.no-js {
     background: radial-gradient(circle at center, $dark-gray 0%, darken($dark-gray, 8%) 100%);
-    
+
     > * {
         display: none;
     }
@@ -22,8 +24,8 @@ body.no-js {
     font-size: $font-size-extra-large;
     color: $white;
     &::before {
-        @extend .loading;
-        @extend .loading::before;
+        @extend .loading !optional;
+        //@extend .loading::before;
         font-size: 2em;
         margin-right: 0.5em;
     }

@@ -1,4 +1,4 @@
 
 .characters-left.is-invalid{
-	@extend .input-error;
+	@extend .input-error !optional;
 }

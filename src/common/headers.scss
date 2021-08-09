@@ -27,6 +27,7 @@ This is how headings should be used.
 
 Styleguide 1.1
 */
+@import "variables";
 
 $heading-color: $text-color !default;
 $heading-border-color: $border-color !default;
@@ -85,7 +86,7 @@ header,
 
 .sub-heading,
 header.sub-heading {
-    @extend .heading;
+    @extend .heading !optional;
     border-bottom-width: 0px;
 
     > h1, > h2, > h3, > h4 > h5, > h6,
@@ -108,7 +109,7 @@ header.sub-heading {
 }
 
 .minor-heading {
-    @extend .heading;
+    @extend .heading !optional;
     background-color: $background-color-alt;
     border-bottom: 0px;
     padding: 0.5em 1em;

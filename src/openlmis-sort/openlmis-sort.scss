@@ -35,7 +35,7 @@ Styleguide 2.4
 */
 
 .openlmis-sort {
-    @extend .dropdown-button;
+    @extend .dropdown-button !optional;
     display: flex;
     align-items: center;
 

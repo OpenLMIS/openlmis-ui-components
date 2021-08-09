@@ -15,8 +15,10 @@ markup:
 
 Styleguide 6.0
  */
+@import "variables";
+
 .openlmis-toolbar {
-    @extend .button-group;
+    @extend .button-group !optional;
     background: $shadow;
     display: block;
     bottom: 0;
@@ -28,7 +30,7 @@ Styleguide 6.0
 }
 
 .toolbar {
-    @extend .button-group;
+    @extend .button-group !optional;
     margin-left: 0;
     margin-right: 0;
 
@@ -40,7 +42,7 @@ Styleguide 6.0
     }
 
     > ul {
-        @extend .list-unstyled;
+        @extend .list-unstyled !optional;
         > * {
             display: block;
             float: left;
@@ -56,7 +58,7 @@ Styleguide 6.0
                 padding-right: 0px;
                 &::after{
                     content: "";
-                } 
+                }
             }
         }
     }

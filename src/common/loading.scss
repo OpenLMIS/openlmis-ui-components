@@ -12,10 +12,10 @@ Styleguide 1.4
 */
 
 .loading {
-    @extend .fa;
-    @extend .fa-spin;
-    @extend .fa-3x;
-    @extend .fa-fw;
+    @extend .fa !optional;
+    @extend .fa-spin !optional;
+    @extend .fa-3x !optional;
+    @extend .fa-fw !optional;
     &::before {
         content: '\f1ce';
         font-size: 1em;
@@ -24,5 +24,5 @@ Styleguide 1.4
 
 .is-loading::after {
     @extend .loading;
-    @extend .loading::before;
+    //@extend .loading::before;
 }

@@ -1,3 +1,5 @@
+@import "../common/variables";
+
 .loading-modal {
 
     position: absolute;
@@ -8,12 +10,12 @@
 
     .loading {
         @extend .loading;
-        @extend .loading::before;
-        @extend .fa;
-        @extend .fa-circle-o-notch;
-        @extend .fa-spin;
-        @extend .fa-3x;
-        @extend .fa-fw;
+        //@extend .loading::before;
+        @extend .fa !optional;
+        @extend .fa-circle-o-notch !optional;
+        @extend .fa-spin !optional;
+        @extend .fa-3x !optional;
+        @extend .fa-fw !optional;
         color: $white;
         font-size: $font-size-extra-large;
         position: absolute;

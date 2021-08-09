@@ -1,3 +1,5 @@
+@import "variables";
+
 article {
 	position: relative;
 	border: $border-color 1px solid;
@@ -7,7 +9,7 @@ article {
 	}
 
 	> header {
-		@extend .minor-heading;
+		@extend .minor-heading !optional;
 		margin: 0px;
 		margin-bottom: 0.5em;
 	}

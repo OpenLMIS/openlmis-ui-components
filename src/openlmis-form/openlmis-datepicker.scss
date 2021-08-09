@@ -12,6 +12,7 @@ markup:
 
 Styleguide 3.5
 */
+@import "../common/variables";
 
 .openlmis-datepicker::after {
 	content: "\f073";
@@ -33,7 +34,7 @@ Styleguide 3.5
 		}
 	}
 	.clear {
-		@extend .btn-primary;
+		@extend .btn-primary !optional;
 		border: 0px;
 		font-size: $font-size;
 		&:hover {
@@ -44,11 +45,11 @@ Styleguide 3.5
 }
 
 .glyphicon {
-	@extend .fa;
+	@extend .fa !optional;
 	&.glyphicon-chevron-right {
-		@extend .fa-chevron-right;
+		@extend .fa-chevron-right !optional;
 	}
 	&.glyphicon-chevron-left {
-		@extend .fa-chevron-left;
+		@extend .fa-chevron-left !optional;
 	}
 }

@@ -80,6 +80,8 @@ a table, please use these row types.
 Styleguide 4.0
 */
 
+@import "../common/variables";
+
 $table-border-color: $border-color !default;
 $table-border-width: 1px !default;
 $table-cell-padding: $space-size/2 !default;

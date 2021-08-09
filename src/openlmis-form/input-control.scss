@@ -20,13 +20,14 @@ markup:
 
 Styleguide 3.2
 */
+@import "../common/variables";
 
 $form-control-text-color: $text-color !default;
 $form-control-text-color-disabled: $text-color-disabled !default;
 
 .form-control,
 .input-control {
-	@extend .form-control;
+	@extend .form-control !optional;
 
 	width: auto;
 	position: relative;
@@ -83,7 +84,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 
 	> .input-control,
 	> .form-control {
-		@extend .input-control-unstyled;
+		@extend .input-control-unstyled !optional;
 		flex: 1 0 auto;
 	}
 }
@@ -104,7 +105,7 @@ $form-control-text-color-disabled: $text-color-disabled !default;
 	&.is-focused,
 	&.is-invalid,
 	&.is-disabled {
-		@extend .input-control-unstyled;
+		@extend .input-control-unstyled !optional;
 	}
 }
 
@@ -114,7 +115,7 @@ input[type="email"],
 input[type="number"],
 select,
 textarea{
-	@extend .input-control;
+	@extend .input-control !optional;
 }
 
 .input-control > textarea {

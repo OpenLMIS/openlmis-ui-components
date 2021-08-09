@@ -12,6 +12,7 @@ markup:
 
 Styleguide 3.6
 */
+@import "../common/buttons";
 
 .openlmis-file-upload {
 
@@ -20,18 +21,18 @@ Styleguide 3.6
     overflow: hidden;
 
     input[type=file] {
-        @extend .sr-only;
+        @extend .sr-only !optional;
     }
 
     button.file {
-        @extend button.primary;
+        @extend button, .primary;
         @include button($button-color-default);
         @include button-icon('file');
     }
 
     .btn-file,
     input[type=submit].file {
-        @extend button.file;
+        @extend button, .file;
     }
 
     button.file {

@@ -1,3 +1,3 @@
 .locale-container {
-    @extend .dropdown-button;
+    @extend .dropdown-button !optional;
 }

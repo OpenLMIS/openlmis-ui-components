@@ -1,7 +1,7 @@
 // Override default perfect scrollbars to make OpenLMIS style
 // Defaults are here
 // https://github.com/utatti/perfect-scrollbar/blob/0.8.1/src/css/variables.scss
-
+@import "../common/variables";
 
 $ps-border-radius: $border-radius;
 
@@ -25,4 +25,4 @@ $ps-scrollbar-y-rail-right: 0;
 $ps-scrollbar-y-rail-width: $space-size/2;
 $ps-scrollbar-y-right: 0px;
 $ps-scrollbar-y-width: $space-size/2;
-$ps-scrollbar-y-hover-width: $space-size/2; 
+$ps-scrollbar-y-hover-width: $space-size/2;
