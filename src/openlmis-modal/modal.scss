@@ -24,8 +24,11 @@
 	}
 
 	.modal-footer{
-		@extend .button-group !optional;
-		margin: 0px;
+		@extend .button-group !optional;		margin: 0px;
+		a {
+			margin: 0px 1em;
+		}
+
 	}
 
 	button.close{

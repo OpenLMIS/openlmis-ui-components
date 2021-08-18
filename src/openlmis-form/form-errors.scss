@@ -112,6 +112,13 @@ form > .alert.is-error {
 	> * {
 		@extend .form-error !optional;
 	}
+	color: $red;
+	font-weight: bold;
+	border-left-color: $red;
+	border-left-style: solid;
+	li {
+		padding-left: 0.5em;
+	}
 }
 
 .input-control + .openlmis-invalid,

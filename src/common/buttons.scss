@@ -169,6 +169,17 @@ input[type=button] {
 .btn-primary,
 input[type=submit] {
     @extend .primary !optional;
+    display:block;
+    padding:8px 16px;
+    border-radius:4px;
+    border-top:$blue 1px solid;
+    border-right:$blue 1px solid;
+    border-left:$blue 1px solid;
+    border-bottom:$blue 1px solid;color:#fff;
+    text-shadow:0px 0px 0.1em #333;
+    background: $blue;
+    background-image:linear-gradient(to bottom, #5cabcd, #49a1c7 10%, $blue);
+    float: right;
 }
 
 .btn-add,
