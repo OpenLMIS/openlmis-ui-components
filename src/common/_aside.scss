@@ -1,0 +1,37 @@
+
+.page aside {
+    position: relative;
+    background-color: $background-color-alt;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+
+    > button.close {
+        position: absolute;
+        top: 0em;
+        right: 0em;
+    }
+
+    dl {
+        display: flex;
+        margin: 0em;
+        flex-grow: 1;
+        padding: 1.5em;
+        padding-bottom: 0.5em;
+    }
+
+    dt {
+        width: 0;
+        position: relative;
+        top: -1.2em;
+        white-space: nowrap;
+    }
+
+    dd {
+        flex: 1 0 auto;
+        padding-right: 1em;
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+}

@@ -1,0 +1,64 @@
+/*
+Toolbar
+
+Toolbar is used for placing controls at the bottom of the screen. To move the button to the right
+side `.primary-action` class should be used. Keep in mind that to move multiple button to the right
+side they need to be next to each other.
+
+markup:
+<div class="openlmis-toolbar">
+    <input type="button" class="btn btn-default" value="Some button"/>
+    <input type="button" class="btn btn-default" value="Other button"/>
+    <input type="button" class="btn btn-danger primary-action" value="Destructive action"/>
+    <input type="button" class="btn btn-primary primary-action" value="Primary action"/>
+</div>
+
+Styleguide 6.0
+ */
+
+.openlmis-toolbar {
+    @extend .button-group;
+    background: $shadow;
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5em;
+    position: fixed;
+    z-index: 15;
+}
+
+.toolbar {
+    @extend .button-group;
+    margin-left: 0;
+    margin-right: 0;
+
+    h1, h2, h3, h4, h5, h6 {
+        padding: 0px;
+        & ~ * {
+            margin-left: 0px;
+        }
+    }
+
+    > ul {
+        @extend .list-unstyled;
+        > * {
+            display: block;
+            float: left;
+            margin: 0px;
+            padding-right: 0.5em;
+            &::after{
+                content: "|";
+                display: inline-block;
+                margin-left: 0.5em;
+            }
+
+            &:last-child{
+                padding-right: 0px;
+                &::after{
+                    content: "";
+                }
+            }
+        }
+    }
+}

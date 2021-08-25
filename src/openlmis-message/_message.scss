@@ -1,0 +1,36 @@
+.message {
+  @extend .clearfix;
+  margin-top: 14px;
+  padding-bottom: 14px;
+  font-size: 14px;
+
+  > header {
+    margin-bottom: 14px;
+    display: flex;
+    flex-wrap: nowrap;
+
+    > * {
+      flex: 0 0 auto;
+      align-items: flex-end;
+    }
+
+    >.title {
+      font-weight: bold;
+      max-width: 65%;
+
+      > p {
+        overflow-wrap: break-word;
+        word-break: break-all;
+      }
+    }
+
+    > .date {
+      font-style: italic;
+    }
+  }
+
+  > .content {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}

@@ -1,0 +1,105 @@
+/*
+Openlmis Tags Input
+
+Component responsible for managing (adding, selecting) tags throughout the OpenLMIS system.
+
+Styleguide 3.8
+*/
+
+/*
+Base
+
+Basic component with no options set. It will allow adding new tags and will not
+
+markup:
+<form>
+    <label>Tags</label>
+    <openlmis-tags-input ng-model="tags"></openlmis-tags-input>
+    <input type="submit"/>
+</form>
+
+Styleguide 3.8.1
+*/
+
+/*
+With available-tags attribute
+
+Setting this option will make the input autocomplete tag names as user types them.
+
+markup:
+<form ng-init="tags = ['tagOne', 'tagsTwo']; availableTags = ['tagOne', 'tagTwo', 'tagThree', 'tagFour'];">
+    <label>Tags</label>
+    <openlmis-tags-input ng-model="tags" available-tags="availableTags"></openlmis-tags-input>
+    <input type="submit"/>
+</form>
+
+Styleguide 3.8.2
+*/
+
+/*
+With [allow-new-tags="false"]
+
+Setting this option to false (it is true by default) will prevent user from entering new tags (only tags which are in
+the list of available tags can be used).
+
+markup:
+<form ng-init="availableTags = ['tagOne', 'tagTwo', 'tagThree', 'tagFour']">
+    <label>Tags</label>
+    <openlmis-tags-input ng-model="tags" available-tags="availableTags" allow-new-tags="false"></openlmis-tags-input>
+    <input type="submit"/>
+</form>
+
+Styleguide 3.8.3
+*/
+
+
+tags-input {
+    width: 100%;
+
+    .host {
+        margin: 0
+    }
+
+    .tags,
+    .tags.focused,
+    &.ng-invalid .tags,
+    .tags input,
+    .tags input:focus {
+        box-shadow: none;
+    }
+
+    .tags {
+        border: none;
+        width: 100%;
+
+        .input.invalid-tag {
+            color: $black;
+        }
+
+        .tag-item {
+            @extend button;
+            padding: 0 0.5em;
+        }
+    }
+
+    div.input-control {
+        padding: 2px;
+    }
+}
+
+openlmis-tags-input div.input-control {
+    padding: 0.3em;
+}
+
+tags-input .autocomplete .suggestion-item,
+tags-input .autocomplete .suggestion-item em,
+tags-input .autocomplete .suggestion-item.selected,
+tags-input .autocomplete .suggestion-item.selected em {
+    font-size: $font-size;
+}
+
+tags-input .autocomplete .suggestion-item.selected,
+tags-input .autocomplete .suggestion-item.selected em {
+    background-color: $brand-primary;
+    color: $white;
+}

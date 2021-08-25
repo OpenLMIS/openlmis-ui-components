@@ -1,0 +1,110 @@
+/*
+Layout
+
+This section describes how OpenLMIS pages should be organized to allow for
+navigation and readability.
+
+Styleguide 2.0
+*/
+
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: initial;
+    min-height: 100%;
+
+    > * {
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+
+        > * {
+            flex: 1 0 auto;
+        }
+    }
+
+     > footer,
+    > header {
+        flex: 0 0 auto;
+    }
+
+    > script {
+        display: none;
+    }
+}
+
+.page {
+    flex-grow: 0;
+    margin: 1em;
+    box-shadow: 0 0 0.5em $shadow;
+    border: 0;
+    background: $white;
+    padding: 1em 2em;
+
+    @media screen and (max-width: $res-sm){
+        margin: 1%;
+        padding: 1%;
+    }
+
+    div[ui-view] {
+        > *:not(:last-child) {
+            margin-bottom: 1em;
+        }
+
+         > h1,
+         > h2,
+        > header {
+            @extend .heading;
+            background-color: transparent;
+        }
+
+        > section {
+             > h3,
+            > header {
+                @extend .sub-heading;
+            }
+        }
+
+        > nav > ul {
+            @extend .nav;
+            @extend .nav-tabs;
+
+            > li > a {
+                background-color: $background-color-alt;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            > li > a.active {
+                background-color: $background-color;
+
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        > nav > ul[bs-tabs] {
+            border-bottom: none;
+        }
+    }
+
+    .sidebar {
+        width: $sidebar-width;
+        float: left;
+        margin-right: $margin;
+
+        .select2 {
+            // sidebar width minus right margin
+            width: ($sidebar-width - $margin) !important;
+        }
+    }
+}

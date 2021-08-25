@@ -6,7 +6,8 @@ Improvements:
 * [OLMIS-7319](https://openlmis.atlassian.net/browse/OLMIS-7319): Added breakpoints variables based on bootstrap.
 
 Bug fixes:
-* [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Fixed issue with scss files after webpack migration
+* [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Fixed issue with scss files after webpack migration.
+* [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Update scss files to enable webpack build.
 
 7.2.5 / 2021-05-27
 ==================

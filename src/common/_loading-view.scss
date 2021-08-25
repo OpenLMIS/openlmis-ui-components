@@ -1,0 +1,32 @@
+
+
+$loading-logo-size: 72px;
+
+body.no-js {
+    background: radial-gradient(circle at center, $dark-gray 0%, darken($dark-gray, 8%) 100%);
+
+    > * {
+        display: none;
+    }
+
+    > .loading-view {
+        display: block;
+    }
+}
+
+.loading-view {
+    display: none;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: $font-size-extra-large;
+    color: $white;
+    &::before {
+        @extend .loading;
+        @extend .loading::before;
+        font-size: 2em;
+        margin-right: 0.5em;
+    }
+}

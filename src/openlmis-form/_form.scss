@@ -1,0 +1,205 @@
+/*
+Forms
+
+## General Rules
+When creating a form in OpenLMIS-UI, our approach is to keep the markup as simple
+as possible. Additional styles and functionality should be added through semantic
+CSS or AngularJS directives.
+
+*Note:* All form styles are based off the Bootstrap 3 guidelines, and all
+Bootstrap 3 markup will work.
+
+**Conventions:**
+* Don't use disabled states, hide form controls when not needed
+  * Only form elements such as `<input type="text">` or `<select>` can be disabled
+* Form actions happen on form submit or button click (not magically)
+  * Only internal form actions may 'magically' update (ie a `<select>` filter)
+  * Always include a submit button with an action label (ie 'Search' or 'Save')
+* Labels for form elements must always be visible
+  * Radio and checkboxes must be surrounded in a fieldset (with a legend)
+* Required fields must always be marked
+* No placeholders
+  * Unless the element is `<select>`
+
+## Error Messages
+There are two types of error messages in a form, input-level messages and
+form-level messages.
+
+Form-level messages should be shown at the top for the form. These elements are
+only shown after a form is submitted, and recieve focus when the form
+submission fails. Once a form is resubmitted the error is removed.
+
+Input-level messages are shown below the input element that has an error. All
+error messages must use ARIA labels so they are associated with the input
+element.
+
+<form>
+	<!-- Form headings should be an appropriate heading level -->
+	<h3>Full Example Form</h3>
+  <p>To see details and exceptions, please see other form styleguide sections.</p>
+	<label for="exampleTextInput" >Example text input</label>
+	<input id="exampleTextInput" type="text" required />
+  <label for="disabledTextInput" >Disabled text input</label>
+  <input id="disabledTextInput" type="text" disabled value="Disabled" />
+	<label for="exampleSelect">Example combo box element</label>
+	<select id="exampleSelect" required>
+		<option value="0">EPI</option>
+		<option value="1">ART</option>
+		<option value="2">Essential Medicines</option>
+		<option value="3">Family Planning</option>
+		<option value="4">Malaria</option>
+	</select>
+	<label class="checkbox">
+		<input type="checkbox" ng-value="true" />
+		Boolean checkbox, used to turn a value on or off
+	</label>
+  <p>Our aim is to keep checkbox and radio selection markup simple and accessiable. We also allow for additional content in forms, like paragraphs.</p>
+	<fieldset class="form-group">
+		<legend>Radio elements</legend>
+		<label class="radio">
+			<input type="radio" name="radioOptions" ng-model="radioOptions" value="0" />
+			Radio 1
+		</label>
+		<label class="radio">
+			<input type="radio" name="radioOptions" ng-model="radioOptions" value="1" />
+			Radio 2
+		</label>
+	</fieldset>
+  <fieldset>
+    <legend>Bootstrap v3 Examples</legend>
+    <div class="form-group">
+      <label id="bootstrap-text">Bootstrap text box</label>
+      <input for="bootstrap-text" type="text" />
+    </div>
+    <div class="form-group">
+      <label for="bootstrap-textarea">Textarea</label>
+      <textarea id="bootstrap-textarea" ng-model="exampleTextarea" required></textarea>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" checked="checked" disabled />
+        Bootstrap checkbox works
+      </label>
+    </div>
+  </fieldset>
+	<input type="submit" value="Save" />
+  <button>Reset</button>
+</form>
+
+Styleguide 3.0
+*/
+
+form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: $default-form-width;
+
+    > * {
+        display: block;
+        flex: 1 0 100%;
+        margin: 0.2em 0;
+    }
+
+    > fieldset {
+        margin: 0em;
+        margin-top: 0.5em;
+    }
+
+    > label,
+    > div > label,
+    > fieldset > legend {
+        margin-top: 0.5em;
+        margin-bottom: 0.2em;
+
+        &.is-required:after {
+            color: $brand-danger;
+            content: '*';
+            margin-left: 0.25em;
+        }
+    }
+
+    &.form-inline > div > label {
+        margin-right: 0.25em;
+    }
+
+    > input[type="button"],
+    > input[type="submit"],
+    > button {
+        flex: 0 0 auto;
+        min-width: auto;
+    }
+
+    > fieldset.form-group {
+        > label.checkbox,
+        > label.radio {
+            margin-top: 0.2em;
+        }
+    }
+
+	div.checkbox > label {
+        width: 100%
+    }
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: $font-size;
+}
+
+.form-group {
+    margin-bottom: 0px;
+}
+
+form {
+    > label {
+        @extend .form-label;
+    }
+
+    fieldset.form-control > legend,
+    fieldset.form-group > legend {
+        color: $text-color;
+        font-weight: bold;
+    }
+
+    > input,
+    > textarea,
+    > select {
+        outline: none;
+    }
+}
+
+fieldset > legend {
+    @extend .form-label;
+    padding: 0px;
+    border-bottom-width: 0;
+}
+
+textarea {
+    resize: none;
+}
+
+fieldset,
+.form-group {
+    @extend form;
+}
+
+input.number,
+input[type="number"] {
+    text-align: right;
+}
+
+input.date {
+    text-align: left;
+}
+
+.note {
+    font-size: 1em;
+    font-style: italic;
+}
+
+form + label,
+section + label {
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+}

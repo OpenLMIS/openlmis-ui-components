@@ -1,0 +1,122 @@
+/*
+Input Controls
+
+Individual form controls have different layouts. Form controls should be used
+within a form with a proper label, but that might not always happen...
+
+markup:
+<form>
+	<label for="exampleTextFormControl" >Example text input</label>
+	<input id="exampleTextFormControl" type="text" required />
+	<label for="disabledTextFormControl" >Disabled text input</label>
+	<input id="disabledTextFormControl" type="text" disabled value="Disabled" />
+	<label for="exampleNumberFormControl" >Example number input</label>
+	<input id="exampleNumberFormControl" type="number" required />
+	<label for="examplePasswordFormControl" >Example password input</label>
+	<input id="examplePasswordFormControl" type="password" required />
+	<label id="exampleTextareaFormControl">Textarea</label>
+	<textarea for="exampleTextareaFormControl" required></textarea>
+</form>
+
+Styleguide 3.2
+*/
+
+$form-control-text-color: $text-color !default;
+$form-control-text-color-disabled: $text-color-disabled !default;
+
+.form-control,
+.input-control {
+	@extend .form-control;
+
+	width: auto;
+	position: relative;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+
+	padding: 0.5em;
+	height: auto;
+	border-color: $border-color;
+	border-style: solid;
+	border-radius: $border-radius;
+	box-shadow: inset 0 0 0.5em $border-color;
+	color: $text-color;
+
+	&:focus,
+	&.is-focused,
+	&.is-focused.is-invalid {
+	  border-color: $brand-primary;
+	  box-shadow: inset 0 0 0.5em $brand-primary;
+	}
+
+	&:disabled,
+	&.is-disabled {
+	  box-shadow: 0 0 0 $border-color;
+	  color: $form-control-text-color-disabled;
+	  background-color: transparent;
+	  cursor: not-allowed;
+	}
+
+	&.is-invalid {
+		box-shadow: inset 0 0 0.5em $brand-danger;
+		padding-right: 2em;
+
+		&::after {
+			content: "\f06a";
+			color: $brand-danger;
+			font: normal normal normal 14px/1 FontAwesome;
+			display: block;
+			height: 1em;
+			width: 1em;
+			position: absolute;
+			top: 50%;
+			right: 0.5em;
+			transform: translateY(-50%);
+		}
+
+	}
+
+	> * {
+		flex: 0 0 auto;
+	}
+
+	> .input-control,
+	> .form-control {
+		@extend .input-control-unstyled;
+		flex: 1 0 auto;
+	}
+}
+
+.input-control-unstyled {
+	display: block;
+	background: transparent;
+	box-shadow: 0 0 0 transparent;
+	border: 0px;
+	border-radius: 0px;
+	padding: 0px;
+	&::after {
+		content: "";
+	}
+}
+
+.input-control-unstyled {
+	&.is-focused,
+	&.is-invalid,
+	&.is-disabled {
+		@extend .input-control-unstyled;
+	}
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea{
+	@extend .input-control;
+}
+
+.input-control > textarea {
+	width: 100%;
+}

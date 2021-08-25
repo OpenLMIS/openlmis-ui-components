@@ -1,0 +1,23 @@
+//Toolbar with buttons
+
+.action-buttons {
+  background: $shadow;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  min-height: 3.6em;
+  z-index: 15;
+  .delete-button {
+    margin-left: 0.7em;
+    margin-top: 0.7em;
+  }
+  .save-button {
+    margin-left: 0.7em;
+    margin-top: 0.7em;
+   }
+  .primary-action {
+    float: right;
+    margin-right: 0.7em;
+    margin-top: 0.7em;
+  }
+}

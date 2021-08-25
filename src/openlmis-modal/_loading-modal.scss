@@ -1,0 +1,25 @@
+
+.loading-modal {
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    .loading {
+        @extend .loading;
+        @extend .loading::before;
+        @extend .fa;
+        @extend .fa-circle-o-notch;
+        @extend .fa-spin;
+        @extend .fa-3x;
+        @extend .fa-fw;
+        color: $white;
+        font-size: $font-size-extra-large;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+    }
+
+}

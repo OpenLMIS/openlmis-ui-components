@@ -1,0 +1,202 @@
+/*
+Table Panes
+
+A table pine is a fitted way to display a large table, that will implement
+virtual scrolling so that extremely large lists and pages can be rendered.
+
+<section ng-init="
+  columns=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+  rows=[
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},
+    {},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}
+  ];"
+  style="display:flex; flex-direction: column; height: 600px;">
+  <dl>
+    <dt>Rows</dt>
+    <dd>{{rows.length}}</dd>
+    <dt>Columns</dt>
+    <dd>{{columns.length}}</dd>
+  </dl>
+  <div class="openlmis-table-pane">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-sticky">Sample</th>
+          <th class="col-sticky">Data</th>
+          <th ng-repeat="column in ::columns track by $index">Column {{$index + 1}}</th>
+          <th class="col-sticky col-sticky-right">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="row in ::rows">
+          <td class="col-sticky">Sample</td>
+          <td class="col-sticky">Data</td>
+          <td ng-repeat="column in ::columns track by $index">
+            <input requied positive-integer ng-model="row[column]" />
+          </td>
+          <td class="col-sticky col-sticky-right">MEH</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="col-sticky">Foot 1</td>
+          <td class="col-sticky">Foot 2</td>
+          <td ng-repeat="column in ::columns track by $index">
+          <td class="col-sticky col-sticky-right"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+Styleguide 4.6
+*/
+
+
+.openlmis-table-pane {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+
+    flex-grow: 1;
+
+    .md-virtual-repeat-container {
+        flex-grow: 1;
+    }
+
+    .ps>.ps-scrollbar-x-rail,
+    .ps>.ps-scrollbar-y-rail {
+        z-index: 20;
+    }
+
+    table {
+        @extend .openlmis-table;
+
+        th, td {
+            padding: $space-size/2;
+        }
+
+        td[openlmis-sticky-column],
+        th[openlmis-sticky-column] {
+            border-right: 1px $border-color solid !important;
+        }
+
+        td[openlmis-sticky-column][openlmis-sticky-column-right],
+        th[openlmis-sticky-column][openlmis-sticky-column-right] {
+            border-left: 1px $border-color solid !important;
+            border-right-width: 0px !important;
+            &:last-child {
+                border-right-width: 1px;
+            }
+        }
+
+        td[openlmis-sticky-column]:after,
+        th[openlmis-sticky-column]:after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0px;
+            z-index: -1;
+            width: $space-size/4;
+            height: 100%;
+            background: transparent;
+
+            background-image: linear-gradient(to right, $dark-gray, transparent);
+            right: ($space-size/4 + 1) * -1;
+        }
+        td[openlmis-sticky-column][openlmis-sticky-column-right]:after,
+        th[openlmis-sticky-column][openlmis-sticky-column-right]:after {
+            background-image: linear-gradient(to left, $dark-gray, transparent);
+            right: unset;
+            left: ($space-size/4 + 1) * -1;
+        }
+
+        td[openlmis-sticky-column][openlmis-sticky-column-right] + td[openlmis-sticky-column][openlmis-sticky-column-right] {
+            &:after {
+                content: unset;
+            }
+        }
+
+        thead:last-child, tfoot tr:first-child {
+            td, th {
+                &[openlmis-table-sticky-cell]:before {
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    left: 0px;
+                    z-index: -1;
+                    height: $space-size/4;
+                    width: 100%;
+                    background: transparent;
+                }
+            }
+        }
+
+        thead td[openlmis-table-sticky-cell]:before,
+        thead th[openlmis-table-sticky-cell]:before {
+            background-image: linear-gradient(to bottom, $dark-gray, transparent);
+            bottom: ($space-size/4 + 1) * -1;
+        }
+
+        tfoot td[openlmis-table-sticky-cell]:before,
+        tfoot th[openlmis-table-sticky-cell]:before {
+            background-image: linear-gradient(to top, $dark-gray, transparent);
+            bottom: unset;
+            top: ($space-size/4 + 1) * -1;
+        }
+    }
+
+    td, th {
+        &[openlmis-table-sticky-cell] {
+            position: relative;
+            top: 0px;
+            left: 0px;
+            z-index: 9;
+            transform: translate3d(0px, 0px, 0px);
+        }
+
+        &[openlmis-table-sticky-cell][openlmis-sticky-top],
+        &[openlmis-table-sticky-cell][openlmis-sticky-bottom] {
+            z-index: 10;
+
+            &[openlmis-sticky-column] {
+              z-index: 11;
+            }
+        }
+    }
+
+    // This is added to keep perfectScrollbars from
+    // overlapping table cells
+    .ps table {
+        tfoot tr:last-child {
+            td, th {
+                padding-bottom: $space-size;
+            }
+        }
+        tr td:last-child,
+        tr th:last-child{
+            padding-right: $space-size;
+        }
+    }
+
+}

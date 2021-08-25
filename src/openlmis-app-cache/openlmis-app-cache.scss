@@ -1,9 +1,0 @@
-@import "../common/icon.mixins";
-
-.openlmis-app-cache.outdated {
-    @include icon("exclamation-circle");
-
-    &::before {
-        color: $brand-danger;
-    }
-}

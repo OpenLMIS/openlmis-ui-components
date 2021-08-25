@@ -1,0 +1,193 @@
+/*
+Table Containers
+
+**NOTE: It's recommended that OpenLMIS screens use a table-container**
+
+To create complex tables that are horizontally scrollable and search
+functionality, wrap the table within a table container, which will constrain
+the layout of form elements and captions within a table. **Any table wider than
+the display area will horizontally scroll.**
+
+All child elements of the `.openlmis-table-container` element will be placed
+inside the `.toolbar` element inside the table container, except for any `<form>`
+or `<openlmis-pagination>` which have unique behaviors.
+
+`<form>` elements will be placed to the left of the table.
+
+`<openlmis-pagination>` will be placed immedately below the `<table>` element.
+
+*NOTE:* Don't use `ng-if` to show or hide immediate child elements of
+*`.openlmis-table-container` — it will break the layout.
+
+### Form Guidelines
+Any form that modifies a table should use the `aria-described-by` attribute. This
+will ensure that accessiable technologies will be able to detect the relationship
+between a table and the forms that modify that table.
+
+Forms  will enable or disable the primary form button if the form doesn't match
+the current state of the table. *This feature still needs to be implemented.*
+
+A table could have two form elements, a form displaying the current sort order
+of the items and a form that modifies the rows displayed within the form. Tables
+with container don't have to implement two forms, but *an element that describes
+the current table sort order is recommended.*
+
+<h2>Example Items</h2>
+<section class="openlmis-table-container">
+  <p>This list is sorted with love.</p>
+  <button class="primary">Add</button>
+  <form id="example-search-form">
+    <fieldset>
+      <legend>Show categories</legend>
+      <label class="checkbox">
+        <input type="checkbox" checked="checked" />
+        Anti-malarials
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" />
+        Anti-patterns
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" checked="checked" />
+        Anti-pyretics
+      </label>
+    </fieldset>
+    <input class="btn btn-primary" type="submit" value="Search" />
+  </form>
+  <table aria-describedby="example-search-form example-sort-form" >
+    <thead>
+      <tr>
+        <th>Fully Supply</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Strength</th>
+        <th>Unit of measure</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>P00833</td>
+        <td>Quinine Sulphate</td>
+        <td>300</td>
+        <td>mg</td>
+      </tr>
+      <tr>
+        <td class="center-justified">
+          <i class="icon-ok"/>
+        </td>
+        <td>N-378013</td>
+        <td>Tramedol</td>
+        <td>50mg/ml</td>
+        <td>mg</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>A41099</td>
+        <td>Doxycycline</td>
+        <td>100</td>
+        <td>mg</td>
+      </tr>
+      <tr>
+        <td>
+          <i class="icon-ok"/>
+        </td>
+        <td>KM3375-2</td>
+        <td>Malaria Rapid Diagnostic Test</td>
+        <td>1</td>
+        <td>each</td>
+      </tr>
+    </tbody>
+  </table>
+  <openlmis-pagination ng-model="foo" total-items="100" page-size="20"></openlmis-pagination>
+</section>
+
+Styleguide 4.1
+*/
+
+
+
+.ps-container {
+    overflow: hidden !important;
+}
+
+.openlmis-table-container {
+    position: relative;
+    overflow: hidden;
+
+    > * {
+        margin-bottom: 0.5em;
+        &:last-child{
+            margin-bottom: 0em;
+        }
+    }
+
+    > .row {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: nowrap;
+        margin-left: 0px;
+        margin-right: 0px;
+
+        > * {
+            margin: 0em 0.5em;
+            &:first-child{
+              margin-left: 0em;
+            }
+            &:last-child{
+              margin-right: 0em;
+            }
+        }
+
+        > form {
+          @extend form.filters;
+        }
+    }
+
+    > .row > .main {
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        > * {
+            flex: 0 0 auto;
+            width: 100%;
+            margin-bottom: 0.5em;
+            &:last-child {
+                margin-bottom: 0em;
+            }
+        }
+        > .toolbar {
+            padding-top: 0.5em;
+        }
+    }
+
+    .openlmis-flex-table {
+        overflow: auto;
+        position: relative; // tell JS to calculate offset from here
+        > table {
+            @extend .openlmis-table;
+            width: 100%;
+        }
+    }
+
+    .toolbar {
+
+        overflow: hidden; // prevents from addin scrollbar to toolbar on firefox
+
+        *:last-child {
+            margin-right: 0;
+        }
+
+    }
+
+}
+
+form.openlmis-table-container {
+  max-width: initial;
+}

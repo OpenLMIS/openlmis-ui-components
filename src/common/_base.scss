@@ -1,0 +1,70 @@
+/*
+Base
+
+This is section about the basic styles that are used through the OpenLMIS-UI.
+
+markup:
+<p>Example paragraph that shows how copy should flow. <a >If there were a link, it would look like this.</a></p>
+<p>There can also be <a disabled>disabled links.</a></p>
+<p>This is the most general content style, and will be used to clearly show:</p>
+<ul>
+  <li>Instructions</li>
+  <li>Descriptive pages</li>
+</ul>
+
+Styleguide 1.0
+*/
+
+body {
+  background-color: $background-color-dark;
+  font-family: $font-family;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-right:0 !important; // this stops adding the padding to body when modal is closed on low resolution screens
+}
+
+a {
+  color: $link-color;
+  text-decoration: underline;
+  &:hover {
+    color: $link-color-hover;
+  }
+  cursor: pointer;
+  &[disabled]{
+    color: $gray;
+  }
+  &.icon-link {
+    text-decoration: none;
+  }
+}
+
+ul {
+  margin-bottom: 0px; // resetting bootstrap value
+}
+
+@keyframes(fade-in) {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes(fade-out) {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+.fadeIn {
+  animation: 500ms fade-in;
+}
+
+.fadeOut {
+  animation: 500ms fade-out;
+}

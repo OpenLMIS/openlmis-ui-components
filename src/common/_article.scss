@@ -1,0 +1,17 @@
+
+
+article {
+	position: relative;
+	border: $border-color 1px solid;
+
+	> * {
+		margin: 0.5em 1em;
+	}
+
+	> header {
+		@extend .minor-heading;
+		margin: 0px;
+		margin-bottom: 0.5em;
+	}
+
+}

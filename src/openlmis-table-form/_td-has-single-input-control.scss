@@ -1,0 +1,24 @@
+@import "../openlmis-table/tables";
+
+td:focus {
+    outline: none;
+    box-shadow: inset 0em 0em 0.5em $brand-primary;
+}
+
+td.has-single-input-control{
+    > label {
+        display: none;
+    }
+}
+
+.openlmis-table > tbody > tr > td.has-single-input-control.is-invalid,
+td.has-single-input-control.is-invalid {
+    padding-right: $table-cell-padding;
+    &::before{
+        content: "";
+    }
+
+    > [input-control] {
+        @extend .is-invalid;
+    }
+}

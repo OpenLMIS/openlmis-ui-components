@@ -1,0 +1,71 @@
+/*
+Popovers
+
+Popovers are used to provide additional content to a user on pages that have
+limited space. Content elements, such as paragraphs, divs, or table cells,
+will have an icon inserted at the end of the element automatically to provide
+an obvious interaction point for a user.
+
+Action elements, such as buttons, links, or inputs, will have a popup on focus
+or hover, but it is up to the implementer to provide an icon.
+
+markup:
+<div class="button-group">
+	<button popover="Look a popover!">Sample Popover</button>
+    <button popover popover-title="Example Popover Title" popover="This is a popover with a title">Popover With Title</button>
+    <button popover popover-template="">Complex Popover</button>
+ </div>
+<p popover="Some extra information about this paragraph" popover-title="Sample Title">
+	Very soon the Rabbit noticed Alice, as she went hunting about, and called out to her in an angry tone, `Why, Mary Ann, what are you doing out here? Run home this moment, and fetch me a pair of gloves and a fan! Quick, now!' And Alice was so much frightened that she ran off at once in the direction it pointed to, without trying to explain the mistake it had made.
+</p>
+<form>
+	<label for="examplePopoverInput">Example Input Popover</label>
+	<input id="examplePopoverInput" type="text" popover="This is how an input popover looks" />
+	<!-- <label><input type="checkbox" ng-value="disableInputPopover" />Disable input popover</label> -->
+</form>
+
+Styleguide 1.5
+*/
+
+.popover {
+	max-width: $popover-width;
+
+	> button.close {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+	}
+
+	> h3 {
+		background-color: $background-color-alt;
+		font-size: 1em;
+		line-height: 1em;
+		padding: $padding-small;
+		padding-right: $padding-large;
+		margin: 0em;
+	}
+
+	> .popover-content{
+		overflow: hidden;
+		padding: $padding-small;
+		padding-right: $padding-large;
+
+		.select2 {
+			// popover width minus left padding minus right padding
+			max-width: ($popover-width - $padding-small - $padding-large) !important;
+		}
+	}
+
+	> h3 + > .popover-content{
+		padding-right: $padding-small;
+
+		.select2 {
+			// popover width minus left padding minus right padding
+			max-width: ($popover-width - (2 * $padding-small)) !important;
+		}
+	}
+}
+
+.has-popover > .show-popover{
+	@include icon-only("info-circle");
+}

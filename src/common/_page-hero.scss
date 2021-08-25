@@ -1,0 +1,59 @@
+
+.page-hero {
+	position: relative;
+	color: $gray;
+	font-size: 3em;
+	h1, h2, h3, h4, h5, .title, .subtitle{
+		color: $gray;
+		line-height: 1.2em;
+		border-width: 0;
+	}
+	&::before{
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		height: 100%;
+		width: 100%;
+		background: radial-gradient(ellipse at center -1em, $white 0%, $light-gray 70%);
+	}
+	> * {
+		position: relative;
+		z-index: 0;
+	}
+}
+
+@media(min-width: $res-md){
+	.page-hero{
+		padding: 1.2em;
+		> * {
+			display: block;
+			width: $res-md - 100px;
+		}
+		h2 em{
+			display: block;
+			font-size: 0.9em;
+		}
+	}
+}
+
+.page-hero .title {
+  position: relative;
+  &:before, &:after {
+    width: 100%;
+    position: absolute;
+    content: attr(title);
+    opacity: 0.2;
+    color: rgba($white, 1);
+  }
+  &:before {
+    top: 0.1em;
+    left: -0.1em;
+  }
+  &:after {
+    top: 0.2em;
+    left: 0;
+  }
+}
+

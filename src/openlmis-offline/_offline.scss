@@ -1,0 +1,26 @@
+
+.offline-ui {  // Offline.js adds a div element with this class
+  display: none;   // which we don't want to display
+}
+
+/*
+Offline
+
+When the UI is offline, any actions that were possible will be shown as disabled.
+
+markup:
+<a class="is-offline">This is an offline link</a>
+<button class="is-offline">Offline Button</button>
+
+Styleguide 5.0
+*/
+
+a.is-offline,
+button.is-offline{
+	&::before{
+		content: "\f0e7";
+		font-family: FontAwesome;
+		display: inline-block;
+		padding-right: $space-size/2;
+	}
+}

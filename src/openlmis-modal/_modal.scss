@@ -1,0 +1,53 @@
+
+.modal {
+
+	.modal-header,
+	.modal-body,
+	.modal-footer{
+		padding: 0.5em 2em;
+	}
+
+	.modal-header{
+		background-color: $background-color-alt;
+		color: $brand-primary;
+		> h1, h2, h3, h4, h5, h6 {
+			padding: 0px;
+			font-weight: bold;
+		}
+	}
+
+	.modal-body > p,
+	.modal-header > h1 {
+		overflow-wrap: break-word;
+		word-break: break-word;
+	}
+
+	.modal-footer{
+		@extend .button-group;
+		margin: 0px;
+	}
+
+	button.close{
+		position: absolute;
+		top: 0em;
+		right: 0em;
+		margin-top: 0px !important; // Added because bootbox.js adds inline styles
+	}
+}
+
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: .5;
+    }
+  }
+  &.ng-leave {
+    opacity: .5;
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
+}

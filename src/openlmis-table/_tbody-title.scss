@@ -1,0 +1,92 @@
+/*
+Table Section Titles
+
+If there are clear categories or sets of rows that should be displayed as a
+group, use a `<tbody>` element to group the items together.
+
+`<tbody>` elements will have their title properties transformed into the first
+row of the table, which will be treated as a title element. See the [tbody-title
+directive for more details.](../../docs/#/api/openlmis.table:tbodyTitle)
+
+<table class="openlmis-table">
+  <thead>
+    <tr>
+      <th>Fully Supply</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Strength</th>
+      <th>Unit of measure</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody tbody-title="Table section title #1">
+    <tr>
+      <td class="center-justified">
+        <i class="icon-ok"/>
+      </td>
+      <td>N-378013</td>
+      <td>Tramedol</td>
+      <td>50mg/ml</td>
+      <td>mg</td>
+      <td>
+        <button>Action</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>A41099</td>
+      <td>Doxycycline</td>
+      <td>100</td>
+      <td>mg</td>
+      <td>
+        <button>Action</button>
+        <button>Other Action</button>
+      </td>
+    </tr>
+  </tbody>
+  <tbody tbody-title="Another table section title">
+    <tr>
+      <td>
+        <i class="icon-ok"/>
+      </td>
+      <td>KM3375-2</td>
+      <td>Malaria Rapid Diagnostic Test</td>
+      <td>1</td>
+      <td>each</td>
+      <td>
+        <button>Action</button>
+        <button>Other Action</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="center-justified">
+        <i class="icon-ok"/>
+      </td>
+      <td>N-378013</td>
+      <td>Tramedol</td>
+      <td>50mg/ml</td>
+      <td>mg</td>
+      <td>
+        <button>Action</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Styleguide 4.3
+*/
+
+.openlmis-table > tbody > tr.title:first-child > td{
+    margin: 0px;
+    padding: 0px;
+    background-color: $link-color;
+    color: $white;
+    font-weight: bold;
+    text-shadow: 0em 0em 1px $black;
+    > div{
+      position: relative;
+      padding: 0.25em 2em;
+    }
+}

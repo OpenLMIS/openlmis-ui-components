@@ -1,0 +1,144 @@
+/*
+Table Forms
+
+When tables contain form control elements - such as inputs, selects, or checkboxes -
+they should adhere to the following conventions.
+
+* Form control elements that are the only item should be flush with the table cell
+* Labels for single elements should be hidden (but still entered for accessibility)
+* Any table cells with more than one form control element should use a fieldset
+
+Ideally a table element would be surrounded by a form as the example shows, but
+that is not nessicarry.
+
+<h3>Example Table Form</h3>
+<table class="openlmis-table">
+  <thead>
+    <tr>
+      <th>Skip</th>
+      <th>Code</th>
+      <th>Empty Cell</th>
+      <th>Name</th>
+      <th>Strength</th>
+      <th>Unit of measure</th>
+      <th popover="Yes, nothing in this row is allowed to be valid">Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="i in [{code:'123'},{code:'456'},{code:'789'},{code:'abc'}]" ng-disabled="i.skip">
+      <td>
+        <label class="checkbox">
+          <input type="checkbox" ng-model="i.skip" />
+          Skip item
+        </label>
+      </td>
+      <td>
+        <label for="inputCode">Item Code</label>
+        <input id="inputCode" type="text" ng-model="i.code" required ng-disabled="i.skip" />
+      </td>
+      <td>
+        <p>Intentionally left blank</p>
+      </td>
+      <td>
+        <label for="inputName">Item Name</label>
+        <input id="inputName" type="text" ng-model="i.name" ng-disabled="i.skip" ng-maxlength="5" />
+      </td>
+      <td>
+        <label for="inputStrength">Item Strength</label>
+        <input id="inputStrength" type="number" ng-model="i.strength" required ng-disabled="i.skip" />
+      </td>
+      <td>
+        <label for="inputUnit">Item unit of measure</label>
+        <select id="inputUnit" ng-model="i.unit" required ng-disabled="i.skip" >
+          <option value="kg">Kilograms</option>
+          <option value="g">Grams</option>
+          <option value="mg">Milligrams</option>
+        </select>
+      </td>
+      <td openlmis-invalid="Forcing this to be invalid">
+        <em>{{i.code}}</em>
+        <strong ng-if="i.name">{{i.name}}</strong>
+        <span>({{i.strength}} {{i.unit}})</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+Styleguide 4.5
+*/
+
+
+th.has-popover {
+  @include icon('info-circle');
+  padding-right: 2em !important;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);
+  }
+}
+
+.openlmis-table > tbody > tr > td.is-invalid,
+td.is-invalid {
+  @include icon('exclamation-circle');
+  padding-right: 2em;
+
+  &::before{
+    color: $brand-danger;
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translateY(-50%);
+  }
+}
+
+.popover .openlmis-invalid {
+  > * {
+    @extend .unstyled-error;
+  }
+}
+
+td,
+td > div:first-child:last-child,
+th {
+  > input[type="checkbox"]:first-child + > label:last-child,
+  > input[type="checkbox"]:last-child + > label:first-child{
+    position: absolute;
+    top: -100em;
+  }
+  > label:last-child + > input[type="checkbox"]:first-child,
+  > label:first-child + > input[type="checkbox"]:last-child,
+  > input[type="checkbox"]:first-child:last-child{
+    display: block;
+    margin: 0px auto;
+  }
+}
+
+td > div:first-child:last-child > label.checkbox,
+td > label.checkbox {
+  &:first-child:last-child{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-indent: -30000em;
+    > input[type="checkbox"]{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      margin: 0px;
+    }
+  }
+}
+
+.openlmis-table td > div.input-control > input[type="text"] {
+    min-width: 2em;
+    width: 100%;
+}

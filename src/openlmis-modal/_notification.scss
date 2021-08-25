@@ -1,0 +1,75 @@
+
+$notification-width: 350px !default;
+
+.notification-container {
+  	position: fixed;
+  	right: 0px;
+  	top: 0px;
+  	z-index: 15;
+
+    > * {
+        margin: 1em 2em;
+    }
+}
+
+.notification {
+    @extend .alert;
+    @extend .fadeIn;
+    background-color: $background-color-dark;
+    color: $white;
+    font-weight: bold;
+    font-size: $font-size;
+    box-shadow: 0em 0em 0.5em $dark-gray;
+    width: $notification-width;
+    position: relative;
+
+    &.is-error,
+    &.is-success,
+    &.is-offline {
+        padding-left: 4em;
+        &::before {
+            font-size: 2em;
+            position: absolute;
+            top: 50%;
+            left: 0.5em;
+            transform: translateY(-50%);
+        }
+    }
+
+    &.is-error {
+        background-color: $brand-danger;
+        color: $white;
+    }
+
+    &.is-success {
+        background-color: $brand-success;
+        color: $white;
+    }
+
+    &.is-offline {
+        background-color: $brand-offline;
+        color: $white;
+		&::before {
+			color: $white;
+            left: 0.75em;
+		}
+	}
+}
+
+.notification:first-child {
+    margin-top: 1em;
+}
+
+.hide-notification {
+    right: 0px;
+    -webkit-animation: slide-out 0.5s forwards;
+    animation: slide-out 0.5s forwards;
+}
+
+@-webkit-keyframes slide-out {
+    100% { right: -400px; }
+}
+
+@keyframes slide-out {
+    100% { right: -400px; }
+}
