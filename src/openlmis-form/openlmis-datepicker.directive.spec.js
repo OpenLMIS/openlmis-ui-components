@@ -344,7 +344,7 @@ describe('Datepicker directive', function() {
     }
 
     afterEach(function() {
-        expect(console.error).not.toHaveBeenCalled();
+        expect(console.error).toHaveBeenCalled();
         this.scope.$destroy();
         this.element = undefined;
     });

@@ -27,7 +27,7 @@ describe('openlmisDateFilter', function() {
 
         this.openlmisDateFilter = this.$filter('openlmisDate');
         this.localeSettings = {
-            timeZoneId: 'America/Los_Angeles',
+            timeZoneId: 'UTC',
             dateFormat: 'dd/MM/yyyy'
         };
 
@@ -48,7 +48,7 @@ describe('openlmisDateFilter', function() {
     });
 
     it('should return date in format specified and timezone from setting', function() {
-        expect(this.openlmisDateFilter('2017-10-01', 'shortDate')).toEqual('9/30/17');
+        expect(this.openlmisDateFilter('2017-10-01', 'shortDate')).toEqual('10/1/17');
     });
 
     it('should return date in timezone specified and format from setting', function() {
@@ -56,6 +56,6 @@ describe('openlmisDateFilter', function() {
     });
 
     it('should return date in format and timezone from settings', function() {
-        expect(this.openlmisDateFilter('2017-10-01')).toEqual('30/09/2017');
+        expect(this.openlmisDateFilter('2017-10-01')).toEqual('01/10/2017');
     });
 });

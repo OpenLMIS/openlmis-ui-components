@@ -40,7 +40,7 @@ describe('openlmisDatetimeFilter', function() {
     });
 
     it('should return date in format specified and timezone from setting', function() {
-        expect(this.openlmisDateTimeFilter('2017-10-01T12:55:12Z', 'short')).toEqual('10/1/17 5:55 AM');
+        expect(this.openlmisDateTimeFilter('2017-10-01T12:55:12Z', 'short')).toEqual('10/1/17 12:55 PM');
     });
 
     it('should return date in timezone specified and format from setting', function() {
@@ -49,6 +49,6 @@ describe('openlmisDatetimeFilter', function() {
     });
 
     it('should return date in format and timezone from settings', function() {
-        expect(this.openlmisDateTimeFilter('2017-10-01T12:55:12Z')).toEqual('01/10/2017 05:55:12-0700');
+        expect(this.openlmisDateTimeFilter('2017-10-01T12:55:12Z')).toEqual('01/10/2017 12:55:12+0000');
     });
 });
