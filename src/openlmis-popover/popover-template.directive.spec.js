@@ -35,8 +35,8 @@ describe('popoverTemplate directive', function() {
         this.element = this.$compile(html)(this.scope);
         this.popoverCtrl = this.element.controller('popover');
 
-        spyOn(this.popoverCtrl, 'addElement').andCallThrough();
-        spyOn(this.popoverCtrl, 'removeElement').andCallThrough();
+        spyOn(this.popoverCtrl, 'addElement').and.callThrough();
+        spyOn(this.popoverCtrl, 'removeElement').and.callThrough();
 
         this.scope.$apply();
     });
@@ -44,7 +44,7 @@ describe('popoverTemplate directive', function() {
     it('adds the rendered templateURL into the element\'s popover', function() {
         expect(this.popoverCtrl.addElement).toHaveBeenCalled();
 
-        var addedElement = this.popoverCtrl.addElement.mostRecentCall.args[0];
+        var addedElement = this.popoverCtrl.addElement.calls.mostRecent().args[0];
 
         expect(addedElement.text()).toBe('No clicks');
 
@@ -65,13 +65,13 @@ describe('popoverTemplate directive', function() {
 
         expect(this.popoverCtrl.removeElement).toHaveBeenCalled();
 
-        var removedElement = this.popoverCtrl.removeElement.mostRecentCall.args[0];
+        var removedElement = this.popoverCtrl.removeElement.calls.mostRecent().args[0];
 
         expect(removedElement.text()).toBe('No clicks');
 
         expect(this.popoverCtrl.addElement).toHaveBeenCalled();
 
-        var addedElement = this.popoverCtrl.addElement.mostRecentCall.args[0];
+        var addedElement = this.popoverCtrl.addElement.calls.mostRecent().args[0];
 
         expect(addedElement.text()).toBe('Example');
     }));
@@ -82,7 +82,7 @@ describe('popoverTemplate directive', function() {
 
         expect(this.popoverCtrl.removeElement).toHaveBeenCalled();
 
-        var removedElement = this.popoverCtrl.removeElement.mostRecentCall.args[0];
+        var removedElement = this.popoverCtrl.removeElement.calls.mostRecent().args[0];
 
         expect(removedElement.text()).toBe('No clicks');
     });

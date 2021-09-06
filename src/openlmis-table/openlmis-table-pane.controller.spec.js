@@ -63,7 +63,7 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
 
         this.vm.updateViewportPosition(100, 42);
 
-        var viewportRectangle = cell.updatePosition.mostRecentCall.args[0];
+        var viewportRectangle = cell.updatePosition.calls.mostRecent().args[0];
 
         expect(viewportRectangle.top).toBe(100);
         expect(viewportRectangle.left).toBe(42);
@@ -75,7 +75,7 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
 
         this.vm.updateViewportSize(1000, 700);
 
-        var viewportRectangle = cell.updatePosition.mostRecentCall.args[0];
+        var viewportRectangle = cell.updatePosition.calls.mostRecent().args[0];
 
         expect(viewportRectangle.width).toBe(1000);
         expect(viewportRectangle.height).toBe(700);
@@ -87,7 +87,7 @@ describe('openlmis-table.controller:OpenlmisTablePaneController', function() {
 
         this.vm.updateTableSize(800, 1200);
 
-        var tableRectangle = cell.updatePosition.mostRecentCall.args[1];
+        var tableRectangle = cell.updatePosition.calls.mostRecent().args[1];
 
         expect(tableRectangle.width).toBe(800);
         expect(tableRectangle.height).toBe(1200);

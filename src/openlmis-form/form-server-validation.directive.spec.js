@@ -55,7 +55,7 @@ describe('formServerValidation', function() {
     it('should display alert if response contains messageKey', function() {
         var message = 'someError';
 
-        this.ngSubmitFn.andReturn(this.$q.reject({
+        this.ngSubmitFn.and.returnValue(this.$q.reject({
             data: {
                 message: message,
                 messageKey: 'someMessageKey'
@@ -71,7 +71,7 @@ describe('formServerValidation', function() {
 
     it('should set model validity if response does not contain messageKey', function() {
         var inputTwoModel;
-        this.ngSubmitFn.andReturn(this.$q.reject({
+        this.ngSubmitFn.and.returnValue(this.$q.reject({
             data: {
                 inputTwo: 'notCool'
             }
@@ -88,7 +88,7 @@ describe('formServerValidation', function() {
     });
 
     it('should set model validity if model value changed', function() {
-        this.ngSubmitFn.andReturn(this.$q.reject({
+        this.ngSubmitFn.and.returnValue(this.$q.reject({
             data: {
                 inputTwo: 'notCool'
             }

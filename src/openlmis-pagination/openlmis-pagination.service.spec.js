@@ -50,7 +50,7 @@ describe('paginationService', function() {
 
             this.goToState('test.state', 'test');
 
-            this.loadItemsSpy = jasmine.createSpy().andReturn(this.$q.when({
+            this.loadItemsSpy = jasmine.createSpy().and.returnValue(this.$q.when({
                 size: this.stateParams.size,
                 number: this.stateParams.page,
                 totalElements: this.totalItems,
@@ -112,28 +112,28 @@ describe('paginationService', function() {
         });
 
         it('should set page size to 0 when method does not return promise', function() {
-            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             this.$rootScope.$apply();
 
             expect(this.paginationService.getSize()).toEqual(0);
         });
 
         it('should set page number to 0 when method does not return promise', function() {
-            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             this.$rootScope.$apply();
 
             expect(this.paginationService.getPage()).toEqual(0);
         });
 
         it('should set total items to 0 when method does not return promise', function() {
-            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             this.$rootScope.$apply();
 
             expect(this.paginationService.getTotalItems()).toEqual(0);
         });
 
         it('should set showing items to 0 when method does not return promise', function() {
-            this.paginationService.registerUrl({}, jasmine.createSpy().andReturn(null));
+            this.paginationService.registerUrl({}, jasmine.createSpy().and.returnValue(null));
             this.$rootScope.$apply();
 
             expect(this.paginationService.getShowingItems()).toEqual(0);
@@ -212,7 +212,7 @@ describe('paginationService', function() {
             this.goToState('test.state', 'test');
             this.$state.current.name = 'test.state';
             this.$rootScope.$apply();
-            loadItemsSpy = jasmine.createSpy().andReturn(items);
+            loadItemsSpy = jasmine.createSpy().and.returnValue(items);
             promise = this.paginationService.registerList(validator, stateParams, loadItemsSpy);
             this.$rootScope.$apply();
         });

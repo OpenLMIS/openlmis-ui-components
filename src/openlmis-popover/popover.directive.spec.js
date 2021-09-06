@@ -24,7 +24,7 @@ describe('PopoverDirective', function() {
             this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').and.callThrough();
 
         this.$scope = this.$rootScope.$new();
 
@@ -39,11 +39,11 @@ describe('PopoverDirective', function() {
         angular.element('body').append(this.element);
 
         this.popoverCtrl = this.element.controller('popover');
-        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        spyOn(this.popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
 
         this.$scope.$apply();
 
-        this.popover = this.jQuery.prototype.popover.mostRecentCall.args[0].template;
+        this.popover = this.jQuery.prototype.popover.calls.mostRecent().args[0].template;
     });
 
     it('adds a popover when the popover directive is added', function() {
@@ -56,7 +56,7 @@ describe('PopoverDirective', function() {
             num += 1;
         });
 
-        this.popoverCtrl.getElements.andReturn([]);
+        this.popoverCtrl.getElements.and.returnValue([]);
         this.$scope.$apply();
 
         expect(num).toBe(1);
@@ -65,7 +65,7 @@ describe('PopoverDirective', function() {
     it('adds the .has-popover class to the element when there is content from PopoverController', function() {
         expect(this.element.hasClass('has-popover')).toBe(true);
 
-        this.popoverCtrl.getElements.andReturn([]);
+        this.popoverCtrl.getElements.and.returnValue([]);
         this.$scope.$apply();
 
         expect(this.element.hasClass('has-popover')).toBe(false);
@@ -73,7 +73,7 @@ describe('PopoverDirective', function() {
 
     it('gets popover content from PopoverController', function() {
         var elements = [angular.element('<p>Test</p>')];
-        this.popoverCtrl.getElements.andReturn(elements);
+        this.popoverCtrl.getElements.and.returnValue(elements);
 
         // this is what updates the popover content
         this.element.popover('show');
@@ -139,7 +139,7 @@ describe('PopoverDirective', function() {
     it('it changes the elements tabindex when the popover controllers content changes', function() {
         expect(this.element.attr('tabindex')).toBe('0');
 
-        this.popoverCtrl.getElements.andReturn([]);
+        this.popoverCtrl.getElements.and.returnValue([]);
         this.$scope.$apply();
 
         expect(this.element.attr('tabindex')).toBe('-1');

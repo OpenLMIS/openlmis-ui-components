@@ -25,8 +25,8 @@ describe('stateChangeErrorInterceptor', function() {
 
         this.error = undefined;
 
-        spyOn(console, 'error').andReturn();
-        spyOn(this.alertService, 'error').andReturn();
+        spyOn(console, 'error').and.returnValue();
+        spyOn(this.alertService, 'error').and.returnValue();
 
         this.emitStateChangeErrorEvent = function() {
             this.$rootScope.$emit(

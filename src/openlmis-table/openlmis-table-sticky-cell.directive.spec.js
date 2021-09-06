@@ -32,9 +32,9 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         };
 
         this.stickyCellCtrl = jasmine.createSpyObj('stickyCellCtrl', ['setup', 'updatePosition']);
-        this.stickyCellCtrl.updatePosition.andReturn(this.position);
+        this.stickyCellCtrl.updatePosition.and.returnValue(this.position);
 
-        spyOn(this.openlmisTableStickyCellDirective[0], 'controller').andReturn(this.stickyCellCtrl);
+        spyOn(this.openlmisTableStickyCellDirective[0], 'controller').and.returnValue(this.stickyCellCtrl);
     });
 
     it('will throw an error if not a descendant of OpenlmisTablePaneController', function() {
@@ -62,8 +62,8 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             var tablePane = this.$compile(markup)(this.scope);
 
             this.tablePaneCtrl = tablePane.controller('openlmisTablePane');
-            spyOn(this.tablePaneCtrl, 'registerStickyCell').andCallThrough();
-            spyOn(this.tablePaneCtrl, 'unregisterStickyCell').andCallThrough();
+            spyOn(this.tablePaneCtrl, 'registerStickyCell').and.callThrough();
+            spyOn(this.tablePaneCtrl, 'unregisterStickyCell').and.callThrough();
 
             var cellMarkup = '<td openlmis-table-sticky-cell></td>',
                 element = angular.element(cellMarkup);
@@ -105,7 +105,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
             this.tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-column', '');
             this.$compile(this.tableElement)(this.scope);
 
-            expect(this.stickyCellCtrl.setup.mostRecentCall.args[0].stickLeft).toBe(true);
+            expect(this.stickyCellCtrl.setup.calls.mostRecent().args[0].stickLeft).toBe(true);
         });
 
         it('sticks right if has attribute openlmis-sticky-column and openlmis-stick-column-right', function() {
@@ -115,22 +115,22 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
             this.$compile(this.tableElement)(this.scope);
 
-            expect(this.stickyCellCtrl.setup.mostRecentCall.args[0].stickLeft).toBe(false);
-            expect(this.stickyCellCtrl.setup.mostRecentCall.args[0].stickRight).toBe(true);
+            expect(this.stickyCellCtrl.setup.calls.mostRecent().args[0].stickLeft).toBe(false);
+            expect(this.stickyCellCtrl.setup.calls.mostRecent().args[0].stickRight).toBe(true);
         });
 
         it('sticks top if has attribute openlmis-sticky-top', function() {
             this.tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-top', '');
             this.$compile(this.tableElement)(this.scope);
 
-            expect(this.stickyCellCtrl.setup.mostRecentCall.args[0].stickTop).toBe(true);
+            expect(this.stickyCellCtrl.setup.calls.mostRecent().args[0].stickTop).toBe(true);
         });
 
         it('sticks bottom if has attribute openlmis-sticky-bottom', function() {
             this.tableElement.find('[openlmis-table-sticky-cell]').attr('openlmis-sticky-bottom', '');
             this.$compile(this.tableElement)(this.scope);
 
-            expect(this.stickyCellCtrl.setup.mostRecentCall.args[0].stickBottom).toBe(true);
+            expect(this.stickyCellCtrl.setup.calls.mostRecent().args[0].stickBottom).toBe(true);
         });
     });
 
@@ -138,7 +138,7 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
 
         beforeEach(function() {
             this.$window.requestAnimationFrame = jasmine.createSpy('requestAnimationFrame');
-            this.$window.requestAnimationFrame.andCallFake(function(fn) {
+            this.$window.requestAnimationFrame.and.callFake(function(fn) {
                 fn();
             });
 
@@ -168,26 +168,26 @@ describe('openlmis-table.directive:OpenlmisTableStickyCell', function() {
         });
 
         it('is not updated when the position is the same as the last position', function() {
-            var originalAnimationFrames = this.$window.requestAnimationFrame.calls.length;
+            var originalAnimationFrames = this.$window.requestAnimationFrame.calls.count();
             this.position.top = 100;
 
             this.stickyCellCtrl.updatePosition();
 
-            expect(this.$window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
+            expect(this.$window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 1);
 
             this.stickyCellCtrl.updatePosition();
 
-            expect(this.$window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 1);
+            expect(this.$window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 1);
 
             this.position.top = 101;
 
             this.stickyCellCtrl.updatePosition();
 
-            expect(this.$window.requestAnimationFrame.calls.length).toBe(originalAnimationFrames + 2);
+            expect(this.$window.requestAnimationFrame.calls.count()).toBe(originalAnimationFrames + 2);
         });
 
         it('will cancel pending animationFrame if position is updated', function() {
-            this.$window.requestAnimationFrame.andCallFake(function() {
+            this.$window.requestAnimationFrame.and.callFake(function() {
                 // NOTE: Not calling function, so all animation frames will be "pending"
                 return 'animationFrameId';
             });

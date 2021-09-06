@@ -38,7 +38,7 @@ describe('SortController', function() {
         this.vm.onChange = jasmine.createSpy();
         this.vm.externalSort = true;
 
-        spyOn(this.$state, 'go').andReturn();
+        spyOn(this.$state, 'go').and.returnValue();
     });
 
     describe('init', function() {
@@ -50,7 +50,7 @@ describe('SortController', function() {
 
             expect(function() {
                 vm.$onInit();
-            }).toThrow(new Error('Parameter onChange is not a function!'));
+            }).toThrow('Parameter onChange is not a function!');
         });
 
         it('should set sort selection to one from state parameters', function() {

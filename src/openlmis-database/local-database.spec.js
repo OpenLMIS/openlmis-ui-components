@@ -102,7 +102,7 @@ describe('LocalDatabase', function() {
                     field: 'value'
                 };
 
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve(originalDoc));
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.resolve(originalDoc));
 
             var success;
             this.database.put(doc)
@@ -120,7 +120,7 @@ describe('LocalDatabase', function() {
             var doc = {
                 id: 'some-id'
             };
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.reject());
 
             var success;
             this.database.put(doc)
@@ -167,7 +167,7 @@ describe('LocalDatabase', function() {
 
         it('should not save existing object with the same id if it has the latest version', function() {
 
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: [{
                     doc: this.docs[0]
                 }, {
@@ -216,7 +216,7 @@ describe('LocalDatabase', function() {
                 include_docs: true
             };
 
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: [{
                     doc: this.docs[0]
                 }, {
@@ -235,7 +235,7 @@ describe('LocalDatabase', function() {
 
             expect(success).toBe(true);
             expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
-            expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(2);
+            expect(this.PouchDBWrapper.prototype.put.calls.count()).toBe(2);
             expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
                 id: 'one',
                 _id: 'one/4',
@@ -277,7 +277,7 @@ describe('LocalDatabase', function() {
             include_docs: true
         };
 
-        this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+        this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
             rows: [{
                 doc: this.docs[0]
             }, {
@@ -296,7 +296,7 @@ describe('LocalDatabase', function() {
 
         expect(success).toBe(true);
         expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
-        expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(1);
+        expect(this.PouchDBWrapper.prototype.put.calls.count()).toBe(1);
         expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
             id: 'one',
             _id: 'one/2',
@@ -327,7 +327,7 @@ describe('LocalDatabase', function() {
             include_docs: true
         };
 
-        this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+        this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
             rows: []
         }));
 
@@ -340,7 +340,7 @@ describe('LocalDatabase', function() {
 
         expect(success).toBe(true);
         expect(this.PouchDBWrapper.prototype.allDocs).toHaveBeenCalledWith(params);
-        expect(this.PouchDBWrapper.prototype.put.calls.length).toBe(1);
+        expect(this.PouchDBWrapper.prototype.put.calls.count()).toBe(1);
         expect(this.PouchDBWrapper.prototype.put).toHaveBeenCalledWith({
             id: 'one',
             _id: 'one/1',
@@ -376,7 +376,7 @@ describe('LocalDatabase', function() {
                 id: 'some-id'
             };
 
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve(doc));
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.resolve(doc));
 
             var result;
             this.database.get('some-id')
@@ -389,7 +389,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should reject promise if object does not exist', function() {
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.reject());
 
             var rejected;
             this.database.get('some-id')
@@ -422,11 +422,11 @@ describe('LocalDatabase', function() {
         });
 
         it('should resolve promise if doc was removed', function() {
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.resolve({
                 _id: 'some-id',
                 _rev: 'some-rev-id'
             }));
-            this.PouchDBWrapper.prototype.remove.andReturn(this.$q.resolve());
+            this.PouchDBWrapper.prototype.remove.and.returnValue(this.$q.resolve());
 
             var success;
             this.database.remove('some-id')
@@ -441,7 +441,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should reject promise if doc with the given ID does not exist', function() {
-            this.PouchDBWrapper.prototype.get.andReturn(this.$q.reject());
+            this.PouchDBWrapper.prototype.get.and.returnValue(this.$q.reject());
 
             var rejected;
             this.database.remove('some-id')
@@ -460,7 +460,7 @@ describe('LocalDatabase', function() {
 
         it('should return list of all docs', function() {
 
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: [{
                     doc: this.docs[0]
                 }, {
@@ -481,7 +481,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should return empty list if database is empty', function() {
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: []
             }));
 
@@ -496,12 +496,12 @@ describe('LocalDatabase', function() {
         });
 
         it('should reject if data is not cached in offline mode', function() {
-            this.PouchDBWrapper.prototype.info.andReturn(this.$q.resolve());
+            this.PouchDBWrapper.prototype.info.and.returnValue(this.$q.resolve());
 
             spyOn(this.alertService, 'error');
             spyOn(this.offlineService, 'isOffline');
 
-            this.offlineService.isOffline.andReturn(true);
+            this.offlineService.isOffline.and.returnValue(true);
             this.database.getAll();
             this.$rootScope.$apply();
 
@@ -544,7 +544,7 @@ describe('LocalDatabase', function() {
 
         it('should return list of all docs', function() {
 
-            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.andReturn(this.$q.resolve([
+            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.and.returnValue(this.$q.resolve([
                 this.docs[0],
                 this.docs[1],
                 this.docs[2]
@@ -561,7 +561,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should return empty list if database is empty', function() {
-            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.andReturn(this.$q.resolve([]));
+            this.PouchDBWrapper.prototype.allDocsWithLatestVersion.and.returnValue(this.$q.resolve([]));
 
             var result;
             this.database.allDocsWithLatestVersion()
@@ -579,7 +579,7 @@ describe('LocalDatabase', function() {
 
         it('should return list of docs with the given id', function() {
 
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: [{
                     doc: this.docs[0]
                 }, {
@@ -600,7 +600,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should return list of docs with the given id and version', function() {
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: [{
                     doc: this.docs[0]
                 }]
@@ -617,7 +617,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should return empty list if any record from database matches', function() {
-            this.PouchDBWrapper.prototype.allDocs.andReturn(this.$q.resolve({
+            this.PouchDBWrapper.prototype.allDocs.and.returnValue(this.$q.resolve({
                 rows: []
             }));
 
@@ -636,7 +636,7 @@ describe('LocalDatabase', function() {
     describe('removeAll', function() {
 
         it('should remove all entries', function() {
-            this.PouchDBWrapper.prototype.destroy.andReturn(this.$q.resolve());
+            this.PouchDBWrapper.prototype.destroy.and.returnValue(this.$q.resolve());
 
             this.database.removeAll();
 
@@ -648,7 +648,7 @@ describe('LocalDatabase', function() {
     describe('info', function() {
 
         it('should resolve promise if database exists', function() {
-            this.PouchDBWrapper.prototype.info.andReturn(this.$q.resolve());
+            this.PouchDBWrapper.prototype.info.and.returnValue(this.$q.resolve());
 
             var success;
             this.database.info()
@@ -662,7 +662,7 @@ describe('LocalDatabase', function() {
         });
 
         it('should reject promise if doc with the given ID does not exist', function() {
-            this.PouchDBWrapper.prototype.info.andReturn(this.$q.reject());
+            this.PouchDBWrapper.prototype.info.and.returnValue(this.$q.reject());
 
             var rejected;
             this.database.info()

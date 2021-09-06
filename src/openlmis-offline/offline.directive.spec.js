@@ -28,7 +28,7 @@ describe('offline', function() {
     });
 
     it('should show offline label if user is offline', function() {
-        spyOn(this.offlineService, 'isOffline').andReturn(true);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(true);
 
         var rootElement = angular.element('<a offline ng-show="isOffline">Offline</a>');
         this.directiveElem = this.$compile(rootElement)(this.scope);
@@ -38,7 +38,7 @@ describe('offline', function() {
     });
 
     it('should not show offline label if user is online', function() {
-        spyOn(this.offlineService, 'isOffline').andReturn(false);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(false);
 
         var rootElement = angular.element('<a offline ng-show="isOffline">Offline</a>');
         this.directiveElem = this.$compile(rootElement)(this.scope);
@@ -49,7 +49,7 @@ describe('offline', function() {
 
     it('should update scope.isOffline if offline status changes', function() {
         var offlineStatus = false;
-        spyOn(this.offlineService, 'isOffline').andCallFake(function() {
+        spyOn(this.offlineService, 'isOffline').and.callFake(function() {
             return offlineStatus;
         });
 
@@ -65,7 +65,7 @@ describe('offline', function() {
     });
 
     it('should call connection check after clicking on offline label', function() {
-        spyOn(this.offlineService, 'isOffline').andReturn(true);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(true);
         spyOn(this.offlineService, 'checkConnection');
 
         var rootElement = angular.element('<a offline ng-show="isOffline" ng-click="checkConnection()">Offline</a>');
@@ -79,7 +79,7 @@ describe('offline', function() {
     });
 
     it('should change class if user is offline', function() {
-        spyOn(this.offlineService, 'isOffline').andReturn(true);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(true);
 
         var rootElement = angular.element('<div offline ng-class="{\'isOffline\':isOffline}"></div>');
         this.directiveElem = this.$compile(rootElement)(this.scope);
@@ -89,7 +89,7 @@ describe('offline', function() {
     });
 
     it('should not change class if user is online', function() {
-        spyOn(this.offlineService, 'isOffline').andReturn(false);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(false);
 
         var rootElement = angular.element('<div offline ng-class="{\'isOffline\':isOffline}"></div>');
         this.directiveElem = this.$compile(rootElement)(this.scope);

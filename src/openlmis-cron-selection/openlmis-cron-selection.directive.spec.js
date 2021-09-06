@@ -52,7 +52,7 @@ describe('<openlmis-cron-selection/>', function() {
             'openlmisForm.required': 'required'
         };
 
-        spyOn(this.messageService, 'get').andCallFake(function(key) {
+        spyOn(this.messageService, 'get').and.callFake(function(key) {
             return translations[key];
         });
     });

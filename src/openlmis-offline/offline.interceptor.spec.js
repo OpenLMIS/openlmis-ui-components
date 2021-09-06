@@ -36,8 +36,8 @@ describe('offlineInterceptor', function() {
             url: 'some.url'
         };
 
-        spyOn(this.alertService, 'error').andReturn(this.deferred.promise);
-        spyOn(this.offlineService, 'isOffline').andReturn(true);
+        spyOn(this.alertService, 'error').and.returnValue(this.deferred.promise);
+        spyOn(this.offlineService, 'isOffline').and.returnValue(true);
 
         this.returnedConfig = this.offlineInterceptor.request(this.config);
     });
@@ -59,7 +59,7 @@ describe('offlineInterceptor', function() {
         it('should not show second alert modal when first is not closed', function() {
             this.offlineInterceptor.request(this.config);
 
-            expect(this.alertService.error.callCount).toBe(1);
+            expect(this.alertService.error.calls.count()).toBe(1);
         });
 
         it('should show second alert modal when first is not closed', function() {
@@ -67,7 +67,7 @@ describe('offlineInterceptor', function() {
             this.$rootScope.$apply();
             this.offlineInterceptor.request(this.config);
 
-            expect(this.alertService.error.callCount).toBe(2);
+            expect(this.alertService.error.calls.count()).toBe(2);
         });
 
         it('should resolve cancel promise', function() {

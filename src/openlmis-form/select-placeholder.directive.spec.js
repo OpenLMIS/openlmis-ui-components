@@ -24,7 +24,7 @@ describe('Select directive', function() {
             this.messageService = $injector.get('messageService');
         });
 
-        spyOn(this.messageService, 'get').andCallFake(function(key) {
+        spyOn(this.messageService, 'get').and.callFake(function(key) {
             return key;
         });
 

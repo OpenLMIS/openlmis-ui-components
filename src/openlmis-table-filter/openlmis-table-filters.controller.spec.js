@@ -157,7 +157,7 @@ describe('OpenlmisTableFiltersController', function() {
             this.vm.registerElement(angular.element('<div id="one"></div>'));
 
             var filterButton = this.vm.getFilterButton();
-            spyOn(filterButton, 'popover').andCallThrough();
+            spyOn(filterButton, 'popover').and.callThrough();
 
             this.vm.$onDestroy();
 
@@ -200,7 +200,7 @@ describe('OpenlmisTableFiltersController', function() {
             this.form = this.vm.getFormElement();
             this.filterButton = this.vm.getFilterButton();
 
-            spyOn(this.filterButton, 'popover').andCallThrough();
+            spyOn(this.filterButton, 'popover').and.callThrough();
         });
 
         it('should close on cancel click', function() {
@@ -261,7 +261,7 @@ describe('OpenlmisTableFiltersController', function() {
             this.form = this.vm.getFormElement();
             this.filterButton = this.vm.getFilterButton();
 
-            spyOn(this.filterButton, 'popover').andCallThrough();
+            spyOn(this.filterButton, 'popover').and.callThrough();
 
             expect(this.filterButton.data('bs.popover').options.html).toBeTruthy();
             expect(this.filterButton.data('bs.popover').options.container).toEqual('body');
@@ -275,7 +275,7 @@ describe('OpenlmisTableFiltersController', function() {
             this.form = this.vm.getFormElement();
             this.filterButton = this.vm.getFilterButton();
 
-            spyOn(this.filterButton, 'popover').andCallThrough();
+            spyOn(this.filterButton, 'popover').and.callThrough();
 
             expect(this.filterButton.data('bs.popover').options.html).toBeTruthy();
             expect(this.filterButton.data('bs.popover').options.container).toEqual('.modal-content');
@@ -435,7 +435,7 @@ describe('OpenlmisTableFiltersController', function() {
     });
 
     it('should roll back changes if Cancel button was clicked', function() {
-        spyOn(_, 'defer').andCallFake(function(fn) {
+        spyOn(_, 'defer').and.callFake(function(fn) {
             fn();
         });
 

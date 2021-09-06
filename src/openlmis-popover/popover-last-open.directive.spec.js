@@ -24,7 +24,7 @@ describe('PopoverDirective', function() {
             this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').and.callThrough();
 
         this.$scope = this.$rootScope.$new();
 
@@ -42,16 +42,16 @@ describe('PopoverDirective', function() {
         angular.element('body').append(this.otherElement);
 
         this.popoverCtrl = this.element.controller('popover');
-        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
+        spyOn(this.popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
 
         this.otherPopoverCtrl = this.otherElement.controller('popover');
-        spyOn(this.otherPopoverCtrl, 'getElements').andReturn([angular.element('<p>Example</p>')]);
+        spyOn(this.otherPopoverCtrl, 'getElements').and.returnValue([angular.element('<p>Example</p>')]);
 
         this.$scope.$apply();
     });
 
     it('closes one popover, when the other opens', function() {
-        spyOn(this.popoverCtrl, 'close').andCallThrough();
+        spyOn(this.popoverCtrl, 'close').and.callThrough();
 
         this.popoverCtrl.open();
         this.otherPopoverCtrl.open();

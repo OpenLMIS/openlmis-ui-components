@@ -37,8 +37,8 @@ describe('periodFilter', function() {
 
         this.periodFilter = this.$filter('period');
 
-        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
-        spyOn(this.moment, 'tz').andCallThrough();
+        spyOn(this.localeService, 'getFromStorage').and.returnValue(this.localeSettings);
+        spyOn(this.moment, 'tz').and.callThrough();
     });
 
     it('should return period string with name', function() {

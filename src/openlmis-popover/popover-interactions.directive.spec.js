@@ -25,7 +25,7 @@ describe('PopoverDirective', function() {
             this.$rootScope = $injector.get('$rootScope');
         });
 
-        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
+        spyOn(this.jQuery.prototype, 'popover').and.callThrough();
 
         this.$scope = this.$rootScope.$new();
 
@@ -43,9 +43,9 @@ describe('PopoverDirective', function() {
         angular.element('body').append(this.otherElement);
 
         this.popoverCtrl = this.element.controller('popover');
-        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
-        spyOn(this.popoverCtrl, 'open').andCallThrough();
-        spyOn(this.popoverCtrl, 'close').andCallThrough();
+        spyOn(this.popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
+        spyOn(this.popoverCtrl, 'open').and.callThrough();
+        spyOn(this.popoverCtrl, 'close').and.callThrough();
 
         this.$scope.$apply();
     });

@@ -76,7 +76,7 @@ describe('this.stateTrackerService', function() {
     describe('goToPreviousState', function() {
 
         it('should restore the state', function() {
-            this.stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.and.returnValue([
                 {
                     previousState: this.previousState.name,
                     previousStateParams: this.previousStateParams
@@ -91,7 +91,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should restore the state if default one is present and previous is stored', function() {
-            this.stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.and.returnValue([
                 {
                     previousState: this.previousState.name,
                     previousStateParams: this.previousStateParams
@@ -106,7 +106,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should call default state', function() {
-            this.stateStorage.getAll.andReturn([]);
+            this.stateStorage.getAll.and.returnValue([]);
 
             this.stateTrackerService.goToPreviousState('some.state');
 
@@ -114,7 +114,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should reload current state', function() {
-            this.stateStorage.getAll.andReturn([]);
+            this.stateStorage.getAll.and.returnValue([]);
 
             this.stateTrackerService.goToPreviousState();
 
@@ -122,7 +122,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should override stored state parameters if they were given', function() {
-            this.stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.and.returnValue([
                 {
                     previousState: this.previousState.name,
                     previousStateParams: this.previousStateParams
@@ -142,7 +142,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should pass stateOptions', function() {
-            this.stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.and.returnValue([
                 {
                     previousState: this.previousState.name,
                     previousStateParams: this.previousStateParams
@@ -160,7 +160,7 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should not override given reload option', function() {
-            this.stateStorage.getAll.andReturn([
+            this.stateStorage.getAll.and.returnValue([
                 {
                     previousState: this.previousState.name,
                     previousStateParams: this.previousStateParams
@@ -177,12 +177,12 @@ describe('this.stateTrackerService', function() {
         });
 
         it('should not reload state if offline', function() {
-            this.stateStorage.getAll.andReturn([{
+            this.stateStorage.getAll.and.returnValue([{
                 previousState: this.previousState.name,
                 previousStateParams: this.previousStateParams
             }]);
 
-            offlineServiceMock.isOffline.andReturn(true);
+            offlineServiceMock.isOffline.and.returnValue(true);
 
             this.stateTrackerService.goToPreviousState('state', null);
 

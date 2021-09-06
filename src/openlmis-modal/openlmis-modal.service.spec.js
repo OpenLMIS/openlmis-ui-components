@@ -31,7 +31,7 @@ describe('openlmisModalService', function() {
             this.$timeout = $injector.get('$timeout');
         });
 
-        this.$modal.andCallFake(function(dialog) {
+        this.$modal.and.callFake(function(dialog) {
             return _.extend({}, dialog, {
                 hide: function() {}
             });
@@ -59,7 +59,7 @@ describe('openlmisModalService', function() {
         it('should not hide modal when it is not displayed', function() {
             var modal = this.openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = false;
@@ -71,7 +71,7 @@ describe('openlmisModalService', function() {
         it('should hide modal when it is displayed', function() {
             var modal = this.openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = true;
@@ -83,7 +83,7 @@ describe('openlmisModalService', function() {
         it('should hide modal after it was shown', function() {
             var modal = this.openlmisModalService.createDialog({});
 
-            spyOn(modal, 'hide').andCallThrough();
+            spyOn(modal, 'hide').and.callThrough();
             spyOn(modal, '$$hide');
 
             modal.$isShown = false;
@@ -100,13 +100,13 @@ describe('openlmisModalService', function() {
         it('should not close on backdrop click as default', function() {
             this.openlmisModalService.createDialog({});
 
-            expect(this.$modal.calls[0].args[0].backdrop).toEqual('static');
+            expect(this.$modal.calls.first().args[0].backdrop).toEqual('static');
         });
 
         it('should not close on ESC click as default', function() {
             this.openlmisModalService.createDialog({});
 
-            expect(this.$modal.calls[0].args[0].keyboard).toEqual(false);
+            expect(this.$modal.calls.first().args[0].keyboard).toEqual(false);
         });
 
         it('should allow default backdrop behavior override', function() {
@@ -114,7 +114,7 @@ describe('openlmisModalService', function() {
                 backdrop: false
             });
 
-            expect(this.$modal.calls[0].args[0].backdrop).toEqual(false);
+            expect(this.$modal.calls.first().args[0].backdrop).toEqual(false);
         });
 
         it('should allow default ESC behavior override', function() {
@@ -122,7 +122,7 @@ describe('openlmisModalService', function() {
                 keyboard: true
             });
 
-            expect(this.$modal.calls[0].args[0].keyboard).toEqual(true);
+            expect(this.$modal.calls.first().args[0].keyboard).toEqual(true);
 
         });
     });

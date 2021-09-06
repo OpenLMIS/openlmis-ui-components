@@ -40,7 +40,7 @@ describe('MessageService', function() {
             this.localStorageService = $injector.get('localStorageService');
         });
 
-        spyOn(this.localStorageService, 'get').andReturn('en');
+        spyOn(this.localStorageService, 'get').and.returnValue('en');
         spyOn(this.localStorageService, 'add');
         spyOn(this.$rootScope, '$broadcast');
     });
@@ -87,7 +87,7 @@ describe('MessageService', function() {
 
     it('can change the current locale', function() {
         this.messageService.populate('test');
-        this.localStorageService.get.andReturn('test');
+        this.localStorageService.get.and.returnValue('test');
 
         expect(this.localStorageService.add).toHaveBeenCalledWith('current_locale', 'test');
         expect(this.messageService.get('sample')).toBe('foo');

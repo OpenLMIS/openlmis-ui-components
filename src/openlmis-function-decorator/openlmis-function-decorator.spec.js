@@ -35,13 +35,13 @@ describe('FunctionDecorator', function() {
         this.confirmMessage = 'Are you sure?';
 
         var functionDeferred = this.functionDeferred;
-        this.fn = jasmine.createSpy('fn').andReturn(functionDeferred.promise);
+        this.fn = jasmine.createSpy('fn').and.returnValue(functionDeferred.promise);
 
         spyOn(this.notificationService, 'success');
         spyOn(this.notificationService, 'error');
         spyOn(this.loadingModalService, 'open');
         spyOn(this.loadingModalService, 'close');
-        spyOn(this.confirmService, 'confirm').andReturn(this.$q.resolve());
+        spyOn(this.confirmService, 'confirm').and.returnValue(this.$q.resolve());
     });
 
     describe('getDecoratedFunction', function() {
@@ -272,7 +272,7 @@ describe('FunctionDecorator', function() {
             });
 
             it('should not execute function if confirmation modal rejected', function() {
-                this.confirmService.confirm.andReturn(this.$q.reject());
+                this.confirmService.confirm.and.returnValue(this.$q.reject());
 
                 var decorated = new this.FunctionDecorator()
                     .decorateFunction(this.fn)

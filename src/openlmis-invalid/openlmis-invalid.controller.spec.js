@@ -23,7 +23,7 @@ describe('OpenlmisInvalidController', function() {
             this.messageService = $injector.get('messageService');
         });
 
-        spyOn(this.messageService, 'get').andReturn('parsed message');
+        spyOn(this.messageService, 'get').and.returnValue('parsed message');
 
         this.vm = this.$controller('OpenlmisInvalidController');
     });

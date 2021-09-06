@@ -31,8 +31,8 @@ describe('openlmisDatetimeFilter', function() {
 
         this.openlmisDateTimeFilter = this.$filter('openlmisDatetime');
 
-        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
-        spyOn(this.moment, 'tz').andCallThrough();
+        spyOn(this.localeService, 'getFromStorage').and.returnValue(this.localeSettings);
+        spyOn(this.moment, 'tz').and.callThrough();
     });
 
     it('should return date in format and timezone specified', function() {

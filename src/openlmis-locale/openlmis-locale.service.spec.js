@@ -57,13 +57,13 @@ describe('localeService', function() {
     });
 
     it('should get locale settings from storage', function() {
-        spyOn(this.localStorageService, 'get').andReturn(this.settingsJson);
+        spyOn(this.localStorageService, 'get').and.returnValue(this.settingsJson);
 
         expect(this.localeService.getFromStorage()).toEqual(this.localeSettings);
     });
 
     it('should set locale settings from config if none in storage and get settings', function() {
-        spyOn(this.localStorageService, 'get').andReturn(undefined);
+        spyOn(this.localStorageService, 'get').and.returnValue(undefined);
         spyOn(this.localStorageService, 'add');
 
         this.localeService.getFromStorage();

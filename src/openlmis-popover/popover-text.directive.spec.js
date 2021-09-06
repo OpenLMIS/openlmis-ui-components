@@ -24,7 +24,7 @@ describe('Popover Text Directive', function() {
             this.$compile = $injector.get('$compile');
         });
 
-        spyOn(this.$templateCache, 'get').andReturn('<div>{{text}}</div>');
+        spyOn(this.$templateCache, 'get').and.returnValue('<div>{{text}}</div>');
 
         this.$scope = this.$rootScope.$new();
 
@@ -34,8 +34,8 @@ describe('Popover Text Directive', function() {
 
         this.popoverCtrl = this.element.controller('popover');
 
-        spyOn(this.popoverCtrl, 'addElement').andCallThrough();
-        spyOn(this.popoverCtrl, 'removeElement').andCallThrough();
+        spyOn(this.popoverCtrl, 'addElement').and.callThrough();
+        spyOn(this.popoverCtrl, 'removeElement').and.callThrough();
     });
 
     it('adds a text element to the popover controller', function() {
@@ -55,7 +55,7 @@ describe('Popover Text Directive', function() {
         this.$scope.$apply();
 
         expect(this.popoverCtrl.getElements()[0].text()).toBe('Foo Bar');
-        expect(this.popoverCtrl.addElement.calls.length).toBe(1);
+        expect(this.popoverCtrl.addElement.calls.count()).toBe(1);
     });
 
     it('will remove the text element from the popover controller if the popover attribute is empty (ie "")',

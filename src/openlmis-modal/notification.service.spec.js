@@ -94,6 +94,9 @@ describe('notificationService', function() {
         this.$rootScope.$apply();
 
         expect(this.findNotifications().length).toBe(1);
+
+        this.$timeout.flush();
+        this.findNotifications().trigger('webkitAnimationEnd');
     });
 
 });
