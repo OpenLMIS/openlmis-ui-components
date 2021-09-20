@@ -217,11 +217,10 @@
         }
 
         function compileFilterButton(container) {
-            var filterButton = compileElement('<button class="filters {{class}}">' +
+            var filterButton = compileElement('<button data-bs="popover" class="filters {{class}}">' +
                     '{{\'openlmisTableFilter.filter\' | message }}' +
                     '<span ng-if="count && count !== 0">({{count}})</span>' +
                 '</button>');
-
             filterButton.popover({
                 html: true,
                 container: container,

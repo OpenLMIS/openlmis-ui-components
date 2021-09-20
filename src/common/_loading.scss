@@ -25,4 +25,6 @@ Styleguide 1.4
 .is-loading::after {
     @extend .loading;
     @extend .loading::before;
+    // content: '\f1ce';
+    // font-size: 1em;
 }

@@ -34,8 +34,7 @@ Styleguide 2.3
     }
 
     margin-bottom: $space-size;
-    > ul {
-        @extend .pagination;
+    .pagination, > ul {
         margin: 0px 0px 0px 1em;
         border-color: $border-color;
 

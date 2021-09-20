@@ -22,6 +22,8 @@ Styleguide 2.1
 	> li + li{
 		&::before{
 			padding: 0px 0.5em;
+			content: "/ ";
+			color: #ccc;
 		}
 	}
 }

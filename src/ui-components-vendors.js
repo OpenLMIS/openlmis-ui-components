@@ -16,6 +16,8 @@
 'use strict';
 
 //eslint-disable-next-line no-undef
+require('jquery');
+//eslint-disable-next-line no-undef
 require('moment');
 
 //eslint-disable-next-line no-undef
@@ -31,7 +33,13 @@ window.PouchDB = require('pouchdb').default;
 require('perfect-scrollbar/jquery')(window.$);
 
 //eslint-disable-next-line no-undef
-require('bootstrap-sass');
+require('popper.js');
+
+//eslint-disable-next-line no-undef
+require('util');
+
+//eslint-disable-next-line no-undef
+require('bootstrap');
 
 //eslint-disable-next-line no-undef
 require('perfect-scrollbar/dist/css/perfect-scrollbar.css');

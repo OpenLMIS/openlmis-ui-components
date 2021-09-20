@@ -1,4 +1,11 @@
 
 .locale-container {
     @extend .dropdown-button;
+    ul.dropdown-menu {
+        top: 45px;
+        left: 578px;
+        display: block;
+        visibility: visible;
+        position: absolute !important;
+    }
 }

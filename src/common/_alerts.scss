@@ -13,9 +13,8 @@ markup:
 Styleguide 1.6
 */
 
-.alert {
+.clearfix, .alert {
 	@extend .alert-info;
-	@extend .clearfix;
 	position: relative;
 	border: 0px;
 	margin: 0px;

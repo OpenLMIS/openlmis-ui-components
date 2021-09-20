@@ -70,10 +70,12 @@ body {
             }
         }
 
-        > nav > ul {
-            @extend .nav;
-            @extend .nav-tabs;
-
+        .nav-tabs, .nav, > nav > ul {
+            display: flex;
+            flex-wrap: wrap;
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
             > li > a {
                 background-color: $background-color-alt;
                 text-decoration: none;
