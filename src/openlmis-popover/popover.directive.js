@@ -67,6 +67,8 @@
             var popoverConfig = {
                 container: 'body',
                 placement: 'auto top',
+                animation: false,
+                content: attrs.content,
                 html: true,
                 trigger: 'manual'
             };
@@ -217,7 +219,7 @@
              * the original element.
              */
             function destroyPopover() {
-                element.popover('destroy');
+                element.popover('dispose');
                 popoverScope.$destroy();
 
                 angular.element($window)

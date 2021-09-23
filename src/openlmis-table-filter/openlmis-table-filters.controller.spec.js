@@ -260,6 +260,8 @@ describe('OpenlmisTableFiltersController', function() {
 
             this.form = this.vm.getFormElement();
             this.filterButton = this.vm.getFilterButton();
+            console.log(this.form);
+            console.log(this.filterButton);
 
             spyOn(this.filterButton, 'popover').and.callThrough();
 
@@ -277,10 +279,10 @@ describe('OpenlmisTableFiltersController', function() {
 
             spyOn(this.filterButton, 'popover').and.callThrough();
 
-            expect(this.filterButton.data('bs.popover').options.html).toBeTruthy();
-            expect(this.filterButton.data('bs.popover').options.container).toEqual('.modal-content');
-            expect(this.filterButton.data('bs.popover').options.placement).toEqual('auto top');
-            expect(this.filterButton.data('bs.popover').options.content).toEqual(this.form);
+            expect(this.filterButton.popover().options.html).toBeTruthy();
+            expect(this.filterButton.popover().options.container).toEqual('body');
+            expect(this.filterButton.popover().options.placement).toEqual('auto top');
+            expect(this.filterButton.popover().options.content).toEqual(this.form);
         });
     });
 

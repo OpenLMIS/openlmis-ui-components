@@ -36,6 +36,7 @@
         return {
             restrict: 'A',
             require: 'popover',
+            sanitize: false,
             link: popoverLink
         };
 

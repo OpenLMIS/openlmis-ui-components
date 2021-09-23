@@ -50,3 +50,14 @@
         }
     }
 }
+
+.navbar-collapse {
+    display: block;
+    .navbar li{
+        a {
+            @media(min-width: $res-md){
+                color: $black;
+            }
+        }
+    }
+}

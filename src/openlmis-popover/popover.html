@@ -1,6 +1,6 @@
-<div class="popover {{cssClass}}" role="tooltip" ng-mouseenter="onPopoverEnter()" ng-mouseleave="onPopoverLeave()">
+<div data-toggle="popover" class="popover {{cssClass}}" role="tooltip" data-html="true" ng-mouseenter="onPopoverEnter()" ng-mouseleave="onPopoverLeave()" data-content="{{form}}">
 	<div class="arrow"></div>
-	<button class="close" ng-click="closePopover()">{{'openlmisPopover.close' | message}}</button>
+	<button class="close" aria-describedby="tooltip" ng-click="closePopover()">{{'openlmisPopover.close' | message}}</button>
 	<h3 ng-if="title">{{title}}</h3>
 	<div class="popover-content"></div>
 </div>

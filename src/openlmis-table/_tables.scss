@@ -117,7 +117,7 @@ $table-header-background-color: $background-color-dark !default;
 .openlmis-table th {
     position: relative;
     vertical-align: middle;
-    padding: $table-cell-padding;
+    padding: 8px;
 
     .collapsable {
         width: $sidebar-width;
@@ -172,7 +172,8 @@ $table-header-background-color: $background-color-dark !default;
         $table-header-background-color,
         $table-header-background-color
     );
-
+    font-size: 14px;
+    line-height: 1.42857;
     color: $table-header-color;
     a {
         color: $table-header-color;

@@ -58,6 +58,9 @@
          */
         function registerElement(element, container) {
             if (!form) {
+                if (container === undefined) {
+                    container = 'body';
+                }
                 initializeElements(container);
             }
             replaceSubmitButtonIfElementContainsSubmitButton(element);
@@ -225,10 +228,9 @@
                 html: true,
                 container: container,
                 placement: 'auto top',
+                sanitize: false,
                 content: form
             })
-                .data('bs.popover')
-                .tip()
                 .addClass('openlmis-table-filters');
             filterButton.hide();
 
@@ -245,7 +247,7 @@
 
         function hidePopover() {
             filterButton.popover('hide');
-            filterButton.data('bs.popover').inState.click = false;
+            filterButton.popover().inState.click = false;
 
             if (isFormSubmitted()) {
                 $scope.count = getDefinedModelsLength(ngModels);

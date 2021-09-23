@@ -29,7 +29,7 @@ Styleguide 1.5
 
 .popover {
 	max-width: $popover-width;
-
+	display: block;
 	> button.close {
 		position: absolute;
 		top: 0px;
