@@ -38,8 +38,8 @@ describe('modalStateProvider', function() {
 
         this.dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-        spyOn(this.$stateProvider, 'state').and.callThrough();
-        spyOn(this.openlmisModalService, 'createDialog').and.returnValue(this.dialogSpy);
+        spyOn(this.$stateProvider, 'state').andCallThrough();
+        spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialogSpy);
 
         this.goToUrl = function(url) {
             this.$location.url(url);
@@ -55,7 +55,7 @@ describe('modalStateProvider', function() {
             templateUrl: 'some-url'
         });
 
-        expect(this.$stateProvider.state.calls.first().args[1].templateUrl).toBeUndefined();
+        expect(this.$stateProvider.state.calls[0].args[1].templateUrl).toBeUndefined();
     });
 
     it('should register state without controller', function() {
@@ -63,7 +63,7 @@ describe('modalStateProvider', function() {
             controller: 'SomeController'
         });
 
-        expect(this.$stateProvider.state.calls.first().args[1].templateUrl).toBeUndefined();
+        expect(this.$stateProvider.state.calls[0].args[1].templateUrl).toBeUndefined();
     });
 
     it('should register state without controllerAs', function() {
@@ -71,7 +71,7 @@ describe('modalStateProvider', function() {
             controllerAs: 'as'
         });
 
-        expect(this.$stateProvider.state.calls.first().args[1].templateUrl).toBeUndefined();
+        expect(this.$stateProvider.state.calls[0].args[1].templateUrl).toBeUndefined();
     });
 
     describe('state', function() {

@@ -63,7 +63,7 @@ describe('OpenlmisAppCacheController', function() {
 
         it('should set a listener for appCache.UPDATEREADY', function() {
             var callback;
-            this.applicationCacheMock.addEventListener.and.callFake(function(event, handler) {
+            this.applicationCacheMock.addEventListener.andCallFake(function(event, handler) {
                 if (event === 'updateready') {
                     callback = handler;
                 }
@@ -101,7 +101,7 @@ describe('OpenlmisAppCacheController', function() {
 
         it('should open confirmation modal before anything', function() {
             this.vm.updateReady = true;
-            this.confirmService.confirm.and.returnValue(this.$q.resolve());
+            this.confirmService.confirm.andReturn(this.$q.resolve());
 
             this.vm.updateCache();
 
@@ -118,7 +118,7 @@ describe('OpenlmisAppCacheController', function() {
 
         it('should swap cache and reload after confirmation', function() {
             this.vm.updateReady = true;
-            this.confirmService.confirm.and.returnValue(this.$q.resolve());
+            this.confirmService.confirm.andReturn(this.$q.resolve());
 
             this.vm.updateCache();
             this.$rootScope.$apply();
@@ -130,7 +130,7 @@ describe('OpenlmisAppCacheController', function() {
 
         it('should swap cache and reload on logout after rejection', function() {
             this.vm.updateReady = true;
-            this.confirmService.confirm.and.returnValue(this.$q.reject());
+            this.confirmService.confirm.andReturn(this.$q.reject());
 
             this.vm.updateCache();
             this.$rootScope.$apply();

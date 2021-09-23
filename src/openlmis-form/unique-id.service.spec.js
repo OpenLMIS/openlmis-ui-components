@@ -32,7 +32,7 @@ describe('Unique ID Service', function() {
     describe('makes unique ids for DOM', function() {
         beforeEach(inject(function(shortid) {
             var randomIds = ['ABC', 'DEF', 'GHI'];
-            spyOn(shortid, 'gen').and.callFake(function() {
+            spyOn(shortid, 'gen').andCallFake(function() {
                 return randomIds.shift();
             });
         }));

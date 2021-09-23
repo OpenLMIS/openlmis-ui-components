@@ -39,7 +39,7 @@ describe('currencyService', function() {
     });
 
     it('should get currency settings from storage', function() {
-        spyOn(this.localStorageService, 'get').and.returnValue(this.settingsJson);
+        spyOn(this.localStorageService, 'get').andReturn(this.settingsJson);
 
         expect(this.currencyService.getFromStorage()).toEqual(this.currencySettings);
     });

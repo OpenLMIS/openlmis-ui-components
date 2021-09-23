@@ -34,8 +34,8 @@ describe('loadingModalService', function() {
             templateUrl: 'openlmis-modal/loading-modal.html'
         };
 
-        spyOn(this.openlmisModalService, 'createDialog').and.returnValue(this.dialog);
-        spyOn(this.$timeout, 'cancel').and.callThrough();
+        spyOn(this.openlmisModalService, 'createDialog').andReturn(this.dialog);
+        spyOn(this.$timeout, 'cancel').andCallThrough();
     });
 
     describe('open', function() {

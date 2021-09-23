@@ -45,8 +45,8 @@ describe('LocalDatabase', function() {
                 jsPromise = new Promise(function() {}),
                 id = 'some-id';
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.get.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.get.andReturn(jsPromise);
 
             var result = this.databaseWrapper.get(id);
 
@@ -67,8 +67,8 @@ describe('LocalDatabase', function() {
                     _id: 'some-id'
                 };
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.put.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.put.andReturn(jsPromise);
 
             var result = this.databaseWrapper.put(doc);
 
@@ -86,8 +86,8 @@ describe('LocalDatabase', function() {
                 //eslint-disable-next-line no-undef
                 jsPromise = new Promise(function() {});
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.info.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.info.andReturn(jsPromise);
 
             var result = this.databaseWrapper.info();
 
@@ -107,8 +107,8 @@ describe('LocalDatabase', function() {
                 id = 'some-id',
                 rev = 'some-rev-id';
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.remove.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.remove.andReturn(jsPromise);
 
             var result = this.databaseWrapper.remove(id, rev);
 
@@ -126,8 +126,8 @@ describe('LocalDatabase', function() {
                 //eslint-disable-next-line no-undef
                 jsPromise = new Promise(function() {});
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.destroy.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.destroy.andReturn(jsPromise);
 
             var result = this.databaseWrapper.destroy();
 
@@ -145,8 +145,8 @@ describe('LocalDatabase', function() {
                 //eslint-disable-next-line no-undef
                 jsPromise = new Promise(function() {});
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.allDocs.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.allDocs.andReturn(jsPromise);
 
             var result = this.databaseWrapper.allDocs();
 
@@ -167,8 +167,8 @@ describe('LocalDatabase', function() {
                     _id: 'some-id'
                 }];
 
-            this.$q.when.and.returnValue(promise);
-            this.PouchDB.prototype.bulkDocs.and.returnValue(jsPromise);
+            this.$q.when.andReturn(promise);
+            this.PouchDB.prototype.bulkDocs.andReturn(jsPromise);
 
             var result = this.databaseWrapper.bulkDocs(docs);
 

@@ -29,7 +29,7 @@ describe('openlmisCurrencyFilter', function() {
             decimalSeparator: '.'
         };
 
-        spyOn(this.localeService, 'getFromStorage').and.returnValue(this.localeSettings);
+        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
     });
 
     it('should format money with currency symbol on left', function() {

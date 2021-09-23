@@ -36,7 +36,7 @@ describe('LocaleController', function() {
 
         spyOn(this.notificationService, 'success');
         spyOn(this.alertService, 'error');
-        spyOn(this.messageService, 'populate').and.returnValue(this.$q.resolve());
+        spyOn(this.messageService, 'populate').andReturn(this.$q.resolve());
         spyOn(this.messageService, 'getCurrentLocale');
 
         this.$window = _.extend({}, this.$window, {
@@ -76,11 +76,11 @@ describe('LocaleController', function() {
         });
 
         it('does\'t load the default locale when the messageService locale is set', function() {
-            this.messageService.getCurrentLocale.and.returnValue('en');
+            this.messageService.getCurrentLocale.andReturn('en');
             this.vm.$onInit();
 
             // messageService.populate was only called at top
-            expect(this.messageService.populate.calls.count()).toBe(0);
+            expect(this.messageService.populate.calls.length).toBe(0);
         });
     });
 
@@ -101,7 +101,7 @@ describe('LocaleController', function() {
         });
 
         it('will throw an error if changing locale is unsuccessful', function() {
-            this.messageService.populate.and.returnValue(this.$q.reject());
+            this.messageService.populate.andReturn(this.$q.reject());
 
             // spy on populate will reject on fail...
             this.vm.changeLocale('fail');

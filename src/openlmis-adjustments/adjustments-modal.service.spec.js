@@ -23,7 +23,7 @@ describe('adjustmentsModalService', function() {
             this.openlmisModalService = $injector.get('openlmisModalService');
         });
 
-        spyOn(this.openlmisModalService, 'createDialog').and.callThrough();
+        spyOn(this.openlmisModalService, 'createDialog').andCallThrough();
 
         this.reasons = [{
             name: 'Reason One'
@@ -202,7 +202,7 @@ describe('adjustmentsModalService', function() {
     });
 
     function getResolvedValue(key) {
-        return this.openlmisModalService.createDialog.calls.first().args[0].resolve[key];
+        return this.openlmisModalService.createDialog.calls[0].args[0].resolve[key];
     }
 
 });

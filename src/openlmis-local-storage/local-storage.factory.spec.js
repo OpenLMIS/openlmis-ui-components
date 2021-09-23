@@ -34,7 +34,7 @@ describe('localStorageFactory', function() {
 
         var items = this.items;
         spyOn(this.localStorageService, 'add');
-        spyOn(this.localStorageService, 'get').and.callFake(function(resourceName) {
+        spyOn(this.localStorageService, 'get').andCallFake(function(resourceName) {
             return resourceName === 'items' ? items : undefined;
         });
 

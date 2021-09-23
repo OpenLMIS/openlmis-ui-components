@@ -42,8 +42,8 @@ describe('analyticsService', function() {
             $provide.value('$window', context.$window);
 
             context.gaOfflineEvents = jasmine.createSpyObj('gaOfflineEvents', ['put', 'getAll', 'clearAll']);
-            context.gaOfflineEvents.getAll.and.returnValue([]);
-            context.localStorageFactorySpy = jasmine.createSpy('localStorageFactory').and.callFake(function() {
+            context.gaOfflineEvents.getAll.andReturn([]);
+            context.localStorageFactorySpy = jasmine.createSpy('localStorageFactory').andCallFake(function() {
                 return context.gaOfflineEvents;
             });
 
@@ -66,9 +66,9 @@ describe('analyticsService', function() {
             language: this.language
         };
 
-        spyOn(this.$rootScope, '$on').and.callThrough();
-        spyOn(Date, 'now').and.returnValue(this.date);
-        spyOn(this.offlineService, 'isOffline').and.callFake(function() {
+        spyOn(this.$rootScope, '$on').andCallThrough();
+        spyOn(Date, 'now').andReturn(this.date);
+        spyOn(this.offlineService, 'isOffline').andCallFake(function() {
             return context.offlineStatus;
         });
     });
@@ -76,7 +76,7 @@ describe('analyticsService', function() {
     describe('on init', function() {
 
         it('registers google analytics with tracking number', function() {
-            expect(this.$window.ga.calls.first().args[0]).toBe('create');
+            expect(this.$window.ga.calls[0].args[0]).toBe('create');
         });
 
         it('should create local storage object for ga events', function() {
@@ -97,8 +97,7 @@ describe('analyticsService', function() {
         it('should track all calls in google analytics', function() {
             this.analyticsService.track('all', 'arguments', 'to', 'ga');
 
-            expect(this.$window.ga.apply).toHaveBeenCalledWith(this.analyticsService,
-                jasmine.objectContaining(['all', 'arguments', 'to', 'ga']));
+            expect(this.$window.ga.apply).toHaveBeenCalledWith(this.analyticsService, ['all', 'arguments', 'to', 'ga']);
         });
 
         it('should not track ga while offline', function() {
@@ -111,7 +110,7 @@ describe('analyticsService', function() {
 
             this.analyticsService.track('foo');
 
-            expect(this.$window.ga.apply.calls.count()).toEqual(1);
+            expect(this.$window.ga.apply.callCount).toEqual(1);
         });
     });
 
@@ -122,7 +121,14 @@ describe('analyticsService', function() {
 
             this.analyticsService.track('bar');
 
-            expect(this.gaOfflineEvents.put).toHaveBeenCalled();
+            expect(this.gaOfflineEvents.put).toHaveBeenCalledWith({
+                arguments: [
+                    'bar'
+                ],
+                gaParameters: _.extend({}, this.gaParameters, {
+                    time: this.date
+                })
+            });
         });
 
         it('should send all events stored offline when connection is restored', function() {
@@ -150,7 +156,7 @@ describe('analyticsService', function() {
                 }
             ];
 
-            this.gaOfflineEvents.getAll.and.returnValue(offlineEvents);
+            this.gaOfflineEvents.getAll.andReturn(offlineEvents);
 
             this.$rootScope.$broadcast('openlmis.online');
             this.$rootScope.$apply();

@@ -41,7 +41,7 @@ describe('analytics500Interceptor', function() {
         this.provider.responseError(this.response);
 
         expect(this.analyticsService.track).toHaveBeenCalled();
-        expect(this.analyticsService.track.calls.mostRecent().args[2]['eventCategory']).toBe('5xx Error');
+        expect(this.analyticsService.track.mostRecentCall.args[2]['eventCategory']).toBe('5xx Error');
     });
 
 });

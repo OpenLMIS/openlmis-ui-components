@@ -26,7 +26,7 @@ describe('Input directive', function() {
 
         this.scope = this.$rootScope.$new();
 
-        spyOn(this.uniqueIdService, 'generate').and.returnValue('ABC');
+        spyOn(this.uniqueIdService, 'generate').andReturn('ABC');
     });
 
     it('makes a unique ID, if not already set', function() {

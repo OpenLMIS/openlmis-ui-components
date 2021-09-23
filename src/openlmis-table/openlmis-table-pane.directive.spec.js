@@ -24,7 +24,7 @@ describe('openlmis-table.directive:OpenlmisTablePane', function() {
         });
 
         //This piece disables default throttle behavior so scroll watches can be tested synchronously
-        spyOn(_, 'throttle').and.callFake(function(fn) {
+        spyOn(_, 'throttle').andCallFake(function(fn) {
             return function() {
                 return fn.apply(this, arguments);
             };

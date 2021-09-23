@@ -34,17 +34,17 @@ describe('PaginationController', function() {
 
         this.validatorSpy = jasmine.createSpy();
 
-        spyOn(this.paginationService, 'isExternalPagination').and.returnValue(true);
-        spyOn(this.paginationService, 'getPage').and.returnValue(0);
-        spyOn(this.paginationService, 'getSize').and.returnValue(2);
-        spyOn(this.paginationService, 'getTotalItems').and.returnValue(10);
-        spyOn(this.paginationService, 'getShowingItems').and.returnValue(2);
-        spyOn(this.paginationService, 'getPageParamName').and.returnValue('customPageParamName');
-        spyOn(this.paginationService, 'getItemValidator').and.returnValue(this.validatorSpy);
+        spyOn(this.paginationService, 'isExternalPagination').andReturn(true);
+        spyOn(this.paginationService, 'getPage').andReturn(0);
+        spyOn(this.paginationService, 'getSize').andReturn(2);
+        spyOn(this.paginationService, 'getTotalItems').andReturn(10);
+        spyOn(this.paginationService, 'getShowingItems').andReturn(2);
+        spyOn(this.paginationService, 'getPageParamName').andReturn('customPageParamName');
+        spyOn(this.paginationService, 'getItemValidator').andReturn(this.validatorSpy);
 
-        spyOn(this.paginationFactory, 'getPage').and.returnValue([1]);
+        spyOn(this.paginationFactory, 'getPage').andReturn([1]);
 
-        spyOn(this.$state, 'go').and.returnValue();
+        spyOn(this.$state, 'go').andReturn();
 
         this.initController = function() {
             this.pagination = this.$controller('PaginationController', {
@@ -67,7 +67,7 @@ describe('PaginationController', function() {
         });
 
         it('should setup view value for local pagination', function() {
-            this.paginationService.isExternalPagination.and.returnValue(false);
+            this.paginationService.isExternalPagination.andReturn(false);
             this.pagination.list = [1];
             this.pagination.$onInit();
 
@@ -116,7 +116,7 @@ describe('PaginationController', function() {
                 deferred.resolve();
             };
 
-            spyOn(this.pagination, 'onPageChange').and.returnValue(deferred.promise);
+            spyOn(this.pagination, 'onPageChange').andReturn(deferred.promise);
 
             this.pagination.changePage(this.newPage);
 
@@ -124,7 +124,7 @@ describe('PaginationController', function() {
         });
 
         it('should change page for local pagination', function() {
-            this.paginationService.isExternalPagination.and.returnValue(false);
+            this.paginationService.isExternalPagination.andReturn(false);
             this.pagination.list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
             this.pagination.$onInit();
 
@@ -242,7 +242,7 @@ describe('PaginationController', function() {
     describe('isPageValid', function() {
 
         it('should return true if item validator is not defined', function() {
-            this.paginationService.getItemValidator.and.returnValue(undefined);
+            this.paginationService.getItemValidator.andReturn(undefined);
 
             expect(this.pagination.isPageValid(1)).toBe(true);
             expect(this.pagination.isPageValid(0)).toBe(true);
@@ -252,7 +252,7 @@ describe('PaginationController', function() {
         it('should return false if item validator returns false', function() {
             this.pagination.totalItems = 1;
             this.pagination.pageSize = 1;
-            this.validatorSpy.and.returnValue(false);
+            this.validatorSpy.andReturn(false);
 
             expect(this.pagination.isPageValid(0)).toBe(false);
         });
@@ -260,7 +260,7 @@ describe('PaginationController', function() {
         it('should return true if item validator returns true', function() {
             this.pagination.totalItems = 1;
             this.pagination.pageSize = 1;
-            this.validatorSpy.and.returnValue(true);
+            this.validatorSpy.andReturn(true);
 
             expect(this.pagination.isPageValid(0)).toBe(true);
         });

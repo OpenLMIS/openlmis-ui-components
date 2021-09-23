@@ -43,20 +43,20 @@ describe('OpenlmisRepository', function() {
 
         var context = this;
         this.impl = jasmine.createSpyObj('RepositoryImpl', ['create', 'get', 'update', 'query']);
-        this.impl.create.and.callFake(function(param) {
+        this.impl.create.andCallFake(function(param) {
             return context.$q.resolve(param);
         });
-        this.impl.get.and.callFake(function(id) {
+        this.impl.get.andCallFake(function(id) {
             if (id === context.object.id) {
                 return context.$q.resolve(context.object);
             }
             return context.$q.reject();
         });
-        this.impl.update.and.callFake(function(param) {
+        this.impl.update.andCallFake(function(param) {
             param.name = 'some-name';
             return context.$q.resolve(param);
         });
-        this.impl.query.and.callFake(function() {
+        this.impl.query.andCallFake(function() {
             return context.$q.resolve(context.page);
         });
 

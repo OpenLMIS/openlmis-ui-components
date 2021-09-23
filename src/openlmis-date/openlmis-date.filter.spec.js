@@ -31,8 +31,8 @@ describe('openlmisDateFilter', function() {
             dateFormat: 'dd/MM/yyyy'
         };
 
-        spyOn(this.localeService, 'getFromStorage').and.returnValue(this.localeSettings);
-        spyOn(this.moment, 'tz').and.callThrough();
+        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
+        spyOn(this.moment, 'tz').andCallThrough();
     });
 
     it('should return date in shortDate format if specified', function() {

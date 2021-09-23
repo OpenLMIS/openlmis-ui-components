@@ -8,7 +8,6 @@ Improvements:
 Bug fixes:
 * [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Fixed issue with scss files after webpack migration.
 * [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Update scss files to enable webpack build.
-* [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Fix tests after karma upgrade.
 
 7.2.5 / 2021-05-27
 ==================

@@ -52,7 +52,7 @@ describe('ConfirmModalController', function() {
         });
 
         it('should expose parsed message', function() {
-            spyOn(this.messageService, 'get').and.returnValue(this.message);
+            spyOn(this.messageService, 'get').andReturn(this.message);
 
             this.vm.$onInit();
 

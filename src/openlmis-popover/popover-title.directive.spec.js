@@ -24,7 +24,7 @@ describe('PopoverDirective', function() {
             this.$compile = $injector.get('$compile');
         });
 
-        spyOn(this.jQuery.prototype, 'popover').and.callThrough();
+        spyOn(this.jQuery.prototype, 'popover').andCallThrough();
 
         this.$scope = this.$rootScope.$new();
 
@@ -37,11 +37,11 @@ describe('PopoverDirective', function() {
         this.element = this.$compile(html)(this.$scope);
         this.popoverCtrl = this.element.controller('popover');
 
-        spyOn(this.popoverCtrl, 'getElements').and.returnValue([angular.element('<p>Hello World!</p>')]);
+        spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
 
         this.$scope.$apply();
 
-        this.popover = this.jQuery.prototype.popover.calls.mostRecent().args[0].template;
+        this.popover = this.jQuery.prototype.popover.mostRecentCall.args[0].template;
     });
 
     it('allows the title element to be updated', function() {
