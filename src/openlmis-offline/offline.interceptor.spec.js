@@ -96,5 +96,15 @@ describe('offlineInterceptor', function() {
 
             expect(isResolved).toBe(false);
         });
+
+        it('should not show alert modal when forceHideOfflineModal is set as true', function() {
+            this.config = {
+                url: 'some.html',
+                forceHideOfflineModal: true
+            };
+            this.offlineInterceptor.request(this.config);
+
+            expect(this.alertService.error.callCount).toBe(1);
+        });
     });
 });

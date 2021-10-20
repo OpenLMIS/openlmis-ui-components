@@ -8,6 +8,7 @@ Improvements:
 Bug fixes:
 * [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Fixed issue with scss files after webpack migration.
 * [OLMIS-7314](https://openlmis.atlassian.net/browse/OLMIS-7314): Update scss files to enable webpack build.
+* [OLMIS-7421](https://openlmis.atlassian.net/browse/OLMIS-7421): The error modal "This action can't be completed while offline" is displaying in offline mode in view requisition screen.
 
 7.2.5 / 2021-05-27
 ==================

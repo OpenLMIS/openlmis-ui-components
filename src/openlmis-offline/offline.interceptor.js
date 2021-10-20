@@ -64,13 +64,15 @@
             // checks if calls for html file from cache
             if (offlineService.isOffline() && config.url.indexOf('.html') < 0) {
                 // because all of them are getting into that method
-                if (canDisplayModal) {
-                    canDisplayModal = false;
-                    $injector.get('alertService')
-                        .error('openlmisOffline.actionNotAllowedOffline')
-                        .finally(function() {
-                            canDisplayModal = true;
-                        });
+                if (!config.forceHideOfflineModal) {
+                    if (canDisplayModal) {
+                        canDisplayModal = false;
+                        $injector.get('alertService')
+                            .error('openlmisOffline.actionNotAllowedOffline')
+                            .finally(function() {
+                                canDisplayModal = true;
+                            });
+                    }
                 }
 
                 canceler.resolve();
