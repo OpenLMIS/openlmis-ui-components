@@ -1,3 +1,9 @@
+7.2.7 / WIP
+==================
+
+Improvements:
+* [OLMIS-7467](https://openlmis.atlassian.net/browse/OLMIS-7467): Move React base fields components to ui-components
+
 7.2.6 / 2021-10-28
 ==================
 
