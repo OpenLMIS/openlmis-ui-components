@@ -15,34 +15,42 @@
 
 import React from 'react';
 
+const ButtonIcon = ({ children, icon, alwaysShowText, textOnLeft }) => {
+    if (!icon) {
+        return null;
+    }
+
+    return (
+        <i className={`fa fa-${icon} ${children ? `has-text${textOnLeft ? '-left' : ''}` : ''} ${alwaysShowText ? `show-text${textOnLeft ? '-left' : ''}` : ''}`}/>
+    )
+};
+
+const ButtonText = ({ children, icon, alwaysShowText }) => {
+    if (!children) {
+        return null;
+    }
+
+    return (
+        <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
+    )
+};
+
 export const ResponsiveButton = ({ children, icon, alwaysShowText, textOnLeft, className, ...props }) => (
     <button type="button" {...props} className={`btn responsive-button ${className ? className : ''}`}>
         {
             textOnLeft ? (
                 <span>
-                    {
-                        children ? (
-                            <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
-                        ) : null
-                    }
-                    {
-                        icon ? (
-                            <i className={`fa fa-${icon} ${children ? 'has-text-left' : ''} ${alwaysShowText ? 'show-text-left' : ''}`}/>
-                        ) : null
-                    }
+                    <ButtonText icon={icon} alwaysShowText={alwaysShowText}>{children}</ButtonText>
+                    <ButtonIcon icon={icon} alwaysShowText={alwaysShowText} textOnLeft={textOnLeft}>
+                        {children}
+                    </ButtonIcon>
                 </span>
             ) : (
                 <span>
-                    {
-                        icon ? (
-                            <i className={`fa fa-${icon} ${children ? 'has-text' : ''} ${alwaysShowText ? 'show-text' : ''}`}/>
-                        ) : null
-                    }
-                    {
-                        children ? (
-                            <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
-                        ) : null
-                    }
+                    <ButtonIcon icon={icon} alwaysShowText={alwaysShowText} textOnLeft={textOnLeft}>
+                        {children}
+                    </ButtonIcon>
+                    <ButtonText icon={icon} alwaysShowText={alwaysShowText}>{children}</ButtonText>
                 </span>
             )
         }
