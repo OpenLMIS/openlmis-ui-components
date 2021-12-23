@@ -15,20 +15,37 @@
 
 import React from 'react';
 
-export const ResponsiveButton = ({ children, icon, alwaysShowText, className, ...props }) => (
-    <button type="button" {...props} className={`responsive-button ${className ? className : ''}`}>
-        <span>
-            {
-                icon ? (
-                    <i className={`fa fa-${icon} ${children ? 'has-text' : ''} ${alwaysShowText ? 'show-text' : ''}`}/>
-                ) : null
-            }
-            {
-                children ? (
-                    <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
-                ) : null
-            }
-        </span>
+export const ResponsiveButton = ({ children, icon, alwaysShowText, textOnLeft, className, ...props }) => (
+    <button type="button" {...props} className={`btn responsive-button ${className ? className : ''}`}>
+        {
+            textOnLeft ? (
+                <span>
+                    {
+                        children ? (
+                            <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
+                        ) : null
+                    }
+                    {
+                        icon ? (
+                            <i className={`fa fa-${icon} ${children ? 'has-text-left' : ''} ${alwaysShowText ? 'show-text-left' : ''}`}/>
+                        ) : null
+                    }
+                </span>
+            ) : (
+                <span>
+                    {
+                        icon ? (
+                            <i className={`fa fa-${icon} ${children ? 'has-text' : ''} ${alwaysShowText ? 'show-text' : ''}`}/>
+                        ) : null
+                    }
+                    {
+                        children ? (
+                            <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
+                        ) : null
+                    }
+                </span>
+            )
+        }
     </button>
 );
 

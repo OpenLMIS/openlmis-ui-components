@@ -2,7 +2,8 @@
 ==================
 
 Improvements:
-* [OLMIS-7467](https://openlmis.atlassian.net/browse/OLMIS-7467): Move React base fields components to ui-components
+* [OLMIS-7467](https://openlmis.atlassian.net/browse/OLMIS-7467): Moved React base fields components to ui-components
+* [OLMIS-7468](https://openlmis.atlassian.net/browse/OLMIS-7468): Created table component in React
 
 7.2.6 / 2021-10-28
 ==================
