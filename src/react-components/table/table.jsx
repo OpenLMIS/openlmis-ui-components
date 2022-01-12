@@ -20,7 +20,7 @@ import PrevPageButton from '../buttons/prev-page-button';
 import NextPageButton from '../buttons/next-page-button';
 import PageButton from '../buttons/page-button';
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -43,6 +43,9 @@ const Table = ({ columns, data }) => {
                 pageIndex: 0,
                 pageSize: 10
             },
+            autoResetPage: !skipPageReset,
+            updateTableData,
+            deleteRow,
         },
         usePagination
     );
@@ -104,6 +107,7 @@ const Table = ({ columns, data }) => {
                                     {
                                         getPages().map(index => (
                                             <PageButton
+                                                key={`page-${index}`}
                                                 className={index === pageIndex ? "primary" : ""}
                                                 onClick={() => gotoPage(index)}
                                             >{index + 1}

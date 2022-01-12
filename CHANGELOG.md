@@ -4,6 +4,7 @@
 Improvements:
 * [OLMIS-7467](https://openlmis.atlassian.net/browse/OLMIS-7467): Moved React base fields components to ui-components
 * [OLMIS-7468](https://openlmis.atlassian.net/browse/OLMIS-7468): Created table component in React
+* [OLMIS-7454](https://openlmis.atlassian.net/browse/OLMIS-7454): Added possibility to edit data in React table.
 
 7.2.6 / 2021-10-28
 ==================

@@ -57,6 +57,20 @@
     flex-direction: column;
 
     padding: 1em;
+
+    aside {
+      background-color: #f0f0f0;
+      border: 1px solid #bebebe;
+      border-radius: 4px;
+      margin-bottom: 1em;
+    }
+  }
+
+  .page-footer {
+    flex: 0;
+    display: flex;
+    padding: 1em;
+    background-color: $very-light-gray;
   }
 }
 
