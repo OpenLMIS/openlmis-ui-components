@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-//TODO: Use localeService to get the correct format
 export const formatDate = (date) => {
     if (!date) {
         return '';

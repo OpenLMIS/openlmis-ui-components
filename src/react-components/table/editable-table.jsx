@@ -27,10 +27,10 @@ const EditableTable = ({ columns, data, updateData }) => {
             if (index === rowIndex) {
                 return {
                     ...row,
-                    [columnId]: value,
-                }
+                    [columnId]: value
+                };
             }
-            return row
+            return row;
         }));
 
         updateData(newData);
@@ -51,7 +51,7 @@ const EditableTable = ({ columns, data, updateData }) => {
             skipPageReset={skipPageReset}
             updateTableData={updateTableData}
             deleteRow={deleteRow}
-        />)
+        />);
 };
 
 export default EditableTable;

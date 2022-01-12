@@ -26,18 +26,20 @@ const InputCell = ({
     const [value, setValue] = useState(initialValue);
 
     const onChange = val => {
-        setValue(val)
+        setValue(val);
     };
 
     const onBlur = () => {
-        updateTableData(index, id, value)
+        updateTableData(index, id, value);
     };
 
     useEffect(() => {
-        setValue(initialValue)
+        setValue(initialValue);
     }, [initialValue]);
 
-    return <Input value={value} onChange={onChange} onBlur={onBlur} />
+    return (
+        <Input value={value} onChange={onChange} onBlur={onBlur} />
+    );
 };
 
 export default InputCell;

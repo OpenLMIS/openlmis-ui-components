@@ -22,7 +22,7 @@ const ButtonIcon = ({ children, icon, alwaysShowText, textOnLeft }) => {
 
     return (
         <i className={`fa fa-${icon} ${children ? `has-text${textOnLeft ? '-left' : ''}` : ''} ${alwaysShowText ? `show-text${textOnLeft ? '-left' : ''}` : ''}`}/>
-    )
+    );
 };
 
 const ButtonText = ({ children, icon, alwaysShowText }) => {
@@ -32,7 +32,7 @@ const ButtonText = ({ children, icon, alwaysShowText }) => {
 
     return (
         <span className={(!icon || alwaysShowText) ? '' : 'button-text'}>{children}</span>
-    )
+    );
 };
 
 export const ResponsiveButton = ({ children, icon, alwaysShowText, textOnLeft, className, ...props }) => (
