@@ -20,9 +20,9 @@ const Breadcrumbs = ({ breadcrumbs }) => (
     <ol className="breadcrumb">
         {
             breadcrumbs.map(
-                ({ breadcrumb }) => {
+                ({ breadcrumb }, ind) => {
                     return (
-                        <li key={breadcrumb}>
+                        <li key={ind}>
                             <span>{breadcrumb}</span>
                         </li>
                     );

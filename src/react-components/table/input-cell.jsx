@@ -22,6 +22,7 @@ const InputCell = ({
     row: { index },
     column: { id },
     updateTableData,
+    inputProps = {}
 }) => {
     const [value, setValue] = useState(initialValue);
 
@@ -38,7 +39,7 @@ const InputCell = ({
     }, [initialValue]);
 
     return (
-        <Input value={value} onChange={onChange} onBlur={onBlur} />
+        <Input value={value} onChange={onChange} onBlur={onBlur} {...inputProps} />
     );
 };
 
