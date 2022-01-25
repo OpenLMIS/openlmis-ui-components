@@ -16,13 +16,6 @@
 import React from 'react';
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 
-const BreadcrumbsMain = ({ routes }) => {
-    const BreadcrumbsWrapper = withBreadcrumbs(routes)(Breadcrumbs);
-    return (
-        <BreadcrumbsWrapper />
-    );
-};
-
 const Breadcrumbs = ({ breadcrumbs }) => (
     <ol className="breadcrumb">
         {
@@ -38,5 +31,12 @@ const Breadcrumbs = ({ breadcrumbs }) => (
         }
     </ol>
 );
+
+const BreadcrumbsMain = ({ routes }) => {
+    const BreadcrumbsWrapper = withBreadcrumbs(routes)(Breadcrumbs);
+    return (
+        <BreadcrumbsWrapper />
+    );
+};
 
 export default BreadcrumbsMain;
