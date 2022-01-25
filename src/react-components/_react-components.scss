@@ -47,8 +47,17 @@
     flex-direction: column;
   }
 
+  .breadcrumb {
+    padding-top: 1.5em;
+    padding-left: 1em;
+  }
+
   .page-header-responsive {
-    padding: 1em;
+    padding: 0.5em 1em 1em;
+
+    h2 {
+      border-bottom: $heading-border-color 1px solid;
+    }
   }
 
   .page-content {
@@ -149,6 +158,15 @@
     justify-content: flex-end;
 
     margin-top: 0.5em;
+  }
+}
+
+label,
+strong {
+  &.is-required:after {
+    color: $brand-danger;
+    content: '*';
+    margin-left: 0.25em;
   }
 }
 

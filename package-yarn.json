@@ -22,7 +22,8 @@
     "final-form": "^4.20.2",
     "react-final-form": "^6.5.3",
     "react-confirm-alert": "^2.7.0",
-    "react-table": "^7.7.0"
+    "react-table": "^7.7.0",
+    "react-router-breadcrumbs-hoc": "^4.1.0"
   },
   "engines": {
     "yarn": ">= 1.0.0"
