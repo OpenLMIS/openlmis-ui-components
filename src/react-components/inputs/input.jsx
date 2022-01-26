@@ -17,7 +17,12 @@ import React from 'react';
 
 const Input = ({ onChange, numeric, ...props }) => {
 
-    const inputProps = numeric ? { ...props, inputMode: 'numeric', pattern: '[0-9]*' } : props;
+    const inputProps = numeric ? {
+        className: 'number',
+        ...props,
+        inputMode: 'numeric',
+        pattern: '[0-9]*'
+    } : props;
 
     const parseNumberValue = (val) => {
         if (!val || (typeof val !== "string")) {
