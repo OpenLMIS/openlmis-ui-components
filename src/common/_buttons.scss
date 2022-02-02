@@ -94,6 +94,12 @@ button {
         @include button($button-color-default);
         @include button-icon('plus');
     }
+
+    &.edit {
+        @extend button.primary;
+        @include button-icon('pencil-square-o');
+        display: flex !important;
+    }
 }
 
 button.close {
