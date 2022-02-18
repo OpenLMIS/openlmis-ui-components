@@ -32,7 +32,7 @@ const InputCell = ({
         setValue(val);
 
         if (validateCell) {
-            setValid(validateCell(val, id))
+            setValid(validateCell(val, id));
         }
     };
 
@@ -40,7 +40,7 @@ const InputCell = ({
         updateTableData(index, id, value);
 
         if (validateCell) {
-            setValid(validateCell(value, id))
+            setValid(validateCell(value, id));
         }
     };
 
