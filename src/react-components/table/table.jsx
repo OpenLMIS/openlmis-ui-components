@@ -20,7 +20,7 @@ import PrevPageButton from '../buttons/prev-page-button';
 import NextPageButton from '../buttons/next-page-button';
 import PageButton from '../buttons/page-button';
 
-const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow }) => {
+const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow, ...props }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -37,6 +37,7 @@ const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow }) => 
         state: { pageIndex },
     } = useTable(
         {
+            ...props,
             columns,
             data,
             initialState: {

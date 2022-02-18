@@ -16,7 +16,7 @@
 import React, { useState } from 'react';
 import Table from './table';
 
-const EditableTable = ({ columns, data, updateData }) => {
+const EditableTable = ({ columns, data, updateData, ...props }) => {
 
     const [skipPageReset, setSkipPageReset] = useState(false);
 
@@ -46,6 +46,7 @@ const EditableTable = ({ columns, data, updateData }) => {
 
     return (
         <Table
+            {...props}
             columns={columns}
             data={data}
             skipPageReset={skipPageReset}

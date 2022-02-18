@@ -22,16 +22,26 @@ const InputCell = ({
     row: { index },
     column: { id },
     updateTableData,
+    validateCell,
     inputProps = {}
 }) => {
     const [value, setValue] = useState(initialValue);
+    const [valid, setValid] = useState(true);
 
     const onChange = val => {
         setValue(val);
+
+        if (validateCell) {
+            setValid(validateCell(val, id))
+        }
     };
 
     const onBlur = () => {
         updateTableData(index, id, value);
+
+        if (validateCell) {
+            setValid(validateCell(value, id))
+        }
     };
 
     useEffect(() => {
@@ -39,7 +49,9 @@ const InputCell = ({
     }, [initialValue]);
 
     return (
-        <Input value={value} onChange={onChange} onBlur={onBlur} {...inputProps} />
+        <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
+            <Input value={value} onChange={onChange} onBlur={onBlur} {...inputProps} />
+        </div>
     );
 };
 
