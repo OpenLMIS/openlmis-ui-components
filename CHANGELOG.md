@@ -7,6 +7,7 @@ Improvements:
 * [OLMIS-7454](https://openlmis.atlassian.net/browse/OLMIS-7454): Added possibility to edit data in React table.
 * [OLMIS-7458](https://openlmis.atlassian.net/browse/OLMIS-7458): Added edit button class
 * [OLMIS-7508](https://openlmis.atlassian.net/browse/OLMIS-7508): Added possibility to validate table cell value.
+* [OLMIS-7515](https://openlmis.atlassian.net/browse/OLMIS-7515): Add numeric input
 
 7.2.6 / 2021-10-28
 ==================

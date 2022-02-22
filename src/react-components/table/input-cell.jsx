@@ -15,7 +15,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-import Input from '../inputs/input';
+import NumericInput from '../inputs/numeric-input';
 
 const InputCell = ({
     value: initialValue,
@@ -23,7 +23,7 @@ const InputCell = ({
     column: { id },
     updateTableData,
     validateCell,
-    inputProps = {}
+    numeric = false
 }) => {
     const [value, setValue] = useState(initialValue);
     const [valid, setValid] = useState(true);
@@ -50,7 +50,8 @@ const InputCell = ({
 
     return (
         <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
-            <Input value={value} onChange={onChange} onBlur={onBlur} {...inputProps} />
+            {numeric && <NumericInput initialValue={value} onChange={onChange} onBlur={onBlur}/>}
+            {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur}/>}
         </div>
     );
 };
