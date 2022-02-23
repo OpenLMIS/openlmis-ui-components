@@ -15,23 +15,16 @@
 
 import React, { useState } from 'react';
 
-const parseNumber = (stringValue, allowNegative) => {
-    if (stringValue === '' || stringValue === '-') {
-        return null;
-    }
-
+const parseNumber = stringValue => {
     const n = Number(stringValue)
 
     if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
         return null;
     }
 
-    if (!allowNegative && n < 0) {
-        return null
-    }
-
     return n;
 }
+
 
 const NumericInput = ({
                           onChange,
@@ -44,21 +37,29 @@ const NumericInput = ({
     const [value, setValue] = useState(initialValue);
 
     const handleOnChange = (value, allowNegative) => {
-        const number = parseNumber(value, allowNegative);
+        const positiveNumberRegex = '^\\d+$';
+        const negativeNumberRegex = '^\\-?\d*$';
 
-        setValue(
-            value === '' || value === '-'
-                ? value
-                : parseInt(value).toString()
-        );
+        const numberRegex = allowNegative ? negativeNumberRegex : positiveNumberRegex;
 
-        onChange(number);
+        const match = value.match(numberRegex);
+
+        if(match !== null) {
+            const n = parseNumber(value);
+            setValue(n === null ? '' : value);
+            onChange(n);
+        } else if(value === '') {
+            setValue('');
+            onChange(null);
+        } else {
+            // NOP
+        }
     };
 
     return (
         <input
             className={className}
-            onBlur={ev => onBlur ? onBlur(ev) : null}
+            onBlur={onBlur}
             onChange={ev => handleOnChange(ev.target.value, allowNegative)}
             type={'text'}
             value={value}
