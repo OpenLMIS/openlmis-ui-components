@@ -16,6 +16,7 @@
 import React, { useState, useEffect } from 'react';
 
 import NumericInput from '../inputs/numeric-input';
+import Input from '../inputs/input';
 
 const InputCell = ({
     value: initialValue,
