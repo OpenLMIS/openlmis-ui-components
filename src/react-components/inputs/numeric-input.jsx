@@ -29,14 +29,14 @@ const parseNumber = stringValue => {
 const NumericInput = ({
                           onChange,
                           className = 'number',
-                          initialValue = '0',
+                          value: initialValue = '',
                           onBlur = null,
                           allowNegative = false
                       }) => {
 
     const [value, setValue] = useState(initialValue);
 
-    const handleOnChange = (value, allowNegative) => {
+    const handleOnChange = value => {
         const positiveNumberRegex = '^\\d+$';
         const negativeNumberRegex = '^\\-?\d*$';
 
@@ -60,7 +60,7 @@ const NumericInput = ({
         <input
             className={className}
             onBlur={onBlur}
-            onChange={ev => handleOnChange(ev.target.value, allowNegative)}
+            onChange={ev => handleOnChange(ev.target.value)}
             type={'text'}
             value={value}
         />

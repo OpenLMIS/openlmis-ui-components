@@ -58,7 +58,7 @@ const InputCell = ({
 
     return (
         <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
-            {numeric && <NumericInput initialValue={value} onChange={onChange} onBlur={onBlur}/>}
+            {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur}/>}
             {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur}/>}
         </div>
     );
