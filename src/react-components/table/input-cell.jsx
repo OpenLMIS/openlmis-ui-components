@@ -19,10 +19,11 @@ import NumericInput from '../inputs/numeric-input';
 
 const InputCell = ({
     value: initialValue,
-    row: { index },
+    row: { index, values },
     column: { id },
     updateTableData,
-    validateCell,
+    validateRow,
+    showValidationErrors,
     numeric = false
 }) => {
     const [value, setValue] = useState(initialValue);
@@ -31,22 +32,28 @@ const InputCell = ({
     const onChange = val => {
         setValue(val);
 
-        if (validateCell) {
-            setValid(validateCell(val, id));
+        if (validateRow) {
+            setValid(validateRow({ ...values, [id]: val }, id));
         }
     };
 
     const onBlur = () => {
         updateTableData(index, id, value);
 
-        if (validateCell) {
-            setValid(validateCell(value, id));
+        if (validateRow) {
+            setValid(validateRow({ ...values, [id]: value }, id));
         }
     };
 
     useEffect(() => {
         setValue(initialValue);
     }, [initialValue]);
+
+    useEffect(() => {
+        if (showValidationErrors && validateRow) {
+            setValid(validateRow(values, id));
+        }
+    }, [showValidationErrors]);
 
     return (
         <div className={`form-control ${valid ? '' : 'is-invalid'}`}>

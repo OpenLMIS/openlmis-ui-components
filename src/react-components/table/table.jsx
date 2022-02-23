@@ -20,7 +20,18 @@ import PrevPageButton from '../buttons/prev-page-button';
 import NextPageButton from '../buttons/next-page-button';
 import PageButton from '../buttons/page-button';
 
-const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow, ...props }) => {
+const pageSize = 10;
+
+const Table = ({
+    columns,
+    data,
+    skipPageReset,
+    updateTableData,
+    deleteRow,
+    validateRow,
+    showValidationErrors,
+    ...props
+}) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -42,28 +53,53 @@ const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow, ...pr
             data,
             initialState: {
                 pageIndex: 0,
-                pageSize: 10
+                pageSize: pageSize
             },
             autoResetPage: !skipPageReset,
             updateTableData,
             deleteRow,
+            validateRow,
+            showValidationErrors
         },
         usePagination
     );
 
+    const validatePage = (pageNumber) => {
+        if (!validateRow || !showValidationErrors) {
+            return true;
+        }
+
+        const startInd = pageNumber * pageSize;
+        let endInd = (pageNumber + 1) * pageSize;
+        endInd = endInd < rows.length ? endInd : rows.length;
+        let i, valid = true;
+
+        for (i = startInd; i < endInd; i++) {
+            valid = validateRow(rows[i].values);
+
+            if (!valid) {
+                return false;
+            }
+        }
+
+        return valid;
+    };
+
     const getPages = () => {
         const pageNumbers = [];
-        let i;
+        let i, valid;
 
         for (i = 3; i >= 0; i--) {
             if (pageIndex - i >= 0) {
-                pageNumbers.push(pageIndex - i);
+                valid = validatePage(pageIndex - i);
+                pageNumbers.push({ number: pageIndex - i, invalid: !valid });
             }
         }
 
         for (i = 1; i <= 3; i++) {
             if (pageIndex + i < pageCount) {
-                pageNumbers.push(pageIndex + i);
+                valid = validatePage(pageIndex + i);
+                pageNumbers.push({ number: pageIndex + i, invalid: !valid });
             }
         }
 
@@ -106,12 +142,13 @@ const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow, ...pr
                                 <div className="btn-group">
                                     <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
                                     {
-                                        getPages().map(index => (
+                                        getPages().map(page => (
                                             <PageButton
-                                                key={`page-${index}`}
-                                                className={index === pageIndex ? "primary" : ""}
-                                                onClick={() => gotoPage(index)}
-                                            >{index + 1}
+                                                key={`page-${page.number}`}
+                                                active={page.number === pageIndex}
+                                                invalid={page.invalid}
+                                                onClick={() => gotoPage(page.number)}
+                                            >{page.number + 1}
                                             </PageButton>
                                         ))
                                     }
@@ -125,7 +162,7 @@ const Table = ({ columns, data, skipPageReset, updateTableData, deleteRow, ...pr
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export default Table;

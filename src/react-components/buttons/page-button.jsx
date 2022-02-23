@@ -15,10 +15,24 @@
 
 import React from 'react';
 
-export const PageButton = ({ children, className, ...props }) => (
-    <button type="button" {...props} className={`btn page-btn ${className ? className : ''}`}>
-        {children}
-    </button>
-);
+export const PageButton = ({ children, active, invalid, className, ...props }) => {
+    let buttonClass = '';
+
+    if (active) {
+        buttonClass = 'primary';
+    } else if (invalid) {
+        buttonClass = 'danger';
+    }
+
+    return (
+        <button
+            type="button"
+            {...props}
+            className={`btn page-btn ${buttonClass} ${className ? className : ''}`}
+        >
+            {children}
+        </button>
+    );
+};
 
 export default PageButton;
