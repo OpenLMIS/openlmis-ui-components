@@ -37,6 +37,12 @@ const NumericInput = ({
     const [value, setValue] = useState(initialValue);
 
     const handleOnChange = value => {
+        if (value === '') {
+            setValue(value);
+            onChange(null);
+            return;
+        }
+
         const positiveNumberRegex = '^\\d+$';
         const negativeNumberRegex = '^\\-?\d*$';
 
@@ -45,14 +51,12 @@ const NumericInput = ({
         const match = value.match(numberRegex);
 
         if(match !== null) {
-            const n = parseNumber(value);
-            setValue(n === null ? '' : value);
-            onChange(n);
-        } else if(value === '') {
-            setValue('');
-            onChange(null);
-        } else {
-            // NOP
+            const parsedNumber = parseNumber(value);
+
+            if(parsedNumber !== null) {
+                onChange(parsedNumber);
+                setValue(value);
+            }
         }
     };
 
