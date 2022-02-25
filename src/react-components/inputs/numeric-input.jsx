@@ -16,15 +16,14 @@
 import React, { useState } from 'react';
 
 const parseNumber = stringValue => {
-    const n = Number(stringValue)
+    const n = Number(stringValue);
 
     if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
         return null;
     }
 
     return n;
-}
-
+};
 
 const NumericInput = ({
                           onChange,
