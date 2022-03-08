@@ -26,6 +26,8 @@ window.shortid = require('js-shortid');
 
 //eslint-disable-next-line no-undef
 window.PouchDB = require('pouchdb').default;
+//eslint-disable-next-line no-undef
+window.PouchDB.plugin(require('pouchdb-find').default);
 
 //eslint-disable-next-line no-undef
 require('perfect-scrollbar/jquery')(window.$);
