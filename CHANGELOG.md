@@ -9,6 +9,9 @@ Improvements:
 * [OLMIS-7508](https://openlmis.atlassian.net/browse/OLMIS-7508): Added possibility to validate table cell value.
 * [OLMIS-7515](https://openlmis.atlassian.net/browse/OLMIS-7515): Add numeric input
 
+Bug fixes:
+* [OLMIS-7546](https://openlmis.atlassian.net/browse/OLMIS-7546): Fix config for pouchdb-find
+
 7.2.6 / 2021-10-28
 ==================
 
