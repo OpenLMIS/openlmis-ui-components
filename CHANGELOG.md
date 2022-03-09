@@ -8,6 +8,7 @@ Improvements:
 * [OLMIS-7458](https://openlmis.atlassian.net/browse/OLMIS-7458): Added edit button class
 * [OLMIS-7508](https://openlmis.atlassian.net/browse/OLMIS-7508): Added possibility to validate table cell value.
 * [OLMIS-7515](https://openlmis.atlassian.net/browse/OLMIS-7515): Add numeric input
+* [OLMIS-7516](https://openlmis.atlassian.net/browse/OLMIS-7516): React table style improvements
 
 Bug fixes:
 * [OLMIS-7546](https://openlmis.atlassian.net/browse/OLMIS-7546): Fix config for pouchdb-find

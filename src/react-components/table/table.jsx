@@ -108,58 +108,56 @@ const Table = ({
 
     return (
         <div className="react-table-container">
-            <div className="react-table-main">
-                <div className="react-table-content">
-                    <table { ...getTableProps() } className="react-table" >
-                        <thead>
-                        { headerGroups.map(headerGroup => (
-                            <tr { ...headerGroup.getHeaderGroupProps() }>
-                                { headerGroup.headers.map(column => (
-                                    <th { ...column.getHeaderProps() }>{ column.render('Header') }</th>
-                                ))}
+            <div className="react-table-content">
+                <table { ...getTableProps() } className="react-table" >
+                    <thead>
+                    { headerGroups.map(headerGroup => (
+                        <tr { ...headerGroup.getHeaderGroupProps() }>
+                            { headerGroup.headers.map(column => (
+                                <th { ...column.getHeaderProps() }>{ column.render('Header') }</th>
+                            ))}
+                        </tr>
+                    ))}
+                    </thead>
+                    <tbody { ...getTableBodyProps() }>
+                    { page.map((row) => {
+                        prepareRow(row);
+                        return (
+                            <tr { ...row.getRowProps() }>
+                                { row.cells.map(cell => {
+                                    return <td { ...cell.getCellProps() }>{ cell.render('Cell') }</td>
+                                })}
                             </tr>
-                        ))}
-                        </thead>
-                        <tbody { ...getTableBodyProps() }>
-                        { page.map((row) => {
-                            prepareRow(row);
-                            return (
-                                <tr { ...row.getRowProps() }>
-                                    { row.cells.map(cell => {
-                                        return <td { ...cell.getCellProps() }>{ cell.render('Cell') }</td>
-                                    })}
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="pagination-responsive">
-                    {
-                        rows.length > 0 ? (
-                            <>
-                                <span>Showing {page.length} item(s) out of {rows.length} total</span>
-                                <div className="btn-group">
-                                    <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
-                                    {
-                                        getPages().map(page => (
-                                            <PageButton
-                                                key={`page-${page.number}`}
-                                                active={page.number === pageIndex}
-                                                invalid={page.invalid}
-                                                onClick={() => gotoPage(page.number)}
-                                            >{page.number + 1}
-                                            </PageButton>
-                                        ))
-                                    }
-                                    <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
-                                </div>
-                            </>
-                        ) : (
-                            <span>Showing no items</span>
                         )
-                    }
-                </div>
+                    })}
+                    </tbody>
+                </table>
+            </div>
+            <div className="pagination-responsive">
+                {
+                    rows.length > 0 ? (
+                        <>
+                            <span>Showing {page.length} item(s) out of {rows.length} total</span>
+                            <div className="btn-group">
+                                <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
+                                {
+                                    getPages().map(page => (
+                                        <PageButton
+                                            key={`page-${page.number}`}
+                                            active={page.number === pageIndex}
+                                            invalid={page.invalid}
+                                            onClick={() => gotoPage(page.number)}
+                                        >{page.number + 1}
+                                        </PageButton>
+                                    ))
+                                }
+                                <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
+                            </div>
+                        </>
+                    ) : (
+                        <span>Showing no items</span>
+                    )
+                }
             </div>
         </div>
     );
