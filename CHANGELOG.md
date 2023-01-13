@@ -1,4 +1,4 @@
-7.2.8
+7.2.8-SNAPSHOT / WIP
 ==================
 Improvements:
 * [OLMIS-7654](https://openlmis.atlassian.net/browse/OLMIS-7654): Added Radio Button Component
