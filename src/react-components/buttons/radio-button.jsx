@@ -16,7 +16,7 @@
 import React from 'react';
 
 const RadioButton = ({ changed, id, isSelected, label, additionalInfo="", value, disabled }) => {
-    (
+    return (
       <div className="RadioButton">
         <input
             id={id}
