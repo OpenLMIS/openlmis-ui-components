@@ -15,8 +15,8 @@
 
 import React from 'react';
 
-export const RadioButton = ({ changed, id, isSelected, label, additionalInfo="", value, disabled }) => {
-    return (
+const RadioButton = ({ changed, id, isSelected, label, additionalInfo="", value, disabled }) => {
+    (
       <div className="RadioButton">
         <input
             id={id}
@@ -31,8 +31,12 @@ export const RadioButton = ({ changed, id, isSelected, label, additionalInfo="",
           htmlFor={id}
         >
           {label} 
-          <p style={{color: "#A4A4A4", display: "inline-block"}}>{additionalInfo}</p>
+          <p style={{color: "#A4A4A4", display: "inline-block"}}>
+            {additionalInfo}
+          </p>
         </label>
       </div>
     );
 };
+
+export default RadioButton;
