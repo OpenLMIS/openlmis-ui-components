@@ -2,6 +2,7 @@
 ==================
 Improvements:
 * [OLMIS-7654](https://openlmis.atlassian.net/browse/OLMIS-7654): Added Radio Button Component
+* [OLMIS-7649](https://openlmis.atlassian.net/browse/OLMIS-7649): Added MultiSelect Component
 
 7.2.7 / 2022-04-21
 ==================
