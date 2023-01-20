@@ -269,11 +269,11 @@ strong {
   border-radius: 4px;
 
   .multiselect__selected {
-    border:solid 1px #D9D9D9;
+    border: solid 1px #D9D9D9;
     border-radius: 5px;
-    font-size:14px;
-    padding:10px;
-    display:flex;
+    font-size: 14px;
+    padding: 10px;
+    display: flex;
     align-items: center;
 
     i {
@@ -282,20 +282,20 @@ strong {
   }
 
   .multiselect__options {
-    display:block;
+    display: block;
     box-sizing: border-box;
-    left:0;
+    left: 0;
     list-style: none;
-    padding-left:0px;
-    border:solid 1px #eee;
-    padding:5px 0px;
+    padding-left: 0px;
+    border: solid 1px #eee;
+    padding: 5px 0px;
   }
 
   .multiselect__option {
-    display:flex;
+    display: flex;
     align-items: center;
-    padding:6px 10px;
-    cursor:pointer;
+    padding: 6px 10px;
+    cursor: pointer;
 
     &:hover {
       background-color: #49BAEB;
@@ -303,7 +303,7 @@ strong {
     }
       
     &-checkbox {
-      margin-right:6px;
+      margin-right: 6px;
     }
   }
 }
