@@ -34,7 +34,7 @@ const MultiSelect = ({ options, selected, toggleOption, disabled }) => {
     
     const [isOptionListShown, setIsOptionListShown] = useState(false);
 
-    const handleClickMultiSelect = event => {
+    const handleClickMultiSelect = () => {
       setIsOptionListShown(current => !current);
     };
 
@@ -59,17 +59,16 @@ const MultiSelect = ({ options, selected, toggleOption, disabled }) => {
             {isOptionListShown && <ul className="multiselect-options">
                 {options.map(option => {
                     const isSelected = selected.includes(option.id);
-
                     return (
                         <li className="multiselect-option" onClick={() => toggleOption({ id: option.id })}>
                             <input type="checkbox" checked={isSelected} className="multiselect-option-checkbox"></input>
                             <span>{option.name}</span>
                         </li>
-                    )
+                    );
                 })}
             </ul>}
         </div>
-    )
-}
+    );
+};
 
 export default MultiSelect;
