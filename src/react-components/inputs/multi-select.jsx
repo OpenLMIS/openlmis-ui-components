@@ -48,7 +48,7 @@ const MultiSelect = ({ options, selected, toggleOption, disabled }) => {
           className="multiselect" 
           style={disabled ? {pointerEvents: "none", opacity: "0.4"} : {}}
         >
-            <div className="multiselect__selected">
+            <div className="multiselect-selected">
                 <i className="fa fa-sort-desc" aria-hidden="true"></i>
                 <div 
                   style={{marginLeft: "5px"}}
@@ -56,13 +56,13 @@ const MultiSelect = ({ options, selected, toggleOption, disabled }) => {
                   {selected.length > 0 ? selected.join(', ') : SELECT_OPTION_LABEL} 
                 </div>
             </div>
-            {isOptionListShown && <ul className="multiselect__options">
+            {isOptionListShown && <ul className="multiselect-options">
                 {options.map(option => {
                     const isSelected = selected.includes(option.id);
 
                     return (
-                        <li className="multiselect__option" onClick={() => toggleOption({ id: option.id })}>
-                            <input type="checkbox" checked={isSelected} className="multiselect__option-checkbox"></input>
+                        <li className="multiselect-option" onClick={() => toggleOption({ id: option.id })}>
+                            <input type="checkbox" checked={isSelected} className="multiselect-option-checkbox"></input>
                             <span>{option.name}</span>
                         </li>
                     )
