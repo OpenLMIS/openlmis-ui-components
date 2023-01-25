@@ -33,7 +33,7 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
     }
 
     const filterAndSortValues = (values, sortFunction) => {
-        return values.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; }).data.sort(sortFunction)
+        return filterValues(values).sort(sortFunction)
     }
 
     const onChange = (value) => {
@@ -51,10 +51,10 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
     const resultsToShow = results.map((result) => {
         return (
             <button 
-            className='field-full-width'
-            style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}}
-            key={result.id}
-            onClick={() => onSelect(result)}
+                className='field-full-width' 
+                style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}} 
+                key={result.id} 
+                onClick={() => onSelect(result)}
             >
                 { result[displayValue] }
             </button>
@@ -64,10 +64,10 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
     return (
     <>
     <Input
-    {...props}
-    onChange={onChange}
-    value={inputValue}
-    onFocus={() => {setTouched(true)}}
+        {...props}
+        onChange={onChange}
+        value={inputValue}
+        onFocus={() => {setTouched(true)}}
     />
     <div>
         { touched && resultsToShow }
