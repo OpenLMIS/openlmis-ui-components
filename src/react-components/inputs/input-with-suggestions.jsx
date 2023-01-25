@@ -29,11 +29,11 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
     }, [data]);
 
     const filterValues = (values, filterValue) => {
-        return values.filter((element) => { return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; })
+        return values.filter((element) => { return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; });
     }
 
     const filterAndSortValues = (values, filterValue, sortFunction) => {
-        return filterValues(values, filterValue).sort(sortFunction)
+        return filterValues(values, filterValue).sort(sortFunction);
     }
 
     const onChange = (value) => {
