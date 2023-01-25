@@ -28,10 +28,17 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
         setTouched(false);
     }, [data]);
 
+    const filterValues = (values) => {
+        return values.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; })
+    }
+
+    const filterAndSortValues = (values, sortFunction) => {
+        return values.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; }).data.sort(sortFunction)
+    }
+
     const onChange = (value) => {
         setInputValue(value);
-        const dataToSet = sortFunction ? data.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; }).sort(sortFunction) 
-        : data.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; });
+        const dataToSet = sortFunction ? filterValues(data) : filterAndSortValues(data, sortFunction);
         setResults(dataToSet);
     }
 
@@ -43,7 +50,12 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
 
     const resultsToShow = results.map((result) => {
         return (
-            <button className='field-full-width' style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}} key={result.id} onClick={() => onSelect(result)}>
+            <button 
+            className='field-full-width'
+            style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}}
+            key={result.id}
+            onClick={() => onSelect(result)}
+            >
                 { result[displayValue] }
             </button>
         );
@@ -51,8 +63,12 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
 
     return (
     <>
-    <Input {...props} onChange={onChange} value={inputValue} onFocus={() => {setTouched(true)}}>
-    </Input>
+    <Input
+    {...props}
+    onChange={onChange}
+    value={inputValue}
+    onFocus={() => {setTouched(true)}}
+    />
     <div>
         { touched && resultsToShow }
     </div>
