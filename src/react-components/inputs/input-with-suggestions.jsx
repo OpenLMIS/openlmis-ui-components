@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import  React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from './input';
 
 
