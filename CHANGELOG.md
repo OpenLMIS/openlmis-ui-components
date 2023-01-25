@@ -3,7 +3,7 @@
 Improvements:
 * [OLMIS-7654](https://openlmis.atlassian.net/browse/OLMIS-7654): Added Radio Button Component
 * [OLMIS-7649](https://openlmis.atlassian.net/browse/OLMIS-7649): Added MultiSelect Component
-* [OLMIS-7655](https://openlmis.atlassian.net/browse/OLMIS-7655): Added Input With Proposed Values Component
+* [OLMIS-7655](https://openlmis.atlassian.net/browse/OLMIS-7655): Added Input With Suggestions Component
 
 7.2.7 / 2022-04-21
 ==================

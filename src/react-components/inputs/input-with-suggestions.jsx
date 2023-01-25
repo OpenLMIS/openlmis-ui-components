@@ -14,10 +14,10 @@
  */
 
 import  React, { useState, useEffect } from 'react';
-import Input from '../../react-components/inputs/input';
+import Input from './input';
 
 
-const InputWithProposedValues = ({ data, onClick, sortFunction, displayValue, ...props }) => {
+const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...props }) => {
 
     const [touched, setTouched] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -60,4 +60,4 @@ const InputWithProposedValues = ({ data, onClick, sortFunction, displayValue, ..
     );
 };
 
-export default InputWithProposedValues;
+export default InputWithSuggestions;
