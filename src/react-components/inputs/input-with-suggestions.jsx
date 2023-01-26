@@ -28,17 +28,17 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
         setTouched(false);
     }, [data]);
 
-    const filterValues = (values) => {
-        return values.filter((element) => { return element.name.toLowerCase().indexOf(value.toLowerCase()) > -1; })
+    const filterValues = (values, filterValue) => {
+        return values.filter((element) => { return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; });
     }
 
-    const filterAndSortValues = (values, sortFunction) => {
-        return filterValues(values).sort(sortFunction)
+    const filterAndSortValues = (values, filterValue, sortFunction) => {
+        return filterValues(values, filterValue).sort(sortFunction);
     }
 
     const onChange = (value) => {
         setInputValue(value);
-        const dataToSet = sortFunction ? filterValues(data) : filterAndSortValues(data, sortFunction);
+        const dataToSet = sortFunction ? filterValues(data, value) : filterAndSortValues(data, value, sortFunction);
         setResults(dataToSet);
     }
 
