@@ -20,7 +20,9 @@ import Input from '../../react-components/inputs/input';
 const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...props }) => {
 
     const filterValues = (values, filterValue) => {
-        return filterValue !== '' ? values.filter((element) => { return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; }) : values;
+        return filterValue !== '' ? values.filter((element) => { 
+            return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; 
+        }) : values;
     };
 
     const [touched, setTouched] = useState(false);
@@ -80,7 +82,7 @@ const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...pro
                 onChange={onChange}
                 value={inputValue}
                 onFocus={() => {setTouched(true)}}
-                placeholder={placeholder ? placeholder : 'Select an Option'}
+                placeholder={placeholder || 'Select an Option'}
             />
             {touched && !selectedValue && 
                 <button onClick={handleTouched} style={{background: 'transparent', border: 'none'}}>
