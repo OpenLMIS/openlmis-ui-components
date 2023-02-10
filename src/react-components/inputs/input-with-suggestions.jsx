@@ -14,46 +14,59 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import Input from './input';
+import Input from '../../react-components/inputs/input';
 
 
-const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...props }) => {
+const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...props }) => {
+
+    const filterValues = (values, filterValue) => {
+        return filterValue !== '' ? values.filter((element) => { 
+            return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; 
+        }) : values;
+    };
 
     const [touched, setTouched] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState(null);
     const [results, setResults] = useState([]);
 
     useEffect(() => {
         setInputValue('');
+        setResults(data);
         setTouched(false);
     }, [data]);
 
-    const filterValues = (values, filterValue) => {
-        return values.filter((element) => { return element.name.toLowerCase().indexOf(filterValue.toLowerCase()) > -1; });
-    }
-
-    const filterAndSortValues = (values, filterValue, sortFunction) => {
-        return filterValues(values, filterValue).sort(sortFunction);
-    }
+    const handleTouched = () => {
+        if (!selectedValue) {
+            setInputValue('');
+            setResults(data);
+        }
+        setTouched(!touched);
+    };
 
     const onChange = (value) => {
-        setInputValue(value);
-        const dataToSet = sortFunction ? filterValues(data, value) : filterAndSortValues(data, value, sortFunction);
+        if (selectedValue !== null ) {
+            setSelectedValue(null);
+        }
+        const dataToSet = filterValues(data, value);
+        onClick(null);
         setResults(dataToSet);
-    }
+        setInputValue(value.value);
+    };
 
     const onSelect = (value) => {
-        onClick(value);
-        setInputValue(value[displayValue]);
+        setInputValue(value.name);
+        setSelectedValue(value.value);
+        onClick(value.value);
         setTouched(false);
-    }
+    };
 
     const resultsToShow = results.map((result) => {
         return (
             <button 
                 className='field-full-width' 
                 style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}} 
-                key={result.id} 
+                key={result.value} 
                 onClick={() => onSelect(result)}
             >
                 { result[displayValue] }
@@ -63,15 +76,25 @@ const InputWithSuggestions = ({ data, onClick, sortFunction, displayValue, ...pr
 
     return (
     <>
-    <Input
-        {...props}
-        onChange={onChange}
-        value={inputValue}
-        onFocus={() => {setTouched(true)}}
-    />
-    <div>
-        { touched && resultsToShow }
-    </div>
+        <div style={{display: 'flex', gap: '10px', 'alignItems': 'center'}}>
+            <Input
+                {...props}
+                onChange={onChange}
+                value={inputValue}
+                onFocus={() => {setTouched(true)}}
+                placeholder={placeholder || 'Select an Option'}
+            />
+            {touched && !selectedValue && 
+                <button onClick={handleTouched} style={{background: 'transparent', border: 'none'}}>
+                    <i className='fa fa-times clear-icon'/>
+                </button>
+            }
+        </div>
+        {touched && !selectedValue && 
+            <div style={{'maxHeight': '150px', overflow: 'auto'}}>
+                { resultsToShow }
+            </div>
+        }
     </>
     );
 };
