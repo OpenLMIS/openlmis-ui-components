@@ -14,8 +14,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import Input from '../../react-components/inputs/input';
-
 
 const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...props }) => {
 
@@ -37,24 +35,29 @@ const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...pro
     }, [data]);
 
     const handleTouched = () => {
-        if (!selectedValue) {
-            setInputValue('');
-            setResults(data);
+        onClick(null);
+        setInputValue('');
+        setResults(data);
+        if (touched) {
+            setTouched(false);
         }
-        setTouched(!touched);
     };
 
     const onChange = (value) => {
         if (selectedValue !== null ) {
             setSelectedValue(null);
         }
-        const dataToSet = filterValues(data, value);
+        const dataToSet = filterValues(data, value.target.value);
+
         onClick(null);
         setResults(dataToSet);
-        setInputValue(value.value);
+        setInputValue(value.target.value);
     };
 
     const onSelect = (value) => {
+        const dataToSet = filterValues(data, value.name);
+
+        setResults(dataToSet);
         setInputValue(value.name);
         setSelectedValue(value.value);
         onClick(value.value);
@@ -64,8 +67,7 @@ const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...pro
     const resultsToShow = results.map((result) => {
         return (
             <button 
-                className='field-full-width' 
-                style={{background: 'transparent', border: '1px solid lightgray', textAlign: 'left', height: '50px'}} 
+                className='field-full-width suggestions-result' 
                 key={result.value} 
                 onClick={() => onSelect(result)}
             >
@@ -76,22 +78,22 @@ const InputWithSuggestions = ({ data, onClick, displayValue, placeholder, ...pro
 
     return (
     <>
-        <div style={{display: 'flex', gap: '10px', 'alignItems': 'center'}}>
-            <Input
+        <div className='suggestions-input'>
+            <input
                 {...props}
+                type='text'
                 onChange={onChange}
                 value={inputValue}
                 onFocus={() => {setTouched(true)}}
                 placeholder={placeholder || 'Select an Option'}
+                className={touched ? 'selected' : 'not-selected'}
             />
-            {touched && !selectedValue && 
-                <button onClick={handleTouched} style={{background: 'transparent', border: 'none'}}>
-                    <i className='fa fa-times clear-icon'/>
-                </button>
-            }
+            <button onClick={handleTouched}>
+                <i className='fa fa-times clear-icon'/>
+            </button>
         </div>
-        {touched && !selectedValue && 
-            <div style={{'maxHeight': '150px', overflow: 'auto'}}>
+        {touched &&
+            <div className='suggestions-results'>
                 { resultsToShow }
             </div>
         }
