@@ -31,7 +31,7 @@ const RadioButton = ({ changed, id, isSelected, label, additionalInfo="", value,
           htmlFor={id}
         >
           {label} 
-          <p style={{color: "#A4A4A4", display: "inline-block"}}>
+          <p style={{color: "#A4A4A4", display: "inline-block", marginLeft: "0.1em"}}>
             {additionalInfo}
           </p>
         </label>
