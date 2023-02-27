@@ -16,8 +16,9 @@
 import React, { useState } from 'react';
 
 const InputWithClearIcon = ({ numeric, ...props }) => {
-
+    
     const [value, setValue] = useState('');
+    const string = 'string';
 
     const inputProps = numeric ? {
         className: 'number',
@@ -27,7 +28,7 @@ const InputWithClearIcon = ({ numeric, ...props }) => {
     } : props;
 
     const parseNumberValue = (val) => {
-        if (!val || (typeof val !== "string")) {
+        if (!val || (typeof val !== string)) {
             return val;
         }
 

@@ -15,9 +15,9 @@
 
 import React, { useState } from 'react';
 
-const Checkbox = ({ checked, name, displayText, ...props }) => {
+const Checkbox = ({ checked = false, name, displayText, ...props }) => {
 
-    const [isChecked, setIsChecked] = useState(checked ? checked : false);
+    const [isChecked, setIsChecked] = useState(checked);
 
     return (
         <label hmtlfor={name}> 

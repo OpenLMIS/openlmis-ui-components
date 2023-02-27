@@ -21,14 +21,18 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
     const [displayPopover, setDisplayPopover] = useState(false);
     const [numberOfFiltersApplied, setNumberOfFiltersApplied] = useState(0);
 
+    const on = 'on';
+    const checkbox = 'checkbox';
+    const text = 'text';
+
     const filtersToDisplay = filters.map((filter) => {
-        if (filter.type === 'text') {
+        if (filter.type === text) {
         return (
             <>
                 <label htmlFor={filter.name}>{filter.displayText}</label>
                 <InputWithClearIcon id={filter.name} name={filter.name} key={filter.name}/>
             </>
-        ); } else if (filter.type === 'checkbox') {
+        ); } else if (filter.type === checkbox) {
         return <Checkbox name={filter.name} displayText={filter.displayText} key={filter.name}/>
         }
     });
@@ -40,13 +44,13 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
     const handleSearch = (event) => {
         event.preventDefault();
         const filterBy = [...event.target.elements].filter((element) => 
-        ((element.type != 'checkbox' && element.value !== '') || element.checked) 
+        ((element.type != checkbox && element.value !== '') || element.checked) 
         && filters.some((filter) => element.name.includes(filter.name)));
         
         const filterQueryParams = filterBy.reduce((prev, curr) => {
             return { 
                 ...prev,
-                [curr.name]: curr.value === 'on' ? true : curr.value
+                [curr.name]: curr.value === on ? true : curr.value
             };
         }, {});
 
