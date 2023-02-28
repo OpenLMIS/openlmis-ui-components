@@ -383,76 +383,79 @@ strong {
   }
 }
 
-.filters {
-  width:30%;
-  margin-left:10px;
-}
+.filter-component {
 
-.popover.openlmis-table-filters .popover-content {
-  padding-right: 1em;
-}
-
-.popover {
-  width:100%;
-  max-width: unset;
-  display: block;
-  position: relative;
-
-  .popover-content {
-      padding: 1em;
+  .filters {
+    width:30%;
+    margin-left:10px;
   }
 
-  .clear-icon {
-      width: 100%;
-      text-align: right;
-      font-size: x-large;
-      color: #4D4D4D;
+  .popover.openlmis-table-filters .popover-content {
+    padding-right: 1em;
   }
 
-  .clear {
-      font-size: small;
-  }
-}
+  .popover {
+    width:100%;
+    max-width: unset;
+    display: block;
+    position: relative;
 
-.container-filter {
-  position: relative;
-  width:100%;
-}
+    .popover-content {
+        padding: 1em;
+    }
 
-.popover.bottom {
-  .arrow {
-      left: 30px;
-  }
-}
+    .clear-icon {
+        width: 100%;
+        text-align: right;
+        font-size: x-large;
+        color: #4D4D4D;
+    }
 
-#filter-form {
-
-  fieldset {
-      margin-top: 0;
-  
-      label {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-      }
-
-      input[type=checkbox] {
-          margin-top: 0;
-      }
+    .clear {
+        font-size: small;
+    }
   }
 
-  .button-group {
-      margin-top:10px;
+  .container-filter {
+    position: relative;
+    width:100%;
+  }
 
-      .clear-filters {
-          border: none;
-          background-image: none;
-          margin: 0;
-          padding: 0.5em;
-          background-color: transparent;
-          text-decoration: underline;
-          color: #4D4D4D;
-      }
+  .popover.bottom {
+    .arrow {
+        left: 30px;
+    }
+  }
+
+  #filter-form {
+
+    fieldset {
+        margin-top: 0;
+    
+        label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input[type=checkbox] {
+            margin-top: 0;
+        }
+    }
+
+    .button-group {
+        margin-top:10px;
+
+        .clear-filters {
+            border: none;
+            background-image: none;
+            margin: 0;
+            padding: 0.5em;
+            background-color: transparent;
+            text-decoration: underline;
+            color: #4D4D4D;
+        }
+    }
   }
 }
 
