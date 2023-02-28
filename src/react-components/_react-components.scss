@@ -383,3 +383,117 @@ strong {
       overflow-wrap: break-word;
   }
 }
+
+.filter-component {
+
+  .filters {
+    width:30%;
+    margin-left:10px;
+  }
+
+  .popover.openlmis-table-filters .popover-content {
+    padding-right: 1em;
+  }
+
+  .popover {
+    width:100%;
+    max-width: unset;
+    display: block;
+    position: relative;
+
+    .popover-content {
+        padding: 1em;
+    }
+
+    .clear-icon {
+        width: 100%;
+        text-align: right;
+        font-size: x-large;
+        color: #4D4D4D;
+    }
+
+    .clear {
+        font-size: small;
+    }
+  }
+
+  .container-filter {
+    position: relative;
+    width:100%;
+  }
+
+  .popover.bottom {
+    .arrow {
+        left: 30px;
+    }
+  }
+
+  #filter-form {
+
+    fieldset {
+        margin-top: 0;
+    
+        label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input[type=checkbox] {
+            margin-top: 0;
+        }
+    }
+
+    .button-group {
+        margin-top:10px;
+
+        .clear-filters {
+            border: none;
+            background-image: none;
+            margin: 0;
+            padding: 0.5em;
+            background-color: transparent;
+            text-decoration: underline;
+            color: #4D4D4D;
+        }
+    }
+  }
+}
+
+.input-with-clear-icon {
+  border:1px $border-color solid;
+  border-radius: $border-radius;
+  box-shadow: inset 0 0 0.5em $border-color;
+  width: auto;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  input {
+      all:unset;
+      width:90%;
+      height: 40px;
+      text-indent: 10px;
+      &:focus {
+          box-shadow: none;
+          height: 40px;
+      }
+  }
+
+  input::placeholder {
+      color: #333333;
+      opacity: 1;
+  }
+
+  button {
+      all:unset;
+      margin-right: 10px;
+      color: #bebebe;
+  }
+
+  &:focus-within { 
+      box-shadow: inset 0 0 0.5em $brand-primary;
+  }
+}

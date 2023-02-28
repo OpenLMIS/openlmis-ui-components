@@ -4,6 +4,7 @@ Improvements:
 * [OLMIS-7654](https://openlmis.atlassian.net/browse/OLMIS-7654): Added Radio Button Component
 * [OLMIS-7649](https://openlmis.atlassian.net/browse/OLMIS-7649): Added MultiSelect Component
 * [OLMIS-7655](https://openlmis.atlassian.net/browse/OLMIS-7655): Added Input With Suggestions Component
+* [OLMIS-7658](https://openlmis.atlassian.net/browse/OLMIS-7658): Added Checkbox, Input with Clear Icon and Filter Components
 
 7.2.7 / 2022-04-21
 ==================
