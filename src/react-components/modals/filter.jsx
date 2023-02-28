@@ -64,7 +64,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
     };
 
     return (
-        <>
+        <div className='filter-component'>
             <button 
                 className={`filters ${numberOfFiltersApplied > 0 && 'is-active'}`}
                 onClick={() => {
@@ -108,7 +108,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
