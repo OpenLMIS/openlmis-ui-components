@@ -20,14 +20,13 @@ const Checkbox = ({ checked = false, name, displayText, ...props }) => {
     const [isChecked, setIsChecked] = useState(checked);
 
     return (
-        <label hmtlfor={name}> 
+        <label hmtlfor={name} {...props}> 
             <input
                 type='checkbox'
                 id={name} 
                 name={name} 
                 onChange={() => setIsChecked(!isChecked)}
                 checked={isChecked}
-                {...props}
             />
             {displayText}
         </label>

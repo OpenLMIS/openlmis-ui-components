@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 import InputWithClearIcon from '../inputs/input-with-clear-icon';
 import Checkbox from '../inputs/checkbox';
 
-const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
+const Filter = ( { filters, onSubmit, onClick, queryParams, ...props } ) => {
     const [displayPopover, setDisplayPopover] = useState(false);
     const [numberOfFiltersApplied, setNumberOfFiltersApplied] = useState(0);
 
@@ -33,7 +33,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
                 <InputWithClearIcon id={filter.name} name={filter.name} key={filter.name}/>
             </>
         ); } else if (filter.type === checkbox) {
-        return <Checkbox name={filter.name} displayText={filter.displayText} key={filter.name}/>
+        return <Checkbox name={filter.name} displayText={filter.displayText} key={filter.name} className='filter-checkbox'/>
         }
     });
 
@@ -64,7 +64,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
     };
 
     return (
-        <div className='filter-component'>
+        <div className='filter-component' {...props}>
             <button 
                 className={`filters ${numberOfFiltersApplied > 0 && 'is-active'}`}
                 onClick={() => {
@@ -82,6 +82,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams } ) => {
                     <i 
                     onClick={() => {
                         onClick();
+                        clearFilters();
                         setDisplayPopover(false);
                     }}
                     className='fa fa-times clear-icon'
