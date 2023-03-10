@@ -51,6 +51,13 @@ h1, h3{
     font-weight: bold;
 }
 
+header {
+    @media screen and (max-width: $res-md) {
+        position: sticky;
+        top: 0;
+    }
+}
+
 header,
 .heading {
     display: flex;
