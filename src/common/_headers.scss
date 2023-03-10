@@ -58,12 +58,15 @@ header {
     }
 }
 
+.heading {
+    position: relative;
+}
+
 header,
 .heading {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    position: relative;
 
     > * {
         flex: 0 0 auto;
