@@ -478,17 +478,6 @@ strong {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
-  
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus, 
-  input:-webkit-autofill:active {
-      transition: background-color 600000s 0s, color 600000s 0s;
-  }
-
-  input[data-autocompleted] {
-      background-color: transparent !important;
-  }
 
   input {
       all:unset;

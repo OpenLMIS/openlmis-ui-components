@@ -69,6 +69,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams, ...props } ) => {
                 className={`filters ${numberOfFiltersApplied > 0 && 'is-active'}`}
                 onClick={() => {
                     onClick();
+                    numberOfFiltersApplied === 0 && clearFilters();
                     setDisplayPopover(!displayPopover);
                 }}
             >
@@ -82,7 +83,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams, ...props } ) => {
                     <i 
                     onClick={() => {
                         onClick();
-                        clearFilters();
+                        numberOfFiltersApplied === 0 && clearFilters();
                         setDisplayPopover(false);
                     }}
                     className='fa fa-times clear-icon'
@@ -90,6 +91,7 @@ const Filter = ( { filters, onSubmit, onClick, queryParams, ...props } ) => {
                     <form 
                         id='filter-form'
                         onSubmit={handleSearch}
+                        autocomplete='off'
                     >
                         <fieldset className='form-group'>
                             {filtersToDisplay}
