@@ -31,20 +31,20 @@ describe('PopoverDirective', function() {
         this.$scope.popoverTitle = 'Popover Title';
         this.$scope.popoverClass = 'example-class';
 
-        var html = '<div popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >' +
+        var html = '<div openlmis-popover popover-title="{{popoverTitle}}" popover-class="{{popoverClass}}" >' +
                 '... other stuff ....' +
             '</div>';
         this.element = this.$compile(html)(this.$scope);
         angular.element('body').append(this.element);
 
-        var otherHtml = '<div popover>Something...</div>';
+        var otherHtml = '<div openlmis-popover>Something...</div>';
         this.otherElement = this.$compile(otherHtml)(this.$scope);
         angular.element('body').append(this.otherElement);
 
-        this.popoverCtrl = this.element.controller('popover');
+        this.popoverCtrl = this.element.controller('openlmisPopover');
         spyOn(this.popoverCtrl, 'getElements').andReturn([angular.element('<p>Hello World!</p>')]);
 
-        this.otherPopoverCtrl = this.otherElement.controller('popover');
+        this.otherPopoverCtrl = this.otherElement.controller('openlmisPopover');
         spyOn(this.otherPopoverCtrl, 'getElements').andReturn([angular.element('<p>Example</p>')]);
 
         this.$scope.$apply();

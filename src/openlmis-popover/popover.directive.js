@@ -50,15 +50,15 @@
      */
 
     angular.module('openlmis-popover')
-        .directive('popover', popoverDirective);
+        .directive('openlmisPopover', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$templateRequest', '$window'];
 
     function popoverDirective($compile, $templateRequest, $window) {
         return {
             restrict: 'A',
-            controller: 'PopoverController',
-            require: 'popover',
+            controller: 'OpenlmisPopoverController',
+            require: 'openlmisPopover',
             link: popoverLink
         };
 
@@ -90,8 +90,8 @@
             // button when trigger is set to 'click'
             // After clicking close button there was need to click on
             // targetElement two times to open popover again
-            element.on('hide.bs.popover', function() {
-                element.data('bs.popover').inState.click = false;
+            element.on('hide.bs.openlmisPopover', function() {
+                element.data('bs.openlmisPopover').inState.click = false;
             });
 
             scope.$on('$destroy', destroyPopover);

@@ -43,8 +43,8 @@
                     element.attr('openlmis-invalid', '');
                 }
 
-                if (!attrs.hasOwnProperty('popover')) {
-                    element.attr('popover', '');
+                if (!attrs.hasOwnProperty('openlmis-popover')) {
+                    element.attr('openlmis-popover', '');
                 }
 
                 return function(scope, element) {

@@ -24,7 +24,7 @@ describe('OpenLMIS Popover Controller', function() {
             this.$controller = $injector.get('$controller');
         });
 
-        this.popoverCtrl = this.$controller('PopoverController');
+        this.popoverCtrl = this.$controller('OpenlmisPopoverController');
     });
 
     it('can register HTML elements, and return them as a list', function() {

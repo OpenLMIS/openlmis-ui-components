@@ -34,11 +34,11 @@ describe('TD input-control popover directive', function() {
     });
 
     it('Adds openlmis-popover to input-control directives in a TD', function() {
-        expect(this.input.controller('popover')).not.toBeUndefined();
+        expect(this.input.controller('openlmis-popover')).not.toBeUndefined();
     });
 
     it('Displays error messages in the popover', function() {
-        var popoverCtrl = this.input.controller('popover');
+        var popoverCtrl = this.input.controller('openlmis-popover');
         spyOn(popoverCtrl, 'addElement').andCallThrough();
 
         this.$scope.error = 'Error!';

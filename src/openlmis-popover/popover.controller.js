@@ -17,7 +17,7 @@
     'use strict';
 
     angular.module('openlmis-popover')
-        .controller('PopoverController', controller);
+        .controller('OpenlmisPopoverController', controller);
 
     controller.$inject = [];
     function controller() {

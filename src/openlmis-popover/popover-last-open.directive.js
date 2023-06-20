@@ -34,7 +34,7 @@
     var lastOpenPopover;
 
     angular.module('openlmis-popover')
-        .directive('popover', popoverDirective);
+        .directive('openlmisPopover', popoverDirective);
 
     popoverDirective.$inject = ['jQuery'];
 
@@ -50,7 +50,7 @@
                 if (lastOpenPopover && lastOpenPopover !== element &&
                     !jQuery.contains(element[0], lastOpenPopover[0])) {
 
-                    var popoverCtrl = lastOpenPopover.controller('popover');
+                    var popoverCtrl = lastOpenPopover.controller('openlmisPopover');
                     if (popoverCtrl) {
                         popoverCtrl.close();
                     }
