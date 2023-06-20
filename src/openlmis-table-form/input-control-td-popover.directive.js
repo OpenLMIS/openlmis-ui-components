@@ -40,7 +40,7 @@
     }
 
     function link(scope, element) {
-        var openlmisPopoverCtrl = element.controller('popover');
+        var openlmisPopoverCtrl = element.controller('openlmisPopover');
 
         if (openlmisPopoverCtrl) {
             element.on('openlmisInvalid.show', showMessage);

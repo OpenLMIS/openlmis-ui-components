@@ -29,13 +29,13 @@
      */
 
     angular.module('openlmis-popover')
-        .directive('popover', popoverDirective);
+        .directive('openlmisPopover', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$templateRequest'];
     function popoverDirective($compile, $templateRequest) {
         return {
             restrict: 'A',
-            require: 'popover',
+            require: 'openlmisPopover',
             link: popoverLink
         };
 
@@ -54,8 +54,8 @@
                 textScope;
 
             scope.$watch(function() {
-                if (attrs.popover && attrs.popover !== '') {
-                    return attrs.popover;
+                if (attrs.openlmisPopover && attrs.openlmisPopover !== '') {
+                    return attrs.openlmisPopover;
                 }
                 return false;
 
@@ -88,7 +88,6 @@
                     .then(function(html) {
                         textScope = scope.$new();
                         textScope.text = text;
-
                         textElement = $compile(html)(textScope);
 
                         popoverCtrl.addElement(textElement);

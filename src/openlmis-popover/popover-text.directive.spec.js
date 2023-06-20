@@ -28,11 +28,11 @@ describe('Popover Text Directive', function() {
 
         this.$scope = this.$rootScope.$new();
 
-        var markup = '<button popover="{{popoverText}}" />';
+        var markup = '<button openlmis-popover="{{popoverText}}" />';
         this.element = this.$compile(markup)(this.$scope);
         this.$scope.$apply();
 
-        this.popoverCtrl = this.element.controller('popover');
+        this.popoverCtrl = this.element.controller('openlmisPopover');
 
         spyOn(this.popoverCtrl, 'addElement').andCallThrough();
         spyOn(this.popoverCtrl, 'removeElement').andCallThrough();

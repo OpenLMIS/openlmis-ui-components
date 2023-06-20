@@ -27,7 +27,7 @@ describe('TD openlmisInvalid message', function() {
         this.scope = this.$rootScope.$new();
         this.element = this.$compile(markup)(this.scope);
 
-        this.openlmisPopoverCtrl = this.element.controller('popover');
+        this.openlmisPopoverCtrl = this.element.controller('openlmis-popover');
         spyOn(this.openlmisPopoverCtrl, 'addElement').andCallThrough();
         spyOn(this.openlmisPopoverCtrl, 'removeElement').andCallThrough();
 

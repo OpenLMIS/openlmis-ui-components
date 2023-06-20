@@ -29,14 +29,14 @@
      */
 
     angular.module('openlmis-popover')
-        .directive('popover', popoverDirective);
+        .directive('openlmisPopover', popoverDirective);
 
     popoverDirective.$inject = ['$compile', '$timeout'];
 
     function popoverDirective($compile, $timeout) {
         return {
             restrict: 'A',
-            require: 'popover',
+            require: 'openlmisPopover',
             link: popoverLink
         };
 

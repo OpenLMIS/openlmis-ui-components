@@ -33,7 +33,7 @@
     function popoverDirective($compile, $templateRequest) {
         return {
             restrict: 'A',
-            require: 'popover',
+            require: 'openlmisPopover',
             link: popoverLink
         };
 

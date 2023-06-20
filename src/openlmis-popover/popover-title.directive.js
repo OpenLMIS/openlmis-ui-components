@@ -26,12 +26,12 @@
      */
 
     angular.module('openlmis-popover')
-        .directive('popover', popoverDirective);
+        .directive('openlmisPopover', popoverDirective);
 
     function popoverDirective() {
         return {
             restrict: 'A',
-            require: 'popover',
+            require: 'openlmisPopover',
             link: popoverLink
         };
 

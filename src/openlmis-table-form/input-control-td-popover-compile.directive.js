@@ -41,8 +41,8 @@
         };
 
         function compile(element, attrs) {
-            if (element.parents('td').length > 0 && !attrs.hasOwnProperty('popover')) {
-                element.attr('popover', '');
+            if (element.parents('td').length > 0 && !attrs.hasOwnProperty('openlmis-popover')) {
+                element.attr('openlmis-popover', '');
             }
 
             return link;

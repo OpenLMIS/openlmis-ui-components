@@ -31,7 +31,7 @@ describe('TD input-control popover compile directive', function() {
             element = this.$compile(html)(this.$scope),
             input = element.find('[input-control]:first');
 
-        expect(input.controller('popover')).not.toBeUndefined();
+        expect(input.controller('openlmisPopover')).not.toBeUndefined();
     });
 
 });

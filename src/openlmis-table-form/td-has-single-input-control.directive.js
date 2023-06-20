@@ -34,7 +34,7 @@
         return {
             restrict: 'E',
             link: link,
-            require: 'popover',
+            require: 'openlmisPopover',
             priority: 5
         };
     }

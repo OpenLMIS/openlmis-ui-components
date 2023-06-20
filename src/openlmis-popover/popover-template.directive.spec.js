@@ -28,12 +28,12 @@ describe('popoverTemplate directive', function() {
         this.templateURL = 'example/popover.html';
         this.$templateCache.put(this.templateURL, template);
 
-        var html = '<button popover popover-template="{{templateURL}}">Example</button>';
+        var html = '<button openlmis-popover popover-template="{{templateURL}}">Example</button>';
 
         this.scope = this.$rootScope.$new();
         this.scope.templateURL = this.templateURL;
         this.element = this.$compile(html)(this.scope);
-        this.popoverCtrl = this.element.controller('popover');
+        this.popoverCtrl = this.element.controller('openlmisPopover');
 
         spyOn(this.popoverCtrl, 'addElement').andCallThrough();
         spyOn(this.popoverCtrl, 'removeElement').andCallThrough();
