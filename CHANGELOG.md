@@ -1,3 +1,8 @@
+7.2.10-SNAPSHOT / WIP
+==================
+Improvements:
+* [OLMIS-7752](https://openlmis.atlassian.net/browse/OLMIS-7752): Added React Loading Component
+
 7.2.9 / 2023-06-26
 ==================
 Bug fixes:
