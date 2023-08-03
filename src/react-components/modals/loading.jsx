@@ -15,18 +15,14 @@
 
 import React from 'react';
 
-const Loading = ({ display }) => {
-    const showHideClassName = display ? 'react-modal' : 'display-none';
-
-    return (
-        <div className={showHideClassName}>
-            <div className='modal' tabIndex='-1'>
-                <div className='modal-dialog loading-modal'>
-                    <div className='loading'/>
-                </div>
+const Loading = () => (
+    <div className='react-modal'>
+        <div className='modal' tabIndex='-1'>
+            <div className='modal-dialog loading-modal'>
+                <div className='loading' />
             </div>
         </div>
-    );
-}
+    </div>
+);
 
 export default Loading;
