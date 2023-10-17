@@ -17,7 +17,7 @@ import React from 'react';
 
 const Loading = () => (
     <div className='react-modal'>
-        <div className='modal' tabIndex='-1'>
+        <div className='modal'>
             <div className='modal-dialog loading-modal'>
                 <div className='loading' />
             </div>
