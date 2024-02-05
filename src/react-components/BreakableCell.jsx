@@ -3,7 +3,7 @@
  * Copyright © 2017 VillageReach
  *
  * This program is free software: you can redistribute it and/or modify it under the terms
- * of the GNU Affero General Public License as published by the Free Software Foundation, either
+ * of the GNU Affero General Public License as published by the Free Software Fundation, either
  * version 3 of the License, or (at your option) any later version.
  *  
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
@@ -15,24 +15,11 @@
 
 import React from 'react';
 
-export const PageButton = ({ children, active, invalid, className, ...props }) => {
-    let buttonClass = '';
-
-    if (active && !invalid) {
-        buttonClass = 'primary';
-    } else if (invalid) {
-        buttonClass = 'danger';
-    }
-
-    return (
-        <button
-            type="button"
-            {...props}
-            className={`btn page-btn ${buttonClass} ${className ? className : ''}`}
-        >
-            {children}
-        </button>
-    );
+// Breakable cell component to wrap longer texts to another line
+const BreakableCell = ({ cell }) => {
+  return (
+    <span className="word-break">{cell?.value}</span>
+  );
 };
 
-export default PageButton;
+export default BreakableCell;
