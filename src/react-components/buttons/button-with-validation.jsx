@@ -12,27 +12,21 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-
 import React from 'react';
 
-export const PageButton = ({ children, active, invalid, className, ...props }) => {
-    let buttonClass = '';
-
-    if (active && !invalid) {
-        buttonClass = 'primary';
-    } else if (invalid) {
-        buttonClass = 'danger';
-    }
+const ButtonWithValidation = ({ text, invalid, className = '', ...props }) => {
+    const buttonClassName = `btn page-btn primary button-with-validation
+        ${invalid ? 'exclamation-mark' : ''} ${className}`;
 
     return (
         <button
-            type="button"
+            type='button'
             {...props}
-            className={`btn page-btn ${buttonClass} ${className ? className : ''}`}
+            className={buttonClassName}
         >
-            {children}
+            {text}
         </button>
     );
 };
 
-export default PageButton;
+export default ButtonWithValidation;

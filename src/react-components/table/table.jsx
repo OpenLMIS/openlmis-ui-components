@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { useTable, usePagination } from 'react-table';
 
 import PrevPageButton from '../buttons/prev-page-button';
@@ -30,6 +30,10 @@ const Table = ({
     deleteRow,
     validateRow,
     showValidationErrors,
+    noItemsMessage,
+    customReactTableContentStyle,
+    customReactTableStyle,
+    withScrollStyle = false,
     ...props
 }) => {
     const {
@@ -59,10 +63,19 @@ const Table = ({
             updateTableData,
             deleteRow,
             validateRow,
-            showValidationErrors
+            showValidationErrors,
+            noItemsMessage
         },
         usePagination
     );
+
+    const ref = useRef(null);
+    // Get width of the table and pass it to the table-empty-message
+    const [width, setWidth] = useState(0);
+
+    useLayoutEffect(() => {
+        setWidth(ref.current.offsetWidth);
+    }, []);
 
     const validatePage = (pageNumber) => {
         if (!validateRow || !showValidationErrors) {
@@ -75,7 +88,7 @@ const Table = ({
         let i, valid = true;
 
         for (i = startInd; i < endInd; i++) {
-            valid = validateRow(rows[i].values);
+            valid = validateRow(rows[i].original);
 
             if (!valid) {
                 return false;
@@ -107,59 +120,70 @@ const Table = ({
     };
 
     return (
-        <div className="react-table-container">
-            <div className="react-table-content">
-                <table { ...getTableProps() } className="react-table" >
-                    <thead>
-                    { headerGroups.map(headerGroup => (
-                        <tr { ...headerGroup.getHeaderGroupProps() }>
-                            { headerGroup.headers.map(column => (
-                                <th { ...column.getHeaderProps() }>{ column.render('Header') }</th>
+            <div className={`react-table-container${withScrollStyle ? '-scroll' : ''}`}>
+                <div className={`react-table-content${withScrollStyle ? '-scroll' : ''} ${customReactTableContentStyle ? customReactTableContentStyle : ''}`}>
+                    <table {...getTableProps()} className={`react-table ${customReactTableStyle ? customReactTableStyle : ''}`} ref={ref}>
+                        <thead>
+                            {headerGroups.map(headerGroup => (
+                                <tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map(column => (
+                                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                                    ))}
+                                </tr>
                             ))}
-                        </tr>
-                    ))}
-                    </thead>
-                    <tbody { ...getTableBodyProps() }>
-                    { page.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <tr { ...row.getRowProps() }>
-                                { row.cells.map(cell => {
-                                    return <td { ...cell.getCellProps() }>{ cell.render('Cell') }</td>
-                                })}
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
-            <div className="pagination-responsive">
-                {
-                    rows.length > 0 ? (
-                        <>
-                            <span>Showing {page.length} item(s) out of {rows.length} total</span>
-                            <div className="btn-group">
-                                <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
-                                {
-                                    getPages().map(page => (
-                                        <PageButton
-                                            key={`page-${page.number}`}
-                                            active={page.number === pageIndex}
-                                            invalid={page.invalid}
-                                            onClick={() => gotoPage(page.number)}
-                                        >{page.number + 1}
-                                        </PageButton>
-                                    ))
+                        </thead> 
+                        <tbody {...getTableBodyProps()}>
+                            {page.map((row) => {
+                                if (row.original.hasOwnProperty('displayCategory')) {
+                                    return (
+                                        <tr className='category-row' key={row.original.displayCategory}>
+                                            <td colSpan="100%">{row.original.displayCategory}</td>
+                                        </tr>
+                                    )
                                 }
-                                <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
-                            </div>
-                        </>
-                    ) : (
-                        <span>Showing no items</span>
-                    )
-                }
+                                
+                                prepareRow(row);
+                                return (
+                                    <tr {...row.getRowProps()}>
+                                        {row.cells.map(cell => {
+                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                        })}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                    {!data.length ? (
+                        <div className='table-empty-message' style={{ width: width }}>
+                            <span>{!noItemsMessage ? "Showing no items" : noItemsMessage}</span>
+                        </div>
+                    ) : null}
+                </div>
+                <div className="pagination-responsive">
+                    {
+                        rows.length > 0 ? (
+                            <>
+                                <span>Showing {page.length} item(s) out of {rows.length} total</span>
+                                <div className="btn-group">
+                                    <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
+                                    {
+                                        getPages().map(page => (
+                                            <PageButton
+                                                key={`page-${page.number}`}
+                                                active={page.number === pageIndex}
+                                                invalid={page.invalid}
+                                                onClick={() => gotoPage(page.number)}
+                                            >{page.number + 1}
+                                            </PageButton>
+                                        ))
+                                    }
+                                    <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
+                                </div>
+                            </>
+                        ) : null
+                    }
+                </div>
             </div>
-        </div>
     );
 };
 

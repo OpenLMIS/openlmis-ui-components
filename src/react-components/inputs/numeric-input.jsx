@@ -13,60 +13,70 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React, { useState } from 'react';
-
-const parseNumber = stringValue => {
-    const n = Number(stringValue);
-
-    if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
-        return null;
-    }
-
-    return n;
-};
+import React from 'react';
+import WebTooltip from '../modals/web-tooltip';
 
 const NumericInput = ({
-                          onChange,
-                          className = 'number',
-                          value: initialValue = '',
-                          onBlur = null,
-                          allowNegative = false
-                      }) => {
+  onChange,
+  numeric,
+  allowNegative = false,
+  isInvalid,
+  errorMessage,
+  ...props
+}) => {
 
-    const [value, setValue] = useState(initialValue);
+  const inputProps = numeric ? {
+      className: 'number',
+      ...props,
+      inputMode: 'numeric',
+      pattern: '[0-9]*'
+  } : props;
 
-    const handleOnChange = value => {
-        if (value === '') {
-            setValue(value);
-            onChange(null);
-            return;
-        }
+  const parseNumber = stringValue => {
+      const n = Number(stringValue);
 
-        const positiveNumberRegex = '^\\d+$';
-        const negativeNumberRegex = '^\\-?\d*$';
+      if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
+          return null;
+      }
 
-        const numberRegex = allowNegative ? negativeNumberRegex : positiveNumberRegex;
+      return n;
+  };
 
-        const match = value.match(numberRegex);
+  const handleChange = (event) => {
+      const { value } = event.target;
 
-        if(match !== null) {
-            const parsedNumber = parseNumber(value);
+      if (value === '') {
+          onChange(null);
+          return;
+      }
 
-            if(parsedNumber !== null) {
-                onChange(parsedNumber);
-                setValue(value);
-            }
-        }
-    };
+      const positiveNumberRegex = '^\\d+$';
+      const negativeNumberRegex = '^\\-?\d*$';
+
+      const numberRegex = allowNegative ? negativeNumberRegex : positiveNumberRegex;
+
+      const match = value.match(numberRegex);
+
+      if (match !== null) {
+          const parsedNumber = parseNumber(value);
+
+          if (parsedNumber !== null) {
+              onChange(parsedNumber);
+          }
+      }
+  };
 
     return (
-        <input
-            className={className}
-            onBlur={onBlur}
-            onChange={ev => handleOnChange(ev.target.value)}
-            type={'text'}
-            value={value}
-        />
+      <WebTooltip shouldDisplayTooltip={isInvalid} tooltipContent={errorMessage}>
+        <div className={`input-control ${isInvalid ? 'is-invalid' : ''} ${props.disabled ? 'is-disabled' : ''}`}>
+            <input
+                className='number'
+                type='text'
+                onChange={handleChange}
+                {...inputProps}
+            />
+        </div>
+      </WebTooltip>
     );
 };
 
