@@ -1,4 +1,10 @@
-7.2.10-SNAPSHOT / WIP
+7.2.11-SNAPSHOT / WIP
+==================
+
+New functionality that are backwards-compatible:
+* [OLMIS-7838](https://openlmis.atlassian.net/browse/OLMIS-7838): Move BUQ and TM Monthly functionalities from Tanzania to Core instance
+
+7.2.10 / 2023-11-07
 ==================
 Improvements:
 * [OLMIS-7752](https://openlmis.atlassian.net/browse/OLMIS-7752): Added React Loading Component
