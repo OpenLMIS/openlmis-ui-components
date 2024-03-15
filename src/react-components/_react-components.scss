@@ -825,12 +825,15 @@ strong {
   }
 
   .proceed {
+    padding: 8px 16px;
     border-radius: 4px;
-    border: 1px solid $brand-blue;
-    background: $brand-blue;
+    border-top: #3A95BC 1px solid;
+    border-right: #3A95BC 1px solid;
+    border-left: #3A95BC 1px solid;
+    border-bottom: #3A95BC 1px solid;
     color: #fff;
-    text-shadow: 0 0 0.1em #333;
-    background-image: linear-gradient(to bottom, #1eb2bb, #1b9da5 10%, #17888f);
+    text-shadow: 0px 0px 0.1em #333;
+    background: #3A95BC linear-gradient(to bottom, #5cabcd, #49a1c7 10%, #3A95BC);
 
     &:hover {
       background-image: none;
