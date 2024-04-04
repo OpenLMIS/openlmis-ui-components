@@ -18,42 +18,25 @@ import { Link } from 'react-router-dom';
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 
 const Breadcrumbs = ({ breadcrumbs }) => {
-  const filteredNationalApproveDistrictKeys = breadcrumbs
-    .filter((item) => item.match.path === '/buq/national-approve/:districtId')
-    .map((item) => item.key);
 
-  const filteredNationalApproveFacilityKeys = breadcrumbs
-    .filter(
-      (item) =>
-        item.match.path === '/buq/national-approve/:districtId/:facilityId'
-    )
-    .map((item) => item.key);
-
-  const linkBreadcrumbs = [
-    '/',
-    '/buq/create',
-    '/buq/approve',
-    '/buq/national-approve',
-    filteredNationalApproveDistrictKeys[0],
-    filteredNationalApproveFacilityKeys[0],
-  ];
+  const linkBreadcrumbs = breadcrumbs.map(breadcrumb => !breadcrumb.isDisabled && breadcrumb.key);
 
   return (
     <ol className="breadcrumb">
       {breadcrumbs.map(({ breadcrumb }, index) => (
-        <li key={breadcrumb.key}>
-          {linkBreadcrumbs.includes(breadcrumb.key) &&
-          index + 1 !== breadcrumbs.length ? (
-            <Link to={breadcrumb.key}>
-              <span>{breadcrumb}</span>
-            </Link>
-          ) : (
-            <span>{breadcrumb}</span>
-          )}
-        </li>
+          <li key={breadcrumb.key}>
+            {linkBreadcrumbs.includes(breadcrumb.key) &&
+            index + 1 !== breadcrumbs.length ? (
+                <Link to={breadcrumb.key}>
+                  <span>{breadcrumb}</span>
+                </Link>
+            ) : (
+                <span>{breadcrumb}</span>
+            )}
+          </li>
       ))}
     </ol>
-  );
+  )
 };
 
 const BreadcrumbsMain = ({ routes }) => {
