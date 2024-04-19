@@ -1,3 +1,13 @@
+7.2.11 / 2024-04-19
+==================
+Bug fixes:
+* [OLMIS-7922](https://openlmis.atlassian.net/browse/OLMIS-7922): Fix missing loading spinner in the Data Export and Data Import pages
+* [OLMIS-7903](https://openlmis.atlassian.net/browse/OLMIS-7903): Adjust BUQ colors with core UI 
+* [OLMIS-7906](https://openlmis.atlassian.net/browse/OLMIS-7906): Adjust BUQ to core geographic levels
+
+New Functionalities:
+* [OLMIS-7838](https://openlmis.atlassian.net/browse/OLMIS-7838): Add react components
+
 7.2.10-SNAPSHOT / WIP
 ==================
 Improvements:
