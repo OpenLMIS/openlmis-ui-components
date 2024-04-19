@@ -8,7 +8,7 @@ Bug fixes:
 New Functionalities:
 * [OLMIS-7838](https://openlmis.atlassian.net/browse/OLMIS-7838): Add react components
 
-7.2.10-SNAPSHOT / WIP
+7.2.10 / 2023-11-07
 ==================
 Improvements:
 * [OLMIS-7752](https://openlmis.atlassian.net/browse/OLMIS-7752): Added React Loading Component
