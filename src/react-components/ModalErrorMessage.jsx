@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "../admin-buq/components/Modal/Modal";
+import Modal from "./modals/Modal";
 
 const ModalErrorMessage = ({ isOpen, customMessage = false, onClose }) => (
   <Modal

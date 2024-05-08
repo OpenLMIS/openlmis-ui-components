@@ -15,7 +15,8 @@
 
 import React, { useState } from "react";
 import WebTooltip from "../modals/web-tooltip";
-import { FIELD_REQUIRED_TOOLTIP } from "../../buq/utils/constants";
+
+const FIELD_REQUIRED_TOOLTIP = 'This field is required';
 
 const parseNumber = (stringValue) => {
   const n = Number(stringValue);
