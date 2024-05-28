@@ -21,8 +21,8 @@ const DetailsBlock = ({ data, className }) => {
         <div className={`details-block-container ${className ? className : ''}`}>
             <table>
                 <tbody>
-                    {data.map((elements) => (
-                        <tr key={elements}>
+                    {data.map((elements, index) => (
+                        <tr key={elements + index}>
                             {elements.map((element) => (
                                 <td key={element.topic} className='element'>
                                     {element.topic}: <b>{element.value}</b>
