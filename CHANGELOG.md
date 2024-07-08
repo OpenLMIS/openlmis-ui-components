@@ -4,7 +4,6 @@ Bug fixes:
 * [OLMIS-7931](https://openlmis.atlassian.net/browse/OLMIS-7931): Fix imports for layout-ui jenkins job
 
 New Functionalities:
-* [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component 
 * [OLMIS-7954](https://openlmis.atlassian.net/browse/OLMIS-7954): Improved the scalability of local storage
 
 7.2.11 / 2024-04-19
