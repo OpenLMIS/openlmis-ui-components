@@ -107,6 +107,32 @@ describe('localStorageFactory', function() {
 
     });
 
+    describe('putAll', function() {
+
+        beforeEach(function() {
+            this.putAllItems = [{
+                id: 3,
+                name: 'item3'
+            },
+            {
+                id: 4,
+                name: 'item4'
+            }];
+        });
+
+        it('should put all items', function() {
+            this.itemsLocalStorage.putAll(this.putAllItems);
+
+            expect(this.putAllItems.length).toBe(2);
+        });
+
+        it('should update storage', function() {
+            this.itemsLocalStorage.putAll(this.putAllItems);
+
+            expect(this.localStorageService.add).toHaveBeenCalledWith('items', angular.toJson(this.putAllItems));
+        });
+    });
+
     describe('getBy', function() {
 
         it('should get item by id', function() {
