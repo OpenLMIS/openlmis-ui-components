@@ -54,12 +54,14 @@
             }
 
             var items = getFromStorage(resourceName);
+
             if (!items) {
                 items = [];
             }
 
             var resource = {
                 put: put,
+                putAll: putAll,
                 getBy: getBy,
                 getAll: getAll,
                 search: search,
@@ -88,6 +90,29 @@
                             removeItemBy('id', item.id);
                         }
                         items.push(typeof item === 'object' ? JSON.parse(JSON.stringify(item)) : item);
+                    });
+                }
+            }
+
+            /**
+             * @ngdoc method
+             * @methodOf openlmis-local-storage.localStorageFactory
+             * @name putAll
+             * 
+             * @description
+             * Stores all objects in local storage.
+             * 
+             * @param {Array} collectionToStore Array of objects to store
+             */
+            function putAll(collectionToStore) {
+                if (Array.isArray(collectionToStore) && collectionToStore.length > 0) {
+                    executeWithStorageUpdate(function() {
+                        items = collectionToStore.map(function(item) {
+                            if (item.id) {
+                                removeItemBy('id', item.id);
+                            }
+                            return typeof item === 'object' ? JSON.parse(JSON.stringify(item)) : item;
+                        });
                     });
                 }
             }
