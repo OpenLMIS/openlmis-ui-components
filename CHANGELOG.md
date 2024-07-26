@@ -6,6 +6,9 @@ Bug fixes:
 New Functionalities:
 * [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component 
 
+Improvements:
+* [OIS-23](https://openlmis.atlassian.net/browse/OIS-23): Add basic mixin utils for RTL support
+
 7.2.11 / 2024-04-19
 ==================
 Bug fixes:
