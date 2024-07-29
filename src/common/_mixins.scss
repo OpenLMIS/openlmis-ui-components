@@ -240,3 +240,20 @@
     text-align: $alignment-rtl;
   }
 }
+
+@mixin background-position($position) {
+  $position-ltr: $position;
+  $position-rtl: if(
+    $position == left,
+    right,
+    if($position == right, left, $position)
+  );
+
+  [dir='ltr'] & {
+    background-position: $position-ltr;
+  }
+
+  [dir='rtl'] & {
+    background-position: $position-rtl;
+  }
+}
