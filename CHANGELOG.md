@@ -2,6 +2,7 @@
 ==================
 Bug fixes:
 * [OLMIS-7931](https://openlmis.atlassian.net/browse/OLMIS-7931): Fix imports for layout-ui jenkins job
+* [OLMIS-8010](https://openlmis.atlassian.net/browse/OLMIS-8010): Added a condition for putAll function for local storage
 
 New Functionalities:
 * [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component 
