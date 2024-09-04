@@ -108,7 +108,7 @@
                 if (Array.isArray(collectionToStore) && collectionToStore.length > 0) {
                     executeWithStorageUpdate(function() {
                         items = collectionToStore.map(function(item) {
-                            if (item.id) {
+                            if (item !== undefined && item.id) {
                                 removeItemBy('id', item.id);
                             }
                             return typeof item === 'object' ? JSON.parse(JSON.stringify(item)) : item;
