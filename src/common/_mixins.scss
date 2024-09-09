@@ -179,12 +179,30 @@
     }
 }
 
+@mixin border-right-important($value) {
+    [dir="ltr"] & {
+        border-right: $value !important;
+    }
+    [dir="rtl"] & {
+        border-left: $value !important;
+    }
+}
+
 @mixin border-left($value) {
     [dir="ltr"] & {
         border-left: $value;
     }
     [dir="rtl"] & {
         border-right: $value;
+    }
+}
+
+@mixin border-left-important($value) {
+    [dir="ltr"] & {
+        border-left: $value !important;
+    }
+    [dir="rtl"] & {
+        border-right: $value !important;
     }
 }
 

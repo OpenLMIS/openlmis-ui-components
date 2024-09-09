@@ -20,7 +20,7 @@ body.no-js {
     position: absolute;
     top: 50%;
     @include left(50%);
-    @include translate-xy(-50%);
+    @include translate-xy(-50%, -50%);
     font-size: $font-size-extra-large;
     color: $white;
     &::before {

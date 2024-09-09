@@ -131,7 +131,7 @@ td > label.checkbox {
       position: absolute;
       top: 50%;
       @include left(50%);
-      @include translate-xy(-50%);
+      @include translate-xy(-50%, -50%);
       margin: 0px;
     }
   }
