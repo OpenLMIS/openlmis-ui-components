@@ -1,7 +1,7 @@
 
 .saving-indicator {
 
-    text-align: right;
+    @include text-align(right);
 
     .icon {
         margin: 0 1em;

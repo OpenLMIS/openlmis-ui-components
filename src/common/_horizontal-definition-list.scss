@@ -1,13 +1,13 @@
 dl.horizontal-list {
 
     dt {
-        float: left;
+        @include float(left);
         clear: left;
         font-weight: bold;
     }
 
     dd {
-        margin: 0 0 0 10em;
-        padding: 0 0 0.5em 0;
+        @include margin(0, 0, 0, 10em);
+        @include padding(0, 0, 0.5em, 0);
     }
 }

@@ -1,3 +1,5 @@
+@import './mixins';
+
 /*
 Alerts
 
@@ -52,12 +54,12 @@ Styleguide 1.6
 	&.is-error,
 	&.is-danger,
 	&.is-offline {
-		padding-left: 4em;
+		@include padding-left(4em);
 		&::before {
 			font-size: 2em;
 			position: absolute;
 			top: 50%;
-			left: 0.5em;
+			@include left(0.5em);
 			transform: translateY(-50%);
 		}
 	}
@@ -65,7 +67,7 @@ Styleguide 1.6
 	&.is-offline {
 		&::before {
 			color: $brand-offline;
-			left: 0.75em;
+			@include left(0.75em);
 		}
 	}
 
@@ -74,7 +76,7 @@ Styleguide 1.6
 	}
 
 	> button {
-		float: right;
+		@include float(right);
 		margin-top: -0.5em;
 		margin-bottom: -0.5em;
 	}

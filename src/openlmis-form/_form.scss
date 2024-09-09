@@ -90,116 +90,116 @@ Styleguide 3.0
 */
 
 form {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: $default-form-width;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: $default-form-width;
 
-    > * {
-        display: block;
-        flex: 1 0 100%;
-        margin: 0.2em 0;
+  > * {
+    display: block;
+    flex: 1 0 100%;
+    margin: 0.2em 0;
+  }
+
+  > fieldset {
+    margin: 0em;
+    margin-top: 0.5em;
+  }
+
+  > label,
+  > div > label,
+  > fieldset > legend {
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+
+    &.is-required:after {
+      color: $brand-danger;
+      content: "*";
+      @include margin-left(0.25em);
     }
+  }
 
-    > fieldset {
-        margin: 0em;
-        margin-top: 0.5em;
+  &.form-inline > div > label {
+    @include margin-right(0.25em);
+  }
+
+  > input[type="button"],
+  > input[type="submit"],
+  > button {
+    flex: 0 0 auto;
+    min-width: auto;
+  }
+
+  > fieldset.form-group {
+    > label.checkbox,
+    > label.radio {
+      margin-top: 0.2em;
     }
+  }
 
-    > label,
-    > div > label,
-    > fieldset > legend {
-        margin-top: 0.5em;
-        margin-bottom: 0.2em;
-
-        &.is-required:after {
-            color: $brand-danger;
-            content: '*';
-            margin-left: 0.25em;
-        }
-    }
-
-    &.form-inline > div > label {
-        margin-right: 0.25em;
-    }
-
-    > input[type="button"],
-    > input[type="submit"],
-    > button {
-        flex: 0 0 auto;
-        min-width: auto;
-    }
-
-    > fieldset.form-group {
-        > label.checkbox,
-        > label.radio {
-            margin-top: 0.2em;
-        }
-    }
-
-	div.checkbox > label {
-        width: 100%
-    }
+  div.checkbox > label {
+    width: 100%;
+  }
 }
 
 .form-label {
-    font-weight: bold;
-    font-size: $font-size;
+  font-weight: bold;
+  font-size: $font-size;
 }
 
 .form-group {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 form {
-    > label {
-        @extend .form-label;
-    }
+  > label {
+    @extend .form-label;
+  }
 
-    fieldset.form-control > legend,
-    fieldset.form-group > legend {
-        color: $text-color;
-        font-weight: bold;
-    }
+  fieldset.form-control > legend,
+  fieldset.form-group > legend {
+    color: $text-color;
+    font-weight: bold;
+  }
 
-    > input,
-    > textarea,
-    > select {
-        outline: none;
-    }
+  > input,
+  > textarea,
+  > select {
+    outline: none;
+  }
 }
 
 fieldset > legend {
-    @extend .form-label;
-    padding: 0px;
-    border-bottom-width: 0;
+  @extend .form-label;
+  padding: 0px;
+  border-bottom-width: 0;
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
 fieldset,
 .form-group {
-    @extend form;
+  @extend form;
 }
 
 input.number,
 input[type="number"] {
-    text-align: right;
+  @include text-align(right);
 }
 
 input.date {
-    text-align: left;
+  @include text-align(left);
 }
 
 .note {
-    font-size: 1em;
-    font-style: italic;
+  font-size: 1em;
+  font-style: italic;
 }
 
 form + label,
 section + label {
-    margin-top: 0.5em;
-    margin-bottom: 0.2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
 }

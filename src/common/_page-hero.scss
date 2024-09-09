@@ -12,7 +12,7 @@
 		content: "";
 		position: absolute;
 		top: 0;
-		left: 0;
+		@include left(0);
 		z-index: 0;
 		height: 100%;
 		width: 100%;
@@ -49,11 +49,11 @@
   }
   &:before {
     top: 0.1em;
-    left: -0.1em;
+    @include left(-0.1em);
   }
   &:after {
     top: 0.2em;
-    left: 0;
+    @include left(0);
   }
 }
 

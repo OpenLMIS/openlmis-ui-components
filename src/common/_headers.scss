@@ -109,7 +109,7 @@ header.sub-heading {
             display: block;
             position: absolute;
             top: 50%;
-            left: 0px;
+            @include left(0px);
             z-index: -1;
             width: 100%;
             border-bottom: $heading-border-color 1px solid;

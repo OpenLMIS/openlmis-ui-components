@@ -8,11 +8,11 @@
                 font-weight: bold;
                 content: ':'
             }
-            margin-right: 0.5em;
+            @include margin-right(0.5em);
         }
 
         dd:not(:last-of-type) {
-            margin-right: auto;
+            @include margin-right(auto);
         }
     }
 

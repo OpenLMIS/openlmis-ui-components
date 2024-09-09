@@ -67,29 +67,28 @@ that is not nessicarry.
 Styleguide 4.5
 */
 
-
 th.has-popover {
-  @include icon('info-circle');
-  padding-right: 2em !important;
+  @include icon("info-circle");
+  @include padding-right(2em);
 
   &::before {
     position: absolute;
     top: 50%;
-    right: 0.5em;
+    @include right(0.5em);
     transform: translateY(-50%);
   }
 }
 
 .openlmis-table > tbody > tr > td.is-invalid,
 td.is-invalid {
-  @include icon('exclamation-circle');
-  padding-right: 2em;
+  @include icon("exclamation-circle");
+  @include padding-right(2em);
 
-  &::before{
+  &::before {
     color: $brand-danger;
     position: absolute;
     top: 50%;
-    right: 0.5em;
+    @include right(0.5em);
     transform: translateY(-50%);
   }
 }
@@ -103,14 +102,14 @@ td.is-invalid {
 td,
 td > div:first-child:last-child,
 th {
-  > input[type="checkbox"]:first-child + > label:last-child,
-  > input[type="checkbox"]:last-child + > label:first-child{
+  > input[type="checkbox"]:first-child > label:last-child,
+  > input[type="checkbox"]:last-child > label:first-child {
     position: absolute;
     top: -100em;
   }
-  > label:last-child + > input[type="checkbox"]:first-child,
-  > label:first-child + > input[type="checkbox"]:last-child,
-  > input[type="checkbox"]:first-child:last-child{
+  > label:last-child > input[type="checkbox"]:first-child,
+  > label:first-child > input[type="checkbox"]:last-child,
+  > input[type="checkbox"]:first-child:last-child {
     display: block;
     margin: 0px auto;
   }
@@ -118,27 +117,27 @@ th {
 
 td > div:first-child:last-child > label.checkbox,
 td > label.checkbox {
-  &:first-child:last-child{
+  &:first-child:last-child {
     display: block;
     position: absolute;
     top: 0px;
-    left: 0px;
+    @include left(0px);
     margin: 0px;
     width: 100%;
     height: 100%;
     overflow: hidden;
     text-indent: -30000em;
-    > input[type="checkbox"]{
+    > input[type="checkbox"] {
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translateY(-50%) translateX(-50%);
+      @include left(50%);
+      @include translate-xy(-50%, -50%);
       margin: 0px;
     }
   }
 }
 
 .openlmis-table td > div.input-control > input[type="text"] {
-    min-width: 2em;
-    width: 100%;
+  min-width: 2em;
+  width: 100%;
 }

@@ -49,11 +49,11 @@
 
   .breadcrumb {
     padding-top: 1.5em;
-    padding-left: 1em;
+    @include padding-left(1em);
   }
 
   .page-header-responsive {
-    padding: 0.5em 1em 1em;
+    @include padding(0.5em, 1em, 1em, 0);
 
     h2 {
       border-bottom: $heading-border-color 1px solid;
@@ -99,7 +99,7 @@
 
     .progress {
       width: 100%;
-      margin: 0 1em 0 0;
+      @include margin(0, 1em, 0, 0);
     }
   }
 
@@ -147,7 +147,7 @@
   .form-field {
     flex: 1 0 auto;
     padding: 0;
-    margin-right: 0.5em;
+    @include margin-right(0.5em);
   }
 
   .button-inline-container {
@@ -165,26 +165,26 @@ label,
 strong {
   &.is-required:after {
     color: $brand-danger;
-    content: '*';
-    margin-left: 0.25em;
+    content: "*";
+    @include margin-left(0.25em);
   }
 }
 
 .responsive-button {
   .show-text {
-    margin-right: 0.5em;
+    @include margin-right(0.5em);
   }
 
   .show-text-left {
-    margin-left: 0.5em;
+    @include margin-left(0.5em);
   }
 
   @media (min-width: $res-sm) {
     .has-text {
-      margin-right: 0.5em;
+      @include margin-right(0.5em);
     }
     .has-text-left {
-      margin-left: 0.5em;
+      @include margin-left(0.5em);
     }
   }
 
@@ -204,7 +204,7 @@ strong {
   margin-bottom: 0.5em;
 
   span {
-    margin-right: 0.5em;
+    @include margin-right(0.5em);
   }
 
   .page-btn {
@@ -230,15 +230,16 @@ strong {
   border: $table-border-color $table-border-width solid;
   border-collapse: separate;
 
-  td, th {
+  td,
+  th {
     border-top: $table-border-color $table-border-width solid;
-    border-left: $table-border-color $table-border-width solid;
+    @include border-left($table-border-color $table-border-width solid);
 
     vertical-align: middle;
     padding: $table-cell-padding;
 
     &:first-child {
-      border-left-width: 0;
+      @include border-left(0);
     }
   }
 
@@ -255,9 +256,9 @@ strong {
 
     th {
       background-image: linear-gradient(
-              to bottom,
-              $table-header-background-color,
-              darken($table-header-background-color, 15%)
+        to bottom,
+        $table-header-background-color,
+        darken($table-header-background-color, 15%)
       );
     }
   }
@@ -269,7 +270,7 @@ strong {
   border-radius: 4px;
 
   .multiselect-selected {
-    border: solid 1px #D9D9D9;
+    border: solid 1px #d9d9d9;
     border-radius: 5px;
     font-size: 14px;
     padding: 10px;
@@ -284,9 +285,9 @@ strong {
   .multiselect-options {
     display: block;
     box-sizing: border-box;
-    left: 0;
+    @include left(0);
     list-style: none;
-    padding-left: 0px;
+    @include padding-left(0px);
     border: solid 1px #eee;
     padding: 5px 0px;
   }
@@ -298,18 +299,18 @@ strong {
     cursor: pointer;
 
     &:hover {
-      background-color: #49BAEB;
+      background-color: #49baeb;
       color: white;
     }
-      
+
     &-checkbox {
-      margin-right: 6px;
+      @include margin-right(6px);
     }
   }
 }
 
 .suggestions-input {
-  border:1px $border-color solid;
+  border: 1px $border-color solid;
   border-radius: $border-radius;
   box-shadow: inset 0 0 0.5em $border-color;
   width: auto;
@@ -321,53 +322,51 @@ strong {
   min-height: 50px;
 
   input {
-      all:unset;
+    all: unset;
+    text-indent: 25px;
+    &:focus {
+      box-shadow: none;
       text-indent: 25px;
-      &:focus {
-          box-shadow: none;
-          text-indent: 25px;
-      }
+    }
   }
 
   input.not-selected {
-      background-image:
-          linear-gradient(45deg, transparent 50%, gray 50%),
-          linear-gradient(135deg, gray 50%, transparent 50%);
-      background-position:
-          10px 1em,
-          14px 1em;
-      background-size:
-          5px 5px,
-          5px 5px;
-      background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+      linear-gradient(135deg, gray 50%, transparent 50%);
+    background-position:
+      10px 1em,
+      14px 1em;
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
   }
 
   input.selected {
-      background-image:
-          linear-gradient(45deg, gray 50%, transparent 50%),
-          linear-gradient(135deg, transparent 50%, gray 50%);
-      background-position:
-            14px 1em,
-            10px 1em;
-      background-size:
-            5px 5px,
-            5px 5px;
-      background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, gray 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, gray 50%);
+    background-position:
+      14px 1em,
+      10px 1em;
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
   }
 
   input::placeholder {
-      color: #333333;
-      opacity: 1;
+    color: #333333;
+    opacity: 1;
   }
 
   button {
-      all:unset;
-      margin-right: 10px;
-      color: #bebebe;
+    all: unset;
+    @include margin-right(10px);
+    color: #bebebe;
   }
 
-  &:focus-within { 
-      box-shadow: inset 0 0 0.5em $brand-primary;
+  &:focus-within {
+    box-shadow: inset 0 0 0.5em $brand-primary;
   }
 }
 
@@ -376,11 +375,11 @@ strong {
   overflow: auto;
 
   .suggestions-result {
-      background: transparent;
-      border: 1px 1px 1px 0px solid #bebebe;
-      text-align: left;
-      min-height: 50px;
-      overflow-wrap: break-word;
+    background: transparent;
+    border: 1px 1px 1px 0px solid #bebebe;
+    @include text-align(left);
+    min-height: 50px;
+    overflow-wrap: break-word;
   }
 }
 
@@ -390,12 +389,12 @@ strong {
   padding-top: 15px;
 
   .filters {
-    width:30%;
-    margin-left:10px;
+    width: 30%;
+    @include margin-left(10px);
   }
 
   .popover.openlmis-table-filters .popover-content {
-    padding-right: 1em;
+    @include padding-right(1em);
   }
 
   .openlmis-table-filters.popover {
@@ -408,80 +407,80 @@ strong {
   }
 
   .popover {
-    width:100%;
+    width: 100%;
     max-width: unset;
     display: block;
     position: relative;
 
     .popover-content {
-        padding: 1em;
-        
-        i {
-          color: #bebebe;
-        }
+      padding: 1em;
+
+      i {
+        color: #bebebe;
+      }
     }
 
     .clear-icon {
-        width: 100%;
-        text-align: right;
-        font-size: x-large;
-        color: #4D4D4D;
+      width: 100%;
+      @include text-align(right);
+      font-size: x-large;
+      color: #4d4d4d;
     }
 
     .clear {
-        font-size: small;
+      font-size: small;
     }
   }
 
   .container-filter {
     position: relative;
-    width:100%;
+    width: 100%;
   }
 
   .popover.bottom {
     .arrow {
-        left: 30px;
+      @include left(30px);
     }
   }
 
   #filter-form {
-
     fieldset {
+      margin-top: 0;
+
+      label {
+        display: flex;
+        align-items: center;
+      }
+
+      input[type="checkbox"] {
         margin-top: 0;
+        margin-right: 0.1em;
+      }
 
-        label {
-            display: flex;
-            align-items: center;
-        }
-
-        input[type=checkbox] {
-            margin-top: 0;
-            margin-right: 0.1em;
-        }
-
-        .filter-checkbox, .input-with-clear-icon {
-          margin-bottom: 20px;
-        }
+      .filter-checkbox,
+      .input-with-clear-icon {
+        margin-bottom: 20px;
+      }
     }
 
     .button-group {
-        margin-top:10px;
+      margin-top: 10px;
 
-        .clear-filters {
-            border: none;
-            background-image: none;
-            margin: 0;
-            padding: 0.5em;
-            background-color: transparent;
-            text-decoration: underline;
-            color: #4D4D4D;
-        }
+      .clear-filters {
+        border: none;
+        background-image: none;
+        margin: 0;
+        padding: 0.5em;
+        background-color: transparent;
+        text-decoration: underline;
+        color: #4d4d4d;
+      }
     }
   }
 }
 
 .input-with-clear-icon {
-  border:1px $border-color solid;
+  border: 1px $border-color solid;
   border-radius: $border-radius;
   box-shadow: inset 0 0 0.5em $border-color;
   width: auto;
@@ -492,29 +491,29 @@ strong {
   justify-content: space-between;
 
   input {
-      all:unset;
-      width:90%;
-      height: 40px;
-      text-indent: 10px;
+    all: unset;
+    width: 90%;
+    height: 40px;
+    text-indent: 10px;
 
-      &:focus {
-          box-shadow: none;
-          height: 40px;
-      }
+    &:focus {
+      box-shadow: none;
+      height: 40px;
+    }
   }
 
   input::placeholder {
-      color: #333333;
-      opacity: 1;
+    color: #333333;
+    opacity: 1;
   }
 
   button {
-      all:unset;
-      margin-right: 10px;
+    all: unset;
+    @include margin-right(10px);
   }
 
-  &:focus-within { 
-      box-shadow: inset 0 0 0.5em $brand-primary;
+  &:focus-within {
+    box-shadow: inset 0 0 0.5em $brand-primary;
   }
 }
 
@@ -527,40 +526,40 @@ strong {
   height: 100%;
   width: 100%;
 
-.modal {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-
-  .loading-modal {
-    position: absolute;
+  .modal {
+    display: block;
+    position: fixed;
     top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 100%;
+    @include left(0);
     width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
 
-    .loading {
-      @extend .loading;
-      @extend .loading::before;
-      @extend .fa;
-      @extend .fa-circle-o-notch;
-      @extend .fa-spin;
-      @extend .fa-3x;
-      @extend .fa-fw;
-      color: $white;
-      font-size: $font-size-extra-large;
+    .loading-modal {
       position: absolute;
-      left: 50%;
-      top: 50%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+
+      .loading {
+        @extend .loading;
+        @extend .loading::before;
+        @extend .fa;
+        @extend .fa-circle-o-notch;
+        @extend .fa-spin;
+        @extend .fa-3x;
+        @extend .fa-fw;
+        color: $white;
+        font-size: $font-size-extra-large;
+        position: absolute;
+        @include left(50%);
+        top: 50%;
+      }
     }
   }
-}
 }
 
 .display-none {
@@ -618,7 +617,7 @@ strong {
     input {
       all: unset;
       text-indent: 25px;
-      padding-right: 2em;
+      @include padding-right(2em);
       position: relative;
       &:focus {
         box-shadow: none;
@@ -628,18 +627,26 @@ strong {
 
     input.not-selected {
       background-image: linear-gradient(45deg, transparent 50%, gray 50%),
-      linear-gradient(135deg, gray 50%, transparent 50%);
-      background-position: 10px 1em, 14px 1em;
-      background-size: 5px 5px, 5px 5px;
+        linear-gradient(135deg, gray 50%, transparent 50%);
+      background-position:
+        10px 1em,
+        14px 1em;
+      background-size:
+        5px 5px,
+        5px 5px;
       background-repeat: no-repeat;
       width: 100%;
     }
 
     input.selected {
       background-image: linear-gradient(45deg, gray 50%, transparent 50%),
-      linear-gradient(135deg, transparent 50%, gray 50%);
-      background-position: 14px 1em, 10px 1em;
-      background-size: 5px 5px, 5px 5px;
+        linear-gradient(135deg, transparent 50%, gray 50%);
+      background-position:
+        14px 1em,
+        10px 1em;
+      background-size:
+        5px 5px,
+        5px 5px;
       background-repeat: no-repeat;
       width: 100%;
     }
@@ -652,7 +659,7 @@ strong {
     button {
       all: unset;
       color: #bebebe;
-      right: 0.5em;
+      @include right(0.5em);
     }
 
     button,
@@ -674,7 +681,7 @@ strong {
       box-shadow: inset 0 0 0.5em $brand-danger;
 
       &::after {
-        content: '\f06a';
+        content: "\f06a";
         color: $brand-danger;
         font: normal normal normal 14px/1 FontAwesome;
         display: block;
@@ -682,7 +689,7 @@ strong {
         width: 1em;
         position: absolute;
         top: 50%;
-        right: 0.5em;
+        @include right(0.5em);
         transform: translateY(-50%);
       }
     }
@@ -725,12 +732,12 @@ strong {
 
       &.second-level {
         font-weight: bold;
-        padding-left: 25px;
+        @include padding-left(25px);
         font-size: 13px;
       }
 
       &.third-level {
-        padding-left: 35px;
+        @include padding-left(35px);
         font-size: 13px;
       }
     }
@@ -741,7 +748,7 @@ strong {
   border-left: #a94442 0.25em solid;
   color: #a94442;
   font-style: normal;
-  padding-left: 0.5em;
+  @include padding-left(0.5em);
   padding-bottom: 0;
   margin-top: 0.5em;
   font-weight: 700;
@@ -763,8 +770,8 @@ strong {
   position: absolute;
   z-index: 1;
   bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
+  @include left(50%);
+  @include translate-x(-50%);
   opacity: 0;
   transition: opacity 0.4s ease;
   font-size: 14px;
@@ -774,17 +781,17 @@ strong {
   .close-tooltip {
     position: absolute;
     top: 4px;
-    right: 4px;
+    @include right(4px);
     cursor: pointer;
     font-size: 18px;
   }
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 100%;
-    left: 50%;
-    margin-left: -5px;
+    @include left(50%);
+    @include margin-left(-5px);
     border-width: 5px;
     border-style: solid;
     border-color: #fff transparent transparent transparent;
@@ -799,7 +806,7 @@ strong {
 .action-bar-container {
   position: fixed;
   bottom: 0;
-  left: 0;
+  @include left(0);
   display: flex;
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
@@ -821,20 +828,20 @@ strong {
     display: flex;
     align-self: center;
     position: fixed;
-    left: 50%;
+    @include left(50%);
     transform: translate(-50%);
   }
 
   .proceed {
     padding: 8px 16px;
     border-radius: 4px;
-    border-top: #3A95BC 1px solid;
-    border-right: #3A95BC 1px solid;
-    border-left: #3A95BC 1px solid;
-    border-bottom: #3A95BC 1px solid;
+    border-top: #3a95bc 1px solid;
+    border-right: #3a95bc 1px solid;
+    border-left: #3a95bc 1px solid;
+    border-bottom: #3a95bc 1px solid;
     color: #fff;
     text-shadow: 0px 0px 0.1em #333;
-    background: #3A95BC linear-gradient(to bottom, #5cabcd, #49a1c7 10%, #3A95BC);
+    background: #3a95bc linear-gradient(to bottom, #5cabcd, #49a1c7 10%, #3a95bc);
 
     &:hover {
       background-image: none;
@@ -847,7 +854,7 @@ strong {
   background: white;
   height: auto;
   top: 50%;
-  left: 50%;
+  @include left(50%);
   transform: translate(-50%, -50%);
   width: 600px;
   margin: 30px auto;
@@ -902,11 +909,11 @@ strong {
 
   &.exclamation-mark::after {
     color: $brand-danger;
-    content: '\f06a';
+    content: "\f06a";
     font-family: FontAwesome;
     display: inline-block;
-    text-align: right;
-    margin-left: 0.5em;
+    @include text-align(right);
+    @include margin-left(0.5em);
   }
 }
 

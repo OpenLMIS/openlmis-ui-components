@@ -1,3 +1,5 @@
+@import './mixins';
+
 /*
 Buttons
 
@@ -117,13 +119,13 @@ button.close {
     > button {
         display: block;
         margin: 0px 0.5em;
-        float: left;
+        @include float(left);
     }
 
     > .is-primary,
     > .button-group.primary,
     > button.primary {
-        float: right;
+        @include float(right);
     }
 
     > a {

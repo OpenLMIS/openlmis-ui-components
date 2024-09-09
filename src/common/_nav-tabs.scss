@@ -1,0 +1,6 @@
+.nav-tabs {
+    @include padding-left(0);
+    li {
+        @include float(left);
+    }
+}

@@ -15,13 +15,42 @@ markup:
 Styleguide 2.1
 */
 
+@mixin breadcrumb-no-before() {
+    [dir="ltr"] & {
+        > li:first-child {
+			&::before {
+				display: none;
+			}
+		}
+    }
+    [dir="rtl"] & {
+        > li:first-child {
+			&::before {
+				display: none;
+			}
+		}
+    }
+}
+
+@mixin breadcrumb-before-content() {
+    [dir="ltr"] & {
+        content: '/ ';
+    }
+    [dir="rtl"] & {
+        content: '\\ ';
+    }
+}
+
 .breadcrumb {
 	background-color: transparent;
 	padding: $space-size/4 0px;
 	margin-bottom: 0px;
-	> li + li{
+	> li {
 		&::before{
+			@include breadcrumb-before-content();
 			padding: 0px 0.5em;
 		}
 	}
+
+	@include breadcrumb-no-before();
 }

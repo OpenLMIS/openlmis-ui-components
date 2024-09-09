@@ -70,133 +70,137 @@ virtual scrolling so that extremely large lists and pages can be rendered.
 Styleguide 4.6
 */
 
-
 .openlmis-table-pane {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
+  flex-grow: 1;
+
+  .md-virtual-repeat-container {
     flex-grow: 1;
+  }
 
-    .md-virtual-repeat-container {
-        flex-grow: 1;
+  .ps > .ps-scrollbar-x-rail,
+  .ps > .ps-scrollbar-y-rail {
+    z-index: 20;
+  }
+
+  table {
+    @extend .openlmis-table;
+
+    th,
+    td {
+      padding: $space-size/2;
     }
 
-    .ps>.ps-scrollbar-x-rail,
-    .ps>.ps-scrollbar-y-rail {
-        z-index: 20;
+    td[openlmis-sticky-column],
+    th[openlmis-sticky-column] {
+      @include border-right-important(1px $border-color solid);
     }
 
-    table {
-        @extend .openlmis-table;
-
-        th, td {
-            padding: $space-size/2;
-        }
-
-        td[openlmis-sticky-column],
-        th[openlmis-sticky-column] {
-            border-right: 1px $border-color solid !important;
-        }
-
-        td[openlmis-sticky-column][openlmis-sticky-column-right],
-        th[openlmis-sticky-column][openlmis-sticky-column-right] {
-            border-left: 1px $border-color solid !important;
-            border-right-width: 0px !important;
-            &:last-child {
-                border-right-width: 1px;
-            }
-        }
-
-        td[openlmis-sticky-column]:after,
-        th[openlmis-sticky-column]:after {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0px;
-            z-index: -1;
-            width: $space-size/4;
-            height: 100%;
-            background: transparent;
-
-            background-image: linear-gradient(to right, $dark-gray, transparent);
-            right: ($space-size/4 + 1) * -1;
-        }
-        td[openlmis-sticky-column][openlmis-sticky-column-right]:after,
-        th[openlmis-sticky-column][openlmis-sticky-column-right]:after {
-            background-image: linear-gradient(to left, $dark-gray, transparent);
-            right: unset;
-            left: ($space-size/4 + 1) * -1;
-        }
-
-        td[openlmis-sticky-column][openlmis-sticky-column-right] + td[openlmis-sticky-column][openlmis-sticky-column-right] {
-            &:after {
-                content: unset;
-            }
-        }
-
-        thead:last-child, tfoot tr:first-child {
-            td, th {
-                &[openlmis-table-sticky-cell]:before {
-                    content: " ";
-                    display: block;
-                    position: absolute;
-                    left: 0px;
-                    z-index: -1;
-                    height: $space-size/4;
-                    width: 100%;
-                    background: transparent;
-                }
-            }
-        }
-
-        thead td[openlmis-table-sticky-cell]:before,
-        thead th[openlmis-table-sticky-cell]:before {
-            background-image: linear-gradient(to bottom, $dark-gray, transparent);
-            bottom: ($space-size/4 + 1) * -1;
-        }
-
-        tfoot td[openlmis-table-sticky-cell]:before,
-        tfoot th[openlmis-table-sticky-cell]:before {
-            background-image: linear-gradient(to top, $dark-gray, transparent);
-            bottom: unset;
-            top: ($space-size/4 + 1) * -1;
-        }
+    td[openlmis-sticky-column][openlmis-sticky-column-right],
+    th[openlmis-sticky-column][openlmis-sticky-column-right] {
+      @include border-left-important(1px $border-color solid);
+      @include border-right-important(0px);
+      &:last-child {
+        @include border-right-important(1px $border-color solid);
+      }
     }
 
-    td, th {
-        &[openlmis-table-sticky-cell] {
-            position: relative;
-            top: 0px;
-            left: 0px;
-            z-index: 9;
-            transform: translate3d(0px, 0px, 0px);
-        }
+    td[openlmis-sticky-column]:after,
+    th[openlmis-sticky-column]:after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0px;
+      z-index: -1;
+      width: $space-size/4;
+      height: 100%;
+      background: transparent;
 
-        &[openlmis-table-sticky-cell][openlmis-sticky-top],
-        &[openlmis-table-sticky-cell][openlmis-sticky-bottom] {
-            z-index: 10;
-
-            &[openlmis-sticky-column] {
-              z-index: 11;
-            }
-        }
+      background-image: linear-gradient(to right, $dark-gray, transparent);
+      @include right(($space-size/4 + 1) * -1);
+    }
+    td[openlmis-sticky-column][openlmis-sticky-column-right]:after,
+    th[openlmis-sticky-column][openlmis-sticky-column-right]:after {
+      background-image: linear-gradient(to left, $dark-gray, transparent);
+      @include right(unset);
+      @include left(($space-size/4 + 1) * -1);
     }
 
-    // This is added to keep perfectScrollbars from
-    // overlapping table cells
-    .ps table {
-        tfoot tr:last-child {
-            td, th {
-                padding-bottom: $space-size;
-            }
-        }
-        tr td:last-child,
-        tr th:last-child{
-            padding-right: $space-size;
-        }
+    td[openlmis-sticky-column][openlmis-sticky-column-right]
+      + td[openlmis-sticky-column][openlmis-sticky-column-right] {
+      &:after {
+        content: unset;
+      }
     }
 
+    thead:last-child,
+    tfoot tr:first-child {
+      td,
+      th {
+        &[openlmis-table-sticky-cell]:before {
+          content: " ";
+          display: block;
+          position: absolute;
+          @include left(0px);
+          z-index: -1;
+          height: $space-size/4;
+          width: 100%;
+          background: transparent;
+        }
+      }
+    }
+
+    thead td[openlmis-table-sticky-cell]:before,
+    thead th[openlmis-table-sticky-cell]:before {
+      background-image: linear-gradient(to bottom, $dark-gray, transparent);
+      bottom: ($space-size/4 + 1) * -1;
+    }
+
+    tfoot td[openlmis-table-sticky-cell]:before,
+    tfoot th[openlmis-table-sticky-cell]:before {
+      background-image: linear-gradient(to top, $dark-gray, transparent);
+      bottom: unset;
+      top: ($space-size/4 + 1) * -1;
+    }
+  }
+
+  td,
+  th {
+    &[openlmis-table-sticky-cell] {
+      position: relative;
+      top: 0px;
+      @include left(0px);
+      z-index: 9;
+      transform: translate3d(0px, 0px, 0px);
+    }
+
+    &[openlmis-table-sticky-cell][openlmis-sticky-top],
+    &[openlmis-table-sticky-cell][openlmis-sticky-bottom] {
+      z-index: 10;
+
+      &[openlmis-sticky-column] {
+        z-index: 11;
+      }
+    }
+  }
+
+  // This is added to keep perfectScrollbars from
+  // overlapping table cells
+  .ps table {
+    tfoot tr:last-child {
+      td,
+      th {
+        padding-bottom: $space-size;
+      }
+    }
+    tr td:last-child,
+    tr th:last-child {
+      @include padding-right($space-size);
+    }
+  }
 }

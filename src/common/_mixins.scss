@@ -1,259 +1,305 @@
 @mixin fade-in {
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
-    100% {
-      opacity: 1;
-    }
-  }
 }
 
 @mixin fade-out {
-  @keyframes fadeOut {
-    0% {
-      opacity: 1;
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
     }
-    100% {
-      opacity: 0;
+}
+
+@mixin direction() {
+    [dir="ltr"] & {
+        direction: ltr;
     }
-  }
+    [dir="rtl"] & {
+        direction: rtl;
+    }
+}
+
+@mixin translate-x($value) {
+    [dir="ltr"] & {
+        transform: translateX($value);
+    }
+    [dir="rtl"] & {
+        transform: translateX(-$value);
+    }
+}
+
+@mixin translate-xy($valueX, $valueY) {
+    [dir="ltr"] & {
+        transform: translateX($valueX) translateY($valueY);
+    }
+    [dir="rtl"] & {
+        transform: translateX(-$valueX) translateY($valueY);
+    }
 }
 
 @mixin padding-right($value) {
-  [dir='ltr'] & {
-    padding-right: $value;
-  }
-  [dir='rtl'] & {
-    padding-left: $value;
-  }
+    [dir="ltr"] & {
+        padding-right: $value;
+    }
+    [dir="rtl"] & {
+        padding-left: $value;
+    }
+}
+
+@mixin padding-right-important($value) {
+    [dir="ltr"] & {
+        padding-right: $value !important;
+    }
+    [dir="rtl"] & {
+        padding-left: $value !important;
+    }
 }
 
 @mixin padding-left($value) {
-  [dir='ltr'] & {
-    padding-left: $value;
-  }
-  [dir='rtl'] & {
-    padding-right: $value;
-  }
+    [dir="ltr"] & {
+        padding-left: $value;
+    }
+    [dir="rtl"] & {
+        padding-right: $value;
+    }
 }
 
 @mixin padding-x($value) {
-  [dir='ltr'] & {
-    padding-left: $value;
-    padding-right: $value;
-  }
-  [dir='rtl'] & {
-    padding-left: $value;
-    padding-right: $value;
-  }
+    [dir="ltr"] & {
+        padding-left: $value;
+        padding-right: $value;
+    }
+    [dir="rtl"] & {
+        padding-left: $value;
+        padding-right: $value;
+    }
 }
 
 @mixin padding-yx($padding-y, $padding-x) {
-  padding-top: $padding-y;
-  padding-bottom: $padding-y;
+    padding-top: $padding-y;
+    padding-bottom: $padding-y;
 
-  [dir='ltr'] & {
-    padding-left: $padding-x;
-    padding-right: $padding-x;
-  }
-  [dir='rtl'] & {
-    padding-left: $padding-x;
-    padding-right: $padding-x;
-  }
+    [dir="ltr"] & {
+        padding-left: $padding-x;
+        padding-right: $padding-x;
+    }
+    [dir="rtl"] & {
+        padding-left: $padding-x;
+        padding-right: $padding-x;
+    }
 }
 
 @mixin padding($padding-top, $padding-right, $padding-bottom, $padding-left) {
-  padding-top: $padding-top;
-  padding-bottom: $padding-bottom;
+    padding-top: $padding-top;
+    padding-bottom: $padding-bottom;
 
-  [dir='ltr'] & {
-    padding-left: $padding-left;
-    padding-right: $padding-right;
-  }
-  [dir='rtl'] & {
-    padding-left: $padding-right;
-    padding-right: $padding-left;
-  }
+    [dir="ltr"] & {
+        padding-left: $padding-left;
+        padding-right: $padding-right;
+    }
+    [dir="rtl"] & {
+        padding-left: $padding-right;
+        padding-right: $padding-left;
+    }
 }
 
 @mixin margin-right($value) {
-  [dir='ltr'] & {
-    margin-right: $value;
-  }
-  [dir='rtl'] & {
-    margin-left: $value;
-  }
+    [dir="ltr"] & {
+        margin-right: $value;
+    }
+    [dir="rtl"] & {
+        margin-left: $value;
+    }
 }
 
 @mixin margin-left($value) {
-  [dir='ltr'] & {
-    margin-left: $value;
-  }
-  [dir='rtl'] & {
-    margin-right: $value;
-  }
+    [dir="ltr"] & {
+        margin-left: $value;
+    }
+    [dir="rtl"] & {
+        margin-right: $value;
+    }
 }
 
 @mixin margin-x($value) {
-  [dir='ltr'] & {
-    margin-left: $value;
-    margin-right: $value;
-  }
-  [dir='rtl'] & {
-    margin-left: $value;
-    margin-right: $value;
-  }
+    [dir="ltr"] & {
+        margin-left: $value;
+        margin-right: $value;
+    }
+    [dir="rtl"] & {
+        margin-left: $value;
+        margin-right: $value;
+    }
 }
 
 @mixin margin-yx($margin-y, $margin-x) {
-  margin-top: $margin-y;
-  margin-bottom: $margin-y;
+    margin-top: $margin-y;
+    margin-bottom: $margin-y;
 
-  [dir='ltr'] & {
-    margin-left: $margin-x;
-    margin-right: $margin-x;
-  }
-  [dir='rtl'] & {
-    margin-left: $margin-x;
-    margin-right: $margin-x;
-  }
+    [dir="ltr"] & {
+        margin-left: $margin-x;
+        margin-right: $margin-x;
+    }
+    [dir="rtl"] & {
+        margin-left: $margin-x;
+        margin-right: $margin-x;
+    }
 }
 
 @mixin margin($margin-top, $margin-right, $margin-bottom, $margin-left) {
-  margin-top: $margin-top;
-  margin-bottom: $margin-bottom;
+    margin-top: $margin-top;
+    margin-bottom: $margin-bottom;
 
-  [dir='ltr'] & {
-    margin-left: $margin-left;
-    margin-right: $margin-right;
-  }
-  [dir='rtl'] & {
-    margin-left: $margin-right;
-    margin-right: $margin-left;
-  }
+    [dir="ltr"] & {
+        margin-left: $margin-left;
+        margin-right: $margin-right;
+    }
+    [dir="rtl"] & {
+        margin-left: $margin-right;
+        margin-right: $margin-left;
+    }
 }
 
 @mixin border-right($value) {
-  [dir='ltr'] & {
-    border-right: $value;
-  }
-  [dir='rtl'] & {
-    border-left: $value;
-  }
+    [dir="ltr"] & {
+        border-right: $value;
+    }
+    [dir="rtl"] & {
+        border-left: $value;
+    }
+}
+
+@mixin border-right-important($value) {
+    [dir="ltr"] & {
+        border-right: $value !important;
+    }
+    [dir="rtl"] & {
+        border-left: $value !important;
+    }
 }
 
 @mixin border-left($value) {
-  [dir='ltr'] & {
-    border-left: $value;
-  }
-  [dir='rtl'] & {
-    border-right: $value;
-  }
+    [dir="ltr"] & {
+        border-left: $value;
+    }
+    [dir="rtl"] & {
+        border-right: $value;
+    }
+}
+
+@mixin border-left-important($value) {
+    [dir="ltr"] & {
+        border-left: $value !important;
+    }
+    [dir="rtl"] & {
+        border-right: $value !important;
+    }
 }
 
 @mixin border-x($value) {
-  [dir='ltr'] & {
-    border-left: $value;
-    border-right: $value;
-  }
-  [dir='rtl'] & {
-    border-left: $value;
-    border-right: $value;
-  }
+    [dir="ltr"] & {
+        border-left: $value;
+        border-right: $value;
+    }
+    [dir="rtl"] & {
+        border-left: $value;
+        border-right: $value;
+    }
 }
 
 @mixin border-yx($border-y, $border-x) {
-  border-top: $border-y;
-  border-bottom: $border-y;
+    border-top: $border-y;
+    border-bottom: $border-y;
 
-  [dir='ltr'] & {
-    border-left: $border-x;
-    border-right: $border-x;
-  }
-  [dir='rtl'] & {
-    border-left: $border-x;
-    border-right: $border-x;
-  }
+    [dir="ltr"] & {
+        border-left: $border-x;
+        border-right: $border-x;
+    }
+    [dir="rtl"] & {
+        border-left: $border-x;
+        border-right: $border-x;
+    }
 }
 
 @mixin border($border-top, $border-right, $border-bottom, $border-left) {
-  border-top: $border-top;
-  border-bottom: $border-bottom;
+    border-top: $border-top;
+    border-bottom: $border-bottom;
 
-  [dir='ltr'] & {
-    border-left: $border-left;
-    border-right: $border-right;
-  }
-  [dir='rtl'] & {
-    border-left: $border-right;
-    border-right: $border-left;
-  }
+    [dir="ltr"] & {
+        border-left: $border-left;
+        border-right: $border-right;
+    }
+    [dir="rtl"] & {
+        border-left: $border-right;
+        border-right: $border-left;
+    }
 }
 
 @mixin float($float) {
-  $float-ltr: $float;
-  $float-rtl: if($float == left, right, if($float == right, left, none));
+    $float-ltr: $float;
+    $float-rtl: if($float == left, right, if($float == right, left, none));
 
-  [dir='ltr'] & {
-    float: $float-ltr;
-  }
+    [dir="ltr"] & {
+        float: $float-ltr;
+    }
 
-  [dir='rtl'] & {
-    float: $float-rtl;
-  }
+    [dir="rtl"] & {
+        float: $float-rtl;
+    }
 }
 
 @mixin right($value) {
-  [dir='ltr'] & {
-    right: $value;
-  }
+    [dir="ltr"] & {
+        right: $value;
+    }
 
-  [dir='rtl'] & {
-    left: $value;
-  }
+    [dir="rtl"] & {
+        left: $value;
+    }
 }
 
 @mixin left($value) {
-  [dir='ltr'] & {
-    left: $value;
-  }
+    [dir="ltr"] & {
+        left: $value;
+    }
 
-  [dir='rtl'] & {
-    right: $value;
-  }
+    [dir="rtl"] & {
+        right: $value;
+    }
 }
 
 @mixin text-align($alignment) {
-  $alignment-ltr: $alignment;
-  $alignment-rtl: if(
-    $alignment == left,
-    right,
-    if($alignment == right, left, $alignment)
-  );
+    $alignment-ltr: $alignment;
+    $alignment-rtl: if($alignment == left, right, if($alignment == right, left, $alignment));
 
-  [dir='ltr'] & {
-    text-align: $alignment-ltr;
-  }
+    [dir="ltr"] & {
+        text-align: $alignment-ltr;
+    }
 
-  [dir='rtl'] & {
-    text-align: $alignment-rtl;
-  }
+    [dir="rtl"] & {
+        text-align: $alignment-rtl;
+    }
 }
 
 @mixin background-position($position) {
-  $position-ltr: $position;
-  $position-rtl: if(
-    $position == left,
-    right,
-    if($position == right, left, $position)
-  );
+    $position-ltr: $position;
+    $position-rtl: if($position == left, right, if($position == right, left, $position));
 
-  [dir='ltr'] & {
-    background-position: $position-ltr;
-  }
+    [dir="ltr"] & {
+        background-position: $position-ltr;
+    }
 
-  [dir='rtl'] & {
-    background-position: $position-rtl;
-  }
+    [dir="rtl"] & {
+        background-position: $position-rtl;
+    }
 }

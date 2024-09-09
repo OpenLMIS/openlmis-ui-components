@@ -18,7 +18,7 @@
         color: $white;
         font-size: $font-size-extra-large;
         position: absolute;
-        left: 50%;
+        @include left(50%);
         top: 50%;
     }
 

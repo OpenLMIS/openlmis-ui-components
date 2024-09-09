@@ -20,7 +20,6 @@ Styleguide 2.3
 */
 
 .openlmis-pagination {
-
     display: flex;
     justify-content: space-between;
     font-size: 1em;
@@ -36,14 +35,17 @@ Styleguide 2.3
     margin-bottom: $space-size;
     > ul {
         @extend .pagination;
-        margin: 0px 0px 0px 1em;
+        margin: 0;
+        @include margin-left(1em);
         border-color: $border-color;
+        display: flex;
+        flex-direction: row;
 
         > li > a {
             @extend .openlmis-pagination-link;
         }
         > li:last-child > a {
-            border-right-width: 1px;
+            @include border-right(1px);
         }
 
         .active a {
@@ -74,7 +76,7 @@ Styleguide 2.3
     padding: 0.5em 1em;
     border-radius: 0px;
     border: $border-color 1px solid;
-    border-right-width: 0px;
+    @include border-right(solid 0px $border-color);
     &:hover{
         border-color: $border-color;
     }
