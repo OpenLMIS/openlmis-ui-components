@@ -37,13 +37,13 @@ form.form-inline,
 	align-items: flex-end;
 	flex-wrap: nowrap;
 	max-width: none;
-	margin-left: -1em;
+	@include margin-left(-1em);
 	> * {
 		flex: 0 0 auto;
 		width: auto;
 		min-width: auto;
 		margin: 0px;
-		margin-left: 1em;
+		@include margin-left(1em);
 	}
 
 	> label {
@@ -53,12 +53,12 @@ form.form-inline,
 	> label + input,
 	> label + select,
 	> label + textarea {
-		margin-left: 0.2em;
+		@include margin-left(0.2em);
 	}
 
 	> label + input[type="submit"],
 	> label + input[type="button"] {
-		margin-left: 1em;
+		@include margin-left(1em);
 	}
 
 	> .form-group {

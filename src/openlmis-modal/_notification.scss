@@ -3,7 +3,7 @@ $notification-width: 350px !default;
 
 .notification-container {
   	position: fixed;
-  	right: 0px;
+  	@include right(0px);
   	top: 0px;
   	z-index: 15;
 
@@ -26,12 +26,12 @@ $notification-width: 350px !default;
     &.is-error,
     &.is-success,
     &.is-offline {
-        padding-left: 4em;
+        @include padding-left(4em);
         &::before {
             font-size: 2em;
             position: absolute;
             top: 50%;
-            left: 0.5em;
+            @include left(0.5em);
             transform: translateY(-50%);
         }
     }
@@ -51,7 +51,7 @@ $notification-width: 350px !default;
         color: $white;
 		&::before {
 			color: $white;
-            left: 0.75em;
+            @include left(0.75em);
 		}
 	}
 }
@@ -61,15 +61,19 @@ $notification-width: 350px !default;
 }
 
 .hide-notification {
-    right: 0px;
+    @include right(0px);
     -webkit-animation: slide-out 0.5s forwards;
     animation: slide-out 0.5s forwards;
 }
 
 @-webkit-keyframes slide-out {
-    100% { right: -400px; }
+    100% {
+        @include right(-400px);
+    }
 }
 
 @keyframes slide-out {
-    100% { right: -400px; }
+    100% {
+        @include right(-400px);
+    }
 }

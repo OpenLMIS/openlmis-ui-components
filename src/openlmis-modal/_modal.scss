@@ -30,7 +30,7 @@
 	button.close{
 		position: absolute;
 		top: 0em;
-		right: 0em;
+		@include right(0em);
 		margin-top: 0px !important; // Added because bootbox.js adds inline styles
 	}
 }

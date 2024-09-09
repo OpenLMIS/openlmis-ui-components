@@ -137,10 +137,10 @@ Styleguide 4.1
         > * {
             margin: 0em 0.5em;
             &:first-child{
-              margin-left: 0em;
+              @include margin-left(0em);
             }
             &:last-child{
-              margin-right: 0em;
+              @include margin-right(0em);
             }
         }
 

@@ -90,7 +90,7 @@ select > option[disabled] {
 }
 
 select {
-    padding-left: 1.7em;
+    @include padding-left(1.7em);
 
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -107,7 +107,7 @@ select {
 }
 
 select:focus {
-    padding-left: 1.7em;
+    @include padding-left(1.7em);
 
     -webkit-appearance: none;
     -moz-appearance: none;

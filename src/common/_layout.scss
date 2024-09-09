@@ -7,6 +7,9 @@ navigation and readability.
 Styleguide 2.0
 */
 
+* {
+    @include direction();
+}
 
 html {
     height: 100%;
@@ -99,8 +102,8 @@ body {
 
     .sidebar {
         width: $sidebar-width;
-        float: left;
-        margin-right: $margin;
+        @include float(left);
+        @include margin-right($margin);
 
         .select2 {
             // sidebar width minus right margin

@@ -19,14 +19,14 @@ body.no-js {
 
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    @include left(50%);
+    @include translate-xy(-50%);
     font-size: $font-size-extra-large;
     color: $white;
     &::before {
         @extend .loading;
         @extend .loading::before;
         font-size: 2em;
-        margin-right: 0.5em;
+        @include margin-right(0.5em);
     }
 }

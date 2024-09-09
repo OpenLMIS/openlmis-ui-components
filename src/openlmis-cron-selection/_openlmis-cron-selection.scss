@@ -3,11 +3,11 @@
     align-items: center;
 
     &>* {
-        margin-right: 0.5em;
+        @include margin-right(0.5em);
     }
 
     .input-control>input {
         width: 2em;
-        text-align: right
+        @include text-align(right);
     }
 }

@@ -67,7 +67,7 @@ Styleguide 2.5
     z-index: 1070;
 
     .popover-content{
-        padding-right: 0.5em;
+        @include padding-right(0.5em);
     }
 }
 
@@ -76,7 +76,7 @@ button.filters {
     @include button-icon('filter');
 
     > span {
-        margin-left: 0.25em;
+        @include margin-left(0.25em);
     }
 
     &.is-active {

@@ -71,7 +71,7 @@ Styleguide 3.3
 	font-weight: bold;
 	border-radius: $border-radius;
 	padding: 1em;
-	padding-left: 4em;
+	@include padding-left(4em);
 }
 
 form > .alert.is-error {
@@ -86,8 +86,8 @@ form > .alert.is-error {
 	background: transparent;
 	position: relative;
 	padding: 0em;
-	padding-left: 0.5em;
-	border-left: $brand-danger 0.25em solid;
+	@include padding-left(0.5em);
+	@include border-left($brand-danger 0.25em solid);
 	border-radius: 0px;
 }
 
@@ -97,8 +97,8 @@ form > .alert.is-error {
 	color: $text-color;
 	font-weight: normal;
 	padding: 0em;
-	padding-left: 0em;
-	border-left-width: 0px;
+	@include padding-left(0em);
+	@include border-left(0px);
 	border-radius: 0px;
 
 	&::before {

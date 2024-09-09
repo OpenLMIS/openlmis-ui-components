@@ -53,18 +53,18 @@ tr.title > td > div  {
 
   }
   &.stuck-left:after {
-    right: $space-size/4 * -1;
+    @include right($space-size/4 * -1);
     background-image: linear-gradient(to right, $light-gray, transparent);
   }
   &.stuck-right:after {
-    left: $space-size/4 * -1;
+    @include left($space-size/4 * -1);
     background-image: linear-gradient(to left, $light-gray, transparent);
   }
   &.stuck-top {
-	z-index: 12;
+	  z-index: 12;
   }
   &.stuck-top.stuck-left,
   &.stuck-top.stuck-right {
-	z-index: 13;
+	  z-index: 13;
   }
 }

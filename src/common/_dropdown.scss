@@ -23,13 +23,13 @@
     }
 
     > ul {
-        margin-right: 1em;
+        @include margin-right(1em);
         /* Arrow up */
         &::before {
             content: "";
             position:absolute;
             top: -0.4em;
-            left: 2.2em;
+            @include left(2.2em);
             width: 0em;
             height: 0em;
             border-left: 0.4em solid transparent;

@@ -101,10 +101,11 @@ $table-header-background-color: $background-color-dark !default;
 
     td, th {
         border-top: $table-border-color $table-border-width solid;
-        border-left: $table-border-color $table-border-width solid;
+        @include border-left($table-border-color $table-border-width solid);
+        @include text-align(left);
 
         &:first-child {
-            border-left-width: 0px;
+            @include border-left(0px);
         }
     }
 
@@ -129,7 +130,7 @@ $table-header-background-color: $background-color-dark !default;
     }
 
     &.is-numeric {
-      text-align: right;
+      @include text-align(right);
     }
 }
 
@@ -140,7 +141,7 @@ $table-header-background-color: $background-color-dark !default;
 
     &:hover > *,
     &.is-highlighted > * {
-    background: $bg-highlight;
+        background: $bg-highlight;
     }
 }
 
