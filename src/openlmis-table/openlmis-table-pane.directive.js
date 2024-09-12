@@ -87,8 +87,6 @@
             var table = element.find('table'),
                 scrollContainer = element.find('.md-virtual-repeat-scroller');
 
-            $(scrollContainer[0]).perfectScrollbar();
-
             ctrl.setScrollLeft = function(num) {
                 scrollContainer[0].scrollLeft = num;
             };
@@ -101,7 +99,7 @@
          * @ngdoc function
          * @name  watchScroll
          * @methodOf openlmis-table.directive:openlmisTablePane
-         * 
+         *
          * @param  {Object} scope   [description]
          * @param  {Object} ctrl    [description]
          * @param  {Object} element [description]
@@ -145,7 +143,7 @@
          * @ngdoc function
          * @name  watchScroll
          * @methodOf openlmis-table.directive:openlmisTablePane
-         * 
+         *
          * @param  {Object} scope   [description]
          * @param  {Object} ctrl    [description]
          * @param  {Object} element [description]
@@ -207,7 +205,7 @@
          *
          * @description
          * Sets up the layout of virtualRepeat elements and table headers/footers
-         * that are used to make the design performant. 
+         * that are used to make the design performant.
          */
         function setupVirtualRepeat(container, table) {
             table.wrap('<md-virtual-repeat-container></md-virtual-repeat-container>');
@@ -226,7 +224,7 @@
          *
          * @description
          * Adds openlmis-table-sticky-cell directives to elements within the
-         * table. 
+         * table.
          */
         function setupStickyCells(table) {
             table.find('thead')

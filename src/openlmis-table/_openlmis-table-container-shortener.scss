@@ -1,22 +1,23 @@
+$custom-scroll-br: 10px;
+$custom-scroll-height: 12px;
+$custom-scroll-color: #333;
+$custom-scroll-track-bg: #d7d7d7;
 
 .openlmis-table-container {
-  .ps-scrollbar-x {
-    z-index: 5;
-    height: 10px !important;
-    background-color: #333 !important;
+  ::-webkit-scrollbar {
+    height: $custom-scroll-height;
   }
 
-  .ps-scrollbar-x-rail, .ps-scrollbar-x-rail:not(hover) {
-    bottom: calc(var(--bottom-offset) * 1px) !important;
-    background-color: darken($light-gray, 5) !important;
-    height: 14px !important;
-    opacity: 1.0 !important;
-    z-index: 10;
-    border-radius: unset;
+  ::-webkit-scrollbar-track {
+    background-color: $custom-scroll-track-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: $custom-scroll-br;
+    background: #333;
   }
 }
 
-// default bottom-offset
 html {
   --bottom-offset: 0;
 }

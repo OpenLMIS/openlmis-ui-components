@@ -14,25 +14,15 @@
  */
 
 (function() {
-
     'use strict';
 
-    /**
-     * @ngdoc directive
-     * @restrict C
-     * @name openlmis-table.directive:openlmisTableContainerHorizontalScroll
-     *
-     * @description
-     * Adds a fake horizontal scroll bar to the table container
-     *
-     */
     angular
         .module('openlmis-table')
         .directive('openlmisTableContainer', directive);
 
-    directive.$inject = ['jQuery', '$window'];
+    directive.$inject = ['jQuery'];
 
-    function directive(jQuery, $window) {
+    function directive(jQuery) {
         var directive = {
             link: link,
             restrict: 'C',
@@ -40,61 +30,141 @@
         };
         return directive;
 
+        function showHideScroll(active) {
+            var css = '#fixed-scrollbar::-webkit-scrollbar {' +
+                'height: 12px;' +
+            '}';
+            if (!active.length) {
+                css = '#fixed-scrollbar::-webkit-scrollbar {' +
+                'height: 0px;}';
+            }
+            $('<style>')
+                .prop('type', 'text/css')
+                .html(css)
+                .appendTo('head');
+        }
+
+        function appendStyles() {
+            var customScrollbarStyles = '#fixed-scrollbar::-webkit-scrollbar {' +
+                    'height: 12px; }' +
+
+                '#fixed-scrollbar::-webkit-scrollbar-track {' +
+                    'background-color: #d7d7d7;}' +
+
+                '#fixed-scrollbar::-webkit-scrollbar-thumb {' +
+                    'background-color: #333;' +
+                    'border-radius: 10px;}';
+
+            $('<style>')
+                .prop('type', 'text/css')
+                .html(customScrollbarStyles)
+                .appendTo('head');
+        }
+
         function link(scope, element) {
-            var xScrollbar,
-                flexTable,
-                window = jQuery($window);
+            var flexTable = jQuery('.openlmis-flex-table', element),
+                debounceTime = 50;
+            flexTable.addClass('fixed-scrollbar');
+            var scrollbar = $('<div id="fixed-scrollbar"><div></div></div>')
+                .appendTo($(document.body));
+            var defaultCss = {
+                overflowX: 'auto',
+                position: 'fixed',
+                width: '100%',
+                bottom: '0px'
+            };
+            scrollbar.hide().css(defaultCss);
+            var scrollContent = scrollbar.find('div');
+            var throttled = _.throttle(scroll, debounceTime);
+            appendStyles();
 
-            flexTable = jQuery('.openlmis-flex-table', element);
+            function getTop(e) {
+                return e.offset().top;
+            }
 
-            window.ready(function() {
-                if (flexTable.length > 0) {
-                    $(flexTable[0]).perfectScrollbar({
-                        handlers: ['click-rail', 'drag-scrollbar', 'keyboard', 'wheel', 'touch'],
-                        suppressScrollY: true,
-                        wheelPropagation: true
-                    });
-                    xScrollbar = jQuery('.ps-scrollbar-x-rail', element);
+            function getBottom(e) {
+                return e.offset().top + e.height();
+            }
+
+            var active = $([]);
+
+            function findActive() {
+                scrollbar.show();
+                active = $([]);
+                $('.fixed-scrollbar').each(function() {
+                    if (getTop($(this)) < getTop(scrollbar) && getBottom($(this)) > getBottom(scrollbar)) {
+                        scrollContent.width = $(this).get(0).scrollWidth;
+                        scrollContent.height = 1;
+                        active = $(this);
+                    }
+                });
+                fitScroll(active);
+                return active;
+            }
+
+            function fitScroll(active) {
+                showHideScroll(active);
+                if (!active.length) {
+                    return scrollbar.hide();
                 }
-            });
 
-            window.on('scroll', blit);
-            window.on('resize', update);
+                var $scrollContent = $(scrollContent);
+                var toolbar = $('.openlmis-toolbar');
+                var withToolbar = toolbar && toolbar.innerHeight();
+                if (withToolbar) {
+                    defaultCss.bottom = withToolbar ? toolbar.innerHeight() + 'px' : '0px';
+                    scrollbar.css(defaultCss);
+                }
+                scrollbar.css({
+                    left: active.offset().left,
+                    width: active.width()
+                });
 
-            element.on('$destroy', function() {
-                window.off('resize', update);
-                window.off('scroll', blit);
-            });
+                $scrollContent.width(active.get(0).scrollWidth);
+                $scrollContent.height(1);
+
+                lastScroll = undefined;
+            }
+            function onscroll() {
+                var oldactive = active;
+                active = findActive();
+                if (oldactive.not(active).length) {
+                    oldactive.unbind('scroll', update);
+                }
+                if (active.not(oldactive).length) {
+                    active.scroll(update);
+                }
+                update();
+            }
+
+            var lastScroll;
+            function scroll() {
+                if (!active.length) {
+                    return;
+                }
+                if (scrollbar.scrollLeft() === lastScroll) {
+                    return;
+                }
+                lastScroll = scrollbar.scrollLeft();
+                active.scrollLeft(lastScroll);
+            }
 
             function update() {
-                if (flexTable.length > 0) {
-                    $(flexTable[0]).perfectScrollbar('update');
-                    blit();
+                if (!active.length) {
+                    return;
                 }
+                if (active.scrollLeft() === lastScroll) {
+                    return;
+                }
+                lastScroll = active.scrollLeft();
+                scrollbar.scrollLeft(lastScroll);
             }
 
-            function blit() {
-                if (xScrollbar) {
-                    var parent = xScrollbar.parent();
-                    var windowHeight = window.height(),
-                        containerOffset = parent[0].getBoundingClientRect().bottom;
+            scrollbar.scroll(throttled);
 
-                    // remove height of floating toolbar
-                    jQuery('.openlmis-toolbar')
-                        .each(function() {
-                            var div = jQuery(this);
-                            containerOffset += div.outerHeight();
-                        });
-
-                    if (containerOffset < windowHeight) {
-                        xScrollbar[0].style.setProperty('--bottom-offset', 0);
-                        return;
-                    }
-
-                    xScrollbar[0].style.setProperty('--bottom-offset', (containerOffset - windowHeight));
-                }
-            }
+            onscroll();
+            $(window).scroll(onscroll);
+            $(window).resize(onscroll);
         }
     }
-
 })();
