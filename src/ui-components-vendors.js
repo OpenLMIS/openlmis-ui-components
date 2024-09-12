@@ -30,10 +30,8 @@ window.PouchDB = require('pouchdb').default;
 window.PouchDB.plugin(require('pouchdb-find').default);
 
 //eslint-disable-next-line no-undef
-require('perfect-scrollbar/jquery')(window.$);
 
 //eslint-disable-next-line no-undef
 require('bootstrap-sass');
 
 //eslint-disable-next-line no-undef
-require('perfect-scrollbar/dist/css/perfect-scrollbar.css');
