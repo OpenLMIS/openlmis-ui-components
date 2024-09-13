@@ -35,8 +35,7 @@ Styleguide 2.3
     margin-bottom: $space-size;
     > ul {
         @extend .pagination;
-        margin: 0;
-        @include margin-left(1em);
+        margin: 0 2px;
         border-color: $border-color;
         display: flex;
         flex-direction: row;
@@ -45,7 +44,12 @@ Styleguide 2.3
             @extend .openlmis-pagination-link;
         }
         > li:last-child > a {
-            @include border-right(1px);
+            [dir="ltr"] & {
+                border-right-width: 1px;
+            }
+            [dir="rtl"] & {
+                border-left-width: 1px;
+            }
         }
 
         .active a {
