@@ -1,0 +1,21 @@
+.nav {
+    .tab-invalid {
+        position: relative;
+        &::after {
+            $markSize: 1rem;
+            content: '';
+            display: block;
+            position: absolute;
+            width: $markSize;
+            height: $markSize;
+            background-color: red;
+            border-radius: 50%;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    .tabs-link {
+        text-decoration: none;
+    }
+}

@@ -63,14 +63,15 @@
     }
 
     function compile(element) {
-        if (element.children('table').length === 1) {
+        if (element.children('table').length === 1 || element.children('openlmis-table').length === 1) {
             var toolbar = angular.element('<div class="toolbar"></div>'),
                 row = angular.element('<div class="row"></div>'),
                 main = angular.element('<div class="main"></div>');
 
             element.children()
                 .each(function(index, childElement) {
-                    if (['TABLE', 'FORM', 'OPENLMIS-PAGINATION'].indexOf(childElement.nodeName) === -1) {
+                    var nonToolbarComponents = ['TABLE', 'FORM', 'OPENLMIS-PAGINATION', 'OPENLMIS-TABLE'];
+                    if (nonToolbarComponents.indexOf(childElement.nodeName) === -1) {
                         toolbar.append(childElement);
                     } else if (childElement.nodeName === 'FORM') {
                         row.append(childElement);
@@ -80,6 +81,9 @@
             main.append(toolbar);
 
             var table = element.children('table');
+            if (table.length === 0) {
+                table = element.children('openlmis-table');
+            }
             table.appendTo(main)
                 .wrap('<div class="openlmis-flex-table"></div>');
             table.parent()
@@ -89,5 +93,4 @@
             element.append(row);
         }
     }
-
 })();

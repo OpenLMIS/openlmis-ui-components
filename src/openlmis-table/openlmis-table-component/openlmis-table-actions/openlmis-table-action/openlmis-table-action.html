@@ -1,0 +1,17 @@
+<span ng-switch on="$ctrl.actionConfig.type">
+    <openlmis-table-download-action
+        ng-switch-when="DOWNLOAD"
+        action-config="$ctrl.actionConfig"
+        item="$ctrl.item">
+    </openlmis-table-download-action>
+    <openlmis-table-redirect-action
+        ng-switch-when="REDIRECT"
+        action-config="$ctrl.actionConfig"
+        item="$ctrl.item">
+    </openlmis-table-redirect-action>
+    <openlmis-table-click-action
+        ng-switch-when="CLICK"
+        action-config="$ctrl.actionConfig"
+        item="$ctrl.item">
+    </openlmis-table-click-action>
+</span>

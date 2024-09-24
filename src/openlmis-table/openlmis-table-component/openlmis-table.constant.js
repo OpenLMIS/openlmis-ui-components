@@ -14,22 +14,29 @@
  */
 
 (function() {
-
     'use strict';
 
     /**
-     * @module openlmis-table
+     * @ngdoc object
+     * @name openlmis-table.TABLE_CONSTANTS
      *
      * @description
-     * This module is responsible for styling tables within application.
+     * Contains constants used in openlmis-table component group.
      */
-    angular.module('openlmis-table', [
-        'openlmis-invalid',
-        'openlmis-config',
-        'openlmis-templates',
-        'material.components.virtualRepeat',
-        'ui.router',
-        'openlmis-modal'
-    ]);
+    angular
+        .module('openlmis-table')
+        .constant('TABLE_CONSTANTS', tableConstants());
 
+    function tableConstants() {
+        return {
+            actionTypes: {
+                REDIRECT: 'REDIRECT',
+                CLICK: 'CLICK',
+                DOWNLOAD: 'DOWNLOAD'
+            },
+            defaultDisplayActionFunction: function() {
+                return true;
+            }
+        };
+    }
 })();

@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React, { useRef, useState, useLayoutEffect, useMemo } from 'react';
 import { useTable, usePagination } from 'react-table';
 
 import PrevPageButton from '../buttons/prev-page-button';
 import NextPageButton from '../buttons/next-page-button';
 import PageButton from '../buttons/page-button';
 
-const pageSize = 10;
+import getService from '../utils/angular-utils';
 
 const Table = ({
     columns,
@@ -34,6 +34,9 @@ const Table = ({
     customReactTableContentStyle,
     customReactTableStyle,
     withScrollStyle = false,
+    displayPagination = true,
+    additionalTableClass = '',
+    pageSize = 10,
     ...props
 }) => {
     const {
@@ -68,6 +71,8 @@ const Table = ({
         },
         usePagination
     );
+
+    const { formatMessage } = useMemo(() => getService('messageService'), []);
 
     const ref = useRef(null);
     // Get width of the table and pass it to the table-empty-message
@@ -120,70 +125,70 @@ const Table = ({
     };
 
     return (
-            <div className={`react-table-container${withScrollStyle ? '-scroll' : ''}`}>
-                <div className={`react-table-content${withScrollStyle ? '-scroll' : ''} ${customReactTableContentStyle ? customReactTableContentStyle : ''}`}>
-                    <table {...getTableProps()} className={`react-table ${customReactTableStyle ? customReactTableStyle : ''}`} ref={ref}>
-                        <thead>
-                            {headerGroups.map(headerGroup => (
-                                <tr {...headerGroup.getHeaderGroupProps()}>
-                                    {headerGroup.headers.map(column => (
-                                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                                    ))}
-                                </tr>
+        <div className={`${additionalTableClass} react-table-container${withScrollStyle ? '-scroll' : ''}`}>
+            <div className={`react-table-content${withScrollStyle ? '-scroll' : ''} ${customReactTableContentStyle ? customReactTableContentStyle : ''}`}>
+                <table {...getTableProps()} className={`react-table ${customReactTableStyle ? customReactTableStyle : ''}`} ref={ref}>
+                    <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
                             ))}
-                        </thead> 
-                        <tbody {...getTableBodyProps()}>
-                            {page.map((row) => {
-                                if (row.original.hasOwnProperty('displayCategory')) {
-                                    return (
-                                        <tr className='category-row' key={row.original.displayCategory}>
-                                            <td colSpan="100%">{row.original.displayCategory}</td>
-                                        </tr>
-                                    )
-                                }
-                                
-                                prepareRow(row);
-                                return (
-                                    <tr {...row.getRowProps()}>
-                                        {row.cells.map(cell => {
-                                            return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                        })}
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                    {!data.length ? (
-                        <div className='table-empty-message' style={{ width: width }}>
-                            <span>{!noItemsMessage ? "Showing no items" : noItemsMessage}</span>
-                        </div>
-                    ) : null}
-                </div>
-                <div className="pagination-responsive">
-                    {
-                        rows.length > 0 ? (
-                            <>
-                                <span>Showing {page.length} item(s) out of {rows.length} total</span>
-                                <div className="btn-group">
-                                    <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
-                                    {
-                                        getPages().map(page => (
-                                            <PageButton
-                                                key={`page-${page.number}`}
-                                                active={page.number === pageIndex}
-                                                invalid={page.invalid}
-                                                onClick={() => gotoPage(page.number)}
-                                            >{page.number + 1}
-                                            </PageButton>
-                                        ))
-                                    }
-                                    <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
-                                </div>
-                            </>
-                        ) : null
-                    }
-                </div>
+                        </tr>
+                    ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                    {page.map((row) => {
+                        if (row.original.hasOwnProperty('displayCategory')) {
+                            return (
+                                <tr className='category-row' key={row.original.displayCategory}>
+                                    <td colSpan="100%">{row.original.displayCategory}</td>
+                                </tr>
+                            )
+                        }
+
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                })}
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
+                {!data.length ? (
+                    <div className='table-empty-message' style={{ width: width }}>
+                        <span>{!noItemsMessage ? formatMessage('react.table.noItems') : noItemsMessage}</span>
+                    </div>
+                ) : null}
             </div>
+            <div className="pagination-responsive">
+                {
+                    (rows.length > 0 && displayPagination) ? (
+                        <>
+                            <span>Showing {page.length} item(s) out of {rows.length} total</span>
+                            <div className="btn-group">
+                                <PrevPageButton onClick={() => previousPage()} disabled={!canPreviousPage} />
+                                {
+                                    getPages().map(page => (
+                                        <PageButton
+                                            key={`page-${page.number}`}
+                                            active={page.number === pageIndex}
+                                            invalid={page.invalid}
+                                            onClick={() => gotoPage(page.number)}
+                                        >{page.number + 1}
+                                        </PageButton>
+                                    ))
+                                }
+                                <NextPageButton onClick={() => nextPage()} disabled={!canNextPage} />
+                            </div>
+                        </>
+                    ) : null
+                }
+            </div>
+        </div>
     );
 };
 

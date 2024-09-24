@@ -14,22 +14,25 @@
  */
 
 (function() {
-
     'use strict';
 
     /**
-     * @module openlmis-table
+     * @ngdoc object
+     * @name openlmis-table.SORTING_SERVICE_CONSTANTS
      *
      * @description
-     * This module is responsible for styling tables within application.
+     * Contains constants used in sorting service.
      */
-    angular.module('openlmis-table', [
-        'openlmis-invalid',
-        'openlmis-config',
-        'openlmis-templates',
-        'material.components.virtualRepeat',
-        'ui.router',
-        'openlmis-modal'
-    ]);
+    angular
+        .module('openlmis-table')
+        .constant('SORTING_SERVICE_CONSTANTS', sortingServiceConstants());
 
+    function sortingServiceConstants() {
+        return {
+            SORT_ASC_CLASS: 'sorted-ascending',
+            SORT_DESC_CLASS: 'sorted-descending',
+            ASC: 'asc',
+            DESC: 'desc'
+        };
+    }
 })();
