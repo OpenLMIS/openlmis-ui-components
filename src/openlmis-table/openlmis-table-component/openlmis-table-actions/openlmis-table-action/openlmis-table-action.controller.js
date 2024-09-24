@@ -18,18 +18,30 @@
     'use strict';
 
     /**
-     * @module openlmis-table
+     * @ngdoc controller
+     * @name openlmis-table.controller:OpenlmisTableActionController      *
      *
-     * @description
-     * This module is responsible for styling tables within application.
+     * @description - initializes some default values declared for table actions
+     *
      */
-    angular.module('openlmis-table', [
-        'openlmis-invalid',
-        'openlmis-config',
-        'openlmis-templates',
-        'material.components.virtualRepeat',
-        'ui.router',
-        'openlmis-modal'
-    ]);
+    angular
+        .module('openlmis-table')
+        .controller('OpenlmisTableActionController', OpenlmisTableActionController);
 
+    OpenlmisTableActionController.$inject = ['TABLE_CONSTANTS'];
+
+    function OpenlmisTableActionController(TABLE_CONSTANTS) {
+        var $ctrl = this;
+
+        $ctrl.$onInit = onInit;
+
+        function onInit() {
+            if ($ctrl.actionConfig.displayAction === undefined) {
+                $ctrl.actionConfig.displayAction = TABLE_CONSTANTS.defaultDisplayActionFunction;
+            }
+            if ($ctrl.actionConfig.classes === undefined) {
+                $ctrl.actionConfig.classes = '';
+            }
+        }
+    }
 })();

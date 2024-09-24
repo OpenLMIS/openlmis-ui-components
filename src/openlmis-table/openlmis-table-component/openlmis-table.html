@@ -1,0 +1,42 @@
+<table>
+    <caption ng-if="$ctrl.tableConfig.displayCaption">
+        {{$ctrl.tableConfig.caption | message}}
+    </caption>
+    <thead ng-if="$ctrl.headersConfiguration">
+        <tr>
+            <th ng-if="$ctrl.tableConfig.isSelectable" class="checkbox-cell col-sticky">
+                <input type="checkbox" ng-model="$ctrl.selectAll"
+                            ng-change="$ctrl.tableConfig.onSelectAll($ctrl.selectAll)">
+            </th>
+            <th
+                ng-repeat="column in $ctrl.tableConfig.columns"
+                ng-click="$ctrl.sortTable(column)"
+                ng-if="$ctrl.headersConfiguration[$index].isDisplayed"
+                class="{{column.class}}"
+                ng-class="{'header-sortable': $ctrl.isColumnSortable(column)}">
+                <openlmis-table-header-template
+                    header-config="$ctrl.headersConfiguration[$index]"></openlmis-table-header-template>
+            </th>
+            <th ng-if="$ctrl.tableConfig.actions">{{ $ctrl.tableConfig.actions.header | message }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-if="$ctrl.elementsConfiguration" ng-repeat="element in $ctrl.tableConfig.data" ng-init="parentIndex=$index">
+            <td ng-if="$ctrl.tableConfig.isSelectable" class="checkbox-cell">
+                <input type="checkbox" ng-model="element.$selected"
+                            ng-change="$ctrl.tableConfig.onSelectElementChange(element)">
+            </td>
+            <td ng-repeat="column in $ctrl.tableConfig.columns"
+                ng-init="childIndex=$index"
+                ng-if="$ctrl.elementsConfiguration[parentIndex][$index].displayCell"
+                class="{{column.cellClasses ? column.cellClasses : '' }}"
+                popover-template="{{ column.popover.template }}"
+                popover-title="{{ column.popover.title | message }}">
+                <openlmis-table-element-template element-config="$ctrl.elementsConfiguration[parentIndex][childIndex]"></openlmis-table-element-template>
+            </td>
+            <td ng-if="$ctrl.tableConfig.actions">
+                <openlmis-table-actions actions-config="$ctrl.tableConfig.actions" item="element"></openlmis-table-actions>
+            </td>
+        </tr>
+    </tbody>
+</table>

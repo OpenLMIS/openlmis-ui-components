@@ -18,18 +18,26 @@
     'use strict';
 
     /**
-     * @module openlmis-table
+     * @ngdoc component
+     * @name openlmis-table.component:openlmisTableClickAction
      *
      * @description
-     * This module is responsible for styling tables within application.
-     */
-    angular.module('openlmis-table', [
-        'openlmis-invalid',
-        'openlmis-config',
-        'openlmis-templates',
-        'material.components.virtualRepeat',
-        'ui.router',
-        'openlmis-modal'
-    ]);
-
+     * Component responsible for rendering a click action
+     *
+     * @param {ActionConfig} actionConfig - holds config for this action
+     *  structure of 'ActionConfig' is described in openlmis-table.component.js
+     * @param {item} item element from data array that is displayed in table row
+     *  where this actions cell is placed
+    */
+    angular
+        .module('openlmis-table')
+        .component('openlmisTableClickAction', {
+            templateUrl: 'openlmis-table/openlmis-table-component/openlmis-table-actions' +
+                '/openlmis-table-actions-templates/openlmis-table-click-action/openlmis-table-click-action.html',
+            bindings: {
+                actionConfig: '<?',
+                item: '<?'
+            },
+            controllerAs: '$ctrl'
+        });
 })();
