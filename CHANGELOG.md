@@ -7,6 +7,9 @@ Bug fixes:
 New Functionalities:
 * [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component 
 
+New functionalities that are backwards-compatible:
+* [OLMIS-7987](https://openlmis.atlassian.net/browse/OLMIS-7987): Move Submit Requisitionless Orders functionalities from Angola to Core instance
+
 Improvements:
 * [OIS-23](https://openlmis.atlassian.net/browse/OIS-23): Add basic mixin utils for RTL support
 

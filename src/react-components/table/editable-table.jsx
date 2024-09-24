@@ -16,7 +16,7 @@
 import React, { useState } from 'react';
 import Table from './table';
 
-const EditableTable = ({ columns, data, updateData, ...props }) => {
+const EditableTable = ({ columns, data, updateData, usePagination, displayPagination, pageSize, ...props }) => {
 
     const [skipPageReset, setSkipPageReset] = useState(false);
 
@@ -51,6 +51,8 @@ const EditableTable = ({ columns, data, updateData, ...props }) => {
             data={data}
             skipPageReset={skipPageReset}
             updateTableData={updateTableData}
+            displayPagination={displayPagination}
+            pageSize={pageSize}
             deleteRow={deleteRow}
         />);
 };

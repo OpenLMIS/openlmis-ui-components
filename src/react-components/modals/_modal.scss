@@ -1,28 +1,52 @@
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width:100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+$padding-value: 1rem;
+
+.react-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+
+  .react-modal-header {
+    color: black;
+    padding: $padding-value;
+    background-color: $very-light-gray;
+    font-size: $font-size-h1;
+    @include flex-layout(row, space-between, center);
+    .modal-title {
+      font-size: $font-size-h3;
+      font-weight: $headings-font-weight;
+    }
   }
-    
-  .modal-main {
-    position:fixed;
-    background: white;
-    height: auto;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    width: 600px;
-    margin: 30px auto;
+
+  .react-modal-body {
+    padding: $padding-value;
   }
-    
-  .display-block {
-    display: block;
+
+  .react-modal-footer {
+    padding: $padding-value;
+    border-top: solid 1px #e5e5e5;
+    @include flex-layout(row, space-between, center);
   }
-    
-  .display-none {
-    display: none;
-  }
-  
+}
+
+.modal-main {
+  position: fixed;
+  background: white;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  margin: 30px auto;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}

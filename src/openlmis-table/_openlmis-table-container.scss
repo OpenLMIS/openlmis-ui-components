@@ -109,7 +109,36 @@ the current table sort order is recommended.*
 Styleguide 4.1
 */
 
+@mixin sortableColumn {
+    position: relative;
+    padding-left: 2rem;
 
+    &::before {
+        position: absolute;
+        left: 0;
+        padding-left: .5rem;
+        font-weight: 300;
+        margin-right: .2rem;
+    }
+}
+
+@mixin sortedColumnAsc {
+    @include sortableColumn();
+    @include icon('sort-up');
+
+    &::before {
+        transform: translateY(.25rem);
+    }
+}
+
+@mixin sortedColumnDesc {
+    @include sortableColumn();
+    @include icon('sort-down');
+
+    &::before {
+        transform: translateY(-0.25rem);
+    }
+}
 
 .ps-container {
     overflow: hidden !important;
@@ -121,7 +150,7 @@ Styleguide 4.1
 
     > * {
         margin-bottom: 0.5em;
-        &:last-child{
+        &:last-child {
             margin-bottom: 0em;
         }
     }
@@ -136,16 +165,16 @@ Styleguide 4.1
 
         > * {
             margin: 0em 0.5em;
-            &:first-child{
-              @include margin-left(0em);
+            &:first-child {
+                margin-left: 0em;
             }
-            &:last-child{
-              @include margin-right(0em);
+            &:last-child {
+                margin-right: 0em;
             }
         }
 
         > form {
-          @extend form.filters;
+            @extend form.filters;
         }
     }
 
@@ -170,24 +199,47 @@ Styleguide 4.1
     .openlmis-flex-table {
         overflow: auto;
         position: relative; // tell JS to calculate offset from here
-        > table {
+        table {
             @extend .openlmis-table;
             width: 100%;
+            border: 10px solid black;
+            thead {
+                tr {
+                    .header-sortable {
+                        @include icon('sort');
+                        @include sortableColumn();
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+
+                    .sorted-ascending {
+                        @include icon('sort-up');
+                        @include sortedColumnAsc();
+                    }
+
+                    .sorted-descending {
+                        @include sortedColumnDesc();
+                    }
+                }
+            }
+
+            .checkbox-cell {
+                padding: 8px;
+            }
         }
     }
 
     .toolbar {
-
         overflow: hidden; // prevents from addin scrollbar to toolbar on firefox
 
         *:last-child {
             margin-right: 0;
         }
-
     }
-
 }
 
 form.openlmis-table-container {
-  max-width: initial;
+    max-width: initial;
 }
