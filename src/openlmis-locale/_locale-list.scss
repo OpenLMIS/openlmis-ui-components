@@ -1,4 +1,11 @@
 
 .locale-container {
     @extend .dropdown-button;
+
+    .dropdown-menu {
+        @media screen and (min-width: $res-md) {
+            @include right(0);
+            @include left(auto);
+        }
+    }
 }
