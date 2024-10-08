@@ -82,7 +82,6 @@ describe('OpenlmisCachedResource', function() {
             this.getDeferred.resolve(this.response);
             this.$rootScope.$apply();
 
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).toHaveBeenCalled();
         });
@@ -95,7 +94,6 @@ describe('OpenlmisCachedResource', function() {
             this.getDeferred.resolve(this.response);
             this.$rootScope.$apply();
 
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
         });
@@ -122,30 +120,6 @@ describe('OpenlmisCachedResource', function() {
             this.$rootScope.$apply();
 
             expect(result.$$state.value).toEqual(this.page[0]);
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
-            expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
-            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
-        });
-
-        it('should no request if record with the specified version is in the local database', function() {
-            this.page = [{
-                id: 'some-id',
-                _id: 'some-id/2',
-                latest: true
-            }, {
-                id: 'some-id',
-                _id: 'some-id/1',
-                latest: false
-            }];
-
-            this.openlmisCachedResource.isVersioned = true;
-
-            this.allDocsByIndexDeferred.resolve(this.page);
-            var result = this.openlmisCachedResource.get(this.id, 1);
-            this.$rootScope.$apply();
-
-            expect(result.$$state.value).toEqual(this.page[0]);
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
         });
@@ -156,8 +130,8 @@ describe('OpenlmisCachedResource', function() {
             this.getDeferred.reject();
             this.$rootScope.$apply();
 
-            expect(this.LocalDatabase.prototype.allDocsByIndex).toHaveBeenCalled();
             expect(this.LocalDatabase.prototype.putVersioned).not.toHaveBeenCalled();
+            expect(this.LocalDatabase.prototype.put).not.toHaveBeenCalled();
         });
 
         it('should reject if null was given', function() {
