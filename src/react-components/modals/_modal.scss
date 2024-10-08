@@ -37,10 +37,17 @@ $padding-value: 1rem;
   background: white;
   height: auto;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset-inline-start: 50%;
   width: 600px;
   margin: 30px auto;
+
+  [dir='ltr'] & {
+    transform: translate(-50%, -50%);
+  }
+
+  [dir='rtl'] & {
+    transform: translate(50%, -50%);
+  }
 }
 
 .display-block {

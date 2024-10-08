@@ -19,8 +19,11 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-table.controller:openlmisTableHeaderTemplateController
-     * @description - manages rendering the content inside the <td> based on headerConfig
+     * @name openlmis-table.controller:openlmisTableHeaderTemplateController      *
+     *
+     * @description - manages rendering the content inside the <td> based on
+     *  headerConfig
+     *
      */
     angular
         .module('openlmis-table')

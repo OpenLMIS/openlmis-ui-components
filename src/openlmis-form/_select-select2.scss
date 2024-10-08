@@ -101,7 +101,6 @@
 
     padding: 0.5em 0em;
 
-    width: auto !important;
     min-width: $font-size * 4;
 
     .select2-search{
@@ -158,7 +157,7 @@
             height: 0;
             width: 0;
             position: absolute;
-            @include left($font-size * 2);
+            left: $font-size * 2;
             pointer-events: none;
             border-width: $font-size;
             @include margin-left(0 - $font-size);

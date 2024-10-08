@@ -97,21 +97,22 @@
                     database = this.database,
                     isVersioned = this.isVersioned;
 
-                return database.allDocsByIndex(id, versionId).then(function(result) {
-                    if (!result[0] || !versionId) {
-                        openlmisResource.lastModified = result[0] ? result[0].lastModified : undefined;
-                        return openlmisResource.get(id, versionId)
-                            .then(function(response) {
-                                isVersioned ? database.putVersioned(response.content) : database.put(response.content);
-                                return response.content;
-                            }, function(response) {
-                                if (response.status === 304) {
-                                    return result[0];
-                                }
+                if (offlineService.isOffline()) {
+                    return database.allDocsByIndex(id, versionId).then(function(result) {
+                        return result[0];
+                    });
+                }
+                return openlmisResource.get(id, versionId)
+                    .then(function(response) {
+                        isVersioned ? database.putVersioned(response.content) : database.put(response.content);
+                        return response.content;
+                    }, function(response) {
+                        if (response.status === 304) {
+                            return database.allDocsByIndex(id, versionId).then(function(result) {
+                                return result[0];
                             });
-                    }
-                    return result[0];
-                });
+                        }
+                    });
             }
             return $q.reject();
         }
@@ -259,7 +260,15 @@
          *                          rejected if request fails
          */
         function getAll(params) {
+            if (offlineService.isOffline()) {
+                var deferred = $q.defer();
+                this.database.getAll().then(function(response) {
+                    deferred.resolve(response);
+                }, deferred.reject);
+                return deferred.promise;
+            }
             var config = this.config;
+
             return this.query(params)
                 .then(function(response) {
                     return isPaginated(config) ? response.content : response;

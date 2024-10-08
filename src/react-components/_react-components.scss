@@ -707,7 +707,7 @@ strong {
       background: white;
       border: none;
       border-radius: 0px;
-      text-align: left;
+      @include text-align(left);
       min-height: 36px;
       width: 100%;
       overflow-wrap: break-word;

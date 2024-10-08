@@ -1,23 +1,27 @@
-7.2.12-SNAPSHOT / WIP 
+7.2.12-SNAPSHOT / WIP
 ==================
 Bug fixes:
 * [OLMIS-7931](https://openlmis.atlassian.net/browse/OLMIS-7931): Fix imports for layout-ui jenkins job
 * [OLMIS-8010](https://openlmis.atlassian.net/browse/OLMIS-8010): Added a condition for putAll function for local storage
 
 New Functionalities:
-* [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component 
+* [OLMIS-7976](https://openlmis.atlassian.net/browse/OLMIS-7976): Improved visual apperance of the homepage alerts component
+
+New functionalities that are backwards-compatible:
+* [OLMIS-7987](https://openlmis.atlassian.net/browse/OLMIS-7987): Move Submit Requisitionless Orders functionalities from Angola to Core instance
 
 New functionalities that are backwards-compatible:
 * [OLMIS-7987](https://openlmis.atlassian.net/browse/OLMIS-7987): Move Submit Requisitionless Orders functionalities from Angola to Core instance
 
 Improvements:
 * [OIS-23](https://openlmis.atlassian.net/browse/OIS-23): Add basic mixin utils for RTL support
+* [OLMIS-8022](https://openlmis.atlassian.net/browse/OLMIS-8022): Improvements in app offline capabilities.
 
 7.2.11 / 2024-04-19
 ==================
 Bug fixes:
 * [OLMIS-7922](https://openlmis.atlassian.net/browse/OLMIS-7922): Fix missing loading spinner in the Data Export and Data Import pages
-* [OLMIS-7903](https://openlmis.atlassian.net/browse/OLMIS-7903): Adjust BUQ colors with core UI 
+* [OLMIS-7903](https://openlmis.atlassian.net/browse/OLMIS-7903): Adjust BUQ colors with core UI
 * [OLMIS-7906](https://openlmis.atlassian.net/browse/OLMIS-7906): Adjust BUQ to core geographic levels
 
 New Functionalities:
@@ -113,7 +117,7 @@ Bug fixes:
 Improvements:
 * [OLMIS-6684](https://openlmis.atlassian.net/browse/OLMIS-6684): Updated pagination component to allow providing a function to call before changing page.
     * Got rid of angular.copy to improve performance in some places.
-    
+
 Bug fixes:
 * [OLMIS-6612](https://openlmis.atlassian.net/browse/OLMIS-6612): Added check whether the property exists before sorting array by given property.
 * [OLMIS-6740](https://openlmis.atlassian.net/browse/OLMIS-6740): Fixed wrapping text in modal body.
