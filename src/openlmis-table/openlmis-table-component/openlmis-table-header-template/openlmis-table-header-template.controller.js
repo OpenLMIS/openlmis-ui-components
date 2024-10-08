@@ -19,11 +19,8 @@
 
     /**
      * @ngdoc controller
-     * @name openlmis-table.controller:openlmisTableHeaderTemplateController      *
-     *
-     * @description - manages rendering the content inside the <td> based on
-     *  headerConfig
-     *
+     * @name openlmis-table.controller:openlmisTableHeaderTemplateController
+     * @description - manages rendering the content inside the <td> based on headerConfig
      */
     angular
         .module('openlmis-table')
@@ -36,12 +33,13 @@
         var $ctrl = this;
 
         $ctrl.$onInit = onInit;
+        $ctrl.injectHtmlContent = injectHtmlContent;
 
         function onInit() {
             $ctrl.divId = uniqueIdService.generate();
-            if ($ctrl.headerConfig.template) {
+            if ($ctrl.headerConfig && $ctrl.headerConfig.template) {
                 $timeout(function() {
-                    injectHtmlContent();
+                    $ctrl.injectHtmlContent();
                 });
             }
         }
