@@ -10,6 +10,9 @@ New Functionalities:
 New functionalities that are backwards-compatible:
 * [OLMIS-7987](https://openlmis.atlassian.net/browse/OLMIS-7987): Move Submit Requisitionless Orders functionalities from Angola to Core instance
 
+New functionalities that are backwards-compatible:
+* [OLMIS-7987](https://openlmis.atlassian.net/browse/OLMIS-7987): Move Submit Requisitionless Orders functionalities from Angola to Core instance
+
 Improvements:
 * [OIS-23](https://openlmis.atlassian.net/browse/OIS-23): Add basic mixin utils for RTL support
 * [OLMIS-8022](https://openlmis.atlassian.net/browse/OLMIS-8022): Improvements in app offline capabilities.

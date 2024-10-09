@@ -36,12 +36,13 @@
         var $ctrl = this;
 
         $ctrl.$onInit = onInit;
+        $ctrl.injectHtmlContent = injectHtmlContent;
 
         function onInit() {
             $ctrl.divId = uniqueIdService.generate();
-            if ($ctrl.headerConfig.template) {
+            if ($ctrl.headerConfig && $ctrl.headerConfig.template) {
                 $timeout(function() {
-                    injectHtmlContent();
+                    $ctrl.injectHtmlContent();
                 });
             }
         }

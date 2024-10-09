@@ -37,10 +37,12 @@
         var $ctrl = this;
 
         $ctrl.$onInit = onInit;
+        $ctrl.injectHtmlContent = injectHtmlContent;
+        $ctrl.getItemTemplateValue = getItemTemplateValue;
 
         function onInit() {
             $ctrl.divId = uniqueIdService.generate();
-            if ($ctrl.elementConfig.template) {
+            if ($ctrl.elementConfig && $ctrl.elementConfig.template) {
                 $timeout(function() {
                     injectHtmlContent();
                 });
