@@ -37,7 +37,8 @@
         var service = {
             getCurrentLocale: getCurrentLocale,
             populate: populate,
-            get: get
+            get: get,
+            formatMessage: formatMessage
         };
 
         return service;
@@ -105,6 +106,44 @@
                     return parameters[match.trim()];
                 });
             }
+            return displayMessage;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-i18n.messageService
+         * @name formatMessage
+         *
+         * @description
+         * Used in React components to get a translated message from the messageService.
+         *
+         * @param {String} key - key of the message
+         * @param {Object} params - parameters to be used in the message
+         */
+        function formatMessage(key, params) {
+            var currentLocale = getCurrentLocale();
+            var displayMessage = key;
+
+            if (OPENLMIS_MESSAGES[currentLocale] && OPENLMIS_MESSAGES[currentLocale][key]) {
+                displayMessage = OPENLMIS_MESSAGES[currentLocale][key];
+
+                if (params) {
+                    //eslint-disable-next-line no-useless-escape
+                    var REPLACE_PLACEHOLDERS_REGEX = /\$\{([\s]*[^;\s\{]+[\s]*)\}/g;
+
+                    displayMessage = displayMessage.replace(REPLACE_PLACEHOLDERS_REGEX, function(_, match) {
+                        var MISSING_PARAM = 'MISSING_PARAM';
+                        var paramValue = params[match.trim()];
+
+                        return paramValue ? paramValue : MISSING_PARAM;
+                    });
+                }
+
+            } else {
+                // eslint-disable-next-line no-console
+                console.error('[ERROR]: Translation message not found for: ' + key);
+            }
+
             return displayMessage;
         }
     }
