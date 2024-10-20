@@ -25,11 +25,11 @@ const InputCell = ({
     updateTableData,
     validateRow,
     showValidationErrors,
-    numeric = false
+    numeric = false,
+    disabled = false
 }) => {
     const [value, setValue] = useState(initialValue);
     const [valid, setValid] = useState(true);
-
     const onChange = val => {
         setValue(val);
 
@@ -58,8 +58,8 @@ const InputCell = ({
 
     return (
         <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
-            {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur}/>}
-            {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur}/>}
+            {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} />}
+            {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} />}
         </div>
     );
 };
