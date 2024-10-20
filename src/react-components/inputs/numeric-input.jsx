@@ -14,69 +14,65 @@
  */
 
 import React from 'react';
-import WebTooltip from '../modals/web-tooltip';
 
 const NumericInput = ({
-  onChange,
-  numeric,
-  allowNegative = false,
-  isInvalid,
-  errorMessage,
-  ...props
+    onChange,
+    numeric,
+    allowNegative = false,
+    isInvalid,
+    errorMessage,
+    ...props
 }) => {
 
-  const inputProps = numeric ? {
-      className: 'number',
-      ...props,
-      inputMode: 'numeric',
-      pattern: '[0-9]*'
-  } : props;
+    const inputProps = numeric ? {
+        className: 'number',
+        ...props,
+        disabled: props.disabled,
+        inputMode: 'numeric',
+        pattern: '[0-9]*'
+    } : props;
 
-  const parseNumber = stringValue => {
-      const n = Number(stringValue);
+    const parseNumber = stringValue => {
+        const n = Number(stringValue);
 
-      if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
-          return null;
-      }
+        if (Number.isNaN(n) || !Number.isSafeInteger(n)) {
+            return null;
+        }
 
-      return n;
-  };
+        return n;
+    };
 
-  const handleChange = (event) => {
-      const { value } = event.target;
+    const handleChange = (event) => {
+        const { value } = event.target;
 
-      if (value === '') {
-          onChange(null);
-          return;
-      }
+        if (value === '') {
+            onChange(null);
+            return;
+        }
 
-      const positiveNumberRegex = '^\\d+$';
-      const negativeNumberRegex = '^\\-?\d*$';
+        const positiveNumberRegex = '^\\d+$';
+        const negativeNumberRegex = '^\\-?\d*$';
 
-      const numberRegex = allowNegative ? negativeNumberRegex : positiveNumberRegex;
+        const numberRegex = allowNegative ? negativeNumberRegex : positiveNumberRegex;
 
-      const match = value.match(numberRegex);
+        const match = value.match(numberRegex);
 
-      if (match !== null) {
-          const parsedNumber = parseNumber(value);
+        if (match !== null) {
+            const parsedNumber = parseNumber(value);
 
-          if (parsedNumber !== null) {
-              onChange(parsedNumber);
-          }
-      }
-  };
+            if (parsedNumber !== null) {
+                onChange(parsedNumber);
+            }
+        }
+    };
 
     return (
-      <WebTooltip shouldDisplayTooltip={isInvalid} tooltipContent={errorMessage}>
-        <div className={`input-control ${isInvalid ? 'is-invalid' : ''} ${props.disabled ? 'is-disabled' : ''}`}>
-            <input
-                className='number'
-                type='text'
-                onChange={handleChange}
-                {...inputProps}
-            />
-        </div>
-      </WebTooltip>
+        <input
+            className='number'
+            type='text'
+            onChange={handleChange}
+            {...inputProps}
+        />
     );
 };
 
