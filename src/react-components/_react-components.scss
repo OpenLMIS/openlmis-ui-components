@@ -53,7 +53,7 @@
   }
 
   .page-header-responsive {
-    @include padding(0.5em, 1em, 1em, 0);
+    @include padding(0.5em, 1em, 1em, 1em);
 
     h2 {
       border-bottom: $heading-border-color 1px solid;
