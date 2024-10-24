@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Modal = ({ isOpen, body, alertModal = false, sourceOfFundStyle = '' }) => {
+const Modal = ({ isOpen, children, alertModal = false, sourceOfFundStyle = '' }) => {
     const showHideClassName = isOpen ? 'react-modal display-block' : 'react-modal display-none';
     const alertModalClassName = alertModal ? 'alert-modal is-error' : '';
 
@@ -23,7 +23,7 @@ const Modal = ({ isOpen, body, alertModal = false, sourceOfFundStyle = '' }) => 
                 (
                     <div className={`${showHideClassName} ${alertModalClassName}`}>
                         <section className={`modal-main ${sourceOfFundStyle ? 'source-of-fund-modal' : ''}`}>
-                            {body}
+                            {children}
                         </section>
                     </div>
                 )
