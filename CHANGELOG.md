@@ -1,4 +1,4 @@
-7.2.12 / WIP
+7.2.12 / 2024-10-31
 ==================
 Bug fixes:
 * [OLMIS-7931](https://openlmis.atlassian.net/browse/OLMIS-7931): Fix imports for layout-ui jenkins job
