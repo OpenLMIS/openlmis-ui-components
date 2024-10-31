@@ -1,4 +1,4 @@
-7.2.12-SNAPSHOT / WIP
+7.2.12 / WIP
 ==================
 Bug fixes:
 * [OLMIS-7931](https://openlmis.atlassian.net/browse/OLMIS-7931): Fix imports for layout-ui jenkins job
@@ -15,6 +15,7 @@ New functionalities that are backwards-compatible:
 
 Improvements:
 * [OIS-23](https://openlmis.atlassian.net/browse/OIS-23): Add basic mixin utils for RTL support
+* [OIS-24](https://openlmis.atlassian.net/browse/OIS-24): Adjusted all components styles to support RTL
 * [OLMIS-8022](https://openlmis.atlassian.net/browse/OLMIS-8022): Improvements in app offline capabilities.
 
 7.2.11 / 2024-04-19
