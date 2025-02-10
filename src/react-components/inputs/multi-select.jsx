@@ -13,7 +13,8 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import getService from '../utils/angular-utils';
 
 function useOutsideAlerter(ref, setIsOptionListShown) {
   useEffect(() => {
@@ -28,47 +29,47 @@ function useOutsideAlerter(ref, setIsOptionListShown) {
     };
   }, [ref]);
 }
-  
-const MultiSelect = ({ options, selected, toggleOption, disabled }) => {
-    const SELECT_OPTION_LABEL = "Select an option";
-    
-    const [isOptionListShown, setIsOptionListShown] = useState(false);
 
-    const handleClickMultiSelect = () => {
-      setIsOptionListShown(current => !current);
-    };
+const MultiSelect = ({ options, selected, toggleOption, disabled, isTranslatable = false }) => {
 
-    const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef, setIsOptionListShown);
+  const [isOptionListShown, setIsOptionListShown] = useState(false);
+  const { formatMessage } = useMemo(() => getService('messageService'), []);
+  const SELECT_OPTION_LABEL = formatMessage('react.select.defaultMessage');
+  const handleClickMultiSelect = () => {
+    setIsOptionListShown(current => !current);
+  };
 
-    return (
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, setIsOptionListShown);
+
+  return (
+    <div
+      ref={wrapperRef}
+      onClick={handleClickMultiSelect}
+      className="multiselect"
+      style={disabled ? { pointerEvents: "none", opacity: "0.4" } : {}}
+    >
+      <div className="multiselect-selected">
+        <i className="fa fa-sort-desc" aria-hidden="true"></i>
         <div
-          ref={wrapperRef}
-          onClick={handleClickMultiSelect} 
-          className="multiselect" 
-          style={disabled ? {pointerEvents: "none", opacity: "0.4"} : {}}
+          style={{ marginLeft: "5px" }}
         >
-            <div className="multiselect-selected">
-                <i className="fa fa-sort-desc" aria-hidden="true"></i>
-                <div 
-                  style={{marginLeft: "5px"}}
-                > 
-                  {selected.length > 0 ? selected.join(', ') : SELECT_OPTION_LABEL} 
-                </div>
-            </div>
-            {isOptionListShown && <ul className="multiselect-options">
-                {options.map(option => {
-                    const isSelected = selected.includes(option.id);
-                    return (
-                        <li className="multiselect-option" onClick={() => toggleOption({ id: option.id })}>
-                            <input type="checkbox" checked={isSelected} className="multiselect-option-checkbox"></input>
-                            <span>{option.name}</span>
-                        </li>
-                    );
-                })}
-            </ul>}
+          {selected.length > 0 ? selected.join(', ') : SELECT_OPTION_LABEL}
         </div>
-    );
+      </div>
+      {isOptionListShown && <ul className="multiselect-options">
+        {options.map(option => {
+          const isSelected = selected.includes(option.id);
+          return (
+            <li className="multiselect-option" onClick={() => toggleOption({ id: option.id })}>
+              <input type="checkbox" checked={isSelected} className="multiselect-option-checkbox"></input>
+              <span>{ isTranslatable ? formatMessage(option.name) : option.name }</span>
+            </li>
+          );
+        })}
+      </ul>}
+    </div>
+  );
 };
 
 export default MultiSelect;
