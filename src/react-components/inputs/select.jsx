@@ -13,11 +13,12 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
+import getService from '../utils/angular-utils';
 
-const Select = ({ options = [], value, onChange, objectKey, defaultOption, ...props }) => {
-
+const Select = ({ options = [], value, onChange, objectKey, defaultOption='react.select.defaultMessage', isTranslatable = false, ...props }) => {
     const findOption = (val) => _.find(options, (opt) => (_.get(opt.value, objectKey) === val));
+    const { formatMessage } = useMemo(() => getService('messageService'), []);
 
     const handleChange = (event) => {
         const { value } = event.target;
@@ -40,9 +41,11 @@ const Select = ({ options = [], value, onChange, objectKey, defaultOption, ...pr
         selectValue = !value ? value : _.get(value, objectKey);
     }
 
+    const getOptionValue = (option) => isTranslatable ? formatMessage(option) : option;
+
     return (
         <select value={selectValue} onChange={handleChange} {...props}>
-            <option value="">{defaultOption || 'Select an option'}</option>
+            <option value="">{formatMessage(defaultOption)}</option>
             {
                 options.map(
                     ({value, name}) => {
@@ -52,7 +55,7 @@ const Select = ({ options = [], value, onChange, objectKey, defaultOption, ...pr
                             optionValue = _.get(value, objectKey);
                         }
 
-                        return (<option key={optionValue} value={optionValue}>{name}</option>);
+                        return (<option key={optionValue} value={optionValue}>{getOptionValue(name)}</option>);
                     }
                 )
             }
