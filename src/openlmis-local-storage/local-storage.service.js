@@ -218,12 +218,21 @@ angularLocalStorage.service('localStorageService', [
             }
         };
 
+        // Removes all the user's data from the local storage except the current locale
+        function clearTheUserDataStorage() {
+            var currentLocale = localStorage.getItem('openlmis.current_locale');
+
+            localStorage.clear();
+            localStorage.setItem('openlmis.current_locale', currentLocale);
+        }
+
         return {
             isSupported: browserSupportsLocalStorage,
             add: addToLocalStorage,
             get: getFromLocalStorage,
             remove: removeFromLocalStorage,
             clearAll: clearAllFromLocalStorage,
+            clearTheUserDataStorage: clearTheUserDataStorage,
             cookie: {
                 add: addToCookies,
                 get: getFromCookies,
