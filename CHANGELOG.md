@@ -1,5 +1,7 @@
 7.2.13-SNAPSHOT / WIP
 ==================
+New Functionalities:
+* [OLMIS-8070](https://openlmis.atlassian.net/browse/OLMIS-8070): Table filter is filtering on enter
 
 7.2.12 / 2024-10-31
 ==================
