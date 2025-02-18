@@ -29,9 +29,9 @@
         .module('openlmis-table-filter')
         .controller('OpenlmisTableFiltersController', OpenlmisTableFiltersController);
 
-    OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout'];
+    OpenlmisTableFiltersController.$inject = ['$scope', '$compile', '$timeout', '$document'];
 
-    function OpenlmisTableFiltersController($scope, $compile, $timeout) {
+    function OpenlmisTableFiltersController($scope, $compile, $timeout, $document) {
         var form, forms, submitButton, filterButton, ngModels, ngModelValues,
             SUBMIT_ELEMENT = '[type="submit"]',
             NGMODEL_ELEMENT = '[ng-model]',
@@ -41,6 +41,7 @@
         vm.getFormElement = getFormElement;
         vm.getFilterButton = getFilterButton;
         vm.$onDestroy = onDestroy;
+        var ENTER_KEY_CODE = 13;
 
         /**
          * @ngdoc method
@@ -114,6 +115,7 @@
 
             filterButton = compileFilterButton(container);
             submitButton = form.find(SUBMIT_ELEMENT);
+            enableGlobalEnterSubmit();
 
             openPopoverIfFormIsInvalidAndPristine();
         }
@@ -155,6 +157,19 @@
             } else {
                 forms = form;
             }
+        }
+
+        function enableGlobalEnterSubmit() {
+            $document.on('keydown', function(event) {
+                if (event.which === ENTER_KEY_CODE && isPopoverOpen()) {
+                    event.preventDefault();
+                    submitForms();
+                }
+            });
+        }
+
+        function isPopoverOpen() {
+            return angular.element('.popover.openlmis-table-filters.in').length > 0;
         }
 
         function onDestroy() {
