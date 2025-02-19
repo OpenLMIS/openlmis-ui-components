@@ -164,8 +164,20 @@
                 if (event.which === ENTER_KEY_CODE && isPopoverOpen()) {
                     event.preventDefault();
                     submitForms();
+
+                    $timeout(function() {
+                        hidePopover();
+                        closeCustomSelect();
+                    });
                 }
             });
+        }
+
+        function closeCustomSelect() {
+            var customDropdown = angular.element('.select2-container--open');
+            if (customDropdown.length) {
+                customDropdown.remove();
+            }
         }
 
         function isPopoverOpen() {
