@@ -160,22 +160,40 @@
         }
 
         function enableGlobalEnterSubmit() {
-            $document.on('keydown', function(event) {
+            $document.off('keydown.enterSubmit');
+            $document.on('keydown.enterSubmit', function(event) {
                 if (event.which === ENTER_KEY_CODE && isPopoverOpen()) {
                     event.preventDefault();
-                    submitForms();
+                    focusSubmitButton();
 
                     $timeout(function() {
-                        hidePopover();
-                        closeCustomSelect();
+                        manualSubmit();
                     });
                 }
             });
         }
 
+        function manualSubmit() {
+            if (!form) {
+                return;
+            }
+
+            form.controller('form').$submitted = true;
+            submitForms();
+            hidePopover();
+            closeCustomSelect();
+        }
+
+        function focusSubmitButton() {
+            var submitButton = angular.element('.popover.openlmis-table-filters.in').find('[type="submit"]');
+            if (submitButton.length) {
+                submitButton[0].focus();
+            }
+        }
+
         function closeCustomSelect() {
             var customDropdown = angular.element('.select2-container--open');
-            if (customDropdown.length) {
+            if (customDropdown && customDropdown.length) {
                 customDropdown.remove();
             }
         }
