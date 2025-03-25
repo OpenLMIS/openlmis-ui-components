@@ -20,7 +20,14 @@ describe('dateUtils', function() {
 
         inject(function($injector) {
             this.dateUtils = $injector.get('dateUtils');
+            this.localeService = $injector.get('localeService');
         });
+
+        this.localeSettings = {
+            dateFormat: 'dd/MM/yyyy'
+        };
+
+        spyOn(this.localeService, 'getFromStorage').andReturn(this.localeSettings);
     });
 
     describe('addDaysToDate', function() {
@@ -92,6 +99,13 @@ describe('dateUtils', function() {
 
         it('should add days', function() {
             expect(this.dateUtils.toStringDate(new Date('2017-05-12'))).toEqual('2017-05-12');
+        });
+    });
+
+    describe('toStringDateWithDefaultFormat', function() {
+
+        it('should format date', function() {
+            expect(this.dateUtils.toStringDateWithDefaultFormat('2017-05-12')).toEqual('12/05/2017');
         });
     });
 
