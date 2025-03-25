@@ -2,6 +2,7 @@
 ==================
 New Functionalities:
 * [OLMIS-8070](https://openlmis.atlassian.net/browse/OLMIS-8070): Table filter is filtering on enter
+* [OLMIS-8126](https://openlmis.atlassian.net/browse/OLMIS-8126): Added function to change date to default format
 
 7.2.12 / 2024-10-31
 ==================

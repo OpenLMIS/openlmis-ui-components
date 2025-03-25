@@ -28,14 +28,15 @@
         .module('openlmis-date')
         .factory('dateUtils', dateUtils);
 
-    dateUtils.$inject = ['$filter'];
+    dateUtils.$inject = ['$filter', 'localeService'];
 
-    function dateUtils($filter) {
+    function dateUtils($filter, localeService) {
         var NUMBER_OF_SECONDS_IN_DAY = 86400000,
             factory = {
                 toDate: toDate,
                 toArray: toArray,
                 toStringDate: toStringDate,
+                toStringDateWithDefaultFormat: toStringDateWithDefaultFormat,
                 addDaysToDate: addDaysToDate,
                 convertEpochMilliToIsoDateString: convertEpochMilliToIsoDateString
             };
@@ -126,6 +127,21 @@
          */
         function toStringDate(date) {
             return $filter('date')(date, 'yyyy-MM-dd');
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-date.dateUtils
+         * @name toStringDate
+         *
+         * @description
+         * Transforms dates from Date to string.
+         *
+         * @param  {Date}  date date to be parsed
+         * @return {Array}      parsed date array
+         */
+        function toStringDateWithDefaultFormat(date) {
+            return $filter('date')(date, localeService.getFromStorage().dateFormat);
         }
 
         /**
