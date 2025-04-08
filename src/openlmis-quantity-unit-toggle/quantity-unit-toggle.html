@@ -1,0 +1,8 @@
+<div class="button-toggle" ng-if="vm.isQuantityUnitToggleVisible()">
+    <label ng-repeat="quantityUnit in vm.quantityUnits"
+        ng-class="{'selected': vm.quantityUnit === quantityUnit}">
+        <input type="radio" ng-model="vm.quantityUnit" ng-value="quantityUnit"
+            ng-change="vm.onChange()">
+        {{vm.getMessage(quantityUnit)}}
+    </label>
+</div>

@@ -1,5 +1,7 @@
 7.2.14 - SNAPSHOT / WIP
 ==================
+New Functionalities:
+* [OE-96](https://openlmis.atlassian.net/browse/OE-96): Added quantity unit toggle component
 
 7.2.13 / 2025-03-31
 ==================
