@@ -46,10 +46,12 @@ describe('QuantityUnitToggleController', function() {
 
         it('should expose default quantityUnit when not cached in storage', function() {
             spyOn(localStorageService, 'get').andReturn(null);
+            spyOn(QUANTITY_UNIT, '$getDefaultQuantityUnit').andReturn('DOSES');
 
             vm.$onInit();
 
             expect(vm.quantityUnit).toEqual(QUANTITY_UNIT.DOSES);
+            expect(QUANTITY_UNIT.$getDefaultQuantityUnit).toHaveBeenCalled();
             expect(localStorageService.get).toHaveBeenCalledWith('quantityUnit');
         });
 
