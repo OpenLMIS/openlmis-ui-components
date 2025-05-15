@@ -1,0 +1,12 @@
+.openlmis-input {
+    display: flex;
+    width: 240px;
+
+    > p {
+        margin: auto 5px;
+    }
+}
+
+#quantityInPacks, #quantityRemainderInDoses {
+    width: 60px;
+}
