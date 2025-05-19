@@ -39,56 +39,6 @@
         vm.changeValue = changeValue;
 
         /**
-         * @ngdoc property
-         * @propertyOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
-         * @name showInDoses
-         * @type {boolean}
-         *
-         * @description
-         * Returns whether the screen is showing quantities in doses.
-         */
-
-        /**
-         * @ngdoc property
-         * @propertyOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
-         * @name onChangeQuantity
-         * @type {Function}
-         *
-         * @description
-         * Method that will be executed on input change with item value as parameter.
-         */
-
-        /**
-         * @ngdoc property
-         * @propertyOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
-         * @name item
-         * @type {Object}
-         *
-         * @description
-         * Model for the inputs. Holds quantity information in doses and packs
-         */
-
-        /**
-         * @ngdoc property
-         * @propertyOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
-         * @name netContent
-         * @type {Number}
-         *
-         * @description
-         * Number of doses per pack for a given object
-         */
-
-        /**
-         * @ngdoc property
-         * @propertyOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
-         * @name inputClass
-         * @type {String}
-         *
-         * @description
-         * Holds information about css classes
-         */
-
-        /**
          * @ngdoc method
          * @methodOf openlmis-quantity-unit-input.controller:QuantityUnitInputController
          * @name onInit

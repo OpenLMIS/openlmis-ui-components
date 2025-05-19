@@ -28,9 +28,9 @@
         .module('openlmis-quantity-unit-toggle')
         .service('quantityUnitCalculateService', service);
 
-    service.$inject = [];
+    service.$inject = ['messageService'];
 
-    function service() {
+    function service(messageService) {
 
         this.recalculateSOHQuantity = recalculateSOHQuantity;
         this.recalculateInputQuantity = recalculateInputQuantity;
@@ -53,6 +53,11 @@
             if (inDoses) {
                 return stockOnHand;
             }
+
+            if (isNetContentUndefinedOrZero(netContent)) {
+                return 0;
+            }
+
             var packs = (stockOnHand > 0) ? Math.floor(stockOnHand / netContent) : Math.ceil(stockOnHand / netContent);
             var remainderDoses = stockOnHand % netContent;
 
@@ -61,9 +66,9 @@
             }
 
             if (remainderDoses > 0) {
-                return packs + ' ( +' + remainderDoses + ' doses)';
+                return packs + ' ( +' + remainderDoses + messageService.get('openlmisInputDosesPacks.DosesBracket');
             }
-            return packs + ' ( ' + remainderDoses + ' doses)';
+            return packs + ' ( ' + remainderDoses + messageService.get('openlmisInputDosesPacks.DosesBracket');
         }
 
         /**
@@ -81,7 +86,9 @@
          * @return {item}                  number of doses
          */
         function recalculateInputQuantity(item, netContent, inDoses) {
-            if (inDoses) {
+            if (isNetContentUndefinedOrZero(netContent)) {
+                return 0;
+            } else if (inDoses) {
                 item.quantityInPacks = Math.floor(item.quantity / netContent);
                 item.quantityRemainderInDoses = item.quantity % netContent;
             } else {
@@ -113,6 +120,13 @@
             }
             quantityInDoses += quantityRemainderInDoses;
             return quantityInDoses;
+        }
+
+        function isNetContentUndefinedOrZero(netContent) {
+            if (netContent === undefined || netContent === 0) {
+                return true;
+            }
+            return false;
         }
 
     }

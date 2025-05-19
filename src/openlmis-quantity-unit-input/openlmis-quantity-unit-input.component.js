@@ -17,6 +17,27 @@
 
     'use strict';
 
+    /**
+     * @ngdoc service
+     * @name openlmis-quantity-unit-input.component:QuantityUnitInput
+     *
+     * @description
+     * Component responsible for displaying the appropriate input depending on the Packs or Doses option selected.
+     * Component have 5 attributes:
+     * showInDoses - returns whether the screen is showing quantities in doses
+     * item - model for the inputs. Holds quantity information in doses and packs
+     * netContent - number of doses per pack for a given object
+     * inputClass - holds information about css classes
+     * onChangeQuantity - method that will be executed on input change with item value as parameter.
+     * 
+     * 
+     * @example
+     * <openlmis-quantity-unit-input 
+     *       show-in-doses="vm.showInDoses()" 
+     *       item="lineItem" 
+     *       on-change-quantity="vm.validateQuantity(lineItem)"
+     *       input-class="{'error': lineItem.$errors.quantityInvalid}"/>
+     */
     angular
         .module('openlmis-quantity-unit-input')
         .component('openlmisQuantityUnitInput', {

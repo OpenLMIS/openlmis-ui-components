@@ -1,5 +1,5 @@
 {
     "openlmisQuantityUnitToggle.packs": "Packs",
-    "openlmisQuantityUnitToggle.doses": "Doses"
-
+    "openlmisQuantityUnitToggle.doses": "Doses",
+    "openlmisInputDosesPacks.DosesBracket":" doses )"
 }
