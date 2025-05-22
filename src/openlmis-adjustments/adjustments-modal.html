@@ -12,7 +12,7 @@
                             {{'openlmisAdjustments.reason' | message}}
                         </label>
                         <select id="reason"
-                            ng-model="vm.reason"
+                            ng-model="vm.newAdjustment.reason"
                             ng-options="reason as reason.name for reason in vm.reasons | orderBy:'displayOrder'"
                             required>
                         </select>
@@ -21,11 +21,12 @@
                         <label for="quantity">
                             {{'openlmisAdjustments.quantity' | message}}
                         </label>
-                        <input id="quantity"
-                               class="form-control"
-                               ng-model="vm.quantity"
-                               required positive-integer/>
+                        <openlmis-quantity-unit-input 
+                            show-in-doses="vm.showInDoses" 
+                            item="vm.newAdjustment"
+                            net-content="vm.lineItem.orderable.netContent"/>
                     </div>
+                    
                     <button class="add" type="submit">
                         {{'openlmisAdjustments.add' | message}}
                     </button>
@@ -40,7 +41,7 @@
                             <thead>
                                 <tr>
                                     <th>{{'openlmisAdjustments.reason' | message}}</th>
-                                    <th>{{'openlmisAdjustments.quantity'| message}}</th>
+                                    <th>{{vm.showInDoses ? 'openlmisAdjustments.quantityInDoses' : 'openlmisAdjustments.quantityInPacks' | message}}</th>
                                     <th ng-if="!vm.isDisabled">{{'openlmisAdjustments.actions' | message}}</th>
                                 </tr>
                             </thead>
@@ -49,12 +50,10 @@
                                     <td>{{adjustment.reason.name}}</td>
                                     <td>
                                         <div ng-if="vm.isDisabled">{{adjustment.quantity}}</div>
-                                        <input id="adjustment-quantity-{{$index}}"
-                                            class="form-control"
-                                            ng-model="adjustment.quantity"
-                                            ng-change="vm.recalculateTotal()"
-                                            ng-if="!vm.isDisabled"
-                                            required positive-integer/>
+                                        <openlmis-quantity-unit-input 
+                                            show-in-doses="vm.showInDoses" 
+                                            item="adjustment"
+                                            net-content="vm.lineItem.orderable.netContent"/>
                                     </td>
                                     <td ng-if="!vm.isDisabled">
                                         <input type="button" class="danger"

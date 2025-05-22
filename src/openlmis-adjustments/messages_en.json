@@ -4,6 +4,8 @@
     "openlmisAdjustments.cancel": "Cancel",
     "openlmisAdjustments.noAdjustments": "There are no adjustments",
     "openlmisAdjustments.quantity": "Quantity",
+    "openlmisAdjustments.quantityInDoses": "Quantity (in Doses)",
+    "openlmisAdjustments.quantityInPacks": "Quantity (in Packs)",
     "openlmisAdjustments.reason": "Reason",
     "openlmisAdjustments.remove": "Remove",
     "openlmisAdjustments.total": "Total",

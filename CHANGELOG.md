@@ -2,8 +2,10 @@
 ==================
 New Functionalities:
 * [OE-96](https://openlmis.atlassian.net/browse/OE-96): Added quantity unit toggle component
-New Functionalities:
 * [OE-108](https://openlmis.atlassian.net/browse/OE-108): Added quantity unit input component
+
+Improvements:
+* [OE-98](https://openlmis.atlassian.net/browse/OE-98): Adjusting openlmis-adjustments to display values in doses and packs
 
 7.2.13 / 2025-03-31
 ==================

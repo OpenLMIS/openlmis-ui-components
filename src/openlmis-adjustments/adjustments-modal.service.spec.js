@@ -45,6 +45,14 @@ describe('adjustmentsModalService', function() {
 
         this.isDisabled = true;
 
+        this.showInDoses = true;
+
+        this.lineItem = {
+            orderable: {
+                netContent: 88
+            }
+        };
+
         this.summaries = {
             keyOne: function() {},
             keyTwo: function() {}
@@ -85,39 +93,44 @@ describe('adjustmentsModalService', function() {
         });
 
         it('should copy the list of adjustments', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons);
+            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.lineItem, this.showInDoses);
 
             expect(this.getResolvedValue('adjustments')).toEqual(this.adjustments);
             expect(this.getResolvedValue('adjustments')).not.toBe(this.adjustments);
         });
 
         it('should default to \'openlmisAdjustments.adjustments\' if title is undefined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined);
+            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.lineItem, this.showInDoses,
+                undefined);
 
             expect(this.getResolvedValue('title')).toEqual('openlmisAdjustments.adjustments');
         });
 
         it('should pass title if it is defined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.title);
+            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.lineItem, this.showInDoses,
+                this.title);
 
             expect(this.getResolvedValue('title')).toBe(this.title);
         });
 
         it('should pass message if it is defined', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined, this.message);
+            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.lineItem, this.showInDoses,
+                undefined, this.message);
 
             expect(this.getResolvedValue('message')).toBe(this.message);
         });
 
         it('should pass isDisabled', function() {
-            this.adjustmentsModalService.open(this.adjustments, this.reasons, undefined, undefined, this.isDisabled);
+            this.adjustmentsModalService.open(this.adjustments, this.reasons, this.lineItem, this.showInDoses,
+                undefined, undefined, this.isDisabled);
 
             expect(this.getResolvedValue('isDisabled')).toBe(this.isDisabled);
         });
 
         it('should pass summaries if it is defined', function() {
             this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, this.summaries
+                this.adjustments, this.reasons, this.lineItem, this.showInDoses, undefined, undefined, undefined,
+                this.summaries
             );
 
             expect(this.getResolvedValue('summaries')).toBe(this.summaries);
@@ -130,14 +143,16 @@ describe('adjustmentsModalService', function() {
 
             expect(function() {
                 context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, context.summaries
+                    context.adjustments, context.reasons, context.lineItem, context.showInDoses, undefined, undefined,
+                    undefined, context.summaries
                 );
             }).toThrow('summaries must be a key-function map');
         });
 
         it('should pass preSave if it is defined', function() {
             this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, this.preSave
+                this.adjustments, this.reasons, this.lineItem, this.showInDoses, undefined, undefined, undefined,
+                undefined, this.preSave
             );
 
             expect(this.getResolvedValue('preSave')).toBe(this.preSave);
@@ -150,15 +165,16 @@ describe('adjustmentsModalService', function() {
 
             expect(function() {
                 context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, context.preSave
+                    context.adjustments, context.reasons, context.lineItem, context.showInDoses, undefined, undefined,
+                    undefined, undefined, context.preSave
                 );
             }).toThrow('preSave must be a function');
         });
 
         it('should pass preCancel if it is defined', function() {
             this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, undefined,
-                this.preCancel
+                this.adjustments, this.reasons, this.lineItem, this.showInDoses, undefined, undefined, undefined,
+                undefined, undefined, this.preCancel
             );
 
             expect(this.getResolvedValue('preCancel')).toBe(this.preCancel);
@@ -171,16 +187,16 @@ describe('adjustmentsModalService', function() {
 
             expect(function() {
                 context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, undefined,
-                    context.preCancel
+                    context.adjustments, context.reasons, context.lineItem, context.showInDoses, undefined, undefined,
+                    undefined, undefined, undefined, context.preCancel
                 );
             }).toThrow('preCancel must be a function');
         });
 
         it('should pass filterReasons if it is defined', function() {
             this.adjustmentsModalService.open(
-                this.adjustments, this.reasons, undefined, undefined, undefined, undefined, undefined,
-                undefined, this.filterReasons
+                this.adjustments, this.reasons, this.lineItem, this.showInDoses, undefined, undefined, undefined,
+                undefined, undefined, undefined, this.filterReasons
             );
 
             expect(this.getResolvedValue('filterReasons')).toBe(this.filterReasons);
@@ -193,8 +209,8 @@ describe('adjustmentsModalService', function() {
 
             expect(function() {
                 context.adjustmentsModalService.open(
-                    context.adjustments, context.reasons, undefined, undefined, undefined, undefined, undefined,
-                    undefined, context.filterReasons
+                    context.adjustments, context.reasons, context.lineItem, context.showInDoses, undefined, undefined,
+                    undefined, undefined, undefined, undefined, context.filterReasons
                 );
             }).toThrow('filterReasons must be a function');
         });
