@@ -53,6 +53,14 @@ describe('AdjustmentsModalController', function() {
             keyTwo: function() {}
         };
 
+        this.showInDoses = true;
+
+        this.lineItem = {
+            orderable: {
+                netContent: 80
+            }
+        };
+
         spyOn(this.modalDeferred, 'resolve');
         spyOn(this.modalDeferred, 'reject');
 
@@ -110,8 +118,10 @@ describe('AdjustmentsModalController', function() {
 
             this.vm.$onInit();
 
-            this.vm.reason = this.vm.reasons[0];
-            this.vm.quantity = 13;
+            this.vm.newAdjustment = {
+                reason: this.vm.reasons[0],
+                quantity: 13
+            };
         });
 
         it('should add adjustment to the adjustment list', function() {
@@ -123,20 +133,20 @@ describe('AdjustmentsModalController', function() {
             });
         });
 
-        it('should clear quantity', function() {
-            expect(this.vm.quantity).not.toBeUndefined();
+        it('should clear newAdjustment', function() {
+            expect(this.vm.newAdjustment.quantity).not.toBeUndefined();
 
             this.vm.addAdjustment();
 
-            expect(this.vm.quantity).toBeUndefined();
+            expect(this.newAdjustment).toBeUndefined();
         });
 
         it('should clear reason', function() {
-            expect(this.vm.reason).not.toBeUndefined();
+            expect(this.vm.newAdjustment.reason).not.toBeUndefined();
 
             this.vm.addAdjustment();
 
-            expect(this.vm.reason).toBeUndefined();
+            expect(this.newAdjustment).toBeUndefined();
         });
 
         it('should call filterReasons if provided', function() {
@@ -322,7 +332,9 @@ describe('AdjustmentsModalController', function() {
             summaries: this.summaries,
             preSave: this.preSave,
             preCancel: this.preCancel,
-            filterReasons: this.filterReasons
+            filterReasons: this.filterReasons,
+            showInDoses: this.showInDoses,
+            lineItem: this.lineItem
         });
     }
 

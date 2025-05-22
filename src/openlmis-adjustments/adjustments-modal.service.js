@@ -72,7 +72,7 @@
          *                                  reasons; this function should take a list of adjustments
          *                                  as a parameter and return a filtered list of reasons
          */
-        function open(adjustments, reasons, title, message, isDisabled, summaries, preSave,
+        function open(adjustments, reasons, lineItem, showInDoses, title, message, isDisabled, summaries, preSave,
                       preCancel, filterReasons) {
 
             return openlmisModalService.createDialog({
@@ -93,6 +93,15 @@
                             throw 'reasons must be defined';
                         }
                         return reasons;
+                    },
+                    lineItem: function() {
+                        if (!lineItem) {
+                            throw 'lineItem must be defined';
+                        }
+                        return lineItem;
+                    },
+                    showInDoses: function() {
+                        return showInDoses;
                     },
                     title: function() {
                         return title ? title : 'openlmisAdjustments.adjustments';

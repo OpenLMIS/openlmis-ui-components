@@ -30,12 +30,12 @@
 
     AdjustmentsModalController.$inject = [
         '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
-        'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons'
+        'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem'
     ];
 
     function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
                                         adjustments, reasons, summaries, preSave, preCancel,
-                                        filterReasons) {
+                                        filterReasons, showInDoses, lineItem) {
 
         var vm = this;
 
@@ -112,6 +112,39 @@
         vm.summaries = undefined;
 
         /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name showInDoses
+         * @type {boolean}
+         *
+         * @description
+         * Returns whether the screen is showing quantities in doses.
+         */
+        vm.showInDoses = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name lineItem
+         * @type {Object}
+         *
+         * @description
+         * Line item object with information about orderable netContent.
+         */
+        vm.lineItem = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name newAdjustment
+         * @type {Object}
+         *
+         * @description
+         * Line item adjustment that will be saved to the list of adjustments.
+         */
+        vm.newAdjustment = undefined;
+
+        /**
          * @ngdoc methodOf
          * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
          * @name $onInit
@@ -126,6 +159,8 @@
             vm.adjustments = adjustments;
             vm.reasons = reasons;
             vm.summaries = summaries;
+            vm.showInDoses = showInDoses;
+            vm.lineItem = lineItem;
         }
 
         /**
@@ -137,15 +172,9 @@
          * Adds adjustment to line item.
          */
         function addAdjustment() {
-            var adjustment = {
-                reason: vm.reason,
-                quantity: vm.quantity
-            };
+            vm.adjustments.push(vm.newAdjustment);
 
-            vm.adjustments.push(adjustment);
-
-            vm.quantity = undefined;
-            vm.reason = undefined;
+            vm.newAdjustment = undefined;
 
             if (filterReasons) {
                 vm.reasons = filterReasons(vm.adjustments);
