@@ -18,7 +18,12 @@ describe('QuantityUnitToggleController', function() {
     var vm, $controller, messageService, QUANTITY_UNIT, localStorageService;
 
     beforeEach(function() {
-        module('openlmis-quantity-unit-toggle');
+        module('openlmis-quantity-unit-toggle', function($provide) {
+            $provide.value('featureFlagService', {
+                set: function() {},
+                get: function() {}
+            });
+        });
 
         inject(function($injector) {
             $controller = $injector.get('$controller');

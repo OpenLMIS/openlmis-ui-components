@@ -85,17 +85,20 @@
          * 
          * @return {item}                  number of doses
          */
-        function recalculateInputQuantity(item, netContent, inDoses) {
+        function recalculateInputQuantity(item, netContent, inDoses, quantityKey) {
+            var usedQuantityKey = quantityKey || 'quantity';
+
             if (isNetContentUndefinedOrZero(netContent)) {
                 return 0;
             } else if (inDoses) {
-                item.quantityInPacks = Math.floor(item.quantity / netContent);
-                item.quantityRemainderInDoses = item.quantity % netContent;
+                item.quantityInPacks = Math.floor(item[usedQuantityKey] / netContent);
+                item.quantityRemainderInDoses = item[usedQuantityKey] % netContent;
             } else {
-                item.quantity = getTotalQuantityInDoses(
+                item[usedQuantityKey] = getTotalQuantityInDoses(
                     item.quantityInPacks, item.quantityRemainderInDoses, netContent
                 );
             }
+
             return item;
         }
 
@@ -115,10 +118,19 @@
          */
         function getTotalQuantityInDoses(quantityInPacks, quantityRemainderInDoses, netContent) {
             var quantityInDoses = 0;
-            if (quantityInPacks !== undefined) {
+
+            if (quantityInPacks !== undefined && quantityInPacks !== null && !isNaN(quantityInPacks)) {
                 quantityInDoses = quantityInPacks * netContent;
             }
-            quantityInDoses += quantityRemainderInDoses;
+
+            if (
+                quantityRemainderInDoses !== undefined &&
+                quantityRemainderInDoses !== null &&
+                !isNaN(quantityRemainderInDoses)
+            ) {
+                quantityInDoses += quantityRemainderInDoses;
+            }
+
             return quantityInDoses;
         }
 
