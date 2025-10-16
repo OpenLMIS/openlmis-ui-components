@@ -94,6 +94,15 @@
                 item.quantityInPacks = Math.floor(item[usedQuantityKey] / netContent);
                 item.quantityRemainderInDoses = item[usedQuantityKey] % netContent;
             } else {
+                if (!item.quantityInPacks) {
+                    item.quantityInPacks = 0;
+                } else if (!item.quantityRemainderInDoses) {
+                    item.quantityRemainderInDoses = 0;
+                }
+                if (item.quantityRemainderInDoses > netContent) {
+                    item.quantityInPacks += Math.floor(item.quantityRemainderInDoses / netContent);
+                    item.quantityRemainderInDoses = item.quantityRemainderInDoses % netContent;
+                }
                 item[usedQuantityKey] = getTotalQuantityInDoses(
                     item.quantityInPacks, item.quantityRemainderInDoses, netContent
                 );
