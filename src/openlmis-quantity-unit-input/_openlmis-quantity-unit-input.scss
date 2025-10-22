@@ -10,3 +10,19 @@
 #quantityInPacks, #quantityRemainderInDoses {
     width: 60px;
 }
+
+.openlmis-table > tbody > tr > td.has-single-input-control.is-invalid > openlmis-quantity-unit-input {
+  @include icon("exclamation-circle");
+
+  &::before {
+    color: $brand-danger;
+    position: absolute;
+    top: 50%;
+    @include right(0.5em);
+    transform: translateY(-50%);
+  }
+}
+
+.openlmis-table > tbody > tr > td.has-single-input-control.is-invalid > openlmis-quantity-unit-input > div {
+  @include padding-right(20px);
+}
