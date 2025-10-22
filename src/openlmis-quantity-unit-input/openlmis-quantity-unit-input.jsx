@@ -35,9 +35,9 @@ export default function QuantityUnitInput({
   // Sync local state when item props change
   useEffect(() => {
     setLocalValues({
-      orderedQuantity: item?.orderedQuantity || '',
-      quantityInPacks: item?.quantityInPacks || '',
-      quantityRemainderInDoses: item?.quantityRemainderInDoses || '',
+      orderedQuantity: item?.orderedQuantity ?? '',
+      quantityInPacks: item?.quantityInPacks ?? '',
+      quantityRemainderInDoses: item?.quantityRemainderInDoses ?? '',
     });
   }, [
     item?.orderedQuantity,
