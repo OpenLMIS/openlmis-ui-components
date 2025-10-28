@@ -3,8 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import InputCell from '../react-components/table/input-cell';
 import getService from '../react-components/utils/angular-utils';
 
-const DEBOUNCE_DELAY = 300;
-
 export default function QuantityUnitInput({
   showInDoses,
   item,
@@ -45,48 +43,34 @@ export default function QuantityUnitInput({
     item?.quantityRemainderInDoses,
   ]);
 
-  const debouncedOnChangeQuantity = useMemo(
-    () =>
-      _.debounce((recalculatedItem) => {
-        onChangeQuantity(recalculatedItem);
-      }, DEBOUNCE_DELAY),
-    [onChangeQuantity]
-  );
+  const handleLocalChange = useCallback((field, value) => {
+    setLocalValues((prev) => ({ ...prev, [field]: value }));
+  }, []);
 
-  // Cleanup debounced function on unmount
-  useEffect(() => {
-    return () => {
-      debouncedOnChangeQuantity.cancel();
-    };
-  }, [debouncedOnChangeQuantity]);
-
-  const handleChangeValue = useCallback(
-    (field, value) => {
-      setLocalValues((prev) => ({ ...prev, [field]: value }));
-
-      const numericValue =
+  const handleBlur = useCallback(() => {
+    const numericValue =
         value === '' || value === undefined ? undefined : Number(value);
+    const updatedItem = { ...item, [field]: numericValue };
 
-      const updatedItem = { ...item, [field]: numericValue };
+    const recalculatedItem =
+      quantityUnitCalculateService.recalculateInputQuantity(
+        updatedItem,
+        netContent,
+        showInDoses,
+        'orderedQuantity'
+      );
 
-      const recalculatedItem =
-        quantityUnitCalculateService.recalculateInputQuantity(
-          updatedItem,
-          netContent,
-          showInDoses,
-          'orderedQuantity'
-        );
-
-      debouncedOnChangeQuantity(recalculatedItem);
-    },
-    [
-      item,
-      netContent,
-      showInDoses,
-      quantityUnitCalculateService,
-      debouncedOnChangeQuantity,
-    ]
-  );
+    setTimeout(() => {
+      onChangeQuantity(recalculatedItem);
+    }, 0);
+  }, [
+    localValues,
+    item,
+    netContent,
+    showInDoses,
+    quantityUnitCalculateService,
+    onChangeQuantity, // Now directly depends on onChangeQuantity
+  ]);
 
   const formatMessage = useCallback(
     (key) => {
@@ -128,7 +112,8 @@ export default function QuantityUnitInput({
         <InputCell
           {...inputCellProps}
           value={localValues.orderedQuantity}
-          onChange={(value) => handleChangeValue('orderedQuantity', value)}
+          onChange={(value) => handleLocalChange('orderedQuantity', value)}
+          onBlur={handleBlur}
           key={`orderedQuantity-${item?.orderable?.id}`}
         />
       </div>
@@ -140,7 +125,8 @@ export default function QuantityUnitInput({
       <InputCell
         {...inputCellProps}
         value={localValues.quantityInPacks}
-        onChange={(value) => handleChangeValue('quantityInPacks', value)}
+        onChange={(value) => handleLocalChange('quantityInPacks', value)}
+        onBlur={handleBlur}
         placeholder={formatMessage('openlmisInputDosesPacks.Packs')}
         id='quantityInPacks'
         key={`quantityInPacks-${item?.orderable?.id}`}
@@ -150,8 +136,9 @@ export default function QuantityUnitInput({
         {...inputCellProps}
         value={localValues.quantityRemainderInDoses}
         onChange={(value) =>
-          handleChangeValue('quantityRemainderInDoses', value)
+          handleLocalChange('quantityRemainderInDoses', value)
         }
+        onBlur={handleBlur}
         disabled={
           inputCellProps.disabled || isQuantityRemainderInDosesDisabled()
         }
