@@ -99,7 +99,7 @@
                 } else if (!item.quantityRemainderInDoses) {
                     item.quantityRemainderInDoses = 0;
                 }
-                if (item.quantityRemainderInDoses > netContent) {
+                if (item.quantityRemainderInDoses >= netContent) {
                     item.quantityInPacks += Math.floor(item.quantityRemainderInDoses / netContent);
                     item.quantityRemainderInDoses = item.quantityRemainderInDoses % netContent;
                 }
