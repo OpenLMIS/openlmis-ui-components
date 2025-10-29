@@ -49,7 +49,8 @@
                 item: '=',
                 netContent: '<',
                 inputClass: '<',
-                onChangeQuantity: '&'
+                onChangeQuantity: '&',
+                disabled: '<?'
             }
         });
 })();
