@@ -4,7 +4,7 @@
         ng-class="vm.inputClass"
         ng-model="vm.item.quantity"
         ng-change="vm.changeValue(vm.item)"
-        required positive-integer />
+        positive-integer />
 </div>
 <div class="openlmis-input" ng-if="!vm.showInDoses">
     <input id="quantityInPacks"                                 
@@ -13,7 +13,7 @@
         ng-model="vm.item.quantityInPacks"
         ng-change="vm.changeValue(vm.item)"
         placeholder="{{'openlmisInputDosesPacks.Packs' | message }}"
-        required positive-integer />
+        positive-integer />
     <p> ( + </p>
     <input id="quantityRemainderInDoses"  
         class="form-control"
