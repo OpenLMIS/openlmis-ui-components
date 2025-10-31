@@ -30,12 +30,13 @@
 
     AdjustmentsModalController.$inject = [
         '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
-        'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem'
+        'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem',
+        'quantityUnitCalculateService'
     ];
 
     function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
                                         adjustments, reasons, summaries, preSave, preCancel,
-                                        filterReasons, showInDoses, lineItem) {
+                                        filterReasons, showInDoses, lineItem, quantityUnitCalculateService) {
 
         var vm = this;
 
@@ -161,6 +162,13 @@
             vm.summaries = summaries;
             vm.showInDoses = showInDoses;
             vm.lineItem = lineItem;
+            if (!showInDoses) {
+                angular.forEach(adjustments, function(adjustment) {
+                    adjustment.quantities = quantityUnitCalculateService.
+                        recalculateInputQuantity(adjustment,
+                            lineItem.orderable.netContent, true);
+                });
+            }
         }
 
         /**

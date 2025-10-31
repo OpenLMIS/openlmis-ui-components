@@ -61,6 +61,10 @@ describe('AdjustmentsModalController', function() {
             }
         };
 
+        this.mockQuantityUnitCalculateService = jasmine.createSpyObj(
+            'quantityUnitCalculateService', ['recalculateInputQuantity']
+        );
+
         spyOn(this.modalDeferred, 'resolve');
         spyOn(this.modalDeferred, 'reject');
 
@@ -107,6 +111,33 @@ describe('AdjustmentsModalController', function() {
             this.vm.$onInit();
 
             expect(this.vm.summaries).toBe(this.summaries);
+        });
+
+        it('should NOT call recalculateInputQuantity if showInDoses is true', function() {
+            this.vm.$onInit();
+
+            expect(this.mockQuantityUnitCalculateService.recalculateInputQuantity).not.toHaveBeenCalled();
+        });
+
+        it('should call recalculateInputQuantity for each adjustment if showInDoses is false', function() {
+            this.showInDoses = false;
+
+            var mockQuantities = {
+                quantity: 10
+            };
+
+            this.mockQuantityUnitCalculateService.recalculateInputQuantity
+                .andReturn(mockQuantities);
+
+            this.initController();
+
+            this.vm.$onInit();
+
+            expect(this.mockQuantityUnitCalculateService.recalculateInputQuantity).toHaveBeenCalledWith(
+                this.adjustments[0], 80, true
+            );
+
+            expect(this.vm.adjustments[0].quantities).toBe(mockQuantities);
         });
 
     });
@@ -334,7 +365,8 @@ describe('AdjustmentsModalController', function() {
             preCancel: this.preCancel,
             filterReasons: this.filterReasons,
             showInDoses: this.showInDoses,
-            lineItem: this.lineItem
+            lineItem: this.lineItem,
+            quantityUnitCalculateService: this.mockQuantityUnitCalculateService
         });
     }
 

@@ -4,6 +4,7 @@
         ng-class="vm.inputClass"
         ng-model="vm.item.quantity"
         ng-change="vm.changeValue(vm.item)"
+        ng-disabled="vm.disabled"
         positive-integer />
 </div>
 <div class="openlmis-input" ng-if="!vm.showInDoses">
@@ -12,6 +13,7 @@
         ng-class="vm.inputClass"
         ng-model="vm.item.quantityInPacks"
         ng-change="vm.changeValue(vm.item)"
+        ng-disabled="vm.disabled"
         placeholder="{{'openlmisInputDosesPacks.Packs' | message }}"
         positive-integer />
     <p> ( + </p>
@@ -20,7 +22,7 @@
         ng-class="vm.inputClass"
         ng-model="vm.item.quantityRemainderInDoses"
         ng-change="vm.changeValue(vm.item)"
-        ng-disabled="vm.isQuantityRemainderInDosesDisabled()"
+        ng-disabled="vm.disabled"
         placeholder="{{'openlmisInputDosesPacks.Doses' | message }}"
         positive-integer />
     <p>{{'openlmisInputDosesPacks.DosesBracket' | message }}</p>
