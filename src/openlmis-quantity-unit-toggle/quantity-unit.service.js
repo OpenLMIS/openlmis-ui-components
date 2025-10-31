@@ -61,14 +61,7 @@
             var packs = (stockOnHand > 0) ? Math.floor(stockOnHand / netContent) : Math.ceil(stockOnHand / netContent);
             var remainderDoses = stockOnHand % netContent;
 
-            if (remainderDoses === 0) {
-                return packs;
-            }
-
-            if (remainderDoses > 0) {
-                return packs + ' ( +' + remainderDoses + messageService.get('openlmisInputDosesPacks.DosesBracket');
-            }
-            return packs + ' ( ' + remainderDoses + messageService.get('openlmisInputDosesPacks.DosesBracket');
+            return packs + ' ( +' + remainderDoses + messageService.get('openlmisInputDosesPacks.DosesBracket');
         }
 
         /**
