@@ -48,9 +48,7 @@ export default function QuantityUnitInput({
   }, []);
 
   const handleBlur = useCallback(() => {
-    const numericValue =
-        value === '' || value === undefined ? undefined : Number(value);
-    const updatedItem = { ...item, [field]: numericValue };
+    const updatedItem = { ...item, ...localValues };
 
     const recalculatedItem =
       quantityUnitCalculateService.recalculateInputQuantity(
