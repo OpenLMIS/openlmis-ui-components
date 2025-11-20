@@ -1,11 +1,11 @@
-7.2.14 - SNAPSHOT / WIP
+Upcoming Version (WIP)
 ==================
+
 New Functionalities:
+* [OE-83](https://openlmis.atlassian.net/browse/OE-83): Design UI improvements Packs/Doses functionality in Stockmanagement and Requisition modules
 * [OE-96](https://openlmis.atlassian.net/browse/OE-96): Added quantity unit toggle component
 * [OE-108](https://openlmis.atlassian.net/browse/OE-108): Added quantity unit input component
-
-Improvements:
-* [OE-98](https://openlmis.atlassian.net/browse/OE-98): Adjusting openlmis-adjustments to display values in doses and packs
+* [OE-111](https://openlmis.atlassian.net/browse/OE-111): Created a quantity input/toggle with react
 
 7.2.13 / 2025-03-31
 ==================
