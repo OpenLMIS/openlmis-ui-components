@@ -1,6 +1,5 @@
-Upcoming Version (WIP)
+7.2.14 / 2025-11-27
 ==================
-
 New Functionalities:
 * [OE-83](https://openlmis.atlassian.net/browse/OE-83): Design UI improvements Packs/Doses functionality in Stockmanagement and Requisition modules
 * [OE-96](https://openlmis.atlassian.net/browse/OE-96): Added quantity unit toggle component
