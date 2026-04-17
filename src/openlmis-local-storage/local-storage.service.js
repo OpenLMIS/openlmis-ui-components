@@ -31,6 +31,7 @@ angularLocalStorage.service('localStorageService', [
     '$rootScope',
     'prefix',
     'cookie',
+    'globalThis',
     function($rootScope, prefix, cookie) {
 
         // If there is a prefix set in the config lets use that with an appended period for readability
