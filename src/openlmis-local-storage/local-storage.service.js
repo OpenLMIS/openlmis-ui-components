@@ -31,7 +31,6 @@ angularLocalStorage.service('localStorageService', [
     '$rootScope',
     'prefix',
     'cookie',
-    'globalThis',
     function($rootScope, prefix, cookie) {
 
         // If there is a prefix set in the config lets use that with an appended period for readability
@@ -172,7 +171,7 @@ angularLocalStorage.service('localStorageService', [
                     expiryDate.setTime(expiryDate.getTime() + (cookie.expiry * 24 * 60 * 60 * 1000));
                     expiry = '; expires=' + expiryDate.toGMTString();
                 }
-                const isHttps = globalThis.location && globalThis.location.protocol === 'https:';
+                const isHttps = window.location && window.location.protocol === 'https:';
                 const secure = isHttps ? '; secure' : '';
                 document.cookie = prefix + key + '=' + encodeURIComponent(value) + expiry +
                     + '; path=' + cookie.path + secure;
