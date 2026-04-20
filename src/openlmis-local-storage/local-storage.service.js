@@ -173,8 +173,8 @@ angularLocalStorage.service('localStorageService', [
                 }
                 const isHttps = window.location && window.location.protocol === 'https:';
                 const secure = isHttps ? '; secure' : '';
-                document.cookie = prefix + key + '=' + encodeURIComponent(value) + expiry +
-                    + '; path=' + cookie.path + secure;
+                document.cookie = prefix + key + '=' + encodeURIComponent(value)
+                    + expiry + '; path=' + cookie.path + secure;
             } catch (e) {
                 $rootScope.$broadcast('LocalStorageModule.notification.error', e.Description);
                 return false;
