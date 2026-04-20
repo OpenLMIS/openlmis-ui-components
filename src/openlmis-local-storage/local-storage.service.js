@@ -171,7 +171,10 @@ angularLocalStorage.service('localStorageService', [
                     expiryDate.setTime(expiryDate.getTime() + (cookie.expiry * 24 * 60 * 60 * 1000));
                     expiry = '; expires=' + expiryDate.toGMTString();
                 }
-                document.cookie = prefix + key + '=' + encodeURIComponent(value) + expiry + '; path=' + cookie.path;
+                const isHttps = window.location && window.location.protocol === 'https:';
+                const secure = isHttps ? '; secure' : '';
+                document.cookie = prefix + key + '=' + encodeURIComponent(value) + expiry +
+                    + '; path=' + cookie.path + secure;
             } catch (e) {
                 $rootScope.$broadcast('LocalStorageModule.notification.error', e.Description);
                 return false;
