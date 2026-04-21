@@ -173,8 +173,7 @@ angularLocalStorage.service('localStorageService', [
                 }
                 const isHttps = window.location && window.location.protocol === 'https:';
                 const secure = isHttps ? '; secure' : '';
-                document.cookie = prefix + key + '=' + encodeURIComponent(value)
-                    + expiry + '; path=' + cookie.path + secure;
+                document.cookie = key + '=' + encodeURIComponent(value) + expiry + '; path=' + cookie.path + secure;
             } catch (e) {
                 $rootScope.$broadcast('LocalStorageModule.notification.error', e.Description);
                 return false;
@@ -196,8 +195,8 @@ angularLocalStorage.service('localStorageService', [
                 while (thisCookie.charAt(0) === ' ') {
                     thisCookie = thisCookie.substring(1, thisCookie.length);
                 }
-                if (thisCookie.indexOf(prefix + key + '=') === 0) {
-                    return decodeURIComponent(thisCookie.substring(prefix.length + key.length + 1, thisCookie.length));
+                if (thisCookie.indexOf(key + '=') === 0) {
+                    return decodeURIComponent(thisCookie.substring(key.length + 1, thisCookie.length));
                 }
             }
             return null;
@@ -209,14 +208,13 @@ angularLocalStorage.service('localStorageService', [
 
         var clearAllFromCookies = function() {
             var thisCookie = null;
-            var prefixLength = prefix.length;
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 thisCookie = cookies[i];
                 while (thisCookie.charAt(0) === ' ') {
                     thisCookie = thisCookie.substring(1, thisCookie.length);
                 }
-                var key = thisCookie.substring(prefixLength, thisCookie.indexOf('='));
+                var key = thisCookie.substring(thisCookie.indexOf('='));
                 removeFromCookies(key);
             }
         };

@@ -29,6 +29,7 @@
         .factory('messageService', messageService);
 
     var LOCALE_STORAGE_KEY = 'current_locale';
+    var LOCALE_COOKIE_NAME = 'lang';
 
     messageService.$inject = ['$q', '$rootScope', 'OPENLMIS_MESSAGES', 'DEFAULT_LANGUAGE', 'localStorageService'];
 
@@ -75,6 +76,7 @@
 
             if (OPENLMIS_MESSAGES[locale]) {
                 localStorageService.add(LOCALE_STORAGE_KEY, locale);
+                localStorageService.cookie.add(LOCALE_COOKIE_NAME, locale);
                 $rootScope.$broadcast('openlmis.messages.populated');
                 return $q.when();
             }
