@@ -24,6 +24,7 @@
      * The openlmis-i18n module is responsible for messages within the OpenLMIS-UI.
      */
     angular.module('openlmis-i18n', [
+        'ngCookies',
         'openlmis-config',
         'openlmis-local-storage'
     ]);
