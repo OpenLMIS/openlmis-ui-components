@@ -23,6 +23,9 @@ $padding-value: 1rem;
 
   .react-modal-body {
     padding: $padding-value;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .react-modal-footer {
@@ -36,10 +39,13 @@ $padding-value: 1rem;
   position: fixed;
   background: white;
   height: auto;
+  max-height: 600px;
   top: 50%;
   inset-inline-start: 50%;
   width: 600px;
   margin: 30px auto;
+  display: flex;
+  flex-direction: column;
 
   [dir='ltr'] & {
     transform: translate(-50%, -50%);
