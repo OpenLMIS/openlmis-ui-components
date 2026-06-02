@@ -3,6 +3,7 @@ Upcoming Version (WIP)
 
 Improvements:
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
+* [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
 
 Bug fixes:
 * [OLMIS-8165](https://openlmis.atlassian.net/browse/OLMIS-8165): Fix modals (React) by enabling vertical scrolling when their content exceeds the max height.

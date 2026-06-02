@@ -25,6 +25,9 @@ window.moment = require('moment-timezone');
 window.shortid = require('js-shortid');
 
 //eslint-disable-next-line no-undef
+window.autosizeInput = require('@bower_components/autosize-input');
+
+//eslint-disable-next-line no-undef
 window.PouchDB = require('pouchdb').default;
 //eslint-disable-next-line no-undef
 window.PouchDB.plugin(require('pouchdb-find').default);
