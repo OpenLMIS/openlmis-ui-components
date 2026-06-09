@@ -31,8 +31,11 @@
      * <input ng-model="someModel" positive-integer>
      * ```
      */
+    var JAVA_INTEGER_MAX = Math.pow(2, 31) - 1;
+
     angular
         .module('openlmis-form')
+        .constant('JAVA_INTEGER_MAX', JAVA_INTEGER_MAX)
         .directive('positiveInteger', positiveInteger);
 
     function positiveInteger() {
@@ -59,7 +62,13 @@
                     modelCtrl.$render();
                 }
 
-                return transformedInput ? parseInt(transformedInput) : null;
+                var parsed = transformedInput ? parseInt(transformedInput) : null;
+
+                if (attrs.hasOwnProperty('javaInteger')) {
+                    modelCtrl.$setValidity('max', !parsed || parsed <= JAVA_INTEGER_MAX);
+                }
+
+                return parsed;
             });
         }
     }
