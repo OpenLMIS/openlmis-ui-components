@@ -141,3 +141,12 @@ td > label.checkbox {
   min-width: 2em;
   width: 100%;
 }
+
+.openlmis-table td > div.input-control > textarea {
+  min-width: 14em;
+  max-width: 20em;
+  white-space: pre-wrap;
+  overflow: hidden;
+  resize: none;
+  vertical-align: middle;
+}
