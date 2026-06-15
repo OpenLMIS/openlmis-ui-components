@@ -15,7 +15,7 @@
 
 describe('QuantityUnitToggleController', function() {
 
-    var vm, $controller, messageService, QUANTITY_UNIT, localStorageService;
+    var vm, $controller, $rootScope, messageService, QUANTITY_UNIT, quantityUnitConfigService;
 
     beforeEach(function() {
         module('openlmis-quantity-unit-toggle', function($provide) {
@@ -27,14 +27,16 @@ describe('QuantityUnitToggleController', function() {
 
         inject(function($injector) {
             $controller = $injector.get('$controller');
+            $rootScope = $injector.get('$rootScope');
             messageService = $injector.get('messageService');
             QUANTITY_UNIT = $injector.get('QUANTITY_UNIT');
-            localStorageService = $injector.get('localStorageService');
+            quantityUnitConfigService = $injector.get('quantityUnitConfigService');
         });
 
         vm = $controller('QuantityUnitToggleController', {
             messageService: messageService,
-            localStorageService: localStorageService
+            quantityUnitConfigService: quantityUnitConfigService,
+            $rootScope: $rootScope
         });
     });
 
@@ -49,31 +51,33 @@ describe('QuantityUnitToggleController', function() {
             ]);
         });
 
-        it('should expose default quantityUnit when not cached in storage', function() {
-            spyOn(localStorageService, 'get').andReturn(null);
-            spyOn(QUANTITY_UNIT, '$getDefaultQuantityUnit').andReturn('DOSES');
-
-            vm.$onInit();
-
-            expect(vm.quantityUnit).toEqual(QUANTITY_UNIT.DOSES);
-            expect(QUANTITY_UNIT.$getDefaultQuantityUnit).toHaveBeenCalled();
-            expect(localStorageService.get).toHaveBeenCalledWith('quantityUnit');
-        });
-
-        it('should expose quantityUnit doses from storage', function() {
-            spyOn(localStorageService, 'get').andReturn('DOSES');
-
-            vm.$onInit();
-
-            expect(vm.quantityUnit).toEqual(QUANTITY_UNIT.DOSES);
-        });
-
-        it('should expose quantityUnit packs from storage', function() {
-            spyOn(localStorageService, 'get').andReturn('PACKS');
+        it('should set quantityUnit from the effective unit resolved by the config service', function() {
+            spyOn(quantityUnitConfigService, 'getEffectiveUnit').andReturn(QUANTITY_UNIT.PACKS);
 
             vm.$onInit();
 
             expect(vm.quantityUnit).toEqual(QUANTITY_UNIT.PACKS);
+        });
+    });
+
+    describe('isQuantityUnitToggleVisible', function() {
+
+        it('should be visible when mode is BOTH', function() {
+            spyOn(quantityUnitConfigService, 'getMode').andReturn(QUANTITY_UNIT.BOTH);
+
+            expect(vm.isQuantityUnitToggleVisible()).toBe(true);
+        });
+
+        it('should be hidden when mode is PACKS', function() {
+            spyOn(quantityUnitConfigService, 'getMode').andReturn(QUANTITY_UNIT.PACKS);
+
+            expect(vm.isQuantityUnitToggleVisible()).toBe(false);
+        });
+
+        it('should be hidden when mode is DOSES', function() {
+            spyOn(quantityUnitConfigService, 'getMode').andReturn(QUANTITY_UNIT.DOSES);
+
+            expect(vm.isQuantityUnitToggleVisible()).toBe(false);
         });
     });
 
@@ -98,24 +102,25 @@ describe('QuantityUnitToggleController', function() {
 
     describe('onChange', function() {
 
-        it('should add quantityUnit doses to local storage', function() {
-            spyOn(localStorageService, 'add');
+        it('should persist the selected unit through the config service', function() {
+            spyOn(quantityUnitConfigService, 'setSelectedUnit');
             vm.quantityUnit = QUANTITY_UNIT.DOSES;
 
             vm.onChange();
 
-            expect(localStorageService.add).toHaveBeenCalledWith('quantityUnit', QUANTITY_UNIT.DOSES);
+            expect(quantityUnitConfigService.setSelectedUnit).toHaveBeenCalledWith(QUANTITY_UNIT.DOSES);
         });
 
-        it('should add quantityUnit packs to local storage', function() {
-            spyOn(localStorageService, 'add');
+        it('should emit an event so the selection can be persisted per user', function() {
+            spyOn(quantityUnitConfigService, 'setSelectedUnit');
+            spyOn($rootScope, '$emit');
             vm.quantityUnit = QUANTITY_UNIT.PACKS;
 
             vm.onChange();
 
-            expect(localStorageService.add).toHaveBeenCalledWith('quantityUnit', QUANTITY_UNIT.PACKS);
+            expect($rootScope.$emit)
+                .toHaveBeenCalledWith('openlmis.quantityUnit.selected', QUANTITY_UNIT.PACKS);
         });
-
     });
 
 });
