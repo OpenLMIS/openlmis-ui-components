@@ -1,6 +1,9 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
 
+Bug fixes:
+* [OLMIS-8177](https://openlmis.atlassian.net/browse/OLMIS-8177): React table input cells (packs/doses quantity) now show a "This field is required" tooltip when invalid, instead of a tooltip-less red mark.
+
 7.2.16 / 2026-06-09
 ==================
 

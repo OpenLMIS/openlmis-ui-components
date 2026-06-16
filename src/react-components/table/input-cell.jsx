@@ -17,6 +17,9 @@ import React, { useState, useEffect } from 'react';
 
 import NumericInput from '../inputs/numeric-input';
 import Input from '../inputs/input';
+import WebTooltip from '../modals/web-tooltip';
+
+const FIELD_REQUIRED_TOOLTIP = 'This field is required';
 
 const InputCell = ({
     value: initialValue,
@@ -58,10 +61,12 @@ const InputCell = ({
     }, [showValidationErrors]);
 
     return (
-        <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
-            {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
-            {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
-        </div>
+        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={FIELD_REQUIRED_TOOLTIP}>
+            <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
+                {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
+                {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
+            </div>
+        </WebTooltip>
     );
 };
 
