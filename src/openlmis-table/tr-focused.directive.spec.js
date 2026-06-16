@@ -59,4 +59,40 @@ describe('TR Focused Directive', function() {
         expect(tr.hasClass('is-focused')).toBe(false);
     });
 
+    it('removes is-focused when focus leaves the row to a non-focusable target', function() {
+        var tr = this.table.find('tr:first');
+
+        this.table.find('input:first').focus();
+        this.$rootScope.$apply();
+
+        expect(tr.hasClass('is-focused')).toBe(true);
+
+        angular.element('body').triggerHandler({
+            type: 'focusout',
+            relatedTarget: null
+        });
+        this.$rootScope.$apply();
+
+        expect(tr.hasClass('is-focused')).toBe(false);
+    });
+
+    it('keeps is-focused when focus moves to another focusable element', function() {
+        var tr = this.table.find('tr:first');
+
+        this.table.find('input:first').focus();
+        this.$rootScope.$apply();
+
+        expect(tr.hasClass('is-focused')).toBe(true);
+
+        // A focusout with a relatedTarget is followed by a focusin that
+        // setSelectedRow handles, so the focusout handler must not clear here.
+        angular.element('body').triggerHandler({
+            type: 'focusout',
+            relatedTarget: this.table.find('input:last')[0]
+        });
+        this.$rootScope.$apply();
+
+        expect(tr.hasClass('is-focused')).toBe(true);
+    });
+
 });
