@@ -10,6 +10,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-8165](https://openlmis.atlassian.net/browse/OLMIS-8165): Fix modals (React) by enabling vertical scrolling when their content exceeds the max height.
+* [OLMIS-8043](https://openlmis.atlassian.net/browse/OLMIS-8043): Add alertService method to close the currently displayed alert modal.
 
 
 7.2.15 / 2026-02-05
