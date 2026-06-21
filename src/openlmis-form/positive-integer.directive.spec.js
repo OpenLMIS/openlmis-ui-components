@@ -64,11 +64,18 @@ describe('openlmisPositiveInteger', function() {
 
     describe('without java-integer attribute', function() {
 
-        it('should not validate max', function() {
+        it('should be valid for value within the safe integer range', function() {
             this.$scope.form_test.input_test.$setViewValue('9999999999');
             this.$scope.$digest();
 
             expect(this.$scope.form_test.input_test.$error.max).toBeFalsy();
+        });
+
+        it('should be invalid for value exceeding the max safe integer', function() {
+            this.$scope.form_test.input_test.$setViewValue('99999999999999999');
+            this.$scope.$digest();
+
+            expect(this.$scope.form_test.input_test.$error.max).toBe(true);
         });
     });
 
