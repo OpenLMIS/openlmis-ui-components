@@ -15,7 +15,7 @@
 
 describe('QuantityUnitInputController', function() {
 
-    var vm, $controller, quantityUnitCalculateService;
+    let vm, $controller, quantityUnitCalculateService;
 
     beforeEach(function() {
         module('openlmis-quantity-unit-input');
@@ -85,10 +85,10 @@ describe('QuantityUnitInputController', function() {
     describe('changeValue', function() {
 
         it('should recalculate input quantity and emit the change', function() {
-            var item = {
+            const item = {
                 quantityInPacks: 2
             };
-            var recalculated = {
+            const recalculated = {
                 quantityInPacks: 2,
                 quantity: 20
             };
@@ -101,6 +101,7 @@ describe('QuantityUnitInputController', function() {
 
             expect(quantityUnitCalculateService.recalculateInputQuantity)
                 .toHaveBeenCalledWith(item, 10, false);
+
             expect(vm.onChangeQuantity).toHaveBeenCalledWith({
                 lineItem: recalculated
             });
