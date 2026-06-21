@@ -24,7 +24,7 @@ describe('Textarea automatic resize directive', function() {
         });
 
         this.compileMarkup = function(markup) {
-            var element = this.$compile(markup)(this.$scope);
+            const element = this.$compile(markup)(this.$scope);
             angular.element('body').append(element);
             this.$scope.$apply();
             return element;
@@ -32,7 +32,7 @@ describe('Textarea automatic resize directive', function() {
 
         this.$scope = this.$rootScope.$new();
 
-        var markup =
+        const markup =
             '<table><tr><td>' +
                 '<textarea>short</textarea>' +
             '</td></tr></table>';
@@ -42,36 +42,36 @@ describe('Textarea automatic resize directive', function() {
     });
 
     it('should set an explicit width and height when textarea has a value', function() {
-        expect(parseInt(this.textarea[0].style.width, 10)).toBeGreaterThan(0);
-        expect(parseInt(this.textarea[0].style.height, 10)).toBeGreaterThan(0);
+        expect(Number.parseInt(this.textarea[0].style.width, 10)).toBeGreaterThan(0);
+        expect(Number.parseInt(this.textarea[0].style.height, 10)).toBeGreaterThan(0);
     });
 
     it('should grow width when value becomes longer', function() {
-        var previousWidth = parseInt(this.textarea[0].style.width, 10);
+        const previousWidth = Number.parseInt(this.textarea[0].style.width, 10);
 
         this.textarea[0].value = 'a value that is clearly longer than the initial one';
         this.$scope.$apply();
 
-        expect(parseInt(this.textarea[0].style.width, 10)).toBeGreaterThan(previousWidth);
+        expect(Number.parseInt(this.textarea[0].style.width, 10)).toBeGreaterThan(previousWidth);
     });
 
     it('should grow height when value spans multiple lines', function() {
-        var previousHeight = parseInt(this.textarea[0].style.height, 10);
+        const previousHeight = Number.parseInt(this.textarea[0].style.height, 10);
 
         this.textarea[0].value = 'first line\nsecond line\nthird line\nfourth line';
         this.$scope.$apply();
 
-        expect(parseInt(this.textarea[0].style.height, 10)).toBeGreaterThan(previousHeight);
+        expect(Number.parseInt(this.textarea[0].style.height, 10)).toBeGreaterThan(previousHeight);
     });
 
     it('should do nothing for a textarea outside of a table cell', function() {
-        var markup =
+        const markup =
             '<form>' +
                 '<textarea>outside</textarea>' +
             '</form>';
 
-        var element = this.compileMarkup(markup);
-        var textarea = element.find('textarea');
+        const element = this.compileMarkup(markup);
+        const textarea = element.find('textarea');
 
         expect(textarea[0].style.width).toEqual('');
         expect(textarea[0].style.height).toEqual('');
