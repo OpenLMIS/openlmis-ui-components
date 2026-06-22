@@ -2,6 +2,7 @@ Upcoming Version (WIP)
 ==================
 
 Improvements:
+* [OLMIS-8181](https://openlmis.atlassian.net/browse/OLMIS-8181): Disable doses input when net content is one.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
 
 7.2.15 / 2026-02-05
