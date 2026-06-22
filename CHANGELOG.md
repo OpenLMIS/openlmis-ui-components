@@ -2,6 +2,7 @@ Upcoming Version (WIP)
 ==================
 
 Improvements:
+* [OLMIS-8118](https://openlmis.atlassian.net/browse/OLMIS-8118): Validate max value on positive integer inputs.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
 * [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
 
