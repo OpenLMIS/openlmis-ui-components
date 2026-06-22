@@ -5,6 +5,7 @@
 ==================
 
 Improvements:
+* [OLMIS-8238](https://openlmis.atlassian.net/browse/OLMIS-8238): Add facility-level packs/doses display configuration.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
 * [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
 

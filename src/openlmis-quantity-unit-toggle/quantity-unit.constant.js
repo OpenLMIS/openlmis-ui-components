@@ -33,8 +33,7 @@
             PACKS: 'PACKS',
             DOSES: 'DOSES',
             BOTH: 'BOTH',
-            $getDisplayName: getDisplayName,
-            $getDefaultQuantityUnit: getDefaultQuantityUnit
+            $getDisplayName: getDisplayName
         };
         var displayNames = {
             PACKS: 'openlmisQuantityUnitToggle.packs',
@@ -45,10 +44,6 @@
 
         function getDisplayName(name) {
             return displayNames[name];
-        }
-
-        function getDefaultQuantityUnit() {
-            return '${DEFAULT_QUANTITY_UNIT}';
         }
     }
 
