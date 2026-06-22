@@ -11,6 +11,14 @@
     width: 60px;
 }
 
+.packs-to-order-hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85em;
+    font-style: italic;
+    color: #666;
+}
+
 .openlmis-table > tbody > tr > td.has-single-input-control.is-invalid > openlmis-quantity-unit-input {
   @include icon("exclamation-circle");
 
