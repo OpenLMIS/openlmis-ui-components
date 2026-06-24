@@ -34,6 +34,7 @@
 
         this.recalculateSOHQuantity = recalculateSOHQuantity;
         this.recalculateInputQuantity = recalculateInputQuantity;
+        this.packsToOrder = packsToOrder;
 
         /**
          * @ngdoc method
@@ -136,6 +137,44 @@
             }
 
             return quantityInDoses;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-quantity-unit-toggle.quantityUnitCalculateService
+         * @name packsToOrder
+         *
+         * @description
+         * Returns the number of whole packs that will be ordered for a given quantity in dispensing
+         * units (doses), applying the orderable's pack rounding configuration. JS port that mirrors
+         * the canonical referencedata Orderable#packsToOrder algorithm (also in fulfillment
+         * OrderableDto and requisition's BasicOrderableDto) - keep behaviourally identical so the UI
+         * preview matches what the backend stores on send.
+         *
+         * @param  {number}  quantity              the quantity in dispensing units (doses)
+         * @param  {number}  netContent            quantity of doses in one pack
+         * @param  {number}  packRoundingThreshold remainder above which a partial pack is rounded up
+         * @param  {boolean} roundToZero           whether a non-zero quantity may round down to 0 packs
+         * @return {number}                         the number of packs that will be ordered
+         */
+        function packsToOrder(quantity, netContent, packRoundingThreshold, roundToZero) {
+            if (!quantity || quantity <= 0 || isNetContentUndefinedOrZero(netContent)) {
+                return 0;
+            }
+
+            var threshold = packRoundingThreshold || 0;
+            var packs = Math.floor(quantity / netContent);
+            var remainder = quantity % netContent;
+
+            if (remainder > 0 && remainder > threshold) {
+                packs += 1;
+            }
+
+            if (packs === 0 && !roundToZero) {
+                packs = 1;
+            }
+
+            return packs;
         }
 
         function isNetContentUndefinedOrZero(netContent) {

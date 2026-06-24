@@ -7,6 +7,7 @@ export default function QuantityUnitInput({
   showInDoses,
   item,
   onChangeQuantity,
+  showPacksToOrderHint,
   ...inputCellProps
 }) {
   const messageService = useMemo(() => getService('messageService'), []);
@@ -77,6 +78,44 @@ export default function QuantityUnitInput({
     [messageService]
   );
 
+  // Preview of the whole-pack quantity that a requisition-less order will ultimately be ordered as
+  // (the backend rounds doses -> packs at send). Only shown when the consumer opts in via
+  // showPacksToOrderHint and net content makes packs meaningful.
+  const packsToOrderHint = useMemo(() => {
+    if (!showPacksToOrderHint || netContent === 1) {
+      return null;
+    }
+
+    const totalDoses = showInDoses
+      ? Number(localValues.orderedQuantity)
+      : (Number(localValues.quantityInPacks) || 0) * netContent
+          + (Number(localValues.quantityRemainderInDoses) || 0);
+
+    if (!totalDoses || totalDoses <= 0) {
+      return null;
+    }
+
+    const packs = quantityUnitCalculateService.packsToOrder(
+      totalDoses,
+      netContent,
+      item?.orderable?.packRoundingThreshold,
+      item?.orderable?.roundToZero
+    );
+
+    return messageService.get('openlmisInputDosesPacks.willBeOrderedAsPacks', {
+      packs: packs,
+      doses: packs * netContent,
+    });
+  }, [
+    showPacksToOrderHint,
+    netContent,
+    showInDoses,
+    localValues,
+    quantityUnitCalculateService,
+    item,
+    messageService,
+  ]);
+
   useEffect(() => {
     // Recalculate the item if it has orderedQuantity but no quantityRemainderInDoses or quantityInPacks
     // and if we are not showing in doses
@@ -114,37 +153,45 @@ export default function QuantityUnitInput({
           onBlur={handleBlur}
           key={`orderedQuantity-${item?.orderable?.id}`}
         />
+        {packsToOrderHint && (
+          <p className='packs-to-order-hint'>{packsToOrderHint}</p>
+        )}
       </div>
     );
   }
 
   return (
-    <div className='openlmis-input'>
-      <InputCell
-        {...inputCellProps}
-        value={localValues.quantityInPacks}
-        onChange={(value) => handleLocalChange('quantityInPacks', value)}
-        onBlur={handleBlur}
-        placeholder={formatMessage('openlmisInputDosesPacks.Packs')}
-        id='quantityInPacks'
-        key={`quantityInPacks-${item?.orderable?.id}`}
-      />
-      <p> ( + </p>
-      <InputCell
-        {...inputCellProps}
-        value={localValues.quantityRemainderInDoses}
-        onChange={(value) =>
-          handleLocalChange('quantityRemainderInDoses', value)
-        }
-        onBlur={handleBlur}
-        disabled={
-          inputCellProps.disabled || isQuantityRemainderInDosesDisabled()
-        }
-        placeholder={formatMessage('openlmisInputDosesPacks.Doses')}
-        id='quantityRemainderInDoses'
-        key={`quantityRemainderInDoses-${item?.orderable?.id}`}
-      />
-      <p>{formatMessage('openlmisInputDosesPacks.DosesBracket')}</p>
+    <div>
+      <div className='openlmis-input'>
+        <InputCell
+          {...inputCellProps}
+          value={localValues.quantityInPacks}
+          onChange={(value) => handleLocalChange('quantityInPacks', value)}
+          onBlur={handleBlur}
+          placeholder={formatMessage('openlmisInputDosesPacks.Packs')}
+          id='quantityInPacks'
+          key={`quantityInPacks-${item?.orderable?.id}`}
+        />
+        <p> ( + </p>
+        <InputCell
+          {...inputCellProps}
+          value={localValues.quantityRemainderInDoses}
+          onChange={(value) =>
+            handleLocalChange('quantityRemainderInDoses', value)
+          }
+          onBlur={handleBlur}
+          disabled={
+            inputCellProps.disabled || isQuantityRemainderInDosesDisabled()
+          }
+          placeholder={formatMessage('openlmisInputDosesPacks.Doses')}
+          id='quantityRemainderInDoses'
+          key={`quantityRemainderInDoses-${item?.orderable?.id}`}
+        />
+        <p>{formatMessage('openlmisInputDosesPacks.DosesBracket')}</p>
+      </div>
+      {packsToOrderHint && (
+        <p className='packs-to-order-hint'>{packsToOrderHint}</p>
+      )}
     </div>
   );
 }
