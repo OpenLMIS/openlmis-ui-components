@@ -1,5 +1,6 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
+* [OLMIS-8179](https://openlmis.atlassian.net/browse/OLMIS-8179): Compact packs/doses quantity inputs.
 
 7.2.16 / 2026-06-09
 ==================
