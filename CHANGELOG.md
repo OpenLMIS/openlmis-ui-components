@@ -1,9 +1,18 @@
-Upcoming Version (WIP)
+7.2.17-SNAPSHOT (WIP)
+==================
+
+7.2.16 / 2026-06-09
 ==================
 
 Improvements:
 * [OLMIS-8181](https://openlmis.atlassian.net/browse/OLMIS-8181): Disable doses input when net content is one.
+* [OLMIS-8118](https://openlmis.atlassian.net/browse/OLMIS-8118): Validate max value on positive integer inputs.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
+* [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
+
+Bug fixes:
+* [OLMIS-8165](https://openlmis.atlassian.net/browse/OLMIS-8165): Fix modals (React) by enabling vertical scrolling when their content exceeds the max height.
+
 
 7.2.15 / 2026-02-05
 =================

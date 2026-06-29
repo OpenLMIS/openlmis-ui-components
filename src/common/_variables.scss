@@ -80,3 +80,6 @@ $res-xxl: 1400px;
 
 $sidebar-width: 16em !default;
 $popover-width: 20em;
+
+// Z-index
+$z-index-header-sticky: 1030 !default; // above content, below modals

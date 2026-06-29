@@ -23,16 +23,26 @@
      * @name openlmis-form.directive:positiveInteger
      *
      * @description
-     * Restricts the ngModel to only allow positive integers.
+     * Restricts the ngModel to only allow positive integers. Values larger than the maximum safe
+     * integer in JavaScript are rejected (the 'max' validity is set to false), because parseInt
+     * would otherwise silently overflow and send a wrong value. When the java-integer attribute is
+     * present the limit is lowered to the maximum Java Integer value.
      *
      * @example
      * Extend the input element to force it to only accept positive integers as values.
      * ```
      * <input ng-model="someModel" positive-integer>
      * ```
+     * Add the java-integer attribute to additionally reject values exceeding the Java Integer range.
+     * ```
+     * <input ng-model="someModel" positive-integer java-integer>
+     * ```
      */
+    var JAVA_INTEGER_MAX = Math.pow(2, 31) - 1;
+
     angular
         .module('openlmis-form')
+        .constant('JAVA_INTEGER_MAX', JAVA_INTEGER_MAX)
         .directive('positiveInteger', positiveInteger);
 
     function positiveInteger() {
@@ -59,7 +69,14 @@
                     modelCtrl.$render();
                 }
 
-                return transformedInput ? parseInt(transformedInput) : null;
+                var parsed = transformedInput ? parseInt(transformedInput) : null;
+
+                var maxValue = attrs.hasOwnProperty('javaInteger')
+                    ? JAVA_INTEGER_MAX
+                    : Number.MAX_SAFE_INTEGER;
+                modelCtrl.$setValidity('max', !parsed || parsed <= maxValue);
+
+                return parsed;
             });
         }
     }
