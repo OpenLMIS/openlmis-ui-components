@@ -22,7 +22,7 @@
         ng-class="vm.inputClass"
         ng-model="vm.item.quantityRemainderInDoses"
         ng-change="vm.changeValue(vm.item)"
-        ng-disabled="vm.disabled"
+        ng-disabled="vm.disabled || vm.isQuantityRemainderInDosesDisabled()"
         placeholder="{{'openlmisInputDosesPacks.Doses' | message }}"
         positive-integer />
     <p>{{'openlmisInputDosesPacks.DosesBracket' | message }}</p>
