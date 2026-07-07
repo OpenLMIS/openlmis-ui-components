@@ -18,51 +18,65 @@
 
     /**
      * @ngdoc directive
-     * @restrict E
-     * @name openlmis-table-form.directive:textareaAutoResize
+     * @restrict C
+     * @name openlmis-table-form.directive:openlmisLongText
      *
      * @description
-     * Adds auto-resize to textarea elements inside table cells. The textarea grows
-     * horizontally with its content up to the column max-width (set in CSS); once the
-     * content reaches that width it wraps and the textarea grows vertically instead.
+     * Shared behavior for long free-text fields shown in a constrained table column.
+     * Add the `openlmis-long-text` class to opt a field in: it grows horizontally with
+     * its content up to the column max-width (set in CSS), then wraps and grows
+     * vertically. The class is the single opt-in flag and covers both the editable side
+     * (a textarea, resized here) and the read-only side (a span, handled purely by CSS).
      *
      * @example
      * ```
-     * <textarea ng-model="model"></textarea>
+     * <textarea class="openlmis-long-text" ng-model="model"></textarea>
+     * <span class="openlmis-long-text">{{model}}</span>
      * ```
      */
-    var GHOST_ID = 'openlmisTextareaAutoResizeGhost';
+    var GHOST_ID = 'openlmisLongTextGhost';
     var GHOST_STYLE = 'display:inline-block;position:absolute;top:0;left:-9999px;' +
         'visibility:hidden;height:0;overflow:hidden;white-space:pre;';
     var MEASURED_PROPERTIES = [
         'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing',
         'paddingLeft', 'paddingRight', 'borderLeftWidth', 'borderRightWidth', 'boxSizing'
     ];
-
     angular
         .module('openlmis-table-form')
-        .directive('textarea', textareaAutoResize);
+        .directive('openlmisLongText', openlmisLongText);
 
-    function textareaAutoResize() {
+    function openlmisLongText() {
         var directive = {
             link: link,
-            restrict: 'E'
+            restrict: 'C'
         };
         return directive;
 
+        // A textarea's size comes from its cols/rows, not its text, so measure the content and
+        // set the width and height. (The read-only span does the same purely in CSS.)
         function link(scope, element) {
-            if (shouldSkipElement(element)) {
+            var el = element[0];
+
+            if (el.tagName !== 'TEXTAREA') {
                 return;
             }
 
-            var el = element[0];
             scope.$watch(function() {
                 return el.value;
             }, function() {
-                el.style.width = measureContentWidth(el) + 'px';
-                el.style.height = 'auto';
-                el.style.height = el.scrollHeight + 'px';
+                resize(el);
             });
+        }
+
+        function resize(el) {
+            // Skip while hidden: a display:none textarea has scrollHeight 0, which would stick it
+            // at height:0 once shown. Typing re-runs this when it is visible.
+            if (el.offsetParent === null) {
+                return;
+            }
+            el.style.width = measureContentWidth(el) + 'px';
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
         }
 
         function measureContentWidth(el) {
@@ -74,7 +88,9 @@
             });
             ghost.textContent = el.value || el.getAttribute('placeholder') || '';
 
-            return ghost.offsetWidth;
+            // Sub-pixel width rounded up. offsetWidth rounds down and can wrap the last word
+            // mid-typing; ceil of the real width is the smallest integer that still fits.
+            return Math.ceil(ghost.getBoundingClientRect().width);
         }
 
         function getGhost() {
@@ -86,17 +102,6 @@
                 document.body.appendChild(ghost);
             }
             return ghost;
-        }
-
-        function shouldSkipElement(element) {
-            return element.parents().length < 2 || isOutsideTd(element);
-        }
-
-        function isOutsideTd(element) {
-            var parents = element.parents();
-
-            return parents[1].localName !== 'td' || parents[0].localName !== 'div' ||
-                !parents[0].classList.contains('input-control');
         }
     }
 

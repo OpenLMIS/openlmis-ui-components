@@ -1,5 +1,6 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
+* [OLMIS-8191](https://openlmis.atlassian.net/browse/OLMIS-8191): Add openlmis-long-text class and directive so long free-text in table cells grows with content then wraps — for both the editable textarea and its read-only display.
 
 7.2.16 / 2026-06-09
 ==================
