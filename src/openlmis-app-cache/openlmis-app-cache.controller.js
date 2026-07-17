@@ -60,7 +60,9 @@
          * Initialization method of the OpenlmisAppCacheController.
          */
         function onInit() {
-            appCache.addEventListener('updateready', setUpdateReady);
+            if (appCache) {
+                appCache.addEventListener('updateready', setUpdateReady);
+            }
             vm.buildDate = OPENLMIS_BUILD_DATE;
             setUpdateReady();
         }
@@ -97,7 +99,7 @@
         }
 
         function setUpdateReady() {
-            vm.updateReady = appCache.status === appCache.UPDATEREADY;
+            vm.updateReady = !!appCache && appCache.status === appCache.UPDATEREADY;
         }
 
     }
