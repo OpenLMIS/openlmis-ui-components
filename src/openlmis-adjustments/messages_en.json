@@ -11,5 +11,6 @@
     "openlmisAdjustments.total": "Total",
     "openlmisAdjustments.update": "Update",
     "openlmisAdjustments.actions": "Actions",
-    "openlmisAdjustments.close": "Close"
+    "openlmisAdjustments.close": "Close",
+    "openlmisAdjustments.quantityGreaterThanZero": "Quantity must be greater than 0"
 }
