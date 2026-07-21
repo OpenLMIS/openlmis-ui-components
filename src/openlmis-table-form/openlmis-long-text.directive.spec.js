@@ -83,4 +83,20 @@ describe('openlmisLongText directive', function() {
         // leave it collapsed once shown (e.g. an ng-show free-text comment). It must be skipped.
         expect(textarea[0].style.height).not.toEqual('0px');
     });
+
+    it('should size a pre-filled textarea once it becomes visible after being hidden', function() {
+        const textarea = this.compileMarkup(
+            '<textarea class="openlmis-long-text" style="display: none;">a pre-filled value</textarea>'
+        );
+
+        // Hidden at link time -> skipped, no inline height yet.
+        expect(textarea[0].style.height).toEqual('');
+
+        // Shown later without a value change -> the visibility watch must size it.
+        textarea[0].style.display = '';
+        this.$scope.$apply();
+
+        expect(Number.parseInt(textarea[0].style.height, 10)).toBeGreaterThan(0);
+        expect(Number.parseInt(textarea[0].style.width, 10)).toBeGreaterThan(0);
+    });
 });
