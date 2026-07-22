@@ -65,6 +65,10 @@ $padding-small: 0.5em;
 $padding: (2 * $padding-small);
 $padding-large: (2 * $padding);
 
+// openlmis-long-text widen-then-wrap: cap = where wrapping starts, floor = editable typing room.
+$openlmis-long-text-max-width: 35em !default;
+$openlmis-long-text-min-width: 14em !default;
+
 $margin: 1em;
 
 $padding2px:2px;
