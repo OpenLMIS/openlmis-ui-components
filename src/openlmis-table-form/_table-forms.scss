@@ -142,11 +142,24 @@ td > label.checkbox {
   width: 100%;
 }
 
-.openlmis-table td > div.input-control > textarea {
-  min-width: 14em;
-  max-width: 20em;
+// Long free-text in a table column: widens with content, then wraps. Opt-in class on the
+// editable textarea (sized by the openlmisLongText directive) and the read-only span.
+.openlmis-long-text {
+  display: inline-block;
+  max-width: $openlmis-long-text-max-width;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
   overflow: hidden;
   resize: none;
   vertical-align: middle;
+}
+
+// Editable: minimum typing width (the directive sets the actual width).
+textarea.openlmis-long-text {
+  min-width: $openlmis-long-text-min-width;
+}
+
+// Read-only: size to content up to the cap, so short cells stay narrow and long text wraps.
+span.openlmis-long-text {
+  width: max-content;
 }
