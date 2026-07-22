@@ -31,12 +31,13 @@
     AdjustmentsModalController.$inject = [
         '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
         'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem',
-        'quantityUnitCalculateService'
+        'quantityUnitCalculateService', 'alertService'
     ];
 
     function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
                                         adjustments, reasons, summaries, preSave, preCancel,
-                                        filterReasons, showInDoses, lineItem, quantityUnitCalculateService) {
+                                        filterReasons, showInDoses, lineItem, quantityUnitCalculateService,
+                                        alertService) {
 
         var vm = this;
 
@@ -45,6 +46,7 @@
         vm.removeAdjustment = removeAdjustment;
         vm.cancel = cancel;
         vm.save = save;
+        vm.hasInvalidAdjustments = hasInvalidAdjustments;
 
         /**
          * @ngdoc property
@@ -180,6 +182,11 @@
          * Adds adjustment to line item.
          */
         function addAdjustment() {
+            if (vm.newAdjustment && !hasValidQuantity(vm.newAdjustment)) {
+                alertService.error('openlmisAdjustments.quantityGreaterThanZero');
+                return $q.when();
+            }
+
             vm.adjustments.push(vm.newAdjustment);
 
             vm.newAdjustment = undefined;
@@ -223,6 +230,11 @@
          * back to the modal without applying any changes;
          */
         function save() {
+            if (hasInvalidAdjustments()) {
+                alertService.error('openlmisAdjustments.quantityGreaterThanZero');
+                return;
+            }
+
             if (preSave) {
                 preSave(vm.adjustments)
                     .then(function() {
@@ -249,6 +261,22 @@
             } else {
                 modalDeferred.reject();
             }
+        }
+
+        function hasInvalidAdjustments() {
+            return (vm.adjustments || []).some(function(adjustment) {
+                return !hasValidQuantity(adjustment);
+            });
+        }
+
+        function hasValidQuantity(adjustment) {
+            return adjustment !== undefined
+                && adjustment !== null
+                && adjustment.quantity !== undefined
+                && adjustment.quantity !== null
+                && adjustment.quantity !== ''
+                && !isNaN(adjustment.quantity)
+                && Number(adjustment.quantity) > 0;
         }
     }
 

@@ -32,7 +32,9 @@
         .module('openlmis-table')
         .directive('tr', directive);
 
-    function directive() {
+    directive.$inject = ['$rootScope'];
+
+    function directive($rootScope) {
         var focusInRow, focusedRow, rows = [];
 
         return {
@@ -43,7 +45,8 @@
         function link(scope, element) {
             if (!rows.length) {
                 angular.element('body')
-                    .on('focusin', setSelectedRow);
+                    .on('focusin', setSelectedRow)
+                    .on('focusout', clearSelectedRowOnLeave);
             }
 
             if (rows.indexOf(element) === -1) {
@@ -76,7 +79,8 @@
 
                 if (!rows.length) {
                     angular.element('body')
-                        .off('focusin', setSelectedRow);
+                        .off('focusin', setSelectedRow)
+                        .off('focusout', clearSelectedRowOnLeave);
                 }
             }
         }
@@ -95,6 +99,25 @@
             }
 
             focusInRow = undefined;
+        }
+
+        function clearSelectedRowOnLeave(event) {
+            var related = event.relatedTarget ||
+                (event.originalEvent && event.originalEvent.relatedTarget);
+
+            // When focus moves to another focusable element a focusin follows and
+            // setSelectedRow handles the change. Only act when focus leaves to a
+            // non-focusable target (e.g. clicking outside the table), where no
+            // focusin fires and the row would otherwise keep the is-focused class.
+            if (related) {
+                return;
+            }
+
+            if (focusedRow) {
+                focusedRow.removeClass('is-focused');
+                focusedRow = undefined;
+                $rootScope.$evalAsync();
+            }
         }
 
     }

@@ -24,6 +24,7 @@ describe('OpenlmisAppCacheController', function() {
             this.$rootScope = $injector.get('$rootScope');
             this.$controller = $injector.get('$controller');
             this.$q = $injector.get('$q');
+            this.OPENLMIS_BUILD_DATE = $injector.get('OPENLMIS_BUILD_DATE');
         });
 
         this.applicationCacheMock = jasmine.createSpyObj('applicationCache', [
@@ -142,6 +143,49 @@ describe('OpenlmisAppCacheController', function() {
             this.$rootScope.$emit('openlmis-auth.logout');
 
             expect(this.locationMock.reload).toHaveBeenCalled();
+        });
+
+    });
+
+    // The deprecated window.applicationCache has been removed from modern browsers,
+    // so $window.applicationCache can be undefined. The controller must not crash.
+    describe('when applicationCache is not available', function() {
+
+        beforeEach(function() {
+            this.vm = this.$controller('OpenlmisAppCacheController', {
+                $window: {
+                    applicationCache: undefined,
+                    location: this.locationMock
+                }
+            });
+        });
+
+        it('should not throw on init', function() {
+            var vm = this.vm;
+
+            expect(function() {
+                vm.$onInit();
+            }).not.toThrow();
+        });
+
+        it('should still set the build date', function() {
+            this.vm.$onInit();
+
+            expect(this.vm.buildDate).toBe(this.OPENLMIS_BUILD_DATE);
+        });
+
+        it('should set updateReady flag to false', function() {
+            this.vm.$onInit();
+
+            expect(this.vm.updateReady).toBe(false);
+        });
+
+        it('should do nothing when updateCache is called', function() {
+            this.vm.$onInit();
+
+            this.vm.updateCache();
+
+            expect(this.confirmService.confirm).not.toHaveBeenCalled();
         });
 
     });

@@ -22,6 +22,7 @@ describe('AdjustmentsModalController', function() {
             this.$q = $injector.get('$q');
             this.$rootScope = $injector.get('$rootScope');
             this.$controller = $injector.get('$controller');
+            this.alertService = $injector.get('alertService');
         });
 
         this.modalDeferred = this.$q.defer();
@@ -67,6 +68,7 @@ describe('AdjustmentsModalController', function() {
 
         spyOn(this.modalDeferred, 'resolve');
         spyOn(this.modalDeferred, 'reject');
+        spyOn(this.alertService, 'error');
 
         this.initController = initController;
     });
@@ -191,6 +193,52 @@ describe('AdjustmentsModalController', function() {
             expect(this.filterReasons).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
+        it('should not add adjustment and should show error when quantity is zero', function() {
+            this.vm.newAdjustment = {
+                reason: this.vm.reasons[0],
+                quantity: 0
+            };
+
+            this.vm.addAdjustment();
+
+            expect(this.vm.adjustments.length).toBe(2);
+            expect(this.alertService.error)
+                .toHaveBeenCalledWith('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should not add adjustment and should show error when quantity is empty', function() {
+            this.vm.newAdjustment = {
+                reason: this.vm.reasons[0],
+                quantity: ''
+            };
+
+            this.vm.addAdjustment();
+
+            expect(this.vm.adjustments.length).toBe(2);
+            expect(this.alertService.error)
+                .toHaveBeenCalledWith('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should not add adjustment and should show error when quantity is negative', function() {
+            this.vm.newAdjustment = {
+                reason: this.vm.reasons[0],
+                quantity: -5
+            };
+
+            this.vm.addAdjustment();
+
+            expect(this.vm.adjustments.length).toBe(2);
+            expect(this.alertService.error)
+                .toHaveBeenCalledWith('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should not show error when quantity is greater than zero', function() {
+            this.vm.addAdjustment();
+
+            expect(this.vm.adjustments.length).toBe(3);
+            expect(this.alertService.error).not.toHaveBeenCalled();
+        });
+
     });
 
     describe('removeAdjustment', function() {
@@ -295,6 +343,33 @@ describe('AdjustmentsModalController', function() {
             this.$rootScope.$apply();
 
             expect(this.modalDeferred.resolve).not.toHaveBeenCalled();
+        });
+
+        it('should not resolve modalDeferred and should show error if any adjustment has invalid quantity',
+            function() {
+                this.adjustments = [{
+                    reason: this.reasons[0],
+                    quantity: 0
+                }];
+
+                this.initController();
+                this.vm.$onInit();
+
+                this.vm.save();
+
+                expect(this.modalDeferred.resolve).not.toHaveBeenCalled();
+                expect(this.alertService.error)
+                    .toHaveBeenCalledWith('openlmisAdjustments.quantityGreaterThanZero');
+            });
+
+        it('should not show error if all adjustments have valid quantities', function() {
+            this.initController();
+            this.vm.$onInit();
+
+            this.vm.save();
+
+            expect(this.alertService.error).not.toHaveBeenCalled();
+            expect(this.modalDeferred.resolve).toHaveBeenCalledWith(this.vm.adjustments);
         });
 
     });
