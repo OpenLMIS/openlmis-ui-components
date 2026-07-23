@@ -47,6 +47,7 @@
         vm.cancel = cancel;
         vm.save = save;
         vm.hasInvalidAdjustments = hasInvalidAdjustments;
+        vm.hasValidQuantity = hasValidQuantity;
 
         /**
          * @ngdoc property
@@ -269,6 +270,18 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name hasValidQuantity
+         *
+         * @description
+         * Checks whether a single adjustment has a quantity greater than zero. Used both to block
+         * saving and to mark the offending quantity input as invalid in the adjustments table.
+         *
+         * @param   {Object}   adjustment  the adjustment to validate
+         * @return  {Boolean}              true if the adjustment quantity is greater than zero
+         */
         function hasValidQuantity(adjustment) {
             return adjustment !== undefined
                 && adjustment !== null

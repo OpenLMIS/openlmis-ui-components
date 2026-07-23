@@ -427,6 +427,62 @@ describe('AdjustmentsModalController', function() {
 
     });
 
+    describe('hasValidQuantity', function() {
+
+        beforeEach(function() {
+            this.initController();
+        });
+
+        it('should return true when quantity is greater than zero', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: 5
+            })).toBe(true);
+        });
+
+        it('should return false when quantity is zero', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: 0
+            })).toBe(false);
+        });
+
+        it('should return false when quantity is negative', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: -5
+            })).toBe(false);
+        });
+
+        it('should return false when quantity is empty', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: ''
+            })).toBe(false);
+        });
+
+        it('should return false when quantity is null', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: null
+            })).toBe(false);
+        });
+
+        it('should return false when quantity is undefined', function() {
+            expect(this.vm.hasValidQuantity({})).toBe(false);
+        });
+
+        it('should return false when quantity is not a number', function() {
+            expect(this.vm.hasValidQuantity({
+                quantity: 'abc'
+            })).toBe(false);
+        });
+
+        it('should return false when adjustment is undefined', function() {
+            expect(this.vm.hasValidQuantity(undefined)).toBe(false);
+        });
+
+        it('should return false when adjustment is null', function() {
+            expect(this.vm.hasValidQuantity(null)).toBe(false);
+        });
+
+    });
+
     function initController() {
         this.vm = this.$controller('AdjustmentsModalController', {
             modalDeferred: this.modalDeferred,

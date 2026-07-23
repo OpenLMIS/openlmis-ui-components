@@ -19,4 +19,15 @@
     form {
         max-width: 100%;
     }
+
+    // The design-system wraps each input in an .input-control <div>. Mark the
+    // whole quantity field (the wrapper) as invalid — the same way the Reason
+    // field is marked — for reasons whose quantity is not greater than 0 and
+    // therefore block the update. The selector is restricted to the wrapper
+    // <div>; a bare `.input-control` would also hit the inner <input> (which
+    // `@extend`s .input-control) and paint a second, nested border.
+    td.quantity-invalid div.input-control {
+        border: 1px solid $brand-danger;
+        box-shadow: inset 0 0 0.5em $brand-danger;
+    }
 }
