@@ -29,15 +29,15 @@
         .controller('AdjustmentsModalController', AdjustmentsModalController);
 
     AdjustmentsModalController.$inject = [
-        '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
+        '$filter', '$q', '$scope', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
         'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem',
-        'quantityUnitCalculateService', 'alertService'
+        'quantityUnitCalculateService', 'alertService', 'messageService'
     ];
 
-    function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
+    function AdjustmentsModalController($filter, $q, $scope, modalDeferred, title, message, isDisabled,
                                         adjustments, reasons, summaries, preSave, preCancel,
                                         filterReasons, showInDoses, lineItem, quantityUnitCalculateService,
-                                        alertService) {
+                                        alertService, messageService) {
 
         var vm = this;
 
@@ -47,7 +47,7 @@
         vm.cancel = cancel;
         vm.save = save;
         vm.hasInvalidAdjustments = hasInvalidAdjustments;
-        vm.hasValidQuantity = hasValidQuantity;
+        vm.validateAdjustment = validateAdjustment;
 
         /**
          * @ngdoc property
@@ -231,7 +231,10 @@
          * back to the modal without applying any changes;
          */
         function save() {
+            angular.forEach(vm.adjustments, validateAdjustment);
+
             if (hasInvalidAdjustments()) {
+                $scope.$broadcast('openlmis-form-submit');
                 alertService.error('openlmisAdjustments.quantityGreaterThanZero');
                 return;
             }
@@ -273,15 +276,22 @@
         /**
          * @ngdoc method
          * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
-         * @name hasValidQuantity
+         * @name validateAdjustment
          *
          * @description
-         * Checks whether a single adjustment has a quantity greater than zero. Used both to block
-         * saving and to mark the offending quantity input as invalid in the adjustments table.
+         * Validates a single adjustment and stores an error message on its quantityInvalid property
+         * when the quantity is not greater than zero. The message is consumed by the openlmis-invalid
+         * directive on the quantity cell, marking the reasons that block the adjustments update - the
+         * same mechanism used by the stock add products modal.
          *
-         * @param   {Object}   adjustment  the adjustment to validate
-         * @return  {Boolean}              true if the adjustment quantity is greater than zero
+         * @param  {Object}  adjustment  the adjustment to validate
          */
+        function validateAdjustment(adjustment) {
+            adjustment.quantityInvalid = hasValidQuantity(adjustment)
+                ? undefined
+                : messageService.get('openlmisAdjustments.quantityGreaterThanZero');
+        }
+
         function hasValidQuantity(adjustment) {
             return adjustment !== undefined
                 && adjustment !== null
