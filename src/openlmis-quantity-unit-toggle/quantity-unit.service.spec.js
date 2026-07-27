@@ -47,6 +47,10 @@ describe('quantityUnitCalculateService', function() {
             expect(quantityUnitCalculateService.packsToOrder(23, 10, 5, false)).toEqual(2);
         });
 
+        it('should not round up when remainder equals threshold', function() {
+            expect(quantityUnitCalculateService.packsToOrder(23, 10, 3, false)).toEqual(2);
+        });
+
         it('should round to one when result is zero and roundToZero is false', function() {
             expect(quantityUnitCalculateService.packsToOrder(3, 10, 5, false)).toEqual(1);
         });
