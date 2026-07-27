@@ -1,10 +1,14 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
+* [OLMIS-8179](https://openlmis.atlassian.net/browse/OLMIS-8179): Compact packs/doses quantity inputs.
+* [OLMIS-8191](https://openlmis.atlassian.net/browse/OLMIS-8191) / [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Add openlmis-long-text class and directive so long free-text in table cells grows with content then wraps — for both the editable textarea and its read-only display.
 
 7.2.16 / 2026-06-09
 ==================
 
 Improvements:
+* [OLMIS-8181](https://openlmis.atlassian.net/browse/OLMIS-8181): Disable doses input when net content is one.
+* [OLMIS-8118](https://openlmis.atlassian.net/browse/OLMIS-8118): Validate max value on positive integer inputs.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
 * [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
 

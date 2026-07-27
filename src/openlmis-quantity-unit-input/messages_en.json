@@ -1,6 +1,6 @@
 {
     "openlmisInputDosesPacks.Doses": "Doses",
     "openlmisInputDosesPacks.Packs": "Packs",
-    "openlmisInputDosesPacks.DosesBracket":" doses )",
+    "openlmisInputDosesPacks.DosesHint": "doses",
     "openlmisInputDosesPacks.willBeOrderedAsPacks": "Will be ordered as ${packs} pack(s) (${doses} doses)"
 }

@@ -29,14 +29,15 @@
         .controller('AdjustmentsModalController', AdjustmentsModalController);
 
     AdjustmentsModalController.$inject = [
-        '$filter', '$q', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
+        '$filter', '$q', '$scope', 'modalDeferred', 'title', 'message', 'isDisabled', 'adjustments',
         'reasons', 'summaries', 'preSave', 'preCancel', 'filterReasons', 'showInDoses', 'lineItem',
-        'quantityUnitCalculateService'
+        'quantityUnitCalculateService', 'alertService', 'messageService'
     ];
 
-    function AdjustmentsModalController($filter, $q, modalDeferred, title, message, isDisabled,
+    function AdjustmentsModalController($filter, $q, $scope, modalDeferred, title, message, isDisabled,
                                         adjustments, reasons, summaries, preSave, preCancel,
-                                        filterReasons, showInDoses, lineItem, quantityUnitCalculateService) {
+                                        filterReasons, showInDoses, lineItem, quantityUnitCalculateService,
+                                        alertService, messageService) {
 
         var vm = this;
 
@@ -45,6 +46,8 @@
         vm.removeAdjustment = removeAdjustment;
         vm.cancel = cancel;
         vm.save = save;
+        vm.hasInvalidAdjustments = hasInvalidAdjustments;
+        vm.validateAdjustment = validateAdjustment;
 
         /**
          * @ngdoc property
@@ -180,6 +183,11 @@
          * Adds adjustment to line item.
          */
         function addAdjustment() {
+            if (vm.newAdjustment && !hasValidQuantity(vm.newAdjustment)) {
+                alertService.error('openlmisAdjustments.quantityGreaterThanZero');
+                return $q.when();
+            }
+
             vm.adjustments.push(vm.newAdjustment);
 
             vm.newAdjustment = undefined;
@@ -223,6 +231,14 @@
          * back to the modal without applying any changes;
          */
         function save() {
+            angular.forEach(vm.adjustments, validateAdjustment);
+
+            if (hasInvalidAdjustments()) {
+                $scope.$broadcast('openlmis-form-submit');
+                alertService.error('openlmisAdjustments.quantityGreaterThanZero');
+                return;
+            }
+
             if (preSave) {
                 preSave(vm.adjustments)
                     .then(function() {
@@ -249,6 +265,41 @@
             } else {
                 modalDeferred.reject();
             }
+        }
+
+        function hasInvalidAdjustments() {
+            return (vm.adjustments || []).some(function(adjustment) {
+                return !hasValidQuantity(adjustment);
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-adjustments.controller:AdjustmentsModalController
+         * @name validateAdjustment
+         *
+         * @description
+         * Validates a single adjustment and stores an error message on its quantityInvalid property
+         * when the quantity is not greater than zero. The message is consumed by the openlmis-invalid
+         * directive on the quantity cell, marking the reasons that block the adjustments update - the
+         * same mechanism used by the stock add products modal.
+         *
+         * @param  {Object}  adjustment  the adjustment to validate
+         */
+        function validateAdjustment(adjustment) {
+            adjustment.quantityInvalid = hasValidQuantity(adjustment)
+                ? undefined
+                : messageService.get('openlmisAdjustments.quantityGreaterThanZero');
+        }
+
+        function hasValidQuantity(adjustment) {
+            return adjustment !== undefined
+                && adjustment !== null
+                && adjustment.quantity !== undefined
+                && adjustment.quantity !== null
+                && adjustment.quantity !== ''
+                && !isNaN(adjustment.quantity)
+                && Number(adjustment.quantity) > 0;
         }
     }
 

@@ -151,6 +151,7 @@ export default function QuantityUnitInput({
           value={localValues.orderedQuantity}
           onChange={(value) => handleLocalChange('orderedQuantity', value)}
           onBlur={handleBlur}
+          placeholder={formatMessage('openlmisInputDosesPacks.DosesHint')}
           key={`orderedQuantity-${item?.orderable?.id}`}
         />
         {packsToOrderHint && (
@@ -183,11 +184,10 @@ export default function QuantityUnitInput({
           disabled={
             inputCellProps.disabled || isQuantityRemainderInDosesDisabled()
           }
-          placeholder={formatMessage('openlmisInputDosesPacks.Doses')}
           id='quantityRemainderInDoses'
           key={`quantityRemainderInDoses-${item?.orderable?.id}`}
         />
-        <p>{formatMessage('openlmisInputDosesPacks.DosesBracket')}</p>
+        <p>)</p>
       </div>
       {packsToOrderHint && (
         <p className='packs-to-order-hint'>{packsToOrderHint}</p>
