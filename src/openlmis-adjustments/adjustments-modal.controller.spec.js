@@ -23,6 +23,13 @@ describe('AdjustmentsModalController', function() {
             this.$rootScope = $injector.get('$rootScope');
             this.$controller = $injector.get('$controller');
             this.alertService = $injector.get('alertService');
+            this.messageService = $injector.get('messageService');
+        });
+
+        this.$scope = this.$rootScope.$new();
+
+        spyOn(this.messageService, 'get').andCallFake(function(key) {
+            return key;
         });
 
         this.modalDeferred = this.$q.defer();
@@ -427,8 +434,121 @@ describe('AdjustmentsModalController', function() {
 
     });
 
+    describe('validateAdjustment', function() {
+
+        beforeEach(function() {
+            this.initController();
+        });
+
+        it('should clear quantityInvalid when quantity is greater than zero', function() {
+            var adjustment = {
+                quantity: 5,
+                quantityInvalid: 'openlmisAdjustments.quantityGreaterThanZero'
+            };
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBeUndefined();
+        });
+
+        it('should set quantityInvalid message when quantity is zero', function() {
+            var adjustment = {
+                quantity: 0
+            };
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBe('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should set quantityInvalid message when quantity is negative', function() {
+            var adjustment = {
+                quantity: -5
+            };
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBe('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should set quantityInvalid message when quantity is empty', function() {
+            var adjustment = {
+                quantity: ''
+            };
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBe('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should set quantityInvalid message when quantity is undefined', function() {
+            var adjustment = {};
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBe('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+        it('should set quantityInvalid message when quantity is not a number', function() {
+            var adjustment = {
+                quantity: 'abc'
+            };
+
+            this.vm.validateAdjustment(adjustment);
+
+            expect(adjustment.quantityInvalid).toBe('openlmisAdjustments.quantityGreaterThanZero');
+        });
+
+    });
+
+    describe('save marking', function() {
+
+        it('should mark every invalid adjustment when saving', function() {
+            var message = 'openlmisAdjustments.quantityGreaterThanZero';
+
+            this.adjustments = [{
+                reason: this.reasons[0],
+                quantity: 0
+            }, {
+                reason: this.reasons[1],
+                quantity: 5
+            }, {
+                reason: this.reasons[2],
+                quantity: ''
+            }];
+
+            this.initController();
+            this.vm.$onInit();
+
+            this.vm.save();
+
+            expect(this.vm.adjustments[0].quantityInvalid).toBe(message);
+            expect(this.vm.adjustments[1].quantityInvalid).toBeUndefined();
+            expect(this.vm.adjustments[2].quantityInvalid).toBe(message);
+        });
+
+        it('should broadcast openlmis-form-submit when saving invalid adjustments', function() {
+            spyOn(this.$scope, '$broadcast').andCallThrough();
+
+            this.adjustments = [{
+                reason: this.reasons[0],
+                quantity: 0
+            }];
+
+            this.initController();
+            this.vm.$onInit();
+
+            this.vm.save();
+
+            expect(this.$scope.$broadcast).toHaveBeenCalledWith('openlmis-form-submit');
+        });
+
+    });
+
     function initController() {
         this.vm = this.$controller('AdjustmentsModalController', {
+            $scope: this.$scope,
+            messageService: this.messageService,
             modalDeferred: this.modalDeferred,
             adjustments: this.adjustments,
             reasons: this.reasons,
