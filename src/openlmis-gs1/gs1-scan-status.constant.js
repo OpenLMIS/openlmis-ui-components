@@ -18,15 +18,20 @@
     'use strict';
 
     /**
-     * @module openlmis-gs1
+     * @ngdoc object
+     * @name openlmis-gs1.GS1_SCAN_STATUS
      *
      * @description
-     * Provides GS1 barcode support for scanner input - parsing of GS1 element strings into
-     * product, batch and expiry data.
+     * States the scan input reports to the user. SUCCESS and ERROR are transient, falling back to
+     * READY after a delay, so the indicator confirms each scan rather than showing a lasting
+     * result.
      */
-    angular.module('openlmis-gs1', [
-        'openlmis-i18n',
-        'openlmis-templates'
-    ]);
+    angular
+        .module('openlmis-gs1')
+        .constant('GS1_SCAN_STATUS', {
+            READY: 'READY',
+            SUCCESS: 'SUCCESS',
+            ERROR: 'ERROR'
+        });
 
 })();

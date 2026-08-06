@@ -1,0 +1,45 @@
+/*
+ * Scan input status indicator - slow pulse
+ */
+
+.openlmis-scan-input {
+    display: flex;
+    align-items: center;
+
+    &.is-success .openlmis-scan-input-icon {
+        background-color: #2e7d32;
+        animation: none;
+    }
+
+    &.is-error .openlmis-scan-input-icon {
+        background-color: #c62828;
+        animation: none;
+    }
+
+    &.is-ready .openlmis-scan-input-icon {
+        animation: openlmis-scan-input-pulse 1.6s ease-in-out infinite;
+    }
+}
+
+.openlmis-scan-input-icon {
+    flex: 0 0 auto;
+    width: 0.75em;
+    height: 0.75em;
+    border-radius: 50%;
+    background-color: #767676;
+}
+
+.openlmis-scan-input-status {
+    margin-inline-start: 0.5em;
+}
+
+@keyframes openlmis-scan-input-pulse {
+    0%,
+    100% {
+        opacity: 0.35;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}

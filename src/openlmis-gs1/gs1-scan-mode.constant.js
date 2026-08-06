@@ -18,15 +18,25 @@
     'use strict';
 
     /**
-     * @module openlmis-gs1
+     * @ngdoc object
+     * @name openlmis-gs1.GS1_SCAN_MODE
      *
      * @description
-     * Provides GS1 barcode support for scanner input - parsing of GS1 element strings into
-     * product, batch and expiry data.
+     * The workflows the scan input can be wired into. The component behaves identically in every
+     * mode and just passes it through, so the handler can apply workflow policy - whether an
+     * unknown lot may be created, for instance.
+     *
+     * Adding a workflow is an entry here plus handling in the consuming service. Kit unpack is left
+     * out on purpose - unpacking changes which product exists, so tallying a scanned line is not the
+     * same operation.
      */
-    angular.module('openlmis-gs1', [
-        'openlmis-i18n',
-        'openlmis-templates'
-    ]);
+    angular
+        .module('openlmis-gs1')
+        .constant('GS1_SCAN_MODE', {
+            ISSUE: 'ISSUE',
+            RECEIVE: 'RECEIVE',
+            PHYSICAL_INVENTORY: 'PHYSICAL_INVENTORY',
+            ADJUSTMENT: 'ADJUSTMENT'
+        });
 
 })();

@@ -1,0 +1,10 @@
+{
+    "openlmisGs1.scanAccepted": "Scan accepted",
+    "openlmisGs1.scanErrorExpiry": "The expiry date on this barcode could not be read. Enter this item manually.",
+    "openlmisGs1.scanErrorIncomplete": "This scan was incomplete. Scan the barcode again.",
+    "openlmisGs1.scanErrorNoProductCode": "This barcode carries no product code. Enter this item manually.",
+    "openlmisGs1.scanErrorNotRecognized": "This is not a recognised product barcode. Scan the barcode again or enter this item manually.",
+    "openlmisGs1.scanErrorProductCode": "The product code on this barcode could not be read. Scan the barcode again.",
+    "openlmisGs1.scanErrorScannerSetup": "This scan could not be read completely. The scanner may need to be reconfigured - report this to your administrator.",
+    "openlmisGs1.scannerReady": "Ready to scan"
+}
