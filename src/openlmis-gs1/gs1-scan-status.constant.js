@@ -24,12 +24,14 @@
      * @description
      * States the scan input reports to the user. SUCCESS and ERROR are transient, falling back to
      * READY after a delay, so the indicator confirms each scan rather than showing a lasting
-     * result.
+     * result. WORKING lasts until the handler settles, so a scan is never reported as accepted
+     * before the screen has resolved it.
      */
     angular
         .module('openlmis-gs1')
         .constant('GS1_SCAN_STATUS', {
             READY: 'READY',
+            WORKING: 'WORKING',
             SUCCESS: 'SUCCESS',
             ERROR: 'ERROR'
         });

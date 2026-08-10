@@ -19,7 +19,7 @@ describe('ScanInputController', function() {
 
     beforeEach(function() {
         var $controller, $rootScope, $timeout, captureService, parserService, mode, status,
-            parseError, captureConfig;
+            parseError, captureConfig, q;
 
         module('openlmis-gs1');
 
@@ -33,10 +33,12 @@ describe('ScanInputController', function() {
             status = $injector.get('GS1_SCAN_STATUS');
             parseError = $injector.get('GS1_PARSE_ERROR');
             captureConfig = $injector.get('GS1_CAPTURE_CONFIG');
+            q = $injector.get('$q');
         });
 
         this.$timeout = $timeout;
         this.$rootScope = $rootScope;
+        this.$q = q;
         this.MODE = mode;
         this.STATUS = status;
         this.ERROR = parseError;
@@ -219,6 +221,88 @@ describe('ScanInputController', function() {
             this.capture(PAYLOAD);
 
             expect(vm.statusMessage()).toEqual('openlmisGs1.scanErrorNotRecognized');
+        });
+    });
+
+    describe('when the handler returns a promise', function() {
+
+        it('should report working until the handler settles', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+
+            expect(vm.status).toEqual(this.STATUS.WORKING);
+            expect(vm.statusMessage()).toEqual('openlmisGs1.scanWorking');
+        });
+
+        it('should report success once the handler resolves', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.resolve();
+            this.$rootScope.$digest();
+
+            expect(vm.status).toEqual(this.STATUS.SUCCESS);
+        });
+
+        it('should report an error once the handler rejects', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.reject();
+            this.$rootScope.$digest();
+
+            expect(vm.status).toEqual(this.STATUS.ERROR);
+            expect(vm.statusMessage()).toEqual('openlmisGs1.scanNotResolved');
+        });
+
+        it('should show a message key the handler rejected with', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.reject('stockIssueCreation.scanGtinNotFound');
+            this.$rootScope.$digest();
+
+            expect(vm.statusMessage()).toEqual('stockIssueCreation.scanGtinNotFound');
+        });
+
+        it('should ignore the outcome of a scan that a later one superseded', function() {
+            var first = this.$q.defer(),
+                second = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(first.promise);
+            this.capture(PAYLOAD);
+
+            this.onScan.andReturn(second.promise);
+            this.capture(PAYLOAD);
+
+            second.resolve();
+            first.reject('stockIssueCreation.scanGtinNotFound');
+            this.$rootScope.$digest();
+
+            expect(vm.status).toEqual(this.STATUS.SUCCESS);
+        });
+
+        it('should fall back to ready after the status delay', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.resolve();
+            this.$rootScope.$digest();
+            this.$timeout.flush(this.config.statusResetDelay);
+
+            expect(vm.status).toEqual(this.STATUS.READY);
         });
     });
 

@@ -52,7 +52,8 @@
         var ERROR_MESSAGES = {},
             vm = this,
             unsubscribe,
-            resetPromise;
+            resetPromise,
+            scanSequence = 0;
 
         ERROR_MESSAGES[GS1_PARSE_ERROR.VALUE_TOO_LONG] = 'openlmisGs1.scanErrorScannerSetup';
         ERROR_MESSAGES[GS1_PARSE_ERROR.INVALID_LOT_CODE] = 'openlmisGs1.scanErrorScannerSetup';
@@ -111,8 +112,14 @@
                 return 'openlmisGs1.scanAccepted';
             }
 
+            if (vm.status === GS1_SCAN_STATUS.WORKING) {
+                return 'openlmisGs1.scanWorking';
+            }
+
             if (vm.status === GS1_SCAN_STATUS.ERROR) {
-                return ERROR_MESSAGES[vm.errorCode] || 'openlmisGs1.scanErrorNotRecognized';
+                return vm.errorMessageKey
+                    || ERROR_MESSAGES[vm.errorCode]
+                    || 'openlmisGs1.scanErrorNotRecognized';
             }
 
             return 'openlmisGs1.scannerReady';
@@ -128,30 +135,83 @@
 
             $scope.$applyAsync(function() {
                 if (scan.error) {
-                    setTransientStatus(GS1_SCAN_STATUS.ERROR, scan.error);
+                    setTransientStatus(GS1_SCAN_STATUS.ERROR, scan.error, undefined);
                     return;
                 }
 
-                setTransientStatus(GS1_SCAN_STATUS.SUCCESS, undefined);
-                vm.onScan({
+                report(scan);
+            });
+        }
+
+        /**
+         * A handler may return a promise - resolving a scanned code against the backend takes a round
+         * trip - and until it settles the scan is only captured, not accepted. A handler returning
+         * anything else is taken at face value and reported as accepted straight away.
+         */
+        function report(scan) {
+            var token = nextToken(),
+                outcome = vm.onScan({
                     scan: scan,
                     mode: vm.mode,
                     context: vm.context
                 });
+
+            if (!outcome || !angular.isFunction(outcome.then)) {
+                setTransientStatus(GS1_SCAN_STATUS.SUCCESS, undefined, undefined);
+                return;
+            }
+
+            setStatus(GS1_SCAN_STATUS.WORKING, undefined, undefined);
+
+            outcome.then(function() {
+                applyOutcome(token, GS1_SCAN_STATUS.SUCCESS, undefined);
+            }, function(rejection) {
+                applyOutcome(token, GS1_SCAN_STATUS.ERROR, messageKeyOf(rejection));
             });
         }
 
-        function setTransientStatus(status, errorCode) {
+        /**
+         * Scans can arrive faster than a handler settles, so an outcome is dropped unless it belongs
+         * to the most recent scan. Otherwise a slow early lookup would overwrite a later result.
+         */
+        function applyOutcome(token, status, messageKey) {
+            if (token !== scanSequence) {
+                return;
+            }
+
+            setTransientStatus(status, undefined, messageKey);
+        }
+
+        function messageKeyOf(rejection) {
+            if (angular.isString(rejection) && rejection.length) {
+                return rejection;
+            }
+
+            return 'openlmisGs1.scanNotResolved';
+        }
+
+        function nextToken() {
+            scanSequence = scanSequence + 1;
+
+            return scanSequence;
+        }
+
+        function setStatus(status, errorCode, messageKey) {
             vm.status = status;
             vm.errorCode = errorCode;
+            vm.errorMessageKey = messageKey;
 
             if (resetPromise) {
                 $timeout.cancel(resetPromise);
+                resetPromise = undefined;
             }
+        }
+
+        function setTransientStatus(status, errorCode, messageKey) {
+            setStatus(status, errorCode, messageKey);
 
             resetPromise = $timeout(function() {
-                vm.status = GS1_SCAN_STATUS.READY;
-                vm.errorCode = undefined;
+                setStatus(GS1_SCAN_STATUS.READY, undefined, undefined);
             }, GS1_CAPTURE_CONFIG.statusResetDelay);
         }
 

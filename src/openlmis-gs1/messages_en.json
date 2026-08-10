@@ -6,5 +6,7 @@
     "openlmisGs1.scanErrorNotRecognized": "This is not a recognised product barcode. Scan the barcode again or enter this item manually.",
     "openlmisGs1.scanErrorProductCode": "The product code on this barcode could not be read. Scan the barcode again.",
     "openlmisGs1.scanErrorScannerSetup": "This scan could not be read completely. The scanner may need to be reconfigured - report this to your administrator.",
+    "openlmisGs1.scanNotResolved": "This scan could not be matched to a product on this screen.",
+    "openlmisGs1.scanWorking": "Checking scan...",
     "openlmisGs1.scannerReady": "Ready to scan"
 }
