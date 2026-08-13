@@ -15,7 +15,8 @@
 
 describe('gs1ScanCaptureService', function() {
 
-    var PAYLOAD = ']d20105890123456786';
+    var PAYLOAD = ']d20105890123456786',
+        GS = '\u001d';
 
     beforeEach(function() {
         var gs1ScanCaptureService, $window, captureConfig;
@@ -183,6 +184,47 @@ describe('gs1ScanCaptureService', function() {
         this.press('Enter', 5, this.input);
 
         expect(inputEvents).toEqual(1);
+    });
+
+    it('should treat ctrl and the bracket key as the group separator', function() {
+        var event;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(']d201' + '05890123456786' + '10ABC', 5);
+        this.now = this.now + 5;
+        event = new KeyboardEvent('keydown', {
+            key: ']',
+            code: 'BracketRight',
+            ctrlKey: true,
+            bubbles: true,
+            cancelable: true
+        });
+        document.body.dispatchEvent(event);
+        this.pressAll('21S1', 5);
+        this.press('Enter', 5);
+
+        expect(this.onPayload)
+            .toHaveBeenCalledWith(']d20105890123456786' + '10ABC' + GS + '21S1');
+    });
+
+    it('should suppress the separator keystroke so the browser does not act on it', function() {
+        var event;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(']d20105890123456786' + '10ABC', 5);
+        this.now = this.now + 5;
+        event = new KeyboardEvent('keydown', {
+            key: ']',
+            code: 'BracketRight',
+            ctrlKey: true,
+            bubbles: true,
+            cancelable: true
+        });
+        document.body.dispatchEvent(event);
+
+        expect(event.defaultPrevented).toBe(true);
     });
 
     it('should ignore modified keystrokes', function() {

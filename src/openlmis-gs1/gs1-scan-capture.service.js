@@ -48,7 +48,9 @@
 
     function gs1ScanCaptureService($document, $window, GS1_CAPTURE_CONFIG, GS1_PARSE_CONFIG) {
 
-        var GROUP_SEPARATOR_KEY_CODE = 29;
+        var GROUP_SEPARATOR_KEY_CODE = 29,
+            GROUP_SEPARATOR_CTRL_CODE = 'BracketRight',
+            GROUP_SEPARATOR_CTRL_KEY = ']';
 
         this.subscribe = subscribe;
 
@@ -88,7 +90,9 @@
         }
 
         function handleKeydown(event, state, onPayload) {
-            if (isIgnorable(event)) {
+            var character;
+
+            if (event.repeat) {
                 return;
             }
 
@@ -97,27 +101,34 @@
                 return;
             }
 
-            collectCharacter(event, state);
+            character = readCharacter(event);
+
+            if (character === undefined || (isModified(event) && !isSeparator(character))) {
+                return;
+            }
+
+            collectCharacter(event, state, character);
         }
 
         /**
-         * Modified keystrokes are shortcuts and auto repeat is a held key; a scanner sends neither.
+         * Modified keystrokes are user shortcuts, with one exception: a scanner has no way to type the
+         * group separator as a plain key, so it sends it as Ctrl and a bracket. Discarding that would
+         * fuse two elements into one, and leaving it unsuppressed lets the browser act on the shortcut.
          */
-        function isIgnorable(event) {
-            return Boolean(event.ctrlKey || event.altKey || event.metaKey || event.repeat);
+        function isModified(event) {
+            return Boolean(event.ctrlKey || event.altKey || event.metaKey);
+        }
+
+        function isSeparator(character) {
+            return character === GS1_PARSE_CONFIG.groupSeparator;
         }
 
         function isTerminator(event) {
             return GS1_CAPTURE_CONFIG.terminators.indexOf(event.key) !== -1;
         }
 
-        function collectCharacter(event, state) {
-            var character = readCharacter(event),
-                now = $window.Date.now();
-
-            if (character === undefined) {
-                return;
-            }
+        function collectCharacter(event, state, character) {
+            var now = $window.Date.now();
 
             if (now - state.lastKeyTime > GS1_CAPTURE_CONFIG.burstThreshold) {
                 restartBurst(state, event);
@@ -136,19 +147,31 @@
         }
 
         /**
-         * The group separator has no printable form, so browsers report it inconsistently. Printable
-         * substitutes are configured on GS1_PARSE_CONFIG, where the parser rewrites them.
+         * The group separator has no printable form, so scanners and browsers represent it in several
+         * ways: as the control character itself, as its key code, or as Ctrl with the bracket key that
+         * produces ASCII 29. Printable substitutes are configured on GS1_PARSE_CONFIG instead, where
+         * the parser rewrites them - preferable where the browser reserves the Ctrl combination.
          */
         function readCharacter(event) {
+            if (isControlSeparator(event)) {
+                return GS1_PARSE_CONFIG.groupSeparator;
+            }
+
             if (event.key && event.key.length === 1) {
                 return event.key;
             }
 
+            return undefined;
+        }
+
+        function isControlSeparator(event) {
             if (event.keyCode === GROUP_SEPARATOR_KEY_CODE) {
-                return GS1_PARSE_CONFIG.groupSeparator;
+                return true;
             }
 
-            return undefined;
+            return Boolean(event.ctrlKey)
+                && (event.code === GROUP_SEPARATOR_CTRL_CODE
+                    || event.key === GROUP_SEPARATOR_CTRL_KEY);
         }
 
         function restartBurst(state, event) {
