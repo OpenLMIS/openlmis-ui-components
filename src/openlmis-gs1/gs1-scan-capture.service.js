@@ -32,8 +32,10 @@
      * - Cannot suppress the opening characters of a burst - there is no interval to measure yet - so
      *   it restores the focused field to its snapshotted value instead.
      * - Always suppresses the terminator of a confirmed scan; an unsuppressed Enter would submit
-     *   whatever form owns the focused field.
+     *   whatever form owns the focused field, or reach a widget that acts on Enter itself.
      *
+     * Suppressing means the event is stopped outright rather than only having its default action
+     * cancelled - see blockEvent.
      */
     angular
         .module('openlmis-gs1')
@@ -69,14 +71,19 @@
         function subscribe(onPayload) {
             var state = createState(),
                 document = $document[0],
-                listener = function(event) {
+                keydownListener = function(event) {
                     handleKeydown(event, state, onPayload);
+                },
+                keyupListener = function(event) {
+                    handleKeyup(event, state);
                 };
 
-            document.addEventListener('keydown', listener, true);
+            document.addEventListener('keydown', keydownListener, true);
+            document.addEventListener('keyup', keyupListener, true);
 
             return function() {
-                document.removeEventListener('keydown', listener, true);
+                document.removeEventListener('keydown', keydownListener, true);
+                document.removeEventListener('keyup', keyupListener, true);
             };
         }
 
@@ -85,14 +92,30 @@
                 characters: [],
                 lastKeyTime: 0,
                 suppressing: false,
-                snapshot: undefined
+                snapshot: undefined,
+                scanEndedAt: 0
             };
         }
 
         function handleKeydown(event, state, onPayload) {
-            var character;
+            var character, collectable;
 
             if (event.repeat) {
+                return;
+            }
+
+            character = readCharacter(event);
+            collectable = character !== undefined && (!isModified(event) || isSeparator(character));
+
+            /*
+             * The tail of a scan. A scanner sends its suffix as keystrokes of its own and a common
+             * setting sends two of them - carriage return and line feed - so a second terminator
+             * arriving here is the scanner still talking, not the user pressing Enter. What could open
+             * another payload is let through and ends the tail, so a scanner reading twice in quick
+             * succession loses neither the start nor the terminator of its second scan.
+             */
+            if (isScanTail(state, event) && !collectable) {
+                blockEvent(event);
                 return;
             }
 
@@ -101,13 +124,56 @@
                 return;
             }
 
-            character = readCharacter(event);
-
-            if (character === undefined || (isModified(event) && !isSeparator(character))) {
+            if (!collectable) {
                 return;
             }
 
             collectCharacter(event, state, character);
+        }
+
+        /**
+         * Blocking a keydown leaves its keyup untouched, and a widget acting on keyup would still see
+         * the scan. Keys that were never suppressed in the first place are left alone, so a modifier
+         * released mid burst is not withheld from the page.
+         */
+        function handleKeyup(event, state) {
+            if (!state.suppressing && !isScanTail(state, event)) {
+                return;
+            }
+
+            if (isTerminator(event) || readCharacter(event) !== undefined) {
+                blockEvent(event);
+            }
+        }
+
+        /**
+         * Cancelling the default action stops the browser acting on the keystroke - submitting a form,
+         * activating a button - but not a script that handles the key itself, and scripts that act on
+         * Enter without checking whether it was already handled are common: select2 sits on every
+         * select of the stock screens, and openlmis-table-filters binds Enter on the document. Since
+         * this listener runs in the capture phase at the document, stopping the event here keeps it
+         * from every other listener on the page.
+         */
+        function blockEvent(event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+
+        function isScanTail(state, event) {
+            return state.scanEndedAt !== 0
+                && timeOf(event) - state.scanEndedAt <= GS1_CAPTURE_CONFIG.suffixWindow;
+        }
+
+        /**
+         * Keystrokes are timed by when the browser made the event, not by when this code got to it.
+         * Reading a clock here instead would fold in the time the subscriber spends handling the scan -
+         * a digest and a state reload, on the stock screens - and a scan slow to apply would look like
+         * a pause long enough to end the burst or the suffix that follows it.
+         */
+        function timeOf(event) {
+            return typeof event.timeStamp === 'number' && event.timeStamp > 0
+                ? event.timeStamp
+                : $window.Date.now();
         }
 
         /**
@@ -128,7 +194,7 @@
         }
 
         function collectCharacter(event, state, character) {
-            var now = $window.Date.now();
+            var now = timeOf(event);
 
             if (now - state.lastKeyTime > GS1_CAPTURE_CONFIG.burstThreshold) {
                 restartBurst(state, event);
@@ -142,7 +208,7 @@
             }
 
             if (state.suppressing) {
-                event.preventDefault();
+                blockEvent(event);
             }
         }
 
@@ -178,6 +244,9 @@
             state.characters = [];
             state.suppressing = false;
             state.snapshot = takeSnapshot(event.target);
+
+            // A burst starting is the end of the previous scan's suffix, whatever the window says
+            state.scanEndedAt = 0;
         }
 
         function finishBurst(event, state, onPayload) {
@@ -188,9 +257,11 @@
                 return;
             }
 
-            event.preventDefault();
+            blockEvent(event);
             restoreSnapshot(state.snapshot);
             resetBurst(state);
+
+            state.scanEndedAt = timeOf(event);
             onPayload(payload);
         }
 

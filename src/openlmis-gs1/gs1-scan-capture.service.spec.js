@@ -34,12 +34,21 @@ describe('gs1ScanCaptureService', function() {
         this.onPayload = jasmine.createSpy('onPayload');
 
         this.now = 1000;
+        this.wallOffset = 0;
         spyOn($window.Date, 'now').andCallFake(function() {
-            return this.now;
+            return this.now + this.wallOffset;
         }.bind(this));
 
         this.input = document.createElement('input');
         document.body.appendChild(this.input);
+
+        this.stamp = function(event) {
+            Object.defineProperty(event, 'timeStamp', {
+                value: this.now
+            });
+
+            return event;
+        };
 
         /**
          * Dispatches one keydown, advancing the clock first so callers control whether the keystroke
@@ -49,11 +58,11 @@ describe('gs1ScanCaptureService', function() {
             var event;
 
             this.now = this.now + gapMs;
-            event = new KeyboardEvent('keydown', {
+            event = this.stamp(new KeyboardEvent('keydown', {
                 key: key,
                 bubbles: true,
                 cancelable: true
-            });
+            }));
             (target || document.body).dispatchEvent(event);
 
             return event;
@@ -69,12 +78,39 @@ describe('gs1ScanCaptureService', function() {
 
             return events;
         };
+
+        this.release = function(key, gapMs, target) {
+            var event;
+
+            this.now = this.now + gapMs;
+            event = this.stamp(new KeyboardEvent('keyup', {
+                key: key,
+                bubbles: true,
+                cancelable: true
+            }));
+            (target || document.body).dispatchEvent(event);
+
+            return event;
+        };
+
+        /**
+         * Stands in for the widgets that handle Enter themselves - select2 on every select, and the
+         * table filters on the document - none of which check whether the key was already handled.
+         */
+        this.observed = [];
+        this.observer = function(event) {
+            this.observed.push(event.type + ':' + event.key);
+        }.bind(this);
+        document.addEventListener('keydown', this.observer);
+        document.addEventListener('keyup', this.observer);
     });
 
     afterEach(function() {
         if (this.unsubscribe) {
             this.unsubscribe();
         }
+        document.removeEventListener('keydown', this.observer);
+        document.removeEventListener('keyup', this.observer);
         document.body.removeChild(this.input);
     });
 
@@ -123,6 +159,92 @@ describe('gs1ScanCaptureService', function() {
         terminator = this.press('Enter', 5);
 
         expect(terminator.defaultPrevented).toBe(true);
+    });
+
+    it('should keep the terminator of a confirmed scan from every other listener', function() {
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+        this.release('Enter', 5);
+
+        expect(this.observed.indexOf('keydown:Enter')).toEqual(-1);
+        expect(this.observed.indexOf('keyup:Enter')).toEqual(-1);
+    });
+
+    it('should block a second terminator sent as part of the same suffix', function() {
+        var lineFeed;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+        lineFeed = this.press('Enter', 5);
+
+        expect(lineFeed.defaultPrevented).toBe(true);
+        expect(this.observed.indexOf('keydown:Enter')).toEqual(-1);
+        expect(this.onPayload.callCount).toEqual(1);
+    });
+
+    it('should block the suffix of a scan that took a while to apply', function() {
+        var lineFeed;
+
+        // The stock screens rebuild the line items and reload the state on a scan
+        this.onPayload.andCallFake(function() {
+            this.wallOffset = this.wallOffset + 20 * this.config.suffixWindow;
+        }.bind(this));
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+        lineFeed = this.press('Enter', 5);
+
+        expect(lineFeed.defaultPrevented).toBe(true);
+        expect(this.observed.indexOf('keydown:Enter')).toEqual(-1);
+    });
+
+    it('should let a terminator through once the suffix window has passed', function() {
+        var terminator;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+        this.observed = [];
+        terminator = this.press('Enter', this.config.suffixWindow + 10);
+
+        expect(terminator.defaultPrevented).toBe(false);
+        expect(this.observed).toEqual(['keydown:Enter']);
+    });
+
+    it('should read a scan that starts inside the suffix window of the one before', function() {
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+
+        expect(this.onPayload.callCount).toEqual(2);
+        expect(this.onPayload.mostRecentCall.args[0]).toEqual(PAYLOAD);
+    });
+
+    it('should keep the characters of a recognised burst from every other listener', function() {
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+
+        expect(this.observed.length).toEqual(this.config.suppressAfter - 1);
+    });
+
+    it('should leave the keys of ordinary typing to the page', function() {
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.press('1', this.config.burstThreshold + 10);
+        this.release('1', 5);
+        this.press('Enter', this.config.burstThreshold + 10);
+
+        expect(this.observed).toEqual(['keydown:1', 'keyup:1', 'keydown:Enter']);
     });
 
     it('should leave the terminator of ordinary typing alone', function() {
@@ -193,13 +315,13 @@ describe('gs1ScanCaptureService', function() {
 
         this.pressAll(']d201' + '05890123456786' + '10ABC', 5);
         this.now = this.now + 5;
-        event = new KeyboardEvent('keydown', {
+        event = this.stamp(new KeyboardEvent('keydown', {
             key: ']',
             code: 'BracketRight',
             ctrlKey: true,
             bubbles: true,
             cancelable: true
-        });
+        }));
         document.body.dispatchEvent(event);
         this.pressAll('21S1', 5);
         this.press('Enter', 5);
@@ -215,13 +337,13 @@ describe('gs1ScanCaptureService', function() {
 
         this.pressAll(']d20105890123456786' + '10ABC', 5);
         this.now = this.now + 5;
-        event = new KeyboardEvent('keydown', {
+        event = this.stamp(new KeyboardEvent('keydown', {
             key: ']',
             code: 'BracketRight',
             ctrlKey: true,
             bubbles: true,
             cancelable: true
-        });
+        }));
         document.body.dispatchEvent(event);
 
         expect(event.defaultPrevented).toBe(true);
@@ -232,12 +354,12 @@ describe('gs1ScanCaptureService', function() {
 
         this.unsubscribe = this.service.subscribe(this.onPayload);
 
-        event = new KeyboardEvent('keydown', {
+        event = this.stamp(new KeyboardEvent('keydown', {
             key: 'a',
             ctrlKey: true,
             bubbles: true,
             cancelable: true
-        });
+        }));
         document.body.dispatchEvent(event);
         this.pressAll(PAYLOAD, 5);
         this.press('Enter', 5);

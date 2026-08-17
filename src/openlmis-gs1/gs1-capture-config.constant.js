@@ -30,6 +30,9 @@
      * - `suppressAfter` - characters seen before suppression starts. Timing is unknown on the first
      *   keystroke, so this many can reach a focused field; the restore below removes them.
      * - `terminators` - suffix keys a scanner may send.
+     * - `suffixWindow` - milliseconds after a scan during which further suffix keystrokes are still
+     *   the scanner's, not the user's. Covers scanners configured to send both CR and LF. Measured
+     *   between keystrokes, like the burst threshold.
      * - `restoreLeakedInput` - restore a focused input to its pre burst value on a confirmed scan.
      * - `statusResetDelay` - milliseconds a success or failure indication stays on screen.
      */
@@ -40,6 +43,7 @@
             minPayloadLength: 8,
             suppressAfter: 3,
             terminators: ['Enter', 'Tab'],
+            suffixWindow: 150,
             restoreLeakedInput: true,
             statusResetDelay: 2500
         });
