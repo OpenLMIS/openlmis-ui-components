@@ -26,3 +26,11 @@
 .openlmis-table > tbody > tr > td.has-single-input-control.is-invalid > openlmis-quantity-unit-input > div {
   @include padding-right(20px);
 }
+
+// The component keeps its inputs two levels below the cell, out of reach of the
+// cell-level rule that marks a single input control, so neither unit turned the
+// input red the way every other invalid table input does. Mark them here, which
+// also makes the packs unit (two inputs) look like the doses unit (one input).
+.openlmis-table > tbody > tr > td.is-invalid > openlmis-quantity-unit-input [input-control] {
+  box-shadow: inset 0 0 0.5em $brand-danger;
+}

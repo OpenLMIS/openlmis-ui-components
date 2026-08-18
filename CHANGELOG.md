@@ -2,7 +2,7 @@
 ==================
 
 Bug fixes:
-* [OLMIS-8177](https://openlmis.atlassian.net/browse/OLMIS-8177): React table input cells (packs/doses quantity) now show a "This field is required" tooltip when invalid, instead of a tooltip-less red mark.
+* [OLMIS-8177](https://openlmis.atlassian.net/browse/OLMIS-8177): React table input cells (packs/doses quantity) now show the shared, translated "This field is required" tooltip when invalid, instead of a tooltip-less red mark. An invalid packs/doses quantity now also outlines the input itself, in both units, like every other invalid input in a table.
 
 7.2.16 / 2026-06-09
 ==================
