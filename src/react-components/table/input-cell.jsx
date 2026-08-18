@@ -13,13 +13,12 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import NumericInput from '../inputs/numeric-input';
 import Input from '../inputs/input';
 import WebTooltip from '../modals/web-tooltip';
-
-const FIELD_REQUIRED_TOOLTIP = 'This field is required';
+import getService from '../utils/angular-utils';
 
 const InputCell = ({
     value: initialValue,
@@ -32,6 +31,7 @@ const InputCell = ({
     disabled = false,
     ...props
 }) => {
+    const { formatMessage } = useMemo(() => getService('messageService'), []);
     const [value, setValue] = useState(initialValue);
     const [valid, setValid] = useState(true);
     const onChange = val => {
@@ -61,7 +61,7 @@ const InputCell = ({
     }, [showValidationErrors]);
 
     return (
-        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={FIELD_REQUIRED_TOOLTIP}>
+        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={formatMessage('openlmisForm.required')}>
             <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
                 {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
                 {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
