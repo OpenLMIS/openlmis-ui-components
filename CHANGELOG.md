@@ -1,5 +1,6 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
+* [OLMIS-8236](https://openlmis.atlassian.net/browse/OLMIS-8236): Barcode scanning - scan-input component, keystroke capture service, status indicator, capture/parse config
 * [OLMIS-8179](https://openlmis.atlassian.net/browse/OLMIS-8179): Compact packs/doses quantity inputs.
 * [OLMIS-8191](https://openlmis.atlassian.net/browse/OLMIS-8191) / [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Add openlmis-long-text class and directive so long free-text in table cells grows with content then wraps — for both the editable textarea and its read-only display.
 
