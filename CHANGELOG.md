@@ -7,6 +7,9 @@ Improvements:
 * SonarCloud now receives JS unit-test coverage (lcov) so the quality gate reflects real coverage on new code.
 * Feed sonar.projectVersion from project.properties so SonarCloud's New Code baseline tracks releases.
 
+Bug fixes:
+* [OLMIS-8296](https://openlmis.atlassian.net/browse/OLMIS-8296): Focusing and leaving an empty packs or doses quantity input no longer blanks the whole view.
+
 7.2.16 / 2026-06-09
 ==================
 

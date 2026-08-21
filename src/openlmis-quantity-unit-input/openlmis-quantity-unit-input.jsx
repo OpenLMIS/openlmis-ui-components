@@ -1,7 +1,9 @@
 import _ from 'lodash';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InputCell from '../react-components/table/input-cell';
 import getService from '../react-components/utils/angular-utils';
+
+const isBlank = (value) => value === undefined || value === null || value === '';
 
 export default function QuantityUnitInput({
   showInDoses,
@@ -26,6 +28,12 @@ export default function QuantityUnitInput({
     () => item?.orderable?.netContent || 1,
     [item?.orderable?.netContent]
   );
+
+  const onChangeQuantityRef = useRef(onChangeQuantity);
+
+  useEffect(() => {
+    onChangeQuantityRef.current = onChangeQuantity;
+  }, [onChangeQuantity]);
 
   const isQuantityRemainderInDosesDisabled = useCallback(() => {
     return netContent === 1;
@@ -119,12 +127,11 @@ export default function QuantityUnitInput({
   useEffect(() => {
     // Recalculate the item if it has orderedQuantity but no quantityRemainderInDoses or quantityInPacks
     // and if we are not showing in doses
-    if (
-      !showInDoses &&
-      item?.orderedQuantity &&
-      !item?.quantityRemainderInDoses &&
-      !item?.quantityInPacks
-    ) {
+    const totalInDoses = Number(item?.orderedQuantity);
+    const hasBreakdown =
+      !isBlank(item?.quantityInPacks) || !isBlank(item?.quantityRemainderInDoses);
+
+    if (!showInDoses && totalInDoses && !hasBreakdown) {
       const recalculatedItem =
         quantityUnitCalculateService.recalculateInputQuantity(
           item,
@@ -133,15 +140,9 @@ export default function QuantityUnitInput({
           'orderedQuantity'
         );
 
-      onChangeQuantity(recalculatedItem);
+      onChangeQuantityRef.current(recalculatedItem);
     }
-  }, [
-    item,
-    netContent,
-    showInDoses,
-    onChangeQuantity,
-    quantityUnitCalculateService,
-  ]);
+  }, [item, netContent, showInDoses, quantityUnitCalculateService]);
 
   if (showInDoses) {
     return (

@@ -68,4 +68,59 @@ describe('quantityUnitCalculateService', function() {
             expect(quantityUnitCalculateService.packsToOrder(-5, 10, 0, false)).toEqual(0);
         });
     });
+
+    describe('recalculateInputQuantity', function() {
+
+        it('should return a numeric zero total when packs input is empty', function() {
+            var item = {
+                quantityInPacks: '',
+                quantityRemainderInDoses: ''
+            };
+
+            var result = quantityUnitCalculateService.recalculateInputQuantity(
+                item, 84, false, 'orderedQuantity'
+            );
+
+            expect(result.orderedQuantity).toBe(0);
+        });
+
+        it('should add up packs and remainder when the remainder input is empty', function() {
+            var item = {
+                quantityInPacks: 2,
+                quantityRemainderInDoses: ''
+            };
+
+            var result = quantityUnitCalculateService.recalculateInputQuantity(
+                item, 84, false, 'orderedQuantity'
+            );
+
+            expect(result.orderedQuantity).toBe(168);
+        });
+
+        it('should add up packs and remainder given as strings', function() {
+            var item = {
+                quantityInPacks: '2',
+                quantityRemainderInDoses: '5'
+            };
+
+            var result = quantityUnitCalculateService.recalculateInputQuantity(
+                item, 84, false, 'orderedQuantity'
+            );
+
+            expect(result.orderedQuantity).toBe(173);
+        });
+
+        it('should split a doses total into packs and remainder', function() {
+            var item = {
+                orderedQuantity: 173
+            };
+
+            var result = quantityUnitCalculateService.recalculateInputQuantity(
+                item, 84, true, 'orderedQuantity'
+            );
+
+            expect(result.quantityInPacks).toEqual(2);
+            expect(result.quantityRemainderInDoses).toEqual(5);
+        });
+    });
 });
