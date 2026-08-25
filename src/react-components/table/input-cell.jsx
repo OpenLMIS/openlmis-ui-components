@@ -32,7 +32,7 @@ const InputCell = ({
     disabled = false,
     ...props
 }) => {
-    const { formatMessage } = useMemo(() => getService('messageService'), []);
+    const messageService = useMemo(() => getService('messageService'), []);
     const [value, setValue] = useState(initialValue);
     const [valid, setValid] = useState(true);
     const onChange = val => {
@@ -62,7 +62,7 @@ const InputCell = ({
     }, [showValidationErrors]);
 
     return (
-        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={message || formatMessage('openlmisForm.required')}>
+        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={message || messageService.get('openlmisForm.required')}>
             <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
                 {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
                 {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
