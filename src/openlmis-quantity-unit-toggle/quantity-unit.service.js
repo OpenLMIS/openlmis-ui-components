@@ -124,19 +124,33 @@
         function getTotalQuantityInDoses(quantityInPacks, quantityRemainderInDoses, netContent) {
             var quantityInDoses = 0;
 
-            if (quantityInPacks !== undefined && quantityInPacks !== null && !isNaN(quantityInPacks)) {
-                quantityInDoses = quantityInPacks * netContent;
+            if (isUsableQuantity(quantityInPacks)) {
+                quantityInDoses = Number(quantityInPacks) * netContent;
             }
 
-            if (
-                quantityRemainderInDoses !== undefined &&
-                quantityRemainderInDoses !== null &&
-                !isNaN(quantityRemainderInDoses)
-            ) {
-                quantityInDoses += quantityRemainderInDoses;
+            if (isUsableQuantity(quantityRemainderInDoses)) {
+                quantityInDoses += Number(quantityRemainderInDoses);
             }
 
             return quantityInDoses;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-quantity-unit-toggle.quantityUnitCalculateService
+         * @name isUsableQuantity
+         *
+         * @description
+         * Tells whether the given value can be used in quantity arithmetic. Cleared inputs hand us
+         * an empty string, and isNaN('') is false, so without the emptiness check an empty string
+         * would pass as a number and be concatenated instead of added (0 + '' gives the string '0').
+         *
+         * @param  {*}       value the value to check
+         *
+         * @return {boolean}       true if the value is a number we can add up
+         */
+        function isUsableQuantity(value) {
+            return value !== undefined && value !== null && value !== '' && !isNaN(value);
         }
 
         /**
