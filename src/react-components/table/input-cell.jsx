@@ -27,6 +27,7 @@ const InputCell = ({
     updateTableData,
     validateRow,
     showValidationErrors,
+    message,
     numeric = false,
     disabled = false,
     ...props
@@ -61,7 +62,7 @@ const InputCell = ({
     }, [showValidationErrors]);
 
     return (
-        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={formatMessage('openlmisForm.required')}>
+        <WebTooltip shouldDisplayTooltip={!valid} tooltipContent={message || formatMessage('openlmisForm.required')}>
             <div className={`form-control ${valid ? '' : 'is-invalid'}`}>
                 {numeric && <NumericInput value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
                 {!numeric && <Input value={value} onChange={onChange} onBlur={onBlur} disabled={disabled} {...props} />}
