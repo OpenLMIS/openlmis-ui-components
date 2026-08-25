@@ -9,6 +9,7 @@ Improvements:
 
 Bug fixes:
 * [OLMIS-8296](https://openlmis.atlassian.net/browse/OLMIS-8296): Focusing and leaving an empty packs or doses quantity input no longer blanks the whole view.
+* [OLMIS-8294](https://openlmis.atlassian.net/browse/OLMIS-8294): Pass sonar.projectVersion to the SonarCloud scanner through its args instead of appending it to sonar-project.properties during the build, so a missing trailing newline can no longer glue it onto the lcov report-path line and drop coverage to 0%.
 
 7.2.16 / 2026-06-09
 ==================
