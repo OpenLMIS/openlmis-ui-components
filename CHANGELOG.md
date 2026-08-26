@@ -12,6 +12,9 @@ Bug fixes:
 * [OLMIS-8296](https://openlmis.atlassian.net/browse/OLMIS-8296): Focusing and leaving an empty packs or doses quantity input no longer blanks the whole view.
 * [OLMIS-8294](https://openlmis.atlassian.net/browse/OLMIS-8294): Pass sonar.projectVersion to the SonarCloud scanner through its args instead of appending it to sonar-project.properties during the build, so a missing trailing newline can no longer glue it onto the lcov report-path line and drop coverage to 0%.
 
+Bug fixes:
+* [OLMIS-8177](https://openlmis.atlassian.net/browse/OLMIS-8177): React table input cells (packs/doses quantity) now show the shared, translated "This field is required" tooltip when invalid, instead of a tooltip-less red mark. An invalid packs/doses quantity now also outlines the input itself, in both units, like every other invalid input in a table.
+
 7.2.16 / 2026-06-09
 ==================
 
