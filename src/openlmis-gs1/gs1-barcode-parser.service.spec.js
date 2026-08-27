@@ -15,9 +15,21 @@
 
 describe('gs1BarcodeParserService', function() {
 
+    var defaults;
+
+    function defaultsOf(name) {
+        if (!defaults) {
+            defaults = angular.injector(['ng', 'openlmis-gs1']);
+        }
+
+        return defaults.get(name);
+    }
+
     var GS = '\u001d',
         GTIN = '05890123456786',
         GTIN_8_PADDED = '00000096385074',
+        GTIN_12_PADDED = '00036000291452',
+        GTIN_13_PADDED = '05901234123457',
         GTIN_BAD_CHECK_DIGIT = '05890123456787';
 
     beforeEach(function() {
@@ -239,6 +251,136 @@ describe('gs1BarcodeParserService', function() {
             expect(result.unparsed).toEqual({
                 3103: '000123'
             });
+
+            expect(result.warnings).toEqual([this.WARNING.UNKNOWN_APPLICATION_IDENTIFIER]);
+        });
+
+        it('should read a three digit identifier as three digits', function() {
+            var result = this.service.parse(']d201' + GTIN + '240ABC' + GS + '10LOT1');
+
+            expect(result.error).toBeUndefined();
+            expect(result.lotCode).toEqual('LOT1');
+            expect(result.unparsed).toEqual({
+                240: 'ABC'
+            });
+        });
+
+        it('should keep two three digit identifiers sharing their first two digits apart', function() {
+            var result = this.service.parse(']d201' + GTIN + '240ABC' + GS + '241XYZ' + GS);
+
+            expect(result.error).toBeUndefined();
+            expect(result.gtin).toEqual(GTIN);
+            expect(result.unparsed).toEqual({
+                240: 'ABC',
+                241: 'XYZ'
+            });
+        });
+
+        /**
+         * 710 to 716 are national healthcare reimbursement numbers and appear together on European
+         * pharmaceutical packs. Read as two digit identifiers they collide, and a label whose product
+         * and batch are both perfectly readable is thrown away over identifiers this version ignores.
+         */
+        it('should read a label carrying several reimbursement numbers', function() {
+            var result = this.service.parse(
+                ']d201' + GTIN + '10LOT1' + GS + '710AAA' + GS + '711BBB' + GS
+            );
+
+            expect(result.error).toBeUndefined();
+            expect(result.gtin).toEqual(GTIN);
+            expect(result.lotCode).toEqual('LOT1');
+            expect(result.unparsed).toEqual({
+                710: 'AAA',
+                711: 'BBB'
+            });
+        });
+
+        it('should keep the first value of a repeated identifier it does not read', function() {
+            var result = this.service.parse(']d201' + GTIN + '91FIRST' + GS + '91SECOND' + GS);
+
+            expect(result.error).toBeUndefined();
+            expect(result.unparsed).toEqual({
+                91: 'FIRST'
+            });
+        });
+
+        it('should still reject a repeated identifier it does read', function() {
+            var result = this.service.parse(']d201' + GTIN + '10ABC' + GS + '10DEF' + GS);
+
+            expect(result.error).toEqual(this.ERROR.DUPLICATE_APPLICATION_IDENTIFIER);
+        });
+
+        it('should parse a padded GTIN-12', function() {
+            var result = this.service.parse(']d201' + GTIN_12_PADDED);
+
+            expect(result.error).toBeUndefined();
+            expect(result.gtin).toEqual(GTIN_12_PADDED);
+        });
+
+        it('should parse a padded GTIN-13', function() {
+            var result = this.service.parse(']d201' + GTIN_13_PADDED);
+
+            expect(result.error).toBeUndefined();
+            expect(result.gtin).toEqual(GTIN_13_PADDED);
+        });
+
+        it('should reject a serial outside the GS1 character set', function() {
+            var result = this.service.parse(']d201' + GTIN + '21SER#456');
+
+            expect(result.error).toEqual(this.ERROR.INVALID_SERIAL);
+        });
+
+        it('should reject a serial longer than its maximum', function() {
+            var result = this.service.parse(']d201' + GTIN + '21' + new Array(22).join('S'));
+
+            expect(result.error).toEqual(this.ERROR.VALUE_TOO_LONG);
+        });
+
+        it('should carry the expiry in wire format as well as a Date', function() {
+            var result = this.service.parse(']d201' + GTIN + '17' + this.yy + '0131');
+
+            expect(result.error).toBeUndefined();
+            expect(result.expirationDateIso).toEqual(this.year + '-01-31');
+            expect(result.expirationDate.getDate()).toEqual(31);
+        });
+
+        it('should resolve a two digit year fifty ahead into the current century', function() {
+            var yy = twoDigitYear(this.currentYear + 50),
+                result = this.service.parse(']d201' + GTIN + '17' + yy + '0131');
+
+            expect(result.error).toBeUndefined();
+            expect(result.expirationDate.getFullYear()).toEqual(this.currentYear + 50);
+        });
+
+        it('should resolve a two digit year fifty one ahead into the previous century', function() {
+            var yy = twoDigitYear(this.currentYear + 51),
+                result = this.service.parse(']d201' + GTIN + '17' + yy + '0131');
+
+            expect(result.error).toBeUndefined();
+            expect(result.expirationDate.getFullYear()).toEqual(this.currentYear + 51 - 100);
+        });
+
+        /**
+         * A scanner that strips the separator cannot be caught here: the batch simply swallows the
+         * element after it, and the result is still valid GS1. Pinned so that the day someone tries to
+         * detect it, the shape of the problem is written down rather than rediscovered.
+         */
+        it('should read a swallowed serial as part of the batch when the separator is stripped',
+            function() {
+                var result = this.service.parse(']d201' + GTIN + '10ABC12321SER456');
+
+                expect(result.error).toBeUndefined();
+                expect(result.lotCode).toEqual('ABC12321SER456');
+                expect(result.serial).toBeUndefined();
+                expect(result.warnings).toEqual([]);
+            });
+
+        it('should lose a swallowed expiry when the separator is stripped', function() {
+            var result = this.service.parse(']d201' + GTIN + '10LOT117' + this.yy + '0131');
+
+            expect(result.error).toBeUndefined();
+            expect(result.lotCode).toEqual('LOT117' + this.yy + '0131');
+            expect(result.expirationDate).toBeUndefined();
         });
 
         it('should tolerate a leading separator', function() {
@@ -277,12 +419,32 @@ describe('gs1BarcodeParserService', function() {
     describe('parse with overridden configuration', function() {
 
         beforeEach(function() {
-            this.override = function(overrides) {
-                module(function($provide) {
-                    var defaults = angular.injector(['ng', 'openlmis-gs1'])
-                        .get('GS1_PARSE_CONFIG');
+            var accumulated = {};
 
-                    $provide.constant('GS1_PARSE_CONFIG', angular.extend({}, defaults, overrides));
+            /**
+             * Overrides accumulate, so two calls compose rather than the second discarding the first.
+             * The defaults come from one throwaway injector - a constant cannot be decorated, and the
+             * real one cannot be read before the module config blocks have run.
+             */
+            this.override = function(overrides) {
+                angular.extend(accumulated, overrides);
+
+                module(function($provide) {
+                    $provide.constant('GS1_PARSE_CONFIG',
+                        angular.extend({}, defaultsOf('GS1_PARSE_CONFIG'), accumulated));
+                });
+            };
+
+            /**
+             * Adds an entry to the identifier table, which is the module's own claim about how a new
+             * AI is supported.
+             */
+            this.addIdentifier = function(definition) {
+                module(function($provide) {
+                    var table = angular.copy(defaultsOf('GS1_APPLICATION_IDENTIFIERS'));
+
+                    table.parsed.push(definition);
+                    $provide.constant('GS1_APPLICATION_IDENTIFIERS', table);
                 });
             };
 
@@ -307,6 +469,43 @@ describe('gs1BarcodeParserService', function() {
             result = this.service.parse('01' + GTIN);
 
             expect(result.error).toEqual(this.ERROR.MISSING_SYMBOLOGY_IDENTIFIER);
+        });
+
+        it('should accept a payload with a prefix when the identifier is required', function() {
+            var result;
+
+            this.override({
+                requireSymbologyIdentifier: true
+            });
+            this.initService();
+
+            result = this.service.parse(']d201' + GTIN + '10ABC123');
+
+            expect(result.error).toBeUndefined();
+            expect(result.symbology).toEqual('GS1_DATA_MATRIX');
+            expect(result.lotCode).toEqual('ABC123');
+        });
+
+        /**
+         * The identifier table says supporting a new AI is a matter of adding an entry, so this pins
+         * that claim: nothing but the table entry below is added, and the value has to arrive.
+         */
+        it('should carry a value for an identifier added to the table', function() {
+            var result;
+
+            this.addIdentifier({
+                ai: '30',
+                field: 'countOfItems',
+                maxLength: 8
+            });
+            this.initService();
+
+            result = this.service.parse(']d201' + GTIN + '3012' + GS + '10ABC123');
+
+            expect(result.error).toBeUndefined();
+            expect(result.countOfItems).toEqual('12');
+            expect(result.lotCode).toEqual('ABC123');
+            expect(result.unparsed).toEqual({});
         });
 
         it('should treat a configured substitute as the group separator', function() {

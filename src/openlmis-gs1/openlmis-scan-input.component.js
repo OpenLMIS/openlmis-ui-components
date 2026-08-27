@@ -49,7 +49,7 @@
             bindings: {
                 mode: '@',
                 context: '<?',
-                onScan: '&'
+                onScan: '&?'
             }
         });
 

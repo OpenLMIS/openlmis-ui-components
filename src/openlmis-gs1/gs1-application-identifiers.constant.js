@@ -34,6 +34,12 @@
      * element it does not care about without a group separator to guide it, which is what keeps a
      * label carrying extra AIs (net weight, production date) parseable. Any AI absent from this
      * list is variable length by definition and must be terminated by a group separator.
+     *
+     * The `aiLengths` list carries the GS1 rule that the first two digits of an AI determine how
+     * many digits the AI itself has. Without it a three digit AI would be read as two, taking its
+     * third digit into the value and keying two different AIs the same - 240 and 241, or the 710 to
+     * 716 reimbursement numbers on European pharmaceutical packs, both collapse to one key. Any
+     * prefix not listed is two digits.
      */
     angular
         .module('openlmis-gs1')
@@ -95,6 +101,17 @@
                     prefixes: ['41'],
                     aiLength: 3,
                     dataLength: 13
+                }
+            ],
+            aiLengths: [
+                {
+                    prefixes: ['23', '24', '25', '40', '41', '42', '71'],
+                    length: 3
+                },
+                {
+                    prefixes: ['31', '32', '33', '34', '35', '36', '39', '43', '70', '72', '80',
+                        '81', '82'],
+                    length: 4
                 }
             ]
         });

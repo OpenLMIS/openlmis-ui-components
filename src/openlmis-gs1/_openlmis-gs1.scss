@@ -7,12 +7,12 @@
     align-items: center;
 
     &.is-success .openlmis-scan-input-icon {
-        background-color: #2e7d32;
+        background-color: $brand-success;
         animation: none;
     }
 
     &.is-error .openlmis-scan-input-icon {
-        background-color: #c62828;
+        background-color: $brand-danger;
         animation: none;
     }
 
@@ -21,7 +21,7 @@
     }
 
     &.is-working .openlmis-scan-input-icon {
-        background-color: #1565c0;
+        background-color: $blue;
         animation: openlmis-scan-input-pulse 0.6s ease-in-out infinite;
     }
 }
@@ -31,11 +31,11 @@
     width: 0.75em;
     height: 0.75em;
     border-radius: 50%;
-    background-color: #767676;
+    background-color: $gray;
 }
 
 .openlmis-scan-input-status {
-    margin-inline-start: 0.5em;
+    @include margin-left(0.5em);
 }
 
 @keyframes openlmis-scan-input-pulse {

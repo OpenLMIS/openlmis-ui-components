@@ -49,7 +49,18 @@
             SIX_DIGITS = /^\d{6}$/,
             TWO_DIGITS = /^\d\d/,
             knownIdentifiers = indexKnownIdentifiers(),
-            predefinedLengths = indexPredefinedLengths();
+            predefinedLengths = indexPredefinedLengths(),
+            aiLengths = indexAiLengths(),
+            VALIDATORS = {
+                gtin: validateGtin,
+                lotCode: function(raw) {
+                    return validateInvariantSet(raw, GS1_PARSE_ERROR.INVALID_LOT_CODE);
+                },
+                serial: function(raw) {
+                    return validateInvariantSet(raw, GS1_PARSE_ERROR.INVALID_SERIAL);
+                },
+                expirationDate: parseExpirationDate
+            };
 
         this.parse = parse;
 
@@ -66,7 +77,9 @@
          * - `symbology`      the symbology the scanner reported, undefined if it sent no prefix
          * - `gtin`           the full 14 digit AI 01 value, leading zeros preserved
          * - `lotCode`        the AI 10 value
-         * - `expirationDate` the AI 17 value as a Date
+         * - `expirationDate` the AI 17 value as a Date at local midnight
+         * - `expirationDateIso` the same date as a `YYYY-MM-DD` string, which is what a request body
+         *                    needs: serialising the Date sends the previous day east of UTC
          * - `serial`         the AI 21 value, for in session duplicate detection only
          * - `unparsed`       values of AIs outside the table, keyed by AI
          * - `warnings`       GS1_PARSE_WARNING codes raised while parsing
@@ -74,6 +87,12 @@
          * Fields for absent AIs are undefined. On failure the returned object carries a single
          * `error` property holding a GS1_PARSE_ERROR code and nothing else, so a consumer can branch
          * on the presence of `error`.
+         *
+         * A scanner that transmits no group separator cannot be detected here: a variable length value
+         * that has swallowed the element after it is indistinguishable from a longer value, since both
+         * are valid GS1. It surfaces as VALUE_TOO_LONG when the swallowed text pushes the value past
+         * its maximum, and otherwise as a batch number with the expiry stuck on the end. Separator
+         * transmission belongs on the scanner configuration checklist, not here.
          *
          * @param  {String} rawInput the payload as transmitted by the scanner
          * @return {Object}          the parsed elements, or an object holding an error code
@@ -172,10 +191,14 @@
                 return true;
             }
 
-            if (state.unparsed[element.ai] !== undefined) {
-                return false;
+            /*
+             * Elements outside the table are diagnostic only, so a repeated one keeps its first value
+             * rather than failing the scan: a label whose GTIN and batch both read cleanly is worth
+             * more than strictness over an AI this version ignores.
+             */
+            if (state.unparsed[element.ai] === undefined) {
+                state.unparsed[element.ai] = element.value;
             }
-            state.unparsed[element.ai] = element.value;
 
             if (element.warning) {
                 state.warnings.push(element.warning);
@@ -185,7 +208,7 @@
         }
 
         function readElement(payload, cursor) {
-            var known, predefined;
+            var known, predefined, element;
 
             if (!TWO_DIGITS.test(payload.substring(cursor, cursor + 2))) {
                 return failure(GS1_PARSE_ERROR.MALFORMED_ELEMENT_STRING);
@@ -198,11 +221,21 @@
 
             predefined = predefinedLengths[payload.substring(cursor, cursor + 2)];
             if (predefined) {
-                return readFixedLength(payload, cursor, {
+                element = readFixedLength(payload, cursor, {
                     aiLength: predefined.aiLength,
                     dataLength: predefined.dataLength,
                     field: undefined
                 });
+
+                /*
+                 * Skipped by its length rather than guessed at, but it is still an AI this version does
+                 * not read, so it is reported the same way as one with no length rule at all.
+                 */
+                if (!element.error) {
+                    element.warning = GS1_PARSE_WARNING.UNKNOWN_APPLICATION_IDENTIFIER;
+                }
+
+                return element;
             }
 
             return readUnknownElement(payload, cursor);
@@ -240,7 +273,7 @@
 
         function readUnknownElement(payload, cursor) {
             var element = readVariableLength(payload, cursor, {
-                aiLength: 2,
+                aiLength: aiLengthOf(payload, cursor),
                 maxLength: undefined,
                 field: undefined
             });
@@ -293,28 +326,64 @@
             };
         }
 
+        /**
+         * The result is projected from the AI table so that adding an AI there is all it takes for its
+         * value to reach the caller. A field with no entry in VALIDATORS is passed through as read.
+         */
         function buildResult(symbology, walked) {
-            var gtin = validateGtin(walked.values.gtin),
-                lotCode = validateInvariantSet(walked.values.lotCode,
-                    GS1_PARSE_ERROR.INVALID_LOT_CODE),
-                serial = validateInvariantSet(walked.values.serial,
-                    GS1_PARSE_ERROR.INVALID_SERIAL),
-                expiry = parseExpirationDate(walked.values.expirationDate, walked.warnings),
-                invalid = firstError([gtin, lotCode, serial, expiry]);
+            var validated = GS1_APPLICATION_IDENTIFIERS.parsed.map(function(definition) {
+                    var validator = VALIDATORS[definition.field];
+
+                    return {
+                        field: definition.field,
+                        result: validator
+                            ? validator(walked.values[definition.field], walked.warnings)
+                            : {
+                                value: walked.values[definition.field]
+                            }
+                    };
+                }),
+                invalid = firstError(validated.map(function(entry) {
+                    return entry.result;
+                })),
+                result;
 
             if (invalid) {
                 return failure(invalid);
             }
 
-            return {
+            result = {
                 symbology: symbology,
-                gtin: gtin.value,
-                lotCode: lotCode.value,
-                expirationDate: expiry.value,
-                serial: serial.value,
                 unparsed: walked.unparsed,
                 warnings: walked.warnings
             };
+
+            validated.forEach(function(entry) {
+                result[entry.field] = entry.result.value;
+            });
+
+            /*
+             * The Date is local midnight, which is a day out once serialised as UTC. The wire format
+             * is carried alongside it so a consumer sending the expiry to the backend never has to
+             * convert, and never has to know that it matters.
+             */
+            if (result.expirationDate) {
+                result.expirationDateIso = toIsoDate(result.expirationDate);
+            }
+
+            return result;
+        }
+
+        function toIsoDate(date) {
+            return [
+                date.getFullYear(),
+                padTwo(date.getMonth() + 1),
+                padTwo(date.getDate())
+            ].join('-');
+        }
+
+        function padTwo(number) {
+            return number < 10 ? '0' + number : String(number);
         }
 
         function validateGtin(raw) {
@@ -422,6 +491,33 @@
 
             GS1_APPLICATION_IDENTIFIERS.parsed.forEach(function(definition) {
                 index[definition.ai] = definition;
+            });
+
+            return index;
+        }
+
+        /**
+         * The AI table's prefix rule, with the predefined length table taking precedence where it
+         * already states a length for the same prefix.
+         */
+        function aiLengthOf(payload, cursor) {
+            var prefix = payload.substring(cursor, cursor + 2),
+                predefined = predefinedLengths[prefix];
+
+            if (predefined) {
+                return predefined.aiLength;
+            }
+
+            return aiLengths[prefix] || 2;
+        }
+
+        function indexAiLengths() {
+            var index = {};
+
+            (GS1_APPLICATION_IDENTIFIERS.aiLengths || []).forEach(function(group) {
+                group.prefixes.forEach(function(prefix) {
+                    index[prefix] = group.length;
+                });
             });
 
             return index;

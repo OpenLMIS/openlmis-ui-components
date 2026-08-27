@@ -43,16 +43,14 @@
 
     gs1ScanCaptureService.$inject = [
         '$document',
+        '$timeout',
         '$window',
         'GS1_CAPTURE_CONFIG',
         'GS1_PARSE_CONFIG'
     ];
 
-    function gs1ScanCaptureService($document, $window, GS1_CAPTURE_CONFIG, GS1_PARSE_CONFIG) {
-
-        var GROUP_SEPARATOR_KEY_CODE = 29,
-            GROUP_SEPARATOR_CTRL_CODE = 'BracketRight',
-            GROUP_SEPARATOR_CTRL_KEY = ']';
+    function gs1ScanCaptureService($document, $timeout, $window, GS1_CAPTURE_CONFIG,
+                                   GS1_PARSE_CONFIG) {
 
         this.subscribe = subscribe;
 
@@ -64,6 +62,10 @@
          * @description
          * Starts listening for scanner input. The subscriber is called with the raw payload outside
          * of a digest, so a caller updating the view must enter one itself.
+         *
+         * One active subscriber at a time. A confirmed scan is stopped dead in the capture phase, so
+         * a second subscriber would never see one; that is deliberate, since delivering a scan to two
+         * screens at once would apply it twice.
          *
          * @param  {Function} onPayload called with the raw payload string of each confirmed scan
          * @return {Function}           call to stop listening; safe to call more than once
@@ -84,6 +86,7 @@
             return function() {
                 document.removeEventListener('keydown', keydownListener, true);
                 document.removeEventListener('keyup', keyupListener, true);
+                cancelIdle(state);
             };
         }
 
@@ -92,8 +95,9 @@
                 characters: [],
                 lastKeyTime: 0,
                 suppressing: false,
-                snapshot: undefined,
-                scanEndedAt: 0
+                origin: undefined,
+                scanEndedAt: 0,
+                idle: undefined
             };
         }
 
@@ -210,6 +214,9 @@
             if (state.suppressing) {
                 blockEvent(event);
             }
+
+            // Nothing else notices a burst that stops without a terminator
+            scheduleIdle(state);
         }
 
         /**
@@ -231,19 +238,31 @@
         }
 
         function isControlSeparator(event) {
-            if (event.keyCode === GROUP_SEPARATOR_KEY_CODE) {
+            if (event.keyCode === GS1_CAPTURE_CONFIG.separatorKeyCode) {
                 return true;
             }
 
             return Boolean(event.ctrlKey)
-                && (event.code === GROUP_SEPARATOR_CTRL_CODE
-                    || event.key === GROUP_SEPARATOR_CTRL_KEY);
+                && (contains(GS1_CAPTURE_CONFIG.separatorCtrlCodes, event.code)
+                    || contains(GS1_CAPTURE_CONFIG.separatorCtrlKeys, event.key));
+        }
+
+        function contains(values, value) {
+            return Boolean(values) && values.indexOf(value) !== -1;
         }
 
         function restartBurst(state, event) {
+            /*
+             * The origin of an unresolved burst is kept rather than replaced. A burst that never
+             * terminated has left its own characters in the field, and snapshotting that value would
+             * make the field impossible to put back to what the user actually had.
+             */
+            if (!state.origin) {
+                state.origin = captureOrigin(event.target);
+            }
+
             state.characters = [];
             state.suppressing = false;
-            state.snapshot = takeSnapshot(event.target);
 
             // A burst starting is the end of the previous scan's suffix, whatever the window says
             state.scanEndedAt = 0;
@@ -252,32 +271,77 @@
         function finishBurst(event, state, onPayload) {
             var payload = state.characters.join('');
 
+            /*
+             * Too short to be a payload, so it was typing: the suppressed characters are written back
+             * and the terminator is left alone, because a human pressing Enter means to submit.
+             */
             if (state.characters.length < GS1_CAPTURE_CONFIG.minPayloadLength) {
+                replay(state);
                 resetBurst(state);
                 return;
             }
 
             blockEvent(event);
-            restoreSnapshot(state.snapshot);
+            revertOrigin(state);
             resetBurst(state);
 
             state.scanEndedAt = timeOf(event);
             onPayload(payload);
         }
 
+        /**
+         * A burst that stopped without a terminator, which is what a scanner with no suffix configured
+         * produces - the first thing to go wrong on site. What the burst looked like decides what
+         * happens to its characters: one long enough to have been a payload was the scanner talking, so
+         * the field goes back to what it held rather than keeping a payload typed into it; anything
+         * shorter was a human and is written back.
+         *
+         * No payload is reported either way. A scan without its terminator cannot be told from one
+         * still arriving, so inventing one risks acting on half a barcode.
+         */
+        function abandonBurst(state) {
+            if (state.characters.length >= GS1_CAPTURE_CONFIG.minPayloadLength) {
+                revertOrigin(state);
+            } else {
+                replay(state);
+            }
+
+            resetBurst(state);
+        }
+
+        function scheduleIdle(state) {
+            cancelIdle(state);
+
+            state.idle = $timeout(function() {
+                state.idle = undefined;
+                abandonBurst(state);
+            }, GS1_CAPTURE_CONFIG.idleTimeout);
+        }
+
+        function cancelIdle(state) {
+            if (state.idle) {
+                $timeout.cancel(state.idle);
+                state.idle = undefined;
+            }
+        }
+
         function resetBurst(state) {
+            cancelIdle(state);
             state.characters = [];
             state.suppressing = false;
-            state.snapshot = undefined;
+            state.origin = undefined;
             state.lastKeyTime = 0;
         }
 
         /**
-         * Value only, not the selection: reading selectionStart throws on number inputs, which is
-         * exactly where a stray scan tends to land.
+         * What the focused field held when the burst started. Value only, not the selection: reading
+         * selectionStart throws on number inputs, which is exactly where a stray scan tends to land.
+         *
+         * Taken whatever `restoreLeakedInput` says, because writing typing back is a correctness
+         * requirement rather than a preference; the setting governs only undoing a scan's leak.
          */
-        function takeSnapshot(element) {
-            if (!isRestorable(element)) {
+        function captureOrigin(element) {
+            if (!element || typeof element.value !== 'string') {
                 return undefined;
             }
 
@@ -287,25 +351,48 @@
             };
         }
 
-        function isRestorable(element) {
-            if (!GS1_CAPTURE_CONFIG.restoreLeakedInput || !element) {
-                return false;
-            }
-
-            return typeof element.value === 'string';
-        }
-
         /**
-         * The input event is what lets ng-model see the restore; assigning the value alone would
-         * leave the model holding the leaked characters.
+         * Hands back every character the burst withheld. Suppression cannot be undone by re-dispatching
+         * keystrokes - an untrusted KeyboardEvent inserts no text in any browser - so the value is
+         * written and an input event dispatched for ng-model.
+         *
+         * Nothing is written when the burst suppressed nothing, since the field already holds
+         * everything that was typed; that is what keeps typing broken by a pause intact.
+         *
+         * The characters land at the end of the field. The caret is not snapshotted, so typing into the
+         * middle of a field replays at its end - the alternative is losing the characters entirely.
          */
-        function restoreSnapshot(snapshot) {
-            if (!snapshot || snapshot.element.value === snapshot.value) {
+        function replay(state) {
+            if (!state.origin || !state.suppressing) {
                 return;
             }
 
-            snapshot.element.value = snapshot.value;
-            snapshot.element.dispatchEvent(new $window.Event('input', {
+            writeValue(state.origin.element, state.origin.value + state.characters.join(''));
+        }
+
+        /**
+         * Undoes what a burst leaked into the focused field. Governed by `restoreLeakedInput`, which is
+         * what a deployment turns off to keep this service from writing to fields at all.
+         */
+        function revertOrigin(state) {
+            if (!GS1_CAPTURE_CONFIG.restoreLeakedInput || !state.origin) {
+                return;
+            }
+
+            writeValue(state.origin.element, state.origin.value);
+        }
+
+        /**
+         * The input event is what lets ng-model see the write; assigning the value alone would leave
+         * the model holding whatever the burst left behind.
+         */
+        function writeValue(element, value) {
+            if (element.value === value) {
+                return;
+            }
+
+            element.value = value;
+            element.dispatchEvent(new $window.Event('input', {
                 bubbles: true
             }));
         }

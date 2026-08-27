@@ -63,6 +63,8 @@
         ERROR_MESSAGES[GS1_PARSE_ERROR.INVALID_GTIN_CHECK_DIGIT] = 'openlmisGs1.scanErrorProductCode';
         ERROR_MESSAGES[GS1_PARSE_ERROR.INVALID_EXPIRATION_DATE] = 'openlmisGs1.scanErrorExpiry';
         ERROR_MESSAGES[GS1_PARSE_ERROR.TRUNCATED_ELEMENT_STRING] = 'openlmisGs1.scanErrorIncomplete';
+        ERROR_MESSAGES[GS1_PARSE_ERROR.MISSING_SYMBOLOGY_IDENTIFIER] =
+            'openlmisGs1.scanErrorScannerSetup';
 
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
@@ -74,13 +76,18 @@
          * @name $onInit
          *
          * @description
-         * Validates the mode and starts listening. An unrecognised mode throws rather than silently
-         * doing nothing, which is far more expensive to diagnose.
+         * Validates the bindings and starts listening. A bad mode or a missing handler throws rather
+         * than silently doing nothing, which is far more expensive to diagnose - an absent handler
+         * would otherwise report every scan as accepted while nothing at all happened.
          */
         function onInit() {
             if (validModes().indexOf(vm.mode) === -1) {
                 throw new Error('openlmisScanInput requires one of the GS1_SCAN_MODE values, got: '
                     + vm.mode);
+            }
+
+            if (!angular.isFunction(vm.onScan)) {
+                throw new Error('openlmisScanInput requires an on-scan handler');
             }
 
             vm.status = GS1_SCAN_STATUS.READY;
@@ -134,12 +141,19 @@
             var scan = gs1BarcodeParserService.parse(payload);
 
             $scope.$applyAsync(function() {
+                /*
+                 * Taken for every scan, parseable or not. A scan that cannot be read still supersedes
+                 * the one before it, so an outcome still in flight from that one cannot come back and
+                 * report success over this failure.
+                 */
+                var token = nextToken();
+
                 if (scan.error) {
                     setTransientStatus(GS1_SCAN_STATUS.ERROR, scan.error, undefined);
                     return;
                 }
 
-                report(scan);
+                report(scan, token);
             });
         }
 
@@ -148,13 +162,12 @@
          * trip - and until it settles the scan is only captured, not accepted. A handler returning
          * anything else is taken at face value and reported as accepted straight away.
          */
-        function report(scan) {
-            var token = nextToken(),
-                outcome = vm.onScan({
-                    scan: scan,
-                    mode: vm.mode,
-                    context: vm.context
-                });
+        function report(scan, token) {
+            var outcome = vm.onScan({
+                scan: scan,
+                mode: vm.mode,
+                context: vm.context
+            });
 
             if (!outcome || !angular.isFunction(outcome.then)) {
                 setTransientStatus(GS1_SCAN_STATUS.SUCCESS, undefined, undefined);

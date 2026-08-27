@@ -19,7 +19,7 @@ describe('gs1ScanCaptureService', function() {
         GS = '\u001d';
 
     beforeEach(function() {
-        var gs1ScanCaptureService, $window, captureConfig;
+        var gs1ScanCaptureService, $window, captureConfig, $timeout;
 
         module('openlmis-gs1');
 
@@ -27,10 +27,12 @@ describe('gs1ScanCaptureService', function() {
             gs1ScanCaptureService = $injector.get('gs1ScanCaptureService');
             $window = $injector.get('$window');
             captureConfig = $injector.get('GS1_CAPTURE_CONFIG');
+            $timeout = $injector.get('$timeout');
         });
 
         this.service = gs1ScanCaptureService;
         this.config = captureConfig;
+        this.$timeout = $timeout;
         this.onPayload = jasmine.createSpy('onPayload');
 
         this.now = 1000;
@@ -66,6 +68,22 @@ describe('gs1ScanCaptureService', function() {
             (target || document.body).dispatchEvent(event);
 
             return event;
+        };
+
+        /**
+         * Stands in for the browser: a printable keystroke that was not prevented lands in the focused
+         * field. Synthetic events insert no text of their own, so the specs have to do it, which is
+         * also what makes it visible when a keystroke goes missing.
+         */
+        this.typeInto = function(text, gapMs) {
+            var i, event;
+
+            for (i = 0; i < text.length; i++) {
+                event = this.press(text.charAt(i), gapMs, this.input);
+                if (!event.defaultPrevented) {
+                    this.input.value = this.input.value + text.charAt(i);
+                }
+            }
         };
 
         this.pressAll = function(text, gapMs, target) {
@@ -368,14 +386,137 @@ describe('gs1ScanCaptureService', function() {
     });
 
     it('should discard characters preceding a pause and keep only the latest burst', function() {
+        this.input.value = 'PRE';
         this.unsubscribe = this.service.subscribe(this.onPayload);
 
-        this.pressAll('99999', 5);
-        this.press(PAYLOAD.charAt(0), this.config.burstThreshold + 10);
-        this.pressAll(PAYLOAD.substring(1), 5);
+        this.typeInto('99999', 5);
+        this.press(PAYLOAD.charAt(0), this.config.burstThreshold + 10, this.input);
+        this.typeInto(PAYLOAD.substring(1), 5);
+        this.press('Enter', 5, this.input);
+
+        expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
+        expect(this.input.value).toEqual('PRE');
+    });
+
+    it('should write a fast burst too short to be a scan back into the field', function() {
+        var terminator;
+
+        this.input.value = 'PRE';
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.typeInto('12345', 5);
+        terminator = this.press('Enter', 5, this.input);
+
+        expect(this.onPayload).not.toHaveBeenCalled();
+        expect(this.input.value).toEqual('PRE12345');
+        expect(terminator.defaultPrevented).toBe(false);
+    });
+
+    it('should write typing back when a burst stops without a terminator', function() {
+        this.input.value = 'PRE';
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.typeInto('12345', 5);
+        this.$timeout.flush(this.config.idleTimeout);
+
+        expect(this.input.value).toEqual('PRE12345');
+        expect(this.onPayload).not.toHaveBeenCalled();
+    });
+
+    /**
+     * A scanner with no suffix configured, which is the first thing that goes wrong on site.
+     */
+    it('should clear a scan that never terminated out of the field', function() {
+        this.input.value = '120';
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.typeInto(PAYLOAD, 5);
+        this.$timeout.flush(this.config.idleTimeout);
+
+        expect(this.input.value).toEqual('120');
+        expect(this.onPayload).not.toHaveBeenCalled();
+    });
+
+    it('should not let repeated scans with no terminator build up in the field', function() {
+        var i;
+
+        this.input.value = '120';
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        for (i = 0; i < 4; i++) {
+            this.typeInto(PAYLOAD, 5);
+            this.now = this.now + 500;
+        }
+        this.$timeout.flush(this.config.idleTimeout);
+
+        expect(this.input.value).toEqual('120');
+        expect(this.onPayload).not.toHaveBeenCalled();
+    });
+
+    it('should ignore a key held down', function() {
+        var event;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.now = this.now + 5;
+        event = this.stamp(new KeyboardEvent('keydown', {
+            key: 'X',
+            repeat: true,
+            bubbles: true,
+            cancelable: true
+        }));
+        document.body.dispatchEvent(event);
         this.press('Enter', 5);
 
         expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
+    });
+
+    it('should treat the group separator control code as the separator', function() {
+        var event;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(']d201' + '05890123456786' + '10ABC', 5);
+        this.now = this.now + 5;
+        event = this.stamp(new KeyboardEvent('keydown', {
+            key: 'Unidentified',
+            bubbles: true,
+            cancelable: true
+        }));
+        Object.defineProperty(event, 'keyCode', {
+            value: this.config.separatorKeyCode
+        });
+        document.body.dispatchEvent(event);
+        this.pressAll('21S1', 5);
+        this.press('Enter', 5);
+
+        expect(this.onPayload)
+            .toHaveBeenCalledWith(']d20105890123456786' + '10ABC' + GS + '21S1');
+    });
+
+    it('should report a scan made with nothing restorable focused', function() {
+        var target = document.createElement('div');
+
+        document.body.appendChild(target);
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5, target);
+        this.press('Enter', 5, target);
+
+        expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
+        document.body.removeChild(target);
+    });
+
+    it('should tolerate unsubscribing twice', function() {
+        var unsubscribe = this.service.subscribe(this.onPayload);
+
+        unsubscribe();
+        unsubscribe();
+        this.pressAll(PAYLOAD, 5);
+        this.press('Enter', 5);
+
+        expect(this.onPayload).not.toHaveBeenCalled();
     });
 
     it('should stop listening once unsubscribed', function() {

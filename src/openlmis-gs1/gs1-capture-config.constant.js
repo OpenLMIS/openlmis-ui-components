@@ -27,13 +27,21 @@
      * - `burstThreshold` - maximum milliseconds between keystrokes of one burst. This is what
      *   separates a scan from typing.
      * - `minPayloadLength` - shorter bursts count as typing even when fast.
-     * - `suppressAfter` - characters seen before suppression starts. Timing is unknown on the first
-     *   keystroke, so this many can reach a focused field; the restore below removes them.
+     * - `suppressAfter` - the keystroke of a burst on which suppression starts. Timing is unknown on
+     *   the first keystroke, so the ones before it reach a focused field and are undone afterwards.
      * - `terminators` - suffix keys a scanner may send.
+     * - `idleTimeout` - milliseconds of quiet after which a burst with no terminator is given up on:
+     *   its characters are written back if it looked like typing, or cleared from the field if it
+     *   looked like a scan. Must be longer than any gap within one transmission.
+     * - `separatorKeyCode`, `separatorCtrlCodes`, `separatorCtrlKeys` - how a scanner sends the group
+     *   separator, which has no printable key of its own. The Ctrl combination varies by keyboard
+     *   layout, hence the lists.
      * - `suffixWindow` - milliseconds after a scan during which further suffix keystrokes are still
      *   the scanner's, not the user's. Covers scanners configured to send both CR and LF. Measured
      *   between keystrokes, like the burst threshold.
-     * - `restoreLeakedInput` - restore a focused input to its pre burst value on a confirmed scan.
+     * - `restoreLeakedInput` - undo what a scan leaked into a focused input, on a confirmed scan and
+     *   on one given up on. Turning it off keeps this service from writing to fields at all, except
+     *   to write typing back, which it always does.
      * - `statusResetDelay` - milliseconds a success or failure indication stays on screen.
      */
     angular
@@ -44,6 +52,10 @@
             suppressAfter: 3,
             terminators: ['Enter', 'Tab'],
             suffixWindow: 150,
+            idleTimeout: 300,
+            separatorKeyCode: 29,
+            separatorCtrlCodes: ['BracketRight'],
+            separatorCtrlKeys: [']'],
             restoreLeakedInput: true,
             statusResetDelay: 2500
         });

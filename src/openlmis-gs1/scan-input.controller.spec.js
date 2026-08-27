@@ -91,6 +91,16 @@ describe('ScanInputController', function() {
             expect(angular.isFunction(this.captured)).toBe(true);
         });
 
+        it('should throw when no handler is bound', function() {
+            var context = this;
+
+            expect(function() {
+                context.build({
+                    onScan: undefined
+                });
+            }).toThrow();
+        });
+
         it('should throw when the mode is not recognised', function() {
             var context = this;
 
@@ -173,6 +183,18 @@ describe('ScanInputController', function() {
 
             expect(vm.status).toEqual(this.STATUS.ERROR);
             expect(vm.errorCode).toEqual(this.ERROR.MALFORMED_ELEMENT_STRING);
+        });
+
+        it('should point at the scanner configuration when the prefix is missing', function() {
+            var vm = this.build();
+
+            spyOn(this.parserService, 'parse').andReturn({
+                error: this.ERROR.MISSING_SYMBOLOGY_IDENTIFIER
+            });
+
+            this.capture(PAYLOAD);
+
+            expect(vm.statusMessage()).toEqual('openlmisGs1.scanErrorScannerSetup');
         });
 
         it('should point at the scanner configuration when a value overran', function() {
@@ -292,6 +314,27 @@ describe('ScanInputController', function() {
             expect(vm.status).toEqual(this.STATUS.SUCCESS);
         });
 
+        /**
+         * The failure the user is looking at must not be repainted by a lookup started before it.
+         */
+        it('should not let an earlier outcome overwrite a later parse failure', function() {
+            var pending = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(pending.promise);
+            this.capture(PAYLOAD);
+
+            this.capture('HELLO WORLD');
+
+            expect(vm.status).toEqual(this.STATUS.ERROR);
+
+            pending.resolve();
+            this.$rootScope.$digest();
+
+            expect(vm.status).toEqual(this.STATUS.ERROR);
+            expect(vm.errorCode).toEqual(this.ERROR.MALFORMED_ELEMENT_STRING);
+        });
+
         it('should fall back to ready after the status delay', function() {
             var deferred = this.$q.defer(),
                 vm = this.build();
@@ -317,12 +360,15 @@ describe('ScanInputController', function() {
         });
 
         it('should cancel a pending status reset', function() {
-            var vm = this.build();
+            var context = this,
+                vm = this.build();
 
             this.capture(PAYLOAD);
             vm.$onDestroy();
 
-            expect(this.$timeout.verifyNoPendingTasks).not.toThrow();
+            expect(function() {
+                context.$timeout.verifyNoPendingTasks();
+            }).not.toThrow();
         });
     });
 
