@@ -386,7 +386,7 @@ describe('gs1ScanCaptureService', function() {
         expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
     });
 
-    it('should discard characters preceding a pause and keep only the latest burst', function() {
+    it('should report only the latest burst and leave earlier typing in the field', function() {
         this.input.value = 'PRE';
         this.unsubscribe = this.service.subscribe(this.onPayload);
 
@@ -429,6 +429,20 @@ describe('gs1ScanCaptureService', function() {
 
             expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
             expect(this.input.value).toEqual('PRE99999');
+        });
+
+        /**
+         * A scan interrupted inside its first few characters is indistinguishable from typing - it is
+         * short and fast, and nothing else about it says scanner. The length rule therefore keeps it,
+         * which is the deliberate direction: writing typing back costs a few stray characters in a
+         * field, clearing it would delete what somebody actually typed.
+         */
+        it('should keep a scan fragment too short to be told from typing', function() {
+            this.typeInto(PAYLOAD.substring(0, 7), 5);
+            this.$timeout.flush(this.config.idleTimeout);
+
+            expect(this.input.value).toEqual('PRE' + PAYLOAD.substring(0, 7));
+            expect(this.onPayload).not.toHaveBeenCalled();
         });
 
         it('should clear a scan that was cut short before typing continued', function() {

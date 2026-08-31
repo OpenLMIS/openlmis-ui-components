@@ -304,6 +304,11 @@
          *
          * No payload is reported either way. A scan without its terminator cannot be told from one
          * still arriving, so inventing one risks acting on half a barcode.
+         *
+         * Length is the only thing that separates an abandoned scan from abandoned typing, so a scan
+         * interrupted inside its first `minPayloadLength` characters is kept as typing - the field ends
+         * up holding a fragment such as `]d201`. That is the deliberate direction: keeping a few stray
+         * characters is recoverable, deleting characters somebody typed is not.
          */
         function abandonBurst(state) {
             var looksLikeScan = state.characters.length >= GS1_CAPTURE_CONFIG.minPayloadLength,
