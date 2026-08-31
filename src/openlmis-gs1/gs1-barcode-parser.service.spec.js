@@ -295,6 +295,43 @@ describe('gs1BarcodeParserService', function() {
             });
         });
 
+        it('should read a four digit identifier as four digits', function() {
+            var result = this.service.parse(']d201' + GTIN + '3900123' + GS + '10LOT1');
+
+            expect(result.error).toBeUndefined();
+            expect(result.lotCode).toEqual('LOT1');
+            expect(result.unparsed).toEqual({
+                3900: '123'
+            });
+        });
+
+        /**
+         * A separator inside the identifier's own digits used to be invisible: the search for the end
+         * of a variable length value starts after the identifier, so the value ran straight past the
+         * separator and swallowed the element behind it while the parse still reported success.
+         */
+        it('should reject a separator inside an identifier', function() {
+            var result = this.service.parse(']d201' + GTIN + '390' + GS + '10LOT1');
+
+            expect(result.error).toEqual(this.ERROR.MALFORMED_ELEMENT_STRING);
+        });
+
+        it('should reject a separator inside a fixed length value', function() {
+            var result = this.service.parse(']d201' + GTIN + '11' + '2701' + GS + '3010LOT1');
+
+            expect(result.error).toEqual(this.ERROR.MALFORMED_ELEMENT_STRING);
+        });
+
+        it('should raise one warning however many identifiers it could not read', function() {
+            var result = this.service.parse(
+                ']d201' + GTIN + '91A' + GS + '91B' + GS + '92C' + GS + '10LOT1'
+            );
+
+            expect(result.error).toBeUndefined();
+            expect(result.lotCode).toEqual('LOT1');
+            expect(result.warnings).toEqual([this.WARNING.UNKNOWN_APPLICATION_IDENTIFIER]);
+        });
+
         it('should keep the first value of a repeated identifier it does not read', function() {
             var result = this.service.parse(']d201' + GTIN + '91FIRST' + GS + '91SECOND' + GS);
 

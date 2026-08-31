@@ -168,6 +168,10 @@
                     return failure(element.error);
                 }
 
+                if (spansSeparator(element)) {
+                    return failure(GS1_PARSE_ERROR.MALFORMED_ELEMENT_STRING);
+                }
+
                 if (!applyElement(state, element)) {
                     return failure(GS1_PARSE_ERROR.DUPLICATE_APPLICATION_IDENTIFIER);
                 }
@@ -200,11 +204,24 @@
                 state.unparsed[element.ai] = element.value;
             }
 
-            if (element.warning) {
-                state.warnings.push(element.warning);
-            }
+            raiseWarning(state, element.warning);
 
             return true;
+        }
+
+        /**
+         * Warnings are codes describing the scan, not a record per element, so a label carrying four
+         * identifiers this version ignores raises the one warning rather than four copies of it.
+         */
+        function raiseWarning(state, code) {
+            if (code && state.warnings.indexOf(code) === -1) {
+                state.warnings.push(code);
+            }
+        }
+
+        function spansSeparator(element) {
+            return element.ai.indexOf(GS1_PARSE_CONFIG.groupSeparator) !== -1
+                || element.value.indexOf(GS1_PARSE_CONFIG.groupSeparator) !== -1;
         }
 
         function readElement(payload, cursor) {
@@ -439,7 +456,9 @@
 
             lastDayOfMonth = new Date(year, month, 0).getDate();
             if (day === 0) {
-                warnings.push(GS1_PARSE_WARNING.EXPIRY_DAY_ASSUMED_END_OF_MONTH);
+                raiseWarning({
+                    warnings: warnings
+                }, GS1_PARSE_WARNING.EXPIRY_DAY_ASSUMED_END_OF_MONTH);
                 day = lastDayOfMonth;
             }
 

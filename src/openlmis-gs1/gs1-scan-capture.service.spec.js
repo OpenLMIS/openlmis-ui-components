@@ -75,11 +75,12 @@ describe('gs1ScanCaptureService', function() {
          * field. Synthetic events insert no text of their own, so the specs have to do it, which is
          * also what makes it visible when a keystroke goes missing.
          */
-        this.typeInto = function(text, gapMs) {
-            var i, event;
+        this.typeInto = function(text, gapMs, firstGapMs) {
+            var i, event, gap;
 
             for (i = 0; i < text.length; i++) {
-                event = this.press(text.charAt(i), gapMs, this.input);
+                gap = i === 0 && firstGapMs !== undefined ? firstGapMs : gapMs;
+                event = this.press(text.charAt(i), gap, this.input);
                 if (!event.defaultPrevented) {
                     this.input.value = this.input.value + text.charAt(i);
                 }
@@ -395,7 +396,48 @@ describe('gs1ScanCaptureService', function() {
         this.press('Enter', 5, this.input);
 
         expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
-        expect(this.input.value).toEqual('PRE');
+        expect(this.input.value).toEqual('PRE99999');
+    });
+
+    describe('when a burst is broken by a pause', function() {
+
+        beforeEach(function() {
+            this.input.value = 'PRE';
+            this.unsubscribe = this.service.subscribe(this.onPayload);
+        });
+
+        it('should keep what landed before the pause when the rest is typing', function() {
+            this.typeInto('12', 5);
+            this.typeInto('345', 5, 100);
+            this.press('Enter', 5, this.input);
+
+            expect(this.input.value).toEqual('PRE12345');
+        });
+
+        it('should give back what the first burst suppressed', function() {
+            this.typeInto('12345', 5);
+            this.typeInto('67', 5, 100);
+            this.$timeout.flush(this.config.idleTimeout);
+
+            expect(this.input.value).toEqual('PRE1234567');
+        });
+
+        it('should leave typing alone when a scan follows it', function() {
+            this.typeInto('99999', 5);
+            this.typeInto(PAYLOAD, 5, 50);
+            this.press('Enter', 5, this.input);
+
+            expect(this.onPayload).toHaveBeenCalledWith(PAYLOAD);
+            expect(this.input.value).toEqual('PRE99999');
+        });
+
+        it('should clear a scan that was cut short before typing continued', function() {
+            this.typeInto('0105890123', 5);
+            this.typeInto('xy', 5, 100);
+            this.$timeout.flush(this.config.idleTimeout);
+
+            expect(this.input.value).toEqual('PRExy');
+        });
     });
 
     it('should write a fast burst too short to be a scan back into the field', function() {
@@ -451,6 +493,59 @@ describe('gs1ScanCaptureService', function() {
 
         expect(this.input.value).toEqual('120');
         expect(this.onPayload).not.toHaveBeenCalled();
+    });
+
+    it('should swallow a terminator that arrives after the burst was given up on', function() {
+        var terminator;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.$timeout.flush(this.config.idleTimeout);
+        terminator = this.press('Enter', 20);
+
+        expect(terminator.defaultPrevented).toBe(true);
+        expect(this.observed.indexOf('keydown:Enter')).toEqual(-1);
+        expect(this.onPayload).not.toHaveBeenCalled();
+    });
+
+    it('should leave a terminator alone long after a burst was given up on', function() {
+        var terminator;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll(PAYLOAD, 5);
+        this.$timeout.flush(this.config.idleTimeout);
+        terminator = this.press('Enter', this.config.idleTimeout + this.config.suffixWindow + 10);
+
+        expect(terminator.defaultPrevented).toBe(false);
+    });
+
+    it('should leave a terminator alone after typing was given up on', function() {
+        var terminator;
+
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.pressAll('123', 5);
+        this.$timeout.flush(this.config.idleTimeout);
+        terminator = this.press('Enter', 20);
+
+        expect(terminator.defaultPrevented).toBe(false);
+    });
+
+    /**
+     * Nothing was withheld, so the field already holds everything typed. Rewriting it from the
+     * snapshot would move characters typed into the middle of a field to its end.
+     */
+    it('should not rewrite a field whose value it did not change', function() {
+        this.input.value = 'PRE';
+        this.unsubscribe = this.service.subscribe(this.onPayload);
+
+        this.typeInto('12', 5);
+        this.input.value = 'P1X2RE';
+        this.press('Enter', 5, this.input);
+
+        expect(this.input.value).toEqual('P1X2RE');
     });
 
     it('should ignore a key held down', function() {

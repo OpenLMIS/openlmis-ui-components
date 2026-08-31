@@ -97,6 +97,7 @@
                 suppressing: false,
                 origin: undefined,
                 scanEndedAt: 0,
+                lateTerminatorFrom: 0,
                 idle: undefined
             };
         }
@@ -124,6 +125,12 @@
             }
 
             if (isTerminator(event)) {
+                if (!state.characters.length && isLateTerminator(state, event)) {
+                    blockEvent(event);
+                    state.lateTerminatorFrom = 0;
+                    return;
+                }
+
                 finishBurst(event, state, onPayload);
                 return;
             }
@@ -215,6 +222,8 @@
                 blockEvent(event);
             }
 
+            state.lateTerminatorFrom = 0;
+
             // Nothing else notices a burst that stops without a terminator
             scheduleIdle(state);
         }
@@ -251,18 +260,15 @@
             return Boolean(values) && values.indexOf(value) !== -1;
         }
 
+        /**
+         * A pause long enough to break a burst ends that burst, so it is resolved here before the next
+         * one starts: its characters are written back or cleared, and only then is a fresh snapshot
+         * taken. Keeping the old snapshot instead would rebuild the field from before the pause and
+         * erase characters that had already landed.
+         */
         function restartBurst(state, event) {
-            /*
-             * The origin of an unresolved burst is kept rather than replaced. A burst that never
-             * terminated has left its own characters in the field, and snapshotting that value would
-             * make the field impossible to put back to what the user actually had.
-             */
-            if (!state.origin) {
-                state.origin = captureOrigin(event.target);
-            }
-
-            state.characters = [];
-            state.suppressing = false;
+            abandonBurst(state);
+            state.origin = captureOrigin(event.target);
 
             // A burst starting is the end of the previous scan's suffix, whatever the window says
             state.scanEndedAt = 0;
@@ -300,13 +306,28 @@
          * still arriving, so inventing one risks acting on half a barcode.
          */
         function abandonBurst(state) {
-            if (state.characters.length >= GS1_CAPTURE_CONFIG.minPayloadLength) {
+            var looksLikeScan = state.characters.length >= GS1_CAPTURE_CONFIG.minPayloadLength,
+                lastKeyTime = state.lastKeyTime;
+
+            if (looksLikeScan) {
                 revertOrigin(state);
             } else {
                 replay(state);
             }
 
             resetBurst(state);
+
+            state.lateTerminatorFrom = looksLikeScan ? lastKeyTime : 0;
+        }
+
+        /**
+         * Measured from the last character of the abandoned burst, so the allowance covers the quiet
+         * period the idle timer waited out plus the window a suffix may straggle in.
+         */
+        function isLateTerminator(state, event) {
+            return state.lateTerminatorFrom !== 0
+                && timeOf(event) - state.lateTerminatorFrom
+                    <= GS1_CAPTURE_CONFIG.idleTimeout + GS1_CAPTURE_CONFIG.suffixWindow;
         }
 
         function scheduleIdle(state) {
@@ -327,6 +348,7 @@
 
         function resetBurst(state) {
             cancelIdle(state);
+            state.lateTerminatorFrom = 0;
             state.characters = [];
             state.suppressing = false;
             state.origin = undefined;
@@ -371,8 +393,8 @@
         }
 
         /**
-         * Undoes what a burst leaked into the focused field. Governed by `restoreLeakedInput`, which is
-         * what a deployment turns off to keep this service from writing to fields at all.
+         * Undoes what a burst leaked into the focused field. Governed by `restoreLeakedInput`; writing
+         * typing back is not, since losing characters is a defect rather than a preference.
          */
         function revertOrigin(state) {
             if (!GS1_CAPTURE_CONFIG.restoreLeakedInput || !state.origin) {

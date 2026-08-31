@@ -63,18 +63,23 @@ describe('ScanInputController', function() {
             this.$rootScope.$digest();
         };
 
-        this.build = function(bindings) {
+        /** Built but not initialised, for the specs that need the view model after $onInit throws. */
+        this.controller = function(bindings) {
             var vm = $controller('ScanInputController', {
                 $scope: this.scope
             });
 
-            angular.extend(vm, {
+            return angular.extend(vm, {
                 mode: this.MODE.RECEIVE,
                 context: {
                     rows: []
                 },
                 onScan: this.onScan
             }, bindings);
+        };
+
+        this.build = function(bindings) {
+            var vm = this.controller(bindings);
 
             vm.$onInit();
 
@@ -89,6 +94,20 @@ describe('ScanInputController', function() {
 
             expect(vm.status).toEqual(this.STATUS.READY);
             expect(angular.isFunction(this.captured)).toBe(true);
+        });
+
+        it('should say scanning is unavailable when a binding is wrong', function() {
+            var vm = this.controller({
+                onScan: undefined
+            });
+
+            expect(function() {
+                vm.$onInit();
+            }).toThrow();
+
+            expect(vm.status).toEqual(this.STATUS.ERROR);
+            expect(vm.statusMessage()).toEqual('openlmisGs1.scanUnavailable');
+            expect(this.captured).toBeUndefined();
         });
 
         it('should throw when no handler is bound', function() {

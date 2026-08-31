@@ -82,16 +82,23 @@
          */
         function onInit() {
             if (validModes().indexOf(vm.mode) === -1) {
-                throw new Error('openlmisScanInput requires one of the GS1_SCAN_MODE values, got: '
+                unavailable('openlmisScanInput requires one of the GS1_SCAN_MODE values, got: '
                     + vm.mode);
+                return;
             }
 
             if (!angular.isFunction(vm.onScan)) {
-                throw new Error('openlmisScanInput requires an on-scan handler');
+                unavailable('openlmisScanInput requires an on-scan handler');
+                return;
             }
 
             vm.status = GS1_SCAN_STATUS.READY;
             unsubscribe = gs1ScanCaptureService.subscribe(onPayload);
+        }
+
+        function unavailable(message) {
+            setStatus(GS1_SCAN_STATUS.ERROR, undefined, 'openlmisGs1.scanUnavailable');
+            throw new Error(message);
         }
 
         function onDestroy() {
