@@ -69,6 +69,7 @@
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
         vm.statusMessage = statusMessage;
+        vm.statusMessageParams = statusMessageParams;
 
         /**
          * @ngdoc method
@@ -97,7 +98,9 @@
         }
 
         function unavailable(message) {
-            setStatus(GS1_SCAN_STATUS.ERROR, undefined, 'openlmisGs1.scanUnavailable');
+            setStatus(GS1_SCAN_STATUS.ERROR, undefined, {
+                key: 'openlmisGs1.scanUnavailable'
+            });
             throw new Error(message);
         }
 
@@ -137,6 +140,20 @@
             }
 
             return 'openlmisGs1.scannerReady';
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-gs1.controller:ScanInputController
+         * @name statusMessageParams
+         *
+         * @description
+         * Values the current message names, such as the product or batch code that failed to match.
+         *
+         * @return {Object} parameters for the message, undefined when it takes none
+         */
+        function statusMessageParams() {
+            return vm.status === GS1_SCAN_STATUS.ERROR ? vm.errorMessageParams : undefined;
         }
 
         /**
@@ -186,7 +203,7 @@
             outcome.then(function() {
                 applyOutcome(token, GS1_SCAN_STATUS.SUCCESS, undefined);
             }, function(rejection) {
-                applyOutcome(token, GS1_SCAN_STATUS.ERROR, messageKeyOf(rejection));
+                applyOutcome(token, GS1_SCAN_STATUS.ERROR, messageOf(rejection));
             });
         }
 
@@ -194,20 +211,36 @@
          * Scans can arrive faster than a handler settles, so an outcome is dropped unless it belongs
          * to the most recent scan. Otherwise a slow early lookup would overwrite a later result.
          */
-        function applyOutcome(token, status, messageKey) {
+        function applyOutcome(token, status, message) {
             if (token !== scanSequence) {
                 return;
             }
 
-            setTransientStatus(status, undefined, messageKey);
+            setTransientStatus(status, undefined, message);
         }
 
-        function messageKeyOf(rejection) {
+        /**
+         * A handler may refuse with a message key, or with `{messageKey, messageParams}` when the
+         * wording names what failed to match - the scanned product or batch code, which is what a clerk
+         * needs in order to act on the refusal.
+         */
+        function messageOf(rejection) {
             if (angular.isString(rejection) && rejection.length) {
-                return rejection;
+                return {
+                    key: rejection
+                };
             }
 
-            return 'openlmisGs1.scanNotResolved';
+            if (rejection && angular.isString(rejection.messageKey)) {
+                return {
+                    key: rejection.messageKey,
+                    params: rejection.messageParams
+                };
+            }
+
+            return {
+                key: 'openlmisGs1.scanNotResolved'
+            };
         }
 
         function nextToken() {
@@ -216,10 +249,11 @@
             return scanSequence;
         }
 
-        function setStatus(status, errorCode, messageKey) {
+        function setStatus(status, errorCode, message) {
             vm.status = status;
             vm.errorCode = errorCode;
-            vm.errorMessageKey = messageKey;
+            vm.errorMessageKey = message && message.key;
+            vm.errorMessageParams = message && message.params;
 
             if (resetPromise) {
                 $timeout.cancel(resetPromise);
@@ -227,8 +261,8 @@
             }
         }
 
-        function setTransientStatus(status, errorCode, messageKey) {
-            setStatus(status, errorCode, messageKey);
+        function setTransientStatus(status, errorCode, message) {
+            setStatus(status, errorCode, message);
 
             resetPromise = $timeout(function() {
                 setStatus(GS1_SCAN_STATUS.READY, undefined, undefined);

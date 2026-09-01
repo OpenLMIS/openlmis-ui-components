@@ -174,6 +174,45 @@ describe('ScanInputController', function() {
             expect(vm.statusMessage()).toEqual('openlmisGs1.scanAccepted');
         });
 
+        /**
+         * A refusal that names what failed to match: the clerk has to know which code was rejected.
+         */
+        it('should show a refusal that names the codes it could not match', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.reject({
+                messageKey: 'stockScan.lotNotOnScreen',
+                messageParams: {
+                    lotCode: 'ABC123',
+                    gtin: '05890123456786'
+                }
+            });
+            this.$rootScope.$digest();
+
+            expect(vm.status).toEqual(this.STATUS.ERROR);
+            expect(vm.statusMessage()).toEqual('stockScan.lotNotOnScreen');
+            expect(vm.statusMessageParams()).toEqual({
+                lotCode: 'ABC123',
+                gtin: '05890123456786'
+            });
+        });
+
+        it('should take a refusal that is only a message key', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.reject('stockScan.productNotOnScreen');
+            this.$rootScope.$digest();
+
+            expect(vm.statusMessage()).toEqual('stockScan.productNotOnScreen');
+            expect(vm.statusMessageParams()).toBeUndefined();
+        });
+
         it('should fall back to ready after the status delay', function() {
             var vm = this.build();
 
