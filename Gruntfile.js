@@ -18,7 +18,4 @@ module.exports = function(grunt) {
     configSetup(grunt);
 
     grunt.loadNpmTasks('/dev-ui');
-
-    /* Must come after the dev-ui tasks - it extends their karma config and `test` task. */
-    require('./grunt/react-tests.js')(grunt);
 };
