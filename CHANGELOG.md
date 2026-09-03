@@ -2,6 +2,7 @@
 ==================
 * [OLMIS-8282](https://openlmis.atlassian.net/browse/OLMIS-8282): Barcode scanning - Added a GS1 barcode parser: application identifiers 01, 10, 17 and 21, symbology identifiers, GTIN check digit and the GS1 century rule.
 * [OLMIS-8283](https://openlmis.atlassian.net/browse/OLMIS-8283): Barcode scanning - Added the scan input component and the keystroke capture service.
+* [OLMIS-8284](https://openlmis.atlassian.net/browse/OLMIS-8284): Barcode scanning - The scan input now renders refusal messages with parameters (scanned codes).
 * [OLMIS-8179](https://openlmis.atlassian.net/browse/OLMIS-8179): Compact packs/doses quantity inputs.
 * [OLMIS-8191](https://openlmis.atlassian.net/browse/OLMIS-8191) / [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Add openlmis-long-text class and directive so long free-text in table cells grows with content then wraps — for both the editable textarea and its read-only display.
 

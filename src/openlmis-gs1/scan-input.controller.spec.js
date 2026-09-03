@@ -210,7 +210,25 @@ describe('ScanInputController', function() {
             this.$rootScope.$digest();
 
             expect(vm.statusMessage()).toEqual('stockScan.productNotOnScreen');
-            expect(vm.statusMessageParams()).toBeUndefined();
+        });
+
+        it('should pass a refusal\'s parameters through untouched', function() {
+            var deferred = this.$q.defer(),
+                vm = this.build();
+
+            this.onScan.andReturn(deferred.promise);
+            this.capture(PAYLOAD);
+            deferred.reject({
+                messageKey: 'stockScan.lotNotOnScreen',
+                messageParams: {
+                    lotCode: 'FROM_HANDLER'
+                }
+            });
+            this.$rootScope.$digest();
+
+            expect(vm.statusMessageParams()).toEqual({
+                lotCode: 'FROM_HANDLER'
+            });
         });
 
         it('should fall back to ready after the status delay', function() {
