@@ -25,7 +25,8 @@ describe('MessageService', function() {
                     sample: 'message',
                     messageWithParam: 'hello ${name}!',
                     messageWithParams: 'Object with id: ${id}, status: ${status}',
-                    messageWithParams2: 'Object with id: ${0}, status: ${1}'
+                    messageWithParams2: 'Object with id: ${0}, status: ${1}',
+                    messageWithEmptyParam: 'value: [${value}]'
                 },
                 test: {
                     'language.name': 'Test',
@@ -66,6 +67,44 @@ describe('MessageService', function() {
         var expected = 'hello Jane!';
 
         expect(this.messageService.get('messageWithParam', person)).toBe(expected);
+    });
+
+    /**
+     * A key naming a parameter the caller did not pass used to render the string "undefined" at the
+     * user. Leaving the placeholder keeps it diagnosable, and matches what passing no parameters does.
+     */
+    it('leaves a placeholder alone when its parameter was not passed', function() {
+        expect(this.messageService.get('messageWithParams', {
+            id: '123'
+        })).toBe('Object with id: 123, status: ${status}');
+    });
+
+    /**
+     * The same outcome as a parameter that was passed but missing, which is the point: the two ways of
+     * not supplying a value now tell the same story. The guard also keeps the substitution from
+     * dereferencing nothing.
+     */
+    it('leaves every placeholder alone when no parameters are passed at all', function() {
+        expect(this.messageService.get('messageWithParams'))
+            .toBe('Object with id: ${id}, status: ${status}');
+    });
+
+    it('leaves a placeholder alone when its parameter is null', function() {
+        expect(this.messageService.get('messageWithParam', {
+            name: null
+        })).toBe('hello ${name}!');
+    });
+
+    it('substitutes an empty string, which is a value rather than a missing one', function() {
+        expect(this.messageService.get('messageWithEmptyParam', {
+            value: ''
+        })).toBe('value: []');
+    });
+
+    it('substitutes a zero', function() {
+        expect(this.messageService.get('messageWithEmptyParam', {
+            value: 0
+        })).toBe('value: [0]');
     });
 
     it('returns the message string with multiple parameters', function() {

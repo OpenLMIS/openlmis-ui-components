@@ -106,9 +106,16 @@
             }
             if (parameters) {
                 //eslint-disable-next-line no-useless-escape
-                displayMessage = displayMessage.replace(/\$\{([\s]*[^;\s\{]+[\s]*)\}/g, function(_, match) {
-                    return parameters[match.trim()];
-                });
+                displayMessage = displayMessage.replace(/\$\{([\s]*[^;\s\{]+[\s]*)\}/g,
+                    function(placeholder, match) {
+                        var value = parameters[match.trim()];
+
+                        /*
+                         * A parameter the caller did not pass leaves its placeholder in the text rather
+                         * than printing "undefined" at the user.
+                         */
+                        return value === undefined || value === null ? placeholder : value;
+                    });
             }
             return displayMessage;
         }
