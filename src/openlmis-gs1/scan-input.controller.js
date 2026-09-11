@@ -164,6 +164,8 @@
         function onPayload(payload) {
             var scan = gs1BarcodeParserService.parse(payload);
 
+            closeSelectDropdowns();
+
             $scope.$applyAsync(function() {
                 /*
                  * Taken for every scan, parseable or not. A scan that cannot be read still supersedes
@@ -179,6 +181,22 @@
 
                 report(scan, token);
             });
+        }
+
+        /*
+         * Close dropdown when scan can land while a select2 dropdown is open.
+         */
+        function closeSelectDropdowns() {
+            var selects;
+
+            if (!document.querySelector('.select2-container--open')) {
+                return;
+            }
+
+            selects = angular.element(document.querySelectorAll('select.select2-hidden-accessible'));
+            if (angular.isFunction(selects.select2)) {
+                selects.select2('close');
+            }
         }
 
         /**
