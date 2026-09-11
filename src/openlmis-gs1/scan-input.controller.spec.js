@@ -231,6 +231,58 @@ describe('ScanInputController', function() {
             });
         });
 
+        describe('a dropdown left open when the scan lands', function() {
+
+            beforeEach(function() {
+                this.openMarker = angular.element('<span class="select2-container--open"></span>');
+                this.select = angular.element('<select class="select2-hidden-accessible"></select>');
+                angular.element(document.body).append(this.openMarker);
+                angular.element(document.body).append(this.select);
+                angular.element.fn.select2 = jasmine.createSpy('select2');
+            });
+
+            afterEach(function() {
+                this.openMarker.remove();
+                this.select.remove();
+                delete angular.element.fn.select2;
+            });
+
+            /**
+             * The capture service swallows the scan's keystrokes, so an open dropdown never closes
+             * itself the way typing or clicking would close it - it would be left floating over the
+             * page once the scan changes the screen.
+             */
+            it('should be closed', function() {
+                this.build();
+
+                this.capture(PAYLOAD);
+
+                expect(angular.element.fn.select2).toHaveBeenCalledWith('close');
+            });
+
+            it('should not be touched when nothing is open', function() {
+                this.openMarker.remove();
+                this.build();
+
+                this.capture(PAYLOAD);
+
+                expect(angular.element.fn.select2).not.toHaveBeenCalled();
+            });
+
+            it('should survive a consumer that does not load select2 at all', function() {
+                var vm = this.build(),
+                    context = this;
+
+                delete angular.element.fn.select2;
+
+                expect(function() {
+                    context.capture(PAYLOAD);
+                }).not.toThrow();
+
+                expect(vm.status).toEqual(this.STATUS.SUCCESS);
+            });
+        });
+
         it('should fall back to ready after the status delay', function() {
             var vm = this.build();
 
