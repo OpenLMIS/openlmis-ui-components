@@ -5,7 +5,7 @@ $notification-width: 350px !default;
   	position: fixed;
   	@include right(0px);
   	top: 0px;
-  	z-index: 15;
+  	z-index: $z-index-notification;
 
     > * {
         margin: 1em 2em;

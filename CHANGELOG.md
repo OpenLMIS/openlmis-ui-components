@@ -12,6 +12,7 @@ Improvements:
 * Feed sonar.projectVersion from project.properties so SonarCloud's New Code baseline tracks releases.
 
 Bug fixes:
+* [OLMIS-8121](https://openlmis.atlassian.net/browse/OLMIS-8121): Notification toasts are visible again. The header was raised to z-index 1030 in OLMIS-8220 and covered the notification container, which sat at 15.
 * [OLMIS-8296](https://openlmis.atlassian.net/browse/OLMIS-8296): Focusing and leaving an empty packs or doses quantity input no longer blanks the whole view.
 * [OLMIS-8294](https://openlmis.atlassian.net/browse/OLMIS-8294): Pass sonar.projectVersion to the SonarCloud scanner through its args instead of appending it to sonar-project.properties during the build, so a missing trailing newline can no longer glue it onto the lcov report-path line and drop coverage to 0%.
 
