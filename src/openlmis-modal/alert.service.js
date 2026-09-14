@@ -40,6 +40,7 @@
         this.success = success;
         this.info = info;
         this.offline = offline;
+        this.close = close;
 
         /**
          * @ngdoc method
@@ -129,6 +130,20 @@
                 message: message,
                 buttonLabel: buttonLabel
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf openlmis-modal.alertService
+         * @name close
+         *
+         * @description
+         * Closes the currently displayed alert modal, if any.
+         */
+        function close() {
+            if (modal) {
+                modal.hide();
+            }
         }
 
         function showAlert(config) {
