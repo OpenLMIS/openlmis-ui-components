@@ -1,30 +1,34 @@
 7.2.17-SNAPSHOT (WIP)
 ==================
+Improvements:
 * [OLMIS-8282](https://openlmis.atlassian.net/browse/OLMIS-8282): Barcode scanning - Added a GS1 barcode parser: application identifiers 01, 10, 17 and 21, symbology identifiers, GTIN check digit and the GS1 century rule.
 * [OLMIS-8283](https://openlmis.atlassian.net/browse/OLMIS-8283): Barcode scanning - Added the scan input component and the keystroke capture service.
 * [OLMIS-8284](https://openlmis.atlassian.net/browse/OLMIS-8284): Barcode scanning - The scan input now renders refusal messages with parameters (scanned codes).
 * [OLMIS-8179](https://openlmis.atlassian.net/browse/OLMIS-8179): Compact packs/doses quantity inputs.
 * [OLMIS-8191](https://openlmis.atlassian.net/browse/OLMIS-8191) / [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Add openlmis-long-text class and directive so long free-text in table cells grows with content then wraps — for both the editable textarea and its read-only display.
-
-Improvements:
+* [OLMIS-8181](https://openlmis.atlassian.net/browse/OLMIS-8181): Disable doses input when net content is one.
+* [OLMIS-8118](https://openlmis.atlassian.net/browse/OLMIS-8118): Validate max value on positive integer inputs.
+* [OLMIS-8178](https://openlmis.atlassian.net/browse/OLMIS-8178): Compact quantity display strings.
+* [OLMIS-8244](https://openlmis.atlassian.net/browse/OLMIS-8244): Added a packs-to-order preview hint to the quantity unit input.
+* [OLMIS-8249](https://openlmis.atlassian.net/browse/OLMIS-8249): Adjustment quantities must be positive, invalid fields are marked.
+* [OLMIS-8310](https://openlmis.atlassian.net/browse/OLMIS-8310): Scan messages call the concept a lot and spell recognized like the rest of the catalogue.
 * [OLMIS-8298](https://openlmis.atlassian.net/browse/OLMIS-8298): Karma runs the specs for the React components, so the `.jsx` sources report real coverage to SonarCloud. The bundling that makes it work now lives in dev-ui, where every UI module picks it up from the shared build.
 * SonarCloud now receives JS unit-test coverage (lcov) so the quality gate reflects real coverage on new code.
 * Feed sonar.projectVersion from project.properties so SonarCloud's New Code baseline tracks releases.
 
 Bug fixes:
 * [OLMIS-8121](https://openlmis.atlassian.net/browse/OLMIS-8121): Notification toasts are visible again. The header was raised to z-index 1030 in OLMIS-8220 and covered the notification container, which sat at 15.
+* [OLMIS-8114](https://openlmis.atlassian.net/browse/OLMIS-8114): Table row errors stay visible when the row loses focus.
+* [OLMIS-8257](https://openlmis.atlassian.net/browse/OLMIS-8257): The app cache controller no longer fails when `window.applicationCache` is missing.
+* [OLMIS-8312](https://openlmis.atlassian.net/browse/OLMIS-8312): The scan input dropdown hides once a scan is handled.
 * [OLMIS-8296](https://openlmis.atlassian.net/browse/OLMIS-8296): Focusing and leaving an empty packs or doses quantity input no longer blanks the whole view.
 * [OLMIS-8294](https://openlmis.atlassian.net/browse/OLMIS-8294): Pass sonar.projectVersion to the SonarCloud scanner through its args instead of appending it to sonar-project.properties during the build, so a missing trailing newline can no longer glue it onto the lcov report-path line and drop coverage to 0%.
-
-Bug fixes:
 * [OLMIS-8177](https://openlmis.atlassian.net/browse/OLMIS-8177): React table input cells (packs/doses quantity) now show the shared, translated "This field is required" tooltip when invalid, instead of a tooltip-less red mark. An invalid packs/doses quantity now also outlines the input itself, in both units, like every other invalid input in a table.
 
 7.2.16 / 2026-06-09
 ==================
 
 Improvements:
-* [OLMIS-8181](https://openlmis.atlassian.net/browse/OLMIS-8181): Disable doses input when net content is one.
-* [OLMIS-8118](https://openlmis.atlassian.net/browse/OLMIS-8118): Validate max value on positive integer inputs.
 * [SELV3-748](https://openlmis.atlassian.net/browse/SELV3-748) Resolved cookie issue causing untranslated warning messages
 * [OLMIS-8192](https://openlmis.atlassian.net/browse/OLMIS-8192): Editable text inputs inside table cells now grow with their content.
 
