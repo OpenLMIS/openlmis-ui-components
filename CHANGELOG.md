@@ -1,4 +1,4 @@
-7.2.17-SNAPSHOT (WIP)
+7.3.0 / 2026-09-28
 ==================
 Improvements:
 * [OLMIS-8282](https://openlmis.atlassian.net/browse/OLMIS-8282): Barcode scanning - Added a GS1 barcode parser: application identifiers 01, 10, 17 and 21, symbology identifiers, GTIN check digit and the GS1 century rule.
