@@ -4,12 +4,8 @@ import getService from '../react-components/utils/angular-utils';
 export default function QuantityUnitToggle({ selectedUnit, onUnitChange }) {
   const { formatMessage } = useMemo(() => getService('messageService'), []);
   const QUANTITY_UNIT = useMemo(() => getService('QUANTITY_UNIT'), []);
-  const featureFlagService = useMemo(
-    () => getService('featureFlagService'),
-    []
-  );
-  const QUANTITY_UNIT_OPTION_FEATURE_FLAG = useMemo(
-    () => getService('QUANTITY_UNIT_OPTION_FEATURE_FLAG'),
+  const quantityUnitConfigService = useMemo(
+    () => getService('quantityUnitConfigService'),
     []
   );
   const quantityUnits = useMemo(
@@ -17,20 +13,10 @@ export default function QuantityUnitToggle({ selectedUnit, onUnitChange }) {
     [QUANTITY_UNIT]
   );
 
-  const isVisible = useMemo(() => {
-    if (featureFlagService && QUANTITY_UNIT_OPTION_FEATURE_FLAG) {
-      const quantityUnitOption = featureFlagService.get(
-        QUANTITY_UNIT_OPTION_FEATURE_FLAG
-      );
-      return quantityUnitOption === QUANTITY_UNIT.BOTH;
-    }
-
-    return false;
-  }, [
-    featureFlagService,
-    QUANTITY_UNIT_OPTION_FEATURE_FLAG,
-    QUANTITY_UNIT.BOTH,
-  ]);
+  const isVisible = useMemo(
+    () => quantityUnitConfigService.getMode() === QUANTITY_UNIT.BOTH,
+    [quantityUnitConfigService, QUANTITY_UNIT.BOTH]
+  );
 
   const handleQuantityUnitChange = useCallback(
     (event) => {

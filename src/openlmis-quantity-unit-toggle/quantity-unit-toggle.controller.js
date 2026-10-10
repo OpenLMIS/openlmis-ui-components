@@ -29,12 +29,11 @@
         .controller('QuantityUnitToggleController', QuantityUnitToggleController);
 
     QuantityUnitToggleController.$inject = [
-        'messageService', 'QUANTITY_UNIT', 'localStorageService'
+        'messageService', 'QUANTITY_UNIT', 'quantityUnitConfigService', '$rootScope'
     ];
 
-    var QUANTITY_UNIT_KEY = 'quantityUnit';
-
-    function QuantityUnitToggleController(messageService, QUANTITY_UNIT, localStorageService) {
+    function QuantityUnitToggleController(messageService, QUANTITY_UNIT, quantityUnitConfigService,
+                                          $rootScope) {
 
         var vm = this;
 
@@ -79,12 +78,8 @@
                 QUANTITY_UNIT.PACKS,
                 QUANTITY_UNIT.DOSES
             ];
-            var cachedQuantityUnit = localStorageService.get(QUANTITY_UNIT_KEY);
-            if (cachedQuantityUnit === null) {
-                vm.quantityUnit = QUANTITY_UNIT.$getDefaultQuantityUnit();
-            } else {
-                vm.quantityUnit = cachedQuantityUnit;
-            }
+
+            vm.quantityUnit = quantityUnitConfigService.getEffectiveUnit();
         }
 
         /**
@@ -108,7 +103,8 @@
          * Handles change in toggle.
          */
         function onChange() {
-            localStorageService.add(QUANTITY_UNIT_KEY, vm.quantityUnit);
+            quantityUnitConfigService.setSelectedUnit(vm.quantityUnit);
+            $rootScope.$emit('openlmis.quantityUnit.selected', vm.quantityUnit);
         }
 
         /**
@@ -120,7 +116,7 @@
          * Returns information about quantity unit toggle visibility.
          */
         function isQuantityUnitToggleVisible() {
-            return '${QUANTITY_UNIT_OPTION}' === QUANTITY_UNIT.BOTH;
+            return quantityUnitConfigService.getMode() === QUANTITY_UNIT.BOTH;
         }
 
     }
