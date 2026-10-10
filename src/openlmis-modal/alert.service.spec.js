@@ -28,7 +28,8 @@ describe('alertService', function() {
         this.modalDeferred = this.$q.defer();
 
         this.modalMock = {
-            promise: this.modalDeferred.promise
+            promise: this.modalDeferred.promise,
+            hide: jasmine.createSpy('hide')
         };
 
         spyOn(this.openlmisModalService, 'createDialog').andReturn(this.modalMock);
@@ -323,6 +324,36 @@ describe('alertService', function() {
                 expect(rejected).toBeUndefined();
             });
 
+        });
+
+    });
+
+    describe('close', function() {
+
+        it('should hide the current modal if one is open', function() {
+            this.alertService.error('Error Title', 'Error Message');
+
+            this.alertService.close();
+
+            expect(this.modalMock.hide).toHaveBeenCalled();
+        });
+
+        it('should be a no-op when no modal is open', function() {
+            expect(function() {
+                this.alertService.close();
+            }.bind(this)).not.toThrow();
+
+            expect(this.modalMock.hide).not.toHaveBeenCalled();
+        });
+
+        it('should be a no-op after the modal has been closed', function() {
+            this.alertService.error('Error Title', 'Error Message');
+            this.modalDeferred.resolve();
+            this.$rootScope.$apply();
+
+            this.alertService.close();
+
+            expect(this.modalMock.hide).not.toHaveBeenCalled();
         });
 
     });
