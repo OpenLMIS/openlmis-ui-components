@@ -1,5 +1,7 @@
 7.4.0-SNAPSHOT (WIP)
 ==================
+Bug fixes:
+* [OLMIS-8421](https://openlmis.atlassian.net/browse/OLMIS-8421): Proof of Delivery of a requisition-less order no longer shows raw template text as the reporting period.
 
 7.3.0 / 2026-09-28
 ==================
