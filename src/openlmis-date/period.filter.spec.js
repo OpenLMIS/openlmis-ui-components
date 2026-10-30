@@ -48,4 +48,9 @@ describe('periodFilter', function() {
     it('should return period string without name', function() {
         expect(this.periodFilter(this.period, false)).toEqual('1/1/17 - 1/31/17');
     });
+
+    it('should return empty string if period is not given', function() {
+        expect(this.periodFilter(undefined, true)).toEqual('');
+        expect(this.periodFilter(null, false)).toEqual('');
+    });
 });
