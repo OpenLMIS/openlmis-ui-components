@@ -44,6 +44,10 @@
 
     function periodFilter($filter, localeService) {
         return function(period, includeName) {
+            if (!period) {
+                return '';
+            }
+
             var dateFormat = localeService.getFromStorage().dateFormat;
             var startDate = $filter('date')(period.startDate, dateFormat),
                 endDate = $filter('date')(period.endDate, dateFormat),
